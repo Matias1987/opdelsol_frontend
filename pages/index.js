@@ -10,6 +10,7 @@ import React, { useState } from 'react';
 import CustomForm from '@/components/customForm';
 import CustomTable from '@/components/customTable';
 
+
 const { Header, Sider, Content } = Layout;
 
 export default function Home() {
