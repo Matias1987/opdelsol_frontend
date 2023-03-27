@@ -1,5 +1,5 @@
-const { Space, Select } = require("antd");
-const { useState, useEffect } = require("react");
+import { Select, Space } from "antd";
+import { useEffect, useState } from "react";
 
 const FamiliaSelect = (props) => {
 
@@ -28,12 +28,13 @@ const FamiliaSelect = (props) => {
     },[]);
 
     return (
-        <>
-            <Space wrap>
+
+
                 <Select 
                 style={{ width: 240 }}
-                
+                value={idFamilia}
                 loading = {familiaLoading}
+                
                 onChange={
                     (value)=>{
                         
@@ -44,9 +45,7 @@ const FamiliaSelect = (props) => {
                 options = {familiaOptions}
                 />
 
-            </Space>
-        
-        </>
+
 
     );
 }

@@ -1,4 +1,6 @@
-const {  Button, Form, Input  } = antd;
+import React from "react";
+import { Form, Divider, Button, Select, Input } from "antd";
+
 
 const onFinish = (values) => {
   console.log('Success:', values);

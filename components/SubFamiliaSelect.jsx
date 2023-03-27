@@ -57,9 +57,7 @@ const SubFamiliaSelect = (props) => {
                         
                         setIdFamilia(value);
                         setIdSubFamilia(-1);
-                        setIdGrupo(-1);
-                        setIdSubGrupo(-1);
-
+                       
                         loadSubFamilia(value);
                     }
                 }

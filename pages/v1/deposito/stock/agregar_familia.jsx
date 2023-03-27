@@ -1,3 +1,9 @@
+import FamiliaForm from "@/components/forms/FamiliaForm";
+
 export default function AgregarFamilia(){
-    return <div>Agregar Familia</div>
+    return (
+    <>
+    <FamiliaForm></FamiliaForm>
+    </>
+    )
 }

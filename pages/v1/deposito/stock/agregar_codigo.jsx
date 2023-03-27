@@ -1,4 +1,10 @@
+import CodigoForm from "@/components/forms/CodigoForm";
+
 export default function AgregarCodigo(){
-    return <div>Agregar Codigo</div>
+    return (
+        <>
+            <CodigoForm />
+        </>
+    )
 
 }

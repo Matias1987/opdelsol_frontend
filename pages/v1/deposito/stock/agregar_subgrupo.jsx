@@ -1,3 +1,9 @@
+import SubGrupoForm from "@/components/forms/SubGrupoForm";
+
 export default function AgregarSubgrupo(){
-    return <div>Agregar Subgrupo</div>
+    return (
+        <>
+        <SubGrupoForm />
+        </>
+    )
 }

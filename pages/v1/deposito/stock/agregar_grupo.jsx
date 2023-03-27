@@ -1,3 +1,7 @@
+import GrupoForm from "@/components/forms/GrupoForm";
+
 export default function AgregarGrupo(){
-    return <div>Agregar Grupo</div>
+    return (
+        <GrupoForm />
+    )
 }
