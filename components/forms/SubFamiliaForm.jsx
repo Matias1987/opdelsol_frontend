@@ -1,5 +1,6 @@
 import { Form, Divider, Button, Select, Input } from "antd";
-import FamiliaSelect from "../FamiliaSelect";
+import LoadSelect from "../LoadSelect";
+
 
 
 const SubFamiliaForm = () =>{
@@ -40,7 +41,7 @@ const SubFamiliaForm = () =>{
                     },
                 ]}
             >
-            <FamiliaSelect callback={
+            <LoadSelect fetchurl={"http://localhost:3000/api/v1/familia/menu/options/"} callback={
                     (id)=>{
                         setValue(id);
                     }

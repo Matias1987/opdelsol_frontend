@@ -1,4 +1,4 @@
-const { Form, Input } = require("antd")
+const { Form, Input, Button } = require("antd")
 const { default: SubGroupSelect } = require("../SubGroupSelect")
 
 const CodigoForm = () => {
@@ -47,6 +47,9 @@ const CodigoForm = () => {
             rules={[{required:true}]}
             >
                 <Input />
+            </Form.Item>
+            <Form.Item>
+                <Button type="primary" htmlType="submit">Guardar</Button>
             </Form.Item>
         </Form>
         </>
