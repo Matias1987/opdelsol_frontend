@@ -1,5 +1,7 @@
+import CodeSelect from "../CodeSelect";
 import FacturaSelect from "../FacturaSelect";
 import LoadSelect from "../LoadSelect";
+import SubGroupSelect from "../SubGroupSelect";
 
 const { Input, Button, Form } = require("antd")
 
@@ -36,12 +38,15 @@ const StockForm = () => {
             >
                 <LoadSelect 
                 parsefnt = {
-                    (row)=>(
-                        {
-                            value: idsucursal,
-                            label: nombre
-                        }
+                    (data) =>(
+                        data.map((row)=>(
+                            {
+                                "value": row.idsucursal,
+                                "label": row.nombre
+                            }
+                        ))
                     )
+                    
                 }
                 fetchurl={"http://localhost:3000/api/v1/sucursales"} callback={(id)=>{
                     setValue("sucursal", id)
@@ -54,9 +59,12 @@ const StockForm = () => {
             label={"Factura"}
             rules={[{required:true}]}
             >
-                <FacturaSelect callback={(id)=>{
+                <FacturaSelect 
+
+                    callback={(id)=>{
                     setValue("factura", id)
-                }}/>
+                    }}
+                />
             </Form.Item>
             
             <Form.Item
@@ -64,10 +72,13 @@ const StockForm = () => {
             label={"Codigo"}
             rules={[{required:true}]}
             >
-                <LoadSelect fetchurl={""} callback={(id)=>{
-                    setValue("codigo", id)
-
-                }} />
+                <CodeSelect
+                callback={
+                    (id)=>{
+                        setValue("codigo",id)
+                    }
+                }
+                />
             </Form.Item>
             <Form.Item
             name={"cantidad"}

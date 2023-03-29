@@ -36,8 +36,12 @@ const LoadSelect = (props) => {
     },[]);
 
     return (
-
-
+                <>
+                {
+                 typeof props.label !== 'undefined'? 
+                (<label>{props.label}</label>)
+                : null
+                }
                 <Select 
                 style={{ width: 240 }}
                 value={id}
@@ -52,9 +56,7 @@ const LoadSelect = (props) => {
                 }
                 options = {options}
                 />
-
-
-
+                </>
     );
 }
 

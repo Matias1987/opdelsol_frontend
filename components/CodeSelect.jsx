@@ -1,5 +1,5 @@
 import SubGroupSelect from "./SubGroupSelect";
-import { Select } from "antd";
+import { Select, Spin } from "antd";
 import { useState } from "react";
 
 const CodeSelect = (props) => {
@@ -30,7 +30,7 @@ const CodeSelect = (props) => {
         }   
         />
         {
-            (idsubgrupo == -1) ? null : (
+            (idsubgrupo == -1) ? <Spin /> : (
                 <Select 
                 style={{width: 240}}
                 options={codigoOptions}
