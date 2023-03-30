@@ -35,14 +35,14 @@ const CodigoForm = () => {
                 } />
             </Form.Item>
             <Form.Item
-            label={"Codigo"}
+            label={"Código"}
             name={"codigo"}
             rules={[{required:true}]}
             >
                 <Input />
             </Form.Item>
             <Form.Item
-            label={"Descripcion"}
+            label={"Descripción"}
             name={"descripcion"}
             rules={[{required:true}]}
             >

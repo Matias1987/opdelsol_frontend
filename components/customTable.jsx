@@ -1,4 +1,4 @@
-import { Table } from "antd";
+/*import { Table } from "antd";
 
 const dataSource = [
     {
@@ -34,4 +34,4 @@ const dataSource = [
   ];
   export default function CustomTable(){
     return (<Table dataSource={dataSource} columns={columns} />);
-  }
+  }*/

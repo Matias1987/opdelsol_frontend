@@ -3,7 +3,8 @@ import SubFamiliaForm from "@/components/forms/SubFamiliaForm";
 export default function AgregarSubFamilia(){
     return (
         <>
-        <SubFamiliaForm></SubFamiliaForm>
+            <h1>Agregar SubFamilia</h1>
+            <SubFamiliaForm />
         </>
     )
 }

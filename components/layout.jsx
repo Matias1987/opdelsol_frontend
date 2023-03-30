@@ -11,7 +11,7 @@ export default function MyLayout({children}){
     
     
     return (
-            <Layout>
+            <Layout className='layout'>
                 <Sider>
                     <div className="logo" />
                     <SideMenu />
