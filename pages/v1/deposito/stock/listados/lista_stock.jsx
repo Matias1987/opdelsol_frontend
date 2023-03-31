@@ -2,6 +2,8 @@ import CustomTable from "@/components/forms/CustomTable";
 
 export default function ListaStock(){
     return(
+        <>
+        <h1>Lista de Stock</h1>
         <CustomTable 
             fetchUrl={"http://localhost:3000/api/v1/stock"}
             columns = {
@@ -25,5 +27,6 @@ export default function ListaStock(){
                 )
             }
         />
+        </>
     )
 }

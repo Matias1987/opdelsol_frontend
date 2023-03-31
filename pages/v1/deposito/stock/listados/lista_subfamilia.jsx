@@ -2,6 +2,8 @@ import CustomTable from "@/components/forms/CustomTable";
 
 export default function ListaSubFamilias(){
     return(
+        <>
+        <h1>Lista de SubFamilias</h1>
         <CustomTable 
             fetchUrl={"http://localhost:3000/api/v1/subfamilia"}
             columns = {
@@ -25,5 +27,6 @@ export default function ListaSubFamilias(){
                 )
             }
         />
+        </>
     )
 }

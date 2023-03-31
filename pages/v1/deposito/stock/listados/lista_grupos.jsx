@@ -2,6 +2,8 @@ import CustomTable from "@/components/forms/CustomTable";
 
 export default function ListaGrupos(){
     return(
+        <>
+        <h1>Lista de Grupos</h1>
         <CustomTable 
             fetchUrl={"http://localhost:3000/api/v1/grupos"}
             columns = {
@@ -25,5 +27,6 @@ export default function ListaGrupos(){
                 )
             }
         />
+        </>
     )
 }

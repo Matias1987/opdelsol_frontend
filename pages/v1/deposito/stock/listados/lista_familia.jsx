@@ -2,6 +2,8 @@ import CustomTable from "@/components/forms/CustomTable";
 
 export default function ListaFamilias(){
     return(
+        <>
+        <h1>Lista de Familias</h1>
         <CustomTable 
             fetchUrl={"http://localhost:3000/api/v1/familia/"}
             columns = {
@@ -24,5 +26,6 @@ export default function ListaFamilias(){
                 )
             }
         />
+        </>
     )
 }

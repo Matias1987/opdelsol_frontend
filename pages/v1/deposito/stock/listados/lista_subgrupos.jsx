@@ -2,6 +2,8 @@ import CustomTable from "@/components/forms/CustomTable";
 
 export default function ListaSubGrupos(){
     return(
+        <>
+        <h1>Lista de SubGrupos</h1>
         <CustomTable 
             fetchUrl={"http://localhost:3000/api/v1/subgrupos"}
             columns = {
@@ -25,5 +27,6 @@ export default function ListaSubGrupos(){
                 )
             }
         />
+        </>
     )
 }

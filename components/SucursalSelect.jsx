@@ -6,10 +6,11 @@ const SucursalSelect = (props) => {
     const sucursalUrl = "";
     const loadSucursales = () => {
         fetch(sucursalUrl)
-        .fetch((response)=>response.json())
-        .fetch((response)=>{
+        .then((response)=>response.json())
+        .then((response)=>{
             setSucursalData(response)
         })
+        .catch((error)=>{console.error(error)})
     }
 
     useEffect(()=>{

@@ -1,10 +1,13 @@
 import Link from "next/link"
-
+const urlhelper = require("../../src/url_helper");
 const { Menu } = require("antd")
 
 
 const SideMenu = () => {
     //let navigate = UseNavi
+
+    const get_url_to = (_target) => urlhelper.getUrl() + "/v1/deposito" +_target
+
     const goToPage = (_page) => {
         
         //navigate
@@ -15,72 +18,72 @@ const SideMenu = () => {
         {
             key: "nuevo_envio",
             label: "Nuevo Envio",
-            link: "agregar_envio",
+            link: get_url_to("/envio/agregar_envio"),
         },
         {
             key: "agregar_familia",
             label: "Agregar Familia",
-            link: "agregar_familia",
+            link: get_url_to("/stock/agregar_familia"),
         },
         {
             key: "agregar_subfamilia",
             label: "Agregar SubFamilia",
-            link: "agregar_subfamilia",
+            link: get_url_to("/stock/agregar_subfamilia"),
         },
         {
             key: "agregar_grupo",
             label: "Agregar Grupo",
-            link: "agregar_grupo",
+            link: get_url_to("/stock/agregar_grupo"),
         },
         {
             key: "agregar_subgrupo",
             label: "Agregar SubGrupo",
-            link: "agregar_subgrupo",
+            link: get_url_to("/stock/agregar_subgrupo"),
         },
         {
             key: "agregar_codigo",
             label: "Agregar Codigo",
-            link: "agregar_codigo",
+            link: get_url_to("/stock/agregar_codigo"),
         },
         {
             key: "agregar_stock",
             label: "Agregar Stock",
-            link: "agregar_stock",
+            link: get_url_to("/stock/agregar_stock"),
         },
         {
             key: "lista_familia",
             label: "Lista Familias",
-            link: "listados/lista_familia",
+            link: get_url_to("/stock/listados/lista_familia"),
         },
         {
             key: "lista_subfamilia",
             label: "Lista SubFamilias",
-            link: "lista_subfamilia",
+            link: get_url_to("/stock/listados/lista_subfamilia"),
         },
         {
             key: "lista_grupos",
             label: "Lista Grupos",
-            link: "lista_grupos",
+            link: get_url_to("/stock/listados/lista_grupos"),
         },
         {
             key: "lista_subgrupos",
             label: "Lista SubGrupos",
-            link: "lista_subgrupos",
+            link: get_url_to("/stock/listados/lista_subgrupos"),
         },
         {
             key: "lista_codigo",
             label: "Lista Codigos",
-            link: "lista_codigo",
+            link: get_url_to("/stock/listados/lista_codigo"),
         },
         {
             key: "lista_stock",
             label: "Lista Stock",
-            link: "lista_stock",
+            link: get_url_to("/stock/listados/lista_stock"),
         },
         {
             key: "lista_envio",
             label: "Lista Envios",
-            link: "lista_envio",
+            link: get_url_to("/envio/lista_envio"),
         },
     ]
 

@@ -34,7 +34,7 @@ const CodeSelect = (props) => {
                 <Select 
                 style={{width: 240}}
                 options={codigoOptions}
-                value={(codigo==-1? "": codigo)}
+                value={(codigo==-1? "Seleccione...": codigo)}
                 loading={codigosLoading}
                 onChange={
                     (value)=>{

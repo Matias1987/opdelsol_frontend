@@ -1,13 +1,14 @@
-const { Select } = require("antd");
+const { Select, Spin } = require("antd");
 const { useState, useEffect } = require("react");
 const { default: CodeSelect } = require("./CodeSelect");
 
 
 const FullPathStockSelect = (props) => {
 
+    const [idcodigo, setIdCodigo] = useState(-1)
     const [stockData, setStockData] = useState([])
     const [loading, setLoading] = useState(false)
-    const stockUrl = ""
+    const stockUrl = "http://localhost:3000/api/v1/stock/porsubgrupo/"
 
     const loadStock = (val) => {
         setLoading(true)
@@ -15,10 +16,21 @@ const FullPathStockSelect = (props) => {
         .then((response)=>response.json())
         .then((response)=>{
             setLoading(false)
-            setStockData(response.data)
+            /*parse data ! */
+
+            const _data = response.data.map(
+                (row)=>(
+                    {
+                        label: row.codigo,
+                        key: row.codigo,
+                    }
+                )
+            )
+
+            setStockData(_data)
             
         })
-        .catch()
+        .catch((error)=>{console.error(error)})
     }
 
     return (
@@ -27,12 +39,14 @@ const FullPathStockSelect = (props) => {
             callback={
                 (value)=>{
                     //here is the code
+                    setIdCodigo(value)
                     loadStock(value)
                 }
             }
         />
+        {idcodigo == -1 ? <Spin /> :
         <Select 
-            disabled={loading}
+            loading={loading}
             options={stockData}
             onChange={
                 (value)=>{
@@ -41,7 +55,7 @@ const FullPathStockSelect = (props) => {
             }
             style={{width:240}}
         
-        />
+        />}
         </>
 
     )
