@@ -5,8 +5,6 @@ const { default: CodeSelect } = require("./CodeSelect");
 
 const FullPathStockSelect = (props) => {
 
-    const [idcodigo, setIdCodigo] = useState(-1)
-    const [stockData, setStockData] = useState([])
     const [loading, setLoading] = useState(false)
     const stockUrl = "http://localhost:3000/api/v1/stock/porsubgrupo/"
 
@@ -39,23 +37,12 @@ const FullPathStockSelect = (props) => {
             callback={
                 (value)=>{
                     //here is the code
-                    setIdCodigo(value)
-                    loadStock(value)
+                    //loadStock(value)
+                    props.callback(value)
                 }
             }
         />
-        {idcodigo == -1 ? <Spin /> :
-        <Select 
-            loading={loading}
-            options={stockData}
-            onChange={
-                (value)=>{
-                    props.callack(value)
-                }
-            }
-            style={{width:240}}
         
-        />}
         </>
 
     )

@@ -1,29 +1,38 @@
-import { Divider, Table } from "antd";
+import { Button, Divider, InputNumber, Table } from "antd";
 import CustomModal from "./CustomModal";
 import FullPathStockSelect from "./FullPathStockSelect";
 import LoadSelect from "./LoadSelect";
 import { useState } from "react";
 
-const { default: SucursalSelect } = require("./SucursalSelect")
-
 const EnvioForm = () => {
     const [tableData,setTableData] = useState([])
+    const [tableLoading,setTableLoading] = useState(false);
+    const [selectedCodigoId, setSelectedCodigoId] = useState(-1);
     const url_for_stock_details = "http://localhost:3000/api/v1/stock/detalle/";
     const sucursal_id = 1; //THIS VALUE HAS TO BE DYNAMIC
     const setValue = (key,value) => {
 
     }
 
+    const remove_row = (key) => {
+        alert(key)
+        setTableData(
+            tableData.filter((r)=>(r.codigo!=key))
+        )
+    }
+
     const add_new_row = (data) => {
-        let new_row = {
+        const new_row = {
+           key:data[0].idcodigo,
            ruta: data[0].ruta,
            codigo: data[0].codigo,
-           cantidad: 0 
+           cantidad: data[0].cantidad,
+           ref_id: data[0].codigo
         }
 
-        //setTableData({tableData:[...tableData,new_row]})
-        setTableData([new_row])
+        setTableLoading(false);
 
+        setTableData([...tableData,new_row])
     }
     return (
         <>
@@ -39,19 +48,30 @@ const EnvioForm = () => {
                             }
                         ))
                     )
-                    
                 }
-                fetchurl={"http://localhost:3000/api/v1/sucursales"} callback={(id)=>{
-                    setValue("sucursal", id)
-
-        }} />
+                fetchurl={"http://localhost:3000/api/v1/sucursales"} 
+                callback={(id)=>{setValue("sucursal", id)}}      
+        />
         <Divider />
         <Table
-            loading={true}
+        loading={tableLoading}
             columns = {[
-                {title:"ruta", dataindex: "ruta", key:"ruta"},
-                {title:"codigo", dataindex: "codigo", key:"codigo"},
-                {title:"cantidad", dataindex: "cantidad", key:"cantidad"},
+                {title:"ruta", dataIndex: "ruta",},
+                {title:"codigo", dataIndex: "codigo", },
+                {
+                    title:"cantidad", 
+                    dataIndex: "cantidad",  
+                    render: (_,{cantidad})=>(
+                        <InputNumber min={1} max={cantidad} defaultValue={1} />
+                    )
+                },
+                {
+                    title:"Acciones", 
+                    dataIndex: "ref_id",
+                    render: (_,{ref_id})=>(
+                        <Button  onClick={()=>{remove_row(ref_id)}}>X</Button>)
+                    ,
+                },
             ]}
             dataSource={tableData}
         />
@@ -59,23 +79,34 @@ const EnvioForm = () => {
         openButtonText="Agregar Producto" 
         title="Agregar Producto"
         onOk={
-            (id)=>{
-                /* get stock data for the column */
-                fetch(url_for_stock_details+ sucursal_id + "/" + "1"/*<-- TEMPORARY!! */)
-                .then(response=>response.json())
-                .then((response)=>{
-                    add_new_row(response.data)
-                })
-                .catch((error)=>{
-                    console.error(error)
-                })
+            ()=>{
+                const found = tableData.find(e=>e.key == selectedCodigoId)
+                alert(found)
+                if(found) {alert("code already added!")}
+                if(selectedCodigoId!=-1 && !found){
+                    setTableLoading(true);
+                    /* get stock data for the column */
+                    alert(url_for_stock_details+ sucursal_id + "/" + selectedCodigoId)
+                    fetch(url_for_stock_details+ sucursal_id + "/" + selectedCodigoId/*<-- TEMPORARY!! */)
+                    .then(response=>response.json())
+                    .then((response)=>{
+                        add_new_row(response.data)
+                    })
+                    
+                    .catch((error)=>{
+                        console.error(error)
+                    })
+                }
             }
         }
         >
             <h3>Seleccione C&oacute;digo</h3>
             <FullPathStockSelect
                     callback={
-                        (id)=>{alert(id)}
+                        (id)=>{
+                            //alert(id)
+                            setSelectedCodigoId(id);
+                        }
                     }
                 />
         </CustomModal>
