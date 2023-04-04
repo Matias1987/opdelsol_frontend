@@ -3,6 +3,7 @@ import CustomModal from "./CustomModal";
 import FullPathStockSelect from "./FullPathStockSelect";
 import LoadSelect from "./LoadSelect";
 import { useState } from "react";
+import SearchStock from "./SearchStock";
 
 const EnvioForm = () => {
     const [tableData,setTableData] = useState([])
@@ -15,7 +16,6 @@ const EnvioForm = () => {
     }
 
     const remove_row = (key) => {
-        alert(key)
         setTableData(
             tableData.filter((r)=>(r.codigo!=key))
         )
@@ -34,6 +34,26 @@ const EnvioForm = () => {
 
         setTableData([...tableData,new_row])
     }
+
+    const load_details_for_selected_id = (selectedCodigoId) => {
+
+        const found = tableData.find(e=>e.key == selectedCodigoId)
+
+        if(found) {alert("code already added!"); return;}
+
+        setTableLoading(true);
+        /* get stock data for the column */
+        fetch(url_for_stock_details+ sucursal_id + "/" + selectedCodigoId/*<-- TEMPORARY!! */)
+        .then(response=>response.json())
+        .then((response)=>{
+            add_new_row(response.data)
+        })
+        
+        .catch((error)=>{
+            console.error(error)
+        })
+    }
+
     return (
         <>
         {/* sucursal destino */}
@@ -76,26 +96,28 @@ const EnvioForm = () => {
             dataSource={tableData}
         />
         <CustomModal 
-        openButtonText="Agregar Producto" 
+        
+        openButtonText="Agregar Producto"
+        title="Agregar Producto"
+        onOk={
+            ()=>{}
+        }
+        >
+            <SearchStock callback={(id)=>
+                {
+                    load_details_for_selected_id(id)
+                }
+        } />
+        </CustomModal>
+        <Divider />
+        <CustomModal 
+        openButtonText="Agregar Producto Por Subgrupo" 
         title="Agregar Producto"
         onOk={
             ()=>{
-                const found = tableData.find(e=>e.key == selectedCodigoId)
-                alert(found)
-                if(found) {alert("code already added!")}
-                if(selectedCodigoId!=-1 && !found){
-                    setTableLoading(true);
-                    /* get stock data for the column */
-                    alert(url_for_stock_details+ sucursal_id + "/" + selectedCodigoId)
-                    fetch(url_for_stock_details+ sucursal_id + "/" + selectedCodigoId/*<-- TEMPORARY!! */)
-                    .then(response=>response.json())
-                    .then((response)=>{
-                        add_new_row(response.data)
-                    })
-                    
-                    .catch((error)=>{
-                        console.error(error)
-                    })
+                
+                if(selectedCodigoId!=-1){
+                    load_details_for_selected_id(selectedCodigoId)
                 }
             }
         }
