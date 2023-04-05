@@ -16,6 +16,16 @@ const SideMenu = () => {
     const options = [
         //agregar
         {
+            key: "agregar_factura",
+            label: "Agregar Factura",
+            link: get_url_to("deposito/agregar_factura"),
+        },
+        {
+            key: "agregar_proveedor",
+            label: "Agregar Proveedor",
+            link: get_url_to("deposito/agregar_proveedor"),
+        },
+        {
             key: "modificar_precios_subgrupo",
             label: "Modificar Precios Por Subgrupo",
             link: get_url_to("deposito/stock/modificar_precios_categoria"),
