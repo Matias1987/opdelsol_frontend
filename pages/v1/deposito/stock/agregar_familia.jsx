@@ -4,7 +4,7 @@ export default function AgregarFamilia(){
     return (
     <>
         <h1>Agregar Familia</h1>
-        <FamiliaForm />
+        <FamiliaForm action={"ADD"} />
     </>
     )
 }

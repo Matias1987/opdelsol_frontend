@@ -1,13 +1,21 @@
 import { Button, Form, Input } from "antd";
 import { useForm } from "rc-field-form";
 import SubFamiliaSelect from "../SubFamiliaSelect";
-
+const urls = require("../../../src/urls")
+const post_helper = require("../../../src/helpers/post_helper")
 
 const GrupoForm = () => {
     const [form] = Form.useForm();
     
     const onFinish = (values) => {
-        console.log('Success:', values);
+        switch(props.action){
+            case 'ADD': post_helper.post_method(urls.post.insert.grupo,values,(res)=>{
+              if(res.status == "OK"){alert("Datos Guardados")}else{alert("Error.")}});
+              break;
+            case 'EDIT': post_helper.post_method(urls.post.update.grupo,values,(res)=>{
+              if(res.status == "OK"){alert("Cambios Guardados")}else{alert("Error.")}});
+              break;
+            };
       };
       
     const onFinishFailed = (errorInfo) => {

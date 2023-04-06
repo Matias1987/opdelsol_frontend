@@ -5,13 +5,21 @@ import SubGroupSelect from "../SubGroupSelect";
 
 const { Input, Button, Form } = require("antd")
 
-
+const urls = require("../../../src/urls")
+const post_helper = require("../../../src/helpers/post_helper")
 
 const StockForm = () => {
     const [form] = Form.useForm()
 
     const onFinish = (values) => {
-        console.log('Success:', values);
+        switch(props.action){
+            case 'ADD': post_helper.post_method(urls.post.insert.stock,values,(res)=>{
+              if(res.status == "OK"){alert("Datos Guardados")}else{alert("Error.")}});
+              break;
+            case 'EDIT': post_helper.post_method(urls.post.update.stock,values,(res)=>{
+              if(res.status == "OK"){alert("Cambios Guardados")}else{alert("Error.")}});
+              break;
+            };
       };
       
     const onFinishFailed = (errorInfo) => {

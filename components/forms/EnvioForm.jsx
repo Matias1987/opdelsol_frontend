@@ -1,11 +1,13 @@
 import { Button, Divider, Form, InputNumber, Table } from "antd";
-import CustomModal from "./CustomModal";
-import FullPathStockSelect from "./FullPathStockSelect";
-import LoadSelect from "./LoadSelect";
+import CustomModal from "../CustomModal";
+import FullPathStockSelect from "../FullPathStockSelect";
+import LoadSelect from "../LoadSelect";
 import { useEffect, useState } from "react";
-import SearchStock from "./SearchStock";
+import SearchStock from "../SearchStock";
+const urls = require("../../src/urls")
+const post_helper = require("../../src/helpers/post_helper")
 
-const EnvioForm = () => {
+const EnvioForm = (props) => {
     const [tableData,setTableData] = useState([])
     const [tableLoading,setTableLoading] = useState(false);
     const [selectedCodigoId, setSelectedCodigoId] = useState(-1);
@@ -26,11 +28,42 @@ const EnvioForm = () => {
                 form.setFieldsValue({sucursal:value})
                 break;
         }
-        
     }
 
     const onFinish = (values) => {
         console.log('Success:', values);
+
+        /*
+        for testing only!
+        */
+        const testing_values = {
+            sucursal_idsucursal: 1,
+            usuario_idusuario: 1,
+            cantidad_total:10,
+            items: [
+                {
+                    codigo_idcodigo: 1,
+                    cantidad: 5
+                },
+                {
+                    codigo_idcodigo: 2,
+                    cantidad: 10
+                }
+            ]
+        }
+
+        alert("sending testing values....")
+        post_helper.post_method(urls.post.insert.envio,testing_values,(res)=>{
+            if(res.status == "OK"){alert("Datos Guardados")}else{alert("Error.")}});
+            /*
+        switch(props.action){
+            case 'ADD': post_helper.post_method(urls.post.insert.envio,testing_values,(res)=>{
+              if(res.status == "OK"){alert("Datos Guardados")}else{alert("Error.")}});
+              break;
+            case 'EDIT': post_helper.post_method(urls.post.update.envio,values,(res)=>{
+              if(res.status == "OK"){alert("Cambios Guardados")}else{alert("Error.")}});
+              break;
+            };*/
       };
       
       const onFinishFailed = (errorInfo) => {
@@ -41,7 +74,6 @@ const EnvioForm = () => {
         setTableData(
             tableData.filter((r)=>(r.codigo!=key))
         )
-        
     }
 
     const add_new_row = (data) => {
@@ -54,11 +86,9 @@ const EnvioForm = () => {
         }
         setTableLoading(false);
         setTableData([...tableData,new_row])
-
     }
 
     const load_details_for_selected_id = (selectedCodigoId) => {
-
         const found = tableData.find(e=>e.key == selectedCodigoId)
         if(found) {alert("Codigo ya cargado!"); return;}
         setTableLoading(true);
@@ -76,38 +106,24 @@ const EnvioForm = () => {
     const buttons = () => {
         return (
         <>
-        
             <CustomModal 
             openButtonText="Agregar Producto"
             title="Agregar Producto"
-            onOk={
-                ()=>{}
-            }
+            onOk={()=>{}}
             >
-                <SearchStock callback={(id)=>
-                    {
-                        load_details_for_selected_id(id)
-                    }
+                <SearchStock callback={(id)=>{load_details_for_selected_id(id)}
             } />
             </CustomModal>
             &nbsp;
             <CustomModal 
             openButtonText="Agregar Producto Por Subgrupo" 
             title="Agregar Producto"
-            onOk={
-                ()=>{
-                    
-                    if(selectedCodigoId!=-1){
-                        load_details_for_selected_id(selectedCodigoId)
-                    }
-                }
-            }
+            onOk={()=>{if(selectedCodigoId!=-1){load_details_for_selected_id(selectedCodigoId)}}}
             >
                 <h3>Seleccione C&oacute;digo</h3>
                 <FullPathStockSelect
                         callback={
                             (id)=>{
-                                //alert(id)
                                 setSelectedCodigoId(id);
                             }
                         }

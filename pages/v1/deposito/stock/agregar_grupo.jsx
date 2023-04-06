@@ -4,7 +4,7 @@ export default function AgregarGrupo(){
     return (
         <>
             <h1>Agregar Grupo</h1>
-            <GrupoForm />
+            <GrupoForm  action="ADD" />
         </>
     )
 }

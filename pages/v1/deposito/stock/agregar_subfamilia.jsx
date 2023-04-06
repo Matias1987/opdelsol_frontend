@@ -4,7 +4,7 @@ export default function AgregarSubFamilia(){
     return (
         <>
             <h1>Agregar SubFamilia</h1>
-            <SubFamiliaForm />
+            <SubFamiliaForm  action="ADD" />
         </>
     )
 }

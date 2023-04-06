@@ -1,7 +1,8 @@
 import { Form, Divider, Button, Select, Input } from "antd";
 import LoadSelect from "../LoadSelect";
 
-
+const urls = require("../../../src/urls")
+const post_helper = require("../../../src/helpers/post_helper")
 
 const SubFamiliaForm = () =>{
 
@@ -10,7 +11,14 @@ const SubFamiliaForm = () =>{
 
 
     const onFinish = (values) => {
-        console.log('Success:', values);
+        switch(props.action){
+            case 'ADD': post_helper.post_method(urls.post.insert.subfamilia,values,(res)=>{
+              if(res.status == "OK"){alert("Datos Guardados")}else{alert("Error.")}});
+              break;
+            case 'EDIT': post_helper.post_method(urls.post.update.subfamilia,values,(res)=>{
+              if(res.status == "OK"){alert("Cambios Guardados")}else{alert("Error.")}});
+              break;
+            };
       };
       
       const onFinishFailed = (errorInfo) => {

@@ -1,14 +1,19 @@
 const { useState } = require("react");
 const { default: LoadSelect } = require("../LoadSelect");
 const { Form, Input, Button } = require("antd");
-
-const FacturaForm = () => {
+const urls = require("../../../src/urls")
+const post_helper = require("../../../src/helpers/post_helper")
+const FacturaForm = (props) => {
     const [form] = Form.useForm();
     const onFinish = (values) => {
-        console.log('Success:', values);
-        /**
-         * send post to server
-         */
+        switch(props.action){
+            case 'ADD': post_helper.post_method(urls.post.insert.factura,values,(res)=>{
+              if(res.status == "OK"){alert("Datos Guardados")}else{alert("Error.")}});
+              break;
+            case 'EDIT': post_helper.post_method(urls.post.update.factura,values,(res)=>{
+              if(res.status == "OK"){alert("Cambios Guardados")}else{alert("Error.")}});
+              break;
+            };
         
       };
       

@@ -4,7 +4,7 @@ const AgregarFactura = () =>{
     return (
         <>
         <h1>Agregar Factura</h1>
-        <FacturaForm />
+        <FacturaForm  action="ADD" />
         </>
     
     )

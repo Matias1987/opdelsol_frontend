@@ -4,7 +4,7 @@ export default function AgregarStock(){
     return (
         <>
         <h1>Agregar Stock</h1>
-        <StockForm />
+        <StockForm  action="ADD" />
         </>
     )
 }

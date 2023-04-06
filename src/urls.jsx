@@ -7,7 +7,7 @@ const post = {
         subgrupo: base_url + "",
         codigo: base_url + "",
         stock: base_url + "",
-        envio: base_url + "",
+        envio: base_url + "envio/",
         factura: base_url + "",
         proveedor: base_url + "proveedores/",
         sucursal: base_url + "",
