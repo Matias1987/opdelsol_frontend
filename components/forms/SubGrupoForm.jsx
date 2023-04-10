@@ -1,8 +1,8 @@
 const { Form, Input, Button } = require("antd")
 const { default: GrupoSelect } = require("../GrupoSelect")
-const urls = require("../../../src/urls")
-const post_helper = require("../../../src/helpers/post_helper")
-const SubGrupoForm = () => {
+const urls = require("../../src/urls")
+const post_helper = require("../../src/helpers/post_helper")
+const SubGrupoForm = (props) => {
     const [form] = Form.useForm();
     
     const onFinish = (values) => {
@@ -21,7 +21,7 @@ const SubGrupoForm = () => {
     };
 
     const setValue = (id)=>{
-    form.setFieldsValue({grupo:id})
+    form.setFieldsValue({grupo_idgrupo:id})
     }
     return (
     <>
@@ -32,7 +32,7 @@ const SubGrupoForm = () => {
         >
             <Form.Item
             label={"Grupo"}
-            name={"grupo"}
+            name={"grupo_idgrupo"}
             rules={[{required: true,}]}
             >
                 <GrupoSelect callback = {(id)=>{

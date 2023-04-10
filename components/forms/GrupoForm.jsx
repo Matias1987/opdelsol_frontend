@@ -1,10 +1,10 @@
 import { Button, Form, Input } from "antd";
 import { useForm } from "rc-field-form";
 import SubFamiliaSelect from "../SubFamiliaSelect";
-const urls = require("../../../src/urls")
-const post_helper = require("../../../src/helpers/post_helper")
+const urls = require("../../src/urls")
+const post_helper = require("../../src/helpers/post_helper")
 
-const GrupoForm = () => {
+const GrupoForm = (props) => {
     const [form] = Form.useForm();
     
     const onFinish = (values) => {
@@ -23,7 +23,7 @@ const GrupoForm = () => {
     };
 
     const setValue = (id)=>{
-    form.setFieldsValue({subfamilia:id})
+    form.setFieldsValue({subfamilia_idsubfamilia:id})
     }
 
 
@@ -36,7 +36,7 @@ const GrupoForm = () => {
             >
                 
                 <Form.Item
-                name={"subfamilia"}
+                name={"subfamilia_idsubfamilia"}
                 label={"SubFamilia"}
                 rules={[{required: true,}]}
                 >

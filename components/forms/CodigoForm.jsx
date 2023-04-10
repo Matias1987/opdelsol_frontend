@@ -1,7 +1,7 @@
 const { Form, Input, Button } = require("antd")
 const { default: SubGroupSelect } = require("../SubGroupSelect")
-const urls = require("../../../src/urls")
-const post_helper = require("../../../src/helpers/post_helper")
+const urls = require("../../src/urls")
+const post_helper = require("../../src/helpers/post_helper")
 
 const CodigoForm = (props) => {
     const [form] = Form.useForm();
@@ -22,7 +22,7 @@ const CodigoForm = (props) => {
     };
 
     const setValue = (id)=>{
-    form.setFieldsValue({subgrupo:id})
+    form.setFieldsValue({subgrupo_idsubgrupo:id})
     }
     return (
         <>
@@ -34,7 +34,7 @@ const CodigoForm = (props) => {
             <Form.Item
 
             label={"SubGrupo"}
-            name={"subgrupo"}
+            name={"subgrupo_idsubgrupo"}
             rules={[{required:true}]}
             >
                 <SubGroupSelect callback = {

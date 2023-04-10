@@ -1,16 +1,17 @@
 import { Form, Divider, Button, Select, Input } from "antd";
 import LoadSelect from "../LoadSelect";
 
-const urls = require("../../../src/urls")
-const post_helper = require("../../../src/helpers/post_helper")
+const urls = require("../../src/urls")
+const post_helper = require("../../src/helpers/post_helper")
 
-const SubFamiliaForm = () =>{
+const SubFamiliaForm = (props) =>{
 
     const [form] = Form.useForm();
 
 
 
     const onFinish = (values) => {
+        console.log(values)
         switch(props.action){
             case 'ADD': post_helper.post_method(urls.post.insert.subfamilia,values,(res)=>{
               if(res.status == "OK"){alert("Datos Guardados")}else{alert("Error.")}});
@@ -26,7 +27,7 @@ const SubFamiliaForm = () =>{
       };
 
       const setValue = (id)=>{
-        form.setFieldsValue({familia:id})
+        form.setFieldsValue({familia_idfamilia:id})
       }
 
     return (<>
@@ -41,7 +42,7 @@ const SubFamiliaForm = () =>{
             <Form.Item
             style={{color:"white"}}
                 label="Familia"
-                name="familia"
+                name="familia_idfamilia"
                 rules={[
                     {
                         required: true,

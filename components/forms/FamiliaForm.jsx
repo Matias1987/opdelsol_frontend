@@ -1,7 +1,7 @@
 import React from "react";
 import { Form, Divider, Button, Select, Input } from "antd";
-const urls = require("../../../src/urls")
-const post_helper = require("../../../src/helpers/post_helper")
+const urls = require("../../src/urls")
+const post_helper = require("../../src/helpers/post_helper")
 
 const FamiliaForm = (props) => {
 
@@ -20,7 +20,7 @@ const onFinishFailed = (errorInfo) => {
   console.log('Failed:', errorInfo);
 };
 
-  <Form
+  return (<Form
     name="basic"
     labelCol={{
       span: 8,
@@ -75,7 +75,7 @@ const onFinishFailed = (errorInfo) => {
         Submit
       </Button>
     </Form.Item>
-  </Form>
+  </Form>)
 };
 
 export default FamiliaForm;

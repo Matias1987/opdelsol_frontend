@@ -15,6 +15,11 @@ const SideMenu = () => {
 
     const options = [
         //agregar
+        /*{
+            key: "agregar_sucursal",
+            label: "Agregar Sucursal",
+            link: get_url_to("deposito/agregar_factura"),
+        },*/
         {
             key: "agregar_factura",
             label: "Agregar Factura",

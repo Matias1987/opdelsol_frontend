@@ -1,8 +1,8 @@
 const { useState } = require("react");
 const { default: LoadSelect } = require("../LoadSelect");
 const { Form, Input, Button } = require("antd");
-const urls = require("../../../src/urls")
-const post_helper = require("../../../src/helpers/post_helper")
+const urls = require("../../src/urls")
+const post_helper = require("../../src/helpers/post_helper")
 const FacturaForm = (props) => {
     const [form] = Form.useForm();
     const onFinish = (values) => {

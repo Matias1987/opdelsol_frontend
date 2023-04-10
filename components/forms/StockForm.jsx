@@ -5,10 +5,10 @@ import SubGroupSelect from "../SubGroupSelect";
 
 const { Input, Button, Form } = require("antd")
 
-const urls = require("../../../src/urls")
-const post_helper = require("../../../src/helpers/post_helper")
+const urls = require("../../src/urls")
+const post_helper = require("../../src/helpers/post_helper")
 
-const StockForm = () => {
+const StockForm = (props) => {
     const [form] = Form.useForm()
 
     const onFinish = (values) => {
@@ -27,7 +27,18 @@ const StockForm = () => {
     };
 
     const setValue = (_index, _id) => {
-        form.setFieldsValue({_index:_id})
+        //form.setFieldsValue({_index:_id})
+        switch(_index){
+            case "sucursal_idsucursal":
+                form.setFieldsValue({sucursal_idsucursal:_id})
+                break;
+            case "factura_idfactura":
+                form.setFieldsValue({factura_idfactura:_id})
+                break;
+            case "codigo_idcodigo":
+                form.setFieldsValue({codigo_idcodigo:_id})
+                break;
+        }
     }
 
 
@@ -39,7 +50,7 @@ const StockForm = () => {
         onFinishFailed={onFinishFailed}
         >
             <Form.Item
-            name={"sucursal"}
+            name={"sucursal_idsucursal"}
             label={"Sucursal"}
             rules={[{required:true}]}
             
@@ -57,33 +68,33 @@ const StockForm = () => {
                     
                 }
                 fetchurl={"http://localhost:3000/api/v1/sucursales"} callback={(id)=>{
-                    setValue("sucursal", id)
+                    setValue("sucursal_idsucursal", id)
 
                 }} />
             </Form.Item>
 
             <Form.Item
-            name={"factura"}
+            name={"factura_idfactura"}
             label={"Factura"}
-            rules={[{required:true}]}
+            
             >
                 <FacturaSelect 
 
                     callback={(id)=>{
-                    setValue("factura", id)
+                    setValue("factura_idfactura", id)
                     }}
                 />
             </Form.Item>
             
             <Form.Item
-            name={"codigo"}
+            name={"codigo_idcodigo"}
             label={"Codigo"}
             rules={[{required:true}]}
             >
                 <CodeSelect
                 callback={
                     (id)=>{
-                        setValue("codigo",id)
+                        setValue("codigo_idcodigo",id)
                     }
                 }
                 />
