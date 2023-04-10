@@ -94,7 +94,10 @@ const StockForm = (props) => {
                 <CodeSelect
                 callback={
                     (id)=>{
-                        setValue("codigo_idcodigo",id)
+                        if(id>0){
+                            setValue("codigo_idcodigo",id)
+                        }
+                        
                     }
                 }
                 />

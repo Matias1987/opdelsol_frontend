@@ -3,6 +3,7 @@ const { default: LoadSelect } = require("../LoadSelect");
 const { Form, Input, Button } = require("antd");
 const urls = require("../../src/urls")
 const post_helper = require("../../src/helpers/post_helper")
+
 const FacturaForm = (props) => {
     const [form] = Form.useForm();
     const onFinish = (values) => {
@@ -23,8 +24,8 @@ const FacturaForm = (props) => {
 
       const setValue = (key,value) => {
         switch(key){
-            case "idproveedor":
-                form.setFieldsValue({idproveedor:value})
+            case "proveedor_idproveedor":
+                form.setFieldsValue({proveedor_idproveedor:value})
                 break;
         }
     }
@@ -36,10 +37,10 @@ const FacturaForm = (props) => {
             onFinishFailed={onFinishFailed}
             form = {form}
         >
-            <Form.Item name={"idproveedor"} label="Proveedor" rules={[{required:true}]}>
+            <Form.Item name={"proveedor_idproveedor"} label="Proveedor" rules={[{required:true}]}>
                 <LoadSelect 
                 fetchurl="http://localhost:3000/api/v1/proveedores" 
-                callback={(id)=>{setValue("idproveedor",id)}} 
+                callback={(id)=>{setValue("proveedor_idproveedor",id)}} 
                 parsefnt = {
                     (data) => {
                         return data.map((row)=>(

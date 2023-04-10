@@ -87,11 +87,13 @@ const SubGroupSelect = (props) => {
     return (
         <>
             <Space wrap>
+                <>
                 <Select 
-                style={{ width: 240 }}
-                
-                loading = {familiaLoading}
-                onChange={
+                 bordered={idFamilia==-1}
+                 style={{ width: 240 }}
+                 value={idFamilia==-1 ? "Seleccione Familia" : idFamilia}
+                 loading = {familiaLoading}
+                 onChange={
                     (value)=>{
                         
                         setIdFamilia(value);
@@ -100,19 +102,23 @@ const SubGroupSelect = (props) => {
                         setIdSubGrupo(-1);
 
                         loadSubFamilia(value);
+                        props.callback(-1)
                     }
                 }
                 options = {familiaOptions}
                 />
+                </>
                 {
                     idFamilia==-1 ? <Spin /> :
                     (
+                        <>
                         <Select 
+                         bordered={idSubFamilia<0}
                         style={{ width: 240 }}
                         loading = {subFamiliaLoading}
                         options = {subFamiliaOptions}
                         placeholder = {"Select"}
-                        value = {idSubFamilia<0? "" : idSubFamilia}
+                        value = {idSubFamilia<0? "Seleccione Sub Familia" : idSubFamilia}
                         onChange = {
                             (value)=>{
                                 setIdSubFamilia(value);
@@ -120,41 +126,47 @@ const SubGroupSelect = (props) => {
                                 setIdSubGrupo(-1);
 
                                 loadGrupo(value);
+                                props.callback(-1)
                             }
 
                         }
                         />
+                        </>
                     )
                 }
                 {
                     idSubFamilia == -1 ? <Spin /> :
-                    (
-                        <Select 
-                        style={{ width: 240 }}
-                        loading = {grupoLoading}
-                        options = {grupoOptions}
-                        placeholder = {"Select"}
-                        value = {idGrupo<0? "" : idGrupo}
-                        onChange = {
-                            (value)=>{
-                                setIdGrupo(value)
-                                setIdSubGrupo(-1)
-
-                                loadSubgrupo(value)
+                    (   <>
+                            <Select 
+                             bordered={idGrupo<0}
+                            style={{ width: 240 }}
+                            loading = {grupoLoading}
+                            options = {grupoOptions}
+                            placeholder = {"Select"}
+                            value = {idGrupo<0? "Seleccione Grupo" : idGrupo}
+                            onChange = {
+                                (value)=>{
+                                    setIdGrupo(value)
+                                    setIdSubGrupo(-1)
+                                    loadSubgrupo(value)
+                                    props.callback(-1)
+                                }
                             }
-                        }
-                        />
+                            />
+                        </>
                     )
                 }
                 {
                     idGrupo == -1 ? <Spin /> :
                     (
+                        <>
                         <Select 
+                         bordered={idSubGrupo<0}
                         style={{ width: 240 }}
                         loading = {subGrupoLoading}
                         options = {subGrupoOptions}
-                        placeholder = {"Select"}
-                        value = {idSubGrupo<0? "" : idSubGrupo}
+                        placeholder = {"Seleccione"}
+                        value = {idSubGrupo<0? "Seleccione Subgrupo" : idSubGrupo}
                         onChange = {
                             (value)=>{
                                 setIdSubGrupo(value)
@@ -163,6 +175,7 @@ const SubGroupSelect = (props) => {
                         }
                         
                         />
+                        </>
                     )
                 }
 

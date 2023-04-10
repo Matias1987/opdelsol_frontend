@@ -25,7 +25,7 @@ const EnvioForm = (props) => {
                 form.setFieldsValue({items:value})
                 break;
             case "sucursal":
-                form.setFieldsValue({sucursal:value})
+                form.setFieldsValue({sucursal_idsucursal:value})
                 break;
         }
     }
@@ -51,6 +51,8 @@ const EnvioForm = (props) => {
                 }
             ]
         }
+
+        console.log("testing values: " , testing_values)
 
         alert("sending testing values....")
         post_helper.post_method(urls.post.insert.envio,testing_values,(res)=>{
@@ -143,7 +145,7 @@ const EnvioForm = (props) => {
             form={form}
             >
                 {/* sucursal destino */}
-                <Form.Item label={"Sucursal"} name={"sucursal"}>
+                <Form.Item label={"Sucursal"} name={"sucursal_idsucursal"}>
                     <LoadSelect
                             parsefnt = {
                                 (data) =>(

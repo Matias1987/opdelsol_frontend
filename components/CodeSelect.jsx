@@ -24,8 +24,14 @@ const CodeSelect = (props) => {
         <SubGroupSelect callback = {
             (id) => {
                 setIdSubgrupo(id)
-                loadCodigos(id);
-                setCodigosLoading(true);
+                setCodigo(-1)
+                if(id>-1)
+                {
+                    loadCodigos(id);
+                    setCodigosLoading(true);
+                }
+                
+                
             }
         }   
         />
