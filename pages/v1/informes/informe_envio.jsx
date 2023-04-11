@@ -1,19 +1,33 @@
+import CustomModal from "@/components/CustomModal";
+import PrinterWrapper from "@/components/PrinterWrapper";
+import CodigosDeBarraEnvio from "@/components/informes/CodigosDeBarra";
 import InformeEnvio from "@/components/informes/InformeEnvio";
-import { useRef } from "react";
-import { useReactToPrint } from "react-to-print";
+
 
 export default function VerInformeEnvio(){
-    const componentRef = useRef();
-    const handlePrint = useReactToPrint(
-        {content: ()=>componentRef.current}
-    )
-return (
-<>
-    <div >
-        <InformeEnvio ref={componentRef} />
-    </div>
-    <button onClick={handlePrint}>Print!</button>
-</>
+    return(
+        <>
+    <PrinterWrapper>
+        <InformeEnvio idenvio={16} />
+        <table style={{width:"100%"}}>
+            <tbody>
+                <tr>
+                    <td style={{width: "33.33%"}}></td>
+                    <td style={{width: "33.33%"}}></td>
+                    <td style={{width: "33.33%"}}><br /><br /><br /><hr /></td>
+                </tr>
+            </tbody>
+        </table>
+    </PrinterWrapper>
+    <CustomModal 
+    openButtonText="Imprimir C&oacute;digos"
+    title=""
+    onOk={()=>{}}
+    >
+       <PrinterWrapper>
+            <CodigosDeBarraEnvio idenvio={16} />
+        </PrinterWrapper>
+    </CustomModal>
 
-)
+    </>)
 }

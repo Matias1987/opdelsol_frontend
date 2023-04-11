@@ -1,4 +1,5 @@
 const base_url = "http://localhost:3000/api/v1/"
+
 const post = {
     insert:{
         familia: base_url + "familia/",
@@ -26,6 +27,11 @@ const post = {
     },
 }
 
+const get = {
+    lista_envio_stock: base_url + "enviostock/",
+    detalle_envio: base_url + "envio/",
+}
+
 module.exports = {
-    post,
+    post,get
 }
