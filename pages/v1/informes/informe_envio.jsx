@@ -2,13 +2,16 @@ import CustomModal from "@/components/CustomModal";
 import PrinterWrapper from "@/components/PrinterWrapper";
 import CodigosDeBarraEnvio from "@/components/informes/CodigosDeBarra";
 import InformeEnvio from "@/components/informes/InformeEnvio";
+import { useRouter } from "next/router";
 
 
-export default function VerInformeEnvio(){
+export default function VerInformeEnvio2(){
+    const router = useRouter()
+    const {id} = router.query
     return(
         <>
     <PrinterWrapper>
-        <InformeEnvio idenvio={16} />
+        <InformeEnvio idenvio={id} />
         <table style={{width:"100%"}}>
             <tbody>
                 <tr>
@@ -19,13 +22,14 @@ export default function VerInformeEnvio(){
             </tbody>
         </table>
     </PrinterWrapper>
+    &nbsp;
     <CustomModal 
     openButtonText="Imprimir C&oacute;digos"
     title=""
     onOk={()=>{}}
     >
        <PrinterWrapper>
-            <CodigosDeBarraEnvio idenvio={16} />
+            <CodigosDeBarraEnvio idenvio={id} />
         </PrinterWrapper>
     </CustomModal>
 

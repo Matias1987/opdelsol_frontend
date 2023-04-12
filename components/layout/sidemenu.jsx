@@ -21,6 +21,11 @@ const SideMenu = () => {
             link: get_url_to("deposito/agregar_factura"),
         },*/
         {
+            key: "imprimir_codigos",
+            label: "Imprimir Códigos",
+            link: get_url_to("deposito/imprimir_codigos"),
+        },
+        {
             key: "agregar_factura",
             label: "Agregar Factura",
             link: get_url_to("deposito/agregar_factura"),

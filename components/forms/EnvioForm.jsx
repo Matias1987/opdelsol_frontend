@@ -12,7 +12,7 @@ const EnvioForm = (props) => {
     const [tableLoading,setTableLoading] = useState(false);
     const [selectedCodigoId, setSelectedCodigoId] = useState(-1);
     const [form] = Form.useForm();
-    const url_for_stock_details = "http://localhost:3000/api/v1/stock/detalle/";
+    //const url_for_stock_details = "http://localhost:3000/api/v1/stock/detalle/";
     const sucursal_id = 1; //THIS VALUE HAS TO BE DYNAMIC!!
 
     useEffect(()=>{
@@ -56,7 +56,11 @@ const EnvioForm = (props) => {
 
         alert("sending testing values....")
         post_helper.post_method(urls.post.insert.envio,testing_values,(res)=>{
-            if(res.status == "OK"){alert("Datos Guardados")}else{alert("Error.")}});
+            if(res.status == "OK"){
+                alert("Datos Guardados")
+                alert(JSON.stringify( res.data ))
+                window.location.replace(urls.informes.envio+res.data.insertId);
+            }else{alert("Error.")}});
             /*
         switch(props.action){
             case 'ADD': post_helper.post_method(urls.post.insert.envio,testing_values,(res)=>{
@@ -95,7 +99,7 @@ const EnvioForm = (props) => {
         if(found) {alert("Codigo ya cargado!"); return;}
         setTableLoading(true);
         /* get stock data for the column */
-        fetch(url_for_stock_details+ sucursal_id + "/" + selectedCodigoId/*<-- TEMPORARY!! */)
+        fetch(/*url_for_stock_details*/ urls.get.detalle_stock+ sucursal_id + "/" + selectedCodigoId/*<-- TEMPORARY!! */)
         .then(response=>response.json())
         .then((response)=>{
             add_new_row(response.data)
@@ -157,7 +161,7 @@ const EnvioForm = (props) => {
                                     ))
                                 )
                             }
-                            fetchurl={"http://localhost:3000/api/v1/sucursales"} 
+                            fetchurl={urls.get.sucursales} 
                             callback={(id)=>{setValue("sucursal", id)}}      
                     />
                 </Form.Item>

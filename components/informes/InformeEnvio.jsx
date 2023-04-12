@@ -16,15 +16,15 @@ const InformeEnvio = (props, ref) =>{
         fetch(urls.get.detalle_envio+props.idenvio)
         .then(response=>response.json())
         .then((response)=>{
-            
+            //alert(JSON.stringify( response))
             setContent(
                 {
-                    fecha: response.data.fecha,
-                    usuario: response.data.usuario,
-                    cantidad: response.data.cantidad,
+                    fecha: response.data[0].fecha,
+                    usuario: response.data[0].usuario,
+                    cantidad: response.data[0].cantidad_total,
                     monto_total: 0,
-                    sucursal: response.data.sucursal,
-                    id: response.data.idenvio
+                    sucursal: response.data[0].sucursal,
+                    id: response.data[0].idenvio
                 }
             )
             //now load data from items
@@ -54,7 +54,7 @@ const InformeEnvio = (props, ref) =>{
                         <tbody>
                             <tr>
                                 <td><h4>Optica Del Sol</h4></td>
-                                <td>Fecha: <b>00/00/0000</b></td>
+                                <td>Fecha: <b>{content.fecha}</b></td>
                             </tr>
                             <tr>
                                 <td>Nro. Envio: &nbsp; <b>{content.id}</b></td>
@@ -85,6 +85,7 @@ const InformeEnvio = (props, ref) =>{
                                 </th>
                             </tr>
                         </thead>
+                        <tbody>
                         {
                             itemsContent.map(r=>(
                                 <tr>
@@ -95,6 +96,7 @@ const InformeEnvio = (props, ref) =>{
                                 </tr>
                             ))
                         }
+                        </tbody>
                     </table>
                     <br />
                 </div>

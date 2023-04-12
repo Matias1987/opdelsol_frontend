@@ -19,6 +19,7 @@ export default function CustomModal(props,{children}){
         {props.openButtonText}
       </Button>
       <Modal
+        width={"100%"}
         title={props.title}
         open={open}
         onOk={()=>{ props.onOk(); setOpen(false)}}
