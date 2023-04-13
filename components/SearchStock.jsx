@@ -35,6 +35,7 @@ const SearchStock = (props) => {
         <>
         <Input.Search onSearch={onSearch}  />
         <Table 
+        pagination={false}
         loading={loading}
         dataSource={dataSource} 
         columns={

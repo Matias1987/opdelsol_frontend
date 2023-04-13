@@ -1,6 +1,6 @@
 import React from 'react';
 import { Layout, Menu, Icon } from 'antd';
-import SideMenu from './layout/sidemenu';
+import SideMenu from './sidemenu';
 
 
 

@@ -1,7 +1,7 @@
 import CustomModal from "@/components/CustomModal";
 import PrinterWrapper from "@/components/PrinterWrapper";
 import SearchStock from "@/components/SearchStock";
-import { Button, Divider, Form, InputNumber, Table } from "antd";
+import { Button, Col, Divider, Form, InputNumber, Row, Table } from "antd";
 import { useEffect, useState } from "react";
 import Barcode from "react-barcode";
 const urls = require("../../../src/urls")
@@ -9,30 +9,59 @@ const urls = require("../../../src/urls")
 const ImprimirCodigos = () => {
     const [tableData,setTableData] = useState([])
     const [tableLoading,setTableLoading] = useState(false);
+    const [ids , setIds] = useState(0);
     //const [selectedCodigoId, setSelectedCodigoId] = useState(-1);
 
+    const ImprimirDialog = () => (
+        <CustomModal 
+                openButtonText="Imprimir"
+                title="Imprimir Códigos"
+                
+                onOk={()=>{}}
+                >
+                    <PrinterWrapper>
+                        <div style={{flexWrap:true}}>
+                        <table style={{width:"auto"}}>
+                            <tbody>
+                                <tr>
+                                    {   tableData.length <1 ? <h4>No hay c&oacute;digos</h4> : 
+                                        tableData.map(r=>
+                                            
+                                            <td style={{textAlign:"center"}}>{r.codigo}<br /><Barcode value={"AR_ID_"+r.codigo_ref}  displayValue={false} width={1.5} height={20}/>&nbsp;</td>
+                                        )
+                                    }
+                                </tr>
+                            </tbody>
+                        </table>
+                        </div>
+                    </PrinterWrapper>
+
+            </CustomModal>
+    )
+    
     
     const remove_row = (key) => {
         setTableData(
-            tableData.filter((r)=>(r.codigo!=key))
+            tableData.filter((r)=>(r.key!=key))
         )
     }
 
     const add_new_row = (data) => {
         const new_row = {
            ruta:"-",
-           key:data[0].idcodigo,
+           key:ids,
            codigo: data[0].codigo,
-           cantidad: 1,
-           ref_id: data[0].codigo,
+           codigo_ref: data[0].idcodigo,
+           ref_id: ids,
         }
         setTableLoading(false);
         setTableData([...tableData,new_row])
+        setIds(ids+1)
     }
 
     const load_details_for_selected_id = (idcodigo) => {
-        const found = tableData.find(e=>e.key == idcodigo)
-        if(found) {alert("Codigo ya cargado!"); return;}
+        /*const found = tableData.find(e=>e.key == idcodigo)
+        if(found) {alert("Codigo ya cargado!"); return;}*/
         setTableLoading(true);
         /* get stock data for the column */
         fetch(urls.get.detalle_codigo + "/" + idcodigo)
@@ -48,66 +77,38 @@ const ImprimirCodigos = () => {
     return (
         <>
             <h1>Imprimir C&oacute;digos de Barras</h1>
-            <Divider />
-            <CustomModal 
-                openButtonText="Agregar Codigo"
-                title="Agregar Producto"
-                onOk={()=>{}}
-                >
-                    <SearchStock callback={(idcodigo)=>{load_details_for_selected_id(idcodigo)}
-                } />
-            </CustomModal>
-            <br />
-            <Table
-                loading={tableLoading}
-                    columns = {[
-                        {title:"ruta", dataIndex: "ruta",},
-                        {title:"codigo", dataIndex: "codigo", },
-                        {
-                            title:"cantidad", 
-                            dataIndex: "cantidad",  
-                            render: (_,{cantidad})=>(
-                                <InputNumber min={1} max={20000} defaultValue={1} onChange={(val)=>{
-                                    /*tableData.forEach((r)=>{
-                                        if(r.idcodigo == idcodigo){
-                                            r.cantidad = val;
-                                            
-                                        }
-                                    }
-                                    
-                                    )
-                                    setTableData(tableData)*/
-                                }} />
-                            )
-                        },
-                        {
-                            title:"Acciones", 
-                            dataIndex: "ref_id",
-                            render: (_,{ref_id})=>(
-                                <Button  onClick={()=>{remove_row(ref_id)}}>X</Button>)
-                            ,
-                        },
-                    ]}
-                    dataSource={tableData}
-                />
-                <CustomModal 
-                openButtonText="Imprimir"
-                title="Imprimir Códigos"
-                onOk={()=>{}}
-                >
-                    <PrinterWrapper>
-                    <table style={{width:"auto"}}>
-                        <tbody>
-                        <tr>
+            {<ImprimirDialog />}
+            
+            <Row >
+                
+                <Col span={8} style={{padding:"1em", height:"400px", overflowY:"scroll"}}>
+                <h4>Buscar C&oacute;digo</h4>
+                    <SearchStock callback={(idcodigo)=>{load_details_for_selected_id(idcodigo)}} />
+                </Col>
+                <Col span={16} style={{padding:"1em", height:"400px", overflowY:"scroll"}}> 
+                    <Table
+                    pagination={false}
+                    loading={tableLoading}
+                        columns = {[
+                            {title:"ruta", dataIndex: "ruta",},
+                            {title:"codigo", dataIndex: "codigo", },
+                            
                             {
-                                tableData.map(r=>(
-                                    <td style={{textAlign:"center"}}>{r.codigo}<br /><Barcode value={"AR_ID_"+r.key}  displayValue={false} width={1.5} height={20}/>&nbsp;</td>
-                                ))
-                            }
-                        </tr></tbody></table>
-                    </PrinterWrapper>
-
-            </CustomModal>
+                                title:"Acciones", 
+                                dataIndex: "ref_id",
+                                render: (_,{ref_id})=>(
+                                    <Button  onClick={()=>{remove_row(ref_id)}}>X</Button>)
+                                ,
+                            },
+                        ]}
+                        dataSource={tableData}
+                    />
+                </Col>
+            </Row>
+            
+            <br />
+            
+                {<ImprimirDialog />}
         </>
     )
 }
