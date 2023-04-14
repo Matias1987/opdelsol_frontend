@@ -1,11 +1,21 @@
 const remote_base_url = "http://localhost:3000/api/v1/"
 const local_base_url = "http://localhost:3001/v1/"
 
+const public_urls = {
+    dashboard_deposito : local_base_url + "deposito/",
+    dashboard_venta : local_base_url + "ventas/",
+    dashboard_caja : local_base_url + "caja/",
+    dashboard : local_base_url ,
+
+}
+
+
 const informes = {
     envio: local_base_url + "informes/envio/",
 }
 
 const post = {
+    login: remote_base_url + "login",
     insert:{
         familia: remote_base_url + "familia/",
         subfamilia: remote_base_url + "subfamilia/",
@@ -42,5 +52,5 @@ const get = {
 }
 
 module.exports = {
-    post,get,informes,remote_base_url,local_base_url,
+    post,get,informes,remote_base_url,local_base_url,public_urls,
 }

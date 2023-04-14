@@ -8,18 +8,9 @@ const SideMenu = () => {
 
     const get_url_to = (_target) => urlhelper.getUrl() + "/v1/" +_target
 
-    const goToPage = (_page) => {
-        
-        //navigate
-    }
 
     const options = [
         //agregar
-        /*{
-            key: "agregar_sucursal",
-            label: "Agregar Sucursal",
-            link: get_url_to("deposito/agregar_factura"),
-        },*/
         {
             key: "imprimir_codigos",
             label: "Imprimir Códigos",
@@ -113,19 +104,19 @@ const SideMenu = () => {
     ]
 
     return (
-        
+        <>
             <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
-                
                 {
                     options.map(
                         (opt) => (
-                            <Menu.Item key={opt.key} onClick={()=>{goToPage(opt.key)}}>
+                            <Menu.Item key={opt.key}>
                                 <Link href={opt.link}>{opt.label}</Link>
                             </Menu.Item>
                         )
                     )
                 }
-                </Menu>
+            </Menu>
+        </>
     )
 }
 
