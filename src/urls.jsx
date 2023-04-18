@@ -15,7 +15,7 @@ const informes = {
 }
 
 const post = {
-    login: remote_base_url + "login",
+    login: remote_base_url + "usuarios/login/",
     insert:{
         familia: remote_base_url + "familia/",
         subfamilia: remote_base_url + "subfamilia/",

@@ -59,7 +59,7 @@ const EnvioForm = (props) => {
             if(res.status == "OK"){
                 alert("Datos Guardados")
                 alert(JSON.stringify( res.data ))
-                window.location.replace(urls.informes.envio+res.data.insertId);
+                window.location.replace(urls.informes.envio+res.data);
             }else{alert("Error.")}});
             /*
         switch(props.action){

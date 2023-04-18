@@ -16,9 +16,9 @@ export function middleware(request: NextRequest) {
         url.pathname = "/v1/usuario/login/login"
         console.log(url)
         //redirect("/v1/usuario/login/login")
-        //return NextResponse.redirect(url) 
+        return NextResponse.redirect(url) 
         //return NextResponse.rewrite(request.nextUrl)
-        window.location.replace("http://www.w3schools.com");
+        //window.location.replace("http://www.w3schools.com");
       }
 
       
