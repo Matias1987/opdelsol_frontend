@@ -1,4 +1,4 @@
-import { BarsOutlined, BoxPlotOutlined, FileTextOutlined, HomeOutlined, PrinterOutlined, RocketOutlined, SnippetsOutlined } from "@ant-design/icons";
+import { BarsOutlined, BoxPlotOutlined, CheckOutlined, DollarCircleFilled, FileTextOutlined, HomeOutlined, PrinterOutlined, RocketOutlined, SnippetsOutlined } from "@ant-design/icons";
 import Icon from "@ant-design/icons/lib/components/Icon";
 import { Menu } from "antd";
 
@@ -12,12 +12,14 @@ export default function TestMenu(){
     return (
         <Menu
           onClick={()=>{}}
-          style={{ width: 220 }}
+          style={{ width: 220 , backgroundColor: "rgb(255,255,255,1)"}}
           mode="inline"
         >
+          
+          <Menu.Item>Stock</Menu.Item>
           <SubMenu key="sub1" title={<span><RocketOutlined /><span>Envios</span></span>}>
             <Menu.Item key="1" onClick = {()=>{window.location.replace(get_url_to("deposito/envio/nuevo_envio"))}}><SnippetsOutlined />&nbsp;Nuevo Envio  </Menu.Item>
-            <Menu.Item key="1" onClick = {()=>{window.location.replace(get_url_to("deposito/envio/nuevo_envio"))}}><BarsOutlined />&nbsp;Lista de Envios  </Menu.Item>
+            <Menu.Item key="3" onClick = {()=>{window.location.replace(get_url_to("deposito/envio/nuevo_envio"))}}><BarsOutlined />&nbsp;Lista de Envios  </Menu.Item>
             <Menu.Item key="2" onClick = {()=>{window.location.replace(get_url_to("deposito/imprimir_codigos"))}}><PrinterOutlined />&nbsp;Imprimir C&oacute;digos Env&iacute;o</Menu.Item>
             <Menu.Item key="13" onClick = {()=>{window.location.replace(get_url_to("deposito/imprimir_codigos"))}}><PrinterOutlined />&nbsp; Imprimir C&oacute;digos</Menu.Item>
             <Menu.Item key="14" onClick = {()=>{window.location.replace(get_url_to("deposito/imprimir_codigos"))}}><PrinterOutlined />&nbsp;Imprimir Env&iacute;o</Menu.Item>

@@ -1,4 +1,4 @@
-import { Button, Divider, Form, InputNumber, Table } from "antd";
+import { Button, Divider, Form, Input, InputNumber, Table } from "antd";
 import CustomModal from "../CustomModal";
 import FullPathStockSelect from "../FullPathStockSelect";
 import LoadSelect from "../LoadSelect";
@@ -32,11 +32,18 @@ const EnvioForm = (props) => {
 
     const onFinish = (values) => {
         console.log('Success:', values);
+        
+        let qtty = 0;
+        values.items.forEach((i)=>{
+            qtty+=parseInt(i.cantidad);
+        })
+        values.cantidad_total = qtty;
 
+        alert(JSON.stringify(values));
         /*
         for testing only!
         */
-        const testing_values = {
+        const testing_values = values;/* {
             sucursal_idsucursal: 1,
             usuario_idusuario: 1,
             cantidad_total:10,
@@ -50,11 +57,12 @@ const EnvioForm = (props) => {
                     cantidad: 10
                 }
             ]
-        }
+        }*/
 
         console.log("testing values: " , testing_values)
 
-        alert("sending testing values....")
+        alert("sending testing values " + JSON.stringify(testing_values))
+        alert(urls.post.insert.envio)
         post_helper.post_method(urls.post.insert.envio,testing_values,(res)=>{
             if(res.status == "OK"){
                 alert("Datos Guardados")
@@ -87,8 +95,10 @@ const EnvioForm = (props) => {
            key:data[0].idcodigo,
            ruta: data[0].ruta,
            codigo: data[0].codigo,
-           cantidad: data[0].cantidad,
-           ref_id: data[0].codigo
+           obj: {key: data[0].idcodigo, max: data[0].cantidad},
+           ref_id: data[0].codigo,
+           max_cantidad: data[0].cantidad,
+           cantidad: 0,
         }
         setTableLoading(false);
         setTableData([...tableData,new_row])
@@ -99,7 +109,7 @@ const EnvioForm = (props) => {
         if(found) {alert("Codigo ya cargado!"); return;}
         setTableLoading(true);
         /* get stock data for the column */
-        fetch(/*url_for_stock_details*/ urls.get.detalle_stock+ sucursal_id + "/" + selectedCodigoId/*<-- TEMPORARY!! */)
+        fetch(urls.get.detalle_stock+ sucursal_id + "/" + selectedCodigoId/*<-- TEMPORARY!! */)
         .then(response=>response.json())
         .then((response)=>{
             add_new_row(response.data)
@@ -149,6 +159,13 @@ const EnvioForm = (props) => {
             form={form}
             >
                 {/* sucursal destino */}
+                <Form.Item name={"usuario_idusuario"} value="1" label={"usuario"}>
+                    <Input></Input>
+
+                </Form.Item>
+                <Form.Item name={"cantidad_total"} value="10" label="cantidad">
+                    <Input></Input>
+                </Form.Item>
                 <Form.Item label={"Sucursal"} name={"sucursal_idsucursal"}>
                     <LoadSelect
                             parsefnt = {
@@ -174,9 +191,16 @@ const EnvioForm = (props) => {
                                 {title:"codigo", dataIndex: "codigo", },
                                 {
                                     title:"cantidad", 
-                                    dataIndex: "cantidad",  
-                                    render: (_,{cantidad})=>(
-                                        <InputNumber min={1} max={cantidad} defaultValue={1} />
+                                    dataIndex: "obj",  
+                                    value: 1,
+                                    render: (_,{obj})=>(
+                                        <InputNumber min={1} max={obj.max} defaultValue={1} onChange={(val)=>{
+                                            tableData.forEach((e)=>{
+                                                if(e.key == obj.key){
+                                                    e.cantidad = val;
+                                                }
+                                            })
+                                        }} />
                                     )
                                 },
                                 {

@@ -13,9 +13,9 @@ export default function MyLayout({children}){
     
     
     return (
-            <Layout className='layout' style={{height:"auto"}}>
-                <Sider width={240} style={{padding:"10px"}}>
-                    <div className="logo" style={{padding:".45em"}}>
+            <Layout className='layout' style={{height:"100hv" }}>
+                <Sider width={300} style={{padding:"20px",  overflowY:"scroll"}}>
+                    <div className="logo" style={{padding:".45em" }}>
                         <span style={{color:"white"}}>Optica del Sol&nbsp;&nbsp;</span>
                     </div>
                     {/*SideMenu */}

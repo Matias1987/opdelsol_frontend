@@ -3,7 +3,7 @@ import type { NextRequest } from 'next/server'
 import { redirect } from 'next/navigation';
 //const urls = require("./src/urls")
 export function middleware(request: NextRequest) {
-    fetch("http://localhost:3000/api/v1/usuarios/l/checklogin/")
+    /*fetch("http://localhost:3000/api/v1/usuarios/l/checklogin/")
     .then(response=>response.json())
     .then((response)=>{
       if(response.data.loged == 1){
@@ -15,14 +15,17 @@ export function middleware(request: NextRequest) {
         const url = request.nextUrl.clone()
         url.pathname = "/v1/usuario/login/login"
         console.log(url)
-        //redirect("/v1/usuario/login/login")
         return NextResponse.redirect(url) 
+        //redirect("/v1/usuario/login/login")
         //return NextResponse.rewrite(request.nextUrl)
         //window.location.replace("http://www.w3schools.com");
       }
 
       
-    })
+    })*/
+
+    //request.nextUrl.pathname = "/v1/usuario/login/login";
+    //return NextResponse.redirect(request.nextUrl);
 
   //console.log(request.nextUrl);
    
