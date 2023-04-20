@@ -1,4 +1,5 @@
 import CustomTable from "@/components/forms/CustomTable";
+import { Button } from "antd";
 
 export default function ListaStock(){
     return(
@@ -10,7 +11,17 @@ export default function ListaStock(){
                 [
                     {title: 'Codigo',dataIndex: 'codigo',key: 'codigo'},
                     {title: 'Ruta',dataIndex: 'ruta',key: 'ruta'},
-                    {title: 'Cantidad',dataIndex: 'cantidad',key: 'cantidad'}
+                    {title: 'Cantidad',dataIndex: 'cantidad',key: 'cantidad'},
+                    {
+                        title: 'Acciones', dataIndex: 'idstock', key: 'idstock',
+                        render: 
+                            (_,{idstock})=>{
+                                return (<>
+                                     <Button onClick={()=>{}}>Editar</Button>
+                                </>    )                
+                            }
+                        
+                    }
                 ]
             }
             parsefnt={

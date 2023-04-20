@@ -13,7 +13,7 @@ export default function MyLayout({children}){
     
     
     return (
-            <Layout className='layout' style={{height:"100hv" }}>
+            <Layout className='layout' style={{height:"100hv"}}>
                 <Sider width={300} style={{padding:"20px",  overflowY:"scroll"}}>
                     <div className="logo" style={{padding:".45em" }}>
                         <span style={{color:"white"}}>Optica del Sol&nbsp;&nbsp;</span>
@@ -34,7 +34,7 @@ export default function MyLayout({children}){
                     <LogoutOutlined />LogOut
                     </Button>
                     </Header>
-                    <Content style={{ margin: '24px 16px', padding: 24, background: '#fff', minHeight: 280 }}>
+                    <Content style={{ margin: '24px 16px', padding: 24, background: '#fff', minHeight: 280, overflowY:"scroll"  }}>
                         {children}
                     </Content>
                 </Layout>

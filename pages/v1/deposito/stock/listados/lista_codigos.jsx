@@ -1,4 +1,5 @@
 import CustomTable from "@/components/forms/CustomTable";
+import { Button } from "antd";
 
 export default function ListaCodigos(){
     return(
@@ -9,7 +10,17 @@ export default function ListaCodigos(){
                 columns = {
                     [
                         {title: 'Codigo',dataIndex: 'codigo',key: 'codigo'},
-                        {title: 'Descripcion',dataIndex: 'descripcion',key: 'descripcion'}
+                        {title: 'Descripcion',dataIndex: 'descripcion',key: 'descripcion'},
+                        {
+                            title: 'Acciones', dataIndex: 'idcodigo', key: 'idcodigo',
+                            render: 
+                                (_,{idcodigo})=>{
+                                    return (<>
+                                         <Button onClick={()=>{}}>Editar</Button>
+                                    </>    )                
+                                }
+                            
+                        }
                     ]
                 }
                 parsefnt={

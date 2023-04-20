@@ -1,9 +1,10 @@
-import { Button, Divider, Form, Input, InputNumber, Table } from "antd";
+import { Button, Divider, Form, Input, InputNumber, Menu, Table } from "antd";
 import CustomModal from "../CustomModal";
 import FullPathStockSelect from "../FullPathStockSelect";
 import LoadSelect from "../LoadSelect";
 import { useEffect, useState } from "react";
 import SearchStock from "../SearchStock";
+import { MailOutlined } from "@ant-design/icons";
 const urls = require("../../src/urls")
 const post_helper = require("../../src/helpers/post_helper")
 
@@ -14,6 +15,7 @@ const EnvioForm = (props) => {
     const [form] = Form.useForm();
     //const url_for_stock_details = "http://localhost:3000/api/v1/stock/detalle/";
     const sucursal_id = 1; //THIS VALUE HAS TO BE DYNAMIC!!
+
 
     useEffect(()=>{
         setValue("items",tableData)
@@ -31,39 +33,32 @@ const EnvioForm = (props) => {
     }
 
     const onFinish = (values) => {
-        console.log('Success:', values);
-        
-        let qtty = 0;
-        values.items.forEach((i)=>{
-            qtty+=parseInt(i.cantidad);
-        })
-        values.cantidad_total = qtty;
 
-        alert(JSON.stringify(values));
-        /*
-        for testing only!
-        */
-        const testing_values = values;/* {
-            sucursal_idsucursal: 1,
+        const __values = {
+            sucursal_idsucursal: values.sucursal_idsucursal,
             usuario_idusuario: 1,
-            cantidad_total:10,
+            cantidad_total:0,
             items: [
-                {
-                    codigo_idcodigo: 1,
-                    cantidad: 5
-                },
-                {
-                    codigo_idcodigo: 2,
-                    cantidad: 10
-                }
             ]
-        }*/
+        }
+        let __cantidad = 0;
+        tableData.forEach((e)=>{
+            __values.items.push(
+                {
+                    key: e.key,
+                    cantidad: e.cantidad
+                }
+            )
+            __cantidad+=e.cantidad;
+        })
 
-        console.log("testing values: " , testing_values)
+        __values.cantidad_total=__cantidad;
 
-        alert("sending testing values " + JSON.stringify(testing_values))
+        console.log("testing values: " , __values)
+
+        alert("sending testing values " + JSON.stringify(__values))
         alert(urls.post.insert.envio)
-        post_helper.post_method(urls.post.insert.envio,testing_values,(res)=>{
+        post_helper.post_method(urls.post.insert.envio,__values,(res)=>{
             if(res.status == "OK"){
                 alert("Datos Guardados")
                 alert(JSON.stringify( res.data ))
@@ -159,13 +154,6 @@ const EnvioForm = (props) => {
             form={form}
             >
                 {/* sucursal destino */}
-                <Form.Item name={"usuario_idusuario"} value="1" label={"usuario"}>
-                    <Input></Input>
-
-                </Form.Item>
-                <Form.Item name={"cantidad_total"} value="10" label="cantidad">
-                    <Input></Input>
-                </Form.Item>
                 <Form.Item label={"Sucursal"} name={"sucursal_idsucursal"}>
                     <LoadSelect
                             parsefnt = {
@@ -194,12 +182,23 @@ const EnvioForm = (props) => {
                                     dataIndex: "obj",  
                                     value: 1,
                                     render: (_,{obj})=>(
-                                        <InputNumber min={1} max={obj.max} defaultValue={1} onChange={(val)=>{
-                                            tableData.forEach((e)=>{
+                                        <InputNumber min={1} max={obj.max} defaultValue={0} onChange={(val)=>{
+                                            //alert(JSON.stringify(tableData))
+                                            /*tableData.forEach((e)=>{
                                                 if(e.key == obj.key){
+                                                    alert(val)
                                                     e.cantidad = val;
                                                 }
-                                            })
+                                            })*/
+                                            for(let i=0;i<tableData.length;i++){
+                                                if(tableData[i].key==obj.key){
+                                                    tableData[i].cantidad = val;
+                                                    break;
+                                                }
+                                            }
+                                            //alert(JSON.stringify(tableData))
+
+                                            setTableData(tableData)
                                         }} />
                                     )
                                 },

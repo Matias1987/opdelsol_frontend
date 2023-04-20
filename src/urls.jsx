@@ -12,6 +12,8 @@ const public_urls = {
 
 const informes = {
     envio: local_base_url + "informes/envio/",
+    codigos: local_base_url + "deposito/imprimir_codigos/",
+    codigos_envio: local_base_url + "deposito/imprimir_codigos/",
 }
 
 const post = {
@@ -45,6 +47,7 @@ const post = {
 const get = {
     lista_envio_stock: remote_base_url + "enviostock/",
     detalle_envio: remote_base_url + "envio/",
+    lista_envios: remote_base_url + "envio/",
     detalle_stock: remote_base_url + "stock/detalle/",
     sucursales: remote_base_url + "sucursales/",
     search_codigos: remote_base_url + "codigos/search/",

@@ -1,4 +1,5 @@
 import CustomTable from "@/components/forms/CustomTable";
+import { Button } from "antd";
 
 export default function ListaGrupos(){
     return(
@@ -10,7 +11,17 @@ export default function ListaGrupos(){
                 [
                     {title: 'ID',dataIndex: 'id',key: 'id'},
                     {title: 'Nombre Largo',dataIndex: 'nombre_largo',key: 'nombre_largo'},
-                    {title: 'Nombre Corto',dataIndex: 'nombre_corto',key: 'nombre_corto'}
+                    {title: 'Nombre Corto',dataIndex: 'nombre_corto',key: 'nombre_corto'},
+                    {
+                        title: 'Acciones', dataIndex: 'idgrupo', key: 'idgrupo',
+                        render: 
+                            (_,{idgrupo})=>{
+                                return (<>
+                                     <Button onClick={()=>{}}>Editar</Button>
+                                </>    )                
+                            }
+                        
+                    }
                 ]
             }
             parsefnt={

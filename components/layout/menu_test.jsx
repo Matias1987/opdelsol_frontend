@@ -1,13 +1,14 @@
-import { BarsOutlined, BoxPlotOutlined, CheckOutlined, DollarCircleFilled, FileTextOutlined, HomeOutlined, PrinterOutlined, RocketOutlined, SnippetsOutlined } from "@ant-design/icons";
-import Icon from "@ant-design/icons/lib/components/Icon";
+import { BarsOutlined, BoxPlotOutlined, CheckOutlined, DollarCircleFilled, EditOutlined, FileTextOutlined, HomeOutlined, PlusCircleOutlined, PrinterOutlined, RocketOutlined, SnippetsOutlined } from "@ant-design/icons";
+
 import { Menu } from "antd";
+import Link from "next/link"
 
 //import { Menu, Icon } from 'antd';
 const SubMenu = Menu.SubMenu;
 const MenuItemGroup = Menu.ItemGroup;
 
 export default function TestMenu(){
-    const get_url_to = (_target) => "http://localhost:3001" + "/v1/" +_target
+    const get_url_to = (_target) => "http://localhost:3001/v1/" +_target
 
     return (
         <Menu
@@ -18,19 +19,51 @@ export default function TestMenu(){
           
           <Menu.Item>Stock</Menu.Item>
           <SubMenu key="sub1" title={<span><RocketOutlined /><span>Envios</span></span>}>
-            <Menu.Item key="1" onClick = {()=>{window.location.replace(get_url_to("deposito/envio/nuevo_envio"))}}><SnippetsOutlined />&nbsp;Nuevo Envio  </Menu.Item>
-            <Menu.Item key="3" onClick = {()=>{window.location.replace(get_url_to("deposito/envio/nuevo_envio"))}}><BarsOutlined />&nbsp;Lista de Envios  </Menu.Item>
-            <Menu.Item key="2" onClick = {()=>{window.location.replace(get_url_to("deposito/imprimir_codigos"))}}><PrinterOutlined />&nbsp;Imprimir C&oacute;digos Env&iacute;o</Menu.Item>
-            <Menu.Item key="13" onClick = {()=>{window.location.replace(get_url_to("deposito/imprimir_codigos"))}}><PrinterOutlined />&nbsp; Imprimir C&oacute;digos</Menu.Item>
-            <Menu.Item key="14" onClick = {()=>{window.location.replace(get_url_to("deposito/imprimir_codigos"))}}><PrinterOutlined />&nbsp;Imprimir Env&iacute;o</Menu.Item>
+            <Menu.Item key="1"><Link href={get_url_to("deposito/envio/nuevo_envio")}><SnippetsOutlined />&nbsp;Nuevo Envio  </Link></Menu.Item>
+            <Menu.Item key="3"><Link href={get_url_to("deposito/envio/lista_envios")}><BarsOutlined />&nbsp;Lista de Envios  </Link></Menu.Item>
           </SubMenu>
           <SubMenu key="sub2" title={<span><BoxPlotOutlined /><span>Stock</span></span>}>
-            <Menu.Item key="15" onClick = {()=>{window.location.replace(get_url_to("stock/listados/lista_codigo"))}}><BarsOutlined /> Stock</Menu.Item>
-            <Menu.Item key="5" onClick = {()=>{window.location.replace(get_url_to("deposito/stock/listados/lista_familia"))}}><BarsOutlined /> Familias</Menu.Item>
-            <Menu.Item key="16" onClick = {()=>{window.location.replace(get_url_to("deposito/stock/listados/lista_subfamilia"))}}><BarsOutlined /> SubFamilias</Menu.Item>
-            <Menu.Item key="17" onClick = {()=>{window.location.replace(get_url_to("deposito/stock/listados/lista_grupos"))}}><BarsOutlined /> Grupos</Menu.Item>
-            <Menu.Item key="18" onClick = {()=>{window.location.replace(get_url_to("deposito/stock/listados/lista_subgrupos"))}}><BarsOutlined /> SubGrupos</Menu.Item>
+            <Menu.Item key="15" ><PlusCircleOutlined /> 
+              <Link href={get_url_to("deposito/stock/agregar_familia")}>&nbsp;Agregar Familias</Link>
+            </Menu.Item>
+            <Menu.Item key="16" ><PlusCircleOutlined /> 
+              <Link href={get_url_to("deposito/stock/agregar_subfamilia")}>&nbsp;Agregar Sub Familias</Link>
+            </Menu.Item>
+            <Menu.Item key="17" ><PlusCircleOutlined /> 
+              <Link href={get_url_to("deposito/stock/agregar_grupo")}>&nbsp;Agregar Grupos</Link>
+            </Menu.Item>
+            <Menu.Item key="18" ><PlusCircleOutlined /> 
+              <Link href={get_url_to("deposito/stock/agregar_subgrupo")}>&nbsp;Agregar Sub Grupos</Link>
+            </Menu.Item>
+            <Menu.Item key="19" ><PlusCircleOutlined /> 
+              <Link href={get_url_to("deposito/stock/agregar_codigo")}>&nbsp;Agregar Codigos</Link>
+            </Menu.Item>
+            <Menu.Item key="20" ><PlusCircleOutlined /> 
+              <Link href={get_url_to("deposito/stock/agregar_stock")}>&nbsp;Agregar Stock</Link>
+            </Menu.Item>
+            <SubMenu key={"subsub1"} title={<>Listados</>}>
+              <Menu.Item key="21" ><BarsOutlined /> 
+              <Link href={get_url_to("deposito/stock/listados/lista_familia")}>Familias</Link>
+              </Menu.Item>
+              <Menu.Item key="22" ><BarsOutlined /> 
+                <Link href={get_url_to("deposito/stock/listados/lista_subfamilia")}>Sub Familias</Link>
+              </Menu.Item>
+              <Menu.Item key="23" ><BarsOutlined /> 
+                <Link href={get_url_to("deposito/stock/listados/lista_grupos")}>Grupos</Link>
+              </Menu.Item>
+              <Menu.Item key="24" ><BarsOutlined /> 
+                <Link href={get_url_to("deposito/stock/listados/lista_subgrupos")}>Sub Grupos</Link>
+              </Menu.Item>
+              <Menu.Item key="25" ><BarsOutlined /> 
+                <Link href={get_url_to("deposito/stock/listados/lista_codigos")}>Codigos</Link>
+              </Menu.Item>
+              <Menu.Item key="26" ><BarsOutlined /> 
+                <Link href={get_url_to("deposito/stock/listados/lista_stock")}>Stock</Link>
+              </Menu.Item>
+            </SubMenu>
           </SubMenu>
+          <Menu.Item key="13"><Link href={get_url_to("deposito/imprimir_codigos")}><PrinterOutlined />&nbsp; Imprimir C&oacute;digos</Link></Menu.Item>
+          <Menu.Item key="27"><Link href={get_url_to("deposito/stock/modificar_precios_categoria")}><EditOutlined />&nbsp; Editar Precios Por Categor&iacute;a</Link></Menu.Item>
           <SubMenu key="sub4" title={<span><FileTextOutlined /><span>Informes</span></span>}>
             <Menu.Item key="9"><FileTextOutlined /> Informe Cantidad</Menu.Item>
           </SubMenu>

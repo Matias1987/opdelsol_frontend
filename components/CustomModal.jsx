@@ -24,6 +24,7 @@ export default function CustomModal(props,{children}){
         open={open}
         onOk={()=>{ props.onOk(); setOpen(false)}}
         onCancel={handleCancel}
+        
       >
         {props.children}
       </Modal>
