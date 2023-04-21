@@ -15,7 +15,7 @@ export default function CustomModal(props,{children}){
   };
   return (
     <>
-      <Button type="primary" onClick={showModal}>
+      <Button type="primary"  size="small"  onClick={showModal}>
         {props.openButtonText}
       </Button>
       <Modal

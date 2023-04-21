@@ -17,7 +17,7 @@ export default function ListaStock(){
                         render: 
                             (_,{idstock})=>{
                                 return (<>
-                                     <Button onClick={()=>{}}>Editar</Button>
+                                     <Button size="small" type="primary" onClick={()=>{}}>Modificar Stock</Button>
                                 </>    )                
                             }
                         

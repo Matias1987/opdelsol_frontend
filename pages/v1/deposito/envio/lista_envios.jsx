@@ -1,5 +1,6 @@
 import CustomModal from "@/components/CustomModal";
 import PrinterWrapper from "@/components/PrinterWrapper";
+import CodigosDeBarraEnvio from "@/components/informes/CodigosDeBarra";
 import InformeEnvio from "@/components/informes/InformeEnvio";
 
 const { Table, Button } = require("antd");
@@ -18,13 +19,19 @@ const ListaEnvios = (props) => {
             render: 
                 (_,{idenvio})=>{
                     return (<>
-                        <CustomModal openButtonText="Imprimir Envio" title="Imprimir Envio" onOk={()=>{}}>
+                        <CustomModal openButtonText="Detalle Envio" title="Detalle Envio" onOk={()=>{}}>
                             <PrinterWrapper>
                                 <InformeEnvio idenvio={idenvio}/>
                             </PrinterWrapper>
                         </CustomModal>
-                        <Button onClick={()=>{window.location.replace(urls.informes.codigos);}}>Imprimir C&oacute;digos</Button>
-                        <Button onClick={()=>{}}>Editar</Button>
+                         &nbsp;
+                        <CustomModal openButtonText="Imprimir Codigos Envio" title="Imprimir Codigos Envio" onOk={()=>{}}>
+                            <PrinterWrapper>
+                                <CodigosDeBarraEnvio idenvio={idenvio}/>
+                            </PrinterWrapper>
+                        </CustomModal>
+                         &nbsp;
+                        <Button  size="small" type="primary"  onClick={()=>{}}>Editar</Button>
                     </>    )                
                 }
             

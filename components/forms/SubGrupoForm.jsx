@@ -54,6 +54,9 @@ const SubGrupoForm = (props) => {
                 <Input />
             </Form.Item>
             <Form.Item>
+                <Input></Input>
+            </Form.Item>
+            <Form.Item>
                 <Button type="primary" htmlType="submit">Guardar</Button>
             </Form.Item>
         </Form>    

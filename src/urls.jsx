@@ -6,6 +6,8 @@ const public_urls = {
     dashboard_venta : local_base_url + "ventas/",
     dashboard_caja : local_base_url + "caja/",
     dashboard : local_base_url ,
+    editar_multiplicadores : local_base_url + "deposito/stock/modificar_precios_categoria/",
+    lista_subgrupos: local_base_url + "deposito/stock/listados/lista_subgrupos/"
 
 }
 
@@ -29,6 +31,7 @@ const post = {
         factura: remote_base_url + "facturas/",
         proveedor: remote_base_url + "proveedores/",
         sucursal: remote_base_url + "sucursales/",
+        
     },
     update:{
         familia: remote_base_url + "familia/",
@@ -41,10 +44,13 @@ const post = {
         factura: remote_base_url + "facturas/",
         proveedor: remote_base_url + "proveedores/",
         sucursal: remote_base_url + "sucursales/",
+        modificar_multiplicador: remote_base_url + "subgrupos/modificar_multiplicador/",
     },
 }
 
 const get = {
+    lista_familia: remote_base_url + "familia/",
+    lista_subgrupo: remote_base_url + "subgrupos/",
     lista_envio_stock: remote_base_url + "enviostock/",
     detalle_envio: remote_base_url + "envio/",
     lista_envios: remote_base_url + "envio/",
