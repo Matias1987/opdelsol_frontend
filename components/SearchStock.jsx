@@ -1,5 +1,7 @@
 import { Button, Table, Search, Input } from "antd";
 import { useState } from "react";
+import CustomModal from "./CustomModal";
+import ModificarCantidadForm from "./forms/deposito/modificarCantidadForm";
 
 const SearchStock = (props) => {
     const id_sucursal = 1; //!!!!TEMPORARY
@@ -47,7 +49,25 @@ const SearchStock = (props) => {
                     dataIndex: "idcodigo",
                     render: 
                         (_,{idcodigo})=>{
-                            return (<Button onClick={()=>{props.callback(idcodigo)}}>Seleccionar</Button>)
+                            return (
+                            <>
+                            <Button onClick={()=>{props.callback(idcodigo)}}>Seleccionar</Button>&nbsp;
+                            <CustomModal
+                                     openButtonText={"Mod. Cantidad"}
+                                     title={"Modificar Cantidad"}
+                                     onOk={()=>{
+                                        location.reload()
+                                     }}> 
+
+                                     <ModificarCantidadForm                                       
+                                     idcodigo={idcodigo}
+                                     idsucursal={id_sucursal} 
+                                     />
+                                     
+                            </CustomModal>
+                            </>
+                            
+                            )
                         }
                     
                 },

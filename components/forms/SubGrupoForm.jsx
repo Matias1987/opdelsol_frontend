@@ -1,4 +1,4 @@
-const { Form, Input, Button } = require("antd")
+const { Form, Input, Button, InputNumber, Switch } = require("antd")
 const { default: GrupoSelect } = require("../GrupoSelect")
 const urls = require("../../src/urls")
 const post_helper = require("../../src/helpers/post_helper")
@@ -20,8 +20,13 @@ const SubGrupoForm = (props) => {
     console.log('Failed:', errorInfo);
     };
 
-    const setValue = (id)=>{
-    form.setFieldsValue({grupo_idgrupo:id})
+    const setValue = (idx,value)=>{
+        switch(idx){
+            case "grupo_idgrupo": form.setFieldsValue({grupo_idgrupo:value}); break;
+            case "multiplicador": form.setFieldsValue({multiplicador:value}); break;
+        }
+    
+
     }
     return (
     <>
@@ -36,13 +41,14 @@ const SubGrupoForm = (props) => {
             rules={[{required: true,}]}
             >
                 <GrupoSelect callback = {(id)=>{
-                    setValue(id)
+                    setValue("grupo_idgrupo",id)
                 }} />
             </Form.Item>
             <Form.Item
             label={"Nombre Corto"}
             name={"nombre_corto"}
             rules={[{required: true,}]}
+            style={{width:"500px"}}
             >
                 <Input />
             </Form.Item>
@@ -50,11 +56,17 @@ const SubGrupoForm = (props) => {
             label={"Nombre Largo"}
             name={"nombre_largo"}
             rules={[{required: true,}]}
+            style={{width:"500px"}}
             >
                 <Input />
             </Form.Item>
-            <Form.Item>
-                <Input></Input>
+            <Form.Item
+            label={"Multiplicador"}
+            name={"multiplicador"}
+            >
+                <InputNumber step={".1"} value={"1"} min="0" onChange={(v)=>{
+                    setValue("multiplicador",v)
+                }}/>
             </Form.Item>
             <Form.Item>
                 <Button type="primary" htmlType="submit">Guardar</Button>

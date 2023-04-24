@@ -76,6 +76,7 @@ const GrupoSelect = (props) => {
                 style={{ width: 240 }}
                 
                 loading = {familiaLoading}
+                value={idFamilia<1?"Seleccione Familia":idFamilia}
                 onChange={
                     (value)=>{
                         
@@ -96,7 +97,7 @@ const GrupoSelect = (props) => {
                         loading = {subFamiliaLoading}
                         options = {subFamiliaOptions}
                         placeholder = {"Select"}
-                        value = {idSubFamilia<0? "" : idSubFamilia}
+                        value = {idSubFamilia<0? "Seleccione Sub Familia" : idSubFamilia}
                         onChange = {
                             (value)=>{
                                 setIdSubFamilia(value);
@@ -117,7 +118,7 @@ const GrupoSelect = (props) => {
                         loading = {grupoLoading}
                         options = {grupoOptions}
                         placeholder = {"Select"}
-                        value = {idGrupo<0? "" : idGrupo}
+                        value = {idGrupo<0? "Seleccione Grupo" : idGrupo}
                         onChange = {
                             (value)=>{
                                 setIdGrupo(value)

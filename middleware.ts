@@ -27,12 +27,7 @@ export function middleware(request: NextRequest) {
     //request.nextUrl.pathname = "/v1/usuario/login/login";
     //return NextResponse.redirect(request.nextUrl);
 
-  //console.log(request.nextUrl);
-   
-    //return NextResponse.redirect(new URL('/about-2', request.url))
-    //const allCookies = request.cookies.getAll()
-    //console.log(allCookies)
-    //return NextResponse.next()
+  
   }
 
   // See "Matching Paths" below to learn more

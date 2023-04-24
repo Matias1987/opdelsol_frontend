@@ -1,12 +1,16 @@
+import CustomModal from "@/components/CustomModal";
 import CustomTable from "@/components/forms/CustomTable";
+import ModificarCantidadForm from "@/components/forms/deposito/modificarCantidadForm";
+import { get } from "@/src/urls";
 import { Button } from "antd";
 
 export default function ListaStock(){
+    const idsucursal = "1";
     return(
         <>
         <h1>Lista de Stock</h1>
         <CustomTable 
-            fetchUrl={"http://localhost:3000/api/v1/stock"}
+            fetchUrl={get.lista_stock+idsucursal}
             columns = {
                 [
                     {title: 'Codigo',dataIndex: 'codigo',key: 'codigo'},
@@ -15,12 +19,23 @@ export default function ListaStock(){
                     {
                         title: 'Acciones', dataIndex: 'idstock', key: 'idstock',
                         render: 
-                            (_,{idstock})=>{
+                            (_,{idcodigo})=>{
                                 return (<>
-                                     <Button size="small" type="primary" onClick={()=>{}}>Modificar Stock</Button>
+                                     <CustomModal
+                                     openButtonText={"Modificar Cantidad"}
+                                     title={"Modificar Cantidad"}
+                                     onOk={()=>{
+                                        location.reload()
+                                     }}> 
+
+                                     <ModificarCantidadForm                                       
+                                     idcodigo={idcodigo}
+                                     idsucursal={idsucursal} 
+                                     />
+                                     
+                                     </CustomModal>
                                 </>    )                
                             }
-                        
                     }
                 ]
             }
@@ -32,6 +47,7 @@ export default function ListaStock(){
                                 codigo: row.codigo,
                                 ruta: row.ruta,
                                 cantidad: row.cantidad,
+                                idcodigo: row.idcodigo,
                             }
                         )
                     )

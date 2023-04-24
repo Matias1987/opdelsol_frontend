@@ -1,5 +1,6 @@
 import CustomModal from "@/components/CustomModal";
 import PrinterWrapper from "@/components/PrinterWrapper";
+import SearchCodigo from "@/components/SearchCodigo";
 import SearchStock from "@/components/SearchStock";
 import { Button, Col, Divider, Form, InputNumber, Row, Table } from "antd";
 import { useEffect, useState } from "react";
@@ -83,7 +84,7 @@ const ImprimirCodigos = () => {
                 
                 <Col span={8} style={{padding:"1em", height:"400px", overflowY:"scroll"}}>
                 <h4>Buscar C&oacute;digo</h4>
-                    <SearchStock callback={(idcodigo)=>{load_details_for_selected_id(idcodigo)}} />
+                    <SearchCodigo callback={(idcodigo)=>{load_details_for_selected_id(idcodigo)}} />
                 </Col>
                 <Col span={16} style={{padding:"1em", height:"400px", overflowY:"scroll"}}> 
                     <Table

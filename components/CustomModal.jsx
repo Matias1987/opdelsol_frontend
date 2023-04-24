@@ -19,11 +19,15 @@ export default function CustomModal(props,{children}){
         {props.openButtonText}
       </Button>
       <Modal
-        width={"100%"}
+        cancelButtonProps={{ style: { display: 'none' } }}
+        okButtonProps={{children:"CERRAR"}}
+        
+        width={"80%"}
         title={props.title}
         open={open}
         onOk={()=>{ props.onOk(); setOpen(false)}}
         onCancel={handleCancel}
+        okText="CERRAR"
         
       >
         {props.children}

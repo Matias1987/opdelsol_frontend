@@ -45,6 +45,8 @@ const post = {
         proveedor: remote_base_url + "proveedores/",
         sucursal: remote_base_url + "sucursales/",
         modificar_multiplicador: remote_base_url + "subgrupos/modificar_multiplicador/",
+        modificar_cantidad: remote_base_url + "stock/m/modificar_cantidad/",
+
     },
 }
 
@@ -57,7 +59,9 @@ const get = {
     detalle_stock: remote_base_url + "stock/detalle/",
     sucursales: remote_base_url + "sucursales/",
     search_codigos: remote_base_url + "codigos/search/",
-    detalle_codigo: remote_base_url + "codigos/"
+    detalle_codigo: remote_base_url + "codigos/",
+    lista_stock: remote_base_url + "stock/"
+
 }
 
 module.exports = {

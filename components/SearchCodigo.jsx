@@ -1,8 +1,10 @@
 import { Button, Table, Search, Input } from "antd";
 import { useState } from "react";
+import CustomModal from "./CustomModal";
+import ModificarCantidadForm from "./forms/deposito/modificarCantidadForm";
 const urls = require("../src/urls")
 
-const SearchStock = (props) => {
+const SearchCodigo = (props) => {
     const [dataSource, setDataSource] = useState([])
     const [loading, setLoading] = useState(false)
     const onkeyUp =() => {
@@ -32,6 +34,7 @@ const SearchStock = (props) => {
     }
     return (
         <>
+        
         <Input.Search onSearch={onSearch}  />
         <Table 
         loading={loading}
@@ -45,7 +48,12 @@ const SearchStock = (props) => {
                     dataIndex: "idcodigo",
                     render: 
                         (_,{idcodigo})=>{
-                            return (<Button onClick={()=>{props.callback(idcodigo)}}>Seleccionar</Button>)
+                            return (
+                                <>
+                                    <Button onClick={()=>{props.callback(idcodigo)}}>Seleccionar</Button>
+                                    
+                                </>
+                            )
                         }
                     
                 },
@@ -56,4 +64,4 @@ const SearchStock = (props) => {
     )
 }
 
-export default SearchStock;
+export default SearchCodigo;
