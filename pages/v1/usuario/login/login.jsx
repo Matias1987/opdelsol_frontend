@@ -1,8 +1,10 @@
 import { Button, Form, Input } from "antd";
 import LayoutSingle from "@/components/layout/layout_single";
 import { redirect } from "next/dist/server/api-utils";
+import useStorage from "../../../../useStorage"
 const post_helper = require("../../../../src/helpers/post_helper")
 const urls = require("../../../../src/urls")
+
 export default function Login(){
 
     const onFinish = (values)=>{
@@ -10,13 +12,16 @@ export default function Login(){
         post_helper.post_method(urls.post.login,values,(res)=>{
             alert(JSON.stringify(res))
             if(res.data.loged == 1){
+                const {setItem} = useStorage();
+                console.log(res.data.token)
+                alert(setItem("token",res.data.token))
 
                 if (typeof window !== "undefined") {
-                        window.location.replace(urls.public_urls.dashboard)
+                        window.location.replace(urls.public_urls.lista_subgrupos)
                   }
                 
                 
-                //redirect(urls.public_urls.dashboard)
+                //redirect(urls.public_urls.lista_subgrupos)
             }
             else{
                 alert("Datos Incorrectos")

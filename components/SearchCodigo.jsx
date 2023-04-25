@@ -7,9 +7,7 @@ const urls = require("../src/urls")
 const SearchCodigo = (props) => {
     const [dataSource, setDataSource] = useState([])
     const [loading, setLoading] = useState(false)
-    const onkeyUp =() => {
 
-    }
     const onSearch = (value) => {
         setLoading(true)
         fetch(urls.get.search_codigos + value)
