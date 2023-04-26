@@ -17,7 +17,7 @@ export default function Login(){
                 alert(setItem("token",res.data.token))
 
                 if (typeof window !== "undefined") {
-                        window.location.replace(urls.public_urls.lista_subgrupos)
+                        window.location.replace(urls.public_urls.dashboard_deposito)
                   }
                 
                 

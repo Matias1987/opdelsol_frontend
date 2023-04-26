@@ -27,7 +27,7 @@ export function middleware(request: NextRequest) {
     //console.log("REQUEST: " +JSON.stringify(request))
     //request.nextUrl.pathname = "/v1/usuario/login/login";
     //return NextResponse.redirect(request.nextUrl);
-    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3QiLCJpYXQiOjE2ODI0NjEwMjksImV4cCI6MTY4MjQ2NDYyOX0.Unf5zmxNVQCJVD4qxSAcdcmsrs1s-q4h7Q0e2dYHHEo";
+    /*const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3QiLCJpYXQiOjE2ODI0NjEwMjksImV4cCI6MTY4MjQ2NDYyOX0.Unf5zmxNVQCJVD4qxSAcdcmsrs1s-q4h7Q0e2dYHHEo";
     //check if user loged
     fetch("http://localhost:3000/api/v1/usuarios/l/checklogin/"+token)
     .then(response=>response.json())
@@ -36,13 +36,15 @@ export function middleware(request: NextRequest) {
         console.log("user is loggedIn!!!!")
         return NextResponse.next()
       }else{
-        console.log("user is not logged")
         request.nextUrl.pathname = "/v1/usuario/login/login";
-        redirect("/")
+
+        console.log("user is not logged redir: "+request.nextUrl)
+        
+        //redirect("/")
         return NextResponse.redirect(request.nextUrl);
       }
     }
-    )
+    )*/
     /*console.log("middleware")
     const { getItem } = useStorage();
     console.log(getItem("token",'session'));

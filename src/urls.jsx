@@ -7,7 +7,10 @@ const public_urls = {
     dashboard_caja : local_base_url + "caja/",
     dashboard : local_base_url ,
     editar_multiplicadores : local_base_url + "deposito/stock/modificar_precios_categoria/",
-    lista_subgrupos: local_base_url + "deposito/stock/listados/lista_subgrupos/"
+    lista_subgrupos: local_base_url + "deposito/stock/listados/lista_subgrupos/",
+    login: local_base_url + "usuario/login/login",
+    nuevo_envio: local_base_url + "deposito/envio/nuevo_envio",
+    lista_stock: local_base_url + "deposito/stock/listados/lista_stock",
 
 }
 

@@ -17,7 +17,11 @@ export default function TestMenu(){
           mode="inline"
         >
           
-          <Menu.Item>Stock</Menu.Item>
+          <Menu.Item key="100"><Link href={get_url_to("deposito/")}><HomeOutlined />&nbsp;Inicio  </Link></Menu.Item>
+          <Menu.Item key={"31"}><Link href={get_url_to("deposito/stock/listados/lista_stock")}><BoxPlotOutlined />&nbsp;Lista Stock</Link></Menu.Item>
+          <Menu.Item key="27"><Link href={get_url_to("deposito/stock/modificar_precios_categoria")}><EditOutlined />&nbsp; Editar Precios Por Categor&iacute;a</Link></Menu.Item>
+          <Menu.Item key="13"><Link href={get_url_to("deposito/imprimir_codigos")}><PrinterOutlined />&nbsp; Imprimir C&oacute;digos</Link></Menu.Item>
+          
           <SubMenu key="sub1" title={<span><RocketOutlined /><span>Envios</span></span>}>
             <Menu.Item key="1"><Link href={get_url_to("deposito/envio/nuevo_envio")}><SnippetsOutlined />&nbsp;Nuevo Envio  </Link></Menu.Item>
             <Menu.Item key="3"><Link href={get_url_to("deposito/envio/lista_envios")}><BarsOutlined />&nbsp;Lista de Envios  </Link></Menu.Item>
@@ -62,8 +66,6 @@ export default function TestMenu(){
               </Menu.Item>
             </SubMenu>
           </SubMenu>
-          <Menu.Item key="13"><Link href={get_url_to("deposito/imprimir_codigos")}><PrinterOutlined />&nbsp; Imprimir C&oacute;digos</Link></Menu.Item>
-          <Menu.Item key="27"><Link href={get_url_to("deposito/stock/modificar_precios_categoria")}><EditOutlined />&nbsp; Editar Precios Por Categor&iacute;a</Link></Menu.Item>
           <SubMenu key="sub4" title={<span><FileTextOutlined /><span>Informes</span></span>}>
             <Menu.Item key="9"><FileTextOutlined /> Informe Cantidad</Menu.Item>
           </SubMenu>
