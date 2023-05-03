@@ -13,7 +13,6 @@ const EnvioForm = (props) => {
     const [tableLoading,setTableLoading] = useState(false);
     const [selectedCodigoId, setSelectedCodigoId] = useState(-1);
     const [form] = Form.useForm();
-    //const url_for_stock_details = "http://localhost:3000/api/v1/stock/detalle/";
     const sucursal_id = 1; //THIS VALUE HAS TO BE DYNAMIC!!
 
 

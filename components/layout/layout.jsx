@@ -5,7 +5,7 @@ import TestMenu from './menu_test';
 import { EyeOutlined, LogoutOutlined } from '@ant-design/icons';
 import { useEffect } from 'react'
 import useStorage from "../../useStorage";
-import { public_urls } from '@/src/urls';
+import { get, public_urls } from '@/src/urls';
 
 
 export default function MyLayout({children}){
@@ -32,7 +32,7 @@ export default function MyLayout({children}){
                 console.log("clear timeout")
                 clearTimeout(_t)
             }
-            fetch("http://localhost:3000/api/v1/usuarios/l/checklogin/"+_token)
+            fetch(get.check_login+_token)
             .then(response=>response.json())
             .then((response)=>{ 
                 if(response.data.logged=='0'){
@@ -68,11 +68,11 @@ export default function MyLayout({children}){
                         
                         const _token = getItem("token",'session')
 
-                        fetch("http://localhost:3000/api/v1/usuarios/l/logout/" + _token)
+                        fetch(get.logout + _token)
                         .then(response=>response.json())
                         .then((response)=>{
                             //alert("Usuario is logged out")
-                            window.location.replace("http://localhost:3001/v1/usuario/login/login");
+                            window.location.replace(public_urls.login);
                         })
                     }}>
                     <LogoutOutlined />Salir     

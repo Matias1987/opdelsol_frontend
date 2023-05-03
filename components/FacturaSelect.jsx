@@ -1,5 +1,6 @@
 /*first select provider and then factura */
 
+import { get } from "@/src/urls"
 import { Spin } from "antd"
 import { useState } from "react"
 
@@ -13,7 +14,7 @@ const FacturaSelect = (props) =>{
     return (
         <>
     <LoadSelect 
-        fetchurl = {"http://localhost:3000/api/v1/proveedores"}
+        fetchurl = {get.lista_proveedores}
         parsefnt = {
             (data) => {
                 return data.map((row)=>(
@@ -34,7 +35,7 @@ const FacturaSelect = (props) =>{
     />
     { idProveedor<0 ? <Spin/> :
         (<LoadSelect 
-        fetchurl = {"http://localhost:3000/api/v1/facturas"}
+        fetchurl = {get.lista_facturas}
         parsefnt = {
             (data)=>{
                 return data.map((row)=>(

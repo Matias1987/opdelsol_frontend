@@ -1,4 +1,5 @@
 import CustomTable from "@/components/forms/CustomTable";
+import { get } from "@/src/urls";
 import { Button } from "antd";
 
 export default function ListaCodigos(){
@@ -6,7 +7,7 @@ export default function ListaCodigos(){
         <>
             <h1>Lista C&oacute;digos</h1>
             <CustomTable 
-                fetchUrl={"http://localhost:3000/api/v1/codigos"}
+                fetchUrl={get.lista_codigos}
                 columns = {
                     [
                         {title: 'Codigo',dataIndex: 'codigo',key: 'codigo'},

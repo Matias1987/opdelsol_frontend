@@ -1,4 +1,5 @@
 import CustomTable from "@/components/forms/CustomTable";
+import { get } from "@/src/urls";
 import { Button } from "antd";
 
 export default function ListaGrupos(){
@@ -6,7 +7,7 @@ export default function ListaGrupos(){
         <>
         <h1>Lista de Grupos</h1>
         <CustomTable 
-            fetchUrl={"http://localhost:3000/api/v1/grupos"}
+            fetchUrl={get.lista_grupos}
             columns = {
                 [
                     {title: 'ID',dataIndex: 'id',key: 'id'},

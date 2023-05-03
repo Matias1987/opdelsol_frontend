@@ -14,7 +14,7 @@ export default function ListaStock(){
     //#region ONSEARCH
     const onSearch = (value) => {
         setLoading(true)
-        fetch(`http://localhost:3000/api/v1/stock/search/${idsucursal}/`+value)
+        fetch(get.buscar_stock + idsucursal + "/" + value)
         .then((response)=>response.json())
         .then((response)=>{
             /*

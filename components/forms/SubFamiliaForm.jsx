@@ -50,7 +50,7 @@ const SubFamiliaForm = (props) =>{
                     },
                 ]}
             >
-            <LoadSelect fetchurl={"http://localhost:3000/api/v1/familia/menu/options/"} callback={
+            <LoadSelect fetchurl={urls.get.familia_menu_opt} callback={
                     (id)=>{
                         setValue(id);
                     }

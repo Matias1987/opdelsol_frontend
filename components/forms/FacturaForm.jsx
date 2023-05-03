@@ -39,7 +39,7 @@ const FacturaForm = (props) => {
         >
             <Form.Item name={"proveedor_idproveedor"} label="Proveedor" rules={[{required:true}]}>
                 <LoadSelect 
-                fetchurl="http://localhost:3000/api/v1/proveedores" 
+                fetchurl={urls.get.lista_proveedores} 
                 callback={(id)=>{setValue("proveedor_idproveedor",id)}} 
                 parsefnt = {
                     (data) => {

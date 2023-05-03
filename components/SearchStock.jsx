@@ -2,10 +2,11 @@ import { Button, Table, Search, Input } from "antd";
 import { useState } from "react";
 import CustomModal from "./CustomModal";
 import ModificarCantidadForm from "./forms/deposito/modificarCantidadForm";
+import { get } from "@/src/urls";
 
 const SearchStock = (props) => {
     const id_sucursal = 1; //!!!!TEMPORARY
-    const search_url = `http://localhost:3000/api/v1/stock/search/${id_sucursal}/`;
+    const search_url = get.buscar_stock + id_sucursal+ "/";
     const [dataSource, setDataSource] = useState([])
     const [loading, setLoading] = useState(false)
     const onkeyUp =() => {

@@ -1,3 +1,5 @@
+import { get } from "@/src/urls";
+
 const { Select, Spin } = require("antd");
 const { useState, useEffect } = require("react");
 const { default: CodeSelect } = require("./CodeSelect");
@@ -6,7 +8,7 @@ const { default: CodeSelect } = require("./CodeSelect");
 const FullPathStockSelect = (props) => {
 
     const [loading, setLoading] = useState(false)
-    const stockUrl = "http://localhost:3000/api/v1/stock/porsubgrupo/"
+    const stockUrl = get.lista_stock_porsubgrupo;
 
     const loadStock = (val) => {
         setLoading(true)

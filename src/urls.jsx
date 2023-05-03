@@ -63,8 +63,18 @@ const get = {
     sucursales: remote_base_url + "sucursales/",
     search_codigos: remote_base_url + "codigos/search/",
     detalle_codigo: remote_base_url + "codigos/",
-    lista_stock: remote_base_url + "stock/"
-
+    lista_stock: remote_base_url + "stock/",
+    lista_subfamilias: remote_base_url + "subfamilia/",
+    buscar_stock: remote_base_url + "stock/search/",
+    lista_grupos: remote_base_url + "grupos/",
+    lista_codigos: remote_base_url + "codigos/",
+    check_login: remote_base_url + "usuarios/l/checklogin/",
+    logout: remote_base_url + "usuarios/l/logout/",
+    familia_menu_opt: remote_base_url + "familia/menu/options/",
+    subfamilia_menu_opt: remote_base_url + "subfamilia/optionsforfamilia/",
+    lista_proveedores: remote_base_url + "proveedores/",
+    lista_stock_porsubgrupo: remote_base_url + "stock/porsubgrupo",
+    lista_facturas: remote_base_url + "facturas/"
 }
 
 module.exports = {

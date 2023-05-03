@@ -1,3 +1,4 @@
+import { remote_base_url } from "@/src/urls";
 import { BarsOutlined, BoxPlotOutlined, CheckOutlined, DollarCircleFilled, EditOutlined, FileTextOutlined, HomeOutlined, PlusCircleOutlined, PrinterOutlined, RocketOutlined, SnippetsOutlined } from "@ant-design/icons";
 
 import { Menu } from "antd";
@@ -8,7 +9,7 @@ const SubMenu = Menu.SubMenu;
 const MenuItemGroup = Menu.ItemGroup;
 
 export default function TestMenu(){
-    const get_url_to = (_target) => "http://localhost:3001/v1/" +_target
+    const get_url_to = (_target) => remote_base_url +_target
 
     return (
         <Menu

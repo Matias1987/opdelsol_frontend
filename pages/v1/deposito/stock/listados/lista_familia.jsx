@@ -1,4 +1,5 @@
 import CustomTable from "@/components/forms/CustomTable";
+import { get } from "@/src/urls";
 import { Button } from "antd";
 
 export default function ListaFamilias(){
@@ -6,7 +7,7 @@ export default function ListaFamilias(){
         <>
         <h1>Lista de Familias</h1>
         <CustomTable 
-            fetchUrl={"http://localhost:3000/api/v1/familia/"}
+            fetchUrl={get.lista_familia}
             columns = {
                 [
                     {title: 'ID',dataIndex: 'id',key: 'id'},
