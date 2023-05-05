@@ -11,7 +11,18 @@ const ImprimirCodigos = () => {
     const [tableData,setTableData] = useState([])
     const [tableLoading,setTableLoading] = useState(false);
     const [ids , setIds] = useState(0);
-    //const [selectedCodigoId, setSelectedCodigoId] = useState(-1);
+    var _elements = [];
+    const cols = 5;
+    var prev = -1;
+
+    for(let i=0;i<tableData.length;i++){
+        var _t = parseInt(i/cols);
+        if(prev != _t){
+            _elements.push([]);
+            prev = _t;
+        }
+        _elements[_t].push(tableData[i])
+    }
 
     const ImprimirDialog = () => (
         <CustomModal 
@@ -24,14 +35,11 @@ const ImprimirCodigos = () => {
                         <div style={{flexWrap:true}}>
                         <table style={{width:"auto"}}>
                             <tbody>
-                                <tr>
-                                    {   tableData.length <1 ? <h4>No hay c&oacute;digos</h4> : 
-                                        tableData.map(r=>
-                                            
-                                            <td style={{textAlign:"center"}}>{r.codigo}<br /><Barcode value={"AR_ID_"+r.codigo_ref}  displayValue={false} width={1.5} height={20}/>&nbsp;</td>
-                                        )
-                                    }
-                                </tr>
+                                {
+                                    tableData.length <1 ? <h4>No hay c&oacute;digos</h4> : 
+                                    _elements.map(e=>(<tr>{e.map(r=><td style={{textAlign:"center"}}>{r.codigo}<br /><Barcode value={"AR_ID_"+r.codigo_ref}  displayValue={false} width={1.5} height={20}/>&nbsp;</td>)}</tr>))
+
+                                }
                             </tbody>
                         </table>
                         </div>

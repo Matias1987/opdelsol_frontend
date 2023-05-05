@@ -5,7 +5,6 @@ import { Button, Divider } from "antd";
 export default function Index(){
     return (<>
         <i>Bienvenido</i>
-        
         <Divider />
         <br />
         <Button style={{width:"130px", height:"130px", wordBreak: "break-all", margin: "1em", color:"red", borderColor:"black"}} onClick={()=>{window.location.href = public_urls.nuevo_envio}}>

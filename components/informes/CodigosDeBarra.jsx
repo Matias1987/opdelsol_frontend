@@ -27,6 +27,20 @@ const CodigosDeBarraEnvio = (props) => {
     },[])
 
     const Content = () =>{ 
+
+        /*var _elements = [];
+        const cols = 5;
+        var prev = -1;
+
+        for(let i=0;i<codigosId.length;i++){
+            var _t = parseInt(i/cols);
+            if(prev != _t){
+                _elements.push([]);
+                prev = _t;
+            }
+            _elements[_t].push(codigosId[i])
+        }*/
+
         return (<>
         <table style={{width:"auto"}}>
                         <tbody>
