@@ -67,7 +67,7 @@ const StockForm = (props) => {
                     )
                     
                 }
-                fetchurl={"http://localhost:3000/api/v1/sucursales"} callback={(id)=>{
+                fetchurl={urls.get.sucursales} callback={(id)=>{//"http://localhost:3000/api/v1/sucursales"
                     setValue("sucursal_idsucursal", id)
 
                 }} />

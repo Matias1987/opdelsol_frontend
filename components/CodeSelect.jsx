@@ -1,3 +1,4 @@
+import { get } from "@/src/urls";
 import SubGroupSelect from "./SubGroupSelect";
 import { Select, Spin } from "antd";
 import { useState } from "react";
@@ -7,7 +8,7 @@ const CodeSelect = (props) => {
     const [codigo, setCodigo] = useState(-1);
     const [codigoOptions, setCodigoOptions] = useState([]);
     const [idsubgrupo, setIdSubgrupo] = useState(-1)
-    const codigosUrl = "http://localhost:3000/api/v1/codigos/optforsubgrupo/";
+    const codigosUrl = get.codigosOptSubgrupo;// "http://localhost:3000/api/v1/codigos/optforsubgrupo/";
 
     const loadCodigos = (idSubgrupo)=>{
         setCodigosLoading(true)

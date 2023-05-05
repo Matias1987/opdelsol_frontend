@@ -7,15 +7,17 @@ familia
 
 */
 
+import { get } from "@/src/urls";
+
 const { Space, Select, Spin } = require("antd");
 const { useState, useEffect } = require("react");
 
 const SubGroupSelect = (props) => {
 
-    const familiaFetchUrl = "http://localhost:3000/api/v1/familia/menu/options/";
-    const subfamiliaFetchUrl = "http://localhost:3000/api/v1/subfamilia/optionsforfamilia/";
-    const grupoFetchUrl = "http://localhost:3000/api/v1/grupos/optionsforsubfamilia/";
-    const subGrupoFetchUrl = "http://localhost:3000/api/v1/subgrupos/optionsforgrupo/";
+    const familiaFetchUrl = get.familia_menu_opt;// "http://localhost:3000/api/v1/familia/menu/options/";
+    const subfamiliaFetchUrl = get.optionsforfamilia; //"http://localhost:3000/api/v1/subfamilia/optionsforfamilia/";
+    const grupoFetchUrl = get.optionsforsubfamilia; //"http://localhost:3000/api/v1/grupos/optionsforsubfamilia/";
+    const subGrupoFetchUrl = get.optionsforgrupo; //"http://localhost:3000/api/v1/subgrupos/optionsforgrupo/";
 
 
     const [idFamilia,setIdFamilia] = useState(-1);

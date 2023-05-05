@@ -74,7 +74,12 @@ const get = {
     subfamilia_menu_opt: remote_base_url + "subfamilia/optionsforfamilia/",
     lista_proveedores: remote_base_url + "proveedores/",
     lista_stock_porsubgrupo: remote_base_url + "stock/porsubgrupo",
-    lista_facturas: remote_base_url + "facturas/"
+    lista_facturas: remote_base_url + "facturas/",
+    optionsforfamilia: remote_base_url + "subfamilia/optionsforfamilia/",
+    optionsforsubfamilia: remote_base_url + "grupos/optionsforsubfamilia/",
+    optionsforgrupo: remote_base_url + "subgrupos/optionsforgrupo/",
+    codigosOptSubgrupo: remote_base_url + "codigos/optforsubgrupo/",
+
 }
 
 module.exports = {

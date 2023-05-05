@@ -16,7 +16,7 @@ const GrupoSelect = (props) => {
 
     const familiaFetchUrl = get.familia_menu_opt;
     const subfamiliaFetchUrl = get.subfamilia_menu_opt;
-    const grupoFetchUrl = "http://localhost:3000/api/v1/grupos/optionsforsubfamilia/";
+    const grupoFetchUrl = get.optionsforsubfamilia; //"http://localhost:3000/api/v1/grupos/optionsforsubfamilia/";
 
 
     const [idFamilia,setIdFamilia] = useState(-1);

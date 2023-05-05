@@ -1,9 +1,10 @@
+import { get } from "@/src/urls";
 import { Select, Space } from "antd";
 import { useEffect, useState } from "react";
 
 const FamiliaSelect = (props) => {
 
-    const familiaFetchUrl = "http://localhost:3000/api/v1/familia/menu/options/";
+    const familiaFetchUrl = get.familia_menu_opt; //"http://localhost:3000/api/v1/familia/menu/options/";
 
     const [idFamilia,setIdFamilia] = useState(-1);
 
