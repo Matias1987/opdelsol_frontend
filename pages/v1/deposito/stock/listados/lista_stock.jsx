@@ -7,9 +7,10 @@ import { Button, Input, Table } from "antd";
 import { useEffect, useState } from "react";
 
 export default function ListaStock(){
+    const [popupOpen, setPopupOpen] = useState(false)
     const [data,setData] = useState([])
     const [loading, setLoading] = useState(true)
-    const [reload, setReload] = useState(false)
+    const [valueChanged, setValueChanged] = useState(false)
     const idsucursal = "1";//temporary
     //#region ONSEARCH
     const onSearch = (value) => {
@@ -40,7 +41,7 @@ export default function ListaStock(){
     
     //THIS IS NEW
     useEffect(()=>{
-        setReload(false)
+        //setReload(false)
         setLoading(true)
         fetch(get.lista_stock+idsucursal)
         .then(response=>response.json())
@@ -59,7 +60,7 @@ export default function ListaStock(){
             setLoading(false)
         })
         .catch(err=>{console.error(err)})
-    },[reload])
+    },[valueChanged])
 
     const columns = [
         {title: 'Codigo',dataIndex: 'codigo',key: 'codigo'},
@@ -73,9 +74,16 @@ export default function ListaStock(){
                          <CustomModal
                          openButtonText={"Modificar Cantidad"}
                          title={"Modificar Cantidad"}
+                         _open = {popupOpen}
                          onOk={()=>{
-                            setReload(true)
-                         }}> 
+                            setPopupOpen(false)
+                            setValueChanged(!valueChanged)
+                         }}
+                         onCancel={()=>{
+                            setValueChanged(!valueChanged)
+                         }}
+                         > 
+                         
 
                          <ModificarCantidadForm                                       
                          idcodigo={idcodigo}
@@ -92,7 +100,7 @@ export default function ListaStock(){
         <>
         <h1>Lista de Stock</h1>
         <Input.Search onSearch={onSearch} />
-        <Button onClick={()=>{setReload(true)}}><ReloadOutlined /></Button>
+        <Button onClick={()=>{setValueChanged(!valueChanged)}}><ReloadOutlined /></Button>
         <Table columns={columns} dataSource={data} loading={loading} ></Table>
         </>
     )

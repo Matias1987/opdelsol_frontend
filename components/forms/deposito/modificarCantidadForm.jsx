@@ -1,3 +1,4 @@
+import FacturaSelect from "@/components/FacturaSelect"
 import { post_method } from "@/src/helpers/post_helper"
 import { get, post } from "@/src/urls"
 
@@ -8,6 +9,7 @@ const ModificarCantidadForm = (props) => {
     const [form] = Form.useForm();
     const [loading, setLoading] = useState(true)
     const [data, setData] = useState(null)
+    const [cantidad, setCantidad] = useState(null)
     useEffect(()=>{
         setLoading(true)
         //alert(get.detalle_stock+props.idsucursal+"/"+props.idcodigo)
@@ -21,10 +23,11 @@ const ModificarCantidadForm = (props) => {
                 ruta: response.data[0].ruta,
                 cantidad: response.data[0].cantidad,
                 idcodigo: response.data[0].idcodigo,
+                
             })
             setLoading(false)
         })
-    },[])
+    },[cantidad])
 
     const onFinish = (values) => {
 
@@ -35,6 +38,10 @@ const ModificarCantidadForm = (props) => {
         },(r)=>{
             if(r.status == "OK"){
                 alert("OK")
+                setCantidad(values.cantidad)
+                if(props.onOk !== typeof 'undefined'){
+                    props.onOk();
+                }
             }
         })
     }
@@ -42,6 +49,10 @@ const ModificarCantidadForm = (props) => {
 
     const setCantidadValue = (value)=>{
         form.setFieldsValue({cantidad:value})
+    }
+
+    const setFacturaValue = (value) => {
+        form.setFieldValue({factura:value});
     }
 
     const Content = _ => 
@@ -54,9 +65,15 @@ const ModificarCantidadForm = (props) => {
                 onFinishFailed={onFinishFailed}
                 form={form}
             >
+                <Form.Item label={"Factura (Opcional)"} name={"factura"} value="">
+                    <FacturaSelect callback={(v)=>{
+                        setFacturaValue(v)
+                    }}/>
+                </Form.Item>
                 <Form.Item
                 name={"cantidad"}
                 label={"Cantidad"}
+                required={true}
                 value={0}
                 >
                     <InputNumber step={1} value="0" onChange={(v)=>{setCantidadValue(v)}} />

@@ -46,7 +46,7 @@ export default function MyLayout({children}){
 
             })
             
-        }, 3000);
+        }, 2000);
     }
   useEffect(()=>{
     console.log("run user effect")

@@ -136,8 +136,7 @@ const EnvioForm = (props) => {
             title="Agregar Producto"
             onOk={()=>{}}
             >
-                <SearchStock callback={(id)=>{load_details_for_selected_id(id)}
-            } />
+                <SearchStock callback={(id)=>{load_details_for_selected_id(id)}} />
             </CustomModal>
             &nbsp;
             <CustomModal 
@@ -190,7 +189,9 @@ const EnvioForm = (props) => {
                         loading={tableLoading}
                             columns = {[
                                 {title:"ruta", dataIndex: "ruta",},
-                                {title:"codigo", dataIndex: "codigo", },
+                                {title:"codigo", dataIndex: "codigo", render: (codigo)=>(
+                                    <span style={{color:"red"}}>{codigo}</span>
+                                ) },
                                 {
                                     title:"cantidad", 
                                     dataIndex: "obj",  

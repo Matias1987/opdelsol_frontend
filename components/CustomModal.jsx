@@ -11,6 +11,9 @@ export default function CustomModal(props,{children}){
 
   const handleCancel = () => {
     console.log('Clicked cancel button');
+    /*if(props.onCancel !== typeof 'undefined'){
+      onCancel();
+    }*/
     setOpen(false);
   };
   return (

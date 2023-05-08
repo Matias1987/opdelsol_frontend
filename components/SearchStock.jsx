@@ -20,6 +20,7 @@ const SearchStock = (props) => {
             /*
             this returns rows results from search
             */
+           //controlar con datos existentes
             setDataSource(
                 response.data.map(
                     (row) => ({
@@ -52,22 +53,8 @@ const SearchStock = (props) => {
                         (_,{idcodigo})=>{
                             return (
                             <>
-                            <Button onClick={()=>{props.callback(idcodigo)}}>Seleccionar</Button>&nbsp;
-                            <CustomModal
-                                     openButtonText={"Mod. Cantidad"}
-                                     title={"Modificar Cantidad"}
-                                     onOk={()=>{
-                                        location.reload()
-                                     }}> 
-
-                                     <ModificarCantidadForm                                       
-                                     idcodigo={idcodigo}
-                                     idsucursal={id_sucursal} 
-                                     />
-                                     
-                            </CustomModal>
+                                <Button onClick={()=>{props.callback(idcodigo)}}>Seleccionar</Button>&nbsp;
                             </>
-                            
                             )
                         }
                     
