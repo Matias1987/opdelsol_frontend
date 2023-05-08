@@ -9,6 +9,7 @@ const CodigosDeBarraEnvio = (props) => {
     useEffect(()=>{
         setLoading(true);
         //get barcodes!
+        
         fetch(urls.get.lista_envio_stock+props.idenvio)
         .then(response=>response.json())
         .then((response)=>{
@@ -16,30 +17,41 @@ const CodigosDeBarraEnvio = (props) => {
                 response.data.map(
                     e=>(
                         {
-                            idcodigo: "AR_ID_"+e.idcodigo,
-                            codigo: e.codigo
+                            idcodigo: e.idcodigo,
+                            codigo: e.codigo,
+                            cantidad: e.cantidad,
                         }
                     )
                 )
             )
             setLoading(false)
+            //alert(JSON.stringify(response.data))
         })
     },[])
 
     const Content = () =>{ 
+       
+        var _temp = Array();
+        codigosId.forEach(r=>{
+            for(let i=0;i<r.cantidad;i++){
+                _temp.push(
+                    {codigo: r.codigo, idcodigo: r.idcodigo}
+                )
+            }
+        })
 
-        /*var _elements = [];
+        var _elements = [];
         const cols = 5;
         var prev = -1;
 
-        for(let i=0;i<codigosId.length;i++){
+        for(let i=0;i<_temp.length;i++){
             var _t = parseInt(i/cols);
             if(prev != _t){
                 _elements.push([]);
                 prev = _t;
             }
-            _elements[_t].push(codigosId[i])
-        }*/
+            _elements[_t].push(_temp[i])
+        }
 
         return (<>
         <table style={{width:"auto"}}>
@@ -47,20 +59,7 @@ const CodigosDeBarraEnvio = (props) => {
                         <tr>
         {
             
-            codigosId.map((c)=>(
-                <>
-                    
-                        
-                            <td style={{textAlign:"center"}}>
-                                {c.codigo}
-                                <br />
-                                <Barcode value={c.idcodigo} displayValue={false} width={1.5} height={20}/>
-                            </td>
-                        
-                        
-                </>
-            )
-            )
+            _elements.map(e=>(<tr>{e.map(r=><td style={{textAlign:"center"}}>{r.codigo}<br /><Barcode value={"AR_ID_"+r.idcodigo}  displayValue={false} width={1.5} height={20}/>&nbsp;</td>)}</tr>))
         }
         </tr>
             </tbody>

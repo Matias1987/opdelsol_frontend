@@ -2,6 +2,7 @@ import { Button, Table, Search, Input } from "antd";
 import { useState } from "react";
 import CustomModal from "./CustomModal";
 import ModificarCantidadForm from "./forms/deposito/modificarCantidadForm";
+import { PlusCircleFilled } from "@ant-design/icons";
 const urls = require("../src/urls")
 
 const SearchCodigo = (props) => {
@@ -48,7 +49,7 @@ const SearchCodigo = (props) => {
                         (_,{idcodigo})=>{
                             return (
                                 <>
-                                    <Button onClick={()=>{props.callback(idcodigo)}}>Seleccionar</Button>
+                                    <Button onClick={()=>{props.callback(idcodigo)}}><PlusCircleFilled /></Button>
                                     
                                 </>
                             )

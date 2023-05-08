@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Layout, Menu, Icon, Button, Image } from 'antd';
 import SideMenu from './sidemenu';
 import TestMenu from './menu_test';
-import { EyeOutlined, LogoutOutlined } from '@ant-design/icons';
+import { EyeOutlined, LogoutOutlined, MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 import { useEffect } from 'react'
 import useStorage from "../../useStorage";
 import { get, public_urls } from '@/src/urls';
@@ -10,6 +10,7 @@ import { get, public_urls } from '@/src/urls';
 
 export default function MyLayout({children}){
     const { Header, Sider, Content } = Layout;
+    const [collapsed, setCollapsed] = useState(false);
     const toggle = () => {}
     //return (<>Hello</>)
 
@@ -55,7 +56,7 @@ export default function MyLayout({children}){
     
     return (
             <Layout className='layout' style={{height:"100hv"}}>
-                <Sider width={"auto"} style={{padding:"20px",  overflowY:"scroll"}}>
+                <Sider width={"auto"} style={{padding:"20px",  overflowY:"scroll"}} collapsed={collapsed}>
                     <div className="logo" style={{padding:".45em", textAlign:"center" }}>
                         <span style={{color:"rgba(255,255,255,1)"}}><b>Optica del Sol</b>&nbsp;&nbsp;</span>
                     </div>
@@ -64,6 +65,10 @@ export default function MyLayout({children}){
                 </Sider>
                 <Layout>
                     <Header style={{ background: '#fff', padding: 0 }}>
+                    {/*React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
+                    className: 'trigger',
+                    onClick: () => setCollapsed(!collapsed),
+                    })*/}
                     <Button type="link" onClick={()=>{
                         
                         const _token = getItem("token",'session')

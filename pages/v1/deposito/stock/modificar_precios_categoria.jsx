@@ -4,7 +4,7 @@ import SubFamiliaSelect from "@/components/SubFamiliaSelect";
 import SubGroupSelect from "@/components/SubGroupSelect";
 import { get, post, public_urls } from "@/src/urls";
 import { Button, Divider, Form, Input, InputNumber, Select } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 const post_helper = require("../../../../src/helpers/post_helper")
 
 export default function ModificarPreciosCategoria(props){
@@ -12,6 +12,14 @@ export default function ModificarPreciosCategoria(props){
     const [form] = Form.useForm();
     
     const onFinish = (values) => {
+        if(values.fkcategoria === typeof 'undefined'){
+            alert('No seleccionó categoria')
+            return;
+        }
+        if(values.fkcategoria == null){
+            alert('No seleccionó categoria')
+            return;
+        }
         alert(JSON.stringify(values))
         const data = {
             categoria:values.categoria,
@@ -44,6 +52,8 @@ export default function ModificarPreciosCategoria(props){
         }
         
     }
+
+    useEffect(()=>{setValue("multiplicador", '1.00')},[])
 
     const show_select = () => {
 
@@ -128,7 +138,7 @@ export default function ModificarPreciosCategoria(props){
                 style={{width:100}} 
                 step={.01} 
                 min={1} 
-                value={1}
+                value={1.00}
                 max={999999}
                 onChange={(val)=>{
                     setValue("multiplicador", val)

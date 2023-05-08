@@ -2,6 +2,7 @@ import CustomModal from "@/components/CustomModal";
 import PrinterWrapper from "@/components/PrinterWrapper";
 import SearchCodigo from "@/components/SearchCodigo";
 import SearchStock from "@/components/SearchStock";
+import { CloseCircleOutlined } from "@ant-design/icons";
 import { Button, Col, Divider, Form, InputNumber, Row, Table } from "antd";
 import { useEffect, useState } from "react";
 import Barcode from "react-barcode";
@@ -106,7 +107,7 @@ const ImprimirCodigos = () => {
                                 title:"Acciones", 
                                 dataIndex: "ref_id",
                                 render: (_,{ref_id})=>(
-                                    <Button  onClick={()=>{remove_row(ref_id)}}>X</Button>)
+                                    <Button  onClick={()=>{remove_row(ref_id)}} danger={true}><CloseCircleOutlined/></Button>)
                                 ,
                             },
                         ]}

@@ -33,6 +33,21 @@ const EnvioForm = (props) => {
 
     const onFinish = (values) => {
 
+        if(values.sucursal_idsucursal === typeof 'undefined'){
+            alert('Sucursal no seleccionada')
+            return
+        }
+
+        if(values.sucursal_idsucursal == null){
+            alert('Sucursal no seleccionada')
+            return
+        }
+
+        if(tableData.length<1){
+            alert("No ha cargado elementos");
+            return;
+        }
+
         const __values = {
             sucursal_idsucursal: values.sucursal_idsucursal,
             usuario_idusuario: 1,
