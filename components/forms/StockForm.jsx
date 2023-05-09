@@ -1,3 +1,4 @@
+import globals from "@/src/globals";
 import CodeSelect from "../CodeSelect";
 import FacturaSelect from "../FacturaSelect";
 import LoadSelect from "../LoadSelect";
@@ -11,7 +12,33 @@ const post_helper = require("../../src/helpers/post_helper")
 const StockForm = (props) => {
     const [form] = Form.useForm()
 
-    const onFinish = (values) => {
+    const onFinish = (_values) => {
+
+        if(typeof _values.codigo_idcodigo === 'undefined'){
+            alert("completar campos obligatorios (*)");
+            return;
+        }
+        if(typeof _values.cantidad === 'undefined'){
+            alert("completar campos obligatorios (*)");
+            return;
+        }
+
+        if(_values.cantidad == null || _values.cantidad == ""){
+            alert("completar campos obligatorios (*)");
+            return;
+        }
+        if(_values.codigo_idcodigo == null || _values.codigo_idcodigo == ""){
+            alert("completar campos obligatorios (*)");
+            return;
+        }
+
+
+        const values = {
+            factura_idfactura: _values.factura_idfactura,
+            codigo_idcodigo: _values.codigo_idcodigo,
+            cantidad: _values.cantidad,
+            sucursal_idsucursal: globals.obtenerSucursal(),
+        }
         switch(props.action){
             case 'ADD': post_helper.post_method(urls.post.insert.stock,values,(res)=>{
               if(res.status == "OK"){alert("Datos Guardados")}else{alert("Error.")}});
@@ -27,11 +54,7 @@ const StockForm = (props) => {
     };
 
     const setValue = (_index, _id) => {
-        //form.setFieldsValue({_index:_id})
         switch(_index){
-            case "sucursal_idsucursal":
-                form.setFieldsValue({sucursal_idsucursal:_id})
-                break;
             case "factura_idfactura":
                 form.setFieldsValue({factura_idfactura:_id})
                 break;
@@ -49,33 +72,11 @@ const StockForm = (props) => {
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
         >
-            <Form.Item
-            name={"sucursal_idsucursal"}
-            label={"Sucursal"}
-            rules={[{required:true}]}
             
-            >
-                <LoadSelect 
-                parsefnt = {
-                    (data) =>(
-                        data.map((row)=>(
-                            {
-                                "value": row.idsucursal,
-                                "label": row.nombre
-                            }
-                        ))
-                    )
-                    
-                }
-                fetchurl={urls.get.sucursales} callback={(id)=>{//"http://localhost:3000/api/v1/sucursales"
-                    setValue("sucursal_idsucursal", id)
-
-                }} />
-            </Form.Item>
 
             <Form.Item
             name={"factura_idfactura"}
-            label={"Factura"}
+            label={"Factura (Opcional)"}
             
             >
                 <FacturaSelect 
@@ -106,8 +107,9 @@ const StockForm = (props) => {
             name={"cantidad"}
             label={"Cantidad"}
             rules={[{required:true}]}
+            style={{width: "200px"}}
             >
-                <Input />
+                <Input type="number" min={0} step={1}/>
             </Form.Item>
             <Form.Item>
                 <Button type="primary" htmlType="submit">Guardar</Button>

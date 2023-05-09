@@ -6,6 +6,8 @@ import { EyeOutlined, LogoutOutlined, MenuFoldOutlined, MenuUnfoldOutlined } fro
 import { useEffect } from 'react'
 import useStorage from "../../useStorage";
 import { get, public_urls } from '@/src/urls';
+import SucursalLabel from '../sucursal_label';
+import globals from '@/src/globals';
 
 
 export default function MyLayout({children}){
@@ -54,6 +56,7 @@ export default function MyLayout({children}){
   },[])
     
     
+    
     return (
             <Layout className='layout' style={{height:"100hv"}}>
                 <Sider width={"auto"} style={{padding:"20px",  overflowY:"scroll"}} collapsed={collapsed}>
@@ -65,6 +68,11 @@ export default function MyLayout({children}){
                 </Sider>
                 <Layout>
                     <Header style={{ background: '#fff', padding: 0 }}>
+                    <span style={{padding:'1em'}}>
+                        <i>
+                            Sucursal:&nbsp;&nbsp;<SucursalLabel idsucursal={globals.obtenerSucursal()} />
+                        </i>
+                    </span>
                     {/*React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
                     className: 'trigger',
                     onClick: () => setCollapsed(!collapsed),
@@ -76,10 +84,10 @@ export default function MyLayout({children}){
                         fetch(get.logout + _token)
                         .then(response=>response.json())
                         .then((response)=>{
-                            //alert("Usuario is logged out")
                             window.location.replace(public_urls.login);
                         })
                     }}>
+                        
                     <LogoutOutlined />Salir     
                     </Button>
                     </Header>

@@ -3,9 +3,10 @@ import { useState } from "react";
 import CustomModal from "./CustomModal";
 import ModificarCantidadForm from "./forms/deposito/modificarCantidadForm";
 import { get } from "@/src/urls";
+import globals from "@/src/globals";
 
 const SearchStock = (props) => {
-    const id_sucursal = 1; //!!!!TEMPORARY
+    const id_sucursal = globals.obtenerSucursal();
     const search_url = get.buscar_stock + id_sucursal+ "/";
     const [dataSource, setDataSource] = useState([])
     const [loading, setLoading] = useState(false)

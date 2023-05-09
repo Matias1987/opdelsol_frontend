@@ -1,6 +1,7 @@
 import CustomModal from "@/components/CustomModal";
 import CustomTable from "@/components/forms/CustomTable";
 import ModificarCantidadForm from "@/components/forms/deposito/modificarCantidadForm";
+import globals from "@/src/globals";
 import { get } from "@/src/urls";
 import { ReloadOutlined } from "@ant-design/icons";
 import { Button, Input, Table } from "antd";
@@ -11,7 +12,7 @@ export default function ListaStock(){
     const [data,setData] = useState([])
     const [loading, setLoading] = useState(true)
     const [valueChanged, setValueChanged] = useState(false)
-    const idsucursal = "1";//temporary
+    const idsucursal = globals.obtenerSucursal();//temporary
     //#region ONSEARCH
     const onSearch = (value) => {
         setLoading(true)

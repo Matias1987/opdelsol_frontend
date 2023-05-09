@@ -2,7 +2,7 @@ import { Button, Modal } from "antd";
 import React from "react";
 const {  useState  } = React;;
 
-export default function CustomModal(props,{children}){
+export default function CustomModal(props){
   const [open, setOpen] = useState(false);
 
   const showModal = () => {
@@ -11,9 +11,9 @@ export default function CustomModal(props,{children}){
 
   const handleCancel = () => {
     console.log('Clicked cancel button');
-    /*if(props.onCancel !== typeof 'undefined'){
-      onCancel();
-    }*/
+    if(typeof props.onCancel !==  'undefined'){
+      props.onCancel();
+    }
     setOpen(false);
   };
   return (
@@ -28,10 +28,13 @@ export default function CustomModal(props,{children}){
         width={"80%"}
         title={props.title}
         open={open}
-        onOk={()=>{ props.onOk(); setOpen(false)}}
+        onOk={()=>{ 
+          if(typeof props.onOk !== 'undefined'){
+            props.onOk(); 
+          }
+          setOpen(false)}}
         onCancel={handleCancel}
         okText="CERRAR"
-        
       >
         {props.children}
       </Modal>

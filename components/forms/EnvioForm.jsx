@@ -5,6 +5,7 @@ import LoadSelect from "../LoadSelect";
 import { useEffect, useState } from "react";
 import SearchStock from "../SearchStock";
 import { MailOutlined } from "@ant-design/icons";
+import globals from "@/src/globals";
 const urls = require("../../src/urls")
 const post_helper = require("../../src/helpers/post_helper")
 
@@ -13,7 +14,7 @@ const EnvioForm = (props) => {
     const [tableLoading,setTableLoading] = useState(false);
     const [selectedCodigoId, setSelectedCodigoId] = useState(-1);
     const [form] = Form.useForm();
-    const sucursal_id = 1; //THIS VALUE HAS TO BE DYNAMIC!!
+    const sucursal_id = globals.obtenerSucursal();// 1; //THIS VALUE HAS TO BE DYNAMIC!!
 
 
     useEffect(()=>{

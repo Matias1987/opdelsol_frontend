@@ -1,3 +1,4 @@
+import globals from "@/src/globals";
 import { get } from "@/src/urls";
 
 const { Select, Spin } = require("antd");
@@ -8,7 +9,7 @@ const { default: CodeSelect } = require("./CodeSelect");
 const FullPathStockSelect = (props) => {
 
     const [loading, setLoading] = useState(false)
-    const stockUrl = get.lista_stock_porsubgrupo;
+    const stockUrl = get.lista_stock_porsubgrupo + globals.obtenerSucursal() + "/";
 
     const loadStock = (val) => {
         setLoading(true)

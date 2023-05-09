@@ -81,6 +81,7 @@ const get = {
     optionsforsubfamilia: remote_base_url + "grupos/optionsforsubfamilia/",
     optionsforgrupo: remote_base_url + "subgrupos/optionsforgrupo/",
     codigosOptSubgrupo: remote_base_url + "codigos/optforsubgrupo/",
+    sucursal_details: remote_base_url + "sucursales/",
 
 }
 
