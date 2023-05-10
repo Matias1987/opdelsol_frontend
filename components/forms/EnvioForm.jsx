@@ -188,45 +188,45 @@ const EnvioForm = (props) => {
                     <Form.Item name={"items"} label={"Items"}>
                         <Table
                         loading={tableLoading}
-                            columns = {[
-                                {title:"ruta", dataIndex: "ruta",},
-                                {title:"codigo", dataIndex: "codigo", render: (codigo)=>(
-                                    <span style={{color:"red"}}>{codigo}</span>
-                                ) },
-                                {
-                                    title:"cantidad", 
-                                    dataIndex: "obj",  
-                                    value: 1,
-                                    render: (_,{obj})=>(
-                                        <InputNumber min={1} max={obj.max} defaultValue={0} onChange={(val)=>{
-                                            //alert(JSON.stringify(tableData))
-                                            /*tableData.forEach((e)=>{
-                                                if(e.key == obj.key){
-                                                    alert(val)
-                                                    e.cantidad = val;
-                                                }
-                                            })*/
-                                            for(let i=0;i<tableData.length;i++){
-                                                if(tableData[i].key==obj.key){
-                                                    tableData[i].cantidad = val;
-                                                    break;
-                                                }
+                        columns = {[
+                            {title:"ruta", dataIndex: "ruta",},
+                            {title:"codigo", dataIndex: "codigo", render: (codigo)=>(
+                                <span style={{color:"red"}}>{codigo}</span>
+                            ) },
+                            {
+                                title:"cantidad", 
+                                dataIndex: "obj",  
+                                value: 1,
+                                render: (_,{obj})=>(
+                                    <InputNumber min={1} max={obj.max} defaultValue={0} onChange={(val)=>{
+                                        //alert(JSON.stringify(tableData))
+                                        /*tableData.forEach((e)=>{
+                                            if(e.key == obj.key){
+                                                alert(val)
+                                                e.cantidad = val;
                                             }
-                                            //alert(JSON.stringify(tableData))
+                                        })*/
+                                        for(let i=0;i<tableData.length;i++){
+                                            if(tableData[i].key==obj.key){
+                                                tableData[i].cantidad = val;
+                                                break;
+                                            }
+                                        }
+                                        //alert(JSON.stringify(tableData))
 
-                                            setTableData(tableData)
-                                        }} />
-                                    )
-                                },
-                                {
-                                    title:"Acciones", 
-                                    dataIndex: "ref_id",
-                                    render: (_,{ref_id})=>(
-                                        <Button  onClick={()=>{remove_row(ref_id)}}>X</Button>)
-                                    ,
-                                },
-                            ]}
-                            dataSource={tableData}
+                                        setTableData(tableData)
+                                    }} />
+                                )
+                            },
+                            {
+                                title:"Acciones", 
+                                dataIndex: "ref_id",
+                                render: (_,{ref_id})=>(
+                                    <Button  onClick={()=>{remove_row(ref_id)}}>X</Button>)
+                                ,
+                            },
+                        ]}
+                        dataSource={tableData}
                         />
                 </Form.Item>
                 <Form.Item>
