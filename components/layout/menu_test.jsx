@@ -1,5 +1,5 @@
 import { local_base_url, remote_base_url } from "@/src/urls";
-import { BarsOutlined, BoxPlotOutlined, CheckOutlined, DollarCircleFilled, EditOutlined, FileTextOutlined, HomeOutlined, PlusCircleOutlined, PrinterOutlined, RocketOutlined, SnippetsOutlined } from "@ant-design/icons";
+import { BarsOutlined, BoxPlotOutlined, CheckOutlined, DollarCircleFilled, EditOutlined, FileTextOutlined, HomeOutlined, PlusCircleOutlined, PrinterOutlined, RocketOutlined, SnippetsOutlined, UserOutlined } from "@ant-design/icons";
 
 import { Menu } from "antd";
 import Link from "next/link"
@@ -28,6 +28,10 @@ export default function TestMenu(){
             <Menu.Item key="3"><Link href={get_url_to("deposito/envio/lista_envios")}><BarsOutlined />&nbsp;Lista de Envios  </Link></Menu.Item>
           </SubMenu>
           <SubMenu key="sub2" title={<span><BoxPlotOutlined /><span>Stock</span></span>}>
+            <Menu.Item key="32" ><PlusCircleOutlined /> 
+              <Link href={get_url_to("deposito/stock/agregar_stock_lote")}>&nbsp;Agregar Lote Stock</Link>
+            </Menu.Item>
+            <Menu.Divider></Menu.Divider>
             <Menu.Item key="15" ><PlusCircleOutlined /> 
               <Link href={get_url_to("deposito/stock/agregar_familia")}>&nbsp;Agregar Familias</Link>
             </Menu.Item>
@@ -67,7 +71,23 @@ export default function TestMenu(){
               </Menu.Item>
             </SubMenu>
           </SubMenu>
-          <SubMenu key="sub4" title={<span><FileTextOutlined /><span>Informes</span></span>}>
+          <SubMenu key="sub4" title={<span><UserOutlined /><span>Proveedores</span></span>}>
+            <Menu.Item key="29"><FileTextOutlined />
+             <Link href={get_url_to("deposito/proveedores/lista_proveedores")}>Lista</Link>
+            </Menu.Item>
+            <Menu.Item key="28"><PlusCircleOutlined />
+             <Link href={get_url_to("deposito/proveedores/agregar_proveedor")}>Agregar Proveedor</Link>
+            </Menu.Item>
+          </SubMenu>
+          <SubMenu key="sub6" title={<span><FileTextOutlined /><span>Facturas</span></span>}>
+            <Menu.Item key="30"><FileTextOutlined />
+             <Link href={get_url_to("deposito/facturas/lista_facturas")}>Lista</Link>
+            </Menu.Item>
+            <Menu.Item key="31"><PlusCircleOutlined />
+             <Link href={get_url_to("deposito/facturas/agregar_factura")}>Agregar Factura</Link>
+            </Menu.Item>
+          </SubMenu>
+          <SubMenu key="sub5" title={<span><FileTextOutlined /><span>Informes</span></span>}>
             <Menu.Item key="9"><FileTextOutlined /> Informe Cantidad</Menu.Item>
           </SubMenu>
         </Menu>

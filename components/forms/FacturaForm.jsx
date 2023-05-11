@@ -9,7 +9,12 @@ const FacturaForm = (props) => {
     const onFinish = (values) => {
         switch(props.action){
             case 'ADD': post_helper.post_method(urls.post.insert.factura,values,(res)=>{
-              if(res.status == "OK"){alert("Datos Guardados")}else{alert("Error.")}});
+              if(res.status == "OK"){
+                alert("Datos Guardados")
+                if(typeof props.callback !== 'undefined'){
+                    props.callback()
+                }
+            }else{alert("Error.")}});
               break;
             case 'EDIT': post_helper.post_method(urls.post.update.factura,values,(res)=>{
               if(res.status == "OK"){alert("Cambios Guardados")}else{alert("Error.")}});

@@ -31,7 +31,7 @@ const ListaEnvios = (props) => {
                             </PrinterWrapper>
                         </CustomModal>
                          &nbsp;
-                        <Button  size="small" type="primary"  onClick={()=>{}}>Editar</Button>
+                        <Button  size="small" danger   onClick={()=>{}}>Anular</Button>
                     </>    )                
                 }
             

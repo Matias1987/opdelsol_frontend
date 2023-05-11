@@ -11,6 +11,8 @@ const PopUpAgregarStockLoteForm = (props) => {
         setOpen(false)
     }
    }
+
+   //alert(JSON.stringify(props))
    return (
    <>
     <Button type="primary"  size="small"  onClick={()=>{setOpen(true)}}>
@@ -32,20 +34,21 @@ const PopUpAgregarStockLoteForm = (props) => {
         okText="CANCELAR"
       >
         <Form onFinish={onFinish}>
-        <Form.Item label={"Codigo"} name={"codigo"}>
-        {
-            props.edit ? <><Input value={props.values.codigo} disabled /></> : <Input />
-        }
-        </Form.Item>
-        <Form.Item label={"Canditad"} name={"cantidad"}>
-            <InputNumber step={1} value={ props.edit ? props.values.cantidad : 0} />
-        </Form.Item>
-        <Form.Item label={"Costo"} name={"costo"}>
-            <InputNumber step={.01} value={props.edit ? props.values.costo : 0} />
-        </Form.Item>
-        <Form.Item>
-            <Button type="primary" htmlType="submit">OK</Button>
-        </Form.Item>
+            <Form.Item label={"Codigo"} name={"codigo"}>
+            {
+                props.edit ? <><Input value={props.values.codigo} disabled /></> : <Input />
+            }
+            </Form.Item>
+            <Form.Item label={"Canditad"} name={"cantidad"} >
+                
+                {props.edit ? <><Input value={props.values.cantidad} /></> : <Input />}
+            </Form.Item>
+            <Form.Item label={"Costo"} name={"costo"} >
+                {props.edit ? <><Input value={props.values.costo} /></> : <Input />}
+            </Form.Item>
+            <Form.Item>
+                <Button type="primary" htmlType="submit">OK</Button>
+            </Form.Item>
         </Form>
 
         </Modal>

@@ -1,4 +1,6 @@
 import globals from "@/src/globals";
+import { post_method } from "@/src/helpers/post_helper";
+import { post } from "@/src/urls";
 
 const { default: FacturaSelect } = require("@/components/FacturaSelect");
 const { default: SubGroupSelect } = require("@/components/SubGroupSelect");
@@ -60,7 +62,6 @@ const AgregarStockLote = (props) => {
     ];
 
     const onFinish = (_values)=>{
-        
 
         var values = {
             codigos: Array(),
@@ -80,17 +81,21 @@ const AgregarStockLote = (props) => {
         })
 
         alert(JSON.stringify(values))
+        
+        post_method(post.insert.stock_lote,values,(res)=>{
+            alert(res)
+        })
 
     }
 
     return(
         <>
-            
+        <h1>Agregar Stock por Lote</h1>
             <Form onFinish={onFinish} form={form}>
                     <Form.Item label={"Factura"} name={"factura"}>
                         <FacturaSelect callback={(id)=>{setValue("factura", id)}} />
                     </Form.Item>
-                    <Form.Item label={"Subgrupo"} name={"subgrupo"} required={true}>
+                    <Form.Item style={{ backgroundColor: "#E1EEFF", padding:"3.5em", fontSize:".25em"}} label={"Subgrupo"} name={"subgrupo"} required={true}>
                         <SubGroupSelect callback={(id)=>{setValue("subgrupo", id)}} />
                     </Form.Item>
                 <Form.Item label={"Codigos"} name={"codigos"}>

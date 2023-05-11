@@ -1,6 +1,6 @@
 import ProveedorForm from "@/components/forms/ProveedorForm";
-const urls = require("../../../src/urls")
-const post_helper = require("../../../src/helpers/post_helper")
+const urls = require("../../../../src/urls")
+const post_helper = require("../../../../src/helpers/post_helper")
 const AgregarProveedor = () => {
     
     return(
