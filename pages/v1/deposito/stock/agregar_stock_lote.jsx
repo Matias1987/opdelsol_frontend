@@ -1,12 +1,12 @@
 import globals from "@/src/globals";
 import { post_method } from "@/src/helpers/post_helper";
-import { post } from "@/src/urls";
+import { get, post, public_urls } from "@/src/urls";
 
 const { default: FacturaSelect } = require("@/components/FacturaSelect");
 const { default: SubGroupSelect } = require("@/components/SubGroupSelect");
 const { default: PopUpAgregarStockLoteForm } = require("@/components/forms/deposito/stock_lote/popup_stock_form");
 const { DeleteOutlined } = require("@ant-design/icons");
-const { Button, Table, Form } = require("antd");
+const { Button, Table, Form, Tag } = require("antd");
 const { useState } = require("react")
 
 const AgregarStockLote = (props) => {
@@ -31,6 +31,7 @@ const AgregarStockLote = (props) => {
             codigo: values.codigo,
             cantidad: values.cantidad,
             costo: values.costo, 
+            status: "PENDING",
         }])
     }
 
@@ -58,35 +59,131 @@ const AgregarStockLote = (props) => {
                     <Button onClick={()=>{remove_row(codigo)}}><DeleteOutlined /></Button>
                 </>
             )
-        }}
+        }},
+        {
+            title:"Estado", dataIndex: "status",
+            render: (status)=>{
+                return (
+                    status == "PENDING" ? <Tag color="blue">PENDIENTE</Tag> : status == "OK" ? <Tag color="green">OK</Tag> : <Tag color="red">ERROR</Tag> 
+                )
+            }
+        }
     ];
 
     const onFinish = (_values)=>{
-
-        var values = {
-            codigos: Array(),
-            factura: _values.factura,
-            subgrupo: _values.subgrupo,
-            sucursal: globals.obtenerSucursal(),
-        }
+        var values = Array();
 
         tableData.forEach(r=>{
-            values.codigos.push(
+            values.push(
                 {
                     codigo: r.codigo,
                     cantidad: r.cantidad,
-                    costo: r.costo
+                    descripcion: "",
+                    costo: r.costo,
+                    factura: _values.factura,
+                    subgrupo_idsubgrupo: _values.subgrupo,
+                    sucursal_idsucursal: globals.obtenerSucursal(),
                 }
             )
         })
 
-        alert(JSON.stringify(values))
+        const update_status_row = (_status, _codigo) => {
+            for(let i=0;i<tableData.length;i++){
+                if(tableData[i].codigo == _codigo){
+                    tableData[i].status = _status;
+                }
+            }
+           
+            setTableData(
+                tableData.map(x=>(
+                    x.codigo == _codigo ? {...x,status: _status} : x
+                ))
+            )
+        }
         
-        post_method(post.insert.stock_lote,values,(res)=>{
-            alert(res)
-        })
+        const _save_lote = () => {
+            var curr = values.shift();
 
+            //check if code exists
+
+            post_method(post.codigo_por_codigo,{codigo: curr.codigo},(response)=>{
+                if(response.data.length>0){
+                    //alert("el codigo ya existe")
+                    /*
+                    ES POSIBLE QUE EL OBJETO STOCK NO EXISTA...
+                    */
+                    fetch(/* url para ver si existe stock */)
+                    .then(response=>response.json())
+                    .then((response)=>{
+                        if(response.data.length>0){
+                            //stock ya existe
+                            if(values.length>0){
+                                _save_lote();
+                            }
+                            else{
+                                alert("done")
+                                document.location.href = public_urls.lista_stock;
+                            }
+                        }
+                        else{
+                            ///el codigo no existe, crear stock
+                            const _data = {
+                                sucursal_idsucursal: curr.sucursal_idsucursal,
+                                codigo_idcodigo: response.data.idcodigo,//<<----?????
+                                cantidad: curr.cantidad,
+                                factura_idfactura: curr.factura,
+                            }
+                            //alert("insert stock now! " + JSON.stringify(res))
+                            post_method(post.insert.stock,_data,(__res)=>{
+                                update_status_row("OK",curr.codigo)
+                                if(values.length>0){
+                                    _save_lote()
+                                }
+                                else{
+                                    alert("Hecho")
+                                    document.location.href = public_urls.lista_stock;
+                                }
+                            })
+                        }
+                    })
+                    
+                }
+                else{
+                    //alert("el codigo NO existe")
+                    //start saving, first the code
+                    post_method(post.insert.codigo,curr,(res)=>{
+                        if(res.status == "OK")
+                        {
+                            const _data = {
+                                sucursal_idsucursal: curr.sucursal_idsucursal,
+                                codigo_idcodigo: res.data,
+                                cantidad: curr.cantidad,
+                                factura_idfactura: curr.factura,
+                            }
+                            //alert("insert stock now! " + JSON.stringify(res))
+                            //then stock object...
+                            post_method(post.insert.stock,_data,(__res)=>{
+                                update_status_row("OK",curr.codigo)
+                                if(values.length>0){
+                                    _save_lote()
+                                }
+                                else{
+                                    alert("Hecho")
+                                    document.location.href = public_urls.lista_stock;
+                                }
+                            })
+                        }
+                    })
+                }//end of if code not exists
+            })
+
+
+            
+        }
+
+        _save_lote();
     }
+
 
     return(
         <>

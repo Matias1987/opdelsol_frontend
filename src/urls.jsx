@@ -25,6 +25,7 @@ const informes = {
 
 const post = {
     login: remote_base_url + "usuarios/login/",
+    codigo_por_codigo: remote_base_url + "codigos/porcodigo/",
     insert:{
         stock_lote: remote_base_url + "stock/agregar_stock/lote/",
         familia: remote_base_url + "familia/",
@@ -57,6 +58,7 @@ const post = {
 }
 
 const get = {
+    
     lista_familia: remote_base_url + "familia/",
     lista_subgrupo: remote_base_url + "subgrupos/",
     lista_envio_stock: remote_base_url + "enviostock/",

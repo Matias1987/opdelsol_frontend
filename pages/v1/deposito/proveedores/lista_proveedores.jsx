@@ -56,25 +56,25 @@ useEffect(()=>{
 
     return (
         <>
-        <h1>Lista de Proveedores</h1>
-        <Button type="primary"  size="small"  onClick={openPopup}>Agregar Proveedor</Button>
-        <Modal
-            cancelButtonProps={{ style: { display: 'none' } }}
-            okButtonProps={{children:"CANCELAR"}}
-            
-            width={"80%"}
-            title={"Agregar Proveedor"}
-            open={open}
-            onOk={closePopup}
-            onCancel={closePopup}
-            okText="CERRAR"
-        >
-            <ProveedorForm action="ADD" callback={onOk} />
-        </Modal>
-        <Table 
-            columns={columns}
-            dataSource={tableData}
-        />
+            <h1>Lista de Proveedores</h1>
+            <Button type="primary"  size="small"  onClick={openPopup}>Agregar Proveedor</Button>
+            <Modal
+                cancelButtonProps={{ style: { display: 'none' } }}
+                okButtonProps={{children:"CANCELAR"}}
+                
+                width={"80%"}
+                title={"Agregar Proveedor"}
+                open={open}
+                onOk={closePopup}
+                onCancel={closePopup}
+                okText="CERRAR"
+            >
+                <ProveedorForm action="ADD" callback={onOk} />
+            </Modal>
+            <Table 
+                columns={columns}
+                dataSource={tableData}
+            />
         
         </>
     )
