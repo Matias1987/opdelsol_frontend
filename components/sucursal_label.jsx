@@ -13,7 +13,7 @@ const SucursalLabel = (props) => {
         })
     },[])
 
-    return data === null ? <Spin /> : (
+    return typeof data === 'undefined' || data === null ? <Spin /> : (
         <>
         <span style={
             (typeof props.style !== 'undefined' ? props.style : {color:'blue'})

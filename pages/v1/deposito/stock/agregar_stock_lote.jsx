@@ -27,6 +27,9 @@ const AgregarStockLote = (props) => {
 
     
     const agregarRow = (values) => {
+        const found = tableData.find(e=>e.codigo == values.codigo)
+        if(found) {alert("Codigo ya cargado!"); return;}
+
         setTableData([...tableData,{
             codigo: values.codigo,
             cantidad: values.cantidad,
@@ -108,14 +111,14 @@ const AgregarStockLote = (props) => {
 
             post_method(post.codigo_por_codigo,{codigo: curr.codigo},(response)=>{
                 if(response.data.length>0){
-                    //alert("el codigo ya existe")
+                    //el codigo ya existe
                     /*
                     ES POSIBLE QUE EL OBJETO STOCK NO EXISTA...
                     */
-                    fetch(/* url para ver si existe stock */)
-                    .then(response=>response.json())
-                    .then((response)=>{
-                        if(response.data.length>0){
+                    fetch(get.stock_exists + `${curr.sucursal_idsucursal}/${cur.codigo}`/* url para ver si existe stock */)
+                    .then(_response=>_response.json())
+                    .then((_response)=>{
+                        if(_response.data.length>0){
                             //stock ya existe
                             if(values.length>0){
                                 _save_lote();
@@ -126,10 +129,10 @@ const AgregarStockLote = (props) => {
                             }
                         }
                         else{
-                            ///el codigo no existe, crear stock
+                            /// crear stock
                             const _data = {
                                 sucursal_idsucursal: curr.sucursal_idsucursal,
-                                codigo_idcodigo: response.data.idcodigo,//<<----?????
+                                codigo_idcodigo: response.data[0].idcodigo,//<<----?????
                                 cantidad: curr.cantidad,
                                 factura_idfactura: curr.factura,
                             }
@@ -176,11 +179,7 @@ const AgregarStockLote = (props) => {
                     })
                 }//end of if code not exists
             })
-
-
-            
         }
-
         _save_lote();
     }
 

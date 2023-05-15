@@ -10,7 +10,7 @@ const GrupoForm = (props) => {
     const onFinish = (values) => {
         switch(props.action){
             case 'ADD': post_helper.post_method(urls.post.insert.grupo,values,(res)=>{
-              if(res.status == "OK"){alert("Datos Guardados")}else{alert("Error.")}});
+              if(res.status == "OK"){alert("Datos Guardados")}else{alert("Error: " + res.data)}});
               break;
             case 'EDIT': post_helper.post_method(urls.post.update.grupo,values,(res)=>{
               if(res.status == "OK"){alert("Cambios Guardados")}else{alert("Error.")}});

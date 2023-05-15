@@ -20,7 +20,7 @@ export default function TestMenu(){
           
           <Menu.Item key="100"><Link href={get_url_to("deposito/")}><HomeOutlined />&nbsp;Inicio  </Link></Menu.Item>
           <Menu.Item key={"31"}><Link href={get_url_to("deposito/stock/listados/lista_stock")}><BoxPlotOutlined />&nbsp;Lista Stock</Link></Menu.Item>
-          <Menu.Item key="27"><Link href={get_url_to("deposito/stock/modificar_precios_categoria")}><EditOutlined />&nbsp; Editar Precios Por Categor&iacute;a</Link></Menu.Item>
+          <Menu.Item key="27"><Link href={get_url_to("deposito/stock/modificar_precios_categoria")}><EditOutlined />&nbsp; Editar Multiplicadores Por Categor&iacute;a</Link></Menu.Item>
           <Menu.Item key="13"><Link href={get_url_to("deposito/imprimir_codigos")}><PrinterOutlined />&nbsp; Imprimir C&oacute;digos</Link></Menu.Item>
           
           <SubMenu key="sub1" title={<span><RocketOutlined /><span>Envios</span></span>}>

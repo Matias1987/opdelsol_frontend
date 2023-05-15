@@ -70,7 +70,9 @@ export default function MyLayout({children}){
                     <Header style={{ background: '#fff', padding: 0 }}>
                     <span style={{padding:'1em'}}>
                         <i>
-                            Sucursal:&nbsp;&nbsp;<SucursalLabel idsucursal={globals.obtenerSucursal()} />
+                            Sucursal:&nbsp;&nbsp;<SucursalLabel idsucursal={
+                                globals.obtenerSucursal()
+                                } />
                         </i>
                     </span>
                     {/*React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {

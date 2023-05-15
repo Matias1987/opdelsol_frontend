@@ -39,7 +39,7 @@ const PopUpAgregarStockLoteForm = (props) => {
                 props.edit ? <><Input value={props.values.codigo} disabled /></> : <Input />
             }
             </Form.Item>
-            <Form.Item label={"Canditad"} name={"cantidad"} >
+            <Form.Item label={"Cantidad"} name={"cantidad"} >
                 
                 {props.edit ? <><Input value={props.values.cantidad} /></> : <Input />}
             </Form.Item>

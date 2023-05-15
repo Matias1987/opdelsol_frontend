@@ -92,16 +92,24 @@ const StockForm = (props) => {
             label={"Codigo"}
             rules={[{required:true}]}
             >
-                <CodeSelect
-                callback={
-                    (id)=>{
-                        if(id>0){
-                            setValue("codigo_idcodigo",id)
-                        }
-                        
-                    }
-                }
+                {/*  */}
+                <LoadSelect
+                    fetchurl={urls.get.cod_sin_stock_s + globals.obtenerSucursal()}
+                    
+                    parsefnt = {(data)=>(
+                        data.map(r=>(
+                            {
+                                "value": r.idcodigo,
+                                "label": r.codigo,
+                            }
+                        ))
+                    )}
+
+                    callback={(id)=>{
+                        setValue("codigo_idcodigo",id)
+                    }}
                 />
+
             </Form.Item>
             <Form.Item
             name={"cantidad"}

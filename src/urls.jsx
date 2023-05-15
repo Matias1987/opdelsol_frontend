@@ -85,6 +85,8 @@ const get = {
     optionsforgrupo: remote_base_url + "subgrupos/optionsforgrupo/",
     codigosOptSubgrupo: remote_base_url + "codigos/optforsubgrupo/",
     sucursal_details: remote_base_url + "sucursales/",
+    cod_sin_stock_s: remote_base_url + "stock/cod_sin_stock_s/",
+    stock_exists: remote_base_url + "stock/exists/", 
 
 }
 

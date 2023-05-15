@@ -3,12 +3,12 @@ const { Input, Form, Button } = require("antd");
 const ProveedorForm = (props) => {
     const [form] = Form.useForm();
     const onFinish = (values) => {
-        alert(values)
+        //alert(values)
         props.onSubmit({
             nombre:values.nombre,
             cuit: values.cuit
         })
-        console.log('Success:', values);
+        //console.log('Success:', values);
       };
       
     const onFinishFailed = (errorInfo) => {

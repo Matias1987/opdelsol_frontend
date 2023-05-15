@@ -5,11 +5,35 @@ const post_helper = require("../../src/helpers/post_helper")
 
 const CodigoForm = (props) => {
     const [form] = Form.useForm();
+
+    const agregar = (values) => {
+        /*fetch(urls.post.codigo_por_codigo + values.codigo)
+        .then(response=>response.json())
+        .then((response)=>{
+            if(response.data.length>0){
+                
+            }
+            else{
+                alert("Codigo ya existente.");
+            }
+        })*/
+
+        post_helper.post_method(urls.post.codigo_por_codigo , {codigo:values.codigo},(resp)=>{
+            if(resp.data.length>0){
+                alert("El codigo ya existe")
+            }
+            else{
+                post_helper.post_method(urls.post.insert.codigo,values,(res)=>{
+                    if(res.status == "OK"){alert("Datos Guardados")}else{alert("Error.")}});
+            }
+        })
+        
+    }
     
     const onFinish = (values) => {
         switch(props.action){
-            case 'ADD': post_helper.post_method(urls.post.insert.codigo,values,(res)=>{
-              if(res.status == "OK"){alert("Datos Guardados")}else{alert("Error.")}});
+            case 'ADD': 
+                agregar(values)
               break;
             case 'EDIT': post_helper.post_method(urls.post.update.codigo,values,(res)=>{
               if(res.status == "OK"){alert("Cambios Guardados")}else{alert("Error.")}});

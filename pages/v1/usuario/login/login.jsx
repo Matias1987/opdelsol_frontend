@@ -46,13 +46,13 @@ export default function Login(){
             return;
 
         }
-        alert("submit..")
+        //alert("submit..")
         post_helper.post_method(urls.post.login,values,(res)=>{
-            alert(JSON.stringify(res))
+            //alert(JSON.stringify(res))
             if(res.data.loged == 1){
                 const {setItem} = useStorage();
                 console.log(res.data.token)
-                alert(setItem("token",res.data.token))
+               // alert(setItem("token",res.data.token))
                 //globals.establecerSucursal(1);
 
                 if (typeof window !== "undefined") {

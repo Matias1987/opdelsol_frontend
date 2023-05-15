@@ -5,15 +5,27 @@ const post_helper = require("../../src/helpers/post_helper")
 
 const FamiliaForm = (props) => {
 
-const onFinish = (values) => {
-  switch(props.action){
-    case 'ADD': post_helper.post_method(urls.post.insert.familia,values,(res)=>{
-      if(res.status == "OK"){alert("Datos Guardados")}else{alert("Error.")}});
-      break;
-    case 'EDIT': post_helper.post_method(urls.post.update.familia,values,(res)=>{
-      if(res.status == "OK"){alert("Cambios Guardados")}else{alert("Error.")}});
-      break;
-    };
+  const agregar = (_values) =>{
+    post_helper.post_method(urls.post.insert.familia,_values,(res)=>{
+        if(res.status == "OK"){
+          alert("Datos Guardados")
+        }else
+        {
+          alert("Error: " + res.data)
+        }
+      }
+      );
+  }
+
+  const onFinish = (values) => {
+    switch(props.action){
+      case 'ADD': 
+        agregar(values)
+        break;
+      case 'EDIT': post_helper.post_method(urls.post.update.familia,values,(res)=>{
+        if(res.status == "OK"){alert("Cambios Guardados")}else{alert("Error.")}});
+        break;
+      };
   }
 
 const onFinishFailed = (errorInfo) => {

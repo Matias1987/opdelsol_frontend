@@ -1,5 +1,6 @@
 import ProveedorForm from "@/components/forms/ProveedorForm";
-import { get } from "@/src/urls"
+import { post_method } from "@/src/helpers/post_helper";
+import { get, post } from "@/src/urls"
 import { EditOutlined } from "@ant-design/icons";
 
 const { Table, Button, Modal } = require("antd")
@@ -69,7 +70,18 @@ useEffect(()=>{
                 onCancel={closePopup}
                 okText="CERRAR"
             >
-                <ProveedorForm action="ADD" callback={onOk} />
+                <ProveedorForm action="ADD" callback={onOk} onSubmit={
+                    (data)=>{
+                        //handleSubmit(data)
+                        post_method(post.insert.proveedor,data,(res)=>{
+                            if(res.status == "OK"){
+                                alert("Proveedor Agregado")
+                                closePopup();
+                                setChange(!change)
+                            }
+                        })
+                    } }
+                    />
             </Modal>
             <Table 
                 columns={columns}

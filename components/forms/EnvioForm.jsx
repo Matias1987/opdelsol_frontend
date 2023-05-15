@@ -71,12 +71,12 @@ const EnvioForm = (props) => {
 
         console.log("testing values: " , __values)
 
-        alert("sending testing values " + JSON.stringify(__values))
-        alert(urls.post.insert.envio)
+        //alert("sending testing values " + JSON.stringify(__values))
+        //alert(urls.post.insert.envio)
         post_helper.post_method(urls.post.insert.envio,__values,(res)=>{
             if(res.status == "OK"){
                 alert("Datos Guardados")
-                alert(JSON.stringify( res.data ))
+                //alert(JSON.stringify( res.data ))
                 window.location.replace(urls.informes.envio+res.data);
             }else{alert("Error.")}});
             /*

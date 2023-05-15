@@ -12,6 +12,7 @@ const CodeSelect = (props) => {
 
     const loadCodigos = (idSubgrupo)=>{
         setCodigosLoading(true)
+        //const __url = typeof props.withoustock !== 'undefined' ? get.codigosOptSubgrupo :  
         fetch(codigosUrl + idSubgrupo)
         .then((response) => response.json())
         .then((response)=>{

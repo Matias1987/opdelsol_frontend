@@ -8,13 +8,20 @@ const SubFamiliaForm = (props) =>{
 
     const [form] = Form.useForm();
 
+    const agregar = ( _values ) => {
+        post_helper.post_method(urls.post.insert.subfamilia,_values,(res)=>{
 
+            if(res.status == "OK"){alert("Datos Guardados")}else{
+                alert("Error: " + res.data)
+            }
+        });
+    }
 
     const onFinish = (values) => {
         console.log(values)
         switch(props.action){
-            case 'ADD': post_helper.post_method(urls.post.insert.subfamilia,values,(res)=>{
-              if(res.status == "OK"){alert("Datos Guardados")}else{alert("Error.")}});
+            case 'ADD': 
+                agregar(values);
               break;
             case 'EDIT': post_helper.post_method(urls.post.update.subfamilia,values,(res)=>{
               if(res.status == "OK"){alert("Cambios Guardados")}else{alert("Error.")}});
