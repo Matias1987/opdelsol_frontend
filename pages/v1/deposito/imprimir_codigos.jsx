@@ -31,9 +31,10 @@ const ImprimirCodigos = () => {
                 title="Imprimir Códigos"
                 
                 onOk={()=>{}}
+                style={{overflowY:"scroll"}}
                 >
-                    <PrinterWrapper>
-                        <div style={{flexWrap:true}}>
+                    <PrinterWrapper >
+                        <div >
                         <table style={{width:"auto"}}>
                             <tbody>
                                 {
@@ -91,7 +92,7 @@ const ImprimirCodigos = () => {
             
             <Row >
                 
-                <Col span={8} style={{padding:"1em", height:"400px", overflowY:"scroll"}}>
+                <Col span={8} style={{padding:"1em", height:"400px", overflowY:"scroll", backgroundColor: "#E1EEFF"}}>
                 <h4>Buscar C&oacute;digo</h4>
                     <SearchCodigo callback={(idcodigo)=>{load_details_for_selected_id(idcodigo)}} />
                 </Col>

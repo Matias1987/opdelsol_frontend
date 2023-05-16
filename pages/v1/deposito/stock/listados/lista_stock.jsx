@@ -5,13 +5,14 @@ import globals from "@/src/globals";
 import { get } from "@/src/urls";
 import { ReloadOutlined } from "@ant-design/icons";
 import { Button, Input, Table } from "antd";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function ListaStock(){
     const [popupOpen, setPopupOpen] = useState(false)
     const [data,setData] = useState([])
     const [loading, setLoading] = useState(true)
     const [valueChanged, setValueChanged] = useState(false)
+    const searchRef = useRef(null)
     const idsucursal = globals.obtenerSucursal();//temporary
     //#region ONSEARCH
     const onSearch = (value) => {
@@ -27,9 +28,9 @@ export default function ListaStock(){
                     (row) => ({
                         key: row.idcodigo,
                         codigo: row.codigo,
-                        ruta: "",
+                        ruta: row.ruta,
                         //descripcion: row.descripcion,
-                        cantidad: "0",
+                        cantidad: row.cantidad,
                         idcodigo: row.idcodigo,
                         })
                 )
@@ -42,7 +43,8 @@ export default function ListaStock(){
     
     //THIS IS NEW
     useEffect(()=>{
-        //setReload(false)
+        //setReload(false)+
+        searchRef.current.value = ""; 
         setLoading(true)
         fetch(get.lista_stock+idsucursal)
         .then(response=>response.json())
@@ -96,12 +98,18 @@ export default function ListaStock(){
                 }
         }
     ]
+
+    const onReset = ()=>{
+        setValueChanged(!valueChanged); 
+        searchRef.current.value = ""; 
+        console.log(searchRef.current.value)
+    }
     
     return(
         <>
         <h1>Lista de Stock</h1>
-        <Input.Search onSearch={onSearch} />
-        <Button onClick={()=>{setValueChanged(!valueChanged)}}><ReloadOutlined /></Button>
+        <Input.Search onSearch={onSearch} ref={searchRef} />
+        <Button onClick={onReset}><ReloadOutlined /></Button>
         <Table columns={columns} dataSource={data} loading={loading} ></Table>
         </>
     )

@@ -52,7 +52,8 @@ export default function Login(){
             if(res.data.loged == 1){
                 const {setItem} = useStorage();
                 console.log(res.data.token)
-               // alert(setItem("token",res.data.token))
+                setItem("token",res.data.token)
+               
                 //globals.establecerSucursal(1);
 
                 if (typeof window !== "undefined") {

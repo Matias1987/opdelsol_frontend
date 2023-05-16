@@ -41,10 +41,10 @@ const PopUpAgregarStockLoteForm = (props) => {
             </Form.Item>
             <Form.Item label={"Cantidad"} name={"cantidad"} >
                 
-                {props.edit ? <><Input value={props.values.cantidad} /></> : <Input />}
+                {props.edit ? <><Input value={props.values.cantidad} type="number" /></> : <Input type="number" />}
             </Form.Item>
             <Form.Item label={"Costo"} name={"costo"} >
-                {props.edit ? <><Input value={props.values.costo} /></> : <Input />}
+                {props.edit ? <><Input value={props.values.costo} type="number" /></> : <Input type="number" step={".01"} />}
             </Form.Item>
             <Form.Item>
                 <Button type="primary" htmlType="submit">OK</Button>

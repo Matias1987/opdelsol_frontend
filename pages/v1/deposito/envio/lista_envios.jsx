@@ -44,7 +44,7 @@ const ListaEnvios = (props) => {
             //parse
             let _data = response.data.map((e)=>({
                 idenvio:e.idenvio,
-                sucursal_idsucursal: e.sucursal_idsucursal,
+                sucursal_idsucursal: e.sucursal,
                 cantidad_total: e.cantidad_total,
                 fecha: e.fecha,
             }))

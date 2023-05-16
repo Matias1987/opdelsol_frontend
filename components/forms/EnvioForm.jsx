@@ -1,4 +1,4 @@
-import { Button, Divider, Form, Input, InputNumber, Menu, Table } from "antd";
+import { Button, Col, Divider, Form, Input, InputNumber, Menu, Row, Table } from "antd";
 import CustomModal from "../CustomModal";
 import FullPathStockSelect from "../FullPathStockSelect";
 import LoadSelect from "../LoadSelect";
@@ -71,23 +71,13 @@ const EnvioForm = (props) => {
 
         console.log("testing values: " , __values)
 
-        //alert("sending testing values " + JSON.stringify(__values))
-        //alert(urls.post.insert.envio)
+
         post_helper.post_method(urls.post.insert.envio,__values,(res)=>{
             if(res.status == "OK"){
                 alert("Datos Guardados")
                 //alert(JSON.stringify( res.data ))
                 window.location.replace(urls.informes.envio+res.data);
             }else{alert("Error.")}});
-            /*
-        switch(props.action){
-            case 'ADD': post_helper.post_method(urls.post.insert.envio,testing_values,(res)=>{
-              if(res.status == "OK"){alert("Datos Guardados")}else{alert("Error.")}});
-              break;
-            case 'EDIT': post_helper.post_method(urls.post.update.envio,values,(res)=>{
-              if(res.status == "OK"){alert("Cambios Guardados")}else{alert("Error.")}});
-              break;
-            };*/
       };
       
       const onFinishFailed = (errorInfo) => {
@@ -132,18 +122,12 @@ const EnvioForm = (props) => {
     const buttons = () => {
         return (
         <>
+       
+            
             <CustomModal 
-            openButtonText="Agregar Producto"
-            title="Agregar Producto"
-            onOk={()=>{}}
-            >
-                <SearchStock callback={(id)=>{load_details_for_selected_id(id)}} />
-            </CustomModal>
-            &nbsp;
-            <CustomModal 
-            openButtonText="Agregar Producto Por Subgrupo" 
-            title="Agregar Producto"
-            onOk={()=>{if(selectedCodigoId!=-1){load_details_for_selected_id(selectedCodigoId)}}}
+                openButtonText="Agregar Producto Por Subgrupo" 
+                title="Agregar Producto"
+                onOk={()=>{if(selectedCodigoId!=-1){load_details_for_selected_id(selectedCodigoId)}}}
             >
                 <h3>Seleccione C&oacute;digo</h3>
                 <FullPathStockSelect
@@ -160,7 +144,11 @@ const EnvioForm = (props) => {
 
     return (
         <>
-            {buttons()}
+            {/*buttons()*/}
+            <Row>
+            
+            <Col span={16} style={{padding:"1em"}}>
+            &nbsp;
             <Form
             style={{color: "white"}}
             onFinish={onFinish}
@@ -185,7 +173,7 @@ const EnvioForm = (props) => {
                     />
                 </Form.Item>
                 <Divider />
-                    <Form.Item name={"items"} label={"Items"}>
+                    <Form.Item name={"items"} label={"Items"} style={{height:"400px", overflowY:"scroll"}}>
                         <Table
                         loading={tableLoading}
                         columns = {[
@@ -212,8 +200,7 @@ const EnvioForm = (props) => {
                                                 break;
                                             }
                                         }
-                                        //alert(JSON.stringify(tableData))
-
+                  
                                         setTableData(tableData)
                                     }} />
                                 )
@@ -233,6 +220,15 @@ const EnvioForm = (props) => {
                     <Button type="primary" htmlType="submit">Guardar</Button>
                 </Form.Item>
             </Form>
+            </Col>
+            <Col span={8} style={{padding:"2em", backgroundColor:"#E1EEFF"}}>
+                <h3>Agregar C&oacute;digos</h3>
+            <SearchStock 
+                
+                callback={(id)=>{load_details_for_selected_id(id)}} 
+                />
+            </Col>
+            </Row>
         </>
     )
 }
