@@ -27,15 +27,37 @@ const AgregarStockLote = (props) => {
 
     
     const agregarRow = (values) => {
-        const found = tableData.find(e=>e.codigo == values.codigo)
-        if(found) {alert("Codigo ya cargado!"); return;}
+        const found = typeof tableData.find(e=>e.codigo == values.codigo) !== 'undefined';
+        //alert("found: " + found)
+        if(found) {
+            //update
+            /*for(let i=0;i<tableData.length;i++){
+                if(tableData[i].codigo == values.codigo){
+                    alert("changing value")
+                    tableData[i].cantidad = values.cantidad;
+                    tableData[i].costo = values.costo;
+                    break;
+                }
+            }
+            setTableData(tableData);*/
 
-        setTableData([...tableData,{
-            codigo: values.codigo,
-            cantidad: values.cantidad,
-            costo: values.costo, 
-            status: "PENDING",
-        }])
+            setTableData(
+                tableData.map(x=>(
+                    x.codigo == values.codigo ? {...x,cantidad: values.cantidad, costo: values.costo} : x
+                ))
+            )
+
+        }
+        else{
+            setTableData([...tableData,{
+                codigo: values.codigo,
+                cantidad: values.cantidad,
+                costo: values.costo, 
+                status: "PENDING",
+            }])
+        }
+
+        
     }
 
     const remove_row = (key) => {
@@ -58,7 +80,7 @@ const AgregarStockLote = (props) => {
             }
             return(
                 <>
-                    <PopUpAgregarStockLoteForm title={"Editar"} edit={true} values={temp} callback={(_data)=>{}} />
+                    <PopUpAgregarStockLoteForm title={"Editar"} edit={true} values={temp} callback={(_data)=>{agregarRow(_data)}} />
                     <Button onClick={()=>{remove_row(codigo)}}><DeleteOutlined /></Button>
                 </>
             )

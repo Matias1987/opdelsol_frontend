@@ -75,9 +75,16 @@ useEffect(()=>{
                         //handleSubmit(data)
                         post_method(post.insert.proveedor,data,(res)=>{
                             if(res.status == "OK"){
-                                alert("Proveedor Agregado")
-                                closePopup();
-                                setChange(!change)
+                                if(res.data<0){
+                                    alert("El proveedor ya existe")
+                                }
+                                else{
+                                    alert("Proveedor Agregado")
+                                    closePopup();
+                                    setChange(!change)
+                                }
+
+                                
                             }
                         })
                     } }

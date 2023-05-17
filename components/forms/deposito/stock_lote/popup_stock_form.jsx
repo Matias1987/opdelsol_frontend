@@ -1,9 +1,10 @@
 import { EditOutlined, PlusCircleOutlined } from "@ant-design/icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const { Spin, Form, InputNumber, Button, Modal, Input } = require("antd")
 
 const PopUpAgregarStockLoteForm = (props) => {
+    const [form] = Form.useForm();
     const [open, setOpen] = useState(false);
     const onFinish = (values) => {
     if(typeof props.callback !== 'undefined'){
@@ -11,6 +12,35 @@ const PopUpAgregarStockLoteForm = (props) => {
         setOpen(false)
     }
    }
+
+   const setValue = (_index, val) => {
+    switch(_index){
+        case "codigo":
+            form.setFieldsValue({codigo:val})
+            break;
+        case "costo":
+            form.setFieldsValue({costo:val})
+            break;
+        case "cantidad":
+            form.setFieldsValue({cantidad:val})
+            break;
+    }
+}
+
+useEffect(()=>{
+    if(open)
+    {
+        if(typeof props !== 'undefined'){
+            if(null !== props.values)
+            {
+                setValue("codigo",props.values.codigo);
+                setValue("cantidad",props.values.cantidad);
+                setValue("costo",props.values.costo);
+            }
+        }
+        
+    }
+   },[open])
 
    //alert(JSON.stringify(props))
    return (
@@ -33,7 +63,7 @@ const PopUpAgregarStockLoteForm = (props) => {
         }}
         okText="CANCELAR"
       >
-        <Form onFinish={onFinish}>
+        <Form onFinish={onFinish} form={form}>
             <Form.Item label={"Codigo"} name={"codigo"}>
             {
                 props.edit ? <><Input value={props.values.codigo} disabled /></> : <Input />
@@ -41,10 +71,10 @@ const PopUpAgregarStockLoteForm = (props) => {
             </Form.Item>
             <Form.Item label={"Cantidad"} name={"cantidad"} >
                 
-                {props.edit ? <><Input value={props.values.cantidad} type="number" /></> : <Input type="number" />}
+                <Input type="number" />
             </Form.Item>
             <Form.Item label={"Costo"} name={"costo"} >
-                {props.edit ? <><Input value={props.values.costo} type="number" /></> : <Input type="number" step={".01"} />}
+                <Input type="number" step={".01"} />
             </Form.Item>
             <Form.Item>
                 <Button type="primary" htmlType="submit">OK</Button>

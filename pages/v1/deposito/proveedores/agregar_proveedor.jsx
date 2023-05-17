@@ -11,7 +11,13 @@ const AgregarProveedor = () => {
             //handleSubmit(data)
             post_helper.post_method(urls.post.insert.proveedor,data,(res)=>{
                 if(res.status == "OK"){
-                    alert("Proveedor Agregado")
+                    if(res.data<0){
+                        alert("El proveedor ya existe")
+                    }
+                    else{
+                        alert("Proveedor Agregado")
+                    }
+                    
                 }
             })
            } 

@@ -40,7 +40,6 @@ const ImprimirCodigos = () => {
                                 {
                                     tableData.length <1 ? <h4>No hay c&oacute;digos</h4> : 
                                     _elements.map(e=>(<tr>{e.map(r=><td style={{textAlign:"center"}}>{r.codigo}<br /><Barcode value={"AR_ID_"+r.codigo_ref}  displayValue={false} width={1.5} height={20}/>&nbsp;</td>)}</tr>))
-
                                 }
                             </tbody>
                         </table>
@@ -101,7 +100,7 @@ const ImprimirCodigos = () => {
                     pagination={false}
                     loading={tableLoading}
                         columns = {[
-                            {title:"ruta", dataIndex: "ruta",},
+                            /*{title:"ruta", dataIndex: "ruta",},*/
                             {title:"codigo", dataIndex: "codigo", },
                             
                             {
