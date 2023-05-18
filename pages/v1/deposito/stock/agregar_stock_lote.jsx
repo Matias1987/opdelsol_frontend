@@ -53,6 +53,7 @@ const AgregarStockLote = (props) => {
                 codigo: values.codigo,
                 cantidad: values.cantidad,
                 costo: values.costo, 
+                descripcion: values.descripcion,
                 status: "PENDING",
             }])
         }
@@ -68,6 +69,7 @@ const AgregarStockLote = (props) => {
 
     const columns = [
         {title:"Codigo", dataIndex: "codigo"},
+        {title:"Descripcion", dataIndex: "descripcion"},
         {title:"Cantidad", dataIndex: "cantidad"},
         {title:"Costo", dataIndex: "costo"},
         {title:"Acciones", dataIndex: "codigo", render: (codigo)=>{
@@ -103,7 +105,7 @@ const AgregarStockLote = (props) => {
                 {
                     codigo: r.codigo,
                     cantidad: r.cantidad,
-                    descripcion: "",
+                    descripcion: r.descripcion,
                     costo: r.costo,
                     factura: _values.factura,
                     subgrupo_idsubgrupo: _values.subgrupo,
@@ -137,7 +139,7 @@ const AgregarStockLote = (props) => {
                     /*
                     ES POSIBLE QUE EL OBJETO STOCK NO EXISTA...
                     */
-                    fetch(get.stock_exists + `${curr.sucursal_idsucursal}/${cur.codigo}`/* url para ver si existe stock */)
+                    fetch(get.stock_exists + `${curr.sucursal_idsucursal}/${curr.codigo}`/* url para ver si existe stock */)
                     .then(_response=>_response.json())
                     .then((_response)=>{
                         if(_response.data.length>0){
@@ -157,6 +159,7 @@ const AgregarStockLote = (props) => {
                                 codigo_idcodigo: response.data[0].idcodigo,//<<----?????
                                 cantidad: curr.cantidad,
                                 factura_idfactura: curr.factura,
+                                costo: curr.costo,
                             }
                             //alert("insert stock now! " + JSON.stringify(res))
                             post_method(post.insert.stock,_data,(__res)=>{

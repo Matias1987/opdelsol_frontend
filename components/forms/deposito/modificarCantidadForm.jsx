@@ -10,6 +10,7 @@ const ModificarCantidadForm = (props) => {
     const [loading, setLoading] = useState(true)
     const [data, setData] = useState(null)
     const [cantidad, setCantidad] = useState(null)
+    const [costo, setCosto] = useState(null)
     useEffect(()=>{
         setLoading(true)
         //alert(get.detalle_stock+props.idsucursal+"/"+props.idcodigo)
@@ -23,11 +24,19 @@ const ModificarCantidadForm = (props) => {
                 ruta: response.data[0].ruta,
                 cantidad: response.data[0].cantidad,
                 idcodigo: response.data[0].idcodigo,
+                costo:  response.data[0].costo,
                 
             })
+            //alert( response.data[0].costo)
+
+            setCantidad(response.data[0].cantidad)
+            setCosto(response.data[0].costo)
+
+            setCostoValue(response.data[0].costo)
+            setCantidadValue(response.data[0].cantidad)
             setLoading(false)
         })
-    },[cantidad])
+    },[cantidad,costo])
 
     const onFinish = (values) => {
 
@@ -35,11 +44,13 @@ const ModificarCantidadForm = (props) => {
             idcodigo: props.idcodigo,
             idsucursal: props.idsucursal,
             cantidad: values.cantidad,
+            factura_idfactura: (values.factura == null ? -1 : values.factura),
+            costo: values.costo,
         },(r)=>{
             if(r.status == "OK"){
                 alert("OK")
                 setCantidad(values.cantidad)
-                if(props.onOk !== typeof 'undefined'){
+                if(typeof props.onOk !==  'undefined'){
                     props.onOk();
                 }
             }
@@ -54,12 +65,16 @@ const ModificarCantidadForm = (props) => {
     const setFacturaValue = (value) => {
         form.setFieldValue({factura:value});
     }
+    const setCostoValue = (value) => {
+        form.setFieldValue({costo:value});
+    }
 
     const Content = _ => 
         <>
-        <h1>Modificar Cantidad</h1>
+        <h1>Modificar</h1>
             <p>Modificar Cantidad C&oacute;digo: <span style={{fontSize:".75em", color:"lightgrey"}}><i>{data.ruta}</i></span> <b>{data.codigo}</b></p>
             <p>Cantidad Actual: {data.cantidad}</p>
+            <p>Costo Actual: {data.costo}</p>
             <Form
                 onFinish={onFinish}
                 onFinishFailed={onFinishFailed}
@@ -73,10 +88,15 @@ const ModificarCantidadForm = (props) => {
                 <Form.Item
                 name={"cantidad"}
                 label={"Cantidad"}
-                required={true}
-                value={0}
+                required={true} 
                 >
                     <InputNumber step={1} value="0" onChange={(v)=>{setCantidadValue(v)}} />
+                </Form.Item>
+                <Form.Item
+                    label={"Costo"}
+                    name={"costo"}
+                >
+                    <InputNumber onChange={(v)=>{setCostoValue(v)}}/>
                 </Form.Item>
                 <Form.Item>
                     <Button type="primary" htmlType="submit">Guardar</Button>

@@ -24,6 +24,9 @@ const PopUpAgregarStockLoteForm = (props) => {
         case "cantidad":
             form.setFieldsValue({cantidad:val})
             break;
+        case "descripcion":
+            form.setFieldsValue({descripcion:val})
+            break;
     }
 }
 
@@ -36,6 +39,7 @@ useEffect(()=>{
                 setValue("codigo",props.values.codigo);
                 setValue("cantidad",props.values.cantidad);
                 setValue("costo",props.values.costo);
+                setValue("descripcion",props.values.descripcion);
             }
         }
         
@@ -68,6 +72,10 @@ useEffect(()=>{
             {
                 props.edit ? <><Input value={props.values.codigo} disabled /></> : <Input />
             }
+            </Form.Item>
+            <Form.Item label={"Descripcion"} name={"descripcion"} >
+                
+                <Input/>
             </Form.Item>
             <Form.Item label={"Cantidad"} name={"cantidad"} >
                 

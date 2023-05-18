@@ -75,8 +75,8 @@ export default function ListaStock(){
                 (_,{idcodigo})=>{
                     return (<>
                          <CustomModal
-                         openButtonText={"Modificar Cantidad"}
-                         title={"Modificar Cantidad"}
+                         openButtonText={"Modificar"}
+                         title={""}
                          _open = {popupOpen}
                          onOk={()=>{
                             setPopupOpen(false)
@@ -91,6 +91,7 @@ export default function ListaStock(){
                          <ModificarCantidadForm                                       
                          idcodigo={idcodigo}
                          idsucursal={idsucursal} 
+                        
                          />
                          
                          </CustomModal>
