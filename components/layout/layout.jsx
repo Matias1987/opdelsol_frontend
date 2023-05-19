@@ -68,6 +68,7 @@ export default function MyLayout({children}){
                 </Sider>
                 <Layout>
                     <Header style={{ background: '#fff', padding: 0 }}>
+                        
                     <span style={{padding:'1em'}}>
                         <i>
                             Sucursal:&nbsp;&nbsp;<SucursalLabel idsucursal={
