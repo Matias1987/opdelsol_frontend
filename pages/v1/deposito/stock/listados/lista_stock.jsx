@@ -1,5 +1,6 @@
 import CustomModal from "@/components/CustomModal";
 import CustomTable from "@/components/forms/CustomTable";
+import DetalleStock from "@/components/forms/deposito/DetalleStock";
 import ModificarCantidadForm from "@/components/forms/deposito/modificarCantidadForm";
 import globals from "@/src/globals";
 import { get } from "@/src/urls";
@@ -74,6 +75,7 @@ export default function ListaStock(){
             render: 
                 (_,{idcodigo})=>{
                     return (<>
+
                          <CustomModal
                          openButtonText={"Modificar"}
                          title={""}
@@ -94,6 +96,16 @@ export default function ListaStock(){
                         
                          />
                          
+                         </CustomModal>
+                         <CustomModal
+                            openButtonText={"Detalles"}
+                            title={"Detalles"}
+                            onOk={()=>{}}
+                            onCancel={()=>{}}
+                         >
+
+                            <DetalleStock idcodigo={idcodigo} />
+                            
                          </CustomModal>
                     </>    )                
                 }

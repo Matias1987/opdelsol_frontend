@@ -88,6 +88,10 @@ const get = {
     cod_sin_stock_s: remote_base_url + "stock/cod_sin_stock_s/",
     stock_exists: remote_base_url + "stock/exists/", 
 
+    obtener_stock_sucursal: remote_base_url + "stock/stock_sucursal/",//:idsucursal/:idcodigo
+    stock_codigo_sucursales: remote_base_url + "stock/stock_sucursales/", //:idcodigo
+    obtener_envios_codigo: remote_base_url + "envio/envio_codigo/",//:idcodigo
+
 }
 
 module.exports = {
