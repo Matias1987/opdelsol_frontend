@@ -1,6 +1,9 @@
+import CustomModal from "@/components/CustomModal";
+import PrinterWrapper from "@/components/PrinterWrapper";
+import InformeEnvio from "@/components/informes/InformeEnvio";
 import globals from "@/src/globals";
 import { get } from "@/src/urls";
-import { Spin } from "antd";
+import { Divider, Spin } from "antd";
 
 const { useEffect, useState } = require("react")
 
@@ -17,6 +20,8 @@ const DetalleStock = (props) => {
     const url_detalle_stock = get.detalle_stock;//:idsucursal/:idcodigo
     const url_envios = get.obtener_envios_codigo;//idcodigo
     const idsucursal = globals.obtenerSucursal();
+
+    var error_margin = 100;
 
     
 
@@ -74,27 +79,37 @@ const DetalleStock = (props) => {
     },[])
     
     const Envios = _ => (
-        loadingEnvios ? <Spin /> : <>
-            <table  border={"0"}>
+        loadingEnvios ? <Spin /> : 
+        <div style={{height: "210px", overflowY:"scroll", padding:".1em", margin:"1em", backgroundColor:"#E1EEFF"}}>
+            <table  border={"0"} style={{width:"100%"}}>
                 <thead>
                     <tr>
-                        <th colSpan={4}>Envios</th>
+                        <th colSpan={2}>Envios</th>
+
+                    </tr>
+                    <tr>
+                        <th>Nro. Env&iacute;o&nbsp;&nbsp;&nbsp;</th>
+                        <th>Cantidad</th>
                     </tr>
                 </thead>
                 <tbody>
                     {
                         dataEnvios.map(r=>(
                             <tr>
-                                <td>Nro. Env&iacute;o:</td>
-                                <td>{r.nro_envio}</td>
-                                <td>Cantidad:</td>
-                                <td>{r.cantidad}</td>
+                                <td style={{textAlign:"center"}}>
+                                    <CustomModal openButtonText={"#"+r.nro_envio} title="Detalle Envio" onOk={()=>{}}>
+                                        <PrinterWrapper>
+                                            <InformeEnvio idenvio={r.nro_envio}/>
+                                        </PrinterWrapper>
+                                    </CustomModal>
+                                </td>
+                                <td style={{textAlign:"center"}}>{r.cantidad}</td>
                             </tr>
                         ))
                     }
                 </tbody>
             </table>
-        </>
+        </div>
     )
 
 
@@ -106,21 +121,28 @@ const DetalleStock = (props) => {
                 <tbody>
                     <tr>
                         <td>C&oacute;digo:</td>
-                        <td><b>{dataDetalles.codigo}</b></td>
+                        <td><h1>{dataDetalles.codigo}</h1></td>
                     </tr>
                     <tr>
-                        <td>Descripci&oacute;n</td>
-                        <td><b>{dataDetalles.descripcion}</b></td>
+                        <td>Descripci&oacute;n:</td>
+                        <td><b><i>{dataDetalles.descripcion}</i></b></td>
                     </tr>
                     <tr>
                         <td>Cantidad:</td>
                         <td><b>{dataDetalles.cantidad}</b></td>
                     </tr>
                     <tr>
-                        <td>Costo:</td>
-                        <td><b>{dataDetalles.costo}</b></td>
-                        <td>Precio:</td>
-                        <td><b>{0}</b></td>
+                        <td style={{width:"30%"}}>Costo: <b>${dataDetalles.costo}</b></td>
+                        <td style={{width:"30%"}}>Multiplicador: <b>{dataDetalles.multiplicador}</b></td>
+                        <td style={{width:"auto"}}><i>Precio:&nbsp;
+                        
+                        {parseFloat(dataDetalles.costo) * parseFloat(dataDetalles.multiplicador)}</i>
+
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span style={{color:"darkblue", fontSize: "1.10em"}}>Redondeo:&nbsp;
+                        <b>${ 
+                            Math.round(parseFloat(dataDetalles.costo) * parseFloat(dataDetalles.multiplicador) * (1/error_margin)) * error_margin
+                        }</b></span></td>
+                        
                     </tr>
                 </tbody>
             </table>
@@ -131,11 +153,14 @@ const DetalleStock = (props) => {
         
             loadingSucursales ? <Spin /> : 
             <>
+            <h4>Stock Sucursales</h4>
+            <div  style={{display:"flex", flexDirection:"row", justifyContent:"left", flexWrap: "wrap"}}>
                 {dataSucursales.map(r=>
-                    <>
-                        <p>Sucursal: {r.sucursal} &nbsp; Cantidad: {r.cantidad}</p>
-                    </>
+                    <div style={{padding:".5em", backgroundColor:"lightblue", margin:".2em"}}>
+                        <span style={{color:"red"}}>{r.sucursal}: <b>{r.cantidad}</b></span>
+                    </div>
                 )}
+            </div>
             </>
         
     )
@@ -143,7 +168,9 @@ const DetalleStock = (props) => {
     return (
         <>
             <Detalle />
+            <Divider />
             <CantidadSucursales />
+            <Divider />
             <Envios />
         </>
     )

@@ -97,6 +97,7 @@ export default function ListaStock(){
                          />
                          
                          </CustomModal>
+                         &nbsp;
                          <CustomModal
                             openButtonText={"Detalles"}
                             title={"Detalles"}

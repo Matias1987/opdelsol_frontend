@@ -13,15 +13,24 @@ export default function ListaCodigos(){
                         {title: 'Codigo',dataIndex: 'codigo',key: 'codigo'},
                         {title: 'Descripcion',dataIndex: 'descripcion',key: 'descripcion'},
                         {
+                            title: 'Estado',
+                            dataIndex: 'estado', 
+                            key: 'estado',
+                            render: (_,{estado})=>(<span style={{color: (estado=='ACTIVO' ? "green" : "red")}} >{estado}</span>)
+                        },
+                        {
                             title: 'Acciones', dataIndex: 'idcodigo', key: 'idcodigo',
                             render: 
                                 (_,{idcodigo})=>{
-                                    return (<>
-                                         <Button onClick={()=>{}}>Editar</Button>
-                                    </>    )                
+                                    return (
+                                    <>
+                                         <Button onClick={()=>{}}>Editar</Button>&nbsp;&nbsp;
+                                         <Button danger onClick={()=>{}}>Inhabilitar/Habilitar</Button>
+                                    </>    
+                                    )                
                                 }
                             
-                        }
+                        },
                     ]
                 }
                 parsefnt={
@@ -31,6 +40,7 @@ export default function ListaCodigos(){
                                 {
                                     codigo: row.codigo,
                                     descripcion: row.descripcion,
+                                    estado: "ACTIVO"
                                 }
                             )
                         )

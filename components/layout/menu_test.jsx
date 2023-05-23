@@ -1,5 +1,5 @@
 import { local_base_url, remote_base_url } from "@/src/urls";
-import { BarsOutlined, BoxPlotOutlined, CheckOutlined, DollarCircleFilled, EditOutlined, FileTextOutlined, HomeOutlined, PlusCircleOutlined, PrinterOutlined, RocketOutlined, SnippetsOutlined, UserOutlined } from "@ant-design/icons";
+import { BarsOutlined, BoxPlotOutlined, CheckOutlined, DollarCircleFilled, EditOutlined, FileTextOutlined, HomeOutlined, PlusCircleOutlined, PrinterOutlined, RocketOutlined, SnippetsOutlined, StarOutlined, UserOutlined } from "@ant-design/icons";
 
 import { Menu } from "antd";
 import Link from "next/link"
@@ -19,9 +19,10 @@ export default function TestMenu(){
         >
           
           <Menu.Item key="100"><Link href={get_url_to("deposito/")}><HomeOutlined />&nbsp;Inicio  </Link></Menu.Item>
-          <Menu.Item key={"31"}><Link href={get_url_to("deposito/stock/listados/lista_stock")}><BoxPlotOutlined />&nbsp;Lista Stock</Link></Menu.Item>
-          <Menu.Item key="27"><Link href={get_url_to("deposito/stock/modificar_precios_categoria")}><EditOutlined />&nbsp; Editar Multiplicadores Por Categor&iacute;a</Link></Menu.Item>
-          <Menu.Item key="13"><Link href={get_url_to("deposito/imprimir_codigos")}><PrinterOutlined />&nbsp; Imprimir C&oacute;digos</Link></Menu.Item>
+          <Menu.Item key="40"><Link href={get_url_to("deposito/envio/nuevo_envio")}><StarOutlined />&nbsp;Nuevo Envio  </Link></Menu.Item>
+          <Menu.Item key={"31"}><Link href={get_url_to("deposito/stock/listados/lista_stock")}><StarOutlined />&nbsp;Lista Stock</Link></Menu.Item>
+          <Menu.Item key="27"><Link href={get_url_to("deposito/stock/modificar_precios_categoria")}><StarOutlined />&nbsp; Editar Multiplicadores Por Categor&iacute;a</Link></Menu.Item>
+          <Menu.Item key="13"><Link href={get_url_to("deposito/imprimir_codigos")}><StarOutlined />&nbsp; Imprimir C&oacute;digos</Link></Menu.Item>
           
           <SubMenu key="sub1" title={<span><RocketOutlined /><span>Envios</span></span>}>
             <Menu.Item key="1"><Link href={get_url_to("deposito/envio/nuevo_envio")}><SnippetsOutlined />&nbsp;Nuevo Envio  </Link></Menu.Item>
