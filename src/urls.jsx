@@ -38,6 +38,7 @@ const post = {
         factura: remote_base_url + "facturas/",
         proveedor: remote_base_url + "proveedores/",
         sucursal: remote_base_url + "sucursales/",
+        baja_desperfecto: remote_base_url + "bajadesperfecto/",
         
     },
     update:{
@@ -52,8 +53,8 @@ const post = {
         proveedor: remote_base_url + "proveedores/",
         sucursal: remote_base_url + "sucursales/",
         modificar_multiplicador: remote_base_url + "subgrupos/modificar_multiplicador/",
-        modificar_cantidad: remote_base_url + "stock/m/modificar_cantidad/",
-
+        incrementar_cantidad: remote_base_url + "stock/m/incrementar_cantidad/",
+        decrementar_cantidad: remote_base_url + "stock/m/modificar_cantidad/",
     },
 }
 
@@ -92,6 +93,8 @@ const get = {
     obtener_stock_sucursal: remote_base_url + "stock/stock_sucursal/",//:idsucursal/:idcodigo
     stock_codigo_sucursales: remote_base_url + "stock/stock_sucursales/", //:idcodigo
     obtener_envios_codigo: remote_base_url + "envio/envio_codigo/",//:idcodigo
+
+    obtener_lista_baja_desperfectos: remote_base_url + "bajadesperfecto/",
 
 }
 

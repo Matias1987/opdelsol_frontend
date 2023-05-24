@@ -1,7 +1,7 @@
 import { local_base_url, remote_base_url } from "@/src/urls";
-import { BarsOutlined, BoxPlotOutlined, CheckOutlined, DollarCircleFilled, EditOutlined, FileTextOutlined, HomeOutlined, PlusCircleOutlined, PrinterOutlined, RocketOutlined, SnippetsOutlined, StarOutlined, UserOutlined } from "@ant-design/icons";
+import { AlertFilled, BarsOutlined, BoxPlotOutlined, CheckOutlined, DollarCircleFilled, EditOutlined, FileTextOutlined, HomeOutlined, PlusCircleOutlined, PrinterOutlined, RocketOutlined, SnippetsOutlined, StarOutlined, UserOutlined, WarningFilled } from "@ant-design/icons";
 
-import { Menu } from "antd";
+import { Divider, Menu } from "antd";
 import Link from "next/link"
 
 //import { Menu, Icon } from 'antd';
@@ -31,6 +31,10 @@ export default function TestMenu(){
           <SubMenu key="sub2" title={<span><BoxPlotOutlined /><span>Stock</span></span>}>
             <Menu.Item key="32" ><PlusCircleOutlined /> 
               <Link href={get_url_to("deposito/stock/agregar_stock_lote")}>&nbsp;Agregar Lote Stock</Link>
+            </Menu.Item>
+            <Menu.Divider></Menu.Divider>
+            <Menu.Item key="41" ><WarningFilled /> 
+              <Link href={get_url_to("deposito/stock/baja_desperfecto")}>&nbsp;Bajas por Desperfecto</Link>
             </Menu.Item>
             <Menu.Divider></Menu.Divider>
             <Menu.Item key="15" ><PlusCircleOutlined /> 
@@ -69,6 +73,10 @@ export default function TestMenu(){
               </Menu.Item>
               <Menu.Item key="26" ><BarsOutlined /> 
                 <Link href={get_url_to("deposito/stock/listados/lista_stock")}>Stock</Link>
+              </Menu.Item>
+              <Divider />
+              <Menu.Item key="26" ><BarsOutlined /> 
+                <Link href={get_url_to("deposito/stock/listados/lista_desperfectos")}>Lista Desperfectos</Link>
               </Menu.Item>
             </SubMenu>
           </SubMenu>

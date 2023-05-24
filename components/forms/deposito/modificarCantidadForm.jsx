@@ -40,7 +40,7 @@ const ModificarCantidadForm = (props) => {
 
     const onFinish = (values) => {
 
-        post_method(post.update.modificar_cantidad,{
+        post_method(post.update.incrementar_cantidad,{
             idcodigo: props.idcodigo,
             idsucursal: props.idsucursal,
             cantidad: values.cantidad,
@@ -72,7 +72,7 @@ const ModificarCantidadForm = (props) => {
     const Content = _ => 
         <>
         <h1>Modificar</h1>
-            <p>Modificar Cantidad C&oacute;digo: <span style={{fontSize:".75em", color:"lightgrey"}}><i>{data.ruta}</i></span> <b>{data.codigo}</b></p>
+            <p>Modificar C&oacute;digo: <span style={{fontSize:".75em", color:"lightgrey"}}><i>{data.ruta}</i></span> <b>{data.codigo}</b></p>
             <p>Cantidad Actual: {data.cantidad}</p>
             <p>Costo Actual: {data.costo}</p>
             <Form
@@ -87,7 +87,7 @@ const ModificarCantidadForm = (props) => {
                 </Form.Item>
                 <Form.Item
                 name={"cantidad"}
-                label={"Cantidad"}
+                label={"Cantidad a Incrementar"}
                 required={true} 
                 >
                     <InputNumber step={1} value="0" onChange={(v)=>{setCantidadValue(v)}} />
