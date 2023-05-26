@@ -30,6 +30,10 @@ const PopUpAgregarStockLoteForm = (props) => {
     }
 }
 
+const onFinishFailed = (errorInfo) => {
+    console.log('Failed:', errorInfo);
+  };
+
 useEffect(()=>{
     if(open)
     {
@@ -67,21 +71,21 @@ useEffect(()=>{
         }}
         okText="CANCELAR"
       >
-        <Form onFinish={onFinish} form={form}>
-            <Form.Item label={"Codigo"} name={"codigo"}>
+        <Form onFinish={onFinish} onFinishFailed={onFinishFailed} form={form}>
+            <Form.Item  rules={[{required:true}]} label={"Codigo"} name={"codigo"}>
             {
-                props.edit ? <><Input value={props.values.codigo} disabled /></> : <Input />
+                props.edit ? <><Input value={props.values.codigo} disabled /></> : <Input onInput={e => e.target.value = e.target.value.toUpperCase()} />
             }
             </Form.Item>
-            <Form.Item label={"Descripcion"} name={"descripcion"} >
+            <Form.Item rules={[{required:true}]} label={"Descripcion"} name={"descripcion"} onInput={e => e.target.value = e.target.value.toUpperCase()} >
                 
                 <Input/>
             </Form.Item>
-            <Form.Item label={"Cantidad"} name={"cantidad"} >
+            <Form.Item rules={[{required:true}]} label={"Cantidad"} name={"cantidad"} >
                 
                 <Input type="number" />
             </Form.Item>
-            <Form.Item label={"Costo"} name={"costo"} >
+            <Form.Item rules={[{required:true}]} label={"Costo"} name={"costo"} >
                 <Input type="number" step={".01"} />
             </Form.Item>
             <Form.Item>

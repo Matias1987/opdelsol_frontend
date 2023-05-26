@@ -98,16 +98,7 @@ export default function ListaStock(){
                          
                          </CustomModal>
                          &nbsp;
-                         <CustomModal
-                            openButtonText={"Detalles"}
-                            title={"Detalles"}
-                            onOk={()=>{}}
-                            onCancel={()=>{}}
-                         >
-
-                            <DetalleStock idcodigo={idcodigo} />
-                            
-                         </CustomModal>
+                         <DetalleStock idcodigo={idcodigo} />
                     </>    )                
                 }
         }

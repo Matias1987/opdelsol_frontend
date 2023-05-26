@@ -2,15 +2,17 @@ import FacturaSelect from "@/components/FacturaSelect"
 import { post_method } from "@/src/helpers/post_helper"
 import { get, post } from "@/src/urls"
 
-const { Form, InputNumber, Button } = require("antd")
+const { Form, InputNumber, Button, Checkbox } = require("antd")
 const { useState, useEffect } = require("react")
 
 const ModificarCantidadForm = (props) => {
     const [form] = Form.useForm();
     const [loading, setLoading] = useState(true)
     const [data, setData] = useState(null)
-    const [cantidad, setCantidad] = useState(null)
-    const [costo, setCosto] = useState(null)
+    const [checked, setChecked] = useState(false);
+    //const [cantidad, setCantidad] = useState(null)
+    //const [costo, setCosto] = useState(null)
+    const [reload, setReload] = useState(false);
     useEffect(()=>{
         setLoading(true)
         //alert(get.detalle_stock+props.idsucursal+"/"+props.idcodigo)
@@ -29,14 +31,15 @@ const ModificarCantidadForm = (props) => {
             })
             //alert( response.data[0].costo)
 
-            setCantidad(response.data[0].cantidad)
-            setCosto(response.data[0].costo)
+            //setCantidad(0)
+            //alert("set costo " +  response.data[0].costo)
+            //setCosto(0)
 
-            setCostoValue(response.data[0].costo)
-            setCantidadValue(response.data[0].cantidad)
+            setCostoValue(-1)
+            setCantidadValue(0)
             setLoading(false)
         })
-    },[cantidad,costo])
+    },[reload])
 
     const onFinish = (values) => {
 
@@ -45,11 +48,11 @@ const ModificarCantidadForm = (props) => {
             idsucursal: props.idsucursal,
             cantidad: values.cantidad,
             factura_idfactura: (values.factura == null ? -1 : values.factura),
-            costo: values.costo,
+            costo: checked ?  values.costo : -1,
         },(r)=>{
             if(r.status == "OK"){
                 alert("OK")
-                setCantidad(values.cantidad)
+                setReload(!reload)
                 if(typeof props.onOk !==  'undefined'){
                     props.onOk();
                 }
@@ -63,12 +66,16 @@ const ModificarCantidadForm = (props) => {
     }
 
     const setFacturaValue = (value) => {
-        form.setFieldValue({factura:value});
+        form.setFieldsValue({factura:value});
     }
     const setCostoValue = (value) => {
-        form.setFieldValue({costo:value});
+        form.setFieldsValue({costo:value});
     }
 
+    const toggleChecked = (e) => {
+        //alert(e.target.checked); 
+        setChecked(!checked)
+    }
     const Content = _ => 
         <>
         <h1>Modificar</h1>
@@ -88,15 +95,21 @@ const ModificarCantidadForm = (props) => {
                 <Form.Item
                 name={"cantidad"}
                 label={"Cantidad a Incrementar"}
-                required={true} 
+                
                 >
-                    <InputNumber step={1} value="0" onChange={(v)=>{setCantidadValue(v)}} />
+                    
+                    <InputNumber step={0} value="0" onChange={(v)=>{setCantidadValue(v)}} />
                 </Form.Item>
                 <Form.Item
                     label={"Costo"}
                     name={"costo"}
+                    
                 >
-                    <InputNumber onChange={(v)=>{setCostoValue(v)}}/>
+                    <>
+                        <Checkbox onChange={(e)=>{toggleChecked(e)}} checked={checked} />&nbsp;
+                        <InputNumber value="0" step={.00} onChange={(v)=>{setCostoValue(v)}} disabled={!checked} />
+                    </>
+                    
                 </Form.Item>
                 <Form.Item>
                     <Button type="primary" htmlType="submit">Guardar</Button>

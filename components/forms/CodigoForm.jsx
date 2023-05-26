@@ -72,14 +72,14 @@ const CodigoForm = (props) => {
             name={"codigo"}
             rules={[{required:true}]}
             >
-                <Input />
+                <Input onInput={e => e.target.value = e.target.value.toUpperCase()} />
             </Form.Item>
             <Form.Item
             label={"Descripción"}
             name={"descripcion"}
             rules={[{required:true}]}
             >
-                <Input />
+                <Input  onInput={e => e.target.value = e.target.value.toUpperCase()}/>
             </Form.Item>
             <Form.Item>
                 <Button type="primary" htmlType="submit">Guardar</Button>

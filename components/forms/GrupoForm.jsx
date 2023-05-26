@@ -54,14 +54,14 @@ const GrupoForm = (props) => {
                 label={"Nombre Corto"}
                 rules={[{required: true,}]}
                 >
-                    <Input />
+                    <Input onInput={e => e.target.value = e.target.value.toUpperCase()}/>
                 </Form.Item>
                 <Form.Item
                 name={"nombre_largo"}
                 label={"Nombre Largo"}
                 rules={[{required: true,}]}
                 >
-                    <Input />
+                    <Input onInput={e => e.target.value = e.target.value.toUpperCase()}/>
                 </Form.Item>
                 
                 <Form.Item>

@@ -1,3 +1,4 @@
+import FacturaForm from "@/components/forms/FacturaForm";
 import globals from "@/src/globals";
 import { post_method } from "@/src/helpers/post_helper";
 import { get, post, public_urls } from "@/src/urls";
@@ -6,7 +7,7 @@ const { default: FacturaSelect } = require("@/components/FacturaSelect");
 const { default: SubGroupSelect } = require("@/components/SubGroupSelect");
 const { default: PopUpAgregarStockLoteForm } = require("@/components/forms/deposito/stock_lote/popup_stock_form");
 const { DeleteOutlined } = require("@ant-design/icons");
-const { Button, Table, Form, Tag } = require("antd");
+const { Button, Table, Form, Tag, Modal } = require("antd");
 const { useState } = require("react")
 
 const AgregarStockLote = (props) => {
@@ -97,8 +98,17 @@ const AgregarStockLote = (props) => {
         }
     ];
 
+    const onFinishFailed = (errorInfo) => {
+        console.log('Failed:', errorInfo);
+      };
+
     const onFinish = (_values)=>{
         var values = Array();
+
+        if(tableData.length<1){
+            alert("No hay codigos para agregar");
+            return;
+        }
 
         tableData.forEach(r=>{
             values.push(
@@ -135,11 +145,14 @@ const AgregarStockLote = (props) => {
 
             post_method(post.codigo_por_codigo,{codigo: curr.codigo},(response)=>{
                 if(response.data.length>0){
+                    
+                    update_status_row("Ya Existe",curr.codigo)
+                    alert("el codigo ya existe: " + response.data[0].idcodigo)
                     //el codigo ya existe
                     /*
                     ES POSIBLE QUE EL OBJETO STOCK NO EXISTA...
                     */
-                    fetch(get.stock_exists + `${curr.sucursal_idsucursal}/${curr.codigo}`/* url para ver si existe stock */)
+                    fetch(get.stock_exists + `${curr.sucursal_idsucursal}/${response.data[0].idcodigo}`/* url para ver si existe stock */)
                     .then(_response=>_response.json())
                     .then((_response)=>{
                         if(_response.data.length>0){
@@ -212,11 +225,29 @@ const AgregarStockLote = (props) => {
     return(
         <>
         <h1>Agregar Stock por Lote</h1>
-            <Form onFinish={onFinish} form={form}>
+            <Form onFinish={onFinish} form={form} onFinishFailed={onFinishFailed}>
                     <Form.Item label={"Factura"} name={"factura"}>
-                        <FacturaSelect callback={(id)=>{setValue("factura", id)}} />
+                        <>
+                            <FacturaSelect callback={(id)=>{setValue("factura", id)}} />
+                            <br />
+                            {/* agregar facturas */}
+                            <Modal
+                                cancelButtonProps={{ style: { display: 'none' } }}
+                                okButtonProps={{children:"CANCELAR"}}
+                                
+                                width={"80%"}
+                                title={"Agregar Factura"}
+                                open={open}
+                                onOk={closePopup}
+                                onCancel={closePopup}
+                                okText="CERRAR"
+                            >
+                                <FacturaForm action="ADD" callback={onOk} />
+                            </Modal>
+                            {/* FIN agregar facturas */}
+                        </>
                     </Form.Item>
-                    <Form.Item style={{ backgroundColor: "#E1EEFF", padding:"3.5em", fontSize:".25em"}} label={"Subgrupo"} name={"subgrupo"} required={true}>
+                    <Form.Item style={{ backgroundColor: "#E1EEFF", padding:"3.5em", fontSize:".25em"}} label={"Subgrupo"} name={"subgrupo"} rules={[{required:true}]}>
                         <SubGroupSelect callback={(id)=>{setValue("subgrupo", id)}} />
                     </Form.Item>
                 <Form.Item label={"Codigos"} name={"codigos"}>

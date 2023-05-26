@@ -50,7 +50,7 @@ const SubGrupoForm = (props) => {
             rules={[{required: true,}]}
             style={{width:"500px"}}
             >
-                <Input />
+                <Input onInput={e => e.target.value = e.target.value.toUpperCase()}/>
             </Form.Item>
             <Form.Item
             label={"Nombre Largo"}
@@ -58,7 +58,7 @@ const SubGrupoForm = (props) => {
             rules={[{required: true,}]}
             style={{width:"500px"}}
             >
-                <Input />
+                <Input onInput={e => e.target.value = e.target.value.toUpperCase()}/>
             </Form.Item>
             <Form.Item
             label={"Multiplicador"}

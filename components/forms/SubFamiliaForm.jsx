@@ -74,7 +74,7 @@ const SubFamiliaForm = (props) =>{
                 },
             ]}
             >
-                <Input />
+                <Input onInput={e => e.target.value = e.target.value.toUpperCase()}/>
             </Form.Item>
             <Form.Item
             label="Nombre Largo"
@@ -86,7 +86,7 @@ const SubFamiliaForm = (props) =>{
                 },
             ]}
             >
-                <Input />
+                <Input onInput={e => e.target.value = e.target.value.toUpperCase()}/>
             </Form.Item>
             <Form.Item>
                 <Button type="primary" htmlType="submit">

@@ -54,7 +54,7 @@ const post = {
         sucursal: remote_base_url + "sucursales/",
         modificar_multiplicador: remote_base_url + "subgrupos/modificar_multiplicador/",
         incrementar_cantidad: remote_base_url + "stock/m/incrementar_cantidad/",
-        decrementar_cantidad: remote_base_url + "stock/m/modificar_cantidad/",
+        descontar_cantidad_por_codigo: remote_base_url + "stock/m/descontar_cantidad_por_codigo/",
     },
 }
 

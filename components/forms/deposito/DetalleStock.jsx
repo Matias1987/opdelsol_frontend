@@ -20,6 +20,7 @@ const DetalleStock = (props) => {
     const url_detalle_stock = get.detalle_stock;//:idsucursal/:idcodigo
     const url_envios = get.obtener_envios_codigo;//idcodigo
     const idsucursal = globals.obtenerSucursal();
+    const [reload,setReload] = useState(false);
 
     var error_margin = 100;
 
@@ -76,7 +77,7 @@ const DetalleStock = (props) => {
             )
             setLoadingEnvios(false)
         });
-    },[])
+    },[reload])
     
     const Envios = _ => (
         loadingEnvios ? <Spin /> : 
@@ -167,11 +168,23 @@ const DetalleStock = (props) => {
 
     return (
         <>
-            <Detalle />
-            <Divider />
-            <CantidadSucursales />
-            <Divider />
-            <Envios />
+        <CustomModal
+            openButtonText={"Detalles"}
+            title={"Detalles"}
+            onOk={()=>{}}
+            onCancel={()=>{}}
+            onOpen={
+                ()=>{
+                    setReload(!reload)
+                }
+            }
+            >
+                <Detalle />
+                <Divider />
+                <CantidadSucursales />
+                <Divider />
+                <Envios />
+            </CustomModal>
         </>
     )
 }

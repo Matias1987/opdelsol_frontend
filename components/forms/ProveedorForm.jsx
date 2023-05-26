@@ -28,7 +28,7 @@ const ProveedorForm = (props) => {
                 label={"Nombre"}
                 rules={[{required:true}]}
                 >
-                    <Input style={{width:300}}/>
+                    <Input onInput={e => e.target.value = e.target.value.toUpperCase()} style={{width:300}}/>
                 </Form.Item>
                 <Form.Item
                 name={"cuit"}

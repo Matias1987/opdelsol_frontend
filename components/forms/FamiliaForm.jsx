@@ -60,7 +60,7 @@ const onFinishFailed = (errorInfo) => {
         },
       ]}
     >
-      <Input />
+      <Input onInput={e => e.target.value = e.target.value.toUpperCase()}/>
     </Form.Item>
 
     <Form.Item
@@ -73,7 +73,7 @@ const onFinishFailed = (errorInfo) => {
         },
       ]}
     >
-      <Input />
+      <Input onInput={e => e.target.value = e.target.value.toUpperCase()}/>
     </Form.Item>
 
 

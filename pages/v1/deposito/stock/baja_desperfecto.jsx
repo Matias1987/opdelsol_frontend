@@ -6,9 +6,41 @@ import { Button, Form, Input } from "antd";
 export default function BajaDesperfecto(){
 
     const onFinish = (values) => {
+
+        if(
+            typeof values.codigo === 'undefined' ||
+            typeof values.cantidad === 'undefined' || 
+            typeof values.comentarios === 'undefined'
+            )
+            {
+                alert("Completar campos requeridos");
+                return;
+            }
+
+        if(values.codigo == null){
+            alert("Campo codigo vacio");
+            return;
+        }
+        if(  values.codigo.trim() == ""){
+            alert("Campo codigo vacio");
+            return;
+        }
+        if(values.cantidad == null){
+            alert("Cantidad es cero");
+            return;
+        }
+        if(values.comentarios == null){
+            alert("Campo comentario vacio");
+            return;
+        }
+        if(values.comentarios.trim() == ""){
+            alert("Campo comentario vacio");
+            return;
+        }
         const fksucursal = globals.obtenerSucursal();
-        alert(JSON.stringify(values))
-        post_method(post.update.decrementar_cantidad,
+        //alert(JSON.stringify(values))
+        
+        post_method(post.update.descontar_cantidad_por_codigo,
             {
                 cantidad: values.cantidad,
                 sucursal: fksucursal,
@@ -16,7 +48,12 @@ export default function BajaDesperfecto(){
             }
             ,(response)=>{
 
-            alert("Valor descontado " + JSON.stringify(response))
+            if(response.data <0){
+                alert("Codigo no encontrado")
+                return;
+            }
+
+            alert("Valor descontado...")
             post_method(post.insert.baja_desperfecto,
                 {
                     fkusuario: 1, 
@@ -26,7 +63,7 @@ export default function BajaDesperfecto(){
                     comentarios: values.comentarios
                 },
                 (_response)=>{
-                    alert("Listo " + JSON.stringify(_response))
+                    alert("OK ")
                 }
                 )
         })
