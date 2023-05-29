@@ -140,7 +140,7 @@ const StockForm = (props) => {
                                 label: 'Adulto',
                             },
                             {
-                                value: 'ninio',
+                                value: 'niño',
                                 label: 'Niño',
                             },
                             {

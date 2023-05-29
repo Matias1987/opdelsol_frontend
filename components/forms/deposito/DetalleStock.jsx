@@ -3,7 +3,7 @@ import PrinterWrapper from "@/components/PrinterWrapper";
 import InformeEnvio from "@/components/informes/InformeEnvio";
 import globals from "@/src/globals";
 import { get } from "@/src/urls";
-import { Divider, Spin } from "antd";
+import { Divider, Spin, Tag } from "antd";
 
 const { useEffect, useState } = require("react")
 
@@ -118,11 +118,11 @@ const DetalleStock = (props) => {
     const Detalle = _ => (
         loadingDetalles ? <Spin /> : 
         <>
-            <table border={"0"}  >
+            <table border={"0"} style={{width:"100%"}} >
                 <tbody>
                     <tr>
                         <td>C&oacute;digo:</td>
-                        <td><h1>{dataDetalles.codigo}</h1></td>
+                        <td><i style={{color:"#4F4FC1", fontSize:".75em"}}>{dataDetalles.ruta}</i>&nbsp;<b>{dataDetalles.codigo}</b></td>
                     </tr>
                     <tr>
                         <td>Descripci&oacute;n:</td>
@@ -146,13 +146,10 @@ const DetalleStock = (props) => {
                         
                     </tr>
                     <tr>
-                        <td>G&eacute;nero:</td>
-                        <td></td>
+                        <td>G&eacute;nero: <Tag color="purple">{dataDetalles.genero}</Tag></td>
+                        <td>Edad: <Tag color="blue">{dataDetalles.edad}</Tag></td>
                     </tr>
-                    <tr>
-                        <td>Edad:</td>
-                        <td></td>
-                    </tr>
+                    
                 </tbody>
             </table>
         </>

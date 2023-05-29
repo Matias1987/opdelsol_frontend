@@ -1,5 +1,8 @@
-import { Form, Divider, Button, Select, Input } from "antd";
+import { Form, Divider, Button, Select, Input, Modal } from "antd";
 import LoadSelect from "../LoadSelect";
+import { PlusCircleOutlined } from "@ant-design/icons";
+import { useState } from "react";
+import FamiliaForm from "./FamiliaForm";
 
 const urls = require("../../src/urls")
 const post_helper = require("../../src/helpers/post_helper")
@@ -7,7 +10,8 @@ const post_helper = require("../../src/helpers/post_helper")
 const SubFamiliaForm = (props) =>{
 
     const [form] = Form.useForm();
-
+    const [popup_open,setPopupOpen] = useState(false);
+    const [reload, setReload] = useState(false) 
     const agregar = ( _values ) => {
         post_helper.post_method(urls.post.insert.subfamilia,_values,(res)=>{
 
@@ -37,6 +41,37 @@ const SubFamiliaForm = (props) =>{
         form.setFieldsValue({familia_idfamilia:id})
       }
 
+      const closePopup = () => {
+        setPopupOpen(false);
+        location.reload();
+      }
+  
+      const onOkPopup = () => {
+        setPopupOpen(false);
+        //setReload(!reload)
+        location.reload();
+      }
+  
+      const AgregarFamiliaFormPopup = _=>
+      (<>
+          <Button type="primary"  size="small"  onClick={()=>{setPopupOpen(true)}}>
+              <PlusCircleOutlined />&nbsp;Agregar
+          </Button>
+          <Modal
+              cancelButtonProps={{ style: { display: 'none' } }}
+              okButtonProps={{children:"CANCELAR"}}
+              
+              width={"80%"}
+              title={"Agregar Familia"}
+              open={popup_open}
+              onOk={closePopup}
+              onCancel={closePopup}
+              okText="CERRAR"
+          >
+              <FamiliaForm action="ADD" callback={onOkPopup} />
+          </Modal>
+      </>)
+
     return (<>
 
         <Form 
@@ -57,12 +92,17 @@ const SubFamiliaForm = (props) =>{
                     },
                 ]}
             >
+                <>
             <LoadSelect fetchurl={urls.get.familia_menu_opt} callback={
                     (id)=>{
                         setValue(id);
                     }
                     
-                } />
+                }
+                reload={reload} 
+                />
+                <AgregarFamiliaFormPopup />
+                </>
             </Form.Item>
             <Form.Item
             label="Nombre Corto"

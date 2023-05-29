@@ -1,12 +1,17 @@
-import { Button, Form, Input } from "antd";
+import { Button, Form, Input, Modal } from "antd";
 import { useForm } from "rc-field-form";
 import SubFamiliaSelect from "../SubFamiliaSelect";
+import { PlusCircleOutlined } from "@ant-design/icons";
+import SubFamiliaForm from "./SubFamiliaForm";
+import { useState } from "react";
 const urls = require("../../src/urls")
 const post_helper = require("../../src/helpers/post_helper")
 
 const GrupoForm = (props) => {
     const [form] = Form.useForm();
-    
+    const [popup_open,setPopupOpen] = useState(false);
+    const [reload, setReload] = useState(false) 
+
     const onFinish = (values) => {
         switch(props.action){
             case 'ADD': post_helper.post_method(urls.post.insert.grupo,values,(res)=>{
@@ -26,6 +31,37 @@ const GrupoForm = (props) => {
     form.setFieldsValue({subfamilia_idsubfamilia:id})
     }
 
+    const closePopup = () => {
+        setPopupOpen(false);
+        location.reload();
+    }
+
+    const onOkPopup = () => {
+        setPopupOpen(false);
+        //setReload(!reload)
+        location.reload();
+    }
+
+    const AgregarSubFamiliaFormPopup = _=>
+    (<>
+        <Button type="primary"  size="small"  onClick={()=>{setPopupOpen(true)}}>
+            <PlusCircleOutlined />&nbsp;Agregar
+        </Button>
+        <Modal
+            cancelButtonProps={{ style: { display: 'none' } }}
+            okButtonProps={{children:"CANCELAR"}}
+            
+            width={"80%"}
+            title={"Agregar SubFamilia"}
+            open={popup_open}
+            onOk={closePopup}
+            onCancel={closePopup}
+            okText="CERRAR"
+        >
+            <SubFamiliaForm action="ADD" callback={onOkPopup} />
+        </Modal>
+    </>)
+
 
     return (
         <>
@@ -40,14 +76,18 @@ const GrupoForm = (props) => {
                 label={"SubFamilia"}
                 rules={[{required: true,}]}
                 >
-                    <SubFamiliaSelect 
-                    
-                    callback = {(id) =>{
-                        setValue(id)
-                    }}
-                    
-                    />
+                    <>
+                        <SubFamiliaSelect 
+                        
+                        callback = {(id) =>{
+                            setValue(id)
+                        }}
 
+                        reload={reload} 
+                        
+                        />
+                        <AgregarSubFamiliaFormPopup />
+                    </>
                 </Form.Item>
                 <Form.Item
                 name={"nombre_corto"}

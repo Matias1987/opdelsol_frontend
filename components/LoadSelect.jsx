@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 
 const LoadSelect = (props) => {
 
+    const _reload = typeof props.reload === 'undefined' ? false : props.reload;
+
     const [id,setId] = useState(-1);
 
     const [options, setOptions] = useState([]);
@@ -33,7 +35,7 @@ const LoadSelect = (props) => {
 
     useEffect(()=>{
         load();
-    },[]);
+    },[_reload]);
 
     return (
                 <>

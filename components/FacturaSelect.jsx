@@ -9,11 +9,14 @@ const { default: LoadSelect } = require("./LoadSelect")
 
 const FacturaSelect = (props) =>{ 
 
+    const _reload = typeof props.reload === 'undefined' ? false : props.reload;
+
     const [idProveedor, setIdProveedor] = useState(-1) 
 
     return (
         <>
     <LoadSelect 
+        reload={_reload}
         fetchurl = {get.lista_proveedores}
         parsefnt = {
             (data) => {
@@ -35,6 +38,7 @@ const FacturaSelect = (props) =>{
     />
     { idProveedor<0 ? <Spin/> :
         (<LoadSelect 
+        reload={_reload}
         fetchurl = {get.lista_facturas}
         parsefnt = {
             (data)=>{

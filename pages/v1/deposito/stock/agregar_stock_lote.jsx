@@ -1,7 +1,9 @@
 import FacturaForm from "@/components/forms/FacturaForm";
+import SubGrupoForm from "@/components/forms/SubGrupoForm";
 import globals from "@/src/globals";
 import { post_method } from "@/src/helpers/post_helper";
 import { get, post, public_urls } from "@/src/urls";
+import { render } from "react-dom";
 
 const { default: FacturaSelect } = require("@/components/FacturaSelect");
 const { default: SubGroupSelect } = require("@/components/SubGroupSelect");
@@ -13,7 +15,11 @@ const { useState } = require("react")
 const AgregarStockLote = (props) => {
     const [form] = Form.useForm();
     const [factura_popup_open, setFacturaPopupOpen] = useState(false)
+    const [subgrupo_popup_open, setSubGrupoPopupOpen] = useState(false)
     const [tableData, setTableData] = useState([]);
+
+    //testing
+    const [updateall, setUpdateAll] = useState(false);
 
 
     const setValue = (key,value) => {
@@ -45,7 +51,13 @@ const AgregarStockLote = (props) => {
 
             setTableData(
                 tableData.map(x=>(
-                    x.codigo == values.codigo ? {...x,cantidad: values.cantidad, costo: values.costo} : x
+                    x.codigo == values.codigo ? {...x,
+                        cantidad: values.cantidad, 
+                        costo: values.costo,
+                        genero: values.genero, 
+                        edad: values.edad,
+                        descripcion: values.descripcion,
+                    } : x
                 ))
             )
 
@@ -57,6 +69,8 @@ const AgregarStockLote = (props) => {
                 costo: values.costo, 
                 descripcion: values.descripcion,
                 status: "PENDING",
+                genero: values.genero,
+                edad: values.edad,
             }])
         }
 
@@ -71,7 +85,13 @@ const AgregarStockLote = (props) => {
 
     const columns = [
         {title:"Codigo", dataIndex: "codigo"},
-        {title:"Descripcion", dataIndex: "descripcion"},
+        {title:"Descripcion", dataIndex: "descripcion", render:(_,details)=>(
+            <>
+            {details.descripcion}&nbsp;
+            <Tag color="blue">{details.genero}</Tag>
+            <Tag color="green">{details.edad}</Tag>
+            </>
+        )},
         {title:"Cantidad", dataIndex: "cantidad"},
         {title:"Costo", dataIndex: "costo"},
         {title:"Acciones", dataIndex: "codigo", render: (codigo)=>{
@@ -106,6 +126,22 @@ const AgregarStockLote = (props) => {
     const onFinish = (_values)=>{
         var values = Array();
 
+       // alert(_values.subgrupo)
+
+        if(typeof _values.subgrupo === 'undefined'){
+            alert("Subgrupo no elegido");
+            return;
+        }
+
+        if(_values.subgrupo == null){
+            alert("Subgrupo no elegido");
+            return;
+        }
+        if(_values.subgrupo == "-1"){
+            alert("Subgrupo no elegido");
+            return;
+        }
+
         if(tableData.length<1){
             alert("No hay codigos para agregar");
             return;
@@ -121,6 +157,8 @@ const AgregarStockLote = (props) => {
                     factura: _values.factura,
                     subgrupo_idsubgrupo: _values.subgrupo,
                     sucursal_idsucursal: globals.obtenerSucursal(),
+                    genero: r.genero,
+                    edad: r.edad,
                 }
             )
         })
@@ -201,6 +239,9 @@ const AgregarStockLote = (props) => {
                                 codigo_idcodigo: res.data,
                                 cantidad: curr.cantidad,
                                 factura_idfactura: curr.factura,
+                                genero: curr.genero,
+                                edad: curr.edad,
+                                costo: curr.costo,
                             }
                             //alert("insert stock now! " + JSON.stringify(res))
                             //then stock object...
@@ -227,8 +268,39 @@ const AgregarStockLote = (props) => {
     }
     const onOk = () => {
         setFacturaPopupOpen(false)
+        setUpdateAll(!updateall)
     }
 
+
+    const closeSubgrupoPopup = () => {
+        setSubGrupoPopupOpen(false)
+    }
+
+    const onOkSubGrupo = () => {
+        setSubGrupoPopupOpen(false)
+        setUpdateAll(!updateall)
+    }
+
+    const AgregarSubgrupoPopup=_=>(
+        <>
+    <Button type="primary"  size="small"  onClick={()=>{setSubGrupoPopupOpen(true)}}>
+        {props.edit ? <EditOutlined /> : <><PlusCircleOutlined />&nbsp;Agregar</>}
+      </Button>
+    <Modal
+        cancelButtonProps={{ style: { display: 'none' } }}
+        okButtonProps={{children:"CANCELAR"}}
+        
+        width={"80%"}
+        title={"Agregar SubGrupo"}
+        open={subgrupo_popup_open}
+        onOk={closeSubgrupoPopup}
+        onCancel={closeSubgrupoPopup}
+        okText="CERRAR"
+    >
+        <SubGrupoForm action="ADD" callback={onOkSubGrupo} />
+    </Modal>
+    </>
+    )
    
 
     const AgregarFacturaPopup = _ =>
@@ -257,7 +329,7 @@ const AgregarStockLote = (props) => {
             <Form onFinish={onFinish} form={form} onFinishFailed={onFinishFailed}>
                     <Form.Item label={"Factura"} name={"factura"}>
                         <>
-                            <FacturaSelect callback={(id)=>{setValue("factura", id)}} />
+                            <FacturaSelect reload={updateall} callback={(id)=>{setValue("factura", id)}} />
                             <br />
                             {/* agregar facturas */}
                             <AgregarFacturaPopup />
@@ -265,7 +337,7 @@ const AgregarStockLote = (props) => {
                         </>
                     </Form.Item>
                     <Form.Item style={{ backgroundColor: "#E1EEFF", padding:"3.5em", fontSize:".25em"}} label={"Subgrupo"} name={"subgrupo"} rules={[{required:true}]}>
-                        <SubGroupSelect callback={(id)=>{setValue("subgrupo", id)}} />
+                        <SubGroupSelect callback={(id)=>{setValue("subgrupo", id)}} /><AgregarSubgrupoPopup />
                     </Form.Item>
                 <Form.Item label={"Codigos"} name={"codigos"}>
                     <>

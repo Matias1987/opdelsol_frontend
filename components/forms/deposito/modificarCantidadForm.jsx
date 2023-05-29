@@ -80,8 +80,8 @@ const ModificarCantidadForm = (props) => {
         <>
         <h1>Modificar</h1>
             <p>Modificar C&oacute;digo: <span style={{fontSize:".75em", color:"lightgrey"}}><i>{data.ruta}</i></span> <b>{data.codigo}</b></p>
-            <p>Cantidad Actual: {data.cantidad}</p>
-            <p>Costo Actual: {data.costo}</p>
+            <p>Cantidad Actual: <b>{data.cantidad}</b></p>
+            <p>Costo Actual: <b>{data.costo}</b></p>
             <Form
                 onFinish={onFinish}
                 onFinishFailed={onFinishFailed}

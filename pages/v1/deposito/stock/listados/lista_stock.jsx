@@ -5,7 +5,7 @@ import ModificarCantidadForm from "@/components/forms/deposito/modificarCantidad
 import globals from "@/src/globals";
 import { get } from "@/src/urls";
 import { ReloadOutlined } from "@ant-design/icons";
-import { Button, Input, Table } from "antd";
+import { Button, Col, Input, Row, Table } from "antd";
 import { useEffect, useRef, useState } from "react";
 
 export default function ListaStock(){
@@ -112,10 +112,24 @@ export default function ListaStock(){
     
     return(
         <>
-        <h1>Lista de Stock</h1>
-        <Input.Search onSearch={onSearch} ref={searchRef} />
-        <Button onClick={onReset}><ReloadOutlined /></Button>
-        <Table columns={columns} dataSource={data} loading={loading} ></Table>
+        
+        <Row>
+            <Col span={6} style={{backgroundColor:"#9B9BC1"}}>
+
+            </Col>
+            <Col span={6} style={{backgroundColor:"#EBC0BD"}}>
+            </Col>
+            <Col span={6} style={{backgroundColor:"#F4F0DD"}}>
+            </Col>
+            <Col span={6} style={{backgroundColor:"#BCD2E7"}}>
+            </Col>
+        </Row>
+        <Row>
+            <h1>Lista de Stock</h1>
+            <Input.Search onSearch={onSearch} ref={searchRef} />
+            <Button onClick={onReset}><ReloadOutlined /></Button>
+            <Table columns={columns} dataSource={data} loading={loading} ></Table>
+        </Row>
         </>
     )
 }

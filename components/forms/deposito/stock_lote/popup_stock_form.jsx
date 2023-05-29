@@ -31,7 +31,7 @@ const PopUpAgregarStockLoteForm = (props) => {
             form.setFieldsValue({genero:val})
             break;
         case "edad":
-            form.setFieldsValue({genero:val})
+            form.setFieldsValue({edad:val})
             break;
     }
 }
@@ -50,6 +50,8 @@ useEffect(()=>{
                 setValue("cantidad",props.values.cantidad);
                 setValue("costo",props.values.costo);
                 setValue("descripcion",props.values.descripcion);
+                setValue("genero",props.values.genero);
+                setValue("edad",props.values.edad);
             }
         }
         
@@ -110,7 +112,7 @@ useEffect(()=>{
                                 label: 'Adulto',
                             },
                             {
-                                value: 'ninio',
+                                value: 'niño',
                                 label: 'Niño',
                             },
                             {
