@@ -145,6 +145,14 @@ const DetalleStock = (props) => {
                         }</b></span></td>
                         
                     </tr>
+                    <tr>
+                        <td>G&eacute;nero:</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Edad:</td>
+                        <td></td>
+                    </tr>
                 </tbody>
             </table>
         </>

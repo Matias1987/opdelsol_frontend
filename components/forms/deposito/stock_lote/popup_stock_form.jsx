@@ -1,7 +1,7 @@
 import { EditOutlined, PlusCircleOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 
-const { Spin, Form, InputNumber, Button, Modal, Input } = require("antd")
+const { Spin, Form, InputNumber, Button, Modal, Input, Select } = require("antd")
 
 const PopUpAgregarStockLoteForm = (props) => {
     const [form] = Form.useForm();
@@ -27,6 +27,12 @@ const PopUpAgregarStockLoteForm = (props) => {
         case "descripcion":
             form.setFieldsValue({descripcion:val})
             break;
+        case "genero":
+            form.setFieldsValue({genero:val})
+            break;
+        case "edad":
+            form.setFieldsValue({genero:val})
+            break;
     }
 }
 
@@ -50,6 +56,9 @@ useEffect(()=>{
     }
    },[open])
 
+   const onChangeGenero = (value) =>{setValue("genero",value)}
+   const onChangeEdad = (value) =>{ setValue("edad",value)}
+
    //alert(JSON.stringify(props))
    return (
    <>
@@ -72,21 +81,68 @@ useEffect(()=>{
         okText="CANCELAR"
       >
         <Form onFinish={onFinish} onFinishFailed={onFinishFailed} form={form}>
-            <Form.Item  rules={[{required:true}]} label={"Codigo"} name={"codigo"}>
+            <Form.Item  rules={[{required:true}]} label={"Codigo"} name={"codigo"} style={{width: "400px"}}>
             {
                 props.edit ? <><Input value={props.values.codigo} disabled /></> : <Input onInput={e => e.target.value = e.target.value.toUpperCase()} />
             }
             </Form.Item>
-            <Form.Item rules={[{required:true}]} label={"Descripcion"} name={"descripcion"} onInput={e => e.target.value = e.target.value.toUpperCase()} >
+            <Form.Item rules={[{required:true}]} label={"Descripcion"} name={"descripcion"} style={{width: "600px"}} onInput={e => e.target.value = e.target.value.toUpperCase()} >
                 
                 <Input/>
             </Form.Item>
-            <Form.Item rules={[{required:true}]} label={"Cantidad"} name={"cantidad"} >
+            <Form.Item rules={[{required:true}]} label={"Cantidad"} name={"cantidad"} style={{width: "200px"}}>
                 
                 <Input type="number" />
             </Form.Item>
-            <Form.Item rules={[{required:true}]} label={"Costo"} name={"costo"} >
+            <Form.Item rules={[{required:true}]} label={"Costo"} name={"costo"} style={{width: "200px"}}>
                 <Input type="number" step={".01"} />
+            </Form.Item>
+            <Form.Item rules={[{required:true}]} label={"Edad"} name={"edad"} style={{width: "200px"}}>
+            <Select 
+                    onChange={
+                        onChangeEdad
+                    }
+
+                    options={
+                        [
+                            {
+                                value: 'adulto',
+                                label: 'Adulto',
+                            },
+                            {
+                                value: 'ninio',
+                                label: 'Niño',
+                            },
+                            {
+                                value: 'joven',
+                                label: 'Joven',
+                            },
+                        ]
+                    } />
+            </Form.Item>
+            <Form.Item rules={[{required:true}]} label={"Género"} name={"genero"} style={{width: "200px"}}>
+                <Select 
+
+                onChange={
+                    onChangeGenero
+                }
+                
+                options={
+                    [
+                        {
+                            value: 'femenino',
+                            label: 'Femenino',
+                        },
+                        {
+                            value: 'masculino',
+                            label: 'Masculino',
+                        },
+                        {
+                            value: 'unisex',
+                            label: 'Unisex',
+                        },
+                    ]
+                } />
             </Form.Item>
             <Form.Item>
                 <Button type="primary" htmlType="submit">OK</Button>

@@ -6,12 +6,13 @@ import { get, post, public_urls } from "@/src/urls";
 const { default: FacturaSelect } = require("@/components/FacturaSelect");
 const { default: SubGroupSelect } = require("@/components/SubGroupSelect");
 const { default: PopUpAgregarStockLoteForm } = require("@/components/forms/deposito/stock_lote/popup_stock_form");
-const { DeleteOutlined } = require("@ant-design/icons");
+const { DeleteOutlined, EditOutlined, PlusCircleOutlined } = require("@ant-design/icons");
 const { Button, Table, Form, Tag, Modal } = require("antd");
 const { useState } = require("react")
 
 const AgregarStockLote = (props) => {
     const [form] = Form.useForm();
+    const [factura_popup_open, setFacturaPopupOpen] = useState(false)
     const [tableData, setTableData] = useState([]);
 
 
@@ -221,6 +222,34 @@ const AgregarStockLote = (props) => {
         _save_lote();
     }
 
+    const closePopup =()=>{
+        setFacturaPopupOpen(false)
+    }
+    const onOk = () => {
+        setFacturaPopupOpen(false)
+    }
+
+   
+
+    const AgregarFacturaPopup = _ =>
+    <>
+    <Button type="primary"  size="small"  onClick={()=>{setFacturaPopupOpen(true)}}>
+        {props.edit ? <EditOutlined /> : <><PlusCircleOutlined />&nbsp;Agregar</>}
+      </Button>
+    <Modal
+        cancelButtonProps={{ style: { display: 'none' } }}
+        okButtonProps={{children:"CANCELAR"}}
+        
+        width={"80%"}
+        title={"Agregar Factura"}
+        open={factura_popup_open}
+        onOk={closePopup}
+        onCancel={closePopup}
+        okText="CERRAR"
+    >
+        <FacturaForm action="ADD" callback={onOk} />
+    </Modal>
+    </>
 
     return(
         <>
@@ -231,19 +260,7 @@ const AgregarStockLote = (props) => {
                             <FacturaSelect callback={(id)=>{setValue("factura", id)}} />
                             <br />
                             {/* agregar facturas */}
-                            <Modal
-                                cancelButtonProps={{ style: { display: 'none' } }}
-                                okButtonProps={{children:"CANCELAR"}}
-                                
-                                width={"80%"}
-                                title={"Agregar Factura"}
-                                open={open}
-                                onOk={closePopup}
-                                onCancel={closePopup}
-                                okText="CERRAR"
-                            >
-                                <FacturaForm action="ADD" callback={onOk} />
-                            </Modal>
+                            <AgregarFacturaPopup />
                             {/* FIN agregar facturas */}
                         </>
                     </Form.Item>

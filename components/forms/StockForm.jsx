@@ -4,7 +4,7 @@ import FacturaSelect from "../FacturaSelect";
 import LoadSelect from "../LoadSelect";
 import SubGroupSelect from "../SubGroupSelect";
 
-const { Input, Button, Form } = require("antd")
+const { Input, Button, Form, Select } = require("antd")
 
 const urls = require("../../src/urls")
 const post_helper = require("../../src/helpers/post_helper")
@@ -53,17 +53,25 @@ const StockForm = (props) => {
     console.log('Failed:', errorInfo);
     };
 
-    const setValue = (_index, _id) => {
+    const setValue = (_index, val) => {
         switch(_index){
             case "factura_idfactura":
-                form.setFieldsValue({factura_idfactura:_id})
+                form.setFieldsValue({factura_idfactura:val})
                 break;
             case "codigo_idcodigo":
-                form.setFieldsValue({codigo_idcodigo:_id})
+                form.setFieldsValue({codigo_idcodigo:val})
                 break;
+            case "genero":
+                form.setFieldsValue({genero:val})
+            break;
+            case "edad":
+                form.setFieldsValue({genero:val})
+            break;
         }
     }
 
+   const onChangeGenero = (value) =>{setValue("genero",value)}
+   const onChangeEdad = (value) =>{ setValue("edad",value)}
 
     return (
         <>
@@ -118,6 +126,53 @@ const StockForm = (props) => {
             style={{width: "200px"}}
             >
                 <Input type="number" min={0} step={1}/>
+            </Form.Item>
+            <Form.Item rules={[{required:true}]} label={"Edad"} name={"edad"} style={{width: "200px"}} >
+            <Select 
+                    onChange={
+                        onChangeEdad
+                    }
+
+                    options={
+                        [
+                            {
+                                value: 'adulto',
+                                label: 'Adulto',
+                            },
+                            {
+                                value: 'ninio',
+                                label: 'Niño',
+                            },
+                            {
+                                value: 'joven',
+                                label: 'Joven',
+                            },
+                        ]
+                    } />
+            </Form.Item>
+            <Form.Item rules={[{required:true}]} label={"Género"} name={"genero"} style={{width: "200px"}} >
+                <Select 
+
+                onChange={
+                    onChangeGenero
+                }
+                
+                options={
+                    [
+                        {
+                            value: 'femenino',
+                            label: 'Femenino',
+                        },
+                        {
+                            value: 'masculino',
+                            label: 'Masculino',
+                        },
+                        {
+                            value: 'unisex',
+                            label: 'Unisex',
+                        },
+                    ]
+                } />
             </Form.Item>
             <Form.Item>
                 <Button type="primary" htmlType="submit">Guardar</Button>
