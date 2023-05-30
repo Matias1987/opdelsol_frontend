@@ -5,7 +5,7 @@ import ModificarCantidadForm from "@/components/forms/deposito/modificarCantidad
 import globals from "@/src/globals";
 import { get } from "@/src/urls";
 import { ReloadOutlined } from "@ant-design/icons";
-import { Button, Col, Input, Row, Table } from "antd";
+import { Button, Col, Divider, Form, Input, Row, Select, Space, Table, Tag } from "antd";
 import { useEffect, useRef, useState } from "react";
 
 export default function ListaStock(){
@@ -13,8 +13,23 @@ export default function ListaStock(){
     const [data,setData] = useState([])
     const [loading, setLoading] = useState(true)
     const [valueChanged, setValueChanged] = useState(false)
+    const [tags, setTags] = useState([])
     const searchRef = useRef(null)
     const idsucursal = globals.obtenerSucursal();//temporary
+    const [form] = Form.useForm();
+    const [form1] = Form.useForm();
+    const tipos_filtro_dic = {
+        "codigo_contenga_a":"codigo",
+        "codigo_igual_a":"codigo",
+        "precio_mayor_a":"precio",
+        "precio_menor_a":"precio",
+        "precio_igual_a":"precio",
+        "cantidad_igual_a":"cantidad",
+        "cantidad_mayor_a":"cantidad",
+        "cantidad_menor_a":"cantidad",
+        "sexo":"sexo",
+        "edad":"edad",
+    }
     //#region ONSEARCH
     const onSearch = (value) => {
         setLoading(true)
@@ -109,21 +124,125 @@ export default function ListaStock(){
         searchRef.current.value = ""; 
         console.log(searchRef.current.value)
     }
+
+    const setValue = (idx,value)=>{
+        switch(idx){
+            case "tipo_filtro": form.setFieldsValue({tipo_filtro:value}); break;
+        }
+    }
+
+    const setValue1 = (idx,value)=>{
+        switch(idx){
+            case "orden": form1.setFieldsValue({orden:value}); break;
+        }
+    }
+
+    const onFinishFiltro = (values) =>{
+        //alert(JSON.stringify(values))
+        const found = tags.find(i => tipos_filtro_dic[i.tipo] == tipos_filtro_dic[values.tipo_filtro])
+        
+        if(typeof found === 'undefined')
+        {    
+            
+            setTags((tags)=>[...tags,{tipo: values.tipo_filtro, valor: values.valor}])
+        }
+        else{
+            alert("Tipo de Filtro ya Cargado")
+        }
+        
+    }
     
+    const onFinish = (values) => {
+        alert(JSON.stringify(values))
+    }
+
+    const removeTag = (tag) =>{
+        
+        setTags(tags.filter(t1=>tag.tipo !== t1.tipo))
+    }
+
     return(
         <>
-        
-        <Row>
-            <Col span={6} style={{backgroundColor:"#9B9BC1"}}>
+            <Form {...{labelCol:{span:5}, wrapperCol:{span:18}}} onFinish={onFinishFiltro} form={form}>
+            <Row>
+                <Col span={8}>
+                    <Form.Item label={"Filtar Por"} name={"tipo_filtro"}>
+                        <Select  options={[
+                            {label: 'Codigo Contenga a', value: 'codigo_contenga_a'},
+                            {label: 'Codigo Igual a ', value: 'codigo_igual_a'},
+                            
+                            {label: 'Precio - Mayor a', value: 'precio_mayor_a'},
+                            {label: 'Precio - Menor a', value: 'precio_menor_a'},
+                            {label: 'Precio - Igual a', value: 'precio_igual_a'},
 
-            </Col>
-            <Col span={6} style={{backgroundColor:"#EBC0BD"}}>
-            </Col>
-            <Col span={6} style={{backgroundColor:"#F4F0DD"}}>
-            </Col>
-            <Col span={6} style={{backgroundColor:"#BCD2E7"}}>
-            </Col>
-        </Row>
+                            {label: 'Cantidad - Igual a', value: 'cantidad_igual_a'},
+                            {label: 'Cantidad - Mayor a', value: 'cantidad_mayor_a'},
+                            {label: 'Cantidad - Menor a', value: 'cantidad_menor_a'},
+                            
+                            {label: 'Sexo', value: 'sexo'},
+                            {label: 'Edad', value: 'edad'},
+                        ]} 
+                        onChange={(value)=>{
+                            setValue("tipo_filtro",value)
+                        }}
+                        />
+                    </Form.Item>
+                </Col>
+                <Col span={8}>
+                    <Form.Item label={"Valor"} name={"valor"}>
+                        <Input />
+                    </Form.Item>
+                </Col>
+                <Col span={8}>
+                <Form.Item>
+                        <Button type="primary" htmlType="submit" size="small">Agregar</Button>
+                    </Form.Item>
+                </Col>
+            </Row>
+            
+            </Form>
+
+            <Form form={form1} onFinish={onFinish}>
+                <Row>
+                    
+                    <Col span={8} style={{ backgroundColor:"#E6F6FF", margin:".25em"}}>
+                    <Form.Item label={"Filtros:"}>
+                        {
+                            tags.map(t=>(
+                                <Tag color="red" closable  onClose={(e)=>{
+                                    e.preventDefault();
+                                    removeTag(t);
+                                }}>{t.tipo + ": " +t.valor}</Tag>
+                            ))
+                        }
+                        </Form.Item>
+                    </Col>
+                    <Col span={12}>
+                        <Form.Item label={"Orden"} name={"orden"}>
+                            <Select options={[
+                                {label: 'Alfabetico - Ascendiente', value: 'alf_asc'},
+                                {label: 'Alfabetico - Descendiente', value: 'alf_desc'},
+                                {label: 'Precio - Descendiente', value: 'mayor_precio'},
+                                {label: 'Precio - Ascendiente', value: 'menor_precio'},
+                            ]} 
+                            onChange={(value)=>{
+                                setValue1("orden",value)
+                            }}
+                            />
+                        </Form.Item>
+
+                    </Col>
+                    <Col span={12}>
+                        <Form.Item>
+                            <Button type="primary" htmlType="submit" size="small">Aplicar Filtros</Button>
+                        </Form.Item>
+                    </Col>
+                </Row>
+            </Form>
+                
+            
+            
+        
         <Row>
             <h1>Lista de Stock</h1>
             <Input.Search onSearch={onSearch} ref={searchRef} />
