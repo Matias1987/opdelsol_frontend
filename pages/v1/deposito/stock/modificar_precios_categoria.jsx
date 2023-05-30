@@ -49,6 +49,9 @@ export default function ModificarPreciosCategoria(props){
             case "multiplicador":
                 form.setFieldsValue({multiplicador:value})
                 break;
+            case "porcentaje":
+                form.setFieldsValue({porcentaje:value})
+                break;
         }
         
     }
@@ -135,6 +138,7 @@ export default function ModificarPreciosCategoria(props){
             required={true}
             >
                 <InputNumber 
+                
                 style={{width:100}} 
                 step={.01} 
                 min={1} 
@@ -142,7 +146,17 @@ export default function ModificarPreciosCategoria(props){
                 max={999999}
                 onChange={(val)=>{
                     setValue("multiplicador", val)
+                    setValue("porcentaje", (parseFloat(val) - 1) * 100);
                 }}
+                />
+            </Form.Item>
+            <Form.Item label={"Porcentaje"} name={"porcentaje"}>
+                <InputNumber
+                    addonAfter={"%"}    
+                    onChange={(val)=>{
+                        setValue("porcentaje", val)
+                        setValue("multiplicador", parseFloat(val) * .01 + 1)
+                    }}
                 />
             </Form.Item>
             <Form.Item>
