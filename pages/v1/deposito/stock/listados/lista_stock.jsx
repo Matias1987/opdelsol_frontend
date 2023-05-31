@@ -3,13 +3,15 @@ import CustomTable from "@/components/forms/CustomTable";
 import DetalleStock from "@/components/forms/deposito/DetalleStock";
 import ModificarCantidadForm from "@/components/forms/deposito/modificarCantidadForm";
 import globals from "@/src/globals";
-import { get } from "@/src/urls";
+import { post_method } from "@/src/helpers/post_helper";
+import { get, post } from "@/src/urls";
 import { ReloadOutlined } from "@ant-design/icons";
 import { Button, Col, Divider, Form, Input, Row, Select, Space, Table, Tag } from "antd";
 import { useEffect, useRef, useState } from "react";
 
 export default function ListaStock(){
     const [popupOpen, setPopupOpen] = useState(false)
+    const [tipoOrden, setTipoOrden] = useState("");
     const [data,setData] = useState([])
     const [loading, setLoading] = useState(true)
     const [valueChanged, setValueChanged] = useState(false)
@@ -19,16 +21,16 @@ export default function ListaStock(){
     const [form] = Form.useForm();
     const [form1] = Form.useForm();
     const tipos_filtro_dic = {
-        "codigo_contenga_a":"codigo",
-        "codigo_igual_a":"codigo",
-        "precio_mayor_a":"precio",
-        "precio_menor_a":"precio",
-        "precio_igual_a":"precio",
-        "cantidad_igual_a":"cantidad",
-        "cantidad_mayor_a":"cantidad",
-        "cantidad_menor_a":"cantidad",
-        "sexo":"sexo",
-        "edad":"edad",
+        "codigo_contenga_a":{tipo: "codigo", descripcion: "Codigo"},
+        "codigo_igual_a":{tipo: "codigo", descripcion: "Codigo"},
+        "precio_mayor_a":{tipo: "precio", descripcion: "Precio"},
+        "precio_menor_a":{tipo: "precio", descripcion: "Precio"},
+        "precio_igual_a":{tipo: "precio", descripcion: "Precio"},
+        "cantidad_igual_a":{tipo: "cantidad", descripcion:"Cantidad"},
+        "cantidad_mayor_a":{tipo: "cantidad", descripcion:"Cantidad"},
+        "cantidad_menor_a":{tipo: "cantidad", descripcion:"Cantidad"},
+        "sexo":{tipo: "sexo", descripcion:"Genero"},
+        "edad":{tipo: "edad", descripcion:"Edad"},
     }
     //#region ONSEARCH
     const onSearch = (value) => {
@@ -59,31 +61,39 @@ export default function ListaStock(){
     
     //THIS IS NEW
     useEffect(()=>{
-        //setReload(false)+
-        searchRef.current.value = ""; 
+        
+        //searchRef.current.value = ""; 
         setLoading(true)
-        fetch(get.lista_stock+idsucursal)
-        .then(response=>response.json())
-        .then((response)=>{
+        
+        const data = procesar_tags();
+        //alert(JSON.stringify(data))
+        post_method(post.search.filtro_stock,data,(response)=>{
             setData(response.data.map(
-                        (row)=>(
-                            {
-                                key: row.idcodigo,
-                                codigo: row.codigo,
-                                ruta: row.ruta,
-                                cantidad: row.cantidad,
-                                idcodigo: row.idcodigo,
-                            }
-                        )
-                    ))
-            setLoading(false)
+                (row)=>(
+                    {
+                        key: row.idcodigo,
+                        codigo: row.codigo,
+                        //ruta: row.ruta,
+                        cantidad: row.cantidad,
+                        idcodigo: row.idcodigo,
+                        precio: row.precio,
+                        sexo: row.sexo,
+                        genero: row.genero,
+                        edad: row.edad,
+                    }
+                )
+            ))
+    setLoading(false)
         })
-        .catch(err=>{console.error(err)})
     },[valueChanged])
 
     const columns = [
         {title: 'Codigo',dataIndex: 'codigo',key: 'codigo'},
+        {title: 'Descripción',dataIndex: 'descripcion',key: 'descripcion'},
         {title: 'Ruta',dataIndex: 'ruta',key: 'ruta'},
+        {title: 'Edad',dataIndex: 'edad',key: 'edad'},
+        {title: 'Género',dataIndex: 'genero',key: 'genero'},
+        {title: 'Precio',dataIndex: 'precio',key: 'precio'},
         {title: 'Cantidad',dataIndex: 'cantidad',key: 'cantidad'},
         {
             title: 'Acciones', dataIndex: 'idstock', key: 'idstock',
@@ -138,12 +148,10 @@ export default function ListaStock(){
     }
 
     const onFinishFiltro = (values) =>{
-        //alert(JSON.stringify(values))
-        const found = tags.find(i => tipos_filtro_dic[i.tipo] == tipos_filtro_dic[values.tipo_filtro])
+        const found = tags.find(i => tipos_filtro_dic[i.tipo].tipo == tipos_filtro_dic[values.tipo_filtro].tipo)
         
         if(typeof found === 'undefined')
         {    
-            
             setTags((tags)=>[...tags,{tipo: values.tipo_filtro, valor: values.valor}])
         }
         else{
@@ -151,9 +159,30 @@ export default function ListaStock(){
         }
         
     }
+
+    const procesar_tags =(values)=>{
+        var _tags = {};
+
+        tags.forEach(t=>{
+            _tags[t.tipo] = t.valor
+        })
+        return {
+            codigo_contenga_a: typeof _tags["codigo_contenga_a"] === 'undefined' ? "" : _tags["codigo_contenga_a"],
+            codigo_igual_a: typeof _tags["codigo_igual_a"] === 'undefined' ? "" : _tags["codigo_igual_a"],
+            precio_mayor_a: typeof _tags["precio_mayor_a"] === 'undefined' ? "" : _tags["precio_mayor_a"],
+            precio_menor_a: typeof _tags["precio_menor_a"] === 'undefined' ? "" : _tags["precio_menor_a"],
+            precio_igual_a: typeof _tags["precio_igual_a"] === 'undefined' ? "" : _tags["precio_igual_a"],
+            cantidad_igual_a: typeof _tags["cantidad_igual_a"] === 'undefined' ? "" : _tags["cantidad_igual_a"],
+            cantidad_mayor_a: typeof _tags["cantidad_mayor_a"] === 'undefined' ? "" : _tags["cantidad_mayor_a"],
+            cantidad_menor_a: typeof _tags["cantidad_menor_a"] === 'undefined' ? "" : _tags["cantidad_menor_a"],
+            sexo: typeof _tags["sexo"] === 'undefined' ? "" : _tags["sexo"],
+            edad: typeof _tags["edad"] === 'undefined' ? "" : _tags["edad"],
+            order: tipoOrden,
+        }
+    }
     
     const onFinish = (values) => {
-        alert(JSON.stringify(values))
+        setValueChanged(!valueChanged);
     }
 
     const removeTag = (tag) =>{
@@ -164,7 +193,7 @@ export default function ListaStock(){
     return(
         <>
             <Form {...{labelCol:{span:5}, wrapperCol:{span:18}}} onFinish={onFinishFiltro} form={form}>
-            <Row>
+            <Row style={{backgroundColor:"#FFE4D3", paddingTop:"1em", paddingLeft:"1em"}}>
                 <Col span={8}>
                     <Form.Item label={"Filtar Por"} name={"tipo_filtro"}>
                         <Select  options={[
@@ -179,7 +208,7 @@ export default function ListaStock(){
                             {label: 'Cantidad - Mayor a', value: 'cantidad_mayor_a'},
                             {label: 'Cantidad - Menor a', value: 'cantidad_menor_a'},
                             
-                            {label: 'Sexo', value: 'sexo'},
+                            {label: 'Género', value: 'sexo'},
                             {label: 'Edad', value: 'edad'},
                         ]} 
                         onChange={(value)=>{
@@ -203,16 +232,16 @@ export default function ListaStock(){
             </Form>
 
             <Form form={form1} onFinish={onFinish}>
-                <Row>
+                <Row style={{paddingTop:"1em", paddingLeft:"1em"}}>
                     
-                    <Col span={8} style={{ backgroundColor:"#E6F6FF", margin:".25em"}}>
+                    <Col span={8} >
                     <Form.Item label={"Filtros:"}>
                         {
                             tags.map(t=>(
                                 <Tag color="red" closable  onClose={(e)=>{
                                     e.preventDefault();
                                     removeTag(t);
-                                }}>{t.tipo + ": " +t.valor}</Tag>
+                                }}>{tipos_filtro_dic[t.tipo].descripcion + ": " +t.valor}</Tag>
                             ))
                         }
                         </Form.Item>
@@ -222,11 +251,14 @@ export default function ListaStock(){
                             <Select options={[
                                 {label: 'Alfabetico - Ascendiente', value: 'alf_asc'},
                                 {label: 'Alfabetico - Descendiente', value: 'alf_desc'},
-                                {label: 'Precio - Descendiente', value: 'mayor_precio'},
-                                {label: 'Precio - Ascendiente', value: 'menor_precio'},
+                                {label: 'Precio - Descendiente', value: 'precio_desc'},
+                                {label: 'Precio - Ascendiente', value: 'precio_asc'},
+                                {label: 'Cantidad - Ascendiente', value: 'cantidad_asc'},
+                                {label: 'Cantidad - Descendiente', value: 'cantidad_desc'},
                             ]} 
                             onChange={(value)=>{
                                 setValue1("orden",value)
+                                setTipoOrden(value);
                             }}
                             />
                         </Form.Item>
@@ -239,14 +271,10 @@ export default function ListaStock(){
                     </Col>
                 </Row>
             </Form>
-                
-            
-            
-        
         <Row>
             <h1>Lista de Stock</h1>
-            <Input.Search onSearch={onSearch} ref={searchRef} />
-            <Button onClick={onReset}><ReloadOutlined /></Button>
+            {/*<Input.Search onSearch={onSearch} ref={searchRef} />
+            <Button onClick={onReset}><ReloadOutlined /></Button>*/}
             <Table columns={columns} dataSource={data} loading={loading} ></Table>
         </Row>
         </>

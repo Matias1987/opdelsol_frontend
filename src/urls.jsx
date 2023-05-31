@@ -26,6 +26,9 @@ const informes = {
 const post = {
     login: remote_base_url + "usuarios/login/",
     codigo_por_codigo: remote_base_url + "codigos/porcodigo/",
+    search:{
+        filtro_stock: remote_base_url + "stock/filtro_stock/",
+    },
     insert:{
         stock_lote: remote_base_url + "stock/agregar_stock/lote/",
         familia: remote_base_url + "familia/",
