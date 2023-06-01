@@ -99,6 +99,9 @@ const get = {
 
     obtener_lista_baja_desperfectos: remote_base_url + "bajadesperfecto/",
 
+    detalle_factura: remote_base_url + "facturas/",//idfactura
+    elementos_factura: remote_base_url + "facturas/elementos/",//idfactura
+
 }
 
 module.exports = {

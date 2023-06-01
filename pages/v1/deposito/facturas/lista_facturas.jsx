@@ -3,6 +3,7 @@ import { get } from "@/src/urls";
 import { CloseCircleOutlined, EditOutlined, FieldTimeOutlined } from "@ant-design/icons";
 import AgregarFactura from "./agregar_factura";
 import FacturaForm from "@/components/forms/FacturaForm";
+import DetalleFactura from "@/components/forms/deposito/DetalleFactura";
 
 const { Table, Button, Modal } = require("antd")
 const { useState, useEffect } = require("react")
@@ -18,12 +19,15 @@ const ListaFacturas = (props) => {
         {title: 'Proveedor', dataIndex: 'proveedor', key: 'proveedor'},
         {title: 'Cantidad', dataIndex: 'cantidad', key: 'cantidad'},
         {title: 'Monto', dataIndex: 'monto', key: 'monto'},
-        {title: 'Acciones', dataIndex: 'idproveedor', key: 'acciones',
+        {title: 'Acciones', dataIndex: 'idfactura', key: 'acciones',
             render: (idfactura)=>{
                     return(
                     <>
-                    <Button><EditOutlined />&nbsp;Editar</Button>
-                    <Button danger><CloseCircleOutlined />&nbsp;Anular</Button>
+                    <CustomModal openButtonText="Detalles" title="">
+                        <DetalleFactura idFactura={idfactura} />
+                    </CustomModal>
+                    {/*<Button><EditOutlined />&nbsp;Editar</Button>
+                    <Button danger><CloseCircleOutlined />&nbsp;Anular</Button>*/}
                     </>
                     )
             }
@@ -41,10 +45,10 @@ useEffect(()=>{
                     {
                         idfactura: r.idfactura,
                         numero: r.numero,
-                        proveedor: r.proveedor_idproveedor,
+                        proveedor: r.proveedor,
                         cantidad: r.cantidad,
                         monto: r.monto,
-                        fecha: "", //<---TODO
+                        fecha: r.fecha_formated, //<---TODO
                     
                     }
                 )

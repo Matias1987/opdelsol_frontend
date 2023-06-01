@@ -28,7 +28,7 @@ export default function ListaDesperfectos(props){
     },[])
     return (
     <>
-        <h1>Lista De Desperfectos</h1>
+        <h1>Lista de bajas por desperfectos</h1>
         <Table 
             loading={loading}
 
