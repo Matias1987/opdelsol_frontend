@@ -1,4 +1,4 @@
-import { Button, Table, Search, Input, Row } from "antd";
+import { Button, Table, Search, Input, Row, Affix } from "antd";
 import { useState } from "react";
 import { get } from "@/src/urls";
 import globals from "@/src/globals";
@@ -7,6 +7,7 @@ import { PlusCircleFilled } from "@ant-design/icons";
 const SearchStockEnvio = (props) => {
     const id_sucursal = globals.obtenerSucursal();
     const search_url = get.buscar_stock_envios + id_sucursal+ "/";
+    const [top,setTop] = useState(10);
     const [dataSource, setDataSource] = useState([])
     const [loading, setLoading] = useState(false)
 
@@ -51,7 +52,9 @@ const SearchStockEnvio = (props) => {
     return (
         <>
         <Row>
-            <Input.Search onSearch={onSearch}  />
+            <Affix offsetTop={top}>
+                <Input.Search onSearch={onSearch}  />
+            </Affix>
         </Row>
         <Row style={{height: "300px", overflowY: "scroll"}}>
             <Table 

@@ -62,7 +62,7 @@ const post = {
 }
 
 const get = {
-    
+    lista_codigos_categoria: remote_base_url + "codigos/lista_por_categoria/", ///:idfamilia/:idsubfamilia/:idgrupo/:idsubgrupo
     lista_familia: remote_base_url + "familia/",
     lista_subgrupo: remote_base_url + "subgrupos/",
     lista_envio_stock: remote_base_url + "enviostock/",

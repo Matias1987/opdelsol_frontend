@@ -1,4 +1,4 @@
-import { Button, Col, Divider, Form, Input, InputNumber, Menu, Row, Table } from "antd";
+import { Affix, Button, Col, Divider, Form, Input, InputNumber, Menu, Row, Table } from "antd";
 import CustomModal from "../CustomModal";
 import FullPathStockSelect from "../FullPathStockSelect";
 import LoadSelect from "../LoadSelect";
@@ -13,6 +13,7 @@ const EnvioForm = (props) => {
     const [tableLoading,setTableLoading] = useState(false);
     const [selectedCodigoId, setSelectedCodigoId] = useState(-1);
     const [sucursalDestId, setSucursalDestId] = useState(-1);
+    const [bottom,setBottom] = useState(10);
     const [form] = Form.useForm();
     const sucursal_id = globals.obtenerSucursal();// 1; //THIS VALUE HAS TO BE DYNAMIC!!
 
@@ -216,7 +217,9 @@ const EnvioForm = (props) => {
                         />
                 </Form.Item>
                 <Form.Item>
-                    <Button type="primary" htmlType="submit">Guardar</Button>
+                    <Affix offsetBottom={bottom}>
+                        <Button type="primary" htmlType="submit">Generar Env&iacute;o</Button>
+                    </Affix>
                 </Form.Item>
             </Form>
             </Col>

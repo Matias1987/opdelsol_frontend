@@ -1,14 +1,19 @@
+import CustomModal from "@/components/CustomModal";
 import GrupoSelect from "@/components/GrupoSelect";
 import LoadSelect from "@/components/LoadSelect";
 import SubFamiliaSelect from "@/components/SubFamiliaSelect";
 import SubGroupSelect from "@/components/SubGroupSelect";
+import VistaPreviaPrecios from "@/components/forms/deposito/vista_previa_precios";
 import { get, post, public_urls } from "@/src/urls";
-import { Button, Divider, Form, Input, InputNumber, Select } from "antd";
+import { Button, Divider, Form, Input, InputNumber, Select, Switch } from "antd";
 import { useEffect, useState } from "react";
 const post_helper = require("../../../../src/helpers/post_helper")
 
 export default function ModificarPreciosCategoria(props){
-    const [categoria, setCategoria] = useState("");
+    const [categoria, setCategoria] = useState(-1);
+    const [idCategoria, setIdCategoria] = useState(-1);
+    const [multiplicador, setMultiplicador] = useState(1);
+    const [incrementar, setIncrementar] = useState(true);
     const [form] = Form.useForm();
     
     const onFinish = (values) => {
@@ -20,11 +25,12 @@ export default function ModificarPreciosCategoria(props){
             alert('No seleccionó categoria')
             return;
         }
-        alert(JSON.stringify(values))
+        //alert(JSON.stringify(values))
         const data = {
             categoria:values.categoria,
             id: values.fkcategoria,
             value: values.multiplicador,
+            incrementar: incrementar ? '1' : '0',
         }
         post_helper.post_method(post.update.modificar_multiplicador,
         data,
@@ -45,6 +51,7 @@ export default function ModificarPreciosCategoria(props){
                 break;
             case "fkcategoria":
                 form.setFieldsValue({fkcategoria:value})
+                setIdCategoria(value);
                 break;
             case "multiplicador":
                 form.setFieldsValue({multiplicador:value})
@@ -63,7 +70,10 @@ export default function ModificarPreciosCategoria(props){
         switch (categoria){
             case "familia": return (<LoadSelect 
                 fetchurl={get.lista_familia} 
-                callback={(v)=>{setValue("fkcategoria", v)}} 
+                callback={(v)=>{
+                    setValue("fkcategoria", v)
+                    //set current counter
+                }} 
                 parsefnt={(data)=>(
                     data.map((r)=>(
                         {
@@ -83,6 +93,9 @@ export default function ModificarPreciosCategoria(props){
 
     const onFinishFailed = () => {}
 
+    const OnIncrementarCheckedChanged = () =>{
+        setIncrementar(!incrementar)
+    }
 
     return (
         <>
@@ -132,12 +145,15 @@ export default function ModificarPreciosCategoria(props){
             >
                 {show_select()}
             </Form.Item>
+            <Form.Item>
+                <Switch checkedChildren="Incrementar" unCheckedChildren="Sobreescribir" defaultChecked onChange={OnIncrementarCheckedChanged} />
+            </Form.Item>
             <Form.Item
             label={"Multiplicador"}
             name={"multiplicador"}
             required={true}
             >
-                <InputNumber 
+                <InputNumber disabled
                 
                 style={{width:100}} 
                 step={.01} 
@@ -146,7 +162,9 @@ export default function ModificarPreciosCategoria(props){
                 max={999999}
                 onChange={(val)=>{
                     setValue("multiplicador", val)
-                    setValue("porcentaje", (parseFloat(val) - 1) * 100);
+                    const _m = (parseFloat(val) - 1) * 100;
+                    setValue("porcentaje", _m);
+                    setMultiplicador(_m)
                 }}
                 />
             </Form.Item>
@@ -154,15 +172,22 @@ export default function ModificarPreciosCategoria(props){
                 <InputNumber
                     addonAfter={"%"}    
                     onChange={(val)=>{
+                        const _m  =  parseFloat(val) * .01 + 1;
                         setValue("porcentaje", val)
-                        setValue("multiplicador", parseFloat(val) * .01 + 1)
+                        setValue("multiplicador",_m)
+                        //alert(_m)
+                        setMultiplicador(_m);
                     }}
                 />
             </Form.Item>
             <Form.Item>
+                <CustomModal openButtonText={"Vista Previa"} title={"Vista Previa"}> 
+                    <VistaPreviaPrecios tipo={categoria} idcategoria={idCategoria} multiplicador={multiplicador} incrementar={incrementar}  />
+                </CustomModal>
+            </Form.Item>
+            <Form.Item>
                 <>
-                    <Divider />
-                    <Button type="primary" htmlType="submit">Aceptar</Button>
+                    <Button type="primary" htmlType="submit" danger >Aplicar Cambios</Button>
                 </>
                 
             </Form.Item>
