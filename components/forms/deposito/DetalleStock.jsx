@@ -71,6 +71,7 @@ const DetalleStock = (props) => {
                     {
                         nro_envio: r.nroenvio,
                         cantidad: r.cantidad,
+                        sucursal: r.sucursal,
                         
                     }
                 ))
@@ -91,6 +92,7 @@ const DetalleStock = (props) => {
                     <tr>
                         <th>Nro. Env&iacute;o&nbsp;&nbsp;&nbsp;</th>
                         <th>Cantidad</th>
+                        <th>Sucursal</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -105,6 +107,7 @@ const DetalleStock = (props) => {
                                     </CustomModal>
                                 </td>
                                 <td style={{textAlign:"center"}}>{r.cantidad}</td>
+                                <td style={{textAlign:"center"}}>{r.sucursal}</td>
                             </tr>
                         ))
                     }

@@ -77,12 +77,12 @@ const InformeEnvio = (props, ref) =>{
                                 <th>
                                     Cantidad
                                 </th>
-                                <th>
+                                {/*<th>
                                     Precio
                                 </th>
                                 <th>
                                     Total
-                                </th>
+        </th>*/}
                             </tr>
                         </thead>
                         <tbody>
@@ -91,8 +91,8 @@ const InformeEnvio = (props, ref) =>{
                                 <tr>
                                     <td style={{border:"1px solid",textAlign:"center"}}>{r.codigo}</td>
                                     <td style={{border:"1px solid",textAlign:"center"}}>{r.cantidad}</td>
-                                    <td style={{border:"1px solid",textAlign:"center"}}>{0}</td>
-                                    <td style={{border:"1px solid",textAlign:"center"}}>{0}</td>
+                                    {/*<td style={{border:"1px solid",textAlign:"center"}}>{0}</td>
+                                    <td style={{border:"1px solid",textAlign:"center"}}>{0}</td>*/}
                                 </tr>
                             ))
                         }

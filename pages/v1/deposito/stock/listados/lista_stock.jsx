@@ -80,6 +80,7 @@ export default function ListaStock(){
                         sexo: row.sexo,
                         genero: row.genero,
                         edad: row.edad,
+                        descripcion: row.descripcion,
                     }
                 )
             ))
@@ -90,7 +91,7 @@ export default function ListaStock(){
     const columns = [
         {title: 'Codigo',dataIndex: 'codigo',key: 'codigo'},
         {title: 'Descripción',dataIndex: 'descripcion',key: 'descripcion'},
-        {title: 'Ruta',dataIndex: 'ruta',key: 'ruta'},
+        /*{/*title: 'Ruta',dataIndex: 'ruta',key: 'ruta'},*/
         {title: 'Edad',dataIndex: 'edad',key: 'edad'},
         {title: 'Género',dataIndex: 'genero',key: 'genero'},
         {title: 'Precio',dataIndex: 'precio',key: 'precio'},
