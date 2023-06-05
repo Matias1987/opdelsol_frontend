@@ -6,12 +6,13 @@ import globals from "@/src/globals";
 import { post_method } from "@/src/helpers/post_helper";
 import { get, post } from "@/src/urls";
 import { ReloadOutlined } from "@ant-design/icons";
-import { Button, Col, Divider, Form, Input, Row, Select, Space, Table, Tag } from "antd";
+import { Button, Col, Divider, Form, Input, InputNumber, Row, Select, Space, Table, Tag } from "antd";
 import { useEffect, useRef, useState } from "react";
 
 export default function ListaStock(){
     const [popupOpen, setPopupOpen] = useState(false)
     const [tipoOrden, setTipoOrden] = useState("");
+    const [tipoFiltro, setTipoFitro] = useState(-1);
     const [data,setData] = useState([])
     const [loading, setLoading] = useState(true)
     const [valueChanged, setValueChanged] = useState(false)
@@ -191,6 +192,22 @@ export default function ListaStock(){
         setTags(tags.filter(t1=>tag.tipo !== t1.tipo))
     }
 
+    const FiltroValor = () => {
+        switch(tipoFiltro){
+            case 'codigo_contenga_a': return <Input />;
+            case 'codigo_igual_a': return <Input />;
+            case 'precio_mayor_a': return <InputNumber />;
+            case 'precio_menor_a': return <InputNumber />;
+            case 'precio_igual_a': return <InputNumber />;
+            case 'cantidad_igual_a': return <InputNumber />;
+            case 'cantidad_mayor_a': return <InputNumber />;
+            case 'cantidad_menor_a': return <InputNumber />;
+            case 'sexo': return <Select options={[]}/>;
+            case 'edad': return <Select options={[]}/>;
+            default: return <b>Seleccione tipo filtro...</b>
+        }
+    }
+
     return(
         <>
             <Form {...{labelCol:{span:5}, wrapperCol:{span:18}}} onFinish={onFinishFiltro} form={form}>
@@ -214,13 +231,14 @@ export default function ListaStock(){
                         ]} 
                         onChange={(value)=>{
                             setValue("tipo_filtro",value)
+                            setTipoFitro(value)
                         }}
                         />
                     </Form.Item>
                 </Col>
                 <Col span={8}>
                     <Form.Item label={"Valor"} name={"valor"}>
-                        <Input />
+                        <FiltroValor />
                     </Form.Item>
                 </Col>
                 <Col span={8}>
