@@ -1,8 +1,8 @@
 import ModoPago from "@/components/forms/ventas/ModoPago";
 import SelectCliente from "@/components/forms/ventas/SelectCliente";
 import SelectMedico from "@/components/forms/ventas/SelectMedico";
-import RecStockArmazon from "@/components/forms/ventas/receta_stock/armazon";
-import RecStockCristal from "@/components/forms/ventas/receta_stock/cristal";
+import RecStockArmazon from "@/components/forms/ventas/receta_stock/Armazon";
+import RecStockCristal from "@/components/forms/ventas/receta_stock/Cristal";
 import { Button, Divider } from "antd";
 
 export default function VentaRecetaStock(){
