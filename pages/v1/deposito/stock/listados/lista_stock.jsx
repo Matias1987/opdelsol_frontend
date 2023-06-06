@@ -22,43 +22,18 @@ export default function ListaStock(){
     const [form] = Form.useForm();
     const [form1] = Form.useForm();
     const tipos_filtro_dic = {
-        "codigo_contenga_a":{tipo: "codigo", descripcion: "Codigo"},
-        "codigo_igual_a":{tipo: "codigo", descripcion: "Codigo"},
-        "precio_mayor_a":{tipo: "precio", descripcion: "Precio"},
-        "precio_menor_a":{tipo: "precio", descripcion: "Precio"},
-        "precio_igual_a":{tipo: "precio", descripcion: "Precio"},
-        "cantidad_igual_a":{tipo: "cantidad", descripcion:"Cantidad"},
-        "cantidad_mayor_a":{tipo: "cantidad", descripcion:"Cantidad"},
-        "cantidad_menor_a":{tipo: "cantidad", descripcion:"Cantidad"},
+        "codigo_contenga_a":{tipo: "codigo", descripcion: "Codigo Cont."},
+        "codigo_igual_a":{tipo: "codigo", descripcion: "Codigo Igual a"},
+        "precio_mayor_a":{tipo: "precio", descripcion: "Precio Mayor a"},
+        "precio_menor_a":{tipo: "precio", descripcion: "Precio Menor a"},
+        "precio_igual_a":{tipo: "precio", descripcion: "Precio Igual a"},
+        "cantidad_igual_a":{tipo: "cantidad", descripcion:"Cantidad Igual a"},
+        "cantidad_mayor_a":{tipo: "cantidad", descripcion:"Cantidad Mayor a"},
+        "cantidad_menor_a":{tipo: "cantidad", descripcion:"Cantidad Menor a"},
         "sexo":{tipo: "sexo", descripcion:"Genero"},
         "edad":{tipo: "edad", descripcion:"Edad"},
     }
-    //#region ONSEARCH
-    const onSearch = (value) => {
-        setLoading(true)
-        fetch(get.buscar_stock + idsucursal + "/" + value)
-        .then((response)=>response.json())
-        .then((response)=>{
-            /*
-            this returns rows results from search
-            */
-            setData(
-                response.data.map(
-                    (row) => ({
-                        key: row.idcodigo,
-                        codigo: row.codigo,
-                        ruta: row.ruta,
-                        //descripcion: row.descripcion,
-                        cantidad: row.cantidad,
-                        idcodigo: row.idcodigo,
-                        })
-                )
-            )
-            setLoading(false)
-        })
-        .catch((error)=>{console.error(error)})
-    }
-    //#endregion
+    
     
     //THIS IS NEW
     useEffect(()=>{
@@ -131,25 +106,25 @@ export default function ListaStock(){
         }
     ]
 
-    const onReset = ()=>{
-        setValueChanged(!valueChanged); 
-        searchRef.current.value = ""; 
-        console.log(searchRef.current.value)
-    }
-
+  
     const setValue = (idx,value)=>{
+        
         switch(idx){
             case "tipo_filtro": form.setFieldsValue({tipo_filtro:value}); break;
+            case "valor": form.setFieldsValue({valor:value}); break;
         }
     }
 
     const setValue1 = (idx,value)=>{
         switch(idx){
             case "orden": form1.setFieldsValue({orden:value}); break;
+            case "valor": form1.setFieldsValue({valor:value}); break;
         }
     }
+    
 
     const onFinishFiltro = (values) =>{
+        //alert(values.valor)
         const found = tags.find(i => tipos_filtro_dic[i.tipo].tipo == tipos_filtro_dic[values.tipo_filtro].tipo)
         
         if(typeof found === 'undefined')
@@ -169,6 +144,7 @@ export default function ListaStock(){
             _tags[t.tipo] = t.valor
         })
         return {
+            sucursal: globals.obtenerSucursal(),
             codigo_contenga_a: typeof _tags["codigo_contenga_a"] === 'undefined' ? "" : _tags["codigo_contenga_a"],
             codigo_igual_a: typeof _tags["codigo_igual_a"] === 'undefined' ? "" : _tags["codigo_igual_a"],
             precio_mayor_a: typeof _tags["precio_mayor_a"] === 'undefined' ? "" : _tags["precio_mayor_a"],
@@ -188,22 +164,30 @@ export default function ListaStock(){
     }
 
     const removeTag = (tag) =>{
-        
+       
         setTags(tags.filter(t1=>tag.tipo !== t1.tipo))
     }
 
     const FiltroValor = () => {
         switch(tipoFiltro){
-            case 'codigo_contenga_a': return <Input />;
-            case 'codigo_igual_a': return <Input />;
-            case 'precio_mayor_a': return <InputNumber />;
-            case 'precio_menor_a': return <InputNumber />;
-            case 'precio_igual_a': return <InputNumber />;
-            case 'cantidad_igual_a': return <InputNumber />;
-            case 'cantidad_mayor_a': return <InputNumber />;
-            case 'cantidad_menor_a': return <InputNumber />;
-            case 'sexo': return <Select options={[]}/>;
-            case 'edad': return <Select options={[]}/>;
+            case 'codigo_contenga_a': return <Input type="text" onChange={(e)=>{setValue("valor",e.target.value)}}/>;
+            case 'codigo_igual_a': return <Input type="text" onChange={(e)=>{setValue("valor",e.target.value)}}/>;
+            case 'precio_mayor_a': return <InputNumber onChange={(val)=>{setValue("valor",val)}}/>;
+            case 'precio_menor_a': return <InputNumber onChange={(val)=>{setValue("valor",val)}}/>;
+            case 'precio_igual_a': return <InputNumber onChange={(val)=>{setValue("valor",val)}}/>;
+            case 'cantidad_igual_a': return <InputNumber onChange={(val)=>{setValue("valor",val)}}/>;
+            case 'cantidad_mayor_a': return <InputNumber onChange={(val)=>{setValue("valor",val)}}/>;
+            case 'cantidad_menor_a': return <InputNumber onChange={(val)=>{setValue("valor",val)}}/>;
+            case 'sexo': return <Select options={[
+                {label: 'Masculino', value: 'masculino'},
+                {label: 'Femenino', value: 'femenino'},
+                {label: 'Unisex', value: 'unisex'},
+            ]} onChange={(val)=>{setValue("valor",val)}}/>;
+            case 'edad': return <Select options={[
+                {label: 'Adulto', value: 'adulto'},
+                {label: 'Niños', value: 'niño'},
+                {label: 'Joven', value: 'joven'},
+            ]} onChange={(val)=>{setValue("valor",val)}}/>;
             default: return <b>Seleccione tipo filtro...</b>
         }
     }
@@ -291,10 +275,10 @@ export default function ListaStock(){
                 </Row>
             </Form>
         <Row>
-            <h1>Lista de Stock</h1>
+            
             {/*<Input.Search onSearch={onSearch} ref={searchRef} />
             <Button onClick={onReset}><ReloadOutlined /></Button>*/}
-            <Table columns={columns} dataSource={data} loading={loading} ></Table>
+            <Table columns={columns} dataSource={data} loading={loading} />
         </Row>
         </>
     )
