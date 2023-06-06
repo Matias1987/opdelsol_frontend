@@ -1,1 +1,1 @@
-export default function ModoPago(){return (<></>)}
+export default function ModoPago(){return (<>Modo Pago</>)}

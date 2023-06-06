@@ -1,7 +1,7 @@
 const SelectCliente = (props) =>{
     return (
         <>
-            
+            Select Cliente
         </>
         )
 }
