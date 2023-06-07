@@ -1,9 +1,9 @@
 import { Button, DatePicker, Form, Input } from "antd";
-import { useForm } from "antd/es/form/Form";
+
 
 export default function ClienteForm(){
 
-    const [form] = useForm();
+    const [form] = Form.useForm();
 
     const onFinish = (values) => {}
     const onFinishFailed = (err) => {}

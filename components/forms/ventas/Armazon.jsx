@@ -22,7 +22,7 @@ const VentasArmazon = (props) => {
                     <Input addonBefore={"Precio:"} />
                 </Col>
                 <Col span={8}>
-                <Button onClick={()=>{setVisible(false)}}><DeleteOutlined/></Button>
+                <Button danger onClick={()=>{setVisible(false)}}><DeleteOutlined/></Button>
                 </Col>
             </Row>
         </>
