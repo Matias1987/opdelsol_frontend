@@ -11,7 +11,7 @@ export default function SelectMedico(){
         <CustomModal openButtonText="Seleccione Medico" title="" >
             Medico
             <Input.Search />
-            <CustomModal openButtonText="+" title="Agregar" >
+            <CustomModal openButtonText="+ Agregar" title="Agregar" >
                 <MedicoForm />
             </CustomModal>
         </CustomModal>

@@ -7,35 +7,85 @@ import { Button, Col, Divider, Form, Row, Steps } from "antd";
 import { useState } from "react";
 
 export default function VentaRecetaStock(){
+
+    const [idcliente, setIdCliente] = useState(-1);
+    const [iddestinatario, setIdDestinatario] = useState(-1);
+    const [idmedico, setIdMedico] = useState(-1);
+    const [idos, setIdOS] = useState(-1);
+    const [productos,setProductos] = useState([])
+    const [mp,setMP] = useState([])
+    const [descuento,setDescuento] = useState(0)
+    const [total,setTotal] = useState(0)
+
     const [step, setStep] = useState(0);
 
     const next = _ => { setStep(step+1)}
     const prev = _ => { setStep(step-1)}
+
+    const _venta = {
+        fkcliente: -1,
+        fkdestinatario: -1,
+        fkmedico: -1,
+        fkos: -1,
+        productos: null,
+        mp: null,
+        subtotal: 0,
+        descuento: 0,
+        total: 0,
+
+    }
+
+    const callback_cliente = (value) => {
+        _venta.fkcliente = value;
+    }
     
+    const callback_destinatario = (value)=>{
+        _venta.fkdestinatario = value;
+    }
+
+    const callback_medico = (value) => {
+        _venta.fkmedico = value;
+    }
+
+    const callback_os = (value) => {
+        _venta.fkos = value;
+    }
+
+    const callback_productos = (values) => {
+        _venta.productos = values;
+        //alert(JSON.stringify(_venta))
+    }
+
+    const callback_mp = (values) => {
+        _venta.mp = values;
+        //alert(JSON.stringify(values))
+    }
+
     const onFinish = (values)=>{}
     
     const onFinishFailed = (error)=>{}
 
-    const GetStep = _ =>{
-        switch (step) {
-            case 0: return (
-                <>
+    
+
+    const GetStep2 = _ => (
+        <>
+            <div style={{ visibility: step === 0 ? 'visible' : 'hidden', overflow: step === 0 ? 'hidden' : 'visible', maxHeight: step === 0 ? 'auto' : '0'}}>
                 <Row>
                     <Col span={12} >
                         <Form.Item>
-                            <SelectCliente />
+                            <SelectCliente idcliente={idcliente} callback={callback_cliente} />
                         </Form.Item>
                     </Col>
                     <Col span={12} >
                         <Form.Item>
-                            <SelectCliente destinatario={true} />
+                            <SelectCliente destinatario={true} iddestinatario={iddestinatario} callback={callback_destinatario} />
                         </Form.Item>
                     </Col>
                 </Row>
                 <Row>
                     <Col span={12}>
                         <Form.Item>
-                            <SelectMedico />
+                            <SelectMedico idmedico={idmedico} callback={callback_medico} />
                         </Form.Item>
                     </Col>
                     <Col span={12}>
@@ -44,34 +94,28 @@ export default function VentaRecetaStock(){
                         </Form.Item>
                     </Col>
                 </Row>
-                </>
-            );
-            case 1: return (
-                <>
+            </div>
+            <div style={{ visibility: step === 1 ? 'visible' : 'hidden', overflow: step === 1 ? 'hidden' : 'visible', maxHeight: step === 1? 'auto' : '0' }}>
                 <Form.Item>
-                    <RecetaStockItems />
+                    <RecetaStockItems productos={productos} callback={callback_productos} />
                 </Form.Item>
-                </>
-            );
-            case 2: return (
-                <>
+            </div>
+            <div style={{ visibility: step === 2 ? 'visible' : 'hidden', overflow: step === 2 ? 'hidden' : 'visible', maxHeight: step === 2 ? 'auto' : '0' }}>
                 <Form.Item>
-                    <ModoPago />
+                    <ModoPago mp={mp} callback={callback_mp} />
                 </Form.Item>
-                </>
-            );
-            case 3: return (
-                <>
+            </div>
+            <div style={{ visibility: step === 3 ? 'visible' : 'hidden', overflow: step === 3 ? 'hidden' : 'visible', maxHeight: step === 3 ? 'auto' : '0' }}>
                 <Form.Item>
                     <Button type="primary" block>Guardar Venta</Button>
                 </Form.Item>
-                </>
-            )
-        }
-    }
+            </div>
+        </>
+    )
 
     return (
     <>
+    <h2>Venta de Receta Stock</h2>
     <Form  onFinish={onFinish} onFinishFailed={onFinishFailed}>
     
     <Steps
@@ -95,10 +139,9 @@ export default function VentaRecetaStock(){
       },
     ]}
   />
-  <br />
-  <br />
+
 	<div style={{width:"100%", padding:"2em", height:"400px"}}>
-        <GetStep />
+        <GetStep2 />
 	</div>
         
     

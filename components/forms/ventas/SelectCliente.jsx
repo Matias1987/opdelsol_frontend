@@ -9,10 +9,10 @@ const SelectCliente = (props) =>{
     return (
         idCliente==-1 ? 
         <>
-        <CustomModal openButtonText="Seleccione Cliente" title="" >
-            Cliente
+        <CustomModal openButtonText={typeof props.destinatario !== 'undefined' ? 'Seleccionar Destinatario' : "Seleccione Cliente" } title="" >
+        {typeof props.destinatario !== 'undefined' ? 'Buscar Destinatario' : "Buscar Cliente" }
             <Input.Search />
-            <CustomModal openButtonText="+" title="Agregar" >
+            <CustomModal openButtonText="+ Agregar" title="Agregar" >
                 <ClienteForm />
             </CustomModal>
         </CustomModal>
