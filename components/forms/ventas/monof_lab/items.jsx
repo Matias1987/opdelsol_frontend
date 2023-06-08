@@ -1,5 +1,5 @@
 const MonofLabItems = (props) => {
-    return <></>
+    return <>Productos Monofocales Laboratorio</>
 }
 
 export default MonofLabItems;

@@ -1,5 +1,5 @@
 const MultifLabItems = (props) => {
-    return <></>
+    return <>Productos Multifocales Laboratorio</>
 }
 
 export default MultifLabItems;

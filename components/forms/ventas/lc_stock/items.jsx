@@ -1,5 +1,5 @@
 const LCStockItems = (props) => {
-    return <></>
+    return <>Productos LC Stock</>
 }
 
 export default LCStockItems;
