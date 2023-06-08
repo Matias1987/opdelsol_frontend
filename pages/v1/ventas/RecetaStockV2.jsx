@@ -4,7 +4,7 @@ import SelectMedico from "@/components/forms/ventas/SelectMedico";
 import TotalesVenta from "@/components/forms/ventas/TotalVenta";
 import RecetaStockItems from "@/components/forms/ventas/receta_stock/Items";
 import { BackwardFilled, ForwardFilled } from "@ant-design/icons";
-import { Button, Col, Divider, Form, Row, Steps } from "antd";
+import { Button, Col, Divider, Form, Row, Steps, Tabs } from "antd";
 import { useState } from "react";
 
 export default function VentaRecetaStock(){
@@ -70,21 +70,13 @@ export default function VentaRecetaStock(){
     
     const onFinishFailed = (error)=>{}
 
-    const hidden_style = {
-        position: 'absolute',
-        left: '-10000px',
-        top: 'auto',
-        //width: '1px',
-        //height: '1px',
-        //overflow: 'hidden',
-    }
-
-    
-
-    const GetSteps = _ => (
-        <>
-            <div style={step===0 ? {backgroundColor:"white"} : hidden_style  }>
-                <Row>
+    const tabs_items = [
+        {
+            key: '1paso',
+            label: 'Cliente y Medico',
+            children: 
+            <>
+            <Row>
                     <Col span={12} >
                         <Form.Item>
                             <SelectCliente idcliente={idcliente} callback={callback_cliente} />
@@ -108,61 +100,48 @@ export default function VentaRecetaStock(){
                         </Form.Item>
                     </Col>
                 </Row>
-            </div>
-            <div style={step===1 ? {backgroundColor:"white"} : hidden_style}>
+            </>
+        },
+        {
+            key: 'paso2',
+            label: 'Productos',
+            children: 
+            <>
                 <Form.Item>
                     <RecetaStockItems productos={productos} callback={callback_productos} />
                 </Form.Item>
-            </div>
-            <div style={step===2 ? {backgroundColor:"white"} : hidden_style}>
+            </>
+        },
+        {
+            key: 'paso3',
+            label: 'Modo de Pago',
+            children: 
+            <>
                 <Form.Item>
                     <TotalesVenta />
                     <ModoPago mp={mp} callback={callback_mp} />
                 </Form.Item>
-            </div>
-            <div style={step===3 ? {backgroundColor:"white"} : hidden_style}>
+            </>
+        },
+        {
+            key: 'paso4',
+            label: 'Finalizar Sobre',
+            children: 
+            <>
                 <Form.Item>
                     <Button type="primary" block onClick={finalizar_venta}>Guardar Venta</Button>
                 </Form.Item>
-            </div>
-        </>
-    )
+            </>
+        },
+    ];
 
     return (
     <>
     <h2>Venta de Receta Stock</h2>
     <Form  onFinish={onFinish} onFinishFailed={onFinishFailed}>
-    
-    <Steps
-    size="small"
-    current={step}
-    items={[
-      {
-        title: 'Cliente y Medicos',
-        description: "Cliente, Medico, Obra Social",
-      },
-      {
-        title: 'Productos',
-      },
-      {
-        title: 'Modo de Pagos',
-        description: "Modo de pago, descuentos",
-      },
-      {
-        title: 'Finalizar',
-        description: "Vista Previa, Finalizar",
-      },
-    ]}
-  />
+	
+        <Tabs defaultActiveKey="paso1" items={tabs_items} size="large"/>
 
-	<div style={{width:"100%", padding:"2em", height:"400px"}}>
-        <GetSteps />
-	</div>
-        
-    
-    <Button onClick={prev} disabled={step<1}><BackwardFilled /> Anterior</Button>
-    <Button onClick={next} disabled={step>=3}><ForwardFilled /> Siguiente</Button>
-    
     </Form>
     </>
     )
