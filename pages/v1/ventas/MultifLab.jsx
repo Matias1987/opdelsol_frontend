@@ -1,5 +1,5 @@
 import MultifLabItems from "@/components/forms/ventas/multif_lab/Items";
-import VentaBase from "./VentaBase";
+import VentaBase from "../../../components/forms/ventas/VentaBase";
 
 export default function VentaMultifocalesLab(){
     return (<>

@@ -26,6 +26,7 @@ const informes = {
 const post = {
     login: remote_base_url + "usuarios/login/",
     codigo_por_codigo: remote_base_url + "codigos/porcodigo/",
+    obtener_stock_ventas: remote_base_url + "stock/obtener_stock_ventas/",
     search:{
         filtro_stock: remote_base_url + "stock/filtro_stock/",
     },
@@ -101,6 +102,9 @@ const get = {
 
     detalle_factura: remote_base_url + "facturas/",//idfactura
     elementos_factura: remote_base_url + "facturas/elementos/",//idfactura
+
+    //ventas
+    obtener_stock_detalles_venta: remote_base_url + "stock/detalle_stock_venta/"//:idsucursal/:idcodigo
 
 }
 

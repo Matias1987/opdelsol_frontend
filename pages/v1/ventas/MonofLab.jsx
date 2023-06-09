@@ -1,5 +1,5 @@
 import MonofLabItems from "@/components/forms/ventas/monof_lab/items";
-import VentaBase from "./VentaBase";
+import VentaBase from "../../../components/forms/ventas/VentaBase";
 
 export default function VentaMonofocalesLab(){
     return (<>

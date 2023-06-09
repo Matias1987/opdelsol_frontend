@@ -1,5 +1,5 @@
 import LCStockItems from "@/components/forms/ventas/lc_stock/items";
-import VentaBase from "./VentaBase";
+import VentaBase from "../../../components/forms/ventas/VentaBase";
 
 export default function VentaLCStock(){
     return (

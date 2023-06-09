@@ -1,4 +1,4 @@
-const { Form } = require("antd")
+const { Form, Input, Button } = require("antd")
 
 const ObraSocialForm = (props) => {
     return (<>

@@ -1,5 +1,5 @@
 import RecetaStockItems from "@/components/forms/ventas/receta_stock/Items"
-import VentaBase from "./VentaBase"
+import VentaBase from "../../../components/forms/ventas/VentaBase"
 
 
 export default function VentaRecetaStock(){

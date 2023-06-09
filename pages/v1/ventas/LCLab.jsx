@@ -1,5 +1,5 @@
 import LCLabItems from "@/components/forms/ventas/lc_laboratorio/items";
-import VentaBase from "./VentaBase";
+import VentaBase from "../../../components/forms/ventas/VentaBase";
 
 export default function VentaLCLab(){
     return (

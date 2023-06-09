@@ -5,8 +5,8 @@ import SelectObraSocial from "@/components/forms/ventas/SelectObraSocial";
 import TotalesVenta from "@/components/forms/ventas/TotalVenta";
 import RecetaStockItems from "@/components/forms/ventas/receta_stock/Items";
 import { BackwardFilled, ForwardFilled } from "@ant-design/icons";
-import { Button, Col, DatePicker, Divider, Form, Row, Steps, Tabs } from "antd";
-import TextArea from "antd/es/input/TextArea";
+import { Button, Col, DatePicker, Divider, Form, Input, Row, Steps, Tabs, TextArea } from "antd";
+
 import { useState } from "react";
 
 /* leer: https://refine.dev/blog/common-usestate-mistakes-and-how-to-avoid/ */
@@ -33,6 +33,8 @@ export default function VentaBase(props){
         subtotal: 0,
         descuento: 0,
         total: 0,
+        fechaRetiro: null,
+        comentarios: "",
 
     }
 
@@ -124,10 +126,10 @@ export default function VentaBase(props){
             children: 
             <>
                 <Form.Item label={"Comentarios"}>
-                    <TextArea></TextArea>
+                   <Input.TextArea rows={2} onChange={(v)=>{_venta.comentarios=v}} />
                 </Form.Item>
                 <Form.Item label={"Fecha de Retiro"}>
-                    <DatePicker />
+                    <DatePicker onChange={(value)=>{_venta.fechaRetiro=value}} />
                 </Form.Item>
                 <Form.Item>
                     <Button type="primary" block onClick={finalizar_venta}>Guardar Venta</Button>

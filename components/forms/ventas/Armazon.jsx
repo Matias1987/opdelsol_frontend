@@ -29,13 +29,13 @@ const VentasArmazon = (props) => {
             }</Button>  :
         <>
             <Row>
-                <Col span={8}>
+                <Col span={19}>
                     <SelectCodigoVenta callback={on_codigo_change} />
                 </Col>
-                <Col span={8}>
+                <Col span={4}>
                     <Input addonBefore={"Precio:"} onChange={on_precio_change} />
                 </Col>
-                <Col span={8}>
+                <Col span={1}>
                 <Button danger onClick={()=>{setVisible(false)}}><DeleteOutlined/></Button>
                 </Col>
             </Row>

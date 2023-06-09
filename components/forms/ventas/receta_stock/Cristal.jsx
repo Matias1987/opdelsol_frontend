@@ -36,7 +36,7 @@ const RecStockCristal = (props) => {
             }</Button> :
         <>
             <Row>
-                <Col span={8}>
+                <Col span={15}>
                     <SelectCodigoVenta buttonText={"Seleccionar Codigo Cristal"} callback={onchange_codigo} />
                 </Col>
                 <Col span={4}>
@@ -45,8 +45,8 @@ const RecStockCristal = (props) => {
                 <Col span={4}>
                     <Input addonBefore={"Precio:"} onChange={onchange_precio} />
                 </Col>
-                <Col span={8}>
-                    <Button danger onClick={()=>{setVisible(false)}}><DeleteOutlined/></Button>
+                <Col span={1}>
+                    <Button danger  onClick={()=>{setVisible(false)}}><DeleteOutlined/></Button>
                 </Col>
             </Row>
 
