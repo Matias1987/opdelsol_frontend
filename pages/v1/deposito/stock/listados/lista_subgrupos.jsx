@@ -12,6 +12,9 @@ export default function ListaSubGrupos(){
             columns = {
                 [
                     {title: 'ID',dataIndex: 'id',key: 'id'},
+                    {title: 'Ruta',dataIndex: 'ruta',key: 'ruta', render:(_,{ruta})=>(<>
+                    <i style={{fontSize:".75em", color:"blue"}}>{ruta}</i>
+                    </>)},
                     {title: 'Nombre Largo',dataIndex: 'nombre_largo',key: 'nombre_largo'},
                     {title: 'Nombre Corto',dataIndex: 'nombre_corto',key: 'nombre_corto'},
                     {title: 'Multiplicador',dataIndex: 'multiplicador',key: 'multiplicador'},
@@ -39,6 +42,7 @@ export default function ListaSubGrupos(){
                                 nombre_largo: row.nombre_largo,
                                 multiplicador: row.multiplicador,
                                 idsubgrupo: row.idsubgrupo,
+                                ruta: row.ruta,
                             }
                         )
                     )

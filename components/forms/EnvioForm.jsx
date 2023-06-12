@@ -161,7 +161,7 @@ const EnvioForm = (props) => {
             form={form}
             >
                 {/* sucursal destino */}
-                <Form.Item label={"Sucursal"} name={"sucursal_idsucursal"} required={true}>
+                <Form.Item label={"Sucursal Destino:"} name={"sucursal_idsucursal"} required={true}>
                     <LoadSelect
                             parsefnt = {
                                 (data) =>(

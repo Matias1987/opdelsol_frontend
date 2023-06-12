@@ -17,10 +17,13 @@ const AgregarStockLote = (props) => {
     const [factura_popup_open, setFacturaPopupOpen] = useState(false)
     const [subgrupo_popup_open, setSubGrupoPopupOpen] = useState(false)
     const [tableData, setTableData] = useState([]);
-
+    const [idSubgrupo, setIdSubgrupo] = useState(-1)
     //testing
     const [updateall, setUpdateAll] = useState(false);
 
+    const [multiplier, setMultiplier] = useState(1);
+
+    const subgrupoDetailsURL = get.obtener_detalle_subgrupo;
 
     const setValue = (key,value) => {
         switch(key){
@@ -33,6 +36,19 @@ const AgregarStockLote = (props) => {
         }
     }
 
+    const getSubGrupoDetails = (id) => {
+        if(id<0){
+            return;
+        }
+        alert(subgrupoDetailsURL + id)
+        fetch(subgrupoDetailsURL + id)
+        .then(response => response.json())
+        .then((response)=>{
+            setMultiplier(parseFloat(response.data[0].multiplicador));
+            setIdSubgrupo(id);
+        })
+
+    } 
     
     const agregarRow = (values) => {
         const found = typeof tableData.find(e=>e.codigo == values.codigo) !== 'undefined';
@@ -57,6 +73,7 @@ const AgregarStockLote = (props) => {
                         genero: values.genero, 
                         edad: values.edad,
                         descripcion: values.descripcion,
+                        precio: Math.round((multiplier * values.costo) / 100) * 100,
                     } : x
                 ))
             )
@@ -71,6 +88,7 @@ const AgregarStockLote = (props) => {
                 status: "PENDING",
                 genero: values.genero,
                 edad: values.edad,
+                precio: Math.round((multiplier * values.costo) / 100) * 100, 
             }])
         }
 
@@ -94,6 +112,7 @@ const AgregarStockLote = (props) => {
         )},
         {title:"Cantidad", dataIndex: "cantidad"},
         {title:"Costo", dataIndex: "costo"},
+        {title:"Precio", dataIndex: "precio"},
         {title:"Acciones", dataIndex: "codigo", render: (codigo)=>{
             let temp = null;
             for(let i=0;i<tableData.length;i++){
@@ -327,29 +346,39 @@ const AgregarStockLote = (props) => {
         <>
         <h1>Agregar Stock por Lote</h1>
             <Form onFinish={onFinish} form={form} onFinishFailed={onFinishFailed}>
+
+                    <Form.Item style={{ backgroundColor: "#E1EEFF", padding:"3.5em", fontSize:".25em"}} label={"Subgrupo"} name={"subgrupo"} rules={[{required:true}]}>
+                        <>
+                        <SubGroupSelect callback={(id)=>{setValue("subgrupo", id);getSubGrupoDetails(id) }} /><AgregarSubgrupoPopup />
+                        {idSubgrupo > -1 ? <p style={{fontSize:".75em"}}><i>Multiplicador: {multiplier} </i></p> : null}
+                        </>
+                    </Form.Item>
+
                     <Form.Item label={"Factura"} name={"factura"}>
                         <>
-                            <FacturaSelect reload={updateall} callback={(id)=>{setValue("factura", id)}} />
+                            <FacturaSelect reload={updateall} callback={(id)=>{ getSubGrupoDetails(id); setValue("factura", id)}} />
                             <br />
                             {/* agregar facturas */}
                             <AgregarFacturaPopup />
                             {/* FIN agregar facturas */}
+                            
                         </>
                     </Form.Item>
-                    <Form.Item style={{ backgroundColor: "#E1EEFF", padding:"3.5em", fontSize:".25em"}} label={"Subgrupo"} name={"subgrupo"} rules={[{required:true}]}>
-                        <SubGroupSelect callback={(id)=>{setValue("subgrupo", id)}} /><AgregarSubgrupoPopup />
+                    
+                    <Form.Item label={"Codigos"} name={"codigos"}>
+                        { idSubgrupo === -1 ? <p style={{color:"red", padding:".7em", backgroundColor:"lightcoral"}}><b>Seleccione Subgrupo</b></p> :
+                        <>
+                        <PopUpAgregarStockLoteForm title={"Agregar"} edit={false} values={null} callback={(_data)=>{
+                                    agregarRow(_data)
+                                }} />
+                        <Table dataSource={tableData} columns={columns} />
+                        </>
+                        }
                     </Form.Item>
-                <Form.Item label={"Codigos"} name={"codigos"}>
-                    <>
-                    <PopUpAgregarStockLoteForm title={"Agregar"} edit={false} values={null} callback={(_data)=>{
-                                agregarRow(_data)
-                            }} />
-                    <Table dataSource={tableData} columns={columns} />
-                    </>
-                </Form.Item>
-                <Form.Item>
-                    <Button type="primary" htmlType="submit">Confirmar</Button>
-                </Form.Item>
+
+                    <Form.Item>
+                        <Button type="primary" htmlType="submit">Confirmar</Button>
+                    </Form.Item>
             </Form>
         </>
     )

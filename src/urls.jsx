@@ -103,8 +103,11 @@ const get = {
     detalle_factura: remote_base_url + "facturas/",//idfactura
     elementos_factura: remote_base_url + "facturas/elementos/",//idfactura
 
+    obtener_detalle_subgrupo: remote_base_url + "subgrupos/",//subgrupoId
+
     //ventas
     obtener_stock_detalles_venta: remote_base_url + "stock/detalle_stock_venta/"//:idsucursal/:idcodigo
+
 
 }
 
