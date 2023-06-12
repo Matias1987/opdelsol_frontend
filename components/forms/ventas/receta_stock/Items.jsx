@@ -16,6 +16,25 @@ const RecetaStockItems = (props) => {
         cerca_tratamiento: null
         
     }
+
+
+    const onChangePrecio = (val) => {
+        if(typeof props.onChangePrecio !== 'undefined'){
+            props.onChangePrecio(items)
+        }
+    }
+    const onChangeCodigo = (val) => {
+        if(typeof props.onChangeCodigo !== 'undefined'){
+            props.onChangeCodigo(items)
+        }
+    }
+    const onChangeEje = (val) => {
+        if(typeof props.onChangeEje !== 'undefined'){
+            props.onChangeEje(items)
+        }
+    }
+
+
     const tabs_items = [
         {
             key: 'lejos',

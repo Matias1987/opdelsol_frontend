@@ -19,20 +19,32 @@ const RecStockCristal = (props) => {
     }
 
     const onchange_codigo = (value) => {
-        _cristal.codigo = value;
+        _cristal.codigo = value.codigo;
+        _cristal.precio = value.precio;
+         
         setPrecio(value.precio)
         precioRef.current.value = value.precio;
         alert(precioRef.current.value)
-        props.callback(_cristal);
+
+        props.callback(_cristal)
+        
     }
     const onchange_eje = (e) => {
         _cristal.eje = e.target.value;
-        props.callback(_cristal);
+        /*if(typeof props.onChangeEje !== 'undefined'){
+            props.onChangeEje(_cristal);
+        }*/
+        
     }
     const onchange_precio = (e) => {
+        
         _cristal.precio = e.target.value;
         setPrecio(e.target.value)
-        props.callback(_cristal);
+        props.callback(_cristal)
+        /*if(typeof props.onChangePrecio !== 'undefined'){
+            alert("000")
+            props.onChangePrecio(_cristal);
+        }*/
     }
     
     return (

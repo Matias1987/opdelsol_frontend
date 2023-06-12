@@ -32,6 +32,7 @@ export default function ListaStock(){
         "cantidad_menor_a":{tipo: "cantidad", descripcion:"Cantidad Menor a"},
         "sexo":{tipo: "sexo", descripcion:"Genero"},
         "edad":{tipo: "edad", descripcion:"Edad"},
+        "detalles":{tipo: "detalles", descripcion:"Detalles"},
     }
     
     
@@ -155,6 +156,7 @@ export default function ListaStock(){
             cantidad_menor_a: typeof _tags["cantidad_menor_a"] === 'undefined' ? "" : _tags["cantidad_menor_a"],
             sexo: typeof _tags["sexo"] === 'undefined' ? "" : _tags["sexo"],
             edad: typeof _tags["edad"] === 'undefined' ? "" : _tags["edad"],
+            descripcion: typeof _tags["detalles"] === 'undefined' ? "" : _tags["detalles"],
             order: tipoOrden,
         }
     }
@@ -188,6 +190,7 @@ export default function ListaStock(){
                 {label: 'Niños', value: 'niño'},
                 {label: 'Joven', value: 'joven'},
             ]} onChange={(val)=>{setValue("valor",val)}}/>;
+            case 'detalles': return <Input type="text" onChange={(e)=>{setValue("valor",e.target.value)}}/>;
             default: return <b>Seleccione tipo filtro...</b>
         }
     }
@@ -212,6 +215,10 @@ export default function ListaStock(){
                             
                             {label: 'Género', value: 'sexo'},
                             {label: 'Edad', value: 'edad'},
+                            
+                            {label: 'Detalles', value: 'detalles'},
+
+
                         ]} 
                         onChange={(value)=>{
                             setValue("tipo_filtro",value)

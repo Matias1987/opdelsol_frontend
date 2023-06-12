@@ -115,7 +115,7 @@ export default function VentaBase(props){
             children: 
             <>
                 <Form.Item>
-                    <TotalesVenta />
+                    <TotalesVenta total={ typeof props !== 'undefined' ? props.total : "0"} />
                     <ModoPago mp={mp} callback={callback_mp} />
                 </Form.Item>
             </>

@@ -102,6 +102,7 @@ const EnvioForm = (props) => {
            ref_id: data[0].codigo,
            max_cantidad: data[0].cantidad,
            cantidad: 0,
+           precio: data[0].precio,
         }
         setTableLoading(false);
         setTableData([...tableData,new_row])
@@ -112,6 +113,7 @@ const EnvioForm = (props) => {
         if(found) {alert("Codigo ya cargado!"); return;}
         setTableLoading(true);
         /* get stock data for the column */
+        console.log(urls.get.detalle_stock+ sucursal_id + "/" + selectedCodigoId)
         fetch(urls.get.detalle_stock+ sucursal_id + "/" + selectedCodigoId/*<-- TEMPORARY!! */)
         .then(response=>response.json())
         .then((response)=>{
@@ -180,10 +182,11 @@ const EnvioForm = (props) => {
                         <Table
                         loading={tableLoading}
                         columns = {[
-                            {title:"ruta", dataIndex: "ruta", render:(_,{ruta})=>(<span style={{color:"#536872", fontSize:".75em"}}><i>{ruta}</i></span>)  },
+                            {title:"", dataIndex: "ruta", render:(_,{ruta})=>(<span style={{color:"#536872", fontSize:".75em"}}><i>{ruta}</i></span>)  },
                             {title:"codigo", dataIndex: "codigo", render: (codigo)=>(
                                 <span style={{color:"red"}}><b>{codigo}</b></span>
                             ) },
+                            {title:"Precio", dataIndex: "precio", render:(_,{precio})=>(<span style={{color:"#536872", fontSize:".75em"}}><i>$&nbsp;{precio}</i></span>)  },
                             {
                                 title:"cantidad", 
                                 dataIndex: "obj",  
