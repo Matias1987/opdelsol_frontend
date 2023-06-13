@@ -1,5 +1,6 @@
 import LCStockItems from "@/components/forms/ventas/lc_stock/items";
 import VentaBase from "../../../components/forms/ventas/VentaBase";
+import LayoutVentas from "@/components/layout/layout_ventas";
 
 export default function VentaLCStock(){
     return (
@@ -11,3 +12,5 @@ export default function VentaLCStock(){
         </>
         )
 }
+
+VentaLCStock.PageLayout = LayoutVentas;  

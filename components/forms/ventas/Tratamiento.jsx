@@ -12,7 +12,8 @@ const VentasTratamiento = (props) => {
         precio: 0,
     }
     const on_codigo_change = (val) => {
-        _tratamiento.codigo = val;
+        _tratamiento.codigo = val.codigo;
+        _tratamiento.precio = val.precio;
 
         precioRef.current.value=val.precio;
 

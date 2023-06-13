@@ -36,7 +36,7 @@ export default function ListaStock(){
         "sexo":{tipo: "sexo", descripcion:"Genero"},
         "edad":{tipo: "edad", descripcion:"Edad"},
         "detalles":{tipo: "detalles", descripcion:"Descripción"},
-        "subrupo":{tipo: "subgrupo", descripcion:"Subgrupo"},
+        "subgrupo":{tipo: "subgrupo", descripcion:"Subgrupo"},
         "grupo":{tipo: "grupo", descripcion:"Grupo"},
         "subfamilia":{tipo: "subfamilia", descripcion:"Subfamilia"},
         "familia":{tipo: "familia", descripcion:"Familia"},
@@ -165,7 +165,7 @@ export default function ListaStock(){
             edad: typeof _tags["edad"] === 'undefined' ? "" : _tags["edad"],
             descripcion: typeof _tags["detalles"] === 'undefined' ? "" : _tags["detalles"],
             
-            subrupo: typeof _tags["subrupo"] === 'undefined' ? "" : _tags["subrupo"],
+            subgrupo: typeof _tags["subgrupo"] === 'undefined' ? "" : _tags["subgrupo"],
             grupo: typeof _tags["grupo"] === 'undefined' ? "" : _tags["grupo"],
             subfamilia: typeof _tags["subfamilia"] === 'undefined' ? "" : _tags["subfamilia"],
             familia: typeof _tags["familia"] === 'undefined' ? "" : _tags["familia"],
@@ -203,7 +203,7 @@ export default function ListaStock(){
                 {label: 'Joven', value: 'joven'},
             ]} onChange={(val)=>{setValue("valor",val)}}/>;
             case 'detalles': return <Input type="text" onChange={(e)=>{setValue("valor",e.target.value)}}/>;
-            case 'subrupo': return <SubGroupSelect callback={(id)=>{setValue("valor",id)}} />;
+            case 'subgrupo': return <SubGroupSelect callback={(id)=>{setValue("valor",id)}} />;
             case 'grupo': return <GrupoSelect callback={(id)=>{setValue("valor",id)}} />;
             case 'subfamilia': return <SubFamiliaSelect callback={(id)=>{setValue("valor",id)}} />;
             case 'familia': return <>Familia</>;
@@ -234,7 +234,7 @@ export default function ListaStock(){
                             
                             {label: 'Descripción', value: 'detalles'},
                             
-                            {label: 'SubGrupo', value: 'subrupo'},
+                            {label: 'SubGrupo', value: 'subgrupo'},
                             {label: 'Grupo', value: 'grupo'},
                             {label: 'SubFamilia', value: 'subfamilia'},
                             {label: 'Familia', value: 'familia'},

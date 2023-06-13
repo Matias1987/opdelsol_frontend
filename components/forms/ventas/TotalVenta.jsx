@@ -1,5 +1,5 @@
 import { Col, Input, Row } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const TotalesVenta = (props) => {
     const [descuento, setDescuento] = useState(0);
@@ -14,6 +14,9 @@ const TotalesVenta = (props) => {
         setDescuento(e.target.value)
         setTotal(props.total - e.target.value)
     }
+    useEffect(()=>{
+        setTotal(props.total - descuento)
+    })
 return (
     <>
         <Row>

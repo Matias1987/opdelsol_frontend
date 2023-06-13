@@ -1,6 +1,7 @@
 import RecetaStockItems from "@/components/forms/ventas/receta_stock/Items"
 import VentaBase from "../../../components/forms/ventas/VentaBase"
 import { useState } from "react";
+import LayoutVentas from "@/components/layout/layout_ventas";
 
 
 export default function VentaRecetaStock(){
@@ -33,3 +34,4 @@ export default function VentaRecetaStock(){
     </>
     )
 }
+VentaRecetaStock.PageLayout = LayoutVentas;  

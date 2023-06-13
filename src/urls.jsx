@@ -13,6 +13,13 @@ const public_urls = {
     login: local_base_url + "usuario/login/login",
     nuevo_envio: local_base_url + "deposito/envio/nuevo_envio",
     lista_stock: local_base_url + "deposito/stock/listados/lista_stock",
+    //ventas: 
+    venta_directa: local_base_url + "ventas/Directa",
+    venta_lclab: local_base_url + "ventas/LCLab",
+    venta_lcstock: local_base_url + "ventas/LCStock",
+    venta_multilab: local_base_url + "ventas/MultifLab",
+    venta_monoflab: local_base_url + "ventas/MonofLab",
+    venta_recetastock: local_base_url + "ventas/RecetaStockV2",
 
 }
 

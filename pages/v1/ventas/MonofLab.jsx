@@ -1,5 +1,6 @@
 import MonofLabItems from "@/components/forms/ventas/monof_lab/items";
 import VentaBase from "../../../components/forms/ventas/VentaBase";
+import LayoutVentas from "@/components/layout/layout_ventas";
 
 export default function VentaMonofocalesLab(){
     return (<>
@@ -9,3 +10,5 @@ export default function VentaMonofocalesLab(){
     </VentaBase>
     </>)
 }
+
+VentaMonofocalesLab.PageLayout = LayoutVentas;  
