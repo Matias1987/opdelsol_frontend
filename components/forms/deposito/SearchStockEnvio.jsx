@@ -3,6 +3,7 @@ import { useState } from "react";
 import { get } from "@/src/urls";
 import globals from "@/src/globals";
 import { PlusCircleFilled } from "@ant-design/icons";
+import { regex_get_id_if_match } from "@/src/helpers/barcode_helper";
 
 const SearchStockEnvio = (props) => {
     const id_sucursal = globals.obtenerSucursal();
@@ -11,19 +12,8 @@ const SearchStockEnvio = (props) => {
     const [dataSource, setDataSource] = useState([])
     const [loading, setLoading] = useState(false)
 
-
-    const onSearch = (value) => {
-        if(typeof props.idSucursalDestino === 'undefined'){
-            alert("Sucursal destino no especificada");
-            return
-        }
-        if(props.idSucursalDestino<0){
-            alert("Sucursal destino no especificada");
-            return
-        }
-        setLoading(true)
-        
-        fetch(search_url + props.idSucursalDestino + "/" +value)
+    const doSearch = (value, id)=>{
+        fetch(search_url + props.idSucursalDestino + "/" +value + "/" + id)
         .then((response)=>response.json())
         .then((_response)=>{
             
@@ -49,6 +39,34 @@ const SearchStockEnvio = (props) => {
         })
         .catch((error)=>{console.error(error)})
     }
+    
+
+
+    const onSearch = (value) => {
+        if(typeof props.idSucursalDestino === 'undefined'){
+            alert("Sucursal destino no especificada");
+            return
+        }
+        if(props.idSucursalDestino<0){
+            alert("Sucursal destino no especificada");
+            return
+        }
+        setLoading(true)
+
+        //test if the input value match a barcode pattern
+        const _id = regex_get_id_if_match(value);
+
+        if(_id>-1){
+            //alert("this is a barcode, id is : " + _id)
+            //this is an id!
+            doSearch("null",_id)
+        }
+        else{
+            doSearch(value,0)
+        }
+    }
+        
+        
     return (
         <>
         <Row>

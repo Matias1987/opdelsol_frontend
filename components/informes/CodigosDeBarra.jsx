@@ -1,3 +1,4 @@
+import { get_barcode_from_id, get_barcode_from_id2 } from "@/src/helpers/barcode_helper";
 import Barcode from "react-barcode";
 
 const { useEffect, useState } = require("react");
@@ -59,7 +60,7 @@ const CodigosDeBarraEnvio = (props) => {
                         <tr>
         {
             
-            _elements.map(e=>(<tr>{e.map(r=><td style={{textAlign:"center"}}>{r.codigo}<br /><Barcode value={"AR_ID_"+r.idcodigo}  displayValue={false} width={1.5} height={20}/>&nbsp;</td>)}</tr>))
+            _elements.map(e=>(<tr>{e.map(r=><td style={{textAlign:"center"}}>{r.codigo}<br /><Barcode value={get_barcode_from_id2(r.idcodigo)}  displayValue={false} width={1.5} height={20}/>&nbsp;</td>)}</tr>))
         }
         </tr>
             </tbody>

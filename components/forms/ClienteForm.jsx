@@ -1,11 +1,16 @@
+import { post_method } from "@/src/helpers/post_helper";
 import { Button, DatePicker, Form, Input } from "antd";
 
 
 export default function ClienteForm(){
 
     const [form] = Form.useForm();
-
-    const onFinish = (values) => {}
+    const url = ""
+    const onFinish = (values) => {
+        post_method(url,values,(res)=>{
+            alert("Agregado")
+        })
+    }
     const onFinishFailed = (err) => {}
 
     return (<>

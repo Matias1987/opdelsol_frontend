@@ -2,6 +2,7 @@ import CustomModal from "@/components/CustomModal";
 import PrinterWrapper from "@/components/PrinterWrapper";
 import SearchCodigo from "@/components/SearchCodigo";
 import SearchStock from "@/components/SearchStock";
+import { get_barcode_from_id, get_barcode_from_id2 } from "@/src/helpers/barcode_helper";
 import { CloseCircleOutlined } from "@ant-design/icons";
 import { Button, Col, Divider, Form, InputNumber, Row, Table } from "antd";
 import { useEffect, useState } from "react";
@@ -39,7 +40,7 @@ const ImprimirCodigos = () => {
                             <tbody>
                                 {
                                     tableData.length <1 ? <h4>No hay c&oacute;digos</h4> : 
-                                    _elements.map(e=>(<tr>{e.map(r=><td style={{textAlign:"center"}}>{r.codigo}<br /><Barcode value={"AR_ID_"+r.codigo_ref}  displayValue={false} width={1.5} height={20}/>&nbsp;</td>)}</tr>))
+                                    _elements.map(e=>(<tr>{e.map(r=><td style={{textAlign:"center"}}>{r.codigo}<br /><Barcode value={get_barcode_from_id2(r.codigo_ref)}  displayValue={false} width={1.5} height={20}/>&nbsp;</td>)}</tr>))
                                 }
                             </tbody>
                         </table>
