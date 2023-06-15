@@ -33,13 +33,20 @@ const FamiliaSelect = (props) => {
 
                 <Select 
                 style={{ width: 240 }}
-                value={idFamilia}
+                value={idFamilia<0 ? "Seleccione Familia" : idFamilia}
                 loading = {familiaLoading}
                 
                 onChange={
                     (value)=>{
-                        
+                       
+                        if(typeof value=== 'undefined'){
+                            return;
+                        }                        
+                        if(value== null){
+                            return;
+                        }                        
                         setIdFamilia(value);
+                       
                         props.callback(value)
                     }
                 }

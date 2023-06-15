@@ -76,6 +76,7 @@ const SubFamiliaSelect = (props) => {
                         value = {idSubFamilia<0? "" : idSubFamilia}
                         onChange = {
                             (value)=>{
+                                
                                 setIdSubFamilia(value);
                                 props.callback(value);
 

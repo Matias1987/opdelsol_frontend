@@ -1,15 +1,19 @@
 import CustomModal from "@/components/CustomModal";
+import FamiliaSelect from "@/components/FamiliaSelect";
 import GrupoSelect from "@/components/GrupoSelect";
 import SubFamiliaSelect from "@/components/SubFamiliaSelect";
 import SubGroupSelect from "@/components/SubGroupSelect";
 import CustomTable from "@/components/forms/CustomTable";
 import DetalleStock from "@/components/forms/deposito/DetalleStock";
 import ModificarCantidadForm from "@/components/forms/deposito/modificarCantidadForm";
+import ModifMultipleCantidad from "@/components/forms/deposito/stock_lote/ModifMultipleCantidad";
+import ModifMultiple from "@/components/forms/deposito/stock_lote/ModifMultipleCantidad";
+import ModifMultipleCosto from "@/components/forms/deposito/stock_lote/ModifMultipleCosto";
 import globals from "@/src/globals";
 import { post_method } from "@/src/helpers/post_helper";
 import { get, post } from "@/src/urls";
-import { ReloadOutlined } from "@ant-design/icons";
-import { Button, Col, Divider, Form, Input, InputNumber, Row, Select, Space, Table, Tag } from "antd";
+import { CheckCircleOutlined, ReloadOutlined } from "@ant-design/icons";
+import { Button, Checkbox, Col, Divider, Form, Input, InputNumber, Row, Select, Space, Table, Tag } from "antd";
 import { useEffect, useRef, useState } from "react";
 
 export default function ListaStock(){
@@ -65,6 +69,7 @@ export default function ListaStock(){
                         genero: row.genero,
                         edad: row.edad,
                         descripcion: row.descripcion,
+                        checked: false,
                     }
                 )
             ))
@@ -111,6 +116,22 @@ export default function ListaStock(){
                          <DetalleStock idcodigo={idcodigo} />
                     </>    )                
                 }
+        },
+        {
+            title: '', dataIndex: 'checked', key: 'check', render:(_,{checked, idcodigo})=>(
+                <>
+                    <Checkbox checked={checked} onChange={(e)=>{
+                        let _data = data.map(r=>{
+                            if(r.idcodigo == idcodigo){
+                                r.checked = e.target.checked;
+                            }
+                            return r;
+                        })
+                        //alert(JSON.stringify(_data))
+                        setData(_data)
+                    }} />
+                </>
+            )
         }
     ]
 
@@ -133,6 +154,21 @@ export default function ListaStock(){
 
     const onFinishFiltro = (values) =>{
         //alert(values.valor)
+        if(typeof values === 'undefined'){
+            return;
+        }
+        if(values === null){
+            return;
+        }
+
+        if(typeof values.valor === 'undefined'){
+            return;
+        }
+
+        if(values.valor === null){
+            return;
+        }
+        
         const found = tags.find(i => tipos_filtro_dic[i.tipo].tipo == tipos_filtro_dic[values.tipo_filtro].tipo)
         
         if(typeof found === 'undefined')
@@ -142,6 +178,9 @@ export default function ListaStock(){
         else{
             alert("Tipo de Filtro ya Cargado")
         }
+
+        setValue('valor',null)
+        setValue('tipo_filtro',null)
         
     }
 
@@ -183,6 +222,7 @@ export default function ListaStock(){
     }
 
     const FiltroValor = () => {
+        
         switch(tipoFiltro){
             case 'codigo_contenga_a': return <Input type="text" onChange={(e)=>{setValue("valor",e.target.value)}}/>;
             case 'codigo_igual_a': return <Input type="text" onChange={(e)=>{setValue("valor",e.target.value)}}/>;
@@ -206,7 +246,7 @@ export default function ListaStock(){
             case 'subgrupo': return <SubGroupSelect callback={(id)=>{setValue("valor",id)}} />;
             case 'grupo': return <GrupoSelect callback={(id)=>{setValue("valor",id)}} />;
             case 'subfamilia': return <SubFamiliaSelect callback={(id)=>{setValue("valor",id)}} />;
-            case 'familia': return <>Familia</>;
+            case 'familia': return <><FamiliaSelect callback={(id)=>{setValue("valor",id)}}/></>;
             default: return <b>Seleccione tipo filtro...</b>
         }
     }
@@ -277,7 +317,7 @@ export default function ListaStock(){
                         }
                         </Form.Item>
                     </Col>
-                    <Col span={12}>
+                    <Col span={9}>
                         <Form.Item label={"Orden"} name={"orden"}>
                             <Select options={[
                                 {label: 'Alfabetico - Ascendiente', value: 'alf_asc'},
@@ -295,13 +335,27 @@ export default function ListaStock(){
                         </Form.Item>
 
                     </Col>
-                    <Col span={12}>
+                    <Col span={3}>
                         <Form.Item>
                             <Button type="primary" htmlType="submit" size="small">Aplicar Filtros</Button>
                         </Form.Item>
                     </Col>
                 </Row>
             </Form>
+            <Row style={{backgroundColor:"#D3E1E6"}}>
+                <Col span={6}>Acciones para selecci&oacute;n M&uacute;ltiple:</Col>
+                <Col span={6}><ModifMultipleCantidad /></Col>
+                <Col span={6}><ModifMultipleCosto /></Col>
+                <Col span={6}>
+                    <Button block size="small" onClick={(e)=>{
+                    setData(
+                        data.map(r=>{
+                            r.checked=!r.checked;
+                            return r;
+                        })
+                    )
+                }}><CheckCircleOutlined />Seleccionar / Deseleccionar Todo</Button></Col>
+            </Row>
         <Row>
             
             {/*<Input.Search onSearch={onSearch} ref={searchRef} />
