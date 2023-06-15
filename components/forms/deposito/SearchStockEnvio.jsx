@@ -1,5 +1,5 @@
 import { Button, Table, Search, Input, Row, Affix } from "antd";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { get } from "@/src/urls";
 import globals from "@/src/globals";
 import { PlusCircleFilled } from "@ant-design/icons";
@@ -11,6 +11,8 @@ const SearchStockEnvio = (props) => {
     const [top,setTop] = useState(10);
     const [dataSource, setDataSource] = useState([])
     const [loading, setLoading] = useState(false)
+    const [searchValue, setSearchValue] = useState("");
+   
 
     const doSearch = (value, id)=>{
         fetch(search_url + props.idSucursalDestino + "/" +value + "/" + id)
@@ -60,6 +62,8 @@ const SearchStockEnvio = (props) => {
             //alert("this is a barcode, id is : " + _id)
             //this is an id!
             doSearch("null",_id)
+            setSearchValue("")
+
         }
         else{
             doSearch(value,0)
@@ -71,7 +75,7 @@ const SearchStockEnvio = (props) => {
         <>
         <Row>
             <Affix offsetTop={top}>
-                <Input.Search onSearch={onSearch}  />
+                <Input.Search onSearch={onSearch} value={searchValue} onChange={(e)=>{setSearchValue(e.target.value)}} />
             </Affix>
         </Row>
         <Row style={{height: "300px", overflowY: "scroll"}}>
