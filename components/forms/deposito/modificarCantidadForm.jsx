@@ -3,13 +3,14 @@ import { post_method } from "@/src/helpers/post_helper"
 import { get, post } from "@/src/urls"
 import CostoCheckBox from "./Costo"
 
-const { Form, InputNumber, Button, Checkbox } = require("antd")
+const { Form, InputNumber, Button, Checkbox, Input } = require("antd")
 const { useState, useEffect } = require("react")
 
 const ModificarCantidadForm = (props) => {
     const [form] = Form.useForm();
     const [loading, setLoading] = useState(true)
     const [data, setData] = useState(null)
+    const [descripcion, setDescripcion] = useState("")
     
     const [reload, setReload] = useState(false);
     useEffect(()=>{
@@ -70,7 +71,7 @@ const ModificarCantidadForm = (props) => {
 
 
 
-    const Content = _ => 
+    const content = _ => 
         <>
         <h1>Modificar</h1>
         <p>Modificar C&oacute;digo: <span style={{fontSize:".75em", color:"lightgrey"}}><i>{data.ruta}</i></span> <b>{data.codigo}</b></p>
@@ -99,6 +100,9 @@ const ModificarCantidadForm = (props) => {
             >
                 <CostoCheckBox callback={(v)=>{setCostoValue(v)}} />
             </Form.Item>
+            <Form.Item label={"Descripcion"}  >
+                <Input value={descripcion} onChange={(e)=>{setDescripcion(e.target.value)}}/>
+            </Form.Item>
             <Form.Item>
                 <Button type="primary" htmlType="submit">Guardar</Button>
             </Form.Item>
@@ -106,7 +110,7 @@ const ModificarCantidadForm = (props) => {
         </>
     
 
-    return( loading ? null: <Content />)
+    return( loading ? null: content())
 }
 
 export default ModificarCantidadForm;
