@@ -40,7 +40,7 @@ const AgregarStockLote = (props) => {
         if(id<0){
             return;
         }
-        alert(subgrupoDetailsURL + id)
+        //alert(subgrupoDetailsURL + id)
         fetch(subgrupoDetailsURL + id)
         .then(response => response.json())
         .then((response)=>{
@@ -356,7 +356,7 @@ const AgregarStockLote = (props) => {
 
                     <Form.Item label={"Factura"} name={"factura"}>
                         <>
-                            <FacturaSelect reload={updateall} callback={(id)=>{ getSubGrupoDetails(id); setValue("factura", id)}} />
+                            <FacturaSelect reload={updateall} callback={(id)=>{ /*getSubGrupoDetails(id);*/ setValue("factura", id)}} />
                             <br />
                             {/* agregar facturas */}
                             <AgregarFacturaPopup />

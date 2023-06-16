@@ -8,14 +8,15 @@ const { useState, useEffect } = require("react")
 
 const ModificarCantidadForm = (props) => {
     const [form] = Form.useForm();
-    const [loading, setLoading] = useState(true)
+    const [loading, setLoading] = useState(false)
     const [data, setData] = useState(null)
     const [descripcion, setDescripcion] = useState("")
+    const [textareaval, setTextAreaVal] = useState("")
     
     const [reload, setReload] = useState(false);
     useEffect(()=>{
-        setLoading(true)
-        //alert(get.detalle_stock+props.idsucursal+"/"+props.idcodigo)
+        //alert(JSON.stringify( props.codigos))
+        /*setLoading(true)
         fetch(get.detalle_stock+props.idsucursal+"/"+props.idcodigo)
         .then(response=>response.json())
         .then((response)=>{
@@ -33,13 +34,27 @@ const ModificarCantidadForm = (props) => {
             setCostoValue(-1)
             setCantidadValue(0)
             setLoading(false)
+
+        })*/
+        var l = ""
+        if(typeof props.codigos !== 'undefined'){
+
+        props.codigos.map((c)=>{
+            l += c.codigo + ", "
         })
-    },[reload])
+
+        }
+        setTextAreaVal(l)
+
+    }
+    
+    ,[props.codigos])
 
     const onFinish = (values) => {
 
         post_method(post.update.incrementar_cantidad,{
-            idcodigo: props.idcodigo,
+            //idcodigo: props.idcodigo,
+            codigos: props.codigos,
             idsucursal: props.idsucursal,
             cantidad: values.cantidad,
             factura_idfactura: (values.factura == null ? -1 : values.factura),
@@ -68,15 +83,26 @@ const ModificarCantidadForm = (props) => {
     }
 
     
-
-
-
-    const content = _ => 
-        <>
-        <h1>Modificar</h1>
+    const detalles = _ =>
+    <>
         <p>Modificar C&oacute;digo: <span style={{fontSize:".75em", color:"lightgrey"}}><i>{data.ruta}</i></span> <b>{data.codigo}</b></p>
         <p>Cantidad Actual: <b>{data.cantidad}</b></p>
         <p>Costo Actual: <b>{data.costo}</b></p>
+    </>
+
+    const detalles_multiple = _ =>
+    <> Codigos:
+    <Input.TextArea value={textareaval}/>
+    </> 
+
+    const content = _ => 
+        <>
+        <h1>Modificar</h1>    
+        <>
+        {
+            detalles_multiple()
+        }
+        </>    
         <Form
             onFinish={onFinish}
             onFinishFailed={onFinishFailed}

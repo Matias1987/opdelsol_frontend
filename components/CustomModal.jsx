@@ -38,6 +38,7 @@ export default function CustomModal(props){
           setOpen(false)}}
         onCancel={handleCancel}
         okText="CERRAR"
+        destroyOnClose={true}
       >
         {props.children}
       </Modal>

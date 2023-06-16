@@ -46,6 +46,31 @@ export default function ListaStock(){
         "familia":{tipo: "familia", descripcion:"Familia"},
     }
     
+    const edit_popup = () => <>
+    <CustomModal
+                         openButtonText={"Modificar Selección"}
+                         title={""}
+                         _open = {popupOpen}
+                         onOk={()=>{
+                            setPopupOpen(false)
+                            setValueChanged(!valueChanged)
+                         }}
+                         onCancel={()=>{
+                            setValueChanged(!valueChanged)
+                         }}
+
+                         
+                         > 
+                         
+
+                         <ModificarCantidadForm                                       
+                         codigos={data.filter((r)=> r.checked)}
+                         idsucursal={idsucursal} 
+                        
+                         />
+                         
+                         </CustomModal>
+    </>
     
     //THIS IS NEW
     useEffect(()=>{
@@ -91,7 +116,7 @@ export default function ListaStock(){
                 (_,{idcodigo})=>{
                     return (<>
 
-                         <CustomModal
+                         {/*<CustomModal
                          openButtonText={"Modificar"}
                          title={""}
                          _open = {popupOpen}
@@ -107,13 +132,14 @@ export default function ListaStock(){
 
                          <ModificarCantidadForm                                       
                          idcodigo={idcodigo}
+                         codigos={data.filter((r)=> r.checked)}
                          idsucursal={idsucursal} 
                         
                          />
                          
                          </CustomModal>
-                         &nbsp;
-                         <DetalleStock idcodigo={idcodigo} />
+                         &nbsp;*/
+                        <DetalleStock idcodigo={idcodigo} />}
                     </>    )                
                 }
         },
@@ -343,10 +369,11 @@ export default function ListaStock(){
                 </Row>
             </Form>
             <Row style={{backgroundColor:"#D3E1E6"}}>
-                <Col span={6}>Acciones para selecci&oacute;n M&uacute;ltiple:</Col>
-                <Col span={6}><ModifMultipleCantidad /></Col>
-                <Col span={6}><ModifMultipleCosto /></Col>
-                <Col span={6}>
+                <Col span={8}>Acciones para selecci&oacute;n M&uacute;ltiple:</Col>
+                {/*<Col span={6}><ModifMultipleCantidad /></Col>*/}
+                <Col span={8}>{edit_popup()}</Col>
+                {/*<Col span={6}><ModifMultipleCosto /></Col>*/}
+                <Col span={8}>
                     <Button block size="small" onClick={(e)=>{
                     setData(
                         data.map(r=>{
