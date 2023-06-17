@@ -58,6 +58,7 @@ const ModificarCantidadForm = (props) => {
             idsucursal: props.idsucursal,
             cantidad: values.cantidad,
             factura_idfactura: (values.factura == null ? -1 : values.factura),
+            descripcion: descripcion,
             costo:  values.costo ,
         },(r)=>{
             if(r.status == "OK"){
@@ -92,7 +93,7 @@ const ModificarCantidadForm = (props) => {
 
     const detalles_multiple = _ =>
     <> Codigos:
-    <Input.TextArea value={textareaval}/>
+    <Input.TextArea style={{backgroundColor:"#F4E8B3"}} value={textareaval}/>
     </> 
 
     const content = _ => 
