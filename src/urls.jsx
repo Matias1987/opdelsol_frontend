@@ -1,7 +1,7 @@
-const remote_base_url = "http://54.90.66.197:3001/api/v1/"
-const local_base_url = "http://54.90.66.197:3000/v1/"
-//const remote_base_url = "http://localhost:3001/api/v1/"
-//const local_base_url = "http://localhost:3000/v1/"
+//const remote_base_url = "http://54.90.66.197:3001/api/v1/"
+//const local_base_url = "http://54.90.66.197:3000/v1/"
+const remote_base_url = "http://localhost:3001/api/v1/"
+const local_base_url = "http://localhost:3000/v1/"
 const token = "&token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3QiLCJpYXQiOjE2ODI0NjEwMjksImV4cCI6MTY4MjQ2NDYyOX0.Unf5zmxNVQCJVD4qxSAcdcmsrs1s-q4h7Q0e2dYHHEo";
 const public_urls = {
     dashboard_deposito : local_base_url + "deposito/",
@@ -34,6 +34,7 @@ const post = {
     login: remote_base_url + "usuarios/login/",
     codigo_por_codigo: remote_base_url + "codigos/porcodigo/",
     obtener_stock_ventas: remote_base_url + "stock/obtener_stock_ventas/",
+    obtener_cliente_dni: remote_base_url + "clientes/getPorDNI/",
     search:{
         filtro_stock: remote_base_url + "stock/filtro_stock/",
     },
@@ -50,6 +51,7 @@ const post = {
         proveedor: remote_base_url + "proveedores/",
         sucursal: remote_base_url + "sucursales/",
         baja_desperfecto: remote_base_url + "bajadesperfecto/",
+        cliente: remote_base_url + "clientes/"
         
     },
     update:{
@@ -113,7 +115,11 @@ const get = {
     obtener_detalle_subgrupo: remote_base_url + "subgrupos/",//subgrupoId
 
     //ventas
-    obtener_stock_detalles_venta: remote_base_url + "stock/detalle_stock_venta/"//:idsucursal/:idcodigo
+    obtener_stock_detalles_venta: remote_base_url + "stock/detalle_stock_venta/",//:idsucursal/:idcodigo
+
+    cliente_por_id: remote_base_url + "clientes/",
+    lista_clientes: remote_base_url + "clientes/",
+    buscar_cliente: remote_base_url + "clientes/buscar/",
 
 
 }
