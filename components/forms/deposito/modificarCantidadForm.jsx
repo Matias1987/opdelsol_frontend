@@ -51,16 +51,26 @@ const ModificarCantidadForm = (props) => {
     ,[props.codigos])
 
     const onFinish = (values) => {
-
-        post_method(post.update.incrementar_cantidad,{
+        const __data = {
             //idcodigo: props.idcodigo,
             codigos: props.codigos,
             idsucursal: props.idsucursal,
-            cantidad: values.cantidad,
+            cantidad: typeof values.cantidad === 'undefined' ? 0 : values.cantidad,
             factura_idfactura: (values.factura == null ? -1 : values.factura),
-            descripcion: descripcion,
-            costo:  values.costo ,
-        },(r)=>{
+            descripcion: descripcion.trim(),
+            costo: typeof values.costo === 'undefined' ? -1 : values.costo ,
+        }
+     
+        if(
+            __data.cantidad == 0 && 
+            __data.costo < 0 && 
+            (__data.descripcion.trim()).length<1
+        ){
+            alert("Sin Cambios")
+            return;
+        }
+
+        post_method(post.update.incrementar_cantidad,__data,(r)=>{
             if(r.status == "OK"){
                 alert("OK")
                 setReload(!reload)
@@ -98,7 +108,7 @@ const ModificarCantidadForm = (props) => {
 
     const content = _ => 
         <>
-        <h1>Modificar</h1>    
+        <h3>Modificar C&oacute;digos</h3>    
         <>
         {
             detalles_multiple()

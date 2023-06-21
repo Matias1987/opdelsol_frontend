@@ -300,7 +300,7 @@ const AgregarStockLote = (props) => {
         setUpdateAll(!updateall)
     }
 
-    const AgregarSubgrupoPopup=_=>(
+    const agregarSubgrupoPopup=_=>(
         <>
     <Button type="primary"  size="small"  onClick={()=>{setSubGrupoPopupOpen(true)}}>
         {props.edit ? <EditOutlined /> : <><PlusCircleOutlined />&nbsp;Agregar</>}
@@ -322,7 +322,7 @@ const AgregarStockLote = (props) => {
     )
    
 
-    const AgregarFacturaPopup = _ =>
+    const agregarFacturaPopup = _ =>
     <>
     <Button type="primary"  size="small"  onClick={()=>{setFacturaPopupOpen(true)}}>
         {props.edit ? <EditOutlined /> : <><PlusCircleOutlined />&nbsp;Agregar</>}
@@ -349,7 +349,8 @@ const AgregarStockLote = (props) => {
 
                     <Form.Item style={{ backgroundColor: "#E1EEFF", padding:"3.5em", fontSize:".25em"}} label={"Subgrupo"} name={"subgrupo"} rules={[{required:true}]}>
                         <>
-                        <SubGroupSelect callback={(id)=>{setValue("subgrupo", id);getSubGrupoDetails(id) }} /><AgregarSubgrupoPopup />
+                        <SubGroupSelect callback={(id)=>{setValue("subgrupo", id);getSubGrupoDetails(id) }} />
+                        {agregarSubgrupoPopup()}
                         {idSubgrupo > -1 ? <p style={{fontSize:".75em"}}><i>Multiplicador: {multiplier} </i></p> : null}
                         </>
                     </Form.Item>
@@ -359,7 +360,7 @@ const AgregarStockLote = (props) => {
                             <FacturaSelect reload={updateall} callback={(id)=>{ /*getSubGrupoDetails(id);*/ setValue("factura", id)}} />
                             <br />
                             {/* agregar facturas */}
-                            <AgregarFacturaPopup />
+                            {agregarFacturaPopup()}
                             {/* FIN agregar facturas */}
                             
                         </>

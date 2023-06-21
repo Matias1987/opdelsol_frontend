@@ -124,34 +124,11 @@ const EnvioForm = (props) => {
         })
     }
 
-    const buttons = () => {
-        return (
-        <>
-       
-            
-            <CustomModal 
-                openButtonText="Agregar Producto Por Subgrupo" 
-                title="Agregar Producto"
-                onOk={()=>{if(selectedCodigoId!=-1){load_details_for_selected_id(selectedCodigoId)}}}
-            >
-                <h3>Seleccione C&oacute;digo</h3>
-                <FullPathStockSelect
-                        callback={
-                            (id)=>{
-                                setSelectedCodigoId(id);
-                            }
-                        }
-                    />
-            </CustomModal>
-            <Divider />
-        </>)
-    }
-
+    
     return (
         <>
             {/*buttons()*/}
             <Row>
-            
             <Col span={14} style={{padding:"1em"}}>
             &nbsp;
             <Form
@@ -228,7 +205,7 @@ const EnvioForm = (props) => {
             </Col>
             <Col span={10} style={{padding:"2em", backgroundColor:"#E1EEFF"}}>
                 <h3>Agregar C&oacute;digos</h3>
-            <SearchStockEnvio 
+                <SearchStockEnvio 
                 idSucursalDestino={sucursalDestId}
                 callback={(id)=>{load_details_for_selected_id(id)}} 
                 />

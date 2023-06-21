@@ -6,10 +6,19 @@ export default function CustomModal(props){
   const [open, setOpen] = useState(false);
 
   const showModal = () => {
+    
     if(typeof props.onOpen !== 'undefined'){
       props.onOpen();
     }
-    setOpen(true);
+
+    if(typeof props.validateOpen !== 'undefined'){
+      setOpen(props.validateOpen());
+    }
+    else{
+      setOpen(true);
+    }
+
+    
   };
 
   const handleCancel = () => {

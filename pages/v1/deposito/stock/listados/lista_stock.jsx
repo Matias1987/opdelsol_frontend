@@ -59,6 +59,17 @@ export default function ListaStock(){
                             setValueChanged(!valueChanged)
                          }}
 
+                         validateOpen={
+                            ()=>{
+                                
+                                if((data.filter((r)=> r.checked)).length<1){
+                                    alert("No hay códigos seleccionados.")
+                                    return false;
+                                }
+                                return true;
+                            }
+                         }
+
                          
                          > 
                          
@@ -384,10 +395,11 @@ export default function ListaStock(){
                 }}><CheckCircleOutlined />Seleccionar / Deseleccionar Todo</Button></Col>
             </Row>
         <Row>
-            
+            <Col span={24}>
             {/*<Input.Search onSearch={onSearch} ref={searchRef} />
             <Button onClick={onReset}><ReloadOutlined /></Button>*/}
             <Table columns={columns} dataSource={data} loading={loading} />
+            </Col>
         </Row>
         </>
     )
