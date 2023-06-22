@@ -17,10 +17,6 @@ const MonofLabItems = (props) => {
         
     })
 
-    /*useEffect(()=>{
-        alert(JSON.stringify(rcitems))
-    })*/
-
     const on_change = (field, value) => {
         mlabitems[field] = value;
         setItems(mlabitems)

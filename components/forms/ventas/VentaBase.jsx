@@ -125,14 +125,15 @@ export default function VentaBase(props){
             label: 'Finalizar Sobre',
             children: 
             <>
-                <Form.Item label={"Comentarios"}>
-                   <Input.TextArea rows={2} onChange={(v)=>{_venta.comentarios=v}} />
-                </Form.Item>
                 <Form.Item label={"Fecha de Retiro"}>
                     <DatePicker onChange={(value)=>{_venta.fechaRetiro=value}} />
                 </Form.Item>
+                <Form.Item label={"Comentarios"}>
+                   <Input.TextArea rows={2} onChange={(v)=>{_venta.comentarios=v}} />
+                </Form.Item>
+                
                 <Form.Item>
-                    <Button type="primary" block onClick={finalizar_venta}>Guardar Venta</Button>
+                    <Button type="primary" block onClick={finalizar_venta}>Imprimir Sobre</Button>
                 </Form.Item>
             </>
         },

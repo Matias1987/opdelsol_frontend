@@ -18,10 +18,6 @@ const RecetaStockItems = (props) => {
         
     })
 
-    /*useEffect(()=>{
-        alert(JSON.stringify(rcitems))
-    })*/
-
     const on_change = (field, value) => {
         rcitems[field] = value;
         setItems(rcitems)
