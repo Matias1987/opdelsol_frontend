@@ -51,7 +51,9 @@ const post = {
         proveedor: remote_base_url + "proveedores/",
         sucursal: remote_base_url + "sucursales/",
         baja_desperfecto: remote_base_url + "bajadesperfecto/",
-        cliente: remote_base_url + "clientes/"
+        cliente: remote_base_url + "clientes/",
+        medico: remote_base_url + "medicos/",
+        mutual: remote_base_url + "mutuales/",
         
     },
     update:{
@@ -120,6 +122,14 @@ const get = {
     cliente_por_id: remote_base_url + "clientes/",
     lista_clientes: remote_base_url + "clientes/",
     buscar_cliente: remote_base_url + "clientes/buscar/",
+
+    lista_mutuales: remote_base_url + "mutuales/",
+    obtener_mutual: remote_base_url + "mutuales/",//:idmutual
+    buscar_mutual: remote_base_url + "mutuales/buscar/",//:value
+
+    lista_medicos: remote_base_url + "medicos/",
+    obtener_medico: remote_base_url + "medicos/",//:idmedico
+    buscar_medico: remote_base_url + "medicos/buscar/",//:value
 
 
 }
