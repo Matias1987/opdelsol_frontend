@@ -4,23 +4,26 @@ import { useRef, useState } from "react";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 
 const VentasInsumo = (props) => {
-    const [codigo, setCodigo] = useState(null);
     const [visible, setVisible] = useState(false);
     const precioRef =useRef(null);
-    const _tratamiento = {
+    const [tratamiento, setTratamiento] = useState({
         codigo: null,
         precio: 0,
-    }
+    })
     const on_codigo_change = (val) => {
-        _tratamiento.codigo = val;
-
+        /*ratamiento.codigo = val;
+        props.callback(tratamiento);*/
         precioRef.current.value=val.precio;
-
-        props.callback(_tratamiento);
+        setTratamiento((tratamiento)=>{
+            const __tratamiento ={...tratamiento,codigo:val.codigo, precio: val.precio};
+            props?.callback(__tratamiento);
+            return __tratamiento;
+        })
     }
     const on_precio_change = (e) => {
-        _tratamiento.precio = e.target.value;
-        props.callback(_tratamiento);
+        /*tratamiento.precio = e.target.value;
+        props.callback(tratamiento);*/
+        
     }
 
     return (

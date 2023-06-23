@@ -4,26 +4,40 @@ import { useRef, useState } from "react";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 
 const VentasArmazon = (props) => {
-    const [codigo, setCodigo] = useState(null);
     const [visible, setVisible] = useState(false);
-    const [precio, setPrecio] = useState(0);
-    const precioRef = useRef(null)
-    const _armazon = {
+    const [armazon, setArmazon] = useState({
         codigo: null,
         precio: -1,
-    }
+    })
+    const precioRef = useRef(null)
+
     const on_precio_change = (e) => {
-        _armazon.precio = e.target.value;
-        setPrecio(e.target.value)
-        props.callback(_armazon);
+        
+        setArmazon(
+            (armazon) => 
+            { 
+                const _armazon = {...armazon,precio: e.target.value};
+                props.callback(_armazon); 
+                return _armazon; 
+            })
     }
 
     const on_codigo_change = (val) => {
-        _armazon.codigo = val.codigo;
-        _armazon.precio = val.precio;
-        precioRef.current.value=val.precio;
-        setPrecio(val.precio);
-        props.callback(_armazon);
+
+        precioRef.current.value = val.precio;
+       
+        setArmazon((armazon)=>{
+            const _armazon = {
+                ...armazon,
+                codigo: val.codigo,
+                precio: val.precio,
+            };
+
+            props.callback(_armazon);
+            return {
+                _armazon
+            }
+        })
     }
 
     return (

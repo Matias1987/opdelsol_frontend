@@ -157,6 +157,7 @@ const EnvioForm = (props) => {
                 <Divider />
                     <Form.Item name={"items"} label={""} style={{height:"400px", overflowY:"scroll"}}>
                         <Table
+                        pagination={false}
                         loading={tableLoading}
                         columns = {[
                             {title:"", dataIndex: "ruta", render:(_,{ruta})=>(<span style={{color:"#536872", fontSize:".75em"}}><i>{ruta}</i></span>)  },

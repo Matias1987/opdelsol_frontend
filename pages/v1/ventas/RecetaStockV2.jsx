@@ -6,8 +6,10 @@ import LayoutVentas from "@/components/layout/layout_ventas";
 
 export default function VentaRecetaStock(){
     const [total, setTotal] = useState(0);
-    var productos = null;
-    const onChangePrecio = (productos)=>{
+    const [productos, setProductos] = useState(null);
+    //var productos = null;
+    const callback = (productos)=>{
+        setProductos(productos)
         alert(JSON.stringify(productos))
         var _t = 0;
         _t += productos.lejos_od === null ? 0 : parseFloat(productos.lejos_od.precio);
@@ -29,7 +31,7 @@ export default function VentaRecetaStock(){
                 alert(JSON.stringify(data))
                 alert(JSON.stringify(productos))
             }}>
-            <RecetaStockItems callback={onChangePrecio} />
+            <RecetaStockItems callback={callback} />
         </VentaBase>
     </>
     )

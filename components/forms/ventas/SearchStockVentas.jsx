@@ -18,7 +18,7 @@ const SearchStockVentas = (props) => {
         post_method(search_url, {filtroCod: value, idSucursal: id_sucursal, filtroFamilias: typeof props.filtroFamilias === 'undefined' ? [] : props.filtroFamilias },
         (_response)=>{
             var response = typeof props.onParseResponse !== 'undefined' ? props.onParseResponse(_response) : _response;
-            alert(JSON.stringify(response))
+            //alert(JSON.stringify(response))
             setDataSource(
                 response.data.map(
                     (row) => ({
