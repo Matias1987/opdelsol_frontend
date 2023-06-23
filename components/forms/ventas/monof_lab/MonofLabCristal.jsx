@@ -5,38 +5,62 @@ import { useEffect, useRef, useState } from "react";
 import { DeleteOutlined } from "@ant-design/icons";
 
 const MonofLabCristal = (props) => {
-    const [codigo, setCodigo] = useState(null);
+    
     const [visible, setVisible] = useState(false);
-    const [precio, setPrecio] = useState(0)
+    
     const precioRef = useRef(null)
 
-    const _cristal = {
+    const [cristal, setCristal] = useRef({
         tipo: props.tipo,
         codigo: null,
         eje: -1,
-        precio: 0
-    }
+        precio: 0,
+        esf: -1,
+        cil: -1,
+
+    })
 
     const onchange_codigo = (value) => {
-        _cristal.codigo = value.codigo;
-        _cristal.precio = value.precio;
-         
-        setPrecio(value.precio)
         precioRef.current.value = value.precio;
-        alert(precioRef.current.value)
 
-        props.callback(_cristal)
+        setCristal((cristal)=>{
+            const __cristal = {...cristal,codigo:value.codigo, precio: value.precio}
+            props?.callback(__cristal)
+            return __cristal
+        })
         
     }
     const onchange_eje = (e) => {
-        _cristal.eje = e.target.value;
+        setCristal((cristal)=>{
+            const __cristal = {...cristal,eje:e.target.value}
+            props?.callback(__cristal)
+            return __cristal
+        })
+        
+    }
+    const onchange_esf = (e) => {
+        setCristal((cristal)=>{
+            const __cristal = {...cristal,esf:e.target.value}
+            props?.callback(__cristal)
+            return __cristal
+        })
+        
+    }
+    const onchange_cil = (e) => {
+        setCristal((cristal)=>{
+            const __cristal = {...cristal,cil:e.target.value}
+            props?.callback(__cristal)
+            return __cristal
+        })
         
     }
     const onchange_precio = (e) => {
         
-        _cristal.precio = e.target.value;
-        setPrecio(e.target.value)
-        props.callback(_cristal)
+        setCristal((cristal)=>{
+            const __cristal = {...cristal,precio:e.target.value}
+            props?.callback(__cristal)
+            return __cristal
+        })
     }
     
     return (
@@ -49,10 +73,10 @@ const MonofLabCristal = (props) => {
         <>
             <Row>
                 <Col span={3}>
-                    <Input addonBefore={"Esf:"} onChange={onchange_eje} />&nbsp;
+                    <Input addonBefore={"Esf:"} onChange={onchange_esf} />&nbsp;
                 </Col>
                 <Col span={3}>
-                    <Input addonBefore={"Cil:"} onChange={onchange_eje} />&nbsp;
+                    <Input addonBefore={"Cil:"} onChange={onchange_cil} />&nbsp;
                 </Col>
                 <Col span={3}>
                     <Input addonBefore={"Eje:"} onChange={onchange_eje} />&nbsp;

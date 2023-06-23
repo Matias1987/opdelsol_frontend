@@ -33,7 +33,23 @@ const VentasArmazon = (props) => {
                 precio: val.precio,
             };
 
-            props.callback(_armazon);
+            props?.callback(_armazon);
+            return {
+                _armazon
+            }
+        })
+    }
+
+    const on_remove = () => {
+        setVisible(false)
+        setArmazon((armazon)=>{
+            const _armazon = {
+                ...armazon,
+                codigo: null,
+                precio: 0,
+            };
+
+            props?.callback(_armazon);
             return {
                 _armazon
             }
@@ -57,7 +73,7 @@ const VentasArmazon = (props) => {
                     <span>Precio:&nbsp;<input onChange={on_precio_change}  ref={precioRef} style={{textAlign:"right", width:"100px", border: "1px solid #ccc", borderRadius:"6px", borderColor:"lightgray", padding:".4em", fontSize:"1.1em"}}  /></span>
                 </Col>
                 <Col span={1}>
-                <Button danger onClick={()=>{setVisible(false)}}><DeleteOutlined/></Button>
+                <Button danger onClick={()=>{on_remove()}}><DeleteOutlined/></Button>
                 </Col>
             </Row>
         </>

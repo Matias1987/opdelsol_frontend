@@ -26,12 +26,16 @@ export default function SelectCodigoVenta(props){
                 _data
             )
 
-            if(typeof props.callback !== 'undefined'){
-                props.callback(_data)
-            }
+            props?.callback(_data)
         })
         .catch((error)=>{alert(error)})
     }
+
+    const on_remove = () => {
+        setDataCodigo(null);
+        props.callback({codigo:null,precio:0, idcodigo:-1})
+    }
+
     return (
         dataCodigo === null ?
     <>
@@ -44,6 +48,6 @@ export default function SelectCodigoVenta(props){
         </>
         :
         <>
-        <span>Codigo:&nbsp;<b>{dataCodigo.codigo}</b>&nbsp;&nbsp;&nbsp;Desc.:<b>{dataCodigo.descripcion}</b>&nbsp;<Button danger size="small" onClick={()=>{setDataCodigo(null)}}><CloseCircleFilled /></Button></span>
+        <span>Codigo:&nbsp;<b>{dataCodigo.codigo}</b>&nbsp;&nbsp;&nbsp;Desc.:<b>{dataCodigo.descripcion}</b>&nbsp;<Button danger size="small" onClick={()=>{on_remove()}}><CloseCircleFilled /></Button></span>
         </>
         )}

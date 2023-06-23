@@ -4,38 +4,56 @@ import { useEffect, useRef, useState } from "react";
 import { DeleteOutlined } from "@ant-design/icons";
 
 const RecStockCristal = (props) => {
-    const [codigo, setCodigo] = useState(null);
     const [visible, setVisible] = useState(false);
-    const [precio, setPrecio] = useState(0)
     const precioRef = useRef(null)
 
-    const _cristal = {
+    const [cristal , setCristal]= useState({
         tipo: props.tipo,
         codigo: null,
         eje: -1,
         precio: 0
-    }
+    })
 
     const onchange_codigo = (value) => {
-        _cristal.codigo = value.codigo;
-        _cristal.precio = value.precio;
-         
+        /*
+        cristal.codigo = value.codigo;
+        cristal.precio = value.precio;
         setPrecio(value.precio)
-        precioRef.current.value = value.precio;
         alert(precioRef.current.value)
-
-        props.callback(_cristal)
+        props.callback(cristal)
+        */
+        precioRef.current.value = value.precio;
+        setCristal(
+            (cristal)=>{
+                const _cristal = {...cristal, codigo: value.codigo, precio: value.precio}
+                props?.callback(_cristal)
+                return _cristal
+            }
+        )
         
     }
     const onchange_eje = (e) => {
-        _cristal.eje = e.target.value;
-        
+        //cristal.eje = e.target.value;
+        setCristal(
+            (cristal)=>{
+                const _cristal = {...cristal, eje: e.target.value}
+                props?.callback(_cristal)
+                return _cristal
+            }
+        )
     }
     const onchange_precio = (e) => {
-        
-        _cristal.precio = e.target.value;
+        /*cristal.precio = e.target.value;
         setPrecio(e.target.value)
-        props.callback(_cristal)
+        props.callback(_cristal)*/
+        setCristal(
+            (cristal)=>{
+                const _cristal = {...cristal, precio: value.precio}
+                props?.callback(_cristal)
+                return _cristal
+            }
+        )
+
     }
     
     return (

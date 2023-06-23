@@ -6,23 +6,28 @@ import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 const VentasInsumo = (props) => {
     const [visible, setVisible] = useState(false);
     const precioRef =useRef(null);
-    const [tratamiento, setTratamiento] = useState({
+    const [insumo, setInsumo] = useState({
         codigo: null,
         precio: 0,
     })
     const on_codigo_change = (val) => {
-        /*ratamiento.codigo = val;
-        props.callback(tratamiento);*/
+        
         precioRef.current.value=val.precio;
-        setTratamiento((tratamiento)=>{
-            const __tratamiento ={...tratamiento,codigo:val.codigo, precio: val.precio};
-            props?.callback(__tratamiento);
-            return __tratamiento;
+
+        setInsumo((insumo)=>{
+            const __insumo ={...insumo,codigo:val.codigo, precio: val.precio};
+            props?.callback(__insumo);
+            return __insumo;
         })
     }
+
     const on_precio_change = (e) => {
-        /*tratamiento.precio = e.target.value;
-        props.callback(tratamiento);*/
+        
+        setInsumo((insumo)=>{
+            const __insumo = {...insumo, precio: e.target.value};
+            props?.callback(__insumo);
+            return __insumo;    
+        })
         
     }
 
