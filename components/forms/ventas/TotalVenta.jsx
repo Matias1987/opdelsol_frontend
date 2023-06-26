@@ -4,19 +4,19 @@ import { useEffect, useState } from "react";
 const TotalesVenta = (props) => {
     const [descuento, setDescuento] = useState(0);
     const [total, setTotal] = useState(0);
-    const totales = {
-        descuento: 0,
-        concepto_descuento: "",
-        nro_orden: "",
-        total: 0,
-    }
+    
     const onDescuentoChange = (e)=>{
-        setDescuento(e.target.value)
-        setTotal(props.total - e.target.value)
+        setDescuento((descuento)=>{
+            props?.callback(e.target.value)
+            setTotal(e.target.value)
+            return e.target.value
+        })
     }
+
     useEffect(()=>{
         setTotal(props.total - descuento)
     })
+
 return (
     <>
         <Row>

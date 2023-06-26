@@ -5,9 +5,7 @@ import { DeleteFilled } from "@ant-design/icons";
 
 export default function ModoPago(props){
 
-
-    const modo_pago = {
-
+    const [modoPago, setModoPago] = useState({
         efectivo_monto: 0,
         tarjeta_monto: 0,
         tarjeta_tarjeta: 0,
@@ -17,52 +15,61 @@ export default function ModoPago(props){
         cheque_monto: 0,
         mutual_monto: 0,
         mutual_mutual: 0,
+        total: 0,
+    })
+
+    const onChange = (index, value) => {
+        setModoPago( (modoPago) => { 
+            const _mp = {...modoPago,[index]:value};
+            _mp.total = parseFloat(_mp.cheque_monto||0)+
+                        parseFloat(_mp.ctacte_monto||0)+
+                        parseFloat(_mp.tarjeta_monto||0)+
+                        parseFloat(_mp.mutual_monto||0)+
+                        parseFloat(_mp.efectivo_monto||0);
+
+            props?.callback(_mp);
+            return _mp;
+        })
     }
-
-
-    
 
     return (
     <>
-        <Divider />
         <h4>Modo de Pago</h4>
-        
         <>
             <Row>
-
-                <Col span={22} >
-                    <Input  prefix="Monto Efectivo: " onChange={(e)=>{modo_pago.efectivo_monto = e.target.value;props.callback(modo_pago)}}></Input>
+                <Col span={8} >
+                    <Input  prefix="Monto Efectivo: " onChange={(e)=>{onChange("efectivo_monto", e.target.value)}}></Input>
                 </Col>
                 
             </Row>
             <Row>
               
-                <Col span={12}><Input  prefix="Monto Tarjeta: " onChange={(e)=>{modo_pago.tarjeta_monto = e.target.value;props.callback(modo_pago)}}></Input></Col>
-                <Col span={10}><Input  prefix="Tarjeta: " onChange={(e)=>{modo_pago.tarjeta_tarjeta = e.target.value;props.callback(modo_pago)}}></Input></Col>
+                <Col span={8}><Input   prefix="Monto Tarjeta: " onChange={(e)=>{onChange("tarjeta_monto", e.target.value)}}></Input></Col>
+                <Col span={10}><Input   prefix="Tarjeta: " onChange={(e)=>{onChange("tarjeta_tarjeta", e.target.value)}}></Input></Col>
                 
             </Row>
             <Row>
                 
-                <Col span={10}><Input prefix="Monto Cta. Cte.: " onChange={(e)=>{modo_pago.ctacte_monto = e.target.value;props.callback(modo_pago)}}></Input></Col>
-                <Col span={4}><Input prefix="Nro Cuotas: " onChange={(e)=>{modo_pago.ctacte_cuotas = e.target.value;props.callback(modo_pago)}}></Input></Col>
-                <Col span={8}><Input prefix="Valor Cuota: " onChange={(e)=>{modo_pago.ctacte_monto_cuotas = e.target.value;props.callback(modo_pago)}}></Input></Col>
+                <Col span={10}><Input  prefix="Monto Cta. Cte.: " onChange={(e)=>{onChange("ctacte_monto", e.target.value)}}></Input></Col>
+                <Col span={4}><Input prefix="Nro Cuotas: " onChange={(e)=>{onChange("ctacte_cuotas", e.target.value)}}></Input></Col>
+                <Col span={8}><Input  prefix="Valor Cuota: " onChange={(e)=>{onChange("ctacte_monto_cuotas", e.target.value)}}></Input></Col>
                 
             </Row>
             <Row>
-                
-                <Col span={22}>
-                    <Input  prefix="Monto Cheque: " onChange={(e)=>{modo_pago.cheque_monto = e.target.value;props.callback(modo_pago)}}></Input>
+                <Col span={8}>
+                    <Input  prefix="Monto Cheque: " onChange={(e)=>{onChange("cheque_monto", e.target.value)}}></Input>
                 </Col>
-                
             </Row>
             <Row>
-                
-                <Col span={22}>
-                    <Input prefix="Monto Mutual: " onChange={(e)=>{modo_pago.mutual_monto = e.target.value;props.callback(modo_pago)}}></Input>
+                <Col span={8}>
+                    <Input  prefix="Monto Mutual: " onChange={(e)=>{onChange("mutual_monto", e.target.value)}}></Input>
                     
                 </Col>
             </Row>
+            <Row>
+                <Col span={8}>
+                    <Input readOnly prefix="Total" style={{color:"red"}} value={modoPago.total} />
+                </Col>
+            </Row>
         </>
-    
-
     </>)}

@@ -19,9 +19,11 @@ const RecetaStockItems = (props) => {
     })
 
     const on_change = (field, value) => {
-        rcitems[field] = value;
-        setItems(rcitems)
-        props.callback(rcitems)
+        setItems((rcitems)=>{
+            const _rcitems = {...rcitems,[field]:value}
+            props?.callback(_rcitems)
+            return _rcitems;
+        })
     }
 
     

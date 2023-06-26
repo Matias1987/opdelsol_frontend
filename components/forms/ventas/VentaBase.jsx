@@ -12,55 +12,36 @@ import { useState } from "react";
 /* leer: https://refine.dev/blog/common-usestate-mistakes-and-how-to-avoid/ */
 
 export default function VentaBase(props){
-
-    const [idcliente, setIdCliente] = useState(-1);
-    const [iddestinatario, setIdDestinatario] = useState(-1);
-    const [idmedico, setIdMedico] = useState(-1);
-    const [idos, setIdOS] = useState(-1);
-    const [productos,setProductos] = useState([])
-    const [mp,setMP] = useState([])
-    const [descuento,setDescuento] = useState(0)
-    const [total,setTotal] = useState(0)
-
-
-    const _venta = {
+ const [venta, setVenta] = useState( {
         fkcliente: -1,
         fkdestinatario: -1,
         fkmedico: -1,
         fkos: -1,
-        //productos: null,
         mp: null,
         subtotal: 0,
         descuento: 0,
         total: 0,
         fechaRetiro: null,
         comentarios: "",
+        productos: null,
 
-    }
+    })
 
-    const callback_cliente = (value) => {
-        _venta.fkcliente = value;
-    }
-    
-    const callback_destinatario = (value)=>{
-        _venta.fkdestinatario = value;
-    }
-
-    const callback_medico = (value) => {
-        _venta.fkmedico = value;
-    }
-
-    const callback_os = (value) => {
-        _venta.fkos = value;
-    }
-
-
-    const callback_mp = (values) => {
-        _venta.mp = values;
+    const onChange = (field, value) => {
+        setVenta(
+            (venta)=>{
+                const __venta = {...venta, [field]:value};
+                props?.callback(__venta);
+                return __venta;
+            }
+        )
     }
 
     const finalizar_venta = (e)=>{
-        props.onfinish(_venta)
+        setVenta((venta)=>{
+            props?.onfinish(venta);
+            return venta;
+        })
     }
 
     const onFinish = (values)=>{}
@@ -69,31 +50,31 @@ export default function VentaBase(props){
 
     const tabs_items = [
         {
-            key: '1paso',
+            key: 'paso1',
             label: 'Cliente y Medico',
             children: 
             <>
             <Row>
                     <Col span={24} >
                         <Form.Item>
-                            <SelectCliente idcliente={idcliente} callback={callback_cliente} />
+                            <SelectCliente callback={(value)=>{onChange("fkcliente", value)}} />
                         </Form.Item>
                     </Col>
                     <Col span={24} >
                         <Form.Item>
-                            <SelectCliente destinatario={true} iddestinatario={iddestinatario} callback={callback_destinatario} />
+                            <SelectCliente   callback={(value)=>{onChange("fkdestinatario", value)}} />
                         </Form.Item>
                     </Col>
                 </Row>
                 <Row>
                     <Col span={24}>
                         <Form.Item>
-                            <SelectMedico idmedico={idmedico} callback={callback_medico} />
+                            <SelectMedico  callback={(value)=>{onChange("fkmedico", value)}} />
                         </Form.Item>
                     </Col>
                     <Col span={24}>
                         <Form.Item>
-                            <SelectObraSocial callback={callback_os} />
+                            <SelectObraSocial callback={(value)=>{onChange("fkos", value)}} />
                         </Form.Item>
                     </Col>
                 </Row>
@@ -115,8 +96,8 @@ export default function VentaBase(props){
             children: 
             <>
                 <Form.Item>
-                    <TotalesVenta total={ typeof props !== 'undefined' ? props.total : "0"} />
-                    <ModoPago mp={mp} callback={callback_mp} />
+                    <TotalesVenta total={ typeof props !== 'undefined' ? props.total : "0"} callback={(value)=>{onChange("descuento", value)}} />
+                    <ModoPago callback={(value)=>{onChange("mp", value)}} />
                 </Form.Item>
             </>
         },
@@ -126,10 +107,10 @@ export default function VentaBase(props){
             children: 
             <>
                 <Form.Item label={"Fecha de Retiro"}>
-                    <DatePicker onChange={(value)=>{_venta.fechaRetiro=value}} />
+                    <DatePicker onChange={(value)=>{onChange("fechaRetiro", value)}} />
                 </Form.Item>
                 <Form.Item label={"Comentarios"}>
-                   <Input.TextArea rows={2} onChange={(v)=>{_venta.comentarios=v}} />
+                   <Input.TextArea rows={2} onChange={(value)=>{onChange("comentarios", value)}} />
                 </Form.Item>
                 
                 <Form.Item>

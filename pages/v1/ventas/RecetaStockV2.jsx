@@ -6,30 +6,57 @@ import LayoutVentas from "@/components/layout/layout_ventas";
 
 export default function VentaRecetaStock(){
     const [total, setTotal] = useState(0);
+    const [subTotal, setSubTotal] = useState(0);
+    const [venta, setVenta] = useState(null);
     const [productos, setProductos] = useState(null);
-    //var productos = null;
+    
     const callback = (productos)=>{
         setProductos(productos)
-        alert(JSON.stringify(productos))
         var _t = 0;
-        _t += productos.lejos_od === null ? 0 : parseFloat(productos.lejos_od.precio);
-        _t += productos.lejos_oi === null ? 0 : parseFloat(productos.lejos_oi.precio);
-        _t += productos.lejos_armazon === null ? 0 : parseFloat(productos.lejos_armazon.precio);
-        _t += productos.lejos_tratamiento === null ? 0 : parseFloat(productos.lejos_tratamiento.precio);
-        _t += productos.cerca_od === null ? 0 : parseFloat(productos.cerca_od.precio);
-        _t += productos.cerca_oi === null ? 0 : parseFloat(productos.cerca_oi.precio);
-        _t += productos.cerca_armazon === null ? 0 : parseFloat(productos.cerca_armazon.precio);
-        _t += productos.cerca_tratamiento === null ? 0 : parseFloat(productos.cerca_tratamiento.precio);
-        //alert(prod.precio)
-        setTotal(_t );
+        _t += parseFloat(productos?.lejos_od?.precio||0);
+        _t += parseFloat(productos?.lejos_oi?.precio||0);
+        _t += parseFloat(productos?.lejos_armazon?.precio||0);
+        _t += parseFloat(productos?.lejos_tratamiento?.precio||0);
+        _t += parseFloat(productos?.cerca_od?.precio||0);
+        _t += parseFloat(productos?.cerca_oi?.precio||0);
+        _t += parseFloat(productos?.cerca_armazon?.precio||0);
+        _t += parseFloat(productos?.cerca_tratamiento?.precio||0);
+        setSubTotal(_t);
+        setTotal(_t - (venta?.descuento||0));
+
     }
 
     return (
     <>
         <h2>Venta de Receta Stock</h2>
-        <VentaBase total={total} onfinish={(data)=>{
-                alert(JSON.stringify(data))
-                alert(JSON.stringify(productos))
+        <VentaBase total={total} 
+        callback={(venta)=>{
+            if(venta?.mp?.total>total)
+            {
+                alert("Monto a pagar mayor al total")
+            }
+        }}
+        onfinish={(data)=>{
+                if(data === null){
+                    alert("venta is null!")
+                    return;
+                }
+                if(productos===null){
+                    alert("sin productos")
+                }
+             
+                setVenta((venta)=>{
+                    const _venta = {
+                        ...data,
+                        productos: productos,
+                        total: total,
+                        subtotal: subTotal,
+                    }
+                    alert(JSON.stringify(_venta));
+                    console.log(JSON.stringify(_venta))
+                    return _venta;
+                })
+
             }}>
             <RecetaStockItems callback={callback} />
         </VentaBase>

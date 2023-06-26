@@ -18,9 +18,13 @@ const MonofLabItems = (props) => {
     })
 
     const on_change = (field, value) => {
-        mlabitems[field] = value;
-        setItems(mlabitems)
-        props.callback(mlabitems)
+
+        setItems((mlabitems)=>{
+            const _items = {...mlabitems,[field]:value}
+            props?.callback(_items)
+            return _items;
+        })
+
     }
 
     
