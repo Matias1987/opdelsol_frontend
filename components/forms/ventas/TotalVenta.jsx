@@ -7,14 +7,14 @@ const TotalesVenta = (props) => {
     
     const onDescuentoChange = (e)=>{
         setDescuento((descuento)=>{
-            props?.callback(e.target.value)
+            props?.callback?.(e.target.value)
             setTotal(e.target.value)
             return e.target.value
         })
     }
 
     useEffect(()=>{
-        setTotal(props.total - descuento)
+        setTotal((props?.total||0) - descuento)
     })
 
 return (
@@ -23,9 +23,9 @@ return (
             <h4>Totales</h4>
         </Row>
         <Row>
-            <Col span={5}><Input prefix={"SubTotal: $"} readOnly value={props.total}/></Col>
+            <Col span={5}><Input prefix={"SubTotal: $"} readOnly value={props.total||0}/></Col>
 
-            <Col span={5}><Input prefix={"Descuento: $"} onChange={onDescuentoChange} style={{backgroundColor:"lightyellow"}}/></Col>
+            <Col span={5}><Input prefix={"Descuento: $"} onChange={onDescuentoChange} value={descuento} style={{backgroundColor:"lightyellow"}}/></Col>
 
             <Col span={14}><Input prefix={"Concepto Descuento: "} style={{backgroundColor:"lightyellow"}} ></Input></Col>
         </Row>

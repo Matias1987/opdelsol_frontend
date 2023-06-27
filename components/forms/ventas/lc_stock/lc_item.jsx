@@ -1,39 +1,47 @@
-import { Button, Col, Form, Input, Row } from "antd";
+import { Button, Col, Input, InputNumber, Row } from "antd";
 import SelectCodigoVenta from "../SelectCodigoVenta";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { DeleteOutlined } from "@ant-design/icons";
 
 const LCItem = (props) => {
-    const [codigo, setCodigo] = useState(null);
     const [visible, setVisible] = useState(false);
-    const [precio, setPrecio] = useState(0)
     const precioRef = useRef(null)
 
-    const _lc = {
+    const [lc, setLC] = useState({
         tipo: props.tipo,
         codigo: null,
         eje: -1,
-        precio: 0
+        precio: 0,
+        cantidad: 1,
+        total: 0,
+        max: 9999,
+    })
+
+    const onCodigoChange = (value) => {
+        setLC((lc)=>{
+            const _lc = {...lc,codigo:value.codigo, precio: value.precio, total: value.precio, cantidad: 1, max: value.cantidad};
+            props?.callback?.(_lc);
+            return _lc;
+        });
     }
 
-    const onchange_codigo = (value) => {
-        _lc.codigo = value.codigo;
-        _lc.precio = value.precio;
-         
-        setPrecio(value.precio)
-        precioRef.current.value = value.precio;
-        alert(precioRef.current.value)
 
-        props.callback(_lc)
-        
+    const onCantidadChange = (value) => {
+        setLC((lc)=>{
+            const _lc = {...lc,cantidad:value, total: (lc.precio * value)};
+            props?.callback?.(_lc);
+            return _lc;
+        });
     }
-    
-    const onchange_precio = (e) => {
-        
-        _lc.precio = e.target.value;
-        setPrecio(e.target.value)
-        props.callback(_lc)
+
+    const onPrecioChange = (value) => {
+        setLC((lc)=>{
+            const _lc = {...lc,precio:value, total: (lc.cantidad * value)};
+            props?.callback?.(_lc);
+            return _lc;
+        });
     }
+
     
     return (
         !visible ? <Button size="small" onClick={()=>{setVisible(true)}}>{
@@ -45,17 +53,17 @@ const LCItem = (props) => {
         <>
             <Row>
                 <Col span={11}>
-                    <SelectCodigoVenta buttonText={"Seleccionar Codigo LC"} callback={onchange_codigo} />
+                    <SelectCodigoVenta buttonText={"Seleccionar Codigo LC"} callback={(codigo)=>{onCodigoChange(codigo)}} />
                 </Col>
                 
                 <Col span={4}>
-                    <span>&nbsp;&nbsp;Precio: </span><input onChange={onchange_precio} ref={precioRef} style={{textAlign:"right", width:"100px", border: "1px solid #ccc", borderRadius:"6px", borderColor:"lightgray", padding:".4em", fontSize:"1.1em"}} />
+                    <InputNumber value={lc.precio} onChange={(v)=>{onPrecioChange(v)}}/>
                 </Col>
                 <Col span={4}>
-                    <span>&nbsp;&nbsp;Cantidad: </span><input onChange={onchange_precio} ref={precioRef} style={{textAlign:"right", width:"100px", border: "1px solid #ccc", borderRadius:"6px", borderColor:"lightgray", padding:".4em", fontSize:"1.1em"}} />
+                    <InputNumber addonBefore="Cant.:" addonAfter={"/"+lc.max} max={lc.max} value={lc.cantidad} onChange={(v)=>{onCantidadChange(v)}} />
                 </Col>
                 <Col span={4}>
-                    <Input addonBefore={"Total:"} />&nbsp;
+                    <Input addonBefore={"Total:"} value={lc.cantidad * lc.precio} />&nbsp;
                 </Col>
                 <Col span={1}>
                     <Button danger  onClick={()=>{setVisible(false)}}><DeleteOutlined/></Button>

@@ -23,9 +23,7 @@ export default function CustomModal(props){
 
   const handleCancel = () => {
     console.log('Clicked cancel button');
-    if(typeof props.onCancel !==  'undefined'){
-      props.onCancel();
-    }
+    props?.onCancel?.();
     setOpen(false);
   };
   return (
@@ -41,9 +39,7 @@ export default function CustomModal(props){
         title={props.title}
         open={open}
         onOk={()=>{ 
-          if(typeof props.onOk !== 'undefined'){
-            props.onOk(); 
-          }
+          props?.onOk?.(); 
           setOpen(false)}}
         onCancel={handleCancel}
         okText="CERRAR"

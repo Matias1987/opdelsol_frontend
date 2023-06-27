@@ -16,7 +16,7 @@ const VentasInsumo = (props) => {
 
         setInsumo((insumo)=>{
             const __insumo ={...insumo,codigo:val.codigo, precio: val.precio};
-            props?.callback(__insumo);
+            props?.callback?.(__insumo);
             return __insumo;
         })
     }
@@ -25,7 +25,7 @@ const VentasInsumo = (props) => {
         
         setInsumo((insumo)=>{
             const __insumo = {...insumo, precio: e.target.value};
-            props?.callback(__insumo);
+            props?.callback?.(__insumo);
             return __insumo;    
         })
         

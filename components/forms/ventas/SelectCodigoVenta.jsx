@@ -20,6 +20,7 @@ export default function SelectCodigoVenta(props){
                 codigo: response.data[0].codigo,
                 descripcion: response.data[0].descripcion,
                 precio: response.data[0].precio,
+                cantidad: response.data[0].cantidad,
                 idcodigo: id,
             };
             setDataCodigo(

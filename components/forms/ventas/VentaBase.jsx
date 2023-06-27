@@ -31,7 +31,7 @@ export default function VentaBase(props){
         setVenta(
             (venta)=>{
                 const __venta = {...venta, [field]:value};
-                props?.callback(__venta);
+                props?.callback?.(__venta);
                 return __venta;
             }
         )
@@ -39,7 +39,7 @@ export default function VentaBase(props){
 
     const finalizar_venta = (e)=>{
         setVenta((venta)=>{
-            props?.onfinish(venta);
+            props?.onfinish?.(venta);
             return venta;
         })
     }
