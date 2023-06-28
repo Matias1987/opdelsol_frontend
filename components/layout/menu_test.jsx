@@ -27,6 +27,10 @@ export default function TestMenu(){
           <SubMenu key="sub1" title={<span><RocketOutlined /><span>Envios</span></span>}>
             <Menu.Item key="1"><Link href={get_url_to("deposito/envio/nuevo_envio")}><SnippetsOutlined />&nbsp;Nuevo Envio  </Link></Menu.Item>
             <Menu.Item key="3"><Link href={get_url_to("deposito/envio/lista_envios")}><BarsOutlined />&nbsp;Lista de Envios  </Link></Menu.Item>
+            <Menu.Divider></Menu.Divider>
+            <Menu.Item key="101" ><WarningFilled /> 
+              <Link href={get_url_to("deposito/envio/descargar_envio")}>&nbsp;Bajar Env&iacute;o</Link>
+            </Menu.Item>
           </SubMenu>
           <SubMenu key="sub2" title={<span><BoxPlotOutlined /><span>Stock</span></span>}>
             <Menu.Item key="32" ><PlusCircleOutlined /> 
@@ -36,6 +40,7 @@ export default function TestMenu(){
             <Menu.Item key="41" ><WarningFilled /> 
               <Link href={get_url_to("deposito/stock/baja_desperfecto")}>&nbsp;Bajas por Desperfecto</Link>
             </Menu.Item>
+            
             <Menu.Divider></Menu.Divider>
             <Menu.Item key="15" ><PlusCircleOutlined /> 
               <Link href={get_url_to("deposito/stock/agregar_familia")}>&nbsp;Agregar Familias</Link>

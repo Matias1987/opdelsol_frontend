@@ -12,15 +12,16 @@ const InformeEnvio = (props, ref) =>{
 
     useEffect(()=>{
         setLoading(true)
+        alert(urls.get.detalle_envio+props.idenvio)
         //load data from envio
         fetch(urls.get.detalle_envio+props.idenvio)
         .then(response=>response.json())
         .then((response)=>{
-            //alert(JSON.stringify( response))
+            alert(JSON.stringify( response))
             setContent(
                 {
                     fecha: response.data[0].fecha,
-                    usuario: response.data[0].usuario,
+                    //usuario: response.data[0].usuario,
                     cantidad: response.data[0].cantidad_total,
                     monto_total: 0,
                     sucursal: response.data[0].sucursal,
@@ -62,7 +63,7 @@ const InformeEnvio = (props, ref) =>{
                             </tr>
                             <tr>
                                 <td>Cantidad: &nbsp; <b>{content.cantidad}</b></td>
-                                <td>Usuario: &nbsp; <b>{content.usuario}</b></td>
+                                <td></td>
                             </tr>
                         </tbody>
                     </table>

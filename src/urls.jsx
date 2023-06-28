@@ -35,6 +35,7 @@ const post = {
     codigo_por_codigo: remote_base_url + "codigos/porcodigo/",
     obtener_stock_ventas: remote_base_url + "stock/obtener_stock_ventas/",
     obtener_cliente_dni: remote_base_url + "clientes/getPorDNI/",
+    cargar_envio: remote_base_url+"envio/cargarEnvio/",
     search:{
         filtro_stock: remote_base_url + "stock/filtro_stock/",
     },
@@ -80,6 +81,7 @@ const get = {
     lista_envio_stock: remote_base_url + "enviostock/",
     detalle_envio: remote_base_url + "envio/",
     lista_envios: remote_base_url + "envio/",
+    envio_pendientes: remote_base_url + "envio/envio_pendientes/",
     detalle_stock: remote_base_url + "stock/detalle/",
     sucursales: remote_base_url + "sucursales/",
     search_codigos: remote_base_url + "codigos/search/",
