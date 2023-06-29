@@ -21,7 +21,7 @@ const DescargarEnvio = (props) => {
     <Row>
         <Col>
             <SelectEnvioPopup callback={(idenvio)=>{
-                //alert(idEnvio)
+                //alert(idenvio)
                 setIdEnvio(idenvio)
             }} />
         </Col>
@@ -31,7 +31,7 @@ const DescargarEnvio = (props) => {
             <h5>Detalles:</h5>
             
     {
-        idEnvio<1? <>Seleccione Env&iacute;o</> : <InformeEnvio idenvio={idEnvio}/>
+        idEnvio<1? <>Seleccione Env&iacute;o</> : <InformeEnvio idenvio={idEnvio} key={idEnvio}/>
     }
         </Col>
     </Row>

@@ -12,7 +12,7 @@ const { useState, useEffect } = require("react")
  * @param validateOpen if this functions returns false, the popups doesn't show
  * 
  */
-const SelectEnvioPopup = (props) => {
+const SelectEnvio = (props) => {
     const [source, setSource] = useState([])
     const [loading, setLoading] = useState(true)
     const [open, setOpen] = useState(false)
@@ -24,6 +24,7 @@ const SelectEnvioPopup = (props) => {
     }
 
     useEffect(()=>{
+        if(!open) return;
         setLoading(true)
         fetch(url_envios )
         .then(response=>response.json())
@@ -40,9 +41,10 @@ const SelectEnvioPopup = (props) => {
             )
             setLoading(false)
         })    
-    },[])
+    },[open])
 
     const onEnvioSelect = (idenvio) => {
+        
         props?.callback?.(idenvio);
         setOpen(false)
     }
@@ -93,4 +95,4 @@ const SelectEnvioPopup = (props) => {
     )
 }
 
-export default SelectEnvioPopup;
+export default SelectEnvio;

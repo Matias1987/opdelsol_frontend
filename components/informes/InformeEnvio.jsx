@@ -45,7 +45,7 @@ const InformeEnvio = (props, ref) =>{
         })
     },[])
 
-    const Content =  () => {
+    const contenido =  () => {
         return (<>
                 <div style={{padding: "4em"}}>
                     <div style={{textAlign:"center"}}>
@@ -107,7 +107,7 @@ const InformeEnvio = (props, ref) =>{
     }
 
     return (
-        loading ? null : <Content />
+        loading ? null : contenido()
     )
 
 }
