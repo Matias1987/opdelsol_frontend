@@ -21,7 +21,12 @@ export default function VentaMultifocalesLab(){
 
     }
 
-    const onFinish = (v) => {}
+    const onFinish = (v) => {
+        const venta = {
+            ...v,productos: productos
+        }
+        console.log(JSON.stringify(v))
+    }
 
     return (<>
     <h3>Venta de Multifocales Laboratorio</h3>

@@ -2,6 +2,8 @@ import RecetaStockItems from "@/components/forms/ventas/receta_stock/Items"
 import VentaBase from "../../../components/forms/ventas/VentaBase"
 import { useState } from "react";
 import LayoutVentas from "@/components/layout/layout_ventas";
+import { post_method } from "@/src/helpers/post_helper";
+import { post } from "@/src/urls";
 
 
 export default function VentaRecetaStock(){
@@ -45,17 +47,64 @@ export default function VentaRecetaStock(){
                     alert("sin productos")
                 }
              
-                setVenta((venta)=>{
-                    const _venta = {
-                        ...data,
-                        productos: productos,
-                        total: total,
-                        subtotal: subTotal,
+                const _venta = {
+                    ...data,
+                    productos: productos,
+                    total: total,
+                    subtotal: subTotal,
+                }
+
+                const json = {
+                    "fkcliente": 1,
+                    "fkdestinatario": 2,
+                    "fkmedico": -1,
+                    "fkos": 3,
+                    "mp": {
+                      "efectivo_monto": "7888",
+                      "tarjeta_monto": 10000,
+                      "tarjeta_tarjeta": 1000,
+                      "ctacte_monto": 0,
+                      "ctacte_cuotas": 0,
+                      "ctacte_monto_cuotas": 0,
+                      "cheque_monto": 0,
+                      "mutual_monto": 0,
+                      "mutual_mutual": 0,
+                      "total": 7888
+                    },
+                    "subtotal": 28500,
+                    "descuento": 0,
+                    "total": 28500,
+                    "fechaRetiro": null,
+                    "comentarios": "",
+                    "productos": {
+                      "lejos_od": null,
+                      "lejos_oi": {
+                        "tipo": "LEJOS_OD",
+                        "codigo": "NX1COL3",
+                        "eje": -1,
+                        "precio": 9500
+                      },
+                      "lejos_armazon": null,
+                      "lejos_tratamiento": null,
+                      "cerca_od": null,
+                      "cerca_oi": {
+                        "tipo": "CERCA_OI",
+                        "codigo": "NX1COL3",
+                        "eje": -1,
+                        "precio": 9500
+                      },
+                      "cerca_armazon": null,
+                      "cerca_tratamiento": {
+                        "codigo": "SH01C2",
+                        "precio": 9500
+                      }
                     }
-                    alert(JSON.stringify(_venta));
-                    console.log(JSON.stringify(_venta))
-                    return _venta;
-                })
+                  }
+
+                  alert(post.insert.venta,_venta)
+                  post_method(post.insert.venta,json,(response)=>{
+                    alert(JSON.stringify(response.data))
+                  })
 
             }}>
             <RecetaStockItems callback={callback} />

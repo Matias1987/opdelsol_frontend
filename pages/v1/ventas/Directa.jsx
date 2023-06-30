@@ -26,7 +26,7 @@ export default function VentaDirecta(){
 
                         alert(JSON.stringify(v))
                         alert(JSON.stringify(productos))
-
+                        console.log(JSON.stringify({...v,productos:productos}))
                     }
                 }
              >

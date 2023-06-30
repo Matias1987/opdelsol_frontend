@@ -55,6 +55,7 @@ const post = {
         cliente: remote_base_url + "clientes/",
         medico: remote_base_url + "medicos/",
         mutual: remote_base_url + "mutuales/",
+        venta: remote_base_url + "ventas/"
         
     },
     update:{
