@@ -16,6 +16,7 @@ const EnvioForm = (props) => {
     const [bottom,setBottom] = useState(10);
     const [form] = Form.useForm();
     const sucursal_id = globals.obtenerSucursal();// 1; //THIS VALUE HAS TO BE DYNAMIC!!
+    const [total, setTotal] = useState(0);
 
 
     useEffect(()=>{
@@ -32,6 +33,15 @@ const EnvioForm = (props) => {
                 setSucursalDestId(value);
                 break;
         }
+    }
+
+    const actualizarTotal = __data => {
+        var __cantidad = 0;
+        for(let i=0;i<__data.length;i++){
+            __cantidad+=__data[i].cantidad;
+        }
+        setTotal((total)=>__cantidad)
+        
     }
 
     const onFinish = (values) => {
@@ -88,8 +98,12 @@ const EnvioForm = (props) => {
       };
 
     const remove_row = (key) => {
-        setTableData(
-            tableData.filter((r)=>(r.codigo!=key))
+        setTableData((tableData)=>
+            {
+                const __data = tableData.filter((r)=>(r.codigo!=key));
+                actualizarTotal(__data);
+                return __data;
+            }
         )
     }
 
@@ -173,14 +187,13 @@ const EnvioForm = (props) => {
                                     <>
                                     <InputNumber style={{width:"50px"}} min={1} max={obj.max} defaultValue={0} onChange={(val)=>{
                                         
-                                        for(let i=0;i<tableData.length;i++){
-                                            if(tableData[i].key==obj.key){
-                                                tableData[i].cantidad = val;
-                                                break;
-                                            }
+                                        setTableData(talbeData=>{
+
+                                            const _data = tableData.map(p=>{if(p.key==obj.key){p.cantidad=val} return p;})
+                                            actualizarTotal(_data)
+                                            return _data;
                                         }
-                  
-                                        setTableData(tableData)
+                                        )
                                     }} />
                                     <span style={{fontSize:".8em", color:"blue"}}>/{obj.max}</span>
                                     </>
@@ -199,7 +212,9 @@ const EnvioForm = (props) => {
                 </Form.Item>
                 <Form.Item>
                     <Affix offsetBottom={bottom}>
-                        <Button type="primary" htmlType="submit">Generar Env&iacute;o</Button>
+                        <Input readOnly addonBefore="Total:" value={total} />
+                        <Button block type="primary" htmlType="submit">Generar Env&iacute;o</Button>
+                        
                     </Affix>
                 </Form.Item>
             </Form>

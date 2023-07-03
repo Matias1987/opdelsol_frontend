@@ -4,6 +4,7 @@ import { useState } from "react";
 import LayoutVentas from "@/components/layout/layout_ventas";
 import { post_method } from "@/src/helpers/post_helper";
 import { post } from "@/src/urls";
+import globals from "@/src/globals";
 
 
 export default function VentaRecetaStock(){
@@ -43,6 +44,15 @@ export default function VentaRecetaStock(){
                     alert("venta is null!")
                     return;
                 }
+
+                if(typeof data.fechaRetiro === 'undefined' || data.fechaRetiro == null ){
+                  alert("Fecha de retiro no establecida")
+                }
+
+                if(data.fkcliente <0){
+                  alert("Cliente no establecido");
+                }
+
                 if(productos===null){
                     alert("sin productos")
                 }
@@ -52,57 +62,14 @@ export default function VentaRecetaStock(){
                     productos: productos,
                     total: total,
                     subtotal: subTotal,
+                    fksucursal: globals.obtenerSucursal(),
+                    fkusuario: 3 //<--- !! TEMPORARY
                 }
 
-                const json = {
-                    "fkcliente": 1,
-                    "fkdestinatario": 2,
-                    "fkmedico": -1,
-                    "fkos": 3,
-                    "mp": {
-                      "efectivo_monto": "7888",
-                      "tarjeta_monto": 10000,
-                      "tarjeta_tarjeta": 1000,
-                      "ctacte_monto": 0,
-                      "ctacte_cuotas": 0,
-                      "ctacte_monto_cuotas": 0,
-                      "cheque_monto": 0,
-                      "mutual_monto": 0,
-                      "mutual_mutual": 0,
-                      "total": 7888
-                    },
-                    "subtotal": 28500,
-                    "descuento": 0,
-                    "total": 28500,
-                    "fechaRetiro": null,
-                    "comentarios": "",
-                    "productos": {
-                      "lejos_od": null,
-                      "lejos_oi": {
-                        "tipo": "LEJOS_OD",
-                        "codigo": "NX1COL3",
-                        "eje": -1,
-                        "precio": 9500
-                      },
-                      "lejos_armazon": null,
-                      "lejos_tratamiento": null,
-                      "cerca_od": null,
-                      "cerca_oi": {
-                        "tipo": "CERCA_OI",
-                        "codigo": "NX1COL3",
-                        "eje": -1,
-                        "precio": 9500
-                      },
-                      "cerca_armazon": null,
-                      "cerca_tratamiento": {
-                        "codigo": "SH01C2",
-                        "precio": 9500
-                      }
-                    }
-                  }
+                
 
-                  alert(post.insert.venta,_venta)
-                  post_method(post.insert.venta,json,(response)=>{
+                  //alert(post.insert.venta,_venta)
+                  post_method(post.insert.venta,_venta,(response)=>{
                     alert(JSON.stringify(response.data))
                   })
 

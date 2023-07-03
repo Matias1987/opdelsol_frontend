@@ -17,6 +17,7 @@ export default function VentaBase(props){
         fkdestinatario: -1,
         fkmedico: -1,
         fkos: -1,
+        fkusuario: -1,
         mp: null,
         subtotal: 0,
         descuento: 0,
@@ -24,6 +25,8 @@ export default function VentaBase(props){
         fechaRetiro: null,
         comentarios: "",
         productos: null,
+        fksucursal: 0,
+        fkcaja: 0,
 
     })
 
@@ -107,7 +110,7 @@ export default function VentaBase(props){
             children: 
             <>
                 <Form.Item label={"Fecha de Retiro"}>
-                    <DatePicker onChange={(value)=>{onChange("fechaRetiro", value)}} />
+                    <DatePicker format={"DD-MM-YYYY"} onChange={(value)=>{onChange("fechaRetiro", value)}} />
                 </Form.Item>
                 <Form.Item label={"Comentarios"}>
                    <Input.TextArea rows={2} onChange={(value)=>{onChange("comentarios", value)}} />

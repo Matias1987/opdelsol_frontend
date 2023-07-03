@@ -105,6 +105,7 @@ const SubGrupoForm = (props) => {
             <Form.Item
             label={"Multiplicador"}
             name={"multiplicador"}
+            rules={[{required: true,}]}
             >
                 <InputNumber step={".1"} value={"1"} min="0" onChange={(v)=>{
                     setValue("multiplicador",v)
