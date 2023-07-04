@@ -11,7 +11,8 @@ const RecStockCristal = (props) => {
         tipo: props.tipo,
         codigo: null,
         eje: -1,
-        precio: 0
+        precio: 0,
+        cantidad:1,
     })
 
     const onchange_codigo = (value) => {

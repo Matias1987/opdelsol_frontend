@@ -12,6 +12,7 @@ const VentasTratamiento = (props) => {
     const [tratamiento, setTratamiento] = useState({
         codigo: null,
         precio: 0,
+        cantidad:1,
     })
 
     const on_codigo_change = (val) => {

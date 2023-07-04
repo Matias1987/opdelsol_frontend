@@ -15,6 +15,7 @@ const MultifLabCristal = (props) => {
         precio: 0,
         esf: -1,
         cil: -1,
+        cantidad:1,
 
     })
 

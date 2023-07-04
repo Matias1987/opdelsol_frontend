@@ -21,9 +21,9 @@ const LCStockItems = (props) => {
     return (
     <>
     
-    <LCItem callback={(v)=>{onChange("od",v)}}/>
-    <LCItem callback={(v)=>{onChange("oi",v)}}/>  
-    <VentasInsumo callback={(v)=>{onChange("insumo",v)}} />
+    <LCItem tipo="OD" callback={(v)=>{onChange("od",v)}}/>
+    <LCItem tipo="OI" callback={(v)=>{onChange("oi",v)}}/>  
+    <VentasInsumo tipo="insumo" callback={(v)=>{onChange("insumo",v)}} />
     </>
     )
 }

@@ -23,9 +23,12 @@ export default function VentaLCLab(){
     const onFinish = (v) => {
 
         const venta = {
-            ...v,productos: productos
+            ...v,
+            productos: productos, 
+            tipo:"6", 
+            total: total
         }
-        console.log(JSON.stringify(v))
+        console.log(JSON.stringify(venta))
 
     }
 

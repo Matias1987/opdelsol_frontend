@@ -27,9 +27,12 @@ export default function VentaMonofocalesLab(){
         alert(JSON.stringify(v))
         alert(JSON.stringify(productos))
         const venta = {
-            ...v,productos: productos
+            ...v, 
+            productos: productos, 
+            tipo:"4", 
+            total: total
         }
-        console.log(JSON.stringify(v))
+        console.log(JSON.stringify(venta))
     }
 
     return (<>

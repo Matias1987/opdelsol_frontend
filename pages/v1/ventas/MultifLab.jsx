@@ -23,9 +23,12 @@ export default function VentaMultifocalesLab(){
 
     const onFinish = (v) => {
         const venta = {
-            ...v,productos: productos
+            ...v,
+            productos: productos,
+            tipo:"5",
+            total: total
         }
-        console.log(JSON.stringify(v))
+        console.log(JSON.stringify(venta))
     }
 
     return (<>

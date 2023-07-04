@@ -8,6 +8,7 @@ const LCLabItem = (props) =>{
     const [LC, setLC] = useState({
         codigo: null,
         precio: 0,
+        cantidad:1,
     })
     const on_codigo_change = (val) => {
         

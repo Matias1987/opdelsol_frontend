@@ -42,10 +42,10 @@ const MonofLabItems = (props) => {
                     <MonofLabCristal tipo='LEJOS_OI' buttonText={"Elejir Ojo Derecho Lejos"} callback={(v)=>{on_change("lejos_od",v)}}/>
                 </Form.Item>
                 <Form.Item>    
-                    <VentasArmazon tipo='LEJOS' buttonText={"Elejir Armazon Lejos"}  callback={(v)=>{on_change("lejos_armazon",v)}}/>
+                    <VentasArmazon tipo='LEJOS_ARMAZON' buttonText={"Elejir Armazon Lejos"}  callback={(v)=>{on_change("lejos_armazon",v)}}/>
                 </Form.Item>
                 <Form.Item>    
-                    <VentasTratamiento tipo='LEJOS' buttonText={"Elejir Tratamiento Lejos"} callback={(v)=>{on_change("lejos_tratamiento",v)}}/>
+                    <VentasTratamiento tipo='LEJOS_TRATAMIENTO' buttonText={"Elejir Tratamiento Lejos"} callback={(v)=>{on_change("lejos_tratamiento",v)}}/>
                 </Form.Item>
                 </>
             
@@ -62,10 +62,10 @@ const MonofLabItems = (props) => {
                     <MonofLabCristal tipo='CERCA_OI'  buttonText={"Elejir Ojo Izquierdo Cerca"} callback={(v)=>{on_change("cerca_oi",v)}}/>
                 </Form.Item>
                 <Form.Item>    
-                    <VentasArmazon tipo='CERCA' buttonText={"Elejir Armazon Cerca"} callback={(v)=>{on_change("cerca_armazon",v)}}/>
+                    <VentasArmazon tipo='CERCA_ARMAZON' buttonText={"Elejir Armazon Cerca"} callback={(v)=>{on_change("cerca_armazon",v)}}/>
                 </Form.Item>
                 <Form.Item>    
-                    <VentasTratamiento tipo='LEJOS' buttonText={"Elejir Tratamiento Cerca"} callback={(v)=>{on_change("cerca_tratamiento",v)}}/>
+                    <VentasTratamiento tipo='CERCA_TRATAMIENTO' buttonText={"Elejir Tratamiento Cerca"} callback={(v)=>{on_change("cerca_tratamiento",v)}}/>
                 </Form.Item>
                 </>
             

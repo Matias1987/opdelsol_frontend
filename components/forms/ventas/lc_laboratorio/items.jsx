@@ -22,9 +22,9 @@ const LCLabItems = (props) => {
     }
 
     return <>
-    <LCLabItem callback={(v)=>{onChange("od",v)}} />
-    <LCLabItem callback={(v)=>{onChange("oi",v)}} />
-    <VentasInsumo callback={(v)=>{onChange("insumo",v)}} />
+    <LCLabItem tipo="OD" callback={(v)=>{onChange("od",v)}} />
+    <LCLabItem tipo="OI" callback={(v)=>{onChange("oi",v)}} />
+    <VentasInsumo tipo="INSUMO" callback={(v)=>{onChange("insumo",v)}} />
     </>
 }
 

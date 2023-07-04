@@ -48,11 +48,12 @@ export default function Login(){
         }
         //alert("submit..")
         post_helper.post_method(urls.post.login,values,(res)=>{
-            //alert(JSON.stringify(res))
-            if(res.data.loged == 1){
+            alert(JSON.stringify(res))
+            if(res.data.logged == 1){
                 const {setItem} = useStorage();
                 console.log(res.data.token)
                 setItem("token",res.data.token)
+                setItem("uid",res.data.uid)
                
                 //globals.establecerSucursal(1);
 

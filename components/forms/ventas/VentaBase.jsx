@@ -4,8 +4,9 @@ import SelectMedico from "@/components/forms/ventas/SelectMedico";
 import SelectObraSocial from "@/components/forms/ventas/SelectObraSocial";
 import TotalesVenta from "@/components/forms/ventas/TotalVenta";
 import RecetaStockItems from "@/components/forms/ventas/receta_stock/Items";
+import globals from "@/src/globals";
 import { BackwardFilled, ForwardFilled } from "@ant-design/icons";
-import { Button, Col, DatePicker, Divider, Form, Input, Row, Steps, Tabs, TextArea } from "antd";
+import { Button, Col, DatePicker, Divider, Form, Input, Row, Steps, Tabs, TextArea, TimePicker } from "antd";
 
 import { useState } from "react";
 
@@ -17,7 +18,7 @@ export default function VentaBase(props){
         fkdestinatario: -1,
         fkmedico: -1,
         fkos: -1,
-        fkusuario: -1,
+        fkusuario: globals.obtenerUID(),
         mp: null,
         subtotal: 0,
         descuento: 0,
@@ -25,10 +26,11 @@ export default function VentaBase(props){
         fechaRetiro: null,
         comentarios: "",
         productos: null,
-        fksucursal: 0,
-        fkcaja: 0,
+        fksucursal: globals.obtenerSucursal(),
+        fkcaja: globals.obtenerCaja(),
 
     })
+    
 
     const onChange = (field, value) => {
         setVenta(
@@ -87,39 +89,53 @@ export default function VentaBase(props){
             key: 'paso2',
             label: 'Productos',
             children: 
-            <>
-                <Form.Item>
-                    {props.children}
-                </Form.Item>
-            </>
+            <Row>
+                <Col span={24}>
+                    <Form.Item>
+                        {props.children}
+                    </Form.Item>
+                </Col>
+            </Row>
         },
         {
             key: 'paso3',
             label: 'Modo de Pago',
             children: 
-            <>
-                <Form.Item>
-                    <TotalesVenta total={ typeof props !== 'undefined' ? props.total : "0"} callback={(value)=>{onChange("descuento", value)}} />
-                    <ModoPago callback={(value)=>{onChange("mp", value)}} />
-                </Form.Item>
-            </>
+            <Row>
+                <Col span={24}>
+                    <Form.Item>
+                        <TotalesVenta total={ typeof props !== 'undefined' ? props.total : "0"} callback={(value)=>{onChange("descuento", value)}} />
+                        <ModoPago callback={(value)=>{onChange("mp", value)}} />
+                    </Form.Item>
+                </Col>
+            </Row>
         },
         {
             key: 'paso4',
             label: 'Finalizar Sobre',
             children: 
-            <>
-                <Form.Item label={"Fecha de Retiro"}>
-                    <DatePicker format={"DD-MM-YYYY"} onChange={(value)=>{onChange("fechaRetiro", value)}} />
-                </Form.Item>
-                <Form.Item label={"Comentarios"}>
-                   <Input.TextArea rows={2} onChange={(value)=>{onChange("comentarios", value)}} />
-                </Form.Item>
-                
-                <Form.Item>
-                    <Button type="primary" block onClick={finalizar_venta}>Imprimir Sobre</Button>
-                </Form.Item>
-            </>
+            <Row>
+                <Col span="12">
+                    <Form.Item label={"Fecha de Retiro"}>
+                        <DatePicker format={"DD-MM-YYYY"} onChange={(value)=>{onChange("fechaRetiro", value.format("DD-MM-YYYY"))}} />
+                    </Form.Item>
+                </Col>
+                <Col span="12">
+                    <Form.Item label={"Hora de Retiro"}>
+                        <TimePicker format={'HH:mm'}  onChange={(value)=>{onChange("horaRetiro", value)}} />
+                    </Form.Item>
+                </Col>
+                <Col span="24">
+                    <Form.Item label={"Comentarios"}>
+                    <Input.TextArea rows={2} onChange={(e)=>{onChange("comentarios", e.target.value)}} />
+                    </Form.Item>
+                </Col>
+                <Col span={24}>
+                    <Form.Item>
+                        <Button type="primary" block onClick={finalizar_venta}>Imprimir Sobre</Button>
+                    </Form.Item>
+                </Col>
+            </Row>
         },
     ];
 

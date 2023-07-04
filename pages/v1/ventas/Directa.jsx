@@ -26,7 +26,15 @@ export default function VentaDirecta(){
 
                         alert(JSON.stringify(v))
                         alert(JSON.stringify(productos))
-                        console.log(JSON.stringify({...v,productos:productos}))
+
+                        const __venta = {
+                            ...v, 
+                            productos:productos, 
+                            tipo:1, 
+                            total: total
+                        }
+                        
+                        console.log(JSON.stringify(__venta))
                     }
                 }
              >

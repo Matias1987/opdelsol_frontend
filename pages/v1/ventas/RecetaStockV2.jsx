@@ -62,9 +62,12 @@ export default function VentaRecetaStock(){
                     productos: productos,
                     total: total,
                     subtotal: subTotal,
-                    fksucursal: globals.obtenerSucursal(),
-                    fkusuario: 3 //<--- !! TEMPORARY
+                    tipo: "2"
                 }
+
+                alert(JSON.stringify(_venta))
+
+                console.log(JSON.stringify(_venta))
 
                 
 

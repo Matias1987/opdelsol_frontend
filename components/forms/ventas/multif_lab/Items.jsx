@@ -32,7 +32,7 @@ const MultifLabItems = (props) => {
             <VentasArmazon tipo='ARMAZON' buttonText={"Elejir Armazon"}  callback={(v)=>{on_change("armazon",v)}}/>
         </Form.Item>
         <Form.Item>    
-            <VentasTratamiento tipo='TRATAMIENTFO' buttonText={"Elejir Tratamiento"} callback={(v)=>{on_change("tratamiento",v)}}/>
+            <VentasTratamiento tipo='TRATAMIENTO' buttonText={"Elejir Tratamiento"} callback={(v)=>{on_change("tratamiento",v)}}/>
         </Form.Item>
     </>
 }

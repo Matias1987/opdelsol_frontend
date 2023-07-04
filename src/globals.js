@@ -17,6 +17,13 @@ const globals =  {
     getToken: ()=>{
         const {getItem} = useStorage();
         return getItem("token");
+    },
+    obtenerUID: () => {
+        const {getItem} = useStorage();
+        return getItem("uid");
+    },
+    obtenerCaja: () => {
+        return 1
     }
 
 }
