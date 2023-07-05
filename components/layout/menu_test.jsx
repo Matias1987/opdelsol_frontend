@@ -101,9 +101,7 @@ export default function TestMenu(){
              <Link href={get_url_to("deposito/facturas/agregar_factura")}>Agregar Factura</Link>
             </Menu.Item>
           </SubMenu>
-          <SubMenu key="sub5" title={<span><FileTextOutlined /><span>Informes</span></span>}>
-            <Menu.Item key="9"><FileTextOutlined /> Informe Cantidad</Menu.Item>
-          </SubMenu>
+          
         </Menu>
       );
 }

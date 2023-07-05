@@ -3,16 +3,13 @@ import FamiliaSelect from "@/components/FamiliaSelect";
 import GrupoSelect from "@/components/GrupoSelect";
 import SubFamiliaSelect from "@/components/SubFamiliaSelect";
 import SubGroupSelect from "@/components/SubGroupSelect";
-import CustomTable from "@/components/forms/CustomTable";
 import DetalleStock from "@/components/forms/deposito/DetalleStock";
 import ModificarCantidadForm from "@/components/forms/deposito/modificarCantidadForm";
-import ModifMultipleCantidad from "@/components/forms/deposito/stock_lote/ModifMultipleCantidad";
-import ModifMultiple from "@/components/forms/deposito/stock_lote/ModifMultipleCantidad";
-import ModifMultipleCosto from "@/components/forms/deposito/stock_lote/ModifMultipleCosto";
+import InformeStock from "@/pages/v1/informes/informe_stock";
 import globals from "@/src/globals";
 import { post_method } from "@/src/helpers/post_helper";
 import { get, post } from "@/src/urls";
-import { CheckCircleOutlined, ReloadOutlined } from "@ant-design/icons";
+import { CheckCircleOutlined } from "@ant-design/icons";
 import { Button, Checkbox, Col, Divider, Form, Input, InputNumber, Row, Select, Space, Table, Tag } from "antd";
 import { useEffect, useRef, useState } from "react";
 
@@ -24,7 +21,6 @@ export default function ListaStock(){
     const [loading, setLoading] = useState(true)
     const [valueChanged, setValueChanged] = useState(false)
     const [tags, setTags] = useState([])
-    const searchRef = useRef(null)
     const idsucursal = globals.obtenerSucursal();//temporary
     const [form] = Form.useForm();
     const [form1] = Form.useForm();
@@ -47,57 +43,47 @@ export default function ListaStock(){
     }
     
     const edit_popup = () => <>
-    <CustomModal
-                         openButtonText={"Modificar Selección"}
-                         title={""}
-                         _open = {popupOpen}
-                         onOk={()=>{
-                            setPopupOpen(false)
-                            setValueChanged(!valueChanged)
-                         }}
-                         onCancel={()=>{
-                            setValueChanged(!valueChanged)
-                         }}
+        <CustomModal
+            openButtonText={"Modificar Selección"}
+            title={""}
+            _open = {popupOpen}
+            onOk={()=>{
+            setPopupOpen(false)
+            setValueChanged(!valueChanged)
+            }}
+            onCancel={()=>{
+            setValueChanged(!valueChanged)
+            }}
 
-                         validateOpen={
-                            ()=>{
-                                
-                                if((data.filter((r)=> r.checked)).length<1){
-                                    alert("No hay códigos seleccionados.")
-                                    return false;
-                                }
-                                return true;
-                            }
-                         }
-
-                         
-                         > 
-                         
-
-                         <ModificarCantidadForm                                       
-                         codigos={data.filter((r)=> r.checked)}
-                         idsucursal={idsucursal} 
-                        
-                         />
-                         
-                         </CustomModal>
+            validateOpen={
+            ()=>{
+                
+                if((data.filter((r)=> r.checked)).length<1){
+                    alert("No hay códigos seleccionados.")
+                    return false;
+                }
+                return true;
+            }
+            }
+            > 
+            <ModificarCantidadForm                                       
+            codigos={data.filter((r)=> r.checked)}
+            idsucursal={idsucursal} 
+            />
+        </CustomModal>
     </>
     
     //THIS IS NEW
     useEffect(()=>{
-        
-        //searchRef.current.value = ""; 
         setLoading(true)
-        
         const data = procesar_tags();
-        //alert(JSON.stringify(data))
         post_method(post.search.filtro_stock,data,(response)=>{
             setData(response.data.map(
                 (row)=>(
                     {
                         key: row.idcodigo,
                         codigo: row.codigo,
-                        //ruta: row.ruta,
+                        ruta: row.ruta,
                         cantidad: row.cantidad,
                         idcodigo: row.idcodigo,
                         precio: row.precio,
@@ -106,6 +92,11 @@ export default function ListaStock(){
                         edad: row.edad,
                         descripcion: row.descripcion,
                         checked: false,
+                        familia: row.familia,
+                        subfamilia: row.subfamilia,
+                        grupo: row.grupo,
+                        subgrupo: row.subgrupo,
+
                     }
                 )
             ))
@@ -114,9 +105,21 @@ export default function ListaStock(){
     },[valueChanged])
 
     const columns = [
-        {title: 'Codigo',dataIndex: 'codigo',key: 'codigo'},
+        {title: 'Ruta',dataIndex: 'idcodigo',key: 'ruta', render:(_,{familia,subfamilia,grupo,subgrupo}) => 
+        <Space size={[0, 'small']} wrap>
+            <span style={{fontSize:".25em"}}>
+                <Tag color="success">{familia}</Tag>
+                <Tag color="processing">{subfamilia}</Tag>
+                <Tag color="error"><b>{grupo}</b></Tag>
+                <Tag color="warning">{subgrupo}</Tag>
+            </span>
+        </Space>},
+        {title: 'Codigo',dataIndex: 'codigo',key: 'codigo', render:(_,{codigo})=>
+            <>
+            <span style={{fontSize:"1.2em"}}><b>{codigo}</b></span>
+            </>},
         {title: 'Descripción',dataIndex: 'descripcion',key: 'descripcion'},
-        /*{/*title: 'Ruta',dataIndex: 'ruta',key: 'ruta'},*/
+        
         {title: 'Edad',dataIndex: 'edad',key: 'edad'},
         {title: 'Género',dataIndex: 'genero',key: 'genero'},
         {title: 'Precio',dataIndex: 'precio',key: 'precio'},
@@ -124,35 +127,7 @@ export default function ListaStock(){
         {
             title: 'Acciones', dataIndex: 'idstock', key: 'idstock',
             render: 
-                (_,{idcodigo})=>{
-                    return (<>
-
-                         {/*<CustomModal
-                         openButtonText={"Modificar"}
-                         title={""}
-                         _open = {popupOpen}
-                         onOk={()=>{
-                            setPopupOpen(false)
-                            setValueChanged(!valueChanged)
-                         }}
-                         onCancel={()=>{
-                            setValueChanged(!valueChanged)
-                         }}
-                         > 
-                         
-
-                         <ModificarCantidadForm                                       
-                         idcodigo={idcodigo}
-                         codigos={data.filter((r)=> r.checked)}
-                         idsucursal={idsucursal} 
-                        
-                         />
-                         
-                         </CustomModal>
-                         &nbsp;*/
-                        <DetalleStock idcodigo={idcodigo} />}
-                    </>    )                
-                }
+                (_,{idcodigo})=><DetalleStock idcodigo={idcodigo} />                
         },
         {
             title: '', dataIndex: 'checked', key: 'check', render:(_,{checked, idcodigo})=>(
@@ -164,7 +139,6 @@ export default function ListaStock(){
                             }
                             return r;
                         })
-                        //alert(JSON.stringify(_data))
                         setData(_data)
                     }} />
                 </>
@@ -190,7 +164,7 @@ export default function ListaStock(){
     
 
     const onFinishFiltro = (values) =>{
-        //alert(values.valor)
+        
         if(typeof values === 'undefined'){
             return;
         }
@@ -206,7 +180,12 @@ export default function ListaStock(){
             return;
         }
         
-        const found = tags.find(i => tipos_filtro_dic[i.tipo].tipo == tipos_filtro_dic[values.tipo_filtro].tipo)
+        var found = null;
+        try{
+            found = tags.find(i => tipos_filtro_dic[i.tipo].tipo == tipos_filtro_dic[values.tipo_filtro].tipo)
+        }catch(e){
+            console.log("error adding tag")
+        }
         
         if(typeof found === 'undefined')
         {    
@@ -215,9 +194,11 @@ export default function ListaStock(){
         else{
             alert("Tipo de Filtro ya Cargado")
         }
-
+        
         setValue('valor',null)
         setValue('tipo_filtro',null)
+
+        setTipoFitro(null)
         
     }
 
@@ -326,8 +307,8 @@ export default function ListaStock(){
                     </Form.Item>
                 </Col>
                 <Col span={8}>
-                    <Form.Item label={"Valor"} name={"valor"}>
-                        <FiltroValor />
+                    <Form.Item label={"Valor"} name={"valor"} key={valueChanged}>
+                        {FiltroValor()}
                     </Form.Item>
                 </Col>
                 <Col span={8}>
@@ -336,7 +317,6 @@ export default function ListaStock(){
                     </Form.Item>
                 </Col>
             </Row>
-            
             </Form>
 
             <Form form={form1} onFinish={onFinish}>
@@ -346,10 +326,13 @@ export default function ListaStock(){
                     <Form.Item label={"Filtros:"}>
                         {
                             tags.map(t=>(
+                                (typeof tipos_filtro_dic[t.tipo] === 'undefined' || tipos_filtro_dic[t.tipo] === null) ? <></> :
+
                                 <Tag color="red" closable  onClose={(e)=>{
                                     e.preventDefault();
                                     removeTag(t);
-                                }}>{tipos_filtro_dic[t.tipo].descripcion + ": " +t.valor}</Tag>
+                                }}>{tipos_filtro_dic[t?.tipo]?.descripcion + ": " +t?.valor}</Tag>
+
                             ))
                         }
                         </Form.Item>
@@ -381,9 +364,7 @@ export default function ListaStock(){
             </Form>
             <Row style={{backgroundColor:"#D3E1E6"}}>
                 <Col span={8}>Acciones para selecci&oacute;n M&uacute;ltiple:</Col>
-                {/*<Col span={6}><ModifMultipleCantidad /></Col>*/}
                 <Col span={8}>{edit_popup()}</Col>
-                {/*<Col span={6}><ModifMultipleCosto /></Col>*/}
                 <Col span={8}>
                     <Button block size="small" onClick={(e)=>{
                     setData(
@@ -396,9 +377,12 @@ export default function ListaStock(){
             </Row>
         <Row>
             <Col span={24}>
-            {/*<Input.Search onSearch={onSearch} ref={searchRef} />
-            <Button onClick={onReset}><ReloadOutlined /></Button>*/}
             <Table columns={columns} dataSource={data} loading={loading} />
+            </Col>
+        </Row>
+        <Row>
+            <Col span={24}>
+                <InformeStock data={data} key={data} />
             </Col>
         </Row>
         </>

@@ -1,7 +1,15 @@
 import { Button, Modal } from "antd";
 import React from "react";
 const {  useState  } = React;;
-
+/**
+ * 
+ * @param onOpen function to be called before setting open to true 
+ * @param validateOpen the popups opens according to the value returned by this function 
+ * @param onCancel function to be called on cancel action 
+ * @param onOk function to be called on OK action 
+ * @param openButtonText text for the button to show 
+ * @returns 
+ */
 export default function CustomModal(props){
   const [open, setOpen] = useState(false);
 
