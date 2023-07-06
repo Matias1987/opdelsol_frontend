@@ -5,7 +5,7 @@ import { Button, Input, Spin, Table } from "antd"
 import { CheckCircleOutlined, CloseCircleOutlined, CloseOutlined, EditOutlined } from "@ant-design/icons"
 import { get } from "@/src/urls"
 
-export default function SelectMedico(){
+export default function SelectMedico(props){
     const [idMedico, setIdMedico] = useState(-1)
     const [medicos, setMedicos] = useState([])
     const [dataMedico, setDataMedico] = useState(null)
@@ -64,6 +64,7 @@ export default function SelectMedico(){
                 idmedico: response.data[0].idmedico,
                 matricula: response.data[0].matricula
             })
+            props?.callback?.(id)
         })
     }
 

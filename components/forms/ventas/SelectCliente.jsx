@@ -48,6 +48,10 @@ const SelectCliente = (props) =>{
                
                 dni: response.data[0].dni,
 
+                telefono1: response.data[0].telefono1,
+
+                direccion: response.data[0].direccion,
+
 
 
             })
@@ -70,6 +74,7 @@ const SelectCliente = (props) =>{
                         apellido: r.apellido,
                         nombre: r.nombre,
                         direccion: r.direccion,
+                        telefono1: r.telefono1,
                     }
                 ))
             )
@@ -92,7 +97,11 @@ const SelectCliente = (props) =>{
     const show_details = _ => (
         loadingDetalles ? <Spin /> :
         <>
-        {typeof props.destinatario === 'undefined'? "Cliente" : "Destinatario"}: <b>{clienteData.nombre} </b> &nbsp;&nbsp; DNI: <b>{clienteData.dni}</b>&nbsp;
+        {typeof props.destinatario === 'undefined'? "Cliente" : "Destinatario"}: <>
+            <b>{clienteData.nombre} </b> &nbsp;&nbsp; DNI: <b>{clienteData.dni}</b>&nbsp;
+            Tel&eacute;fono: {clienteData.telefono1}&nbsp;
+            Direcci&oacute;n: {clienteData.direccion}&nbsp;
+        </>
         <Button danger onClick={()=>{setIdCliente(-1)}}><CloseOutlined /></Button>
         </>
     )

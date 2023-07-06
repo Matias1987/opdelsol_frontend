@@ -67,7 +67,7 @@ export default function VentaBase(props){
                     </Col>
                     <Col span={24} >
                         <Form.Item>
-                            <SelectCliente   callback={(value)=>{onChange("fkdestinatario", value)}} />
+                            <SelectCliente  destinatario callback={(value)=>{onChange("fkdestinatario", value)}} />
                         </Form.Item>
                     </Col>
                 </Row>

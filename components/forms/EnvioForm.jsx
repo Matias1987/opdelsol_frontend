@@ -63,7 +63,7 @@ const EnvioForm = (props) => {
 
         const __values = {
             sucursal_idsucursal: values.sucursal_idsucursal,
-            usuario_idusuario: 1,
+            usuario_idusuario: globals.obtenerUID(),
             cantidad_total:0,
             id_sucursal_origen: globals.obtenerSucursal(),
             items: [

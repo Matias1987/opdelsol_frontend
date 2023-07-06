@@ -3,7 +3,7 @@ import PrinterWrapper from "@/components/PrinterWrapper";
 import CodigosDeBarraEnvio from "@/components/informes/CodigosDeBarra";
 import InformeEnvio from "@/components/informes/InformeEnvio";
 
-const { Table, Button } = require("antd");
+const { Table, Button, Tag } = require("antd");
 const { useEffect, useState } = require("react");
 const urls = require("../../../../src/urls")
 const ListaEnvios = (props) => {
@@ -14,6 +14,13 @@ const ListaEnvios = (props) => {
         {title: 'Fecha', dataIndex: 'fecha', key: 'fecha'},
         {title: 'Sucursal', dataIndex: 'sucursal_idsucursal', key: 'sucursal_idsucursal'},
         {title: 'Cantidad', dataIndex: 'cantidad_total', key: 'cantidad_total'},
+        {title: 'Estado', dataIndex: 'estado', render: (_,{estado})=>{
+            switch(estado){
+                case 'GENERADO': return <Tag color="blue-inverse">Generado</Tag>
+                case 'ENVIADO': return <Tag color="volcano">Enviado</Tag>
+                case 'INGRESADO': return <Tag color="green-inverse">Ingresado</Tag>
+            }
+        }},
         {
             title: 'Acciones', dataIndex: 'idenvio', key: 'idenvio',
             render: 
@@ -47,6 +54,7 @@ const ListaEnvios = (props) => {
                 sucursal_idsucursal: e.sucursal,
                 cantidad_total: e.cantidad_total,
                 fecha: e.fecha,
+                estado: e.estado,
             }))
 
             setData(_data);
