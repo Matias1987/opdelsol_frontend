@@ -2,6 +2,8 @@ import MonofLabItems from "@/components/forms/ventas/monof_lab/items";
 import VentaBase from "../../../components/forms/ventas/VentaBase";
 import LayoutVentas from "@/components/layout/layout_ventas";
 import { useState } from "react";
+import { post } from "@/src/urls";
+import { post_method } from "@/src/helpers/post_helper";
 
 export default function VentaMonofocalesLab(){
     const [productos, setProductos] = useState(null);
@@ -33,6 +35,10 @@ export default function VentaMonofocalesLab(){
             total: total
         }
         console.log(JSON.stringify(venta))
+
+        post_method(post.insert.venta,venta,(response)=>{
+            alert(JSON.stringify(response.data))
+          })
     }
 
     return (<>

@@ -8,6 +8,7 @@ const LCItem = (props) => {
     const precioRef = useRef(null)
 
     const [lc, setLC] = useState({
+        idcodigo: -1,
         tipo: props.tipo,
         codigo: null,
         eje: -1,
@@ -19,7 +20,7 @@ const LCItem = (props) => {
 
     const onCodigoChange = (value) => {
         setLC((lc)=>{
-            const _lc = {...lc,codigo:value.codigo, precio: value.precio, total: value.precio, cantidad: 1, max: value.cantidad};
+            const _lc = {...lc,codigo:value.codigo, precio: value.precio, total: value.precio, cantidad: 1, max: value.cantidad, idcodigo: value.idcodigo};
             props?.callback?.(_lc);
             return _lc;
         });

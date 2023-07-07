@@ -10,7 +10,8 @@ const MonofLabCristal = (props) => {
     
     const precioRef = useRef(null)
 
-    const [cristal, setCristal] = useRef({
+    const [cristal, setCristal] = useState({
+        idcodigo: -1,
         tipo: props.tipo,
         codigo: null,
         eje: -1,
@@ -25,7 +26,7 @@ const MonofLabCristal = (props) => {
         precioRef.current.value = value.precio;
 
         setCristal((cristal)=>{
-            const __cristal = {...cristal,codigo:value.codigo, precio: value.precio}
+            const __cristal = {...cristal,codigo:value.codigo, precio: value.precio, idcodigo: value.idcodigo}
             props?.callback(__cristal)
             return __cristal
         })

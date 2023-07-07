@@ -22,6 +22,7 @@ const RecetaStockItems = (props) => {
         setItems((rcitems)=>{
             const _rcitems = {...rcitems,[field]:value}
             props?.callback(_rcitems)
+            alert(JSON.stringify(_rcitems))
             return _rcitems;
         })
     }

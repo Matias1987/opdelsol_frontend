@@ -6,6 +6,7 @@ import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 const VentasArmazon = (props) => {
     const [visible, setVisible] = useState(false);
     const [armazon, setArmazon] = useState({
+        idcodigo: -1,
         codigo: null,
         precio: -1,
         cantidad:1,
@@ -31,8 +32,11 @@ const VentasArmazon = (props) => {
             const _armazon = {
                 ...armazon,
                 codigo: val.codigo,
+                idcodigo: val.idcodigo,
                 precio: val.precio,
             };
+
+            
 
             props?.callback(_armazon);
             return {

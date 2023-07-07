@@ -1,6 +1,8 @@
 import VentaBase from "@/components/forms/ventas/VentaBase";
 import VDItem from "@/components/forms/ventas/directa/Item";
 import LayoutVentas from "@/components/layout/layout_ventas";
+import { post_method } from "@/src/helpers/post_helper";
+import { post } from "@/src/urls";
 import { useState } from "react";
 
 export default function VentaDirecta(){
@@ -21,22 +23,26 @@ export default function VentaDirecta(){
                 })
                 }
             }
-                onfinish={
-                    (v)=>{
+        onfinish={
+            (v)=>{
 
-                        alert(JSON.stringify(v))
-                        alert(JSON.stringify(productos))
+                alert(JSON.stringify(v))
+                alert(JSON.stringify(productos))
 
-                        const __venta = {
-                            ...v, 
-                            productos:productos, 
-                            tipo:1, 
-                            total: total
-                        }
-                        
-                        console.log(JSON.stringify(__venta))
-                    }
+                const __venta = {
+                    ...v, 
+                    productos:productos, 
+                    tipo:1, 
+                    total: total
                 }
+                
+                console.log(JSON.stringify(__venta))
+
+                post_method(post.insert.venta,__venta,(response)=>{
+                    alert(JSON.stringify(response.data))
+                    })
+            }
+        }
              >
             <VDItem 
                 callback={

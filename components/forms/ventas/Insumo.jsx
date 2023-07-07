@@ -7,6 +7,7 @@ const VentasInsumo = (props) => {
     const [visible, setVisible] = useState(false);
     const precioRef =useRef(null);
     const [insumo, setInsumo] = useState({
+        idcodigo: -1,
         codigo: null,
         precio: 0,
         cantidad:1,
@@ -16,7 +17,7 @@ const VentasInsumo = (props) => {
         precioRef.current.value=val.precio;
 
         setInsumo((insumo)=>{
-            const __insumo ={...insumo,codigo:val.codigo, precio: val.precio};
+            const __insumo ={...insumo,codigo:val.codigo,idcodigo: val.idcodigo, precio: val.precio};
             props?.callback?.(__insumo);
             return __insumo;
         })

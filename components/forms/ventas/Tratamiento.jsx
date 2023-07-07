@@ -10,6 +10,7 @@ const VentasTratamiento = (props) => {
     const precioRef =useRef(null);
 
     const [tratamiento, setTratamiento] = useState({
+        idcodigo: -1,
         codigo: null,
         precio: 0,
         cantidad:1,
@@ -18,7 +19,7 @@ const VentasTratamiento = (props) => {
     const on_codigo_change = (val) => {
         precioRef.current.value=val.precio;
         setTratamiento((tratamiento)=>{
-            const _tratamiento = {...tratamiento,codigo: val.codigo, precio: val.precio}
+            const _tratamiento = {...tratamiento,codigo: val.codigo, idcodigo: val.idcodigo, precio: val.precio}
             props?.callback(_tratamiento);
             return {...tratamiento, codigo:val.codigo, precio: val.precio};
         })

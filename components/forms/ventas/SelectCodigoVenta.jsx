@@ -27,14 +27,14 @@ export default function SelectCodigoVenta(props){
                 _data
             )
 
-            props?.callback(_data)
+            props?.callback?.(_data)
         })
         .catch((error)=>{alert(error)})
     }
 
     const on_remove = () => {
         setDataCodigo(null);
-        props.callback({codigo:null,precio:0, idcodigo:-1})
+        props?.callback?.({codigo:null,precio:0, idcodigo:-1})
     }
 
     return (

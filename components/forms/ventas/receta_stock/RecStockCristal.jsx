@@ -8,6 +8,7 @@ const RecStockCristal = (props) => {
     const precioRef = useRef(null)
 
     const [cristal , setCristal]= useState({
+        idcodigo: -1,
         tipo: props.tipo,
         codigo: null,
         eje: -1,
@@ -26,7 +27,7 @@ const RecStockCristal = (props) => {
         precioRef.current.value = value.precio;
         setCristal(
             (cristal)=>{
-                const _cristal = {...cristal, codigo: value.codigo, precio: value.precio}
+                const _cristal = {...cristal, codigo: value.codigo, precio: value.precio, idcodigo: value.idcodigo}
                 props?.callback(_cristal)
                 return _cristal
             }

@@ -6,6 +6,7 @@ import SelectCodigoVenta from "../SelectCodigoVenta";
 const LCLabItem = (props) =>{
     const [visible, setVisible] = useState(false);
     const [LC, setLC] = useState({
+        idcodigo: -1,
         codigo: null,
         precio: 0,
         cantidad:1,
@@ -13,7 +14,7 @@ const LCLabItem = (props) =>{
     const on_codigo_change = (val) => {
         
         setLC((LC)=>{
-            const __LC ={...LC,codigo:val.codigo, precio: val.precio};
+            const __LC ={...LC,codigo:val.codigo, precio: val.precio, idcodigo: val.idcodigo};
             props?.callback?.(__LC);
             return __LC;
         })
@@ -42,7 +43,7 @@ const LCLabItem = (props) =>{
                     <SelectCodigoVenta callback={on_codigo_change} />
                 </Col>
                 <Col span={4}>
-                    <InputNumber value={LC.precio} onChange={on_precio_change(v)} />
+                    <InputNumber value={LC.precio} onChange={(v)=>{on_precio_change(v)}} />
                 </Col>
                 <Col span={1}>
                 <Button danger onClick={()=>{setVisible(false)}}><DeleteOutlined/></Button>
