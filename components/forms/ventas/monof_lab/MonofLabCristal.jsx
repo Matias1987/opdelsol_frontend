@@ -3,6 +3,7 @@ import { Button, Col, Form, Input, Row } from "antd";
 import SelectCodigoVenta from "../SelectCodigoVenta";
 import { useEffect, useRef, useState } from "react";
 import { DeleteOutlined } from "@ant-design/icons";
+import globals from "@/src/globals";
 
 const MonofLabCristal = (props) => {
     
@@ -84,7 +85,7 @@ const MonofLabCristal = (props) => {
                     <Input addonBefore={"Eje:"} onChange={onchange_eje} />&nbsp;
                 </Col>
                 <Col span={10}>
-                    <SelectCodigoVenta buttonText={"Seleccionar Codigo Cristal"} callback={onchange_codigo} />
+                    <SelectCodigoVenta idfamilias={[globals.familiaIDs.CRISTALES]} buttonText={"Seleccionar Codigo Cristal"} callback={onchange_codigo} />
                 </Col>
                 
                 <Col span={4}>

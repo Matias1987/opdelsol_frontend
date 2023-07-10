@@ -105,7 +105,7 @@ export default function VentaBase(props){
                 <Col span={24}>
                     <Form.Item>
                         <TotalesVenta total={ typeof props !== 'undefined' ? props.total : "0"} callback={(value)=>{onChange("descuento", value)}} />
-                        <ModoPago callback={(value)=>{onChange("mp", value)}} />
+                        <ModoPago total={ typeof props !== 'undefined' ? props.total : "0"} callback={(value)=>{onChange("mp", value)}} />
                     </Form.Item>
                 </Col>
             </Row>

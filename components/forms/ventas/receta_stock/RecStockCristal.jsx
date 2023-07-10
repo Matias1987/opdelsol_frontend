@@ -2,6 +2,7 @@ import { Button, Col, Form, Input, Row } from "antd";
 import SelectCodigoVenta from "../SelectCodigoVenta";
 import { useEffect, useRef, useState } from "react";
 import { DeleteOutlined } from "@ant-design/icons";
+import globals from "@/src/globals";
 
 const RecStockCristal = (props) => {
     const [visible, setVisible] = useState(false);
@@ -44,7 +45,7 @@ const RecStockCristal = (props) => {
             }
         )
     }
-    const onchange_precio = (e) => {
+    const onchange_precio = (value) => {
         /*cristal.precio = e.target.value;
         setPrecio(e.target.value)
         props.callback(_cristal)*/
@@ -68,7 +69,7 @@ const RecStockCristal = (props) => {
         <>
             <Row>
                 <Col span={15}>
-                    <SelectCodigoVenta buttonText={"Seleccionar Codigo Cristal"} callback={onchange_codigo} />
+                    <SelectCodigoVenta idfamilias={[globals.familiaIDs.CRISTALES]} buttonText={"Seleccionar Codigo Cristal"} callback={onchange_codigo} />
                 </Col>
                 <Col span={4}>
                     <Input addonBefore={"Eje:"} onChange={onchange_eje} />&nbsp;

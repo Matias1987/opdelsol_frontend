@@ -5,6 +5,12 @@ import globals from "@/src/globals";
 import { CheckCircleFilled, PlusCircleFilled } from "@ant-design/icons";
 import { post_method } from "@/src/helpers/post_helper";
 
+/**
+ * 
+ * @param filtroFamilias 
+ * @param onParseResponse parse method
+ * 
+ */
 const SearchStockVentas = (props) => {
     const id_sucursal = globals.obtenerSucursal();
     const search_url = post.obtener_stock_ventas;
@@ -14,8 +20,8 @@ const SearchStockVentas = (props) => {
 
     const onSearch = (value) => {
         setLoading(true)
-
-        post_method(search_url, {filtroCod: value, idSucursal: id_sucursal, filtroFamilias: typeof props.filtroFamilias === 'undefined' ? [] : props.filtroFamilias },
+        console.log(JSON.stringify(props.idfamilias))
+        post_method(search_url, {filtroCod: value, idSucursal: id_sucursal, filtroFamilias: typeof props.idfamilias === 'undefined' ? [] : props.idfamilias },
         (_response)=>{
             var response = typeof props.onParseResponse !== 'undefined' ? props.onParseResponse(_response) : _response;
             //alert(JSON.stringify(response))

@@ -8,6 +8,13 @@ import globals from "@/src/globals";
 import { Button } from "antd";
 import { CloseCircleFilled } from "@ant-design/icons";
 
+/**
+ * 
+ * @param idfamilias collection of filter ids 
+ * @param callback callback
+ * @param buttonText
+ * @param filtros
+ */
 export default function SelectCodigoVenta(props){
     const [dataCodigo, setDataCodigo] = useState(null);
     const query_detalles = get.obtener_stock_detalles_venta + globals.obtenerSucursal() + "/";
@@ -44,7 +51,7 @@ export default function SelectCodigoVenta(props){
         openButtonText= { typeof props.buttonText === 'undefined' ? 'Seleccione Codigo' : props.buttonText }
         title="Buscar"
         >
-            <SearchStockVentas idfamilias={typeof props.filtros === 'undefined' ? [] : props.filtros} callback={onCodigoSelected} />
+            <SearchStockVentas idfamilias={typeof props.idfamilias === 'undefined' ? [] : props.idfamilias} callback={onCodigoSelected} />
         </CustomModal>
         </>
         :

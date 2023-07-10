@@ -2,6 +2,7 @@ import { Button, Col, Input, Row } from "antd";
 import SelectCodigoVenta from "./SelectCodigoVenta";
 import { useRef, useState } from "react";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import globals from "@/src/globals";
 
 const VentasArmazon = (props) => {
     const [visible, setVisible] = useState(false);
@@ -71,7 +72,7 @@ const VentasArmazon = (props) => {
         <>
             <Row>
                 <Col span={19}>
-                    <SelectCodigoVenta callback={on_codigo_change} />
+                    <SelectCodigoVenta idfamilias={[globals.familiaIDs.ARMAZON]} callback={on_codigo_change} />
                 </Col>
                 <Col span={4}>
                     

@@ -34,7 +34,7 @@ export default function ModoPago(props){
 
     return (
     <>
-        <h4>Modo de Pago</h4>
+        <h5>Modo de Pago</h5>
         <>
             <Row>
                 <Col span={8} >
@@ -68,7 +68,10 @@ export default function ModoPago(props){
             </Row>
             <Row>
                 <Col span={8}>
-                    <Input readOnly prefix="Total" style={{color:"red"}} value={modoPago.total} />
+                    <Input readOnly prefix="Total"  bordered={false} style={{color:"red"}} value={modoPago.total} />
+                </Col>
+                <Col span={8}>
+                <Input readOnly prefix="Saldo"  bordered={false} style={{color:"red"}} value={ (typeof (props?.total) === 'undefined'?0:props.total) - modoPago.total} />
                 </Col>
             </Row>
         </>

@@ -24,6 +24,14 @@ const globals =  {
     },
     obtenerCaja: () => {
         return 1
+    },
+    familiaIDs: {
+        ARMAZON: 2,
+        LC: 15,
+        LIQUIDOS: 14,
+        INSUMO: 17,
+        CRISTALES: 16,
+        TRATAMIENTO: 18,
     }
 
 }

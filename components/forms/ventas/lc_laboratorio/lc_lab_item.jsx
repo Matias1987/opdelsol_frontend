@@ -2,6 +2,7 @@ import { Button, Col, Input, InputNumber, Row } from "antd";
 import { useRef, useState } from "react";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import SelectCodigoVenta from "../SelectCodigoVenta";
+import globals from "@/src/globals";
 
 const LCLabItem = (props) =>{
     const [visible, setVisible] = useState(false);
@@ -40,7 +41,7 @@ const LCLabItem = (props) =>{
         <>
             <Row>
                 <Col span={19}>
-                    <SelectCodigoVenta callback={on_codigo_change} />
+                    <SelectCodigoVenta idfamilias={[globals.familiaIDs.LC]} callback={on_codigo_change} />
                 </Col>
                 <Col span={4}>
                     <InputNumber value={LC.precio} onChange={(v)=>{on_precio_change(v)}} />

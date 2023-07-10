@@ -26,10 +26,10 @@ const MedicoForm = (props) => {
     onFinish={onFinish} 
     form={form} 
     onFinishFailed={onFinishFailed}>
-        <Form.Item label={"Nombre"} name={"nombre"}>
+        <Form.Item label={"Nombre"} rules={[{required:true}]} name={"nombre"}>
             <Input />
         </Form.Item>
-        <Form.Item label={"Matricula"} name={"matricula"}>
+        <Form.Item label={"Matricula"} rules={[{required:true}]} name={"matricula"}>
             <Input />
         </Form.Item>
         <Form.Item>

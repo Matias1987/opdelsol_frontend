@@ -12,6 +12,7 @@ export default function VentaRecetaStock(){
     const [subTotal, setSubTotal] = useState(0);
     const [venta, setVenta] = useState(null);
     const [productos, setProductos] = useState(null);
+    const [descuento, setDescuento] = useState(0)
     
     const callback = (productos)=>{
         setProductos(productos)
@@ -25,19 +26,27 @@ export default function VentaRecetaStock(){
         _t += parseFloat(productos?.cerca_armazon?.precio||0);
         _t += parseFloat(productos?.cerca_tratamiento?.precio||0);
         setSubTotal(_t);
-        setTotal(_t - (venta?.descuento||0));
+        //setTotal((_total)=>(_t - descuento));
+        setTotal((_total)=>(_t - venta?.descuento));
+        alert(_t)
 
+    }
+
+    const onDescuentoChange=(v)=>{
+        //setDescuento
     }
 
     return (
     <>
         <h2>Venta de Receta Stock</h2>
-        <VentaBase total={total} 
+        <VentaBase 
+        total={total}
         callback={(venta)=>{
             if(venta?.mp?.total>total)
             {
                 alert("Monto a pagar mayor al total")
             }
+            setVenta((v)=>venta)
         }}
         onfinish={(data)=>{
                 if(data === null){

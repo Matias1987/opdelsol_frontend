@@ -20,17 +20,14 @@ const TotalesVenta = (props) => {
 return (
     <>
         <Row>
-            <h4>Totales</h4>
-        </Row>
-        <Row>
-            <Col span={5}><Input prefix={"SubTotal: $"} readOnly value={props.total||0}/></Col>
+            <Col span={5}><Input prefix={"SubTotal: $"} bordered={false} readOnly value={props.total||0}/></Col>
 
             <Col span={5}><Input prefix={"Descuento: $"} onChange={onDescuentoChange} value={descuento} style={{backgroundColor:"lightyellow"}}/></Col>
 
             <Col span={14}><Input prefix={"Concepto Descuento: "} style={{backgroundColor:"lightyellow"}} ></Input></Col>
         </Row>
         <Row>
-            <Col span={24}><Input prefix={"Total: $"} readOnly  value={total} /></Col>
+            <Col span={24}><Input prefix={"Total: $"}  bordered={false} readOnly  value={total} /></Col>
         </Row>
     </>)
 }

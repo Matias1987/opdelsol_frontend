@@ -18,10 +18,10 @@ const ObraSocialForm = (props) => {
 
     return (<>
         <Form form={form} onFinish={onFinish}>
-            <Form.Item label={"Nombre"} required={true} name={"nombre"}>
+            <Form.Item rules={[{required:true}]} label={"Nombre"} required={true} name={"nombre"}>
                 <Input />
             </Form.Item>
-            <Form.Item label={"Siglas"} required={true} name={"siglas"}>
+            <Form.Item rules={[{required:true}]} label={"Siglas"} required={true} name={"siglas"}>
                 <Input />
             </Form.Item>
             <Form.Item>
