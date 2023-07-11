@@ -18,13 +18,6 @@ const RecStockCristal = (props) => {
     })
 
     const onchange_codigo = (value) => {
-        /*
-        cristal.codigo = value.codigo;
-        cristal.precio = value.precio;
-        setPrecio(value.precio)
-        alert(precioRef.current.value)
-        props.callback(cristal)
-        */
         precioRef.current.value = value.precio;
         setCristal(
             (cristal)=>{
@@ -36,7 +29,6 @@ const RecStockCristal = (props) => {
         
     }
     const onchange_eje = (e) => {
-        //cristal.eje = e.target.value;
         setCristal(
             (cristal)=>{
                 const _cristal = {...cristal, eje: e.target.value}
@@ -46,9 +38,6 @@ const RecStockCristal = (props) => {
         )
     }
     const onchange_precio = (value) => {
-        /*cristal.precio = e.target.value;
-        setPrecio(e.target.value)
-        props.callback(_cristal)*/
         setCristal(
             (cristal)=>{
                 const _cristal = {...cristal, precio: value.precio}
@@ -59,6 +48,11 @@ const RecStockCristal = (props) => {
 
     }
     
+    const onRemove = () => {
+        onchange_codigo({precio:0, codigo:null, idcodigo: -1})
+        setVisible(false)
+    }
+
     return (
         !visible ? <Button size="small" onClick={()=>{setVisible(true)}}>{
             typeof props.buttonText === 'undefined' ?
@@ -78,7 +72,7 @@ const RecStockCristal = (props) => {
                     <span>&nbsp;&nbsp;Precio: </span><input onChange={onchange_precio} ref={precioRef} style={{textAlign:"right", width:"100px", border: "1px solid #ccc", borderRadius:"6px", borderColor:"lightgray", padding:".4em", fontSize:"1.1em"}} />
                 </Col>
                 <Col span={1}>
-                    <Button danger  onClick={()=>{setVisible(false)}}><DeleteOutlined/></Button>
+                    <Button danger  onClick={()=>{onRemove()}}><DeleteOutlined/></Button>
                 </Col>
             </Row>
 

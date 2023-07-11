@@ -31,6 +31,10 @@ const LCLabItem = (props) =>{
         
     }
 
+    const onRemove = () => {
+        on_codigo_change({precio:0, codigo:null, idcodigo: -1})
+    }
+
     return (
         !visible ? <Button size="small" onClick={()=>{setVisible(true)}}>{
             typeof props.buttonText === 'undefined' ?
@@ -47,7 +51,7 @@ const LCLabItem = (props) =>{
                     <InputNumber value={LC.precio} onChange={(v)=>{on_precio_change(v)}} />
                 </Col>
                 <Col span={1}>
-                <Button danger onClick={()=>{setVisible(false)}}><DeleteOutlined/></Button>
+                <Button danger onClick={()=>{onRemove()}}><DeleteOutlined/></Button>
                 </Col>
             </Row>
         </>

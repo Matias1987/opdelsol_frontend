@@ -44,6 +44,10 @@ const LCItem = (props) => {
         });
     }
 
+    const onRemove = () => {
+        onCodigoChange({precio:0, codigo:null, idcodigo: -1})
+    }
+
     
     return (
         !visible ? <Button size="small" onClick={()=>{setVisible(true)}}>{
@@ -68,7 +72,7 @@ const LCItem = (props) => {
                     <Input addonBefore={"Total:"} value={lc.cantidad * lc.precio} />&nbsp;
                 </Col>
                 <Col span={1}>
-                    <Button danger  onClick={()=>{setVisible(false)}}><DeleteOutlined/></Button>
+                    <Button danger  onClick={()=>{onRemove()}}><DeleteOutlined/></Button>
                 </Col>
             </Row>
 

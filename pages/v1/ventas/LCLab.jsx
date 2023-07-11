@@ -7,6 +7,8 @@ import { post_method } from "@/src/helpers/post_helper";
 
 export default function VentaLCLab(){
     const [productos, setProductos] = useState(null);
+    const [subTotal, setSubTotal] = useState(0);
+    const [venta, setVenta] = useState(null);
     const [total, setTotal] = useState(0);
 
     const products_callback  = (products) => {
@@ -16,10 +18,22 @@ export default function VentaLCLab(){
         _total+=products?.oi?.precio||0;
         _total+=products?.insumo?.precio||0;
 
-        setTotal(total=>_total)
+        setSubTotal(st=>_total)
+
+        var dto = typeof venta === 'undefined' ? 0 : venta?.descuento||0 
+
+        setTotal(total=>(_total - dto))
 
         setProductos((productos)=>products)
         
+    }
+
+    const callback_venta_modif = (_venta) => {
+        setVenta((v)=>{
+            var dto = _venta.descuento 
+            setTotal((_total)=>(subTotal - dto));
+            return _venta;
+        })
     }
 
     const onFinish = (v) => {
@@ -28,7 +42,8 @@ export default function VentaLCLab(){
             ...v,
             productos: productos, 
             tipo:"6", 
-            total: total
+            total: total,
+            subTotal: subTotal
         }
         console.log(JSON.stringify(venta))
 
@@ -41,7 +56,7 @@ export default function VentaLCLab(){
     return (
     <>
     <h3>Venta de Lentes de Contacto Laboratorio</h3>
-    <VentaBase total={total} onfinish={onFinish}>
+    <VentaBase subTotal={subTotal} total={total} onfinish={onFinish} callback={callback_venta_modif}>
         <LCLabItems callback={products_callback} />
     </VentaBase>
     </>

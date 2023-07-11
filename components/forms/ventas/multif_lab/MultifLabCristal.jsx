@@ -72,6 +72,11 @@ const MultifLabCristal = (props) => {
             return __cristal
         })
     }
+
+    const onRemove = () => {
+        onchange_codigo({precio:0, codigo:null, idcodigo: -1})
+        setVisible(false)
+    }
     
     return (
         !visible ? <Button size="small" onClick={()=>{setVisible(true)}}>{
@@ -99,7 +104,7 @@ const MultifLabCristal = (props) => {
                     <span>&nbsp;&nbsp;Precio: </span><input onChange={onchange_precio} ref={precioRef} style={{textAlign:"right", width:"100px", border: "1px solid #ccc", borderRadius:"6px", borderColor:"lightgray", padding:".4em", fontSize:"1.1em"}} />
                 </Col>
                 <Col span={1}>
-                    <Button danger  onClick={()=>{setVisible(false)}}><DeleteOutlined/></Button>
+                    <Button danger  onClick={()=>{onRemove()}}><DeleteOutlined/></Button>
                 </Col>
             </Row>
 

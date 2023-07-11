@@ -12,42 +12,45 @@ export default function VentaRecetaStock(){
     const [subTotal, setSubTotal] = useState(0);
     const [venta, setVenta] = useState(null);
     const [productos, setProductos] = useState(null);
-    const [descuento, setDescuento] = useState(0)
     
     const callback = (productos)=>{
-        setProductos(productos)
+        setProductos(_productos=>{
+            calcular_total(productos)
+            return productos
+        })
+    }
+
+    const calcular_total = (_productos) => {
         var _t = 0;
-        _t += parseFloat(productos?.lejos_od?.precio||0);
-        _t += parseFloat(productos?.lejos_oi?.precio||0);
-        _t += parseFloat(productos?.lejos_armazon?.precio||0);
-        _t += parseFloat(productos?.lejos_tratamiento?.precio||0);
-        _t += parseFloat(productos?.cerca_od?.precio||0);
-        _t += parseFloat(productos?.cerca_oi?.precio||0);
-        _t += parseFloat(productos?.cerca_armazon?.precio||0);
-        _t += parseFloat(productos?.cerca_tratamiento?.precio||0);
+        _t += parseFloat(_productos?.lejos_od?.precio||0);
+        _t += parseFloat(_productos?.lejos_oi?.precio||0);
+        _t += parseFloat(_productos?.lejos_armazon?.precio||0);
+        _t += parseFloat(_productos?.lejos_tratamiento?.precio||0);
+        _t += parseFloat(_productos?.cerca_od?.precio||0);
+        _t += parseFloat(_productos?.cerca_oi?.precio||0);
+        _t += parseFloat(_productos?.cerca_armazon?.precio||0);
+        _t += parseFloat(_productos?.cerca_tratamiento?.precio||0);
         setSubTotal(_t);
-        //setTotal((_total)=>(_t - descuento));
-        setTotal((_total)=>(_t - venta?.descuento));
-        alert(_t)
-
+        var dto = typeof venta === 'undefined' ? 0 : venta?.descuento||0 
+        setTotal((_total)=>(_t - dto));
     }
 
-    const onDescuentoChange=(v)=>{
-        //setDescuento
-    }
 
     return (
     <>
         <h2>Venta de Receta Stock</h2>
         <VentaBase 
         total={total}
+        subTotal={subTotal}
         callback={(venta)=>{
-            if(venta?.mp?.total>total)
-            {
-                alert("Monto a pagar mayor al total")
-            }
-            setVenta((v)=>venta)
+           
+            setVenta((v)=>{
+                var dto = venta.descuento 
+                setTotal((_total)=>(subTotal - dto));
+                return venta;
+            })
         }}
+        
         onfinish={(data)=>{
                 if(data === null){
                     alert("venta is null!")

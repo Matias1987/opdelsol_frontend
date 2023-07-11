@@ -8,6 +8,8 @@ import { post_method } from "@/src/helpers/post_helper";
 export default function VentaMultifocalesLab(){
     const [total, setTotal] = useState(0)
     const [productos, setProductos] = useState(null)
+    const [subTotal, setSubTotal] = useState(0);
+    const [venta, setVenta] = useState(null);
 
     const onProductosCallback = (_productos) => {
         setProductos((productos)=>_productos)
@@ -19,8 +21,21 @@ export default function VentaMultifocalesLab(){
         _total += _productos?.armazon?.precio||0;
         _total += _productos?.tratamiento?.precio||0;
 
-        setTotal(total=>_total )
+        setSubTotal(st=>_total)
 
+        var dto = typeof venta === 'undefined' ? 0 : venta?.descuento||0 
+
+        setTotal(total=>(_total - dto))
+
+        setProductos((productos)=>_productos)
+
+    }
+
+    const callback_venta_modif = (_venta) => {
+        setVenta((v)=>{
+            setTotal((_total)=>(subTotal - _venta.descuento));
+            return _venta;
+        })
     }
 
     const onFinish = (v) => {
@@ -39,7 +54,7 @@ export default function VentaMultifocalesLab(){
 
     return (<>
     <h3>Venta de Multifocales Laboratorio</h3>
-    <VentaBase total={total} onfinish={onFinish}>
+    <VentaBase subTotal={subTotal} total={total} onfinish={onFinish} callback={callback_venta_modif}>
         <MultifLabItems callback={onProductosCallback} />
     </VentaBase>
     </>)

@@ -14,13 +14,13 @@ const TotalesVenta = (props) => {
     }
 
     useEffect(()=>{
-        setTotal((props?.total||0) - descuento)
+        setTotal((props?.subtotal||0) - descuento)
     })
 
 return (
     <>
         <Row>
-            <Col span={5}><Input prefix={"SubTotal: $"} bordered={false} readOnly value={props.total||0}/></Col>
+            <Col span={5}><Input prefix={"SubTotal: $"} bordered={false} readOnly value={props.subtotal||0}/></Col>
 
             <Col span={5}><Input prefix={"Descuento: $"} onChange={onDescuentoChange} value={descuento} style={{backgroundColor:"lightyellow"}}/></Col>
 

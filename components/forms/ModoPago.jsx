@@ -1,10 +1,20 @@
 import { Button, Checkbox, Col, Divider, Input, Row, Select, Table } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CustomModal from "../CustomModal";
 import { DeleteFilled } from "@ant-design/icons";
 
 export default function ModoPago(props){
+    const [saldo, setSaldo] = useState(0)
+    useEffect(()=>{
 
+        //alert("total vta " + props.total)
+        //alert("total mp " +  modoPago.total)
+        /*
+        setSaldo((s)=>{
+            const t = typeof props === 'undefined' ? 0 : props.total;
+            return t - modoPago.total
+        })*/
+    })
     const [modoPago, setModoPago] = useState({
         efectivo_monto: 0,
         tarjeta_monto: 0,
@@ -18,6 +28,8 @@ export default function ModoPago(props){
         total: 0,
     })
 
+   
+
     const onChange = (index, value) => {
         setModoPago( (modoPago) => { 
             const _mp = {...modoPago,[index]:value};
@@ -28,6 +40,12 @@ export default function ModoPago(props){
                         parseFloat(_mp.efectivo_monto||0);
 
             props?.callback(_mp);
+
+            /*setSaldo((s)=>{
+                const t = typeof props === 'undefined' ? 0 : props.total;
+                return t - _mp.total
+            })*/
+
             return _mp;
         })
     }
@@ -71,7 +89,7 @@ export default function ModoPago(props){
                     <Input readOnly prefix="Total"  bordered={false} style={{color:"red"}} value={modoPago.total} />
                 </Col>
                 <Col span={8}>
-                <Input readOnly prefix="Saldo"  bordered={false} style={{color:"red"}} value={ (typeof (props?.total) === 'undefined'?0:props.total) - modoPago.total} />
+                    <Input readOnly prefix="Saldo"  bordered={false} style={{color:"red"}} value={ props.total-modoPago.total} />
                 </Col>
             </Row>
         </>

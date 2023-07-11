@@ -7,6 +7,8 @@ import { post_method } from "@/src/helpers/post_helper";
 
 export default function VentaLCStock(){
     const [total, setTotal] = useState(0);
+    const [subTotal, setSubTotal] = useState(0);
+    const [venta, setVenta] = useState(null);
     const [productos, setProductos] = useState(null);
 
     const onProductosChange = (_p) => {
@@ -15,7 +17,9 @@ export default function VentaLCStock(){
         _total+= _p?.oi?.total||0;
         _total+= _p?.insumo?.total||0;
         setProductos(productos=>_p);
-        setTotal(total=>_total)
+        setSubTotal(stotal=>_total)
+        var dto = typeof venta === 'undefined' ? 0 : venta?.descuento||0 
+        setTotal(total=>(_total-dto))
     }
 
     const onFinish = (v) => {
@@ -23,7 +27,8 @@ export default function VentaLCStock(){
             ...v, 
             productos: productos, 
             tipo:"3", 
-            total: total
+            total: total,
+            subTotal: subTotal,
         }
         console.log(JSON.stringify(venta))
 
@@ -32,10 +37,17 @@ export default function VentaLCStock(){
           })
     }
 
+    const callback_venta_modif = (_venta) => {
+        setVenta((v)=>{
+            setTotal((_total)=>(subTotal - _venta.descuento));
+            return _venta;
+        })
+    }
+
     return (
         <>
         <h3>Venta de Lentes de Contacto Stock</h3>
-        <VentaBase total={total} onfinish={onFinish}>
+        <VentaBase subTotal={subTotal} total={total} onfinish={onFinish} callback={callback_venta_modif}>
             <LCStockItems callback={onProductosChange} />
         </VentaBase>
         </>

@@ -33,6 +33,8 @@ export default function VentaBase(props){
     
 
     const onChange = (field, value) => {
+        
+
         setVenta(
             (venta)=>{
                 const __venta = {...venta, [field]:value};
@@ -104,8 +106,12 @@ export default function VentaBase(props){
             <Row>
                 <Col span={24}>
                     <Form.Item>
-                        <TotalesVenta total={ typeof props !== 'undefined' ? props.total : "0"} callback={(value)=>{onChange("descuento", value)}} />
-                        <ModoPago total={ typeof props !== 'undefined' ? props.total : "0"} callback={(value)=>{onChange("mp", value)}} />
+                        <TotalesVenta 
+                        subtotal={typeof props !== 'undefined' ? props.subTotal : "0"}
+                        total={ typeof props !== 'undefined' ? props.total : "0"} 
+                        callback={(value)=>{onChange("descuento", value)}} 
+                        />
+                        <ModoPago  total={ typeof props !== 'undefined' ? props.total : "0"} callback={(value)=>{onChange("mp", value)}} />
                     </Form.Item>
                 </Col>
             </Row>
