@@ -35,6 +35,7 @@ const VDItem = (props) => {
                 const _items = [
                     ...items,
                     {
+                    tipo:"vdir",
                     idcodigo: response.data[0].idcodigo,
                     codigo: response.data[0].codigo,
                     cantidad_max: response.data[0].cantidad,

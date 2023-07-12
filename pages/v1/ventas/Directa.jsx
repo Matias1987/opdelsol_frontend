@@ -9,20 +9,24 @@ export default function VentaDirecta(){
     const [venta, setVenta] = useState(null)
     const [productos, setProductos] = useState(null)
     const [total, setTotal] = useState(0);
+    const [subTotal, setSubTotal] = useState(0);
+
+    const callback_venta_modif = (_venta) => {
+        setVenta((v)=>{
+            var dto = _venta.descuento 
+            setTotal((_total)=>(subTotal - dto));
+            return _venta;
+        })
+    }
 
     return (
     <>
         <h3>Venta Directa</h3>
         <VentaBase 
-        
+        subTotal={subTotal}
         total={total}
 
-        callback={(v)=>{
-                setVenta((venta)=>{
-                    return v;
-                })
-                }
-            }
+        callback={callback_venta_modif}
         onfinish={
             (v)=>{
 
@@ -32,8 +36,9 @@ export default function VentaDirecta(){
                 const __venta = {
                     ...v, 
                     productos:productos, 
-                    tipo:1, 
-                    total: total
+                    tipo:"1", 
+                    total: total,
+                    subTotal: subTotal,
                 }
                 
                 console.log(JSON.stringify(__venta))
@@ -52,7 +57,9 @@ export default function VentaDirecta(){
                         prod.forEach(p=>{
                             t+=p.total;
                         })
-                        setTotal(total=>t);
+                        setSubTotal(st=>t);
+                        var dto = typeof venta === 'undefined' ? 0 : venta?.descuento||0 
+                        setTotal((_total)=>(t - dto));
                     }
                 }
             />
