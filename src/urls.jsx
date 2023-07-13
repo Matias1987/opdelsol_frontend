@@ -134,6 +134,10 @@ const get = {
     obtener_medico: remote_base_url + "medicos/",//:idmedico
     buscar_medico: remote_base_url + "medicos/buscar/",//:value
 
+    venta: remote_base_url + "ventas/",//:idventa
+    detalle_cliente: remote_base_url + "clientes/",
+    get_venta_mp: remote_base_url + "get_venta_mp/",//idVenta
+
 
 }
 

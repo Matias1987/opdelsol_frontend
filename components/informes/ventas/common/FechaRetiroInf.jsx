@@ -3,23 +3,23 @@ const FechaEntregaInf = (props) => (
 		<tbody>
 		<tr>
 			<td>Nro:</td>
-			<td>@nro_operacion@</td>
+			<td>{props.data.idventa}</td>
 		</tr>
 		<tr>
 			<td>Fecha:</td>
-			<td>@fecha@</td>
+			<td>{props.data.fecha}</td>
 		</tr>
 		<tr>
 			<td>Hora:</td>
-			<td>@hora@</td>
+			<td>{props.data.fecha}</td>
 		</tr>
 		<tr>
 			<td>Fecha Entrega:</td>
-			<td>@fecha_entrega@</td>
+			<td>{props.data.fecha_retiro}</td>
 		</tr>
 		<tr>
 			<td>Hora Entrega:</td>
-			<td>@hora_entrega@</td>
+			<td>{props.data.hora_retiro}</td>
 		</tr>
 		<tr>
 			<td colspan='2'><hr /></td>
