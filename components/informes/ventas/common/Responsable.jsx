@@ -8,13 +8,13 @@ const ResponsableInf = (props) => {
         fetch(get.cliente_por_id + props.id)
         .then(response=>response.json())
         .then((response)=>{
-            setData(data=>response.data)
+            setData(data=>response.data[0])
         })
     },[])
     return data == null ? <Spin /> :<>
     <p>
         <span style={{fontWeight: 'bold'}}>RESPONSABLE:</span><br /> 
-        Ap. y Nombre: {data.nombre_completo}<br /> 
+        Ap. y Nombre: {data.nombre_completo}&nbsp;
         Nro. Cliente: {data.idcliente}&nbsp;&nbsp;<span style={{fontWeight: 'bold'}}>DNI:{data.dni}&nbsp;&nbsp;</span>Tel.:{data.telefono1}<br /> 
         Fecha de Nac: {data.fecha_nacimiento}&nbsp;&nbsp;Direcci&oacute;n:{data.direccion}<br />
         </p>

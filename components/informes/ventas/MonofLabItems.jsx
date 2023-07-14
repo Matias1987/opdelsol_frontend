@@ -1,3 +1,3 @@
 export default function MonofLabItems(props){
-    return <></>;
+    return <>monof lab items</>;
 }

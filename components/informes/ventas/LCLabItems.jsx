@@ -1,3 +1,3 @@
 export default function LCLabItems(props){
-    return <></>;
+    return <>lclab items</>;
 }

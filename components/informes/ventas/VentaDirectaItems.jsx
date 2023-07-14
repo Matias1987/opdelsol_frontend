@@ -1,3 +1,3 @@
 export default function VentaDirectaItems(props){
-    return <></>;
+    return <>venta directa items</>;
 }

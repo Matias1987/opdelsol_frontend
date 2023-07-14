@@ -1,5 +1,6 @@
 import { get } from "@/src/urls"
-import { Spin } from "antd"
+import { Spin, Tag } from "antd"
+import Barcode from "react-barcode"
 
 const { useState, useEffect } = require("react")
 const { default: VentaDirectaItems } = require("./VentaDirectaItems")
@@ -25,13 +26,16 @@ const InformeVenta = (props) => {
 		fetch(url+props.idventa)
 		.then(response=>response.json())
 		.then((response)=>{
-			setData(response.data)
+			alert("data venta: " + JSON.stringify(response))
+			setData(response.data[0])
 		})
-	})
+	},[])
 
+	
     
     const productos = () => {
-        switch(data.tipo)
+		//alert(data.tipo)
+        switch(+data.tipo)
         {
             case 1: return <VentaDirectaItems idventa={data.idventa} /> ;
             case 2: return <RecStockItems idventa={data.idventa} /> ;
@@ -45,7 +49,7 @@ const InformeVenta = (props) => {
     return (
 		data === null ? <Spin /> :
         <>
-			<table style={{height: '78px', width:'100%', border:'1', cellspacing:'0', cellpadding:'0',}}>
+			<table style={{height: '78px', width:'100%', border:'1', cellspacing:'0', cellpadding:'0', fontSize:".7em", padding:"0"}}>
 				<tbody>
 					<tr>
 						<td>
@@ -57,7 +61,7 @@ const InformeVenta = (props) => {
 												<tbody>
 													<tr>
 														<td width='40px'>
-															<img src='{data.icon}' width='36px' height='36px' />
+														<img src=""/>
 														</td>
 														<td>
 															<DataSucursalInf idsucursal={data.sucursal_idsucursal} />
@@ -66,25 +70,26 @@ const InformeVenta = (props) => {
 												</tbody>
 											</table>
 											Nombre: <span style={{fontWeight: 'bold'}}>{data.cliente_nombre}</span><br />
-											<br />
-											<div style={{fontSize: '9px', fontWeight:'bold', border:'1px', borderStyle:'solid', borderColor:'black'}}>
+											<div style={{fontSize: '.7em', fontWeight:'bold', border:'1px', borderStyle:'dotted', borderColor:'black', padding:".25em"}}>
 											No se entregar&aacute;n trabajos sin esta boleta. Pasados los 30 d&iacute;as de la fecha
 											estipulada los precios podr&aacute;n ser actualizados al d&iacute;a. Transcurridos los 
 											60 d&iacute;as a partir de la fecha, no se aceptar&aacute;n reclamos.<br />
 											</div>
-											<br />
-											Vendedor: {"NOMBRE VENDEDOR"}
+											
+											Vendedor: {data.usuario_nombre}
 										</td>
 										<td style={{textAlign: 'center'}}>
 											{
 											 "TIPO DE VENTA"
 											}
+											<br />
+											<Barcode value={data.idventa}  displayValue={false} width={2} height={6}/>
 										</td>
 										<td width='250px'>
 										
 											<FechaEntregaInf data={data} />
 											
-											<MontosTotalesInf idventa={data.idventa}/>
+											<MontosTotalesInf data={data}/>
 											
 										</td>
 									</tr>
@@ -92,10 +97,7 @@ const InformeVenta = (props) => {
 							</table>
 						</td>
 					</tr>
-					<tr>
-						<td style={{textAlign: 'center',}}><img src='{data.barcode}' /></td>
-					</tr>
-					{data.status}
+					
 					<tr>
 						<td>
 							<table style={{height: '21px', width:'100%'}} >
@@ -115,12 +117,11 @@ const InformeVenta = (props) => {
 							</table>
 						</td>
 					</tr>
-					<tr>
-						<td style={{textAlign: 'center'}}>
-							<img src='{data.barcode}' />
+					<tr >
+						<td style={{textAlign: 'center', padding:"0"}}>
+						<Barcode value={data.idventa}  displayValue={false} width={2} height={6}/>
 						</td>
 					</tr>
-						{data.estado}
 					<tr>
 						<td>
 							{productos()}
@@ -136,7 +137,7 @@ const InformeVenta = (props) => {
 										</td>
 										<td>&nbsp;&nbsp;</td>
 										<td width='250px'>
-											<MontosTotalesInf idventa={data.idventa} />
+											<MontosTotalesInf data={data} />
 										</td>
 									</tr>
 								</tbody>

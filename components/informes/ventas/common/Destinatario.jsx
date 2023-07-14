@@ -8,7 +8,7 @@ const DestinatarioInf = (props) => {
         fetch(get.cliente_por_id + props.id)
         .then(response=>response.json())
         .then((response)=>{
-            setData(_data=>(response.data))
+            setData(_data=>(response.data[0]))
         })
     },[])
     return data == null ? <Spin /> :<>

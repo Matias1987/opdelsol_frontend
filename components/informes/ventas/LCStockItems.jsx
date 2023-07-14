@@ -1,3 +1,3 @@
 export default function LCStockItems(props){
-    return <></>;
+    return <>ls stock items</>;
 }

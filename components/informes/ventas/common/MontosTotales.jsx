@@ -2,36 +2,36 @@ import { Spin } from "antd"
 import { useEffect, useState } from "react"
 
 const MontosTotalesInf = (props) => {
-	const [data, useData] = useState(null)
+	/*const [data, useData] = useState(null)
     useEffect(()=>{
         fetch("")
         .then(response=>response.json())
         .then((response)=>{
 
         })
-    },[])
-    return data == null ? <Spin /> : <>
+    },[])*/
+    return  <>
 			<table width='100%' border='0' cellspacing='0' cellpadding='0'>
 				<tbody>
 					<tr>
-						<td>Importe</td>
-						<td class='money_field'>$${props.data.importe}</td>
+						<td style={{fontSize:".8em"}}>Importe</td>
+						<td style={{textAlign:"right", fontSize:".8em"}}>${props.data.subtotal}</td>
 					</tr>
 					<tr>
-						<td>Descuento</td>
-						<td class='money_field'>$${props.data.descuento}</td>
+						<td style={{fontSize:".8em"}}>Descuento</td>
+						<td style={{textAlign:"right", fontSize:".8em"}}>${props.data.descuento}</td>
 					</tr>
 					<tr>
-						<td>Subtotal</td>
-						<td class='money_field'>$${props.data.subtotal}</td>
+						<td style={{fontSize:".8em"}}>Subtotal</td>
+						<td style={{textAlign:"right", fontSize:".8em"}}>${props.data.monto_total}</td>
 					</tr>
 					<tr>
-						<td>Se&ntilde;a</td>
-						<td class='money_field'>$${props.data.senia}</td>
+						<td style={{fontSize:".8em"}}>Se&ntilde;a</td>
+						<td style={{textAlign:"right", fontSize:".8em"}}>${0}</td>
 					</tr>
 					<tr>
-						<td>Saldo</td>
-						<td class='money_field'>$${props.data.saldo}</td>
+						<td style={{fontSize:".8em"}}>Saldo</td>
+						<td style={{textAlign:"right", fontSize:".8em"}}>${0}</td>
 					</tr>
 				</tbody>
             </table>

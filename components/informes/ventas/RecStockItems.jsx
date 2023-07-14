@@ -1,3 +1,3 @@
 export default function RecStockItems(props){
-    return <></>;
+    return <>rec stock items</>;
 }

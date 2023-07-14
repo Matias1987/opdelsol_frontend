@@ -1,8 +1,10 @@
 import CustomModal from "@/components/CustomModal";
-import ImprimirSobreVenta from "@/pages/v1/informes/ventas/sobre_venta";
+import ImprimirSobreVenta from "@/pages/v1/ventas/informes/sobre_venta";
 import { post_method } from "@/src/helpers/post_helper";
 import { useEffect, useState } from "react";
 import InformeVenta from "./Base";
+import { post } from "@/src/urls";
+import globals from "@/src/globals";
 const { Table, Button, Tag } = require("antd");
 /**
  * 
@@ -23,23 +25,26 @@ const ListaVentas = (props) => {
     const add = (obj,value,key) => typeof value === 'undefined' ? obj : {...obj, [key]:value}
 
     const buttons = (_idventa) => {
-        {typeof props.ingreso !== 'undefined' ?  <>Cobrar</>:<></>}
-        {typeof props.entrega !== 'undefined' ?  <>Entregar Operacion</>:<></>}
-        {typeof props.adelanto !== 'undefined' ?  <>Adelanto</>:<></>}
-        {typeof props.imprimir !== 'undefined' ?  <CustomModal openButtonText={"Imprimir"}><ImprimirSobreVenta idventa={_idventa} /></CustomModal>:<></>}
-        {typeof props.detalles !== 'undefined' ?  <CustomModal openButtonText={"Imprimir"}><InformeVenta idventa={_idventa} /></CustomModal>:<></>}
+        return <>
+            {typeof props.ingreso !== 'undefined' ?  <>Cobrar</>:<></>}
+            {typeof props.entrega !== 'undefined' ?  <>Entregar Operacion</>:<></>}
+            {typeof props.adelanto !== 'undefined' ?  <><Button>Adelanto</Button></>:<></>}
+            {typeof props.imprimir !== 'undefined' ?  <CustomModal openButtonText={"Imprimir"}><ImprimirSobreVenta idventa={_idventa} /></CustomModal>:<></>}
+            {typeof props.detalles !== 'undefined' ?  <CustomModal openButtonText={"Imprimir"}><InformeVenta idventa={_idventa} /></CustomModal>:<></>}
+        </>
     }
     
     useEffect(()=>{
 
-        var params = {}
-        params = add(params, props.estado, 'estado')
-        params = add(params, props.idCliente, 'idCliente')
-        params = add(params, props.idVendedor, 'idVendedor')
-        params = add(params, props.fecha, 'fecha')
-        const url = ""
+        var params = {idsucursal: globals.obtenerSucursal()}
+        params = add(params, props?.estado, 'estado')
+        params = add(params, props?.idCliente, 'idCliente')
+        params = add(params, props?.idVendedor, 'idVendedor')
+        params = add(params, props?.fecha, 'fecha')
+        const url = post.venta_estado_sucursal;
 
         post_method(url, params,(response)=>{
+            alert(JSON.stringify(response))
             setDataSource(src=>(
                  response.data.map(v=>({
                     idventa: v.idventa,
@@ -52,17 +57,26 @@ const ListaVentas = (props) => {
             ))
         })
 
+       
         setLoading(false)
     },[])
 
     const columns = [
-        {title: "Nro.", dataKey:"idventa"},
-        {title: "Fecha", dataKey:"fecha"},
-        {title: "Cliente", dataKey:"cliente"},
-        {title: "Vendedor", dataKey:"vendedor"},
-        {title: "Estado", dataKey:"estado"},
-        {title: "Monto", dataKey:"monto"},
-        {title: "Acciones", dataKey:"idventa", render: (_,{idventa})=>{
+        {title: "Nro.", dataIndex:"idventa"},
+        {title: "Fecha", dataIndex:"fecha"},
+        {title: "Cliente", dataIndex:"cliente"},
+        {title: "Vendedor", dataIndex:"vendedor"},
+        {title: "Estado", dataIndex:"estado", render:(_,{estado})=>{
+            switch(estado){
+                case "INGRESADO": return <Tag color="magenta">{estado}</Tag>
+                case "PENDIENTE": return <Tag color="geekblue">{estado}</Tag>
+                case "ENTREGADO": return <Tag color="volcano">{estado}</Tag>
+                case "ANULADO": return <Tag color="red">{estado}</Tag>
+                case "TERMINADO": return <Tag color="green">{estado}</Tag>
+            }
+        }},
+        {title: "Monto", dataIndex:"monto"},
+        {title: "Acciones", dataIndex:"idventa", render: (_,{idventa})=>{
             return <>
                 {buttons(idventa)}
             </>

@@ -36,6 +36,8 @@ const post = {
     obtener_stock_ventas: remote_base_url + "stock/obtener_stock_ventas/",
     obtener_cliente_dni: remote_base_url + "clientes/getPorDNI/",
     cargar_envio: remote_base_url+"envio/cargarEnvio/",
+    venta_estado_sucursal: remote_base_url+"ventas/venta_estado_sucursal/",
+    
     search:{
         filtro_stock: remote_base_url + "stock/filtro_stock/",
     },
