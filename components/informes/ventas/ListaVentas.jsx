@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import InformeVenta from "./Base";
 import { post } from "@/src/urls";
 import globals from "@/src/globals";
+import FiltroVentas from "@/components/forms/ventas/filtroVentas";
 const { Table, Button, Tag } = require("antd");
 /**
  * 
@@ -100,6 +101,9 @@ const ListaVentas = (props) => {
     ]
     return <>
         <h3>{typeof props.titulos === 'undefined' ? "Lista de Ventas": props.titulo}</h3>
+        <CustomModal openButtonText="Filtrar">
+            <FiltroVentas />
+        </CustomModal>
         <Table dataSource={dataSource} columns={columns} loading={loading} />
     </>
 }
