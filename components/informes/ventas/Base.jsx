@@ -39,13 +39,23 @@ const InformeVenta = (props) => {
         {
             case 1: return <VentaDirectaItems idventa={data.idventa} /> ;
             case 2: return <RecStockItems idventa={data.idventa} /> ;
-            case 3: return <LCLabItems idventa={data.idventa} /> ;
-            case 4: return  <LCStockItems idventa={data.idventa} />;
+            case 6: return <LCLabItems idventa={data.idventa} /> ;
+            case 3: return  <LCStockItems idventa={data.idventa} />;
             case 5: return  <MultifLabItems idventa={data.idventa} />;
-            case 6: return  <MonofLabItems idventa={data.idventa} />;
+            case 4: return  <MonofLabItems idventa={data.idventa} />;
         }
     }
-
+	const tipo_venta = (tipo) => {
+		switch(+tipo)
+		{
+			case 1: return "VENTA DIRECTA"; 
+			case 2: return "RECETA STOCK"; 
+			case 3: return "LENTES DE CONTACTO STOCK"; 
+			case 4: return "MONOFOCALES LABORATORIO"; 
+			case 5: return "MULTIFOCALES LABORATORIO"; 
+			case 6: return "LENTES DE CONTACTO LABORATORIO"; 
+		}
+	}
     return (
 		data === null ? <Spin /> :
         <>
@@ -80,7 +90,7 @@ const InformeVenta = (props) => {
 										</td>
 										<td style={{textAlign: 'center'}}>
 											{
-											 "TIPO DE VENTA"
+											 tipo_venta(data.tipo)
 											}
 											<br />
 											<Barcode value={data.idventa}  displayValue={false} width={2} height={6}/>
@@ -97,7 +107,6 @@ const InformeVenta = (props) => {
 							</table>
 						</td>
 					</tr>
-					
 					<tr>
 						<td>
 							<table style={{height: '21px', width:'100%'}} >

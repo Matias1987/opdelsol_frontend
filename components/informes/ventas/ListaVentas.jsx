@@ -44,7 +44,7 @@ const ListaVentas = (props) => {
         const url = post.venta_estado_sucursal;
 
         post_method(url, params,(response)=>{
-            alert(JSON.stringify(response))
+            //alert(JSON.stringify(response))
             setDataSource(src=>(
                  response.data.map(v=>({
                     idventa: v.idventa,
@@ -53,6 +53,7 @@ const ListaVentas = (props) => {
                     vendedor: v.vendedor,
                     estado: v.estado,
                     monto: v.monto,
+                    tipo: v.tipo,
                 }))
             ))
         })
@@ -61,8 +62,23 @@ const ListaVentas = (props) => {
         setLoading(false)
     },[])
 
+    const get_tipo = (tipo)=>{
+        switch(+tipo)
+        {
+            case 1: return "Vta. Dir."; 
+            case 2: return "Rec. Stock"; 
+            case 3: return "L.C. Stock"; 
+            case 4: return "Monof. Lab."; 
+            case 5: return "Multif. Lab."; 
+            case 6: return "L.C. Lab."; 
+        }
+    }
+
     const columns = [
         {title: "Nro.", dataIndex:"idventa"},
+        {title: "Tipo", dataIndex: "tipo", render:(_,{tipo})=>(
+            <span style={{fontSize:".75em", color:"blue"}}><b>{get_tipo(tipo)}</b></span>
+        ) },
         {title: "Fecha", dataIndex:"fecha"},
         {title: "Cliente", dataIndex:"cliente"},
         {title: "Vendedor", dataIndex:"vendedor"},
