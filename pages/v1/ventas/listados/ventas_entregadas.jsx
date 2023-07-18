@@ -3,7 +3,7 @@ import LayoutVentas from "@/components/layout/layout_ventas";
 
 export default function VentasEntregadas(){
     return (<>
-    <ListaVentas imprimir adelanto  titulo="Ventas Entregadas"/>
+    <ListaVentas imprimir cobrar  titulo="Ventas Entregadas"/>
     </>)
 }
 

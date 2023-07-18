@@ -8,6 +8,8 @@ const {  useState  } = React;;
  * @param onCancel function to be called on cancel action 
  * @param onOk function to be called on OK action 
  * @param openButtonText text for the button to show 
+ * @param okButtonProps button ok props
+ * @param okText
  * @returns 
  */
 export default function CustomModal(props){
@@ -41,7 +43,7 @@ export default function CustomModal(props){
       </Button>
       <Modal
         cancelButtonProps={{ style: { display: 'none' } }}
-        okButtonProps={{children:"CERRAR"}}
+        okButtonProps={(typeof props.okButtonProps === 'undefined') ? {children:"CERRAR"} : props.okButtonProps}
         
         width={"80%"}
         title={props.title}
@@ -50,7 +52,7 @@ export default function CustomModal(props){
           props?.onOk?.(); 
           setOpen(false)}}
         onCancel={handleCancel}
-        okText="CERRAR"
+        okText= {typeof props.okText === 'undefined' ? "CERRAR": props.okText}
         destroyOnClose={true}
       >
         {props.children}

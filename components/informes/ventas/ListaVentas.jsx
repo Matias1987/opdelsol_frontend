@@ -6,6 +6,7 @@ import InformeVenta from "./Base";
 import { post } from "@/src/urls";
 import globals from "@/src/globals";
 import FiltroVentas from "@/components/forms/ventas/filtroVentas";
+import CobroOperacion from "@/components/forms/caja/CobroForm";
 const { Table, Button, Tag } = require("antd");
 /**
  * 
@@ -27,9 +28,11 @@ const ListaVentas = (props) => {
 
     const buttons = (_idventa) => {
         return <>
-            {typeof props.ingreso !== 'undefined' ?  <>Cobrar</>:<></>}
-            {typeof props.entrega !== 'undefined' ?  <>Entregar Operacion</>:<></>}
-            {typeof props.adelanto !== 'undefined' ?  <><Button>Adelanto</Button></>:<></>}
+            {typeof props.cobrar !== 'undefined' ?  <>
+            <CustomModal openButtonText="Cobrar">
+                <CobroOperacion idventa={_idventa} tipo={"ingreso"} />
+            </CustomModal>
+            </>:<></>}
             {typeof props.imprimir !== 'undefined' ?  <CustomModal openButtonText={"Imprimir"}><ImprimirSobreVenta idventa={_idventa} /></CustomModal>:<></>}
             {typeof props.detalles !== 'undefined' ?  <CustomModal openButtonText={"Imprimir"}><InformeVenta idventa={_idventa} /></CustomModal>:<></>}
         </>
@@ -101,7 +104,7 @@ const ListaVentas = (props) => {
     ]
     return <>
         <h3>{typeof props.titulos === 'undefined' ? "Lista de Ventas": props.titulo}</h3>
-        <CustomModal openButtonText="Filtrar">
+        <CustomModal openButtonText="Filtrar" okText="Aplicar" okButtonProps={{children:"Aplicar"}}>
             <FiltroVentas />
         </CustomModal>
         <Table dataSource={dataSource} columns={columns} loading={loading} />

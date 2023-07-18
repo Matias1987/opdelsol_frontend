@@ -3,18 +3,21 @@ import { useEffect, useState } from "react";
 import CustomModal from "../CustomModal";
 import { DeleteFilled } from "@ant-design/icons";
 
+/**
+ * 
+ * @param total total ammount (required) 
+ * @returns 
+ */
 export default function ModoPago(props){
-    const [saldo, setSaldo] = useState(0)
+    //const [saldo, setSaldo] = useState(0)
     useEffect(()=>{
-
-        //alert("total vta " + props.total)
-        //alert("total mp " +  modoPago.total)
-        /*
-        setSaldo((s)=>{
-            const t = typeof props === 'undefined' ? 0 : props.total;
-            return t - modoPago.total
-        })*/
-    })
+        if(typeof props === 'undefined'){
+            alert("props undefined")
+        }
+        if(typeof props.total === 'undefined'){
+            alert("total undefined")
+        }
+    },[])
     const [modoPago, setModoPago] = useState({
         efectivo_monto: 0,
         tarjeta_monto: 0,
@@ -39,13 +42,7 @@ export default function ModoPago(props){
                         parseFloat(_mp.mutual_monto||0)+
                         parseFloat(_mp.efectivo_monto||0);
 
-            props?.callback(_mp);
-
-            /*setSaldo((s)=>{
-                const t = typeof props === 'undefined' ? 0 : props.total;
-                return t - _mp.total
-            })*/
-
+            props?.callback?.(_mp);
             return _mp;
         })
     }
@@ -56,40 +53,39 @@ export default function ModoPago(props){
         <>
             <Row>
                 <Col span={8} >
-                    <Input  prefix="Monto Efectivo: " onChange={(e)=>{onChange("efectivo_monto", e.target.value)}}></Input>
+                    <Input  prefix="Efectivo: " onChange={(e)=>{onChange("efectivo_monto", e.target.value)}}></Input>
                 </Col>
-                
             </Row>
             <Row>
-              
-                <Col span={8}><Input   prefix="Monto Tarjeta: " onChange={(e)=>{onChange("tarjeta_monto", e.target.value)}}></Input></Col>
+                <Col span={8}><Input   prefix="Tarjeta: " onChange={(e)=>{onChange("tarjeta_monto", e.target.value)}}></Input></Col>
                 <Col span={10}><Input   prefix="Tarjeta: " onChange={(e)=>{onChange("tarjeta_tarjeta", e.target.value)}}></Input></Col>
                 
             </Row>
             <Row>
-                
-                <Col span={10}><Input  prefix="Monto Cta. Cte.: " onChange={(e)=>{onChange("ctacte_monto", e.target.value)}}></Input></Col>
+                <Col span={10}><Input  prefix="Cta. Cte.: " onChange={(e)=>{onChange("ctacte_monto", e.target.value)}}></Input></Col>
                 <Col span={4}><Input prefix="Nro Cuotas: " onChange={(e)=>{onChange("ctacte_cuotas", e.target.value)}}></Input></Col>
                 <Col span={8}><Input  prefix="Valor Cuota: " onChange={(e)=>{onChange("ctacte_monto_cuotas", e.target.value)}}></Input></Col>
-                
             </Row>
             <Row>
                 <Col span={8}>
-                    <Input  prefix="Monto Cheque: " onChange={(e)=>{onChange("cheque_monto", e.target.value)}}></Input>
+                    <Input  prefix="Cheque: " onChange={(e)=>{onChange("cheque_monto", e.target.value)}}></Input>
                 </Col>
             </Row>
             <Row>
                 <Col span={8}>
-                    <Input  prefix="Monto Mutual: " onChange={(e)=>{onChange("mutual_monto", e.target.value)}}></Input>
+                    <Input  prefix="Mutual: " onChange={(e)=>{onChange("mutual_monto", e.target.value)}}></Input>
                     
                 </Col>
             </Row>
             <Row>
-                <Col span={8}>
-                    <Input readOnly prefix="Total"  bordered={false} style={{color:"red"}} value={modoPago.total} />
+                <Col span={6}>
+                    <Input readOnly prefix="Total a Pagar"  bordered={false} style={{color:"red"}} value={props.total} />
                 </Col>
-                <Col span={8}>
-                    <Input readOnly prefix="Saldo"  bordered={false} style={{color:"red"}} value={ props.total-modoPago.total} />
+                <Col span={9}>
+                    <Input readOnly prefix="Pago Total"  bordered={false} style={{color:"red"}} value={modoPago.total} />
+                </Col>
+                <Col span={9}>
+                    <Input readOnly prefix="Saldo"  bordered={false} style={{color:"red"}} value={  (typeof props.total === 'undefined' ? 0 : props.total)-modoPago.total} />
                 </Col>
             </Row>
         </>
