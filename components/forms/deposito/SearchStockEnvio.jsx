@@ -4,7 +4,13 @@ import { get } from "@/src/urls";
 import globals from "@/src/globals";
 import { PlusCircleFilled } from "@ant-design/icons";
 import { regex_get_id_if_match } from "@/src/helpers/barcode_helper";
-
+/**
+ * 
+ * @param ids array of id to filter
+ * @param idSucursalDestino 
+ * @param onParseResponse
+ * @param callback
+ */
 const SearchStockEnvio = (props) => {
     const id_sucursal = globals.obtenerSucursal();
     const search_url = get.buscar_stock_envios + id_sucursal+ "/";

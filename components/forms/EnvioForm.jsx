@@ -223,6 +223,10 @@ const EnvioForm = (props) => {
                 <h3>Agregar C&oacute;digos</h3>
                 <SearchStockEnvio 
                 idSucursalDestino={sucursalDestId}
+                ids={
+                    globals.obtenerIDsFamilias()
+
+                }
                 callback={(id)=>{load_details_for_selected_id(id)}} 
                 />
             </Col>

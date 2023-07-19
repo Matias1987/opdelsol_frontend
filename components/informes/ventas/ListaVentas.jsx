@@ -24,6 +24,9 @@ const { Table, Button, Tag } = require("antd");
 const ListaVentas = (props) => {
     const [dataSource, setDataSource] = useState([])
     const [loading, setLoading] = useState(true)
+    const [filtros, setFiltros] = useState({})
+    const [reload, setReload] = useState(true)
+
     const add = (obj,value,key) => typeof value === 'undefined' ? obj : {...obj, [key]:value}
 
     const buttons = (_idventa) => {
@@ -37,14 +40,26 @@ const ListaVentas = (props) => {
             {typeof props.detalles !== 'undefined' ?  <CustomModal openButtonText={"Imprimir"}><InformeVenta idventa={_idventa} /></CustomModal>:<></>}
         </>
     }
+
+    const onAplicarFiltros = () => {
+        alert(JSON.stringify(filtros))
+        setReload(reload=>!reload)
+    }
     
     useEffect(()=>{
 
         var params = {idsucursal: globals.obtenerSucursal()}
         params = add(params, props?.estado, 'estado')
         params = add(params, props?.idCliente, 'idCliente')
-        params = add(params, props?.idVendedor, 'idVendedor')
+        //params = add(params, props?.idVendedor, 'idVendedor')
         params = add(params, props?.fecha, 'fecha')
+
+        //filtros
+        params = add(params, filtros.idcliente, 'idcliente')
+        params = add(params, filtros.idmedico, 'idmedico')
+        params = add(params, filtros.id, 'id')
+        params = add(params, filtros.iddestinatario, 'iddestinatario')
+
         const url = post.venta_estado_sucursal;
 
         post_method(url, params,(response)=>{
@@ -64,7 +79,7 @@ const ListaVentas = (props) => {
 
        
         setLoading(false)
-    },[])
+    },[reload])
 
     const get_tipo = (tipo)=>{
         switch(+tipo)
@@ -104,8 +119,8 @@ const ListaVentas = (props) => {
     ]
     return <>
         <h3>{typeof props.titulos === 'undefined' ? "Lista de Ventas": props.titulo}</h3>
-        <CustomModal openButtonText="Filtrar" okText="Aplicar" okButtonProps={{children:"Aplicar"}}>
-            <FiltroVentas />
+        <CustomModal openButtonText="Filtrar" okText="Aplicar" okButtonProps={{children:"Aplicar"}} onOk={onAplicarFiltros}>
+            <FiltroVentas callback={f=>{setFiltros(_f=>f)}} />
         </CustomModal>
         <Table dataSource={dataSource} columns={columns} loading={loading} />
     </>
