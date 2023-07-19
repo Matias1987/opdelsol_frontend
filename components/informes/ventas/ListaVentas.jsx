@@ -15,11 +15,10 @@ const { Table, Button, Tag } = require("antd");
  * @param idVendedor id del vendedor
  * @param fecha fecha de creacion
  * @param titulo titulo de la ventana
- * @param ingreso if the user can charge and change to pendiente
- * @param entrega if entrega process
- * @param adelanto user can charge without modifying the work status 
+ * @param accion ingreso, entrega, adelanto 
  * @param imprimir if imprimir available
  * @param detalles the user can view the operation but can't print
+ * @param cobrar
  */
 const ListaVentas = (props) => {
     const [dataSource, setDataSource] = useState([])
@@ -33,7 +32,7 @@ const ListaVentas = (props) => {
         return <>
             {typeof props.cobrar !== 'undefined' ?  <>
             <CustomModal openButtonText="Cobrar">
-                <CobroOperacion idventa={_idventa} tipo={"ingreso"} />
+                <CobroOperacion idventa={_idventa} tipo={props.accion} />
             </CustomModal>
             </>:<></>}
             {typeof props.imprimir !== 'undefined' ?  <CustomModal openButtonText={"Imprimir"}><ImprimirSobreVenta idventa={_idventa} /></CustomModal>:<></>}
@@ -118,10 +117,11 @@ const ListaVentas = (props) => {
         }},
     ]
     return <>
-        <h3>{typeof props.titulos === 'undefined' ? "Lista de Ventas": props.titulo}</h3>
+        <h3>{typeof props.titulo === 'undefined' ? "Lista de Ventas": props.titulo}</h3>
         <CustomModal openButtonText="Filtrar" okText="Aplicar" okButtonProps={{children:"Aplicar"}} onOk={onAplicarFiltros}>
             <FiltroVentas callback={f=>{setFiltros(_f=>f)}} />
         </CustomModal>
+        {JSON.stringify(filtros)}
         <Table dataSource={dataSource} columns={columns} loading={loading} />
     </>
 }

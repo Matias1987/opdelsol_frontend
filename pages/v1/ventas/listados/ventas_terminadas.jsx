@@ -3,7 +3,7 @@ import LayoutVentas from "@/components/layout/layout_ventas";
 
 export default function VentasTerminadas(){
     return (<>
-    <ListaVentas imprimir titulo="Ventas Terminadas"  />
+    <ListaVentas imprimir cobrar accion="entrega" titulo="Ventas Terminadas"  />
     </>)
 }
 

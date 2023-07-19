@@ -1,4 +1,4 @@
-import { Button, Col, Form, Row } from "antd";
+import { Button, Col, Divider, Form, Row, Switch } from "antd";
 import { useEffect, useState } from "react";
 import ModoPago from "../ModoPago";
 
@@ -13,6 +13,7 @@ import ModoPago from "../ModoPago";
 export default function CobroOperacion(props){
     const [mp, setMP] = useState(null)
     const [mustSave, setMustSave] = useState(false)
+    const [entrega, setEntrega] = useState(true)
 
     useEffect(()=>{
         if(mustSave){
@@ -44,6 +45,15 @@ export default function CobroOperacion(props){
         setMustSave(true)
     }
 
+    const estado_switch = _ => props.tipo == 'ingreso' ? <Row>
+        <Col span={24}>
+            <Divider />
+            <Switch style={{backgroundColor: entrega? 'green' : 'red'}} checkedChildren="Entrega" unCheckedChildren="Depósito" checked={entrega} onChange={(e)=>{setEntrega(!entrega)}} />
+        </Col>
+    </Row> : 
+    <></>
+
+
     return (<>
                 <h3>{(typeof props.title === 'undefined' ? 'Cobro' : props.title)}</h3>
                 <Row>
@@ -51,9 +61,11 @@ export default function CobroOperacion(props){
                         <ModoPago callback={onMPChange} total={5000} />   
                     </Col>
                 </Row>
+                {estado_switch()}
                 <Row>
                     <Col span={24}>
-                        <Button type="primary" onClick={onCobrarClick}>Cobrar</Button>
+                        <Divider />
+                        <Button danger onClick={onCobrarClick}>Cobrar</Button>
                     </Col>
                 </Row>
             </>)}

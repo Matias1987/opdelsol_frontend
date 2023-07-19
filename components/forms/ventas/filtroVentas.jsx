@@ -40,23 +40,28 @@ const FiltroVentas =(props) => {
     }
 
     return <>
-        <Row>
-            <Col span={12}>
-                Nro.:
+        <Row style={{padding: ".65em"}}>
+            <Col span={24}>
+                Nro.:&nbsp;&nbsp;
                 <Input onChange={onIDChange} />
             </Col>
-            <Col span={12}>
-                Cliente:
+            
+        </Row>
+        <Row style={{padding: ".65em"}}>
+            <Col span={24}>
+                Cliente:&nbsp;&nbsp;
                 <SelectCliente callback={onSelectCliente} />
             </Col>
         </Row>
-        <Row>
-            <Col span={12}>
-                M&eacute;dico:
+        <Row style={{padding: ".65em"}}>
+            <Col span={24}>
+                M&eacute;dico:&nbsp;&nbsp;
                 <SelectMedico callback={onSelectMedico} />
             </Col>
-            <Col span={12}>
-                Destinatario:
+        </Row>
+        <Row style={{padding: ".65em"}}>
+            <Col span={24}>
+                Destinatario:&nbsp;&nbsp;
                 <SelectCliente callback={onSelectDestinatario} />
             </Col>
         </Row>
