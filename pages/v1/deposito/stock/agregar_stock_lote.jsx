@@ -51,46 +51,95 @@ const AgregarStockLote = (props) => {
     } 
     
     const agregarRow = (values) => {
-        const found = typeof tableData.find(e=>e.codigo == values.codigo) !== 'undefined';
-        //alert("found: " + found)
-        if(found) {
-            //update
-            /*for(let i=0;i<tableData.length;i++){
-                if(tableData[i].codigo == values.codigo){
-                    alert("changing value")
-                    tableData[i].cantidad = values.cantidad;
-                    tableData[i].costo = values.costo;
-                    break;
+
+        const pattern1 = /^([A-Z]+)\[([\-0-9\.]+)\s([0-9\.]+)\s([0-9\.]+)\]([A-Z]+)$/gm
+        const pattern2 = /^([A-Z]+)\[([\-0-9\.]+)\s([0-9\.]+)\s([0-9\.]+)\]([A-Z]+)\[([\-0-9\.]+)\s([0-9\.]+)\s([0-9\.]+)\]([A-Z]+)$/gm
+
+        var codigos = []
+
+        const res1 = pattern1.exec(values.codigo)
+        if(res1.length!=null){
+            
+            var start = parseFloat(res1[2])
+            
+            var step = parseFloat(res1[4])
+            
+            var end = parseFloat(res1[3])
+            
+            for(let i=start;i<=end; i+=step ){
+                codigos.push({
+                    codigo: `${res1[1]}${i}${res1[5]}`,
+                    descripcion: `${res1[1]}${i}${res1[5]}`,
+                })
                 }
-            }
-            setTableData(tableData);*/
-
-            setTableData(
-                tableData.map(x=>(
-                    x.codigo == values.codigo ? {...x,
-                        cantidad: values.cantidad, 
-                        costo: values.costo,
-                        genero: values.genero, 
-                        edad: values.edad,
-                        descripcion: values.descripcion,
-                        precio: Math.round((multiplier * values.costo) / 100) * 100,
-                    } : x
-                ))
-            )
-
+            
         }
         else{
-            setTableData([...tableData,{
-                codigo: values.codigo,
-                cantidad: values.cantidad,
-                costo: values.costo, 
-                descripcion: values.descripcion,
-                status: "PENDING",
-                genero: values.genero,
-                edad: values.edad,
-                precio: Math.round((multiplier * values.costo) / 100) * 100, 
-            }])
+            const res = pattern2.exec(example)
+            if(res.length!=null){
+                
+                var start = parseFloat(res[2])
+                
+                var step = parseFloat(res[4])
+                
+                var end = parseFloat(res[3])
+                
+                var start2 = parseFloat(res[6])
+                
+                var step2 = parseFloat(res[7])
+                
+                var end2 = parseFloat(res[8])
+                
+                for(let i=start;i<=end; i+=step ){
+                    for(let j=start2;j<=end2; j+=step2 ){
+                        codigos.push({
+                            codigo: `${res[1]}${i}${res[5]}${j}${res[9]}`,
+                            descripcion: `${res[1]}${i}${res[5]}${j}${res[9]}`,
+                        })
+                    }	
+                }
+            }
+            else{
+                codigos.push({
+                    codigo: values.codigo,
+                    descripcion: values.descripcion,
+                })
+            }
         }
+
+        codigos.forEach((cod)=>{
+            const found = typeof tableData.find(e=>e.codigo == cod.codigo) !== 'undefined';
+            //alert("found: " + found)
+            if(found) {
+                setTableData(
+                    tableData.map(x=>(
+                        x.codigo == cod.codigo ? {...x,
+                            cantidad: values.cantidad, 
+                            costo: values.costo,
+                            genero: values.genero, 
+                            edad: values.edad,
+                            descripcion: cod.descripcion,
+                            precio: Math.round((multiplier * values.costo) / 100) * 100,
+                        } : x
+                    ))
+                )
+    
+            }
+            else{
+                setTableData([...tableData,{
+                    codigo: cod.codigo,
+                    cantidad: values.cantidad,
+                    costo: values.costo, 
+                    descripcion: cod.descripcion,
+                    status: "PENDING",
+                    genero: values.genero,
+                    edad: values.edad,
+                    precio: Math.round((multiplier * values.costo) / 100) * 100, 
+                }])
+            }
+        })
+
+        
 
         
     }
