@@ -99,7 +99,7 @@ useEffect(()=>{
             <Form.Item rules={[{required:true}]} label={"Costo"} name={"costo"} style={{width: "200px"}}>
                 <Input type="number" step={".01"} />
             </Form.Item>
-            <Form.Item rules={[{required:true}]} label={"Edad"} name={"edad"} style={{width: "200px"}}>
+            <Form.Item  label={"Edad"} name={"edad"} style={{width: "200px"}}>
             <Select 
                     onChange={
                         onChangeEdad
@@ -122,7 +122,7 @@ useEffect(()=>{
                         ]
                     } />
             </Form.Item>
-            <Form.Item rules={[{required:true}]} label={"Género"} name={"genero"} style={{width: "200px"}}>
+            <Form.Item  label={"Género"} name={"genero"} style={{width: "200px"}}>
                 <Select 
 
                 onChange={

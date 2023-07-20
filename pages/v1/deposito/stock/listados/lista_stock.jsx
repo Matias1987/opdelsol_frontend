@@ -120,8 +120,8 @@ export default function ListaStock(){
             </>},
         {title: 'Descripción',dataIndex: 'descripcion',key: 'descripcion'},
         
-        {title: 'Edad',dataIndex: 'edad',key: 'edad'},
-        {title: 'Género',dataIndex: 'genero',key: 'genero'},
+        {title: 'Edad',dataIndex: 'edad',key: 'edad', hidden: true},
+        {title: 'Género',dataIndex: 'genero',key: 'genero', hidden: true},
         {title: 'Precio',dataIndex: 'precio',key: 'precio'},
         {title: 'Cantidad',dataIndex: 'cantidad',key: 'cantidad'},
         {
@@ -318,7 +318,6 @@ export default function ListaStock(){
                 </Col>
             </Row>
             </Form>
-
             <Form form={form1} onFinish={onFinish}>
                 <Row style={{paddingTop:"1em", paddingLeft:"1em"}}>
                     
@@ -377,7 +376,7 @@ export default function ListaStock(){
             </Row>
         <Row>
             <Col span={24}>
-            <Table columns={columns} dataSource={data} loading={loading} />
+            <Table columns={columns.filter(item=>!item.hidden)} dataSource={data} loading={loading} />
             </Col>
         </Row>
         <Row>

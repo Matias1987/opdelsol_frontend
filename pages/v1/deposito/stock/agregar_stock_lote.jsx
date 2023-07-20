@@ -57,33 +57,37 @@ const AgregarStockLote = (props) => {
 
         var codigos = []
 
+        //alert(values.codigo)
+
         const res1 = pattern1.exec(values.codigo)
-        if(res1.length!=null){
+        if(res1!=null){
             
             var start = parseFloat(res1[2])
             
             var step = parseFloat(res1[4])
             
             var end = parseFloat(res1[3])
-            
+            //alert("pattern " + res1[2] + "  " + end + " " + step)
             for(let i=start;i<=end; i+=step ){
+                
                 codigos.push({
                     codigo: `${res1[1]}${i.toFixed(2)}${res1[5]}`,
                     descripcion: `${res1[1]}${i.toFixed(2)}${res1[5]}`,
+                    
                 })
                 }
             
         }
         else{
-            const res = pattern2.exec(example)
-            if(res.length!=null){
+            const res = pattern2.exec(values.codigo)
+            if(res!=null){
                 
                 var start = parseFloat(res[2])
                 var step = parseFloat(res[4])
                 var end = parseFloat(res[3])
                 var start2 = parseFloat(res[6])
-                var step2 = parseFloat(res[7])
-                var end2 = parseFloat(res[8])
+                var step2 = parseFloat(res[8])
+                var end2 = parseFloat(res[7])
                 
                 for(let i=start;i<=end; i+=step ){
                     for(let j=start2;j<=end2; j+=step2 ){
@@ -95,17 +99,36 @@ const AgregarStockLote = (props) => {
                 }
             }
             else{
+                //alert("common code")
                 codigos.push({
                     codigo: values.codigo,
                     descripcion: values.descripcion,
                 })
             }
         }
-
+        
+        const __data = []
+        
         codigos.forEach((cod)=>{
-            const found = typeof tableData.find(e=>e.codigo == cod.codigo) !== 'undefined';
-            //alert("found: " + found)
-            if(found) {
+            //
+            __data.push({
+                codigo: cod.codigo,
+                cantidad: values.cantidad,
+                costo: values.costo, 
+                descripcion: cod.descripcion,
+                status: "PENDING",
+                genero: values.genero,
+                edad: values.edad,
+                precio: Math.round((multiplier * values.costo) / 100) * 100, 
+            })
+        })
+        
+        setTableData(td=>{
+            const _data = td.concat(__data)
+            //alert(JSON.stringify(_data))
+            return _data
+        })
+            /*if(found) {
                 setTableData(
                     tableData.map(x=>(
                         x.codigo == cod.codigo ? {...x,
@@ -131,8 +154,8 @@ const AgregarStockLote = (props) => {
                     edad: values.edad,
                     precio: Math.round((multiplier * values.costo) / 100) * 100, 
                 }])
-            }
-        })
+            }*/
+        
 
         
 
@@ -416,7 +439,7 @@ const AgregarStockLote = (props) => {
                         <PopUpAgregarStockLoteForm title={"Agregar"} edit={false} values={null} callback={(_data)=>{
                                     agregarRow(_data)
                                 }} />
-                        <Table dataSource={tableData} columns={columns} />
+                        <Table dataSource={tableData} columns={columns} pagination={false} />
                         </>
                         }
                     </Form.Item>
