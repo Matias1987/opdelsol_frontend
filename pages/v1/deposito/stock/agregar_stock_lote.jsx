@@ -68,8 +68,8 @@ const AgregarStockLote = (props) => {
             
             for(let i=start;i<=end; i+=step ){
                 codigos.push({
-                    codigo: `${res1[1]}${i}${res1[5]}`,
-                    descripcion: `${res1[1]}${i}${res1[5]}`,
+                    codigo: `${res1[1]}${i.toFixed(2)}${res1[5]}`,
+                    descripcion: `${res1[1]}${i.toFixed(2)}${res1[5]}`,
                 })
                 }
             
@@ -79,22 +79,17 @@ const AgregarStockLote = (props) => {
             if(res.length!=null){
                 
                 var start = parseFloat(res[2])
-                
                 var step = parseFloat(res[4])
-                
                 var end = parseFloat(res[3])
-                
                 var start2 = parseFloat(res[6])
-                
                 var step2 = parseFloat(res[7])
-                
                 var end2 = parseFloat(res[8])
                 
                 for(let i=start;i<=end; i+=step ){
                     for(let j=start2;j<=end2; j+=step2 ){
                         codigos.push({
-                            codigo: `${res[1]}${i}${res[5]}${j}${res[9]}`,
-                            descripcion: `${res[1]}${i}${res[5]}${j}${res[9]}`,
+                            codigo: `${res[1]}${i.toFixed(2)}${res[5]}${j.toFixed(2)}${res[9]}`,
+                            descripcion: `${res[1]}${i.toFixed(2)}${res[5]}${j.toFixed(2)}${res[9]}`,
                         })
                     }	
                 }
