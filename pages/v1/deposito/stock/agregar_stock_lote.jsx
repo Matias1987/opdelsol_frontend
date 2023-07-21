@@ -39,7 +39,6 @@ const AgregarStockLote = (props) => {
         if(id<0){
             return;
         }
-        //alert(subgrupoDetailsURL + id)
         fetch(subgrupoDetailsURL + id)
         .then(response => response.json())
         .then((response)=>{
@@ -48,34 +47,27 @@ const AgregarStockLote = (props) => {
         })
 
     } 
-    
-    const agregarRow = (values) => {
 
-        const pattern1 = /^([A-Z]+)\[([\-0-9\.]+)\s([0-9\.]+)\s([0-9\.]+)\]([A-Z]+)$/gm
-        const pattern2 = /^([A-Z]+)\[([\-0-9\.]+)\s([0-9\.]+)\s([0-9\.]+)\]([A-Z]+)\[([\-0-9\.]+)\s([0-9\.]+)\s([0-9\.]+)\]([A-Z]+)$/gm
-
+    const procesar_codigos = (values) => 
+    {
         var codigos = []
 
-        //alert(values.codigo)
+        const pattern1 = /^([A-Z\s]+)\[([\-0-9\.]+)\s([0-9\.]+)\s([0-9\.]+)\]([A-Z\s]+)$/gm
+
+        const pattern2 = /^([A-Z\s]+)\[([\-0-9\.]+)\s([0-9\.]+)\s([0-9\.]+)\]([A-Z\s]+)\[([\-0-9\.]+)\s([0-9\.]+)\s([0-9\.]+)\]([A-Z\s]+)$/gm
 
         const res1 = pattern1.exec(values.codigo)
+
         if(res1!=null){
-            
             var start = parseFloat(res1[2])
-            
             var step = parseFloat(res1[4])
-            
             var end = parseFloat(res1[3])
-            //alert("pattern " + res1[2] + "  " + end + " " + step)
             for(let i=start;i<=end; i+=step ){
-                
                 codigos.push({
                     codigo: `${res1[1]}${i.toFixed(2)}${res1[5]}`,
-                    descripcion: `${res1[1]}${i.toFixed(2)}${res1[5]}`,
-                    
+                    descripcion: `${values.p1}${i.toFixed(2)}${values.p2}`,
                 })
-                }
-            
+            }
         }
         else{
             const res = pattern2.exec(values.codigo)
@@ -92,41 +84,77 @@ const AgregarStockLote = (props) => {
                     for(let j=start2;j<=end2; j+=step2 ){
                         codigos.push({
                             codigo: `${res[1]}${i.toFixed(2)}${res[5]}${j.toFixed(2)}${res[9]}`,
-                            descripcion: `${res[1]}${i.toFixed(2)}${res[5]}${j.toFixed(2)}${res[9]}`,
+                            descripcion: `${values.p1}${i.toFixed(2)}${values.p3}${j.toFixed(2)}${values.p2}`,
                         })
                     }	
                 }
             }
-            else{
-                //alert("common code")
-                codigos.push({
-                    codigo: values.codigo,
-                    descripcion: values.descripcion,
-                })
+            else
+            {
+                return null
             }
         }
+        return codigos;
+    }
+    
+    const agregarRow = (values) => 
+    {
+        var codigos = procesar_codigos(values)
+
+        if(codigos == null){
+            const found = tableData.find(r=>r.codigo == values.codigo)
+            if(found){
+                setTableData(
+                    tableData.map(x=>(
+                        x.codigo == values.codigo ? {...x,
+                            cantidad: values.cantidad, 
+                            costo: values.costo,
+                            genero: values.genero, 
+                            edad: values.edad,
+                            descripcion: values.descripcion,
+                            precio: Math.round((multiplier * values.costo) / 100) * 100,
+                        } : x
+                    ))
+                )
+            }
+            else{
+                setTableData([...tableData,{
+                    codigo: cod.codigo,
+                    cantidad: values.cantidad,
+                    costo: values.costo, 
+                    descripcion: cod.descripcion,
+                    status: "PENDING",
+                    genero: values.genero,
+                    edad: values.edad,
+                    precio: Math.round((multiplier * values.costo) / 100) * 100, 
+                }])
+            }
+        }
+        else{
+            const __data = []
         
-        const __data = []
-        
-        codigos.forEach((cod)=>{
-            //
-            __data.push({
-                codigo: cod.codigo,
-                cantidad: values.cantidad,
-                costo: values.costo, 
-                descripcion: cod.descripcion,
-                status: "PENDING",
-                genero: values.genero,
-                edad: values.edad,
-                precio: Math.round((multiplier * values.costo) / 100) * 100, 
+            codigos.forEach((cod)=>{
+                //
+                __data.push({
+                    codigo: cod.codigo,
+                    cantidad: values.cantidad,
+                    costo: values.costo, 
+                    descripcion: cod.descripcion,
+                    status: "PENDING",
+                    genero: values.genero,
+                    edad: values.edad,
+                    precio: Math.round((multiplier * values.costo) / 100) * 100, 
+                })
             })
-        })
+            
+            setTableData(td=>{
+                const _data = td.concat(__data)
+                return _data
+            })
+        }
+    }
+
         
-        setTableData(td=>{
-            const _data = td.concat(__data)
-            //alert(JSON.stringify(_data))
-            return _data
-        })
             /*if(found) {
                 setTableData(
                     tableData.map(x=>(
@@ -159,7 +187,7 @@ const AgregarStockLote = (props) => {
         
 
         
-    }
+    
 
     const remove_row = (key) => {
         setTableData(

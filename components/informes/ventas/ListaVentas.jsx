@@ -28,11 +28,11 @@ const ListaVentas = (props) => {
 
     const add = (obj,value,key) => typeof value === 'undefined' ? obj : {...obj, [key]:value}
 
-    const buttons = (_idventa) => {
+    const buttons = (_idventa, _idcliente) => {
         return <>
             {typeof props.cobrar !== 'undefined' ?  <>
             <CustomModal openButtonText="Cobrar">
-                <CobroOperacion idventa={_idventa} tipo={props.accion} />
+                <CobroOperacion idventa={_idventa} idcliente={_idcliente} tipo={props.accion} />
             </CustomModal>
             </>:<></>}
             {typeof props.imprimir !== 'undefined' ?  <CustomModal openButtonText={"Imprimir"}><ImprimirSobreVenta idventa={_idventa} /></CustomModal>:<></>}
@@ -66,6 +66,7 @@ const ListaVentas = (props) => {
             setDataSource(src=>(
                  response.data.map(v=>({
                     idventa: v.idventa,
+                    idcliente: v.cliente_idcliente,
                     fecha: v.fecha,
                     cliente: v.cliente,
                     vendedor: v.vendedor,
@@ -110,17 +111,19 @@ const ListaVentas = (props) => {
             }
         }},
         {title: "Monto", dataIndex:"monto"},
-        {title: "Acciones", dataIndex:"idventa", render: (_,{idventa})=>{
+        {title: "Acciones", dataIndex:"idventa", render: (_,{idventa,idcliente})=>{
             return <>
-                {buttons(idventa)}
+                {buttons(idventa,idcliente)}
             </>
         }},
     ]
+
+    
+
     return <>
+
         <h3>{typeof props.titulo === 'undefined' ? "Lista de Ventas": props.titulo}</h3>
-        <CustomModal openButtonText="Filtrar" okText="Aplicar" okButtonProps={{children:"Aplicar"}} onOk={onAplicarFiltros}>
-            <FiltroVentas callback={f=>{setFiltros(_f=>f)}} />
-        </CustomModal>
+        <FiltroVentas callback={f=>{setFiltros(_f=>f)}} />
         {JSON.stringify(filtros)}
         <Table dataSource={dataSource} columns={columns} loading={loading} />
     </>

@@ -1,4 +1,4 @@
-import { Col, Input, Row } from "antd"
+import { Button, Col, Input, Modal, Row } from "antd"
 
 const { useState } = require("react")
 const { default: SelectCliente } = require("./SelectCliente")
@@ -6,11 +6,15 @@ const { default: SelectMedico } = require("./SelectMedico")
 
 const FiltroVentas =(props) => {
     const [filtros,setFiltros] = useState({})
+    const [open, setOpen] = useState(false);
+
+
+    const showModal = () => {setOpen(true);}
 
     const onSelectCliente = (id) => {
         setFiltros(_=>{
             const _f = {...filtros,idcliente:id}
-            props?.callback?.(_f)
+            //props?.callback?.(_f)
             return _f
         })
     }
@@ -18,7 +22,7 @@ const FiltroVentas =(props) => {
     const onSelectMedico = (id) => {
         setFiltros(_=>{
             const _f = {...filtros,idmedico:id}
-            props?.callback?.(_f)
+            //props?.callback?.(_f)
             return _f
         })
     }
@@ -26,7 +30,7 @@ const FiltroVentas =(props) => {
     const onSelectDestinatario = (id) => {
         setFiltros(_=>{
             const _f = {...filtros,iddestinatario:id}
-            props?.callback?.(_f)
+            //props?.callback?.(_f)
             return _f
         })
     }
@@ -34,12 +38,38 @@ const FiltroVentas =(props) => {
     const onIDChange = (e) => {
         setFiltros(_=>{
             const _f = {...filtros,id:e.target.value}
-            props?.callback?.(_f)
+            //props?.callback?.(_f)
             return _f
         })
     }
 
+    const handleCancel = () => {
+        console.log('Clicked cancel button');
+        setOpen(false);
+      };
+
+
     return <>
+    <Button type="primary" ghost  size="small"  onClick={showModal}>
+        {"Filtros"}
+      </Button>
+      <Modal
+        cancelButtonProps={{ style: { display: 'none' } }}
+        okButtonProps={{children:"CERRAR"}}
+        
+        width={"80%"}
+        title={"Filtros"}
+        open={open}
+        onOk={()=>{ 
+          props?.callback?.(filtros)
+          setOpen(false)}
+        }
+        onCancel={handleCancel}
+        okText= {"Aplicar"}
+        destroyOnClose={true}
+      >
+
+      
         <Row style={{padding: ".65em"}}>
             <Col span={24}>
                 Nro.:&nbsp;&nbsp;
@@ -65,6 +95,7 @@ const FiltroVentas =(props) => {
                 <SelectCliente callback={onSelectDestinatario} />
             </Col>
         </Row>
+        </Modal>
     </>
 }
 
