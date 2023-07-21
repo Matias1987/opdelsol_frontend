@@ -3,7 +3,6 @@ import SubGrupoForm from "@/components/forms/SubGrupoForm";
 import globals from "@/src/globals";
 import { post_method } from "@/src/helpers/post_helper";
 import { get, post, public_urls } from "@/src/urls";
-import { render } from "react-dom";
 
 const { default: FacturaSelect } = require("@/components/FacturaSelect");
 const { default: SubGroupSelect } = require("@/components/SubGroupSelect");

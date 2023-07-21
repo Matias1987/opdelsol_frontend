@@ -126,6 +126,7 @@ const get = {
 
     cliente_por_id: remote_base_url + "clientes/",
     lista_clientes: remote_base_url + "clientes/",
+    operaciones_cliente: remote_base_url + "clientes/operaciones/",
     buscar_cliente: remote_base_url + "clientes/buscar/",
 
     lista_mutuales: remote_base_url + "mutuales/",
