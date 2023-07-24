@@ -7,7 +7,7 @@ import { post } from "@/src/urls";
 import globals from "@/src/globals";
 import FiltroVentas from "@/components/forms/ventas/filtroVentas";
 import CobroOperacion from "@/components/forms/caja/CobroForm";
-const { Table, Button, Tag } = require("antd");
+const { Table, Button, Tag, Alert } = require("antd");
 /**
  * 
  * @param estado INGRESADO, PENDIENTE, TERMINADO, ENTREGADO, ANULADO... 
@@ -52,7 +52,7 @@ const ListaVentas = (props) => {
         params = add(params, props?.idCliente, 'idCliente')
         //params = add(params, props?.idVendedor, 'idVendedor')
         params = add(params, props?.fecha, 'fecha')
-
+        alert(" FILTROS:  "+JSON.stringify(filtros))
         //filtros
         params = add(params, filtros.idcliente, 'idcliente')
         params = add(params, filtros.idmedico, 'idmedico')
@@ -60,9 +60,9 @@ const ListaVentas = (props) => {
         params = add(params, filtros.iddestinatario, 'iddestinatario')
 
         const url = post.venta_estado_sucursal;
-
+        alert("PARAMS: " + JSON.stringify(params))
         post_method(url, params,(response)=>{
-            //alert(JSON.stringify(response))
+            alert("respuestaaa " + JSON.stringify(response))
             setDataSource(src=>(
                  response.data.map(v=>({
                     idventa: v.idventa,
@@ -123,7 +123,7 @@ const ListaVentas = (props) => {
     return <>
 
         <h3>{typeof props.titulo === 'undefined' ? "Lista de Ventas": props.titulo}</h3>
-        <FiltroVentas callback={f=>{setFiltros(_f=>f)}} />
+        <FiltroVentas callback={f=>{setFiltros(_f=>f); setReload(!reload)}} />
         {JSON.stringify(filtros)}
         <Table dataSource={dataSource} columns={columns} loading={loading} />
     </>

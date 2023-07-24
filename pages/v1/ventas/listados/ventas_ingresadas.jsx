@@ -3,7 +3,7 @@ import LayoutVentas from "@/components/layout/layout_ventas";
 
 export default function VentasIngresadas(){
     return (<>
-    <ListaVentas imprimir cobrar accion="ingreso" titulo="Ventas Ingresadas"/>
+    <ListaVentas imprimir cobrar accion="ingreso" titulo="Ventas Ingresadas" estado="INGRESADO"/>
     </>)
 }
 

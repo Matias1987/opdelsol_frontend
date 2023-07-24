@@ -1,12 +1,16 @@
 import { Button, Col, Input, Modal, Row } from "antd"
 
-const { useState } = require("react")
+const { useState, useEffect } = require("react")
 const { default: SelectCliente } = require("./SelectCliente")
 const { default: SelectMedico } = require("./SelectMedico")
 
 const FiltroVentas =(props) => {
     const [filtros,setFiltros] = useState({})
     const [open, setOpen] = useState(false);
+
+    useEffect(()=>{
+        setFiltros({})
+    },[])
 
 
     const showModal = () => {setOpen(true);}
@@ -52,6 +56,9 @@ const FiltroVentas =(props) => {
     return <>
     <Button type="primary" ghost  size="small"  onClick={showModal}>
         {"Filtros"}
+      </Button>
+      <Button danger size="small" onClick={(e)=>{setFiltros(f=>{props?.callback?.({}); return {}}); }}>
+        Borrar Filtros
       </Button>
       <Modal
         cancelButtonProps={{ style: { display: 'none' } }}

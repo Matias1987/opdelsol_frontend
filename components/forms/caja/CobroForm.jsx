@@ -47,19 +47,23 @@ export default function CobroOperacion(props){
             .then(response=>response.json())
             .then((response)=>{
                 alert("jsfld")
-                alert(JSON.stringify(response))
-                setDataVenta(
-                    response.data[0]
-                )
+                alert(JSON.stringify(response.data[0]))
+                setDataVenta(d=>{
+                    
+                    return response.data[0]
+                    }
+                    )
+                    //response.data[0]
             })
+           
         }
-        /*if(typeof props.idcliente !== 'undefined')
+        if(typeof props.idcliente !== 'undefined')
         {
             //get cliente details
             fetch(get.cliente_por_id + props.idcliente)
             .then(response=>response.json())
             .then((response)=>{
-                alert("jsfld")
+                //alert("jsfld")
                 alert(JSON.stringify(response))
                 setDataCliente(
                     {
@@ -73,7 +77,7 @@ export default function CobroOperacion(props){
                     }
                 )
             })
-        }*/
+        }
     },[])
 
     const onMPChange = (val) => {setMP(_mp=>val)}
@@ -92,8 +96,7 @@ export default function CobroOperacion(props){
     )
 
     const venta_detalle = () => (
-        dataCliente == null ? 
-        <>asdf</> :
+        dataVenta == null ? <>asdf</> :
         <>adf
         <p>Nro. Venta: {dataVenta.idventa} &nbsp;&nbsp;&nbsp; Fecha: {dataVenta.fecha}</p>
         </>
