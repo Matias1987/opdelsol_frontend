@@ -1,7 +1,8 @@
 import { Button, Col, Divider, Form, Row, Spin, Switch } from "antd";
 import { useEffect, useState } from "react";
 import ModoPago from "../ModoPago";
-import { get } from "@/src/urls";
+import { get, post } from "@/src/urls";
+import { post_method } from "@/src/helpers/post_helper";
 
 /**
  * 
@@ -20,25 +21,7 @@ export default function CobroOperacion(props){
 
     useEffect(()=>{
         if(mustSave){
-            if(mp === null){
-                alert("Modo de pago no seleccionado.")
-                return;
-            }
-            if(+mp.total == 0) { 
-                alert("Monto igual a 0")
-                return;
-            }
-
-            if(typeof props.tipo === 'undefined'){
-                alert("tipo undefined")
-                return
-            }
-
-            var params = {...mp,tipo: props.tipo, monto: props.monto}
-            params = typeof props.idventa === 'undefined' ? params : {...params,iventa:props.idventa} 
-            params = typeof props.idcliente === 'undefined' ? params : {...params,idcliente:props.idcliente} 
-    
-            alert(JSON.stringify(params))
+            
         }
         if(typeof props.idventa !== 'undefined')
         {
@@ -46,8 +29,8 @@ export default function CobroOperacion(props){
             fetch(get.venta + props.idventa)
             .then(response=>response.json())
             .then((response)=>{
-                alert("jsfld")
-                alert(JSON.stringify(response.data[0]))
+                
+                //alert(JSON.stringify(response.data[0]))
                 setDataVenta(d=>{
                     
                     return response.data[0]
@@ -57,6 +40,7 @@ export default function CobroOperacion(props){
             })
            
         }
+       
         if(typeof props.idcliente !== 'undefined')
         {
             //get cliente details
@@ -64,7 +48,7 @@ export default function CobroOperacion(props){
             .then(response=>response.json())
             .then((response)=>{
                 //alert("jsfld")
-                alert(JSON.stringify(response))
+                //alert(JSON.stringify(response))
                 setDataCliente(
                     {
                         nombre: response.data[0].nombre_completo,
@@ -78,26 +62,50 @@ export default function CobroOperacion(props){
                 )
             })
         }
-    },[])
+    },[mustSave])
 
     const onMPChange = (val) => {setMP(_mp=>val)}
 
     const onCobrarClick = (e) => {
-        setMustSave(true)
+        //setMustSave(true)
+        if(mp === null){
+            alert("Modo de pago no seleccionado.")
+            return;
+        }
+        if(+mp.total == 0) { 
+            alert("Monto igual a 0")
+            return;
+        }
+
+        if(typeof props.tipo === 'undefined'){
+            alert("tipo undefined")
+            return
+        }
+
+        //alert("PROPS: " + JSON.stringify(props))
+
+        var params = {mp: mp,tipo: props.tipo, monto: 1000, caja_idcaja: 1, usuario_idusuario: 1}//<---- TEMPORARY
+        params = typeof props.idventa === 'undefined' ? params : {...params,iventa:props.idventa} 
+        params = typeof props.idcliente === 'undefined' ? params : {...params,idcliente:props.idcliente} 
+        console.log(JSON.stringify(params))
+        alert(JSON.stringify(params))
+        post_method(post.insert.cobro,params,(id)=>{
+            alert("done!")
+        })
     }
     const cliente_detalle = () => (
         dataCliente == null ? 
         <Spin /> :
         <>
-        <b>{dataCliente.nombre} </b> &nbsp;&nbsp; DNI: <b>{dataCliente.dni}</b>&nbsp;
+        <b>Cliente:&nbsp;{dataCliente.nombre} </b> &nbsp;&nbsp; DNI: <b>{dataCliente.dni}</b>&nbsp;
             Tel&eacute;fono: {dataCliente.telefono1}&nbsp;
             Direcci&oacute;n: {dataCliente.direccion}&nbsp;
         </>
     )
 
     const venta_detalle = () => (
-        dataVenta == null ? <>asdf</> :
-        <>adf
+        dataVenta == null ? <Spin />  :
+        <>
         <p>Nro. Venta: {dataVenta.idventa} &nbsp;&nbsp;&nbsp; Fecha: {dataVenta.fecha}</p>
         </>
     )
@@ -114,7 +122,6 @@ export default function CobroOperacion(props){
                 <h3>{(typeof props.title === 'undefined' ? 'Cobro' : props.title)}</h3>
                 <Row>
                     <Col span={24}>
-                        Cliente
                         {cliente_detalle()}
                     </Col>
                 </Row>
