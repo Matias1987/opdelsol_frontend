@@ -1,3 +1,5 @@
+import { get } from "@/src/urls"
+import { Spin } from "antd"
 import { useEffect, useState } from "react"
 
 export default function InformeX(props){
@@ -8,33 +10,37 @@ export default function InformeX(props){
 
     useEffect(()=>{
         //get pago data
-        fetch("")
+        fetch(get.detalle_cobro + props.idcobro)
         .then(response=>response.json())
         .then((response)=>{
-            setDataPago(response.data[0])
+            setDataPago("COBRO::::: " + response.data)
             /*now that I have the pago data, I can know the client id  */
             //get client data
-            fetch("")
+            fetch(get.cliente_por_id + response.data.cliente_idcliente)
             .then(response=>response.json())
             .then((response)=>{
-                setDataCliente(response.data[0])
+                console.log("CLIENTE::::: " + JSON.stringify(response.data))
+                setDataCliente(response.data)
             })
+
+            //get sucursal data
+            fetch(get.sucursal_details + response.data.sucursal_idsucursal)
+            .then(response=>response.json())
+            .then((response)=>{
+                setDataSucursal("SUCURSAL::::: " + response.data[0])
+            })
+
         })
 
-        //get sucursal data
-        fetch("")
-        .then(response=>response.json())
-        .then((response)=>{
-            setDataSucursal(response.data[0])
-        })
+        
 
     },[])
 
     const data_cliente = () => {
         return dataCliente == null ? <Spin /> : <>
-            Se&ntilde;or/es: {dataCliente.cliente}<br />
-            Domicilio: {dataCliente.domicilio}<br />
-            Condicion IVA: {dataCliente.condicion_iva}<br />   
+            Se&ntilde;or/es: {dataCliente.nombre}<br />
+            Domicilio: {dataCliente.direccion}<br />
+            Condicion IVA: {"condicion iva"}<br />   
         </>
     }
 
@@ -72,7 +78,7 @@ export default function InformeX(props){
                     </table>
                     </td>
                     <td class='noborder'>
-                    <p>Nro Recibo: {dataPago.nro_recibo}<br />
+                    <p>Nro Recibo: {dataPago.idcobro}<br />
                     Fecha: {dataPago.fecha}<br />
                     &nbsp;</p>
                     <p><b>ORIGINAL</b></p>
@@ -88,34 +94,34 @@ export default function InformeX(props){
                     <tbody>
                     <tr>
                     <td>
-                    <p>Recibi la suma de: <b>{dataPago.monto_texto}</b><br />
+                    <p>Recibi la suma de: <b>{"MONTO TEXTO"}</b><br />
                     En concepto de: {dataPago.concepto}<br />
-                    {dataPago.saldo_ctacte}</p>
+                    {"SALDO CTA CTE"}</p>
                     <hr />
-                    {dataPago.html_tarjeta_cheque}
+                    {"dataPago.html_tarjeta_cheque"}
                     </td>
                     <td>
                     <table style='width: 100%;'>
                     <tbody>
                     <tr>
                     <td>Efectivo:</td>
-                    <td>{dataPago.efectivo}</td>
+                    <td>{"dataPago.efectivo"}</td>
                     </tr>
                     <tr>
                     <td>Cheque:</td>
-                    <td>{dataPago.cheque}</td>
+                    <td>{"dataPago.cheque"}</td>
                     </tr>
                     <tr>
                     <td>Tarjeta:</td>
-                    <td>{dataPago.tarjeta}</td>
+                    <td>{"dataPago.tarjeta"}</td>
                     </tr>
                     <tr>
                     <td>Mutual:</td>
-                    <td>{dataPago.mutual}</td>
+                    <td>{"dataPago.mutual"}</td>
                     </tr>
                     <tr>
                     <td>TOTAL:</td>
-                    <td>{dataPago.total}</td>
+                    <td>{dataPago.monto}</td>
                     </tr>
                     </tbody>
                     </table>
@@ -127,7 +133,7 @@ export default function InformeX(props){
                     </tr>
                     <tr>
                     <td>
-                    <p>Operador: {dataPago.operador} &nbsp;Caja: {dataPago.caja} Turno {dataPago.turno}</p>
+                    <p>Operador: {dataPago.usuario_idusuario} &nbsp;Caja: {dataPago.caja_idcaja} Turno {"dataPago.turno"}</p>
                     <br />
                     <p>Firma Cajero o Responsable: _______________________________</p>
                     </td>

@@ -1,8 +1,10 @@
-import { Button, Col, Divider, Form, Row, Spin, Switch } from "antd";
+import { Button, Col, Divider, Form, Modal, Row, Spin, Switch } from "antd";
 import { useEffect, useState } from "react";
 import ModoPago from "../ModoPago";
 import { get, post } from "@/src/urls";
 import { post_method } from "@/src/helpers/post_helper";
+import PrinterWrapper from "@/components/PrinterWrapper";
+import InformeX from "@/components/informes/caja/InformeX";
 
 /**
  * 
@@ -18,11 +20,9 @@ export default function CobroOperacion(props){
     const [entrega, setEntrega] = useState(true)
     const [dataVenta, setDataVenta] = useState(null)
     const [dataCliente, setDataCliente] = useState(null)
+    const [open, setOpen] = useState(false)
 
     useEffect(()=>{
-        if(mustSave){
-            
-        }
         if(typeof props.idventa !== 'undefined')
         {
             //get venta details
@@ -62,7 +62,9 @@ export default function CobroOperacion(props){
                 )
             })
         }
-    },[mustSave])
+    },[])
+
+    const handleCancel = () => {setOpen(false)}
 
     const onMPChange = (val) => {setMP(_mp=>val)}
 
@@ -87,11 +89,22 @@ export default function CobroOperacion(props){
         var params = {mp: mp,tipo: props.tipo, monto: 1000, caja_idcaja: 1, usuario_idusuario: 1}//<---- TEMPORARY
         params = typeof props.idventa === 'undefined' ? params : {...params,iventa:props.idventa} 
         params = typeof props.idcliente === 'undefined' ? params : {...params,idcliente:props.idcliente} 
+
+        if(typeof props.tipo !== 'undefined'){
+            switch(props.tipo)
+            {
+                case "ingreso": params = {...params, accion: "ingreso", estado: (entrega ? "entrega" : "deposito")}; break;
+                case "entrega": params = {...params, accion: "entrega"}; break;
+                case "resfuerzo": params = {...params, accion: "resfuerzo"}; break;
+            }
+        }
+
         console.log(JSON.stringify(params))
         alert(JSON.stringify(params))
         post_method(post.insert.cobro,params,(id)=>{
             alert("done!")
         })
+        setOpen(true)
     }
     const cliente_detalle = () => (
         dataCliente == null ? 
@@ -144,4 +157,23 @@ export default function CobroOperacion(props){
                         <Button danger onClick={onCobrarClick}>Cobrar</Button>
                     </Col>
                 </Row>
+            {/* informe x */}
+            <Modal
+                cancelButtonProps={{ style: { display: 'none' } }}
+                okButtonProps={(typeof props.okButtonProps === 'undefined') ? {children:"CERRAR"} : props.okButtonProps}
+                
+                width={"80%"}
+                title={"Recibo X"}
+                open={open}
+                onOk={()=>{ 
+                    setOpen(false)}}
+                onCancel={handleCancel}
+                okText= {"OK"}
+                destroyOnClose={true}
+            >
+            <PrinterWrapper>
+                    <InformeX />
+            </PrinterWrapper>
+        </Modal>
+
             </>)}

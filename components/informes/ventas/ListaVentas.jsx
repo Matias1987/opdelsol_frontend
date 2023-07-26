@@ -41,7 +41,7 @@ const ListaVentas = (props) => {
     }
 
     const onAplicarFiltros = () => {
-        alert(JSON.stringify(filtros))
+        //alert(JSON.stringify(filtros))
         setReload(reload=>!reload)
     }
     
@@ -52,7 +52,7 @@ const ListaVentas = (props) => {
         params = add(params, props?.idCliente, 'idCliente')
         //params = add(params, props?.idVendedor, 'idVendedor')
         params = add(params, props?.fecha, 'fecha')
-        alert(" FILTROS:  "+JSON.stringify(filtros))
+        //alert(" FILTROS:  "+JSON.stringify(filtros))
         //filtros
         params = add(params, filtros.idcliente, 'idcliente')
         params = add(params, filtros.idmedico, 'idmedico')
@@ -60,9 +60,9 @@ const ListaVentas = (props) => {
         params = add(params, filtros.iddestinatario, 'iddestinatario')
 
         const url = post.venta_estado_sucursal;
-        alert("PARAMS: " + JSON.stringify(params))
+        //alert("PARAMS: " + JSON.stringify(params))
         post_method(url, params,(response)=>{
-            alert("respuestaaa " + JSON.stringify(response))
+            //alert("respuestaaa " + JSON.stringify(response))
             setDataSource(src=>(
                  response.data.map(v=>({
                     idventa: v.idventa,
