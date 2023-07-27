@@ -17,17 +17,17 @@ export default function InformeX(props){
             /*now that I have the pago data, I can know the client id  */
             //get client data
             fetch(get.cliente_por_id + response.data.cliente_idcliente)
-            .then(response=>response.json())
-            .then((response)=>{
-                console.log("CLIENTE::::: " + JSON.stringify(response.data))
-                setDataCliente(response.data)
+            .then(_response=>_response.json())
+            .then((_response)=>{
+                console.log("CLIENTE::::: " + JSON.stringify(_response.data))
+                setDataCliente(_response.data)
             })
 
             //get sucursal data
             fetch(get.sucursal_details + response.data.sucursal_idsucursal)
-            .then(response=>response.json())
-            .then((response)=>{
-                setDataSucursal("SUCURSAL::::: " + response.data[0])
+            .then(__response=>__response.json())
+            .then((__response)=>{
+                setDataSucursal("SUCURSAL::::: " + __response.data[0])
             })
 
         })
@@ -48,7 +48,14 @@ export default function InformeX(props){
         return dataSucursal == null ? <Spin /> : <>{data.sucursal_denominacion}</>
     }
 
-    const recibo_copia = () => {
+    const html_cheque_tarjeta = () => {
+        return <>
+            <p>Cheque: {"@nro_cheque@"} Banco: {"@cheque_banco@"} &nbsp;Fecha: {"cheque_fecha"}</p>
+            <p>Tarjeta: {"@tarjeta_nombre@"} Numero: {"@tarjeta_nro@"} Cupon: {"@tarjeta_cupon@"}</p>
+        </>
+    }
+
+    const recibo_copia = (_tipo) => {
         return <>
         <table style='width: 100%;'>
                 <tbody>
@@ -67,7 +74,7 @@ export default function InformeX(props){
                     <table>
                     <tbody>
                     <tr>
-                    <td style='background-color: #000000; text-align: center;' ><span style='color: #ffffff;'><strong>RECIBO</strong></span></td>
+                    <td style='background-color: #000000; text-align: center;' ><span style='color: #ffffff;'><strong>{_tipo}</strong></span></td>
                     </tr>
                     <tr>
                     <td style='background-color: #ffffff; text-align: center; font-size:42px;' valign='middle'>
@@ -98,7 +105,7 @@ export default function InformeX(props){
                     En concepto de: {dataPago.concepto}<br />
                     {"SALDO CTA CTE"}</p>
                     <hr />
-                    {"dataPago.html_tarjeta_cheque"}
+                    {html_cheque_tarjeta()}
                     </td>
                     <td>
                     <table style='width: 100%;'>
