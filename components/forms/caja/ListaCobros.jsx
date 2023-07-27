@@ -23,7 +23,7 @@ const ListaCobros = (props) => {
             return <>
             <CustomModal openButtonText="Imprimir">
                 <PrinterWrapper>
-                    <InformeX />
+                    <InformeX idcobro={idcobro} />
                 </PrinterWrapper>
             </CustomModal>
             </>

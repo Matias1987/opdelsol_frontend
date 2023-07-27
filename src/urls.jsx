@@ -146,7 +146,8 @@ const get = {
     obtener_venta_items: remote_base_url + "ventas/get_venta_items/",//idventa
 
     //cobros
-    detalle_cobro: remote_base_url + "cobros/"//idcobro
+    detalle_cobro: remote_base_url + "cobros/",//idcobro
+    lista_mp_cobro: remote_base_url + "cobros/mp/",//idcobro
 
 
 }
