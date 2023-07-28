@@ -1,8 +1,10 @@
 import { Button, Col, Input, Modal, Row } from "antd"
 
+
 const { useState, useEffect } = require("react")
 const { default: SelectCliente } = require("./SelectCliente")
 const { default: SelectMedico } = require("./SelectMedico")
+
 
 const FiltroVentas =(props) => {
     const [filtros,setFiltros] = useState({})

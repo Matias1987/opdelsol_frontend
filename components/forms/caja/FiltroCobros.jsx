@@ -1,6 +1,7 @@
-import { Button, Col, Input, Modal, Row } from "antd"
+import { Button, Col, DatePicker, Input, Modal, Row } from "antd"
 import SelectCliente from "../ventas/SelectCliente";
 
+const { RangePicker } = DatePicker;
 const { useState, useEffect } = require("react")
 
 const FiltroCobros =(props) => {
@@ -42,6 +43,7 @@ const FiltroCobros =(props) => {
     <Button type="primary" ghost  size="small"  onClick={showModal}>
         {"Filtros"}
       </Button>
+      &nbsp;&nbsp;
       <Button danger size="small" onClick={(e)=>{setFiltros(f=>{props?.callback?.({}); return {}}); }}>
         Borrar Filtros
       </Button>
@@ -73,6 +75,12 @@ const FiltroCobros =(props) => {
             <Col span={24}>
                 Cliente:&nbsp;&nbsp;
                 <SelectCliente callback={onSelectCliente} />
+            </Col>
+        </Row>
+        <Row>
+            <Col span={24}>
+                Fecha:&nbsp;&nbsp;
+            <RangePicker format={"DD/MM/YY"} />
             </Col>
         </Row>
         
