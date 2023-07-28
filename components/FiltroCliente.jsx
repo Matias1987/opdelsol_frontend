@@ -1,16 +1,13 @@
 import CustomModal from "@/components/CustomModal";
 import { Button, Input, Spin, Table } from "antd";
 import { useEffect, useState } from "react";
-import { CheckCircleFilled, CloseOutlined, EditOutlined, ReloadOutlined } from "@ant-design/icons";
-
+import { CheckCircleFilled, CloseOutlined, EditOutlined } from "@ant-design/icons";
+import ClienteForm from "../ClienteForm";
 import { get } from "@/src/urls";
-import ClienteForm from "@/components/forms/ClienteForm";
-import FichaCliente from "@/components/FichaCliente";
 
-const ListaClientes = (props) => {
+const FiltroCliente = (props) => {
     const [clientes, setClientes] = useState(null);
-    const [searchVal , setSearchVal] = useState("")
-
+    
     const onSearch = (value) => {
         const params = encodeURIComponent(value);
         fetch(get.buscar_cliente+params)
@@ -30,7 +27,7 @@ const ListaClientes = (props) => {
         .catch((err)=>{console.log(err)})
     } 
     
-    const refresh = () => {
+    useEffect(()=>{
         fetch(get.lista_clientes)
         .then(response=>response.json())
         .then((response)=>{
@@ -48,39 +45,15 @@ const ListaClientes = (props) => {
             )
         })
         .catch((err)=>{console.log(err)})
-    }
-
-    useEffect(()=>{
-        refresh()
     },[])
 
-    const columns = [
-        {dataIndex: 'apellido', title: 'Apellido', key: 'apellido'},
-        {dataIndex: 'nombre', title: 'Nombre', key: 'nombre'},
-        {dataIndex: 'dni', title: 'DNI', key: 'dni'},
-        {dataIndex: 'direccion', title: 'Direccion', key: 'direccion'},
-        {dataIndex: 'idcliente', title: '', key: 'acciones', render: (_,{idcliente})=>(
-            <>
-            <CustomModal openButtonText={"Ficha Cliente"}>
-                <FichaCliente idcliente={idcliente} />
-            </CustomModal>
-            <Button onClick={()=>{upload_cliente_details(idcliente)}}>Detalle</Button>
-            </>
-        )},
-    ]
-
     return <>
-    <h3>Lista de Clientes</h3>
-    <Input.Search onSearch={onSearch} value={searchVal} onChange={(e)=>{setSearchVal(e.target.value)}} />
+    <Input.Search onSearch={onSearch} />
         <CustomModal openButtonText="+ Agregar" title="Agregar" >
             <ClienteForm callback={(id)=>{alert(id); upload_cliente_details(id) }}/>
         </CustomModal>
-        <Button size="small" danger onClick={(e)=>{setSearchVal(s=>{
-            refresh()
-            return ""
-            })}}><ReloadOutlined />Recargar</Button>
     <Table columns={columns} dataSource={clientes} />
     </>
 }
 
-export default ListaClientes;
+export default FiltroCliente;

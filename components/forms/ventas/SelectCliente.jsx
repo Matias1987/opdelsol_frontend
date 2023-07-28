@@ -18,7 +18,6 @@ const SelectCliente = (props) =>{
         fetch(get.buscar_cliente+params)
         .then(response=>response.json())
         .then((response)=>{
-            //alert(JSON.stringify(response.data))
             setClientes(
             response.data.map(r=>(
                 {
@@ -34,7 +33,6 @@ const SelectCliente = (props) =>{
     } 
 
     const upload_cliente_details = (id) => {
-        //alert(id)
         setLoadingDetalles(true);
         setIdCliente(id);
         props.callback(id)
@@ -42,7 +40,6 @@ const SelectCliente = (props) =>{
         .then(response=>response.json())
         .then((response)=>{
            
-            //alert(JSON.stringify( response.data))
             setClienteData({
                 nombre: response.data[0].nombre_completo,
                
@@ -51,8 +48,6 @@ const SelectCliente = (props) =>{
                 telefono1: response.data[0].telefono1,
 
                 direccion: response.data[0].direccion,
-
-
 
             })
 

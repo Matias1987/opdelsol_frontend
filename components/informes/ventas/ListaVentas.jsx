@@ -32,7 +32,25 @@ const ListaVentas = (props) => {
         return <>
             {typeof props.cobrar !== 'undefined' ?  <>
             <CustomModal openButtonText="Cobrar">
-                <CobroOperacion idventa={_idventa} idcliente={_idcliente} tipo={props.accion} />
+                <CobroOperacion idventa={_idventa} idcliente={_idcliente} tipo={props.accion} callback={(data)=>{
+                    if(data==null || typeof data === 'undefined'){
+                        return;
+                    }
+                    if(typeof props.estado !== 'undefined'){
+                        switch(props.estado){
+                            case 'INGRESADO':
+                                if(typeof data.estado === 'undefined' )
+                                {
+                                    alert("ERROR; next state undefined")
+                                }
+                                post_method(post.cambiar_estado_venta,{idventa: _idventa, estado: data.estado},(resp)=>{alert("OK")})
+                            break;
+                            case 'TERMINADO':
+                                post_method(post.cambiar_estado_venta,{idventa: _idventa, estado: 'ENTREGADO'},(resp)=>{alert("OK")})
+                            break;
+                        }
+                    }
+                }} />
             </CustomModal>
             </>:<></>}
             {typeof props.imprimir !== 'undefined' ?  <CustomModal openButtonText={"Imprimir"}><ImprimirSobreVenta idventa={_idventa} /></CustomModal>:<></>}
