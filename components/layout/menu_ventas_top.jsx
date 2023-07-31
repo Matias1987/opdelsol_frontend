@@ -7,14 +7,10 @@ import { public_urls } from "@/src/urls";
 const items = [
  
   {
-    label: '',
+    label: 'Menú Ventas',
     key: 'SubMenu',
     icon: <MenuOutlined />,
     children: [
-      {
-        key: '0',
-        label: (<Menu.Item><Link style={{color:"red"}} href={public_urls.venta_directa}>Buscar Venta  </Link></Menu.Item>)
-      },
       {
         key: '1',
         label: (<Menu.Item><Link href={public_urls.venta_directa}>Venta Directa  </Link></Menu.Item>),
@@ -41,7 +37,17 @@ const items = [
       },
       
     ],
-  }
+  },
+  {
+    label: (<Link href={public_urls.venta_directa}>Buscar Venta</Link>),
+    key: '10',
+    icon: <StarOutlined />,
+  },
+  {
+    label: (<Link href={public_urls.venta_directa}>Clientes</Link>),
+    key: '11',
+    icon: <StarOutlined />,
+  },
 ];
 export default function MenuVentasTop(){
   const [current, setCurrent] = useState('mail');

@@ -1,5 +1,5 @@
 import ListaVentas from "@/components/informes/ventas/ListaVentas";
-import LayoutVentas from "@/components/layout/layout_ventas";
+import LayoutCaja from "@/components/layout/layout_caja";
 
 export default function VentasIngresadas(){
     return (<>
@@ -7,4 +7,4 @@ export default function VentasIngresadas(){
     </>)
 }
 
-VentasIngresadas.PageLayout = LayoutVentas;  
+VentasIngresadas.PageLayout = LayoutCaja;  

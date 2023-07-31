@@ -13,6 +13,7 @@ const public_urls = {
     login: local_base_url + "usuario/login/login",
     nuevo_envio: local_base_url + "deposito/envio/nuevo_envio",
     lista_stock: local_base_url + "deposito/stock/listados/lista_stock",
+    modo: local_base_url + "Modo",
     //ventas: 
     venta_directa: local_base_url + "ventas/Directa",
     venta_lclab: local_base_url + "ventas/LCLab",
@@ -20,6 +21,21 @@ const public_urls = {
     venta_multilab: local_base_url + "ventas/MultifLab",
     venta_monoflab: local_base_url + "ventas/MonofLab",
     venta_recetastock: local_base_url + "ventas/RecetaStockV2",
+    //caja
+    lista_caja: local_base_url + "caja/lista_caja",
+    caja_diaria: local_base_url + "caja/caja_diaria",
+    cargar_gasto: local_base_url + "caja/CargaGasto/",
+    lista_gastos: local_base_url + "caja/ListaGastos/",
+    lista_cobros_sucursal: local_base_url + "caja/ListaCobros/",
+    cierre_caja: local_base_url + "caja/",
+    inicio_caja: local_base_url + "caja/",
+    listado_caja: local_base_url + "caja/",
+    ventas_ingresadas: local_base_url + "caja/ventas_ingresadas",
+    ventas_pendientes: local_base_url + "caja/ventas_pendientes",
+    ventas_terminadas: local_base_url + "caja/ventas_terminadas",
+    ventas_entregadas: local_base_url + "caja/ventas_entregadas",
+    ventas_anuladas: local_base_url + "caja/ventas_anuladas",
+    lista_clientes: local_base_url + "caja/ListaClientes",
 
 }
 
@@ -148,6 +164,10 @@ const get = {
     //cobros
     detalle_cobro: remote_base_url + "cobros/",//idcobro
     lista_mp_cobro: remote_base_url + "cobros/mp/",//idcobro
+
+    //gastos
+    conceptos_gasto: remote_base_url + "conceptogastos/",
+    lista_gastos: remote_base_url + "gastos/"
 
 
 }

@@ -5,6 +5,7 @@ import { get, post } from "@/src/urls";
 import { post_method } from "@/src/helpers/post_helper";
 import PrinterWrapper from "@/components/PrinterWrapper";
 import InformeX from "@/components/informes/caja/InformeX";
+import globals from "@/src/globals";
 
 /**
  * 
@@ -13,6 +14,7 @@ import InformeX from "@/components/informes/caja/InformeX";
  * @param idventa: venta
  * @param monto: monto  
  * @param title: window's title
+ * @param mustCancel: saldo must be 0
  */
 export default function CobroOperacion(props){
     const [mp, setMP] = useState(null)
@@ -84,9 +86,16 @@ export default function CobroOperacion(props){
             return
         }
 
+        if(typeof props.mustCancel !== 'undefined'){
+            if(props.mustCancel && (props.monto - mp.total)>0){
+                alert("Saldo distinto a 0")
+                return
+            }
+        }
+
         //alert("PROPS: " + JSON.stringify(props))
 
-        var params = {mp: mp,tipo: props.tipo, monto: 1000, caja_idcaja: 1, usuario_idusuario: 1}//<---- TEMPORARY
+        var params = {mp: mp,tipo: props.tipo, monto: mp.total, caja_idcaja: globals.obtenerCaja(), usuario_idusuario: globals.obtenerUID()}//<---- TEMPORARY
         params = typeof props.idventa === 'undefined' ? params : {...params,iventa:props.idventa} 
         params = typeof props.idcliente === 'undefined' ? params : {...params,idcliente:props.idcliente} 
 
@@ -104,7 +113,8 @@ export default function CobroOperacion(props){
         post_method(post.insert.cobro,params,(id)=>{
             alert("done!")
         })
-        setOpen(true)
+        setOpen(false)
+        props.callback?.({estado_next: (accion == "ingreso" ? (entrega ? "ENTREGADO" : "DEPOSITO") : (accion == "entrega" ? "ENTREGADO": "DEPOSITO"))     })
     }
     const cliente_detalle = () => (
         dataCliente == null ? 

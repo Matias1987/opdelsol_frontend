@@ -19,6 +19,7 @@ const { Table, Button, Tag, Alert } = require("antd");
  * @param imprimir if imprimir available
  * @param detalles the user can view the operation but can't print
  * @param cobrar
+ * @param mustCancel
  */
 const ListaVentas = (props) => {
     const [dataSource, setDataSource] = useState([])
@@ -32,18 +33,23 @@ const ListaVentas = (props) => {
         return <>
             {typeof props.cobrar !== 'undefined' ?  <>
             <CustomModal openButtonText="Cobrar">
-                <CobroOperacion idventa={_idventa} idcliente={_idcliente} tipo={props.accion} callback={(data)=>{
+                <CobroOperacion 
+                mustCancel={typeof props.mustCancel === 'undefined' ? false : props.mustCancel}
+                idventa={_idventa} 
+                idcliente={_idcliente} 
+                tipo={props.accion} 
+                callback={(data)=>{
                     if(data==null || typeof data === 'undefined'){
                         return;
                     }
                     if(typeof props.estado !== 'undefined'){
                         switch(props.estado){
                             case 'INGRESADO':
-                                if(typeof data.estado === 'undefined' )
+                                if(typeof data.estado_next === 'undefined' )
                                 {
                                     alert("ERROR; next state undefined")
                                 }
-                                post_method(post.cambiar_estado_venta,{idventa: _idventa, estado: data.estado},(resp)=>{alert("OK")})
+                                post_method(post.cambiar_estado_venta,{idventa: _idventa, estado: data.estado_next},(resp)=>{alert("OK")})
                             break;
                             case 'TERMINADO':
                                 post_method(post.cambiar_estado_venta,{idventa: _idventa, estado: 'ENTREGADO'},(resp)=>{alert("OK")})

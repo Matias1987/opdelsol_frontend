@@ -57,6 +57,8 @@ export default function LayoutCaja({children}){
                                 Sucursal:&nbsp;&nbsp;<SucursalLabel idsucursal={
                                     globals.obtenerSucursal()
                                     } />
+                                    &nbsp;- Cuenta: CAJA
+                                    &nbsp;- Usuario: NOMBRE
                             </i>
                         </span>
                         <Button type="link" onClick={()=>{
@@ -69,9 +71,19 @@ export default function LayoutCaja({children}){
                                 window.location.replace(public_urls.login);
                             })
                         }}>
-                            
+
                         <LogoutOutlined />Salir     
                         </Button>
+                        &nbsp;&nbsp;
+                        <Button type="link" onClick={(e)=>{
+                            window.location.replace(public_urls.modo);
+                        }}>
+                            Cambiar Modo
+                        </Button>
+
+                        &nbsp;&nbsp;
+                        
+
                         </Header>
                         <MenuCajaTop />
             <Content style={{ margin: '40px 100px', padding: 24, background: '#fff', minHeight: 280 }}>

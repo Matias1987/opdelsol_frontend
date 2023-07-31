@@ -57,6 +57,8 @@ export default function LayoutVentas({children}){
                                 Sucursal:&nbsp;&nbsp;<SucursalLabel idsucursal={
                                     globals.obtenerSucursal()
                                     } />
+                                &nbsp;- Cuenta: VENTAS
+                                &nbsp;- Usuario: NOMBRE
                             </i>
                         </span>
                         <Button type="link" onClick={()=>{
@@ -71,6 +73,12 @@ export default function LayoutVentas({children}){
                         }}>
                             
                         <LogoutOutlined />Salir     
+                        </Button>
+                        &nbsp;&nbsp;
+                        <Button type="link" onClick={(e)=>{
+                            window.location.replace(public_urls.modo);
+                        }}>
+                            Cambiar Modo
                         </Button>
                         </Header>
                         <MenuVentasTop />

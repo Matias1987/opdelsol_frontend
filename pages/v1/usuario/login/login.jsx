@@ -54,11 +54,12 @@ export default function Login(){
                 console.log(res.data.token)
                 setItem("token",res.data.token)
                 setItem("uid",res.data.uid)
+                setItem("permisos", res.data.permisos)
                
                 //globals.establecerSucursal(1);
 
                 if (typeof window !== "undefined") {
-                        window.location.replace(urls.public_urls.dashboard_deposito)
+                        window.location.replace(urls.public_urls.modo)
                   }
                 
                 

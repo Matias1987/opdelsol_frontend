@@ -74,6 +74,8 @@ export default function MyLayout({children}){
                             Sucursal:&nbsp;&nbsp;<SucursalLabel idsucursal={
                                 globals.obtenerSucursal()
                                 } />
+                            &nbsp;- Cuenta: DEP&Oacute;SITO
+                            &nbsp;- Usuario: NOMBRE
                         </i>
                     </span>
                     {/*React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
@@ -93,6 +95,12 @@ export default function MyLayout({children}){
                         
                     <LogoutOutlined />Salir     
                     </Button>
+                    &nbsp;&nbsp;
+                        <Button type="link" onClick={(e)=>{
+                            window.location.replace(public_urls.modo);
+                        }}>
+                            Cambiar Modo
+                        </Button>
                     </Header>
                     <Content style={{ margin: '24px 16px', padding: 24, background: '#fff', minHeight: 280, overflowY:"scroll"  }}>
                         {children}

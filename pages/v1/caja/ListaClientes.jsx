@@ -6,8 +6,9 @@ import { CheckCircleFilled, CloseOutlined, EditOutlined, ReloadOutlined } from "
 import { get } from "@/src/urls";
 import ClienteForm from "@/components/forms/ClienteForm";
 import FichaCliente from "@/components/FichaCliente";
+import LayoutCaja from "@/components/layout/layout_caja";
 
-const ListaClientes = (props) => {
+export default function ListaClientes(props){
     const [clientes, setClientes] = useState(null);
     const [searchVal , setSearchVal] = useState("")
 
@@ -83,4 +84,4 @@ const ListaClientes = (props) => {
     </>
 }
 
-export default ListaClientes;
+ListaClientes.PageLayout = LayoutCaja;  

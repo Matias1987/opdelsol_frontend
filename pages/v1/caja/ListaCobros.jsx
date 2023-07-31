@@ -1,4 +1,5 @@
 import ListaCobros from "@/components/forms/caja/ListaCobros";
+import LayoutCaja from "@/components/layout/layout_caja";
 
 export default function ListaCobrosSucursal(){
     return <>
@@ -6,3 +7,5 @@ export default function ListaCobrosSucursal(){
         <ListaCobros />
     </>  
 }
+
+ListaCobrosSucursal.PageLayout = LayoutCaja;  
