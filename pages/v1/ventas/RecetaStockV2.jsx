@@ -5,6 +5,9 @@ import LayoutVentas from "@/components/layout/layout_ventas";
 import { post_method } from "@/src/helpers/post_helper";
 import { post } from "@/src/urls";
 import globals from "@/src/globals";
+import { Modal } from "antd";
+import InformeVenta from "@/components/informes/ventas/Base";
+import ImprimirSobreVenta from "./informes/sobre_venta";
 
 
 export default function VentaRecetaStock(){
@@ -12,6 +15,8 @@ export default function VentaRecetaStock(){
     const [subTotal, setSubTotal] = useState(0);
     const [venta, setVenta] = useState(null);
     const [productos, setProductos] = useState(null);
+    const [idVenta, setIdVenta] = useState(-1)
+    const [printOpen, setPrintOpen] = useState(false) 
     
     const callback = (productos)=>{
         setProductos(_productos=>{
@@ -86,11 +91,18 @@ export default function VentaRecetaStock(){
                   //alert(post.insert.venta,_venta)
                   post_method(post.insert.venta,_venta,(response)=>{
                     alert(JSON.stringify(response.data))
+                    
+                    setIdVenta(response.data)
+                    setPrintOpen(true)
+
                   })
 
             }}>
             <RecetaStockItems callback={callback} />
         </VentaBase>
+        <Modal open={idVenta!=-1 && printOpen} onOk={()=>{setPrintOpen(false)}} onCancel={()=>{setPrintOpen(false)}} >
+            <ImprimirSobreVenta idventa={idVenta} />
+        </Modal>
     </>
     )
 }

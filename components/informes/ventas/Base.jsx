@@ -59,7 +59,8 @@ const InformeVenta = (props) => {
     return (
 		data === null ? <Spin /> :
         <>
-			<table style={{height: '78px', width:'100%', border:'1', cellspacing:'0', cellpadding:'0', fontSize:".7em", padding:"0"}}>
+			<div style={{width: '100%', paddingLeft: '12px', paddingRight: '12px', paddingTop: '20px'}}> 
+			<table style={{height: '78px', width:'96%', border:'1', cellspacing:'0', cellpadding:'0', fontSize:".7em", padding:"0"}}>
 				<tbody>
 					<tr>
 						<td>
@@ -155,6 +156,7 @@ const InformeVenta = (props) => {
 					</tr>
 				</tbody>
 			</table>
+			</div>
 		</>
     )
 }

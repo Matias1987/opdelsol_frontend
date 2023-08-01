@@ -1,7 +1,11 @@
 import { get } from "@/src/urls"
 import { Spin } from "antd"
 import { useEffect, useState } from "react"
-
+/**
+ * 
+ * @param idcobro  
+ * @returns 
+ */
 export default function InformeX(props){
     const [dataSucursal, setDataSucursal] = useState(null)
     const [dataCliente, setDataCliente] =  useState(null)

@@ -4,12 +4,16 @@ import LayoutVentas from "@/components/layout/layout_ventas";
 import { useState } from "react";
 import { post } from "@/src/urls";
 import { post_method } from "@/src/helpers/post_helper";
+import { Modal } from "antd";
+import ImprimirSobreVenta from "./informes/sobre_venta";
 
 export default function VentaMonofocalesLab(){
     const [productos, setProductos] = useState(null);
     const [total, setTotal] = useState(0);
     const [subTotal, setSubTotal] = useState(0);
     const [venta, setVenta] = useState(null);
+    const [idVenta, setIdVenta] = useState(-1)
+    const [printOpen, setPrintOpen] = useState(false) 
 
     const onProductosCallback = (_p) => {
 
@@ -49,6 +53,8 @@ export default function VentaMonofocalesLab(){
 
         post_method(post.insert.venta,venta,(response)=>{
             alert(JSON.stringify(response.data))
+            setIdVenta(response.data)
+            setPrintOpen(true)
           })
     }
 
@@ -57,6 +63,9 @@ export default function VentaMonofocalesLab(){
     <VentaBase subTotal={subTotal} total={total} onfinish={onFinish} callback={callback_venta_modif}>
         <MonofLabItems callback={onProductosCallback}/>
     </VentaBase>
+    <Modal open={idVenta!=-1 && printOpen} onOk={()=>{setPrintOpen(false)}} onCancel={()=>{setPrintOpen(false)}} >
+        <ImprimirSobreVenta idventa={idVenta} />
+    </Modal>
     </>)
 }
 

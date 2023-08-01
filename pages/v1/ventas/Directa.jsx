@@ -3,13 +3,17 @@ import VDItem from "@/components/forms/ventas/directa/Item";
 import LayoutVentas from "@/components/layout/layout_ventas";
 import { post_method } from "@/src/helpers/post_helper";
 import { post } from "@/src/urls";
+import { Modal } from "antd";
 import { useState } from "react";
+import ImprimirSobreVenta from "./informes/sobre_venta";
 
 export default function VentaDirecta(){
     const [venta, setVenta] = useState(null)
     const [productos, setProductos] = useState(null)
     const [total, setTotal] = useState(0);
     const [subTotal, setSubTotal] = useState(0);
+    const [idVenta, setIdVenta] = useState(-1)
+    const [printOpen, setPrintOpen] = useState(false) 
 
     const callback_venta_modif = (_venta) => {
         setVenta((v)=>{
@@ -45,6 +49,8 @@ export default function VentaDirecta(){
 
                 post_method(post.insert.venta,__venta,(response)=>{
                     alert(JSON.stringify(response.data))
+                    setIdVenta(response.data)
+                    setPrintOpen(true)
                     })
             }
         }
@@ -64,6 +70,9 @@ export default function VentaDirecta(){
                 }
             />
         </VentaBase>
+        <Modal open={idVenta!=-1 && printOpen} onOk={()=>{setPrintOpen(false)}} onCancel={()=>{setPrintOpen(false)}} >
+            <ImprimirSobreVenta idventa={idVenta} />
+        </Modal>
     </>
     )
 }

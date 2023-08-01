@@ -1,5 +1,5 @@
 import { Button, Col, Divider, Form, Modal, Row, Spin, Switch } from "antd";
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import ModoPago from "../ModoPago";
 import { get, post } from "@/src/urls";
 import { post_method } from "@/src/helpers/post_helper";
@@ -22,56 +22,64 @@ export default function CobroOperacion(props){
     const [entrega, setEntrega] = useState(true)
     const [dataVenta, setDataVenta] = useState(null)
     const [dataCliente, setDataCliente] = useState(null)
+    const [informeOpen, setInformeOpen] = useState(false)
     const [open, setOpen] = useState(false)
+    const [idCobro, setIdCobro] = useState(-1)
 
     useEffect(()=>{
-        if(typeof props.idventa !== 'undefined')
-        {
-            //get venta details
-            fetch(get.venta + props.idventa)
-            .then(response=>response.json())
-            .then((response)=>{
-                
-                //alert(JSON.stringify(response.data[0]))
-                setDataVenta(d=>{
+        if(idCobro>0){
+            //alert("open informe")
+            setInformeOpen(true)
+        }
+        else{
+            if(typeof props.idventa !== 'undefined')
+            {
+                //get venta details
+                fetch(get.venta + props.idventa)
+                .then(response=>response.json())
+                .then((response)=>{
                     
-                    return response.data[0]
-                    }
+                    //alert(JSON.stringify(response.data[0]))
+                    setDataVenta(d=>{
+                        
+                        return response.data[0]
+                        }
+                        )
+                        //response.data[0]
+                })
+            
+            }
+        
+            if(typeof props.idcliente !== 'undefined')
+            {
+                //get cliente details
+                fetch(get.cliente_por_id + props.idcliente)
+                .then(response=>response.json())
+                .then((response)=>{
+                    //alert("jsfld")
+                    //alert(JSON.stringify(response))
+                    setDataCliente(
+                        {
+                            nombre: response.data[0].nombre_completo,
+                        
+                            dni: response.data[0].dni,
+            
+                            telefono1: response.data[0].telefono1,
+            
+                            direccion: response.data[0].direccion,
+                        }
                     )
-                    //response.data[0]
-            })
-           
-        }
-       
-        if(typeof props.idcliente !== 'undefined')
-        {
-            //get cliente details
-            fetch(get.cliente_por_id + props.idcliente)
-            .then(response=>response.json())
-            .then((response)=>{
-                //alert("jsfld")
-                //alert(JSON.stringify(response))
-                setDataCliente(
-                    {
-                        nombre: response.data[0].nombre_completo,
-                       
-                        dni: response.data[0].dni,
-        
-                        telefono1: response.data[0].telefono1,
-        
-                        direccion: response.data[0].direccion,
-                    }
-                )
-            })
-        }
-    },[])
+                })
+            }
+    }
+    },[idCobro])
 
-    const handleCancel = () => {setOpen(false)}
+    const handleCancel = () => {setInformeOpen(false)}
 
     const onMPChange = (val) => {setMP(_mp=>val)}
 
     const onCobrarClick = (e) => {
-        //setMustSave(true)
+
         if(mp === null){
             alert("Modo de pago no seleccionado.")
             return;
@@ -93,8 +101,6 @@ export default function CobroOperacion(props){
             }
         }
 
-        //alert("PROPS: " + JSON.stringify(props))
-
         var params = {mp: mp,tipo: props.tipo, monto: mp.total, caja_idcaja: globals.obtenerCaja(), usuario_idusuario: globals.obtenerUID()}//<---- TEMPORARY
         params = typeof props.idventa === 'undefined' ? params : {...params,iventa:props.idventa} 
         params = typeof props.idcliente === 'undefined' ? params : {...params,idcliente:props.idcliente} 
@@ -108,14 +114,15 @@ export default function CobroOperacion(props){
             }
         }
 
-        console.log(JSON.stringify(params))
-        alert(JSON.stringify(params))
         post_method(post.insert.cobro,params,(id)=>{
-            alert("done!")
+            setIdCobro(id.data)
         })
+        
+        const accion = typeof props.tipo === 'undefined' ? '':props.tipo
+        props.callback?.({accion: accion, estado_next: (accion == "ingreso" ? (entrega ? "ENTREGADO" : "DEPOSITO") : (accion == "entrega" ? "ENTREGADO": "DEPOSITO"))     })
         setOpen(false)
-        props.callback?.({estado_next: (accion == "ingreso" ? (entrega ? "ENTREGADO" : "DEPOSITO") : (accion == "entrega" ? "ENTREGADO": "DEPOSITO"))     })
     }
+    
     const cliente_detalle = () => (
         dataCliente == null ? 
         <Spin /> :
@@ -142,6 +149,17 @@ export default function CobroOperacion(props){
 
 
     return (<>
+            <Button onClick={()=>{setOpen(true)}}>{"Cargar Pago"}</Button>
+            <Modal
+                width={"80%"}
+                title={"Cobro"}
+                open={open}
+                onOk={()=>{ 
+                    setOpen(false)}}
+                onCancel={()=>{setOpen(false)}}
+                okText= {"OK"}
+                destroyOnClose={true}
+            >
                 <h3>{(typeof props.title === 'undefined' ? 'Cobro' : props.title)}</h3>
                 <Row>
                     <Col span={24}>
@@ -167,6 +185,7 @@ export default function CobroOperacion(props){
                         <Button danger onClick={onCobrarClick}>Cobrar</Button>
                     </Col>
                 </Row>
+                </Modal>
             {/* informe x */}
             <Modal
                 cancelButtonProps={{ style: { display: 'none' } }}
@@ -174,15 +193,15 @@ export default function CobroOperacion(props){
                 
                 width={"80%"}
                 title={"Recibo X"}
-                open={open}
+                open={informeOpen}
                 onOk={()=>{ 
-                    setOpen(false)}}
+                    setInformeOpen(false)}}
                 onCancel={handleCancel}
                 okText= {"OK"}
                 destroyOnClose={true}
             >
             <PrinterWrapper>
-                    <InformeX />
+                    <InformeX idcobro={idCobro}/>
             </PrinterWrapper>
         </Modal>
 

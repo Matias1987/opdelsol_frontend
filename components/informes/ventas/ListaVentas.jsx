@@ -32,8 +32,7 @@ const ListaVentas = (props) => {
     const buttons = (_idventa, _idcliente) => {
         return <>
             {typeof props.cobrar !== 'undefined' ?  <>
-            <CustomModal openButtonText="Cobrar">
-                <CobroOperacion 
+            <CobroOperacion 
                 mustCancel={typeof props.mustCancel === 'undefined' ? false : props.mustCancel}
                 idventa={_idventa} 
                 idcliente={_idcliente} 
@@ -56,11 +55,13 @@ const ListaVentas = (props) => {
                             break;
                         }
                     }
+                    setReload(!reload)
                 }} />
-            </CustomModal>
             </>:<></>}
             {typeof props.imprimir !== 'undefined' ?  <CustomModal openButtonText={"Imprimir"}><ImprimirSobreVenta idventa={_idventa} /></CustomModal>:<></>}
             {typeof props.detalles !== 'undefined' ?  <CustomModal openButtonText={"Imprimir"}><InformeVenta idventa={_idventa} /></CustomModal>:<></>}
+            {typeof props.marcarTerminado !== 'undefined' ?  <Button size="small" danger>Marcar Terminado</Button>:<></>}
+
         </>
     }
 
