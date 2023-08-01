@@ -26,6 +26,11 @@ const VDItem = (props) => {
     }
 
     const onAddNewCode = (idcodigo) => {
+        const found = items.find(r=>r.idcodigo == idcodigo)
+        if(found){
+            alert("Codigo ya cargado")
+            return
+        }
         alert(get.detalle_stock + globals.obtenerSucursal() + "/" + idcodigo)
         //get details
         fetch(get.detalle_stock + globals.obtenerSucursal() + "/" + idcodigo)
@@ -60,7 +65,7 @@ const VDItem = (props) => {
     }
 
     return (<>
-    <CustomModal openButtonText="Agregar" title="">
+    <CustomModal openButtonText="Agregar" title="Agregar Productos">
         <SearchStockVentas callback={(idcodigo)=>{
             onAddNewCode(idcodigo)
         }} />

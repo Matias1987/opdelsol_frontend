@@ -15,6 +15,7 @@ import globals from "@/src/globals";
  * @param monto: monto  
  * @param title: window's title
  * @param mustCancel: saldo must be 0
+ * @param totalsHidden: hide totals
  */
 export default function CobroOperacion(props){
     const [mp, setMP] = useState(null)
@@ -32,47 +33,10 @@ export default function CobroOperacion(props){
             setInformeOpen(true)
         }
         else{
-            if(typeof props.idventa !== 'undefined')
-            {
-                //get venta details
-                fetch(get.venta + props.idventa)
-                .then(response=>response.json())
-                .then((response)=>{
-                    
-                    //alert(JSON.stringify(response.data[0]))
-                    setDataVenta(d=>{
-                        
-                        return response.data[0]
-                        }
-                        )
-                        //response.data[0]
-                })
             
-            }
-        
-            if(typeof props.idcliente !== 'undefined')
-            {
-                //get cliente details
-                fetch(get.cliente_por_id + props.idcliente)
-                .then(response=>response.json())
-                .then((response)=>{
-                    //alert("jsfld")
-                    //alert(JSON.stringify(response))
-                    setDataCliente(
-                        {
-                            nombre: response.data[0].nombre_completo,
-                        
-                            dni: response.data[0].dni,
-            
-                            telefono1: response.data[0].telefono1,
-            
-                            direccion: response.data[0].direccion,
-                        }
-                    )
-                })
-            }
     }
     },[idCobro])
+
 
     const handleCancel = () => {setInformeOpen(false)}
 
@@ -148,8 +112,51 @@ export default function CobroOperacion(props){
     <></>
 
 
+    const onOpen = () => {
+        if(typeof props.idventa !== 'undefined')
+            {
+                //get venta details
+                fetch(get.venta + props.idventa)
+                .then(response=>response.json())
+                .then((response)=>{
+                    
+                    //alert(JSON.stringify(response.data[0]))
+                    setDataVenta(d=>{
+                        
+                        return response.data[0]
+                        }
+                        )
+                        //response.data[0]
+                })
+            
+            }
+        
+            if(typeof props.idcliente !== 'undefined')
+            {
+                //get cliente details
+                fetch(get.cliente_por_id + props.idcliente)
+                .then(response=>response.json())
+                .then((response)=>{
+                    //alert("jsfld")
+                    //alert(JSON.stringify(response))
+                    setDataCliente(
+                        {
+                            nombre: response.data[0].nombre_completo,
+                        
+                            dni: response.data[0].dni,
+            
+                            telefono1: response.data[0].telefono1,
+            
+                            direccion: response.data[0].direccion,
+                        }
+                    )
+                })
+            }
+        setOpen(true)
+    }
+
     return (<>
-            <Button onClick={()=>{setOpen(true)}}>{"Cargar Pago"}</Button>
+            <Button onClick={onOpen}>{"Cargar Pago"}</Button>
             <Modal
                 width={"80%"}
                 title={"Cobro"}
@@ -172,9 +179,8 @@ export default function CobroOperacion(props){
                     </Col>
                 </Row>
                 <Row>
-                    
                     <Col span={24}>
-                        <ModoPago callback={onMPChange} total={5000} />   
+                        <ModoPago totalsHidden={typeof props.totalsHidden === 'undefined' ? true : props.totalsHidden} callback={onMPChange} total={dataVenta == null ? 0 : dataVenta.debe} />  
                     </Col>
                 </Row>
                 
@@ -200,9 +206,9 @@ export default function CobroOperacion(props){
                 okText= {"OK"}
                 destroyOnClose={true}
             >
-            <PrinterWrapper>
+                <PrinterWrapper>
                     <InformeX idcobro={idCobro}/>
-            </PrinterWrapper>
-        </Modal>
+                </PrinterWrapper>
+            </Modal>
 
             </>)}

@@ -42,7 +42,7 @@ export default function VentaDirecta(){
                     productos:productos, 
                     tipo:"1", 
                     total: total,
-                    subTotal: subTotal,
+                    subtotal: subTotal,
                 }
                 
                 console.log(JSON.stringify(__venta))
@@ -63,9 +63,10 @@ export default function VentaDirecta(){
                         prod.forEach(p=>{
                             t+=p.total;
                         })
-                        setSubTotal(st=>t);
+                        setSubTotal(t);
                         var dto = typeof venta === 'undefined' ? 0 : venta?.descuento||0 
                         setTotal((_total)=>(t - dto));
+                        
                     }
                 }
             />

@@ -47,7 +47,7 @@ export default function VentaLCLab(){
             productos: productos, 
             tipo:"6", 
             total: total,
-            subTotal: subTotal
+            subtotal: subTotal
         }
         console.log(JSON.stringify(venta))
 

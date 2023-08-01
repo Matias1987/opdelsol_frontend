@@ -24,6 +24,7 @@ export default function VentaBase(props){
         descuento: 0,
         total: 0,
         fechaRetiro: null,
+        horaRetiro: null,
         comentarios: "",
         productos: null,
         fksucursal: globals.obtenerSucursal(),
@@ -128,7 +129,7 @@ export default function VentaBase(props){
                 </Col>
                 <Col span="12">
                     <Form.Item label={"Hora de Retiro"}>
-                        <TimePicker format={'HH:mm'}  onChange={(value)=>{onChange("horaRetiro", value)}} />
+                        <TimePicker format={'HH:mm'}  onChange={(value,timeString)=>{onChange("horaRetiro", timeString)}} />
                     </Form.Item>
                 </Col>
                 <Col span="24">

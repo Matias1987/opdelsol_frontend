@@ -32,7 +32,7 @@ export default function VentaLCStock(){
             productos: productos, 
             tipo:"3", 
             total: total,
-            subTotal: subTotal,
+            subtotal: subTotal,
         }
         console.log(JSON.stringify(venta))
 

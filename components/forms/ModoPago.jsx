@@ -77,6 +77,9 @@ export default function ModoPago(props){
                     
                 </Col>
             </Row>
+
+            {
+                props.totalsHidden ?  <></> :
             <Row>
                 <Col span={6}>
                     <Input readOnly prefix="Total a Pagar"  bordered={false} style={{color:"red"}} value={props.total} />
@@ -88,5 +91,6 @@ export default function ModoPago(props){
                     <Input readOnly prefix="Saldo"  bordered={false} style={{color:"red"}} value={  (typeof props.total === 'undefined' ? 0 : props.total)-modoPago.total} />
                 </Col>
             </Row>
+            }
         </>
     </>)}

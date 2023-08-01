@@ -33,6 +33,7 @@ const ListaVentas = (props) => {
         return <>
             {typeof props.cobrar !== 'undefined' ?  <>
             <CobroOperacion 
+                totalsHidden={false}
                 mustCancel={typeof props.mustCancel === 'undefined' ? false : props.mustCancel}
                 idventa={_idventa} 
                 idcliente={_idcliente} 

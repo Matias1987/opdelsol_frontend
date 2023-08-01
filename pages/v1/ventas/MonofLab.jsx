@@ -47,7 +47,8 @@ export default function VentaMonofocalesLab(){
             ...v, 
             productos: productos, 
             tipo:"4", 
-            total: total
+            total: total,
+            subtotal:subTotal,
         }
         console.log(JSON.stringify(venta))
 
