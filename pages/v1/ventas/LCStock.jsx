@@ -6,6 +6,7 @@ import { post } from "@/src/urls";
 import { post_method } from "@/src/helpers/post_helper";
 import { Modal } from "antd";
 import ImprimirSobreVenta from "./informes/sobre_venta";
+import globals from "@/src/globals";
 
 export default function VentaLCStock(){
     const [total, setTotal] = useState(0);
@@ -27,20 +28,27 @@ export default function VentaLCStock(){
     }
 
     const onFinish = (v) => {
-        const venta = {
-            ...v, 
-            productos: productos, 
-            tipo:"3", 
-            total: total,
-            subtotal: subTotal,
-        }
-        console.log(JSON.stringify(venta))
+        globals.obtenerCajaAsync((result)=>{
+            if(result==null){
+                alert("Caja Cerrada")
+                return;
+            }
+            const venta = {
+                ...v, 
+                productos: productos, 
+                tipo:"3", 
+                total: total,
+                subtotal: subTotal,
+                fkcaja: result.idcaja,
+            }
+            console.log(JSON.stringify(venta))
 
-        post_method(post.insert.venta,venta,(response)=>{
-            alert(JSON.stringify(response.data))
-            setIdVenta(response.data)
-            setPrintOpen(true)
-          })
+            post_method(post.insert.venta,venta,(response)=>{
+                alert(JSON.stringify(response.data))
+                setIdVenta(response.data)
+                setPrintOpen(true)
+            })
+        })
     }
 
     const callback_venta_modif = (_venta) => {

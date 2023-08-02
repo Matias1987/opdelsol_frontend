@@ -34,19 +34,25 @@ const GastoForm = (props) => {
 
     const onFinish = (values) => {
         
-        const data = {
-            ...gasto,
-            caja_idcaja: globals.obtenerCaja(),
-            usuario_idusuario: globals.obtenerUID(),
-            sucursal_idsucursal: globals.obtenerSucursal()
-        }
+        
 
         alert(data)
-
-        post_method(post.insert.gasto,data,(response)=>{
-            alert("OK")
-            //set
-            props?.callback?.(response.data)
+        globals.obtenerCajaAsync((result)=>{
+            if(result==null){
+                alert("Caja Cerrada")
+                return;
+            }
+            const data = {
+                ...gasto,
+                caja_idcaja: result.idcaja,
+                usuario_idusuario: globals.obtenerUID(),
+                sucursal_idsucursal: globals.obtenerSucursal()
+            }
+            post_method(post.insert.gasto,data,(response)=>{
+                alert("OK")
+                //set
+                props?.callback?.(response.data)
+            })
         })
     }
 

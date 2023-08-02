@@ -170,6 +170,8 @@ const get = {
     //gastos
     conceptos_gasto: remote_base_url + "conceptogastos/",
     lista_gastos: remote_base_url + "gastos/",
+
+    //caja
     caja: remote_base_url + "caja/c/",//idsucursal
 
 

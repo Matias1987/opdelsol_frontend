@@ -73,30 +73,33 @@ export default function VentaRecetaStock(){
                 if(productos===null){
                     alert("sin productos")
                 }
-             
-                const _venta = {
-                    ...data,
-                    productos: productos,
-                    total: total,
-                    subtotal: subTotal,
-                    tipo: "2"
-                }
 
-                alert(JSON.stringify(_venta))
+                globals.obtenerCajaAsync((result)=>{
+                    if(result==null){
+                        alert("Caja Cerrada")
+                        return;
+                    }
+                    const _venta = {
+                        ...data,
+                        productos: productos,
+                        total: total,
+                        subtotal: subTotal,
+                        tipo: "2",
+                        fkcaja: result.idcaja,
+                    }
 
-                console.log(JSON.stringify(_venta))
+                    alert(JSON.stringify(_venta))
 
-                
+                    console.log(JSON.stringify(_venta))
 
-                  //alert(post.insert.venta,_venta)
-                  post_method(post.insert.venta,_venta,(response)=>{
-                    alert(JSON.stringify(response.data))
-                    
-                    setIdVenta(response.data)
-                    setPrintOpen(true)
+                    post_method(post.insert.venta,_venta,(response)=>{
+                        alert(JSON.stringify(response.data))
+                        
+                        setIdVenta(response.data)
+                        setPrintOpen(true)
 
-                  })
-
+                    })
+            })//caja
             }}>
             <RecetaStockItems callback={callback} />
         </VentaBase>

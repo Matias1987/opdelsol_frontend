@@ -59,15 +59,23 @@ export default function CobroOperacion(props){
             return
         }
 
-        if(typeof props.mustCancel !== 'undefined'){
-            if(props.mustCancel && (props.monto - mp.total)>0){
+        if(typeof props.mustCancel !== 'undefined' || entrega){
+            //alert(`comparing: ${entrega} , ${props.mustCancel} , ${mp.total} ${(+dataVenta.debe - +mp.total)}`)
+            if( (entrega || props.mustCancel) && (dataVenta.debe - mp.total)!=0){
                 alert("Saldo distinto a 0")
                 return
             }
         }
 
-        var params = {mp: mp,tipo: props.tipo, monto: mp.total, caja_idcaja: globals.obtenerCaja(), usuario_idusuario: globals.obtenerUID()}//<---- TEMPORARY
-        params = typeof props.idventa === 'undefined' ? params : {...params,iventa:props.idventa} 
+        var params = {
+            mp: mp,
+            tipo: props.tipo, 
+            monto: mp.total, 
+            caja_idcaja: globals.obtenerCaja(), 
+            usuario_idusuario: globals.obtenerUID(),
+            sucursal_idsucursal: globals.obtenerSucursal()
+        }//<---- TEMPORARY
+        params = typeof props.idventa === 'undefined' ? params : {...params,idventa:props.idventa} 
         params = typeof props.idcliente === 'undefined' ? params : {...params,idcliente:props.idcliente} 
 
         if(typeof props.tipo !== 'undefined'){
@@ -81,13 +89,31 @@ export default function CobroOperacion(props){
 
         alert(JSON.stringify(params))
 
-        post_method(post.insert.cobro,params,(id)=>{
-            setIdCobro(id.data)
+        //THIS REGION IS TEMPORARILY COMMENTED
+
+        globals.obtenerCajaAsync((response)=>{
+
+
+            if(response==null)
+            {
+                alert("Caja cerrada")
+                return;
+            }
+
+            params.caja_idcaja=response.idcaja;
+            
+            post_method(post.insert.cobro,params,(id)=>{
+                setIdCobro(id.data)
+            })
+            
+            const accion = typeof props.tipo === 'undefined' ? '':props.tipo
+            props.callback?.({accion: accion, estado_next: (accion == "ingreso" ? (entrega ? "ENTREGADO" : "PENDIENTE") : (accion == "entrega" ? "ENTREGADO": "PENDIENTE"))     })
+            setOpen(false)
         })
         
-        const accion = typeof props.tipo === 'undefined' ? '':props.tipo
-        props.callback?.({accion: accion, estado_next: (accion == "ingreso" ? (entrega ? "ENTREGADO" : "PENDIENTE") : (accion == "entrega" ? "ENTREGADO": "PENDIENTE"))     })
-        setOpen(false)
+        
+        
+    
     }
     
     const cliente_detalle = () => (

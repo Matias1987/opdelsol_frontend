@@ -1,4 +1,5 @@
 import useStorage from "../useStorage"
+import { get } from "./urls";
 const globals =  {
     establecerSucursal: (idsucursal) =>
     {
@@ -25,13 +26,25 @@ const globals =  {
     obtenerCaja: () => {
         return 1
     },
+
     obtenerCajaAsync: (callback) => {
-        fetch("")
+        fetch(get.caja+globals.obtenerSucursal())
         .then(response=>response.json())
         .then((response)=>{
-            callback(response.data)
+            alert(JSON.stringify(response))
+            if(response.data.status=='OK')
+            {
+                callback(response.data)
+                const {setItem} = useStorage();
+                setItem("idcaja",response.data.idcaja);
+            }
+            else{
+                //caja not found!
+                callback(null)
+            }
         })
     },
+
     obtenerTipoCuenta: () =>{
         return ['DEP_ARM','DEP_CRIS','DEP_LIQ']
     },

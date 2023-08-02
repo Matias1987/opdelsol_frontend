@@ -6,6 +6,7 @@ import { post } from "@/src/urls";
 import { post_method } from "@/src/helpers/post_helper";
 import { Modal } from "antd";
 import ImprimirSobreVenta from "./informes/sobre_venta";
+import globals from "@/src/globals";
 
 export default function VentaLCLab(){
     const [productos, setProductos] = useState(null);
@@ -42,21 +43,30 @@ export default function VentaLCLab(){
 
     const onFinish = (v) => {
 
-        const venta = {
-            ...v,
-            productos: productos, 
-            tipo:"6", 
-            total: total,
-            subtotal: subTotal
-        }
-        console.log(JSON.stringify(venta))
+        globals.obtenerCajaAsync((result)=>{
 
-        post_method(post.insert.venta,venta,(response)=>{
-            alert(JSON.stringify(response.data))
-            setIdVenta(response.data)
-            setPrintOpen(true)
-          })
+            if(result===null)
+            {
+                alert("Caja cerrada")
+                return;
+            }
 
+            const venta = {
+                ...v,
+                productos: productos, 
+                tipo:"6", 
+                total: total,
+                subtotal: subTotal,
+                fkcaja: result.idcaja,
+            }
+            console.log(JSON.stringify(venta))
+
+            post_method(post.insert.venta,venta,(response)=>{
+                alert(JSON.stringify(response.data))
+                setIdVenta(response.data)
+                setPrintOpen(true)
+            })
+    });
     }
 
     return (
