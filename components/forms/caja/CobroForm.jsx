@@ -16,6 +16,7 @@ import globals from "@/src/globals";
  * @param title: window's title
  * @param mustCancel: saldo must be 0
  * @param totalsHidden: hide totals
+ * @param  callback: callback...
  */
 export default function CobroOperacion(props){
     const [mp, setMP] = useState(null)
@@ -78,12 +79,14 @@ export default function CobroOperacion(props){
             }
         }
 
+        alert(JSON.stringify(params))
+
         post_method(post.insert.cobro,params,(id)=>{
             setIdCobro(id.data)
         })
         
         const accion = typeof props.tipo === 'undefined' ? '':props.tipo
-        props.callback?.({accion: accion, estado_next: (accion == "ingreso" ? (entrega ? "ENTREGADO" : "DEPOSITO") : (accion == "entrega" ? "ENTREGADO": "DEPOSITO"))     })
+        props.callback?.({accion: accion, estado_next: (accion == "ingreso" ? (entrega ? "ENTREGADO" : "PENDIENTE") : (accion == "entrega" ? "ENTREGADO": "PENDIENTE"))     })
         setOpen(false)
     }
     
@@ -98,7 +101,7 @@ export default function CobroOperacion(props){
     )
 
     const venta_detalle = () => (
-        dataVenta == null ? <Spin />  :
+        dataVenta == null ? <></>  :
         <>
         <p>Nro. Venta: {dataVenta.idventa} &nbsp;&nbsp;&nbsp; Fecha: {dataVenta.fecha}</p>
         </>

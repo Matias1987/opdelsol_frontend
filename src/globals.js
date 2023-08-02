@@ -25,6 +25,13 @@ const globals =  {
     obtenerCaja: () => {
         return 1
     },
+    obtenerCajaAsync: (callback) => {
+        fetch("")
+        .then(response=>response.json())
+        .then((response)=>{
+            callback(response.data)
+        })
+    },
     obtenerTipoCuenta: () =>{
         return ['DEP_ARM','DEP_CRIS','DEP_LIQ']
     },

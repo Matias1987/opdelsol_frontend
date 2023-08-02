@@ -61,7 +61,9 @@ const ListaVentas = (props) => {
             </>:<></>}
             {typeof props.imprimir !== 'undefined' ?  <CustomModal openButtonText={"Imprimir"}><ImprimirSobreVenta idventa={_idventa} /></CustomModal>:<></>}
             {typeof props.detalles !== 'undefined' ?  <CustomModal openButtonText={"Imprimir"}><InformeVenta idventa={_idventa} /></CustomModal>:<></>}
-            {typeof props.marcarTerminado !== 'undefined' ?  <Button size="small" danger>Marcar Terminado</Button>:<></>}
+            {typeof props.marcarTerminado !== 'undefined' ?  <Button size="small" danger onClick={(e)=>{
+                post_method(post.cambiar_estado_venta,{idventa: _idventa, estado: 'TERMINADO'},(resp)=>{alert("OK"); setReload(!reload)})
+            }}>Marcar Terminado</Button>:<></>}
 
         </>
     }

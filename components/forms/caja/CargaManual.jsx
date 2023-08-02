@@ -1,10 +1,45 @@
-const { get } = require("@/src/urls")
+import globals from "@/src/globals"
+import { post_method } from "@/src/helpers/post_helper"
+
+const { get, post } = require("@/src/urls")
 const { Form, Input, Row, Col, Modal, Button, Spin } = require("antd")
 const { useEffect, useState } = require("react")
 
 const CargaManual = (props) => {
     const [dataCliente, setData] = useState(null)
     const [open, setOpen] = useState(false);
+    const [cargaManual, setCargaManual] = useState({
+        monto: 0,
+        concepto: 0,
+    })
+
+    const onFinish = (values) => {
+        /*
+        data.caja_idcaja,
+        data.usuario_idusuario, 
+        data.cliente_idcliente, 
+        data.sucursal_idsucursal, 
+        data.monto, 
+        data.concepto, 
+        */
+        const data = {
+            ...cargaManual,
+            caja_idcaja: globals.obtenerCaja(),
+            usuario_idusuario: globals.obtenerUID(),
+            cliente_idcliente: props.idcliente,
+            sucursal_idsucursal: globals.obtenerSucursal()
+        }
+
+        post_method(post.insert.carga_manual, data,(response)=>{
+            alert("Carga Manual Cargada con ID: " + response.data)
+            props?.callback?.()
+            setOpen(false)
+        })
+    }
+
+    const onFinishFailed = (error) => {
+
+    }
 
     const showModal = () => {
     
@@ -21,7 +56,11 @@ const CargaManual = (props) => {
         })
     },[])
 
-
+    const onChange = (value,idx) => {
+        setCargaManual(
+            {...cargaManual, [idx]:value}
+        )
+    }
 
     const handleCancel = () => {;
         setOpen(false);
@@ -51,16 +90,16 @@ const CargaManual = (props) => {
             {detalles_cliente()}
         </Row>
         <Row>
-            <Col>
-                <Form>
+            <Col span={24}>
+                <Form onFinish={onFinish} onFinishFailed={onFinishFailed}>
                     <Form.Item label={"Monto"}>
-                        <Input />
+                        <Input onChange={(e)=>{onChange(e.target.value, "monto")}}/>
                     </Form.Item>
                     <Form.Item label={"Motivo"}>
-                        <Input />
+                        <Input onChange={(e)=>{onChange(e.target.value, "concepto")}}/>
                     </Form.Item>
                     <Form.Item>
-                        <Button>Guardar</Button>
+                        <Button  block type="primary" htmlType="submit">Guardar</Button>
                     </Form.Item>
                 </Form>
             </Col>

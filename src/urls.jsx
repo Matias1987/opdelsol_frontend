@@ -75,7 +75,9 @@ const post = {
         medico: remote_base_url + "medicos/",
         mutual: remote_base_url + "mutuales/",
         venta: remote_base_url + "ventas/",
-        cobro: remote_base_url + "cobros/"
+        cobro: remote_base_url + "cobros/",
+        carga_manual: remote_base_url + "cargamanual/",
+        gasto: remote_base_url + "gastos/",
         
     },
     update:{
@@ -167,7 +169,8 @@ const get = {
 
     //gastos
     conceptos_gasto: remote_base_url + "conceptogastos/",
-    lista_gastos: remote_base_url + "gastos/"
+    lista_gastos: remote_base_url + "gastos/",
+    caja: remote_base_url + "caja/c/",//idsucursal
 
 
 }

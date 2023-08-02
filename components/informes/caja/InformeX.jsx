@@ -175,7 +175,7 @@ export default function InformeX(props){
                                         </td>
                                         <td>
                                             <p>Nro Recibo: {dataPago.idcobro}<br />
-                                            Fecha: {dataPago.fecha}<br />
+                                            Fecha: {dataPago.fecha_formatted}<br />
                                             &nbsp;</p>
                                             <p><b>{_tipo}</b></p>
                                         </td>
