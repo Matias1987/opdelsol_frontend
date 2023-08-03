@@ -2,6 +2,7 @@ import { Button, Checkbox, Col, Divider, Input, Row, Select, Table } from "antd"
 import { useEffect, useState } from "react";
 import CustomModal from "../CustomModal";
 import { DeleteFilled } from "@ant-design/icons";
+import { get } from "@/src/urls";
 
 /**
  * 
@@ -10,7 +11,20 @@ import { DeleteFilled } from "@ant-design/icons";
  */
 export default function ModoPago(props){
     //const [saldo, setSaldo] = useState(0)
+    const [tarjetas, setTarjetas] = useState([])
     useEffect(()=>{
+
+        fetch(get.lista_tarjetas)
+        .then(response=>response.json())
+        .then((response)=>{
+            setTarjetas(
+                response.data.map(t=>({
+                    value: t.idtarjeta,
+                    label: t.nombre,
+                }))
+            )
+        })
+
         if(typeof props === 'undefined'){
             alert("props undefined")
         }
@@ -22,6 +36,7 @@ export default function ModoPago(props){
         efectivo_monto: 0,
         tarjeta_monto: 0,
         tarjeta_tarjeta: 0,
+        fk_tarjeta: null,
         ctacte_monto: 0,
         ctacte_cuotas: 0,
         ctacte_monto_cuotas: 0,
@@ -52,13 +67,18 @@ export default function ModoPago(props){
         <h5>Modo de Pago</h5>
         <>
             <Row>
+
                 <Col span={8} >
                     <Input  prefix="Efectivo: " onChange={(e)=>{onChange("efectivo_monto", e.target.value)}}></Input>
                 </Col>
             </Row>
             <Row>
-                <Col span={8}><Input   prefix="Tarjeta: " onChange={(e)=>{onChange("tarjeta_monto", e.target.value)}}></Input></Col>
-                <Col span={10}><Input   prefix="Tarjeta: " onChange={(e)=>{onChange("tarjeta_tarjeta", e.target.value)}}></Input></Col>
+                <Col span={6}><Input   prefix="Tarjeta: " onChange={(e)=>{onChange("tarjeta_monto", e.target.value)}}></Input></Col>
+                <Col span={4}><Input   prefix="Tarjeta: " onChange={(e)=>{onChange("tarjeta_tarjeta", e.target.value)}}></Input></Col>
+                <Col span={14}>
+                    Tarjeta: &nbsp;
+                    <Select options={tarjetas} style={{width:'300px'}} onChange={(value)=>{onChange("fk_tarjeta", value)}} />
+                </Col>
                 
             </Row>
             <Row>
