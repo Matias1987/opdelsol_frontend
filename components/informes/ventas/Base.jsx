@@ -26,7 +26,7 @@ const InformeVenta = (props) => {
 		fetch(url+props.idventa)
 		.then(response=>response.json())
 		.then((response)=>{
-			//alert("data venta: " + JSON.stringify(response))
+			alert("data venta: " + JSON.stringify(response))
 			setData(response.data[0])
 		})
 	},[])

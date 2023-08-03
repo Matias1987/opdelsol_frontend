@@ -29,6 +29,7 @@ const public_urls = {
     lista_cobros_sucursal: local_base_url + "caja/ListaCobros/",
     cierre_caja: local_base_url + "caja/",
     inicio_caja: local_base_url + "caja/",
+    caja_admin: local_base_url + "caja/panelCajaAdmin/",
     listado_caja: local_base_url + "caja/",
     ventas_ingresadas: local_base_url + "caja/ventas_ingresadas",
     ventas_pendientes: local_base_url + "caja/ventas_pendientes",
@@ -78,6 +79,7 @@ const post = {
         cobro: remote_base_url + "cobros/",
         carga_manual: remote_base_url + "cargamanual/",
         gasto: remote_base_url + "gastos/",
+        caja: remote_base_url + "caja/"
         
     },
     update:{
@@ -173,6 +175,7 @@ const get = {
 
     //caja
     caja: remote_base_url + "caja/c/",//idsucursal
+    cerrar_caja: remote_base_url + "caja/cerrar/",//idcaja
 
     //tarjetas
     lista_tarjetas: remote_base_url + "tarjetas/" 

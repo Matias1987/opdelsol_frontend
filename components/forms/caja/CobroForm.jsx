@@ -6,6 +6,8 @@ import { post_method } from "@/src/helpers/post_helper";
 import PrinterWrapper from "@/components/PrinterWrapper";
 import InformeX from "@/components/informes/caja/InformeX";
 import globals from "@/src/globals";
+import CustomModal from "@/components/CustomModal";
+import ListaCobros from "./ListaCobros";
 
 /**
  * 
@@ -21,7 +23,7 @@ import globals from "@/src/globals";
 export default function CobroOperacion(props){
     const [mp, setMP] = useState(null)
     const [mustSave, setMustSave] = useState(false)
-    const [entrega, setEntrega] = useState(true)
+    const [entrega, setEntrega] = useState(false)
     const [dataVenta, setDataVenta] = useState(null)
     const [dataCliente, setDataCliente] = useState(null)
     const [informeOpen, setInformeOpen] = useState(false)
@@ -59,12 +61,11 @@ export default function CobroOperacion(props){
             return
         }
 
-        if(typeof props.mustCancel !== 'undefined' || entrega){
-            //alert(`comparing: ${entrega} , ${props.mustCancel} , ${mp.total} ${(+dataVenta.debe - +mp.total)}`)
-            if( (entrega || props.mustCancel) && (dataVenta.debe - mp.total)!=0){
-                alert("Saldo distinto a 0")
-                return
-            }
+        const _mc = typeof props.mustCancel !== 'undefined' ? props.mustCancel : false;
+
+        if( (entrega || _mc) && (dataVenta.debe - mp.total)!=0){
+            alert("Saldo distinto a 0")
+            return
         }
 
         var params = {
@@ -130,6 +131,10 @@ export default function CobroOperacion(props){
         dataVenta == null ? <></>  :
         <>
         <p>Nro. Venta: {dataVenta.idventa} &nbsp;&nbsp;&nbsp; Fecha: {dataVenta.fecha}</p>
+        <p>Monto: <b>{dataVenta.debe}</b>  Haber: <b>{dataVenta.haber}</b>  Saldo:  <b>{dataVenta.saldo}</b></p>
+        <CustomModal openButtonText="Ver Pagos">
+            <ListaCobros />
+        </CustomModal>
         </>
     )
     const estado_switch = _ => props.tipo == 'ingreso' ? <Row>
@@ -209,7 +214,7 @@ export default function CobroOperacion(props){
                 </Row>
                 <Row>
                     <Col span={24}>
-                        <ModoPago totalsHidden={typeof props.totalsHidden === 'undefined' ? true : props.totalsHidden} callback={onMPChange} total={dataVenta == null ? 0 : dataVenta.debe} />  
+                        <ModoPago totalsHidden={typeof props.totalsHidden === 'undefined' ? true : props.totalsHidden} callback={onMPChange} total={dataVenta == null ? 0 : dataVenta.saldo} />  
                     </Col>
                 </Row>
                 
