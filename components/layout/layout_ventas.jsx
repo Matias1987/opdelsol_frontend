@@ -1,7 +1,7 @@
 import { get, public_urls } from "@/src/urls";
 import useStorage from "@/useStorage";
 import { LogoutOutlined } from "@ant-design/icons";
-import { Button, Layout } from "antd";
+import { Alert, Button, Layout } from "antd";
 import { useEffect } from "react";
 import SucursalLabel from "../sucursal_label";
 import globals from "@/src/globals";
@@ -83,6 +83,13 @@ export default function LayoutVentas({children}){
                         </Header>
                         <MenuVentasTop />
             <Content style={{ margin: '40px 100px', padding: 24, background: '#fff', minHeight: 280 }}>
+            <Alert
+                message="Caja de fecha anterior"
+                description="Error Description Error Description Error Description Error Description Error Description Error Description"
+                type="error"
+                closable
+                //onClose={onClose}
+                />
                 {children}
             </Content>
         </Layout>

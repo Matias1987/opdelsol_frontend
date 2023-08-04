@@ -93,10 +93,10 @@ const CargaManual = (props) => {
             <Col span={24}>
                 <Form onFinish={onFinish} onFinishFailed={onFinishFailed}>
                     <Form.Item label={"Monto"}>
-                        <Input onChange={(e)=>{onChange(e.target.value, "monto")}}/>
+                        <Input  onClick={(e)=>{e.target.select()}}  onChange={(e)=>{onChange(e.target.value, "monto")}}/>
                     </Form.Item>
                     <Form.Item label={"Motivo"}>
-                        <Input onChange={(e)=>{onChange(e.target.value, "concepto")}}/>
+                        <Input  onClick={(e)=>{e.target.select()}}  onChange={(e)=>{onChange(e.target.value, "concepto")}}/>
                     </Form.Item>
                     <Form.Item>
                         <Button  block type="primary" htmlType="submit">Guardar</Button>

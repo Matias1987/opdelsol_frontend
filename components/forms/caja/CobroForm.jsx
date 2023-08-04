@@ -70,9 +70,11 @@ export default function CobroOperacion(props){
             return
         }
 
-        if(dataVenta.deve < mp.total){
-            alert("Monto mayor a deuda")
-            return
+        if(dataVenta!=null){
+            if(dataVenta.debe < mp.total){
+                alert("Monto mayor a deuda")
+                return
+            }
         }
 
         var params = {
@@ -118,10 +120,6 @@ export default function CobroOperacion(props){
             props.callback?.({accion: accion, estado_next: (accion == "ingreso" ? (entrega ? "ENTREGADO" : "PENDIENTE") : (accion == "entrega" ? "ENTREGADO": "PENDIENTE"))     })
             setOpen(false)
         })
-        
-        
-        
-    
     }
     
     const cliente_detalle = () => (
@@ -167,12 +165,6 @@ export default function CobroOperacion(props){
                         return response.data[0]
                         }
                         )
-                
-                        //GET VENTA MP
-/*
-                        const __url = props.tipo == 'ingreso' ? get.get_venta_mp : get.get_venta_mp_ctacte;
-                        
-                        */
                 })
             }
         
@@ -197,6 +189,17 @@ export default function CobroOperacion(props){
                 })
             }
         setOpen(true)
+    }
+
+    /**
+     * Para enviar a deposito sin cobrar
+     */
+
+    const enviarADeposito = () =>{
+        /**
+         * Al marcarse como deposito sin cobrar, las filas de modo de pago deben ser eliminadas!!
+         */
+        post_method(post.cambiar_estado_venta,{idventa: props.idventa, estado: 'PENDIENTE', removeMPRows:1},(resp)=>{ alert("OK"); setOpen(false); props?.callback?.()})
     }
 
     return (<>
@@ -226,7 +229,7 @@ export default function CobroOperacion(props){
                     <Col span={24}>
                         <ModoPago 
                         idventa={typeof props.idventa === 'undefined' ? -1 : props.idventa}
-                        mostrarSoloCtaCte={estado!='ingreso'}
+                        mostrarSoloCtaCte={props.tipo!='ingreso'}
                         totalsHidden={typeof props.totalsHidden === 'undefined' ? true : props.totalsHidden} 
                         callback={onMPChange} 
                         total={dataVenta == null ? 0 : dataVenta.saldo} 
@@ -238,7 +241,10 @@ export default function CobroOperacion(props){
                 <Row>
                     <Col span={24}>
                         <Divider />
-                        <Button danger onClick={onCobrarClick}>Cobrar</Button>
+                        <Button danger onClick={onCobrarClick}>Cobrar</Button>&nbsp;&nbsp;
+                        {
+                            props.tipo == 'ingreso' && !entrega ? <Button size="small" type="primary" onClick={enviarADeposito}>Enviar a dep&oacute;sito</Button> : <></>
+                        }
                     </Col>
                 </Row>
                 </Modal>

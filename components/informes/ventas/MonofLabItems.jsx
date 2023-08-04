@@ -22,6 +22,7 @@ export default function MonofLabItems(props){
     <table style={{width:"100%", fontSize:".75em", padding:"0"}}>
         <thead>
             <tr>
+                <th></th>
                 <th style={{padding:"0", textAlign:"left"}}>C&oacute;digo</th>
                 <th style={{padding:"0", textAlign:"left"}}>Descripci&oacute;n</th>
                 <th style={{padding:"0", textAlign:"center"}}>Esf.</th>
@@ -34,6 +35,7 @@ export default function MonofLabItems(props){
             {
                 data.map(r=>(
                     <tr >
+                        <td>{r.tipo}</td>
                         <td style={{padding:"0",textAlign:"left"}}><b>{r.codigo}</b></td>
                         <td style={{padding:"0",textAlign:"left"}}>{r.descripcion}</td>
                         <td style={{padding:"0",textAlign:"center"}}>{r.esf}</td>

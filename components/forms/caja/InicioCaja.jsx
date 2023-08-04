@@ -44,7 +44,7 @@ export default function InicioCaja(props){
                     </h3>
                     <Form onFinish={onFinish} onFinishFailed={onFinishFailed}>
                         <Form.Item label={"Monto Inicial"} name={"monto"} rules={[{required:true}]}>
-                            <Input />
+                            <Input  onClick={(e)=>{e.target.select()}}  />
                         </Form.Item>
                         <Form.Item label={"Comentarios"} name={"comentarios"}>
                             <Input />

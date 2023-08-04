@@ -1,7 +1,7 @@
 import { Button, Checkbox, Col, Divider, Input, Row, Select, Table } from "antd";
 import { useEffect, useState } from "react";
 import CustomModal from "../CustomModal";
-import { DeleteFilled } from "@ant-design/icons";
+import { DeleteFilled, RedoOutlined } from "@ant-design/icons";
 import { get } from "@/src/urls";
 
 /**
@@ -41,7 +41,7 @@ export default function ModoPago(props){
                         .then((response)=>{
                             
                             var _temp = JSON.parse(JSON.stringify(modoPago));
-                            
+                            //alert(__url)
                             response.data.forEach(r=>{
                                 switch(r.modo_pago)
                                 {
@@ -68,7 +68,21 @@ export default function ModoPago(props){
                                 }
                             })
 
-                            setModoPago(_temp)
+                            setModoPago(t=>
+                            {
+                                _temp.total =   parseFloat(_temp.cheque_monto||0)+
+                                                parseFloat(_temp.ctacte_monto||0)+
+                                                parseFloat(_temp.tarjeta_monto||0)+
+                                                parseFloat(_temp.mutual_monto||0)+
+                                                parseFloat(_temp.efectivo_monto||0)
+                                ;
+
+                                props?.callback?.(_temp)
+
+                                return _temp
+                            })
+
+                            
                             
                         })
 
@@ -138,12 +152,12 @@ export default function ModoPago(props){
             <Row>
 
                 <Col span={8} >
-                    <Input value={modoPago.efectivo_monto}  prefix="Efectivo: " onChange={(e)=>{onChange("efectivo_monto", e.target.value)}}></Input>
+                    <Input onClick={(e)=>{e.target.select()}} value={modoPago.efectivo_monto}  prefix="Efectivo: " onChange={(e)=>{onChange("efectivo_monto", e.target.value)}}></Input>
                 </Col>
             </Row>
             <Row>
-                <Col span={6}><Input value={modoPago.tarjeta_monto}  prefix="Tarjeta: " onChange={(e)=>{onChange("tarjeta_monto", e.target.value)}}></Input></Col>
-                <Col span={4}><Input   prefix="Tarjeta: " onChange={(e)=>{onChange("tarjeta_tarjeta", e.target.value)}}></Input></Col>
+                <Col span={6}><Input  onClick={(e)=>{e.target.select()}} value={modoPago.tarjeta_monto}  prefix="Tarjeta: " onChange={(e)=>{onChange("tarjeta_monto", e.target.value)}}></Input></Col>
+                <Col span={4}><Input  onClick={(e)=>{e.target.select()}}  prefix="Tarjeta: " onChange={(e)=>{onChange("tarjeta_tarjeta", e.target.value)}}></Input></Col>
                 <Col span={14}>
                     Tarjeta: &nbsp;
                     <Select options={tarjetas} style={{width:'300px'}} onChange={(value)=>{onChange("fk_tarjeta", value)}} />
@@ -151,20 +165,43 @@ export default function ModoPago(props){
                 
             </Row>
             <Row>
-                <Col span={10}><Input value={modoPago.ctacte_monto} prefix="Cta. Cte.: " onChange={(e)=>{onChange("ctacte_monto", e.target.value)}}></Input></Col>
-                <Col span={4}><Input prefix="Nro Cuotas: " onChange={(e)=>{onChange("ctacte_cuotas", e.target.value)}}></Input></Col>
-                <Col span={8}><Input  prefix="Valor Cuota: " onChange={(e)=>{onChange("ctacte_monto_cuotas", e.target.value)}}></Input></Col>
+                <Col span={10}><Input onClick={(e)=>{e.target.select()}} value={modoPago.ctacte_monto} prefix="Cta. Cte.: " onChange={(e)=>{onChange("ctacte_monto", e.target.value)}}></Input></Col>
+                <Col span={4}><Input onClick={(e)=>{e.target.select()}} prefix="Nro Cuotas: " onChange={(e)=>{onChange("ctacte_cuotas", e.target.value)}}></Input></Col>
+                <Col span={8}><Input onClick={(e)=>{e.target.select()}}  prefix="Valor Cuota: " onChange={(e)=>{onChange("ctacte_monto_cuotas", e.target.value)}}></Input></Col>
             </Row>
             <Row>
                 <Col span={8}>
-                    <Input value={modoPago.cheque_monto} prefix="Cheque: " onChange={(e)=>{onChange("cheque_monto", e.target.value)}}></Input>
+                    <Input onClick={(e)=>{e.target.select()}} value={modoPago.cheque_monto} prefix="Cheque: " onChange={(e)=>{onChange("cheque_monto", e.target.value)}}></Input>
                 </Col>
             </Row>
             <Row>
                 <Col span={8}>
-                    <Input value={modoPago.mutual_monto}  prefix="Mutual: " onChange={(e)=>{onChange("mutual_monto", e.target.value)}}></Input>
+                    <Input onClick={(e)=>{e.target.select()}} value={modoPago.mutual_monto}  prefix="Mutual: " onChange={(e)=>{onChange("mutual_monto", e.target.value)}}></Input>
                     
                 </Col>
+            </Row>
+            <Row>
+                <Col span={24}><Button size="small" danger type="link" onClick={(e)=>{
+                    if(confirm("Limpiar Campos?")){
+                        setModoPago(__mp => {
+                            const ___mp = {
+                                efectivo_monto: 0,
+                                tarjeta_monto: 0,
+                                tarjeta_tarjeta: 0,
+                                fk_tarjeta: null,
+                                ctacte_monto: 0,
+                                ctacte_cuotas: 0,
+                                ctacte_monto_cuotas: 0,
+                                cheque_monto: 0,
+                                mutual_monto: 0,
+                                mutual_mutual: 0,
+                                total: 0,
+                            }
+                            props?.callback?.(___mp)
+                            return ___mp
+                        })
+                    }
+                }}><RedoOutlined /></Button></Col>
             </Row>
 
             {

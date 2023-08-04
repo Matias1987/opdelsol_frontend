@@ -40,6 +40,7 @@ const ListaVentas = (props) => {
                 tipo={props.accion} 
                 callback={(data)=>{
                     if(data==null || typeof data === 'undefined'){
+                        setReload(!reload)
                         return;
                     }
                     if(typeof props.estado !== 'undefined'){

@@ -69,12 +69,12 @@ const GastoForm = (props) => {
 
             <Form.Item label="Monto" >
 
-                <Input type="number" onChange={(e)=>{onChange(e.target.value,'monto')}} />
+                <Input  onClick={(e)=>{e.target.select()}} type="number" onChange={(e)=>{onChange(e.target.value,'monto')}} />
 
             </Form.Item>
             <Form.Item label="Comentarios" >
 
-                <Input maxLength={49} placeholder="Max. 49 carac."  onChange={(e)=>{onChange(e.target.value,'comentarios')}}  />
+                <Input  onClick={(e)=>{e.target.select()}}  maxLength={49} placeholder="Max. 49 carac."  onChange={(e)=>{onChange(e.target.value,'comentarios')}}  />
 
             </Form.Item>
 
