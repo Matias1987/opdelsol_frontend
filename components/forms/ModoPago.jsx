@@ -12,7 +12,69 @@ import { get } from "@/src/urls";
 export default function ModoPago(props){
     //const [saldo, setSaldo] = useState(0)
     const [tarjetas, setTarjetas] = useState([])
+    const [modoPago, setModoPago] = useState({
+        efectivo_monto: 0,
+        tarjeta_monto: 0,
+        tarjeta_tarjeta: 0,
+        fk_tarjeta: null,
+        ctacte_monto: 0,
+        ctacte_cuotas: 0,
+        ctacte_monto_cuotas: 0,
+        cheque_monto: 0,
+        mutual_monto: 0,
+        mutual_mutual: 0,
+        total: 0,
+    })
     useEffect(()=>{
+        
+        if(typeof props.idventa !== 'undefined')
+        {
+            if(props.idventa >0){
+
+                const _soloCtaCte = typeof props.mostrarSoloCtaCte === 'undefined' ? false : props.mostrarSoloCtaCte
+
+                const __url = props.mostrarSoloCtaCte ? get.get_venta_mp_ctacte : get.get_venta_mp;
+                        
+
+                fetch(__url + props.idventa)
+                        .then(response=>response.json())
+                        .then((response)=>{
+                            
+                            var _temp = JSON.parse(JSON.stringify(modoPago));
+                            
+                            response.data.forEach(r=>{
+                                switch(r.modo_pago)
+                                {
+                                    case 'efectivo':
+                                        _temp = {..._temp,efectivo_monto: r.monto}
+                                        
+                                        break;
+                                    case 'ctacte':
+                                        _temp = {..._temp,ctacte_monto: r.monto}
+                                        
+                                        break;
+                                    case 'cheque':
+                                        _temp = {..._temp,cheque_monto: r.monto}
+                                        
+                                        break;
+                                    case 'mutual':
+                                        _temp = {..._temp,mutual_monto: r.monto}
+                                        
+                                        break;
+                                    case 'tarjeta':
+                                        _temp = {..._temp,tarjeta_monto: r.monto}
+                                        
+                                        break;
+                                }
+                            })
+
+                            setModoPago(_temp)
+                            
+                        })
+
+            }
+        }
+
 
         fetch(get.lista_tarjetas)
         .then(response=>response.json())
@@ -31,20 +93,27 @@ export default function ModoPago(props){
         if(typeof props.total === 'undefined'){
             alert("total undefined")
         }
+/*
+        if(typeof props.mp_preset !== 'undefined'){
+            setModoPago(mp=>{
+                
+                
+
+                const total =   parseFloat(props.mp_preset.cheque_monto||0)+
+                                parseFloat(props.mp_preset.ctacte_monto||0)+
+                                parseFloat(props.mp_preset.tarjeta_monto||0)+
+                                parseFloat(props.mp_preset.mutual_monto||0)+
+                                parseFloat(props.mp_preset.efectivo_monto||0);
+
+                return {...props.mp_preset, total: total}
+
+            }
+                )
+        }*/
+
     },[])
-    const [modoPago, setModoPago] = useState({
-        efectivo_monto: 0,
-        tarjeta_monto: 0,
-        tarjeta_tarjeta: 0,
-        fk_tarjeta: null,
-        ctacte_monto: 0,
-        ctacte_cuotas: 0,
-        ctacte_monto_cuotas: 0,
-        cheque_monto: 0,
-        mutual_monto: 0,
-        mutual_mutual: 0,
-        total: 0,
-    })
+
+    
 
    
 
@@ -69,11 +138,11 @@ export default function ModoPago(props){
             <Row>
 
                 <Col span={8} >
-                    <Input  prefix="Efectivo: " onChange={(e)=>{onChange("efectivo_monto", e.target.value)}}></Input>
+                    <Input value={modoPago.efectivo_monto}  prefix="Efectivo: " onChange={(e)=>{onChange("efectivo_monto", e.target.value)}}></Input>
                 </Col>
             </Row>
             <Row>
-                <Col span={6}><Input   prefix="Tarjeta: " onChange={(e)=>{onChange("tarjeta_monto", e.target.value)}}></Input></Col>
+                <Col span={6}><Input value={modoPago.tarjeta_monto}  prefix="Tarjeta: " onChange={(e)=>{onChange("tarjeta_monto", e.target.value)}}></Input></Col>
                 <Col span={4}><Input   prefix="Tarjeta: " onChange={(e)=>{onChange("tarjeta_tarjeta", e.target.value)}}></Input></Col>
                 <Col span={14}>
                     Tarjeta: &nbsp;
@@ -82,18 +151,18 @@ export default function ModoPago(props){
                 
             </Row>
             <Row>
-                <Col span={10}><Input  prefix="Cta. Cte.: " onChange={(e)=>{onChange("ctacte_monto", e.target.value)}}></Input></Col>
+                <Col span={10}><Input value={modoPago.ctacte_monto} prefix="Cta. Cte.: " onChange={(e)=>{onChange("ctacte_monto", e.target.value)}}></Input></Col>
                 <Col span={4}><Input prefix="Nro Cuotas: " onChange={(e)=>{onChange("ctacte_cuotas", e.target.value)}}></Input></Col>
                 <Col span={8}><Input  prefix="Valor Cuota: " onChange={(e)=>{onChange("ctacte_monto_cuotas", e.target.value)}}></Input></Col>
             </Row>
             <Row>
                 <Col span={8}>
-                    <Input  prefix="Cheque: " onChange={(e)=>{onChange("cheque_monto", e.target.value)}}></Input>
+                    <Input value={modoPago.cheque_monto} prefix="Cheque: " onChange={(e)=>{onChange("cheque_monto", e.target.value)}}></Input>
                 </Col>
             </Row>
             <Row>
                 <Col span={8}>
-                    <Input  prefix="Mutual: " onChange={(e)=>{onChange("mutual_monto", e.target.value)}}></Input>
+                    <Input value={modoPago.mutual_monto}  prefix="Mutual: " onChange={(e)=>{onChange("mutual_monto", e.target.value)}}></Input>
                     
                 </Col>
             </Row>

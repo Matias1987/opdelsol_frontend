@@ -8,6 +8,7 @@ import InformeX from "@/components/informes/caja/InformeX";
 import globals from "@/src/globals";
 import CustomModal from "@/components/CustomModal";
 import ListaCobros from "./ListaCobros";
+import { ResponseCookies } from "next/dist/compiled/@edge-runtime/cookies";
 
 /**
  * 
@@ -25,6 +26,7 @@ export default function CobroOperacion(props){
     const [mustSave, setMustSave] = useState(false)
     const [entrega, setEntrega] = useState(false)
     const [dataVenta, setDataVenta] = useState(null)
+    
     const [dataCliente, setDataCliente] = useState(null)
     const [informeOpen, setInformeOpen] = useState(false)
     const [open, setOpen] = useState(false)
@@ -65,6 +67,11 @@ export default function CobroOperacion(props){
 
         if( (entrega || _mc) && (dataVenta.debe - mp.total)!=0){
             alert("Saldo distinto a 0")
+            return
+        }
+
+        if(dataVenta.deve < mp.total){
+            alert("Monto mayor a deuda")
             return
         }
 
@@ -160,9 +167,13 @@ export default function CobroOperacion(props){
                         return response.data[0]
                         }
                         )
-                        //response.data[0]
+                
+                        //GET VENTA MP
+/*
+                        const __url = props.tipo == 'ingreso' ? get.get_venta_mp : get.get_venta_mp_ctacte;
+                        
+                        */
                 })
-            
             }
         
             if(typeof props.idcliente !== 'undefined')
@@ -171,8 +182,7 @@ export default function CobroOperacion(props){
                 fetch(get.cliente_por_id + props.idcliente)
                 .then(response=>response.json())
                 .then((response)=>{
-                    //alert("jsfld")
-                    //alert(JSON.stringify(response))
+                    
                     setDataCliente(
                         {
                             nombre: response.data[0].nombre_completo,
@@ -214,7 +224,13 @@ export default function CobroOperacion(props){
                 </Row>
                 <Row>
                     <Col span={24}>
-                        <ModoPago totalsHidden={typeof props.totalsHidden === 'undefined' ? true : props.totalsHidden} callback={onMPChange} total={dataVenta == null ? 0 : dataVenta.saldo} />  
+                        <ModoPago 
+                        idventa={typeof props.idventa === 'undefined' ? -1 : props.idventa}
+                        mostrarSoloCtaCte={estado!='ingreso'}
+                        totalsHidden={typeof props.totalsHidden === 'undefined' ? true : props.totalsHidden} 
+                        callback={onMPChange} 
+                        total={dataVenta == null ? 0 : dataVenta.saldo} 
+                        />  
                     </Col>
                 </Row>
                 

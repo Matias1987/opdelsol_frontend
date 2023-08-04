@@ -162,6 +162,7 @@ const get = {
     venta: remote_base_url + "ventas/",//:idventa
     detalle_cliente: remote_base_url + "clientes/",
     get_venta_mp: remote_base_url + "ventas/get_venta_mp/",//idVenta
+    get_venta_mp_ctacte: remote_base_url + "ventas/get_venta_mp_ctacte/",//idVenta
     
     obtener_venta_items: remote_base_url + "ventas/get_venta_items/",//idventa
 
