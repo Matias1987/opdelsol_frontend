@@ -81,7 +81,7 @@ export default function CobroOperacion(props){
             mp: mp,
             tipo: props.tipo, 
             monto: mp.total, 
-            caja_idcaja: globals.obtenerCaja(), 
+            caja_idcaja: globals.obtenerCajaID(), 
             usuario_idusuario: globals.obtenerUID(),
             sucursal_idsucursal: globals.obtenerSucursal()
         }//<---- TEMPORARY

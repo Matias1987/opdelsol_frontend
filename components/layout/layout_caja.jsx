@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import SucursalLabel from "../sucursal_label";
 import globals from "@/src/globals";
 import MenuCajaTop from "./menu_caja_top";
+import Alerts from "./alert_container";
 
 export default function LayoutCaja({children}){
     const { Header, Sider, Content } = Layout;
@@ -87,13 +88,7 @@ export default function LayoutCaja({children}){
                         </Header>
                         <MenuCajaTop />
             <Content style={{ margin: '40px 100px', padding: 24, background: '#fff', minHeight: 280 }}>
-            <Alert
-                message="<!> Caja de fecha anterior"
-                description=""
-                type="error"
-                closable
-                //onClose={onClose}
-                />
+                <Alerts />
                 {children}
             </Content>
         </Layout>

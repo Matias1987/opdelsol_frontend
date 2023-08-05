@@ -23,11 +23,25 @@ const globals =  {
         const {getItem} = useStorage();
         return getItem("uid");
     },
-    obtenerCaja: () => {
-        return 1
+
+    obtenerCajaID: () => {
+        const {getItem} = useStorage();
+        return getItem("caja").idcaja
+    },
+
+    clearCajaLocal: () => {
+        const {setItem} = useStorage();
+        setItem("caja", 0);
+    },
+
+    obtenerCajaLocal: () => {
+        const {getItem} = useStorage();
+        //alert(getItem("caja") ||0)
+        return getItem("caja") || 0
     },
 
     obtenerCajaAsync: (callback) => {
+        const {setItem} = useStorage();
         fetch(get.caja+globals.obtenerSucursal())
         .then(response=>response.json())
         .then((response)=>{
@@ -35,12 +49,13 @@ const globals =  {
             if(response.data.status=='OK')
             {
                 callback(response.data)
-                const {setItem} = useStorage();
-                setItem("idcaja",response.data.idcaja);
+                
+                setItem("caja", response.data);
             }
             else{
                 //caja not found!
                 callback(null)
+                setItem("caja", 0);
             }
         })
     },

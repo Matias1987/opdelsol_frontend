@@ -1,4 +1,11 @@
 //////
+
+const parse_DMY_date = (_date) => {
+    //date with format dd/mm/yyyy
+    let parts = _date.split("-")
+    return new Date(parts[2],parts[1]-1,parts[0])
+}
+
 const convertToWords = (value) => {
 	let integer_part = parseInt(value)
 	let decimal_part = parseInt((value - parseFloat(integer_part)) * 100);

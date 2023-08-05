@@ -24,7 +24,7 @@ const CargaManual = (props) => {
         */
         const data = {
             ...cargaManual,
-            caja_idcaja: globals.obtenerCaja(),
+            caja_idcaja: globals.obtenerCajaID(),
             usuario_idusuario: globals.obtenerUID(),
             cliente_idcliente: props.idcliente,
             sucursal_idsucursal: globals.obtenerSucursal()

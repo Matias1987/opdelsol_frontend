@@ -28,7 +28,7 @@ export default function VentaBase(props){
         comentarios: "",
         productos: null,
         fksucursal: globals.obtenerSucursal(),
-        fkcaja: globals.obtenerCaja(),
+        fkcaja: globals.obtenerCajaID(),
 
     })
     

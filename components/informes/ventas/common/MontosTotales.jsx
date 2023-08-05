@@ -27,11 +27,11 @@ const MontosTotalesInf = (props) => {
 					</tr>
 					<tr>
 						<td style={{fontSize:".8em"}}>Se&ntilde;a</td>
-						<td style={{textAlign:"right", fontSize:".8em"}}>${0}</td>
+						<td style={{textAlign:"right", fontSize:".8em"}}>${props.data.total_haber}</td>
 					</tr>
 					<tr>
 						<td style={{fontSize:".8em"}}>Saldo</td>
-						<td style={{textAlign:"right", fontSize:".8em"}}>${0}</td>
+						<td style={{textAlign:"right", fontSize:".8em"}}>${props.data.monto_total - props.data.total_haber}</td>
 					</tr>
 				</tbody>
             </table>

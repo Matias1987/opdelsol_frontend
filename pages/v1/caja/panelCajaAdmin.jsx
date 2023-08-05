@@ -27,6 +27,7 @@ export default function panelCajaAdmin(){
         .then(response=>response.json())
         .then((response)=>{
             setReload(!reload)
+            globals.obtenerCajaAsync(()=>{})
         })
     }
 
@@ -38,7 +39,10 @@ export default function panelCajaAdmin(){
             </div>
         </>
 
-    const caja_cerrada = _ => <><InicioCaja callback={()=>{setReload(!reload)}} /></>
+    const caja_cerrada = _ => <><InicioCaja callback={()=>{
+        globals.obtenerCajaAsync(()=>{})
+        setReload(!reload)
+    }} /></>
 
         return loading ? <Spin/> : (caja == null ? caja_cerrada() : detalle_caja()); 
     

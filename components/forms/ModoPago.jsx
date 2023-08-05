@@ -10,7 +10,6 @@ import { get } from "@/src/urls";
  * @returns 
  */
 export default function ModoPago(props){
-    //const [saldo, setSaldo] = useState(0)
     const [tarjetas, setTarjetas] = useState([])
     const [modoPago, setModoPago] = useState({
         efectivo_monto: 0,
@@ -81,11 +80,7 @@ export default function ModoPago(props){
 
                                 return _temp
                             })
-
-                            
-                            
                         })
-
             }
         }
 
@@ -107,29 +102,7 @@ export default function ModoPago(props){
         if(typeof props.total === 'undefined'){
             alert("total undefined")
         }
-/*
-        if(typeof props.mp_preset !== 'undefined'){
-            setModoPago(mp=>{
-                
-                
-
-                const total =   parseFloat(props.mp_preset.cheque_monto||0)+
-                                parseFloat(props.mp_preset.ctacte_monto||0)+
-                                parseFloat(props.mp_preset.tarjeta_monto||0)+
-                                parseFloat(props.mp_preset.mutual_monto||0)+
-                                parseFloat(props.mp_preset.efectivo_monto||0);
-
-                return {...props.mp_preset, total: total}
-
-            }
-                )
-        }*/
-
     },[])
-
-    
-
-   
 
     const onChange = (index, value) => {
         setModoPago( (modoPago) => { 

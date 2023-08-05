@@ -19,15 +19,37 @@ const { default: DataSucursalInf } = require("./common/DataSucursalInf")
 const InformeVenta = (props) => {
 
     const [data, setData] = useState(null)
+	const [mp, setMP] = useState([])
+	const [haber, setHaber] = useState(null)
 
 	useEffect(()=>{
 		const url= get.venta;
+		const url_mp = get.get_venta_mp;
 		//get venta
 		fetch(url+props.idventa)
 		.then(response=>response.json())
 		.then((response)=>{
-			alert("data venta: " + JSON.stringify(response))
-			setData(response.data[0])
+
+			fetch(url_mp + props.idventa)
+			.then(_response=>_response.json())
+			.then((_response)=>{
+
+				setMP(_response.data)
+
+				var total_haber=0;
+
+				_response.data.forEach(r=>{
+					if(r.modo_pago!='ctacte')
+					{
+						total_haber += parseFloat(r.monto)
+					}
+				})
+
+				//alert("data venta: " + JSON.stringify(response))
+
+				setData({...response.data[0], total_haber: total_haber})
+				
+			})	
 		})
 	},[])
 
