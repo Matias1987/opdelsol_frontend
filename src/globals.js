@@ -59,6 +59,7 @@ const globals =  {
             }
         })
     },
+    
 
     obtenerTipoCuenta: () =>{
         return ['DEP_ARM','DEP_CRIS','DEP_LIQ']

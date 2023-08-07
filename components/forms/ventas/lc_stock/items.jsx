@@ -8,6 +8,10 @@ const LCStockItems = (props) => {
         od:null,
         oi:null,
         insumo: null,
+
+        od_visible:null,
+        oi_visible:null,
+        insumo_visible: null,
     })
     
     const onChange= ( index, value) => {
@@ -18,12 +22,21 @@ const LCStockItems = (props) => {
         })
     }
 
+    const onVisibleChange = (field,value) => {
+        alert(`${field} : ${value}`)
+        setItems(_=>{
+            const _values = {...items,[field]:value}
+            props?.callback(_values)
+            return _values
+        })
+    }
+
     return (
     <>
     
-    <LCItem tipo="OD" callback={(v)=>{onChange("od",v)}}/>
-    <LCItem tipo="OI" callback={(v)=>{onChange("oi",v)}}/>  
-    <VentasInsumo tipo="insumo" callback={(v)=>{onChange("insumo",v)}} />
+    <LCItem onVisibleChange={(_value)=>onVisibleChange("od_visible",_value)} tipo="OD" callback={(v)=>{onChange("od",v)}}/>
+    <LCItem onVisibleChange={(_value)=>onVisibleChange("oi_visible",_value)} tipo="OI" callback={(v)=>{onChange("oi",v)}}/>  
+    <VentasInsumo onVisibleChange={(_value)=>onVisibleChange("insumo_visible",_value)} tipo="insumo" callback={(v)=>{onChange("insumo",v)}} />
     </>
     )
 }

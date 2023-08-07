@@ -50,7 +50,7 @@ const RecStockCristal = (props) => {
     
     const onRemove = () => {
         onchange_codigo({precio:0, codigo:null, idcodigo: -1})
-        setVisible(v=>{ props?.onVisibleChange?.(true); return false})
+        setVisible(v=>{ props?.onVisibleChange?.(false); return false})
     }
 
     return (

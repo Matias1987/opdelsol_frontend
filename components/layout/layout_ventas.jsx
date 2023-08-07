@@ -83,7 +83,7 @@ export default function LayoutVentas({children}){
                         </Button>
                         </Header>
                         <MenuVentasTop />
-            <Content style={{ margin: '40px 100px', padding: 24, background: '#fff', minHeight: 280 }}>
+            <Content style={{ margin: '40px 100px', padding: 24, background: '#fff', minHeight: 580 }}>
             <Alerts />
                 {children}
             </Content>

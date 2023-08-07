@@ -1,4 +1,4 @@
-import { Button, Checkbox, Col, Divider, Input, Row, Select, Table } from "antd";
+import { Button, Checkbox, Col, Divider, Input, Row, Select, Spin, Table } from "antd";
 import { useEffect, useState } from "react";
 import CustomModal from "../CustomModal";
 import { DeleteFilled, RedoOutlined } from "@ant-design/icons";
@@ -10,12 +10,15 @@ import { get } from "@/src/urls";
  * @returns 
  */
 export default function ModoPago(props){
-    const [tarjetas, setTarjetas] = useState([])
+    const [tarjetas, setTarjetas] = useState(null)
+    const [bancos, setBancos] = useState(null)
+    const [mpLoaded, setMPLoaded] = useState(false)
     const [modoPago, setModoPago] = useState({
         efectivo_monto: 0,
         tarjeta_monto: 0,
         tarjeta_tarjeta: 0,
         fk_tarjeta: null,
+        fk_banco: null,
         ctacte_monto: 0,
         ctacte_cuotas: 0,
         ctacte_monto_cuotas: 0,
@@ -25,76 +28,97 @@ export default function ModoPago(props){
         total: 0,
     })
     useEffect(()=>{
-        
-        if(typeof props.idventa !== 'undefined')
+
+        if(tarjetas==null)
         {
-            if(props.idventa >0){
-
-                const _soloCtaCte = typeof props.mostrarSoloCtaCte === 'undefined' ? false : props.mostrarSoloCtaCte
-
-                const __url = props.mostrarSoloCtaCte ? get.get_venta_mp_ctacte : get.get_venta_mp;
-                        
-
-                fetch(__url + props.idventa)
-                        .then(response=>response.json())
-                        .then((response)=>{
-                            
-                            var _temp = JSON.parse(JSON.stringify(modoPago));
-                            //alert(__url)
-                            response.data.forEach(r=>{
-                                switch(r.modo_pago)
-                                {
-                                    case 'efectivo':
-                                        _temp = {..._temp,efectivo_monto: r.monto}
-                                        
-                                        break;
-                                    case 'ctacte':
-                                        _temp = {..._temp,ctacte_monto: r.monto}
-                                        
-                                        break;
-                                    case 'cheque':
-                                        _temp = {..._temp,cheque_monto: r.monto}
-                                        
-                                        break;
-                                    case 'mutual':
-                                        _temp = {..._temp,mutual_monto: r.monto}
-                                        
-                                        break;
-                                    case 'tarjeta':
-                                        _temp = {..._temp,tarjeta_monto: r.monto}
-                                        
-                                        break;
-                                }
-                            })
-
-                            setModoPago(t=>
-                            {
-                                _temp.total =   parseFloat(_temp.cheque_monto||0)+
-                                                parseFloat(_temp.ctacte_monto||0)+
-                                                parseFloat(_temp.tarjeta_monto||0)+
-                                                parseFloat(_temp.mutual_monto||0)+
-                                                parseFloat(_temp.efectivo_monto||0)
-                                ;
-
-                                props?.callback?.(_temp)
-
-                                return _temp
-                            })
-                        })
-            }
+            fetch(get.lista_tarjetas)
+            .then(response=>response.json())
+            .then((response)=>{
+                setTarjetas(
+                    response.data.map(t=>({
+                        value: t.idtarjeta,
+                        label: t.nombre,
+                    }))
+                )
+            })
+        }
+        if(bancos==null)
+        {
+            //get bancos
+            fetch(get.lista_bancos)
+            .then(response=>response.json())
+            .then((response)=>{
+                setBancos(response.data.map(r=>({
+                    value: r.idbanco,
+                    label: r.nombre,
+                })))
+            })
         }
 
+        if(tarjetas!=null && bancos!=null && !mpLoaded){
+        
+            if(typeof props.idventa !== 'undefined')
+            {
+                if(props.idventa >0){
 
-        fetch(get.lista_tarjetas)
-        .then(response=>response.json())
-        .then((response)=>{
-            setTarjetas(
-                response.data.map(t=>({
-                    value: t.idtarjeta,
-                    label: t.nombre,
-                }))
-            )
-        })
+                    const _soloCtaCte = typeof props.mostrarSoloCtaCte === 'undefined' ? false : props.mostrarSoloCtaCte
+
+                    const __url = props.mostrarSoloCtaCte ? get.get_venta_mp_ctacte : get.get_venta_mp;
+                            
+
+                    fetch(__url + props.idventa)
+                            .then(response=>response.json())
+                            .then((response)=>{
+
+                                alert(JSON.stringify(response))
+
+                                setMPLoaded(true)
+                                
+                                var _temp = JSON.parse(JSON.stringify(modoPago));
+                                //alert(__url)
+                                response.data.forEach(r=>{
+                                    switch(r.modo_pago)
+                                    {
+                                        case 'efectivo':
+                                            _temp = {..._temp,efectivo_monto: r.monto}
+                                            
+                                            break;
+                                        case 'ctacte':
+                                            _temp = {..._temp,ctacte_monto: r.monto, ctacte_cuotas: r.cant_cuotas, ctacte_monto_cuotas: r.monto_cuota }
+                                            
+                                            break;
+                                        case 'cheque':
+                                            _temp = {..._temp,cheque_monto: r.monto, fk_banco: r.banco_idbanco}
+                                            
+                                            break;
+                                        case 'mutual':
+                                            _temp = {..._temp,mutual_monto: r.monto}
+                                            
+                                            break;
+                                        case 'tarjeta':
+                                            _temp = {..._temp,tarjeta_monto: r.monto, fk_tarjeta: r.fk_tarjeta}
+                                            
+                                            break;
+                                    }
+                                })
+
+                                setModoPago(t=>
+                                {
+                                    _temp.total =   parseFloat(_temp.cheque_monto||0)+
+                                                    parseFloat(_temp.ctacte_monto||0)+
+                                                    parseFloat(_temp.tarjeta_monto||0)+
+                                                    parseFloat(_temp.mutual_monto||0)+
+                                                    parseFloat(_temp.efectivo_monto||0)
+                                    ;
+
+                                    props?.callback?.(_temp)
+
+                                    return _temp
+                                })
+                            })
+                }
+            }
+    }
 
         if(typeof props === 'undefined'){
             alert("props undefined")
@@ -102,7 +126,7 @@ export default function ModoPago(props){
         if(typeof props.total === 'undefined'){
             alert("total undefined")
         }
-    },[])
+    },[tarjetas, bancos])
 
     const onChange = (index, value) => {
         setModoPago( (modoPago) => { 
@@ -119,6 +143,7 @@ export default function ModoPago(props){
     }
 
     return (
+        (tarjetas == null || bancos == null) ? <Spin  /> :
     <>
         <h5>Modo de Pago</h5>
         <>
@@ -133,7 +158,7 @@ export default function ModoPago(props){
                 <Col span={4}><Input  onClick={(e)=>{e.target.select()}}  prefix="Tarjeta: " onChange={(e)=>{onChange("tarjeta_tarjeta", e.target.value)}}></Input></Col>
                 <Col span={14}>
                     Tarjeta: &nbsp;
-                    <Select options={tarjetas} style={{width:'300px'}} onChange={(value)=>{onChange("fk_tarjeta", value)}} />
+                    <Select value={modoPago.fk_tarjeta} options={tarjetas} style={{width:'300px'}} onChange={(value)=>{onChange("fk_tarjeta", value)}} />
                 </Col>
                 
             </Row>
@@ -145,6 +170,9 @@ export default function ModoPago(props){
             <Row>
                 <Col span={8}>
                     <Input onClick={(e)=>{e.target.select()}} value={modoPago.cheque_monto} prefix="Cheque: " onChange={(e)=>{onChange("cheque_monto", e.target.value)}}></Input>
+                </Col>
+                <Col span={14}>
+                    &nbsp;Banco:&nbsp;<Select value={modoPago.fk_banco} placeholder="Seleccione Banco" style={{width:"300px"}} options={bancos} onChange={(value)=>{onChange("fk_banco",value)}} />
                 </Col>
             </Row>
             <Row>
@@ -162,6 +190,7 @@ export default function ModoPago(props){
                                 tarjeta_monto: 0,
                                 tarjeta_tarjeta: 0,
                                 fk_tarjeta: null,
+                                fk_banco: null,
                                 ctacte_monto: 0,
                                 ctacte_cuotas: 0,
                                 ctacte_monto_cuotas: 0,

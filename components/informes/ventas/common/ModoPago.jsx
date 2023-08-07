@@ -10,6 +10,7 @@ export default function ModoPagoInf(props){
         .then(response=>response.json())
         .then((response)=>{
             setData(response.data)
+            alert(JSON.stringify(response))
         })
     },[])
 
