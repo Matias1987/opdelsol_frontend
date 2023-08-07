@@ -64,8 +64,8 @@ export default function CobroOperacion(props){
         }
 
         const _mc = typeof props.mustCancel !== 'undefined' ? props.mustCancel : false;
-
-        if( (entrega || _mc) && (dataVenta.debe - mp.total)!=0){
+        alert(`debe: ${dataVenta.saldo} total a pagar: ${mp.total}`)
+        if( (entrega || _mc) && (dataVenta.saldo - mp.total)!=0){
             alert("Saldo distinto a 0")
             return
         }
@@ -84,16 +84,22 @@ export default function CobroOperacion(props){
             caja_idcaja: globals.obtenerCajaID(), 
             usuario_idusuario: globals.obtenerUID(),
             sucursal_idsucursal: globals.obtenerSucursal()
-        }//<---- TEMPORARY
+        }
         params = typeof props.idventa === 'undefined' ? params : {...params,idventa:props.idventa} 
         params = typeof props.idcliente === 'undefined' ? params : {...params,idcliente:props.idcliente} 
 
         if(typeof props.tipo !== 'undefined'){
             switch(props.tipo)
             {
-                case "ingreso": params = {...params, accion: "ingreso", estado: (entrega ? "entrega" : "deposito")}; break;
-                case "entrega": params = {...params, accion: "entrega"}; break;
-                case "resfuerzo": params = {...params, accion: "resfuerzo"}; break;
+                case "ingreso": 
+                    params = {...params, accion: "ingreso", estado: (entrega ? "entrega" : "deposito"), removeMPRows: 1}; 
+                break;
+                case "entrega": 
+                    params = {...params, accion: "entrega", removeCtaCteRow: 1}; 
+                break;
+                case "resfuerzo": 
+                    params = {...params, accion: "resfuerzo", removeCtaCteRow: 1}; 
+                break;
             }
         }
 

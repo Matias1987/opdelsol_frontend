@@ -1,5 +1,5 @@
 import CustomModal from "@/components/CustomModal";
-import { Button, InputNumber, Table } from "antd";
+import { Button, InputNumber, Modal, Table } from "antd";
 import { useState } from "react";
 import { get } from "@/src/urls";
 import globals from "@/src/globals";
@@ -8,6 +8,7 @@ import { CloseCircleTwoTone } from "@ant-design/icons";
 
 const VDItem = (props) => {
     const [items, setItems] = useState([])
+    const [modalOpen, setModalOpen] = useState(false)
 
     const onCantidadChange = (value, _idcodigo) => {
         setItems(
@@ -64,12 +65,22 @@ const VDItem = (props) => {
         })
     }
 
+    const onOK = () => {
+        setModalOpen(false)
+    }
+
+    const onCancel = () => {
+        setModalOpen(false)
+    }
+
     return (<>
-    <CustomModal openButtonText="Agregar" title="Agregar Productos">
+    <Button size="small" block type="primary" onClick={()=>{setModalOpen(true)}}>Agregar Producto</Button>
+    <Modal title="Agregar Producto" open={modalOpen} onOk={onOK} onCancel={onCancel} destroyOnClose={true}>
         <SearchStockVentas callback={(idcodigo)=>{
-            onAddNewCode(idcodigo)
-        }} />
-    </CustomModal>
+                onAddNewCode(idcodigo)
+                setModalOpen(false)
+            }} />
+    </Modal>
 
     <Table columns={[
         {title:"Codigo", dataIndex:"codigo"},
@@ -85,7 +96,7 @@ const VDItem = (props) => {
         {title:"Total", dataIndex:"total"},
         {title:"", render:(_,{idcodigo})=>(
             <>
-                <Button><CloseCircleTwoTone onClick={()=>{OnRemoveRow(idcodigo)}} /></Button>
+                <Button onClick={()=>{OnRemoveRow(idcodigo)}}><CloseCircleTwoTone  /></Button>
             </>
         )}
     ]}

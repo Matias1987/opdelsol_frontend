@@ -64,15 +64,40 @@ export default function VentaRecetaStock(){
 
                 if(typeof data.fechaRetiro === 'undefined' || data.fechaRetiro == null ){
                   alert("Fecha de retiro no establecida")
+                  return
                 }
 
-                if(data.fkcliente <0){
+                if(data.fkcliente <0 || data.fkcliente == null){
                   alert("Cliente no establecido");
+                  return
                 }
+
+
+                if(data.fkdestinatario==null){
+                    alert("destinatario no establecido")
+                    return
+                }
+                if(data.fkmedico==null){
+                    alert("medico no establecido")
+                    return
+                }
+
+
 
                 if(productos===null){
                     alert("sin productos")
                 }
+
+                const _venta = {
+                    ...data,
+                    productos: productos,
+                    total: total,
+                    subtotal: subTotal,
+                    tipo: "2",
+                    //fkcaja: result.idcaja,
+                }
+
+                alert(JSON.stringify(_venta))
 
                 globals.obtenerCajaAsync((result)=>{
                     if(result==null){

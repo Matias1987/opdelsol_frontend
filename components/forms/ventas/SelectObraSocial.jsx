@@ -37,7 +37,7 @@ const SelectObraSocial = (props) => {
 
     const show_details = () =>(
         dataObraSocial == null ? <Spin /> : <>
-            Nombre: <b>{dataObraSocial.nombre}</b>
+            Obra Social: <b>{dataObraSocial.nombre}</b>
             <Button danger onClick={()=>{setIdOS(-1); setDataObraSocial(null)}}><CloseOutlined /></Button>
         </>
     )

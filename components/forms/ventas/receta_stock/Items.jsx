@@ -14,7 +14,16 @@ const RecetaStockItems = (props) => {
         cerca_od: null,
         cerca_oi: null,
         cerca_armazon: null,
-        cerca_tratamiento: null
+        cerca_tratamiento: null,
+
+        lejos_od_visible: null,
+        lejos_oi_visible: null,
+        lejos_armazon_visible: null,
+        lejos_tratamiento_visible: null,
+        cerca_od_visible: null,
+        cerca_oi_visible: null,
+        cerca_armazon_visible: null,
+        cerca_tratamiento_visible: null
         
     })
 
@@ -36,16 +45,16 @@ const RecetaStockItems = (props) => {
             children: 
                 <>
                 <Form.Item>
-                    <RecStockCristal tipo='LEJOS_OD' buttonText={"Elejir Ojo Izquierdo Lejos"} callback={(v)=>{on_change("lejos_oi",v)}}/>
+                    <RecStockCristal tipo='LEJOS_OD' buttonText={"Ojo Izquierdo Lejos"} callback={(v)=>{on_change("lejos_oi",v)}}/>
                 </Form.Item>
                 <Form.Item>    
-                    <RecStockCristal tipo='LEJOS_OI' buttonText={"Elejir Ojo Derecho Lejos"} callback={(v)=>{on_change("lejos_od",v)}}/>
+                    <RecStockCristal tipo='LEJOS_OI' buttonText={"Ojo Derecho Lejos"} callback={(v)=>{on_change("lejos_od",v)}}/>
                 </Form.Item>
                 <Form.Item>    
-                    <VentasArmazon tipo='LEJOS_ARMAZON' buttonText={"Elejir Armazon Lejos"}  callback={(v)=>{on_change("lejos_armazon",v)}}/>
+                    <VentasArmazon tipo='LEJOS_ARMAZON' buttonText={"Armazon Lejos Propio"}  callback={(v)=>{on_change("lejos_armazon",v)}}/>
                 </Form.Item>
                 <Form.Item>    
-                    <VentasTratamiento tipo='LEJOS_TRATAMIENTO' buttonText={"Elejir Tratamiento Lejos"} callback={(v)=>{on_change("lejos_tratamiento",v)}}/>
+                    <VentasTratamiento tipo='LEJOS_TRATAMIENTO' buttonText={"Tratamiento Lejos"} callback={(v)=>{on_change("lejos_tratamiento",v)}}/>
                 </Form.Item>
                 </>
             
@@ -56,16 +65,16 @@ const RecetaStockItems = (props) => {
             children: 
                 <>
                 <Form.Item>
-                    <RecStockCristal tipo='CERCA_OD'  buttonText={"Elejir Ojo Derecho Cerca"} callback={(v)=>{on_change("cerca_od",v)}}/>
+                    <RecStockCristal tipo='CERCA_OD'  buttonText={"Ojo Derecho Cerca"} callback={(v)=>{on_change("cerca_od",v)}}/>
                 </Form.Item>
                 <Form.Item>    
-                    <RecStockCristal tipo='CERCA_OI'  buttonText={"Elejir Ojo Izquierdo Cerca"} callback={(v)=>{on_change("cerca_oi",v)}}/>
+                    <RecStockCristal tipo='CERCA_OI'  buttonText={"Ojo Izquierdo Cerca"} callback={(v)=>{on_change("cerca_oi",v)}}/>
                 </Form.Item>
                 <Form.Item>    
-                    <VentasArmazon tipo='CERCA_ARMAZON' buttonText={"Elejir Armazon Cerca"} callback={(v)=>{on_change("cerca_armazon",v)}}/>
+                    <VentasArmazon tipo='CERCA_ARMAZON' buttonText={"Armazon Cerca Propio"} callback={(v)=>{on_change("cerca_armazon",v)}}/>
                 </Form.Item>
                 <Form.Item>    
-                    <VentasTratamiento tipo='LEJOS_TRATAMIENTO' buttonText={"Elejir Tratamiento Cerca"} callback={(v)=>{on_change("cerca_tratamiento",v)}}/>
+                    <VentasTratamiento tipo='LEJOS_TRATAMIENTO' buttonText={"Tratamiento Cerca"} callback={(v)=>{on_change("cerca_tratamiento",v)}}/>
                 </Form.Item>
                 </>
             

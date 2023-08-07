@@ -47,7 +47,7 @@ const VentasArmazon = (props) => {
     }
 
     const on_remove = () => {
-        setVisible(false)
+        setVisible(v=>{ props?.onVisibleChange?.(false); return false;})
         setArmazon((armazon)=>{
             const _armazon = {
                 ...armazon,
@@ -63,9 +63,9 @@ const VentasArmazon = (props) => {
     }
 
     return (
-        !visible ? <Button size="small" onClick={()=>{setVisible(true)}}>{
+        !visible ? <Button size="small" onClick={()=>{setVisible(v=>{ props?.onVisibleChange?.(true); return true;})}}>{
             typeof props.buttonText === 'undefined' ?
-            "Establecer Armazon"
+            "Armazon Propio"
             :
             props.buttonText
             }</Button>  :

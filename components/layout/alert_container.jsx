@@ -9,12 +9,12 @@ const Alerts = (props) => {
     const _message = _  => {
         if(errorEstado )
         {
-            return <Alert closable message={"Caja Cerrada " } type="error" showIcon />
+            return <Alert closable message={"Ver caja" } type="warning" showIcon />
         }
         else{
             if(errorFecha)
             {
-                return <Alert closable message={"Caja de otra fecha " } type="error" showIcon />
+                return <Alert closable message={"Ver caja" } type="warning" showIcon />
             }
             else{
                 return <></>

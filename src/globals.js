@@ -26,7 +26,7 @@ const globals =  {
 
     obtenerCajaID: () => {
         const {getItem} = useStorage();
-        return getItem("caja").idcaja
+        return getItem("caja")?.idcaja||0
     },
 
     clearCajaLocal: () => {

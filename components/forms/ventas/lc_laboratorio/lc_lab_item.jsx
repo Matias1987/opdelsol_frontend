@@ -32,11 +32,12 @@ const LCLabItem = (props) =>{
     }
 
     const onRemove = () => {
+        setVisible(v=>{ props?.onVisibleChange?.(false); return false;})
         on_codigo_change({precio:0, codigo:null, idcodigo: -1})
     }
 
     return (
-        !visible ? <Button size="small" onClick={()=>{setVisible(true)}}>{
+        !visible ? <Button size="small" onClick={()=>{setVisible(v=>{ props?.onVisibleChange?.(true); return true;})}}>{
             typeof props.buttonText === 'undefined' ?
             "Propio"
             :

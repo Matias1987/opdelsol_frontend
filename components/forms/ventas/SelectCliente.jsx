@@ -34,8 +34,13 @@ const SelectCliente = (props) =>{
 
     const upload_cliente_details = (id) => {
         setLoadingDetalles(true);
-        setIdCliente(id);
-        props.callback(id)
+
+        setIdCliente(_id=>{
+            props?.callback?.(id)
+            return id
+        });
+        
+
         fetch(get.cliente_por_id+id)
         .then(response=>response.json())
         .then((response)=>{
@@ -97,7 +102,10 @@ const SelectCliente = (props) =>{
             Tel&eacute;fono: {clienteData.telefono1}&nbsp;
             Direcci&oacute;n: {clienteData.direccion}&nbsp;
         </>
-        <Button danger onClick={()=>{setIdCliente(-1)}}><CloseOutlined /></Button>
+        <Button danger onClick={()=>{
+            props?.callback?.(null)
+            setIdCliente(-1)
+            }}><CloseOutlined /></Button>
         </>
     )
 
@@ -108,7 +116,10 @@ const SelectCliente = (props) =>{
         {typeof props.destinatario !== 'undefined' ? 'Buscar Destinatario' : "Buscar Cliente" }
             <Input.Search onSearch={onSearch} />
             <CustomModal openButtonText="+ Agregar" title="Agregar" >
-                <ClienteForm callback={(id)=>{alert(id); upload_cliente_details(id) }}/>
+                <ClienteForm callback={(id)=>{
+                    //alert(id); 
+                    upload_cliente_details(id) 
+                    }}/>
             </CustomModal>
             <Table columns={columns} dataSource={clientes} />
         </CustomModal>

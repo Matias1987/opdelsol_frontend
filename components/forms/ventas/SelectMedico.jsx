@@ -71,7 +71,7 @@ export default function SelectMedico(props){
     const show_details = () => (
         dataMedico === null ? <Spin /> : <>
             Medico: <b>{dataMedico.nombre}</b> - <b>{dataMedico.matricula}</b> &nbsp;
-            <Button danger onClick={()=>{setIdMedico(-1); setDataMedico(null)}}><CloseOutlined /></Button>
+            <Button danger onClick={()=>{setIdMedico(-1); setDataMedico(null); props?.callback?.(null);}}><CloseOutlined /></Button>
         </>
     )
 

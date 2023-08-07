@@ -68,11 +68,12 @@ const MonofLabCristal = (props) => {
 
     const onRemove = () => {
         onchange_codigo({precio:0, codigo:null, idcodigo: -1})
+        setVisible(v=>{ props?.onVisibleChange?.(false); return false;})
     }
       
     
     return (
-        !visible ? <Button size="small" onClick={()=>{setVisible(true)}}>{
+        !visible ? <Button size="small" onClick={()=>{setVisible(v=>{ props?.onVisibleChange?.(true); return true;})}}>{
             typeof props.buttonText === 'undefined' ?
             "Establecer Cristal"
             :
