@@ -7,6 +7,8 @@ import { post_method } from "@/src/helpers/post_helper";
 import { Modal } from "antd";
 import ImprimirSobreVenta from "./informes/sobre_venta";
 import globals from "@/src/globals";
+import { validar_items_venta } from "@/src/helpers/ventas_helper";
+import { validar_modo_pago } from "@/src/helpers/pago_helper";
 
 export default function VentaLCStock(){
     const [total, setTotal] = useState(0);
@@ -41,6 +43,21 @@ export default function VentaLCStock(){
                 subtotal: subTotal,
                 fkcaja: result.idcaja,
             }
+
+            const _res = validar_items_venta(venta)
+
+            if(_res.length>0){
+                alert(_res[0].msg)
+                return
+            }
+
+            const _res1 = validar_modo_pago(venta.mp)
+
+            if(_res1!=null){
+                alert(_res1.msg)
+                return 
+            }
+            
             console.log(JSON.stringify(venta))
 
             post_method(post.insert.venta,venta,(response)=>{

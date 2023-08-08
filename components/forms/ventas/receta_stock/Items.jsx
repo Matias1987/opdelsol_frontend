@@ -17,15 +17,15 @@ const RecetaStockItems = (props) => {
         cerca_armazon: null,
         cerca_tratamiento: null,
 
-        lejos_od_visible: null,
-        lejos_oi_visible: null,
-        lejos_armazon_visible: null,
-        lejos_tratamiento_visible: null,
+        lejos_od_visible: false,
+        lejos_oi_visible: false,
+        lejos_armazon_visible: false,
+        lejos_tratamiento_visible: false,
 
-        cerca_od_visible: null,
-        cerca_oi_visible: null,
-        cerca_armazon_visible: null,
-        cerca_tratamiento_visible: null
+        cerca_od_visible: false,
+        cerca_oi_visible: false,
+        cerca_armazon_visible: false,
+        cerca_tratamiento_visible: false
         
     })
 

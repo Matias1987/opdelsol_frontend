@@ -7,6 +7,7 @@ import { Modal } from "antd";
 import { useEffect, useState } from "react";
 import ImprimirSobreVenta from "./informes/sobre_venta";
 import globals from "@/src/globals";
+import { validar_modo_pago } from "@/src/helpers/pago_helper";
 
 export default function VentaDirecta(){
     const [venta, setVenta] = useState(null)
@@ -56,15 +57,22 @@ export default function VentaDirecta(){
                     subtotal: subTotal,
                     fkcaja: result.idcaja,
                 }
+                //alert("****************")
+                const _res1 = validar_modo_pago(venta.mp)
+
+                if(_res1!=null){
+                    alert("Error. "+_res1.msg)
+                    return 
+                }
                 
-                console.log(JSON.stringify(__venta))
+                //console.log(JSON.stringify(__venta))
 
-
+/*
                 post_method(post.insert.venta,__venta,(response)=>{
                     alert(JSON.stringify(response.data))
                     setIdVenta(response.data)
                     setPrintOpen(true)
-                    })
+                    })*/
                 
                 });
             }

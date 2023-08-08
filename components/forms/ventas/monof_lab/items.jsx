@@ -10,6 +10,7 @@ const MonofLabItems = (props) => {
         lejos_oi: null,
         lejos_armazon: null,
         lejos_tratamiento: null,
+
         cerca_od: null,
         cerca_oi: null,
         cerca_armazon: null,
@@ -55,10 +56,10 @@ const MonofLabItems = (props) => {
             children: 
                 <>
                 <Form.Item>
-                    <MonofLabCristal onVisibleChange={(_value)=>onVisibleChange("lejos_od_visible",_value)}  tipo='LEJOS_OD' buttonText={"Elejir Ojo Derecho Lejos"} callback={(v)=>{on_change("lejos_oi",v)}}/>
+                    <MonofLabCristal onVisibleChange={(_value)=>onVisibleChange("lejos_od_visible",_value)}  tipo='LEJOS_OD' buttonText={"Elejir Ojo Derecho Lejos"} callback={(v)=>{on_change("lejos_od",v)}}/>
                 </Form.Item>
                 <Form.Item>    
-                    <MonofLabCristal onVisibleChange={(_value)=>onVisibleChange("lejos_oi_visible",_value)}  tipo='LEJOS_OI' buttonText={"Elejir Ojo Izquierdo Lejos"} callback={(v)=>{on_change("lejos_od",v)}}/>
+                    <MonofLabCristal onVisibleChange={(_value)=>onVisibleChange("lejos_oi_visible",_value)}  tipo='LEJOS_OI' buttonText={"Elejir Ojo Izquierdo Lejos"} callback={(v)=>{on_change("lejos_oi",v)}}/>
                 </Form.Item>
                 <Form.Item>    
                     <VentasArmazon onVisibleChange={(_value)=>onVisibleChange("lejos_armazon_visible",_value)}  tipo='LEJOS_ARMAZON' buttonText={"Elejir Armazon Lejos"}  callback={(v)=>{on_change("lejos_armazon",v)}}/>

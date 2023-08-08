@@ -8,6 +8,8 @@ import globals from "@/src/globals";
 import { Modal } from "antd";
 import InformeVenta from "@/components/informes/ventas/Base";
 import ImprimirSobreVenta from "./informes/sobre_venta";
+import { validar_items_venta } from "@/src/helpers/ventas_helper";
+import { validar_modo_pago } from "@/src/helpers/pago_helper";
 
 
 export default function VentaRecetaStock(){
@@ -57,6 +59,7 @@ export default function VentaRecetaStock(){
         }}
         
         onfinish={(data)=>{
+                /*
                 if(data === null){
                     alert("venta is null!")
                     return;
@@ -81,23 +84,15 @@ export default function VentaRecetaStock(){
                     alert("medico no establecido")
                     return
                 }
-
+                
 
 
                 if(productos===null){
                     alert("sin productos")
-                }
+                }*/
 
-                const _venta = {
-                    ...data,
-                    productos: productos,
-                    total: total,
-                    subtotal: subTotal,
-                    tipo: "2",
-                    //fkcaja: result.idcaja,
-                }
 
-                alert(JSON.stringify(_venta))
+                //alert(JSON.stringify(_venta))
 
                 globals.obtenerCajaAsync((result)=>{
                     if(result==null){
@@ -111,6 +106,21 @@ export default function VentaRecetaStock(){
                         subtotal: subTotal,
                         tipo: "2",
                         fkcaja: result.idcaja,
+                    }
+
+                    const _res = validar_items_venta(_venta)
+                    alert(JSON.stringify(_res))
+                    if(_res.length>0){
+                        //only show 1 error per try 
+                        alert(_res[0].msg)
+                        return
+                    }
+
+                    const _res1 = validar_modo_pago(_venta.mp)
+
+                    if(_res1!=null){
+                        alert(_res1.msg)
+                        return 
                     }
 
                     alert(JSON.stringify(_venta))
