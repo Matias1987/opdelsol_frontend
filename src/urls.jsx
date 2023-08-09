@@ -177,6 +177,7 @@ const get = {
     //caja
     caja: remote_base_url + "caja/c/",//idsucursal
     cerrar_caja: remote_base_url + "caja/cerrar/",//idcaja
+    informe_caja: remote_base_url + "caja/inf/",
 
     //tarjetas
     lista_tarjetas: remote_base_url + "tarjetas/", 

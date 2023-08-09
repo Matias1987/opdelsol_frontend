@@ -1,14 +1,19 @@
+import CustomModal from "@/components/CustomModal";
+import PrinterWrapper from "@/components/PrinterWrapper";
 import InicioCaja from "@/components/forms/caja/InicioCaja";
+import ListaCaja from "@/components/forms/caja/ListaCajas";
+import InformeCaja from "@/components/informes/caja/InformeCaja";
 import LayoutCaja from "@/components/layout/layout_caja";
 import globals from "@/src/globals";
 import { get } from "@/src/urls";
-import { Button, Spin, Tag } from "antd";
+import { Button, Modal, Spin, Tag } from "antd";
 import { useEffect, useState } from "react";
 
 export default function panelCajaAdmin(){
     const [caja, setCaja] = useState(null)
     const [loading, setLoading] = useState(true)
     const [reload, setReload] = useState(false)
+    const [listOpen, setListOpen] = useState(false)
     useEffect(()=>{
         globals.obtenerCajaAsync((result)=>{
             setLoading(false)
@@ -44,7 +49,19 @@ export default function panelCajaAdmin(){
         setReload(!reload)
     }} /></>
 
-        return loading ? <Spin/> : (caja == null ? caja_cerrada() : detalle_caja()); 
+        return loading ? <Spin/> :<> 
+        {caja == null ? caja_cerrada() : detalle_caja()} 
+        <br />
+        <CustomModal openButtonText="Imprimir" block>
+            <PrinterWrapper>
+                <InformeCaja idcaja={0} />
+            </PrinterWrapper>
+        </CustomModal>
+        <br /> <br />
+        <CustomModal openButtonText="Lista" block>
+            <ListaCaja />
+        </CustomModal>
+        </>; 
     
 
 }

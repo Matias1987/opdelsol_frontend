@@ -39,7 +39,7 @@ const RecetaStockItems = (props) => {
     }
 
     const onVisibleChange = (field,value) => {
-        alert(`${field} : ${value}`)
+        //alert(`${field} : ${value}`)
         setItems(_=>{
             const _values = {...rcitems,[field]:value}
             props?.callback(_values)

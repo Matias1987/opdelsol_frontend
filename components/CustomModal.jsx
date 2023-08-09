@@ -10,6 +10,7 @@ const {  useState  } = React;;
  * @param openButtonText text for the button to show 
  * @param okButtonProps button ok props
  * @param okText
+ * @param block
  * @returns 
  */
 export default function CustomModal(props){
@@ -38,7 +39,7 @@ export default function CustomModal(props){
   };
   return (
     <>
-      <Button type="primary" ghost  size="small"  onClick={showModal}>
+      <Button type="primary" ghost  size="small"  onClick={showModal} block={typeof props.block !== 'undefined'}>
         {props.openButtonText}
       </Button>
       <Modal

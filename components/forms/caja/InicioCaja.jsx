@@ -33,6 +33,7 @@ export default function InicioCaja(props){
                 }}
                 ><b>Abrir Caja</b></Button>
                 <Modal 
+                footer={null}
                 open={open}
                 onCancel={
                     ()=>{setOpen(false)}

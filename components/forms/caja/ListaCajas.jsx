@@ -16,5 +16,3 @@ export default function ListaCaja(){
         <Table columns={columns} dataSource={dataSource} />
     </>)
 }
-
-ListaCaja.PageLayout = LayoutCaja;

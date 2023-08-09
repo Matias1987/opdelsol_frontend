@@ -23,7 +23,7 @@ const LCStockItems = (props) => {
     }
 
     const onVisibleChange = (field,value) => {
-        alert(`${field} : ${value}`)
+        //alert(`${field} : ${value}`)
         setItems(_=>{
             const _values = {...items,[field]:value}
             props?.callback(_values)

@@ -53,7 +53,7 @@ export default function CobroOperacion(props){
             alert("Modo de pago no seleccionado.")
             return;
         }
-        if(+mp.total == 0) { 
+        if(+mp.total == 0 && dataVenta.debe != 0) { 
             alert("Monto igual a 0")
             return;
         }
@@ -214,11 +214,13 @@ export default function CobroOperacion(props){
                 width={"80%"}
                 title={"Cobro"}
                 open={open}
-                onOk={()=>{ 
-                    setOpen(false)}}
+                //onOk={()=>{setOpen(false)}} <-- removed because the footer is set to null
                 onCancel={()=>{setOpen(false)}}
                 okText= {"OK"}
                 destroyOnClose={true}
+                footer={
+                    null
+                }
             >
                 <h3>{(typeof props.title === 'undefined' ? 'Cobro' : props.title)}</h3>
                 <Row>
