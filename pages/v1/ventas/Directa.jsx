@@ -2,7 +2,7 @@ import VentaBase from "@/components/forms/ventas/VentaBase";
 import VDItem from "@/components/forms/ventas/directa/Item";
 import LayoutVentas from "@/components/layout/layout_ventas";
 import { post_method } from "@/src/helpers/post_helper";
-import { post } from "@/src/urls";
+import { post, public_urls } from "@/src/urls";
 import { Modal } from "antd";
 import { useEffect, useState } from "react";
 import ImprimirSobreVenta from "./informes/sobre_venta";
@@ -26,7 +26,10 @@ export default function VentaDirecta(){
             return _venta;
         })
     }
-
+    const onClosePrintPopup = _ => {
+        setPrintOpen(false)
+        window.location.replace(public_urls.dashboard_venta);
+    }
     return (
     <>
         <h3>Venta Directa</h3>
@@ -67,12 +70,13 @@ export default function VentaDirecta(){
                 
                 //console.log(JSON.stringify(__venta))
 
-/*
+
                 post_method(post.insert.venta,__venta,(response)=>{
                     alert(JSON.stringify(response.data))
                     setIdVenta(response.data)
                     setPrintOpen(true)
-                    })*/
+                    //redirect
+                     })
                 
                 });
             }
@@ -94,7 +98,7 @@ export default function VentaDirecta(){
                 }
             />
         </VentaBase>
-        <Modal open={idVenta!=-1 && printOpen} onOk={()=>{setPrintOpen(false)}} onCancel={()=>{setPrintOpen(false)}} >
+        <Modal open={idVenta!=-1 && printOpen} onOk={()=>{onClosePrintPopup()}} onCancel={()=>{onClosePrintPopup()}} >
             <ImprimirSobreVenta idventa={idVenta} />
         </Modal>
     </>

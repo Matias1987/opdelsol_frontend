@@ -65,7 +65,9 @@ export default function ListaClientes(props){
             <CustomModal openButtonText={"Ficha Cliente"}>
                 <FichaCliente idcliente={idcliente} />
             </CustomModal>
-            <Button onClick={()=>{upload_cliente_details(idcliente)}}>Detalle</Button>
+            <Button onClick={()=>{
+                //upload_cliente_details(idcliente)
+                }}>Detalle</Button>
             </>
         )},
     ]
@@ -74,7 +76,11 @@ export default function ListaClientes(props){
     <h3>Lista de Clientes</h3>
     <Input.Search onSearch={onSearch} value={searchVal} onChange={(e)=>{setSearchVal(e.target.value)}} />
         <CustomModal openButtonText="+ Agregar" title="Agregar" >
-            <ClienteForm callback={(id)=>{alert(id); upload_cliente_details(id) }}/>
+            <ClienteForm callback={(id)=>{
+                //alert(id); 
+                //upload_cliente_details(id) 
+                refresh()
+                }}/>
         </CustomModal>
         <Button size="small" danger onClick={(e)=>{setSearchVal(s=>{
             refresh()

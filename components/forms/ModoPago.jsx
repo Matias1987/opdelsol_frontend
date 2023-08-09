@@ -7,6 +7,8 @@ import { get } from "@/src/urls";
 /**
  * 
  * @param total total ammount (required) 
+ * @param ctacteHidden  
+ * @param tarjetaHidden  
  * @returns 
  */
 export default function ModoPago(props){
@@ -153,7 +155,7 @@ export default function ModoPago(props){
                     <Input onClick={(e)=>{e.target.select()}} value={modoPago.efectivo_monto}  prefix="Efectivo: " onChange={(e)=>{onChange("efectivo_monto", e.target.value)}}></Input>
                 </Col>
             </Row>
-            <Row>
+            <Row style={{display: props.tarjetaHidden ? "none" : "flex"}}>
                 <Col span={6}><Input  onClick={(e)=>{e.target.select()}} value={modoPago.tarjeta_monto}  prefix="Tarjeta: " onChange={(e)=>{onChange("tarjeta_monto", e.target.value)}}></Input></Col>
                 <Col span={4}><Input  onClick={(e)=>{e.target.select()}}  prefix="Tarjeta: " onChange={(e)=>{onChange("tarjeta_tarjeta", e.target.value)}}></Input></Col>
                 <Col span={14}>
@@ -162,7 +164,7 @@ export default function ModoPago(props){
                 </Col>
                 
             </Row>
-            <Row>
+            <Row style={{display: props.ctacteHidden  ? "none" : "flex"}}>
                 <Col span={10}><Input onClick={(e)=>{e.target.select()}} value={modoPago.ctacte_monto} prefix="Cta. Cte.: " onChange={(e)=>{onChange("ctacte_monto", e.target.value)}}></Input></Col>
                 <Col span={4}><Input onClick={(e)=>{e.target.select()}} prefix="Nro Cuotas: " onChange={(e)=>{onChange("ctacte_cuotas", e.target.value)}}></Input></Col>
                 <Col span={8}><Input onClick={(e)=>{e.target.select()}}  prefix="Valor Cuota: " onChange={(e)=>{onChange("ctacte_monto_cuotas", e.target.value)}}></Input></Col>

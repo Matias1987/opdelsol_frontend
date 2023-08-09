@@ -16,10 +16,11 @@ export default function FichaCliente(props){
     const columns = [
         {dataIndex: 'id',  title: 'Nro.'},
         {dataIndex: 'fecha_f',  title: 'Fecha'},
-        {dataIndex: 'tipo',  title: 'Tipo'},
+        //{dataIndex: 'tipo',  title: 'Tipo'},
         {dataIndex: 'detalle',  title: 'Detalle'},
-        {dataIndex: 'debe',  title: 'Debe'},
-        {dataIndex: 'haber',  title: 'Haber'},
+        {dataIndex: 'debe',  title: 'Debe', align: 'right'},
+        {dataIndex: 'haber',  title: 'Haber', align: 'right'},
+        { title: 'Saldo', align: 'right'},
     ]
 
     const detalles_cliente =_ => dataCliente === null ? <Spin /> : <>
@@ -40,6 +41,7 @@ export default function FichaCliente(props){
             fetch(get.operaciones_cliente + props.idcliente)
             .then(response=>response.json())
             .then((response)=>{
+                alert(JSON.stringify(response.data))
                 setOperaciones(response.data)
                 setScrollChange(true)
             })
@@ -62,10 +64,35 @@ export default function FichaCliente(props){
     <Row>
         <Col span={24} style={{height:'350px', overflowY:'scroll', width:'100%'}}>
             
-                {<Table columns={columns} dataSource={operaciones} pagination={false} />}
+                {<Table columns={columns} dataSource={operaciones} pagination={false}
+                    summary={data=>{
+                        var total_debe=0;
+                        var total_haber=0;
+                        data.forEach(r=>{
+                            total_debe+=parseFloat(r.debe);
+                            total_haber+=parseFloat(r.haber);
+                        })
+                        return<>
+                        <Table.Summary.Row>
+                            <Table.Summary.Cell colSpan={3}>
+                                <b>Totales</b>
+                            </Table.Summary.Cell>
+                            <Table.Summary.Cell align="right">
+                                <b>{total_debe}</b>
+                            </Table.Summary.Cell>
+                            <Table.Summary.Cell align="right">
+                                <b>{total_haber}</b>
+                            </Table.Summary.Cell>
+                            <Table.Summary.Cell align="right">
+                                <b>{total_debe-total_haber}</b>
+                            </Table.Summary.Cell>
+                        </Table.Summary.Row>
+                        </>
+                    }}
+                />}
                 
                 
-                <div ref={dummyref}>dummy</div>
+                <div ref={dummyref}></div>
            
         </Col>
     </Row>
@@ -76,7 +103,15 @@ export default function FichaCliente(props){
     </Row>
     <Row>
         <Col span={24}>
-            <CobroOperacion totalsHidden={true} tipo="cuota" idcliente={props.idcliente}  callback={()=>{setDataChange(true)}} />
+            <CobroOperacion 
+            tarjetaHidden={true}
+            ctacteHidden={true}
+            buttonText="Cargar Cuota" 
+            totalsHidden={true} 
+            tipo="cuota" 
+            idcliente={props.idcliente}  
+            callback={()=>{setDataChange(true)}} 
+            />
             <CargaManual idcliente={props.idcliente} callback={()=>{setDataChange(true)}} />
         </Col>
     </Row>

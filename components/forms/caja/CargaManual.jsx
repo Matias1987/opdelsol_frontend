@@ -22,9 +22,14 @@ const CargaManual = (props) => {
         data.monto, 
         data.concepto, 
         */
+       globals.obtenerCajaAsync(c=>{
+        if(c==null){
+            alert("Caja Cerrada")
+            return
+        }
         const data = {
             ...cargaManual,
-            caja_idcaja: globals.obtenerCajaID(),
+            caja_idcaja: c.idcaja,
             usuario_idusuario: globals.obtenerUID(),
             cliente_idcliente: props.idcliente,
             sucursal_idsucursal: globals.obtenerSucursal()
@@ -34,7 +39,7 @@ const CargaManual = (props) => {
             alert("Carga Manual Cargada con ID: " + response.data)
             props?.callback?.()
             setOpen(false)
-        })
+        })})
     }
 
     const onFinishFailed = (error) => {

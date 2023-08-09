@@ -33,16 +33,20 @@ const ListaVentas = (props) => {
         return <>
             {typeof props.cobrar !== 'undefined' ?  <>
             <CobroOperacion 
+                tarjetaHidden={false}
+                ctacteHidden={false}
                 totalsHidden={false}
                 mustCancel={typeof props.mustCancel === 'undefined' ? false : props.mustCancel}
                 idventa={_idventa} 
                 idcliente={_idcliente} 
                 tipo={props.accion} 
                 callback={(data)=>{
+
                     if(data==null || typeof data === 'undefined'){
                         setReload(!reload)
                         return;
                     }
+                    
                     if(typeof props.estado !== 'undefined'){
                         switch(props.estado){
                             case 'INGRESADO':
@@ -91,6 +95,11 @@ const ListaVentas = (props) => {
         const url = post.venta_estado_sucursal;
         //alert("PARAMS: " + JSON.stringify(params))
         post_method(url, params,(response)=>{
+            if(response==null)
+            {
+                return
+            }
+
             //alert("respuestaaa " + JSON.stringify(response))
             setDataSource(src=>(
                  response.data.map(v=>({

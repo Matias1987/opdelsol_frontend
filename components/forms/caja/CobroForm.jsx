@@ -20,6 +20,8 @@ import { ResponseCookies } from "next/dist/compiled/@edge-runtime/cookies";
  * @param mustCancel: saldo must be 0
  * @param totalsHidden: hide totals
  * @param  callback: callback...
+ * @param  tarjetaHidden: ...
+ * @param  ctacteHidden: callback...
  */
 export default function CobroOperacion(props){
     const [mp, setMP] = useState(null)
@@ -53,10 +55,7 @@ export default function CobroOperacion(props){
             alert("Modo de pago no seleccionado.")
             return;
         }
-        if(+mp.total == 0 && dataVenta.debe != 0) { 
-            alert("Monto igual a 0")
-            return;
-        }
+  
 
         if(typeof props.tipo === 'undefined'){
             alert("tipo undefined")
@@ -64,13 +63,20 @@ export default function CobroOperacion(props){
         }
 
         const _mc = typeof props.mustCancel !== 'undefined' ? props.mustCancel : false;
-        alert(`debe: ${dataVenta.saldo} total a pagar: ${mp.total}`)
-        if( (entrega || _mc) && (dataVenta.saldo - mp.total)!=0){
-            alert("Saldo distinto a 0")
-            return
-        }
 
         if(dataVenta!=null){
+
+            if(+mp.total == 0 && dataVenta.debe != 0) { 
+                alert("Monto igual a 0")
+                return;
+            }
+
+            alert(`debe: ${dataVenta.saldo} total a pagar: ${mp.total}`)
+            if( (entrega || _mc) && (dataVenta.saldo - mp.total)!=0){
+                alert("Saldo distinto a 0")
+                return
+            }
+
             if(dataVenta.debe < mp.total){
                 alert("Monto mayor a deuda")
                 return
@@ -209,7 +215,7 @@ export default function CobroOperacion(props){
     }
 
     return (<>
-            <Button onClick={onOpen}>{"Cargar Pago"}</Button>
+            <Button type="primary" onClick={onOpen}>{typeof props.buttonText === 'undefined' ? "Cargar Pago" : props.buttonText}</Button>
             <Modal
                 width={"80%"}
                 title={"Cobro"}
@@ -241,6 +247,8 @@ export default function CobroOperacion(props){
                         totalsHidden={typeof props.totalsHidden === 'undefined' ? true : props.totalsHidden} 
                         callback={onMPChange} 
                         total={dataVenta == null ? 0 : dataVenta.saldo} 
+                        ctacteHidden = {typeof props.ctacteHidden !== undefined ? props.ctacteHidden : false}
+                        tarjetaHidden = {typeof props.tarjetaHidden !== undefined ? props.tarjetaHidden : false}
                         />  
                     </Col>
                 </Row>

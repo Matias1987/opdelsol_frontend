@@ -40,7 +40,7 @@ export default function panelCajaAdmin(){
         caja == null ? <></> : <>
             <div>
                 <p><Tag color="green-inverse">CAJA ABIERTA</Tag> Nro. Caja: 1 Fecha: <b>{caja.fecha}</b> Monto Inicial: <b>{caja.monto_inicial}</b></p>
-                <Button block onClick={cerrar_caja} style={{backgroundColor:"ButtonFace"}}>Cerrar Caja</Button>
+                <Button block onClick={cerrar_caja} danger>Cerrar Caja</Button>
             </div>
         </>
 
