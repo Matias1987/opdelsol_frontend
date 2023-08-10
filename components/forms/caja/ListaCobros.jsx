@@ -7,7 +7,11 @@ import FiltroCobros from "./FiltroCobros";
 import globals from "@/src/globals";
 import { post } from "@/src/urls";
 import { post_method } from "@/src/helpers/post_helper";
-
+/**
+ * 
+ * @param idventa
+ * @returns 
+ */
 const ListaCobros = (props) => {
     const [dataSource, setDataSource] = useState([])
     const [loading, setLoading] = useState(true)
@@ -39,6 +43,9 @@ const ListaCobros = (props) => {
         var params = {idsucursal: globals.obtenerSucursal()}
         params = add(params, filtros.idcliente, 'idcliente')
         params = add(params, filtros.iddestinatario, 'iddestinatario')
+        params = add(params, props?.idventa, 'idventa')
+
+        alert(JSON.stringify(params))
 
         //get list
         post_method(post.obtener_lista_cobros,params,(response)=>{

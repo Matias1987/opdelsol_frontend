@@ -54,7 +54,7 @@ export default function panelCajaAdmin(){
         <br />
         <CustomModal openButtonText="Imprimir" block>
             <PrinterWrapper>
-                <InformeCaja idcaja={0} />
+                <InformeCaja idcaja={caja.idcaja} />
             </PrinterWrapper>
         </CustomModal>
         <br /> <br />

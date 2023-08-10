@@ -150,7 +150,7 @@ export default function CobroOperacion(props){
         <p>Nro. Venta: {dataVenta.idventa} &nbsp;&nbsp;&nbsp; Fecha: {dataVenta.fecha}</p>
         <p>Monto: <b>{dataVenta.debe}</b>  Haber: <b>{dataVenta.haber}</b>  Saldo:  <b>{dataVenta.saldo}</b></p>
         <CustomModal openButtonText="Ver Pagos">
-            <ListaCobros />
+            <ListaCobros idventa={dataVenta.idventa} />
         </CustomModal>
         </>
     )

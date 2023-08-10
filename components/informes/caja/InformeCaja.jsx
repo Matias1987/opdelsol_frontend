@@ -89,7 +89,7 @@ export default function InformeCaja(props){
                 pagination={false}
                 columns={[
                     {title:"Oper.", dataIndex:"operacion"},
-                    {title:"Detalle", dataIndex:""},
+                    {title:"Detalle", dataIndex:"detalle"},
                     {title:"Cliente", dataIndex:"cliente"},
                     {title:"Recibo", dataIndex:"recibo"},
                     {align: 'right', title:"Ventas", dataIndex:"efectivo"},
