@@ -3,27 +3,57 @@ import { Col, Row, Table } from "antd"
 import { useEffect, useState } from "react"
 
 export default function InformeCaja(props){
-    const[data, setData] = useState(null)
+    const[dataOperaciones, setDataOperaciones] = useState(null)
     const[dataTransferencias, setDataTransferencias] = useState(null)
     const[dataGastos, setDataGastos] = useState(null)
     const[dataSucursal, setDataSucursal] = useState(null)
+    const[dataCaja, setDataCaja] = useState(null)
+    const[fecha, setFecha] = useState("")
+    const[hora, setHora] = useState("")
     useEffect(()=>{
+
+        //get caja by id
+        var d = new Date();
+        setFecha(d.getDate()  + "-" + (d.getMonth()+1) + "-" + d.getFullYear())
+        setHora(d.getHours() + ":" + d.getMinutes());
+
+        fetch(get.caja_id + props.idcaja)
+        .then(response=>response.json())
+        .then((response)=>{
+            //alert(JSON.stringify(response))
+            //alert(get.sucursal_details + response.data[0].sucursal_idsucursal)
+            //get data sucursal
+            setDataCaja(response.data[0])
+            /*fetch(get.sucursal_details + response.data[0].sucursal_idsucursal)
+            .then(__response=>__response.json())
+            .then((__response)=>{
+                alert("SUCURSAL::::: " + JSON.stringify(__response.data))
+                setDataSucursal(__response.data)
+            })*/
+        })
+
+
+        
         fetch(get.informe_caja + props.idcaja)
         .then(response=>response.json())
         .then((response)=>{
-            setData(response.data)
+            alert(JSON.stringify(response))
+            setDataOperaciones(response.data)
+
+            
         })
 
-        fetch("")
+        fetch(get.lista_gastos_caja + props.idcaja)
         .then(response=>response.json())
         .then((response)=>{
             setDataGastos(response.data)
         })
-    })
+    },[])
 
-    const data_sucursal = _ => <>
+    const data_sucursal = _ => dataSucursal == null ? <></> : <> 
     </>
     const header = _ => (
+        dataCaja == null ? <></> :
         <>
         <Row>
             <Col span={8}>
@@ -33,13 +63,13 @@ export default function InformeCaja(props){
                 LISTADO DE CAJA DIARIA
             </Col>
             <Col span={8}>
-                Fecha de emisi&oacute;n: 00/00/0000
-                Hora de emisi&oacute;n: 00:00am
+                Fecha de emisi&oacute;n: {fecha} &nbsp;&nbsp;&nbsp;
+                Hora de emisi&oacute;n: {hora}
             </Col>
         </Row>
         <Row>
             <Col  span={24}>
-                Caja: N1 Fecha: 00-00-0000 Turno: M Estado: CERRADA Inicio de Caja: 000000000
+                Caja: N1 Fecha: <b>{dataCaja.fecha}</b> &nbsp;&nbsp;&nbsp;Turno: M Estado: <b>{dataCaja.estado}</b> &nbsp;&nbsp;&nbsp;Inicio de Caja: <b>{dataCaja.monto_inicial}</b>
             </Col>
         </Row>
         </>
@@ -54,19 +84,20 @@ export default function InformeCaja(props){
         <Row>
             <Col span={24}>
                 <Table 
-                dataSource={data}
+                style={{width:'100%'}}
+                dataSource={dataOperaciones}
                 pagination={false}
                 columns={[
                     {title:"Oper.", dataIndex:"operacion"},
                     {title:"Detalle", dataIndex:""},
                     {title:"Cliente", dataIndex:"cliente"},
                     {title:"Recibo", dataIndex:"recibo"},
-                    {title:"Ventas", dataIndex:"efectivo"},
-                    {title:"Cuotas", dataIndex:"cuotas"},
-                    {title:"Cheques", dataIndex:"cheque"},
-                    {title:"Tarjetas", dataIndex:"tarjeta"},
-                    {title:"Mutual", dataIndex:"mutual"},
-                    {title:"Cta.Cte.", dataIndex:"ctacte"},
+                    {align: 'right', title:"Ventas", dataIndex:"efectivo"},
+                    {align: 'right', title:"Cuotas", dataIndex:"cuotas"},
+                    {align: 'right', title:"Cheques", dataIndex:"cheque"},
+                    {align: 'right', title:"Tarjetas", dataIndex:"tarjeta"},
+                    {align: 'right', title:"Mutual", dataIndex:"mutual"},
+                    {align: 'right', title:"Cta.Cte.", dataIndex:"ctacte"},
                 ]} 
                 summary={data=>{
                     var totalVentas=0;
@@ -76,39 +107,41 @@ export default function InformeCaja(props){
                     var totalMutual=0;
                     var totalCtaCte=0;
                     data.forEach(r=>{
-                        totalVentas += r.efectivo;
-                        totalCuotas += r.cuotas;
-                        totalCheques += r.cheque;
-                        totalTarjetas += r.tarjeta;
-                        totalMutual += r.mutual;
-                        totalCtaCte += r.ctacte;
+                        totalVentas += parseFloat(r.efectivo);
+                        totalCuotas += parseFloat(r.cuotas);
+                        totalCheques += parseFloat(r.cheque);
+                        totalTarjetas += parseFloat(r.tarjeta);
+                        totalMutual += parseFloat(r.mutual);
+                        totalCtaCte += parseFloat(r.ctacte);
                     })
                     return <>
                         <Table.Summary.Row>
                             <Table.Summary.Cell colSpan={4}>
                                 TOTALES DE CAJA:
                             </Table.Summary.Cell>
-                            <Table.Summary.Cell>{totalVentas}</Table.Summary.Cell>
-                            <Table.Summary.Cell>{totalCuotas}</Table.Summary.Cell>
-                            <Table.Summary.Cell>{totalCheques}</Table.Summary.Cell>
-                            <Table.Summary.Cell>{totalTarjetas}</Table.Summary.Cell>
-                            <Table.Summary.Cell>{totalMutual}</Table.Summary.Cell>
-                            <Table.Summary.Cell>{totalCtaCte}</Table.Summary.Cell>
+                            <Table.Summary.Cell align={'right'}>{totalVentas}</Table.Summary.Cell>
+                            <Table.Summary.Cell align={'right'}>{totalCuotas}</Table.Summary.Cell>
+                            <Table.Summary.Cell align={'right'}>{totalCheques}</Table.Summary.Cell>
+                            <Table.Summary.Cell align={'right'}>{totalTarjetas}</Table.Summary.Cell>
+                            <Table.Summary.Cell align={'right'}>{totalMutual}</Table.Summary.Cell>
+                            <Table.Summary.Cell align={'right'}>{totalCtaCte}</Table.Summary.Cell>
                         </Table.Summary.Row>
                     </>
                 }}
                 />
                 <h4>Gastos</h4>
                 <Table 
+                pagination={false}
                 dataSource={dataGastos}
                 columns={[
                     {title:"Rec.", dataIndex:"idgasto"},
-                    {title:"Detalle", dataIndex:"detalle"},
+                    {title:"Detalle", dataIndex:"concepto_gasto"},
                     {title:"Importe", dataIndex:"monto"},
                 ]}
                 />
                 <h4>Monto Transferido</h4>
                 <Table 
+                pagination={false}
                 dataSource={dataTransferencias}
                 columns={[
                     {title:"Caja Destino", dataIndex:"cajadest"},

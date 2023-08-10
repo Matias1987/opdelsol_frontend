@@ -1,5 +1,6 @@
 import GastoForm from "@/components/forms/caja/GastoForm";
 import LayoutCaja from "@/components/layout/layout_caja";
+import globals from "@/src/globals";
 import { get } from "@/src/urls";
 import { Button, Modal, Table } from "antd";
 import { useEffect, useState } from "react";
@@ -11,7 +12,7 @@ export default function ListaGastos(){
 
 
     useEffect(()=>{
-        fetch(get.lista_gastos)
+        fetch(get.lista_gastos_sucursal + globals.obtenerSucursal())
         .then(response=>response.json())
         .then((response)=>{
             setGastos(response.data.map(r=>({
@@ -29,9 +30,10 @@ export default function ListaGastos(){
         </Button>
         <Modal 
         open={open} 
-        onOk={()=>{
+        footer={null}
+        /*onOk={()=>{
             setOpen(false)
-        }}
+        }}*/
         onCancel={()=>{
             setOpen(false)
         }}

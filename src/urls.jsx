@@ -172,13 +172,15 @@ const get = {
 
     //gastos
     conceptos_gasto: remote_base_url + "conceptogastos/",
-    lista_gastos: remote_base_url + "gastos/",
+    lista_gastos_sucursal: remote_base_url + "gastos/g_s/",//:idsucursal
+    lista_gastos_caja: remote_base_url + "gastos/g_c/",//:idcaja
 
     //caja
     caja: remote_base_url + "caja/c/",//idsucursal
     cerrar_caja: remote_base_url + "caja/cerrar/",//idcaja
     informe_caja: remote_base_url + "caja/inf/",
     lista_caja_sucursal: remote_base_url + "caja/lista/",
+    caja_id: remote_base_url + "caja/",//idsucursal
 
     //tarjetas
     lista_tarjetas: remote_base_url + "tarjetas/", 

@@ -83,7 +83,7 @@ export default function InformeX(props){
             })
 
             //get sucursal data
-            fetch(get.sucursal_details + "6" /*response.data[0].sucursal_idsucursal*/)
+            fetch(get.sucursal_details + response.data[0].sucursal_idsucursal)
             .then(__response=>__response.json())
             .then((__response)=>{
                 //alert("SUCURSAL::::: " + JSON.stringify(__response.data))

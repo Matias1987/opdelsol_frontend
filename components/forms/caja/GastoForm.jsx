@@ -36,7 +36,7 @@ const GastoForm = (props) => {
         
         
 
-        alert(data)
+        alert(JSON.stringify(values))
         globals.obtenerCajaAsync((result)=>{
             if(result==null){
                 alert("Caja Cerrada")
@@ -63,16 +63,16 @@ const GastoForm = (props) => {
     return (<>
         <h3>Cargar Gasto</h3>
         <Form  onFinish={onFinish} onFinishFailed={onFinishFailed}>
-            <Form.Item label="Motivo" >
+            <Form.Item label="Motivo" name={"motivo"} >
                 <Select options={options} onChange={(value)=>{onChange(value,'idmotivo')}} />
             </Form.Item>
 
-            <Form.Item label="Monto" >
+            <Form.Item label="Monto"  name={"monto"}>
 
                 <Input  onClick={(e)=>{e.target.select()}} type="number" onChange={(e)=>{onChange(e.target.value,'monto')}} />
 
             </Form.Item>
-            <Form.Item label="Comentarios" >
+            <Form.Item label="Comentarios"  name={"comentarios"}>
 
                 <Input  onClick={(e)=>{e.target.select()}}  maxLength={49} placeholder="Max. 49 carac."  onChange={(e)=>{onChange(e.target.value,'comentarios')}}  />
 
