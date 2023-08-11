@@ -1,9 +1,8 @@
-const VentasEnLaboratorio = (props) => {
+import ListaVentas from "@/components/informes/ventas/ListaVentas";
+import LayoutCaja from "@/components/layout/layout_caja";
 
-
-    return (
-        <>
-        <ListaVentas imprimir titulo="Ventas en laboratorio" estado={"PENDIENTE"} />
-        </>
-    )
+export default function VentasEnLaboratorio(){
+    return (<><ListaVentas cobrar accion="resfuerzo" en_laboratorio={1} titulo="Ventas Pendientes en Laboratorio" estado="PENDIENTE" buttonText="Resfuerzo Seña"  /></>)
 }
+
+VentasEnLaboratorio.PageLayout = LayoutCaja;  

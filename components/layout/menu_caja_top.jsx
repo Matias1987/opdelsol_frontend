@@ -1,5 +1,5 @@
 import { MenuOutlined, PlusOutlined, SettingOutlined, StarOutlined } from "@ant-design/icons";
-import { Menu } from "antd";
+import { Input, Menu } from "antd";
 import { useState } from "react";
 import Link from "next/link"
 import { public_urls } from "@/src/urls";
@@ -21,7 +21,11 @@ const items = [
       },
       {
         key: '2',
-        label: (<Menu.Item><Link href={public_urls.ventas_pendientes}>Operaciones Pendientes</Link></Menu.Item>),
+        label: (<Menu.Item><Link href={public_urls.ventas_pendientes}>Operaciones Pendientes En Sucursal</Link></Menu.Item>),
+      },
+      {
+        key: '13',
+        label: (<Menu.Item><Link href={public_urls.ventas_pendientes_lab}>Operaciones Pendientes En Taller</Link></Menu.Item>),
       },
       {
         key: '3',
@@ -60,6 +64,10 @@ const items = [
     label: (<Link href={public_urls.lista_clientes}>Clientes</Link>),
     key: '11',
     icon: <StarOutlined />,
+  },
+  {
+    label: (<Input />),
+    key: '20',
   },
 ];
 export default function MenuCajaTop(){

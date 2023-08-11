@@ -19,8 +19,8 @@ const ListaCobros = (props) => {
     const [reload, setReload] = useState(true)
     const columns = [
         {title: "Nro.", dataIndex: "idcobro"},
-        {title: "Fecha", dataIndex: "fecha"},
-        {title: "Cliente", dataIndex: "cliente"},
+        {title: "Fecha", dataIndex: "fecha_formated"},
+        {title: "Cliente", dataIndex: "cliente_nombre"},
         {title: "Tipo", dataIndex: "tipo"},
         {title: "Monto", dataIndex: "monto"},
         {title: "Acciones", dataIndex: "idcobro", hidden:false, render: (_,{idcobro})=>{

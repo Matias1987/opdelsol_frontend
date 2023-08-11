@@ -17,7 +17,7 @@ export default function VentaBase(props){
         fkcliente: -1,
         fkdestinatario: null,
         fkmedico: null,
-        fkos: -1,
+        fkos: null,
         fkusuario: globals.obtenerUID(),
         mp: null,
         subtotal: 0,

@@ -7,6 +7,8 @@ import { post } from "@/src/urls";
 import globals from "@/src/globals";
 import FiltroVentas from "@/components/forms/ventas/filtroVentas";
 import CobroOperacion from "@/components/forms/caja/CobroForm";
+import { InfoCircleFilled } from "@ant-design/icons";
+import VentaDetallePopup from "@/components/VentaDetalle";
 const { Table, Button, Tag, Alert } = require("antd");
 /**
  * 
@@ -31,8 +33,11 @@ const ListaVentas = (props) => {
 
     const buttons = (_idventa, _idcliente) => {
         return <>
+            <><VentaDetallePopup idventa={_idventa} />&nbsp;&nbsp;</>
+            {typeof props.imprimir !== 'undefined' ?  <><ImprimirSobreVenta idventa={_idventa} />&nbsp;&nbsp;</>:<></>}
             {typeof props.cobrar !== 'undefined' ?  <>
             <CobroOperacion 
+                buttonText={typeof props.buttonText !== 'undefined' ? props.buttonText : "Cobrar"}
                 tarjetaHidden={false}
                 ctacteHidden={false}
                 totalsHidden={false}
@@ -62,27 +67,32 @@ const ListaVentas = (props) => {
                         }
                     }
                     setReload(!reload)
-                }} />
+                }} />&nbsp;&nbsp;
             </>:<></>}
-            {typeof props.imprimir !== 'undefined' ?  <CustomModal openButtonText={"Imprimir"}><ImprimirSobreVenta idventa={_idventa} /></CustomModal>:<></>}
-            {typeof props.detalles !== 'undefined' ?  <CustomModal openButtonText={"Imprimir"}><InformeVenta idventa={_idventa} /></CustomModal>:<></>}
-            {typeof props.marcarTerminado !== 'undefined' ?  <Button size="small" danger onClick={(e)=>{
-                post_method(post.cambiar_estado_venta,{idventa: _idventa, estado: 'TERMINADO'},(resp)=>{alert("OK"); setReload(!reload)})
-            }}>Marcar Terminado</Button>:<></>}
+            
+            
+            {typeof props.marcarTerminado !== 'undefined' ?  <><Button size="small" type="primary" onClick={(e)=>{
+                if(confirm("Marcar operación como disponible para entrega?"))
+                {
+                    post_method(post.cambiar_estado_venta,{idventa: _idventa, estado: 'TERMINADO'},(resp)=>{alert("OK"); setReload(!reload)})
+                }
+            }}>Terminado</Button>&nbsp;&nbsp;</>:<></>}
+            {typeof props.enviarALaboratorio !== 'undefined' ?  <Button size="small" danger onClick={(e)=>{
+                if(confirm("Enviar venta a taller?"))
+                {
+                    post_method(post.update.cambiar_venta_sucursal_deposito,{idventa: _idventa, en_laboratorio: "1"},(resp)=>{alert("OK"); setReload(!reload)})
+                }
+            }}>Devoluci&oacute;n</Button>:<></>}
 
         </>
     }
 
-    const onAplicarFiltros = () => {
-        //alert(JSON.stringify(filtros))
-        setReload(reload=>!reload)
-    }
-    
     useEffect(()=>{
 
         var params = {idsucursal: globals.obtenerSucursal()}
         params = add(params, props?.estado, 'estado')
         params = add(params, props?.idCliente, 'idCliente')
+        params = add(params, props?.en_laboratorio, 'en_laboratorio')
         //params = add(params, props?.idVendedor, 'idVendedor')
         params = add(params, props?.fecha, 'fecha')
         //alert(" FILTROS:  "+JSON.stringify(filtros))
@@ -95,12 +105,17 @@ const ListaVentas = (props) => {
         const url = post.venta_estado_sucursal;
         //alert("PARAMS: " + JSON.stringify(params))
         post_method(url, params,(response)=>{
+
             if(response==null)
             {
                 return
             }
 
-            //alert("respuestaaa " + JSON.stringify(response))
+            if(response.data==null)
+            {
+                return
+            }
+
             setDataSource(src=>(
                  response.data.map(v=>({
                     idventa: v.idventa,

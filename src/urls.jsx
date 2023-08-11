@@ -33,6 +33,7 @@ const public_urls = {
     listado_caja: local_base_url + "caja/",
     ventas_ingresadas: local_base_url + "caja/ventas_ingresadas",
     ventas_pendientes: local_base_url + "caja/ventas_pendientes",
+    ventas_pendientes_lab: local_base_url + "caja/ventas_en_laboratorio",
     ventas_terminadas: local_base_url + "caja/ventas_terminadas",
     ventas_entregadas: local_base_url + "caja/ventas_entregadas",
     ventas_anuladas: local_base_url + "caja/ventas_anuladas",
@@ -96,6 +97,7 @@ const post = {
         modificar_multiplicador: remote_base_url + "subgrupos/modificar_multiplicador/",
         incrementar_cantidad: remote_base_url + "stock/m/incrementar_cantidad/",
         descontar_cantidad_por_codigo: remote_base_url + "stock/m/descontar_cantidad_por_codigo/",
+        cambiar_venta_sucursal_deposito: remote_base_url +"ventas/cambiar_venta_sucursal_deposito/",
     },
 }
 

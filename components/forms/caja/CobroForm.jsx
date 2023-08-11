@@ -22,6 +22,7 @@ import { ResponseCookies } from "next/dist/compiled/@edge-runtime/cookies";
  * @param  callback: callback...
  * @param  tarjetaHidden: ...
  * @param  ctacteHidden: callback...
+ * @param buttonText
  */
 export default function CobroOperacion(props){
     const [mp, setMP] = useState(null)
@@ -147,9 +148,9 @@ export default function CobroOperacion(props){
     const venta_detalle = () => (
         dataVenta == null ? <></>  :
         <>
-        <p>Nro. Venta: {dataVenta.idventa} &nbsp;&nbsp;&nbsp; Fecha: {dataVenta.fecha}</p>
+        <p>Nro. Venta: {dataVenta.idventa} &nbsp;&nbsp;&nbsp; Fecha: {dataVenta.fecha_formated}</p>
         <p>Monto: <b>{dataVenta.debe}</b>  Haber: <b>{dataVenta.haber}</b>  Saldo:  <b>{dataVenta.saldo}</b></p>
-        <CustomModal openButtonText="Ver Pagos">
+        <CustomModal title={"Cobros Venta Nro.: " + dataVenta.idventa} openButtonText="Ver Cobros">
             <ListaCobros idventa={dataVenta.idventa} />
         </CustomModal>
         </>
