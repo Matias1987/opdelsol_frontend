@@ -98,6 +98,8 @@ const post = {
         incrementar_cantidad: remote_base_url + "stock/m/incrementar_cantidad/",
         descontar_cantidad_por_codigo: remote_base_url + "stock/m/descontar_cantidad_por_codigo/",
         cambiar_venta_sucursal_deposito: remote_base_url +"ventas/cambiar_venta_sucursal_deposito/",
+        inc_cantidades_stock_venta: remote_base_url +"ventas/inc_cantidades_stock_venta/",
+        desc_cantidades_stock_venta: remote_base_url +"ventas/desc_cantidades_stock_venta/",
     },
 }
 
