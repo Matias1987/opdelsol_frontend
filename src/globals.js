@@ -77,6 +77,35 @@ const globals =  {
         })
     ),
 
+    esUsuarioCaja1: () => {
+        const {getItem} = useStorage();
+        return getItem("caja1");
+    },
+    esUsuarioCaja2: () => {
+        const {getItem} = useStorage();
+        return getItem("caja2");
+    },
+    esUsuarioVentas: () => {
+        const {getItem} = useStorage();
+        return getItem("ventas");
+    },
+    esUsuarioDeposito: () => {
+        const {getItem} = useStorage();
+        return getItem("deposito");
+    },
+    esUsuarioDepositoMin: () => {
+        const {getItem} = useStorage();
+        return getItem("deposito_min");
+    },
+    esUsuarioAdminMin: () => {
+        const {getItem} = useStorage();
+        return getItem("admin1");
+    },
+    esUsuarioAdmin: () => {
+        const {getItem} = useStorage();
+        return getItem("admin2");
+    },
+
     familiaIDs: {
         ARMAZON: 2,
         LC: 15,

@@ -47,6 +47,12 @@ export default function LayoutCaja({children}){
     }
   useEffect(()=>{
     console.log("run user effect")
+
+    if(!globals.esUsuarioCaja1())
+    {
+        window.location.replace(public_urls.modo)
+    }
+    
     validate_user()
   },[])
     return (

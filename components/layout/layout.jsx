@@ -8,6 +8,9 @@ import useStorage from "../../useStorage";
 import { get, public_urls } from '@/src/urls';
 import SucursalLabel from '../sucursal_label';
 import globals from '@/src/globals';
+import MenuDepositoMinTop from './menu_deposito_min_top';
+import MenuSideDepositoMin from './menu_side_desposito_min';
+import { redirect } from 'next/dist/server/api-utils';
 
 
 export default function MyLayout({children}){
@@ -19,6 +22,15 @@ export default function MyLayout({children}){
     var cnt=0;
     const { getItem } = useStorage();
     const validate_user = () => {
+
+
+        //alert(globals.esUsuarioDeposito())
+        //alert(globals.esUsuarioDepositoMin())
+
+        if(!globals.esUsuarioDeposito() && !globals.esUsuarioDepositoMin())
+        {
+            window.location.replace(public_urls.modo)
+        }
 
         const _token = getItem("token",'session')
 
@@ -63,8 +75,16 @@ export default function MyLayout({children}){
                     <div className="logo" style={{padding:".45em", textAlign:"center" }}>
                         <span style={{color:"rgba(255,255,255,1)"}}><b>Optica del Sol</b>&nbsp;&nbsp;</span>
                     </div>
-                    {/*SideMenu */}
-                    <TestMenu />
+                    {globals.esUsuarioDeposito()?<>
+                        <TestMenu />
+                    </>:
+                    globals.esUsuarioDepositoMin()?<>
+                        <MenuSideDepositoMin />
+                    </>:<></>
+
+                    }
+                    
+                    
                 </Sider>
                 <Layout>
                     <Header style={{ background: '#fff', padding: 0 }}>

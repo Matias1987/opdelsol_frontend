@@ -46,7 +46,11 @@ export default function LayoutVentas({children}){
         }, 2000);
     }
   useEffect(()=>{
-    console.log("run user effect")
+    //console.log("run user effect")
+    if(!globals.esUsuarioVentas())
+    {
+        window.location.replace(public_urls.modo)
+    }
     validate_user()
   },[])
     return (

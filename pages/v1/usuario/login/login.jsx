@@ -51,10 +51,18 @@ export default function Login(){
             alert(JSON.stringify(res))
             if(res.data.logged == 1){
                 const {setItem} = useStorage();
+                alert(JSON.stringify(res.data))
                 console.log(res.data.token)
                 setItem("token",res.data.token)
                 setItem("uid",res.data.uid)
-                setItem("permisos", res.data.permisos)
+                
+                setItem("ventas", res.data.udata.ventas == 1)
+                setItem("caja1", res.data.udata.caja1 == 1)
+                setItem("caja2", res.data.udata.caja2 == 1)
+                setItem("deposito_min", res.data.udata.deposito_min == 1)
+                setItem("deposito", res.data.udata.deposito == 1)
+                setItem("admin1", res.data.udata.admin1 == 1)
+                setItem("admin2", res.data.udata.admin2 == 1)
                
                 //globals.establecerSucursal(1);
 
