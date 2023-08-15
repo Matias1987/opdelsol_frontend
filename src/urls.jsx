@@ -7,6 +7,7 @@ const public_urls = {
     dashboard_deposito : local_base_url + "deposito/",
     dashboard_venta : local_base_url + "ventas/",
     dashboard_caja : local_base_url + "caja/",
+    dashboard_laboratorio : local_base_url + "laboratorio/",
     dashboard : local_base_url ,
     editar_multiplicadores : local_base_url + "deposito/stock/modificar_precios_categoria/",
     lista_subgrupos: local_base_url + "deposito/stock/listados/lista_subgrupos/",
@@ -38,6 +39,8 @@ const public_urls = {
     ventas_entregadas: local_base_url + "caja/ventas_entregadas",
     ventas_anuladas: local_base_url + "caja/ventas_anuladas",
     lista_clientes: local_base_url + "caja/ListaClientes",
+    //laboratorio
+    lista_operaciones_laboratorio: local_base_url + "laboratorio/lista_operaciones_laboratorio",
 
 }
 

@@ -39,7 +39,7 @@ export default function CustomModal(props){
   };
   return (
     <>
-      <Button type="primary" ghost  size="small"  onClick={showModal} block={typeof props.block !== 'undefined'}>
+      <Button type="link" ghost  size="small"  onClick={showModal} block={typeof props.block !== 'undefined'}>
         {props.openButtonText}
       </Button>
       <Modal

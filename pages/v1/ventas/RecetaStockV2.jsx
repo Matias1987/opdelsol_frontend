@@ -45,7 +45,7 @@ export default function VentaRecetaStock(){
 
     return (
     <>
-        <h2>Venta de Receta Stock</h2>
+        <h3>Venta de Receta Stock</h3>
         <VentaBase 
         total={total}
         subTotal={subTotal}

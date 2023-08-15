@@ -1,6 +1,7 @@
 import { useState } from "react";
 import VentasInsumo from "../Insumo";
 import LCItem from "./lc_item";
+import { Col, Row } from "antd";
 
 const LCStockItems = (props) => {
 
@@ -33,11 +34,22 @@ const LCStockItems = (props) => {
 
     return (
     <>
-    
-    <LCItem onVisibleChange={(_value)=>onVisibleChange("od_visible",_value)} tipo="OD" callback={(v)=>{onChange("od",v)}}/>
-    <LCItem onVisibleChange={(_value)=>onVisibleChange("oi_visible",_value)} tipo="OI" callback={(v)=>{onChange("oi",v)}}/>  
-    <VentasInsumo onVisibleChange={(_value)=>onVisibleChange("insumo_visible",_value)} tipo="insumo" callback={(v)=>{onChange("insumo",v)}} />
-    </>
+    <Row>
+        <Col span={24} style={{padding:'.25em'}}>
+            <LCItem buttonText="OD Propio" onVisibleChange={(_value)=>onVisibleChange("od_visible",_value)} tipo="OD" callback={(v)=>{onChange("od",v)}}/>
+        </Col>
+    </Row>
+    <Row>
+        <Col span={24} style={{padding:'.25em'}}>
+            <LCItem buttonText="OI Propio" onVisibleChange={(_value)=>onVisibleChange("oi_visible",_value)} tipo="OI" callback={(v)=>{onChange("oi",v)}}/>  
+        </Col>
+    </Row>
+    <Row>
+        <Col span={24} style={{padding:'.25em'}}>
+            <VentasInsumo onVisibleChange={(_value)=>onVisibleChange("insumo_visible",_value)} tipo="insumo" callback={(v)=>{onChange("insumo",v)}} />  
+        </Col>
+    </Row>
+     </>
     )
 }
 

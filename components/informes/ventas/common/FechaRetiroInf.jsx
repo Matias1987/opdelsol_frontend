@@ -22,7 +22,7 @@ const FechaEntregaInf = (props) => (
 			<td style={{padding:"0", fontSize:".85em"}}>{props.data.hora_retiro}</td>
 		</tr>
 		<tr>
-			<td colspan='2' style={{padding:"0", fontSize:".85em"}}><hr /></td>
+			<td colspan='2' style={{padding:"0", fontSize:".85em"}}></td>
 		</tr>
 		</tbody>
 	</table>

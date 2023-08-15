@@ -1,6 +1,8 @@
 import { InfoCircleFilled } from "@ant-design/icons";
 import { Button, Modal } from "antd";
 import { useState } from "react";
+import InformeVenta from "./informes/ventas/Base";
+import InformeVentaMin from "./informes/ventas/InformeVentasMin";
 
 const VentaDetallePopup = (props)=> {
     const [open, setOpen] = useState(false)
@@ -15,7 +17,7 @@ const VentaDetallePopup = (props)=> {
             title={"Detalle Venta"}
             width={"80%"}
         >
-
+            <InformeVentaMin idventa={props.idventa} />
 
         </Modal>
     </>

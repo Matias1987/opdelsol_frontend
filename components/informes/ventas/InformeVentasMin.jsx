@@ -16,7 +16,7 @@ const { default: DestinatarioInf } = require("./common/Destinatario")
 const { default: ResponsableInf } = require("./common/Responsable")
 const { default: DataSucursalInf } = require("./common/DataSucursalInf")
 
-const InformeVenta = (props) => {
+const InformeVentaMin = (props) => {
 
     const [data, setData] = useState(null)
 	const [mp, setMP] = useState([])
@@ -82,53 +82,37 @@ const InformeVenta = (props) => {
     return (
 		data === null ? <Spin /> :
         <>
-			<div style={{width: '100%', paddingLeft: '12px', paddingRight: '12px', paddingTop: '20px'}}> 
-			<table style={{height: '78px', width:'96%', border:'1', cellspacing:'0', cellpadding:'0', fontSize:".7em", padding:"0"}}>
+			<div style={{width: '90%', paddingLeft: '12px', paddingRight: '12px', paddingTop: '20px',  backgroundColor:"lightblue"}}> 
+			<table style={{height: '78px', width:'96%', border:'1', cellspacing:'0', cellpadding:'0', fontSize:"1em", padding:"0"}}>
 				<tbody>
 					<tr>
 						<td>
 							<table style={{height: '21px', width:'100%', border:'1', cellspacing:'0', cellpadding:'0',}}>
 								<tbody>
 									<tr>
-										<td width='250px'>
-											<table border='0' cellspacing='0' cellpadding='0'>
-												<tbody>
-													<tr>
-														<td width='40px'>
-														<img src=""/>
-														</td>
-														<td>
-															<DataSucursalInf idsucursal={data.sucursal_idsucursal} />
-														</td>
-													</tr>
-												</tbody>
-											</table>
-											Nombre: <span style={{fontWeight: 'bold'}}>{data.cliente_nombre}</span><br />
-											<div style={{fontSize: '.7em', fontWeight:'bold', border:'1px', borderStyle:'dotted', borderColor:'black', padding:".25em"}}>
-											No se entregar&aacute;n trabajos sin esta boleta. Pasados los 30 d&iacute;as de la fecha
-											estipulada los precios podr&aacute;n ser actualizados al d&iacute;a. Transcurridos los 
-											60 d&iacute;as a partir de la fecha, no se aceptar&aacute;n reclamos.<br />
-											</div>
-											
-											Vendedor: {data.usuario_nombre}
-										</td>
-										<td style={{textAlign: 'center'}}>
-											{
+										<td width='250px' colSpan={2}>
+                                            <b>{
 											 tipo_venta(data.tipo)
 											}
-											<br />
-											{
-												//<Barcode value={data.idventa}  displayValue={false} width={2} height={6}/>
-											}
-										</td>
-										<td width='250px'>
-										
-											<FechaEntregaInf data={data} />
+                                            </b>
+                                            <br />
+										    Vendedor: <b>{data.usuario_nombre}</b>
+                                            <br />
 											
-											<MontosTotalesInf data={data}/>
+											
+											
 											
 										</td>
 									</tr>
+                                    <tr>
+                                        <td>
+                                        <FechaEntregaInf data={data} />
+                                        </td>
+                                        <td>
+                                        <b>Montos Totales:</b>
+                                        <MontosTotalesInf data={data}/>
+                                        </td>
+                                    </tr>
 								</tbody>
 							</table>
 						</td>
@@ -145,7 +129,7 @@ const InformeVenta = (props) => {
            									Obra Social: {data.obra_social}<br />Medico: {data.medico} <br />Fecha de Entrega: {data.fecha_entrega}
 										</td>
 										<td width='250px'>
-											<FechaEntregaInf data={data} />
+										
 										</td>
 									</tr>
 								</tbody>
@@ -174,7 +158,7 @@ const InformeVenta = (props) => {
 										</td>
 										<td>&nbsp;&nbsp;</td>
 										<td width='250px'>
-											<MontosTotalesInf data={data} />
+											
 										</td>
 									</tr>
 								</tbody>
@@ -188,4 +172,4 @@ const InformeVenta = (props) => {
     )
 }
 
-export default InformeVenta;
+export default InformeVentaMin;

@@ -77,33 +77,38 @@ const globals =  {
         })
     ),
 
+    esUsuarioLaboratorio: () => {
+        const {getItem} = useStorage();
+        return getItem("laboratorio")==1;
+    },
+
     esUsuarioCaja1: () => {
         const {getItem} = useStorage();
-        return getItem("caja1");
+        return getItem("caja1")==1;
     },
     esUsuarioCaja2: () => {
         const {getItem} = useStorage();
-        return getItem("caja2");
+        return getItem("caja2")==1;
     },
     esUsuarioVentas: () => {
         const {getItem} = useStorage();
-        return getItem("ventas");
+        return getItem("ventas")==1;
     },
     esUsuarioDeposito: () => {
         const {getItem} = useStorage();
-        return getItem("deposito");
+        return getItem("deposito")==1;
     },
     esUsuarioDepositoMin: () => {
         const {getItem} = useStorage();
-        return getItem("deposito_min");
+        return getItem("deposito_min")==1;
     },
     esUsuarioAdminMin: () => {
         const {getItem} = useStorage();
-        return getItem("admin1");
+        return getItem("admin1")==1;
     },
     esUsuarioAdmin: () => {
         const {getItem} = useStorage();
-        return getItem("admin2");
+        return getItem("admin2")==1;
     },
 
     familiaIDs: {

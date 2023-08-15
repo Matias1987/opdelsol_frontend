@@ -56,13 +56,14 @@ export default function Login(){
                 setItem("token",res.data.token)
                 setItem("uid",res.data.uid)
                 
-                setItem("ventas", res.data.udata.ventas == 1)
-                setItem("caja1", res.data.udata.caja1 == 1)
-                setItem("caja2", res.data.udata.caja2 == 1)
-                setItem("deposito_min", res.data.udata.deposito_min == 1)
-                setItem("deposito", res.data.udata.deposito == 1)
-                setItem("admin1", res.data.udata.admin1 == 1)
-                setItem("admin2", res.data.udata.admin2 == 1)
+                setItem("ventas", res.data.udata.ventas)
+                setItem("caja1", res.data.udata.caja1)
+                setItem("caja2", res.data.udata.caja2)
+                setItem("deposito_min", res.data.udata.deposito_min)
+                setItem("deposito", res.data.udata.deposito)
+                setItem("admin1", res.data.udata.admin1)
+                setItem("admin2", res.data.udata.admin2)
+                setItem("laboratorio", res.data.udata.laboratorio)
                
                 //globals.establecerSucursal(1);
 

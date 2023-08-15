@@ -22,6 +22,8 @@ const { Table, Button, Tag, Alert } = require("antd");
  * @param detalles the user can view the operation but can't print
  * @param cobrar
  * @param mustCancel
+ * @param en_laboratorio
+ * @param enviar_a_sucursal
  */
 const ListaVentas = (props) => {
     const [dataSource, setDataSource] = useState([])
@@ -88,6 +90,13 @@ const ListaVentas = (props) => {
                     post_method(post.update.cambiar_venta_sucursal_deposito,{idventa: _idventa, en_laboratorio: "1"},(resp)=>{alert("OK"); setReload(!reload)})
                 }
             }}>Anular</Button></>:<></>}
+            
+            {typeof props.enviar_a_sucursal !== 'undefined' ?<><Button size="small" danger onClick={(e)=>{
+                if(confirm("Confirmar")){
+                    post_method(post.update.cambiar_venta_sucursal_deposito,{idventa: _idventa, en_laboratorio: "0"},(resp)=>{alert("OK"); setReload(!reload)})
+                }
+            }}>Enviar a Sucursal</Button></>:<></>}
+
 
         </>
     }

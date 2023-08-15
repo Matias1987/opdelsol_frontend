@@ -1,16 +1,14 @@
 import { get, public_urls } from "@/src/urls";
 import useStorage from "@/useStorage";
-import { LogoutOutlined } from "@ant-design/icons";
 import { Alert, Button, Layout } from "antd";
 import { useEffect } from "react";
-import SucursalLabel from "../sucursal_label";
 import globals from "@/src/globals";
-import MenuCajaTop from "./menu_caja_top";
 import Alerts from "./alert_container";
 import HeaderSol from "./header";
+import MenuLaboratorioTop from "./menu_laboratorio_top";
 
-export default function LayoutCaja({children}){
-    const { Header, Sider, Content } = Layout;
+export default function LayoutLaboratorio({children}){
+    const { Content } = Layout;
 
     var cnt=0;
     const { getItem } = useStorage();
@@ -41,7 +39,6 @@ export default function LayoutCaja({children}){
                 else{
                     _t  = validate_user();
                 }
-
             })
             
         }, 2000);
@@ -49,7 +46,7 @@ export default function LayoutCaja({children}){
   useEffect(()=>{
     console.log("run user effect")
 
-    if(!globals.esUsuarioCaja1())
+    if(!globals.esUsuarioLaboratorio())
     {
         window.location.replace(public_urls.modo)
     }
@@ -58,10 +55,9 @@ export default function LayoutCaja({children}){
   },[])
     return (
         <Layout className='layout'>
-                <HeaderSol tipoCuenta="CAJA" />
-                <MenuCajaTop />
+            <HeaderSol tipoCuenta="LABORATORIO" />
+            <MenuLaboratorioTop />
             <Content style={{ margin: '40px 100px', padding: 24, background: '#fff', minHeight: 280 }}>
-                <Alerts />
                 {children}
             </Content>
         </Layout>
