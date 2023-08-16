@@ -87,7 +87,7 @@ const ListaVentas = (props) => {
             }}>Devoluci&oacute;n</Button>:<></>}
             {typeof props.anular !== 'undefined' ?<><Button size="small" danger onClick={(e)=>{
                 if(confirm("Anular Operacion?")){
-                    post_method(post.update.cambiar_venta_sucursal_deposito,{idventa: _idventa, en_laboratorio: "1"},(resp)=>{alert("OK"); setReload(!reload)})
+                    post_method(post.update.cambiar_estado_venta,{idventa: _idventa, estado: 'ANULADO'},(resp)=>{alert("OK"); setReload(!reload)})
                 }
             }}>Anular</Button></>:<></>}
             
