@@ -23,7 +23,7 @@ import { getItem } from "localforage";
           esUsuarioCaja1: globals.esUsuarioCaja1(),
           esUsuarioLaboratorio: globals.esUsuarioLaboratorio(),
         }
-        alert(JSON.stringify(_t))
+        //alert(JSON.stringify(_t))
         return _t
       })
 

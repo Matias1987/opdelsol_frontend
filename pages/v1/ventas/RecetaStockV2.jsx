@@ -94,6 +94,18 @@ export default function VentaRecetaStock(){
 
                 //alert(JSON.stringify(_venta))
 
+                if(data.fkcliente==null)
+                {
+                    alert("Cliente no seleccionado")
+                    return;
+                }
+
+                if(data.fechaRetiro==null)
+                {
+                    alert("Fecha retiro no establecida")
+                    return
+                }
+
                 globals.obtenerCajaAsync((result)=>{
                     if(result==null){
                         alert("Caja Cerrada")
@@ -109,7 +121,7 @@ export default function VentaRecetaStock(){
                     }
 
                     const _res = validar_items_venta(_venta)
-                    alert(JSON.stringify(_res))
+                    //alert(JSON.stringify(_res))
                     if(_res.length>0){
                         //only show 1 error per try 
                         alert(_res[0].msg)
@@ -123,12 +135,12 @@ export default function VentaRecetaStock(){
                         return 
                     }
 
-                    alert(JSON.stringify(_venta))
+                    //alert(JSON.stringify(_venta))
 
-                    console.log(JSON.stringify(_venta))
+                    //console.log(JSON.stringify(_venta))
 
                     post_method(post.insert.venta,_venta,(response)=>{
-                        alert(JSON.stringify(response.data))
+                        alert("OK")
                         
                         setIdVenta(response.data)
                         setPrintOpen(true)

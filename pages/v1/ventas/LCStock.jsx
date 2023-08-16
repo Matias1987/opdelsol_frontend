@@ -30,6 +30,18 @@ export default function VentaLCStock(){
     }
 
     const onFinish = (v) => {
+        if(v.fkcliente==null)
+        {
+            alert("Cliente no seleccionado")
+            return;
+        }
+
+        if(v.fechaRetiro==null)
+        {
+            alert("Fecha retiro no establecida")
+            return
+        }
+        
         globals.obtenerCajaAsync((result)=>{
             if(result==null){
                 alert("Caja Cerrada")

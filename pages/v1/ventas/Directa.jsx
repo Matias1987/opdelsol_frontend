@@ -44,6 +44,12 @@ export default function VentaDirecta(){
                 alert(JSON.stringify(v))
                 alert(JSON.stringify(productos))
 
+                if(v.fkcliente==null)
+                {
+                    alert("Cliente no seleccionado")
+                    return;
+                }
+
                 globals.obtenerCajaAsync((result)=>{
 
                     if(result===null)
@@ -72,7 +78,7 @@ export default function VentaDirecta(){
 
 
                 post_method(post.insert.venta,__venta,(response)=>{
-                    alert(JSON.stringify(response.data))
+                    alert("OK")
                     setIdVenta(response.data)
                     setPrintOpen(true)
                     //redirect

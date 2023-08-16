@@ -72,7 +72,7 @@ export default function CobroOperacion(props){
                 return;
             }
 
-            alert(`debe: ${dataVenta.saldo} total a pagar: ${mp.total}`)
+            //alert(`debe: ${dataVenta.saldo} total a pagar: ${mp.total}`)
             if( (entrega || _mc) && (dataVenta.saldo - mp.total)!=0){
                 alert("Saldo distinto a 0")
                 return
@@ -110,7 +110,7 @@ export default function CobroOperacion(props){
             }
         }
 
-        alert(JSON.stringify(params))
+        //alert(JSON.stringify(params))
 
         //THIS REGION IS TEMPORARILY COMMENTED
 

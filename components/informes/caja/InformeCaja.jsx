@@ -37,7 +37,7 @@ export default function InformeCaja(props){
         fetch(get.informe_caja + props.idcaja)
         .then(response=>response.json())
         .then((response)=>{
-            alert(JSON.stringify(response))
+            //alert(JSON.stringify(response))
             setDataOperaciones(response.data)
 
             

@@ -45,7 +45,7 @@ const ListaCobros = (props) => {
         params = add(params, filtros.iddestinatario, 'iddestinatario')
         params = add(params, props?.idventa, 'idventa')
 
-        alert(JSON.stringify(params))
+        //alert(JSON.stringify(params))
 
         //get list
         post_method(post.obtener_lista_cobros,params,(response)=>{
@@ -55,7 +55,9 @@ const ListaCobros = (props) => {
 
     return <>
         <FiltroCobros callback={f=>{setFiltros(_f=>f); setReload(!reload)}} />
-        {JSON.stringify(filtros)}
+        {
+        //JSON.stringify(filtros)
+        }
         <Table dataSource={dataSource} columns={columns} />
     </>
 }

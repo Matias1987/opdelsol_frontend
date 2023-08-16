@@ -5,12 +5,12 @@ import { useEffect, useState } from "react"
 export default function ModoPagoInf(props){
     const [data, setData] = useState(null)
     useEffect(()=>{
-        alert(get.get_venta_mp + props.idventa)
+        //alert(get.get_venta_mp + props.idventa)
         fetch(get.get_venta_mp + props.idventa)
         .then(response=>response.json())
         .then((response)=>{
             setData(response.data)
-            alert(JSON.stringify(response))
+            //alert(JSON.stringify(response))
         })
     },[])
 

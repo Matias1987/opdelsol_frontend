@@ -46,6 +46,18 @@ export default function VentaMonofocalesLab(){
     const onFinish = (v) => {
         //alert(JSON.stringify(v))
         //alert(JSON.stringify(productos))
+        if(v.fkcliente==null)
+        {
+            alert("Cliente no seleccionado")
+            return;
+        }
+
+        if(v.fechaRetiro==null)
+        {
+            alert("Fecha retiro no establecida")
+            return
+        }
+
 
         globals.obtenerCajaAsync((result)=>{
             if(result==null){
@@ -62,7 +74,7 @@ export default function VentaMonofocalesLab(){
                 fkcaja: result.idcaja,
             }
 
-            alert(JSON.stringify(venta))
+            //alert(JSON.stringify(venta))
 
             const _res = validar_items_venta(venta)
 
@@ -81,7 +93,7 @@ export default function VentaMonofocalesLab(){
             
 
             post_method(post.insert.venta,venta,(response)=>{
-                alert(JSON.stringify(response.data))
+                alert("OK")
                 setIdVenta(response.data)
                 setPrintOpen(true)
             })

@@ -4,6 +4,7 @@ import SucursalLabel from "../sucursal_label";
 import useStorage from "@/useStorage";
 import { LogoutOutlined } from "@ant-design/icons";
 import { get, public_urls } from "@/src/urls";
+import { useEffect, useState } from "react";
 
 /**
  * 
@@ -13,6 +14,10 @@ import { get, public_urls } from "@/src/urls";
 const HeaderSol =(props)=> {
     const { Header, Sider, Content } = Layout;
     const { getItem } = useStorage();
+    const [uname, setUName] = useState('')
+    useEffect(()=>{
+        setUName(globals.obtenerUserName())
+    },[])
     return(    
     <Header style={{ background: '#fff', padding: 0 }}>
         <span style={{padding:'1em'}}>
@@ -20,8 +25,8 @@ const HeaderSol =(props)=> {
                 Sucursal:&nbsp;&nbsp;<SucursalLabel idsucursal={
                     globals.obtenerSucursal()
                     } />
-                    &nbsp;- Cuenta: {props.tipoCuenta}
-                    &nbsp;- Usuario: NOMBRE
+                    &nbsp;- Cuenta: <b>{props.tipoCuenta}</b>
+                    &nbsp;- Usuario: <b>{uname}</b>
             </i>
         </span>
         <Button type="link" onClick={()=>{

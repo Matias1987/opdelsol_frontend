@@ -25,7 +25,7 @@ const InformeVenta = (props) => {
 	useEffect(()=>{
 		const url= get.venta;
 		const url_mp = get.get_venta_mp;
-		alert(url_mp + props.idventa)
+		//alert(url_mp + props.idventa)
 		//get venta
 		fetch(url+props.idventa)
 		.then(response=>response.json())

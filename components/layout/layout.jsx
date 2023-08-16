@@ -11,11 +11,14 @@ import globals from '@/src/globals';
 import MenuDepositoMinTop from './menu_deposito_min_top';
 import MenuSideDepositoMin from './menu_side_desposito_min';
 import { redirect } from 'next/dist/server/api-utils';
+import HeaderSol from './header';
 
 
 export default function MyLayout({children}){
     const { Header, Sider, Content } = Layout;
     const [collapsed, setCollapsed] = useState(false);
+    const [uDepositoMin, setUDepositoMin] = useState(false)
+    const [uDeposito, setUDeposito] = useState(false)
     const toggle = () => {}
     //return (<>Hello</>)
 
@@ -65,6 +68,8 @@ export default function MyLayout({children}){
   useEffect(()=>{
     console.log("run user effect")
     validate_user()
+    setUDepositoMin(globals.esUsuarioDepositoMin())
+    setUDeposito(globals.esUsuarioDeposito())
   },[])
     
     
@@ -75,10 +80,10 @@ export default function MyLayout({children}){
                     <div className="logo" style={{padding:".45em", textAlign:"center" }}>
                         <span style={{color:"rgba(255,255,255,1)"}}><b>Optica del Sol</b>&nbsp;&nbsp;</span>
                     </div>
-                    {globals.esUsuarioDeposito()?<>
+                    {uDeposito?<>
                         <TestMenu />
                     </>:
-                    globals.esUsuarioDepositoMin()?<>
+                    uDepositoMin?<>
                         <MenuSideDepositoMin />
                     </>:<></>
 
@@ -87,41 +92,7 @@ export default function MyLayout({children}){
                     
                 </Sider>
                 <Layout>
-                    <Header style={{ background: '#fff', padding: 0 }}>
-                        
-                    <span style={{padding:'1em'}}>
-                        <i>
-                            Sucursal:&nbsp;&nbsp;<SucursalLabel idsucursal={
-                                globals.obtenerSucursal()
-                                } />
-                            &nbsp;- Cuenta: DEP&Oacute;SITO
-                            &nbsp;- Usuario: NOMBRE
-                        </i>
-                    </span>
-                    {/*React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
-                    className: 'trigger',
-                    onClick: () => setCollapsed(!collapsed),
-                    })*/}
-                    <Button type="link" onClick={()=>{
-                        
-                        const _token = getItem("token",'session')
-
-                        fetch(get.logout + _token)
-                        .then(response=>response.json())
-                        .then((response)=>{
-                            window.location.replace(public_urls.login);
-                        })
-                    }}>
-                        
-                    <LogoutOutlined />Salir     
-                    </Button>
-                    &nbsp;&nbsp;
-                        <Button type="link" onClick={(e)=>{
-                            window.location.replace(public_urls.modo);
-                        }}>
-                            Cambiar Modo
-                        </Button>
-                    </Header>
+                    <HeaderSol tipoCuenta="DEPOSITO" />
                     <Content style={{ margin: '24px 16px', padding: 24, background: '#fff', minHeight: 280, overflowY:"scroll"  }}>
                         {children}
                     </Content>

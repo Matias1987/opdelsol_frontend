@@ -7,6 +7,7 @@ import SucursalLabel from "../sucursal_label";
 import globals from "@/src/globals";
 import MenuVentasTop from "./menu_ventas_top";
 import Alerts from "./alert_container";
+import HeaderSol from "./header";
 
 export default function LayoutVentas({children}){
     const { Header, Sider, Content } = Layout;
@@ -55,38 +56,8 @@ export default function LayoutVentas({children}){
   },[])
     return (
         <Layout className='layout'>
-            <Header style={{ background: '#fff', padding: 0 }}>
-                        
-                        <span style={{padding:'1em'}}>
-                            <i>
-                                Sucursal:&nbsp;&nbsp;<SucursalLabel idsucursal={
-                                    globals.obtenerSucursal()
-                                    } />
-                                &nbsp;- Cuenta: VENTAS
-                                &nbsp;- Usuario: NOMBRE
-                            </i>
-                        </span>
-                        <Button type="link" onClick={()=>{
-                            
-                            const _token = getItem("token",'session')
-    
-                            fetch(get.logout + _token)
-                            .then(response=>response.json())
-                            .then((response)=>{
-                                window.location.replace(public_urls.login);
-                            })
-                        }}>
-                            
-                        <LogoutOutlined />Salir     
-                        </Button>
-                        &nbsp;&nbsp;
-                        <Button type="link" onClick={(e)=>{
-                            window.location.replace(public_urls.modo);
-                        }}>
-                            Cambiar Modo
-                        </Button>
-                        </Header>
-                        <MenuVentasTop />
+            <HeaderSol tipoCuenta="VENTAS" />
+            <MenuVentasTop />
             <Content style={{ margin: '40px 100px', padding: 24, background: '#fff', minHeight: 580 }}>
             <Alerts />
                 {children}

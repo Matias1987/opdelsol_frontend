@@ -72,7 +72,7 @@ export default function ModoPago(props){
                             .then(response=>response.json())
                             .then((response)=>{
 
-                                alert(JSON.stringify(response))
+                                //alert(JSON.stringify(response))
 
                                 setMPLoaded(true)
                                 

@@ -45,6 +45,18 @@ export default function VentaLCLab(){
 
     const onFinish = (v) => {
 
+        if(v.fkcliente==null)
+        {
+            alert("Cliente no seleccionado")
+            return;
+        }
+
+        if(v.fechaRetiro==null)
+        {
+            alert("Fecha retiro no establecida")
+            return
+        }
+
         globals.obtenerCajaAsync((result)=>{
 
             if(result===null)
@@ -77,10 +89,10 @@ export default function VentaLCLab(){
             }
 
 
-            console.log(JSON.stringify(venta))
+            //console.log(JSON.stringify(venta))
 
             post_method(post.insert.venta,venta,(response)=>{
-                alert(JSON.stringify(response.data))
+                alert("OK")
                 setIdVenta(response.data)
                 setPrintOpen(true)
             })

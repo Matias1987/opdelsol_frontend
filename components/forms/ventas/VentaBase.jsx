@@ -14,7 +14,7 @@ import { useState } from "react";
 
 export default function VentaBase(props){
  const [venta, setVenta] = useState( {
-        fkcliente: -1,
+        fkcliente: null,
         fkdestinatario: null,
         fkmedico: null,
         fkos: null,

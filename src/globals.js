@@ -11,6 +11,11 @@ const globals =  {
         const {getItem} = useStorage();
         return getItem("idsucursal");
     },
+    obtenerUserName: () =>
+    {
+        const {getItem} = useStorage();
+        return getItem("uname");
+    },
     establecerToken: (_token) =>{
         const {setItem} = useStorage();
         setItem("token",_token);
@@ -45,7 +50,7 @@ const globals =  {
         fetch(get.caja+globals.obtenerSucursal())
         .then(response=>response.json())
         .then((response)=>{
-            alert(JSON.stringify(response))
+            //alert(JSON.stringify(response))
             if(response.data.status=='OK')
             {
                 callback(response.data)

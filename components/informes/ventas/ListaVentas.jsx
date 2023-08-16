@@ -191,7 +191,9 @@ const ListaVentas = (props) => {
 
         <h3>{typeof props.titulo === 'undefined' ? "Lista de Ventas": props.titulo}</h3>
         <FiltroVentas callback={f=>{setFiltros(_f=>f); setReload(!reload)}} />
-        {JSON.stringify(filtros)}
+        {
+        //JSON.stringify(filtros)
+        }
         <Table dataSource={dataSource} columns={columns} loading={loading} />
     </>
 }
