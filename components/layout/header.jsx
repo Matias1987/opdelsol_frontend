@@ -19,8 +19,8 @@ const HeaderSol =(props)=> {
         setUName(globals.obtenerUserName())
     },[])
     return(    
-    <Header style={{ background: '#fff', padding: 0 }}>
-        <span style={{padding:'1em'}}>
+    <Header style={{ background: '#fff', padding: '0em', margin: '0', fontSize:'.85em' }}>
+        <span style={{padding:'.5em'}}>
             <i>
                 Sucursal:&nbsp;&nbsp;<SucursalLabel idsucursal={
                     globals.obtenerSucursal()

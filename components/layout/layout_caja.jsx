@@ -57,10 +57,10 @@ export default function LayoutCaja({children}){
     validate_user()
   },[])
     return (
-        <Layout className='layout'>
+        <Layout className='layout' style={{minHeight: 1200}}>
                 <HeaderSol tipoCuenta="CAJA" />
                 <MenuCajaTop />
-            <Content style={{ margin: '40px 100px', padding: 24, background: '#fff', minHeight: 280 }}>
+            <Content style={{ margin: '40px 100px', padding: 24, background: '#fff', overflowY:'scroll' }}>
                 <Alerts />
                 {children}
             </Content>
