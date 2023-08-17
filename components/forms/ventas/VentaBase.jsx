@@ -11,7 +11,11 @@ import { Button, Col, DatePicker, Divider, Form, Input, Row, Steps, Tabs, TextAr
 import { useState } from "react";
 
 /* leer: https://refine.dev/blog/common-usestate-mistakes-and-how-to-avoid/ */
-
+/**
+ * 
+ * @param ocultarFechaRetiro
+ * @returns 
+ */
 export default function VentaBase(props){
  const [venta, setVenta] = useState( {
         fkcliente: null,
@@ -118,20 +122,28 @@ export default function VentaBase(props){
             </Row>
         },
         {
+            /* fecha y hora de entrega opcional */
             key: 'paso4',
             label: 'Finalizar Sobre',
             children: 
             <Row>
-                <Col span="12">
-                    <Form.Item label={"Fecha de Retiro"}>
-                        <DatePicker format={"DD-MM-YYYY"} onChange={(value)=>{onChange("fechaRetiro", value.format("DD-MM-YYYY"))}} />
-                    </Form.Item>
-                </Col>
-                <Col span="12">
-                    <Form.Item label={"Hora de Retiro"}>
-                        <TimePicker format={'HH:mm'}  onChange={(value,timeString)=>{onChange("horaRetiro", timeString)}} />
-                    </Form.Item>
-                </Col>
+                {
+                    props.ocultarFechaRetiro ? <></>
+                    :
+                    <>
+                        <Col span="12">
+                            <Form.Item label={"Fecha de Retiro"}>
+                                <DatePicker format={"DD-MM-YYYY"} onChange={(value)=>{onChange("fechaRetiro", value.format("DD-MM-YYYY"))}} />
+                            </Form.Item>
+                        </Col>
+                        <Col span="12">
+                            <Form.Item label={"Hora de Retiro"}>
+                                <TimePicker format={'HH:mm'}  onChange={(value,timeString)=>{onChange("horaRetiro", timeString)}} />
+                            </Form.Item>
+                        </Col>
+                    </>
+                    
+                }
                 <Col span="24">
                     <Form.Item label={"Comentarios"}>
                     <Input.TextArea rows={2} onChange={(e)=>{onChange("comentarios", e.target.value)}} />
