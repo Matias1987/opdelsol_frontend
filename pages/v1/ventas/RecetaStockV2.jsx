@@ -10,6 +10,7 @@ import InformeVenta from "@/components/informes/ventas/Base";
 import ImprimirSobreVenta from "./informes/sobre_venta";
 import { validar_items_venta } from "@/src/helpers/ventas_helper";
 import { validar_modo_pago } from "@/src/helpers/pago_helper";
+import PrinterWrapper from "@/components/PrinterWrapper";
 
 
 export default function VentaRecetaStock(){
@@ -59,41 +60,7 @@ export default function VentaRecetaStock(){
         }}
         
         onfinish={(data)=>{
-                /*
-                if(data === null){
-                    alert("venta is null!")
-                    return;
-                }
-
-                if(typeof data.fechaRetiro === 'undefined' || data.fechaRetiro == null ){
-                  alert("Fecha de retiro no establecida")
-                  return
-                }
-
-                if(data.fkcliente <0 || data.fkcliente == null){
-                  alert("Cliente no establecido");
-                  return
-                }
-
-
-                if(data.fkdestinatario==null){
-                    alert("destinatario no establecido")
-                    return
-                }
-                if(data.fkmedico==null){
-                    alert("medico no establecido")
-                    return
-                }
                 
-
-
-                if(productos===null){
-                    alert("sin productos")
-                }*/
-
-
-                //alert(JSON.stringify(_venta))
-
                 if(data.fkcliente==null)
                 {
                     alert("Cliente no seleccionado")
@@ -135,9 +102,6 @@ export default function VentaRecetaStock(){
                         return 
                     }
 
-                    //alert(JSON.stringify(_venta))
-
-                    //console.log(JSON.stringify(_venta))
 
                     post_method(post.insert.venta,_venta,(response)=>{
                         alert("OK")
@@ -150,8 +114,10 @@ export default function VentaRecetaStock(){
             }}>
             <RecetaStockItems callback={callback} />
         </VentaBase>
-        <Modal open={idVenta!=-1 && printOpen} onOk={()=>{setPrintOpen(false)}} onCancel={()=>{setPrintOpen(false)}} >
-            <ImprimirSobreVenta idventa={idVenta} />
+        <Modal width={"80%"} open={idVenta!=-1 && printOpen} onOk={()=>{setPrintOpen(false)}} onCancel={()=>{setPrintOpen(false)}} >
+            <PrinterWrapper>
+                <InformeVenta idventa={idVenta} />
+            </PrinterWrapper>
         </Modal>
     </>
     )

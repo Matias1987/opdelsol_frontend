@@ -8,6 +8,9 @@ import { useEffect, useState } from "react";
 import ImprimirSobreVenta from "./informes/sobre_venta";
 import globals from "@/src/globals";
 import { validar_modo_pago } from "@/src/helpers/pago_helper";
+import { validar_ventas_base } from "@/src/helpers/ventas_helper";
+import PrinterWrapper from "@/components/PrinterWrapper";
+import InformeVenta from "@/components/informes/ventas/Base";
 
 export default function VentaDirecta(){
     const [venta, setVenta] = useState(null)
@@ -42,15 +45,15 @@ export default function VentaDirecta(){
         onfinish={
             (v)=>{
 
-                alert(JSON.stringify(v))
-                alert(JSON.stringify(productos))
-
-                if(v.fkcliente==null)
+                if(productos==null)
                 {
-                    alert("Cliente no seleccionado")
-                    return;
+                    alert("Sin Productos")
+                    return
                 }
 
+                validar_ventas_base(v,total)
+
+             
                 globals.obtenerCajaAsync((result)=>{
 
                     if(result===null)
@@ -67,7 +70,7 @@ export default function VentaDirecta(){
                     subtotal: subTotal,
                     fkcaja: result.idcaja,
                 }
-                //alert("****************")
+               
                 const _res1 = validar_modo_pago(venta.mp)
 
                 if(_res1!=null){
@@ -75,14 +78,10 @@ export default function VentaDirecta(){
                     return 
                 }
                 
-                //console.log(JSON.stringify(__venta))
-
-
                 post_method(post.insert.venta,__venta,(response)=>{
                     alert("OK")
                     setIdVenta(response.data)
                     setPrintOpen(true)
-                    //redirect
                      })
                 
                 });
@@ -105,8 +104,10 @@ export default function VentaDirecta(){
                 }
             />
         </VentaBase>
-        <Modal open={idVenta!=-1 && printOpen} onOk={()=>{onClosePrintPopup()}} onCancel={()=>{onClosePrintPopup()}} >
-            <ImprimirSobreVenta idventa={idVenta} />
+        <Modal width={"80%"} open={idVenta!=-1 && printOpen} onOk={()=>{onClosePrintPopup()}} onCancel={()=>{onClosePrintPopup()}} >
+            <PrinterWrapper>
+                <InformeVenta idventa={idVenta} />
+            </PrinterWrapper>
         </Modal>
     </>
     )

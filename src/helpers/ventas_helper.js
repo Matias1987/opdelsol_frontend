@@ -2,6 +2,25 @@
  * VALIDAR CAMPOS VENTA!!!!! TO DO 
  */
 
+const validar_ventas_base = (vta, total) => {
+
+    if(vta.fkcliente==null)
+    {
+        alert("Cliente no seleccionado")
+        return;
+    }
+
+    
+    if(vta.mp!=null){
+        if(vta.mp.total>total){
+            alert("Saldo menor a 0")
+            return
+        }
+    }
+
+    
+}
+
 const validar_tipo = (arr, _root, field) =>
 {
     if(_root[field + "_visible"])
@@ -81,4 +100,4 @@ const validar_items_venta = (venta) => {
     
 }
 
-module.exports = {validar_items_venta}
+module.exports = {validar_items_venta,validar_ventas_base}

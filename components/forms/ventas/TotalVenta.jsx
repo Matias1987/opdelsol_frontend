@@ -20,14 +20,14 @@ const TotalesVenta = (props) => {
 return (
     <>
         <Row>
-            <Col span={5}><Input prefix={"SubTotal: $"} bordered={false} readOnly value={props.subtotal||0}/></Col>
+            <Col span={5}><Input style={{fontWeight: "bold"}} prefix={"SubTotal: $"} bordered={false} readOnly value={props.subtotal||0}/></Col>
 
             <Col span={5}><Input  onClick={(e)=>{e.target.select()}}  prefix={"Descuento: $"} onChange={onDescuentoChange} value={descuento} style={{backgroundColor:"lightyellow"}}/></Col>
 
             <Col span={14}><Input prefix={"Concepto Descuento: "} style={{backgroundColor:"lightyellow"}} ></Input></Col>
         </Row>
         <Row>
-            <Col span={24}><Input prefix={"Total: $"}  bordered={false} readOnly  value={total} /></Col>
+            <Col span={24}><Input prefix={"Total: $"} style={{fontWeight: "bold"}}  bordered={false} readOnly  value={total} /></Col>
         </Row>
     </>)
 }

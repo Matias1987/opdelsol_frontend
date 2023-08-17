@@ -9,6 +9,8 @@ import ImprimirSobreVenta from "./informes/sobre_venta";
 import globals from "@/src/globals";
 import { validar_items_venta } from "@/src/helpers/ventas_helper";
 import { validar_modo_pago } from "@/src/helpers/pago_helper";
+import PrinterWrapper from "@/components/PrinterWrapper";
+import InformeVenta from "@/components/informes/ventas/Base";
 
 export default function VentaLCStock(){
     const [total, setTotal] = useState(0);
@@ -93,8 +95,10 @@ export default function VentaLCStock(){
         <VentaBase subTotal={subTotal} total={total} onfinish={onFinish} callback={callback_venta_modif}>
             <LCStockItems callback={onProductosChange} />
         </VentaBase>
-        <Modal open={idVenta!=-1 && printOpen} onOk={()=>{setPrintOpen(false)}} onCancel={()=>{setPrintOpen(false)}} >
-            <ImprimirSobreVenta idventa={idVenta} />
+        <Modal width={"80%"} open={idVenta!=-1 && printOpen} onOk={()=>{setPrintOpen(false)}} onCancel={()=>{setPrintOpen(false)}} >
+            <PrinterWrapper>
+                <InformeVenta idventa={idVenta} />
+            </PrinterWrapper>
         </Modal>
         </>
         )
