@@ -1,7 +1,7 @@
 import { get, public_urls } from "@/src/urls";
 import useStorage from "@/useStorage";
 import { LogoutOutlined } from "@ant-design/icons";
-import { Alert, Button, Layout } from "antd";
+import { Alert, Anchor, Button, Input, Layout } from "antd";
 import { useEffect } from "react";
 import SucursalLabel from "../sucursal_label";
 import globals from "@/src/globals";
@@ -60,6 +60,7 @@ export default function LayoutCaja({children}){
         <Layout className='layout' style={{minHeight: 1200}}>
                 <HeaderSol tipoCuenta="CAJA" />
                 <MenuCajaTop />
+  
             <Content style={{ margin: '40px 100px', padding: 24, background: '#fff', overflowY:'scroll' }}>
                 <Alerts />
                 {children}

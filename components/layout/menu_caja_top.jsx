@@ -1,4 +1,4 @@
-import { MenuOutlined, PlusOutlined, SettingOutlined, StarOutlined } from "@ant-design/icons";
+import { MenuOutlined, PlusOutlined, SearchOutlined, SettingOutlined, StarOutlined } from "@ant-design/icons";
 import { Input, Menu } from "antd";
 import { useState } from "react";
 import Link from "next/link"
@@ -66,9 +66,11 @@ const items = [
     icon: <StarOutlined />,
   },
   {
-    label: (<Input />),
-    key: '20',
+    label: (<Link href={"#"} onClick={()=>{alert("Buscar")}}>Buscar Venta</Link>),
+    key: '404',
+    icon: <SearchOutlined />,
   },
+ 
 ];
 export default function MenuCajaTop(){
   const [current, setCurrent] = useState('mail');

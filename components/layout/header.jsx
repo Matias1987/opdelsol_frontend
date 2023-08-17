@@ -1,5 +1,5 @@
 import globals from "@/src/globals";
-import { Alert, Button, Layout } from "antd";
+import { Alert, Button, Col, Input, Layout, Row } from "antd";
 import SucursalLabel from "../sucursal_label";
 import useStorage from "@/useStorage";
 import { LogoutOutlined } from "@ant-design/icons";
@@ -20,35 +20,46 @@ const HeaderSol =(props)=> {
     },[])
     return(    
     <Header style={{ background: '#fff', padding: '0em', margin: '0', fontSize:'.85em' }}>
-        <span style={{padding:'.5em'}}>
-            <i>
-                Sucursal:&nbsp;&nbsp;<SucursalLabel idsucursal={
-                    globals.obtenerSucursal()
-                    } />
-                    &nbsp;- Cuenta: <b>{props.tipoCuenta}</b>
-                    &nbsp;- Usuario: <b>{uname}</b>
-            </i>
-        </span>
-        <Button type="link" onClick={()=>{
+        <Row>
+            <Col span={16}>
+                <span style={{padding:'.5em'}}>
+                    <i>
+                        Sucursal:&nbsp;&nbsp;<SucursalLabel idsucursal={
+                            globals.obtenerSucursal()
+                            } />
+                            &nbsp;- Cuenta: <b>{props.tipoCuenta}</b>
+                            &nbsp;- Usuario: <b>{uname}</b>
+                    </i>
+                </span>
+                <Button type="link" onClick={()=>{
+                    
+                    const _token = getItem("token",'session')
+
+                    fetch(get.logout + _token)
+                    .then(response=>response.json())
+                    .then((response)=>{
+                        window.location.replace(public_urls.login);
+                    })
+                }}>
+
+                <LogoutOutlined />Salir     
+                </Button>
+                &nbsp;&nbsp;
+                <Button type="link" onClick={(e)=>{
+                    window.location.replace(public_urls.modo);
+                }}>
+                    Cambiar Modo
+                </Button>
+                &nbsp;&nbsp;
             
-            const _token = getItem("token",'session')
+            </Col>  
+            
+                <Col span={8}><span><Input.Search prefix="Buscar" /></span></Col>  
 
-            fetch(get.logout + _token)
-            .then(response=>response.json())
-            .then((response)=>{
-                window.location.replace(public_urls.login);
-            })
-        }}>
-
-        <LogoutOutlined />Salir     
-        </Button>
-        &nbsp;&nbsp;
-        <Button type="link" onClick={(e)=>{
-            window.location.replace(public_urls.modo);
-        }}>
-            Cambiar Modo
-        </Button>
-        &nbsp;&nbsp;
+        </Row>
+       
+        
+        
         </Header>)
 }
 

@@ -8,9 +8,7 @@ import { useEffect, useState } from "react";
 
 export default function ImprimirSobreVenta(props){
     const [open, setOpen] = useState(false)
-    useEffect(()=>{
-        alert(props.idventa)
-    },[])
+
     return (
         <>
             <Button onClick={()=>{setOpen(true)}}><PrinterFilled /></Button>
