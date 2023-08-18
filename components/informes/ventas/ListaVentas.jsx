@@ -24,6 +24,7 @@ const { Table, Button, Tag, Alert } = require("antd");
  * @param mustCancel
  * @param en_laboratorio
  * @param enviar_a_sucursal
+ * @param ocultarFiltros
  */
 const ListaVentas = (props) => {
     const [dataSource, setDataSource] = useState([])
@@ -109,6 +110,7 @@ const ListaVentas = (props) => {
         params = add(params, props?.en_laboratorio, 'en_laboratorio')
         //params = add(params, props?.idVendedor, 'idVendedor')
         params = add(params, props?.fecha, 'fecha')
+        params = add(params, props?.id, 'id')
         //alert(" FILTROS:  "+JSON.stringify(filtros))
         //filtros
         params = add(params, filtros.idcliente, 'idcliente')
@@ -190,7 +192,8 @@ const ListaVentas = (props) => {
     return <>
 
         <h3>{typeof props.titulo === 'undefined' ? "Lista de Ventas": props.titulo}</h3>
-        <FiltroVentas callback={f=>{setFiltros(_f=>f); setReload(!reload)}} />
+        {typeof props.ocultarFiltros === 'undefined' ? <></> : <FiltroVentas callback={f=>{setFiltros(_f=>f); setReload(!reload)}} /> }
+        
         {
         //JSON.stringify(filtros)
         }

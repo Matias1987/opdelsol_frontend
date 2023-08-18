@@ -3,6 +3,7 @@ import { Input, Menu } from "antd";
 import { useState } from "react";
 import Link from "next/link"
 import { public_urls } from "@/src/urls";
+import BuscarVenta from "../forms/ventas/BuscarVenta";
 
 const items = [
  
@@ -66,9 +67,9 @@ const items = [
     icon: <StarOutlined />,
   },
   {
-    label: (<Link href={"#"} onClick={()=>{alert("Buscar")}}>Buscar Venta</Link>),
+    //label: (<Link href={"#"} onClick={()=>{alert("Buscar")}}>Buscar Venta</Link>),
+    label: (<BuscarVenta />),
     key: '404',
-    icon: <SearchOutlined />,
   },
  
 ];

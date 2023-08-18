@@ -54,8 +54,6 @@ const HeaderSol =(props)=> {
             
             </Col>  
             
-                <Col span={8}><span><Input.Search prefix="Buscar" /></span></Col>  
-
         </Row>
        
         

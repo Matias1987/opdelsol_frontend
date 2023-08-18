@@ -11,6 +11,7 @@ const FiltroVentas =(props) => {
     const [open, setOpen] = useState(false);
 
     useEffect(()=>{
+        
         setFiltros({})
     },[])
 
@@ -56,10 +57,10 @@ const FiltroVentas =(props) => {
 
 
     return <>
-    <Button type="primary" ghost  size="small"  onClick={showModal}>
+    <Button type="link" ghost  size="small"  onClick={showModal}>
         {"Filtros"}
       </Button>
-      <Button danger size="small" onClick={(e)=>{setFiltros(f=>{props?.callback?.({}); return {}}); }}>
+      <Button danger type="link" size="small" onClick={(e)=>{setFiltros(f=>{props?.callback?.({}); return {}}); }}>
         Borrar Filtros
       </Button>
       <Modal
