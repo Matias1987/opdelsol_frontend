@@ -41,7 +41,7 @@ export default function FichaCliente(props){
             fetch(get.operaciones_cliente + props.idcliente)
             .then(response=>response.json())
             .then((response)=>{
-                alert(JSON.stringify(response.data))
+                //alert(JSON.stringify(response.data))
                 setOperaciones(response.data)
                 setScrollChange(true)
             })

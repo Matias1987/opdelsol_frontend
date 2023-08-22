@@ -194,6 +194,7 @@ const get = {
 
     lista_bancos: remote_base_url + "bancos/",
 
+    stock_full: remote_base_url + "stock/subgrupos_full/",
 
 }
 

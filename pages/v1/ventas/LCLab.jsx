@@ -2,7 +2,7 @@ import LCLabItems from "@/components/forms/ventas/lc_laboratorio/items";
 import VentaBase from "../../../components/forms/ventas/VentaBase";
 import LayoutVentas from "@/components/layout/layout_ventas";
 import { useState } from "react";
-import { post } from "@/src/urls";
+import { post, public_urls } from "@/src/urls";
 import { post_method } from "@/src/helpers/post_helper";
 import { Modal } from "antd";
 import ImprimirSobreVenta from "./informes/sobre_venta";
@@ -101,13 +101,18 @@ export default function VentaLCLab(){
     });
     }
 
+    const onClosePrintPopup = _ => {
+        setPrintOpen(false)
+        window.location.replace(public_urls.dashboard_venta);
+    }
+
     return (
     <>
     <h3>Venta de Lentes de Contacto Laboratorio</h3>
     <VentaBase subTotal={subTotal} total={total} onfinish={onFinish} callback={callback_venta_modif}>
         <LCLabItems callback={products_callback} />
     </VentaBase>
-    <Modal width={"80%"} open={idVenta!=-1 && printOpen} onOk={()=>{setPrintOpen(false)}} onCancel={()=>{setPrintOpen(false)}} >
+    <Modal width={"80%"} open={idVenta!=-1 && printOpen} onOk={()=>{onClosePrintPopup()}} onCancel={()=>{onClosePrintPopup()}} >
         <PrinterWrapper>
             <InformeVenta idventa={idVenta} />
         </PrinterWrapper>

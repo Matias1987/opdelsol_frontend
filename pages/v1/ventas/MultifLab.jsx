@@ -2,7 +2,7 @@ import MultifLabItems from "@/components/forms/ventas/multif_lab/Items";
 import VentaBase from "../../../components/forms/ventas/VentaBase";
 import LayoutVentas from "@/components/layout/layout_ventas";
 import { useState } from "react";
-import { post } from "@/src/urls";
+import { post, public_urls } from "@/src/urls";
 import { post_method } from "@/src/helpers/post_helper";
 import { Modal } from "antd";
 import ImprimirSobreVenta from "./informes/sobre_venta";
@@ -86,9 +86,11 @@ export default function VentaMultifocalesLab(){
 
             const _res1 = validar_modo_pago(venta.mp)
 
-            if(_res1.length>0){
-                alert(_res1[0].msg)
-                return 
+            if(_res1!=null){
+                if(_res1.length>0){
+                    alert(_res1[0].msg)
+                    return 
+                }
             }
 
             console.log(JSON.stringify(venta))
@@ -101,12 +103,17 @@ export default function VentaMultifocalesLab(){
         })
     }
 
+    const onClosePrintPopup = _ => {
+        setPrintOpen(false)
+        window.location.replace(public_urls.dashboard_venta);
+    }
+
     return (<>
     <h3>Venta de Multifocales Laboratorio</h3>
     <VentaBase subTotal={subTotal} total={total} onfinish={onFinish} callback={callback_venta_modif}>
         <MultifLabItems callback={onProductosCallback} />
     </VentaBase>
-    <Modal width={"80%"} open={idVenta!=-1 && printOpen} onOk={()=>{setPrintOpen(false)}} onCancel={()=>{setPrintOpen(false)}} >
+    <Modal width={"80%"} open={idVenta!=-1 && printOpen} onOk={()=>{onClosePrintPopup()}} onCancel={()=>{onClosePrintPopup()}} >
         <PrinterWrapper>
             <InformeVenta idventa={idVenta} />
         </PrinterWrapper>

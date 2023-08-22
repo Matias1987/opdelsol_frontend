@@ -3,7 +3,7 @@ import VentaBase from "../../../components/forms/ventas/VentaBase"
 import { useState } from "react";
 import LayoutVentas from "@/components/layout/layout_ventas";
 import { post_method } from "@/src/helpers/post_helper";
-import { post } from "@/src/urls";
+import { post, public_urls } from "@/src/urls";
 import globals from "@/src/globals";
 import { Modal } from "antd";
 import InformeVenta from "@/components/informes/ventas/Base";
@@ -41,6 +41,11 @@ export default function VentaRecetaStock(){
         setSubTotal(_t);
         var dto = typeof venta === 'undefined' ? 0 : venta?.descuento||0 
         setTotal((_total)=>(_t - dto));
+    }
+
+    const onClosePrintPopup = _ => {
+        setPrintOpen(false)
+        window.location.replace(public_urls.dashboard_venta);
     }
 
 
@@ -114,7 +119,7 @@ export default function VentaRecetaStock(){
             }}>
             <RecetaStockItems callback={callback} />
         </VentaBase>
-        <Modal width={"80%"} open={idVenta!=-1 && printOpen} onOk={()=>{setPrintOpen(false)}} onCancel={()=>{setPrintOpen(false)}} >
+        <Modal width={"80%"} open={idVenta!=-1 && printOpen} onOk={()=>{onClosePrintPopup()}} onCancel={()=>{onClosePrintPopup()}} >
             <PrinterWrapper>
                 <InformeVenta idventa={idVenta} />
             </PrinterWrapper>

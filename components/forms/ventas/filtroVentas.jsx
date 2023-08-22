@@ -99,13 +99,15 @@ const FiltroVentas =(props) => {
                 <SelectMedico callback={onSelectMedico} />
             </Col>
         </Row>
-        <Row style={{padding: ".65em"}}>
+
+        {/*<Row style={{padding: ".65em"}}>
             <Col span={24}>
                 Destinatario:&nbsp;&nbsp;
                 <SelectCliente callback={onSelectDestinatario} />
             </Col>
-        </Row>
+    </Row>*/}
         </Modal>
+        
     </>
 }
 
