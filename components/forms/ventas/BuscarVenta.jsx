@@ -38,7 +38,7 @@ const BuscarVenta = (props)=>{
                 }))
             ))
         })
-    })
+    },[])
     const onCancel = ()=>{setOpen(false)}
     return <>
     <Button type="dashed" onClick={()=>{setOpen(true)}}>Buscar Venta</Button>
