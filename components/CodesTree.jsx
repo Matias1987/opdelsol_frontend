@@ -98,6 +98,8 @@ const treeData = [
 ];*/
 const CodesTree = () => {
 
+  const [treeData, setTreeData] = useState();
+
   useEffect(()=>{
     fetch(get.stock_full)
     .then(response=>response.json())
@@ -142,7 +144,7 @@ const CodesTree = () => {
     
     console.log(JSON.stringify(data));
   
-    return tree;
+    setTreeData(tree)
   }
   
   const onSelect = (selectedKeys, info) => {
@@ -162,7 +164,7 @@ const CodesTree = () => {
       <Tree
         showLine={true}
         showIcon={true}
-        defaultExpandedKeys={['0-0-0']}
+        //defaultExpandedKeys={['0-0-0']}
         onSelect={onSelect}
         treeData={treeData}
       />
