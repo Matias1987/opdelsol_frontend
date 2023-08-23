@@ -101,11 +101,14 @@ const CodesTree = () => {
   const [treeData, setTreeData] = useState();
 
   useEffect(()=>{
+    alert(get.stock_full)
     fetch(get.stock_full)
     .then(response=>response.json())
     .then((response)=>{
+      alert(JSON.stringify(response.data))
       process_tree(response.data)
     })
+    .catch(err=>{console.log(err)})
   },[])
 
   const process_tree = (data) => {
@@ -137,13 +140,13 @@ const CodesTree = () => {
       
       let subgrupo = grupo.children.find(t=>t.idsubgrupo == r.idsubgrupo)
       if(typeof subgrupo === 'undefined'){
-        subgrupo = {key: `${r.idfamilia}-${r.idsubfamilia}-${r.idgrupo}-${r.idsubgrupo}`, idsubgrupo: r.idsubgrupo, title: r.subgrupo, children: [], icon:<CarryOutOutlined />}
-        grupo.push(subgrupo)
+        subgrupo = {key: `${r.idfamilia}-${r.idsubfamilia}-${r.idgrupo}-${r.idsubgrupo}`, idsubgrupo: r.idsubgrupo, title: r.subgrupo, children: []}
+        grupo.children.push(subgrupo)
       }
     })
     
-    console.log(JSON.stringify(data));
-  
+    //console.log(JSON.stringify(data));
+    alert(JSON.stringify(tree))
     setTreeData(tree)
   }
   
@@ -164,7 +167,7 @@ const CodesTree = () => {
       <Tree
         showLine={true}
         showIcon={true}
-        //defaultExpandedKeys={['0-0-0']}
+        defaultExpandedKeys={['2']}
         onSelect={onSelect}
         treeData={treeData}
       />
