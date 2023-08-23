@@ -3,6 +3,7 @@ import FacturaForm from "@/components/forms/FacturaForm";
 import StockForm from "@/components/forms/StockForm";
 import { Divider } from "antd";
 import AgregarCodigo from "./agregar_codigo";
+import MyLayout from "@/components/layout/layout";
 
 export default function AgregarStock(){
     return (
@@ -33,3 +34,5 @@ export default function AgregarStock(){
 
     )
 }
+
+AgregarStock.PageLayout = MyLayout;

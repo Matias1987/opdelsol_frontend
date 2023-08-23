@@ -1,4 +1,5 @@
 import CustomTable from "@/components/forms/CustomTable";
+import MyLayout from "@/components/layout/layout";
 import { get } from "@/src/urls";
 import { Button } from "antd";
 
@@ -51,3 +52,5 @@ export default function ListaCodigos(){
 
     )
 }
+
+ListaCodigos.PageLayout = MyLayout;

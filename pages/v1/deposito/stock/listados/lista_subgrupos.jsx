@@ -1,4 +1,5 @@
 import CustomTable from "@/components/forms/CustomTable";
+import MyLayout from "@/components/layout/layout";
 import { get, post, public_urls } from "@/src/urls";
 import { Button } from "antd";
 
@@ -52,3 +53,5 @@ export default function ListaSubGrupos(){
         </>
     )
 }
+
+ListaSubGrupos.PageLayout = MyLayout;

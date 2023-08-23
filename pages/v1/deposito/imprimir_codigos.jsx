@@ -2,6 +2,7 @@ import CustomModal from "@/components/CustomModal";
 import PrinterWrapper from "@/components/PrinterWrapper";
 import SearchCodigo from "@/components/SearchCodigo";
 import SearchStock from "@/components/SearchStock";
+import MyLayout from "@/components/layout/layout";
 import { get_barcode_from_id, get_barcode_from_id2 } from "@/src/helpers/barcode_helper";
 import { CloseCircleOutlined } from "@ant-design/icons";
 import { Button, Col, Divider, Form, InputNumber, Row, Table } from "antd";
@@ -9,7 +10,7 @@ import { useEffect, useState } from "react";
 import Barcode from "react-barcode";
 const urls = require("../../../src/urls")
 
-const ImprimirCodigos = () => {
+export default function ImprimirCodigos(){
     const [tableData,setTableData] = useState([])
     const [tableLoading,setTableLoading] = useState(false);
     const [ids , setIds] = useState(0);
@@ -124,4 +125,4 @@ const ImprimirCodigos = () => {
     )
 }
 
-export default ImprimirCodigos;
+ImprimirCodigos.PageLayout = MyLayout;

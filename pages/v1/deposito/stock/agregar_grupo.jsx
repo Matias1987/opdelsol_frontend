@@ -1,4 +1,5 @@
 import GrupoForm from "@/components/forms/GrupoForm";
+import MyLayout from "@/components/layout/layout";
 
 export default function AgregarGrupo(){
     return (
@@ -8,3 +9,5 @@ export default function AgregarGrupo(){
         </>
     )
 }
+
+AgregarGrupo.PageLayout = MyLayout;

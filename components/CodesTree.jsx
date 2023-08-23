@@ -1,6 +1,11 @@
+import { get } from "@/src/urls";
+import { useEffect, useState } from "react";
+
 const { CarryOutOutlined, FormOutlined } = require("@ant-design/icons");
 const { Tree } = require("antd");
 
+
+/*
 const treeData = [
   {
     title: 'parent 1',
@@ -90,8 +95,55 @@ const treeData = [
       },
     ],
   },
-];
+];*/
 const CodesTree = () => {
+
+  useEffect(()=>{
+    fetch(get.stock_full)
+    .then(response=>response.json())
+    .then((response)=>{
+      process_tree(response.data)
+    })
+  },[])
+
+  const process_tree = (data) => {
+
+    var tree = []
+  
+    data.forEach(r=>{
+        
+      let familia = tree.find(t=>t.idfamilia ===r.idfamilia)
+      if(typeof familia === 'undefined')
+      {
+        familia = {key: r.idfamilia,idfamilia: r.idfamilia, title: r.familia, children:[], icon:<CarryOutOutlined />}
+        tree.push(familia)
+      }
+      
+      let subfamilia = familia.children.find(t=>t.idsubfamilia==r.idsubfamilia)
+      if(typeof subfamilia === 'undefined')
+      {
+        subfamilia = {key: `${r.idfamilia}-${r.idsubfamilia}`, idsubfamilia: r.idsubfamilia, title: r.subfamilia, children:[], icon:<CarryOutOutlined />}
+        familia.children.push(subfamilia)
+      }
+      
+      let grupo = subfamilia.children.find(t=>t.idgrupo == r.idgrupo)
+      if(typeof grupo === 'undefined')
+      {
+        grupo = {key: `${r.idfamilia}-${r.idsubfamilia}-${r.idgrupo}`, idgrupo: r.idgrupo, title: r.grupo, children: [], icon:<CarryOutOutlined />}
+        subfamilia.children.push(grupo)
+      }
+      
+      let subgrupo = grupo.children.find(t=>t.idsubgrupo == r.idsubgrupo)
+      if(typeof subgrupo === 'undefined'){
+        subgrupo = {key: `${r.idfamilia}-${r.idsubfamilia}-${r.idgrupo}-${r.idsubgrupo}`, idsubgrupo: r.idsubgrupo, title: r.subgrupo, children: [], icon:<CarryOutOutlined />}
+        grupo.push(subgrupo)
+      }
+    })
+    
+    console.log(JSON.stringify(data));
+  
+    return tree;
+  }
   
   const onSelect = (selectedKeys, info) => {
     console.log('selected', selectedKeys, info);

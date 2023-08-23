@@ -1,4 +1,5 @@
 import SubFamiliaForm from "@/components/forms/SubFamiliaForm";
+import MyLayout from "@/components/layout/layout";
 
 export default function AgregarSubFamilia(){
     return (
@@ -8,3 +9,5 @@ export default function AgregarSubFamilia(){
         </>
     )
 }
+
+AgregarSubFamilia.PageLayout = MyLayout;

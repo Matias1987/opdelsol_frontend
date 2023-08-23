@@ -1,5 +1,6 @@
 import FacturaForm from "@/components/forms/FacturaForm";
 import SubGrupoForm from "@/components/forms/SubGrupoForm";
+import MyLayout from "@/components/layout/layout";
 import globals from "@/src/globals";
 import { post_method } from "@/src/helpers/post_helper";
 import { get, post, public_urls } from "@/src/urls";
@@ -11,7 +12,7 @@ const { DeleteOutlined, EditOutlined, PlusCircleOutlined } = require("@ant-desig
 const { Button, Table, Form, Tag, Modal } = require("antd");
 const { useState } = require("react")
 
-const AgregarStockLote = (props) => {
+export default function AgregarStockLote(props){
     const [form] = Form.useForm();
     const [factura_popup_open, setFacturaPopupOpen] = useState(false)
     const [subgrupo_popup_open, setSubGrupoPopupOpen] = useState(false)
@@ -479,4 +480,5 @@ const AgregarStockLote = (props) => {
     )
 }
 
-export default AgregarStockLote;
+
+AgregarStockLote.PageLayout = MyLayout;

@@ -1,4 +1,5 @@
 import SubGrupoForm from "@/components/forms/SubGrupoForm";
+import MyLayout from "@/components/layout/layout";
 
 export default function AgregarSubgrupo(){
     return (
@@ -8,3 +9,5 @@ export default function AgregarSubgrupo(){
         </>
     )
 }
+
+AgregarSubgrupo.PageLayout = MyLayout;

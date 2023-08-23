@@ -4,6 +4,7 @@ import LoadSelect from "@/components/LoadSelect";
 import SubFamiliaSelect from "@/components/SubFamiliaSelect";
 import SubGroupSelect from "@/components/SubGroupSelect";
 import VistaPreviaPrecios from "@/components/forms/deposito/vista_previa_precios";
+import MyLayout from "@/components/layout/layout";
 import { get, post, public_urls } from "@/src/urls";
 import { Button, Divider, Form, Input, InputNumber, Select, Switch } from "antd";
 import { useEffect, useState } from "react";
@@ -198,3 +199,5 @@ export default function ModificarPreciosCategoria(props){
     )
 
 }
+
+ModificarPreciosCategoria.PageLayout = MyLayout;

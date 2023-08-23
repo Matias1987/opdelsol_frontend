@@ -1,4 +1,5 @@
 import FamiliaForm from "@/components/forms/FamiliaForm";
+import MyLayout from "@/components/layout/layout";
 
 export default function AgregarFamilia(){
     return (
@@ -8,3 +9,5 @@ export default function AgregarFamilia(){
     </>
     )
 }
+
+AgregarFamilia.PageLayout = MyLayout;

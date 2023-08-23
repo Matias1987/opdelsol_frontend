@@ -1,3 +1,4 @@
+import MyLayout from "@/components/layout/layout";
 import { get } from "@/src/urls";
 import { Table } from "antd";
 import { useEffect, useState } from "react";
@@ -48,3 +49,5 @@ export default function ListaDesperfectos(props){
     </>
     )
 }
+
+ListaDesperfectos.PageLayout = MyLayout;

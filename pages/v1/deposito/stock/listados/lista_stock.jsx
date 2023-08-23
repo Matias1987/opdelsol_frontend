@@ -5,6 +5,7 @@ import SubFamiliaSelect from "@/components/SubFamiliaSelect";
 import SubGroupSelect from "@/components/SubGroupSelect";
 import DetalleStock from "@/components/forms/deposito/DetalleStock";
 import ModificarCantidadForm from "@/components/forms/deposito/modificarCantidadForm";
+import MyLayout from "@/components/layout/layout";
 import InformeStock from "@/pages/v1/informes/informe_stock";
 import globals from "@/src/globals";
 import { post_method } from "@/src/helpers/post_helper";
@@ -387,3 +388,5 @@ export default function ListaStock(){
         </>
     )
 }
+
+ListaStock.PageLayout = MyLayout;

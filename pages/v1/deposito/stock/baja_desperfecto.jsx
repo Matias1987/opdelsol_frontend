@@ -1,3 +1,4 @@
+import MyLayout from "@/components/layout/layout";
 import globals from "@/src/globals";
 import { post_method } from "@/src/helpers/post_helper";
 import { post } from "@/src/urls";
@@ -105,3 +106,5 @@ export default function BajaDesperfecto(){
         </Form>
     </>)
 }
+
+BajaDesperfecto.PageLayout = MyLayout;

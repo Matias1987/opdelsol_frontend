@@ -1,4 +1,5 @@
 import CodigoForm from "@/components/forms/CodigoForm";
+import MyLayout from "@/components/layout/layout";
 
 export default function AgregarCodigo(){
     return (
@@ -9,3 +10,5 @@ export default function AgregarCodigo(){
     )
 
 }
+
+AgregarCodigo.PageLayout = MyLayout;
