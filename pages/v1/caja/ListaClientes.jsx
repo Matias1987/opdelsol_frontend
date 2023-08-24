@@ -7,6 +7,7 @@ import { get } from "@/src/urls";
 import ClienteForm from "@/components/forms/ClienteForm";
 import FichaCliente from "@/components/FichaCliente";
 import LayoutCaja from "@/components/layout/layout_caja";
+import DetalleCliente from "@/components/DetalleCliente";
 
 export default function ListaClientes(props){
     const [clientes, setClientes] = useState(null);
@@ -65,9 +66,10 @@ export default function ListaClientes(props){
             <CustomModal openButtonText={"Ficha Cliente"}>
                 <FichaCliente idcliente={idcliente} />
             </CustomModal>
-            <Button onClick={()=>{
-                //upload_cliente_details(idcliente)
-                }}>Detalle</Button>
+            <CustomModal openButtonText={"Detalle"}>
+                <DetalleCliente idcliente={idcliente} />
+            </CustomModal>
+            
             </>
         )},
     ]

@@ -104,7 +104,11 @@ const ListaVentas = (props) => {
 
     useEffect(()=>{
 
-        var params = {idsucursal: globals.obtenerSucursal()}
+        var params = {}
+        if(typeof props.ignoreSucursal === 'undefined')
+        {
+            params = {idsucursal: globals.obtenerSucursal()}
+        }
         params = add(params, props?.estado, 'estado')
         params = add(params, props?.idCliente, 'idCliente')
         params = add(params, props?.en_laboratorio, 'en_laboratorio')

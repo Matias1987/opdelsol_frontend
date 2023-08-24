@@ -153,10 +153,12 @@ const get = {
     //ventas
     obtener_stock_detalles_venta: remote_base_url + "stock/detalle_stock_venta/",//:idsucursal/:idcodigo
 
+    //clientes
     cliente_por_id: remote_base_url + "clientes/",
     lista_clientes: remote_base_url + "clientes/",
     operaciones_cliente: remote_base_url + "clientes/operaciones/",
     buscar_cliente: remote_base_url + "clientes/buscar/",
+    saldo_ctacte: remote_base_url + "clientes/saldo/ctacte/",//:idcliente
 
     lista_mutuales: remote_base_url + "mutuales/",
     obtener_mutual: remote_base_url + "mutuales/",//:idmutual

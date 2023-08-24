@@ -3,6 +3,7 @@ import { Menu } from "antd";
 import { useState } from "react";
 import Link from "next/link"
 import { public_urls } from "@/src/urls";
+import BuscarVenta from "../forms/ventas/BuscarVenta";
 
 const items = [
  
@@ -39,12 +40,11 @@ const items = [
     ],
   },
   {
-    label: (<Link href={public_urls.venta_directa}>Buscar Venta</Link>),
-    key: '10',
-    icon: <StarOutlined />,
+    label: (<BuscarVenta />),
+    key: '404',
   },
   {
-    label: (<Link href={public_urls.venta_directa}>Clientes</Link>),
+    label: (<Link href={public_urls.lista_clientes}>Clientes</Link>),
     key: '11',
     icon: <StarOutlined />,
   },
