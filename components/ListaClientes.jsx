@@ -63,10 +63,16 @@ export default function ListaClientes(props){
         {dataIndex: 'direccion', title: 'Direccion', key: 'direccion'},
         {dataIndex: 'idcliente', title: '', key: 'acciones', render: (_,{idcliente})=>(
             <>
-            <CustomModal openButtonText={"Ficha Cliente"}>
-                <FichaCliente idcliente={idcliente} />
-            </CustomModal>
-            <CustomModal openButtonText={"Detalle"}>
+            {
+                typeof props.ficha !== 'undefined' ?
+                    <CustomModal openButtonText={"Ficha Cliente"}>
+                        <FichaCliente idcliente={idcliente} />
+                    </CustomModal>
+                :
+                <></>
+                
+            }
+            <CustomModal title="Detalle Cliente" openButtonText={"Detalle"}>
                 <DetalleCliente idcliente={idcliente} />
             </CustomModal>
             

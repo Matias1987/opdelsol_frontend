@@ -1,12 +1,18 @@
 import { post_method } from "@/src/helpers/post_helper";
 import { post } from "@/src/urls";
 import { Button, DatePicker, Form, Input } from "antd";
+import { useState } from "react";
 
 
 export default function ClienteForm(props){
     
 
     const [form] = Form.useForm();
+    const [clienteData, setClienteData] = useState({
+        nombre:"test",
+        dni:"test",
+        apellidos:"test"
+    })
 
     const url = post.insert.cliente;
 
@@ -63,17 +69,42 @@ export default function ClienteForm(props){
         alert(datestr)
     }
 
+    const onQRChange = (e) => {
+       
+        const _match = /([0-9]+)@([A-Z\s]+)@([A-Z\s]+)@[A-Z]@([0-9]+)@([A-Z])@([0-9\/]+)@([0-9\/]+)@([0-9]+)/g.exec(e.target.value)
+        
+        if(_match!=null){
+            alert("match")
+            /*alert("Match!: " + JSON.stringify(
+                
+            ))*/
+            setClienteData(
+                {
+                    nombre: _match[3],
+                    apellidos: _match[2],
+                    dni: _match[4]
+                }
+            )
+        }
+        else{
+            alert("Input doesn´t match")
+        }
+    }
+
     return (<>
 
     <Form form={form} onFinish={onFinish} onFinishFailed={onFinishFailed}>
+        <Form.Item rules={[{required:true}]} label={"QR"} name={"qr"}>
+            <Input onChange={onQRChange} />
+        </Form.Item>
         <Form.Item rules={[{required:true}]} label={"DNI"} name={"dni"}>
-            <Input />
+            <Input value={clienteData.dni} onChange={(e)=>{setClienteData(v=>({...v,dni:e.target.value}))}} />
         </Form.Item>
         <Form.Item rules={[{required:true}]} label={"Nombres"} name={"nombres"}>
-            <Input />
+            <Input value={clienteData.nombre} onChange={(e)=>{setClienteData(v=>({...v,nombre:e.target.value}))}} />
         </Form.Item>
         <Form.Item rules={[{required:true}]} label={"Apellidos"} name={"apellidos"}>
-            <Input />
+            <Input value={clienteData.apellidos} onChange={(e)=>{setClienteData(v=>({...v,apellidos:e.target.value}))}} />
         </Form.Item>
         <Form.Item label={"Fecha de Nacimiento"} name={"nacimiento"}>
             <DatePicker onChange={onChangeDate} format={'DD/MM/YYYY'}/>

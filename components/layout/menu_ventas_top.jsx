@@ -44,7 +44,7 @@ const items = [
     key: '404',
   },
   {
-    label: (<Link href={public_urls.lista_clientes}>Clientes</Link>),
+    label: (<Link href={public_urls.lista_clientes_ventas}>Clientes</Link>),
     key: '11',
     icon: <StarOutlined />,
   },

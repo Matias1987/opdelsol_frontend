@@ -62,7 +62,7 @@ const items = [
     icon: <StarOutlined />,
   },
   {
-    label: (<Link href={public_urls.lista_clientes}>Clientes</Link>),
+    label: (<Link href={public_urls.lista_clientes_caja}>Clientes</Link>),
     key: '11',
     icon: <StarOutlined />,
   },

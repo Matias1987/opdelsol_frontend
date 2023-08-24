@@ -21,6 +21,7 @@ const SearchStockEnvio = (props) => {
    
 
     const doSearch = (value, id)=>{
+        
         fetch(search_url + props.idSucursalDestino + "/" + encodeURIComponent( value )+ "/" + id)
         .then((response)=>response.json())
         .then((_response)=>{
@@ -58,6 +59,11 @@ const SearchStockEnvio = (props) => {
         if(props.idSucursalDestino<0){
             alert("Sucursal destino no especificada");
             return
+        }
+        if(value.trim().length<1)
+        {
+            alert("Campo Vacío")
+            return;
         }
         setLoading(true)
 

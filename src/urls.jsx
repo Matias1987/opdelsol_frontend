@@ -38,7 +38,10 @@ const public_urls = {
     ventas_terminadas: local_base_url + "caja/ventas_terminadas",
     ventas_entregadas: local_base_url + "caja/ventas_entregadas",
     ventas_anuladas: local_base_url + "caja/ventas_anuladas",
-    lista_clientes: local_base_url + "caja/ListaClientes",
+    
+    lista_clientes_caja: local_base_url + "caja/ListaClientesCaja",
+
+    lista_clientes_ventas: local_base_url + "ventas/listados/ListaClientesVentas",
     //laboratorio
     lista_operaciones_laboratorio: local_base_url + "laboratorio/lista_operaciones_laboratorio",
 

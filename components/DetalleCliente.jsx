@@ -1,4 +1,4 @@
-import { Col, Row } from "antd";
+import { Col, Divider, Row } from "antd";
 import SaldoCtaCte from "./SaldoCtaCte";
 import { useEffect, useState } from "react";
 import { get } from "@/src/urls";
@@ -22,25 +22,26 @@ const DetalleCliente = (props) =>
     },[])
     return data == null ? <></>:
      <>
+     <Divider />
     <Row>
-        <Col span={"12"}>Apellido y nombre:</Col>
-        <Col span={"12"}>{data.apellido + " " + data.nombre}</Col>
+        <Col span={"6"}>Apellido y nombre:</Col>
+        <Col span={"12"}><b>{data.apellido + " " + data.nombre}</b></Col>
     </Row>
     <Row>
-        <Col span={"12"}>DNI:</Col>
-        <Col span={"12"}>{data.dni}</Col>
+        <Col span={"6"}>DNI:</Col>
+        <Col span={"12"}><b>{data.dni}</b></Col>
     </Row>
     <Row>
-        <Col span={"12"}>Tel&eacute;fono:</Col>
-        <Col span={"12"}>{data.telefono}</Col>
+        <Col span={"6"}>Tel&eacute;fono:</Col>
+        <Col span={"12"}><b>{data.telefono}</b></Col>
     </Row>
     <Row>
-        <Col span={"12"}>Direcci&oacute;n:</Col>
-        <Col span={"12"}>{data.direccion}</Col>
+        <Col span={"6"}>Direcci&oacute;n:</Col>
+        <Col span={"12"}><b>{data.direccion}</b></Col>
     </Row>
     <Row>
         <Col span={"24"}>
-            <SaldoCtaCte idcliente={data.idcliente} />
+            <span style={{color:"blueviolet"}}><SaldoCtaCte idcliente={data.idcliente} /></span>
         </Col>
     </Row>
     </>
