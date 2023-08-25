@@ -1,3 +1,4 @@
+import globals from "@/src/globals"
 import { get } from "@/src/urls"
 import { Spin } from "antd"
 import { useEffect, useState } from "react"
@@ -126,6 +127,7 @@ export default function InformeX(props){
     </>
 
     const data_cliente = () => {
+        //el campo condicion iva no tiene sentido....
         return dataCliente == null ? <Spin /> : <>
             Se&ntilde;or/es: {dataCliente.apellido + ", " + dataCliente.nombre}<br />
             Domicilio: {dataCliente.direccion}<br />
@@ -134,7 +136,8 @@ export default function InformeX(props){
     }
 
     const data_sucursal = () => {
-        return dataSucursal == null ? <Spin /> : <>{"data.sucursal_denominacion"}</>
+        //ver si no hay un modulo para la informacion de la sucursal
+        return dataSucursal == null ? <Spin /> : <>{globals.obtenerSucursal()}</>
     }
 
     const html_cheque_tarjeta = () => {
