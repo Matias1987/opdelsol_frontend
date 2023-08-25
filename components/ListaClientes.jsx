@@ -8,6 +8,7 @@ import ClienteForm from "@/components/forms/ClienteForm";
 import FichaCliente from "@/components/FichaCliente";
 import LayoutCaja from "@/components/layout/layout_caja";
 import DetalleCliente from "@/components/DetalleCliente";
+import ClienteFormV2 from "./forms/ClienteFormV2";
 
 export default function ListaClientes(props){
     const [clientes, setClientes] = useState(null);
@@ -83,8 +84,8 @@ export default function ListaClientes(props){
     return <>
     <h3>Lista de Clientes</h3>
     <Input.Search onSearch={onSearch} value={searchVal} onChange={(e)=>{setSearchVal(e.target.value)}} />
-        <CustomModal openButtonText="+ Agregar" title="Agregar" >
-            <ClienteForm callback={(id)=>{
+        <CustomModal openButtonText="+ Agregar" title="Agregar Cliente" >
+            <ClienteFormV2 callback={(id)=>{
                 //alert(id); 
                 //upload_cliente_details(id) 
                 refresh()
