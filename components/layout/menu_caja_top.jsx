@@ -18,7 +18,7 @@ const items = [
       },
       {
         key: '1',
-        label: (<Menu.Item><Link href={public_urls.lista_clientes}>Clientes  </Link></Menu.Item>),
+        label: (<Menu.Item><Link href={public_urls.lista_clientes_caja}>Clientes  </Link></Menu.Item>),
       },
       {
         key: '2',
