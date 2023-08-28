@@ -1,4 +1,4 @@
-import TransferenciaSucursalForm from "@/components/informes/caja/TransferenciaSucursalForm";
+import TransferenciaSucursalForm from "@/components/forms/caja/TransferenciaSucursalForm";
 import LayoutCaja from "@/components/layout/layout_caja";
 
 export default function TransferenciaASucursal(){

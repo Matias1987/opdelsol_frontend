@@ -45,6 +45,8 @@ const public_urls = {
     //laboratorio
     lista_operaciones_laboratorio: local_base_url + "laboratorio/lista_operaciones_laboratorio",
 
+    transferencias: local_base_url + "caja/lista_transferencia_sucursal",
+
 }
 
 
@@ -86,7 +88,8 @@ const post = {
         cobro: remote_base_url + "cobros/",
         carga_manual: remote_base_url + "cargamanual/",
         gasto: remote_base_url + "gastos/",
-        caja: remote_base_url + "caja/"
+        caja: remote_base_url + "caja/",
+        transferencia: remote_base_url + "transferencias/",
         
     },
     update:{
@@ -200,6 +203,11 @@ const get = {
     lista_bancos: remote_base_url + "bancos/",
 
     stock_full: remote_base_url + "stock/get/subgrupos/full/list/",
+
+    //transferencias
+
+    transferencias_enviadas: remote_base_url + "transferencias/enviadas/",//idsucursal
+    transferencias_recibidas: remote_base_url + "transferencias/recibidas/",//idsucursal
 
 }
 

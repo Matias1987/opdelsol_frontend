@@ -90,7 +90,7 @@ export default function ClienteFormV2(props){
 
             setClienteData(
                 {
-                    nombre: _match[3],
+                    nombres: _match[3],
                     apellidos: _match[2],
                     dni: _match[4],
                     nacimiento: dayjs(`${_parts[2]}-${_parts[1]}-${_parts[0]}`) 

@@ -52,6 +52,11 @@ const items = [
         key: '5',
         label: (<Menu.Item><Link href={public_urls.caja_admin}>Caja</Link></Menu.Item>),
       },
+      
+      {
+        key: '12',
+        label: (<Menu.Item><Link href={public_urls.transferencias}>Transferencias</Link></Menu.Item>),
+      },
      
       
     ],
