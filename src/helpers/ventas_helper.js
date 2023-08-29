@@ -23,6 +23,7 @@ const validar_ventas_base = (vta, total) => {
 
 const validar_tipo = (arr, _root, field, aditional_fields) =>
 {
+    alert(JSON.stringify(_root))
     if(_root[field + "_visible"])
     {
         if(_root[field] == null){

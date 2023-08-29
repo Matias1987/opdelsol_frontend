@@ -74,11 +74,15 @@ export default function VentaLCStock(){
             
             console.log(JSON.stringify(venta))
 
-            post_method(post.insert.venta,venta,(response)=>{
-                alert(JSON.stringify(response.data))
-                setIdVenta(response.data)
-                setPrintOpen(true)
-            })
+            if(confirm("Confirmar Venta"))
+                {
+                    post_method(post.insert.venta,venta,(response)=>{
+                        alert(JSON.stringify(response.data))
+                        setIdVenta(response.data)
+                        setPrintOpen(true)
+                        post_method(post.update.desc_cantidades_stock_venta,{idventa: response.data})
+                })
+            }
         })
     }
 

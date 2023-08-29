@@ -11,7 +11,7 @@ const FechaEntregaInf = (props) => (
 		</tr>
 		<tr>
 			<td style={{padding:"0", fontSize:".85em"}}>Hora:</td>
-			<td style={{padding:"0", fontSize:".85em"}}>{props.data.fecha}</td>
+			<td style={{padding:"0", fontSize:".85em"}}>{props.data.hora}</td>
 		</tr>
 		<tr>
 			<td style={{padding:"0", fontSize:".85em"}}>Fecha Entrega:</td>

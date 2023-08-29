@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { CheckCircleFilled, CloseOutlined, EditOutlined } from "@ant-design/icons";
 import ClienteForm from "../ClienteForm";
 import { get } from "@/src/urls";
+import ClienteFormV2 from "../ClienteFormV2";
 
 const SelectCliente = (props) =>{
     const [idCliente, setIdCliente] = useState(-1);
@@ -116,7 +117,7 @@ const SelectCliente = (props) =>{
         {typeof props.destinatario !== 'undefined' ? 'Buscar Destinatario' : "Buscar Cliente" }
             <Input.Search onSearch={onSearch} />
             <CustomModal openButtonText="+ Agregar" title="Agregar" >
-                <ClienteForm callback={(id)=>{
+                <ClienteFormV2 callback={(id)=>{
                     //alert(id); 
                     upload_cliente_details(id) 
                     }}/>

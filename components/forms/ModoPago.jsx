@@ -166,8 +166,8 @@ export default function ModoPago(props){
             </Row>
             <Row style={{display: props.ctacteHidden  ? "none" : "flex"}}>
                 <Col span={10}><Input onClick={(e)=>{e.target.select()}} value={modoPago.ctacte_monto} prefix="Cta. Cte.: " onChange={(e)=>{onChange("ctacte_monto", e.target.value)}}></Input></Col>
-                <Col span={4}><Input onClick={(e)=>{e.target.select()}} prefix="Nro Cuotas: " onChange={(e)=>{onChange("ctacte_cuotas", e.target.value)}}></Input></Col>
-                <Col span={8}><Input onClick={(e)=>{e.target.select()}}  prefix="Valor Cuota: " onChange={(e)=>{onChange("ctacte_monto_cuotas", e.target.value)}}></Input></Col>
+                <Col span={4}><Input onClick={(e)=>{e.target.select()}} value={modoPago.ctacte_cuotas} prefix="Nro Cuotas: " onChange={(e)=>{onChange("ctacte_cuotas", e.target.value)}}></Input></Col>
+                <Col span={8}><Input onClick={(e)=>{e.target.select()}} value={modoPago.ctacte_monto_cuotas}  prefix="Valor Cuota: " onChange={(e)=>{onChange("ctacte_monto_cuotas", e.target.value)}}></Input></Col>
             </Row>
             <Row>
                 <Col span={8}>

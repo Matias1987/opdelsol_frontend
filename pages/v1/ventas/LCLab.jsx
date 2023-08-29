@@ -92,12 +92,16 @@ export default function VentaLCLab(){
 
 
             //console.log(JSON.stringify(venta))
-
-            post_method(post.insert.venta,venta,(response)=>{
-                alert("OK")
-                setIdVenta(response.data)
-                setPrintOpen(true)
-            })
+            if(confirm("Confirmar Venta"))
+            {
+                post_method(post.insert.venta,venta,(response)=>{
+                    alert("OK")
+                    setIdVenta(response.data)
+                    setPrintOpen(true)
+                    post_method(post.update.desc_cantidades_stock_venta,{idventa: response.data})
+                            
+                })
+            }
     });
     }
 

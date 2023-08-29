@@ -98,7 +98,7 @@ export default function ClienteFormV2(props){
             )
         }
         else{
-            alert("Input doesn´t match")
+            console.log("Input doesn´t match")
         }
     }
 

@@ -32,7 +32,7 @@ const VDItem = (props) => {
             alert("Codigo ya cargado")
             return
         }
-        alert(get.detalle_stock + globals.obtenerSucursal() + "/" + idcodigo)
+        //alert(get.detalle_stock + globals.obtenerSucursal() + "/" + idcodigo)
         //get details
         fetch(get.detalle_stock + globals.obtenerSucursal() + "/" + idcodigo)
         .then(response=>response.json())

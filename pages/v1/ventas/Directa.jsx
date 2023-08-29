@@ -78,11 +78,16 @@ export default function VentaDirecta(){
                     return 
                 }
                 
-                post_method(post.insert.venta,__venta,(response)=>{
-                    alert("OK")
-                    setIdVenta(response.data)
-                    setPrintOpen(true)
-                     })
+                if(confirm("Confirmar Venta"))
+                {
+                    post_method(post.insert.venta,__venta,(response)=>{
+                        alert("OK")
+                        setIdVenta(response.data)
+                        setPrintOpen(true)
+                        //THIS SHOULD NOT BE HERE!
+                        post_method(post.update.desc_cantidades_stock_venta,{idventa: response.data})
+                        })
+                }
                 
                 });
             }

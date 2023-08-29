@@ -16,11 +16,11 @@ export default function ModoPagoInf(props){
 
     const get_mp = (r)=>{
         switch(r.modo_pago){
-            case "efectivo": return <tr><td><span>{r.modo_pago}: <b>{r.monto}</b></span><hr /></td></tr>
-            case "tarjeta": return  <tr><td><span>{r.modo_pago}: <b>{r.monto}</b>&nbsp;&nbsp;targeta:&nbsp;{"soon..."}</span><hr /></td></tr>
-            case "ctacte": return   <tr><td><span>{r.modo_pago}: <b>{r.monto}</b>&nbsp;&nbsp;Cant. Cuotas::&nbsp;{r.cant_cuotas}&nbsp;&nbsp;Monto Cuota:&nbsp;{r.monto_cuota}</span><hr /></td></tr>
-            case "cheque": return   <tr><td><span>{r.modo_pago}: <b>{r.monto}</b></span><hr /></td></tr>
-            case "mutual": return   <tr><td><span>{r.modo_pago}: <b>{r.monto}</b></span><hr /></td></tr>
+            case "efectivo": return <tr><td><span>{r.modo_pago}: <b>${r.monto}</b></span><hr /></td></tr>
+            case "tarjeta": return  <tr><td><span>{r.modo_pago}: <b>${r.monto}</b>&nbsp;&nbsp;targeta:&nbsp;{ r.nombre_tarjeta}</span><hr /></td></tr>
+            case "ctacte": return   <tr><td><span>{r.modo_pago}: <b>${r.monto}</b>&nbsp;&nbsp;Cant. Cuotas:&nbsp;{r.cant_cuotas}&nbsp;&nbsp;Monto Cuota:&nbsp;${r.monto_cuota}</span><hr /></td></tr>
+            case "cheque": return   <tr><td><span>{r.modo_pago}: <b>${r.monto}</b>&nbsp;&nbsp;Banco: &nbsp;{r.nombre_banco}</span><hr /></td></tr>
+            case "mutual": return   <tr><td><span>{r.modo_pago}: <b>${r.monto}</b></span><hr /></td></tr>
         }
     }
 

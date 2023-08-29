@@ -121,10 +121,10 @@ export default function AgregarStockLote(props){
             }
             else{
                 setTableData([...tableData,{
-                    codigo: cod.codigo,
+                    codigo: values.codigo,
                     cantidad: values.cantidad,
                     costo: values.costo, 
-                    descripcion: cod.descripcion,
+                    descripcion: values.descripcion,
                     status: "PENDING",
                     genero: values.genero,
                     edad: values.edad,

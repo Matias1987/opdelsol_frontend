@@ -1,5 +1,5 @@
 import { local_base_url, remote_base_url } from "@/src/urls";
-import { AlertFilled, BarsOutlined, BoxPlotOutlined, CheckOutlined, DollarCircleFilled, EditOutlined, FileTextOutlined, HomeOutlined, PlusCircleOutlined, PrinterOutlined, RocketOutlined, SnippetsOutlined, StarOutlined, UserOutlined, WarningFilled } from "@ant-design/icons";
+import { AlertFilled, BarsOutlined, BoxPlotOutlined, CheckOutlined, DollarCircleFilled, EditOutlined, FileTextOutlined, HomeOutlined, PartitionOutlined, PlusCircleOutlined, PrinterOutlined, RocketOutlined, SnippetsOutlined, StarOutlined, UserOutlined, WarningFilled } from "@ant-design/icons";
 
 import { Divider, Menu } from "antd";
 import Link from "next/link"
@@ -39,6 +39,10 @@ export default function TestMenu(){
             <Menu.Divider></Menu.Divider>
             <Menu.Item key="41" ><WarningFilled /> 
               <Link href={get_url_to("deposito/stock/baja_desperfecto")}>&nbsp;Bajas por Desperfecto</Link>
+            </Menu.Item>
+            <Menu.Divider></Menu.Divider>
+            <Menu.Item key="42" ><PartitionOutlined /> 
+              <Link href={get_url_to("deposito/arbol_codigos")}>&nbsp;&Aacute;rbol de C&oacute;digos</Link>
             </Menu.Item>
             
             <Menu.Divider></Menu.Divider>

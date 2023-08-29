@@ -47,6 +47,8 @@ const public_urls = {
 
     transferencias: local_base_url + "caja/lista_transferencia_sucursal",
 
+    arbol_codigos: local_base_url + "deposito/arbol_codigos",
+
 }
 
 
@@ -65,6 +67,7 @@ const post = {
     venta_estado_sucursal: remote_base_url+"ventas/venta_estado_sucursal/",
     obtener_lista_cobros: remote_base_url+"cobros/lista/",
     cambiar_estado_venta: remote_base_url + "ventas/cambiar_estado/",
+    
     search:{
         filtro_stock: remote_base_url + "stock/filtro_stock/",
     },

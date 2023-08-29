@@ -13,10 +13,10 @@ const MultifLabCristal = (props) => {
         idcodigo: -1,
         tipo: props.tipo,
         codigo: null,
-        eje: -1,
+        eje: "",
         precio: 0,
-        esf: -1,
-        cil: -1,
+        esf: "",
+        cil: "",
         cantidad:1,
 
     })
