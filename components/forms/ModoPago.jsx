@@ -157,7 +157,7 @@ export default function ModoPago(props){
             </Row>
             <Row style={{display: props.tarjetaHidden ? "none" : "flex"}}>
                 <Col span={6}><Input  onClick={(e)=>{e.target.select()}} value={modoPago.tarjeta_monto}  prefix="Tarjeta: " onChange={(e)=>{onChange("tarjeta_monto", e.target.value)}}></Input></Col>
-                <Col span={4}><Input  onClick={(e)=>{e.target.select()}}  prefix="Tarjeta: " onChange={(e)=>{onChange("tarjeta_tarjeta", e.target.value)}}></Input></Col>
+                <Col span={4}><Input  onClick={(e)=>{e.target.select()}}  prefix="Nro.: " onChange={(e)=>{onChange("tarjeta_tarjeta", e.target.value)}}></Input></Col>
                 <Col span={14}>
                     Tarjeta: &nbsp;
                     <Select value={modoPago.fk_tarjeta} options={tarjetas} style={{width:'300px'}} onChange={(value)=>{onChange("fk_tarjeta", value)}} />

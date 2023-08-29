@@ -18,6 +18,7 @@ export default function AgregarStockLote(props){
     const [subgrupo_popup_open, setSubGrupoPopupOpen] = useState(false)
     const [tableData, setTableData] = useState([]);
     const [idSubgrupo, setIdSubgrupo] = useState(-1)
+    const [btnDisabled,  setBtnDisabled] = useState(false)
     //testing
     const [updateall, setUpdateAll] = useState(false);
 
@@ -261,6 +262,8 @@ export default function AgregarStockLote(props){
             return;
         }
 
+        setBtnDisabled(true);
+
         tableData.forEach(r=>{
             values.push(
                 {
@@ -473,7 +476,7 @@ export default function AgregarStockLote(props){
                     </Form.Item>
 
                     <Form.Item>
-                        <Button type="primary" htmlType="submit">Confirmar</Button>
+                        <Button disabled={btnDisabled} type="primary" htmlType="submit">Confirmar</Button>
                     </Form.Item>
             </Form>
         </>

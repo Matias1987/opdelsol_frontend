@@ -118,11 +118,11 @@ const globals =  {
 
     familiaIDs: {
         ARMAZON: 2,
-        LC: 15,
+        LC: 13,
         LIQUIDOS: 14,
-        INSUMO: 17,
-        CRISTALES: 16,
-        TRATAMIENTO: 18,
+        INSUMO: 16,
+        CRISTALES: 14,
+        TRATAMIENTO: 15,
     },
     tiposCuenta:{
         DEP_ARM: 'DEP_ARM',
