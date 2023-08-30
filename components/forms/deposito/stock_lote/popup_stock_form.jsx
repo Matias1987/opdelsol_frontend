@@ -1,7 +1,7 @@
 import { EditOutlined, PlusCircleOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 
-const { Spin, Form, InputNumber, Button, Modal, Input, Select, Space } = require("antd")
+const { Spin, Form, InputNumber, Button, Modal, Input, Select, Space, Checkbox, Switch, Row, Col, Divider } = require("antd")
 
 const PopUpAgregarStockLoteForm = (props) => {
     const [form] = Form.useForm();
@@ -37,6 +37,9 @@ const PopUpAgregarStockLoteForm = (props) => {
             break;
         case "edad":
             form.setFieldsValue({edad:val})
+            break;
+        case "precio":
+            form.setFieldsValue({precio:val})
             break;
     }
 }
@@ -97,6 +100,7 @@ const onFinishFailed = (errorInfo) => {
 useEffect(()=>{
     if(open)
     {
+        alert(JSON.stringify(props))
         if(typeof props !== 'undefined'){
             if(null !== props.values)
             {
@@ -107,6 +111,8 @@ useEffect(()=>{
                 setValue("genero",props.values.genero);
                 setValue("edad",props.values.edad);
             }
+            alert("setpreciodefecto " + props.precioDefecto)
+            setValue("precio",props.precioDefecto);
         }
         
     }
@@ -136,74 +142,102 @@ useEffect(()=>{
         }}
         okText="CANCELAR"
       >
-        {`${part1}  ,  ${part2}  ,  ${part3}`}
+        {//`${part1}  ,  ${part2}  ,  ${part3}`
+        }
         <Form onFinish={onFinish} onFinishFailed={onFinishFailed} form={form}>
-            <Form.Item  rules={[{required:true}]} label={"Codigo"} name={"codigo"} style={{width: "400px"}}>
-            {
-                props.edit ? <><Input value={props.values.codigo} disabled /></> : <Input onInput={e => e.target.value = e.target.value.toUpperCase()} onChange={onCodigoChange} />
-            }
-            </Form.Item>
-            <Form.Item  label={"Descripcion"} name={"descripcion"} style={{width: "600px"}} onInput={e => e.target.value = e.target.value.toUpperCase()} >
-                {descripcion_input()}
-            </Form.Item>
-
-            <Form.Item rules={[{required:true}]} label={"Cantidad"} name={"cantidad"} style={{width: "200px"}}>
-                
-                <Input type="number" />
-            </Form.Item>
-            <Form.Item rules={[{required:true}]} label={"Costo"} name={"costo"} style={{width: "200px"}}>
-                <Input type="number" step={".01"} />
-            </Form.Item>
-            <Form.Item  label={"Edad"} name={"edad"} style={{width: "200px"}}>
-            <Select 
-                    onChange={
-                        onChangeEdad
+            <Row>
+                <Col span={12}>
+                    <Form.Item  rules={[{required:true}]} label={"Codigo"} name={"codigo"} style={{width: "400px"}}>
+                    {
+                        props.edit ? <><Input value={props.values.codigo} disabled /></> : <Input onInput={e => e.target.value = e.target.value.toUpperCase()} onChange={onCodigoChange} />
                     }
+                    </Form.Item>
+                    <Form.Item  label={"Descripcion"} name={"descripcion"} style={{width: "90%"}} onInput={e => e.target.value = e.target.value.toUpperCase()} >
+                        {descripcion_input()}
+                    </Form.Item>
 
-                    options={
-                        [
-                            {
-                                value: 'adulto',
-                                label: 'Adulto',
-                            },
-                            {
-                                value: 'niño',
-                                label: 'Niño',
-                            },
-                            {
-                                value: 'joven',
-                                label: 'Joven',
-                            },
-                        ]
-                    } />
-            </Form.Item>
-            <Form.Item  label={"Género"} name={"genero"} style={{width: "200px"}}>
-                <Select 
+                    <Form.Item rules={[{required:true}]} label={"Cantidad"} name={"cantidad"} style={{width: "200px"}}>
+                        
+                        <Input type="number" />
+                    </Form.Item>
+                    
+                </Col>
+                <Col span={12}>
+                    <Form.Item rules={[{required:true}]} label={"Costo"} name={"costo"} style={{width: "200px"}}>
+                        <Input type="number" step={".01"} />
+                    </Form.Item>
+                    <Form.Item label={"Precio"} name={"precio"}>
+                        <Input />
+                    </Form.Item>
+                    <Form.Item>
+                        <Switch checkedChildren="Precio por Subgrupo" unCheckedChildren="Multiplicador" />
+                    </Form.Item>
+                </Col>
+            </Row>
+            <Row>
+                <Col span={24}>
+                    <Divider />
+                </Col>
+            </Row>
+            <Row>
+                <Col span={24}>
+                    <Form.Item  label={"Edad"} name={"edad"} style={{width: "200px"}}>
+                    <Select 
+                        onChange={
+                            onChangeEdad
+                        }
 
-                onChange={
-                    onChangeGenero
-                }
-                
-                options={
-                    [
-                        {
-                            value: 'femenino',
-                            label: 'Femenino',
-                        },
-                        {
-                            value: 'masculino',
-                            label: 'Masculino',
-                        },
-                        {
-                            value: 'unisex',
-                            label: 'Unisex',
-                        },
-                    ]
-                } />
-            </Form.Item>
-            <Form.Item>
-                <Button type="primary" htmlType="submit">OK</Button>
-            </Form.Item>
+                        options={
+                            [
+                                {
+                                    value: 'adulto',
+                                    label: 'Adulto',
+                                },
+                                {
+                                    value: 'niño',
+                                    label: 'Niño',
+                                },
+                                {
+                                    value: 'joven',
+                                    label: 'Joven',
+                                },
+                            ]
+                        } />
+                </Form.Item>
+                <Form.Item  label={"Género"} name={"genero"} style={{width: "200px"}}>
+                        <Select 
+
+                        onChange={
+                            onChangeGenero
+                        }
+                        
+                        options={
+                            [
+                                {
+                                    value: 'femenino',
+                                    label: 'Femenino',
+                                },
+                                {
+                                    value: 'masculino',
+                                    label: 'Masculino',
+                                },
+                                {
+                                    value: 'unisex',
+                                    label: 'Unisex',
+                                },
+                            ]
+                            } />
+                    </Form.Item>
+                </Col>
+            </Row>
+            <Row>
+                <Col span={24}>
+                    <Form.Item>
+                        <Button type="primary" htmlType="submit">OK</Button>
+                    </Form.Item>
+                </Col>
+            </Row>
+            
         </Form>
 
         </Modal>

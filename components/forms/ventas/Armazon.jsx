@@ -76,7 +76,7 @@ const VentasArmazon = (props) => {
                 </Col>
                 <Col span={4}>
                     
-                    <span>Precio:&nbsp;<input onChange={on_precio_change}  ref={precioRef} style={{textAlign:"right", width:"100px", border: "1px solid #ccc", borderRadius:"6px", borderColor:"lightgray", padding:".4em", fontSize:"1.1em"}}  /></span>
+                    <span>Precio:&nbsp;<input readOnly onChange={on_precio_change}  ref={precioRef} style={{textAlign:"right", width:"100px", border: "1px solid #ccc", borderRadius:"6px", borderColor:"lightgray", padding:".4em", fontSize:"1.1em"}}  /></span>
                 </Col>
                 <Col span={1}>
                 <Button danger onClick={()=>{on_remove()}}><DeleteOutlined/></Button>

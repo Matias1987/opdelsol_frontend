@@ -69,7 +69,7 @@ const RecStockCristal = (props) => {
                     <Input addonBefore={"Eje:"} onChange={onchange_eje} />&nbsp;
                 </Col>
                 <Col span={4}>
-                    <span>&nbsp;&nbsp;Precio: </span><input onChange={onchange_precio} ref={precioRef} style={{textAlign:"right", width:"100px", border: "1px solid #ccc", borderRadius:"6px", borderColor:"lightgray", padding:".4em", fontSize:"1.1em"}} />
+                    <span>&nbsp;&nbsp;Precio: </span><input readOnly onChange={onchange_precio} ref={precioRef} style={{textAlign:"right", width:"100px", border: "1px solid #ccc", borderRadius:"6px", borderColor:"lightgray", padding:".4em", fontSize:"1.1em"}} />
                 </Col>
                 <Col span={1}>
                     <Button danger  onClick={()=>{onRemove()}}><DeleteOutlined/></Button>

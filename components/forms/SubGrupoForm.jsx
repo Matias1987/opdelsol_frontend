@@ -111,6 +111,16 @@ const SubGrupoForm = (props) => {
                     setValue("multiplicador",v)
                 }}/>
             </Form.Item>
+            <Form.Item
+            label={"Precio por defecto"}
+            name={"precio"}
+            rules={[{required: true,}]}
+            
+            >
+                <Input style={{width:'310px'}} type="number" step={".1"} value={"1"} min="0" onChange={(v)=>{
+                    setValue("precio",v)
+                }}/>
+            </Form.Item>
             <Form.Item>
                 <Button type="primary" htmlType="submit">Guardar</Button>
             </Form.Item>

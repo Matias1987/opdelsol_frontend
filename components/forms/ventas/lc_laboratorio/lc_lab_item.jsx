@@ -49,7 +49,7 @@ const LCLabItem = (props) =>{
                     <SelectCodigoVenta idfamilias={[globals.familiaIDs.LC]} callback={on_codigo_change} />
                 </Col>
                 <Col span={6}>
-                    <Input type="number" width={"100%"} prefix={"Precio: "} value={LC.precio} onChange={(v)=>{on_precio_change(v)}} />
+                    <Input readOnly type="number" width={"100%"} prefix={"Precio: "} value={LC.precio} onChange={(v)=>{on_precio_change(v)}} />
                 </Col>
                 <Col span={1}>
                 <Button danger onClick={()=>{onRemove()}}><DeleteOutlined/></Button>

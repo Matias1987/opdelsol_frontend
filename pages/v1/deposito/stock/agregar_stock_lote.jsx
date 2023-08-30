@@ -23,6 +23,7 @@ export default function AgregarStockLote(props){
     const [updateall, setUpdateAll] = useState(false);
 
     const [multiplier, setMultiplier] = useState(1);
+    const [precioDefecto, setPrecioDefecto] = useState(0);
 
     const subgrupoDetailsURL = get.obtener_detalle_subgrupo;
 
@@ -45,6 +46,7 @@ export default function AgregarStockLote(props){
         .then(response => response.json())
         .then((response)=>{
             setMultiplier(parseFloat(response.data[0].multiplicador));
+            setPrecioDefecto(parseFloat(response.data[0].precio_defecto))
             setIdSubgrupo(id);
         })
 
@@ -219,7 +221,7 @@ export default function AgregarStockLote(props){
             }
             return(
                 <>
-                    <PopUpAgregarStockLoteForm title={"Editar"} edit={true} values={temp} callback={(_data)=>{agregarRow(_data)}} />
+                    <PopUpAgregarStockLoteForm title={"Editar"} precioDefecto={110} multiplicador={multiplier} edit={true} values={temp} callback={(_data)=>{agregarRow(_data)}} />
                     <Button onClick={()=>{remove_row(codigo)}}><DeleteOutlined /></Button>
                 </>
             )

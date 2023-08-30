@@ -61,9 +61,6 @@ export default function TestMenu(){
             <Menu.Item key="19" ><PlusCircleOutlined /> 
               <Link href={get_url_to("deposito/stock/agregar_codigo")}>&nbsp;Agregar Codigos</Link>
             </Menu.Item>
-            <Menu.Item key="20" ><PlusCircleOutlined /> 
-              <Link href={get_url_to("deposito/stock/agregar_stock")}>&nbsp;Agregar Stock</Link>
-            </Menu.Item>
             <SubMenu key={"subsub1"} title={<>Listados</>}>
               <Menu.Item key="21" ><BarsOutlined /> 
               <Link href={get_url_to("deposito/stock/listados/lista_familia")}>Familias</Link>
