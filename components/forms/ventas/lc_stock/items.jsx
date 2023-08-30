@@ -35,17 +35,17 @@ const LCStockItems = (props) => {
     return (
     <>
     <Row>
-        <Col span={24} style={{padding:'.25em'}}>
-            <LCItem buttonText="OD Propio" onVisibleChange={(_value)=>onVisibleChange("od_visible",_value)} tipo="OD" callback={(v)=>{onChange("od",v)}}/>
+        <Col span={24} style={{padding:'.45em'}}>
+            <LCItem buttonText="Ojo Derecho" onVisibleChange={(_value)=>onVisibleChange("od_visible",_value)} tipo="OD" callback={(v)=>{onChange("od",v)}}/>
         </Col>
     </Row>
     <Row>
-        <Col span={24} style={{padding:'.25em'}}>
-            <LCItem buttonText="OI Propio" onVisibleChange={(_value)=>onVisibleChange("oi_visible",_value)} tipo="OI" callback={(v)=>{onChange("oi",v)}}/>  
+        <Col span={24} style={{padding:'.45em'}}>
+            <LCItem buttonText="Ojo Izquierdo" onVisibleChange={(_value)=>onVisibleChange("oi_visible",_value)} tipo="OI" callback={(v)=>{onChange("oi",v)}}/>  
         </Col>
     </Row>
     <Row>
-        <Col span={24} style={{padding:'.25em'}}>
+        <Col span={24} style={{padding:'.45em'}}>
             <VentasInsumo onVisibleChange={(_value)=>onVisibleChange("insumo_visible",_value)} tipo="insumo" callback={(v)=>{onChange("insumo",v)}} />  
         </Col>
     </Row>

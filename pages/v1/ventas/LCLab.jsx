@@ -7,7 +7,7 @@ import { post_method } from "@/src/helpers/post_helper";
 import { Modal } from "antd";
 import ImprimirSobreVenta from "./informes/sobre_venta";
 import globals from "@/src/globals";
-import { validar_items_venta } from "@/src/helpers/ventas_helper";
+import { submit_venta, validar_items_venta } from "@/src/helpers/ventas_helper";
 import { validar_modo_pago } from "@/src/helpers/pago_helper";
 import PrinterWrapper from "@/components/PrinterWrapper";
 import InformeVenta from "@/components/informes/ventas/Base";
@@ -46,63 +46,10 @@ export default function VentaLCLab(){
     }
 
     const onFinish = (v) => {
-
-        if(v.fkcliente==null)
-        {
-            alert("Cliente no seleccionado")
-            return;
-        }
-
-        if(v.fechaRetiro==null)
-        {
-            alert("Fecha retiro no establecida")
-            return
-        }
-
-        globals.obtenerCajaAsync((result)=>{
-
-            if(result===null)
-            {
-                alert("Caja cerrada")
-                return;
-            }
-
-            const venta = {
-                ...v,
-                productos: productos, 
-                tipo:"6", 
-                total: total,
-                subtotal: subTotal,
-                fkcaja: result.idcaja,
-            }
-
-            const _res = validar_items_venta(venta)
-
-            if(_res.length>0){
-                alert(_res[0].msg)
-                return
-            }
-
-            const _res1 = validar_modo_pago(venta.mp)
-
-            if(_res1!=null){
-                alert(_res1.msg)
-                return 
-            }
-
-
-            //console.log(JSON.stringify(venta))
-            if(confirm("Confirmar Venta"))
-            {
-                post_method(post.insert.venta,venta,(response)=>{
-                    alert("OK")
-                    setIdVenta(response.data)
-                    setPrintOpen(true)
-                    post_method(post.update.desc_cantidades_stock_venta,{idventa: response.data})
-                            
-                })
-            }
-    });
+        submit_venta(v,productos,total,subTotal,globals.tiposVenta.LCLAB,true,(idventa)=>{
+            setIdVenta(idventa)
+            setPrintOpen(true)
+        })
     }
 
     const onClosePrintPopup = _ => {

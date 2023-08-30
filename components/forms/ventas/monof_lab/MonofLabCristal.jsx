@@ -15,10 +15,10 @@ const MonofLabCristal = (props) => {
         idcodigo: -1,
         tipo: props.tipo,
         codigo: null,
-        eje: -1,
+        eje: "",
         precio: 0,
-        esf: -1,
-        cil: -1,
+        esf: "",
+        cil: "",
         cantidad:1,
 
     })
@@ -73,7 +73,7 @@ const MonofLabCristal = (props) => {
       
     
     return (
-        !visible ? <Button size="small" onClick={()=>{setVisible(v=>{ props?.onVisibleChange?.(true); return true;})}}>{
+        !visible ? <Button type="primary" onClick={()=>{setVisible(v=>{ props?.onVisibleChange?.(true); return true;})}}>{
             typeof props.buttonText === 'undefined' ?
             "Establecer Cristal"
             :

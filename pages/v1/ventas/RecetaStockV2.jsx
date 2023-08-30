@@ -8,7 +8,7 @@ import globals from "@/src/globals";
 import { Modal } from "antd";
 import InformeVenta from "@/components/informes/ventas/Base";
 import ImprimirSobreVenta from "./informes/sobre_venta";
-import { validar_items_venta } from "@/src/helpers/ventas_helper";
+import { submit_venta, validar_items_venta } from "@/src/helpers/ventas_helper";
 import { validar_modo_pago } from "@/src/helpers/pago_helper";
 import PrinterWrapper from "@/components/PrinterWrapper";
 
@@ -65,57 +65,11 @@ export default function VentaRecetaStock(){
         }}
         
         onfinish={(data)=>{
+            submit_venta(data,productos,total,subTotal,globals.tiposVenta.RECSTOCK,true,(idventa)=>{
+                setIdVenta(idventa)
+                setPrintOpen(true)
+            })
                 
-                if(data.fkcliente==null)
-                {
-                    alert("Cliente no seleccionado")
-                    return;
-                }
-
-                if(data.fechaRetiro==null)
-                {
-                    alert("Fecha retiro no establecida")
-                    return
-                }
-
-                globals.obtenerCajaAsync((result)=>{
-                    if(result==null){
-                        alert("Caja Cerrada")
-                        return;
-                    }
-                    const _venta = {
-                        ...data,
-                        productos: productos,
-                        total: total,
-                        subtotal: subTotal,
-                        tipo: "2",
-                        fkcaja: result.idcaja,
-                    }
-
-                    const _res = validar_items_venta(_venta)
-                    //alert(JSON.stringify(_res))
-                    if(_res.length>0){
-                        //only show 1 error per try 
-                        alert(_res[0].msg)
-                        return
-                    }
-
-                    const _res1 = validar_modo_pago(_venta.mp)
-
-                    if(_res1!=null){
-                        alert(_res1.msg)
-                        return 
-                    }
-
-
-                    post_method(post.insert.venta,_venta,(response)=>{
-                        alert("OK")
-                        
-                        setIdVenta(response.data)
-                        setPrintOpen(true)
-
-                    })
-            })//caja
             }}>
             <RecetaStockItems callback={callback} />
         </VentaBase>

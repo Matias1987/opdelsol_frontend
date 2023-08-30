@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import ImprimirSobreVenta from "./informes/sobre_venta";
 import globals from "@/src/globals";
 import { validar_modo_pago } from "@/src/helpers/pago_helper";
-import { validar_ventas_base } from "@/src/helpers/ventas_helper";
+import { submit_venta, validar_ventas_base } from "@/src/helpers/ventas_helper";
 import PrinterWrapper from "@/components/PrinterWrapper";
 import InformeVenta from "@/components/informes/ventas/Base";
 
@@ -45,51 +45,11 @@ export default function VentaDirecta(){
         onfinish={
             (v)=>{
 
-                if(productos==null)
-                {
-                    alert("Sin Productos")
-                    return
-                }
-
-                validar_ventas_base(v,total)
-
-             
-                globals.obtenerCajaAsync((result)=>{
-
-                    if(result===null)
-                    {
-                        alert("Caja cerrada")
-                        return;
-                    }
-
-                const __venta = {
-                    ...v, 
-                    productos:productos, 
-                    tipo:"1", 
-                    total: total,
-                    subtotal: subTotal,
-                    fkcaja: result.idcaja,
-                }
-               
-                const _res1 = validar_modo_pago(venta.mp)
-
-                if(_res1!=null){
-                    alert("Error. "+_res1.msg)
-                    return 
-                }
+                submit_venta(v,productos,total,subTotal,globals.tiposVenta.DIRECTA,false,(idventa)=>{
+                    setIdVenta(idventa)
+                    setPrintOpen(true)
+                })
                 
-                if(confirm("Confirmar Venta"))
-                {
-                    post_method(post.insert.venta,__venta,(response)=>{
-                        alert("OK")
-                        setIdVenta(response.data)
-                        setPrintOpen(true)
-                        //THIS SHOULD NOT BE HERE!
-                        post_method(post.update.desc_cantidades_stock_venta,{idventa: response.data})
-                        })
-                }
-                
-                });
             }
         }
              >

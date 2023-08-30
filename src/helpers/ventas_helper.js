@@ -2,28 +2,15 @@
  * VALIDAR CAMPOS VENTA!!!!! TO DO 
  */
 
-const validar_ventas_base = (vta, total) => {
+const { default: globals } = require("../globals");
+const { post } = require("../urls");
+const { validar_modo_pago } = require("./pago_helper");
+const { post_method } = require("./post_helper");
 
-    if(vta.fkcliente==null)
-    {
-        alert("Cliente no seleccionado")
-        return;
-    }
-
-    
-    if(vta.mp!=null){
-        if(vta.mp.total>total){
-            alert("Saldo menor a 0")
-            return
-        }
-    }
-
-    
-}
 
 const validar_tipo = (arr, _root, field, aditional_fields) =>
 {
-    alert(JSON.stringify(_root))
+    //alert(JSON.stringify(_root))
     if(_root[field + "_visible"])
     {
         if(_root[field] == null){
@@ -41,10 +28,12 @@ const validar_tipo = (arr, _root, field, aditional_fields) =>
              * check if additional fields are empty!
              * the default value of the aditional items should be an empty string... (TO DO!)
              */
+            //alert("root: " + JSON.stringify(_root  ) + "  " + JSON.stringify(aditional_fields) + " field: " + field)
             for(let i=0;i<aditional_fields.length;i++){
-                if(_root[field][aditional_fields[i]].trim().length()<1)
+
+                if(_root[field][aditional_fields[i]].trim().length<1)
                 {
-                    return [...arr,{res: -2, msg: "Campo vacio para " +  aditional_fields[i]}]
+                    return [...arr,{res: -2, msg: "Error: Campo vacio para   " +  aditional_fields[i] + "     " + field}]
                 }
             }
         }
@@ -115,4 +104,83 @@ const validar_items_venta = (venta) => {
     
 }
 
-module.exports = {validar_items_venta,validar_ventas_base}
+const submit_venta = (v, productos,total,subTotal, tipo_vta, validate_items, callback) => {
+
+    if(productos==null)
+    {
+        alert("Sin Productos")
+        return
+    }
+
+    if(v.fkcliente==null)
+    {
+        alert("Cliente no seleccionado")
+        return;
+    }
+
+    
+    if(v.mp!=null){
+        if(v.mp.total>total){
+            alert("Saldo menor a 0")
+            return
+        }
+    }
+
+    globals.obtenerCajaAsync((result)=>{
+
+        if(result===null)
+        {
+            alert("Caja cerrada")
+            return;
+        }
+
+        const __venta = {
+            ...v, 
+            productos:productos, 
+            tipo:tipo_vta, 
+            total: total,
+            subtotal: subTotal,
+            fkcaja: result.idcaja,
+        }
+    
+        const _res1 = validar_modo_pago(__venta.mp)
+
+        if(_res1!=null){
+            alert("Error. "+_res1.msg)
+            return 
+        }
+
+        //it may not be neccessary to validate the items... 
+        if(validate_items)
+        {
+            const _res = validar_items_venta(__venta)
+            
+            if(_res.length>0){
+                //only show 1 error per try 
+                alert(_res[0].msg)
+                return
+            }
+        }
+        
+        if(confirm("Confirmar Venta"))
+        {
+            /*
+            post_method(post.insert.venta,__venta,(response)=>{
+                alert("OK " + JSON.stringify(response))
+                //THIS SHOULD NOT BE HERE! but it is
+                post_method(post.update.desc_cantidades_stock_venta,{idventa: response.data},()=>{
+                    console.log("Cantidades descontadas? ...")
+                })
+
+                callback?.(response.data)
+                    
+                })*/
+
+                
+        }
+    
+    });
+}
+
+
+module.exports = {validar_items_venta,submit_venta}

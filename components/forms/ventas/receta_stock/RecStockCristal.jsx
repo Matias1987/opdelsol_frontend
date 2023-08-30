@@ -12,7 +12,7 @@ const RecStockCristal = (props) => {
         idcodigo: -1,
         tipo: props.tipo,
         codigo: null,
-        eje: -1,
+        eje: "",
         precio: 0,
         cantidad:1,
     })
@@ -54,7 +54,7 @@ const RecStockCristal = (props) => {
     }
 
     return (
-        !visible ? <Button size="small" onClick={()=>{setVisible(v=>{ props?.onVisibleChange?.(true); return true;});}}>{
+        !visible ? <Button type="primary" onClick={()=>{setVisible(v=>{ props?.onVisibleChange?.(true); return true;});}}>{
             typeof props.buttonText === 'undefined' ?
             "Establecer Cristal"
             :

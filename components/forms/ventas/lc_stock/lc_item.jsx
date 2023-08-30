@@ -12,7 +12,7 @@ const LCItem = (props) => {
         idcodigo: -1,
         tipo: props.tipo,
         codigo: null,
-        eje: -1,
+        eje: "",
         precio: 0,
         cantidad: 1,
         total: 0,

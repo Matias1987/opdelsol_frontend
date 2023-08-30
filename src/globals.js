@@ -134,6 +134,15 @@ const globals =  {
         VTAS: 'VTAS',
         ADM_1: 'ADM_1',
         ADM_2: 'ADM_2',
+    },
+    tiposVenta:{
+        DIRECTA: "1",
+        LCLAB: "6",
+        LCSTOCK: "3",
+        MONOFLAB: "4",
+        MULTILAB: "5",
+        RECSTOCK: "2",
+
     }
 
 }
