@@ -49,6 +49,8 @@ const public_urls = {
 
     arbol_codigos: local_base_url + "deposito/arbol_codigos",
 
+    editar_precios: local_base_url + "deposito/stock/editar_precios",
+
 }
 
 

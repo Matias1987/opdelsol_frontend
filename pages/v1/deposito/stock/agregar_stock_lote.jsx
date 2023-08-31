@@ -115,9 +115,9 @@ export default function AgregarStockLote(props){
                             costo: values.costo,
                             genero: values.genero, 
                             edad: values.edad,
-                            descripcion: values.descripcion,
-                            precio: Math.round((multiplier * values.costo) / 100) * 100,
-                            modoPrecio: values.modoPrecio,
+                            descripcion: values.p1,
+                            precio: values.precio,//Math.round((multiplier * values.costo) / 100) * 100,
+                            modo_precio: values.modo_precio,
                         } : x
                     ))
                 )
@@ -127,12 +127,12 @@ export default function AgregarStockLote(props){
                     codigo: values.codigo,
                     cantidad: values.cantidad,
                     costo: values.costo, 
-                    descripcion: values.descripcion,
+                    descripcion: values.p1,
                     status: "PENDING",
                     genero: values.genero,
                     edad: values.edad,
-                    precio: Math.round((multiplier * values.costo) / 100) * 100, 
-                    modoPrecio: values.modoPrecio,
+                    precio: values.precio,// Math.round((multiplier * values.costo) / 100) * 100, 
+                    modo_precio: values.modo_precio,
                 }])
             }
         }
@@ -149,8 +149,8 @@ export default function AgregarStockLote(props){
                     status: "PENDING",
                     genero: values.genero,
                     edad: values.edad,
-                    precio: Math.round((multiplier * values.costo) / 100) * 100, 
-                    modoPrecio: values.modoPrecio,
+                    precio: values.precio,// Math.round((multiplier * values.costo) / 100) * 100, 
+                    modo_precio: values.modo_precio,
                 })
             })
             
@@ -281,7 +281,8 @@ export default function AgregarStockLote(props){
                     sucursal_idsucursal: globals.obtenerSucursal(),
                     genero: r.genero,
                     edad: r.edad,
-                    modo_precio: r.modoPrecio,
+                    modo_precio: r.modo_precio,
+                    precio: r.precio,
                 }
             )
         })
@@ -365,7 +366,9 @@ export default function AgregarStockLote(props){
                                 genero: curr.genero,
                                 edad: curr.edad,
                                 costo: curr.costo,
-                                modo_precio: curr.modoPrecio,
+                                modo_precio: curr.modo_precio,
+                                precio: curr.precio,
+                                descripcion: curr.descripcion,
                             }
                             //alert("insert stock now! " + JSON.stringify(res))
                             //then stock object...
@@ -474,7 +477,7 @@ export default function AgregarStockLote(props){
                     <Form.Item label={"Codigos"} name={"codigos"}>
                         { idSubgrupo === -1 ? <p style={{color:"red", padding:".7em", backgroundColor:"lightcoral"}}><b>Seleccione Subgrupo</b></p> :
                         <>
-                        <PopUpAgregarStockLoteForm precioDefecto={precioDefecto} title={"Agregar"} edit={false} values={null} callback={(_data)=>{
+                        <PopUpAgregarStockLoteForm precioDefecto={precioDefecto} multiplicador={multiplier} title={"Agregar"} edit={false} values={null} callback={(_data)=>{
                                     agregarRow(_data)
                                 }} />
                         <Table dataSource={tableData} columns={columns} pagination={false} />

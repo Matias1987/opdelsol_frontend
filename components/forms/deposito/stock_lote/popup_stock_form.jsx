@@ -11,6 +11,8 @@ const PopUpAgregarStockLoteForm = (props) => {
     const [part2, setPart2] = useState("")
     const [part3, setPart3] = useState("")
     const [modoPrecio, setModoPrecio] = useState(1)
+    const [precioSubgrupo, setPrecioSubgrupo] = useState(0)
+    const [multiplicador, setMultiplicador] = useState(0)
 
     const onFinish = (values) => {
     if(typeof props.callback !== 'undefined'){
@@ -116,8 +118,15 @@ useEffect(()=>{
                 setValue("genero",props.values.genero);
                 setValue("edad",props.values.edad);
             }
+            else{
+                setValue("costo",0);
+                setValue("cantidad",0);
+            }
             //alert("setpreciodefecto " + props.precioDefecto)
-            setValue("precio",props.precioDefecto);
+            setValue("precio",0);
+            setValue("modo_precio",0)
+            setPrecioSubgrupo(props.precioDefecto)
+            setMultiplicador(props.multiplicador)
         }
         
     }
@@ -152,7 +161,7 @@ useEffect(()=>{
         <Form onFinish={onFinish} onFinishFailed={onFinishFailed} form={form}>
             <Row>
                 <Col span={12}>
-                    <Form.Item  rules={[{required:true}]} label={"Codigo"} name={"codigo"} style={{width: "400px"}}>
+                    <Form.Item  rules={[{required:true}]} label={"Codigo"} name={"codigo"} style={{width: "90%"}}>
                     {
                         props.edit ? <><Input value={props.values.codigo} disabled /></> : <Input onInput={e => e.target.value = e.target.value.toUpperCase()} onChange={onCodigoChange} />
                     }
@@ -171,7 +180,11 @@ useEffect(()=>{
                     <Row>
                         <Col span={24}>
                             <Form.Item rules={[{required:true}]} label={"Costo"} name={"costo"} style={{width: "200px"}}>
-                                <Input type="number" step={".01"} />
+                                <Input type="number" step={".01"} onChange={(e)=>{
+                                    if(modoPrecio==1){
+                                        setValue('precio',parseFloat(form.getFieldValue('costo')) * multiplicador)
+                                    }
+                                }} />
                             </Form.Item>
                         </Col>
                     </Row>
@@ -186,13 +199,29 @@ useEffect(()=>{
                         <Col span={24}>
                             <Form.Item label={"Modo Precio"} name={"modo_precio"}>
                                 <Radio.Group 
-                                name="modo_precio"  
-                                value={modoPrecio} 
+                                
                                 onChange={(e)=>{
-                                    setModoPrecio(e.target.value)}
-                                    }>
-                                    <Radio value={0}>Multiplicador</Radio>
-                                    <Radio value={1}>Precio Subgrupo</Radio>
+                                        setModoPrecio(v=>{
+                                            switch(e.target.value)
+                                            {
+                                                case 0: 
+                                                setValue(
+                                                    'precio',
+                                                    parseFloat(form.getFieldValue('costo')) * multiplicador
+                                                ); 
+                                                break; 
+                                                case 1: 
+                                                setValue(
+                                                    'precio',
+                                                    parseFloat(precioSubgrupo)
+                                                    )
+                                                break;
+                                            }
+                                            return e.target.value})
+                                        setValue("modo_precio",e.target.value)
+                                    }}>
+                                    <Radio value={0}>Multiplicador <b>({multiplicador})</b></Radio>
+                                    <Radio value={1}>Precio Subgrupo <b>(${precioSubgrupo})</b></Radio>
                                     <Radio value={2}>Precio Individual</Radio>
                                 </Radio.Group>
                             </Form.Item>

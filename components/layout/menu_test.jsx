@@ -1,4 +1,4 @@
-import { local_base_url, remote_base_url } from "@/src/urls";
+import { local_base_url, public_urls, remote_base_url } from "@/src/urls";
 import { AlertFilled, BarsOutlined, BoxPlotOutlined, CheckOutlined, DollarCircleFilled, EditOutlined, FileTextOutlined, HomeOutlined, PartitionOutlined, PlusCircleOutlined, PrinterOutlined, RocketOutlined, SnippetsOutlined, StarOutlined, UserOutlined, WarningFilled } from "@ant-design/icons";
 
 import { Divider, Menu } from "antd";
@@ -22,6 +22,7 @@ export default function TestMenu(){
           <Menu.Item key="40"><Link href={get_url_to("deposito/envio/nuevo_envio")}><StarOutlined />&nbsp;Nuevo Envio  </Link></Menu.Item>
           <Menu.Item key={"31"}><Link href={get_url_to("deposito/stock/listados/lista_stock")}><StarOutlined />&nbsp;Lista Stock</Link></Menu.Item>
           <Menu.Item key="27"><Link href={get_url_to("deposito/stock/modificar_precios_categoria")}><StarOutlined />&nbsp; Editar Multiplicadores Por Categor&iacute;a</Link></Menu.Item>
+          <Menu.Item key="107"><Link href={public_urls.editar_precios}><StarOutlined />&nbsp; Editar Precios</Link></Menu.Item>
           <Menu.Item key="13"><Link href={get_url_to("deposito/imprimir_codigos")}><StarOutlined />&nbsp; Imprimir C&oacute;digos</Link></Menu.Item>
           
           <SubMenu key="sub1" title={<span><RocketOutlined /><span>Envios</span></span>}>
