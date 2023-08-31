@@ -1,7 +1,7 @@
 import { EditOutlined, PlusCircleOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 
-const { Spin, Form, InputNumber, Button, Modal, Input, Select, Space, Checkbox, Switch, Row, Col, Divider } = require("antd")
+const { Spin, Form, InputNumber, Button, Modal, Input, Select, Space, Checkbox, Switch, Row, Col, Divider, Radio } = require("antd")
 
 const PopUpAgregarStockLoteForm = (props) => {
     const [form] = Form.useForm();
@@ -10,6 +10,7 @@ const PopUpAgregarStockLoteForm = (props) => {
     const [part1, setPart1] = useState("")
     const [part2, setPart2] = useState("")
     const [part3, setPart3] = useState("")
+    const [modoPrecio, setModoPrecio] = useState(1)
 
     const onFinish = (values) => {
     if(typeof props.callback !== 'undefined'){
@@ -40,6 +41,9 @@ const PopUpAgregarStockLoteForm = (props) => {
             break;
         case "precio":
             form.setFieldsValue({precio:val})
+            break;
+        case "modo_precio":
+            form.setFieldsValue({modo_precio:val})
             break;
     }
 }
@@ -100,7 +104,8 @@ const onFinishFailed = (errorInfo) => {
 useEffect(()=>{
     if(open)
     {
-        alert(JSON.stringify(props))
+        setModoPrecio(1)
+        //alert(JSON.stringify(props))
         if(typeof props !== 'undefined'){
             if(null !== props.values)
             {
@@ -111,7 +116,7 @@ useEffect(()=>{
                 setValue("genero",props.values.genero);
                 setValue("edad",props.values.edad);
             }
-            alert("setpreciodefecto " + props.precioDefecto)
+            //alert("setpreciodefecto " + props.precioDefecto)
             setValue("precio",props.precioDefecto);
         }
         
@@ -163,15 +168,43 @@ useEffect(()=>{
                     
                 </Col>
                 <Col span={12}>
-                    <Form.Item rules={[{required:true}]} label={"Costo"} name={"costo"} style={{width: "200px"}}>
-                        <Input type="number" step={".01"} />
-                    </Form.Item>
-                    <Form.Item label={"Precio"} name={"precio"}>
-                        <Input />
-                    </Form.Item>
-                    <Form.Item>
+                    <Row>
+                        <Col span={24}>
+                            <Form.Item rules={[{required:true}]} label={"Costo"} name={"costo"} style={{width: "200px"}}>
+                                <Input type="number" step={".01"} />
+                            </Form.Item>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col span={24}>
+                            <Form.Item label="Precio" name={"precio"}>
+                                <Input type="number" disabled={modoPrecio!=2}/>
+                            </Form.Item>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col span={24}>
+                            <Form.Item label={"Modo Precio"} name={"modo_precio"}>
+                                <Radio.Group 
+                                name="modo_precio"  
+                                value={modoPrecio} 
+                                onChange={(e)=>{
+                                    setModoPrecio(e.target.value)}
+                                    }>
+                                    <Radio value={0}>Multiplicador</Radio>
+                                    <Radio value={1}>Precio Subgrupo</Radio>
+                                    <Radio value={2}>Precio Individual</Radio>
+                                </Radio.Group>
+                            </Form.Item>
+                        </Col>
+                    </Row>
+                    
+                    
+                     
+                   {/*<Form.Item>
                         <Switch checkedChildren="Precio por Subgrupo" unCheckedChildren="Multiplicador" />
-                    </Form.Item>
+                </Form.Item>*/}
+                    
                 </Col>
             </Row>
             <Row>

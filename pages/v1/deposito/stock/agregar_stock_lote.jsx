@@ -23,7 +23,7 @@ export default function AgregarStockLote(props){
     const [updateall, setUpdateAll] = useState(false);
 
     const [multiplier, setMultiplier] = useState(1);
-    const [precioDefecto, setPrecioDefecto] = useState(0);
+    const [precioDefecto, setPrecioDefecto] = useState(100);
 
     const subgrupoDetailsURL = get.obtener_detalle_subgrupo;
 
@@ -117,6 +117,7 @@ export default function AgregarStockLote(props){
                             edad: values.edad,
                             descripcion: values.descripcion,
                             precio: Math.round((multiplier * values.costo) / 100) * 100,
+                            modoPrecio: values.modoPrecio,
                         } : x
                     ))
                 )
@@ -131,6 +132,7 @@ export default function AgregarStockLote(props){
                     genero: values.genero,
                     edad: values.edad,
                     precio: Math.round((multiplier * values.costo) / 100) * 100, 
+                    modoPrecio: values.modoPrecio,
                 }])
             }
         }
@@ -148,6 +150,7 @@ export default function AgregarStockLote(props){
                     genero: values.genero,
                     edad: values.edad,
                     precio: Math.round((multiplier * values.costo) / 100) * 100, 
+                    modoPrecio: values.modoPrecio,
                 })
             })
             
@@ -221,7 +224,7 @@ export default function AgregarStockLote(props){
             }
             return(
                 <>
-                    <PopUpAgregarStockLoteForm title={"Editar"} precioDefecto={110} multiplicador={multiplier} edit={true} values={temp} callback={(_data)=>{agregarRow(_data)}} />
+                    <PopUpAgregarStockLoteForm title={"Editar"} precioDefecto={precioDefecto} multiplicador={multiplier} edit={true} values={temp} callback={(_data)=>{agregarRow(_data)}} />
                     <Button onClick={()=>{remove_row(codigo)}}><DeleteOutlined /></Button>
                 </>
             )
@@ -278,6 +281,7 @@ export default function AgregarStockLote(props){
                     sucursal_idsucursal: globals.obtenerSucursal(),
                     genero: r.genero,
                     edad: r.edad,
+                    modo_precio: r.modoPrecio,
                 }
             )
         })
@@ -361,6 +365,7 @@ export default function AgregarStockLote(props){
                                 genero: curr.genero,
                                 edad: curr.edad,
                                 costo: curr.costo,
+                                modo_precio: curr.modoPrecio,
                             }
                             //alert("insert stock now! " + JSON.stringify(res))
                             //then stock object...
@@ -469,7 +474,7 @@ export default function AgregarStockLote(props){
                     <Form.Item label={"Codigos"} name={"codigos"}>
                         { idSubgrupo === -1 ? <p style={{color:"red", padding:".7em", backgroundColor:"lightcoral"}}><b>Seleccione Subgrupo</b></p> :
                         <>
-                        <PopUpAgregarStockLoteForm title={"Agregar"} edit={false} values={null} callback={(_data)=>{
+                        <PopUpAgregarStockLoteForm precioDefecto={precioDefecto} title={"Agregar"} edit={false} values={null} callback={(_data)=>{
                                     agregarRow(_data)
                                 }} />
                         <Table dataSource={tableData} columns={columns} pagination={false} />
