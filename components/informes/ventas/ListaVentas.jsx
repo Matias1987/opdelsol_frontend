@@ -63,6 +63,9 @@ const ListaVentas = (props) => {
                                     alert("ERROR; next state undefined")
                                 }
                                 post_method(post.cambiar_estado_venta,{idventa: _idventa, estado: data.estado_next},(resp)=>{alert("OK")})
+                                if(data.estado_next == 'PENDIENTE'){
+                                    post_method(post.update.cambiar_venta_sucursal_deposito,{idventa: _idventa, en_laboratorio: "1"},(resp)=>{})
+                                }
                             break;
                             case 'TERMINADO':
                                 post_method(post.cambiar_estado_venta,{idventa: _idventa, estado: 'ENTREGADO'},(resp)=>{alert("OK")})
@@ -125,7 +128,7 @@ const ListaVentas = (props) => {
         const url = post.venta_estado_sucursal;
         //alert("PARAMS: " + JSON.stringify(params))
         post_method(url, params,(response)=>{
-
+            alert(JSON.stringify(response))
             if(response==null)
             {
                 return
@@ -135,6 +138,8 @@ const ListaVentas = (props) => {
             {
                 return
             }
+
+            
 
             setDataSource(src=>(
                  response.data.map(v=>({

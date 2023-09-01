@@ -37,16 +37,20 @@ export default function CobroOperacion(props){
 
     useEffect(()=>{
         if(idCobro>0){
-            //alert("open informe")
+            alert("open informe")
             setInformeOpen(true)
         }
-        else{
-            
-    }
+       
     },[idCobro])
 
 
-    const handleCancel = () => {setInformeOpen(false)}
+    const handleCancel = () => {
+        const accion = typeof props.tipo === 'undefined' ? '':props.tipo
+        props.callback?.({accion: accion, estado_next: (accion == "ingreso" ? (entrega ? "ENTREGADO" : "PENDIENTE") : (accion == "entrega" ? "ENTREGADO": "PENDIENTE"))     })
+           
+        setInformeOpen(false); 
+        setOpen(false)
+    }
 
     const onMPChange = (val) => {setMP(_mp=>val)}
 
@@ -55,6 +59,12 @@ export default function CobroOperacion(props){
         if(mp === null){
             alert("Modo de pago no seleccionado.")
             return;
+        }
+
+        if(mp.total<1){
+            alert("Monto a pagar igual a cero")
+            return;
+
         }
   
 
@@ -82,6 +92,8 @@ export default function CobroOperacion(props){
                 alert("Monto mayor a deuda")
                 return
             }
+
+            //if(!entrega && )
         }
 
         var params = {
@@ -127,11 +139,10 @@ export default function CobroOperacion(props){
             
             post_method(post.insert.cobro,params,(id)=>{
                 setIdCobro(id.data)
+                
             })
             
-            const accion = typeof props.tipo === 'undefined' ? '':props.tipo
-            props.callback?.({accion: accion, estado_next: (accion == "ingreso" ? (entrega ? "ENTREGADO" : "PENDIENTE") : (accion == "entrega" ? "ENTREGADO": "PENDIENTE"))     })
-            setOpen(false)
+             
         })
     }
     
@@ -222,7 +233,7 @@ export default function CobroOperacion(props){
                 title={"Cobro"}
                 open={open}
                 //onOk={()=>{setOpen(false)}} <-- removed because the footer is set to null
-                onCancel={()=>{setOpen(false)}}
+                onCancel={()=>{ setOpen(false);}}
                 okText= {"OK"}
                 destroyOnClose={true}
                 footer={
@@ -278,6 +289,7 @@ export default function CobroOperacion(props){
                 onCancel={handleCancel}
                 okText= {"OK"}
                 destroyOnClose={true}
+                footer={null}
             >
                 <PrinterWrapper>
                     <InformeX idcobro={idCobro}/>

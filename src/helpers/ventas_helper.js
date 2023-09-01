@@ -164,7 +164,7 @@ const submit_venta = (v, productos,total,subTotal, tipo_vta, validate_items, cal
         
         if(confirm("Confirmar Venta"))
         {
-            /*
+            
             post_method(post.insert.venta,__venta,(response)=>{
                 alert("OK " + JSON.stringify(response))
                 //THIS SHOULD NOT BE HERE! but it is
@@ -174,7 +174,7 @@ const submit_venta = (v, productos,total,subTotal, tipo_vta, validate_items, cal
 
                 callback?.(response.data)
                     
-                })*/
+                })
 
                 
         }
