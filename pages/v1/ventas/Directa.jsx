@@ -48,7 +48,7 @@ export default function VentaDirecta(){
                 submit_venta(v,productos,total,subTotal,globals.tiposVenta.DIRECTA,false,(idventa)=>{
                     setIdVenta(idventa)
                     setPrintOpen(true)
-                })
+                },{ignore_fecha_retiro:1,})
                 
             }
         }

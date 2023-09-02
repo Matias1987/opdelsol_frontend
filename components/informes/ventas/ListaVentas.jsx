@@ -50,7 +50,7 @@ const ListaVentas = (props) => {
                 tipo={props.accion} 
                 callback={(data)=>{
 
-                    if(data==null || typeof data === 'undefined'){
+                    /*if(data==null || typeof data === 'undefined'){
                         setReload(!reload)
                         return;
                     }
@@ -71,7 +71,7 @@ const ListaVentas = (props) => {
                                 post_method(post.cambiar_estado_venta,{idventa: _idventa, estado: 'ENTREGADO'},(resp)=>{alert("OK")})
                             break;
                         }
-                    }
+                    }*/
                     setReload(!reload)
                 }} />&nbsp;&nbsp;
             </>:<></>}
@@ -151,6 +151,7 @@ const ListaVentas = (props) => {
                     estado: v.estado,
                     monto: v.monto,
                     tipo: v.tipo,
+                    sucursal: v.sucursal,
                 }))
             ))
         })
@@ -172,14 +173,14 @@ const ListaVentas = (props) => {
     }
 
     const columns = [
-        {title: "Nro.", dataIndex:"idventa"},
-        {title: "Tipo", dataIndex: "tipo", render:(_,{tipo})=>(
+        {hidden: false, title: "Nro.", dataIndex:"idventa"},
+        {hidden: false, title: "Tipo", dataIndex: "tipo", render:(_,{tipo})=>(
             <span style={{fontSize:".75em", color:"blue"}}><b>{get_tipo(tipo)}</b></span>
         ) },
-        {title: "Fecha", dataIndex:"fecha"},
-        {title: "Cliente", dataIndex:"cliente"},
-        {title: "Vendedor", dataIndex:"vendedor"},
-        {title: "Estado", dataIndex:"estado", render:(_,{estado})=>{
+        {hidden: false, title: "Fecha", dataIndex:"fecha"},
+        {hidden: false, title: "Cliente", dataIndex:"cliente"},
+        {hidden: false, title: "Vendedor", dataIndex:"vendedor"},
+        {hidden: false, title: "Estado", dataIndex:"estado", render:(_,{estado})=>{
             switch(estado){
                 case "INGRESADO": return <Tag color="magenta">{estado}</Tag>
                 case "PENDIENTE": return <Tag color="geekblue">{estado}</Tag>
@@ -188,8 +189,9 @@ const ListaVentas = (props) => {
                 case "TERMINADO": return <Tag color="green">{estado}</Tag>
             }
         }},
-        {title: "Monto", dataIndex:"monto"},
-        {title: "Acciones", dataIndex:"idventa", render: (_,{idventa,idcliente})=>{
+        {hidden: false, title: "Monto", dataIndex:"monto"},
+        {hidden: false, title: "Sucursal", dataIndex:"sucursal"},
+        {hidden: false, title: "Acciones", dataIndex:"idventa", render: (_,{idventa,idcliente})=>{
             return <>
                 {buttons(idventa,idcliente)}
             </>
@@ -206,7 +208,7 @@ const ListaVentas = (props) => {
         {
         //JSON.stringify(filtros)
         }
-        <Table dataSource={dataSource} columns={columns} loading={loading} />
+        <Table dataSource={dataSource} columns={columns.filter(r=>!r.hidden)} loading={loading} />
     </>
 }
 

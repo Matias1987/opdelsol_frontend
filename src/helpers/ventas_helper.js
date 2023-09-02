@@ -87,8 +87,8 @@ const validar_items_venta = (venta) => {
                 _result = validar_tipo(_result,venta.productos,'cerca_tratamiento')
             break;
             case 3://lc stock
-                _result = validar_tipo(_result,venta.productos,'od', ['eje'])
-                _result = validar_tipo(_result,venta.productos,'oi', ['eje'])
+                _result = validar_tipo(_result,venta.productos,'od', [])
+                _result = validar_tipo(_result,venta.productos,'oi', [])
                 _result = validar_tipo(_result,venta.productos,'insumo')
             break;
             case 6://lc lab
@@ -103,8 +103,30 @@ const validar_items_venta = (venta) => {
 
     
 }
+/**
+ * 
+ * @param {*} v 
+ * @param {*} productos 
+ * @param {*} total 
+ * @param {*} subTotal 
+ * @param {*} tipo_vta 
+ * @param {*} validate_items 
+ * @param {*} callback 
+ * @param {*} options array: [ignore_fecha_retiro]
+ * @returns void
+ */
+const submit_venta = (v, productos,total,subTotal, tipo_vta, validate_items, callback, options) => {
 
-const submit_venta = (v, productos,total,subTotal, tipo_vta, validate_items, callback) => {
+    const ignore_fecha_retiro = options?.ignore_fecha_retiro||null
+
+    if(ignore_fecha_retiro == null)
+    {
+        if(v.fechaRetiro==null)
+        {
+            alert("Fecha de retiro no seleccionada")
+            return
+        }
+    }
 
     if(productos==null)
     {
@@ -125,6 +147,10 @@ const submit_venta = (v, productos,total,subTotal, tipo_vta, validate_items, cal
             return
         }
     }
+
+ 
+    
+    
 
     globals.obtenerCajaAsync((result)=>{
 

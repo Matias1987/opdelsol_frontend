@@ -34,7 +34,16 @@ export default function CobroOperacion(props){
     const [informeOpen, setInformeOpen] = useState(false)
     const [open, setOpen] = useState(false)
     const [idCobro, setIdCobro] = useState(-1)
+    const [cobrarDisabled, setCobrarDisabled] = useState(false)
 
+    /**     2/9/2023
+     * I believe that only the callback function should be invoqued here, there are actions that shouldn't be done by this component, such as 
+     * changing the sales status, I have to change that in the near future...
+     */
+
+    /**
+     * this is mean to be executed twice: after the initial load and when idcobro changes (i.e. when the cobro is created...), I dunno if this is a good way 
+     */
     useEffect(()=>{
         if(idCobro>0){
             alert("open informe")
@@ -45,17 +54,27 @@ export default function CobroOperacion(props){
 
 
     const handleCancel = () => {
-        const accion = typeof props.tipo === 'undefined' ? '':props.tipo
-        props.callback?.({accion: accion, estado_next: (accion == "ingreso" ? (entrega ? "ENTREGADO" : "PENDIENTE") : (accion == "entrega" ? "ENTREGADO": "PENDIENTE"))     })
-           
+        
+        //const accion = typeof props.tipo === 'undefined' ? '':props.tipo
+        //props.callback?.({accion: accion, estado_next: (accion == "ingreso" ? (entrega ? "ENTREGADO" : "PENDIENTE") : (accion == "entrega" ? "ENTREGADO": "PENDIENTE"))     })
+          
+        props.callback?.()
         setInformeOpen(false); 
         setOpen(false)
     }
 
     const onMPChange = (val) => {setMP(_mp=>val)}
 
-    const onCobrarClick = (e) => {
+    const onEntregaClick = (e) => {
+        if(dataVenta.saldo != 0){
+            return;
+        }
 
+        post_method(post.cambiar_estado_venta,{idventa: dataVenta.idventa, estado: 'ENTREGADO'},(resp)=>{alert("OK"); setOpen(false); props?.callback?.()})
+    }
+
+    const onCobrarClick = (e) => {
+//#region  validations
         if(mp === null){
             alert("Modo de pago no seleccionado.")
             return;
@@ -92,9 +111,8 @@ export default function CobroOperacion(props){
                 alert("Monto mayor a deuda")
                 return
             }
-
-            //if(!entrega && )
         }
+//#endregion
 
         var params = {
             mp: mp,
@@ -122,27 +140,32 @@ export default function CobroOperacion(props){
             }
         }
 
-        //alert(JSON.stringify(params))
-
-        //THIS REGION IS TEMPORARILY COMMENTED
-
         globals.obtenerCajaAsync((response)=>{
-
 
             if(response==null)
             {
                 alert("Caja cerrada")
                 return;
             }
-
             params.caja_idcaja=response.idcaja;
             
             post_method(post.insert.cobro,params,(id)=>{
                 setIdCobro(id.data)
-                
+                /**
+                 * this should not be done here but whatever..
+                 */
+                if(dataVenta!=null && props.tipo!='resfuerzo')
+                {
+                    post_method(
+                        post.cambiar_estado_venta,
+                        {
+                            idventa: dataVenta.idventa, 
+                            /*estado at this point could be entrega or ingreso  */
+                            estado: (props.tipo=='entrega' ? 'ENTREGADO' : (entrega ? "ENTREGADO" : "PENDIENTE"))
+                        },
+                        (resp)=>{alert("OK")})
+                }
             })
-            
-             
         })
     }
     
@@ -183,12 +206,15 @@ export default function CobroOperacion(props){
                 .then(response=>response.json())
                 .then((response)=>{
                     
-                    //alert(JSON.stringify(response.data[0]))
+                    if(response.data[0].saldo==0){
+                        setCobrarDisabled(true)
+                    }
+
                     setDataVenta(d=>{
                         
-                        return response.data[0]
-                        }
-                        )
+                    return response.data[0]
+                    }
+                    )
                 })
             }
         
@@ -232,7 +258,6 @@ export default function CobroOperacion(props){
                 width={"80%"}
                 title={"Cobro"}
                 open={open}
-                //onOk={()=>{setOpen(false)}} <-- removed because the footer is set to null
                 onCancel={()=>{ setOpen(false);}}
                 okText= {"OK"}
                 destroyOnClose={true}
@@ -269,9 +294,12 @@ export default function CobroOperacion(props){
                 <Row>
                     <Col span={24}>
                         <Divider />
-                        <Button danger onClick={onCobrarClick}>Cobrar</Button>&nbsp;&nbsp;
+                        <Button disabled={cobrarDisabled} danger onClick={onCobrarClick}>Cobrar {props.tipo == 'entrega' ? ' y marcar como entregado' : ''}</Button>&nbsp;&nbsp;
                         {
                             props.tipo == 'ingreso' && !entrega ? <Button size="small" type="primary" onClick={enviarADeposito}>Enviar a dep&oacute;sito</Button> : <></>
+                        }
+                        {
+                            props.tipo == 'entrega' ? <Button disabled={!cobrarDisabled} onClick={onEntregaClick}>Marcar Como Entregado</Button>:<></>
                         }
                     </Col>
                 </Row>
