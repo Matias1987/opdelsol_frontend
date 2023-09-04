@@ -42,9 +42,11 @@ export default function AgregarStockLote(props){
         if(id<0){
             return;
         }
+        //alert(subgrupoDetailsURL + id)
         fetch(subgrupoDetailsURL + id)
         .then(response => response.json())
         .then((response)=>{
+            alert("SUBGRUPO :  " + JSON.stringify(response.data))
             setMultiplier(parseFloat(response.data[0].multiplicador));
             setPrecioDefecto(parseFloat(response.data[0].precio_defecto))
             setIdSubgrupo(id);
