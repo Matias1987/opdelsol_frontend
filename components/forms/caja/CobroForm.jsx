@@ -160,6 +160,9 @@ export default function CobroOperacion(props){
                 alert("Caja cerrada")
                 return;
             }
+
+            setCobrarDisabled(true)
+
             params.caja_idcaja=response.idcaja;
             
             post_method(post.insert.cobro,params,(id)=>{
