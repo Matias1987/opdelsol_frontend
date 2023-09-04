@@ -127,6 +127,10 @@ useEffect(()=>{
             setValue("modo_precio",0)
             setPrecioSubgrupo(props.precioDefecto)
             setMultiplicador(props.multiplicador)
+            alert(JSON.stringify(
+                {precioDefecto: props.precioDefecto, multiplicador: props.multiplicador}
+
+            ))
         }
         
     }
