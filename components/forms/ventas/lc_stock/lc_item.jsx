@@ -65,10 +65,10 @@ const LCItem = (props) => {
                 </Col>
                 
                 <Col span={4}>
-                    <InputNumber readOnly value={lc.precio} onChange={(v)=>{onPrecioChange(v)}}/>
+                    <Input type="number" addonBefore="Precio: " readOnly value={lc.precio} onChange={(v)=>{onPrecioChange(v)}}/>
                 </Col>
                 <Col span={4}>
-                    <InputNumber addonBefore="Cant.:" addonAfter={"/"+lc.max} max={lc.max} value={lc.cantidad} onChange={(v)=>{onCantidadChange(v)}} />
+                    <InputNumber addonBefore="Cant.:" addonAfter={"/"+(typeof lc.max === 'undefined' ? 0 : lc.max)} max={typeof lc.max === 'undefined' ? 0 : lc.max } value={lc.cantidad} onChange={(v)=>{onCantidadChange(v)}} />
                 </Col>
                 <Col span={4}>
                     <Input readOnly addonBefore={"Total:"} value={lc.cantidad * lc.precio} />&nbsp;

@@ -45,8 +45,20 @@ export default function CobroOperacion(props){
      * this is mean to be executed twice: after the initial load and when idcobro changes (i.e. when the cobro is created...), I dunno if this is a good way 
      */
     useEffect(()=>{
-        if(idCobro>0){
+        if(idCobro>-1){
             alert("open informe")
+            /**
+             * el servidor devuelve 0  cuando se elijio ctacte como 
+             * modo de pago...
+             */
+            if(idCobro==0)
+            {
+                alert("Nothing to show")
+                props.callback?.()
+                setOpen(false)
+                return;
+            }
+
             setInformeOpen(true)
         }
        
@@ -135,6 +147,7 @@ export default function CobroOperacion(props){
                     params = {...params, accion: "entrega", removeCtaCteRow: 1}; 
                 break;
                 case "resfuerzo": 
+                
                     params = {...params, accion: "resfuerzo", removeCtaCteRow: 1}; 
                 break;
             }
@@ -182,11 +195,11 @@ export default function CobroOperacion(props){
     const venta_detalle = () => (
         dataVenta == null ? <></>  :
         <>
-        <p>Nro. Venta: {dataVenta.idventa} &nbsp;&nbsp;&nbsp; Fecha: {dataVenta.fecha_formated}</p>
-        <p>Monto: <b>{dataVenta.debe}</b>  Haber: <b>{dataVenta.haber}</b>  Saldo:  <b>{dataVenta.saldo}</b></p>
-        <CustomModal title={"Cobros Venta Nro.: " + dataVenta.idventa} openButtonText="Ver Cobros">
-            <ListaCobros idventa={dataVenta.idventa} />
-        </CustomModal>
+            <p>Nro. Venta: {dataVenta.idventa} &nbsp;&nbsp;&nbsp; Fecha: {dataVenta.fecha_formated}</p>
+            <p>Monto: <b>{dataVenta.debe}</b>  Haber: <b>{parseFloat(dataVenta.debe) - parseFloat(dataVenta.saldo)}</b>  Saldo:  <b>{dataVenta.saldo}</b></p>
+            <CustomModal title={"Cobros Venta Nro.: " + dataVenta.idventa} openButtonText="Ver Cobros">
+                <ListaCobros idventa={dataVenta.idventa} />
+            </CustomModal>
         </>
     )
     const estado_switch = _ => props.tipo == 'ingreso' ? <Row>
