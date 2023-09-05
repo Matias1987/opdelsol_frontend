@@ -22,7 +22,7 @@ const VistaPreviaPrecios = (props) =>{
         const idgrupo = (props.tipo == "grupo" ? props.idcategoria : "-1");
         const idsubgrupo = (props.tipo == "subgrupo" ? props.idcategoria : "-1");
         //alert(get.lista_codigos_categoria + `${idfamilia}/${idsubfamilia}/${idgrupo}/${idsubgrupo}`)
-        fetch(get.lista_codigos_categoria + `${idfamilia}/${idsubfamilia}/${idgrupo}/${idsubgrupo}`)
+        fetch(get.lista_codigos_categoria + `${idfamilia}/${idsubfamilia}/${idgrupo}/${idsubgrupo}/-1`)
         .then(response=>response.json())
         .then((response)=>{
             setData(

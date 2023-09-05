@@ -1,10 +1,11 @@
-import { get } from "@/src/urls"
+import { post_method } from "@/src/helpers/post_helper"
+import { get, post } from "@/src/urls"
 
 const { default: GrupoSelect } = require("@/components/GrupoSelect")
 const { default: LoadSelect } = require("@/components/LoadSelect")
 const { default: SubFamiliaSelect } = require("@/components/SubFamiliaSelect")
 const { default: SubGroupSelect } = require("@/components/SubGroupSelect")
-const { Row, Col, Select, Input, Button } = require("antd")
+const { Row, Col, Select, Input, Button, Modal, Table } = require("antd")
 const { useState } = require("react")
 
 const EditarPreciosForm = (props) => {
@@ -13,8 +14,11 @@ const EditarPreciosForm = (props) => {
         fkcategoria: -1,
         categoria: '-1',
         porcentaje: 0,
+        valor: 0,
     })
-
+    const [vpOpen, setVPOpen] = useState(false)
+    const [dataSourceVP, setDataSourceVP] = useState([])
+    
     const setValue = (idx, value) => {
 
         setValues(v=>({...v,[idx]:value}))
@@ -53,8 +57,7 @@ const EditarPreciosForm = (props) => {
 
     return (<>
     <h3>Editar Precios</h3>
-    <p style={{fontSize:".9em"}}><i>Si el precio del producto es por subgrupo, se modificar&aacute; el precio en el subgrupo,
-        si el precio del producto es Individual, se modificara el precio en el c&oacute;digo</i></p>
+    <p style={{fontSize:".9em"}}><i>Editar Precios de SubGrupos</i></p>
     <Row style={row_style}>
         <Col style={col_style} span={24}>
             Categor&iacute;a:&nbsp;
@@ -100,22 +103,101 @@ const EditarPreciosForm = (props) => {
         <Col style={col_style} span={24}>
                 <Input 
                 style={{backgroundColor:"lightblue"}}
-                prefix={"Porcentaje a incrementar"} 
-                onChange={(e)=>{setValue('porcentaje',e.target.value)}} 
+                prefix={"Porcentaje"} 
+                onChange={(e)=>{
+                    setValue('porcentaje',e.target.value)
+                    setValue('multiplicador', 1 + parseFloat(e.target.value) / 100)
+                }} 
                 type="number"
                 value={values.porcentaje}
+                />
+        </Col>
+    </Row>
+    <Row style={row_style}>
+        <Col style={col_style} span={24}>
+                <Input 
+                style={{backgroundColor:"lightcyan"}}
+                prefix={"Valor"} 
+                onChange={(e)=>{
+                    setValue('valor',e.target.value)
+                }} 
+                type="number"
+                value={values.valor}
                 />
         </Col>
     </Row>
 
     <Row style={row_style}>
         <Col style={col_style} span={24}>
-                <Button type="primary" block onClick={()=>{}}>Vista Previa</Button>
+                <Button type="primary" block onClick={()=>
+                {
+                    var idsubgrupo=-1;
+                    var idgrupo=-1;
+                    var idsubfamilia=-1;
+                    var idfamilia= -1;
+
+                    switch(values.categoria)
+                    {
+                        case "familia": idfamilia=values.fkcategoria; break;
+                        case "subfamilia": idsubfamilia=values.fkcategoria; break;
+                        case "grupo": idgrupo=values.fkcategoria; break;
+                        case "subgrupo": idsubgrupo=values.fkcategoria; break;
+                    }
+
+
+                    //alert(get.lista_codigos_categoria + `${idfamilia}/${idsubfamilia}/${idgrupo}/${idsubgrupo}/1`)
+                    fetch(get.lista_codigos_categoria + `${idfamilia}/${idsubfamilia}/${idgrupo}/${idsubgrupo}/1`)///:idfamilia/:idsubfamilia/:idgrupo/:idsubgrupo/:modo_precio
+                    .then(response=>response.json())
+                    .then((response)=>{
+                        setDataSourceVP(
+                            response.data.map(
+                                r=>(
+                                    {
+                                        codigo: r.codigo,
+                                        precio_ant: r.precio_defecto,
+                                        precio_n: (r.precio_defecto * values.multiplicador) + parseFloat(values.valor),
+                                    }
+                                )
+                            )
+                        )
+                    })
+
+
+                    /**
+                     * load codes
+                     */
+                    setVPOpen(true)
+                }}>Vista Previa </Button>
+                <Modal width={"80%"} title={"Vista de Previa (lista de productos con modo de precio por subgrupo)"} open={vpOpen} onCancel={()=>{setVPOpen(false)}} footer={null}>
+                    <Table 
+                        dataSource={dataSourceVP}
+                        columns={[
+                            {dataIndex:"codigo", title:"Codigo"},
+                            {dataIndex:"precio_ant", title:"Precio Ant."},
+                            {dataIndex:"precio_n", title:`Precio Nuevo  + ${values.porcentaje}% | Valor: ${values.valor} ` },
+                        ]}
+                    />
+                </Modal>
         </Col>
     </Row>
     <Row style={row_style}>
         <Col style={col_style} span={24}>
-                <Button danger block onClick={()=>{}}>Aplicar</Button>
+                <Button danger block onClick={()=>{
+                    post_method(post.update.modificar_precios_defecto_subgrupo,
+                        {
+                            idfamilia:values.categoria=="familia"? values.fkcategoria:"-1",
+                            idsubfamilia:values.categoria=="subfamilia"? values.fkcategoria:"-1",
+                            idgrupo:values.categoria=="grupo"? values.fkcategoria:"-1",
+                            idsubgrupo:values.categoria=="subgrupo"? values.fkcategoria:"-1",
+                            multiplicador: values.multiplicador,
+                            valor: values.valor,
+                        }
+                        ,
+                        (response)=>{
+                            alert("OK")
+                        }
+                    )
+                }}>Aplicar</Button>
         </Col>
     </Row>
         

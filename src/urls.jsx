@@ -1,7 +1,7 @@
-const remote_base_url = "http://54.90.66.197:3001/api/v1/"
-const local_base_url = "http://54.90.66.197:3000/v1/"
-//const remote_base_url = "http://localhost:3001/api/v1/"
-//const local_base_url = "http://localhost:3000/v1/"
+//const remote_base_url = "http://54.90.66.197:3001/api/v1/"
+//const local_base_url = "http://54.90.66.197:3000/v1/"
+const remote_base_url = "http://localhost:3001/api/v1/"
+const local_base_url = "http://localhost:3000/v1/"
 //const token = "&token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3QiLCJpYXQiOjE2ODI0NjEwMjksImV4cCI6MTY4MjQ2NDYyOX0.Unf5zmxNVQCJVD4qxSAcdcmsrs1s-q4h7Q0e2dYHHEo";
 const public_urls = {
     dashboard_deposito : local_base_url + "deposito/",
@@ -114,6 +114,7 @@ const post = {
         cambiar_venta_sucursal_deposito: remote_base_url +"ventas/cambiar_venta_sucursal_deposito/",
         inc_cantidades_stock_venta: remote_base_url +"ventas/inc_cantidades_stock_venta/",
         desc_cantidades_stock_venta: remote_base_url +"ventas/desc_cantidades_stock_venta/",
+        modificar_precios_defecto_subgrupo: remote_base_url + "subgrupos/modificar_precios_defecto/",
     },
 }
 
