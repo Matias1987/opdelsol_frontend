@@ -215,6 +215,7 @@ export default function CobroOperacion(props){
 
 
     const onOpen = () => {
+        setCobrarDisabled(false)
         if(typeof props.idventa !== 'undefined')
             {
                 //get venta details
@@ -225,10 +226,8 @@ export default function CobroOperacion(props){
                     if(response.data[0].saldo==0){
                         setCobrarDisabled(true)
                     }
-
                     setDataVenta(d=>{
-                        
-                    return response.data[0]
+                        return response.data[0]
                     }
                     )
                 })

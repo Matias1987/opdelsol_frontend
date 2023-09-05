@@ -3,7 +3,7 @@ import ImprimirSobreVenta from "@/pages/v1/ventas/informes/sobre_venta";
 import { post_method } from "@/src/helpers/post_helper";
 import { useEffect, useState } from "react";
 import InformeVenta from "./Base";
-import { post } from "@/src/urls";
+import { get, post } from "@/src/urls";
 import globals from "@/src/globals";
 import FiltroVentas from "@/components/forms/ventas/filtroVentas";
 import CobroOperacion from "@/components/forms/caja/CobroForm";
@@ -91,7 +91,12 @@ const ListaVentas = (props) => {
             }}>Devoluci&oacute;n</Button>:<></>}
             {typeof props.anular !== 'undefined' ?<><Button size="small" danger onClick={(e)=>{
                 if(confirm("Anular Operacion?")){
-                    post_method(post.update.cambiar_estado_venta,{idventa: _idventa, estado: 'ANULADO'},(resp)=>{alert("OK"); setReload(!reload)})
+                    post_method(post.cambiar_estado_venta,{idventa: _idventa, estado: 'ANULADO'},(resp)=>{
+                        
+                        setReload(!reload);
+                        alert("OK");
+                        post_method(post.update.inc_cantidades_stock_venta,{idventa:_idventa},(response)=>{ })
+                    })
                 }
             }}>Anular</Button></>:<></>}
             
@@ -128,7 +133,7 @@ const ListaVentas = (props) => {
         const url = post.venta_estado_sucursal;
         //alert("PARAMS: " + JSON.stringify(params))
         post_method(url, params,(response)=>{
-            alert(JSON.stringify(response))
+            //alert(JSON.stringify(response))
             if(response==null)
             {
                 return

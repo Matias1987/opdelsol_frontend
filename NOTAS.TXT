@@ -1,0 +1,4 @@
+ventas deben pasar a laboratorio al ingresar
+completar campos recibo x
+TERMINAR CAJA
+VERIFICAR FUNCIONAMIENTO VTAS ANULADAS
