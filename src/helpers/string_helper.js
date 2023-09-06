@@ -7,44 +7,11 @@ const parse_DMY_date = (_date) => {
 }
 
 const convertToWords = (value) => {
-	let integer_part = parseInt(value)
-	let decimal_part = parseInt((value - parseFloat(integer_part)) * 100);
-	
-	console.log("value " + value + " decimal_part " + decimal_part.ToString());
-
-	var __temp = parseFloat(integer_part) + decimal_part * 0.01;
-
-	if (__temp < value)
-	{
-		decimal_part++;
-	}
-	else if (__temp > value)
-	{
-		decimal_part--;
-	}
-
-	console.log("value " + value + " decimal_part " + decimal_part);
-
-	var str_int = _analizeNumber_(integer_part);
-	var str_flt = _analizeNumber_(decimal_part);
-
-	if (str_flt.length > 0)
-	{
-		return str_int + " PESOS CON " + str_flt + " CENTAVOS ";
-	}
-	else
-	{
-		return str_int + " PESOS";
-	}
-
-
-	
-}
-
-
-const _analizeNumber = (tem_str) =>
+    const _analizeNumber = (_tem_str) =>
         {
-            console.log("input -->> " + tem_str);
+            //alert("input -->> " + tem_str);
+            //alert("input -->> length " + tem_str.toString().length);
+            var tem_str = _tem_str.toString();
             var result = "";
             var _temp = 0;
             var resto = 0;
@@ -83,6 +50,7 @@ const _analizeNumber = (tem_str) =>
                     {
                         if (tem_str.length > 0)
                         {
+                            alert("ss")
                             result += _analizeCentena(tem_str);
                         }
                     }
@@ -97,8 +65,9 @@ const _analizeNumber = (tem_str) =>
             return result;
         }
 
-const  _analizeCentena = (_number) =>
+    const  _analizeCentena = (__number) =>
         {
+            var _number = __number.toString()
             var result = "";
             var value = parseInt(_number);
             var _nmbr = 0;
@@ -174,3 +143,42 @@ const  _analizeCentena = (_number) =>
             return result;
 
         }
+	let integer_part = parseInt(value)
+	let decimal_part = parseInt((value - parseFloat(integer_part)) * 100);
+	
+	alert("value " + value + " decimal_part " + decimal_part);
+
+	var __temp = parseFloat(integer_part) + parseFloat(decimal_part) * 0.01;
+    //alert(__temp)
+	if (__temp < value)
+	{
+		decimal_part++;
+	}
+	else if (__temp > value)
+	{
+		decimal_part--;
+	}
+
+	//alert("value " + value + " decimal_part " + decimal_part);
+
+	var str_int = _analizeNumber(integer_part);
+	var str_flt = _analizeNumber(decimal_part);
+
+	if (str_flt.length > 0)
+	{
+		return str_int + " PESOS CON " + str_flt + " CENTAVOS ";
+	}
+	else
+	{
+		return str_int + " PESOS";
+	}
+
+
+
+	
+}
+
+
+
+
+module.exports={parse_DMY_date, convertToWords}

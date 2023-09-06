@@ -1,4 +1,5 @@
 import useStorage from "../useStorage"
+import { parse_DMY_date } from "./helpers/string_helper";
 import { get } from "./urls";
 const globals =  {
     establecerSucursal: (idsucursal) =>
@@ -53,6 +54,16 @@ const globals =  {
             //alert(JSON.stringify(response))
             if(response.data.status=='OK')
             {
+                //check if the 'caja' is old
+                let _date = parse_DMY_date(response.data.fecha_f)
+                //now
+                let today = new Date()
+                today.setHours(0,0,0,0);
+
+                if(_date < today){
+                    alert("<!> Caja abierta de " + response.data.fecha_f)
+                }
+
                 callback(response.data)
                 
                 setItem("caja", response.data);

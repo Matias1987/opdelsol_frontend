@@ -5,6 +5,7 @@ import ListaCaja from "@/components/forms/caja/ListaCajas";
 import InformeCaja from "@/components/informes/caja/InformeCaja";
 import LayoutCaja from "@/components/layout/layout_caja";
 import globals from "@/src/globals";
+import { convertToWords } from "@/src/helpers/string_helper";
 import { get } from "@/src/urls";
 import { Button, Modal, Spin, Tag } from "antd";
 import { useEffect, useState } from "react";
@@ -15,6 +16,7 @@ export default function panelCajaAdmin(){
     const [reload, setReload] = useState(false)
     const [listOpen, setListOpen] = useState(false)
     useEffect(()=>{
+        alert(convertToWords("15000"))
         globals.obtenerCajaAsync((result)=>{
             setLoading(false)
             if(result!=null){
@@ -39,7 +41,7 @@ export default function panelCajaAdmin(){
     const detalle_caja = _ => 
         caja == null ? <></> : <>
             <div>
-                <p><Tag color="green-inverse">CAJA ABIERTA</Tag> Nro. Caja: 1 Fecha: <b>{caja.fecha}</b> Monto Inicial: <b>{caja.monto_inicial}</b></p>
+                <p><Tag color="green-inverse">CAJA ABIERTA</Tag> Nro. Caja: 1 Fecha: <b>{caja.fecha_f}</b> Monto Inicial: <b>{caja.monto_inicial}</b></p>
                 <Button block onClick={cerrar_caja} danger>Cerrar Caja</Button>
             </div>
         </>
