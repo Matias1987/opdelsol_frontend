@@ -161,6 +161,11 @@ export default function CobroOperacion(props){
                 return;
             }
 
+            if(!confirm("Confirmar Cobro"))
+            {
+                return;
+            }
+
             setCobrarDisabled(true)
 
             params.caja_idcaja=response.idcaja;

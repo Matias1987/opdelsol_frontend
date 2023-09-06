@@ -7,9 +7,25 @@ const parse_DMY_date = (_date) => {
 }
 
 const convertToWords = (value) => {
+    //#region
+    const unidades = [
+        "uno","dos","tres","cuatro","cinco","seis","siete","ocho","nueve",
+     ];
+
+    const decenas = [
+            "diez","veinte","treinta","cuarenta","cincuenta","sesenta","setenta","ochenta","noventa",
+        ];
+
+    const diez_y = [ "once", "doce", "trece", "catorce", "quince", "dieciseis", "diecisiete", "dieciocho", "diecinueve" ];
+
+    const centenas = [
+            "ciento","doscientos","trescientos","cuatrocientos","quinientos","seiscientos","setecientos","ochocientos","novecientos",
+        ];
+
+    //endregion    
     const _analizeNumber = (_tem_str) =>
         {
-            //alert("input -->> " + tem_str);
+            alert("_analizeNumber input -->> " + _tem_str);
             //alert("input -->> length " + tem_str.toString().length);
             var tem_str = _tem_str.toString();
             var result = "";
@@ -28,12 +44,13 @@ const convertToWords = (value) => {
                 {
                     _temp = parsed / 1000000;
                     resto = parsed % 1000000;
-                    result += _analizeCentena(_temp.ToString()) + " millones ";
+                    result += _analizeCentena(_temp.toString()) + " millones ";
                 }
                 else
                 {
                     if (tem_str.length > 3)
                     {
+                        
                         _temp = parsed / 1000;
                         resto = parsed % 1000;
                         if (_temp == 1)
@@ -50,23 +67,25 @@ const convertToWords = (value) => {
                     {
                         if (tem_str.length > 0)
                         {
-                            alert("ss")
+                            
                             result += _analizeCentena(tem_str);
                         }
                     }
                 }
             }
             console.log("-->> " + resto);
+            alert("_analizeNumber antes: " + result)
             if (resto > 0)
             {
-                result += _analizeNumber_(resto);
+                result += _analizeNumber(resto);
             }
-
+            alert("_analizeNumber despues: " + result)
             return result;
         }
 
     const  _analizeCentena = (__number) =>
         {
+            alert("_analizeCentena input -->> " + __number);
             var _number = __number.toString()
             var result = "";
             var value = parseInt(_number);
@@ -101,7 +120,7 @@ const convertToWords = (value) => {
                             {
                                 if (value > 10)
                                 {
-                                    _number = _number.substring(1, _number.Length - 1);
+                                    _number = _number.substring(0, _number.Length - 1);
 
                                     var _dec = parseInt(_number);
 
@@ -124,29 +143,34 @@ const convertToWords = (value) => {
                     }
                     break;
                 case 1:
+                    //alert("******************")
                     _nmbr = value / 1;
                     if (_nmbr != 0)
                     {
+
                         result = unidades[_nmbr - 1] + " ";
                     }
                     break;
             }
 
-            var tem_str = _number.substring(1, _number.Length - 1);
-            console.log(tem_str.length);
+
+
+            var tem_str = _number.substring(0, _number.Length - 1);
+            //alert("LENGTH " + tem_str.length);
+            alert("_analizeCentena antes " + tem_str)
 
             if (tem_str.length > 0)
             {
                 result += _analizeCentena(tem_str);
             }
-
+            alert("_analizeCentena despues  " + tem_str)
             return result;
 
         }
 	let integer_part = parseInt(value)
 	let decimal_part = parseInt((value - parseFloat(integer_part)) * 100);
 	
-	alert("value " + value + " decimal_part " + decimal_part);
+	//alert("value " + integer_part + " decimal_part " + decimal_part);
 
 	var __temp = parseFloat(integer_part) + parseFloat(decimal_part) * 0.01;
     //alert(__temp)
@@ -170,7 +194,7 @@ const convertToWords = (value) => {
 	}
 	else
 	{
-		return str_int + " PESOS";
+		return "Son " +  str_int + " PESOS...";
 	}
 
 

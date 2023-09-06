@@ -42,6 +42,10 @@ const GastoForm = (props) => {
                 alert("Caja Cerrada")
                 return;
             }
+            if(!confirm("Confirmar gasto"))
+            {
+                return;
+            }
             const data = {
                 ...gasto,
                 caja_idcaja: result.idcaja,

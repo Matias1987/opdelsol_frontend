@@ -117,31 +117,32 @@ export default function ClienteFormV2(props){
 
 <Row>
     <Col style={{padding:".5em"}} span={24}>
-        <Input style={{backgroundColor:"lightblue"}} prefix={"Nombres:"} value={clienteData.nombres} onChange={(e)=>{setClienteData(v=>({...v,nombres:e.target.value}))}} />
+        <Input style={{backgroundColor:"lightblue"}} prefix={"Nombres:"} value={clienteData.nombres} onChange={(e)=>{setClienteData(v=>({...v,nombres:e.target.value.toUpperCase()}))}} />
     </Col>
 </Row>
 
 <Row>
     <Col style={{padding:".5em"}} span={24}>
-        <Input style={{backgroundColor:"lightblue"}} prefix={"Apellidos:"} value={clienteData.apellidos} onChange={(e)=>{setClienteData(v=>({...v,apellidos:e.target.value}))}} />
+        <Input style={{backgroundColor:"lightblue"}} prefix={"Apellidos:"} value={clienteData.apellidos} onChange={(e)=>{setClienteData(v=>({...v,apellidos:e.target.value.toUpperCase()}))}} />
     </Col>
 </Row>
 
 <Row>
     <Col style={{padding:".5em"}} span={24}>
+        Fecha de Nacimiento:&nbsp;&nbsp;
         <DatePicker value={clienteData.nacimiento} onChange={onChangeDate} format={'DD/MM/YYYY'}/>
     </Col>
 </Row>
 
 <Row>
     <Col style={{padding:".5em"}} span={24}>
-        <Input style={{backgroundColor:"lightblue"}} prefix={"Domicilio:"} onChange={(e)=>{setClienteData(d=>({...d,domicilio:e.target.value}))}} value={clienteData.domicilio} />
+        <Input style={{backgroundColor:"lightblue"}} prefix={"Domicilio:"} onChange={(e)=>{setClienteData(d=>({...d,domicilio:e.target.value}))}} value={clienteData.domicilio.toUpperCase()} />
     </Col>
 </Row>
 
 <Row>
     <Col style={{padding:".5em"}} span={24}>
-        <Input style={{backgroundColor:"lightblue"}} prefix={"Teléfono:"} onChange={(e)=>{setClienteData(d=>({...d,telefono:e.target.value}))}} value={clienteData.telefono} />
+        <Input style={{backgroundColor:"lightblue"}} prefix={"Teléfono:"} onChange={(e)=>{setClienteData(d=>({...d,telefono:e.target.value}))}} value={clienteData.telefono.toUpperCase()} />
     </Col>
 </Row>
 

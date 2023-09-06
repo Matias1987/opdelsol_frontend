@@ -1,3 +1,5 @@
+import DetallesVendedor from "@/components/DetallesVendedor"
+import SucursalLabel from "@/components/sucursal_label"
 import globals from "@/src/globals"
 import { get } from "@/src/urls"
 import { Spin } from "antd"
@@ -104,23 +106,23 @@ export default function InformeX(props){
         <tbody>
             <tr>
                 <td>Efectivo:</td>
-                <td>{modoPago.efectivo_monto}</td>
+                <td style={{textAlign:"right"}}>$&nbsp;{modoPago.efectivo_monto}</td>
             </tr>
             <tr>
                 <td>Cheque:</td>
-                <td>{modoPago.cheque_monto}</td>
+                <td style={{textAlign:"right"}}>$&nbsp;{modoPago.cheque_monto}</td>
             </tr>
             <tr>
                 <td>Tarjeta:</td>
-                <td>{modoPago.tarjeta_monto}</td>
+                <td style={{textAlign:"right"}}>$&nbsp;{modoPago.tarjeta_monto}</td>
             </tr>
             <tr>
                 <td>Mutual:</td>
-                <td>{modoPago.mutual_monto}</td>
+                <td style={{textAlign:"right"}}>$&nbsp;{modoPago.mutual_monto}</td>
             </tr>
             <tr>
                 <td>TOTAL:</td>
-                <td>{dataPago.monto}</td>
+                <td style={{textAlign:"right"}}>$&nbsp;{dataPago.monto}</td>
             </tr>
         </tbody>
     </table>
@@ -158,7 +160,7 @@ export default function InformeX(props){
                                     <tr>
                                         <td style={{width: '33%'}}>
                                             <p>
-                                                {data_sucursal()}<br />
+                                                Sucursal: <SucursalLabel idsucursal={globals.obtenerSucursal()} /><br />
                                                 {data_cliente()}
                                             </p>
                                         </td>
@@ -209,7 +211,7 @@ export default function InformeX(props){
                     </tr>
                     <tr>
                         <td>
-                            <p>Operador: {dataPago.usuario_idusuario} &nbsp;Caja: {dataPago.caja_idcaja} Turno {"dataPago.turno"}</p>
+                            <p>Operador: <DetallesVendedor idusuario={dataPago.usuario_idusuario} /> &nbsp;Caja: {dataPago.caja_idcaja} Turno {"M"}</p>
                             <br />
                             <p>Firma Cajero o Responsable: _______________________________</p>
                         </td>

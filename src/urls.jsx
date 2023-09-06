@@ -50,6 +50,7 @@ const public_urls = {
     arbol_codigos: local_base_url + "deposito/arbol_codigos",
 
     editar_precios: local_base_url + "deposito/stock/editar_precios",
+    
 
 }
 
@@ -214,6 +215,8 @@ const get = {
 
     transferencias_enviadas: remote_base_url + "transferencias/enviadas/",//idsucursal
     transferencias_recibidas: remote_base_url + "transferencias/recibidas/",//idsucursal
+
+    detalle_usuario: remote_base_url + "usuarios/",//:idusuario
 
 }
 

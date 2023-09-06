@@ -16,7 +16,7 @@ export default function panelCajaAdmin(){
     const [reload, setReload] = useState(false)
     const [listOpen, setListOpen] = useState(false)
     useEffect(()=>{
-        alert(convertToWords("15000"))
+        alert(convertToWords("1500"))
         globals.obtenerCajaAsync((result)=>{
             setLoading(false)
             if(result!=null){
