@@ -47,7 +47,7 @@ export default function ClienteForm(props){
         if(!validateStr(values.nacimiento, "Fecha de Nacimiento Vacío")){return}
         
 
-        alert(JSON.stringify(values))
+        //alert(JSON.stringify(values))
         post_method(post.obtener_cliente_dni,{"dni":values.dni},(res)=>{
             if(res.data.length>0){
                 alert("El cliente ya existe")
@@ -74,7 +74,7 @@ export default function ClienteForm(props){
         const _match = /([0-9]+)@([A-Z\s]+)@([A-Z\s]+)@[A-Z]@([0-9]+)@([A-Z])@([0-9\/]+)@([0-9\/]+)@([0-9]+)/g.exec(e.target.value)
         
         if(_match!=null){
-            alert("match")
+            //alert("match")
             /*alert("Match!: " + JSON.stringify(
                 
             ))*/

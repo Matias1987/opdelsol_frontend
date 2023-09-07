@@ -101,11 +101,11 @@ const CodesTree = () => {
   const [treeData, setTreeData] = useState();
 
   useEffect(()=>{
-    alert(get.stock_full)
+    //alert(get.stock_full)
     fetch(get.stock_full)
     .then(response=>response.json())
     .then((response)=>{
-      alert(JSON.stringify(response.data))
+      //alert(JSON.stringify(response.data))
       process_tree(response.data)
     })
     .catch(err=>{console.log(err)})
@@ -146,7 +146,7 @@ const CodesTree = () => {
     })
     
     //console.log(JSON.stringify(data));
-    alert(JSON.stringify(tree))
+    //alert(JSON.stringify(tree))
     setTreeData(tree)
   }
   

@@ -62,7 +62,7 @@ export default function LayoutCaja({children}){
                 <MenuCajaTop />
   
             <Content style={{ margin: '40px 100px', padding: 24, background: '#fff', overflowY:'scroll' }}>
-                <Alerts />
+                {/*<Alerts />*/}
                 {children}
             </Content>
         </Layout>

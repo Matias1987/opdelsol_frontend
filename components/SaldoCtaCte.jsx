@@ -10,11 +10,11 @@ const SaldoCtaCte = (props) =>
         return
     }
     useEffect(()=>{
-        alert(get.saldo_ctacte + props.idcliente)
+        //alert(get.saldo_ctacte + props.idcliente)
         fetch(get.saldo_ctacte + props.idcliente)
         .then(response=>response.json())
         .then((response)=>{
-            alert(JSON.stringify(response))
+            //alert(JSON.stringify(response))
             const _debe = response.data.debe == null ? 0 : response.data.debe;
             const _haber = response.data.haber == null ? 0 : response.data.haber;
             setBalance({

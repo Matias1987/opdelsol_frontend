@@ -27,6 +27,10 @@ const CargaManual = (props) => {
             alert("Caja Cerrada")
             return
         }
+        if(!confirm("Confirmar"))
+        {
+            return;
+        }
         const data = {
             ...cargaManual,
             caja_idcaja: c.idcaja,

@@ -3,3 +3,6 @@ completar campos recibo x--
 TERMINAR CAJA
 VERIFICAR FUNCIONAMIENTO VTAS ANULADAS---ok
 agregar balance cta cte al momento de cobro en recibo x
+filtros lista cobros
+formateo de numeros
+medico amarilla

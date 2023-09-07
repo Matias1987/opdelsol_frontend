@@ -192,7 +192,7 @@ const submit_venta = (v, productos,total,subTotal, tipo_vta, validate_items, cal
         {
             
             post_method(post.insert.venta,__venta,(response)=>{
-                alert("OK " + JSON.stringify(response))
+                //alert("OK " + JSON.stringify(response))
                 //THIS SHOULD NOT BE HERE! but it is
                 post_method(post.update.desc_cantidades_stock_venta,{idventa: response.data},()=>{
                     console.log("Cantidades descontadas? ...")

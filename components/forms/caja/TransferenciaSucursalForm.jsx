@@ -29,10 +29,10 @@ const TransferenciaSucursalForm = (props) => {
 
             transferencia.fkcaja=data.idcaja
 
-            alert(JSON.stringify(transferencia))
+            //alert(JSON.stringify(transferencia))
         
             post_method(post.insert.transferencia, transferencia,(response)=>{
-                alert(JSON.stringify(response))
+                //alert(JSON.stringify(response))
                 setOpen(false)
                 props?.callback?.()
             })

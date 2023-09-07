@@ -69,7 +69,7 @@ export default function InformeCaja(props){
         </Row>
         <Row>
             <Col  span={24}>
-                Caja: N1 Fecha: <b>{dataCaja.fecha}</b> &nbsp;&nbsp;&nbsp;Turno: M Estado: <b>{dataCaja.estado}</b> &nbsp;&nbsp;&nbsp;Inicio de Caja: <b>{dataCaja.monto_inicial}</b>
+                Caja: N1 Fecha: <b>{dataCaja.fecha_f}</b> &nbsp;&nbsp;&nbsp;Turno: M Estado: <b>{dataCaja.estado}</b> &nbsp;&nbsp;&nbsp;Inicio de Caja: <b>{dataCaja.monto_inicial}</b>
             </Col>
         </Row>
         </>
@@ -119,12 +119,12 @@ export default function InformeCaja(props){
                             <Table.Summary.Cell colSpan={4}>
                                 TOTALES DE CAJA:
                             </Table.Summary.Cell>
-                            <Table.Summary.Cell align={'right'}>{totalVentas}</Table.Summary.Cell>
-                            <Table.Summary.Cell align={'right'}>{totalCuotas}</Table.Summary.Cell>
-                            <Table.Summary.Cell align={'right'}>{totalCheques}</Table.Summary.Cell>
-                            <Table.Summary.Cell align={'right'}>{totalTarjetas}</Table.Summary.Cell>
-                            <Table.Summary.Cell align={'right'}>{totalMutual}</Table.Summary.Cell>
-                            <Table.Summary.Cell align={'right'}>{totalCtaCte}</Table.Summary.Cell>
+                            <Table.Summary.Cell align={'right'}><b>{totalVentas}</b></Table.Summary.Cell>
+                            <Table.Summary.Cell align={'right'}><b>{totalCuotas}</b></Table.Summary.Cell>
+                            <Table.Summary.Cell align={'right'}><b>{totalCheques}</b></Table.Summary.Cell>
+                            <Table.Summary.Cell align={'right'}><b>{totalTarjetas}</b></Table.Summary.Cell>
+                            <Table.Summary.Cell align={'right'}><b>{totalMutual}</b></Table.Summary.Cell>
+                            <Table.Summary.Cell align={'right'}><b>{totalCtaCte}</b></Table.Summary.Cell>
                         </Table.Summary.Row>
                     </>
                 }}

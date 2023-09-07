@@ -96,6 +96,7 @@ const post = {
         gasto: remote_base_url + "gastos/",
         caja: remote_base_url + "caja/",
         transferencia: remote_base_url + "transferencias/",
+        destinatario: remote_base_url + "cliente/destinatario/",
         
     },
     update:{

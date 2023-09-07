@@ -21,7 +21,7 @@ export default function ListaCaja(){
     
     const columns = [
         {dataIndex:'idcaja', title: 'ID'},
-        {dataIndex:'fecha', title: 'Fecha'},
+        {dataIndex:'fecha_f', title: 'Fecha'},
         {dataIndex:'monto_inicial', title: 'Monto'},
         {dataIndex:'estado', title: 'Estado'},
         {dataIndex: 'idcaja', title: 'Acciones', render: (_,{idcaja})=>{

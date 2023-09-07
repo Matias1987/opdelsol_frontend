@@ -10,6 +10,7 @@ export default function FichaCliente(props){
     const [dataCliente, setDataCliente] = useState(null)
     const [dataChange, setDataChange] = useState(true)
     const [scrollChange, setScrollChange] = useState(false)
+    const [saldo, setSaldo] = useState(0)
     const dummyref = useRef(null)
     
 
@@ -72,6 +73,7 @@ export default function FichaCliente(props){
                             total_debe+=parseFloat(r.debe);
                             total_haber+=parseFloat(r.haber);
                         })
+                        setSaldo(total_debe-total_haber)
                         return<>
                         <Table.Summary.Row>
                             <Table.Summary.Cell colSpan={3}>
@@ -98,7 +100,7 @@ export default function FichaCliente(props){
     </Row>
     <Row>
         <Col span={24}>
-            <Input prefix={"Saldo"} readOnly={true} />
+            <Input prefix={"Saldo: $ "} style={{backgroundColor:"lightblue"}} readOnly={true} value={saldo}/>
         </Col>
     </Row>
     <Row>

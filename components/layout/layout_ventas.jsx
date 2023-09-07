@@ -59,7 +59,7 @@ export default function LayoutVentas({children}){
             <HeaderSol tipoCuenta="VENTAS" />
             <MenuVentasTop />
             <Content style={{ margin: '40px 100px', padding: 24, background: '#fff', minHeight: 580 }}>
-            <Alerts />
+            {/*<Alerts />*/}
                 {children}
             </Content>
         </Layout>
