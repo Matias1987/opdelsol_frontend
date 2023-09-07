@@ -5,7 +5,6 @@ import ListaCaja from "@/components/forms/caja/ListaCajas";
 import InformeCaja from "@/components/informes/caja/InformeCaja";
 import LayoutCaja from "@/components/layout/layout_caja";
 import globals from "@/src/globals";
-import { convertToWords } from "@/src/helpers/string_helper";
 import { get } from "@/src/urls";
 import { Button, Modal, Spin, Tag } from "antd";
 import { useEffect, useState } from "react";
@@ -16,7 +15,7 @@ export default function panelCajaAdmin(){
     const [reload, setReload] = useState(false)
     const [listOpen, setListOpen] = useState(false)
     useEffect(()=>{
-        alert(convertToWords("1500"))
+        
         globals.obtenerCajaAsync((result)=>{
             setLoading(false)
             if(result!=null){

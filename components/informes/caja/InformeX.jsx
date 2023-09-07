@@ -1,6 +1,7 @@
 import DetallesVendedor from "@/components/DetallesVendedor"
 import SucursalLabel from "@/components/sucursal_label"
 import globals from "@/src/globals"
+import { convertToWords } from "@/src/helpers/string_helper"
 import { get } from "@/src/urls"
 import { Spin } from "antd"
 import { useEffect, useState } from "react"
@@ -195,7 +196,7 @@ export default function InformeX(props){
                                 <tbody>
                                     <tr>
                                         <td>
-                                            <p>Recibi la suma de: <b>{"MONTO TEXTO"}</b><br />
+                                            <p>Recibi la suma de: <b>{convertToWords(dataPago.monto)}</b><br />
                                             En concepto de: {dataPago.concepto}<br />
                                             {"SALDO CTA CTE"}</p>
                                             <hr />
