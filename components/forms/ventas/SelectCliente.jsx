@@ -116,8 +116,8 @@ const SelectCliente = (props) =>{
         <CustomModal openButtonText={typeof props.destinatario !== 'undefined' ? 'Seleccionar Destinatario' : "Seleccione Cliente" } title="" >
         {typeof props.destinatario !== 'undefined' ? 'Buscar Destinatario' : "Buscar Cliente" }
             <Input.Search onSearch={onSearch} />
-            <CustomModal openButtonText="+ Agregar" title="Agregar" >
-                <ClienteFormV2 callback={(id)=>{
+            <CustomModal openButtonText="+ Agregar" title={"Agregar" + (props.destinatario? " Destinatario" : "Responsable")} >
+                <ClienteFormV2 destinatario={props.destinatario} callback={(id)=>{
                     //alert(id); 
                     upload_cliente_details(id) 
                     }}/>

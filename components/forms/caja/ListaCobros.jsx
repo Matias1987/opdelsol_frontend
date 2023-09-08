@@ -44,6 +44,7 @@ const ListaCobros = (props) => {
         params = add(params, filtros.idcliente, 'idcliente')
         params = add(params, filtros.iddestinatario, 'iddestinatario')
         params = add(params, props?.idventa, 'idventa')
+        params = add(params, props?.idsucursal, 'idsucursal')
 
         //alert(JSON.stringify(params))
 

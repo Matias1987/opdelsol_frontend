@@ -1,9 +1,13 @@
 import { get } from "@/src/urls"
-import { Col, Input, Row, Spin, Table } from "antd"
+import { Button, Col, Input, Row, Spin, Table } from "antd"
 import { useEffect, useRef, useState } from "react"
 import CustomModal from "./CustomModal"
 import CobroOperacion from "./forms/caja/CobroForm"
 import CargaManual from "./forms/caja/CargaManual"
+import { InfoCircleFilled, InfoCircleOutlined } from "@ant-design/icons"
+import PrinterWrapper from "./PrinterWrapper"
+import InformeX from "./informes/caja/InformeX"
+import VentaDetallePopup from "./VentaDetalle"
 
 export default function FichaCliente(props){
     const [operaciones, setOperaciones] = useState([])
@@ -18,7 +22,38 @@ export default function FichaCliente(props){
         {dataIndex: 'id',  title: 'Nro.'},
         {dataIndex: 'fecha_f',  title: 'Fecha'},
         //{dataIndex: 'tipo',  title: 'Tipo'},
-        {dataIndex: 'detalle',  title: 'Detalle'},
+        {dataIndex: 'detalle',  title: 'Detalle', render:(_,{detalle,id,tipo})=>{
+            {switch(tipo){
+                    case 'VENTA': return <>{detalle}<VentaDetallePopup idventa={id} /></>; break;
+                    case 'PAGO CUOTA': 
+                    return <>
+                        {detalle}
+                        <CustomModal openButtonText="Imprimir">
+                            <PrinterWrapper>
+                                <InformeX idcobro={id} />
+                            </PrinterWrapper>
+                        </CustomModal>
+                    </>
+                    break;
+                    case 'ENTREGA': 
+                    return <>
+                        {detalle}
+                        <CustomModal openButtonText="Imprimir">
+                            <PrinterWrapper>
+                                <InformeX idcobro={id} />
+                            </PrinterWrapper>
+                        </CustomModal>
+                    </>
+                    break;
+                    case 'CARGA MANUAL':
+                        return <>
+                        {detalle}
+                        </>
+                    default: return {detalle}
+                }
+            }
+          
+        }},
         {dataIndex: 'debe',  title: 'Debe', align: 'right'},
         {dataIndex: 'haber',  title: 'Haber', align: 'right'},
         { title: 'Saldo', align: 'right'},

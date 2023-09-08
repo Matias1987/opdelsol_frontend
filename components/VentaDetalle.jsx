@@ -7,7 +7,7 @@ import InformeVentaMin from "./informes/ventas/InformeVentasMin";
 const VentaDetallePopup = (props)=> {
     const [open, setOpen] = useState(false)
     return <>
-        <Button onClick={()=>{setOpen(true)}}>
+        <Button type="ghost" onClick={()=>{setOpen(true)}}>
             <InfoCircleFilled />
         </Button>
         <Modal

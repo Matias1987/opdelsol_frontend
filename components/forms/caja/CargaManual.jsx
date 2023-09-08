@@ -105,7 +105,7 @@ const CargaManual = (props) => {
                         <Input  onClick={(e)=>{e.target.select()}}  onChange={(e)=>{onChange(e.target.value, "monto")}}/>
                     </Form.Item>
                     <Form.Item label={"Motivo"}>
-                        <Input  onClick={(e)=>{e.target.select()}}  onChange={(e)=>{onChange(e.target.value, "concepto")}}/>
+                        <Input  onClick={(e)=>{e.target.select()}}  onChange={(e)=>{onChange(e.target.value.toUpperCase(), "concepto")}}/>
                     </Form.Item>
                     <Form.Item>
                         <Button  block type="primary" htmlType="submit">Guardar</Button>

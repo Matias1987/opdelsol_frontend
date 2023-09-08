@@ -161,7 +161,7 @@ export default function InformeX(props){
                                     <tr>
                                         <td style={{width: '33%'}}>
                                             <p>
-                                                Sucursal: <SucursalLabel idsucursal={globals.obtenerSucursal()} /><br />
+                                                Sucursal: <SucursalLabel idsucursal={dataPago.sucursal_idsucursal} /><br />
                                                 {data_cliente()}
                                             </p>
                                         </td>

@@ -1,8 +1,9 @@
+import globals from "@/src/globals";
 import { post_method } from "@/src/helpers/post_helper";
 import { post } from "@/src/urls";
 import { Button, Col, DatePicker, Form, Input, Row } from "antd";
 import dayjs from "dayjs";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 
 export default function ClienteFormV2(props){
@@ -20,6 +21,12 @@ export default function ClienteFormV2(props){
     })
 
     const url = post.insert.cliente;
+
+    useEffect(()=>{
+        if(typeof props.destinatario !== 'undefined' && props.destinatario){
+            setClienteData(cd=>({...cd,dni:("_d_" + globals.obtenerSucursal() + "_" + Date.now())}))
+        }
+    },[])
 
     const onFinish = () => {
         
@@ -111,19 +118,28 @@ export default function ClienteFormV2(props){
 
 <Row>
     <Col style={{padding:".5em"}} span={24}>
-        <Input style={{backgroundColor:"lightblue"}} prefix={"D.N.I.:"} value={clienteData.dni} onChange={(e)=>{setClienteData(v=>({...v,dni:e.target.value}))}} />
+        <Input  
+        maxLength={10} 
+        style={{backgroundColor:"lightblue", appearance:"textfield"}} 
+        prefix={
+        props.destinatario?<del>D.N.I.:</del>:<b>D.N.I.:</b>
+        } 
+        value={clienteData.dni} 
+        onChange={(e)=>{setClienteData(v=>({...v,dni:e.target.value}))}} 
+        readOnly={props.destinatario}
+        />
     </Col>
 </Row>
 
 <Row>
     <Col style={{padding:".5em"}} span={24}>
-        <Input style={{backgroundColor:"lightblue"}} prefix={"Nombres:"} value={clienteData.nombres} onChange={(e)=>{setClienteData(v=>({...v,nombres:e.target.value.toUpperCase()}))}} />
+        <Input style={{backgroundColor:"lightblue"}} maxLength={45} prefix={"Nombres:"} value={clienteData.nombres} onChange={(e)=>{setClienteData(v=>({...v,nombres:e.target.value.toUpperCase()}))}} />
     </Col>
 </Row>
 
 <Row>
     <Col style={{padding:".5em"}} span={24}>
-        <Input style={{backgroundColor:"lightblue"}} prefix={"Apellidos:"} value={clienteData.apellidos} onChange={(e)=>{setClienteData(v=>({...v,apellidos:e.target.value.toUpperCase()}))}} />
+        <Input style={{backgroundColor:"lightblue"}} maxLength={45} prefix={"Apellidos:"} value={clienteData.apellidos} onChange={(e)=>{setClienteData(v=>({...v,apellidos:e.target.value.toUpperCase()}))}} />
     </Col>
 </Row>
 
@@ -136,13 +152,13 @@ export default function ClienteFormV2(props){
 
 <Row>
     <Col style={{padding:".5em"}} span={24}>
-        <Input style={{backgroundColor:"lightblue"}} prefix={"Domicilio:"} onChange={(e)=>{setClienteData(d=>({...d,domicilio:e.target.value}))}} value={clienteData.domicilio.toUpperCase()} />
+        <Input style={{backgroundColor:"lightblue"}} maxLength={45} prefix={"Domicilio:"} onChange={(e)=>{setClienteData(d=>({...d,domicilio:e.target.value}))}} value={clienteData.domicilio.toUpperCase()} />
     </Col>
 </Row>
 
 <Row>
     <Col style={{padding:".5em"}} span={24}>
-        <Input style={{backgroundColor:"lightblue"}} prefix={"Teléfono:"} onChange={(e)=>{setClienteData(d=>({...d,telefono:e.target.value}))}} value={clienteData.telefono.toUpperCase()} />
+        <Input style={{backgroundColor:"lightblue"}} maxLength={20} prefix={"Teléfono:"} onChange={(e)=>{setClienteData(d=>({...d,telefono:e.target.value}))}} value={clienteData.telefono.toUpperCase()} />
     </Col>
 </Row>
 
