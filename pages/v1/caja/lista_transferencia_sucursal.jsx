@@ -15,7 +15,7 @@ export default function ListaTransferenciaSucursal(){
     useEffect(()=>{
         //alert(get.transferencias_enviadas + globals.obtenerSucursal())
         //alert(get.transferencias_recibidas + globals.obtenerSucursal())
-        fetch(get.transferencias_enviadas + globals.obtenerSucursal())
+        fetch(get.transferencias_enviadas + globals.obtenerSucursal() + "/-1")
         .then(response=>response.json())
         .then((response)=>{
             setDataTransfEnviadas(response.data.map(r=>({
@@ -27,7 +27,7 @@ export default function ListaTransferenciaSucursal(){
             })))
         })
 
-        fetch(get.transferencias_recibidas + globals.obtenerSucursal())
+        fetch(get.transferencias_recibidas + globals.obtenerSucursal() + "/-1")
         .then(response=>response.json())
         .then((response)=>{
             setDataTransfRecibidas(response.data.map(r=>({

@@ -25,6 +25,12 @@ export default function InformeX(props){
         mutual_monto: 0,
         mutual_mutual: 0,
         total: 0,
+        banco: "",
+        tarjeta_nro: "",
+        tarjeta_cupon: "",
+        cheque_nro: "",
+        cheque_fecha: "",
+
     })
 
     useEffect(()=>{
@@ -45,6 +51,10 @@ export default function InformeX(props){
                 mutual_monto: 0,
                 mutual_mutual: 0,
                 total: 0,
+                tarjeta_nro: "",
+                tarjeta_cupon: "",
+                cheque_nro: "",
+                cheque_fecha: "",
             }
             response.data.forEach(r=>{
                 switch(r.modo_pago){
@@ -145,8 +155,8 @@ export default function InformeX(props){
 
     const html_cheque_tarjeta = () => {
         return modoPago == null ? <Spin /> : <>
-            {modoPago.cheque_monto == 0 ? <></>: <p>Cheque: {"@nro_cheque@"} Banco: {"@cheque_banco@"} &nbsp;Fecha: {"cheque_fecha"}</p>}
-            {modoPago.tarjeta_monto == 0 ? <></> : <p>Tarjeta: {modoPago.tarjeta_tarjeta} Numero: {"@tarjeta_nro@"} Cupon: {"@tarjeta_cupon@"}</p>}
+            {modoPago.cheque_monto == 0 ? <></>: <p>Cheque: {modoPago.cheque_nro} Banco: {modoPago.banco_banco} &nbsp;Fecha: {modoPago.cheque_fecha}</p>}
+            {modoPago.tarjeta_monto == 0 ? <></> : <p>Tarjeta: {modoPago.tarjeta_tarjeta} Numero: {modoPago.tarjeta_nro} Cupon: {modoPago.tarjeta_cupon}</p>}
         </>
     }
 

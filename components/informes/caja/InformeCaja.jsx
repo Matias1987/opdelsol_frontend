@@ -1,3 +1,4 @@
+import globals from "@/src/globals"
 import { get } from "@/src/urls"
 import { Col, Row, Table } from "antd"
 import { useEffect, useState } from "react"
@@ -7,6 +8,8 @@ export default function InformeCaja(props){
     const[dataTransferencias, setDataTransferencias] = useState(null)
     const[dataGastos, setDataGastos] = useState(null)
     const[dataSucursal, setDataSucursal] = useState(null)
+    const [dataTransfEnviadas, setDataTransfEnviadas] = useState([])
+    const [dataTransfRecibidas, setDataTransfRecibidas] = useState([])
     const[dataCaja, setDataCaja] = useState(null)
     const[fecha, setFecha] = useState("")
     const[hora, setHora] = useState("")
@@ -48,6 +51,32 @@ export default function InformeCaja(props){
         .then((response)=>{
             setDataGastos(response.data)
         })
+
+        //lista de transferencias
+        fetch(get.transferencias_enviadas + globals.obtenerSucursal() + "/" + props.idcaja)
+        .then(response=>response.json())
+        .then((response)=>{
+            setDataTransfEnviadas(response.data.map(r=>({
+                idtransferencia: r.idtransferencia,
+                fecha: r.fecha,
+                destino: r.sucursal_destino,
+                monto: r.monto,
+                comentarios: r.comentarios,
+            })))
+        })
+
+        fetch(get.transferencias_recibidas + globals.obtenerSucursal() + "/" + props.idcaja)
+        .then(response=>response.json())
+        .then((response)=>{
+            setDataTransfRecibidas(response.data.map(r=>({
+                idtransferencia: r.idtransferencia,
+                fecha: r.fecha,
+                origen: r.sucursal_origen,
+                monto: r.monto,
+                comentarios: r.comentarios,
+            })))
+        })
+
     },[])
 
     const data_sucursal = _ => dataSucursal == null ? <></> : <> 
@@ -138,16 +167,70 @@ export default function InformeCaja(props){
                     {title:"Detalle", dataIndex:"concepto_gasto"},
                     {title:"Importe", dataIndex:"monto"},
                 ]}
+                summary={data=>{
+                    var total = 0;
+                    data.forEach(r=>{
+                        total+=parseFloat(r.monto)
+                    })
+                    return <Table.Summary.Row>
+                                <Table.Summary.Cell colSpan={2}>
+                                    TOTAL:
+                                </Table.Summary.Cell>
+                                <Table.Summary.Cell>
+                                    <b>{total}</b>
+                                </Table.Summary.Cell>
+                            </Table.Summary.Row>
+
+                }}
                 />
                 <h4>Monto Transferido</h4>
                 <Table 
                 pagination={false}
-                dataSource={dataTransferencias}
+                dataSource={dataTransfEnviadas}
                 columns={[
-                    {title:"Caja Destino", dataIndex:"cajadest"},
+                    {title:"Sucursal Destino", dataIndex:"destino"},
                     {title:"Monto", dataIndex:"monto"},
-                    {title:"Detalle", dataIndex:"detalle"},
                 ]}
+
+                summary={data=>{
+                    var total = 0;
+                    data.forEach(r=>{
+                        total+=parseFloat(r.monto)
+                    })
+                    return <Table.Summary.Row>
+                                <Table.Summary.Cell>
+                                    TOTAL:
+                                </Table.Summary.Cell>
+                                <Table.Summary.Cell>
+                                    <b>{total}</b>
+                                </Table.Summary.Cell>
+                            </Table.Summary.Row>
+                }}
+                />
+                <h4>Monto Recibido</h4>
+                <Table 
+                pagination={false}
+                dataSource={dataTransfRecibidas}
+                columns={[
+                    {title:"Sucursal Origen", dataIndex:"origen"},
+                    {title:"Monto", dataIndex:"monto"},
+                ]}
+
+                summary={data=>{
+                    var total = 0;
+                    data.forEach(r=>{
+                        total+=parseFloat(r.monto)
+                    })
+
+                    return <Table.Summary.Row>
+                                <Table.Summary.Cell>
+                                    TOTAL:
+                                </Table.Summary.Cell>
+                                <Table.Summary.Cell>
+                                    <b>{total}</b>
+                                </Table.Summary.Cell>
+                            </Table.Summary.Row>
+                }}
                 />
             </Col>
         </Row>
