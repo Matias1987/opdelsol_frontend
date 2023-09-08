@@ -99,9 +99,16 @@ const SelectCliente = (props) =>{
         loadingDetalles ? <Spin /> :
         <>
         {typeof props.destinatario === 'undefined'? "Cliente" : "Destinatario"}: <>
-            <b>{clienteData.nombre} </b> &nbsp;&nbsp; DNI: <b>{clienteData.dni}</b>&nbsp;
-            Tel&eacute;fono: {clienteData.telefono1}&nbsp;
-            Direcci&oacute;n: {clienteData.direccion}&nbsp;
+            <b>{clienteData.nombre} </b> 
+        {   typeof props.destinatario === 'undefined' ? 
+            <>
+                &nbsp;&nbsp;  DNI: <b>{clienteData.dni}</b>&nbsp;
+                Tel&eacute;fono: {clienteData.telefono1}&nbsp;
+                Direcci&oacute;n: {clienteData.direccion}&nbsp;
+            </>
+            :
+            <></>
+        }
         </>
         <Button danger onClick={()=>{
             props?.callback?.(null)

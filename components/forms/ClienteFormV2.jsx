@@ -18,13 +18,15 @@ export default function ClienteFormV2(props){
         nacimiento: null,
         domicilio: "",
         telefono: "",
+        destinatario: '0',
     })
 
     const url = post.insert.cliente;
 
     useEffect(()=>{
         if(typeof props.destinatario !== 'undefined' && props.destinatario){
-            setClienteData(cd=>({...cd,dni:("_d_" + globals.obtenerSucursal() + "_" + Date.now())}))
+            setClienteData(cd=>({...cd,dni:("_d_" + globals.obtenerSucursal() + "_" + Date.now()), destinatario:'1'}))
+            
         }
     },[])
 
@@ -65,6 +67,7 @@ export default function ClienteFormV2(props){
                 alert("El cliente ya existe")
             }
             else{
+                alert(JSON.stringify(clienteData))
                 post_method(url,clienteData,(res)=>{
                     alert("Agregado")
                     if(typeof props.callback !== 'undefined'){
@@ -73,7 +76,6 @@ export default function ClienteFormV2(props){
                 })
             }
         })
-        
     }
 
     
