@@ -1,7 +1,7 @@
 import CustomModal from "@/components/CustomModal";
 import { Button, Input, Spin, Table } from "antd";
 import { useEffect, useState } from "react";
-import { CheckCircleFilled, CloseOutlined, EditOutlined } from "@ant-design/icons";
+import { AlertOutlined, CheckCircleFilled, CloseOutlined, EditOutlined } from "@ant-design/icons";
 import ClienteForm from "../ClienteForm";
 import { get } from "@/src/urls";
 import ClienteFormV2 from "../ClienteFormV2";
@@ -27,6 +27,7 @@ const SelectCliente = (props) =>{
                     apellido: r.apellido,
                     nombre: r.nombre,
                     direccion: r.direccion,
+                    bloqueado: r.bloqueado,
                 }
             )))
         })
@@ -67,6 +68,7 @@ const SelectCliente = (props) =>{
         fetch(get.lista_clientes)
         .then(response=>response.json())
         .then((response)=>{
+            //alert(JSON.stringify(response))
             setClientes(
                 response.data.map(r=>(
                     {
@@ -76,6 +78,7 @@ const SelectCliente = (props) =>{
                         nombre: r.nombre,
                         direccion: r.direccion,
                         telefono1: r.telefono1,
+                        bloqueado: r.bloqueado,
                     }
                 ))
             )
@@ -89,9 +92,9 @@ const SelectCliente = (props) =>{
         {dataIndex: 'nombre', title: 'Nombre', key: 'nombre'},
         {dataIndex: 'dni', title: 'DNI', key: 'dni'},
         {dataIndex: 'direccion', title: 'Direccion', key: 'direccion'},
-        {dataIndex: 'idcliente', title: '', key: 'acciones', render: (_,{idcliente})=>(
+        {dataIndex: 'idcliente', title: '', key: 'acciones', render: (_,{idcliente, bloqueado})=>(
             <>
-            <Button onClick={()=>{upload_cliente_details(idcliente)}}><CheckCircleFilled />Seleccionar</Button>
+                <Button disabled={bloqueado==1} onClick={()=>{upload_cliente_details(idcliente)}}>{bloqueado?<span style={{color:"red"}}><CloseOutlined />Bloqueado</span>:<><CheckCircleFilled />&nbsp;&nbsp;Seleccionar</>}</Button>
             </>
         )},
     ]

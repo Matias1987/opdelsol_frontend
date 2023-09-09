@@ -27,6 +27,7 @@ export default function ListaClientes(props){
                     apellido: r.apellido,
                     nombre: r.nombre,
                     direccion: r.direccion,
+                    bloqueado: r.bloqueado,
                 }
             )))
         })
@@ -46,6 +47,7 @@ export default function ListaClientes(props){
                         nombre: r.nombre,
                         direccion: r.direccion,
                         telefono1: r.telefono1,
+                        bloqueado: r.bloqueado,
                     }
                 ))
             )
