@@ -39,11 +39,20 @@ const globals =  {
         const {setItem} = useStorage();
         setItem("caja", 0);
     },
+    setUserLogedIn: () => {
+        const {setItem} = useStorage();
+        setItem("loged", 1);
+    },
 
     obtenerCajaLocal: () => {
         const {getItem} = useStorage();
         //alert(getItem("caja") ||0)
         return getItem("caja") || 0
+    },
+
+    userLogedIn: () => {
+        const {getItem} = useStorage();
+        return (getItem("loged")==1)||0
     },
 
     obtenerCajaAsync: (callback) => {

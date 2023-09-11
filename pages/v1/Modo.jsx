@@ -70,33 +70,46 @@ import { getItem } from "localforage";
           </Button>
         </>
         :<></>
+        
+        }
+        {
+        globals.userLogedIn() ? 
+        <>
+          <Button danger block size="small" style={{marginTop:"2em"}} onClick={()=>{
+            const _token = getItem("token",'session')
+      
+            fetch(get.logout + _token)
+            .then(response=>response.json())
+            .then((response)=>{
+                window.location.replace(public_urls.login);
+            })
+          }}>Salir</Button>
+        </>
+        :<></>
         }
         </>
     )
 
-    return (<Space
+    return (
+     
+
+    <Space
       direction="vertical"
       size="middle"
       style={{
         display: 'flex',
       }}
     >
-      <h4>Bienvenido</h4>
+      <h4></h4>
       <Card title="Seleccione Modo" size="small" style={{paddingLeft:"5em", paddingRight:"5em"}}>
         {
         buttons()
         }
-        <Button danger block size="small" style={{marginTop:"2em"}} onClick={()=>{
-          const _token = getItem("token",'session')
-    
-          fetch(get.logout + _token)
-          .then(response=>response.json())
-          .then((response)=>{
-              window.location.replace(public_urls.login);
-          })
-        }}>Salir</Button>
+        
       </Card>
-    </Space>)
+    </Space>
+
+    )
   }
 
   Modo.PageLayout = LayoutSingleLogedIn;  

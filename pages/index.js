@@ -1,8 +1,10 @@
+import LayoutSingle from "@/components/layout/layout_single";
+
 const { public_urls } = require("@/src/urls")
 const { useEffect } = require("react")
 
-const IndexMain = _ => {
-    useEffect(()=>{window.location.href = public_urls.dashboard_deposito},[])
+export default function IndexMain(){
+    useEffect(()=>{window.location.href = public_urls.modo},[])
 }
 
-export default IndexMain;
+IndexMain.PageLayout = LayoutSingle;
