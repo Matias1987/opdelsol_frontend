@@ -2,7 +2,7 @@ import { get } from "@/src/urls";
 import { useEffect, useState } from "react";
 
 const { CarryOutOutlined, FormOutlined } = require("@ant-design/icons");
-const { Tree } = require("antd");
+const { Tree, Row, Col, Table, Divider } = require("antd");
 
 
 /*
@@ -99,7 +99,8 @@ const treeData = [
 const CodesTree = () => {
 
   const [treeData, setTreeData] = useState();
-
+  const [dataSource, setDataSource] = useState([])
+  const [seleccion,  setSeleccion] = useState(null)
   useEffect(()=>{
     //alert(get.stock_full)
     fetch(get.stock_full)
@@ -120,27 +121,27 @@ const CodesTree = () => {
       let familia = tree.find(t=>t.idfamilia ===r.idfamilia)
       if(typeof familia === 'undefined')
       {
-        familia = {key: r.idfamilia,idfamilia: r.idfamilia, title: r.familia, children:[], icon:<CarryOutOutlined />}
+        familia = {key: r.idfamilia,idfamilia: r.idfamilia, id: r.idfamilia, type:'familia', title: r.familia, children:[], icon:<CarryOutOutlined />}
         tree.push(familia)
       }
       
       let subfamilia = familia.children.find(t=>t.idsubfamilia==r.idsubfamilia)
       if(typeof subfamilia === 'undefined')
       {
-        subfamilia = {key: `${r.idfamilia}-${r.idsubfamilia}`, idsubfamilia: r.idsubfamilia, title: r.subfamilia, children:[], icon:<CarryOutOutlined />}
+        subfamilia = {key: `${r.idfamilia}-${r.idsubfamilia}`, idsubfamilia: r.idsubfamilia, id: r.idsubfamilia, type:'subfamilia', title: r.subfamilia, children:[], icon:<CarryOutOutlined />}
         familia.children.push(subfamilia)
       }
       
       let grupo = subfamilia.children.find(t=>t.idgrupo == r.idgrupo)
       if(typeof grupo === 'undefined')
       {
-        grupo = {key: `${r.idfamilia}-${r.idsubfamilia}-${r.idgrupo}`, idgrupo: r.idgrupo, title: r.grupo, children: [], icon:<CarryOutOutlined />}
+        grupo = {key: `${r.idfamilia}-${r.idsubfamilia}-${r.idgrupo}`, idgrupo: r.idgrupo,id: r.idgrupo, type:'grupo', title: r.grupo, children: [], icon:<CarryOutOutlined />}
         subfamilia.children.push(grupo)
       }
       
       let subgrupo = grupo.children.find(t=>t.idsubgrupo == r.idsubgrupo)
       if(typeof subgrupo === 'undefined'){
-        subgrupo = {key: `${r.idfamilia}-${r.idsubfamilia}-${r.idgrupo}-${r.idsubgrupo}`, idsubgrupo: r.idsubgrupo, title: r.subgrupo, children: []}
+        subgrupo = {key: `${r.idfamilia}-${r.idsubfamilia}-${r.idgrupo}-${r.idsubgrupo}`, idsubgrupo: r.idsubgrupo,id: r.idsubgrupo, type:'subgrupo', title: r.subgrupo, children: []}
         grupo.children.push(subgrupo)
       }
     })
@@ -152,18 +153,45 @@ const CodesTree = () => {
   
   const onSelect = (selectedKeys, info) => {
     console.log('selected', selectedKeys, info);
+    setSeleccion({
+      tipo: info.node.type,
+      id:info.node.id,
+    })
+    if(info.node.type=='subgrupo')
+    {
+      //alert(get.lista_codigos_categoria + `${-1}/${-1}/${-1}/${info.node.idsubgrupo}/-1`)
+      fetch(get.lista_codigos_categoria + `${-1}/${-1}/${-1}/${info.node.idsubgrupo}/-1`)
+      .then(response=>response.json())
+      .then((response)=>{
+         setDataSource(
+          response.data.map(
+            r=>({
+              codigo: r.codigo,
+              descripcion: r.descripcion,
+              idcodigo: r.idcodigo,
+            })
+          )
+         )
+      })
+      ///alert(JSON.stringify(info))
+    }
+    
   };
   
   return (
-    <div>
-      <div
-        style={{
-          marginBottom: 16,
-        }}
-      >
-       
-        
-      </div>
+    <>
+    <Row>
+      <Col>
+      {
+        seleccion==null?<></>:<>
+          Tipo:&nbsp;<b>{seleccion.tipo}</b>&nbsp;&nbsp;&nbsp;ID:&nbsp;<b>{seleccion.id}</b> 
+          <Divider />
+        </>
+      }
+      </Col>
+    </Row>
+    <Row>
+      <Col span={12} style={{overflowY: "scroll", height: "600px"}}>
       <Tree
         showLine={true}
         showIcon={true}
@@ -171,7 +199,19 @@ const CodesTree = () => {
         onSelect={onSelect}
         treeData={treeData}
       />
-    </div>
+      </Col>
+      <Col span={12}>
+        <Table 
+        dataSource={dataSource}
+        columns={[
+          {dataIndex:'codigo', title:'Codigo'},
+          {dataIndex:'descripcion', title:'Descripción'},
+        
+        ]}
+        />
+      </Col>
+    </Row>
+    </>
   );
 };
 export default CodesTree;

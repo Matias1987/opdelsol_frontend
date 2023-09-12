@@ -72,6 +72,8 @@ export default function AgregarStockLote(props){
                 codigos.push({
                     codigo: `${res1[1]}${i.toFixed(2)}${res1[5]}`,
                     descripcion: `${values.p1}${i.toFixed(2)}${values.p2}`,
+                    esf: i.toFixed(2),
+                    cil: "",
                 })
             }
         }
@@ -91,6 +93,8 @@ export default function AgregarStockLote(props){
                         codigos.push({
                             codigo: `${res[1]}${i.toFixed(2)}${res[5]}${j.toFixed(2)}${res[9]}`,
                             descripcion: `${values.p1}${i.toFixed(2)}${values.p3}${j.toFixed(2)}${values.p2}`,
+                            esf:i.toFixed(2),
+                            cil:j.toFixed(2),
                         })
                     }	
                 }
@@ -106,6 +110,8 @@ export default function AgregarStockLote(props){
     const agregarRow = (values) => 
     {
         var codigos = procesar_codigos(values)
+
+        
 
         if(codigos == null){
             const found = tableData.find(r=>r.codigo == values.codigo)
@@ -153,9 +159,11 @@ export default function AgregarStockLote(props){
                     edad: values.edad,
                     precio: values.precio,// Math.round((multiplier * values.costo) / 100) * 100, 
                     modo_precio: values.modo_precio,
+                    esf: cod.esf,
+                    cil: cod.cil,
                 })
             })
-            
+           
             setTableData(td=>{
                 const _data = td.concat(__data)
                 return _data
@@ -271,6 +279,8 @@ export default function AgregarStockLote(props){
 
         setBtnDisabled(true);
 
+        //alert(JSON.stringify(tableData))
+
         tableData.forEach(r=>{
             values.push(
                 {
@@ -285,9 +295,16 @@ export default function AgregarStockLote(props){
                     edad: r.edad,
                     modo_precio: r.modo_precio,
                     precio: r.precio,
+                    esf: typeof r.esf === 'undefined' ? "" : r.esf,
+                    cil: typeof r.cil === 'undefined' ? "" : r.cil,
+                    //add: typeof r.add === 'undefined' ? "" : r.add,
+
                 }
             )
         })
+
+
+        alert("values: " + JSON.stringify(values))
 
         const update_status_row = (_status, _codigo) => {
             for(let i=0;i<tableData.length;i++){
@@ -307,7 +324,7 @@ export default function AgregarStockLote(props){
             var curr = values.shift();
 
             //check if code exists
-
+            alert(JSON.stringify(curr))
             post_method(post.codigo_por_codigo,{codigo: curr.codigo},(response)=>{
                 if(response.data.length>0){
                     
@@ -327,7 +344,7 @@ export default function AgregarStockLote(props){
                             }
                             else{
                                 alert("done")
-                                document.location.href = public_urls.lista_stock;
+                                //document.location.href = public_urls.lista_stock;
                             }
                         }
                         else{
@@ -347,7 +364,7 @@ export default function AgregarStockLote(props){
                                 }
                                 else{
                                     alert("Hecho")
-                                    document.location.href = public_urls.lista_stock;
+                                    //document.location.href = public_urls.lista_stock;
                                 }
                             })
                         }
@@ -357,7 +374,9 @@ export default function AgregarStockLote(props){
                 else{
                     //alert("el codigo NO existe")
                     //start saving, first the code
+                    alert(JSON.stringify(curr))
                     post_method(post.insert.codigo,curr,(res)=>{
+                        //THEN THE STOCK
                         if(res.status == "OK")
                         {
                             const _data = {
@@ -365,12 +384,14 @@ export default function AgregarStockLote(props){
                                 codigo_idcodigo: res.data,
                                 cantidad: curr.cantidad,
                                 factura_idfactura: curr.factura,
-                                genero: curr.genero,
+                                /*genero: curr.genero,
                                 edad: curr.edad,
                                 costo: curr.costo,
                                 modo_precio: curr.modo_precio,
                                 precio: curr.precio,
-                                descripcion: curr.descripcion,
+                                descripcion: curr.descripcion,*/
+                                
+                                //add: typeof curr.add === 'undefined' ? "" : curr.add,
                             }
                             //alert("insert stock now! " + JSON.stringify(res))
                             //then stock object...
@@ -381,7 +402,7 @@ export default function AgregarStockLote(props){
                                 }
                                 else{
                                     alert("Hecho")
-                                    document.location.href = public_urls.lista_stock;
+                                    //document.location.href = public_urls.lista_stock;
                                 }
                             })
                         }
