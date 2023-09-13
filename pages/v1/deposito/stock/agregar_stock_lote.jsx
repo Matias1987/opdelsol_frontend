@@ -324,7 +324,7 @@ export default function AgregarStockLote(props){
             var curr = values.shift();
 
             //check if code exists
-            alert(JSON.stringify(curr))
+            //alert(JSON.stringify(curr))
             post_method(post.codigo_por_codigo,{codigo: curr.codigo},(response)=>{
                 if(response.data.length>0){
                     
@@ -372,9 +372,10 @@ export default function AgregarStockLote(props){
                     
                 }
                 else{
+                    
                     //alert("el codigo NO existe")
                     //start saving, first the code
-                    alert(JSON.stringify(curr))
+                    //alert(JSON.stringify(curr))
                     post_method(post.insert.codigo,curr,(res)=>{
                         //THEN THE STOCK
                         if(res.status == "OK")
