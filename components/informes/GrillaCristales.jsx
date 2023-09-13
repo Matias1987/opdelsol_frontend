@@ -2,42 +2,19 @@ import { get } from "@/src/urls"
 import { useEffect, useState } from "react"
 
 const GrillaCristales = (props) => {
-    const [grillaData, setGrillaData]  = useState([])
+    const [grillaDataPos, setGrillaDataPos]  = useState([])
+    const [grillaDataNeg, setGrillaDataNeg]  = useState([])
     const [codeData, setCodeData] = useState([])
     const [currentCode, setCurrentCode] = useState("")
 
-    /*const test_objects = [
-        {
-            esf: .25,
-            cil: 2.5
-        },
-        {
-            esf: 1.25,
-            cil: 4.5
-        },
-        {
-            esf: 5.25,
-            cil: 1.0
-        },
-        {
-            esf: 1.0,
-            cil: 2.0
-        },
-        {
-            esf: 1.25,
-            cil: 0.75
-        },
-        {
-            esf: 0,
-            cil: 0
-        },
-    ]*/
 
     const calc_grilla = params => {
-        let grid = []
+        let gridPos = []
+        let gridNeg = []
         for(let i=0;i<1350;i+=25)
         {
-            grid.push([])
+            gridPos.push([])
+            gridNeg.push([])
             for(let j=0;j<650;j+=25)
             {
                 let msg=""
@@ -54,12 +31,19 @@ const GrillaCristales = (props) => {
                     else{
                         if(j==0)
                         {
-                            msg = (parseFloat(i-25) * .01).toString()
+                            msg =  (parseFloat(i-25) * .01).toString()
                         }
                     }
                 }
 
-                grid[grid.length-1].push({
+                gridPos[gridPos.length-1].push({
+                    cil:j,
+                    esf:i,
+                    e: 0,
+                    msg: msg,
+                    codigo: ""
+                })
+                gridNeg[gridNeg.length-1].push({
                     cil:j,
                     esf:i,
                     e: 0,
@@ -71,16 +55,27 @@ const GrillaCristales = (props) => {
         }
 
         params.forEach(r=>{
-            const e = parseInt( parseFloat(r.esf) * 100) / 25
-            const c = parseInt( parseFloat(r.cil) * 100) / 25
-            if(e>-1 && c>-1){
-                //alert(r.codigo)
-                grid[e+1][c+1].e=1
-                grid[e+1][c+1].codigo = r.codigo
+            const e = parseInt( parseFloat(Math.abs(r.esf)) * 100) / 25
+            const c = parseInt( parseFloat(Math.abs(r.cil)) * 100) / 25
+            if(r.esf>=0){
+                if(e>-1 && c>-1){
+                    //alert(r.codigo)
+                    gridPos[e+1][c+1].e=1
+                    gridPos[e+1][c+1].codigo = r.codigo
+                }
+            }
+            else
+            {
+                if(e>-1 && c>-1){
+                    //alert(r.codigo)
+                    gridNeg[e+1][c+1].e=1
+                    gridNeg[e+1][c+1].codigo = r.codigo
+                }
             }
         })
 
-        setGrillaData(grid)
+        setGrillaDataPos(gridPos)
+        setGrillaDataNeg(gridNeg)
     }
 
     
@@ -154,9 +149,7 @@ const GrillaCristales = (props) => {
                             <td 
                             style={{...curr_cell_style, backgroundColor: (s.e==1 ? "lightgreen": "lightblue")}}
                             onMouseEnter={(e)=>{
-                                //alert(s.codigo)
                                 setCurrentCode(s.codigo)
-                                //e.target.style =curr_cell_style
                             }}
                             onMouseOut={(e)=>{
                                 //e.target.style =cell_style
@@ -180,9 +173,10 @@ const GrillaCristales = (props) => {
     return <>
     <h3>Grilla de C&oacute;digos</h3>
     <h1>{currentCode == "" ? "-" : currentCode}</h1>
-    {
-        grilla(grillaData)
-    }
+    <h3>Positivo</h3>
+    {grilla(grillaDataPos)}
+    <h3>Negativo</h3>
+    {grilla(grillaDataNeg)}
 
     
     </>
