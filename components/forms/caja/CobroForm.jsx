@@ -171,10 +171,18 @@ export default function CobroOperacion(props){
             params.caja_idcaja=response.idcaja;
             
             post_method(post.insert.cobro,params,(id)=>{
-                setIdCobro(id.data)
+                
                 /**
-                 * this should not be done here but whatever..
+                 * actualizar balance de cta cte en recibo x 
                  */
+                fetch(get.actualizar_saldo_en_cobro + id.data)
+                .then(___response=>___response.json())
+                .then((___response)=>{
+
+                    setIdCobro(id.data)
+
+                })
+                
                 if(dataVenta!=null && props.tipo!='resfuerzo')
                 {
                     post_method(

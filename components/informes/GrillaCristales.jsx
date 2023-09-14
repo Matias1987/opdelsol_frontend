@@ -166,7 +166,7 @@ const GrillaCristales = (props) => {
                                     s.codigo==""?<></>:<>
                                     <Popover color="yellow" content={s.codigo}>
                                     {
-                                        <Button type="ghost" size="small">&nbsp;&nbsp;</Button>
+                                        <Button style={{width:"100%", height:"100%"}} type="ghost" size="small">&nbsp;&nbsp;</Button>
                                     }
                                     </Popover>
                                     </>

@@ -1,4 +1,5 @@
 import DetallesVendedor from "@/components/DetallesVendedor"
+import SaldoCtaCte from "@/components/SaldoCtaCte"
 import SucursalLabel from "@/components/sucursal_label"
 import globals from "@/src/globals"
 import { convertToWords } from "@/src/helpers/string_helper"
@@ -193,6 +194,7 @@ export default function InformeX(props){
                                             <p>Nro Recibo: {dataPago.idcobro}<br />
                                             Fecha: {dataPago.fecha_formatted}<br />
                                             &nbsp;</p>
+                                            
                                             <p><b>{_tipo}</b></p>
                                         </td>
                                     </tr>

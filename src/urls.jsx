@@ -173,6 +173,7 @@ const get = {
     operaciones_cliente: remote_base_url + "clientes/operaciones/",
     buscar_cliente: remote_base_url + "clientes/buscar/",
     saldo_ctacte: remote_base_url + "clientes/saldo/ctacte/",//:idcliente
+    actualizar_saldo_en_cobro: remote_base_url + "clientes/actualizar_saldo_en_cobro/",//:idcobro
 
     lista_mutuales: remote_base_url + "mutuales/",
     obtener_mutual: remote_base_url + "mutuales/",//:idmutual
@@ -189,6 +190,8 @@ const get = {
     
     obtener_venta_items: remote_base_url + "ventas/get_venta_items/",//idventa
 
+    actualizar_saldo_cliente: remote_base_url + "clientes/actualizar_saldo_cliente/",//clienteId
+    
     //cobros
     detalle_cobro: remote_base_url + "cobros/",//idcobro
     lista_mp_cobro: remote_base_url + "cobros/mp/",//idcobro
