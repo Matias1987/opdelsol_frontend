@@ -1,4 +1,5 @@
 import { get } from "@/src/urls"
+import { Button, Popover } from "antd"
 import { useEffect, useState } from "react"
 
 const GrillaCristales = (props) => {
@@ -160,9 +161,18 @@ const GrillaCristales = (props) => {
                             >
                                 {/*parseFloat(s.esf) * .01*/}
                                 {/*parseFloat(s.cil) * .01*/}
-                                {
-                                    s.msg
-                                }
+                                {s.msg=="" ? <>{
+
+                                    s.codigo==""?<></>:<>
+                                    <Popover color="yellow" content={s.codigo}>
+                                    {
+                                        <Button type="ghost" size="small">&nbsp;&nbsp;</Button>
+                                    }
+                                    </Popover>
+                                    </>
+
+                                }</>: <>{s.msg}</>}
+                                
                                 </td>
                         )
                     )}
