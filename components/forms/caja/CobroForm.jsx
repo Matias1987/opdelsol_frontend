@@ -171,17 +171,25 @@ export default function CobroOperacion(props){
             params.caja_idcaja=response.idcaja;
             
             post_method(post.insert.cobro,params,(id)=>{
+
+                if(id.data==0){
+                    setIdCobro(0)
+                }
+                else
+                {
+                    /**
+                     * actualizar balance de cta cte en recibo x 
+                     */
+                    alert(get.actualizar_saldo_en_cobro + id.data)
+                    fetch(get.actualizar_saldo_en_cobro + id.data)
+                    .then(___response=>___response.json())
+                    .then((___response)=>{
+
+                        setIdCobro(id.data)
+
+                    })
+                }
                 
-                /**
-                 * actualizar balance de cta cte en recibo x 
-                 */
-                fetch(get.actualizar_saldo_en_cobro + id.data)
-                .then(___response=>___response.json())
-                .then((___response)=>{
-
-                    setIdCobro(id.data)
-
-                })
                 
                 if(dataVenta!=null && props.tipo!='resfuerzo')
                 {

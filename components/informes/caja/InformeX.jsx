@@ -210,7 +210,7 @@ export default function InformeX(props){
                                         <td>
                                             <p>Recibi la suma de: <b>{convertToWords(dataPago.monto)}</b><br />
                                             En concepto de: {dataPago.concepto}<br />
-                                            {"SALDO CTA CTE"}</p>
+                                            {"SALDO CTA CTE:  " + dataPago.saldo_actual }</p>
                                             <hr />
                                             {html_cheque_tarjeta()}
                                         </td>

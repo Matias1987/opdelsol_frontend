@@ -1,5 +1,6 @@
 --->> agregar balance cta cte al momento de cobro en recibo x <<---
-
+//en buscar cliente al seleccionar cliente para la venta, resetear filtro de busqueda
+ERROR AL ASIGNAR SALDO A COBRO AL CERRAR UNA OPERACION
 tabla clientes: saldo
 
 filtros lista cobros
