@@ -36,8 +36,7 @@ export default function InformeX(props){
 
     useEffect(()=>{
         //get pago data
-        //alert(get.detalle_cobro + props.idcobro)
-
+        
         fetch(get.lista_mp_cobro + props.idcobro)
         .then(response=>response.json())
         .then((response)=>{
@@ -84,16 +83,15 @@ export default function InformeX(props){
         fetch(get.detalle_cobro + props.idcobro)
         .then(response=>response.json())
         .then((response)=>{
-            //alert(JSON.stringify(response))
+            
             setDataPago(response.data[0])
             
             /*now that I have the pago data, I can know the client id  */
-            //get client data
-            //alert(get.cliente_por_id + response.data[0].cliente_idcliente)
+            
             fetch(get.cliente_por_id + response.data[0].cliente_idcliente)
             .then(_response=>_response.json())
             .then((_response)=>{
-                //alert("CLIENTE::::: " + JSON.stringify(_response.data))
+                
                 setDataCliente(_response.data[0])
             })
 
@@ -101,7 +99,7 @@ export default function InformeX(props){
             fetch(get.sucursal_details + response.data[0].sucursal_idsucursal)
             .then(__response=>__response.json())
             .then((__response)=>{
-                //alert("SUCURSAL::::: " + JSON.stringify(__response.data))
+                
                 setDataSucursal(__response.data)
             })
 

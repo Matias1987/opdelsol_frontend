@@ -1,4 +1,4 @@
-import { Col, Divider, Row } from "antd";
+import { Col, Divider, Row, Tag } from "antd";
 import SaldoCtaCte from "./SaldoCtaCte";
 import { useEffect, useState } from "react";
 import { get } from "@/src/urls";
@@ -16,7 +16,8 @@ const DetalleCliente = (props) =>
                 dni: response.data[0].dni,
                 telefono: response.data[0].telefono1,
                 direccion: response.data[0].direccion,
-                idcliente: response.data[0].idcliente
+                idcliente: response.data[0].idcliente,
+                bloqueado: response.data[0].bloqueado,
             })
         })
     },[])
@@ -39,6 +40,9 @@ const DetalleCliente = (props) =>
         <Col span={"6"}>Direcci&oacute;n:</Col>
         <Col span={"12"}><b>{data.direccion}</b></Col>
     </Row>
+    {
+        data.bloqueado==1 ? <><Row><Col span={24}> <Tag color="red">BLOQUEADO</Tag> </Col></Row></>:<></>
+    }
     <Row>
         <Col span={"24"}>
             <span style={{color:"blueviolet"}}><SaldoCtaCte idcliente={data.idcliente} /></span>

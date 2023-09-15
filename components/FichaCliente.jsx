@@ -1,5 +1,5 @@
 import { get } from "@/src/urls"
-import { Button, Col, Input, Row, Spin, Table } from "antd"
+import { Button, Col, Input, Row, Spin, Table, Tag } from "antd"
 import { useEffect, useRef, useState } from "react"
 import CustomModal from "./CustomModal"
 import CobroOperacion from "./forms/caja/CobroForm"
@@ -15,7 +15,27 @@ export default function FichaCliente(props){
     const [dataChange, setDataChange] = useState(true)
     const [scrollChange, setScrollChange] = useState(false)
     const [saldo, setSaldo] = useState(0)
+    
     const dummyref = useRef(null)
+
+    const bloquear = _ => {
+        if(!confirm("Bloquear Cuenta?"))
+        {
+            return
+        }
+        fetch(get.bloquear_cliente + dataCliente.idcliente)
+        .then(resp=>resp.json())
+        .then((resp)=>{ setDataChange(!dataChange)})
+    }
+    const desBloquear = _ => {
+        if(!confirm("Desbloquear Cuenta?"))
+        {
+            return
+        }
+        fetch(get.desbloquear_cliente + dataCliente.idcliente)
+        .then(resp=>resp.json())
+        .then((resp)=>{ setDataChange(!dataChange)})
+    }
     
 
     const columns = [
@@ -62,6 +82,7 @@ export default function FichaCliente(props){
     const detalles_cliente =_ => dataCliente === null ? <Spin /> : <>
         <p>Nro.: <b>{dataCliente.idcliente}</b>&nbsp;&nbsp;Nombre: <b>{dataCliente.nombre}</b> &nbsp;&nbsp;&nbsp;&nbsp; DNI: <b>{dataCliente.dni}</b></p>
         <p>Tel.: <b>{dataCliente.telefono1}</b> &nbsp;&nbsp;&nbsp;&nbsp; Dir.: <b>{dataCliente.direccion}</b></p>
+        <p>{dataCliente.bloqueado == 1 ? <><Tag color="red">BLOQUEADO</Tag></>:<></>}</p>
     </>
 
     useEffect(()=>{
@@ -88,7 +109,7 @@ export default function FichaCliente(props){
             //alert("scroll?")
         }
 
-    },[dataChange, scrollChange])
+    },[dataChange, scrollChange, dataChange])
 
     return (<>
     <h3>Ficha Cliente</h3>
@@ -139,7 +160,7 @@ export default function FichaCliente(props){
         </Col>
     </Row>
     <Row>
-        <Col span={24}>
+        <Col span={12}>
             <CobroOperacion 
             tarjetaHidden={true}
             ctacteHidden={true}
@@ -151,7 +172,18 @@ export default function FichaCliente(props){
             />
             <CargaManual idcliente={props.idcliente} callback={()=>{setDataChange(true)}} />
         </Col>
+        <Col span={12}>
+            {dataCliente==null ? <></> :
+            <>
+                {dataCliente.bloqueado == 1 ? 
+                <><Button onClick={desBloquear} type="primary" size="small" danger>Desbloquear</Button></> : 
+                <><Button onClick={bloquear} type="primary" size="small" danger>Bloquear</Button></>}
+            </>
+            }
+            
+        </Col>
     </Row>
+   
     
     </>)
 }

@@ -46,7 +46,7 @@ export default function CobroOperacion(props){
      */
     useEffect(()=>{
         if(idCobro>-1){
-            alert("open informe")
+            
             /**
              * el servidor devuelve 0  cuando se elijio ctacte como 
              * modo de pago...
@@ -177,31 +177,48 @@ export default function CobroOperacion(props){
                 }
                 else
                 {
-                    /**
-                     * actualizar balance de cta cte en recibo x 
-                     */
-                    alert(get.actualizar_saldo_en_cobro + id.data)
-                    fetch(get.actualizar_saldo_en_cobro + id.data)
-                    .then(___response=>___response.json())
-                    .then((___response)=>{
+                    if(dataVenta!=null && props.tipo!='resfuerzo')
+                    {
+                        post_method(
+                            post.cambiar_estado_venta,
+                            {
+                                idventa: dataVenta.idventa, 
+                                /*estado at this point could be entrega or ingreso  */
+                                estado: (props.tipo=='entrega' ? 'ENTREGADO' : (entrega ? "ENTREGADO" : "PENDIENTE"))
+                            },
+                            (resp)=>{
+                                /**
+                                 * actualizar balance de cta cte en recibo x 
+                                 */
+                                
+                                fetch(get.actualizar_saldo_en_cobro + id.data)
+                                .then(___response=>___response.json())
+                                .then((___response)=>{
 
-                        setIdCobro(id.data)
+                                    setIdCobro(id.data)
 
-                    })
+                                })
+                                alert("OK")
+                        })
+                    }
+                    else{
+                        /**
+                         * actualizar balance de cta cte en recibo x 
+                         */
+                        alert(get.actualizar_saldo_en_cobro + id.data)
+                        fetch(get.actualizar_saldo_en_cobro + id.data)
+                        .then(___response=>___response.json())
+                        .then((___response)=>{
+
+                            setIdCobro(id.data)
+
+                        })
+                    }   
+                    
                 }
                 
                 
-                if(dataVenta!=null && props.tipo!='resfuerzo')
-                {
-                    post_method(
-                        post.cambiar_estado_venta,
-                        {
-                            idventa: dataVenta.idventa, 
-                            /*estado at this point could be entrega or ingreso  */
-                            estado: (props.tipo=='entrega' ? 'ENTREGADO' : (entrega ? "ENTREGADO" : "PENDIENTE"))
-                        },
-                        (resp)=>{alert("OK")})
-                }
+                
             })
         })
     }

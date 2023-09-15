@@ -1,7 +1,7 @@
 import CustomModal from "@/components/CustomModal";
 import { Button, Input, Spin, Table } from "antd";
 import { useEffect, useState } from "react";
-import { AlertOutlined, CheckCircleFilled, CloseOutlined, EditOutlined } from "@ant-design/icons";
+import { AlertOutlined, CheckCircleFilled, CloseOutlined, EditOutlined, ReloadOutlined } from "@ant-design/icons";
 import ClienteForm from "../ClienteForm";
 import { get } from "@/src/urls";
 import ClienteFormV2 from "../ClienteFormV2";
@@ -11,6 +11,7 @@ const SelectCliente = (props) =>{
     const [loadingDetalles, setLoadingDetalles] = useState(true);
     const [clientes, setClientes] = useState(null);
     const [clienteData, setClienteData] = useState(null);
+    const [reload, setReload] = useState(false)
 
     const onSearch = (value) => {
         
@@ -84,7 +85,7 @@ const SelectCliente = (props) =>{
             )
         })
         .catch((err)=>{console.log(err)})
-    },[])
+    },[reload])
 
 
     const columns = [
@@ -126,6 +127,7 @@ const SelectCliente = (props) =>{
         <CustomModal openButtonText={typeof props.destinatario !== 'undefined' ? 'Seleccionar Destinatario' : "Seleccione Cliente" } title="" >
         {typeof props.destinatario !== 'undefined' ? 'Buscar Destinatario' : "Buscar Cliente" }
             <Input.Search onSearch={onSearch} />
+            <Button type="ghost" style={{color:"red"}} onClick={()=>{setReload(!reload)}}><ReloadOutlined /></Button>
             <CustomModal openButtonText="+ Agregar" title={"Agregar" + (props.destinatario? " Destinatario" : "Responsable")} >
                 <ClienteFormV2 destinatario={props.destinatario} callback={(id)=>{
                     //alert(id); 
