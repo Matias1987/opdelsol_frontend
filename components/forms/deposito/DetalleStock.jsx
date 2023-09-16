@@ -15,6 +15,7 @@ const DetalleStock = (props) => {
     const [dataSucursales, setDataSucursales] = useState(null)
     const [dataDetalles, setDataDetalles] = useState(null)
     const [dataEnvios, setDataEnvios] = useState(null)
+    const [descripcionSubgrupo, setDescripcionSubgrupo] = useState(null)
 
     const url_stock_sucursales = get.stock_codigo_sucursales;//idcodigo
     const url_detalle_stock = get.detalle_stock;//:idsucursal/:idcodigo
@@ -34,6 +35,37 @@ const DetalleStock = (props) => {
             return;
         }
 
+        
+
+        //get detalles
+        fetch(url_detalle_stock + idsucursal + "/" + props.idcodigo)
+        .then(response=>response.json())
+        .then((response)=>{
+            setDataDetalles(
+                response.data[0]
+            )
+            setLoadingDetalles(false)
+
+            if(response.data.length>0){
+                //alert(get.descripcion_cat_subgrupo+response.data[0].idsubgrupo)
+                fetch(get.descripcion_cat_subgrupo+response.data[0].idsubgrupo)
+                .then(__r=>__r.json())
+                .then(_resp=>{
+                    //alert(JSON.stringify(_resp))
+                    if((_resp.data||[]).length>0)
+                    {
+                        setDescripcionSubgrupo(r=>({
+                            titulo: _resp.data[0].titulo,
+                            descripcion: _resp.data[0].descripcion,
+                        }))
+                    }
+                })
+            }
+            
+                
+
+        });
+
         fetch(url_stock_sucursales + props.idcodigo )
         .then(response=>response.json())
         .then((response)=>{
@@ -48,17 +80,9 @@ const DetalleStock = (props) => {
             )
 
             setLoadingSucursales(false)
-
-        });
-        //get detalles
-        fetch(url_detalle_stock + idsucursal + "/" + props.idcodigo)
-        .then(response=>response.json())
-        .then((response)=>{
-            setDataDetalles(
-                response.data[0]
+            }
             )
-            setLoadingDetalles(false)
-        });
+
 
         //get envios
         //alert(url_envios + props.idcodigo)
@@ -174,6 +198,8 @@ const DetalleStock = (props) => {
         
     )
 
+    const descripcionSG = _ => (descripcionSubgrupo==null ? <></>:<><i>Detalle Subgrupo:</i><br />{descripcionSubgrupo.descripcion}</>)
+
     return (
         <>
         <CustomModal
@@ -187,11 +213,12 @@ const DetalleStock = (props) => {
                 }
             }
             >
-                <Detalle />
+                {Detalle()}
                 <Divider />
-                <CantidadSucursales />
+                {descripcionSG()}
+                {CantidadSucursales()}
                 <Divider />
-                <Envios />
+                {Envios()}
             </CustomModal>
         </>
     )

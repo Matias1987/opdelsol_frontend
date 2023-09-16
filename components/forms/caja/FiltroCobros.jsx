@@ -16,8 +16,8 @@ const FiltroCobros =(props) => {
     const showModal = () => {setOpen(true);}
 
     const onSelectCliente = (id) => {
-        setFiltros(_=>{
-            const _f = {...filtros,idcliente:id}
+        setFiltros(p=>{
+            const _f = {...p,idcliente:id}
             //props?.callback?.(_f)
             return _f
         })
@@ -26,8 +26,8 @@ const FiltroCobros =(props) => {
 
 
     const onIDChange = (e) => {
-        setFiltros(_=>{
-            const _f = {...filtros,id:e.target.value}
+        setFiltros(p=>{
+            const _f = {...p,idcobro:e.target.value}
             //props?.callback?.(_f)
             return _f
         })
@@ -77,13 +77,14 @@ const FiltroCobros =(props) => {
                 <SelectCliente callback={onSelectCliente} />
             </Col>
         </Row>
+        {/*
         <Row>
             <Col span={24}>
                 Fecha:&nbsp;&nbsp;
             <RangePicker format={"DD/MM/YY"} />
             </Col>
         </Row>
-        
+    */}
         </Modal>
     </>
 }

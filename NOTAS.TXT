@@ -1,11 +1,11 @@
----->>>>filtros lista cobros PENDIENTE
+
 
 cliente bloqueado--- HABRIA QUE CHEQUEAR SI EL CLIENTE ESTA BLOQUEADO EN EL MOMENTO DE LA COMPRA, 
 JUSTO ANTES DE GUARDAR LA VENTA...
 
 -----------------------------------------------------------------------------------------------------------
 
-
+---->>>>filtros lista cobros PENDIENTE--ok..
 --->> agregar balance cta cte al momento de cobro en recibo x <<--- OK...
 //en buscar cliente al seleccionar cliente para la venta, resetear filtro de busqueda---OK
 ERROR AL ASIGNAR SALDO A COBRO AL CERRAR UNA OPERACION---OK

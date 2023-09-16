@@ -152,6 +152,7 @@ const get = {
     sucursal_details: remote_base_url + "sucursales/",
     cod_sin_stock_s: remote_base_url + "stock/cod_sin_stock_s/",
     stock_exists: remote_base_url + "stock/exists/", 
+    descripcion_cat_subgrupo: remote_base_url + "subgrupos/descripcion_cat_subgrupo/",//:subgrupoId
 
     obtener_stock_sucursal: remote_base_url + "stock/stock_sucursal/",//:idsucursal/:idcodigo
     stock_codigo_sucursales: remote_base_url + "stock/stock_sucursales/", //:idcodigo
