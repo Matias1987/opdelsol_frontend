@@ -56,7 +56,7 @@ export default function VentaLCStock(){
         <VentaBase subTotal={subTotal} total={total} onfinish={onFinish} callback={callback_venta_modif}>
             <LCStockItems callback={onProductosChange} />
         </VentaBase>
-        <Modal width={"80%"} open={idVenta!=-1 && printOpen} onOk={()=>{onClosePrintPopup()}} onCancel={()=>{onClosePrintPopup()}} >
+        <Modal width={"80%"} open={idVenta!=-1 && printOpen} onOk={()=>{onClosePrintPopup()}} onCancel={()=>{onClosePrintPopup()}} footer={null} >
             <PrinterWrapper>
                 <InformeVenta idventa={idVenta} />
             </PrinterWrapper>

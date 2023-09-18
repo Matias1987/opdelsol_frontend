@@ -73,7 +73,7 @@ export default function VentaRecetaStock(){
             }}>
             <RecetaStockItems callback={callback} />
         </VentaBase>
-        <Modal width={"80%"} open={idVenta!=-1 && printOpen} onOk={()=>{onClosePrintPopup()}} onCancel={()=>{onClosePrintPopup()}} >
+        <Modal width={"80%"} open={idVenta!=-1 && printOpen} onOk={()=>{onClosePrintPopup()}} onCancel={()=>{onClosePrintPopup()}} footer={null} >
             <PrinterWrapper>
                 <InformeVenta idventa={idVenta} />
             </PrinterWrapper>

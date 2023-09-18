@@ -1,8 +1,8 @@
-import { Button, Table, Search, Input, Row, Affix } from "antd";
+import { Button, Table, Search, Input, Row, Affix, Checkbox } from "antd";
 import { useRef, useState } from "react";
 import { get } from "@/src/urls";
 import globals from "@/src/globals";
-import { PlusCircleFilled } from "@ant-design/icons";
+import { PlusCircleFilled, PlusCircleOutlined } from "@ant-design/icons";
 import { regex_get_id_if_match } from "@/src/helpers/barcode_helper";
 /**
  * 
@@ -41,7 +41,8 @@ const SearchStockEnvio = (props) => {
                         idcodigo: row.idcodigo,
                         cantidad_destino: row.cantidad_sucursal,
                         habilitado: {val: typeof row.habilitado === 'undefined' ? true : row.habilitado, idcodigo: row.idcodigo},/* un codigo puede no estar habilitado */
-                        })
+                        checked: false,
+                    })
                 )
             )
             setLoading(false)
@@ -87,7 +88,7 @@ const SearchStockEnvio = (props) => {
         <>
         <Row>
             <Affix offsetTop={top}>
-                <Input.Search onSearch={onSearch} value={searchValue} onChange={(e)=>{setSearchValue(e.target.value)}} />
+                <Input.Search prefix={"/"} onSearch={onSearch} value={searchValue} onChange={(e)=>{setSearchValue(e.target.value)}} />
             </Affix>
         </Row>
         <Row style={{height: "300px", overflowY: "scroll"}}>
@@ -101,7 +102,13 @@ const SearchStockEnvio = (props) => {
                         {title:"Loc.", dataIndex: "cantidad", render: (_,{cantidad})=>(<span style={{color:"#00972D"}}>{cantidad}</span>)},
                         {title:"Dest.", dataIndex: "cantidad_destino", render: (_,{cantidad_destino})=>(<span style={{color:"red"}}>{cantidad_destino}</span>)},
                         {
-                            title:"", 
+                            title:<>
+                                <Button onClick={
+                                    (e)=>{
+                                        props.callback((dataSource.filter(r=>r.checked)).map(e=>e.idcodigo))
+                                    }
+                                }><PlusCircleOutlined /></Button>
+                            </>, 
                             dataIndex: "habilitado",
                             render: 
                                 (_,{habilitado})=>{
@@ -109,7 +116,7 @@ const SearchStockEnvio = (props) => {
                                     <>
                                         {
                                             habilitado.val?
-                                            <Button onClick={()=>{props.callback(habilitado.idcodigo)}}><PlusCircleFilled /></Button>
+                                            <Button onClick={()=>{props.callback([habilitado.idcodigo])}}><PlusCircleFilled /></Button>
                                             :
                                             <span>Ya seleccionado</span>
                                         }
@@ -118,6 +125,14 @@ const SearchStockEnvio = (props) => {
                                     )
                                 }
                         },
+                        {title:<>
+                        <Checkbox 
+                            onChange={(e)=>{setDataSource(ds=>(ds.map(r=>({...r,checked:e.target.checked}))))}}
+                        /></>, dataIndex:"", render:(_,{idcodigo, checked})=>{
+                            return <><Checkbox onChange={(e)=>{
+                                                setDataSource(ds=>ds.map(r=>(r.idcodigo==idcodigo?{...r,checked:e.target.checked}:r)))}}
+                                                checked={checked}
+                                    /></>}}
                     ]
                 }
             />

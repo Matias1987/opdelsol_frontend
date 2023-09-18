@@ -64,7 +64,7 @@ export default function VentaMultifocalesLab(){
     <VentaBase subTotal={subTotal} total={total} onfinish={onFinish} callback={callback_venta_modif}>
         <MultifLabItems callback={onProductosCallback} />
     </VentaBase>
-    <Modal width={"80%"} open={idVenta!=-1 && printOpen} onOk={()=>{onClosePrintPopup()}} onCancel={()=>{onClosePrintPopup()}} >
+    <Modal width={"80%"} open={idVenta!=-1 && printOpen} onOk={()=>{onClosePrintPopup()}} onCancel={()=>{onClosePrintPopup()}}  footer={null}>
         <PrinterWrapper>
             <InformeVenta idventa={idVenta} />
         </PrinterWrapper>

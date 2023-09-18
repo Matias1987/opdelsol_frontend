@@ -63,7 +63,7 @@ export default function VentaLCLab(){
     <VentaBase subTotal={subTotal} total={total} onfinish={onFinish} callback={callback_venta_modif}>
         <LCLabItems callback={products_callback} />
     </VentaBase>
-    <Modal width={"80%"} open={idVenta!=-1 && printOpen} onOk={()=>{onClosePrintPopup()}} onCancel={()=>{onClosePrintPopup()}} >
+    <Modal width={"80%"} open={idVenta!=-1 && printOpen} onOk={()=>{onClosePrintPopup()}} onCancel={()=>{onClosePrintPopup()}} footer={null} >
         <PrinterWrapper>
             <InformeVenta idventa={idVenta} />
         </PrinterWrapper>

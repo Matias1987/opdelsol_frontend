@@ -22,7 +22,7 @@ return (
         <Row>
             <Col span={5}><Input style={{fontWeight: "bold"}} prefix={"SubTotal: $"} bordered={false} readOnly value={props.subtotal||0}/></Col>
 
-            <Col span={5}><Input  onClick={(e)=>{e.target.select()}}  prefix={"Descuento: $"} onChange={onDescuentoChange} value={descuento} style={{backgroundColor:"lightyellow"}}/></Col>
+            <Col span={5}><Input  type="number" onClick={(e)=>{e.target.select()}}  prefix={"Descuento: $"} onChange={onDescuentoChange} value={descuento} style={{backgroundColor:"lightyellow"}}/></Col>
 
             <Col span={14}><Input prefix={"Concepto Descuento: "} style={{backgroundColor:"lightyellow"}} ></Input></Col>
         </Row>

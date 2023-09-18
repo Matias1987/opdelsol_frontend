@@ -69,7 +69,7 @@ const SelectCliente = (props) =>{
         fetch(get.lista_clientes)
         .then(response=>response.json())
         .then((response)=>{
-            //alert(JSON.stringify(response))
+            
             setClientes(
                 response.data.map(r=>(
                     {

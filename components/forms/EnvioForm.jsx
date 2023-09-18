@@ -5,23 +5,45 @@ import LoadSelect from "../LoadSelect";
 import { useEffect, useState } from "react";
 import globals from "@/src/globals";
 import SearchStockEnvio from "./deposito/SearchStockEnvio";
+import { ClockCircleFilled, CloseCircleFilled } from "@ant-design/icons";
 const urls = require("../../src/urls")
 const post_helper = require("../../src/helpers/post_helper")
 
 const EnvioForm = (props) => {
     const [tableData,setTableData] = useState([])
     const [tableLoading,setTableLoading] = useState(false);
-    const [selectedCodigoId, setSelectedCodigoId] = useState(-1);
+    //const [stack, setStack] = useState([])
+    //const [selectedCodigoId, setSelectedCodigoId] = useState(-1);
     const [sucursalDestId, setSucursalDestId] = useState(-1);
     const [bottom,setBottom] = useState(10);
     const [form] = Form.useForm();
     const sucursal_id = globals.obtenerSucursal();// 1; //THIS VALUE HAS TO BE DYNAMIC!!
     const [total, setTotal] = useState(0);
 
+    //var rows_to_add = []
+    const [rows_to_add, setRowsToAdd] = useState([])
 
     useEffect(()=>{
-        setValue("items",tableData)
-    },[tableData])
+        
+        if(rows_to_add.length>0){
+            load_details_for_selected_id(
+                rows_to_add[0], 
+                _=>{
+                    
+                    rows_to_add.shift();
+                    const _a = [...rows_to_add]
+                    
+                    
+                    setRowsToAdd(r => { return _a;})
+                }
+            )
+        }
+        else{
+            setTableLoading(false);
+            actualizarTotal(tableData)
+        }
+        //setValue("items",tableData)
+    },[rows_to_add])
 
     const setValue = (key,value) => {
         switch(key){
@@ -107,6 +129,52 @@ const EnvioForm = (props) => {
         )
     }
 
+
+
+    /*const start_process_stack = (_stack) => {
+        rows_to_add=[]
+        porcess_stack(_stack)
+    }
+
+    
+
+    const process_stack = (_stack) => {
+
+        alert(JSON.stringify(_stack))
+        
+        if(_stack.length<1)
+        {
+            setTableLoading(false)
+            return
+        }
+        const c = _stack.shift()
+
+        load_details_for_selected_id(c, ()=>{porcess_stack(_stack)})
+
+    }*/
+
+    const load_details_for_selected_id = (selectedCodigoId, callback=null) => {
+        
+        const found = tableData.find(e=>e.key == selectedCodigoId)
+        if(found) {/*alert("Codigo ya cargado!");*/ callback(); return;}
+        setTableLoading(true);
+        /* get stock data for the column */
+        console.log(urls.get.detalle_stock+ sucursal_id + "/" + selectedCodigoId)
+        fetch(urls.get.detalle_stock+ sucursal_id + "/" + selectedCodigoId/*<-- TEMPORARY!! */)
+        .then(response=>response.json())
+        .then((response)=>{
+            add_new_row(response.data)
+            if(callback!=null)
+            {
+                callback()
+            }
+        })
+        .catch((error)=>{
+            console.error(error)
+            callback()
+        })
+    }
+
     const add_new_row = (data) => {
         const new_row = {
            key:data[0].idcodigo,
@@ -118,24 +186,9 @@ const EnvioForm = (props) => {
            cantidad: 0,
            precio: data[0].precio,
         }
-        setTableLoading(false);
+        
+        //alert("add new row " + JSON.stringify(tableData))
         setTableData([...tableData,new_row])
-    }
-
-    const load_details_for_selected_id = (selectedCodigoId) => {
-        const found = tableData.find(e=>e.key == selectedCodigoId)
-        if(found) {alert("Codigo ya cargado!"); return;}
-        setTableLoading(true);
-        /* get stock data for the column */
-        console.log(urls.get.detalle_stock+ sucursal_id + "/" + selectedCodigoId)
-        fetch(urls.get.detalle_stock+ sucursal_id + "/" + selectedCodigoId/*<-- TEMPORARY!! */)
-        .then(response=>response.json())
-        .then((response)=>{
-            add_new_row(response.data)
-        })
-        .catch((error)=>{
-            console.error(error)
-        })
     }
 
     
@@ -200,7 +253,7 @@ const EnvioForm = (props) => {
                                 )
                             },
                             {
-                                title:"", 
+                                title:<><Button disabled={tableData.length<1} danger onClick={()=>{setTableData([])}}><CloseCircleFilled /></Button></>, 
                                 dataIndex: "ref_id",
                                 render: (_,{ref_id})=>(
                                     <Button size="small"  danger onClick={()=>{remove_row(ref_id)}}>X</Button>)
@@ -213,7 +266,7 @@ const EnvioForm = (props) => {
                 <Form.Item>
                     <Affix offsetBottom={bottom}>
                         <Input readOnly addonBefore="Total:" value={total} />
-                        <Button block type="primary" htmlType="submit">Generar Env&iacute;o</Button>
+                        <Button disabled={tableLoading || tableData.length<1} block type="primary" htmlType="submit">Generar Env&iacute;o</Button>
                         
                     </Affix>
                 </Form.Item>
@@ -224,7 +277,7 @@ const EnvioForm = (props) => {
                 <SearchStockEnvio 
                 idSucursalDestino={sucursalDestId}
                 
-                callback={(id)=>{load_details_for_selected_id(id)}} 
+                callback={(arr)=>{setRowsToAdd(arr)}} 
                 />
             </Col>
             </Row>

@@ -61,13 +61,13 @@ export default function ClienteFormV2(props){
         if(!validateStr(clienteData.nacimiento, "Fecha de Nacimiento Vacío")){return}
         
 
-        //alert(JSON.stringify(clienteData))
+        
         post_method(post.obtener_cliente_dni,{"dni":clienteData.dni},(res)=>{
             if(res.data.length>0){
                 alert("El cliente ya existe")
             }
             else{
-                alert(JSON.stringify(clienteData))
+                
                 post_method(url,clienteData,(res)=>{
                     alert("Agregado")
                     if(typeof props.callback !== 'undefined'){
