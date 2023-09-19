@@ -34,7 +34,7 @@ import { getItem } from "localforage";
       <>
         {(permisos.esUsuarioDeposito || permisos.esUsuarioDepositoMin)?
           <>
-          <Button onClick={(e)=>{
+          <Button type="primary" onClick={(e)=>{
             window.location.replace(public_urls.dashboard_deposito)
           }} style={{marginTop:"1em", color:"green"}} size="large" block>Dep&oacute;sito</Button>
           </>
@@ -43,7 +43,7 @@ import { getItem } from "localforage";
         {
         permisos.esUsuarioVentas?
         <>
-        <Button onClick={(e)=>{
+        <Button type="primary" onClick={(e)=>{
           window.location.replace(public_urls.dashboard_venta)
         }} style={{marginTop:"1em", color:"blue"}} size="large" block>Ventas</Button>
         </>
@@ -52,7 +52,7 @@ import { getItem } from "localforage";
         {
         permisos.esUsuarioCaja1?
         <>
-          <Button onClick={(e)=>{
+          <Button type="primary" onClick={(e)=>{
             window.location.replace(public_urls.dashboard_caja)
           }} style={{marginTop:"1em", color:"red"}} size="large" block>
           Caja
@@ -75,7 +75,7 @@ import { getItem } from "localforage";
         {
         globals.userLogedIn() ? 
         <>
-          <Button danger block size="small" style={{marginTop:"2em"}} onClick={()=>{
+          <Button type="primary" danger block size="small" style={{marginTop:"2em"}} onClick={()=>{
             const _token = getItem("token",'session')
       
             fetch(get.logout + _token)
