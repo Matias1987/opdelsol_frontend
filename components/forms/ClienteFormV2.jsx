@@ -16,8 +16,8 @@ export default function ClienteFormV2(props){
         dni:"",
         apellidos:"",
         nacimiento: null,
-        domicilio: "",
-        telefono: "",
+        domicilio: "-",
+        telefono: "-",
         destinatario: '0',
     })
 
@@ -57,10 +57,13 @@ export default function ClienteFormV2(props){
         if(!validateStr(clienteData.nombres, "Nombres Vacío")){return}
         if(!validateStr(clienteData.apellidos, "Apellidos Vacío")){return}
         if(!validateStr(clienteData.domicilio, "Domicilio Vacío")){return}
-        if(!validateStr(clienteData.telefono, "Teléfono Vacío")){return}
-        if(!validateStr(clienteData.nacimiento, "Fecha de Nacimiento Vacío")){return}
-        
 
+        if(typeof props.destinatario === 'undefined' || (typeof props.destinatario !== 'undefined' && !props.destinatario)){
+
+            if(!validateStr(clienteData.telefono, "Teléfono Vacío")){return}
+            if(!validateStr(clienteData.nacimiento, "Fecha de Nacimiento Vacío")){return}
+        
+        }
         
         post_method(post.obtener_cliente_dni,{"dni":clienteData.dni},(res)=>{
             if(res.data.length>0){
@@ -69,7 +72,7 @@ export default function ClienteFormV2(props){
             else{
                 
                 post_method(url,clienteData,(res)=>{
-                    alert("Agregado")
+                    alert("OK")
                     if(typeof props.callback !== 'undefined'){
                         props.callback(res.data);
                     }

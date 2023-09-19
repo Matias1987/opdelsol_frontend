@@ -30,6 +30,10 @@ const TransferenciaSucursalForm = (props) => {
             transferencia.fkcaja=data.idcaja
 
             //alert(JSON.stringify(transferencia))
+
+            if(!confirm("Confirmar transferencia")){
+                return;
+            }
         
             post_method(post.insert.transferencia, transferencia,(response)=>{
                 //alert(JSON.stringify(response))

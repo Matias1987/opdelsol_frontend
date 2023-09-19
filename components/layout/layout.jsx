@@ -19,16 +19,9 @@ export default function MyLayout({children}){
     const [collapsed, setCollapsed] = useState(false);
     const [uDepositoMin, setUDepositoMin] = useState(false)
     const [uDeposito, setUDeposito] = useState(false)
-    const toggle = () => {}
-    //return (<>Hello</>)
-
-    var cnt=0;
     const { getItem } = useStorage();
+
     const validate_user = () => {
-
-
-        //alert(globals.esUsuarioDeposito())
-        //alert(globals.esUsuarioDepositoMin())
 
         if(!globals.esUsuarioDeposito() && !globals.esUsuarioDepositoMin())
         {
@@ -42,8 +35,6 @@ export default function MyLayout({children}){
             window.location.replace(public_urls.login)
         }
 
-        console.log("validate_user" + cnt + " token: " + _token)
-        cnt++;
         var _t = setTimeout(() => {
 
             if(_t !== typeof 'undefined'){
@@ -58,7 +49,9 @@ export default function MyLayout({children}){
                     window.location.replace(public_urls.login)
                 }
                 else{
-                    _t  = validate_user();
+                    console.log("user loged in")
+                    //_t  = validate_user();
+                    validate_user();
                 }
 
             })

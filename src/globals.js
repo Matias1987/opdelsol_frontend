@@ -1,6 +1,6 @@
 import useStorage from "../useStorage"
 import { parse_DMY_date } from "./helpers/string_helper";
-import { get } from "./urls";
+import { get, public_urls } from "./urls";
 const globals =  {
     establecerSucursal: (idsucursal) =>
     {
@@ -83,6 +83,42 @@ const globals =  {
                 setItem("caja", 0);
             }
         })
+    },
+
+    validate_user : (wnd) => {
+        const {getItem} = useStorage();
+        if(!globals.esUsuarioDeposito() && !globals.esUsuarioDepositoMin())
+        {
+            wnd.location.replace(public_urls.modo)
+        }
+
+        const _token = getItem("token",'session')
+
+        if(_token === typeof 'undefined' ){
+            alert("Debe Iniciar Sesion")
+            wnd.location.replace(public_urls.login)
+        }
+
+        var _t = setTimeout(() => {
+
+            if(_t !== typeof 'undefined'){
+                console.log("clear timeout")
+                clearTimeout(_t)
+            }
+            fetch(get.check_login+_token)
+            .then(response=>response.json())
+            .then((response)=>{ 
+                if(response.data.logged=='0'){
+                    alert("Debe Iniciar Sesion")
+                    wnd.location.replace(public_urls.login)
+                }
+                else{
+                    _t  = validate_user();
+                }
+
+            })
+            
+        }, 2000);
     },
     
 

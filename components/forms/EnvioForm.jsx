@@ -1,26 +1,21 @@
 import { Affix, Button, Col, Divider, Form, Input, InputNumber, Menu, Row, Table } from "antd";
-import CustomModal from "../CustomModal";
-import FullPathStockSelect from "../FullPathStockSelect";
 import LoadSelect from "../LoadSelect";
 import { useEffect, useState } from "react";
 import globals from "@/src/globals";
 import SearchStockEnvio from "./deposito/SearchStockEnvio";
-import { ClockCircleFilled, CloseCircleFilled } from "@ant-design/icons";
+import { CloseCircleFilled, DownOutlined, UpOutlined } from "@ant-design/icons";
 const urls = require("../../src/urls")
 const post_helper = require("../../src/helpers/post_helper")
 
 const EnvioForm = (props) => {
     const [tableData,setTableData] = useState([])
     const [tableLoading,setTableLoading] = useState(false);
-    //const [stack, setStack] = useState([])
-    //const [selectedCodigoId, setSelectedCodigoId] = useState(-1);
     const [sucursalDestId, setSucursalDestId] = useState(-1);
     const [bottom,setBottom] = useState(10);
     const [form] = Form.useForm();
-    const sucursal_id = globals.obtenerSucursal();// 1; //THIS VALUE HAS TO BE DYNAMIC!!
+    const sucursal_id = globals.obtenerSucursal();
     const [total, setTotal] = useState(0);
 
-    //var rows_to_add = []
     const [rows_to_add, setRowsToAdd] = useState([])
 
     useEffect(()=>{
@@ -42,7 +37,7 @@ const EnvioForm = (props) => {
             setTableLoading(false);
             actualizarTotal(tableData)
         }
-        //setValue("items",tableData)
+        
     },[rows_to_add])
 
     const setValue = (key,value) => {
@@ -130,29 +125,6 @@ const EnvioForm = (props) => {
     }
 
 
-
-    /*const start_process_stack = (_stack) => {
-        rows_to_add=[]
-        porcess_stack(_stack)
-    }
-
-    
-
-    const process_stack = (_stack) => {
-
-        alert(JSON.stringify(_stack))
-        
-        if(_stack.length<1)
-        {
-            setTableLoading(false)
-            return
-        }
-        const c = _stack.shift()
-
-        load_details_for_selected_id(c, ()=>{porcess_stack(_stack)})
-
-    }*/
-
     const load_details_for_selected_id = (selectedCodigoId, callback=null) => {
         
         const found = tableData.find(e=>e.key == selectedCodigoId)
@@ -187,14 +159,24 @@ const EnvioForm = (props) => {
            precio: data[0].precio,
         }
         
-        //alert("add new row " + JSON.stringify(tableData))
         setTableData([...tableData,new_row])
+    }
+
+    const increment_all = () => {
+        setTableData(d=>(
+            tableData.map(r=>({...r,cantidad: r.cantidad<r.max_cantidad ? r.cantidad+1:r.cantidad }))
+        ))
+    }
+
+    const decrement_all = () => {
+        setTableData(d=>(
+            tableData.map(r=>({...r,cantidad: r.cantidad>0 ? r.cantidad-1:r.cantidad }))
+        ))
     }
 
     
     return (
         <>
-            {/*buttons()*/}
             <Row>
             <Col span={14} style={{padding:"1em"}}>
             &nbsp;
@@ -233,16 +215,23 @@ const EnvioForm = (props) => {
                             ) },
                             {title:"Precio", dataIndex: "precio", render:(_,{precio})=>(<span style={{color:"#536872", fontSize:".75em"}}><i>$&nbsp;{precio}</i></span>)  },
                             {
-                                title:"cantidad", 
+                                title:<>
+                                    <Button onClick={decrement_all} size="small">
+                                        <DownOutlined />
+                                    </Button>Cantidad
+                                    <Button onClick={increment_all} size="small">
+                                        <UpOutlined />
+                                    </Button>
+                                </>, 
                                 dataIndex: "obj",  
                                 value: 1,
-                                render: (_,{obj})=>(
+                                render: (_,{obj, cantidad})=>(
                                     <>
-                                    <InputNumber style={{width:"50px"}} min={1} max={obj.max} defaultValue={0} onChange={(val)=>{
+                                    <Input type="number" style={{width:"50px"}} min={0} max={obj.max} defaultValue={0} value={cantidad} onChange={(e)=>{
                                         
                                         setTableData(talbeData=>{
 
-                                            const _data = tableData.map(p=>{if(p.key==obj.key){p.cantidad=val} return p;})
+                                            const _data = tableData.map(p=>{if(p.key==obj.key){p.cantidad=e.target.value} return p;})
                                             actualizarTotal(_data)
                                             return _data;
                                         }

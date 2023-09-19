@@ -11,10 +11,6 @@ import { getItem } from "localforage";
     const [permisos, setPermisos] = useState(null)
 
     useEffect(()=>{
-      //alert(globals.esUsuarioDeposito())
-      //alert(globals.esUsuarioDepositoMin())
-      //alert(globals.esUsuarioVentas())
-      //alert(globals.esUsuarioCaja1())
       setPermisos(p => {
         const _t = {
           esUsuarioDeposito: globals.esUsuarioDeposito(),
@@ -23,7 +19,6 @@ import { getItem } from "localforage";
           esUsuarioCaja1: globals.esUsuarioCaja1(),
           esUsuarioLaboratorio: globals.esUsuarioLaboratorio(),
         }
-        //alert(JSON.stringify(_t))
         return _t
       })
 
@@ -36,7 +31,7 @@ import { getItem } from "localforage";
           <>
           <Button type="primary" onClick={(e)=>{
             window.location.replace(public_urls.dashboard_deposito)
-          }} style={{marginTop:"1em", color:"green"}} size="large" block>Dep&oacute;sito</Button>
+          }} style={{marginTop:"1em", color:"white"}} size="large" block>Dep&oacute;sito</Button>
           </>
           :<></>
         }
@@ -45,7 +40,7 @@ import { getItem } from "localforage";
         <>
         <Button type="primary" onClick={(e)=>{
           window.location.replace(public_urls.dashboard_venta)
-        }} style={{marginTop:"1em", color:"blue"}} size="large" block>Ventas</Button>
+        }} style={{marginTop:"1em", color:"white"}} size="large" block>Ventas</Button>
         </>
         :<></>
         }
@@ -54,7 +49,7 @@ import { getItem } from "localforage";
         <>
           <Button type="primary" onClick={(e)=>{
             window.location.replace(public_urls.dashboard_caja)
-          }} style={{marginTop:"1em", color:"red"}} size="large" block>
+          }} style={{marginTop:"1em", color:"white"}} size="large" block>
           Caja
           </Button>
         </>
@@ -63,9 +58,9 @@ import { getItem } from "localforage";
         {
         permisos.esUsuarioLaboratorio?
         <>
-          <Button onClick={(e)=>{
+          <Button type="primary" onClick={(e)=>{
             window.location.replace(public_urls.dashboard_laboratorio)
-          }} style={{marginTop:"1em", color:"darkgoldenrod"}} size="large" block>
+          }} style={{marginTop:"1em", color:"white"}} size="large" block>
           Laboratorio
           </Button>
         </>
@@ -101,7 +96,7 @@ import { getItem } from "localforage";
       }}
     >
       <h4></h4>
-      <Card title="Seleccione Modo" size="small" style={{paddingLeft:"5em", paddingRight:"5em"}}>
+      <Card title="" size="small" style={{paddingLeft:"30%", paddingRight:"30%"}}>
         {
         buttons()
         }

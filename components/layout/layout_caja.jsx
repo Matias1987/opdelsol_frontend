@@ -12,7 +12,11 @@ import HeaderSol from "./header";
 export default function LayoutCaja({children}){
     const { Header, Sider, Content } = Layout;
 
-    var cnt=0;
+    
+
+    
+
+    
     const { getItem } = useStorage();
     const validate_user = () => {
 
@@ -23,8 +27,6 @@ export default function LayoutCaja({children}){
             window.location.replace(public_urls.login)
         }
 
-        console.log("validate_user" + cnt + " token: " + _token)
-        cnt++;
         var _t = setTimeout(() => {
 
             if(_t !== typeof 'undefined'){
@@ -39,7 +41,9 @@ export default function LayoutCaja({children}){
                     window.location.replace(public_urls.login)
                 }
                 else{
-                    _t  = validate_user();
+                    console.log("user validated")
+                    //_t  = validate_user();
+                    validate_user();
                 }
 
             })
@@ -55,6 +59,7 @@ export default function LayoutCaja({children}){
     }
     
     validate_user()
+    //globals.validate_user(window)
   },[])
     return (
         <Layout className='layout' style={{minHeight: 1200}}>

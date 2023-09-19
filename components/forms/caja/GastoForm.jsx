@@ -10,7 +10,7 @@ const GastoForm = (props) => {
     const [gasto, setGasto] = useState({
         idmotivo: null,
         monto: 0,
-        comentarios: null,
+        comentarios: "",
     })
 
     const onChange = (value,index) => {
@@ -42,6 +42,15 @@ const GastoForm = (props) => {
                 alert("Caja Cerrada")
                 return;
             }
+
+            if(gasto.idmotivo==null)
+            {
+                alert("Seleccionar motivo gasto")
+                return
+            }
+
+            
+
             if(!confirm("Confirmar gasto"))
             {
                 return;
@@ -67,7 +76,7 @@ const GastoForm = (props) => {
     return (<>
         <h3>Cargar Gasto</h3>
         <Form  onFinish={onFinish} onFinishFailed={onFinishFailed}>
-            <Form.Item label="Motivo" name={"motivo"} >
+            <Form.Item required label="Motivo" name={"motivo"} >
                 <Select options={options} onChange={(value)=>{onChange(value,'idmotivo')}} />
             </Form.Item>
 

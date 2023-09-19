@@ -173,7 +173,23 @@ export default function CobroOperacion(props){
             post_method(post.insert.cobro,params,(id)=>{
 
                 if(id.data==0){
-                    setIdCobro(0)
+                    if(dataVenta!=null && props.tipo!='resfuerzo')
+                    {
+                        post_method(
+                            post.cambiar_estado_venta,
+                            {
+                                idventa: dataVenta.idventa, 
+                                /*estado at this point could be entrega or ingreso  */
+                                estado: (props.tipo=='entrega' ? 'ENTREGADO' : (entrega ? "ENTREGADO" : "PENDIENTE"))
+                            },
+                            (resp)=>{
+                                setIdCobro(0)
+                            })
+                    }
+                    else{
+                        setIdCobro(0)
+                    }
+                    
                 }
                 else
                 {
@@ -205,7 +221,7 @@ export default function CobroOperacion(props){
                         /**
                          * actualizar balance de cta cte en recibo x 
                          */
-                        alert(get.actualizar_saldo_en_cobro + id.data)
+                        //alert(get.actualizar_saldo_en_cobro + id.data)
                         fetch(get.actualizar_saldo_en_cobro + id.data)
                         .then(___response=>___response.json())
                         .then((___response)=>{
