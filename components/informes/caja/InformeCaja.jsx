@@ -13,6 +13,18 @@ export default function InformeCaja(props){
     const[dataCaja, setDataCaja] = useState(null)
     const[fecha, setFecha] = useState("")
     const[hora, setHora] = useState("")
+
+    const [totales, setTotales] = useState({
+        ventas:0,
+        cuotas: 0,
+        cheques: 0,
+        tarjetas: 0,
+        mutual: 0,
+        ctacte: 0,
+        gastos: 0,
+        transferido: 0,
+        recibido: 0,
+    })
     useEffect(()=>{
 
         //get caja by id
@@ -106,6 +118,7 @@ export default function InformeCaja(props){
 
     const footer = _ => (
         <>
+        
         </>
     )
     return (<>
@@ -143,6 +156,15 @@ export default function InformeCaja(props){
                         totalMutual += parseFloat(r.mutual);
                         totalCtaCte += parseFloat(r.ctacte);
                     })
+                    setTotales(t=>({
+                        ...t,
+                        ventas: totalVentas,
+                        cuotas: totalCuotas,
+                        cheques: totalCheques,
+                        tarjetas: totalTarjetas,
+                        mutual: totalMutual,
+                        ctacte: totalCtaCte,
+                    }))
                     return <>
                         <Table.Summary.Row>
                             <Table.Summary.Cell colSpan={4}>
@@ -172,6 +194,11 @@ export default function InformeCaja(props){
                     data.forEach(r=>{
                         total+=parseFloat(r.monto)
                     })
+                    setTotales(t=>({
+                        ...t,
+                        gastos: total,
+                        
+                    }))
                     return <Table.Summary.Row>
                                 <Table.Summary.Cell colSpan={2}>
                                     TOTAL:
@@ -197,6 +224,11 @@ export default function InformeCaja(props){
                     data.forEach(r=>{
                         total+=parseFloat(r.monto)
                     })
+                    setTotales(t=>({
+                        ...t,
+                        transferido: total,
+                        
+                    }))
                     return <Table.Summary.Row>
                                 <Table.Summary.Cell>
                                     TOTAL:
@@ -221,7 +253,11 @@ export default function InformeCaja(props){
                     data.forEach(r=>{
                         total+=parseFloat(r.monto)
                     })
-
+                    setTotales(t=>({
+                        ...t,
+                        recibido: total,
+                        
+                    }))
                     return <Table.Summary.Row>
                                 <Table.Summary.Cell>
                                     TOTAL:

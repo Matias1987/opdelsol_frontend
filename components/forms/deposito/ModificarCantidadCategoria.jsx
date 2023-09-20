@@ -2,11 +2,14 @@ import GrupoSelect from "@/components/GrupoSelect";
 import SubFamiliaSelect from "@/components/SubFamiliaSelect";
 import SubGroupSelect from "@/components/SubGroupSelect";
 import { post_method } from "@/src/helpers/post_helper";
-import { post } from "@/src/urls";
-import { Button, Col, Input, Row, Select } from "antd";
+import { get, post } from "@/src/urls";
+import { EyeFilled } from "@ant-design/icons";
+import { Button, Col, Input, Modal, Row, Select, Table } from "antd";
 import { useState } from "react";
 
 const ModificarCantidadCategoria = (props) => {
+    const [open, setOpen] = useState(false)
+    const [data, setData] = useState([])
     const [selection, setSelection] = useState({
         tipo: "subgrupo",
         id: -1,
@@ -16,6 +19,30 @@ const ModificarCantidadCategoria = (props) => {
 
     const onAplicar = _ => {
         post_method(post.update.modificar_cantidad_categoria,selection,(response)=>{
+
+        })
+    }
+
+
+    const onUpdateList = _ => {
+        post_method(
+            post.search.filtro_stock,
+            {
+                subgrupo: selection.tipo == "subgrupo" ? selection.id : "",
+                grupo: selection.tipo == "grupo" ? selection.id : "",
+                subfamilia: selection.tipo == "subfamilia" ? selection.id : "",
+                familia: selection.tipo == "familia" ? selection.id : "",
+            },
+            (response)=>{
+                setData(response.data.map(r=>({
+                    codigo: r.codigo,
+                    cantidad: r.cantidad
+                })))
+            }
+        )
+        fetch(post.search.filtro_stock)
+        .then(response=>response.json())
+        .then((response)=>{
 
         })
     }
@@ -55,8 +82,19 @@ const ModificarCantidadCategoria = (props) => {
             
             />
         </Col>
-        <Col span={16}>
-        &nbsp;&nbsp;<b>Valor:</b>&nbsp;&nbsp;{_options}
+        <Col span={2}>
+        &nbsp;&nbsp;<b>Valor:</b>&nbsp;&nbsp;
+        </Col>
+        <Col span={12}>
+        {_options}
+        
+        </Col>
+        <Col span={2}>
+        <Button type="ghost" onClick={()=>{
+            
+            setOpen(true)
+            }}><EyeFilled /></Button>
+        
         </Col>
     </Row>
     <Row style={row_style}>
@@ -69,6 +107,16 @@ const ModificarCantidadCategoria = (props) => {
             <Button onClick={onAplicar} type="primary">Aplicar</Button>
         </Col>
     </Row>
+    <Modal open={open} title={"Lista de Stock"} footer={null} onCancel={()=>{setOpen(false)}}>
+        <Row>
+            <Col span={24}>
+                <Table dataSource={data} columns={[
+                {dataIndex:"codigo", title:"Codigo"},
+                {dataIndex:"cantidad", title:"Cantidad"},
+                ]} />
+            </Col>
+        </Row>
+    </Modal>
         
     </>
 }
