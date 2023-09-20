@@ -132,7 +132,7 @@ export default function ModoPago(props){
 
     const onChange = (index, value) => {
         setModoPago( (modoPago) => { 
-            const _mp = {...modoPago,[index]:parseFloat(value.trim().length<1 ? 0 : value)};
+            const _mp = {...modoPago,[index]:value};
             _mp.total = parseFloat(_mp.cheque_monto||0)+
                         parseFloat(_mp.ctacte_monto||0)+
                         parseFloat(_mp.tarjeta_monto||0)+

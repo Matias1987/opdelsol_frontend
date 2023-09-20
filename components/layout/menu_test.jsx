@@ -45,6 +45,9 @@ export default function TestMenu(){
             <Menu.Item key="42" ><PartitionOutlined /> 
               <Link href={get_url_to("deposito/arbol_codigos")}>&nbsp;&Aacute;rbol de C&oacute;digos</Link>
             </Menu.Item>
+            <Menu.Item key="43" ><PartitionOutlined /> 
+              <Link href={get_url_to("deposito/stock/modif_cant_cat")}>&nbsp;Modificar Cantidad Categor&iacute;a;</Link>
+            </Menu.Item>
             
             <Menu.Divider></Menu.Divider>
             <Menu.Item key="15" ><PlusCircleOutlined /> 
