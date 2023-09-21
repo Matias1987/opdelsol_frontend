@@ -8,15 +8,11 @@ import globals from "@/src/globals";
 import MenuCajaTop from "./menu_caja_top";
 import Alerts from "./alert_container";
 import HeaderSol from "./header";
+import Chat from "../chat/chat";
 
 export default function LayoutCaja({children}){
     const { Header, Sider, Content } = Layout;
 
-    
-
-    
-
-    
     const { getItem } = useStorage();
     const validate_user = () => {
 
@@ -69,6 +65,7 @@ export default function LayoutCaja({children}){
             <Content style={{ margin: '40px 100px', padding: 24, background: '#fff', overflowY:'scroll' }}>
                 {/*<Alerts />*/}
                 {children}
+                <Chat />
             </Content>
         </Layout>
     )

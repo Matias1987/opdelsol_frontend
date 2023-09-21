@@ -1,8 +1,22 @@
+import { get } from "@/src/urls";
 import { Col, Row, Table } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const ListaGastosAdmin = (props) =>{
     const [dataSource, setDataSource] = useState([])
+    useEffect(()=>{
+        fetch(get.obtener_lista_gastos_admin)
+        .then(response=>response.json())
+        .then((response)=>{
+            setDataSource(response.data.map(
+                r=>({
+                    sucursal: r.sucursal,
+                    concepto: r.concepto,
+                    monto: r.monto,
+                })
+            ))
+        })
+    },[]);
     return <>
         <h4>Lista de Gastos</h4>
         <Row>

@@ -98,6 +98,7 @@ const post = {
         caja: remote_base_url + "caja/",
         transferencia: remote_base_url + "transferencias/",
         destinatario: remote_base_url + "cliente/destinatario/",
+        mensajes: remote_base_url + "mensajes/",
         
     },
     update:{
@@ -228,6 +229,12 @@ const get = {
 
     detalle_usuario: remote_base_url + "usuarios/",//:idusuario
 
+    obtener_lista_cobros_admin: remote_base_url + "admin/obtener_lista_cobros_admin",
+    obtener_lista_envios_admin: remote_base_url + "admin/obtener_lista_envios_admin",
+    obtener_lista_gastos_admin: remote_base_url + "admin/obtener_lista_gastos_admin",
+    obtener_lista_ventas_admin: remote_base_url + "admin/obtener_lista_ventas_admin",
+
+    mensajes: remote_base_url + "mensajes/",
 }
 
 module.exports = {

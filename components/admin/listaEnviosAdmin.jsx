@@ -1,8 +1,22 @@
+import { get } from "@/src/urls";
 import { Col, Row, Table } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const ListaEnviosAdmin = (props) =>{
     const [dataSource, setDataSource] = useState([])
+    useEffect(()=>{
+        fetch(get.obtener_lista_envios_admin)
+        .then(response=>response.json())
+        .then((response)=>{
+            setDataSource(response.data.map(
+                r=>({
+                    sucursal_dest: r.sucursal_dest,
+                    
+                    monto: r.monto,
+                })
+            ))
+        })
+    },[]);
     return <>
         <h4>Lista de Envios</h4>
         <Row>
@@ -12,7 +26,7 @@ const ListaEnviosAdmin = (props) =>{
                 columns={
                     [
                         {title:"Sucursal Dest.", dataIndex:"sucursal_dest"},
-                        {title:"Cantidad", dataIndex:"cantidad"},
+                        {title:"Monto", dataIndex:"monto"},
                     ]
                 }
                 />

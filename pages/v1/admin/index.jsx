@@ -4,23 +4,31 @@ import ListaGastosAdmin from "@/components/admin/listaGastosAdmin";
 import ListaVentasAdmin from "@/components/admin/listaVentasAdmin";
 import LayoutAdmin from "@/components/layout/layout_admin";
 import { Col, Row } from "antd";
+import { useEffect, useState } from "react";
 
 export default function dashboard_admin(){
+    const [tick, setTick] = useState(0) 
+    useEffect(()=>{
+        const interval = setInterval(() => {
+            setTick(tick++)
+        }, 4000);
+        return ()=>clearInterval(interval)
+    },[tick])
     return <>
     <Row>
         <Col span={12}>
-            <ListaVentasAdmin />
+            <ListaVentasAdmin key={tick} />
         </Col>
         <Col span={12}>
-            <ListaEnviosAdmin />
+            <ListaEnviosAdmin key={tick} />
         </Col>
     </Row>
     <Row>
         <Col span={12}>
-            <ListaGastosAdmin />
+            <ListaGastosAdmin key={tick} />
         </Col>
         <Col span={12}>
-            <ListaCobrosAdmin />
+            <ListaCobrosAdmin key={tick} />
         </Col>
     </Row>
     </>
