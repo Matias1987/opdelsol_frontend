@@ -18,6 +18,8 @@ import { getItem } from "localforage";
           esUsuarioVentas: globals.esUsuarioVentas(),
           esUsuarioCaja1: globals.esUsuarioCaja1(),
           esUsuarioLaboratorio: globals.esUsuarioLaboratorio(),
+          esUsuarioAdmin: globals.esUsuarioAdmin(),
+          esUsuarioAdminMin: globals.esUsuarioAdminMin(),
         }
         return _t
       })
@@ -62,6 +64,18 @@ import { getItem } from "localforage";
             window.location.replace(public_urls.dashboard_laboratorio)
           }} style={{marginTop:"1em", color:"white"}} size="large" block>
           Laboratorio
+          </Button>
+        </>
+        :<></>
+        
+        }
+        {
+        permisos.esUsuarioAdmin?
+        <>
+          <Button type="primary" onClick={(e)=>{
+            window.location.replace(public_urls.dashboard_admin)
+          }} style={{marginTop:"1em", color:"white"}} size="large" block>
+          Admin
           </Button>
         </>
         :<></>

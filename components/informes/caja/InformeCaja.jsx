@@ -117,8 +117,14 @@ export default function InformeCaja(props){
     )
 
     const footer = _ => (
+        dataCaja == null ? <></> :
         <>
-        
+        <Row>
+            <Col span={6}>Total Ventas + Cuotas:&nbsp;{totales.ventas + totales.cuotas}&nbsp;</Col>
+            <Col span={6}>Total Gastos:&nbsp;{totales.gastos}&nbsp;</Col>
+            <Col span={6}>Monto Transferido:&nbsp;{totales.transferido} &nbsp;Recibido:&nbsp;{totales.recibido}&nbsp;</Col>
+            <Col span={6}>NETO CAJA:&nbsp;{parseFloat(totales.ventas) + parseFloat(totales.cuotas) + parseFloat(dataCaja.monto_inicial) - parseFloat(totales.gastos) - parseFloat(totales.transferido) + parseFloat(totales.recibido)}</Col>
+        </Row>
         </>
     )
     return (<>
