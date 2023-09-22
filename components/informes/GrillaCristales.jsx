@@ -12,11 +12,11 @@ const GrillaCristales = (props) => {
     const calc_grilla = params => {
         let gridPos = []
         let gridNeg = []
-        for(let i=0;i<1350;i+=25)
+        for(let i=0;i<1650;i+=25)
         {
             gridPos.push([])
             gridNeg.push([])
-            for(let j=0;j<650;j+=25)
+            for(let j=0;j<750;j+=25)
             {
                 let msg=""
                 if(i==0&&j==0)
