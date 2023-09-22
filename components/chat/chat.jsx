@@ -53,15 +53,15 @@ const Chat = (props) =>{
                 setTick(tick+1)
             }, 1000);
 
-            if(dataChange){
+            /*if(dataChange){
                 setDataChange(false)
-                //setScrollChange(true)
+                setScrollChange(true)
                 dummyref.current?.scrollIntoView({ behavior: "smooth" })
-            }
+            }*/
     
         })
 
-       
+        dummyref.current?.scrollIntoView({ behavior: "smooth" })
 
         /*if(scrollChange){
             dummyref.current?.scrollIntoView({ behavior: "smooth" })
