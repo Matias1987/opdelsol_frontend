@@ -21,7 +21,7 @@ export default function LayoutAdmin({children}){
         var _t = setTimeout(() => {
 
             if(_t !== typeof 'undefined'){
-                console.log("clear timeout")
+                //console.log("clear timeout")
                 clearTimeout(_t)
             }
             fetch(get.check_login+_token)
@@ -32,7 +32,7 @@ export default function LayoutAdmin({children}){
                     window.location.replace(public_urls.login)
                 }
                 else{
-                    console.log("user validated")
+                    //console.log("user validated")
                     validate_user();
                 }
 
@@ -41,7 +41,7 @@ export default function LayoutAdmin({children}){
         }, 2000);
     }
   useEffect(()=>{
-    console.log("run user effect")
+    //console.log("run user effect")
 
     if(!globals.esUsuarioCaja1())
     {

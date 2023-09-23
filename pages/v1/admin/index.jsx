@@ -10,27 +10,30 @@ export default function dashboard_admin(){
     const [tick, setTick] = useState(0) 
     useEffect(()=>{
         const interval = setInterval(() => {
-            setTick(tick++)
-        }, 4000);
-        return ()=>clearInterval(interval)
+            setTick(tick+1)
+        }, 20000);
+        return ()=>{
+            console.log("-------------->CLEAR<-------------------- " + JSON.stringify(interval) )
+            clearInterval(interval)
+        }
     },[tick])
     return <>
     <Row>
         <Col span={12}>
             <ListaVentasAdmin key={tick} />
         </Col>
-        <Col span={12}>
+        {/*<Col span={12}>
             <ListaEnviosAdmin key={tick} />
-        </Col>
+</Col>*/}
     </Row>
-    <Row>
+    {/*<Row>
         <Col span={12}>
             <ListaGastosAdmin key={tick} />
         </Col>
         <Col span={12}>
             <ListaCobrosAdmin key={tick} />
         </Col>
-    </Row>
+</Row>*/}
     </>
 }
 

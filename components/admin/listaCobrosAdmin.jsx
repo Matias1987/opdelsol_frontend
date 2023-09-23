@@ -1,10 +1,11 @@
 import { get } from "@/src/urls";
 import { Col, Row, Table } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const ListaCobrosAdmin = (props) =>{
     const [dataSource, setDataSource] = useState([])
     useEffect(()=>{
+        //console.log("run user effect")
         fetch(get.obtener_lista_cobros_admin)
         .then(response=>response.json())
         .then((response)=>{
