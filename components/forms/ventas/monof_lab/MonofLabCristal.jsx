@@ -1,5 +1,5 @@
 //MonofLabCristal
-import { Button, Col, Form, Input, Row } from "antd";
+import { Button, Col, Form, Input, Row, Select } from "antd";
 import SelectCodigoVenta from "../SelectCodigoVenta";
 import { useEffect, useRef, useState } from "react";
 import { DeleteOutlined } from "@ant-design/icons";
@@ -10,6 +10,12 @@ const MonofLabCristal = (props) => {
     const [visible, setVisible] = useState(false);
     
     const precioRef = useRef(null)
+
+    const [itemsEsf, setItemsEsf] = useState([])
+    
+    const [itemsCil, setItemsCil] = useState([])
+
+    const [itemsEje, setItemsEje] = useState([])
 
     const [cristal, setCristal] = useState({
         idcodigo: -1,
@@ -23,6 +29,36 @@ const MonofLabCristal = (props) => {
 
     })
 
+    useEffect(()=>{
+        var esf  = []
+        for(let i=-17;i<=17;i+=.25)
+        {
+            esf.push({
+                value: i.toString(),
+                label: i.toString(),
+            })
+        }
+        var cil = []
+        for(let i=-4;i<=0;i+=.25)
+        {
+            cil.push({
+                value: i.toString(),
+                label: i.toString(),
+            })
+        }
+        var eje = []
+        for(let i=0;i<181;i++){
+            eje.push({
+                value: i.toString(),
+                label: i.toString(),
+            })
+        }
+        setItemsCil(cil)
+        setItemsEsf(esf)
+        setItemsEje(eje)
+
+    },[])
+
     const onchange_codigo = (value) => {
         precioRef.current.value = value.precio;
 
@@ -33,25 +69,25 @@ const MonofLabCristal = (props) => {
         })
         
     }
-    const onchange_eje = (e) => {
+    const onchange_eje = (v) => {
         setCristal((cristal)=>{
-            const __cristal = {...cristal,eje:e.target.value}
+            const __cristal = {...cristal,eje:v}
             props?.callback(__cristal)
             return __cristal
         })
         
     }
-    const onchange_esf = (e) => {
+    const onchange_esf = (v) => {
         setCristal((cristal)=>{
-            const __cristal = {...cristal,esf:e.target.value}
+            const __cristal = {...cristal,esf:v}
             props?.callback(__cristal)
             return __cristal
         })
         
     }
-    const onchange_cil = (e) => {
+    const onchange_cil = (v) => {
         setCristal((cristal)=>{
-            const __cristal = {...cristal,cil:e.target.value}
+            const __cristal = {...cristal,cil:v}
             props?.callback(__cristal)
             return __cristal
         })
@@ -70,6 +106,11 @@ const MonofLabCristal = (props) => {
         onchange_codigo({precio:0, codigo:null, idcodigo: -1})
         setVisible(v=>{ props?.onVisibleChange?.(false); return false;})
     }
+
+    const _estilo_label = {
+        padding: ".30em",
+        textAlign: "right",
+    }
       
     
     return (
@@ -81,7 +122,7 @@ const MonofLabCristal = (props) => {
             }</Button> :
         <>
             <Row>
-                <Col span={3}>
+                {/*<Col span={3}>
                     <Input addonBefore={"Esf:"} onChange={onchange_esf} />&nbsp;
                 </Col>
                 <Col span={3}>
@@ -90,8 +131,28 @@ const MonofLabCristal = (props) => {
                 <Col span={3}>
                     <Input addonBefore={"Eje:"} onChange={onchange_eje} />&nbsp;
                 </Col>
+                */}
+                <Col span={1} style={_estilo_label}>
+                    Esf:
+                </Col>
+                <Col span={2}>
+                    <Select options={itemsEsf} onChange={(v)=>{onchange_esf(v)}} />
+                </Col>
+                <Col span={1} style={_estilo_label}>
+                    Cil:
+                </Col>
+                <Col span={2}>
+                    <Select options={itemsCil} onChange={(v)=>{onchange_cil(v)}}/>
+                </Col>
+                <Col span={1} style={_estilo_label}>
+                    Eje:
+                </Col>
+                <Col span={2}>
+                    <Select options={itemsEje} onChange={(v)=>{onchange_eje(v)}}/>
+                </Col>
+                
                 <Col span={10}>
-                    <SelectCodigoVenta idfamilias={[globals.familiaIDs.CRISTALES]} buttonText={"Seleccionar Codigo Cristal"} callback={onchange_codigo} />
+                    <SelectCodigoVenta idfamilias={[globals.familiaIDs.CRISTALES]} buttonText={"Seleccionar Codigo Base"} callback={onchange_codigo} />
                 </Col>
                 
                 <Col span={4}>
