@@ -117,6 +117,8 @@ const validar_items_venta = (venta) => {
  */
 const submit_venta = (v, productos,total,subTotal, tipo_vta, validate_items, callback, options) => {
 
+    alert(JSON.stringify(productos))
+
     const ignore_fecha_retiro = options?.ignore_fecha_retiro||null
 
     if(ignore_fecha_retiro == null)
@@ -147,10 +149,6 @@ const submit_venta = (v, productos,total,subTotal, tipo_vta, validate_items, cal
             return
         }
     }
-
- 
-    
-    
 
     globals.obtenerCajaAsync((result)=>{
 
@@ -187,7 +185,10 @@ const submit_venta = (v, productos,total,subTotal, tipo_vta, validate_items, cal
                 return
             }
         }
-        
+        /**
+         * validar cantidad stock 
+         */
+
         if(confirm("Confirmar Venta"))
         {
             

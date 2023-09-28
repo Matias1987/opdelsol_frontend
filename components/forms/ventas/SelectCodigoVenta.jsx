@@ -18,6 +18,7 @@ import { CloseCircleFilled } from "@ant-design/icons";
 export default function SelectCodigoVenta(props){
     const [dataCodigo, setDataCodigo] = useState(null);
     const query_detalles = get.obtener_stock_detalles_venta + globals.obtenerSucursal() + "/";
+    
     const onCodigoSelected = (id)=>{
         //get details!
         fetch(query_detalles + id)

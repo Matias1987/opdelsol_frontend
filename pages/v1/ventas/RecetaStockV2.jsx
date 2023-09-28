@@ -65,6 +65,7 @@ export default function VentaRecetaStock(){
         }}
         
         onfinish={(data)=>{
+            
             submit_venta(data,productos,total,subTotal,globals.tiposVenta.RECSTOCK,true,(idventa)=>{
                 setIdVenta(idventa)
                 setPrintOpen(true)

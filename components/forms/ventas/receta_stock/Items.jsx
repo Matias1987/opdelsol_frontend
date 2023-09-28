@@ -62,7 +62,7 @@ const RecetaStockItems = (props) => {
                     <RecStockCristal onVisibleChange={(_value)=>onVisibleChange("lejos_oi_visible",_value)} tipo='LEJOS_OI' buttonText={"Ojo Izquierdo Lejos"} callback={(v)=>{on_change("lejos_oi",v)}}/>
                 </Form.Item>
                 <Form.Item>    
-                    <VentasArmazon onVisibleChange={(_value)=>onVisibleChange("lejos_armazon_visible",_value)} tipo='LEJOS_ARMAZON' buttonText={"Armazon Lejos Propio"}  callback={(v)=>{on_change("lejos_armazon",v)}}/>
+                    <VentasArmazon onVisibleChange={(_value)=>onVisibleChange("lejos_armazon_visible",_value)} tipo='LEJOS_ARMAZON' buttonText={"Armazon Lejos Propio"}  callback={(v)=>{ alert(JSON.stringify(v)); on_change("lejos_armazon",v)}}/>
                 </Form.Item>
                 <Form.Item>    
                     <VentasTratamiento onVisibleChange={(_value)=>onVisibleChange("lejos_tratamiento_visible",_value)} tipo='LEJOS_TRATAMIENTO' buttonText={"Tratamiento Lejos"} callback={(v)=>{on_change("lejos_tratamiento",v)}}/>

@@ -17,21 +17,21 @@ const VentasArmazon = (props) => {
     const on_precio_change = (e) => {
         
         setArmazon(
-            (armazon) => 
+            (__armazon) => 
             { 
-                const _armazon = {...armazon,precio: e.target.value};
+                const _armazon = {...__armazon,precio: e.target.value};
                 props.callback(_armazon); 
                 return _armazon; 
             })
     }
 
     const on_codigo_change = (val) => {
-
         precioRef.current.value = val.precio;
        
-        setArmazon((armazon)=>{
+        setArmazon((__armazon)=>{
+        
             const _armazon = {
-                ...armazon,
+                ...__armazon,
                 codigo: val.codigo,
                 idcodigo: val.idcodigo,
                 precio: val.precio,
@@ -40,25 +40,21 @@ const VentasArmazon = (props) => {
             
 
             props?.callback(_armazon);
-            return {
-                _armazon
-            }
+            return _armazon
         })
     }
 
     const on_remove = () => {
         setVisible(v=>{ props?.onVisibleChange?.(false); return false;})
-        setArmazon((armazon)=>{
+        setArmazon((__armazon)=>{
             const _armazon = {
-                ...armazon,
+                ...__armazon,
                 codigo: null,
                 precio: 0,
             };
 
             props?.callback(_armazon);
-            return {
-                _armazon
-            }
+            return _armazon
         })
     }
 
