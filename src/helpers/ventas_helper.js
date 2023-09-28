@@ -117,8 +117,6 @@ const validar_items_venta = (venta) => {
  */
 const submit_venta = (v, productos,total,subTotal, tipo_vta, validate_items, callback, options) => {
 
-    alert(JSON.stringify(productos))
-
     const ignore_fecha_retiro = options?.ignore_fecha_retiro||null
 
     if(ignore_fecha_retiro == null)
@@ -188,24 +186,33 @@ const submit_venta = (v, productos,total,subTotal, tipo_vta, validate_items, cal
         /**
          * validar cantidad stock 
          */
-
-        if(confirm("Confirmar Venta"))
+        
         {
-            
-            post_method(post.insert.venta,__venta,(response)=>{
-                //alert("OK " + JSON.stringify(response))
-                //THIS SHOULD NOT BE HERE! but it is
-                post_method(post.update.desc_cantidades_stock_venta,{idventa: response.data},()=>{
-                    console.log("Cantidades descontadas? ...")
-                })
-
-                callback?.(response.data)
-                    
-                })
-
+            post_method(post.update.verificar_cantidades_productos,{productos: productos, idsucursal: globals.obtenerSucursal(),tipo:tipo_vta},(_response)=>{
                 
+                if(_response?.data?.error == 1){
+                    alert("Error, cantidad insuficiente codigo: " + _response?.data?.ref?.codigo)
+                    return
+                }
+                else
+                {
+                    if(confirm("Confirmar Venta"))
+                    {
+                        post_method(post.insert.venta,__venta,(response)=>{
+                            //alert("OK " + JSON.stringify(response))
+                            //THIS SHOULD NOT BE HERE! but it is
+                            post_method(post.update.desc_cantidades_stock_venta,{idventa: response.data},()=>{
+                                console.log("Cantidades descontadas? ...")
+                            })
+            
+                            callback?.(response.data)
+                                
+                            })
+                    }
+                }
+                
+            })
         }
-    
     });
 }
 

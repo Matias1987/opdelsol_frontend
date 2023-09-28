@@ -122,6 +122,8 @@ const post = {
         desc_cantidades_stock_venta: remote_base_url +"ventas/desc_cantidades_stock_venta/",
         modificar_precios_defecto_subgrupo: remote_base_url + "subgrupos/modificar_precios_defecto/",
         modificar_cantidad_categoria: remote_base_url + "stock/m/modificar_cantidad_categoria/",
+        verificar_cantidades_productos: remote_base_url + "stock/verificar_cantidades_productos/",
+
     },
 }
 
