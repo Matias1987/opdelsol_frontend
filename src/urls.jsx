@@ -233,15 +233,16 @@ const get = {
 
     detalle_usuario: remote_base_url + "usuarios/",//:idusuario
 
-    obtener_lista_cobros_admin: remote_base_url + "admin/obtener_lista_cobros_admin",
-    obtener_lista_envios_admin: remote_base_url + "admin/obtener_lista_envios_admin",
-    obtener_lista_gastos_admin: remote_base_url + "admin/obtener_lista_gastos_admin",
-    obtener_lista_ventas_admin: remote_base_url + "admin/obtener_lista_ventas_admin",
+    obtener_lista_cobros_admin: remote_base_url + "admin/obtener_lista_cobros_admin/",
+    obtener_lista_envios_admin: remote_base_url + "admin/obtener_lista_envios_admin/",
+    obtener_lista_gastos_admin: remote_base_url + "admin/obtener_lista_gastos_admin/",
+    obtener_lista_ventas_admin: remote_base_url + "admin/obtener_lista_ventas_admin/",
 
     mensajes: remote_base_url + "mensajes/",
 
-    obtener_pagare: remote_base_url + "pagares/obtenerPagare",
-    obtener_pagares_cliente: remote_base_url + "pagares/obtenerPagaresCliente",
+    obtener_pagare: remote_base_url + "ventas/obtener_datos_pagare/",
+    obtener_pagares_cliente: remote_base_url + "ventas/obtener_lista_pagares/",
+
 }
 
 module.exports = {

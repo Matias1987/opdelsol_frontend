@@ -1,7 +1,7 @@
 import PrinterWrapper from "@/components/PrinterWrapper";
 import { convertToWords } from "@/src/helpers/string_helper";
 import { get } from "@/src/urls";
-import { Modal } from "antd";
+import { Button, Modal, Spin } from "antd";
 import { useEffect, useState } from "react";
 
 /**
@@ -28,54 +28,10 @@ const Pagare = (props) => {
     const [open, setOpen] = useState(false)
 
     useEffect(()=>{
-        //get modo de pago y data del cliente
-        const url = ""
-        fetch(url)
-        .then(resp=>resp.json())
-        .then((response)=>{
-            if(response.data != null)
-            {
-                if(response.data.length>0)
-                {
-                    setModoPago({})
-                    //get cliente data
-                    fetch(get.detalle_cliente)
-                    .then(r=>r.json())
-                    .then((resp)=>{
-                        setDataCliente({
-                            nombre: "",
-                            dni: "",
-                            telefono: "",
-                            domicilio: "",
-                            localidad: "",
-                        })
-                    })
-                }
-            }
-            //FOR TEST ONLY!
-            setModoPago({
-                id_modopago: 0,
-                fkoperacion: 0,
-                monto: 0,
-                monto_int: 0,
-                cant_cuotas: 0,
-                monto_cuota: 0,
-                monto_venta: 0, //<-- this one should be added to the query
-                producto_adquirido: "-",//<--this one too...
-                monto_venta_int: 0,//<--and this
-                entrega: 0,//<--and this
-            })
-           
-            
-        })
+        
     },[])
-    return modoPago == null || dataCliente == null ? <></> : <>
-    <Button>
-        Imprimir Pagar&eacute;
-    </Button>
-    <Modal open={open} footer={null} onCancel={()=>{setOpen(false)}}>
 
-    </Modal>
+    const _pagare_ = _ => (
         <PrinterWrapper>
         Pagare
         <table style = {{textAlign: 'left', width: '100%',}} border='0' cellpadding='2' cellspacing='2'>
@@ -161,6 +117,77 @@ const Pagare = (props) => {
             </tbody>
         </table>
         </PrinterWrapper>
+    )
+
+
+    const onOpen = ( ) => {
+        //get modo de pago y data del cliente
+        const url = get.obtener_pagare + props.fkventa
+        alert(url)
+        fetch(url)
+        .then(resp=>resp.json())
+        .then((response)=>{
+            alert(JSON.stringify(response))
+            if(response.data != null)
+            {
+                if(response.data!=null)
+                {
+                    setModoPago({
+                        id_modopago: 0,
+                        fkoperacion: response.data.idventa,
+                        monto: response.data.monto,
+                        monto_int: response.data.monto_int,
+                        cant_cuotas: response.data.cant_cuotas,
+                        monto_cuota: response.data.monto_cuota,
+                        monto_venta: response.data.vta_monto, //<-- this one should be added to the query
+                        producto_adquirido: "-",//<--this one too...
+                        monto_venta_int: response.data.vta_monto_int,//<--and this
+                        entrega: response.data.monto_entrega,//<--and this
+                    })
+                    //get cliente data
+                    alert(get.detalle_cliente + response.data.idcliente)
+                    fetch(get.detalle_cliente + response.data.idcliente)
+                    .then(r=>r.json())
+                    .then((resp)=>{
+                        alert(JSON.stringify(resp))
+                        setDataCliente({
+                            nombre: resp.data[0].nombre_completo,
+                            dni: resp.data[0].dni,
+                            telefono: resp.data[0].telefono1,
+                            domicilio: resp.data[0].domicilio,
+                            localidad: "-",
+                        })
+                    })
+                }
+            }
+            //FOR TEST ONLY!
+            /*setModoPago({
+                id_modopago: 0,
+                fkoperacion: 0,
+                monto: 0,
+                monto_int: 0,
+                cant_cuotas: 0,
+                monto_cuota: 0,
+                monto_venta: 0, //<-- this one should be added to the query
+                producto_adquirido: "-",//<--this one too...
+                monto_venta_int: 0,//<--and this
+                entrega: 0,//<--and this
+            })*/
+           
+            
+        })
+    }
+
+    return <>
+    <Button onClick={()=>{setOpen(true); onOpen()}}>
+        Imprimir Pagar&eacute;
+    </Button>
+    <Modal width={"80%"} open={open} footer={null} onCancel={()=>{setOpen(false)}}>
+        {modoPago==null||dataCliente==null ? <>Loading...<Spin /></> : <>
+            {_pagare_()}
+        </>}
+    </Modal>
+        
     </>
 }
 

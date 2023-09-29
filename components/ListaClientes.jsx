@@ -9,6 +9,7 @@ import FichaCliente from "@/components/FichaCliente";
 import LayoutCaja from "@/components/layout/layout_caja";
 import DetalleCliente from "@/components/DetalleCliente";
 import ClienteFormV2 from "./forms/ClienteFormV2";
+import ListaPagares from "./forms/caja/ListaPagares";
 
 export default function ListaClientes(props){
     const [clientes, setClientes] = useState(null);
@@ -77,6 +78,9 @@ export default function ListaClientes(props){
             }
             <CustomModal title="Detalle Cliente" openButtonText={"Detalle"}>
                 <DetalleCliente idcliente={idcliente} />
+            </CustomModal>
+            <CustomModal title="Pagares" openButtonText={"Pagares"}>
+                <ListaPagares idcliente={idcliente} />
             </CustomModal>
             
             </>
