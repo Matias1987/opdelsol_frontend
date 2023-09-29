@@ -101,7 +101,7 @@ const post = {
         transferencia: remote_base_url + "transferencias/",
         destinatario: remote_base_url + "cliente/destinatario/",
         mensajes: remote_base_url + "mensajes/",
-        
+        pagare: remote_base_url + "pagares/",
     },
     update:{
         familia: remote_base_url + "familia/",
@@ -239,6 +239,9 @@ const get = {
     obtener_lista_ventas_admin: remote_base_url + "admin/obtener_lista_ventas_admin",
 
     mensajes: remote_base_url + "mensajes/",
+
+    obtener_pagare: remote_base_url + "pagares/obtenerPagare",
+    obtener_pagares_cliente: remote_base_url + "pagares/obtenerPagaresCliente",
 }
 
 module.exports = {
