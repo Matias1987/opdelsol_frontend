@@ -243,6 +243,8 @@ const get = {
     obtener_pagare: remote_base_url + "ventas/obtener_datos_pagare/",
     obtener_pagares_cliente: remote_base_url + "ventas/obtener_lista_pagares/",
 
+    obtener_categorias_productos_venta: remote_base_url + "ventas/obtener_categorias_productos_venta/",
+
 }
 
 module.exports = {

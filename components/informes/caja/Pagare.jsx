@@ -14,6 +14,7 @@ const Pagare = (props) => {
     const [dataCliente, setDataCliente] = useState(null)
     const [open, setOpen] = useState(false)
     const [fechaVencimiento, setFechaVencimiento] = useState(null)
+    const [detalleProducto, setDetalleProducto] = useState("")
 
     useEffect(()=>{
         const date = new Date()
@@ -45,7 +46,7 @@ const Pagare = (props) => {
                             pagaderos en calle Col&oacute;n 98 de la ciudad de Resistencia, Provincia del
                             Chaco.</p>
                             <p>El bien y/o servicio adquirido es: <span
-                            style = {{fontWeight: 'bold'}} >&nbsp;{modoPago.producto_adquirido}</span></p>
+                            style = {{fontWeight: 'bold'}} >&nbsp;{detalleProducto}</span></p>
                             <p>El precio de<span style={{fontWeight: 'bold'}}> CONTADO </span>
                             del producto adquirido es de: <span style = {{fontWeight: 'bold'}} >&nbsp;$&nbsp;{modoPago.monto_venta}&nbsp;</span></p>
                             <p>El monto de Venta FINANCIADO es de:&nbsp;<span
@@ -147,6 +148,15 @@ const Pagare = (props) => {
                             telefono: resp.data[0].telefono1,
                             domicilio: resp.data[0].domicilio,
                             localidad: "-",
+                        })
+                        fetch(get.obtener_categorias_productos_venta + props.fkventa)
+                        .then(r=>r.json())
+                        .then((response)=>{
+                            var _t = ""
+                            response.data.forEach((r)=>{
+                                _t += (_t == "" ? "" : ", ") + r.nombre_largo
+                            })
+                            setDetalleProducto(_t)
                         })
                     })
                 }
