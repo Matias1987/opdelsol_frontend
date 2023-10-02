@@ -1,5 +1,15 @@
 //////
 
+const current_date = (separator="-") => {
+    const date = new Date()
+    return `${date.getDate().toString()}${separator}${date.getMonth().toString()}${separator}${date.getFullYear().toString()}`
+
+}
+const format_date = (date, separator="-") => {
+    return `${date.getDate().toString()}${separator}${date.getMonth().toString()}${separator}${date.getFullYear().toString()}`
+
+}
+
 const parse_DMY_date = (_date) => {
     //date with format dd/mm/yyyy
     let parts = _date.split("-")
@@ -203,4 +213,4 @@ const convertToWords = (value) => {
 
 
 
-module.exports={parse_DMY_date, convertToWords}
+module.exports={parse_DMY_date, convertToWords, current_date, format_date}

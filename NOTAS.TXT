@@ -1,3 +1,11 @@
+<!!>falta agregar producto adquirido en pagare... SE DEBE TENER EN CTA LA FAMILIA PARA 
+DETERMINAR EL TIPO DE PRODUCTO ADQUIRIDO..., 
+falta crear una consulta para traer los tipos de productos adquiridos...
+
+<!>En pagares, cambiar el texto del valor o monto a pagar, para que solamente devuelva
+el monto de la parte entera, sin centavos.
+
+hacer pruebas generales de todoo.............
 
 EN ENVIOS, AGREGAR PRODUCTOS CON CANTIDAD 0
 
