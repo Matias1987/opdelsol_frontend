@@ -245,6 +245,8 @@ const get = {
 
     obtener_categorias_productos_venta: remote_base_url + "ventas/obtener_categorias_productos_venta/",
 
+    obtener_interes_cuota: remote_base_url + "ic/"
+
 }
 
 module.exports = {

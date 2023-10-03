@@ -42,7 +42,7 @@ const Pagare = (props) => {
                         <td  style = {{verticalAlign: 'top'}} colspan='2'>
                             <p>El dia <span style={{fontWeight: 'bold'}}>&nbsp;{1}</span> Pagar&eacute; al Sr. ROVNER, Fernando 
                             Jos&eacute; y/u OPTICA MIDAS S.R.L, o a su orden, 'SIN PROTESTO' &#40;Art. 50 Dcto.Ley 5965/63&#41; la cantidad de Pesos <span
-                            style={{fontWeight: 'bold'}}>&nbsp;&nbsp;{convertToWords(modoPago.monto_int)}</span> <b> {  modoPago.monto_int - Math.trunc(modoPago.monto_int) }/100  </b>
+                            style={{fontWeight: 'bold'}}>&nbsp;&nbsp;{convertToWords(modoPago.monto_int, false)}</span> <b> {  modoPago.monto_int - Math.trunc(modoPago.monto_int) }/100  </b>
                             pagaderos en calle Col&oacute;n 98 de la ciudad de Resistencia, Provincia del
                             Chaco.</p>
                             <p>El bien y/o servicio adquirido es: <span
@@ -53,12 +53,12 @@ const Pagare = (props) => {
                             style = {{fontWeight: 'bold'}} >&nbsp;$&nbsp;{modoPago.monto_venta_int}</span></p>
                             <p>El importe desembolsado inicialmente en concepto de entrega
                             fue de: <span style = {{fontWeight: 'bold'}} >&nbsp;$&nbsp;{modoPago.entrega}</span></p>
-                            <p>El saldo a financiar es de: <span style = {{fontWeight: 'bold'}} >&nbsp;$&nbsp;{modoPago.monto_int}&nbsp;</span>
+                            <p>El saldo a financiar es de: <span style = {{fontWeight: 'bold'}} >&nbsp;$&nbsp;{modoPago.monto}&nbsp;</span>
                             en<span style={{fontWeight: 'bold'}}>&nbsp;{modoPago.cant_cuotas}</span> cuotas mensuales, iguales
                             y consejutivas de<span style={{fontWeight: 'bold'}}>&nbsp;$&nbsp;{modoPago.monto_cuota}</span> cada una,
                             que totalizan en el monto por el cual se suscribe el siguiente pagar&eacute;.</p>
                             <p>La Tasa de Inter&eacute;s Efectiva Anual &#40;T.E.A.&#41; aplicada es del:&nbsp;<span
-                            style = {{fontWeight: 'bold'}} >&nbsp;{((modoPago.monto_int / modoPago.monto) - Math.trunc(modoPago.monto_int / modoPago.monto)) * 100}%</span></p>
+                            style = {{fontWeight: 'bold'}} >&nbsp;{Math.round(((modoPago.monto_int / modoPago.monto) - Math.trunc(modoPago.monto_int / modoPago.monto)) * 100)}%</span></p>
                             <p>El sistema de amortización del capital es constante.</p>
                             <p>En caso de ejecuci&oacute;n judicial el librador acepta que se
                             encuentran reunidos en el presente

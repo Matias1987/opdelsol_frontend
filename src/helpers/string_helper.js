@@ -16,7 +16,7 @@ const parse_DMY_date = (_date) => {
     return new Date(parts[2],parts[1]-1,parts[0])
 }
 
-const convertToWords = (value) => {
+const convertToWords = (value, centavos=true) => {
     //#region
     const unidades = [
         "uno","dos","tres","cuatro","cinco","seis","siete","ocho","nueve",
@@ -196,7 +196,9 @@ const convertToWords = (value) => {
 	var str_int = _analizeNumber(integer_part);
 	var str_flt = _analizeNumber(decimal_part);
 
-	if (str_flt.length > 0)
+    const show_cents = typeof centavos === 'undefined' ? true : centavos;
+
+	if (str_flt.length > 0 && show_cents)
 	{
 		return str_int + " PESOS CON " + str_flt + " CENTAVOS ";
 	}

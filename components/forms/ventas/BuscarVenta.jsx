@@ -1,5 +1,5 @@
 import ListaVentas from "@/components/informes/ventas/ListaVentas";
-import { Button, Input, Modal, Table } from "antd";
+import { Button, Input, Modal, Table, Tag } from "antd";
 import { useEffect, useState } from "react";
 import FiltroVentas from "./filtroVentas";
 import { post } from "@/src/urls";
@@ -118,8 +118,20 @@ const BuscarVenta = (props)=>{
         {title:'Nro.:', dataIndex:'idventa'},
         {title:'Cliente', dataIndex:'cliente'},
         {title:'Fecha', dataIndex:'fecha'},
+        { title: "Estado", dataIndex:"estado", render:(_,{estado})=>{
+            switch(estado){
+                case "INGRESADO": return <Tag color="magenta">{estado}</Tag>
+                case "PENDIENTE": return <Tag color="geekblue">{estado}</Tag>
+                case "ENTREGADO": return <Tag color="volcano">{estado}</Tag>
+                case "ANULADO": return <Tag color="red">{estado}</Tag>
+                case "TERMINADO": return <Tag color="green">{estado}</Tag>
+            }
+        }},
         {title:'Acciones', dataIndex:'idventa', render:(_,{idventa, estado, en_laboratorio})=>{
-            return show_buttons(estado,idventa,en_laboratorio)
+            return <>
+            <VentaDetallePopup idventa={idventa} />&nbsp;
+            {show_buttons(estado,idventa,en_laboratorio)}
+            </>
         }},
     ]} />
     </Modal>

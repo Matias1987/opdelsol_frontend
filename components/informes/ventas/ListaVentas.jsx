@@ -49,29 +49,6 @@ const ListaVentas = (props) => {
                 idcliente={_idcliente} 
                 tipo={props.accion} 
                 callback={(data)=>{
-
-                    /*if(data==null || typeof data === 'undefined'){
-                        setReload(!reload)
-                        return;
-                    }
-                    
-                    if(typeof props.estado !== 'undefined'){
-                        switch(props.estado){
-                            case 'INGRESADO':
-                                if(typeof data.estado_next === 'undefined' )
-                                {
-                                    alert("ERROR; next state undefined")
-                                }
-                                post_method(post.cambiar_estado_venta,{idventa: _idventa, estado: data.estado_next},(resp)=>{alert("OK")})
-                                if(data.estado_next == 'PENDIENTE'){
-                                    post_method(post.update.cambiar_venta_sucursal_deposito,{idventa: _idventa, en_laboratorio: "1"},(resp)=>{})
-                                }
-                            break;
-                            case 'TERMINADO':
-                                post_method(post.cambiar_estado_venta,{idventa: _idventa, estado: 'ENTREGADO'},(resp)=>{alert("OK")})
-                            break;
-                        }
-                    }*/
                     setReload(!reload)
                 }} />&nbsp;&nbsp;
             </>:<></>}
@@ -83,12 +60,14 @@ const ListaVentas = (props) => {
                     post_method(post.cambiar_estado_venta,{idventa: _idventa, estado: 'TERMINADO'},(resp)=>{alert("OK"); setReload(!reload)})
                 }
             }}>Terminado</Button>&nbsp;&nbsp;</>:<></>}
+
             {typeof props.enviarALaboratorio !== 'undefined' ?  <Button size="small" danger onClick={(e)=>{
                 if(confirm("Enviar venta a taller?"))
                 {
                     post_method(post.update.cambiar_venta_sucursal_deposito,{idventa: _idventa, en_laboratorio: "1"},(resp)=>{alert("OK"); setReload(!reload)})
                 }
             }}>Devoluci&oacute;n</Button>:<></>}
+
             {typeof props.anular !== 'undefined' ?<><Button size="small" danger onClick={(e)=>{
                 if(confirm("Anular Operacion?")){
                     post_method(post.cambiar_estado_venta,{idventa: _idventa, estado: 'ANULADO'},(resp)=>{
@@ -120,10 +99,10 @@ const ListaVentas = (props) => {
         params = add(params, props?.estado, 'estado')
         params = add(params, props?.idCliente, 'idCliente')
         params = add(params, props?.en_laboratorio, 'en_laboratorio')
-        //params = add(params, props?.idVendedor, 'idVendedor')
+        
         params = add(params, props?.fecha, 'fecha')
         params = add(params, props?.id, 'id')
-        //alert(" FILTROS:  "+JSON.stringify(filtros))
+        
         //filtros
         params = add(params, filtros.idcliente, 'idcliente')
         params = add(params, filtros.idmedico, 'idmedico')
@@ -131,9 +110,9 @@ const ListaVentas = (props) => {
         params = add(params, filtros.iddestinatario, 'iddestinatario')
 
         const url = post.venta_estado_sucursal;
-        //alert("PARAMS: " + JSON.stringify(params))
+        
         post_method(url, params,(response)=>{
-            //alert(JSON.stringify(response))
+            
             if(response==null)
             {
                 return
@@ -210,9 +189,6 @@ const ListaVentas = (props) => {
         <h3>{typeof props.titulo === 'undefined' ? "Lista de Ventas": props.titulo}</h3>
         {typeof props.ocultarFiltros === 'undefined' ? <></> : <FiltroVentas callback={f=>{setFiltros(_f=>f); setReload(!reload)}} /> }
         
-        {
-        //JSON.stringify(filtros)
-        }
         <Table dataSource={dataSource} columns={columns.filter(r=>!r.hidden)} loading={loading} />
     </>
 }

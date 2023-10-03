@@ -15,6 +15,7 @@ export default function ModoPago(props){
     const [tarjetas, setTarjetas] = useState(null)
     const [bancos, setBancos] = useState(null)
     const [mpLoaded, setMPLoaded] = useState(false)
+    const [dataCuotas, setDataCuotas] = useState([])
     const [modoPago, setModoPago] = useState({
         efectivo_monto: 0,
         tarjeta_monto: 0,
@@ -24,6 +25,7 @@ export default function ModoPago(props){
         ctacte_monto: 0,
         ctacte_cuotas: 0,
         ctacte_monto_cuotas: 0,
+        ctacte_interes: 1,
         cheque_monto: 0,
         mutual_monto: 0,
         mutual_mutual: 0,
@@ -122,6 +124,26 @@ export default function ModoPago(props){
             }
     }
 
+    if(!props.ctacteHidden)
+    {
+        fetch(get.obtener_interes_cuota)
+        .then(r=>r.json())
+        .then((response)=>{
+
+            setDataCuotas(
+                response.data.map(
+                    r=>({
+                        value: r.cantidad_cuotas,
+                        label: r.cantidad_cuotas,
+                        interes: r.interes,
+                        cantidad_cuotas: r.cantidad_cuotas,
+                    })
+                )
+            )
+            
+        })
+    }
+
         if(typeof props === 'undefined'){
             alert("props undefined")
         }
@@ -144,6 +166,10 @@ export default function ModoPago(props){
         })
     }
 
+    const calcular_monto_cuota = _=> {
+
+    }
+
     return (
         (tarjetas == null || bancos == null) ? <Spin  /> :
     <>
@@ -158,15 +184,86 @@ export default function ModoPago(props){
             <Row style={{display: props.tarjetaHidden ? "none" : "flex"}}>
                 <Col span={6}><Input type="number"  onClick={(e)=>{e.target.select()}} value={modoPago.tarjeta_monto}  prefix="Tarjeta: " onChange={(e)=>{onChange("tarjeta_monto", e.target.value)}}></Input></Col>
                 <Col span={4}><Input  onClick={(e)=>{e.target.select()}}  prefix="Nro.: " onChange={(e)=>{onChange("tarjeta_tarjeta", e.target.value)}}></Input></Col>
-                <Col span={14}>
+                <Col span={14}> 
                     Tarjeta: &nbsp;
                     <Select value={modoPago.fk_tarjeta} options={tarjetas} style={{width:'300px'}} onChange={(value)=>{onChange("fk_tarjeta", value)}} />
                 </Col>
                 
             </Row>
             <Row style={{display: props.ctacteHidden  ? "none" : "flex"}}>
-                <Col span={10}><Input type="number" onClick={(e)=>{e.target.select()}} value={modoPago.ctacte_monto} prefix="Cta. Cte.: " onChange={(e)=>{onChange("ctacte_monto", e.target.value)}}></Input></Col>
-                <Col span={4}><Input type="number"  onClick={(e)=>{e.target.select()}} value={modoPago.ctacte_cuotas} prefix="Nro Cuotas: " onChange={(e)=>{onChange("ctacte_cuotas", e.target.value)}}></Input></Col>
+                <Col span={10}>
+                    <Input 
+                    type="number" 
+                    onClick={(e)=>{e.target.select()}} 
+                    value={modoPago.ctacte_monto} 
+                    prefix="Cta. Cte.: " 
+                    onChange={(e)=>
+                    {
+                        //onChange("ctacte_monto", e.target.value)
+                        setModoPago( modoPago =>
+                            {
+                                const _mp = {
+                                    ...modoPago,
+                                    ["ctacte_monto"]: parseFloat(e.target.value),
+                                    ["ctacte_monto_cuotas"]: parseFloat(modoPago.ctacte_cuotas) * parseFloat(modoPago.ctacte_interes) * parseFloat(e.target.value),
+                                    ["total"]:  parseFloat(modoPago.cheque_monto||0)+
+                                                parseFloat(modoPago.ctacte_monto||0)+
+                                                parseFloat(modoPago.tarjeta_monto||0)+
+                                                parseFloat(modoPago.mutual_monto||0)+
+                                                parseFloat(modoPago.efectivo_monto||0)
+                                    };
+
+                                props?.callback?.(_mp);
+                                return _mp;
+                            })
+                    }} 
+                    />
+                </Col>
+                {/*
+                    <Col span={4}>
+                    <Input type="number"  onClick={(e)=>{e.target.select()}} value={modoPago.ctacte_cuotas} prefix="Nro Cuotas: " onChange={(e)=>{onChange("ctacte_cuotas", e.target.value)}} />
+                    </Col>
+                */}
+                <Col span={1}>Cuotas</Col>
+                <Col span={3}>
+                    <Select options={dataCuotas} value={modoPago.ctacte_cuotas} onChange={(v)=>{
+                        alert(JSON.stringify({
+                            value: v,
+                            data_cuotas: dataCuotas
+                        }))
+                        const _i = dataCuotas.find(r=>+r.cantidad_cuotas ==+v)
+                        if(_i)
+                        {
+                            alert(JSON.stringify({
+                                msg: "found",
+                                value: _i
+                            }))
+                           /**
+                            * 
+                            */
+
+                           setModoPago( modoPago =>
+                            {
+                                const _mp = {
+                                    ...modoPago,
+                                    ["ctacte_interes"]: _i.interes,
+                                    ["ctacte_cuotas"]:v,
+                                    ["ctacte_monto_cuotas"]: parseFloat(v) * parseFloat(_i.interes) * parseFloat(modoPago.ctacte_monto),
+                                    ["total"]:  parseFloat(modoPago.cheque_monto||0)+
+                                                parseFloat(modoPago.ctacte_monto||0)+
+                                                parseFloat(modoPago.tarjeta_monto||0)+
+                                                parseFloat(modoPago.mutual_monto||0)+
+                                                parseFloat(modoPago.efectivo_monto||0)
+                                    };
+
+                                props?.callback?.(_mp);
+                                return _mp;
+                            }
+                           )
+                        }
+                        }
+                        } />
+                </Col>
                 <Col span={8}><Input  type="number" onClick={(e)=>{e.target.select()}} value={modoPago.ctacte_monto_cuotas}  prefix="Valor Cuota: " onChange={(e)=>{onChange("ctacte_monto_cuotas", e.target.value)}}></Input></Col>
             </Row>
             <Row>

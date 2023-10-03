@@ -35,9 +35,10 @@ export default function CobroOperacion(props){
     const [open, setOpen] = useState(false)
     const [idCobro, setIdCobro] = useState(-1)
     const [cobrarDisabled, setCobrarDisabled] = useState(false)
+    
 
     /**     2/9/2023
-     * I believe that only the callback function should be invoqued here, there are actions that shouldn't be done by this component, such as 
+     * I believe that only the callback function should be invoqed here, there are actions that shouldn't be done by this component, such as 
      * changing the sales status, I have to change that in the near future...
      */
 
@@ -307,6 +308,7 @@ export default function CobroOperacion(props){
                     )
                 })
             }
+        
         setOpen(true)
     }
 
