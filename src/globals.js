@@ -174,10 +174,10 @@ const globals =  {
 
     familiaIDs: {
         ARMAZON: 2,
-        LC: 13,
+        LC: 16,
         LIQUIDOS: 14,
         INSUMO: 16,
-        CRISTALES: 14,
+        CRISTALES: 13,
         TRATAMIENTO: 15,
     },
     tiposCuenta:{

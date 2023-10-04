@@ -1,3 +1,5 @@
+error, el modo de pago ctacte no perduro hasta la entrega
+
 En las ventas, intentar traer cuando corresponda, solo productos de laboratorio o de stock;
 en caso de ser de stock, verificar que la cantidad sea mayor a 0.
 A workaround to this could be to add a new field in the 'subgrupo' table, indicating
