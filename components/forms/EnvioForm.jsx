@@ -55,7 +55,7 @@ const EnvioForm = (props) => {
     const actualizarTotal = __data => {
         var __cantidad = 0;
         for(let i=0;i<__data.length;i++){
-            __cantidad+=__data[i].cantidad;
+            __cantidad+=parseInt(__data[i].cantidad);
         }
         setTotal((total)=>__cantidad)
         

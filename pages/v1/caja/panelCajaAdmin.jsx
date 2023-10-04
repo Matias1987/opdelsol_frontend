@@ -29,6 +29,10 @@ export default function panelCajaAdmin(){
     },[reload])
 
     const cerrar_caja = () => {
+        if(!confirm("Confirmar Cerrar Caja"))
+        {
+            return
+        }
         fetch(get.cerrar_caja + caja.idcaja)
         .then(response=>response.json())
         .then((response)=>{
