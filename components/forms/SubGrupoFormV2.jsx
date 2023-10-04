@@ -2,7 +2,7 @@ import { PlusCircleOutlined } from "@ant-design/icons"
 import GrupoForm from "./GrupoForm"
 import { useState } from "react"
 
-const { Form, Input, Button, InputNumber, Switch, Modal, Row, Col } = require("antd")
+const { Form, Input, Button, InputNumber, Switch, Modal, Row, Col, Checkbox } = require("antd")
 const { default: GrupoSelect } = require("../GrupoSelect")
 const urls = require("../../src/urls")
 const post_helper = require("../../src/helpers/post_helper")
@@ -13,12 +13,14 @@ const SubGrupoFormV2 = (props) => {
 
     const [reload, setReload] = useState(false) 
 
+    
     const [subgrupo, setSubgrupo] = useState({
         grupo_idgrupo: null,
         multiplicador: 1,
         precio_defecto: 0,
         nombre_corto: "",
         nombre_largo: "",
+        control_stock: 1,
     })
 
     const onFinish = () => {
@@ -101,6 +103,13 @@ const SubGrupoFormV2 = (props) => {
          <Row style={_row_style}>
             <Col span={24}>
             <Input prefix={"Precio por Defecto"} style={{..._input_style,width:'310px', textAlign:'right'}} type="number" step={".1"} value={subgrupo.precio_defecto} min="0" onChange={(e)=>{setSubgrupo((sg)=>({...sg,precio_defecto:e.target.value}))}}/>
+            </Col>
+         </Row>
+         <Row style={_row_style}>
+            <Col span={24}>
+                <Checkbox checked={subgrupo.control_stock==0} onChange={(e)=>{
+                    setSubgrupo((sg)=>({...sg,control_stock:e.target.checked ? 0 : 1}))
+                }} > Laboratorio </Checkbox>
             </Col>
          </Row>
          <Row style={_row_style}>

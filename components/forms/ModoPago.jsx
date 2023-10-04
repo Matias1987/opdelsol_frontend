@@ -88,7 +88,7 @@ export default function ModoPago(props){
                                             
                                             break;
                                         case 'ctacte':
-                                            _temp = {..._temp,ctacte_monto: r.monto, ctacte_cuotas: r.cant_cuotas, ctacte_monto_cuotas: r.monto_cuota }
+                                            _temp = {..._temp,ctacte_monto: r.monto, ctacte_cuotas: r.cant_cuotas, ctacte_monto_cuotas: r.monto_cuota, ctacte_interes: 1 }
                                             
                                             break;
                                         case 'cheque':
@@ -166,10 +166,6 @@ export default function ModoPago(props){
         })
     }
 
-    const calcular_monto_cuota = _=> {
-
-    }
-
     return (
         (tarjetas == null || bancos == null) ? <Spin  /> :
     <>
@@ -205,9 +201,9 @@ export default function ModoPago(props){
                                 const _mp = {
                                     ...modoPago,
                                     ["ctacte_monto"]: parseFloat(e.target.value),
-                                    ["ctacte_monto_cuotas"]: parseFloat(modoPago.ctacte_cuotas) * parseFloat(modoPago.ctacte_interes) * parseFloat(e.target.value),
+                                    ["ctacte_monto_cuotas"]: parseFloat(modoPago.ctacte_interes) * parseFloat(e.target.value),
                                     ["total"]:  parseFloat(modoPago.cheque_monto||0)+
-                                                parseFloat(modoPago.ctacte_monto||0)+
+                                                parseFloat(e.target.value||0)+
                                                 parseFloat(modoPago.tarjeta_monto||0)+
                                                 parseFloat(modoPago.mutual_monto||0)+
                                                 parseFloat(modoPago.efectivo_monto||0)
@@ -227,28 +223,18 @@ export default function ModoPago(props){
                 <Col span={1}>Cuotas</Col>
                 <Col span={3}>
                     <Select options={dataCuotas} value={modoPago.ctacte_cuotas} onChange={(v)=>{
-                        alert(JSON.stringify({
-                            value: v,
-                            data_cuotas: dataCuotas
-                        }))
+                        
                         const _i = dataCuotas.find(r=>+r.cantidad_cuotas ==+v)
                         if(_i)
                         {
-                            alert(JSON.stringify({
-                                msg: "found",
-                                value: _i
-                            }))
-                           /**
-                            * 
-                            */
-
+                           
                            setModoPago( modoPago =>
                             {
                                 const _mp = {
                                     ...modoPago,
                                     ["ctacte_interes"]: _i.interes,
                                     ["ctacte_cuotas"]:v,
-                                    ["ctacte_monto_cuotas"]: parseFloat(v) * parseFloat(_i.interes) * parseFloat(modoPago.ctacte_monto),
+                                    ["ctacte_monto_cuotas"]:  parseFloat(_i.interes) * parseFloat(modoPago.ctacte_monto),
                                     ["total"]:  parseFloat(modoPago.cheque_monto||0)+
                                                 parseFloat(modoPago.ctacte_monto||0)+
                                                 parseFloat(modoPago.tarjeta_monto||0)+

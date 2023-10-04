@@ -19,7 +19,7 @@ export default function LayoutCaja({children}){
         const _token = getItem("token",'session')
 
         if(_token === typeof 'undefined' ){
-            alert("Debe Iniciar Sesion")
+            //alert("Debe Iniciar Sesion")
             window.location.replace(public_urls.login)
         }
 
@@ -33,7 +33,7 @@ export default function LayoutCaja({children}){
             .then(response=>response.json())
             .then((response)=>{ 
                 if(response.data.logged=='0'){
-                    alert("Debe Iniciar Sesion")
+                    //alert("Debe Iniciar Sesion")
                     window.location.replace(public_urls.login)
                 }
                 else{

@@ -22,6 +22,11 @@ const CargaManual = (props) => {
         data.monto, 
         data.concepto, 
         */
+       if(cargaManual.monto==0)
+       {
+            alert("Monto igual a 0")
+            return
+       }
        globals.obtenerCajaAsync(c=>{
         if(c==null){
             alert("Caja Cerrada")

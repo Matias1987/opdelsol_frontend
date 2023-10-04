@@ -1,3 +1,9 @@
+En las ventas, intentar traer cuando corresponda, solo productos de laboratorio o de stock;
+en caso de ser de stock, verificar que la cantidad sea mayor a 0.
+A workaround to this could be to add a new field in the 'subgrupo' table, indicating
+wether this subgroup if from laboratory or stock. 
+A new filed is added  for this to the 'subgrupo' table: no_stock (default 0). 
+
 <!!>falta agregar producto adquirido en pagare... SE DEBE TENER EN CTA LA FAMILIA PARA 
 DETERMINAR EL TIPO DE PRODUCTO ADQUIRIDO..., 
 falta crear una consulta para traer los tipos de productos adquiridos...

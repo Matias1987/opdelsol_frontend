@@ -40,7 +40,7 @@ const Pagare = (props) => {
                     </tr>
                     <tr>
                         <td  style = {{verticalAlign: 'top'}} colspan='2'>
-                            <p>El dia <span style={{fontWeight: 'bold'}}>&nbsp;{1}</span> Pagar&eacute; al Sr. ROVNER, Fernando 
+                            <p>El d&iacute;a <span style={{fontWeight: 'bold'}}>&nbsp;{current_date()}</span> Pagar&eacute; al Sr. ROVNER, Fernando 
                             Jos&eacute; y/u OPTICA MIDAS S.R.L, o a su orden, 'SIN PROTESTO' &#40;Art. 50 Dcto.Ley 5965/63&#41; la cantidad de Pesos <span
                             style={{fontWeight: 'bold'}}>&nbsp;&nbsp;{convertToWords(modoPago.monto_int, false)}</span> <b> {  modoPago.monto_int - Math.trunc(modoPago.monto_int) }/100  </b>
                             pagaderos en calle Col&oacute;n 98 de la ciudad de Resistencia, Provincia del
@@ -124,6 +124,7 @@ const Pagare = (props) => {
             {
                 if(response.data!=null)
                 {
+                    
                     setModoPago({
                         id_modopago: 0,
                         fkoperacion: response.data.idventa,
@@ -134,7 +135,7 @@ const Pagare = (props) => {
                         monto_venta: response.data.vta_monto, //<-- this one should be added to the query
                         producto_adquirido: "-",//<--this one too...
                         monto_venta_int: response.data.vta_monto_int,//<--and this
-                        entrega: response.data.monto_entrega,//<--and this
+                        entrega: (response.data.monto_entrega == null ? 0 : response.data.monto_entrega),//<--and this
                     })
                     //get cliente data
                     
