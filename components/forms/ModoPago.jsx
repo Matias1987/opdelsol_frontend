@@ -153,6 +153,7 @@ export default function ModoPago(props){
     },[tarjetas, bancos])
 
     const onChange = (index, value) => {
+        
         setModoPago( (modoPago) => { 
             const _mp = {...modoPago,[index]:value};
             _mp.total = parseFloat(_mp.cheque_monto||0)+
@@ -174,11 +175,11 @@ export default function ModoPago(props){
             <Row>
 
                 <Col span={8} >
-                    <Input type="number" onClick={(e)=>{e.target.select()}} value={modoPago.efectivo_monto}  prefix="Efectivo: " onChange={(e)=>{onChange("efectivo_monto", e.target.value)}}></Input>
+                    <Input type="number" min={0} step={0.01} onClick={(e)=>{e.target.select()}} value={modoPago.efectivo_monto}  prefix="Efectivo: " onChange={(e)=>{onChange("efectivo_monto", e.target.value.length<1 ? 0 : e.target.value)}}></Input>
                 </Col>
             </Row>
             <Row style={{display: props.tarjetaHidden ? "none" : "flex"}}>
-                <Col span={6}><Input type="number"  onClick={(e)=>{e.target.select()}} value={modoPago.tarjeta_monto}  prefix="Tarjeta: " onChange={(e)=>{onChange("tarjeta_monto", e.target.value)}}></Input></Col>
+                <Col span={6}><Input type="number" min={0} step={0.01}  onClick={(e)=>{e.target.select()}} value={modoPago.tarjeta_monto}  prefix="Tarjeta: " onChange={(e)=>{onChange("tarjeta_monto", e.target.value.length<1 ? 0 : e.target.value)}}></Input></Col>
                 <Col span={4}><Input  onClick={(e)=>{e.target.select()}}  prefix="Nro.: " onChange={(e)=>{onChange("tarjeta_tarjeta", e.target.value)}}></Input></Col>
                 <Col span={14}> 
                     Tarjeta: &nbsp;
@@ -200,8 +201,9 @@ export default function ModoPago(props){
                             {
                                 const _mp = {
                                     ...modoPago,
-                                    ["ctacte_monto"]: parseFloat(e.target.value),
-                                    ["ctacte_monto_cuotas"]: parseFloat(modoPago.ctacte_interes) * parseFloat(e.target.value),
+                                    ["ctacte_monto"]: e.target.value.length<1 ? 0 : parseFloat(e.target.value),
+                                    ["ctacte_cuotas"]:0,
+                                    ["ctacte_monto_cuotas"]: 0,
                                     ["total"]:  parseFloat(modoPago.cheque_monto||0)+
                                                 parseFloat(e.target.value||0)+
                                                 parseFloat(modoPago.tarjeta_monto||0)+
@@ -250,11 +252,11 @@ export default function ModoPago(props){
                         }
                         } />
                 </Col>
-                <Col span={8}><Input  type="number" onClick={(e)=>{e.target.select()}} value={modoPago.ctacte_monto_cuotas}  prefix="Valor Cuota: " onChange={(e)=>{onChange("ctacte_monto_cuotas", e.target.value)}}></Input></Col>
+                <Col span={8}><Input  type="number" readOnly onClick={(e)=>{e.target.select()}} value={modoPago.ctacte_monto_cuotas}  prefix="Valor Cuota: " onChange={(e)=>{onChange("ctacte_monto_cuotas", e.target.value)}}></Input></Col>
             </Row>
             <Row>
                 <Col span={8}>
-                    <Input type="number" onClick={(e)=>{e.target.select()}} value={modoPago.cheque_monto} prefix="Cheque: " onChange={(e)=>{onChange("cheque_monto", e.target.value)}}></Input>
+                    <Input type="number" onClick={(e)=>{e.target.select()}} value={modoPago.cheque_monto} prefix="Cheque: " onChange={(e)=>{onChange("cheque_monto", e.target.value.length<1 ? 0 : e.target.value)}}></Input>
                 </Col>
                 <Col span={14}>
                     &nbsp;Banco:&nbsp;<Select value={modoPago.fk_banco} placeholder="Seleccione Banco" style={{width:"300px"}} options={bancos} onChange={(value)=>{onChange("fk_banco",value)}} />
@@ -262,7 +264,7 @@ export default function ModoPago(props){
             </Row>
             <Row>
                 <Col span={8}>
-                    <Input type="number" onClick={(e)=>{e.target.select()}} value={modoPago.mutual_monto}  prefix="Mutual: " onChange={(e)=>{onChange("mutual_monto", e.target.value)}}></Input>
+                    <Input type="number" onClick={(e)=>{e.target.select()}} value={modoPago.mutual_monto}  prefix="Mutual: " onChange={(e)=>{onChange("mutual_monto", e.target.value.length<1 ? 0 : e.target.value)}}></Input>
                     
                 </Col>
             </Row>
