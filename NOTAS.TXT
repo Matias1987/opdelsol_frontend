@@ -1,4 +1,5 @@
-error, el modo de pago ctacte no perduro hasta la entrega
+error al entregar op se borraron todos los mp de venta
+error, el modo de pago ctacte no perduro hasta la entrega<<--OK
 
 En las ventas, intentar traer cuando corresponda, solo productos de laboratorio o de stock;
 en caso de ser de stock, verificar que la cantidad sea mayor a 0.

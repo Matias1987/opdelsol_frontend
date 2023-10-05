@@ -1,7 +1,7 @@
 import { Button, Checkbox, Col, Divider, Input, Row, Select, Spin, Table } from "antd";
 import { useEffect, useState } from "react";
 import CustomModal from "../CustomModal";
-import { DeleteFilled, RedoOutlined } from "@ant-design/icons";
+import { DeleteFilled, ForwardFilled, PlayCircleFilled, PlaySquareFilled, PlaySquareTwoTone, RedoOutlined, RightCircleFilled } from "@ant-design/icons";
 import { get } from "@/src/urls";
 
 /**
@@ -167,17 +167,22 @@ export default function ModoPago(props){
         })
     }
 
+
+    const button_mp_row = (index) => <>
+        <Col span={1}><Button size="small"><RightCircleFilled /></Button></Col>
+    </>
+
     return (
         (tarjetas == null || bancos == null) ? <Spin  /> :
     <>
         <h5>Modo de Pago</h5>
         <>
             <Row>
-
                 <Col span={8} >
                     <Input type="number" min={0} step={0.01} onClick={(e)=>{e.target.select()}} value={modoPago.efectivo_monto}  prefix="Efectivo: " onChange={(e)=>{onChange("efectivo_monto", e.target.value.length<1 ? 0 : e.target.value)}}></Input>
                 </Col>
             </Row>
+
             <Row style={{display: props.tarjetaHidden ? "none" : "flex"}}>
                 <Col span={6}><Input type="number" min={0} step={0.01}  onClick={(e)=>{e.target.select()}} value={modoPago.tarjeta_monto}  prefix="Tarjeta: " onChange={(e)=>{onChange("tarjeta_monto", e.target.value.length<1 ? 0 : e.target.value)}}></Input></Col>
                 <Col span={4}><Input  onClick={(e)=>{e.target.select()}}  prefix="Nro.: " onChange={(e)=>{onChange("tarjeta_tarjeta", e.target.value)}}></Input></Col>
@@ -187,8 +192,9 @@ export default function ModoPago(props){
                 </Col>
                 
             </Row>
+            
             <Row style={{display: props.ctacteHidden  ? "none" : "flex"}}>
-                <Col span={10}>
+                <Col span={11}>
                     <Input 
                     type="number" 
                     onClick={(e)=>{e.target.select()}} 
@@ -217,11 +223,6 @@ export default function ModoPago(props){
                     }} 
                     />
                 </Col>
-                {/*
-                    <Col span={4}>
-                    <Input type="number"  onClick={(e)=>{e.target.select()}} value={modoPago.ctacte_cuotas} prefix="Nro Cuotas: " onChange={(e)=>{onChange("ctacte_cuotas", e.target.value)}} />
-                    </Col>
-                */}
                 <Col span={1}>Cuotas</Col>
                 <Col span={3}>
                     <Select options={dataCuotas} value={modoPago.ctacte_cuotas} onChange={(v)=>{
@@ -255,19 +256,21 @@ export default function ModoPago(props){
                 <Col span={8}><Input  type="number" readOnly onClick={(e)=>{e.target.select()}} value={modoPago.ctacte_monto_cuotas}  prefix="Valor Cuota: " onChange={(e)=>{onChange("ctacte_monto_cuotas", e.target.value)}}></Input></Col>
             </Row>
             <Row>
-                <Col span={8}>
+                <Col span={9}>
                     <Input type="number" onClick={(e)=>{e.target.select()}} value={modoPago.cheque_monto} prefix="Cheque: " onChange={(e)=>{onChange("cheque_monto", e.target.value.length<1 ? 0 : e.target.value)}}></Input>
                 </Col>
                 <Col span={14}>
                     &nbsp;Banco:&nbsp;<Select value={modoPago.fk_banco} placeholder="Seleccione Banco" style={{width:"300px"}} options={bancos} onChange={(value)=>{onChange("fk_banco",value)}} />
                 </Col>
             </Row>
+
             <Row>
-                <Col span={8}>
+                <Col span={9}>
                     <Input type="number" onClick={(e)=>{e.target.select()}} value={modoPago.mutual_monto}  prefix="Mutual: " onChange={(e)=>{onChange("mutual_monto", e.target.value.length<1 ? 0 : e.target.value)}}></Input>
                     
                 </Col>
             </Row>
+
             <Row>
                 <Col span={24}><Button size="small" danger type="link" onClick={(e)=>{
                     if(confirm("Limpiar Campos?")){

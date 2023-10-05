@@ -186,7 +186,7 @@ const submit_venta = (v, productos,total,subTotal, tipo_vta, validate_items, cal
         /**
          * validar cantidad stock 
          */
-        
+        //alert(JSON.stringify(productos))
         {
             post_method(post.update.verificar_cantidades_productos,{productos: productos, idsucursal: globals.obtenerSucursal(),tipo:tipo_vta},(_response)=>{
                 
@@ -199,7 +199,6 @@ const submit_venta = (v, productos,total,subTotal, tipo_vta, validate_items, cal
                     if(confirm("Confirmar Venta"))
                     {
                         post_method(post.insert.venta,__venta,(response)=>{
-                            //alert("OK " + JSON.stringify(response))
                             //THIS SHOULD NOT BE HERE! but it is
                             post_method(post.update.desc_cantidades_stock_venta,{idventa: response.data},()=>{
                                 console.log("Cantidades descontadas? ...")

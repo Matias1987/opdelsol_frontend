@@ -34,19 +34,28 @@ const LCLabItems = (props) => {
         })
     }
 
+    const _style_label = {
+        padding: ".2em",
+        textAlign: "right",
+        fontWeight: "bold", 
+    }
+
     return <>
     <Row>
-        <Col span={24} style={{padding:'.25em'}}>
+        <Col style={_style_label} span={1}>OD</Col>
+        <Col span={23} style={{padding:'.25em'}}>
             <LCLabItem buttonText="L.C. OD Propio" onVisibleChange={(_value)=>onVisibleChange("od_visible",_value)}  tipo="OD" callback={(v)=>{onChange("od",v)}} />
         </Col>
     </Row>
     <Row>
-        <Col span={24} style={{padding:'.25em'}}>
+        <Col style={_style_label} span={1}>OD</Col>
+        <Col span={23} style={{padding:'.25em'}}>
             <LCLabItem buttonText="L.C. OI Propio" onVisibleChange={(_value)=>onVisibleChange("oi_visible",_value)}  tipo="OI" callback={(v)=>{onChange("oi",v)}} />
         </Col>
     </Row>
     <Row>
-        <Col span={24} style={{padding:'.25em'}}>
+        <Col style={_style_label} span={1}>Insumo</Col>
+        <Col span={23} style={{padding:'.25em'}}>
             <VentasInsumo onVisibleChange={(_value)=>onVisibleChange("insumo_visible",_value)}  tipo="INSUMO" callback={(v)=>{onChange("insumo",v)}} />
         </Col>
     </Row>

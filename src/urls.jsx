@@ -1,9 +1,10 @@
-//const remote_base_url = "http://54.90.66.197:3001/api/v1/"
-//const remote_base_url = "http://54.90.66.197:3001/api/v1/"
+const remote_base_url = "http://54.90.66.197:3001/api/v1/"
+const local_base_url = "http://gestion.opticadelsol.com/v1/"
 //const local_base_url = "http://54.90.66.197:3000/v1/"
-//const local_base_url = "http://gestion.opticadelsol.com/v1/"
-const remote_base_url = "http://localhost:3001/api/v1/"
-const local_base_url = "http://localhost:3000/v1/"
+
+//const remote_base_url = "http://localhost:3001/api/v1/"
+//const local_base_url = "http://localhost:3000/v1/"
+
 //const token = "&token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3QiLCJpYXQiOjE2ODI0NjEwMjksImV4cCI6MTY4MjQ2NDYyOX0.Unf5zmxNVQCJVD4qxSAcdcmsrs1s-q4h7Q0e2dYHHEo";
 const public_urls = {
     dashboard_admin : local_base_url + "admin/",
