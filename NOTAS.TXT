@@ -1,4 +1,5 @@
-error al entregar op se borraron todos los mp de venta
+no guarda nro de tarjeta
+error al entregar op se borraron todos los mp de venta<<--OK
 error, el modo de pago ctacte no perduro hasta la entrega<<--OK
 
 En las ventas, intentar traer cuando corresponda, solo productos de laboratorio o de stock;
