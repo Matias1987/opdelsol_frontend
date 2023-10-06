@@ -20,6 +20,7 @@ export default function ClienteFormV2(props){
         domicilio: "-",
         telefono: "-",
         destinatario: '0',
+        idlocalidad:-1
     })
 
     const url = post.insert.cliente;
@@ -68,7 +69,7 @@ export default function ClienteFormV2(props){
             if(!validateStr(clienteData.nacimiento, "Fecha de Nacimiento Vacío")){return}
         
         }*/
-        
+        alert(JSON.stringify(clienteData))
         post_method(post.obtener_cliente_dni,{"dni":clienteData.dni},(res)=>{
             if(res.data.length>0){
                 alert("El cliente ya existe")
@@ -114,7 +115,7 @@ export default function ClienteFormV2(props){
             )
         }
         else{
-            console.log("Input doesn´t match")
+            console.log("Input doesn't match")
         }
     }
 
@@ -170,7 +171,10 @@ export default function ClienteFormV2(props){
 </Row>
 <Row>
     <Col style={{padding:".5em"}} span={24}>
-        <SelectLocalidad />
+        <SelectLocalidad callback={(p)=>{
+            //alert(JSON.stringify(p))
+            setClienteData(c=>({...c,idlocalidad:p.idlocalidad}))
+            }} />
     </Col>
 </Row>
 <Row>

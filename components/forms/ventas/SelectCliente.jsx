@@ -121,16 +121,21 @@ const SelectCliente = (props) =>{
         </>
     )
 
+    const onOpenPopup = () => {
+
+    }
+
     return (
         idCliente==-1 ? 
         <>
-        <CustomModal openButtonText={typeof props.destinatario !== 'undefined' ? 'Seleccionar Destinatario' : "Seleccione Cliente" } title="" >
+        <CustomModal onOpen={onOpenPopup} openButtonText={typeof props.destinatario !== 'undefined' ? 'Seleccionar Destinatario' : "Seleccione Cliente" } title="" >
         {typeof props.destinatario !== 'undefined' ? 'Buscar Destinatario' : "Buscar Cliente" }
             <Input.Search onSearch={onSearch} />
             <Button type="ghost" style={{color:"red"}} onClick={()=>{setReload(!reload)}}><ReloadOutlined /></Button>
             <CustomModal openButtonText="+ Agregar" title={"Agregar" + (props.destinatario? " Destinatario" : "Responsable")} >
                 <ClienteFormV2 destinatario={props.destinatario} callback={(id)=>{
                     //alert(id); 
+                    setReload(!reload)
                     upload_cliente_details(id) 
                     }}/>
             </CustomModal>

@@ -1,3 +1,4 @@
+al abrir popup de seleccionar clientes o destinatario, volver a cargar lista 
 no guarda nro de tarjeta
 error al entregar op se borraron todos los mp de venta<<--OK
 error, el modo de pago ctacte no perduro hasta la entrega<<--OK

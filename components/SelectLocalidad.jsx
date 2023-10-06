@@ -7,12 +7,12 @@ const SelectLocalidad = (props) => {
     const [provincias, setProvincias] = useState(null)
     const _row_style = {}
     const [selectedLocalidad, setSelectedLocalidad] =  useState({
-        idlocalidad: -1,
-        iddepartamento: -1,
-        idprovincia: -1,
-        localidad: "",
+        idlocalidad: 1279,
+        iddepartamento: 162,
+        idprovincia: 3,
+        localidad: "RESISTENCIA",
         departamento: "",
-        provincia: ""
+        provincia: "PROVINCIA"
     })
 
     useEffect(()=>{
@@ -28,13 +28,15 @@ const SelectLocalidad = (props) => {
                 label: r.provincia,
             })))
         })
+        load_localidades(3)
+        props?.callback?.(selectedLocalidad)
     },[])
 
     const _localidades_ = _ => (
         localidades == null ? <><i>Seleccione Provincia...</i></>
         :
         <>
-            <Select style={{width:"100%"}} options={localidades} onChange={(val)=>{
+            <Select value={selectedLocalidad.idlocalidad} style={{width:"100%"}} options={localidades} onChange={(val)=>{
                 setSelectedLocalidad(v=>{
                     
                     const loc = localidades.find(r=>r.idlocalidad==val)
@@ -66,30 +68,36 @@ const SelectLocalidad = (props) => {
                 departamento: r.departamento,
                 localidad: r.localidad,
             })))
+            //props?.callback?.(selectedLocalidad)
         })
     }
 
     return provincias == null ? <></> : <>
         <Row>
-            <Col span={2} style={{textAlign:"right", paddingTop:".5em" }}>Localidad:&nbsp;&nbsp;</Col>
+            <Col span={2} style={{textAlign:"right", paddingTop:".5em" }}>Provincia:&nbsp;&nbsp;</Col>
             <Col span={6}>
-                <Select  style={{width:"100%"}} options={provincias} onChange={(v)=>{
+                <Select value={selectedLocalidad.idprovincia} style={{width:"100%"}} options={provincias} onChange={(v)=>{
                     
                     const prov = provincias.find(p=>p.idprovincia==v)
 
                     setSelectedLocalidad(s=>{
-                        const _prov = {
+                        const _loc = {
                             ...s,
                             idprovincia: prov.idprovincia,
                             provincia: prov.nombre,
+                            idlocalidad: -1,
+                            localidad:"",
                         }
-
-                        return _prov
+                        props?.callback?.(_loc)
+                        return _loc
 
                     })
 
                     load_localidades(v)
                 }} />
+            </Col>
+            <Col span={5} style={{textAlign:"right", paddingTop:".1em" }}>
+                &nbsp;Localidad:&nbsp;
             </Col>
             <Col span={6}>
                 {_localidades_()}
