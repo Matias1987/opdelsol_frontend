@@ -6,7 +6,7 @@ import globals from "@/src/globals";
 
 const VentasInsumo = (props) => {
     const [visible, setVisible] = useState(false);
-    const precioRef =useRef(null);
+    //const precioRef =useRef(null);
     const [insumo, setInsumo] = useState({
         idcodigo: -1,
         codigo: null,
@@ -15,7 +15,7 @@ const VentasInsumo = (props) => {
     })
     const on_codigo_change = (val) => {
         
-        precioRef.current.value=val.precio;
+        //precioRef.current.value=val.precio;
 
         setInsumo((insumo)=>{
             const __insumo ={...insumo,codigo:val.codigo,idcodigo: val.idcodigo, precio: val.precio};
@@ -40,7 +40,7 @@ const VentasInsumo = (props) => {
     }
 
     return (
-        !visible ? <Button type="primary" onClick={()=>{setVisible(v=>{ props?.onVisibleChange?.(true); return true;})}}>{
+        !visible ? <Button size="small" type="primary" onClick={()=>{setVisible(v=>{ props?.onVisibleChange?.(true); return true;})}}>{
             typeof props.buttonText === 'undefined' ?
             "Insumo"
             :
@@ -52,10 +52,11 @@ const VentasInsumo = (props) => {
                     <SelectCodigoVenta buttonText="Seleccione Codigo Insumo" idfamilias={[globals.familiaIDs.INSUMO,globals.familiaIDs.LIQUIDOS]} callback={on_codigo_change} />
                 </Col>
                 <Col span={4}>
-                    <span>&nbsp;&nbsp;Precio: </span><input readOnly onChange={on_precio_change} ref={precioRef} style={{textAlign:"right", width:"100px", border: "1px solid #ccc", borderRadius:"6px", borderColor:"lightgray", padding:".4em", fontSize:"1.1em"}} />
+                    {/*<span>&nbsp;&nbsp;Precio: </span><input readOnly onChange={on_precio_change} ref={precioRef} style={{textAlign:"right", width:"100px", border: "1px solid #ccc", borderRadius:"6px", borderColor:"lightgray", padding:".4em", fontSize:"1.1em"}} />*/}
+                    <Input prefix={"Precio: "} style={{backgroundColor:"lightgrey"}} value={insumo.precio} onChange={on_precio_change} size="small" />
                 </Col>
                 <Col span={1}>
-                <Button danger onClick={()=>{onRemove()}}><DeleteOutlined/></Button>
+                <Button danger size="small" onClick={()=>{onRemove()}}><DeleteOutlined/></Button>
                 </Col>
             </Row>
         </>

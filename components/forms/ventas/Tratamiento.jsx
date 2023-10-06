@@ -8,7 +8,7 @@ const VentasTratamiento = (props) => {
 
     const [visible, setVisible] = useState(false);
 
-    const precioRef =useRef(null);
+    //const precioRef =useRef(null);
 
     const [tratamiento, setTratamiento] = useState({
         idcodigo: -1,
@@ -18,7 +18,7 @@ const VentasTratamiento = (props) => {
     })
 
     const on_codigo_change = (val) => {
-        precioRef.current.value=val.precio;
+        //precioRef.current.value=val.precio;
         setTratamiento((tratamiento)=>{
             const _tratamiento = {...tratamiento,codigo: val.codigo, idcodigo: val.idcodigo, precio: val.precio}
             props?.callback(_tratamiento);
@@ -40,7 +40,7 @@ const VentasTratamiento = (props) => {
     }
 
     return (
-        !visible ? <Button type="primary" onClick={()=>{setVisible(v=>{ props?.onVisibleChange?.(true); return true;})}}>{
+        !visible ? <Button size="small" type="primary" onClick={()=>{setVisible(v=>{ props?.onVisibleChange?.(true); return true;})}}>{
             typeof props.buttonText === 'undefined' ?
             "Establecer Cristal"
             :
@@ -52,10 +52,11 @@ const VentasTratamiento = (props) => {
                     <SelectCodigoVenta idfamilias={[globals.familiaIDs.TRATAMIENTO]} callback={on_codigo_change} />
                 </Col>
                 <Col span={4}>
-                    <span>&nbsp;&nbsp;Precio: </span><input readOnly onChange={on_precio_change} ref={precioRef} style={{textAlign:"right", width:"100px", border: "1px solid #ccc", borderRadius:"6px", borderColor:"lightgray", padding:".4em", fontSize:"1.1em"}} />
+                    {/*<span>&nbsp;&nbsp;Precio: </span><input readOnly onChange={on_precio_change} ref={precioRef} style={{textAlign:"right", width:"100px", border: "1px solid #ccc", borderRadius:"6px", borderColor:"lightgray", padding:".4em", fontSize:"1.1em"}} />*/}
+                    <Input prefix="Precio: " readOnly    type="number" onChange={on_precio_change} size="small"  style={{backgroundColor:"lightgray"}} value={tratamiento.precio} />
                 </Col>
                 <Col span={1}>
-                <Button danger onClick={()=>{onRemove()}}><DeleteOutlined/></Button>
+                <Button size="small" danger onClick={()=>{onRemove()}}><DeleteOutlined/></Button>
                 </Col>
             </Row>
         </>

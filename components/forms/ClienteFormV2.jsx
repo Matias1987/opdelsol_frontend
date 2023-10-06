@@ -4,6 +4,7 @@ import { post } from "@/src/urls";
 import { Button, Col, DatePicker, Form, Input, Row } from "antd";
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
+import SelectLocalidad from "../SelectLocalidad";
 
 
 export default function ClienteFormV2(props){
@@ -23,12 +24,12 @@ export default function ClienteFormV2(props){
 
     const url = post.insert.cliente;
 
-    useEffect(()=>{
+    /*useEffect(()=>{
         if(typeof props.destinatario !== 'undefined' && props.destinatario){
             setClienteData(cd=>({...cd,dni:("_d_" + globals.obtenerSucursal() + "_" + Date.now()), destinatario:'1'}))
             
         }
-    },[])
+    },[])*/
 
     const onFinish = () => {
         
@@ -58,12 +59,15 @@ export default function ClienteFormV2(props){
         if(!validateStr(clienteData.apellidos, "Apellidos Vacío")){return}
         if(!validateStr(clienteData.domicilio, "Domicilio Vacío")){return}
 
-        if(typeof props.destinatario === 'undefined' || (typeof props.destinatario !== 'undefined' && !props.destinatario)){
+        if(!validateStr(clienteData.telefono, "Teléfono Vacío")){return}
+        if(!validateStr(clienteData.nacimiento, "Fecha de Nacimiento Vacío")){return}
+
+        /*if(typeof props.destinatario === 'undefined' || (typeof props.destinatario !== 'undefined' && !props.destinatario)){
 
             if(!validateStr(clienteData.telefono, "Teléfono Vacío")){return}
             if(!validateStr(clienteData.nacimiento, "Fecha de Nacimiento Vacío")){return}
         
-        }
+        }*/
         
         post_method(post.obtener_cliente_dni,{"dni":clienteData.dni},(res)=>{
             if(res.data.length>0){
@@ -126,12 +130,10 @@ export default function ClienteFormV2(props){
         <Input  
         maxLength={10} 
         style={{backgroundColor:"lightblue", appearance:"textfield"}} 
-        prefix={
-        props.destinatario?<del>D.N.I.:</del>:<b>D.N.I.:</b>
-        } 
+        prefix={"D.N.I.: "} 
         value={clienteData.dni} 
         onChange={(e)=>{setClienteData(v=>({...v,dni:e.target.value}))}} 
-        readOnly={props.destinatario}
+        readOnly={false/*props.destinatario*/}
         />
     </Col>
 </Row>
@@ -166,7 +168,11 @@ export default function ClienteFormV2(props){
         <Input style={{backgroundColor:"lightblue"}} maxLength={20} prefix={"Teléfono:"} onChange={(e)=>{setClienteData(d=>({...d,telefono:e.target.value}))}} value={clienteData.telefono.toUpperCase()} />
     </Col>
 </Row>
-
+<Row>
+    <Col style={{padding:".5em"}} span={24}>
+        <SelectLocalidad />
+    </Col>
+</Row>
 <Row>
     <Col style={{padding:".5em"}}>
         <Button onClick={onFinish}>Guardar</Button>

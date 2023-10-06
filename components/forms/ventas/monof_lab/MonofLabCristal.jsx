@@ -9,7 +9,7 @@ const MonofLabCristal = (props) => {
     
     const [visible, setVisible] = useState(false);
     
-    const precioRef = useRef(null)
+    //const precioRef = useRef(null)
 
     const [itemsEsf, setItemsEsf] = useState([])
     
@@ -60,7 +60,7 @@ const MonofLabCristal = (props) => {
     },[])
 
     const onchange_codigo = (value) => {
-        precioRef.current.value = value.precio;
+        //precioRef.current.value = value.precio;
 
         setCristal((cristal)=>{
             const __cristal = {...cristal,codigo:value.codigo, precio: value.precio, idcodigo: value.idcodigo}
@@ -114,7 +114,7 @@ const MonofLabCristal = (props) => {
       
     
     return (
-        !visible ? <Button type="primary" onClick={()=>{setVisible(v=>{ props?.onVisibleChange?.(true); return true;})}}>{
+        !visible ? <Button size="small" type="primary" onClick={()=>{setVisible(v=>{ props?.onVisibleChange?.(true); return true;})}}>{
             typeof props.buttonText === 'undefined' ?
             "Establecer Cristal"
             :
@@ -135,31 +135,31 @@ const MonofLabCristal = (props) => {
                 <Col span={1} style={_estilo_label}>
                     Esf:
                 </Col>
-                <Col span={2}>
-                    <Select options={itemsEsf} onChange={(v)=>{onchange_esf(v)}} />
+                <Col span={3}>
+                    <Select size="small" style={{fontSize:".5em"}} options={itemsEsf} onChange={(v)=>{onchange_esf(v)}} />
                 </Col>
                 <Col span={1} style={_estilo_label}>
                     Cil:
                 </Col>
-                <Col span={2}>
-                    <Select options={itemsCil} onChange={(v)=>{onchange_cil(v)}}/>
+                <Col span={3}>
+                    <Select size="small" options={itemsCil} onChange={(v)=>{onchange_cil(v)}}/>
                 </Col>
                 <Col span={1} style={_estilo_label}>
                     Eje:
                 </Col>
                 <Col span={2}>
-                    <Select options={itemsEje} onChange={(v)=>{onchange_eje(v)}}/>
+                    <Select size="small" options={itemsEje} onChange={(v)=>{onchange_eje(v)}}/>
                 </Col>
                 
-                <Col span={10}>
+                <Col span={8}>
                     <SelectCodigoVenta idfamilias={[globals.familiaIDs.CRISTALES]} buttonText={"Seleccionar Codigo Base"} callback={onchange_codigo} />
                 </Col>
-                
                 <Col span={4}>
-                    <span>&nbsp;&nbsp;Precio: </span><input readOnly onChange={onchange_precio} ref={precioRef} style={{textAlign:"right", width:"100px", border: "1px solid #ccc", borderRadius:"6px", borderColor:"lightgray", padding:".4em", fontSize:"1.1em"}} />
+                    {/*<input readOnly onChange={onchange_precio} ref={precioRef} style={{textAlign:"right", width:"100px", border: "1px solid #ccc", borderRadius:"6px", borderColor:"lightgray", padding:".4em", fontSize:"1.1em"}} />*/}
+                    <Input type="number" readOnly size="small"  prefix="Precio" value={cristal.precio} onChange={onchange_precio} style={{backgroundColor:"lightgray"}} />
                 </Col>
                 <Col span={1}>
-                    <Button danger  onClick={()=>{onRemove()}}><DeleteOutlined/></Button>
+                    <Button danger size="small" onClick={()=>{onRemove()}}><DeleteOutlined/></Button>
                 </Col>
             </Row>
 

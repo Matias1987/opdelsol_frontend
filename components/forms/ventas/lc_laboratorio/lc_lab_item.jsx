@@ -37,7 +37,7 @@ const LCLabItem = (props) =>{
     }
 
     return (
-        !visible ? <Button  type="primary" onClick={()=>{setVisible(v=>{ props?.onVisibleChange?.(true); return true;})}}>{
+        !visible ? <Button size="small"  type="primary" onClick={()=>{setVisible(v=>{ props?.onVisibleChange?.(true); return true;})}}>{
             typeof props.buttonText === 'undefined' ?
             "Propio"
             :
@@ -49,10 +49,10 @@ const LCLabItem = (props) =>{
                     <SelectCodigoVenta idfamilias={[globals.familiaIDs.LC]} callback={on_codigo_change} />
                 </Col>
                 <Col span={6}>
-                    <Input readOnly type="number" width={"100%"} prefix={"Precio: "} value={LC.precio} onChange={(v)=>{on_precio_change(v)}} />
+                    <Input size="small" style={{backgroundColor:"lightgray"}} readOnly type="number" prefix={"Precio: "} value={LC.precio} onChange={(v)=>{on_precio_change(v)}} />
                 </Col>
                 <Col span={1}>
-                <Button danger onClick={()=>{onRemove()}}><DeleteOutlined/></Button>
+                    <Button size="small" danger onClick={()=>{onRemove()}}><DeleteOutlined/></Button>
                 </Col>
             </Row>
         </>

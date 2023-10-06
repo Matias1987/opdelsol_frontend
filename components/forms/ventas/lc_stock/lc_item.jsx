@@ -52,7 +52,7 @@ const LCItem = (props) => {
 
     
     return (
-        !visible ? <Button type="primary"onClick={()=>{setVisible(v=>{ props?.onVisibleChange?.(true); return true;})}}>{
+        !visible ? <Button size="small" type="primary"onClick={()=>{setVisible(v=>{ props?.onVisibleChange?.(true); return true;})}}>{
             typeof props.buttonText === 'undefined' ?
             "Propio"
             :
@@ -65,16 +65,16 @@ const LCItem = (props) => {
                 </Col>
                 
                 <Col span={4}>
-                    <Input type="number" addonBefore="Precio: " readOnly value={lc.precio} onChange={(v)=>{onPrecioChange(v)}}/>
+                    <Input size="small" type="number" addonBefore="Precio: " readOnly value={lc.precio} onChange={(v)=>{onPrecioChange(v)}}/>
                 </Col>
                 <Col span={4}>
-                    <InputNumber addonBefore="Cant.:" addonAfter={"/"+(typeof lc.max === 'undefined' ? 0 : lc.max)} max={typeof lc.max === 'undefined' ? 0 : lc.max } value={lc.cantidad} onChange={(v)=>{onCantidadChange(v)}} />
+                    <InputNumber size="small" addonBefore="Cant.:" addonAfter={"/"+(typeof lc.max === 'undefined' ? 0 : lc.max)} max={typeof lc.max === 'undefined' ? 0 : lc.max } value={lc.cantidad} onChange={(v)=>{onCantidadChange(v)}} />
                 </Col>
                 <Col span={4}>
-                    <Input readOnly addonBefore={"Total:"} value={lc.cantidad * lc.precio} />&nbsp;
+                    <Input style={{backgroundColor:"lightgray"}} size="small" readOnly prefix={"Total:"} value={lc.cantidad * lc.precio} />&nbsp;
                 </Col>
                 <Col span={1}>
-                    <Button danger  onClick={()=>{onRemove()}}><DeleteOutlined/></Button>
+                    <Button size="small" danger  onClick={()=>{onRemove()}}><DeleteOutlined/></Button>
                 </Col>
             </Row>
 

@@ -12,7 +12,7 @@ const VentasArmazon = (props) => {
         precio: -1,
         cantidad:1,
     })
-    const precioRef = useRef(null)
+    //const precioRef = useRef(null)
 
     const on_precio_change = (e) => {
         
@@ -26,7 +26,7 @@ const VentasArmazon = (props) => {
     }
 
     const on_codigo_change = (val) => {
-        precioRef.current.value = val.precio;
+        //precioRef.current.value = val.precio;
        
         setArmazon((__armazon)=>{
         
@@ -59,7 +59,7 @@ const VentasArmazon = (props) => {
     }
 
     return (
-        !visible ? <Button type="primary" onClick={()=>{setVisible(v=>{ props?.onVisibleChange?.(true); return true;})}}>{
+        !visible ? <Button size="small" type="primary" onClick={()=>{setVisible(v=>{ props?.onVisibleChange?.(true); return true;})}}>{
             typeof props.buttonText === 'undefined' ?
             "Armazon Propio"
             :
@@ -71,11 +71,11 @@ const VentasArmazon = (props) => {
                     <SelectCodigoVenta idfamilias={[globals.familiaIDs.ARMAZON]} callback={on_codigo_change} />
                 </Col>
                 <Col span={4}>
-                    
-                    <span>Precio:&nbsp;<input readOnly onChange={on_precio_change}  ref={precioRef} style={{textAlign:"right", width:"100px", border: "1px solid #ccc", borderRadius:"6px", borderColor:"lightgray", padding:".4em", fontSize:"1.1em"}}  /></span>
+                    <Input style={{backgroundColor:"lightgray"}} prefix="Precio: " value={armazon.precio} readOnly onChange={on_precio_change} size="small" />
+                    {/*<span>Precio:&nbsp;<input readOnly onChange={on_precio_change}  ref={precioRef} style={{textAlign:"right", width:"100px", border: "1px solid #ccc", borderRadius:"6px", borderColor:"lightgray", padding:".4em", fontSize:"1.1em"}}  /></span>*/}
                 </Col>
                 <Col span={1}>
-                <Button danger onClick={()=>{on_remove()}}><DeleteOutlined/></Button>
+                <Button size="small" danger onClick={()=>{on_remove()}}><DeleteOutlined/></Button>
                 </Col>
             </Row>
         </>

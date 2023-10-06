@@ -1,6 +1,10 @@
 import { Select, Space } from "antd";
 import { useEffect, useState } from "react";
-
+/**
+ * 
+ * @param {*} fetchurl 
+ * @returns 
+ */
 const LoadSelect = (props) => {
 
     const _reload = typeof props.reload === 'undefined' ? false : props.reload;

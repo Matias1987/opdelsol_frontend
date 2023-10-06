@@ -45,6 +45,11 @@ export default function SelectCodigoVenta(props){
         props?.callback?.({codigo:null,precio:0, idcodigo:-1})
     }
 
+
+    const _codigo_style = {
+        fontSize:".75em"
+    }
+
     return (
         dataCodigo === null ?
     <>
@@ -57,6 +62,6 @@ export default function SelectCodigoVenta(props){
         </>
         :
         <>
-        <span>Codigo:&nbsp;<b>{dataCodigo.codigo}</b>&nbsp;&nbsp;&nbsp;Desc.:<b>{dataCodigo.descripcion}</b>&nbsp;<Button danger size="small" onClick={()=>{on_remove()}}><CloseCircleFilled /></Button></span>
+        <span style={_codigo_style}>Codigo:&nbsp;<b>{dataCodigo.codigo}</b>&nbsp;&nbsp;&nbsp;{/*Desc.:<b>{dataCodigo.descripcion}</b>&nbsp;*/}<Button danger size="small" onClick={()=>{on_remove()}}><CloseCircleFilled /></Button></span>
         </>
         )}

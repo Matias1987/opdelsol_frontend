@@ -33,9 +33,10 @@ const LCStockItems = (props) => {
     }
 
     const _style_label = {
-        padding: ".2em",
+        paddingTop: "1em",
         textAlign: "right",
         fontWeight: "bold", 
+        fontSize: ".75em",
     }
 
     return (
