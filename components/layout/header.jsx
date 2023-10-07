@@ -19,7 +19,7 @@ const HeaderSol =(props)=> {
         setUName(globals.obtenerUserName())
     },[])
     return(    
-    <Header style={{ background: '#fff', padding: '0em', margin: '0', fontSize:'.85em' }}>
+    <Header style={{ background: '#262626', color: "white", paddingLeft: '5em',  margin: '0', fontSize:'.85em' }}>
         <Row>
             <Col span={16}>
                 <span style={{padding:'.1em'}}>
@@ -31,7 +31,7 @@ const HeaderSol =(props)=> {
                             &nbsp;- Usuario: <b>{uname}</b>
                     </i>
                 </span>
-                <Button type="link" onClick={()=>{
+                <Button type="link"  style={{color:"white"}} onClick={()=>{
                     
                     const _token = getItem("token",'session')
 
@@ -45,7 +45,7 @@ const HeaderSol =(props)=> {
                 <LogoutOutlined />Salir     
                 </Button>
                 &nbsp;&nbsp;
-                <Button type="link" onClick={(e)=>{
+                <Button type="link" style={{color:"white"}} onClick={(e)=>{
                     window.location.replace(public_urls.modo);
                 }}>
                     Cambiar Modo

@@ -55,5 +55,5 @@ export default function MenuVentasTop(){
     console.log('click ', e);
     setCurrent(e.key);
   };
-  return <Menu style={{backgroundColor:"lightblue"}} onClick={onClick} selectedKeys={[current]} mode="horizontal" items={items} />;
+  return <Menu style={{backgroundColor:"#6CA12B"}} onClick={onClick} selectedKeys={[current]} mode="horizontal" items={items} />;
 };
