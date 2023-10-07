@@ -43,12 +43,14 @@ export default function VentaDirecta(){
 
         callback={callback_venta_modif}
         onfinish={
-            (v)=>{
+            (v,onFailValidation)=>{
 
                 submit_venta(v,productos,total,subTotal,globals.tiposVenta.DIRECTA,false,(idventa)=>{
                     setIdVenta(idventa)
                     setPrintOpen(true)
-                },{ignore_fecha_retiro:1,})
+                },{ignore_fecha_retiro:1,},
+                ()=>{onFailValidation()}
+                )
                 
             }
         }

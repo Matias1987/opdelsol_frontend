@@ -17,6 +17,7 @@ import { useState } from "react";
  * @returns 
  */
 export default function VentaBase(props){
+ const [btnEnabled, setBtnEnabled] = useState(true)
  const [venta, setVenta] = useState( {
         fkcliente: null,
         fkdestinatario: null,
@@ -50,10 +51,12 @@ export default function VentaBase(props){
     }
 
     const finalizar_venta = (e)=>{
+        setBtnEnabled(false)
         setVenta((venta)=>{
-            props?.onfinish?.(venta);
+            props?.onfinish?.(venta, _=>{setBtnEnabled(true)});
             return venta;
         })
+        
     }
 
     const onFinish = (values)=>{}
@@ -151,7 +154,7 @@ export default function VentaBase(props){
                 </Col>
                 <Col span={24}>
                     <Form.Item>
-                        <Button type="primary" block onClick={finalizar_venta}>Imprimir Sobre</Button>
+                        <Button disabled={!btnEnabled} type="primary" block onClick={finalizar_venta}>Imprimir Sobre</Button>
                     </Form.Item>
                 </Col>
             </Row>

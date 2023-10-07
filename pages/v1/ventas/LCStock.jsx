@@ -31,11 +31,11 @@ export default function VentaLCStock(){
         setTotal(total=>(_total-dto))
     }
 
-    const onFinish = (v) => {
+    const onFinish = (v,onFailValidation) => {
         submit_venta(v,productos,total,subTotal,globals.tiposVenta.LCSTOCK,true,(idventa)=>{
             setIdVenta(idventa)
             setPrintOpen(true)
-        })
+        },{},_=>{onFailValidation()})
     }
 
     const callback_venta_modif = (_venta) => {

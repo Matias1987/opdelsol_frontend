@@ -45,11 +45,14 @@ export default function VentaLCLab(){
         })
     }
 
-    const onFinish = (v) => {
+    const onFinish = (v, onFailValidation) => {
         submit_venta(v,productos,total,subTotal,globals.tiposVenta.LCLAB,true,(idventa)=>{
             setIdVenta(idventa)
             setPrintOpen(true)
-        })
+        },
+        {},
+        ()=>{onFailValidation()}
+        )
     }
 
     const onClosePrintPopup = _ => {

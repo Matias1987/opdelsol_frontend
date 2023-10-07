@@ -111,11 +111,11 @@ const validar_items_venta = (venta) => {
  * @param {*} subTotal 
  * @param {*} tipo_vta 
  * @param {*} validate_items 
- * @param {*} callback 
+ * @param {*} callbackOnComplete 
  * @param {*} options array: [ignore_fecha_retiro]
  * @returns void
  */
-const submit_venta = (v, productos,total,subTotal, tipo_vta, validate_items, callback, options) => {
+const submit_venta = (v, productos,total,subTotal, tipo_vta, validate_items, callbackOnComplete, options, callbackOnFailValidation) => {
 
     const ignore_fecha_retiro = options?.ignore_fecha_retiro||null
 
@@ -124,27 +124,31 @@ const submit_venta = (v, productos,total,subTotal, tipo_vta, validate_items, cal
         if(v.fechaRetiro==null)
         {
             alert("Fecha de retiro no seleccionada")
-            return
+            callbackOnFailValidation?.()
+            return false
         }
     }
 
     if(productos==null)
     {
         alert("Sin Productos")
-        return
+        callbackOnFailValidation?.()
+        return false
     }
 
     if(v.fkcliente==null)
     {
         alert("Cliente no seleccionado")
-        return;
+        callbackOnFailValidation?.()
+        return false;
     }
 
     
     if(v.mp!=null){
         if(v.mp.total>total){
             alert("Saldo menor a 0")
-            return
+            callbackOnFailValidation?.()
+            return false
         }
     }
 
@@ -153,7 +157,8 @@ const submit_venta = (v, productos,total,subTotal, tipo_vta, validate_items, cal
         if(result===null)
         {
             alert("Caja cerrada")
-            return;
+            callbackOnFailValidation?.()
+            return false;
         }
 
         const __venta = {
@@ -169,7 +174,8 @@ const submit_venta = (v, productos,total,subTotal, tipo_vta, validate_items, cal
 
         if(_res1!=null){
             alert("Error. "+_res1.msg)
-            return 
+            callbackOnFailValidation?.()
+            return  false
         }
 
         //it may not be neccessary to validate the items... 
@@ -180,7 +186,8 @@ const submit_venta = (v, productos,total,subTotal, tipo_vta, validate_items, cal
             if(_res.length>0){
                 //only show 1 error per try 
                 alert(_res[0].msg)
-                return
+                callbackOnFailValidation?.()
+                return false
             }
         }
         /**
@@ -192,7 +199,8 @@ const submit_venta = (v, productos,total,subTotal, tipo_vta, validate_items, cal
                 
                 if(_response?.data?.error == 1){
                     alert("Error, cantidad insuficiente codigo: " + _response?.data?.ref?.codigo)
-                    return
+                    callbackOnFailValidation?.()
+                    return false
                 }
                 else
                 {
@@ -204,15 +212,22 @@ const submit_venta = (v, productos,total,subTotal, tipo_vta, validate_items, cal
                                 console.log("Cantidades descontadas? ...")
                             })
             
-                            callback?.(response.data)
+                            callbackOnComplete?.(response.data)
                                 
                             })
+
+                        return true
                     }
+
+                    callbackOnFailValidation?.()
+                    return false
+
                 }
                 
             })
         }
     });
+    
 }
 
 

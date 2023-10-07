@@ -9,9 +9,9 @@ A workaround to this could be to add a new field in the 'subgrupo' table, indica
 wether this subgroup if from laboratory or stock. 
 A new filed is added  for this to the 'subgrupo' table: no_stock (default 0). 
 
-<!!>falta agregar producto adquirido en pagare... SE DEBE TENER EN CTA LA FAMILIA PARA 
+<!!>falta agregar producto adquirido en pagaré... SE DEBE TENER EN CTA LA FAMILIA PARA 
 DETERMINAR EL TIPO DE PRODUCTO ADQUIRIDO..., 
-falta crear una consulta para traer los tipos de productos adquiridos...
+falta crear una consulta para traer los tipos de productos adquiridos...<<--ok
 
 <!>En pagares, cambiar el texto del valor o monto a pagar, para que solamente devuelva
 el monto de la parte entera, sin centavos.

@@ -47,11 +47,13 @@ export default function VentaMultifocalesLab(){
         })
     }
 
-    const onFinish = (v) => {
+    const onFinish = (v,onFailValidation) => {
         submit_venta(v,productos,total,subTotal,globals.tiposVenta.MULTILAB,true,(idventa)=>{
             setIdVenta(idventa)
             setPrintOpen(true)
-        })
+        },
+        {},
+        _=>{onFailValidation()})
     }
 
     const onClosePrintPopup = _ => {

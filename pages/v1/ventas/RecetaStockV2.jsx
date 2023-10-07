@@ -64,12 +64,14 @@ export default function VentaRecetaStock(){
             })
         }}
         
-        onfinish={(data)=>{
+        onfinish={(data,onFailValidation)=>{
             
             submit_venta(data,productos,total,subTotal,globals.tiposVenta.RECSTOCK,true,(idventa)=>{
                 setIdVenta(idventa)
                 setPrintOpen(true)
-            })
+            },
+            {},
+            _=>{onFailValidation()})
                 
             }}>
             <RecetaStockItems callback={callback} />

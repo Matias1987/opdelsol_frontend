@@ -159,8 +159,11 @@ export default function ClienteFormV2(props){
 </Row>
 
 <Row>
-    <Col style={{padding:".5em"}} span={24}>
+    <Col style={{padding:".5em"}} span={12}>
         <Input style={{backgroundColor:"lightblue"}} maxLength={45} prefix={"Domicilio:"} onChange={(e)=>{setClienteData(d=>({...d,domicilio:e.target.value}))}} value={clienteData.domicilio.toUpperCase()} />
+    </Col>
+    <Col style={{padding:".5em"}} span={12}>
+        <SelectLocalidad callback={(p)=>{setClienteData(c=>({...c,idlocalidad:p.idlocalidad}))}} />
     </Col>
 </Row>
 
@@ -171,10 +174,7 @@ export default function ClienteFormV2(props){
 </Row>
 <Row>
     <Col style={{padding:".5em"}} span={24}>
-        <SelectLocalidad callback={(p)=>{
-            //alert(JSON.stringify(p))
-            setClienteData(c=>({...c,idlocalidad:p.idlocalidad}))
-            }} />
+        
     </Col>
 </Row>
 <Row>

@@ -74,8 +74,8 @@ const SelectLocalidad = (props) => {
 
     return provincias == null ? <></> : <>
         <Row>
-            <Col span={2} style={{textAlign:"right", paddingTop:".5em" }}>Provincia:&nbsp;&nbsp;</Col>
-            <Col span={6}>
+            <Col span={3} style={{textAlign:"right", paddingTop:".5em" }}>Provincia:&nbsp;&nbsp;</Col>
+            <Col span={8}>
                 <Select value={selectedLocalidad.idprovincia} style={{width:"100%"}} options={provincias} onChange={(v)=>{
                     
                     const prov = provincias.find(p=>p.idprovincia==v)
@@ -96,10 +96,10 @@ const SelectLocalidad = (props) => {
                     load_localidades(v)
                 }} />
             </Col>
-            <Col span={5} style={{textAlign:"right", paddingTop:".1em" }}>
+            <Col span={4} style={{textAlign:"right", paddingTop:".5em" }}>
                 &nbsp;Localidad:&nbsp;
             </Col>
-            <Col span={6}>
+            <Col span={9}>
                 {_localidades_()}
             </Col>
         </Row>

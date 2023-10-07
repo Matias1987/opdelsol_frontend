@@ -16,7 +16,7 @@ const LCItem = (props) => {
         precio: 0,
         cantidad: 1,
         total: 0,
-        max: 9999,
+        max: 0,
     })
 
     const onCodigoChange = (value) => {
