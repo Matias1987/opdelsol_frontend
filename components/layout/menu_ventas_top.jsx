@@ -51,9 +51,15 @@ const items = [
 ];
 export default function MenuVentasTop(){
   const [current, setCurrent] = useState('mail');
+  const _style_ = {
+    background: "rgb(34,193,195)",
+    background: "linear-gradient(81deg, rgba(34,193,195,1) 0%, rgba(253,187,45,1) 100%)",
+    color: "black",
+    //backgroundColor:"#6CA12B",
+  }
   const onClick = (e) => {
     console.log('click ', e);
     setCurrent(e.key);
   };
-  return <Menu  style={{backgroundColor:"#6CA12B", padding:'0', lineHeight:'auto'}} onClick={onClick} selectedKeys={[current]} mode="horizontal" items={items} />;
+  return <Menu  style={_style_} onClick={onClick} selectedKeys={[current]} mode="horizontal" items={items} />;
 };
