@@ -40,13 +40,19 @@ const FiltroCobros =(props) => {
 
 
     return <>
-    <Button type="primary" ghost  size="small"  onClick={showModal}>
-        {"Filtros"}
-      </Button>
-      &nbsp;&nbsp;
-      <Button danger size="small" onClick={(e)=>{setFiltros(f=>{props?.callback?.({}); return {}}); }}>
-        Borrar Filtros
-      </Button>
+    <Row>
+        <Col span={12}>
+            <Button block type="primary"   size="small"  onClick={showModal}>
+                {"Filtros"}
+            </Button>
+        </Col>
+        <Col span={12}>
+            <Button block danger size="small" type="dashed" onClick={(e)=>{setFiltros(f=>{props?.callback?.({}); return {}}); }}>
+                Borrar Filtros
+            </Button>
+        </Col>
+    </Row>
+    
       <Modal
         cancelButtonProps={{ style: { display: 'none' } }}
         okButtonProps={{children:"CERRAR"}}
@@ -65,26 +71,36 @@ const FiltroCobros =(props) => {
 
       
         <Row style={{padding: ".65em"}}>
-            <Col span={24}>
-                Nro.:&nbsp;&nbsp;
+            <Col span={1} style={{textAlign:'right'}}>
+            Nro.:&nbsp;&nbsp;
+            </Col>
+            <Col span={23}>
+                
                 <Input onChange={onIDChange} />
             </Col>
             
         </Row>
         <Row style={{padding: ".65em"}}>
-            <Col span={24}>
+            <Col span={1} style={{textAlign:'right'}}>
                 Cliente:&nbsp;&nbsp;
+            </Col>
+            <Col span={23}>
+                
                 <SelectCliente callback={onSelectCliente} />
             </Col>
         </Row>
-        {/*
-        <Row>
-            <Col span={24}>
-                Fecha:&nbsp;&nbsp;
-            <RangePicker format={"DD/MM/YY"} />
+        
+        <Row style={{padding: ".65em"}}>
+            <Col span={1} style={{textAlign:'right'}}>
+            Fecha:&nbsp;&nbsp;
+            </Col>
+            <Col span={23}>
+                
+            {/*<RangePicker format={"DD/MM/YY"} />*/}
+                <DatePicker />
             </Col>
         </Row>
-    */}
+    
         </Modal>
     </>
 }

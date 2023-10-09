@@ -119,20 +119,31 @@ a {
   color: #1890ff;
 }
 
- .logo {
+ /*.logo {
   height: 32px;
   margin: 16px;
   background: rgba(255, 255, 255, 0.3);
-}
+}*/
 
 .site-layout .site-layout-background {
-  background: #fff;
+  background: #808080;
 }
 
 .layout {
   height: 100vh;
+  
 }
 
 body{
   background:#1A1A1A;
 }
+/*
+a{
+  color:black;
+}
+a::before{
+  color: black;
+}
+.ant-menu-title-content{
+  color: black;
+}*/

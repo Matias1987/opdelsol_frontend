@@ -58,11 +58,11 @@ export default function LayoutCaja({children}){
     //globals.validate_user(window)
   },[])
     return (
-        <Layout className='layout' style={{minHeight: 1200}}>
+        <Layout className='layout' style={{minHeight: 1200, backgroundColor:'#D3D3D3'}}>
                 <HeaderSol tipoCuenta="CAJA" />
                 <MenuCajaTop />
   
-            <Content style={{ margin: '40px 100px', padding: 24, background: '#fff', overflowY:'scroll' }}>
+            <Content style={{ margin: '40px 100px', padding: 24, background: '#fff', borderRadius:"15px", overflowY:'scroll' }}>
                 {/*<Alerts />*/}
                 {children}
                 <Chat />

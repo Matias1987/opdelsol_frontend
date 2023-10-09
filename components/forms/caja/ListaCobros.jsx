@@ -1,7 +1,7 @@
 import CustomModal from "@/components/CustomModal";
 import PrinterWrapper from "@/components/PrinterWrapper";
 import InformeX from "@/components/informes/caja/InformeX";
-import { Table } from "antd";
+import { Col, Row, Table } from "antd";
 import { useEffect, useState } from "react";
 import FiltroCobros from "./FiltroCobros";
 import globals from "@/src/globals";
@@ -56,11 +56,17 @@ const ListaCobros = (props) => {
     },[reload])
 
     return <>
-        <FiltroCobros callback={f=>{setFiltros(_f=>f); setReload(!reload)}} />
-        {
-        //JSON.stringify(filtros)
-        }
-        <Table dataSource={dataSource} columns={columns} />
+        <Row>
+            <Col span={24}>
+                <FiltroCobros callback={f=>{setFiltros(_f=>f); setReload(!reload)}} />
+            </Col>
+        </Row>
+        <Row>
+            <Col span={24}>
+                <Table dataSource={dataSource} columns={columns} />
+            </Col>
+        </Row>
+        
     </>
 }
 

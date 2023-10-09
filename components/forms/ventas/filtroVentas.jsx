@@ -1,4 +1,4 @@
-import { Button, Col, Input, Modal, Row } from "antd"
+import { Button, Col, DatePicker, Input, Modal, Row } from "antd"
 
 
 const { useState, useEffect } = require("react")
@@ -89,7 +89,7 @@ const FiltroVentas =(props) => {
         </Row>
         <Row style={{padding: ".65em"}}>
             <Col span={24}>
-                Cliente:&nbsp;&nbsp;
+                Cliente o Destinatario:&nbsp;&nbsp;
                 <SelectCliente callback={onSelectCliente} />
             </Col>
         </Row>
@@ -99,6 +99,7 @@ const FiltroVentas =(props) => {
                 <SelectMedico callback={onSelectMedico} />
             </Col>
         </Row>
+        
 
         {/*<Row style={{padding: ".65em"}}>
             <Col span={24}>

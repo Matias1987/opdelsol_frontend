@@ -78,11 +78,18 @@ const items = [
   },
  
 ];
+
 export default function MenuCajaTop(){
   const [current, setCurrent] = useState('mail');
+  const _style_ = {
+    background: "rgb(71,115,217)",
+    background: "linear-gradient(90deg, rgba(71,115,217,1) 0%, rgba(88,204,223,1) 100%)",
+    color: "white"
+    //backgroundColor:"#FFEF85"
+  }
   const onClick = (e) => {
     console.log('click ', e);
     setCurrent(e.key);
   };
-  return <Menu style={{backgroundColor:"#FFEF85"}} onClick={onClick} selectedKeys={[current]} mode="horizontal" items={items} />;
+  return <Menu style={_style_} onClick={onClick} selectedKeys={[current]} mode="horizontal" items={items} />;
 };

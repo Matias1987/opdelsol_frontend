@@ -16,12 +16,18 @@ const MenuLaboratorioTop = (props)=>{
         
       ];
 
+      const _style_ = {
+        background: "rgb(238,174,202)",
+        background: "radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%)",
+        /*backgroundColor:"#FFEF85" */
+      }
+
       
       const onClick = (e) => {
         console.log('click ', e);
         setCurrent(e.key);
       };
-      return <Menu style={{backgroundColor:"#FFEF85"}} onClick={onClick} selectedKeys={[current]} mode="horizontal" items={items} />;
+      return <Menu style={_style_} onClick={onClick} selectedKeys={[current]} mode="horizontal" items={items} />;
 }
 
 export default MenuLaboratorioTop;

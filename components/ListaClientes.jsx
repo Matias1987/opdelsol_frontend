@@ -1,5 +1,5 @@
 import CustomModal from "@/components/CustomModal";
-import { Button, Input, Spin, Table } from "antd";
+import { Button, Col, Input, Row, Spin, Table } from "antd";
 import { useEffect, useState } from "react";
 import { CheckCircleFilled, CloseOutlined, EditOutlined, ReloadOutlined } from "@ant-design/icons";
 
@@ -89,19 +89,39 @@ export default function ListaClientes(props){
 
     return <>
     <h3>Lista de Clientes</h3>
-    <Input.Search onSearch={onSearch} value={searchVal} onChange={(e)=>{setSearchVal(e.target.value)}} />
-        <CustomModal openButtonText="+ Agregar" title="Agregar Cliente" >
+    <Row>
+        <Col span={24}>
+            <Input.Search onSearch={onSearch} value={searchVal} onChange={(e)=>{setSearchVal(e.target.value)}} />
+        </Col>
+    </Row>
+    <Row>
+        <Col span={12}>
+            <CustomModal openButtonText="+ Agregar" title="Agregar Cliente" >
             <ClienteFormV2 callback={(id)=>{
-                //alert(id); 
-                //upload_cliente_details(id) 
                 refresh()
                 }}/>
-        </CustomModal>
-        <Button size="small" danger onClick={(e)=>{setSearchVal(s=>{
+            </CustomModal>
+        </Col>
+    
+        <Col span={12}>
+            <Button size="small" danger onClick={(e)=>{setSearchVal(s=>{
             refresh()
             return ""
-            })}}><ReloadOutlined />Recargar</Button>
-    <Table columns={columns} dataSource={clientes} />
+            })}}><ReloadOutlined />Recargar
+            </Button>
+        </Col>
+    </Row>
+    <Row>
+        <Col span={24}>
+            <Table columns={columns} dataSource={clientes} />
+        </Col>
+    </Row>
+    
+
+    
+
+    
+    
     </>
 }
 

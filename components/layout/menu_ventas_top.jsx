@@ -46,7 +46,7 @@ const items = [
   {
     label: (<Link href={public_urls.lista_clientes_ventas}>Clientes</Link>),
     key: '11',
-    icon: <StarOutlined />,
+    
   },
 ];
 export default function MenuVentasTop(){
@@ -55,5 +55,5 @@ export default function MenuVentasTop(){
     console.log('click ', e);
     setCurrent(e.key);
   };
-  return <Menu style={{backgroundColor:"#6CA12B"}} onClick={onClick} selectedKeys={[current]} mode="horizontal" items={items} />;
+  return <Menu  style={{backgroundColor:"#6CA12B", padding:'0', lineHeight:'auto'}} onClick={onClick} selectedKeys={[current]} mode="horizontal" items={items} />;
 };

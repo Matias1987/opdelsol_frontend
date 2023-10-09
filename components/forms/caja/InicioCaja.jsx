@@ -31,7 +31,7 @@ export default function InicioCaja(props){
                 onClick={(e)=>{
                     setOpen(true)
                 }}
-                ><b>Abrir Caja</b></Button>
+                ><b>Inicio de Caja</b></Button>
                 <Modal 
                 footer={null}
                 open={open}

@@ -69,10 +69,11 @@ export default function MyLayout({children}){
     
     return (
             <Layout className='layout' style={{height:"100hv"}}>
-                <Sider width={"auto"} style={{padding:"20px",  overflowY:"scroll"}} collapsed={collapsed}>
-                    <div className="logo" style={{padding:".45em", textAlign:"center" }}>
-                        <span style={{color:"rgba(255,255,255,1)"}}><b>Optica del Sol</b>&nbsp;&nbsp;</span>
-                    </div>
+                <Sider width={"auto"} collapsed={collapsed} style={{backgroundColor:'#262626'}}>
+                    {<div className="logo" style={{padding:".45em", textAlign:"center", height:"36px" }}>
+                        <span style={{color:"rgba(255,255,255,1)"}}><b></b>&nbsp;&nbsp;</span>
+                        
+                    </div>}
                     {uDeposito?<>
                         <TestMenu />
                     </>:
