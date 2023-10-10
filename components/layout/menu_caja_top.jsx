@@ -8,7 +8,7 @@ import BuscarVenta from "../forms/ventas/BuscarVenta";
 const items = [
  
   {
-    label: 'Menú',
+    label: 'Caja',
     key: 'SubMenu',
     icon: <MenuOutlined />,
     children: [
