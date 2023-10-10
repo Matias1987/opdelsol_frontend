@@ -12,6 +12,7 @@ export default function ClienteFormV2(props){
 
     const [form] = Form.useForm();
     const [qr, setQR] = useState("")
+    const [btnDisabled, setBtnDisabled] = useState(false)
     const [clienteData, setClienteData] = useState({
         nombres:"",
         dni:"",
@@ -63,6 +64,8 @@ export default function ClienteFormV2(props){
         if(!validateStr(clienteData.telefono, "Teléfono Vacío")){return}
         if(!validateStr(clienteData.nacimiento, "Fecha de Nacimiento Vacío")){return}
 
+        setBtnDisabled(true)
+
         /*if(typeof props.destinatario === 'undefined' || (typeof props.destinatario !== 'undefined' && !props.destinatario)){
 
             if(!validateStr(clienteData.telefono, "Teléfono Vacío")){return}
@@ -73,11 +76,12 @@ export default function ClienteFormV2(props){
         post_method(post.obtener_cliente_dni,{"dni":clienteData.dni},(res)=>{
             if(res.data.length>0){
                 alert("El cliente ya existe")
+                setBtnDisabled(false)
             }
             else{
                 
                 post_method(url,clienteData,(res)=>{
-                    alert("OK")
+                    alert("Cliente Agregado")
                     if(typeof props.callback !== 'undefined'){
                         props.callback(res.data);
                     }
@@ -179,7 +183,7 @@ export default function ClienteFormV2(props){
 </Row>
 <Row>
     <Col style={{padding:".5em"}}>
-        <Button onClick={onFinish}>Guardar</Button>
+        <Button disabled={btnDisabled} onClick={onFinish}>Guardar</Button>
     </Col>
 </Row>
 </>)}

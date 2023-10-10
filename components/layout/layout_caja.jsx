@@ -93,7 +93,7 @@ export default function LayoutCaja({children}){
                     (alerta!="") ? <><Alert key={alerta} message={alerta} type="error" showIcon/></>:<></>
                 }
                 {children}
-                <Chat />
+                {/*<Chat />*/}
             </Content>
         </Layout>
     )
