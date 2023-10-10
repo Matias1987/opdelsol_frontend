@@ -2,7 +2,7 @@ import { get, public_urls } from "@/src/urls";
 import useStorage from "@/useStorage";
 import { LogoutOutlined } from "@ant-design/icons";
 import { Alert, Anchor, Button, Input, Layout } from "antd";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import SucursalLabel from "../sucursal_label";
 import globals from "@/src/globals";
 import MenuCajaTop from "./menu_caja_top";
@@ -14,6 +14,8 @@ export default function LayoutCaja({children}){
     const { Header, Sider, Content } = Layout;
 
     const { getItem } = useStorage();
+    const [alerta, setAlerta] = useState("")
+
     const validate_user = () => {
 
         const _token = getItem("token",'session')
@@ -43,6 +45,30 @@ export default function LayoutCaja({children}){
                 }
 
             })
+
+            //check if caja is closed, if so, then check whether it is open now
+            fetch(get.caja_abierta + globals.obtenerSucursal())
+                .then(r=>r.json())
+                .then((response)=>{
+                    //if caja is open, set this value in local
+                    if(typeof response.data !== 'undefined')
+                    {
+                        //alert(JSON.stringify(response))
+                        if(response.data!=null)
+                        {
+                            if(+response.data.abierta==1)
+                            {
+                                globals.setCajaOpen(true)
+                                setAlerta(+response.data.current==1 ? "" : "Caja Desactualizada")
+                            }
+                            else
+                            {
+                                //alert("caja cerrada")
+                                setAlerta("CAJA CERRADA")
+                            }
+                        }
+                    }
+                })
             
         }, 2000);
     }
@@ -63,7 +89,9 @@ export default function LayoutCaja({children}){
                 <MenuCajaTop />
   
             <Content style={{ margin: '40px 100px', padding: 24, background: '#fff', borderRadius:"15px", overflowY:'scroll' }}>
-                {/*<Alerts />*/}
+                {
+                    (alerta!="") ? <><Alert key={alerta} message={alerta} type="error" showIcon/></>:<></>
+                }
                 {children}
                 <Chat />
             </Content>

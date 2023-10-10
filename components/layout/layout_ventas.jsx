@@ -2,7 +2,7 @@ import { get, public_urls } from "@/src/urls";
 import useStorage from "@/useStorage";
 import { LogoutOutlined } from "@ant-design/icons";
 import { Alert, Button, Layout } from "antd";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import SucursalLabel from "../sucursal_label";
 import globals from "@/src/globals";
 import MenuVentasTop from "./menu_ventas_top";
@@ -11,7 +11,7 @@ import HeaderSol from "./header";
 
 export default function LayoutVentas({children}){
     const { Header, Sider, Content } = Layout;
-
+    const [alerta, setAlerta] = useState("")
     const { getItem } = useStorage();
     const validate_user = () => {
 
@@ -41,6 +41,30 @@ export default function LayoutVentas({children}){
                 }
 
             })
+
+            //check if caja is closed, if so, then check whether it is open now
+            fetch(get.caja_abierta + globals.obtenerSucursal())
+                .then(r=>r.json())
+                .then((response)=>{
+                    //if caja is open, set this value in local
+                    if(typeof response.data !== 'undefined')
+                    {
+                        //alert(JSON.stringify(response))
+                        if(response.data!=null)
+                        {
+                            if(+response.data.abierta==1)
+                            {
+                                globals.setCajaOpen(true)
+                                setAlerta(+response.data.current==1 ? "" : "Caja Desactualizada")
+                            }
+                            else
+                            {
+                                //alert("caja cerrada")
+                                setAlerta("CAJA CERRADA")
+                            }
+                        }
+                    }
+                })
             
         }, 2000);
     }
@@ -55,8 +79,12 @@ export default function LayoutVentas({children}){
     return (
         <Layout style={{backgroundColor: '#D3D3D3', padding:0}} className='layout'>
             <HeaderSol tipoCuenta="VENTAS" />
+            
             <MenuVentasTop />
             <Content style={{ margin: '40px 100px', padding: 24, background: 'white', borderRadius:"15px", minHeight: 580 }}>
+            {
+                (alerta!="") ? <><Alert key={alerta} message={alerta} type="error" showIcon/></>:<></>
+            }
             {/*<Alerts />*/}
                 {children}
             </Content>

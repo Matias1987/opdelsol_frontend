@@ -38,6 +38,7 @@ export default function panelCajaAdmin(){
         .then((response)=>{
             setReload(!reload)
             globals.obtenerCajaAsync(()=>{})
+            globals.setCajaOpen(false)
         })
     }
 

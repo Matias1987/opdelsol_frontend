@@ -36,6 +36,7 @@ const public_urls = {
     inicio_caja: local_base_url + "caja/",
     caja_admin: local_base_url + "caja/panelCajaAdmin/",
     listado_caja: local_base_url + "caja/",
+    
     ventas_ingresadas: local_base_url + "caja/ventas_ingresadas",
     ventas_pendientes: local_base_url + "caja/ventas_pendientes",
     ventas_pendientes_lab: local_base_url + "caja/ventas_en_laboratorio",
@@ -219,6 +220,8 @@ const get = {
     informe_caja: remote_base_url + "caja/inf/",
     lista_caja_sucursal: remote_base_url + "caja/lista/",
     caja_id: remote_base_url + "caja/",//idsucursal
+    caja_abierta: remote_base_url + "caja/caja_abierta/",
+    
 
     //tarjetas
     lista_tarjetas: remote_base_url + "tarjetas/", 

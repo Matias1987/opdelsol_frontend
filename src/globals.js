@@ -55,6 +55,17 @@ const globals =  {
         return (getItem("loged")==1)||0
     },
 
+    isCajaOpen: () => {
+        const {getItem} = useStorage();
+        return (getItem("cajaOpen")==1)||false
+    },
+
+    setCajaOpen: (cajaopen) => {
+        const {setItem} = useStorage();
+        setItem("cajaOpen", 1);
+    },
+
+
     obtenerCajaAsync: (callback) => {
         const {setItem} = useStorage();
         fetch(get.caja+globals.obtenerSucursal())
