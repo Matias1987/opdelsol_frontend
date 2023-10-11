@@ -126,6 +126,8 @@ const post = {
         modificar_cantidad_categoria: remote_base_url + "stock/m/modificar_cantidad_categoria/",
         verificar_cantidades_productos: remote_base_url + "stock/verificar_cantidades_productos/",
 
+        bloquear_cliente: remote_base_url + "clientes/bloquear/",
+
     },
 }
 
@@ -185,7 +187,7 @@ const get = {
     saldo_ctacte: remote_base_url + "clientes/saldo/ctacte/",//:idcliente
     actualizar_saldo_en_cobro: remote_base_url + "clientes/actualizar_saldo_en_cobro/",//:idcobro
 
-    bloquear_cliente: remote_base_url + "clientes/bloquear/",//:idcliente
+    
     desbloquear_cliente: remote_base_url + "clientes/desbloquear/",//:idcliente
 
     lista_mutuales: remote_base_url + "mutuales/",

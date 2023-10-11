@@ -83,13 +83,13 @@ export default function MenuCajaTop(){
   const [current, setCurrent] = useState('mail');
   const _style_ = {
     background: "rgb(71,115,217)",
-    background: "linear-gradient(90deg, rgba(71,115,217,1) 0%, rgba(88,204,223,1) 100%)",
-    color: "white"
+    background: "linear-gradient(90deg, rgba(88,204,223,1) 0%,  rgba(71,115,217,1) 100%)",
+    color: "black",
     //backgroundColor:"#FFEF85"
   }
   const onClick = (e) => {
     console.log('click ', e);
     setCurrent(e.key);
   };
-  return <Menu style={_style_} onClick={onClick} selectedKeys={[current]} mode="horizontal" items={items} />;
+  return <Menu className="menu_caja_top" style={_style_} onClick={onClick} selectedKeys={[current]} mode="horizontal" items={items} />;
 };

@@ -5,7 +5,12 @@ const { TextArea } = Input;
 const { useState, useEffect } = require("react")
 
 const Comentario = (props) =>{
-    const [comentario, setComentario] = useState({})
+    const [comentario, setComentario] = useState({
+        idusuario: globals.obtenerUID(),
+        tipo: props.tipo,
+        comentario: "",
+        idsucursal: globals.obtenerSucursal()
+    })
 
     useEffect(()=>{
         setComentario({
@@ -14,9 +19,10 @@ const Comentario = (props) =>{
             comentario: "",
             idsucursal: globals.obtenerSucursal()
         })
-    })
+    },[])
 
     const onChange = (idx, val) => {
+        //alert(val)
         setComentario(c=>{
             const _c = {...c,[idx]:val}
             props?.callback?.(_c)
@@ -37,7 +43,7 @@ const Comentario = (props) =>{
         
         <Row style={_row_style}>
             <Col span={24}>
-                <TextArea rows={4} placeholder="Max Length is 6" maxLength={6} value={comentario.comentario} onChange={(e)=>{onChange("comentario",e.target.value)}} />
+                <TextArea rows={4} placeholder="Max Length is 255" maxLength={255} onChange={(e)=>{onChange("comentario",e.target.value)}} />
             </Col>
         </Row>
         

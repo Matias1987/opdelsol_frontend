@@ -8,6 +8,7 @@ import { InfoCircleFilled, InfoCircleOutlined } from "@ant-design/icons"
 import PrinterWrapper from "./PrinterWrapper"
 import InformeX from "./informes/caja/InformeX"
 import VentaDetallePopup from "./VentaDetalle"
+import CargaBloqueo from "./forms/caja/CargaBloqueo"
 
 export default function FichaCliente(props){
     const [operaciones, setOperaciones] = useState([])
@@ -176,8 +177,11 @@ export default function FichaCliente(props){
             {dataCliente==null ? <></> :
             <>
                 {dataCliente.bloqueado == 1 ? 
-                <><Button onClick={desBloquear} type="primary" size="small" danger>Desbloquear</Button></> : 
-                <><Button onClick={bloquear} type="primary" size="small" danger>Bloquear</Button></>}
+                <><Button block onClick={desBloquear} type="primary" size="small" danger>Desbloquear</Button></> : 
+                <>
+                {/*<Button onClick={bloquear} type="primary" size="small" danger>Bloquear</Button>*/}
+                <><CargaBloqueo idcliente={dataCliente.idcliente} callback={()=>{setDataChange(!dataChange)}} /></>
+                </>}
             </>
             }
             
