@@ -46,8 +46,7 @@ const ListaCobros = (props) => {
         params = add(params, props?.idventa, 'idventa')
         params = add(params, props?.idsucursal, 'idsucursal')
         params = add(params, filtros?.idcobro, 'idcobro')
-
-        //alert(JSON.stringify(params))
+        params = add(params, filtros?.fecha, 'fecha')
 
         //get list
         post_method(post.obtener_lista_cobros,params,(response)=>{

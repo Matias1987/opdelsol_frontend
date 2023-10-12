@@ -25,6 +25,8 @@ export default function AgregarStockLote(props){
     const [multiplier, setMultiplier] = useState(1);
     const [precioDefecto, setPrecioDefecto] = useState(100);
 
+    const [subgrupo, setSubgrupo] = useState(null)
+
     const subgrupoDetailsURL = get.obtener_detalle_subgrupo;
 
     const setValue = (key,value) => {
@@ -49,6 +51,14 @@ export default function AgregarStockLote(props){
             //alert("SUBGRUPO :  " + JSON.stringify(response.data))
             setMultiplier(parseFloat(response.data[0].multiplicador));
             setPrecioDefecto(parseFloat(response.data[0].precio_defecto))
+            setSubgrupo({
+                nombre_corto: response.data[0].nombre_corto,
+                nombre_largo: response.data[0].nombre_largo,
+                multiplicador: response.data[0].multiplicador,
+                precio_defecto: response.data[0].precio_defecto,
+                idsubgrupo: response.data[0].idsubgrupo,
+
+            })
             setIdSubgrupo(id);
         })
 
@@ -58,9 +68,9 @@ export default function AgregarStockLote(props){
     {
         var codigos = []
 
-        const pattern1 = /^([A-Z\s]+)\[([\-0-9\.]+)\s([\-0-9\.]+)\s([\-0-9\.]+)\]([A-Z\s]+)$/gm
+        const pattern1 = /^([0-9A-Z_\.\s]+)\[([\-0-9\.]+)\s([\-0-9\.]+)\s([\-0-9\.]+)\]([0-9A-Z_\.\s]+)$/gm
 
-        const pattern2 = /^([A-Z\s]+)\[([\-0-9\.]+)\s([\-0-9\.]+)\s([\-0-9\.]+)\]([A-Z\s]+)\[([\-0-9\.]+)\s([\-0-9\.]+)\s([\-0-9\.]+)\]([A-Z\s]+)$/gm
+        const pattern2 = /^([0-9A-Z_\.\s]+)\[([\-0-9\.]+)\s([\-0-9\.]+)\s([\-0-9\.]+)\]([0-9A-Z_\.\s]+)\[([\-0-9\.]+)\s([\-0-9\.]+)\s([\-0-9\.]+)\]([0-9A-Z_\.\s]+)$/gm
 
         const res1 = pattern1.exec(values.codigo)
 
@@ -70,8 +80,8 @@ export default function AgregarStockLote(props){
             var end = parseFloat(res1[3])
             for(let i=start;i<=end; i+=step ){
                 codigos.push({
-                    codigo: `${res1[1]}${(i>0?"+":"")+i.toFixed(2)}${res1[5]}`,
-                    descripcion: `${values.p1}${(i>0?"+":"")+i.toFixed(2)}${values.p2}`,
+                    codigo: `${res1[1]}${(i>0?"":"")+i.toFixed(2)}${res1[5]}`,
+                    descripcion: `${values.p1}${(i>0?"":"")+i.toFixed(2)}${values.p2}`,
                     esf:  i.toFixed(2),
                     cil: "",
                 })
@@ -91,8 +101,8 @@ export default function AgregarStockLote(props){
                 for(let i=start;i<=end; i+=step ){
                     for(let j=start2;j<=end2; j+=step2 ){
                         codigos.push({
-                            codigo: `${res[1]}${(i>0?"+":"")+i.toFixed(2)}${res[5]}${j.toFixed(2)}${res[9]}`,
-                            descripcion: `${values.p1}${(i>0?"+":"")+i.toFixed(2)}${values.p3}${j.toFixed(2)}${values.p2}`,
+                            codigo: `${res[1]}${(i>0?"":"")+i.toFixed(2)}${res[5]}${j.toFixed(2)}${res[9]}`,
+                            descripcion: `${values.p1}${(i>0?"":"")+i.toFixed(2)}${values.p3}${j.toFixed(2)}${values.p2}`,
                             esf:i.toFixed(2),
                             cil:j.toFixed(2),
                         })
@@ -483,7 +493,7 @@ export default function AgregarStockLote(props){
                         <>
                         <SubGroupSelect callback={(id)=>{setValue("subgrupo", id);getSubGrupoDetails(id) }} />
                         {agregarSubgrupoPopup()}
-                        {idSubgrupo > -1 ? <p style={{fontSize:".75em"}}><i>Multiplicador: {multiplier} </i></p> : null}
+                        {subgrupo !=null ? <p style={{fontSize:".75em"}}><i>Subgrupo: {subgrupo.nombre_corto}  Multiplicador: {subgrupo.multiplicador} </i></p> : null}
                         </>
                     </Form.Item>
 

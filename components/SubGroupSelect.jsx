@@ -93,7 +93,7 @@ const SubGroupSelect = (props) => {
                 <Select 
                 
                  bordered={idFamilia==-1}
-                 style={{ width: 150 }}
+                 style={{ width: "400px" }}
                  value={idFamilia==-1 ? "Seleccione Familia" : idFamilia}
                  loading = {familiaLoading}
                  onChange={
@@ -117,7 +117,7 @@ const SubGroupSelect = (props) => {
                         <>
                         <Select 
                          bordered={idSubFamilia<0}
-                        style={{ width: 150 }}
+                        style={{ width: "400px" }}
                         loading = {subFamiliaLoading}
                         options = {subFamiliaOptions}
                         placeholder = {"Select"}
@@ -142,7 +142,7 @@ const SubGroupSelect = (props) => {
                     (   <>
                             <Select 
                              bordered={idGrupo<0}
-                            style={{ width: 150 }}
+                            style={{ width: "400px" }}
                             loading = {grupoLoading}
                             options = {grupoOptions}
                             placeholder = {"Select"}
@@ -165,7 +165,7 @@ const SubGroupSelect = (props) => {
                         <>
                         <Select 
                          bordered={idSubGrupo<0}
-                        style={{ width: 150 }}
+                        style={{ width: "400px" }}
                         loading = {subGrupoLoading}
                         options = {subGrupoOptions}
                         placeholder = {"Seleccione"}

@@ -96,8 +96,20 @@ const FiltroCobros =(props) => {
             </Col>
             <Col span={23}>
                 
-            {/*<RangePicker format={"DD/MM/YY"} />*/}
-                <DatePicker />
+                <DatePicker format={"DD/MM/YYYY"} onChange={
+                    (d,dstr)=>
+                    {
+                        //alert(dstr)
+                        const parts  = dstr.split("/")
+
+                        setFiltros(f=>{
+                            const _f = {...f,["fecha"]:`${parts[2]}-${parts[1]}-${parts[0]}`}
+
+                            //props?.callback?.(_f)
+                            return _f
+                        })
+                    }
+                }  />
             </Col>
         </Row>
     
