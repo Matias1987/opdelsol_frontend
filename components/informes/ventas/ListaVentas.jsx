@@ -102,12 +102,13 @@ const ListaVentas = (props) => {
         
         params = add(params, props?.fecha, 'fecha')
         params = add(params, props?.id, 'id')
-        
+        alert(filtros)
         //filtros
         params = add(params, filtros.idcliente, 'idcliente')
         params = add(params, filtros.idmedico, 'idmedico')
         params = add(params, filtros.id, 'id')
         params = add(params, filtros.iddestinatario, 'iddestinatario')
+        params = add(params, filtros.fecha, 'fecha')
 
         const url = post.venta_estado_sucursal;
         

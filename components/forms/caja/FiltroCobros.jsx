@@ -81,31 +81,26 @@ const FiltroCobros =(props) => {
             
         </Row>
         <Row style={{padding: ".65em"}}>
-            <Col span={1} style={{textAlign:'right'}}>
+            <Col span={2} style={{textAlign:'right'}}>
                 Cliente:&nbsp;&nbsp;
             </Col>
-            <Col span={23}>
-                
+            <Col span={22}>
                 <SelectCliente callback={onSelectCliente} />
             </Col>
         </Row>
         
         <Row style={{padding: ".65em"}}>
-            <Col span={1} style={{textAlign:'right'}}>
+            <Col span={2} style={{textAlign:'right'}}>
             Fecha:&nbsp;&nbsp;
             </Col>
-            <Col span={23}>
+            <Col span={22}>
                 
                 <DatePicker format={"DD/MM/YYYY"} onChange={
                     (d,dstr)=>
                     {
-                        //alert(dstr)
                         const parts  = dstr.split("/")
-
                         setFiltros(f=>{
                             const _f = {...f,["fecha"]:`${parts[2]}-${parts[1]}-${parts[0]}`}
-
-                            //props?.callback?.(_f)
                             return _f
                         })
                     }

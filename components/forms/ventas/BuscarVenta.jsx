@@ -21,10 +21,13 @@ const BuscarVenta = (props)=>{
     useEffect(()=>{
         const url = post.venta_estado_sucursal;
         var params = {idsucursal: globals.obtenerSucursal()}
+        
         params = add(params, filtros.idcliente, 'idcliente')
         params = add(params, filtros.idmedico, 'idmedico')
         params = add(params, filtros.id, 'id')
         params = add(params, filtros.iddestinatario, 'iddestinatario')
+        params = add(params, filtros.fecha, 'fecha')
+
         post_method(url, params,(response)=>{
 
             if(response==null)
@@ -112,7 +115,7 @@ const BuscarVenta = (props)=>{
     onCancel={onCancel} 
     open={open} 
     title="Buscar Venta"> 
-        <FiltroVentas callback={f=>{setFiltros(_f=>f); setReload(!reload)}} />
+        <FiltroVentas callback={f=>{ setFiltros(_f=>f); setReload(!reload)}} />
         <Button type="link" onClick={(e)=>{setFiltros(_f=>({})); setReload(!reload)}}><ReloadOutlined /></Button>
         <Table dataSource={dataSource} columns={[
         {title:'Nro.:', dataIndex:'idventa'},

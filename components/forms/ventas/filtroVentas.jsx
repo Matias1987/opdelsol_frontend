@@ -11,7 +11,6 @@ const FiltroVentas =(props) => {
     const [open, setOpen] = useState(false);
 
     useEffect(()=>{
-        
         setFiltros({})
     },[])
 
@@ -97,6 +96,26 @@ const FiltroVentas =(props) => {
             <Col span={24}>
                 M&eacute;dico:&nbsp;&nbsp;
                 <SelectMedico callback={onSelectMedico} />
+            </Col>
+        </Row>
+
+        <Row style={{padding: ".65em"}}>
+            <Col span={2} style={{textAlign:'left'}}>
+            Fecha:&nbsp;&nbsp;
+            </Col>
+            <Col span={22}>
+                
+                <DatePicker format={"DD/MM/YYYY"} onChange={
+                    (d,dstr)=>
+                    {
+                        const parts  = dstr.split("/")
+                        setFiltros(f=>{
+                            const _f = {...f,["fecha"]:`${parts[2]}-${parts[1]}-${parts[0]}`}
+                            return _f
+                        })
+                    }
+                }  />
+
             </Col>
         </Row>
         
