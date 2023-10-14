@@ -26,32 +26,76 @@ import { getItem } from "localforage";
 
     },[])
 
+
+   /* const button_style_default = {
+      background: "rgb(238,174,202)",
+      background: "radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%)",
+      marginTop: "1em",
+      color: "#1C4D8E",
+      fontWeight: "bold",
+    }*/
+    /*const button_style_default = {
+      background: "rgb(28,77,142)",
+      background: "linear-gradient(90deg, rgba(28,77,142,1) 0%, rgba(253,29,29,1) 50%, rgba(252,176,69,1) 100%)",
+      marginTop: "1em",
+      color: "#FCE4C5",
+      fontWeight: "bold",
+    }*/
+    /*const button_style_default = {
+      background: "rgb(4,126,217)",
+      background: "linear-gradient(90deg, rgba(4,126,217,1) 0%, rgba(46,71,89,1) 59%)",
+      marginTop: "1em",
+      color: "#DACDBA",
+      fontWeight: "bold",
+    }*/
+    const button_style_default = {
+      background: "rgb(184,203,217)",
+      background: "radial-gradient(circle,  rgba(218,205,186,1) 0%,  rgba(184,203,217,1) 100%)",
+      marginTop: "1em",
+      color: "#284459",
+      //fontWeight: "bold",
+    }
+
+    const button_style_danger = {
+      background: "rgb(28,77,142)",
+      background: "radial-gradient(circle, rgba(199,0,0,1) 0%, rgba(252,70,70,1) 100%)",
+      marginTop: "1em",
+      color: "white",
+      //fontWeight: "bold",
+    }
+
     const buttons = () => (
       permisos == null ? <></> :
       <>
         {(permisos.esUsuarioDeposito || permisos.esUsuarioDepositoMin)?
           <>
-          <Button type="primary" onClick={(e)=>{
+          <Button 
+          shape="round"
+          type="primary" onClick={(e)=>{
             window.location.replace(public_urls.dashboard_deposito)
-          }} style={{marginTop:"1em", color:"white"}} size="large" block>Dep&oacute;sito</Button>
+          }} style={button_style_default} size="large" block>Dep&oacute;sito</Button>
           </>
           :<></>
         }
         {
         permisos.esUsuarioVentas?
         <>
-        <Button type="primary" onClick={(e)=>{
+        <Button 
+        shape="round"
+        type="primary" onClick={(e)=>{
           window.location.replace(public_urls.dashboard_venta)
-        }} style={{marginTop:"1em", color:"white"}} size="large" block>Ventas</Button>
+        }} style={button_style_default} size="large" block>Ventas</Button>
         </>
         :<></>
         }
         {
         permisos.esUsuarioCaja1?
         <>
-          <Button type="primary" onClick={(e)=>{
+          <Button 
+          shape="round"
+          type="primary" onClick={(e)=>{
             window.location.replace(public_urls.dashboard_caja)
-          }} style={{marginTop:"1em", color:"white"}} size="large" block>
+          }} style={button_style_default} size="large" block>
           Caja
           </Button>
         </>
@@ -60,9 +104,11 @@ import { getItem } from "localforage";
         {
         permisos.esUsuarioLaboratorio?
         <>
-          <Button type="primary" onClick={(e)=>{
+          <Button 
+          shape="round"
+          type="primary" onClick={(e)=>{
             window.location.replace(public_urls.dashboard_laboratorio)
-          }} style={{marginTop:"1em", color:"white"}} size="large" block>
+          }} style={button_style_default} size="large" block>
           Laboratorio
           </Button>
         </>
@@ -72,9 +118,11 @@ import { getItem } from "localforage";
         {
         permisos.esUsuarioAdmin?
         <>
-          <Button type="primary" onClick={(e)=>{
+          <Button 
+          shape="round"
+          type="primary" onClick={(e)=>{
             window.location.replace(public_urls.dashboard_admin)
-          }} style={{marginTop:"1em", color:"white"}} size="large" block>
+          }} style={button_style_default} size="large" block>
           Admin
           </Button>
         </>
@@ -84,7 +132,13 @@ import { getItem } from "localforage";
         {
         globals.userLogedIn() ? 
         <>
-          <Button type="primary" danger block size="small" style={{marginTop:"2em"}} onClick={()=>{
+          <Button 
+          shape="circle"
+          type="primary" 
+          danger 
+          size="large" 
+          style={button_style_danger}
+          onClick={()=>{
             const _token = getItem("token",'session')
       
             fetch(get.logout + _token)
@@ -92,7 +146,8 @@ import { getItem } from "localforage";
             .then((response)=>{
                 window.location.replace(public_urls.login);
             })
-          }}>Salir</Button>
+          }}>Salir
+          </Button>
         </>
         :<></>
         }
@@ -110,7 +165,7 @@ import { getItem } from "localforage";
       }}
     >
       <h4></h4>
-      <Card title="" size="small" style={{paddingLeft:"30%", paddingRight:"30%"}}>
+      <Card title="" size="small" style={{paddingLeft:"40%", paddingRight:"40%"}}>
         {
         buttons()
         }
