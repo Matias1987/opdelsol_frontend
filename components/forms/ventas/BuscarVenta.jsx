@@ -108,8 +108,10 @@ const BuscarVenta = (props)=>{
     const onCancel = ()=>{setOpen(false)}
     const onOpen = ()=>{setOpen(true); setReload(true) }
     return <div >
-    <Button type="dashed" onClick={()=>{onOpen()}}>Buscar Venta</Button>
+    <Button 
+    type="dashed" onClick={()=>{onOpen()}}>Buscar Venta</Button>
     <Modal 
+    footer={null}
     destroyOnClose={true} 
     width={"80%"} 
     onCancel={onCancel} 

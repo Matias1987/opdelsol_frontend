@@ -102,7 +102,7 @@ const ListaVentas = (props) => {
         
         params = add(params, props?.fecha, 'fecha')
         params = add(params, props?.id, 'id')
-        alert(filtros)
+        
         //filtros
         params = add(params, filtros.idcliente, 'idcliente')
         params = add(params, filtros.idmedico, 'idmedico')

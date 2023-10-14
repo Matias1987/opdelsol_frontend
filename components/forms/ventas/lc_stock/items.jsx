@@ -2,6 +2,7 @@ import { useState } from "react";
 import VentasInsumo from "../Insumo";
 import LCItem from "./lc_item";
 import { Col, Row } from "antd";
+import SelectCodeButton from "../selectCodeButton";
 
 const LCStockItems = (props) => {
 
@@ -34,29 +35,29 @@ const LCStockItems = (props) => {
 
     const _style_label = {
         paddingTop: "1em",
-        textAlign: "right",
+        textAlign: "left",
         fontWeight: "bold", 
         fontSize: ".75em",
     }
 
     return (
     <>
-    <Row>
+    <Row style={{padding:".7em"}}>
         <Col style={_style_label} span={1}>OD</Col>
-        <Col span={23} style={{padding:'.45em'}}>
-            <LCItem buttonText="Ojo Derecho" onVisibleChange={(_value)=>onVisibleChange("od_visible",_value)} tipo="OD" callback={(v)=>{onChange("od",v)}}/>
+        <Col span={23} style={{padding:'.65em'}}>
+            <LCItem buttonText={<SelectCodeButton />} onVisibleChange={(_value)=>onVisibleChange("od_visible",_value)} tipo="OD" callback={(v)=>{onChange("od",v)}}/>
         </Col>
     </Row>
-    <Row>
+    <Row style={{padding:".7em"}}>
         <Col style={_style_label} span={1}>OI</Col>
-        <Col span={23} style={{padding:'.45em'}}>
-            <LCItem buttonText="Ojo Izquierdo" onVisibleChange={(_value)=>onVisibleChange("oi_visible",_value)} tipo="OI" callback={(v)=>{onChange("oi",v)}}/>  
+        <Col span={23} style={{padding:'.65em'}}>
+            <LCItem buttonText={<SelectCodeButton />} onVisibleChange={(_value)=>onVisibleChange("oi_visible",_value)} tipo="OI" callback={(v)=>{onChange("oi",v)}}/>  
         </Col>
     </Row>
-    <Row>
+    <Row style={{padding:".7em"}}>
         <Col style={_style_label} span={1}>Insumo</Col>
-        <Col span={23} style={{padding:'.45em'}}>
-            <VentasInsumo onVisibleChange={(_value)=>onVisibleChange("insumo_visible",_value)} tipo="insumo" callback={(v)=>{onChange("insumo",v)}} />  
+        <Col span={23} style={{padding:'.65em'}}>
+            <VentasInsumo buttonText={<SelectCodeButton />} onVisibleChange={(_value)=>onVisibleChange("insumo_visible",_value)} tipo="insumo" callback={(v)=>{onChange("insumo",v)}} />  
         </Col>
     </Row>
      </>

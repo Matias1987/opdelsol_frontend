@@ -9,7 +9,7 @@ const VentasArmazon = (props) => {
     const [armazon, setArmazon] = useState({
         idcodigo: -1,
         codigo: null,
-        precio: -1,
+        precio: 0,
         cantidad:1,
     })
     //const precioRef = useRef(null)

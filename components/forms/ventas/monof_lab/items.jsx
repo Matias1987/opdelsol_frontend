@@ -3,6 +3,7 @@ import VentasArmazon from "../Armazon";
 import VentasTratamiento from "../Tratamiento";
 import { useEffect, useState } from "react";
 import MonofLabCristal from "./MonofLabCristal";
+import SelectCodeButton from "../selectCodeButton";
 
 const MonofLabItems = (props) => {
     const [mlabitems, setItems] = useState({
@@ -47,6 +48,7 @@ const MonofLabItems = (props) => {
         })
     }
 
+
     
 
     const tabs_items = [
@@ -55,32 +57,32 @@ const MonofLabItems = (props) => {
             label: 'Lejos',
             children: 
                 <>
-                <Form.Item>
+                <Form.Item label={"OD"}>
                     <MonofLabCristal 
                     onVisibleChange={(_value)=>onVisibleChange("lejos_od_visible",_value)}  
                     tipo='LEJOS_OD' 
-                    buttonText={"Elejir Ojo Derecho Lejos"} 
+                    buttonText={<SelectCodeButton />} 
                     callback={(v)=>{on_change("lejos_od",v)}}/>
                 </Form.Item>
-                <Form.Item>    
+                <Form.Item label={"OI"}>    
                     <MonofLabCristal 
                     onVisibleChange={(_value)=>onVisibleChange("lejos_oi_visible",_value)}  
                     tipo='LEJOS_OI' 
-                    buttonText={"Elejir Ojo Izquierdo Lejos"} 
+                    buttonText={<SelectCodeButton />} 
                     callback={(v)=>{on_change("lejos_oi",v)}}/>
                 </Form.Item>
-                <Form.Item>    
+                <Form.Item label={"ARMAZON"}>    
                     <VentasArmazon 
                     onVisibleChange={(_value)=>onVisibleChange("lejos_armazon_visible",_value)}  
                     tipo='LEJOS_ARMAZON' 
-                    buttonText={"Elejir Armazon Lejos"}  
+                    buttonText={<SelectCodeButton />}  
                     callback={(v)=>{on_change("lejos_armazon",v)}}/>
                 </Form.Item>
-                <Form.Item>    
+                <Form.Item label={"TRATAMIENTO"}>    
                     <VentasTratamiento 
                     onVisibleChange={(_value)=>onVisibleChange("lejos_tratamiento_visible",_value)}  
                     tipo='LEJOS_TRATAMIENTO' 
-                    buttonText={"Elejir Tratamiento Lejos"} 
+                    buttonText={<SelectCodeButton />} 
                     callback={(v)=>{on_change("lejos_tratamiento",v)}}/>
                 </Form.Item>
                 </>
@@ -91,32 +93,32 @@ const MonofLabItems = (props) => {
             label: 'Cerca',
             children: 
                 <>
-                <Form.Item>
+                <Form.Item label={"OD"}>
                     <MonofLabCristal 
                     onVisibleChange={(_value)=>onVisibleChange("cerca_od_visible",_value)}  
                     tipo='CERCA_OD'  
-                    buttonText={"Elejir Ojo Derecho Cerca"} 
+                    buttonText={<SelectCodeButton />} 
                     callback={(v)=>{on_change("cerca_od",v)}}/>
                 </Form.Item>
-                <Form.Item>    
+                <Form.Item label={"OI"}>    
                     <MonofLabCristal 
                     onVisibleChange={(_value)=>onVisibleChange("cerca_oi_visible",_value)}  
                     tipo='CERCA_OI'  
-                    buttonText={"Elejir Ojo Izquierdo Cerca"} 
+                    buttonText={<SelectCodeButton />} 
                     callback={(v)=>{on_change("cerca_oi",v)}}/>
                 </Form.Item>
-                <Form.Item>    
+                <Form.Item label={"ARMAZON"}>    
                     <VentasArmazon 
                     onVisibleChange={(_value)=>onVisibleChange("cerca_armazon_visible",_value)}  
                     tipo='CERCA_ARMAZON' 
-                    buttonText={"Elejir Armazon Cerca"} 
+                    buttonText={<SelectCodeButton />} 
                     callback={(v)=>{on_change("cerca_armazon",v)}}/>
                 </Form.Item>
-                <Form.Item>    
+                <Form.Item label={"TRATAMIENTO"}>    
                     <VentasTratamiento 
                     onVisibleChange={(_value)=>onVisibleChange("cerca_tratamiento_visible",_value)}  
                     tipo='CERCA_TRATAMIENTO' 
-                    buttonText={"Elejir Tratamiento Cerca"} 
+                    buttonText={<SelectCodeButton />} 
                     callback={(v)=>{on_change("cerca_tratamiento",v)}}/>
                 </Form.Item>
                 </>

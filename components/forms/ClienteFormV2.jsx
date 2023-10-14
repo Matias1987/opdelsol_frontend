@@ -1,7 +1,7 @@
 import globals from "@/src/globals";
 import { post_method } from "@/src/helpers/post_helper";
 import { post } from "@/src/urls";
-import { Button, Col, DatePicker, Form, Input, Row } from "antd";
+import { Button, Col, DatePicker, Form, Input, Modal, Row } from "antd";
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 import SelectLocalidad from "../SelectLocalidad";
@@ -9,7 +9,7 @@ import SelectLocalidad from "../SelectLocalidad";
 
 export default function ClienteFormV2(props){
     
-
+    const [open, setOpen] = useState(false)
     const [form] = Form.useForm();
     const [qr, setQR] = useState("")
     const [btnDisabled, setBtnDisabled] = useState(false)
@@ -85,6 +85,7 @@ export default function ClienteFormV2(props){
                     if(typeof props.callback !== 'undefined'){
                         props.callback(res.data);
                     }
+                    setOpen(false)
                 })
             }
         })
@@ -124,66 +125,75 @@ export default function ClienteFormV2(props){
     }
 
     return (<>
-<Row>
-    <Col style={{padding:".5em"}} span={24}>
-        <Input style={{backgroundColor:"lightgray"}} prefix={"QR"} onChange={onQRChange} value={qr} placeholder="  Escanee código QR..." />
-    </Col>
-</Row>
+    <Row>
+        <Col  span={24}>
+            <Button block type="primary" size="small" onClick={()=>{setOpen(true)}}>Agregar Cliente</Button>
+        </Col>
+    </Row>
+    
+    <Modal width={"70%"} title="Agregar Cliente" open={open} onCancel={()=>{setOpen(false)}} footer={false}>
+        <Row>
+            <Col style={{padding:".5em"}} span={24}>
+                <Input style={{backgroundColor:"lightgray"}} prefix={"QR"} onChange={onQRChange} value={qr} placeholder="  Escanee código QR..." />
+            </Col>
+        </Row>
 
-<Row>
-    <Col style={{padding:".5em"}} span={24}>
-        <Input  
-        maxLength={10} 
-        style={{backgroundColor:"lightblue", appearance:"textfield"}} 
-        prefix={"D.N.I.: "} 
-        value={clienteData.dni} 
-        onChange={(e)=>{setClienteData(v=>({...v,dni:e.target.value}))}} 
-        readOnly={false/*props.destinatario*/}
-        />
-    </Col>
-</Row>
+        <Row>
+            <Col style={{padding:".5em"}} span={24}>
+                <Input  
+                maxLength={10} 
+                style={{backgroundColor:"lightblue", appearance:"textfield"}} 
+                prefix={"D.N.I.: "} 
+                value={clienteData.dni} 
+                onChange={(e)=>{setClienteData(v=>({...v,dni:e.target.value}))}} 
+                readOnly={false/*props.destinatario*/}
+                />
+            </Col>
+        </Row>
 
-<Row>
-    <Col style={{padding:".5em"}} span={24}>
-        <Input style={{backgroundColor:"lightblue"}} maxLength={45} prefix={"Nombres:"} value={clienteData.nombres} onChange={(e)=>{setClienteData(v=>({...v,nombres:e.target.value.toUpperCase()}))}} />
-    </Col>
-</Row>
+        <Row>
+            <Col style={{padding:".5em"}} span={24}>
+                <Input style={{backgroundColor:"lightblue"}} maxLength={45} prefix={"Nombres:"} value={clienteData.nombres} onChange={(e)=>{setClienteData(v=>({...v,nombres:e.target.value.toUpperCase()}))}} />
+            </Col>
+        </Row>
 
-<Row>
-    <Col style={{padding:".5em"}} span={24}>
-        <Input style={{backgroundColor:"lightblue"}} maxLength={45} prefix={"Apellidos:"} value={clienteData.apellidos} onChange={(e)=>{setClienteData(v=>({...v,apellidos:e.target.value.toUpperCase()}))}} />
-    </Col>
-</Row>
+        <Row>
+            <Col style={{padding:".5em"}} span={24}>
+                <Input style={{backgroundColor:"lightblue"}} maxLength={45} prefix={"Apellidos:"} value={clienteData.apellidos} onChange={(e)=>{setClienteData(v=>({...v,apellidos:e.target.value.toUpperCase()}))}} />
+            </Col>
+        </Row>
 
-<Row>
-    <Col style={{padding:".5em"}} span={24}>
-        Fecha de Nacimiento:&nbsp;&nbsp;
-        <DatePicker value={clienteData.nacimiento} onChange={onChangeDate} format={'DD/MM/YYYY'}/>
-    </Col>
-</Row>
+        <Row>
+            <Col style={{padding:".5em"}} span={24}>
+                Fecha de Nacimiento:&nbsp;&nbsp;
+                <DatePicker value={clienteData.nacimiento} onChange={onChangeDate} format={'DD/MM/YYYY'}/>
+            </Col>
+        </Row>
 
-<Row>
-    <Col style={{padding:".5em"}} span={12}>
-        <Input style={{backgroundColor:"lightblue"}} maxLength={45} prefix={"Domicilio:"} onChange={(e)=>{setClienteData(d=>({...d,domicilio:e.target.value}))}} value={clienteData.domicilio.toUpperCase()} />
-    </Col>
-    <Col style={{padding:".5em"}} span={12}>
-        <SelectLocalidad callback={(p)=>{setClienteData(c=>({...c,idlocalidad:p.idlocalidad}))}} />
-    </Col>
-</Row>
+        <Row>
+            <Col style={{padding:".5em"}} span={12}>
+                <Input style={{backgroundColor:"lightblue"}} maxLength={45} prefix={"Domicilio:"} onChange={(e)=>{setClienteData(d=>({...d,domicilio:e.target.value}))}} value={clienteData.domicilio.toUpperCase()} />
+            </Col>
+            <Col style={{padding:".5em"}} span={12}>
+                <SelectLocalidad callback={(p)=>{setClienteData(c=>({...c,idlocalidad:p.idlocalidad}))}} />
+            </Col>
+        </Row>
 
-<Row>
-    <Col style={{padding:".5em"}} span={24}>
-        <Input style={{backgroundColor:"lightblue"}} maxLength={20} prefix={"Teléfono:"} onChange={(e)=>{setClienteData(d=>({...d,telefono:e.target.value}))}} value={clienteData.telefono.toUpperCase()} />
-    </Col>
-</Row>
-<Row>
-    <Col style={{padding:".5em"}} span={24}>
-        
-    </Col>
-</Row>
-<Row>
-    <Col style={{padding:".5em"}}>
-        <Button disabled={btnDisabled} onClick={onFinish}>Guardar</Button>
-    </Col>
-</Row>
+        <Row>
+            <Col style={{padding:".5em"}} span={24}>
+                <Input style={{backgroundColor:"lightblue"}} maxLength={20} prefix={"Teléfono:"} onChange={(e)=>{setClienteData(d=>({...d,telefono:e.target.value}))}} value={clienteData.telefono.toUpperCase()} />
+            </Col>
+        </Row>
+        <Row>
+            <Col style={{padding:".5em"}} span={24}>
+                
+            </Col>
+        </Row>
+        <Row>
+            <Col style={{padding:".5em"}} span={24}>
+                <Button disabled={btnDisabled} block type="primary" onClick={onFinish}>Guardar</Button>
+            </Col>
+        </Row>
+    </Modal>
+
 </>)}

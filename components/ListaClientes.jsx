@@ -93,16 +93,12 @@ export default function ListaClientes(props){
         <Col span={24}>
             <Input.Search onSearch={onSearch} value={searchVal} onChange={(e)=>{setSearchVal(e.target.value)}} />
         </Col>
+        
     </Row>
     <Row>
         <Col span={12}>
-            <CustomModal openButtonText="+ Agregar" title="Agregar Cliente" >
-            <ClienteFormV2 callback={(id)=>{
-                refresh()
-                }}/>
-            </CustomModal>
+                <ClienteFormV2 callback={(id)=>{refresh()}}/>
         </Col>
-    
         <Col span={12}>
             <Button size="small" danger onClick={(e)=>{setSearchVal(s=>{
             refresh()
@@ -110,6 +106,7 @@ export default function ListaClientes(props){
             })}}><ReloadOutlined />Recargar
             </Button>
         </Col>
+        
     </Row>
     <Row>
         <Col span={24}>

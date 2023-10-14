@@ -1,3 +1,4 @@
+cerrar popup agregar cliente al agregar cliente.
 al cobrar, y la unica opcion disponible es cta cte, no se puede cobrar <!>
 al abrir popup de seleccionar clientes o destinatario, volver a cargar lista 
 no guarda nro de tarjeta

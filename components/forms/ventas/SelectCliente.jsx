@@ -1,5 +1,5 @@
 import CustomModal from "@/components/CustomModal";
-import { Button, Input, Spin, Table } from "antd";
+import { Button, Col, Input, Row, Spin, Table } from "antd";
 import { useEffect, useState } from "react";
 import { AlertOutlined, CheckCircleFilled, CloseOutlined, EditOutlined, ReloadOutlined } from "@ant-design/icons";
 import ClienteForm from "../ClienteForm";
@@ -130,16 +130,28 @@ const SelectCliente = (props) =>{
         <>
         <CustomModal onOpen={onOpenPopup} openButtonText={typeof props.destinatario !== 'undefined' ? 'Seleccionar Destinatario' : "Seleccione Cliente" } title="" >
         {typeof props.destinatario !== 'undefined' ? 'Buscar Destinatario' : "Buscar Cliente" }
-            <Input.Search onSearch={onSearch} />
-            <Button type="ghost" style={{color:"red"}} onClick={()=>{setReload(!reload)}}><ReloadOutlined /></Button>
-            <CustomModal openButtonText="+ Agregar" title={"Agregar" + (props.destinatario? " Destinatario" : "Responsable")} >
+        <Row>
+            <Col span={24}>
+                <Input.Search onSearch={onSearch} />
+            </Col>
+        </Row>
+        <Row>
+            <Col span={12}>
                 <ClienteFormV2 destinatario={props.destinatario} callback={(id)=>{
-                    //alert(id); 
-                    setReload(!reload)
-                    upload_cliente_details(id) 
-                    }}/>
-            </CustomModal>
-            <Table columns={columns} dataSource={clientes} />
+                        //alert(id); 
+                        setReload(!reload)
+                        upload_cliente_details(id) 
+                        }}/>
+            </Col>
+            <Col span={12}>
+                <Button block type="ghost" style={{color:"red"}} onClick={()=>{setReload(!reload)}}><ReloadOutlined /> Recargar</Button>
+            </Col>
+        </Row>
+        <Row>
+            <Col span={24}>
+                <Table columns={columns} dataSource={clientes} />
+            </Col>
+        </Row>
         </CustomModal>
         
         </>
