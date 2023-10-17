@@ -9,6 +9,7 @@ import globals from "@/src/globals";
 import CustomModal from "@/components/CustomModal";
 import ListaCobros from "./ListaCobros";
 import { ResponseCookies } from "next/dist/compiled/@edge-runtime/cookies";
+import VentaDetallePopup from "@/components/VentaDetalle";
 
 /**
  * 
@@ -254,7 +255,13 @@ export default function CobroOperacion(props){
         dataVenta == null ? <></>  :
         <>
             <p>Nro. Venta: {dataVenta.idventa} &nbsp;&nbsp;&nbsp; Fecha: {dataVenta.fecha_formated}</p>
-            <p>Monto: <b>{dataVenta.debe}</b>  Haber: <b>{parseFloat(dataVenta.debe) - parseFloat(dataVenta.saldo)}</b>  Saldo:  <b>{dataVenta.saldo}</b></p>
+            <p>
+                Monto: <b>{dataVenta.debe}</b>  &nbsp;&nbsp;
+                Descuento: <b>{dataVenta.descuento}</b>&nbsp;&nbsp;
+                Haber: <b>{parseFloat(dataVenta.debe) - parseFloat(dataVenta.saldo)}</b>  &nbsp;&nbsp;
+                <span style={{backgroundColor:"lightyellow", color:"red"}}>Saldo:  <b>{dataVenta.saldo}</b></span>&nbsp;&nbsp;
+                <VentaDetallePopup idventa={dataVenta.idventa} /> 
+            </p>&nbsp;&nbsp;
             <CustomModal title={"Cobros Venta Nro.: " + dataVenta.idventa} openButtonText="Ver Cobros">
                 <ListaCobros idventa={dataVenta.idventa} />
             </CustomModal>
