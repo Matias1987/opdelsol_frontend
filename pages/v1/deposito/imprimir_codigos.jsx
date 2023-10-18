@@ -93,7 +93,7 @@ export default function ImprimirCodigos(){
             
             <Row >
                 
-                <Col span={8} style={{padding:"1em", height:"400px", overflowY:"scroll", backgroundColor: "#E1EEFF"}}>
+                <Col span={8} style={{padding:"1em", height:"400px", overflowY:"scroll"}}>
                 <h4>Buscar C&oacute;digo</h4>
                     <SearchCodigo callback={(idcodigo)=>{load_details_for_selected_id(idcodigo)}} />
                 </Col>

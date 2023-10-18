@@ -77,11 +77,11 @@ export default function LayoutVentas({children}){
     validate_user()
   },[])
     return (
-        <Layout style={{backgroundColor: '#D3D3D3', padding:0}} className='layout'>
+        <Layout style={{ padding:0}} className='layout'>
             <HeaderSol tipoCuenta="VENTAS" />
             
             <MenuVentasTop />
-            <Content style={{ margin: '40px 100px', padding: 24, background: 'white', borderRadius:"15px", minHeight: 580 }}>
+            <Content style={{ margin: '40px 100px', padding: 24,  borderRadius:"15px", minHeight: 580 }}>
             {
                 (alerta!="") ? <><Alert key={alerta} message={alerta} type="error" showIcon/></>:<></>
             }

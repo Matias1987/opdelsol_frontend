@@ -160,7 +160,7 @@ const ListaVentas = (props) => {
     const columns = [
         {hidden: false, title: "Nro.", dataIndex:"idventa"},
         {hidden: false, title: "Tipo", dataIndex: "tipo", render:(_,{tipo})=>(
-            <span style={{fontSize:".75em", color:"blue"}}><b>{get_tipo(tipo)}</b></span>
+            <span style={{fontSize:".75em", }}><b>{get_tipo(tipo)}</b></span>
         ) },
         {hidden: false, title: "Fecha", dataIndex:"fecha"},
         {hidden: false, title: "Cliente", dataIndex:"cliente"},

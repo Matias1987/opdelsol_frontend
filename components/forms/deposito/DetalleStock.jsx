@@ -106,7 +106,7 @@ const DetalleStock = (props) => {
     
     const Envios = _ => (
         loadingEnvios ? <Spin /> : 
-        <div style={{height: "210px", overflowY:"scroll", padding:".1em", margin:"1em", backgroundColor:"#E1EEFF"}}>
+        <div style={{height: "210px", overflowY:"scroll", padding:".1em", margin:"1em", }}>
             <table  border={"0"} style={{width:"100%"}}>
                 <thead>
                     <tr>
@@ -149,7 +149,7 @@ const DetalleStock = (props) => {
                 <tbody>
                     <tr>
                         <td>C&oacute;digo:</td>
-                        <td><i style={{color:"#4F4FC1", fontSize:".75em"}}>{dataDetalles.ruta}</i>&nbsp;<b>{dataDetalles.codigo}</b></td>
+                        <td><i style={{ fontSize:".75em"}}>{dataDetalles.ruta}</i>&nbsp;<b>{dataDetalles.codigo}</b></td>
                     </tr>
                     <tr>
                         <td>Descripci&oacute;n:</td>
@@ -166,7 +166,7 @@ const DetalleStock = (props) => {
                         
                         {parseFloat(dataDetalles.costo) * parseFloat(dataDetalles.multiplicador)}</i>
 
-                        &nbsp;&nbsp;&nbsp;&nbsp;<span style={{color:"darkblue", fontSize: "1.10em"}}>Redondeo:&nbsp;
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span style={{ fontSize: "1.10em"}}>Redondeo:&nbsp;
                         <b>${ 
                             Math.round(parseFloat(dataDetalles.costo) * parseFloat(dataDetalles.multiplicador) * (1/error_margin)) * error_margin
                         }</b></span></td>

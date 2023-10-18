@@ -489,7 +489,7 @@ export default function AgregarStockLote(props){
         <h1>Agregar Stock por Lote</h1>
             <Form onFinish={onFinish} form={form} onFinishFailed={onFinishFailed}>
 
-                    <Form.Item style={{ backgroundColor: "#E1EEFF", padding:"3.5em", fontSize:".25em"}} label={"Subgrupo"} name={"subgrupo"} rules={[{required:true}]}>
+                    <Form.Item style={{  padding:"3.5em", fontSize:".25em"}} label={"Subgrupo"} name={"subgrupo"} rules={[{required:true}]}>
                         <>
                         <SubGroupSelect callback={(id)=>{setValue("subgrupo", id);getSubGrupoDetails(id) }} />
                         {agregarSubgrupoPopup()}

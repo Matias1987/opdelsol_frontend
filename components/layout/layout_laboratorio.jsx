@@ -55,7 +55,7 @@ export default function LayoutLaboratorio({children}){
         <Layout className='layout'>
             <HeaderSol tipoCuenta="LABORATORIO" />
             <MenuLaboratorioTop />
-            <Content style={{ margin: '40px 100px', padding: 24, background: '#fff', minHeight: 280 }}>
+            <Content style={{ margin: '40px 100px', padding: 24, minHeight: 280 }}>
                 {children}
             </Content>
         </Layout>

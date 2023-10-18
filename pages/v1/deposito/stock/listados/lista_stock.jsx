@@ -273,7 +273,7 @@ export default function ListaStock(){
     return(
         <>
             <Form {...{labelCol:{span:5}, wrapperCol:{span:18}}} onFinish={onFinishFiltro} form={form}>
-            <Row style={{backgroundColor:"#FFE4D3", paddingTop:"1em", paddingLeft:"1em"}}>
+            <Row style={{backgroundColor:"rgba(255, 99, 71, 0.4)", paddingTop:"1em", paddingLeft:"1em", borderRadius:"15px"}}>
                 <Col span={8}>
                     <Form.Item label={"Filtar Por"} name={"tipo_filtro"}>
                         <Select  options={[

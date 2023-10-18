@@ -63,7 +63,7 @@ const ListaEnvios = (props) => {
 
     return(
         <>
-        <h1>Env&iacute;os</h1>
+        <h1 >Env&iacute;os</h1>
         <Table
             columns={columns}
             dataSource={data}

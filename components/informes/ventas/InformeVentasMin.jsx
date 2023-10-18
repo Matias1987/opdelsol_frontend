@@ -82,7 +82,7 @@ const InformeVentaMin = (props) => {
     return (
 		data === null ? <Spin /> :
         <>
-			<div style={{width: '90%', paddingLeft: '12px', paddingRight: '12px', paddingTop: '20px',  backgroundColor:"lightblue"}}> 
+			<div style={{width: '90%', paddingLeft: '12px', paddingRight: '12px', paddingTop: '20px', }}> 
 			<table style={{height: '78px', width:'96%', border:'1', cellspacing:'0', cellpadding:'0', fontSize:"1em", padding:"0"}}>
 				<tbody>
 					<tr>

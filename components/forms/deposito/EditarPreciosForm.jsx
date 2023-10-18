@@ -50,17 +50,15 @@ const EditarPreciosForm = (props) => {
 
     }
 
-    const row_style = {padding:"1em"}
+    const row_style = {padding:"1em", color:"white"}
 
-    const col_style = {}
-
-
+  
     return (<>
     <h3>Editar Precios</h3>
-    <p style={{fontSize:".9em"}}><i>Editar Precios de SubGrupos</i></p>
+    <h4><i>Editar Precios de SubGrupos</i></h4>
     <Row style={row_style}>
-        <Col style={col_style} span={24}>
-            Categor&iacute;a:&nbsp;
+        <Col  span={24}>
+            <h5>Categor&iacute;a:&nbsp;</h5>
             <Select
                 value={values.categoria}
                 style={{width:200}}
@@ -94,15 +92,15 @@ const EditarPreciosForm = (props) => {
     </Row>
 
     <Row style={row_style}>
-        <Col style={col_style} span={24}>
-            Valor Categor&iacute;a:&nbsp;{show_select()}
+        <Col  span={24}>
+            <span className="text_1">Valor Categor&iacute;a:&nbsp;</span>{show_select()}
         </Col>
     </Row>
 
     <Row style={row_style}>
-        <Col style={col_style} span={24}>
+        <Col span={24}>
                 <Input 
-                style={{backgroundColor:"lightblue"}}
+                
                 prefix={"Porcentaje"} 
                 onChange={(e)=>{
                     setValue('porcentaje',e.target.value)
@@ -114,9 +112,9 @@ const EditarPreciosForm = (props) => {
         </Col>
     </Row>
     <Row style={row_style}>
-        <Col style={col_style} span={24}>
+        <Col  span={24}>
                 <Input 
-                style={{backgroundColor:"lightcyan"}}
+                
                 prefix={"Valor"} 
                 onChange={(e)=>{
                     setValue('valor',e.target.value)
@@ -128,7 +126,7 @@ const EditarPreciosForm = (props) => {
     </Row>
 
     <Row style={row_style}>
-        <Col style={col_style} span={24}>
+        <Col  span={24}>
                 <Button type="primary" block onClick={()=>
                 {
                     var idsubgrupo=-1;
@@ -181,7 +179,7 @@ const EditarPreciosForm = (props) => {
         </Col>
     </Row>
     <Row style={row_style}>
-        <Col style={col_style} span={24}>
+        <Col  span={24}>
                 <Button danger block onClick={()=>{
                     post_method(post.update.modificar_precios_defecto_subgrupo,
                         {

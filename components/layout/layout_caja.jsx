@@ -84,11 +84,11 @@ export default function LayoutCaja({children}){
     //globals.validate_user(window)
   },[])
     return (
-        <Layout className='layout' style={{minHeight: 1200, backgroundColor:'#D3D3D3'}}>
+        <Layout className='layout' style={{minHeight: 1200}}>
                 <HeaderSol tipoCuenta="CAJA" />
                 <MenuCajaTop />
   
-            <Content style={{ margin: '40px 100px', padding: 24, background: '#fff', borderRadius:"15px", overflowY:'scroll' }}>
+            <Content style={{ margin: '40px 100px', padding: 24, borderRadius:"15px", overflowY:'scroll' }}>
                 {
                     (alerta!="") ? <><Alert key={alerta} message={alerta} type="error" showIcon/></>:<></>
                 }

@@ -87,7 +87,7 @@ export default function MyLayout({children}){
                 </Sider>
                 <Layout>
                     <HeaderSol tipoCuenta="DEPOSITO" />
-                    <Content style={{ margin: '24px 16px', padding: 24, background: '#fff', minHeight: 280, overflowY:"scroll"  }}>
+                    <Content style={{ margin: '24px 16px', padding: 24, minHeight: 280, overflowY:"scroll"  }}>
                         {children}
                     </Content>
                 </Layout>

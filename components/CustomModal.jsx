@@ -1,3 +1,4 @@
+import style_colors from "@/src/style_colors";
 import { Button, Modal } from "antd";
 import React from "react";
 const {  useState  } = React;;
@@ -39,7 +40,7 @@ export default function CustomModal(props){
   };
   return (
     <>
-      <Button type="link" ghost  size="small"  onClick={showModal} block={typeof props.block !== 'undefined'}>
+      <Button  type="link" ghost  size="small"  onClick={showModal} block={typeof props.block !== 'undefined'}>
         {props.openButtonText}
       </Button>
       <Modal
@@ -47,7 +48,7 @@ export default function CustomModal(props){
         okButtonProps={(typeof props.okButtonProps === 'undefined') ? {children:"CERRAR"} : props.okButtonProps}
         
         width={"80%"}
-        title={props.title}
+        title={<><h3>{props.title}</h3></>}
         open={open}
         onOk={()=>{ 
           props?.onOk?.(); 

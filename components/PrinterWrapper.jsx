@@ -8,10 +8,23 @@ export default function PrinterWrapper({ children }) {
             <Button>Imprimir</Button>
         )
     }
+    const page_style = `
+        body{
+            background-color: white;
+            color: black;
+        }
+        td, th {
+            background-color: white;
+            color: black;
+        }
+        table{
+            border: 1px solid black;
+        }
+    `
     const componentRef = useRef();
     return (
         <>
-            <ReactToPrint trigger={linkToPrint} content={() => componentRef.current} />
+            <ReactToPrint pageStyle={page_style} trigger={linkToPrint} content={() => componentRef.current} />
             <hr />
             <br />
             <div ref={componentRef}>

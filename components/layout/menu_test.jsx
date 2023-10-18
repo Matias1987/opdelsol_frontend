@@ -14,7 +14,7 @@ export default function TestMenu(){
     return (
         <Menu
           onClick={()=>{}}
-          style={{ width: 220 , backgroundColor: "rgb(255,255,255,1)"}}
+          style={{ width: 220 }}
           mode="inline"
         >
           

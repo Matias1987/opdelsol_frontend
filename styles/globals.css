@@ -115,24 +115,31 @@ a {
   transition: color 0.3s;
 }
 
- .trigger:hover {
+ /*.trigger:hover {
   color: #1890ff;
-}
+}*/
 
  /*.logo {
   height: 32px;
   margin: 16px;
   background: rgba(255, 255, 255, 0.3);
 }*/
-
+/*
 .site-layout .site-layout-background {
   background: #808080;
-}
+}*/
 
 .layout {
   height: 100vh;
   
 }
+ h1, h2, h3, h4, h5 {
+  color: white
+ }
+ .text_1, .text_2, .text_3
+ {
+  color: white;
+ }
 
 body{
   background:#1A1A1A;
@@ -147,5 +154,7 @@ a::before{
 .ant-menu-title-content{
   color: black;
 }*/
+
+
 
 

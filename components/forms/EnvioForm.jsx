@@ -209,11 +209,11 @@ const EnvioForm = (props) => {
                         pagination={false}
                         loading={tableLoading}
                         columns = {[
-                            {title:"", dataIndex: "ruta", render:(_,{ruta})=>(<span style={{color:"#536872", fontSize:".75em"}}><i>{ruta}</i></span>)  },
+                            {title:"", dataIndex: "ruta", render:(_,{ruta})=>(<span style={{ fontSize:".75em"}}><i>{ruta}</i></span>)  },
                             {title:"codigo", dataIndex: "codigo", render: (codigo)=>(
                                 <span style={{color:"red"}}><b>{codigo}</b></span>
                             ) },
-                            {title:"Precio", dataIndex: "precio", render:(_,{precio})=>(<span style={{color:"#536872", fontSize:".75em"}}><i>$&nbsp;{precio}</i></span>)  },
+                            {title:"Precio", dataIndex: "precio", render:(_,{precio})=>(<span style={{ fontSize:".75em"}}><i>$&nbsp;{precio}</i></span>)  },
                             {
                                 title:<>
                                     <Button onClick={decrement_all} size="small">
@@ -261,7 +261,7 @@ const EnvioForm = (props) => {
                 </Form.Item>
             </Form>
             </Col>
-            <Col span={10} style={{padding:"2em", backgroundColor:"#E1EEFF"}}>
+            <Col span={10} style={{padding:"2em"}}>
                 <h3>Agregar C&oacute;digos</h3>
                 <SearchStockEnvio 
                 idSucursalDestino={sucursalDestId}

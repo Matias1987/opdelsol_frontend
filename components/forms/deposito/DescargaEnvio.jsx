@@ -31,7 +31,7 @@ const DescargarEnvio = (props) => {
             <h5>Detalles:</h5>
             
     {
-        idEnvio<1? <>Seleccione Env&iacute;o</> : <InformeEnvio idenvio={idEnvio} key={idEnvio}/>
+        idEnvio<1? <span className="text_1">Seleccione Env&iacute;o</span> : <InformeEnvio idenvio={idEnvio} key={idEnvio}/>
     }
         </Col>
     </Row>

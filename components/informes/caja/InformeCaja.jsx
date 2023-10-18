@@ -132,6 +132,7 @@ export default function InformeCaja(props){
         <Row>
             <Col span={24}>
                 <Table 
+                locale={{emptyText:"Sin datos"}}
                 style={{width:'100%'}}
                 dataSource={dataOperaciones}
                 pagination={false}
@@ -188,6 +189,7 @@ export default function InformeCaja(props){
                 />
                 <h4>Gastos</h4>
                 <Table 
+                locale={{emptyText:"Sin datos"}}
                 pagination={false}
                 dataSource={dataGastos}
                 columns={[
@@ -218,6 +220,7 @@ export default function InformeCaja(props){
                 />
                 <h4>Monto Transferido</h4>
                 <Table 
+                locale={{emptyText:"Sin datos"}}
                 pagination={false}
                 dataSource={dataTransfEnviadas}
                 columns={[
@@ -247,6 +250,7 @@ export default function InformeCaja(props){
                 />
                 <h4>Monto Recibido</h4>
                 <Table 
+                locale={{emptyText:"Sin datos"}}
                 pagination={false}
                 dataSource={dataTransfRecibidas}
                 columns={[

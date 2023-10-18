@@ -55,7 +55,7 @@ export default function LayoutAdmin({children}){
                 <HeaderSol tipoCuenta="ADMIN" />
                 <MenuAdminTop />
   
-            <Content style={{ margin: '40px 100px', padding: 24, background: '#fff', overflowY:'scroll' }}>
+            <Content style={{ margin: '40px 100px', padding: 24, overflowY:'scroll' }}>
                 {children}
             </Content>
         </Layout>

@@ -59,13 +59,12 @@ const ModificarCantidadCategoria = (props) => {
     }
     const row_style={
         padding:".7em",
-        backgroundColor: "#DBE6FC"
     }
     return <>
     <h3>Modificar Cantidad Categor&iacute;a</h3> 
     <Row style={row_style}>
         <Col span={2}>
-            <b>Categor&iacute;a:</b>
+            <b className="text_1">Categor&iacute;a:</b>
         </Col>
         <Col span={6}>
             <Select 
@@ -83,7 +82,7 @@ const ModificarCantidadCategoria = (props) => {
             />
         </Col>
         <Col span={2}>
-        &nbsp;&nbsp;<b>Valor:</b>&nbsp;&nbsp;
+        &nbsp;&nbsp;<b  className="text_1">Valor:</b>&nbsp;&nbsp;
         </Col>
         <Col span={12}>
         {_options}
@@ -99,7 +98,7 @@ const ModificarCantidadCategoria = (props) => {
     </Row>
     <Row style={row_style}>
         <Col span={24}>
-            <Input style={{backgroundColor:"lightblue"}} prefix={"Cantidad"} type="number" value={selection.cantidad} onChange={(e)=>{setSelection(s=>({...s,cantidad:parseInt(e.target.value)}))}} />
+            <Input  prefix={"Cantidad"} type="number" value={selection.cantidad} onChange={(e)=>{setSelection(s=>({...s,cantidad:parseInt(e.target.value)}))}} />
         </Col>
     </Row>
     <Row style={row_style}>
