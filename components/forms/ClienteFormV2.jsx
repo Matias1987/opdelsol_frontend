@@ -134,7 +134,7 @@ export default function ClienteFormV2(props){
     <Modal width={"70%"} title="Agregar Cliente" open={open} onCancel={()=>{setOpen(false)}} footer={false}>
         <Row>
             <Col style={{padding:".5em"}} span={24}>
-                <Input style={{backgroundColor:"lightgray"}} prefix={"QR"} onChange={onQRChange} value={qr} placeholder="  Escanee código QR..." />
+                <Input  prefix={"QR"} onChange={onQRChange} value={qr} placeholder="  Escanee código QR..." />
             </Col>
         </Row>
 
@@ -142,7 +142,7 @@ export default function ClienteFormV2(props){
             <Col style={{padding:".5em"}} span={24}>
                 <Input  
                 maxLength={10} 
-                style={{backgroundColor:"lightblue", appearance:"textfield"}} 
+                style={{appearance:"textfield"}} 
                 prefix={"D.N.I.: "} 
                 value={clienteData.dni} 
                 onChange={(e)=>{setClienteData(v=>({...v,dni:e.target.value}))}} 
@@ -153,13 +153,13 @@ export default function ClienteFormV2(props){
 
         <Row>
             <Col style={{padding:".5em"}} span={24}>
-                <Input style={{backgroundColor:"lightblue"}} maxLength={45} prefix={"Nombres:"} value={clienteData.nombres} onChange={(e)=>{setClienteData(v=>({...v,nombres:e.target.value.toUpperCase()}))}} />
+                <Input  maxLength={45} prefix={"Nombres:"} value={clienteData.nombres} onChange={(e)=>{setClienteData(v=>({...v,nombres:e.target.value.toUpperCase()}))}} />
             </Col>
         </Row>
 
         <Row>
             <Col style={{padding:".5em"}} span={24}>
-                <Input style={{backgroundColor:"lightblue"}} maxLength={45} prefix={"Apellidos:"} value={clienteData.apellidos} onChange={(e)=>{setClienteData(v=>({...v,apellidos:e.target.value.toUpperCase()}))}} />
+                <Input  maxLength={45} prefix={"Apellidos:"} value={clienteData.apellidos} onChange={(e)=>{setClienteData(v=>({...v,apellidos:e.target.value.toUpperCase()}))}} />
             </Col>
         </Row>
 
@@ -172,7 +172,7 @@ export default function ClienteFormV2(props){
 
         <Row>
             <Col style={{padding:".5em"}} span={12}>
-                <Input style={{backgroundColor:"lightblue"}} maxLength={45} prefix={"Domicilio:"} onChange={(e)=>{setClienteData(d=>({...d,domicilio:e.target.value}))}} value={clienteData.domicilio.toUpperCase()} />
+                <Input  maxLength={45} prefix={"Domicilio:"} onChange={(e)=>{setClienteData(d=>({...d,domicilio:e.target.value}))}} value={clienteData.domicilio.toUpperCase()} />
             </Col>
             <Col style={{padding:".5em"}} span={12}>
                 <SelectLocalidad callback={(p)=>{setClienteData(c=>({...c,idlocalidad:p.idlocalidad}))}} />
@@ -181,7 +181,7 @@ export default function ClienteFormV2(props){
 
         <Row>
             <Col style={{padding:".5em"}} span={24}>
-                <Input style={{backgroundColor:"lightblue"}} maxLength={20} prefix={"Teléfono:"} onChange={(e)=>{setClienteData(d=>({...d,telefono:e.target.value}))}} value={clienteData.telefono.toUpperCase()} />
+                <Input  maxLength={20} prefix={"Teléfono:"} onChange={(e)=>{setClienteData(d=>({...d,telefono:e.target.value}))}} value={clienteData.telefono.toUpperCase()} />
             </Col>
         </Row>
         <Row>
