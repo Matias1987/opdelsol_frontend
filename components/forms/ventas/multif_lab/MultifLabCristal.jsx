@@ -153,7 +153,7 @@ const MultifLabCristal = (props) => {
                 
                 <Col span={4}>
                     {/*<span>&nbsp;&nbsp;Precio: </span><input readOnly onChange={onchange_precio} ref={precioRef} style={{textAlign:"right", width:"100px", border: "1px solid #ccc", borderRadius:"6px", borderColor:"lightgray", padding:".4em", fontSize:"1.1em"}} />*/}
-                    <Input style={{backgroundColor:"lightgray"}} prefix="Precio:" value={cristal.precio} readOnly onChange={onchange_precio} size="small" />
+                    <Input style={{backgroundColor:"rgba(131,137,150, 0.4)"}} prefix="Precio:" value={cristal.precio} readOnly onChange={onchange_precio} size="small" />
                 </Col>
                 <Col span={1}>
                     <Button size="small" danger  onClick={()=>{onRemove()}}><DeleteOutlined/></Button>

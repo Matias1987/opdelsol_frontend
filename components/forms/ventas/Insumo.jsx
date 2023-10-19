@@ -53,7 +53,7 @@ const VentasInsumo = (props) => {
                 </Col>
                 <Col span={4}>
                     {/*<span>&nbsp;&nbsp;Precio: </span><input readOnly onChange={on_precio_change} ref={precioRef} style={{textAlign:"right", width:"100px", border: "1px solid #ccc", borderRadius:"6px", borderColor:"lightgray", padding:".4em", fontSize:"1.1em"}} />*/}
-                    <Input prefix={"Precio: "} readOnly style={{backgroundColor:"lightgrey"}} value={insumo.precio} onChange={on_precio_change} size="small" />
+                    <Input prefix={"Precio: "} readOnly style={{backgroundColor:"rgba(131,137,150, 0.4)"}} value={insumo.precio} onChange={on_precio_change} size="small" />
                 </Col>
                 <Col span={1}>
                 <Button danger size="small" onClick={()=>{onRemove()}}><DeleteOutlined/></Button>

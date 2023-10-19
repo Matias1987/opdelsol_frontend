@@ -156,7 +156,7 @@ const MonofLabCristal = (props) => {
                 </Col>
                 <Col span={4}>
                     {/*<input readOnly onChange={onchange_precio} ref={precioRef} style={{textAlign:"right", width:"100px", border: "1px solid #ccc", borderRadius:"6px", borderColor:"lightgray", padding:".4em", fontSize:"1.1em"}} />*/}
-                    <Input type="number" readOnly size="small"  prefix="Precio" value={cristal.precio} onChange={onchange_precio} style={{backgroundColor:"lightgray"}} />
+                    <Input type="number" readOnly size="small"  prefix="Precio" value={cristal.precio} onChange={onchange_precio} style={{backgroundColor:"rgba(131,137,150, 0.4)"}} />
                 </Col>
                 <Col span={1}>
                     <Button danger size="small" onClick={()=>{onRemove()}}><DeleteOutlined/></Button>

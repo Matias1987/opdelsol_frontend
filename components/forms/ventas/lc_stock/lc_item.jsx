@@ -71,7 +71,7 @@ const LCItem = (props) => {
                     <InputNumber size="small" addonBefore="Cant.:" addonAfter={"/"+(typeof lc.max === 'undefined' ? 0 : lc.max)} max={typeof lc.max === 'undefined' ? 0 : lc.max } value={lc.cantidad} onChange={(v)=>{onCantidadChange(v)}} />
                 </Col>
                 <Col span={4}>
-                    <Input style={{backgroundColor:"lightgray"}} size="small" readOnly prefix={"Total:"} value={lc.cantidad * lc.precio} />&nbsp;
+                    <Input style={{backgroundColor:"rgba(131,137,150, 0.4)"}} size="small" readOnly prefix={"Total:"} value={lc.cantidad * lc.precio} />&nbsp;
                 </Col>
                 <Col span={1}>
                     <Button size="small" danger  onClick={()=>{onRemove()}}><DeleteOutlined/></Button>

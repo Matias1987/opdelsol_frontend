@@ -53,7 +53,7 @@ const VentasTratamiento = (props) => {
                 </Col>
                 <Col span={4}>
                     {/*<span>&nbsp;&nbsp;Precio: </span><input readOnly onChange={on_precio_change} ref={precioRef} style={{textAlign:"right", width:"100px", border: "1px solid #ccc", borderRadius:"6px", borderColor:"lightgray", padding:".4em", fontSize:"1.1em"}} />*/}
-                    <Input prefix="Precio: " readOnly    type="number" onChange={on_precio_change} size="small"  style={{backgroundColor:"lightgray"}} value={tratamiento.precio} />
+                    <Input prefix="Precio: " readOnly    type="number" onChange={on_precio_change} size="small"  style={{backgroundColor:"rgba(131,137,150, 0.4)"}} value={tratamiento.precio} />
                 </Col>
                 <Col span={1}>
                 <Button size="small" danger onClick={()=>{onRemove()}}><DeleteOutlined/></Button>
