@@ -85,9 +85,9 @@ export default function SelectMedico(props){
         <CustomModal openButtonText="Seleccione Medico" title="" >
             Medico
             <Input.Search onSearch={onSearch} />
-            <CustomModal openButtonText="+ Agregar" title="Agregar" >
+            {/*<CustomModal openButtonText="+ Agregar" title="Agregar" >
                 <MedicoForm callback={(id)=>{onMedicoSelected(id)}} />
-            </CustomModal>
+            </CustomModal>*/}
             <Table columns={columns} dataSource={medicos} />
         </CustomModal>
         </>
