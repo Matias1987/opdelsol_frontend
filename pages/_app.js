@@ -2,27 +2,28 @@
 import MyLayout from '@/components/layout/layout'
 import '@/styles/globals.css'
 import { ConfigProvider, theme } from 'antd'
+import { useState } from 'react'
 
 
 
 export default function App({ Component, pageProps }) {
-  
+  const [isDarkTheme, setDarkTheme] = useState(false)
 
   return (
       <>  
       <ConfigProvider
       theme={{
-        algorithm: theme.darkAlgorithm
+        algorithm: isDarkTheme ? theme.darkAlgorithm : theme.defaultAlgorithm,
         //algorithm: theme.compactAlgorithm,
-        /*token: {
+        token: {
           //// Seed Token
-          //colorPrimary: '#00b96b',
-          //borderRadius: 2,
+          colorPrimary: '#00b96b',
+          borderRadius: 2,
   
           // Alias Token
           //colorBgContainer: '#f6ffed',
           
-        },*/
+        },
       }}
       >
     { 

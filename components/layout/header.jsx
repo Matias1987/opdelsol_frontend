@@ -1,5 +1,5 @@
 import globals from "@/src/globals";
-import { Alert, Button, Col, Input, Layout, Row } from "antd";
+import { Alert, Button, Col, Input, Layout, Row, Switch } from "antd";
 import SucursalLabel from "../sucursal_label";
 import useStorage from "@/useStorage";
 import { LogoutOutlined } from "@ant-design/icons";
@@ -51,6 +51,9 @@ const HeaderSol =(props)=> {
                     Cambiar Modo
                 </Button>
                 &nbsp;&nbsp;
+                <Switch checkedChildren="Normal" unCheckedChildren="Nocturno" onChange={(c)=>{
+                    props?.displaymodechange?.(c)
+                }} />
             
             </Col>  
             

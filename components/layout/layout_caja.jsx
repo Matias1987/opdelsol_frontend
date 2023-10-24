@@ -85,7 +85,9 @@ export default function LayoutCaja({children}){
   },[])
     return (
         <Layout className='layout' style={{minHeight: 1200}}>
-                <HeaderSol tipoCuenta="CAJA" />
+                <HeaderSol tipoCuenta="CAJA" displaymodechange={()=>{
+                props?.displaymodechange?.()
+            }}/>
                 <MenuCajaTop />
   
             <Content style={{ margin: '40px 100px', padding: 24, borderRadius:"15px", overflowY:'scroll' }}>

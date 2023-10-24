@@ -78,7 +78,9 @@ export default function LayoutVentas({children}){
   },[])
     return (
         <Layout style={{ padding:0}} className='layout'>
-            <HeaderSol tipoCuenta="VENTAS" />
+            <HeaderSol tipoCuenta="VENTAS" displaymodechange={()=>{
+                props?.displaymodechange?.()
+            }}/>
             
             <MenuVentasTop />
             <Content style={{ margin: '40px 100px', padding: 24,  borderRadius:"15px", minHeight: 580 }}>

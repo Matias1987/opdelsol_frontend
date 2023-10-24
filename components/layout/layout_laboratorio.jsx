@@ -53,7 +53,9 @@ export default function LayoutLaboratorio({children}){
   },[])
     return (
         <Layout className='layout'>
-            <HeaderSol tipoCuenta="LABORATORIO" />
+            <HeaderSol tipoCuenta="LABORATORIO" displaymodechange={()=>{
+                props?.displaymodechange?.()
+            }}/>
             <MenuLaboratorioTop />
             <Content style={{ margin: '40px 100px', padding: 24, minHeight: 280 }}>
                 {children}

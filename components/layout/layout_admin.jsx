@@ -52,7 +52,9 @@ export default function LayoutAdmin({children}){
   },[])
     return (
         <Layout className='layout' style={{minHeight: 1200}}>
-                <HeaderSol tipoCuenta="ADMIN" />
+                <HeaderSol tipoCuenta="ADMIN" displaymodechange={()=>{
+                props?.displaymodechange?.()
+            }}/>
                 <MenuAdminTop />
   
             <Content style={{ margin: '40px 100px', padding: 24, overflowY:'scroll' }}>

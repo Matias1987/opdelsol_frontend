@@ -80,13 +80,14 @@ export default function MyLayout({children}){
                     uDepositoMin?<>
                         <MenuSideDepositoMin />
                     </>:<></>
-
                     }
-                    
-                    
                 </Sider>
                 <Layout>
-                    <HeaderSol tipoCuenta="DEPOSITO" />
+
+                    <HeaderSol tipoCuenta="DEPOSITO" displaymodechange={()=>{
+                        props?.displaymodechange?.()
+                    }}/>
+
                     <Content style={{ margin: '24px 16px', padding: 24, minHeight: 280, overflowY:"scroll"  }}>
                         {children}
                     </Content>
