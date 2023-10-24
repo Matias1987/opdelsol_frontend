@@ -3,7 +3,7 @@ import useStorage from "@/useStorage";
 import { Layout } from "antd";
 import { useEffect } from "react";
 
-export default function LayoutSingleLogedIn({children}){
+export default function LayoutSingleLogedIn(props){
     const { Content } = Layout;
 
     const { getItem } = useStorage();
@@ -47,7 +47,7 @@ export default function LayoutSingleLogedIn({children}){
     return (
         <Layout className='layout'>
             <Content style={{ margin: '24px 16px', padding: 24,  minHeight: 280 }}>
-                {children}
+                {props.children}
             </Content>
         </Layout>
     )

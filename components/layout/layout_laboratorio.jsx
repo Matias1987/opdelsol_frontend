@@ -7,7 +7,7 @@ import Alerts from "./alert_container";
 import HeaderSol from "./header";
 import MenuLaboratorioTop from "./menu_laboratorio_top";
 
-export default function LayoutLaboratorio({children}){
+export default function LayoutLaboratorio(props){
     const { Content } = Layout;
 
     const { getItem } = useStorage();
@@ -53,12 +53,12 @@ export default function LayoutLaboratorio({children}){
   },[])
     return (
         <Layout className='layout'>
-            <HeaderSol tipoCuenta="LABORATORIO" displaymodechange={()=>{
-                props?.displaymodechange?.()
+            <HeaderSol tipoCuenta="LABORATORIO" displaymodechange={(__c)=>{
+                props?.displaymodechange?.(__c)
             }}/>
             <MenuLaboratorioTop />
             <Content style={{ margin: '40px 100px', padding: 24, minHeight: 280 }}>
-                {children}
+                {props.children}
             </Content>
         </Layout>
     )

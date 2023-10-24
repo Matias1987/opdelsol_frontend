@@ -10,7 +10,7 @@ import Alerts from "./alert_container";
 import HeaderSol from "./header";
 import Chat from "../chat/chat";
 
-export default function LayoutCaja({children}){
+export default function LayoutCaja(props){
     const { Header, Sider, Content } = Layout;
 
     const { getItem } = useStorage();
@@ -85,8 +85,8 @@ export default function LayoutCaja({children}){
   },[])
     return (
         <Layout className='layout' style={{minHeight: 1200}}>
-                <HeaderSol tipoCuenta="CAJA" displaymodechange={()=>{
-                props?.displaymodechange?.()
+                <HeaderSol tipoCuenta="CAJA" displaymodechange={(__c)=>{
+                props?.displaymodechange?.(__c)
             }}/>
                 <MenuCajaTop />
   
@@ -94,7 +94,7 @@ export default function LayoutCaja({children}){
                 {
                     (alerta!="") ? <><Alert key={alerta} message={alerta} type="error" showIcon/></>:<></>
                 }
-                {children}
+                {props.children}
                 {/*<Chat />*/}
             </Content>
         </Layout>

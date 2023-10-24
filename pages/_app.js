@@ -7,7 +7,7 @@ import { useState } from 'react'
 
 
 export default function App({ Component, pageProps }) {
-  const [isDarkTheme, setDarkTheme] = useState(false)
+  const [isDarkTheme, setDarkTheme] = useState(true)
 
   return (
       <>  
@@ -27,8 +27,12 @@ export default function App({ Component, pageProps }) {
       }}
       >
     { 
-      Component.PageLayout ? (<Component.PageLayout><Component {...pageProps} /></Component.PageLayout>) : (
-      <MyLayout>
+      Component.PageLayout ? (<Component.PageLayout displaymodechange={(c)=>{
+        setDarkTheme(c)
+      }}><Component {...pageProps} /></Component.PageLayout>) : (
+      <MyLayout displaymodechange={(c)=>{
+        setDarkTheme(c)
+      }}>
         <Component {...pageProps} />
       </MyLayout>
     )

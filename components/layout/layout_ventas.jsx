@@ -9,7 +9,7 @@ import MenuVentasTop from "./menu_ventas_top";
 import Alerts from "./alert_container";
 import HeaderSol from "./header";
 
-export default function LayoutVentas({children}){
+export default function LayoutVentas(props){
     const { Header, Sider, Content } = Layout;
     const [alerta, setAlerta] = useState("")
     const { getItem } = useStorage();
@@ -78,8 +78,8 @@ export default function LayoutVentas({children}){
   },[])
     return (
         <Layout style={{ padding:0}} className='layout'>
-            <HeaderSol tipoCuenta="VENTAS" displaymodechange={()=>{
-                props?.displaymodechange?.()
+            <HeaderSol tipoCuenta="VENTAS" displaymodechange={(__c)=>{
+                props?.displaymodechange?.(__c)
             }}/>
             
             <MenuVentasTop />
@@ -88,7 +88,7 @@ export default function LayoutVentas({children}){
                 (alerta!="") ? <><Alert key={alerta} message={alerta} type="error" showIcon/></>:<></>
             }
             {/*<Alerts />*/}
-                {children}
+                {props.children}
             </Content>
         </Layout>
     )
