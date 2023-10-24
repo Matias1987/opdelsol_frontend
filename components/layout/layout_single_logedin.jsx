@@ -45,7 +45,7 @@ export default function LayoutSingleLogedIn({children}){
   },[])
 
     return (
-        <Layout className='layout' style={{backgroundColor:"#E4E4E4"}}>
+        <Layout className='layout'>
             <Content style={{ margin: '24px 16px', padding: 24,  minHeight: 280 }}>
                 {children}
             </Content>

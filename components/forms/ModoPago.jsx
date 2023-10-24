@@ -350,7 +350,7 @@ export default function ModoPago(props){
                     <Input readOnly prefix="Pago Total"  bordered={false} style={{color:"red"}} value={modoPago.total} />
                 </Col>
                 <Col span={9}>
-                    <Input readOnly prefix="Saldo"  bordered={false} style={{color:"red", fontWeight:'bold', backgroundColor:'lightyellow'}} value={  (typeof props.total === 'undefined' ? 0 : props.total)-modoPago.total} />
+                    <Input readOnly prefix="Saldo"  bordered={false} style={{color:"red", fontWeight:'bold', backgroundColor:'rgba(255, 99, 71, 0.2)'}} value={  (typeof props.total === 'undefined' ? 0 : props.total)-modoPago.total} />
                 </Col>
             </Row>
             }

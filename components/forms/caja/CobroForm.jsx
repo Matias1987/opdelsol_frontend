@@ -50,8 +50,9 @@ export default function CobroOperacion(props){
         if(idCobro>-1){
             
             /**
-             * el servidor devuelve 0  cuando se elijio ctacte como 
-             * modo de pago...
+             * If only the credit option is selected, the server returns 0. So when this happen,
+             * no inform is required to be shown. Anyway, a popup with the message 'nothing to show'
+             * appears, in part, with the objective of testing.
              */
             if(idCobro==0)
             {
@@ -69,9 +70,6 @@ export default function CobroOperacion(props){
 
     const handleCancel = () => {
         
-        //const accion = typeof props.tipo === 'undefined' ? '':props.tipo
-        //props.callback?.({accion: accion, estado_next: (accion == "ingreso" ? (entrega ? "ENTREGADO" : "PENDIENTE") : (accion == "entrega" ? "ENTREGADO": "PENDIENTE"))     })
-          
         props.callback?.()
         setInformeOpen(false); 
         setOpen(false)
@@ -115,7 +113,6 @@ export default function CobroOperacion(props){
                 return;
             }
 
-            //alert(`debe: ${dataVenta.saldo} total a pagar: ${mp.total}`)
             if( (entrega || _mc) && (dataVenta.saldo - mp.total)!=0){
                 alert("Saldo distinto a 0")
                 return
@@ -123,6 +120,41 @@ export default function CobroOperacion(props){
 
             if(dataVenta.debe < mp.total){
                 alert("Monto mayor a deuda")
+                return
+            }
+        }
+
+        /*
+        some other validations for secondary fields which 
+        depends wether the amount field has a value other than 0
+        */
+        if(mp.ctacte_monto!=0)
+        {
+            if(mp.ctacte_cuotas <1)
+            {
+                //invalid number for installments
+                alert("Seleccione cantidad de cuotas")
+                return
+            }
+
+        }
+        
+        if(mp.cheque_monto != 0)
+        {
+            if(mp.fk_banco == null)
+            {
+                //invalid bank
+                alert("Seleccione Banco")
+                return
+            }
+        }
+
+        if(mp.tarjeta_monto!= 0)
+        {
+            if(mp.fk_tarjeta==null)
+            {
+                //invalid credit card
+                alert("Seleccione Tarjeta")
                 return
             }
         }

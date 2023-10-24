@@ -85,7 +85,6 @@ const CodesTree = () => {
           )
          )
       })
-      ///alert(JSON.stringify(info))
     }
     
   };
@@ -96,7 +95,7 @@ const CodesTree = () => {
       <Col>
       {
         seleccion==null?<></>:<>
-          Tipo:&nbsp;<b>{seleccion.tipo}</b>&nbsp;&nbsp;&nbsp;ID:&nbsp;<b>{seleccion.id}</b> 
+          <h5>Tipo:&nbsp;<b>{seleccion.tipo}</b>&nbsp;&nbsp;&nbsp;ID:&nbsp;<b>{seleccion.id}</b></h5> 
           <Button onClick={()=>{setGridPopupOpen(true)}}><TableOutlined /></Button>
           <Modal
           

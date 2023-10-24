@@ -181,7 +181,7 @@ export default function InformeX(props){
                                                         <td style={{backgroundColor: 'gray', textAlign: 'center', color:"white", fontSize:".6em"}} ><span><b>{"RECIBO"}</b></span></td>
                                                     </tr>
                                                     <tr>
-                                                        <td style={{backgroundColor: '#ffffff', textAlign: 'center', fontSize:'42px'}}>
+                                                        <td style={{ textAlign: 'center', fontSize:'42px'}}>
                                                         <span>X</span>
                                                         </td>
                                                     </tr>
