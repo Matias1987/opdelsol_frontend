@@ -21,7 +21,7 @@ const HeaderSol =(props)=> {
     return(    
     <Header style={{ background: '#262626', color: "white", paddingLeft: '5em', lineHeight:'0', margin: '0', fontSize:'.70em', height:'36px' }}>
         <Row>
-            <Col span={16}>
+            <Col span={24}>
                 <span style={{padding:'0'}}>
                     <i>
                         Sucursal:&nbsp;&nbsp;<SucursalLabel idsucursal={

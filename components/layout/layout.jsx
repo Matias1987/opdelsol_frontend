@@ -14,7 +14,7 @@ import { redirect } from 'next/dist/server/api-utils';
 import HeaderSol from './header';
 
 
-export default function MyLayout({children}){
+export default function MyLayout(props){
     const { Header, Sider, Content } = Layout;
     const [collapsed, setCollapsed] = useState(false);
     const [uDepositoMin, setUDepositoMin] = useState(false)
@@ -84,12 +84,12 @@ export default function MyLayout({children}){
                 </Sider>
                 <Layout>
 
-                    <HeaderSol tipoCuenta="DEPOSITO" displaymodechange={()=>{
-                        props?.displaymodechange?.()
+                    <HeaderSol tipoCuenta="DEPOSITO" displaymodechange={(c)=>{
+                        props?.displaymodechange?.(c)
                     }}/>
 
                     <Content style={{ margin: '24px 16px', padding: 24, minHeight: 280, overflowY:"scroll"  }}>
-                        {children}
+                        {props.children}
                     </Content>
                 </Layout>
             </Layout>
