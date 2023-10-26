@@ -7,9 +7,9 @@ import { get, post } from "@/src/urls";
 import globals from "@/src/globals";
 import FiltroVentas from "@/components/forms/ventas/filtroVentas";
 import CobroOperacion from "@/components/forms/caja/CobroForm";
-import { InfoCircleFilled } from "@ant-design/icons";
+import { InfoCircleFilled, ReloadOutlined } from "@ant-design/icons";
 import VentaDetallePopup from "@/components/VentaDetalle";
-const { Table, Button, Tag, Alert } = require("antd");
+const { Table, Button, Tag, Alert, Row, Col } = require("antd");
 /**
  * 
  * @param estado INGRESADO, PENDIENTE, TERMINADO, ENTREGADO, ANULADO... 
@@ -124,8 +124,6 @@ const ListaVentas = (props) => {
                 return
             }
 
-            
-
             setDataSource(src=>(
                  response.data.map(v=>({
                     idventa: v.idventa,
@@ -182,15 +180,36 @@ const ListaVentas = (props) => {
             </>
         }},
     ]
-
     
+    const _row_style = {
+        padding: '.2em',
+    }
 
     return <>
 
-        <h3>{typeof props.titulo === 'undefined' ? "Lista de Ventas": props.titulo}</h3>
-        {typeof props.ocultarFiltros === 'undefined' ? <></> : <FiltroVentas callback={f=>{setFiltros(_f=>f); setReload(!reload)}} /> }
+    <Row>
+        <Col span={20} style={_row_style}> 
+            <h3>{typeof props.titulo === 'undefined' ? "Lista de Ventas": props.titulo}</h3>
+        </Col>
+        <Col span={4}>
+            <Button type="ghost" size="large" onClick={()=>{setReload(!reload)}}><ReloadOutlined /> Recargar</Button>
+        </Col>
+    </Row>
+    <Row>
+        <Col span={24} style={_row_style}>
+            {typeof props.ocultarFiltros === 'undefined' ? <></> : <FiltroVentas callback={f=>{setFiltros(_f=>f); setReload(!reload)}} /> }
+        </Col>
+    </Row>
+    <Row>
+        <Col span={24} style={_row_style}>
+            <Table dataSource={dataSource} columns={columns.filter(r=>!r.hidden)} loading={loading} />
+        </Col>
+    </Row>
+
+       
+       
         
-        <Table dataSource={dataSource} columns={columns.filter(r=>!r.hidden)} loading={loading} />
+        
     </>
 }
 

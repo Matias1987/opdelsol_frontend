@@ -2,7 +2,7 @@ import globals from "@/src/globals";
 import { Alert, Button, Col, Input, Layout, Row, Switch } from "antd";
 import SucursalLabel from "../sucursal_label";
 import useStorage from "@/useStorage";
-import { LogoutOutlined } from "@ant-design/icons";
+import { FilterOutlined, LogoutOutlined, MehFilled, SkinFilled, SkinOutlined } from "@ant-design/icons";
 import { get, public_urls } from "@/src/urls";
 import { useEffect, useState } from "react";
 
@@ -51,7 +51,7 @@ const HeaderSol =(props)=> {
                     Cambiar Modo
                 </Button>
                 &nbsp;&nbsp;
-                <Switch defaultChecked checkedChildren="Modo Nocturno" unCheckedChildren="Modo Normal" onChange={(c)=>{
+                <Switch defaultChecked checkedChildren={<> </>} unCheckedChildren={<> </>} onChange={(c)=>{
                     props?.displaymodechange?.(c)
                 }} />
             

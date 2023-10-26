@@ -13,14 +13,12 @@ export default function ListaTransferenciaSucursal(){
     const [reload, setReload] = useState(false)
 
     useEffect(()=>{
-        //alert(get.transferencias_enviadas + globals.obtenerSucursal())
-        //alert(get.transferencias_recibidas + globals.obtenerSucursal())
         fetch(get.transferencias_enviadas + globals.obtenerSucursal() + "/-1")
         .then(response=>response.json())
         .then((response)=>{
             setDataTransfEnviadas(response.data.map(r=>({
                 idtransferencia: r.idtransferencia,
-                fecha: r.fecha,
+                fecha: r.fecha_f,
                 destino: r.sucursal_destino,
                 monto: r.monto,
                 comentarios: r.comentarios,
@@ -32,7 +30,7 @@ export default function ListaTransferenciaSucursal(){
         .then((response)=>{
             setDataTransfRecibidas(response.data.map(r=>({
                 idtransferencia: r.idtransferencia,
-                fecha: r.fecha,
+                fecha: r.fecha_f,
                 origen: r.sucursal_origen,
                 monto: r.monto,
                 comentarios: r.comentarios,
