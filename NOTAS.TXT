@@ -1,5 +1,9 @@
-informe envio, 
 
+http://54.90.66.197:3001/api/v1/stock/search_stock_envio/14/6/null/0/66737
+
+([A-Za-z0-9\s\&\-]+);([\'\(\)A-Za-z0-9\s\&\-]+);([A-Za-z0-9\s\&\-]+);([0-9]+);([0-9]+)\r\n
+
+INSERT INTO codigo \(subgrupo_idsubgrupo, codigo, descripcion, costo, precio\) VALUES \('1366', '$3', '$2  $1', '$4', '$5'\);\r\n
 
 cerrar popup agregar cliente al agregar cliente.
 al cobrar, y la unica opcion disponible es cta cte, no se puede cobrar <!>
