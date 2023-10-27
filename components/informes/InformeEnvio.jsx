@@ -12,12 +12,12 @@ const InformeEnvio = (props, ref) =>{
 
     useEffect(()=>{
         setLoading(true)
-        alert(urls.get.detalle_envio+props.idenvio)
+        //alert(urls.get.detalle_envio+props.idenvio)
         //load data from envio
         fetch(urls.get.detalle_envio+props.idenvio)
         .then(response=>response.json())
         .then((response)=>{
-            alert(JSON.stringify( response))
+            //alert(JSON.stringify( response))
             setContent(
                 {
                     fecha: response.data[0].fecha,
@@ -46,10 +46,10 @@ const InformeEnvio = (props, ref) =>{
     },[])
 
     const contenido =  () => {
-        return (<>
+        return (<div style={{backgroundColor:"white"}}>
                 <div style={{padding: "4em"}}>
                     <div style={{textAlign:"center"}}>
-                        <h2><u>Resumen Env&iacute;o</u></h2>
+                        <h2 style={{all:"initial"}}><u>Resumen Env&iacute;o</u></h2>
                     </div>
                     <table style={{width:"100%"}}>
                         <tbody>
@@ -101,7 +101,7 @@ const InformeEnvio = (props, ref) =>{
                     </table>
                     <br />
                 </div>
-                </>
+                </div>
             )
 
     }
