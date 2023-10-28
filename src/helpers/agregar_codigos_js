@@ -1,0 +1,48 @@
+const codes = []
+
+const check_node = (n, items) => {
+	if(n.length<1)
+	{
+		for(let i=0;i<items.length;i++)
+		{
+			n.push(items[i])
+		}
+	}
+	else
+	{
+		for(let i=0;i<n.length;n++){
+			check_node(n[i])
+		}
+	}
+}
+
+const add_range = (params) => {
+
+	/*must match with regex*/
+	const r = /[0-9\+\-\.]+/.exec(params)
+	
+	const items = []
+	
+	if(r!=null)
+	{
+		var start = parseFloat(res[1])
+		var step = parseFloat(res[2])
+		var end = parseFloat(res[3])
+		
+		for(let j=start;j<=end;j+=step){
+				
+		}
+		check_node(params,items)
+	}
+
+}
+
+const add_list = (params) => {
+	//just split 
+	const parts = params.split(';')
+	const items= []
+	for(let i=0;i<parts.length;i++){
+			
+    }
+	check_node(params,items)
+}
