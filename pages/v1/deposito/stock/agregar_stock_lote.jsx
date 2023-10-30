@@ -1,5 +1,6 @@
 import FacturaForm from "@/components/forms/FacturaForm";
 import SubGrupoForm from "@/components/forms/SubGrupoForm";
+import PopupAgregarCodigoLoteStockV2 from "@/components/forms/deposito/stock_lote/popup_stock_v2";
 import MyLayout from "@/components/layout/layout";
 import globals from "@/src/globals";
 import { post_method } from "@/src/helpers/post_helper";
@@ -514,6 +515,25 @@ export default function AgregarStockLote(props){
                         <PopUpAgregarStockLoteForm precioDefecto={precioDefecto} multiplicador={multiplier} title={"Agregar"} edit={false} values={null} callback={(_data)=>{
                                     agregarRow(_data)
                                 }} />
+                        <PopupAgregarCodigoLoteStockV2 callback={
+                            (cods)=>{
+                                const _codes = []
+                                cods.forEach((r)=>{
+                                    _codes.push(
+                                        {
+                                            codigo: r.codigo,
+                                            descripcion: r.descripcion,
+                                            costo: 0,
+                                            precio: 0,
+                                            modo_precio: 0,
+                                            cantidad: 0,
+                                            status: "PENDING"
+                                        }
+                                    )
+                                })
+                                setTableData([..._codes])
+                            }
+                        } />
                         <Table dataSource={tableData} columns={columns} pagination={false} />
                         </>
                         }

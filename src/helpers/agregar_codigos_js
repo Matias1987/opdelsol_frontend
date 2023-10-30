@@ -18,23 +18,14 @@ const check_node = (n, items) => {
 
 const add_range = (params) => {
 
-	/*must match with regex*/
-	const r = /[0-9\+\-\.]+/.exec(params)
+	var start = 0
+	var step = .25
+	var end = 6
 	
-	const items = []
-	
-	if(r!=null)
-	{
-		var start = parseFloat(res[1])
-		var step = parseFloat(res[2])
-		var end = parseFloat(res[3])
-		
-		for(let j=start;j<=end;j+=step){
-				
-		}
-		check_node(params,items)
+	for(let j=start;j<=end;j+=step){
+			
 	}
-
+	
 }
 
 const add_list = (params) => {
@@ -42,7 +33,7 @@ const add_list = (params) => {
 	const parts = params.split(';')
 	const items= []
 	for(let i=0;i<parts.length;i++){
-			
+			items.push(parts[i])
     }
 	check_node(params,items)
 }
