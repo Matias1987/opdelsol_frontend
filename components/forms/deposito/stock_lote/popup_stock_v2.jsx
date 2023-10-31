@@ -12,6 +12,7 @@ const PopupAgregarCodigoLoteStockV2 = (props) => {
     const [codes, setCodes] = useState([])
     const [listaCodigos, setListaCodigos ] = useState([])
     const [jsonText, setJsonText] = useState("[]")
+    const [queries, setQueries] = useState("")
     
 
     const check_node = (n, items, keyroot) => {
@@ -111,6 +112,12 @@ const PopupAgregarCodigoLoteStockV2 = (props) => {
             _process_code(codes[i],"", output)
         }
         setListaCodigos([...output])
+        var _queries = ""
+        output.forEach(r=>{
+            _queries+=`INSERT INTO codigo (subgrupo_idsubgrupo, codigo, descripcion) VALUES (1516, '${r.codigo}', '${r.descripcion}');\r\n`
+        
+        })
+        setQueries(_queries)
     }
 
     useEffect(()=>{
@@ -143,6 +150,13 @@ const PopupAgregarCodigoLoteStockV2 = (props) => {
                     </Row>
                     
 
+                </CustomModal>
+                <CustomModal openButtonText="QUERIES">
+                    <Row>
+                        <Col span={24}>
+                        <Input.TextArea rows={20} defaultValue={ queries}  />
+                        </Col>
+                    </Row>
                 </CustomModal>
             </Col>
         </Row>
