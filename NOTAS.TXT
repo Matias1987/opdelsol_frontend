@@ -1,3 +1,11 @@
+INSERT ignore INTO stock  (sucursal_idsucursal, codigo_idcodigo, cantidad)
+SELECT 10, c.idcodigo, 1000000 FROM codigo c, subgrupo sg, grupo g, subfamilia sf WHERE
+c.subgrupo_idsubgrupo = sg.idsubgrupo AND 
+sg.grupo_idgrupo = g.idgrupo AND 
+g.subfamilia_idsubfamilia = sf.idsubfamilia AND 
+sf.familia_idfamilia = 14
+
+
 
 http://54.90.66.197:3001/api/v1/stock/search_stock_envio/14/6/null/0/66737
 
