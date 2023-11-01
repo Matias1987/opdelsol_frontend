@@ -62,32 +62,32 @@ const MultifLabCristal = (props) => {
 
         //precioRef.current.value = value.precio;
 
-        setCristal((cristal)=>{
-            const __cristal = {...cristal,codigo:value.codigo, precio: value.precio, idcodigo: value.idcodigo}
+        setCristal((_cristal_)=>{
+            const __cristal = {..._cristal_,codigo:value.codigo, precio: value.precio, idcodigo: value.idcodigo}
             props?.callback(__cristal)
             return __cristal
         })
         
     }
     const onchange_eje = (v) => {
-        setCristal((cristal)=>{
-            const __cristal = {...cristal,eje:v}
+        setCristal((_cristal_)=>{
+            const __cristal = {..._cristal_,eje:v}
             props?.callback(__cristal)
             return __cristal
         })
         
     }
     const onchange_esf = (v) => {
-        setCristal((cristal)=>{
-            const __cristal = {...cristal,esf:v}
+        setCristal((_cristal_)=>{
+            const __cristal = {..._cristal_,esf:v}
             props?.callback(__cristal)
             return __cristal
         })
         
     }
     const onchange_cil = (v) => {
-        setCristal((cristal)=>{
-            const __cristal = {...cristal,cil:v}
+        setCristal((_cristal_)=>{
+            const __cristal = {..._cristal_,cil:v}
             props?.callback(__cristal)
             return __cristal
         })
@@ -98,8 +98,8 @@ const MultifLabCristal = (props) => {
         /*cristal.precio = e.target.value;
         setPrecio(e.target.value)
         props.callback(cristal)*/
-        setCristal((cristal)=>{
-            const __cristal = {...cristal,precio:e.target.value}
+        setCristal((_cristal)=>{
+            const __cristal = {..._cristal,precio:e.target.value}
             props?.callback(__cristal)
             return __cristal
         })

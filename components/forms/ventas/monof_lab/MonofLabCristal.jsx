@@ -62,32 +62,32 @@ const MonofLabCristal = (props) => {
     const onchange_codigo = (value) => {
         //precioRef.current.value = value.precio;
 
-        setCristal((cristal)=>{
-            const __cristal = {...cristal,codigo:value.codigo, precio: value.precio, idcodigo: value.idcodigo}
+        setCristal((_cristal)=>{
+            const __cristal = {..._cristal,codigo:value.codigo, precio: value.precio, idcodigo: value.idcodigo}
             props?.callback(__cristal)
             return __cristal
         })
         
     }
     const onchange_eje = (v) => {
-        setCristal((cristal)=>{
-            const __cristal = {...cristal,eje:v}
+        setCristal((_cristal)=>{
+            const __cristal = {..._cristal,eje:v}
             props?.callback(__cristal)
             return __cristal
         })
         
     }
     const onchange_esf = (v) => {
-        setCristal((cristal)=>{
-            const __cristal = {...cristal,esf:v}
+        setCristal((_cristal)=>{
+            const __cristal = {..._cristal,esf:v}
             props?.callback(__cristal)
             return __cristal
         })
         
     }
     const onchange_cil = (v) => {
-        setCristal((cristal)=>{
-            const __cristal = {...cristal,cil:v}
+        setCristal((_cristal)=>{
+            const __cristal = {..._cristal,cil:v}
             props?.callback(__cristal)
             return __cristal
         })
@@ -95,8 +95,8 @@ const MonofLabCristal = (props) => {
     }
     const onchange_precio = (e) => {
         
-        setCristal((cristal)=>{
-            const __cristal = {...cristal,precio:e.target.value}
+        setCristal((_cristal)=>{
+            const __cristal = {..._cristal,precio:e.target.value}
             props?.callback(__cristal)
             return __cristal
         })

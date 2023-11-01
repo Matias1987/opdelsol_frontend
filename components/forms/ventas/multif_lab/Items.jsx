@@ -20,8 +20,8 @@ const MultifLabItems = (props) => {
 
     
     const on_change = (field, value) => {
-        setItems((mlabitems=>{
-            const _items = {...mlabitems,[field]:value}
+        setItems((_mlabitems_=>{
+            const _items = {..._mlabitems_,[field]:value}
             props?.callback(_items)
             return _items
         }))
@@ -30,8 +30,8 @@ const MultifLabItems = (props) => {
 
     const onVisibleChange = (field,value) => {
         //alert(`${field} : ${value}`)
-        setItems(_=>{
-            const _values = {...mlabitems,[field]:value}
+        setItems(_mlabitems_=>{
+            const _values = {..._mlabitems_,[field]:value}
             props?.callback(_values)
             return _values
         })

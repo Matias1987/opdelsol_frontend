@@ -31,8 +31,8 @@ const MonofLabItems = (props) => {
 
     const on_change = (field, value) => {
 
-        setItems((mlabitems)=>{
-            const _items = {...mlabitems,[field]:value}
+        setItems((_mlabitems)=>{
+            const _items = {..._mlabitems,[field]:value}
             props?.callback(_items)
             return _items;
         })
@@ -41,8 +41,8 @@ const MonofLabItems = (props) => {
 
     const onVisibleChange = (field,value) => {
         //alert(`${field} : ${value}`)
-        setItems(_=>{
-            const _values = {...mlabitems,[field]:value}
+        setItems(_mlabitems=>{
+            const _values = {..._mlabitems,[field]:value}
             props?.callback(_values)
             return _values
         })

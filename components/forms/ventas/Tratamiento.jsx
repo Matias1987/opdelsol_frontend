@@ -19,18 +19,18 @@ const VentasTratamiento = (props) => {
 
     const on_codigo_change = (val) => {
         //precioRef.current.value=val.precio;
-        setTratamiento((tratamiento)=>{
-            const _tratamiento = {...tratamiento,codigo: val.codigo, idcodigo: val.idcodigo, precio: val.precio}
+        setTratamiento((_tratamiento_)=>{
+            const _tratamiento = {..._tratamiento_,codigo: val.codigo, idcodigo: val.idcodigo, precio: val.precio}
             props?.callback(_tratamiento);
-            return {...tratamiento, codigo:val.codigo, precio: val.precio};
+            return {..._tratamiento, codigo:val.codigo, precio: val.precio};
         })
     }
     
     const on_precio_change = (e) => {
-        setTratamiento((tratamiento)=>{
-            const _tratamiento = {...tratamiento,precio: e.target.value}
+        setTratamiento((_tratamiento_)=>{
+            const _tratamiento = {..._tratamiento_,precio: e.target.value}
             props?.callback(_tratamiento)
-            return {...tratamiento, precio: e.target.precio}
+            return {..._tratamiento, precio: e.target.precio}
         })
     }
 

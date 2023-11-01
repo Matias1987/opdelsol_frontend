@@ -16,16 +16,16 @@ const LCLabItem = (props) =>{
     })
     const on_codigo_change = (val) => {
         
-        setLC((LC)=>{
-            const __LC ={...LC,codigo:val.codigo, precio: val.precio, idcodigo: val.idcodigo};
+        setLC((_LC)=>{
+            const __LC ={..._LC,codigo:val.codigo, precio: val.precio, idcodigo: val.idcodigo};
             props?.callback?.(__LC);
             return __LC;
         })
     }
 
     const on_change = (val, idx) => {
-        setLC((LC)=>{
-            const __LC ={...LC,[idx]:val};
+        setLC((_LC)=>{
+            const __LC ={..._LC,[idx]:val};
             props?.callback?.(__LC);
             return __LC;
         })
@@ -33,8 +33,8 @@ const LCLabItem = (props) =>{
 
     const on_precio_change = (v) => {
         
-        setLC((LC)=>{
-            const __LC = {...LC, precio: v};
+        setLC((_LC)=>{
+            const __LC = {..._LC, precio: v};
             props?.callback?.(__LC);
             return __LC;    
         })

@@ -17,8 +17,8 @@ const VentasInsumo = (props) => {
         
         //precioRef.current.value=val.precio;
 
-        setInsumo((insumo)=>{
-            const __insumo ={...insumo,codigo:val.codigo,idcodigo: val.idcodigo, precio: val.precio};
+        setInsumo((_insumo_)=>{
+            const __insumo ={..._insumo_,codigo:val.codigo,idcodigo: val.idcodigo, precio: val.precio};
             props?.callback?.(__insumo);
             return __insumo;
         })
@@ -26,8 +26,8 @@ const VentasInsumo = (props) => {
 
     const on_precio_change = (e) => {
         
-        setInsumo((insumo)=>{
-            const __insumo = {...insumo, precio: e.target.value};
+        setInsumo((_insumo_)=>{
+            const __insumo = {..._insumo_, precio: e.target.value};
             props?.callback?.(__insumo);
             return __insumo;    
         })

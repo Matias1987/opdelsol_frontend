@@ -46,6 +46,7 @@ export default function VentaMonofocalesLab(){
     }
 
     const onFinish = (v,onFailValidation) => {
+       
         submit_venta(v,productos,total,subTotal,globals.tiposVenta.MONOFLAB,true,(idventa)=>{
             setIdVenta(idventa)
             setPrintOpen(true)

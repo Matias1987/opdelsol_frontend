@@ -36,7 +36,7 @@ export default function VentaMultifocalesLab(){
 
         setTotal(total=>(_total - dto))
 
-        setProductos((productos)=>_productos)
+        setProductos((___productos)=>_productos)
 
     }
 
@@ -48,6 +48,8 @@ export default function VentaMultifocalesLab(){
     }
 
     const onFinish = (v,onFailValidation) => {
+        alert(JSON.stringify(productos))
+       // return
         submit_venta(v,productos,total,subTotal,globals.tiposVenta.MULTILAB,true,(idventa)=>{
             setIdVenta(idventa)
             setPrintOpen(true)
