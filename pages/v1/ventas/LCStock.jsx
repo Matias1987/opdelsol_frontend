@@ -22,9 +22,9 @@ export default function VentaLCStock(){
 
     const onProductosChange = (_p) => {
         var _total = 0;
-        _total+= _p?.od?.total||0;
-        _total+= _p?.oi?.total||0;
-        _total+= _p?.insumo?.total||0;
+        _total+= parseFloat(_p?.od?.total||0);
+        _total+= parseFloat(_p?.oi?.total||0);
+        _total+= parseFloat(_p?.insumo?.total||0);
         setProductos(productos=>_p);
         setSubTotal(stotal=>_total)
         var dto = typeof venta === 'undefined' ? 0 : venta?.descuento||0 

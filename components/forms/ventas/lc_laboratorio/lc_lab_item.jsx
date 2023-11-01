@@ -65,7 +65,7 @@ const LCLabItem = (props) =>{
                     <Input size="small" prefix="Diámetro" type="number" value={LC.diametro} onChange={(e=>{on_change(e.target.value,"diametro")})} />
                 </Col>
                 <Col span={4}>
-                    <Input size="small" style={{backgroundColor:"rgba(131,137,150, 0.4)"}} readOnly type="number" prefix={"Precio: "} value={LC.precio} onChange={(v)=>{on_precio_change(v)}} />
+                    <Input size="small" style={{backgroundColor:"rgba(131,137,150, 0.4)"}} readOnly={false} type="number" prefix={"Precio: "} value={LC.precio} onChange={(v)=>{on_precio_change(v.target.value)}} />
                 </Col>
                 <Col span={1}>
                     <Button size="small" danger onClick={()=>{onRemove()}}><DeleteOutlined/></Button>

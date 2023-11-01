@@ -23,15 +23,15 @@ export default function VentaMonofocalesLab(){
     const onProductosCallback = (_p) => {
 
         setProductos((productos)=>_p)
-        var _total = _p?.lejos_od?.precio||0;
-        _total += _p?.lejos_oi?.precio || 0;
-        _total += _p?.lejos_armazon?.precio || 0;
-        _total += _p?.lejos_tratamiento?.precio || 0;
-        _total += _p?.cerca_od?.precio||0;
-        _total += _p?.cerca_oi?.precio || 0;
-        _total += _p?.cerca_armazon?.precio || 0;
-        _total += _p?.cerca_tratamiento?.precio || 0;
-
+        var _total = parseFloat((_p?.lejos_od?.precio)||0);
+        _total += parseFloat((_p?.lejos_oi?.precio) || 0);
+        _total += parseFloat((_p?.lejos_armazon?.precio) || +0);
+        _total += parseFloat((_p?.lejos_tratamiento?.precio) || +0);
+        _total += parseFloat((_p?.cerca_od?.precio)||+0);
+        _total += parseFloat((_p?.cerca_oi?.precio) || +0);
+        _total += parseFloat((_p?.cerca_armazon?.precio) || +0);
+        _total += parseFloat((_p?.cerca_tratamiento?.precio) || +0);
+        //alert(_total)
         setSubTotal(st=>_total)
         var dto = typeof venta === 'undefined' ? 0 : venta?.descuento||0 
         setTotal(total=>(_total-dto))

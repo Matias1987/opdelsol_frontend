@@ -23,9 +23,9 @@ export default function VentaLCLab(){
     const products_callback  = (products) => {
 
         var _total = 0;
-        _total+=products?.od?.precio||0;
-        _total+=products?.oi?.precio||0;
-        _total+=products?.insumo?.precio||0;
+        _total+=parseFloat(products?.od?.precio||0);
+        _total+=parseFloat(products?.oi?.precio||0);
+        _total+=parseFloat(products?.insumo?.precio||0);
 
         setSubTotal(st=>_total)
 

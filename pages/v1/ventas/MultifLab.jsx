@@ -25,10 +25,10 @@ export default function VentaMultifocalesLab(){
         //calculate total
 
         var _total=0;
-        _total += _productos?.od?.precio||0;
-        _total += _productos?.oi?.precio||0;
-        _total += _productos?.armazon?.precio||0;
-        _total += _productos?.tratamiento?.precio||0;
+        _total += parseFloat((_productos?.od?.precio)||0);
+        _total += parseFloat(_productos?.oi?.precio||0);
+        _total += parseFloat(_productos?.armazon?.precio||0);
+        _total += parseFloat(_productos?.tratamiento?.precio||0);
 
         setSubTotal(st=>_total)
 
