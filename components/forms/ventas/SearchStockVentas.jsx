@@ -20,7 +20,7 @@ const SearchStockVentas = (props) => {
 
     const onSearch = (value) => {
         setLoading(true)
-        console.log(JSON.stringify(props.idfamilias))
+        //console.log(JSON.stringify(props.idfamilias))
         post_method(search_url, {filtroCod: value, idSucursal: id_sucursal, filtroFamilias: typeof props.idfamilias === 'undefined' ? [] : props.idfamilias },
         (_response)=>{
             var response = typeof props.onParseResponse !== 'undefined' ? props.onParseResponse(_response) : _response;

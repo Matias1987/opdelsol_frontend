@@ -1,4 +1,4 @@
-import { Button, Col, Divider, Form, Modal, Row, Spin, Switch } from "antd";
+import { Button, Col, Divider, Form, Input, Modal, Row, Spin, Switch } from "antd";
 import { use, useEffect, useState } from "react";
 import ModoPago from "../ModoPago";
 import { get, post } from "@/src/urls";
@@ -36,6 +36,8 @@ export default function CobroOperacion(props){
     const [open, setOpen] = useState(false)
     const [idCobro, setIdCobro] = useState(-1)
     const [cobrarDisabled, setCobrarDisabled] = useState(false)
+
+    const [descuento, setDescuento] = useState(0)
     
 
     /**     2/9/2023
@@ -289,7 +291,8 @@ export default function CobroOperacion(props){
             <p>Nro. Venta: {dataVenta.idventa} &nbsp;&nbsp;&nbsp; Fecha: {dataVenta.fecha_formated}</p>
             <p>
                 Monto: <b>{dataVenta.debe}</b>  &nbsp;&nbsp;
-                Descuento: <b>{dataVenta.descuento}</b>&nbsp;&nbsp;
+                <Input prefix={"Descuento:" } value={descuento} onChange={(e)=>{setDescuento(parseFloat(e.target.value))}} />
+                {/*Descuento: <b>{dataVenta.descuento}</b>&nbsp;&nbsp;*/}
                 Haber: <b>{parseFloat(dataVenta.debe) - parseFloat(dataVenta.saldo)}</b>  &nbsp;&nbsp;
                 <span style={{backgroundColor:"lightyellow", color:"red"}}>Saldo:  <b>{dataVenta.saldo}</b></span>&nbsp;&nbsp;
                 <VentaDetallePopup idventa={dataVenta.idventa} /> 
@@ -320,6 +323,7 @@ export default function CobroOperacion(props){
                     if(response.data[0].saldo==0){
                         setCobrarDisabled(true)
                     }
+                    setDescuento(response.data[0].descuento)
                     setDataVenta(d=>{
                         return response.data[0]
                     }

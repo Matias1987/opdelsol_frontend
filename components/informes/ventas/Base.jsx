@@ -182,6 +182,12 @@ const InformeVenta = (props) => {
 							</table>
 						</td>
 					</tr>
+					<tr>
+						<td>
+							<b>Comentarios: </b><br />
+							{data.comentarios}
+						</td>
+					</tr>
 				</tbody>
 			</table>
 			</div>
