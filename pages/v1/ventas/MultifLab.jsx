@@ -48,8 +48,8 @@ export default function VentaMultifocalesLab(){
     }
 
     const onFinish = (v,onFailValidation) => {
-        alert(JSON.stringify(productos))
-       // return
+        //alert(JSON.stringify(productos))
+       
         submit_venta(v,productos,total,subTotal,globals.tiposVenta.MULTILAB,true,(idventa)=>{
             setIdVenta(idventa)
             setPrintOpen(true)
