@@ -168,7 +168,8 @@ export default function CobroOperacion(props){
             monto: mp.total, 
             caja_idcaja: globals.obtenerCajaID(), 
             usuario_idusuario: globals.obtenerUID(),
-            sucursal_idsucursal: globals.obtenerSucursal()
+            sucursal_idsucursal: globals.obtenerSucursal(),
+            descuento: descuento,
         }
         params = typeof props.idventa === 'undefined' ? params : {...params,idventa:props.idventa} 
         params = typeof props.idcliente === 'undefined' ? params : {...params,idcliente:props.idcliente} 
@@ -266,11 +267,7 @@ export default function CobroOperacion(props){
 
                         })
                     }   
-                    
                 }
-                
-                
-                
             })
         })
     }
@@ -290,10 +287,10 @@ export default function CobroOperacion(props){
         <>
             <p>Nro. Venta: {dataVenta.idventa} &nbsp;&nbsp;&nbsp; Fecha: {dataVenta.fecha_formated}</p>
             <p>
-                Monto: <b>{dataVenta.debe}</b>  &nbsp;&nbsp;
+                Monto: <b>{dataVenta.subtotal}</b>  &nbsp;&nbsp;
                 <Input prefix={"Descuento:" } value={descuento} onChange={(e)=>{setDescuento(parseFloat(e.target.value))}} />
                 {/*Descuento: <b>{dataVenta.descuento}</b>&nbsp;&nbsp;*/}
-                Haber: <b>{parseFloat(dataVenta.debe) - parseFloat(dataVenta.saldo)}</b>  &nbsp;&nbsp;
+                Haber: <b>{0}</b>  &nbsp;&nbsp;
                 <span style={{backgroundColor:"lightyellow", color:"red"}}>Saldo:  <b>{dataVenta.saldo}</b></span>&nbsp;&nbsp;
                 <VentaDetallePopup idventa={dataVenta.idventa} /> 
             </p>&nbsp;&nbsp;
@@ -397,7 +394,7 @@ export default function CobroOperacion(props){
                         mostrarSoloCtaCte={props.tipo!='ingreso'}
                         totalsHidden={typeof props.totalsHidden === 'undefined' ? true : props.totalsHidden} 
                         callback={onMPChange} 
-                        total={dataVenta == null ? 0 : dataVenta.saldo} 
+                        total={dataVenta == null ? 0 : (parseFloat(dataVenta.subtotal) - parseFloat(descuento)) - (parseFloat(dataVenta.subtotal) - parseFloat(descuento)) - parseFloat(dataVenta.saldo)} 
                         ctacteHidden = {typeof props.ctacteHidden !== undefined ? props.ctacteHidden : false}
                         tarjetaHidden = {typeof props.tarjetaHidden !== undefined ? props.tarjetaHidden : false}
                         />  

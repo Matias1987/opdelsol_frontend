@@ -13,7 +13,7 @@ export default function App({ Component, pageProps }) {
       <>  
       <ConfigProvider
       theme={{
-        algorithm: isDarkTheme ? theme.darkAlgorithm : theme.defaultAlgorithm,
+        algorithm:  theme.defaultAlgorithm,// isDarkTheme ? theme.darkAlgorithm : theme.defaultAlgorithm,
         //algorithm: theme.compactAlgorithm,
         token: {
           //// Seed Token

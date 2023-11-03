@@ -51,9 +51,9 @@ const HeaderSol =(props)=> {
                     Cambiar Modo
                 </Button>
                 &nbsp;&nbsp;
-                <Switch defaultChecked checkedChildren={<> </>} unCheckedChildren={<> </>} onChange={(c)=>{
+                {/*<Switch defaultChecked checkedChildren={<> </>} unCheckedChildren={<> </>} onChange={(c)=>{
                     props?.displaymodechange?.(c)
-                }} />
+                }} />*/}
             
             </Col>  
             
