@@ -290,8 +290,8 @@ export default function CobroOperacion(props){
                 Monto: <b>{dataVenta.subtotal}</b>  &nbsp;&nbsp;
                 <Input prefix={"Descuento:" } value={descuento} onChange={(e)=>{setDescuento(parseFloat(e.target.value))}} />
                 {/*Descuento: <b>{dataVenta.descuento}</b>&nbsp;&nbsp;*/}
-                Haber: <b>{0}</b>  &nbsp;&nbsp;
-                <span style={{backgroundColor:"lightyellow", color:"red"}}>Saldo:  <b>{dataVenta.saldo}</b></span>&nbsp;&nbsp;
+                Haber: <b>{dataVenta.haber}</b>  &nbsp;&nbsp;
+                <span style={{backgroundColor:"lightyellow", color:"red"}}>Saldo:  <b>{parseFloat(dataVenta.subtotal) - parseFloat(descuento) - parseFloat(dataVenta.haber||0)}</b></span>&nbsp;&nbsp;
                 <VentaDetallePopup idventa={dataVenta.idventa} /> 
             </p>&nbsp;&nbsp;
             <CustomModal title={"Cobros Venta Nro.: " + dataVenta.idventa} openButtonText="Ver Cobros">
@@ -394,7 +394,7 @@ export default function CobroOperacion(props){
                         mostrarSoloCtaCte={props.tipo!='ingreso'}
                         totalsHidden={typeof props.totalsHidden === 'undefined' ? true : props.totalsHidden} 
                         callback={onMPChange} 
-                        total={dataVenta == null ? 0 : (parseFloat(dataVenta.subtotal) - parseFloat(descuento)) - (parseFloat(dataVenta.subtotal) - parseFloat(descuento)) - parseFloat(dataVenta.saldo)} 
+                        total={dataVenta == null ? 0 : parseFloat(dataVenta.subtotal) - parseFloat(descuento) - parseFloat(dataVenta.haber||0)} 
                         ctacteHidden = {typeof props.ctacteHidden !== undefined ? props.ctacteHidden : false}
                         tarjetaHidden = {typeof props.tarjetaHidden !== undefined ? props.tarjetaHidden : false}
                         />  
