@@ -18,8 +18,8 @@ export default function ClienteFormV2(props){
         dni:"",
         apellidos:"",
         nacimiento: null,
-        domicilio: "-",
-        telefono: "-",
+        domicilio: "",
+        telefono: "",
         destinatario: '0',
         idlocalidad:-1
     })
@@ -64,6 +64,9 @@ export default function ClienteFormV2(props){
         if(!validateStr(clienteData.telefono, "Teléfono Vacío")){return}
         if(!validateStr(clienteData.nacimiento, "Fecha de Nacimiento Vacío")){return}
 
+        if(!confirm("Confirmar agregar cliente"))
+        {return}
+
         setBtnDisabled(true)
 
         /*if(typeof props.destinatario === 'undefined' || (typeof props.destinatario !== 'undefined' && !props.destinatario)){
@@ -82,6 +85,20 @@ export default function ClienteFormV2(props){
                 
                 post_method(url,clienteData,(res)=>{
                     alert("Cliente Agregado")
+
+                    setBtnDisabled(false)
+
+                    setClienteData({
+                        nombres:"",
+                        dni:"",
+                        apellidos:"",
+                        nacimiento: null,
+                        domicilio: "",
+                        telefono: "",
+                        destinatario: '0',
+                        idlocalidad:-1
+                    })
+
                     if(typeof props.callback !== 'undefined'){
                         props.callback(res.data);
                     }
@@ -89,6 +106,19 @@ export default function ClienteFormV2(props){
                 })
             }
         })
+    }
+
+    const checkIfDNIExists = (value) =>{
+        post_method(post.obtener_cliente_dni,{"dni":clienteData.dni},(res)=>{
+            if(res.data.length>0){
+                alert("El cliente ya existe")
+                setBtnDisabled(true)
+            }
+            else{
+                setBtnDisabled(false)
+            }
+        }
+        )
     }
 
     
@@ -147,6 +177,9 @@ export default function ClienteFormV2(props){
                 value={clienteData.dni} 
                 onChange={(e)=>{setClienteData(v=>({...v,dni:e.target.value}))}} 
                 readOnly={false/*props.destinatario*/}
+                onBlur={(e)=>{
+                    checkIfDNIExists(e.target.value)
+                }}
                 />
             </Col>
         </Row>
