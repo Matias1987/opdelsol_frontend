@@ -110,7 +110,7 @@ const InformeVenta = (props) => {
 											60 d&iacute;as a partir de la fecha, no se aceptar&aacute;n reclamos.<br />
 											</div>
 											
-											Vendedor: {data.usuario_nombre}
+											Vendedor: <b>{data.usuario_nombre}</b>
 										</td>
 										<td style={{textAlign: 'center'}}>
 											{
@@ -122,6 +122,8 @@ const InformeVenta = (props) => {
 											}
 										</td>
 										<td width='250px'>
+
+											
 										
 											<FechaEntregaInf data={data} />
 											
@@ -133,6 +135,7 @@ const InformeVenta = (props) => {
 							</table>
 						</td>
 					</tr>
+					<tr><td style={{padding:"0"}}><hr style={{border:"dotted"}} /></td></tr>
 					<tr>
 						<td>
 							<table style={{height: '21px', width:'100%'}} >
@@ -145,6 +148,7 @@ const InformeVenta = (props) => {
            									Obra Social: {data.obra_social}<br />Medico: {data.medico} <br />Fecha de Entrega: {data.fecha_entrega}
 										</td>
 										<td width='250px'>
+										<DataSucursalInf idsucursal={data.sucursal_idsucursal} />
 											<FechaEntregaInf data={data} />
 										</td>
 									</tr>
