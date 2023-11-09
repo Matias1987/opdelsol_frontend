@@ -88,14 +88,17 @@ export default function CobroOperacion(props){
     }
 
     const onCobrarClick = (e) => {
+        setCobrarDisabled(true)
 //#region  validations
         if(mp === null){
             alert("Modo de pago no seleccionado.")
+            setCobrarDisabled(false)
             return;
         }
 
         if(mp.total<1){
             alert("Monto a pagar igual a cero")
+            setCobrarDisabled(false)
             return;
 
         }
@@ -103,6 +106,7 @@ export default function CobroOperacion(props){
 
         if(typeof props.tipo === 'undefined'){
             alert("tipo undefined")
+            setCobrarDisabled(false)
             return
         }
 
@@ -112,16 +116,19 @@ export default function CobroOperacion(props){
 
             if(+mp.total == 0 && dataVenta.debe != 0) { 
                 alert("Monto igual a 0")
+                setCobrarDisabled(false)
                 return;
             }
 
             if( (entrega || _mc) && (dataVenta.saldo - mp.total)!=0){
                 alert("Saldo distinto a 0")
+                setCobrarDisabled(false)
                 return
             }
 
             if(dataVenta.debe < mp.total){
                 alert("Monto mayor a deuda")
+                setCobrarDisabled(false)
                 return
             }
         }
@@ -136,6 +143,7 @@ export default function CobroOperacion(props){
             {
                 //invalid number for installments
                 alert("Seleccione cantidad de cuotas")
+                setCobrarDisabled(false)
                 return
             }
 
@@ -147,6 +155,7 @@ export default function CobroOperacion(props){
             {
                 //invalid bank
                 alert("Seleccione Banco")
+                setCobrarDisabled(false)
                 return
             }
         }
@@ -157,6 +166,7 @@ export default function CobroOperacion(props){
             {
                 //invalid credit card
                 alert("Seleccione Tarjeta")
+                setCobrarDisabled(false)
                 return
             }
         }
@@ -195,11 +205,13 @@ export default function CobroOperacion(props){
             if(response==null)
             {
                 alert("Caja cerrada")
+                setCobrarDisabled(false)
                 return;
             }
 
             if(!confirm("Confirmar Cobro"))
             {
+                setCobrarDisabled(false)
                 return;
             }
 
