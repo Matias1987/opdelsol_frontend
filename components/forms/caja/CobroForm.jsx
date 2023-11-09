@@ -58,7 +58,7 @@ export default function CobroOperacion(props){
              */
             if(idCobro==0)
             {
-                alert("Nothing to show")
+                //alert("Nothing to show")
                 props.callback?.()
                 setOpen(false)
                 return;
@@ -251,7 +251,7 @@ export default function CobroOperacion(props){
                                     setIdCobro(id.data)
 
                                 })
-                                alert("OK")
+                                //alert("OK")
                         })
                     }
                     else{

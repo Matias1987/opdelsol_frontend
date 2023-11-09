@@ -25,7 +25,7 @@ const SearchStockVentas = (props) => {
     const onSearch = (value) => {
         const _srchval = `${value}${filtros.esf == "" ? "" : " ESF"+((parseFloat(filtros.esf)>0 ? "+" : "" ) + filtros.esf)}${filtros.cil == "" ? "" : " CIL" + (parseFloat(filtros.cil)>0 ? "+" : "" ) +filtros.cil}${filtros.add == "" ? "" : " ADD"+filtros.add}`
         setLoading(true)
-        alert(_srchval)
+        //alert(_srchval)
         //console.log(JSON.stringify(props.idfamilias))
         post_method(search_url, {filtroCod: _srchval, idSucursal: id_sucursal, filtroFamilias: typeof props.idfamilias === 'undefined' ? [] : props.idfamilias },
         (_response)=>{
