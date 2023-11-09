@@ -27,6 +27,12 @@ const TransferenciaSucursalForm = (props) => {
                 return;
             }
 
+            if(transferencia.fkdestino==null)
+            {
+                alert("Seleccione sucursal")
+                return;
+            }
+
             transferencia.fkcaja=data.idcaja
 
             //alert(JSON.stringify(transferencia))

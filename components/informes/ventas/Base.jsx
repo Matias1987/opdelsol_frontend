@@ -142,6 +142,7 @@ const InformeVenta = (props) => {
 								<tbody>
 									<tr>
 										<td>
+											Vendedor: <b>{data.usuario_nombre}</b>
 											<ResponsableInf id={data.cliente_idcliente}/>
 											<DestinatarioInf id={data.fk_destinatario} />
 											<hr />

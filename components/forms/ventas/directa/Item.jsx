@@ -1,5 +1,5 @@
 import CustomModal from "@/components/CustomModal";
-import { Button, InputNumber, Modal, Table } from "antd";
+import { Button, Input, InputNumber, Modal, Table } from "antd";
 import { useState } from "react";
 import { get } from "@/src/urls";
 import globals from "@/src/globals";
@@ -91,7 +91,15 @@ const VDItem = (props) => {
                 }} />
             </>
         )},
-        {title:"Precio", dataIndex:"precio"},
+        {title:"Precio", dataIndex:"precio", render:(_,{precio,codigo})=><Input type="number" defaultValue={precio} onChange={(e)=>{
+            setItems(__items=>
+                {
+                    const _items_ = __items.map((i)=>(i.codigo==codigo ? { ...i,precio:parseFloat(e.target.value), total: parseFloat(e.target.value) * parseFloat(i.cantidad)}:i))
+                    props?.callback?.(_items_)
+                    return _items_
+                }   
+                )
+        }}/>} ,
         {title:"Total", dataIndex:"total"},
         {title:"", render:(_,{idcodigo})=>(
             <>
