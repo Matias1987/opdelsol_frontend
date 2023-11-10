@@ -329,9 +329,10 @@ export default function CobroOperacion(props){
                 .then(response=>response.json())
                 .then((response)=>{
                     
-                    if(response.data[0].saldo==0){
+                    /*if(response.data[0].saldo==0){
                         setCobrarDisabled(true)
-                    }
+                    }*/
+
                     setDescuento(response.data[0].descuento)
                     setDataVenta(d=>{
                         return response.data[0]
