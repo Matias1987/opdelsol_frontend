@@ -102,14 +102,23 @@ export default function CobroOperacion(props){
         
         if(dataVenta!=null && +mp.total==0&&dataVenta.saldo==0)
         {
-            if(entrega)
+            if(typeof props.tipo !== 'undefined')
             {
-                post_method(post.cambiar_estado_venta,{idventa: dataVenta.idventa, estado: 'ENTREGADO'},(resp)=>{alert("OK"); setOpen(false); props?.callback?.()})
+                if(props.tipo=='entrega')
+                {
+                    post_method(post.cambiar_estado_venta,{idventa: dataVenta.idventa, estado: 'ENTREGADO'},(resp)=>{alert("OK"); setOpen(false); props?.callback?.()})
+                }
+                else{
+                    if(entrega)
+                    {
+                        post_method(post.cambiar_estado_venta,{idventa: dataVenta.idventa, estado: 'ENTREGADO'},(resp)=>{alert("OK"); setOpen(false); props?.callback?.()})
+                    }
+                    else{
+                        post_method(post.cambiar_estado_venta,{idventa: dataVenta.idventa, estado: 'PENDIENTE'},(resp)=>{alert("OK"); setOpen(false); props?.callback?.()})
+                    }
+                }
             }
-            else{
-                post_method(post.cambiar_estado_venta,{idventa: dataVenta.idventa, estado: 'PENDIENTE'},(resp)=>{alert("OK"); setOpen(false); props?.callback?.()})
-            }
-            
+
             return
         }
 
@@ -423,9 +432,9 @@ export default function CobroOperacion(props){
                         {
                             props.tipo == 'ingreso' && !entrega ? <Button size="small" type="primary" onClick={enviarADeposito}>Enviar a dep&oacute;sito</Button> : <></>
                         }
-                        {
-                            props.tipo == 'entrega' ? <Button disabled={!cobrarDisabled} onClick={onEntregaClick}>Marcar Como Entregado</Button>:<></>
-                        }
+                        {/*
+                            props.tipo == 'entrega' ? <Button disabled={cobrarDisabled} onClick={onEntregaClick}>Marcar Como Entregado</Button>:<></>
+                    */}
                     </Col>
                 </Row>
                 </Modal>
