@@ -96,12 +96,12 @@ export default function CobroOperacion(props){
             return;
         }
 
-        if(mp.total<1){
-            alert("Monto a pagar igual a cero")
-            setCobrarDisabled(false)
-            return;
-
-        }
+        //if(mp.total<1){
+        //    alert("Monto a pagar igual a cero")
+        //    setCobrarDisabled(false)
+        //    return;
+//
+        //}
   
 
         if(typeof props.tipo === 'undefined'){
