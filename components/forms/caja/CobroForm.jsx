@@ -90,18 +90,6 @@ export default function CobroOperacion(props){
     const onCobrarClick = (e) => {
         setCobrarDisabled(true)
 //#region  validations
-        if(mp === null){
-            alert("Modo de pago no seleccionado.")
-            setCobrarDisabled(false)
-            return;
-        }
-
-        //if(mp.total<1){
-        //    alert("Monto a pagar igual a cero")
-        //    setCobrarDisabled(false)
-        //    return;
-//
-        //}
   
 
         if(typeof props.tipo === 'undefined'){
@@ -111,6 +99,19 @@ export default function CobroOperacion(props){
         }
 
         const _mc = typeof props.mustCancel !== 'undefined' ? props.mustCancel : false;
+        
+        if(dataVenta!=null && +mp.total==0&&dataVenta.saldo==0)
+        {
+            if(entrega)
+            {
+                post_method(post.cambiar_estado_venta,{idventa: dataVenta.idventa, estado: 'ENTREGADO'},(resp)=>{alert("OK"); setOpen(false); props?.callback?.()})
+            }
+            else{
+                post_method(post.cambiar_estado_venta,{idventa: dataVenta.idventa, estado: 'PENDIENTE'},(resp)=>{alert("OK"); setOpen(false); props?.callback?.()})
+            }
+            
+            return
+        }
 
         if(dataVenta!=null){
 
@@ -321,7 +322,7 @@ export default function CobroOperacion(props){
 
 
     const onOpen = () => {
-        //setCobrarDisabled(false)
+        setCobrarDisabled(false)
         if(typeof props.idventa !== 'undefined')
             {
                 //get venta details
