@@ -321,7 +321,7 @@ export default function CobroOperacion(props){
 
 
     const onOpen = () => {
-        setCobrarDisabled(false)
+        //setCobrarDisabled(false)
         if(typeof props.idventa !== 'undefined')
             {
                 //get venta details

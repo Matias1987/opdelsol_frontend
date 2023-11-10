@@ -7,12 +7,13 @@ import { useState } from "react";
 
 export default function InicioCaja(props){
     const [open, setOpen] = useState(false)
+    const [btnBlocked, setBtnBlocked] = useState(false)
     const onFinishFailed = ()=> {
 
     }
 
     const onFinish = (values) => {
-        
+        setBtnBlocked(true)
         const data = {
             sucursal_idsucursal: globals.obtenerSucursal(),
             monto_inicial: values.monto,
@@ -51,7 +52,7 @@ export default function InicioCaja(props){
                             <Input />
                         </Form.Item>
                         <Form.Item>
-                            <Button htmlType="submit">Confirmar</Button>
+                            <Button htmlType="submit" disabled={btnBlocked}>Confirmar</Button>
                         </Form.Item>
 
                     </Form>
