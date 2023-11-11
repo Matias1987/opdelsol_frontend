@@ -9,6 +9,7 @@ import FiltroVentas from "@/components/forms/ventas/filtroVentas";
 import CobroOperacion from "@/components/forms/caja/CobroForm";
 import { InfoCircleFilled, ReloadOutlined } from "@ant-design/icons";
 import VentaDetallePopup from "@/components/VentaDetalle";
+import EditarVentaItems from "@/components/forms/ventas/edicion/editar_venta_items";
 const { Table, Button, Tag, Alert, Row, Col } = require("antd");
 /**
  * 
@@ -84,6 +85,8 @@ const ListaVentas = (props) => {
                     post_method(post.update.cambiar_venta_sucursal_deposito,{idventa: _idventa, en_laboratorio: "0"},(resp)=>{alert("OK"); setReload(!reload)})
                 }
             }}>Enviar a Sucursal</Button></>:<></>}
+
+            <EditarVentaItems idventa={_idventa} />
 
 
         </>

@@ -1,7 +1,7 @@
 import globals from "@/src/globals";
 import { post_method } from "@/src/helpers/post_helper";
 import { post } from "@/src/urls";
-import { Button, Col, DatePicker, Form, Input, Modal, Row } from "antd";
+import { Button, Col, DatePicker, Form, Input, Modal, Row, Space } from "antd";
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 import SelectLocalidad from "../SelectLocalidad";
@@ -13,6 +13,11 @@ export default function ClienteFormV2(props){
     const [form] = Form.useForm();
     const [qr, setQR] = useState("")
     const [btnDisabled, setBtnDisabled] = useState(false)
+    const [fechaNac, setFechaNac] = useState({
+        dia:"",
+        mes:"",
+        anio:""
+    })
     const [clienteData, setClienteData] = useState({
         nombres:"",
         dni:"",
@@ -62,7 +67,10 @@ export default function ClienteFormV2(props){
         if(!validateStr(clienteData.domicilio, "Domicilio Vacío")){return}
 
         if(!validateStr(clienteData.telefono, "Teléfono Vacío")){return}
-        if(!validateStr(clienteData.nacimiento, "Fecha de Nacimiento Vacío")){return}
+        //if(!validateStr(clienteData.nacimiento, "Fecha de Nacimiento Vacío")){return}
+
+        clienteData.fechaNac = `${fechaNac.anio}-${fechaNac.mes}-${fechaNac.dia}`
+        alert(JSON.stringify(clienteData))
 
         if(!confirm("Confirmar agregar cliente"))
         {return}
@@ -75,7 +83,8 @@ export default function ClienteFormV2(props){
             if(!validateStr(clienteData.nacimiento, "Fecha de Nacimiento Vacío")){return}
         
         }*/
-        //alert(JSON.stringify(clienteData))
+        
+        
         post_method(post.obtener_cliente_dni,{"dni":clienteData.dni},(res)=>{
             if(res.data.length>0){
                 alert("El cliente ya existe")
@@ -196,10 +205,60 @@ export default function ClienteFormV2(props){
             </Col>
         </Row>
 
-        <Row>
+        {/*<Row>
             <Col style={{padding:".5em"}} span={24}>
                 Fecha de Nacimiento:&nbsp;&nbsp;
                 <DatePicker value={clienteData.nacimiento} onChange={onChangeDate} format={'DD/MM/YYYY'}/>
+            </Col>
+            </Row>*/}
+        <Row>
+            <Col span={4}>
+                Fecha de Nacimiento
+            </Col>
+            <Col span={20}>
+                <Space>
+                    <Space.Compact>
+                        <Input 
+                            onChange={(e)=>{
+                            
+                            let d= parseInt(e.target.value||0); 
+                            
+                            setFechaNac(_d=>({..._d,dia:(d<1?1 : (d>31?31:d))}))
+                            
+                            }} 
+                            value={fechaNac.dia} 
+                            type="number" 
+                            prefix="Día" 
+                            min="1" 
+                            max="31"/>
+                        <Input 
+                        onChange={(e)=>{
+                            
+                            let m= parseInt(e.target.value||0); 
+                            
+                            setFechaNac(_d=>({..._d,mes:(m<1?1 : (m>12?12:m))}))
+                            
+                            }} 
+                        value={fechaNac.mes} 
+                        type="number" 
+                        prefix="Mes" 
+                        min="1" 
+                        max="12"
+                        />
+                        <Input 
+                        onChange={(e)=>{
+                            
+                            let a= parseInt(e.target.value||0); 
+                            
+                            setFechaNac(_d=>({..._d,anio:(a<1900?1900 : a)}))
+                            
+                            }} 
+                        value={fechaNac.anio} 
+                        type="number" 
+                        prefix="Año" 
+                        min="1900" />
+                    </Space.Compact>
+                </Space>
             </Col>
         </Row>
 

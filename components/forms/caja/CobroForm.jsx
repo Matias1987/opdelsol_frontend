@@ -142,7 +142,6 @@ export default function CobroOperacion(props){
                 return
             }
         }
-
         /*
         some other validations for secondary fields which 
         depends wether the amount field has a value other than 0
@@ -230,7 +229,6 @@ export default function CobroOperacion(props){
             params.caja_idcaja=response.idcaja;
             
             post_method(post.insert.cobro,params,(id)=>{
-
                 if(id.data==0){
                     if(dataVenta!=null && props.tipo!='resfuerzo')
                     {
@@ -248,7 +246,6 @@ export default function CobroOperacion(props){
                     else{
                         setIdCobro(0)
                     }
-                    
                 }
                 else
                 {
@@ -262,31 +259,22 @@ export default function CobroOperacion(props){
                                 estado: (props.tipo=='entrega' ? 'ENTREGADO' : (entrega ? "ENTREGADO" : "PENDIENTE"))
                             },
                             (resp)=>{
-                                /**
-                                 * actualizar balance de cta cte en recibo x 
-                                 */
-                                
+                                /** actualizar balance de cta cte en recibo x */
                                 fetch(get.actualizar_saldo_en_cobro + id.data)
                                 .then(___response=>___response.json())
                                 .then((___response)=>{
-
                                     setIdCobro(id.data)
-
                                 })
-                                //alert("OK")
                         })
                     }
                     else{
                         /**
                          * actualizar balance de cta cte en recibo x 
                          */
-                        //alert(get.actualizar_saldo_en_cobro + id.data)
                         fetch(get.actualizar_saldo_en_cobro + id.data)
                         .then(___response=>___response.json())
                         .then((___response)=>{
-
                             setIdCobro(id.data)
-
                         })
                     }   
                 }
