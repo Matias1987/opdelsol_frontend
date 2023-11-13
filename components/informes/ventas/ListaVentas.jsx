@@ -10,6 +10,7 @@ import CobroOperacion from "@/components/forms/caja/CobroForm";
 import { InfoCircleFilled, ReloadOutlined } from "@ant-design/icons";
 import VentaDetallePopup from "@/components/VentaDetalle";
 import EditarVentaItems from "@/components/forms/ventas/edicion/editar_venta_items";
+import { current_date_ymd } from "@/src/helpers/string_helper";
 const { Table, Button, Tag, Alert, Row, Col } = require("antd");
 /**
  * 
@@ -58,7 +59,7 @@ const ListaVentas = (props) => {
             {typeof props.marcarTerminado !== 'undefined' ?  <><Button size="small" type="primary" onClick={(e)=>{
                 if(confirm("Marcar operación como disponible para entrega?"))
                 {
-                    post_method(post.cambiar_estado_venta,{idventa: _idventa, estado: 'TERMINADO'},(resp)=>{alert("OK"); setReload(!reload)})
+                    post_method(post.cambiar_estado_venta,{idventa: _idventa, estado: 'TERMINADO', fecha_retiro:current_date_ymd()},(resp)=>{alert("OK"); setReload(!reload)})
                 }
             }}>Terminado</Button>&nbsp;&nbsp;</>:<></>}
 
@@ -86,7 +87,7 @@ const ListaVentas = (props) => {
                 }
             }}>Enviar a Sucursal</Button></>:<></>}
 
-            <EditarVentaItems idventa={_idventa} />
+            {/*<EditarVentaItems idventa={_idventa} />*/}
 
 
         </>

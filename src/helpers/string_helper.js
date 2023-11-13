@@ -2,11 +2,17 @@
 
 const current_date = (separator="-") => {
     const date = new Date()
-    return `${date.getDate().toString()}${separator}${date.getMonth().toString()}${separator}${date.getFullYear().toString()}`
+    return `${date.getDate().toString()}${separator}${(date.getMonth()+1).toString()}${separator}${date.getFullYear().toString()}`
+
+}
+const current_date_ymd = (separator="-") => {
+    const date = new Date()
+   // alert(`${date.getFullYear().toString()}${separator}${(date.getMonth()+1).toString()}${separator}${date.getDate().toString()}`)
+    return `${date.getFullYear().toString()}${separator}${(date.getMonth()+1).toString()}${separator}${date.getDate().toString()}`
 
 }
 const format_date = (date, separator="-") => {
-    return `${date.getDate().toString()}${separator}${date.getMonth().toString()}${separator}${date.getFullYear().toString()}`
+    return `${date.getDate().toString()}${separator}${(date.getMonth()+1).toString()}${separator}${date.getFullYear().toString()}`
 
 }
 
@@ -215,4 +221,4 @@ const convertToWords = (value, centavos=true) => {
 
 
 
-module.exports={parse_DMY_date, convertToWords, current_date, format_date}
+module.exports={current_date_ymd,parse_DMY_date, convertToWords, current_date, format_date}

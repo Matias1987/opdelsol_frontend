@@ -21,7 +21,16 @@ const EditarVentaItems = (props)=> {
             items.map(i=>(<>
                 <Row>
                     <Col span={24} >
-                        <EditableVtaItemRow item={i} />
+                        <EditableVtaItemRow item={i} callback={(it)=>{
+                            setItems(__items => {
+                                return __items.map(
+                                    i=>
+                                    (i.idventaitem == it.idventaitem ? 
+                                    {codigo: it.codigo, esf: it.esf, cil: it.cil, eje: it.eje, cantidad: it.cantidad} : i
+                                    )
+                                    )
+                            })
+                        }} />
                     </Col>
                 </Row>
             </>))

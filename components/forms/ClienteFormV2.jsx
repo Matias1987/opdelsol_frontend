@@ -70,7 +70,7 @@ export default function ClienteFormV2(props){
         //if(!validateStr(clienteData.nacimiento, "Fecha de Nacimiento Vacío")){return}
 
         clienteData.fechaNac = `${fechaNac.anio}-${fechaNac.mes}-${fechaNac.dia}`
-        alert(JSON.stringify(clienteData))
+        //alert(JSON.stringify(clienteData))
 
         if(!confirm("Confirmar agregar cliente"))
         {return}

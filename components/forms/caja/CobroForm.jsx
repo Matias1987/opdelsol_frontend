@@ -10,6 +10,7 @@ import CustomModal from "@/components/CustomModal";
 import ListaCobros from "./ListaCobros";
 import { ResponseCookies } from "next/dist/compiled/@edge-runtime/cookies";
 import VentaDetallePopup from "@/components/VentaDetalle";
+import { current_date_ymd } from "@/src/helpers/string_helper";
 
 /**
  * 
@@ -237,7 +238,9 @@ export default function CobroOperacion(props){
                             {
                                 idventa: dataVenta.idventa, 
                                 /*estado at this point could be entrega or ingreso  */
-                                estado: (props.tipo=='entrega' ? 'ENTREGADO' : (entrega ? "ENTREGADO" : "PENDIENTE"))
+                                estado: (props.tipo=='entrega' ? 'ENTREGADO' : (entrega ? "ENTREGADO" : "PENDIENTE")),
+
+                                fecha_retiro: current_date_ymd()
                             },
                             (resp)=>{
                                 setIdCobro(0)
@@ -256,7 +259,9 @@ export default function CobroOperacion(props){
                             {
                                 idventa: dataVenta.idventa, 
                                 /*estado at this point could be entrega or ingreso  */
-                                estado: (props.tipo=='entrega' ? 'ENTREGADO' : (entrega ? "ENTREGADO" : "PENDIENTE"))
+                                estado: (props.tipo=='entrega' ? 'ENTREGADO' : (entrega ? "ENTREGADO" : "PENDIENTE")),
+
+                                fecha_retiro: current_date_ymd()
                             },
                             (resp)=>{
                                 /** actualizar balance de cta cte en recibo x */
