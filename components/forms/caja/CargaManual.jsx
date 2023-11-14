@@ -8,12 +8,14 @@ const { useEffect, useState } = require("react")
 const CargaManual = (props) => {
     const [dataCliente, setData] = useState(null)
     const [open, setOpen] = useState(false);
+    const [btnEnabled, setBtnEnabled] = useState(true)
     const [cargaManual, setCargaManual] = useState({
         monto: 0,
         concepto: 0,
     })
 
     const onFinish = (values) => {
+        setBtnEnabled(false)
         /*
         data.caja_idcaja,
         data.usuario_idusuario, 
@@ -25,15 +27,18 @@ const CargaManual = (props) => {
        if(cargaManual.monto==0)
        {
             alert("Monto igual a 0")
+            setBtnEnabled(true)
             return
        }
        globals.obtenerCajaAsync(c=>{
         if(c==null){
             alert("Caja Cerrada")
+            setBtnEnabled(true)
             return
         }
         if(!confirm("Confirmar"))
         {
+            setBtnEnabled(true)
             return;
         }
         const data = {
@@ -113,7 +118,7 @@ const CargaManual = (props) => {
                         <Input  onClick={(e)=>{e.target.select()}}  onChange={(e)=>{onChange(e.target.value.toUpperCase(), "concepto")}}/>
                     </Form.Item>
                     <Form.Item>
-                        <Button  block type="primary" htmlType="submit">Guardar</Button>
+                        <Button disabled={!btnEnabled}  block type="primary" htmlType="submit">Guardar</Button>
                     </Form.Item>
                 </Form>
             </Col>
