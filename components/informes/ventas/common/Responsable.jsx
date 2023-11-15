@@ -15,7 +15,7 @@ const ResponsableInf = (props) => {
     <p>
         <span style={{fontWeight: 'bold'}}>RESPONSABLE:</span><br /> 
         Ap. y Nombre: {data.nombre_completo}&nbsp;
-        Nro. Cliente: {data.idcliente}&nbsp;&nbsp;<span style={{fontWeight: 'bold'}}>DNI:{data.dni}&nbsp;&nbsp;</span>Tel.:{data.telefono1}<br /> 
+        Nro. Cliente: {props.id}&nbsp;&nbsp;<span style={{fontWeight: 'bold'}}>DNI:{data.dni}&nbsp;&nbsp;</span>Tel.:{data.telefono1}<br /> 
         Fecha de Nac: {data.fecha_nacimiento_f}&nbsp;&nbsp;Direcci&oacute;n:{data.direccion}<br />
         </p>
     </>

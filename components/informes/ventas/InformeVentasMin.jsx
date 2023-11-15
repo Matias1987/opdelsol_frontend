@@ -126,7 +126,7 @@ const InformeVentaMin = (props) => {
 											<ResponsableInf id={data.cliente_idcliente}/>
 											<DestinatarioInf id={data.fk_destinatario} />
 											<hr />
-           									Obra Social: {data.obra_social}<br />Medico: {data.medico} <br />Fecha de Entrega: {data.fecha_entrega}
+											{data.obra_social!="" ? "Obra Social: "+data.obra_social : ""}<br /> {data.medico!="" ? "Medico: " + data.medico : ""} <br />Fecha de Entrega: {data.fecha_entrega_formated + "  " + (data.hora_retiro == "null" ? "-" : data.hora_retiro)}
 										</td>
 										<td width='250px'>
 										
