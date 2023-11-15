@@ -21,6 +21,7 @@ export default function ModoPago(props){
         tarjeta_monto: 0,
         tarjeta_tarjeta: 0,
         fk_tarjeta: null,
+        tarjeta_nro: "",
         fk_banco: null,
         ctacte_monto: 0,
         ctacte_cuotas: 0,
@@ -106,7 +107,7 @@ export default function ModoPago(props){
                                             
                                             break;
                                         case 'tarjeta':
-                                            _temp = {..._temp,tarjeta_monto: r.monto, fk_tarjeta: r.fk_tarjeta}
+                                            _temp = {..._temp,tarjeta_monto: r.monto, fk_tarjeta: r.fk_tarjeta, tarjeta_nro: r.tarjeta_nro, tarjeta_tarjeta: r.cant_cuotas}
                                             
                                             break;
                                     }
@@ -236,11 +237,14 @@ export default function ModoPago(props){
                     onChange={(e)=>{onChange("tarjeta_monto", e.target.value.length<1 ? 0 : e.target.value)}} 
                     />
                 </Col>
-                <Col span={4}><Input  onClick={(e)=>{e.target.select()}}  prefix="Nro.: " onChange={(e)=>{onChange("tarjeta_tarjeta", e.target.value)}}></Input></Col>
-                <Col span={14}> 
-                    Tarjeta: &nbsp;
-                    <Select value={modoPago.fk_tarjeta} options={tarjetas} style={{width:'300px'}} onChange={(value)=>{onChange("fk_tarjeta", value)}} />
+                <Col span={9}> 
+                    
+                    <Select placeholder="Seleccione Tarjeta" value={modoPago.fk_tarjeta} options={tarjetas} style={{width:'100%'}} onChange={(value)=>{onChange("fk_tarjeta", value)}} />
                 </Col>
+
+                <Col span={4}><Input value={modoPago.tarjeta_nro}  onClick={(e)=>{e.target.select()}}  prefix="Nro.: " onChange={(e)=>{onChange("tarjeta_nro", e.target.value)}}></Input></Col>
+                
+                <Col span={4}><Input value={modoPago.tarjeta_tarjeta}  onClick={(e)=>{e.target.select()}}  prefix="C. Cuotas: " onChange={(e)=>{onChange("tarjeta_tarjeta", e.target.value)}}></Input></Col>
                 
             </Row>
             
@@ -337,6 +341,7 @@ export default function ModoPago(props){
                                 mutual_monto: 0,
                                 mutual_mutual: 0,
                                 total: 0,
+                                tarjeta_nro:0,
                             }
                             props?.callback?.(___mp)
                             return ___mp
