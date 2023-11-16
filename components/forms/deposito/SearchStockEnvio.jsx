@@ -25,7 +25,7 @@ const SearchStockEnvio = (props) => {
    
 
     const doSearch = (value, id, idsubrupo)=>{
-        alert(search_url + props.idSucursalDestino + "/" + encodeURIComponent( value )+ "/" + id + "/" + idsubrupo)
+        //alert(search_url + props.idSucursalDestino + "/" + encodeURIComponent( value )+ "/" + id + "/" + idsubrupo)
         fetch(search_url + props.idSucursalDestino + "/" + encodeURIComponent( value )+ "/" + id + "/" + idsubrupo)
         .then((response)=>response.json())
         .then((_response)=>{

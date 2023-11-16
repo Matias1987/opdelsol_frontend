@@ -57,7 +57,7 @@ const EnvioForm = (props) => {
         for(let i=0;i<__data.length;i++){
             __cantidad+=parseInt(__data[i].cantidad);
         }
-        setTotal((total)=>__cantidad)
+        setTotal((_total_)=>__cantidad)
         
     }
 
@@ -99,7 +99,7 @@ const EnvioForm = (props) => {
 
         __values.cantidad_total=__cantidad;
 
-        console.log("testing values: " , __values)
+        //console.log("testing values: " , __values)
 
 
         post_helper.post_method(urls.post.insert.envio,__values,(res)=>{
@@ -163,15 +163,29 @@ const EnvioForm = (props) => {
     }
 
     const increment_all = () => {
-        setTableData(d=>(
-            tableData.map(r=>({...r,cantidad: r.cantidad<r.max_cantidad ? r.cantidad+1:r.cantidad }))
-        ))
+        setTableData(d=>
+            {
+                const temp_ = tableData.map(r=>({...r,cantidad: r.cantidad<r.max_cantidad ? r.cantidad+1:r.cantidad }))
+                var _tot = 0 
+                temp_.forEach(r=>{
+                    _tot+=parseInt(r.cantidad)
+                })
+                setTotal(_tot)
+                return temp_
+            }
+        )
     }
 
     const decrement_all = () => {
-        setTableData(d=>(
-            tableData.map(r=>({...r,cantidad: r.cantidad>0 ? r.cantidad-1:r.cantidad }))
-        ))
+        setTableData(d=>{
+                const temp_ = tableData.map(r=>({...r,cantidad: r.cantidad>0 ? r.cantidad-1:r.cantidad }))
+                var _tot = 0 
+                temp_.forEach(r=>{
+                    _tot+=parseInt(r.cantidad)
+                })
+                setTotal(_tot)
+                return temp_
+            })
     }
 
     
