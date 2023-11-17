@@ -43,7 +43,7 @@ export default function LayoutAdmin({children}){
   useEffect(()=>{
     //console.log("run user effect")
 
-    if(!globals.esUsuarioCaja1())
+    if(!globals.esUsuarioAdmin())
     {
         window.location.replace(public_urls.modo)
     }

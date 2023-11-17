@@ -1,3 +1,4 @@
+import { currency_format } from "@/src/helpers/string_helper";
 import { get } from "@/src/urls";
 import { Spin } from "antd";
 import { useEffect, useState } from "react";
@@ -37,7 +38,7 @@ export default function RecStockItems(props){
                         <td style={{padding:"0",textAlign:"left"}}><b>{r.codigo}</b></td>
                         <td style={{padding:"0",textAlign:"left"}}><b>{r.eje}</b></td>
                         <td style={{padding:"0",textAlign:"left"}}>{r.descripcion}</td>
-                        <td style={{padding:"0",textAlign:"right"}}>{r.precio}</td>
+                        <td style={{padding:"0",textAlign:"right"}}>{currency_format(r.precio)}</td>
                     </tr>
                 ))
             }

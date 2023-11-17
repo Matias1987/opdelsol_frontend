@@ -1,3 +1,4 @@
+import { currency_format } from "@/src/helpers/string_helper";
 import { get } from "@/src/urls";
 import { Spin } from "antd";
 import { useEffect, useState } from "react";
@@ -37,9 +38,9 @@ export default function LCStockItems(props){
                         <td>{r.tipo}</td>
                         <td style={{padding:"0",textAlign:"left"}}><b>{r.codigo}</b></td>
                         <td style={{padding:"0",textAlign:"left"}}>{r.descripcion}</td>
-                        <td style={{padding:"0",textAlign:"right"}}>{r.precio}</td>
+                        <td style={{padding:"0",textAlign:"right"}}>{currency_format(r.precio)}</td>
                         <td style={{padding:"0",textAlign:"right"}}>{r.cantidad}</td>
-                        <td style={{padding:"0",textAlign:"right"}}>{r.total}</td>
+                        <td style={{padding:"0",textAlign:"right"}}>{currency_format(r.total)}</td>
                     </tr>
                 ))
             }

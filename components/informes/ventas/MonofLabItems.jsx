@@ -1,3 +1,4 @@
+import { currency_format } from "@/src/helpers/string_helper";
 import { get } from "@/src/urls";
 import { Spin } from "antd";
 import { useEffect, useState } from "react";
@@ -41,7 +42,7 @@ export default function MonofLabItems(props){
                         <td style={{padding:"0",textAlign:"center"}}>{(parseFloat(+r.esf||0)>0 ? "+":"") + r.esf}</td>
                         <td style={{padding:"0",textAlign:"center"}}>{r.cil}</td>
                         <td style={{padding:"0",textAlign:"center"}}>{r.eje}</td>
-                        <td style={{padding:"0",textAlign:"right"}}>{r.precio}</td>
+                        <td style={{padding:"0",textAlign:"right"}}>{currency_format(r.precio)}</td>
                     </tr>
                 ))
             }

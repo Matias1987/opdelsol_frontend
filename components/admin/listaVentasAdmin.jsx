@@ -11,11 +11,7 @@ const ListaVentasAdmin = (props) =>{
         .then(response=>{console.log("#######################################"+JSON.stringify(response)) ; return response.json()})
         .then((response)=>{
             //alert(JSON.stringify(response))
-            console.log("setDataSource")
-            if(response.data.length<1)
-            {
-                alert("no ventas")
-            }
+            
             setDataSource(response.data.map(
                 r=>({
                     sucursal: r.sucursal,

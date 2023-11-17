@@ -1,3 +1,4 @@
+import { currency_format } from "@/src/helpers/string_helper";
 import { get } from "@/src/urls";
 import { Spin } from "antd";
 import { useEffect, useState } from "react";
@@ -35,9 +36,9 @@ export default function VentaDirectaItems(props){
                     <tr >
                         <td style={{padding:"0"}}><b>{r.codigo}</b></td>
                         <td style={{padding:"0"}}>{r.descripcion}</td>
-                        <td style={{padding:"0", textAlign:"right"}}>$&nbsp;{r.precio}</td>
+                        <td style={{padding:"0", textAlign:"right"}}>$&nbsp;{currency_format(r.precio)}</td>
                         <td style={{padding:"0", textAlign:"right"}}>{r.cantidad}</td>
-                        <td style={{padding:"0",textAlign:"right"}}>$&nbsp;{r.total}</td>
+                        <td style={{padding:"0",textAlign:"right"}}>$&nbsp;{currency_format(r.total)}</td>
                     </tr>
                 ))
             }

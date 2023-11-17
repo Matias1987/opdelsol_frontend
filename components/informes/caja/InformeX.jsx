@@ -2,7 +2,7 @@ import DetallesVendedor from "@/components/DetallesVendedor"
 import SaldoCtaCte from "@/components/SaldoCtaCte"
 import SucursalLabel from "@/components/sucursal_label"
 import globals from "@/src/globals"
-import { convertToWords } from "@/src/helpers/string_helper"
+import { convertToWords, currency_format } from "@/src/helpers/string_helper"
 import { get } from "@/src/urls"
 import { Spin } from "antd"
 import { useEffect, useState } from "react"
@@ -116,23 +116,23 @@ export default function InformeX(props){
         <tbody>
             <tr>
                 <td>Efectivo:</td>
-                <td style={{textAlign:"right"}}>$&nbsp;{modoPago.efectivo_monto}</td>
+                <td style={{textAlign:"right"}}>$&nbsp;{currency_format(modoPago.efectivo_monto)}</td>
             </tr>
             <tr>
                 <td>Cheque:</td>
-                <td style={{textAlign:"right"}}>$&nbsp;{modoPago.cheque_monto}</td>
+                <td style={{textAlign:"right"}}>$&nbsp;{currency_format(modoPago.cheque_monto)}</td>
             </tr>
             <tr>
                 <td>Tarjeta:</td>
-                <td style={{textAlign:"right"}}>$&nbsp;{modoPago.tarjeta_monto}</td>
+                <td style={{textAlign:"right"}}>$&nbsp;{currency_format(modoPago.tarjeta_monto)}</td>
             </tr>
             <tr>
                 <td>Mutual:</td>
-                <td style={{textAlign:"right"}}>$&nbsp;{modoPago.mutual_monto}</td>
+                <td style={{textAlign:"right"}}>$&nbsp;{currency_format(modoPago.mutual_monto)}</td>
             </tr>
             <tr>
                 <td>TOTAL:</td>
-                <td style={{textAlign:"right"}}>$&nbsp;{dataPago.monto}</td>
+                <td style={{textAlign:"right"}}>$&nbsp;{currency_format(dataPago.monto)}</td>
             </tr>
         </tbody>
     </table>
@@ -208,7 +208,7 @@ export default function InformeX(props){
                                         <td>
                                             <p>Recibi la suma de: <b>{convertToWords(dataPago.monto)}</b><br />
                                             En concepto de: {dataPago.concepto}<br />
-                                            {"SALDO CTA CTE:  " + dataPago.saldo_actual }</p>
+                                            {"SALDO CTA CTE:  " + currency_format(dataPago.saldo_actual) }</p>
                                             <hr />
                                             {html_cheque_tarjeta()}
                                         </td>

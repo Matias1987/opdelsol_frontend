@@ -1,5 +1,9 @@
 //////
 
+const currency_format = (value) => {
+    return parseFloat(value).toLocaleString()
+}
+
 const current_date = (separator="-") => {
     const date = new Date()
     return `${date.getDate().toString()}${separator}${(date.getMonth()+1).toString()}${separator}${date.getFullYear().toString()}`
@@ -7,7 +11,6 @@ const current_date = (separator="-") => {
 }
 const current_date_ymd = (separator="-") => {
     const date = new Date()
-   // alert(`${date.getFullYear().toString()}${separator}${(date.getMonth()+1).toString()}${separator}${date.getDate().toString()}`)
     return `${date.getFullYear().toString()}${separator}${(date.getMonth()+1).toString()}${separator}${date.getDate().toString()}`
 
 }
@@ -221,4 +224,4 @@ const convertToWords = (value, centavos=true) => {
 
 
 
-module.exports={current_date_ymd,parse_DMY_date, convertToWords, current_date, format_date}
+module.exports={current_date_ymd,parse_DMY_date, convertToWords, current_date, format_date, currency_format}

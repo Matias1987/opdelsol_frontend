@@ -8,12 +8,12 @@ const items = [
  
   
   {
-    label: (<Link href={public_urls.venta_directa}>Descargar Env&iacute;o</Link>),
+    label: (<Link href={public_urls.venta_directa}>M&eacute;dicos</Link>),
     key: '10',
     icon: <StarOutlined />,
   },
   {
-    label: (<Link href={public_urls.venta_directa}>Ver Cantidades</Link>),
+    label: (<Link href={public_urls.venta_directa}>Ventas</Link>),
     key: '11',
     icon: <StarOutlined />,
   },

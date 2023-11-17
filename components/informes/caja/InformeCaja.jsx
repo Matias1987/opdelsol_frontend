@@ -1,4 +1,5 @@
 import globals from "@/src/globals"
+import { currency_format } from "@/src/helpers/string_helper"
 import { get } from "@/src/urls"
 import { Col, Row, Table } from "antd"
 import { useEffect, useState } from "react"
@@ -120,10 +121,10 @@ export default function InformeCaja(props){
         dataCaja == null ? <></> :
         <>
         <Row>
-            <Col span={6}>Total Ventas + Cuotas:&nbsp;{totales.ventas + totales.cuotas}&nbsp;</Col>
-            <Col span={6}>Total Gastos:&nbsp;{totales.gastos}&nbsp;</Col>
-            <Col span={6}>Monto Transferido:&nbsp;{totales.transferido} &nbsp;Recibido:&nbsp;{totales.recibido}&nbsp;</Col>
-            <Col span={6}>NETO CAJA:&nbsp;{parseFloat(totales.ventas) + parseFloat(totales.cuotas) - parseFloat(totales.gastos) - parseFloat(totales.transferido) + parseFloat(totales.recibido)}</Col>
+            <Col span={6}>Total Ventas + Cuotas:&nbsp;{currency_format(totales.ventas + totales.cuotas)}&nbsp;</Col>
+            <Col span={6}>Total Gastos:&nbsp;{currency_format(totales.gastos)}&nbsp;</Col>
+            <Col span={6}>Monto Transferido:&nbsp;{currency_format(totales.transferido)} &nbsp;Recibido:&nbsp;{totales.recibido}&nbsp;</Col>
+            <Col span={6}>NETO CAJA:&nbsp;{currency_format(parseFloat(totales.ventas) + parseFloat(totales.cuotas) - parseFloat(totales.gastos) - parseFloat(totales.transferido) + parseFloat(totales.recibido))}</Col>
         </Row>
         </>
     )
@@ -142,12 +143,12 @@ export default function InformeCaja(props){
                     {title:"Detalle", dataIndex:"detalle"},
                     {title:"Cliente", dataIndex:"cliente"},
                     {title:"Recibo", dataIndex:"recibo"},
-                    {align: 'right', title:"Ventas", dataIndex:"efectivo"},
-                    {align: 'right', title:"Cuotas", dataIndex:"cuotas"},
-                    {align: 'right', title:"Cheques", dataIndex:"cheque"},
-                    {align: 'right', title:"Tarjetas", dataIndex:"tarjeta"},
-                    {align: 'right', title:"Mutual", dataIndex:"mutual"},
-                    {align: 'right', title:"Cta.Cte.", dataIndex:"ctacte"},
+                    {align: 'right', title:"Ventas", dataIndex:"efectivo", render:(_,{efectivo})=>(currency_format(efectivo))},
+                    {align: 'right', title:"Cuotas", dataIndex:"cuotas", render:(_,{cuotas})=>(currency_format(cuotas))},
+                    {align: 'right', title:"Cheques", dataIndex:"cheque", render:(_,{cheque})=>(currency_format(cheque))},
+                    {align: 'right', title:"Tarjetas", dataIndex:"tarjeta", render:(_,{tarjeta})=>(currency_format(tarjeta))},
+                    {align: 'right', title:"Mutual", dataIndex:"mutual", render:(_,{mutual})=>(currency_format(mutual))},
+                    {align: 'right', title:"Cta.Cte.", dataIndex:"ctacte", render:(_,{ctacte})=>(currency_format(ctacte))},
                 ]} 
                 summary={data=>{
                     var totalVentas=0;
@@ -178,12 +179,12 @@ export default function InformeCaja(props){
                             <Table.Summary.Cell colSpan={4}>
                                 TOTALES DE CAJA:
                             </Table.Summary.Cell>
-                            <Table.Summary.Cell align={'right'}><b>{totalVentas}</b></Table.Summary.Cell>
-                            <Table.Summary.Cell align={'right'}><b>{totalCuotas}</b></Table.Summary.Cell>
-                            <Table.Summary.Cell align={'right'}><b>{totalCheques}</b></Table.Summary.Cell>
-                            <Table.Summary.Cell align={'right'}><b>{totalTarjetas}</b></Table.Summary.Cell>
-                            <Table.Summary.Cell align={'right'}><b>{totalMutual}</b></Table.Summary.Cell>
-                            <Table.Summary.Cell align={'right'}><b>{totalCtaCte}</b></Table.Summary.Cell>
+                            <Table.Summary.Cell align={'right'}><b>{currency_format(totalVentas)}</b></Table.Summary.Cell>
+                            <Table.Summary.Cell align={'right'}><b>{currency_format(totalCuotas)}</b></Table.Summary.Cell>
+                            <Table.Summary.Cell align={'right'}><b>{currency_format(totalCheques)}</b></Table.Summary.Cell>
+                            <Table.Summary.Cell align={'right'}><b>{currency_format(totalTarjetas)}</b></Table.Summary.Cell>
+                            <Table.Summary.Cell align={'right'}><b>{currency_format(totalMutual)}</b></Table.Summary.Cell>
+                            <Table.Summary.Cell align={'right'}><b>{currency_format(totalCtaCte)}</b></Table.Summary.Cell>
                         </Table.Summary.Row>
                     </>
                 }}
@@ -201,7 +202,7 @@ export default function InformeCaja(props){
                 columns={[
                     {title:"Rec.", dataIndex:"idgasto"},
                     {title:"Detalle", dataIndex:"concepto_gasto"},
-                    {title:"Importe", dataIndex:"monto"},
+                    {title:"Importe", dataIndex:"monto", render: (_,{monto})=>(currency_format(monto))},
                 ]}
                 summary={data=>{
                     var total = 0;
@@ -218,7 +219,7 @@ export default function InformeCaja(props){
                                     TOTAL:
                                 </Table.Summary.Cell>
                                 <Table.Summary.Cell>
-                                    <b>{total}</b>
+                                    <b>{currency_format(total)}</b>
                                 </Table.Summary.Cell>
                             </Table.Summary.Row>
 
@@ -236,7 +237,7 @@ export default function InformeCaja(props){
                 dataSource={dataTransfEnviadas}
                 columns={[
                     {title:"Sucursal Destino", dataIndex:"destino"},
-                    {title:"Monto", dataIndex:"monto"},
+                    {title:"Monto", dataIndex:"monto", render:(_,{monto})=>(currency_format(monto))},
                 ]}
 
                 summary={data=>{
@@ -254,7 +255,7 @@ export default function InformeCaja(props){
                                     TOTAL:
                                 </Table.Summary.Cell>
                                 <Table.Summary.Cell>
-                                    <b>{total}</b>
+                                    <b>{currency_format(total)}</b>
                                 </Table.Summary.Cell>
                             </Table.Summary.Row>
                 }}
@@ -269,7 +270,7 @@ export default function InformeCaja(props){
                 dataSource={dataTransfRecibidas}
                 columns={[
                     {title:"Sucursal Origen", dataIndex:"origen"},
-                    {title:"Monto", dataIndex:"monto"},
+                    {title:"Monto", dataIndex:"monto", render:(_,{monto})=>(currency_format(monto))},
                 ]}
 
                 summary={data=>{
@@ -287,7 +288,7 @@ export default function InformeCaja(props){
                                     TOTAL:
                                 </Table.Summary.Cell>
                                 <Table.Summary.Cell>
-                                    <b>{total}</b>
+                                    <b>{currency_format(total)}</b>
                                 </Table.Summary.Cell>
                             </Table.Summary.Row>
                 }}
