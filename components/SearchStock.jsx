@@ -1,4 +1,4 @@
-import { Button, Table, Search, Input, Row } from "antd";
+import { Button, Table, Input, Row } from "antd";
 import { useState } from "react";
 import { get } from "@/src/urls";
 import globals from "@/src/globals";

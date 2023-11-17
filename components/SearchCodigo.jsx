@@ -1,4 +1,4 @@
-import { Button, Table, Search, Input } from "antd";
+import { Button, Table, Input } from "antd";
 import { useState } from "react";
 import CustomModal from "./CustomModal";
 import ModificarCantidadForm from "./forms/deposito/modificarCantidadForm";

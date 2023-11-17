@@ -1,4 +1,4 @@
-import { Button, Table, Search, Input, Row, Affix, Checkbox, Col, Modal, Divider } from "antd";
+import { Button, Table, Input, Row, Affix, Checkbox, Col, Modal, Divider } from "antd";
 import { useRef, useState } from "react";
 import { get } from "@/src/urls";
 import globals from "@/src/globals";

@@ -3,10 +3,8 @@ import SelectCliente from "@/components/forms/ventas/SelectCliente";
 import SelectMedico from "@/components/forms/ventas/SelectMedico";
 import SelectObraSocial from "@/components/forms/ventas/SelectObraSocial";
 import TotalesVenta from "@/components/forms/ventas/TotalVenta";
-import RecetaStockItems from "@/components/forms/ventas/receta_stock/Items";
 import globals from "@/src/globals";
-import { BackwardFilled, ForwardFilled } from "@ant-design/icons";
-import { Button, Col, DatePicker, Divider, Form, Input, Row, Steps, Tabs, TextArea, TimePicker } from "antd";
+import { Button, Col, DatePicker, Form, Input, Row, Tabs, TimePicker } from "antd";
 
 import { useState } from "react";
 

@@ -1,8 +1,8 @@
-import { Button, Table, Search, Input, Row, Col } from "antd";
+import { Button, Table, Input, Row, Col } from "antd";
 import { useState } from "react";
 import { get, post } from "@/src/urls";
 import globals from "@/src/globals";
-import { CheckCircleFilled, CloseCircleFilled, PlusCircleFilled } from "@ant-design/icons";
+import { CheckCircleFilled, CloseCircleFilled } from "@ant-design/icons";
 import { post_method } from "@/src/helpers/post_helper";
 
 /**

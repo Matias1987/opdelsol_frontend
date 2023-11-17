@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import globals from "@/src/globals";
 import HeaderSol from "./header";
 import MenuAdminTop from "./menu_admin";
+import Chat from "../chat/chat";
 
 export default function LayoutAdmin({children}){
     const { Content } = Layout;
@@ -59,6 +60,7 @@ export default function LayoutAdmin({children}){
   
             <Content style={{ margin: '40px 100px', padding: 24, overflowY:'scroll' }}>
                 {children}
+                <Chat />
             </Content>
         </Layout>
     )
