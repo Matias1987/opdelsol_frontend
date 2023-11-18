@@ -1,4 +1,4 @@
-const regex_format = /^__A[0-9]+$/
+const regex_format = /^ARM[0-9]+$/
 
 const exec_barcode_pattern = (str) => regex_format.exec(str)
 
@@ -10,10 +10,10 @@ const get_barcode_from_id = (str) => {
 	for(let i=0;i<6;i++){
 		r = (i < str.length ? str.charAt(str.length -1 -i) : "0") + r ;
 	}
-	return "__A"+r ;
+	return "ARM"+r ;
 }
 const get_barcode_from_id2 = (id) => {
-	return "__A"+id ;
+	return "ARM"+id ;
 }
 
 const regex_get_id_if_match = (str) => {

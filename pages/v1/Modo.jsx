@@ -73,7 +73,10 @@ import { getItem } from "localforage";
           shape="round"
           type="primary" onClick={(e)=>{
             window.location.replace(public_urls.dashboard_deposito)
-          }} style={button_style_default} size="large" block>Dep&oacute;sito</Button>
+          }} 
+          style={button_style_default} 
+          size="large" 
+          block>Dep&oacute;sito</Button>
           </>
           :<></>
         }
@@ -84,7 +87,10 @@ import { getItem } from "localforage";
         shape="round"
         type="primary" onClick={(e)=>{
           window.location.replace(public_urls.dashboard_venta)
-        }} style={button_style_default} size="large" block>Ventas</Button>
+        }} 
+        style={button_style_default} 
+        size="large" 
+        block>Ventas</Button>
         </>
         :<></>
         }
@@ -95,7 +101,10 @@ import { getItem } from "localforage";
           shape="round"
           type="primary" onClick={(e)=>{
             window.location.replace(public_urls.dashboard_caja)
-          }} style={button_style_default} size="large" block>
+          }} 
+          style={button_style_default} 
+          size="large" 
+          block>
           Caja
           </Button>
         </>
@@ -108,7 +117,10 @@ import { getItem } from "localforage";
           shape="round"
           type="primary" onClick={(e)=>{
             window.location.replace(public_urls.dashboard_laboratorio)
-          }} style={button_style_default} size="large" block>
+          }} 
+          style={button_style_default} 
+          size="large" 
+          block>
           Laboratorio
           </Button>
         </>
@@ -122,7 +134,10 @@ import { getItem } from "localforage";
           shape="round"
           type="primary" onClick={(e)=>{
             window.location.replace(public_urls.dashboard_admin)
-          }} style={button_style_default} size="large" block>
+          }} 
+          style={button_style_default} 
+          size="large" 
+          block>
           Admin
           </Button>
         </>
@@ -156,23 +171,23 @@ import { getItem } from "localforage";
 
     return (
      
-
-    <Space
-      direction="vertical"
-      size="middle"
-      style={{
-        display: 'flex',
-      }}
-    >
-      <h4></h4>
-      <Card title="" size="small" style={{paddingLeft:"40%", paddingRight:"40%"}}>
+<>
+<Card title="" size="small" style={{paddingLeft:"40%", paddingRight:"40%"}} >
         {
         buttons()
         }
         
       </Card>
+    <Space
+      direction="vertical"
+      size="large"
+      style={{
+        display: 'flex',
+      }}
+    >
+      
     </Space>
-
+</>
     )
   }
 
