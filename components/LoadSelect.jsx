@@ -57,7 +57,7 @@ const LoadSelect = (props) => {
                     (value)=>{
                         
                         setId(value);
-                        props.callback(value)
+                        props?.callback?.(value)
                     }
                 }
                 options = {options}

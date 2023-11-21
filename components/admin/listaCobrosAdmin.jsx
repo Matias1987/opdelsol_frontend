@@ -1,4 +1,5 @@
-import { get } from "@/src/urls";
+import { post_method } from "@/src/helpers/post_helper";
+import { get, post } from "@/src/urls";
 import { Col, Row, Table } from "antd";
 import { useEffect, useState } from "react";
 
@@ -6,16 +7,14 @@ const ListaCobrosAdmin = (props) =>{
     const [dataSource, setDataSource] = useState([])
     useEffect(()=>{
         //console.log("run user effect")
-        fetch(get.obtener_lista_cobros_admin)
-        .then(response=>response.json())
-        .then((response)=>{
-            setDataSource(response.data.map(
-                r=>({
-                    sucursal: r.sucursal,
-                    cliente: r.cliente,
-                    monto: r.monto,
-                })
-            ))
+        post_method(post.obtener_lista_cobros,{},(response)=>{
+            alert(JSON.stringify(response))
+            setDataSource(response.data.map(r=>({
+                cliente:r.cliente_nombre,
+                monto:r.monto,
+                sucursal: r.sucursal,
+                idcobro: r.idcobro,
+            })))
         })
     },[]);
     return <>

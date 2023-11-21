@@ -24,11 +24,12 @@ export default function MultifLabItems(props){
         <thead>
             <tr>
                 <th></th>
-                <th style={{padding:"0", textAlign:"left"}}>C&oacute;digo</th>
-                <th style={{padding:"0", textAlign:"left"}}>Descripci&oacute;n</th>
                 <th style={{padding:"0", textAlign:"center"}}>Esf.</th>
                 <th style={{padding:"0", textAlign:"center"}}>Cil.</th>
                 <th style={{padding:"0", textAlign:"center"}}>Eje</th>
+                <th style={{padding:"0", textAlign:"left"}}>C&oacute;digo</th>
+                {/*<th style={{padding:"0", textAlign:"left"}}>Descripci&oacute;n</th>*/}
+                
                 <th style={{padding:"0", textAlign:"right"}}>Precio</th>
             </tr>
         </thead>
@@ -37,11 +38,13 @@ export default function MultifLabItems(props){
                 data.map(r=>(
                     <tr >
                         <td>{r.tipo}</td>
-                        <td style={{padding:"0",textAlign:"left"}}><b>{r.codigo}</b></td>
-                        <td style={{padding:"0",textAlign:"left"}}>{r.descripcion}</td>
                         <td style={{padding:"0",textAlign:"center"}}>{(parseFloat(+r.esf||0)>0 ? "+":"") + r.esf}</td>
                         <td style={{padding:"0",textAlign:"center"}}>{r.cil}</td>
                         <td style={{padding:"0",textAlign:"center"}}>{r.eje}</td>
+                        <td style={{padding:"0",textAlign:"left"}}><b>{r.codigo}</b></td>
+                        
+                        {/*<td style={{padding:"0",textAlign:"left"}}>{r.descripcion}</td>*/}
+                        
                         <td style={{padding:"0",textAlign:"right"}}>{currency_format(r.precio)}</td>
                     </tr>
                 ))

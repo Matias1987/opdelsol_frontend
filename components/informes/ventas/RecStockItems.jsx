@@ -26,7 +26,7 @@ export default function RecStockItems(props){
                 <th style={{width:'10%'}}></th>
                 <th style={{padding:"0", textAlign:"left"}}>C&oacute;digo</th>
                 <th style={{padding:"0", textAlign:"left"}}>Eje</th>
-                <th style={{padding:"0", textAlign:"left"}}>Descripci&oacute;n</th>
+                {/*<th style={{padding:"0", textAlign:"left"}}>Descripci&oacute;n</th>*/}
                 <th style={{padding:"0", textAlign:"right"}}>Precio</th>
             </tr>
         </thead>
@@ -37,7 +37,7 @@ export default function RecStockItems(props){
                         <td>{r.tipo}</td>
                         <td style={{padding:"0",textAlign:"left"}}><b>{r.codigo}</b></td>
                         <td style={{padding:"0",textAlign:"left"}}><b>{r.eje}</b></td>
-                        <td style={{padding:"0",textAlign:"left"}}>{r.descripcion}</td>
+                        {/*<td style={{padding:"0",textAlign:"left"}}>{r.descripcion}</td>*/}
                         <td style={{padding:"0",textAlign:"right"}}>{currency_format(r.precio)}</td>
                     </tr>
                 ))

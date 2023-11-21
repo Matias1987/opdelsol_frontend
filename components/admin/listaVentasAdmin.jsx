@@ -1,9 +1,11 @@
 import { get } from "@/src/urls";
-import { Col, Row, Table, Tag } from "antd";
+import { Button, Col, Row, Table, Tag } from "antd";
 //import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 //import { Pie } from 'react-chartjs-2';
 import { useEffect, useState } from "react";
 import { currency_format } from "@/src/helpers/string_helper";
+import { InfoCircleTwoTone } from "@ant-design/icons";
+import VentaDetallePopup from "../VentaDetalle";
 
 
 
@@ -48,6 +50,18 @@ const ListaVentasAdmin = (props) =>{
         .then(response=>{return response.json()})
         .then((response)=>{
             //alert(JSON.stringify(response))
+
+            let sum_total_=0;
+            let sum_anuladas_=0;
+
+            response.data.forEach((r)=>{
+                sum_total_+=r.estado=="ANULADO"?0:parseFloat(r.monto_total);
+                sum_anuladas_+=r.estado=="ANULADO" ?  1:0;
+
+            })
+
+
+            props?.callback?.({monto_total:sum_total_, anulados:sum_anuladas_})
             
             setDataSource(response.data.map(
                 r=>({
@@ -56,6 +70,7 @@ const ListaVentasAdmin = (props) =>{
                     cliente: r.cliente,
                     monto_total: r.monto_total,
                     color: r.color,
+                    idventa: r.idventa
                 })
             ))
         })
@@ -84,6 +99,7 @@ const ListaVentasAdmin = (props) =>{
                             {title:"Vendedor", dataIndex:"vendedor"},
                             {title:"Cliente", dataIndex:"cliente"},
                             {title:"Monto", dataIndex:"monto_total", render:(_,{monto_total})=>(<div style={{textAlign:"right"}}>{"$ " + currency_format(monto_total)}</div>)},
+                            {title:"", dataIndex:"idventa",render:(_,{idventa})=><><VentaDetallePopup idventa={idventa} /></>}
                         ]
                     }
                     />
