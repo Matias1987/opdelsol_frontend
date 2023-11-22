@@ -279,7 +279,7 @@ export default function ModoPago(props){
                                     ...modoPago,
                                     ["ctacte_interes"]: _i.interes,
                                     ["ctacte_cuotas"]:v,
-                                    ["ctacte_monto_cuotas"]:  (parseFloat(_i.interes) * parseFloat(modoPago.ctacte_monto)).toFixed(2),
+                                    ["ctacte_monto_cuotas"]:  (parseFloat(_i.interes) * (parseFloat(modoPago.ctacte_monto)/parseFloat(v))).toFixed(2),
                                     ["total"]:  _total,
                                     ["saldo"]:  total - _total,
                                     };
