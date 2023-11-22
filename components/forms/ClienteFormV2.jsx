@@ -166,7 +166,7 @@ export default function ClienteFormV2(props){
     return (<>
     <Row>
         <Col  span={24}>
-            <Button block type="primary" size="small" onClick={()=>{setOpen(true)}}>Agregar Cliente</Button>
+            <Button block type="primary" size="small" onClick={()=>{ props?.test?.();  setOpen(true)}}>Agregar Cliente</Button>
         </Col>
     </Row>
     
@@ -204,13 +204,6 @@ export default function ClienteFormV2(props){
                 <Input  maxLength={45} prefix={"Apellidos:"} value={clienteData.apellidos} onChange={(e)=>{setClienteData(v=>({...v,apellidos:e.target.value.toUpperCase()}))}} />
             </Col>
         </Row>
-
-        {/*<Row>
-            <Col style={{padding:".5em"}} span={24}>
-                Fecha de Nacimiento:&nbsp;&nbsp;
-                <DatePicker value={clienteData.nacimiento} onChange={onChangeDate} format={'DD/MM/YYYY'}/>
-            </Col>
-            </Row>*/}
         <Row>
             <Col span={4}>
                 Fecha de Nacimiento
