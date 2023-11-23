@@ -123,6 +123,11 @@ const InformeVentaMinV2 = (props) => {
 							</table>
 						</td>
 					</tr>
+					<tr>
+						<td>
+							{props.data.comentarios}
+						</td>
+					</tr>
 				</tbody>
 			</table>
 			</div>
