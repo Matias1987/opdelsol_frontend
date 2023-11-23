@@ -30,7 +30,7 @@ const Pagare = (props) => {
                 <tbody>
                     <tr>
                         <td style = {{verticalAlign: 'top', fontWeight: 'bold',}} > Vence el {fechaVencimiento == null ? "" : format_date(fechaVencimiento)}</td>
-                        <td style = {{verticalAlign: 'top', fontWeight: 'bold',}} > Por $ {modoPago.monto_int}<br />
+                        <td style = {{verticalAlign: 'top', fontWeight: 'bold',}} > Por $ {parseFloat(modoPago.monto_int).toFixed(2)}<br />
                         </td>
                     </tr>
                     <tr>
@@ -42,20 +42,20 @@ const Pagare = (props) => {
                         <td  style = {{verticalAlign: 'top'}} colspan='2'>
                             <p>El d&iacute;a <span style={{fontWeight: 'bold'}}>&nbsp;{current_date()}</span> Pagar&eacute; al Sr. ROVNER, Fernando 
                             Jos&eacute; y/u OPTICA MIDAS S.R.L, o a su orden, 'SIN PROTESTO' &#40;Art. 50 Dcto.Ley 5965/63&#41; la cantidad de Pesos <span
-                            style={{fontWeight: 'bold'}}>&nbsp;&nbsp;{convertToWords(modoPago.monto_int, false)}</span> <b> {  (modoPago.monto_int - Math.trunc(modoPago.monto_int)).toFixed(2) }/100  </b>
+                            style={{fontWeight: 'bold'}}>&nbsp;&nbsp;{convertToWords(modoPago.monto_int, false)}</span> <b> {  parseFloat(modoPago.monto_int - Math.trunc(modoPago.monto_int)).toFixed(2) }/100  </b>
                             pagaderos en calle Col&oacute;n 98 de la ciudad de Resistencia, Provincia del
                             Chaco.</p>
                             <p>El bien y/o servicio adquirido es: <span
                             style = {{fontWeight: 'bold'}} >&nbsp;{detalleProducto}</span></p>
                             <p>El precio de<span style={{fontWeight: 'bold'}}> CONTADO </span>
-                            del producto adquirido es de: <span style = {{fontWeight: 'bold'}} >&nbsp;$&nbsp;{modoPago.monto_venta}&nbsp;</span></p>
+                            del producto adquirido es de: <span style = {{fontWeight: 'bold'}} >&nbsp;$&nbsp;{parseFloat(modoPago.monto_venta).toFixed(2)}&nbsp;</span></p>
                             <p>El monto de Venta FINANCIADO es de:&nbsp;<span
-                            style = {{fontWeight: 'bold'}} >&nbsp;$&nbsp;{modoPago.monto_venta_int}</span></p>
+                            style = {{fontWeight: 'bold'}} >&nbsp;$&nbsp;{parseFloat(modoPago.monto_venta_int).toFixed(2)}</span></p>
                             <p>El importe desembolsado inicialmente en concepto de entrega
-                            fue de: <span style = {{fontWeight: 'bold'}} >&nbsp;$&nbsp;{modoPago.entrega}</span></p>
-                            <p>El saldo a financiar es de: <span style = {{fontWeight: 'bold'}} >&nbsp;$&nbsp;{modoPago.monto}&nbsp;</span>
+                            fue de: <span style = {{fontWeight: 'bold'}} >&nbsp;$&nbsp;{parseFloat(modoPago.entrega).toFixed(2)}</span></p>
+                            <p>El saldo a financiar es de: <span style = {{fontWeight: 'bold'}} >&nbsp;$&nbsp;{parseFloat(modoPago.monto).toFixed(2)}&nbsp;</span>
                             en<span style={{fontWeight: 'bold'}}>&nbsp;{modoPago.cant_cuotas}</span> cuotas mensuales, iguales
-                            y consejutivas de<span style={{fontWeight: 'bold'}}>&nbsp;$&nbsp;{modoPago.monto_cuota}</span> cada una,
+                            y consejutivas de<span style={{fontWeight: 'bold'}}>&nbsp;$&nbsp;{parseFloat(modoPago.monto_cuota).toFixed(2)}</span> cada una,
                             que totalizan en el monto por el cual se suscribe el siguiente pagar&eacute;.</p>
                             <p>La Tasa de Inter&eacute;s Efectiva Anual &#40;T.E.A.&#41; aplicada es del:&nbsp;<span
                             style = {{fontWeight: 'bold'}} >&nbsp;{Math.round(((modoPago.monto_int / modoPago.monto) - Math.trunc(modoPago.monto_int / modoPago.monto)) * 100)}%</span></p>
