@@ -5,6 +5,7 @@ import { Button, Col, DatePicker, Form, Input, Modal, Row, Space } from "antd";
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 import SelectLocalidad from "../SelectLocalidad";
+import SelectLocalidadV2 from "../SelectLocalidadV2";
 
 
 export default function ClienteFormV2(props){
@@ -260,7 +261,7 @@ export default function ClienteFormV2(props){
                 <Input  maxLength={45} prefix={"Domicilio:"} onChange={(e)=>{setClienteData(d=>({...d,domicilio:e.target.value}))}} value={clienteData.domicilio.toUpperCase()} />
             </Col>
             <Col style={{padding:".5em"}} span={12}>
-                <SelectLocalidad callback={(p)=>{setClienteData(c=>({...c,idlocalidad:p.idlocalidad}))}} />
+                <SelectLocalidadV2 callback={(p)=>{setClienteData(c=>({...c,idlocalidad:p.idlocalidad}))}} />
             </Col>
         </Row>
 
