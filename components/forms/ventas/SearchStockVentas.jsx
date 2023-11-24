@@ -67,7 +67,7 @@ const SearchStockVentas = (props) => {
         </Row>
         <Row>
             <Col span={6}>
-                <Input type="number" step={.25} min={-20} max={20} prefix="Esf.:" value={filtros.esf} onChange={(e)=>{setFiltros(_f=>({..._f,esf:e.target.value}))}}/>
+                <Input step={.25} min={-20} max={20} prefix="Esf.:" value={filtros.esf} onChange={(e)=>{setFiltros(_f=>({..._f,esf:e.target.value}))}}/>
             </Col>
             <Col span={6}>
                 <Input prefix="Cil.:" step={.25} min={-20} max={20} value={filtros.cil} onChange={(e)=>{setFiltros(_f=>({..._f,cil:e.target.value}))}}/>

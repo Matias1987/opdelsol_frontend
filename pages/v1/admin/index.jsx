@@ -19,7 +19,7 @@ export default function dashboard_admin(){
     },[])
     return <>
      {
-        sucursales.map(s=><ResumenOperacionesRow idsucursal={s.idsucursal} />)
+        sucursales.map(s=><ResumenOperacionesRow idsucursal={s.idsucursal} nombre_sucursal={s.nombre} />)
      }
     </>
 }

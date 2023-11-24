@@ -3,7 +3,7 @@ import { Card, Col, Row, Statistic } from "antd";
 
 const { useEffect, useState } = require("react")
 
-const ResumenOperacionesRow = () => {
+const ResumenOperacionesRow = (props) => {
     const [count, setCount] = useState(0);
     const [totalVentas, setTotalVentas] = useState(0)
     const [cantVentas, setCantVentas] = useState(0)
@@ -26,7 +26,19 @@ const ResumenOperacionesRow = () => {
         //Clearing the interval 
         return () => clearInterval(interval); 
     },[count]);
-    return <Row gutter={16}>
+    return <Row gutter={24}>
+        <Col  span={6}>
+        <Card bordered={false}>
+            <Statistic
+            title="Sucursal"
+            value={props.nombre_sucursal}
+            precision={0}
+            valueStyle={{
+                color: '#3f8600',
+            }}
+            />
+        </Card>
+        </Col>
         <Col  span={6}>
         <Card bordered={false}>
             <Statistic
