@@ -131,17 +131,22 @@ export default function CobroOperacion(props){
                 return;
             }
 
-            if( (entrega || _mc) && (dataVenta.saldo - mp.total)!=0){
+            if( (entrega || _mc) && (dataVenta.saldo - descuento - mp.total)!=0){
+                /*alert(JSON.stringify({
+                    saldo: (dataVenta.saldo - descuento -  mp.total),
+                    total: mp.total,
+                    saldodv: dataVenta.saldo,
+                }))*/
                 alert("Saldo distinto a 0")
                 setCobrarDisabled(false)
                 return
             }
-
+            /*
             if(dataVenta.debe < mp.total){
                 alert("Monto mayor a deuda")
                 setCobrarDisabled(false)
                 return
-            }
+            }*/
         }
         /*
         some other validations for secondary fields which 

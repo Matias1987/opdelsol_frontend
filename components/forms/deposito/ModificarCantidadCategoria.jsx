@@ -1,6 +1,7 @@
 import GrupoSelect from "@/components/GrupoSelect";
 import SubFamiliaSelect from "@/components/SubFamiliaSelect";
 import SubGroupSelect from "@/components/SubGroupSelect";
+import globals from "@/src/globals";
 import { post_method } from "@/src/helpers/post_helper";
 import { get, post } from "@/src/urls";
 import { EyeFilled } from "@ant-design/icons";
@@ -13,13 +14,18 @@ const ModificarCantidadCategoria = (props) => {
     const [selection, setSelection] = useState({
         tipo: "subgrupo",
         id: -1,
-        cantidad: 0
+        cantidad: 0,
+        idsucursal: globals.obtenerSucursal()
     })
     const [_options, setOptions] = useState(<></>)
 
     const onAplicar = _ => {
+        alert(JSON.stringify({
+            url:post.update.modificar_cantidad_categoria,
+            params__: selection
+        }))
         post_method(post.update.modificar_cantidad_categoria,selection,(response)=>{
-
+            alert("OK")
         })
     }
 
@@ -52,9 +58,9 @@ const ModificarCantidadCategoria = (props) => {
         switch(v)
         {
             case "familia": setOptions(<></>); break;
-            case "subfamilia": setOptions(<><SubFamiliaSelect callback={(id)=>{setSelection({id:id,tipo:"subfamilia"})}}/></>); break;
-            case "grupo": setOptions(<><GrupoSelect callback={(id)=>{setSelection({id:id,tipo:"grupo"})}}/></>); break;
-            case "subgrupo": setOptions(<><SubGroupSelect callback={(id)=>{setSelection({id:id,tipo:"subgrupo"})}}/></>); break;
+            case "subfamilia": setOptions(<><SubFamiliaSelect callback={(id)=>{setSelection(s=>({...s,id:id,tipo:"subfamilia"}))}}/></>); break;
+            case "grupo": setOptions(<><GrupoSelect callback={(id)=>{setSelection(s=>({...s,id:id,tipo:"grupo"}))}}/></>); break;
+            case "subgrupo": setOptions(<><SubGroupSelect callback={(id)=>{setSelection(s=>({...s,id:id,tipo:"subgrupo"}))}}/></>); break;
         }
     }
     const row_style={
@@ -89,10 +95,10 @@ const ModificarCantidadCategoria = (props) => {
         
         </Col>
         <Col span={2}>
-        <Button type="ghost" onClick={()=>{
+        {/*<Button type="ghost" onClick={()=>{
             
             setOpen(true)
-            }}><EyeFilled /></Button>
+            }}><EyeFilled /></Button>*/}
         
         </Col>
     </Row>
