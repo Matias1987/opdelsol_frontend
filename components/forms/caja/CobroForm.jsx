@@ -100,7 +100,9 @@ export default function CobroOperacion(props){
         }
 
         const _mc = typeof props.mustCancel !== 'undefined' ? props.mustCancel : false;
-        
+        /**
+         * si hay venta pero es de monto 0
+         */
         if(dataVenta!=null && +mp.total==0&&dataVenta.saldo==0)
         {
             if(typeof props.tipo !== 'undefined')
@@ -125,21 +127,33 @@ export default function CobroOperacion(props){
 
         if(dataVenta!=null){
 
-            if(+mp.total == 0 && dataVenta.debe != 0) { 
+            const _sdo =  (parseFloat(dataVenta.subtotal) - parseFloat(descuento) - parseFloat(dataVenta.haber||0)) - parseFloat( mp.total)
+            
+
+            if(+mp.total == 0 && _sdo != 0) { 
                 alert("Monto igual a 0")
                 setCobrarDisabled(false)
                 return;
             }
 
-            if( (entrega || _mc) && (dataVenta.saldo - descuento - mp.total)!=0){
-                /*alert(JSON.stringify({
-                    saldo: (dataVenta.saldo - descuento -  mp.total),
-                    total: mp.total,
-                    saldodv: dataVenta.saldo,
-                }))*/
+           /* alert(JSON.stringify({
+               debe: dataVenta.debe,
+                saldo: (parseFloat(dataVenta.subtotal) - parseFloat(descuento) - parseFloat(dataVenta.haber||0)) - parseFloat( mp.total),
+                descuento: descuento,
+                total: mp.total,
+                saldodv: dataVenta.saldo,
+            }))
+            */
+            if( (entrega || _mc) && _sdo!=0){
+                
                 alert("Saldo distinto a 0")
                 setCobrarDisabled(false)
                 return
+            }
+            if(_sdo<0){
+                alert("Saldo menor a cero")
+                setCobrarDisabled(false)
+                return 
             }
             /*
             if(dataVenta.debe < mp.total){
@@ -330,6 +344,7 @@ export default function CobroOperacion(props){
 
     const onOpen = () => {
         setCobrarDisabled(false)
+        setEntrega(false)
         if(typeof props.idventa !== 'undefined')
             {
                 //get venta details
