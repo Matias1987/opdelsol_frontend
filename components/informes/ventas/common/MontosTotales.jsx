@@ -24,7 +24,7 @@ const MontosTotalesInf = (props) => {
 					</tr>
 					<tr>
 						<td style={{fontSize:".8em"}}>Subtotal</td>
-						<td style={{textAlign:"right", fontSize:".8em"}}>${currency_format(props.data.monto_total)}</td>
+						<td style={{textAlign:"right", fontSize:".8em"}}>${currency_format(parseFloat(props.data.subtotal) - parseFloat(props.data.descuento))}</td>
 					</tr>
 					<tr>
 						<td style={{fontSize:".8em"}}>Se&ntilde;a</td>
@@ -32,7 +32,7 @@ const MontosTotalesInf = (props) => {
 					</tr>
 					<tr>
 						<td style={{fontSize:".8em"}}>Saldo</td>
-						<td style={{textAlign:"right", fontSize:".8em"}}>${currency_format(props.data.monto_total - props.data.total_haber)}</td>
+						<td style={{textAlign:"right", fontSize:".8em"}}>${currency_format(parseFloat(props.data.subtotal) - parseFloat(props.data.descuento) - parseFloat(props.data.total_haber))}</td>
 					</tr>
 				</tbody>
             </table>
