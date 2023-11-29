@@ -193,13 +193,13 @@ const PopupAgregarCodigoLoteStockV2 = (props) => {
                 </Row>
                 <Row>
                     <Col span={8}>
-                        <Input type="number" value={start} onChange={(e)=>{setStart(e.target.value)}} prefix="Start"/>
+                        <Input  value={start} onChange={(e)=>{setStart(e.target.value)}} prefix="Start"/>
                     </Col>
                     <Col span={8}>
-                        <Input type="number" value={step} onChange={(e)=>{setStep(e.target.value)}} prefix="Step"/>
+                        <Input  value={step} onChange={(e)=>{setStep(e.target.value)}} prefix="Step"/>
                     </Col>
                     <Col span={8}>
-                        <Input type="number" value={end} onChange={(e)=>{setEnd(e.target.value)}} prefix="End"/>
+                        <Input  value={end} onChange={(e)=>{setEnd(e.target.value)}} prefix="End"/>
                     </Col>
                 </Row>
                 <Row>

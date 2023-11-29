@@ -1,11 +1,22 @@
-import { Col, Divider, Row, Tag } from "antd";
+import { Col, Divider, Row, Table, Tag } from "antd";
 import SaldoCtaCte from "./SaldoCtaCte";
 import { useEffect, useState } from "react";
 import { get } from "@/src/urls";
+import VentaDetallePopup from "./VentaDetalle";
 
 const DetalleCliente = (props) =>
 {
     const [data, setData] = useState(null)
+    const [ventas, setVentas] = useState([])
+    const columns = [
+        {dataIndex: "idventa", title: "Nro."},
+        {dataIndex: "sucursal", title: "Sucursal"},
+        {dataIndex: "tipo", title: "Tipo"},
+        {dataIndex: "fecha", title: "Fecha"},
+        {dataIndex: "idventa", title:"", render:(_,{idventa})=>{
+            return <><VentaDetallePopup idventa={idventa} /></>
+        }}
+    ]
     useEffect(()=>{
         fetch(get.cliente_por_id + props.idcliente)
         .then(response=>response.json())
@@ -19,6 +30,22 @@ const DetalleCliente = (props) =>
                 idcliente: response.data[0].idcliente,
                 bloqueado: response.data[0].bloqueado,
             })
+        })
+       // alert(get.cliente_ventas_gral + props.idcliente)
+        fetch(get.cliente_ventas_gral + props.idcliente)
+        .then(response=>response.json())
+        .then((response)=>{
+            setVentas(
+                response.data.map(
+                    r=>({
+                        idventa: r.idventa,
+                        sucursal: r.sucursal,
+                        tipo: r.tipo,
+                        fecha: r.fecha_f,
+
+                    })
+                )
+            )
         })
     },[])
     return data == null ? <></>:
@@ -46,6 +73,11 @@ const DetalleCliente = (props) =>
     <Row>
         <Col span={"24"}>
             <span style={{color:"blueviolet"}}><SaldoCtaCte idcliente={data.idcliente} /></span>
+        </Col>
+    </Row>
+    <Row>
+        <Col span={24}>
+            <Table dataSource={ventas} columns={columns} />
         </Col>
     </Row>
     </>
