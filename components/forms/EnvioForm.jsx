@@ -94,7 +94,7 @@ const EnvioForm = (props) => {
                     cantidad: e.cantidad
                 }
             )
-            __cantidad+=e.cantidad;
+            __cantidad+=parseInt(e.cantidad);
         })
 
         __values.cantidad_total=__cantidad;

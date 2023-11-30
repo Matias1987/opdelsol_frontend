@@ -10,8 +10,18 @@ const DetalleCliente = (props) =>
     const [ventas, setVentas] = useState([])
     const columns = [
         {dataIndex: "idventa", title: "Nro."},
-        {dataIndex: "sucursal", title: "Sucursal"},
-        {dataIndex: "tipo", title: "Tipo"},
+        {dataIndex: "sucursal", title: "Sucursal", render:(_,{sucursal})=>{return <Tag>{sucursal}</Tag>}},
+        {dataIndex: "tipo", title: "Tipo", render:(_,{tipo})=>{
+            switch(+tipo)
+            {
+                case 1: return <b>DIRECTA</b>; 
+                case 2: return <b>REC STOCK</b>; 
+                case 3: return <b>LC STOCK</b>; 
+                case 4: return <b>MONOF LAB</b>; 
+                case 5: return <b>MULTI LAB</b>; 
+                case 6: return <b>LC LAB</b>; 
+            }
+        }},
         {dataIndex: "fecha", title: "Fecha"},
         {dataIndex: "idventa", title:"", render:(_,{idventa})=>{
             return <><VentaDetallePopup idventa={idventa} /></>
@@ -77,7 +87,9 @@ const DetalleCliente = (props) =>
     </Row>
     <Row>
         <Col span={24}>
-            <Table dataSource={ventas} columns={columns} />
+            <hr />
+            <b>Ventas</b>
+            <Table  dataSource={ventas} columns={columns} />
         </Col>
     </Row>
     </>
