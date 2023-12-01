@@ -109,12 +109,12 @@ export default function CobroOperacion(props){
             {
                 if(props.tipo=='entrega')
                 {
-                    post_method(post.cambiar_estado_venta,{idventa: dataVenta.idventa, estado: 'ENTREGADO'},(resp)=>{alert("OK"); setOpen(false); props?.callback?.()})
+                    post_method(post.cambiar_estado_venta,{idventa: dataVenta.idventa, estado: 'ENTREGADO',fecha_retiro: current_date_ymd()},(resp)=>{alert("OK"); setOpen(false); props?.callback?.()})
                 }
                 else{
                     if(entrega)
                     {
-                        post_method(post.cambiar_estado_venta,{idventa: dataVenta.idventa, estado: 'ENTREGADO'},(resp)=>{alert("OK"); setOpen(false); props?.callback?.()})
+                        post_method(post.cambiar_estado_venta,{idventa: dataVenta.idventa, estado: 'ENTREGADO',fecha_retiro: current_date_ymd()},(resp)=>{alert("OK"); setOpen(false); props?.callback?.()})
                     }
                     else{
                         post_method(post.cambiar_estado_venta,{idventa: dataVenta.idventa, estado: 'PENDIENTE'},(resp)=>{alert("OK"); setOpen(false); props?.callback?.()})
