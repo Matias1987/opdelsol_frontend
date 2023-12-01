@@ -2,7 +2,7 @@ import { Button, Table, Input, Row, Col } from "antd";
 import { useState } from "react";
 import { get, post } from "@/src/urls";
 import globals from "@/src/globals";
-import { CheckCircleFilled, CloseCircleFilled } from "@ant-design/icons";
+import { CheckCircleFilled, CloseCircleFilled, SearchOutlined } from "@ant-design/icons";
 import { post_method } from "@/src/helpers/post_helper";
 
 /**
@@ -19,11 +19,9 @@ const SearchStockVentas = (props) => {
     const [filtros, setFiltros] = useState({
         mainval: "", esf:"",cil:"",add:""
     })
-    const [srchVal, setSrchVal] = useState("")
-
-
-    const onSearch = (value) => {
-        const _srchval = `${value}${filtros.esf == "" ? "" : " ESF"+((parseFloat(filtros.esf)>0 ? "+" : "" ) + filtros.esf)}${filtros.cil == "" ? "" : " CIL" + (parseFloat(filtros.cil)>0 ? "+" : "" ) +filtros.cil}${filtros.add == "" ? "" : " ADD"+filtros.add}`
+    
+    const onSearch = () => {
+        const _srchval = `${filtros.mainval}${filtros.esf == "" ? "" : " ESF"+filtros.esf}${filtros.cil == "" ? "" : " CIL" + filtros.cil}${filtros.add == "" ? "" : " ADD"+filtros.add}`
         setLoading(true)
         //alert(_srchval)
         //console.log(JSON.stringify(props.idfamilias))
@@ -46,36 +44,59 @@ const SearchStockVentas = (props) => {
         )
     }
 
-    const onChange = () => {
+   /* const onChange = () => {
         setSrchVal(`${value}${filtros.esf == "" ? "" : " ESF"+filtros.esf}${filtros.cil == "" ? "" : " CIL"+filtros.cil}${filtros.add == "" ? "" : " ADD"+filtros.add}`)
-    }
+    }*/
 
     return (
         <>
         <Row>
             <Col span={24}>
-                <Input.Search 
+                <Input 
 
-                /*onChange={(e)=>{
+                onChange={(e)=>{
                     setFiltros(
                         _f=>({..._f,mainval:e.target.value})
                         )}
-                    }*/
+                    }
+
+                onKeyUp={(e)=>{
+                    if (e.key === 'Enter') {
+                        onSearch()
+                    }
+                }}
                     
-                onSearch={onSearch}  />
+                />
             </Col>
         </Row>
         <Row>
             <Col span={6}>
-                <Input step={.25} min={-20} max={20} prefix="Esf.:" value={filtros.esf} onChange={(e)=>{setFiltros(_f=>({..._f,esf:e.target.value}))}}/>
+                <Input step={.25} min={-20} max={20} prefix="Esf.:" value={filtros.esf} onKeyUp={(e)=>{
+                    if (e.key === 'Enter') {
+                        onSearch()
+                    }
+                }} onChange={(e)=>{setFiltros(_f=>({..._f,esf:e.target.value}))}}/>
             </Col>
             <Col span={6}>
-                <Input prefix="Cil.:" step={.25} min={-20} max={20} value={filtros.cil} onChange={(e)=>{setFiltros(_f=>({..._f,cil:e.target.value}))}}/>
+                <Input prefix="Cil.:" step={.25} min={-20} max={20} value={filtros.cil} onKeyUp={(e)=>{
+                    if (e.key === 'Enter') {
+                        onSearch()
+                    }
+                }}onChange={(e)=>{setFiltros(_f=>({..._f,cil:e.target.value}))}}/>
             </Col>
             <Col span={6}>
-                <Input prefix="Add.:" step={.25} min={-20} max={20} value={filtros.add} onChange={(e)=>{setFiltros(_f=>({..._f,add:e.target.value}))}}/>
+                <Input prefix="Add.:" step={.25} min={-20} max={20} value={filtros.add} onKeyUp={(e)=>{
+                    if (e.key === 'Enter') {
+                        onSearch()
+                    }
+                }}onChange={(e)=>{setFiltros(_f=>({..._f,add:e.target.value}))}}/>
             </Col>
             <Col span={6}><Button danger onClick={(e)=>{setFiltros(_f=>({esf:"", cil:"",add:""}))}}><CloseCircleFilled /></Button></Col>
+        </Row>
+        <Row>
+            <Col span={24}>
+                <Button onClick={onSearch} block><SearchOutlined /></Button>
+            </Col>
         </Row>
         <Row style={{height: "300px", overflowY: "scroll"}}>
             <Col span={24}>
