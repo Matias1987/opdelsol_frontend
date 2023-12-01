@@ -8,6 +8,7 @@ import globals from "@/src/globals";
 import VentaDetallePopup from "@/components/VentaDetalle";
 import CustomModal from "@/components/CustomModal";
 import { ReloadOutlined } from "@ant-design/icons";
+import ImprimirSobreVenta from "@/pages/v1/ventas/informes/sobre_venta";
 
 const BuscarVenta = (props)=>{
     const [open, setOpen] = useState(false)
@@ -136,6 +137,7 @@ const BuscarVenta = (props)=>{
             return <>
             <VentaDetallePopup idventa={idventa} />&nbsp;
             {show_buttons(estado,idventa,en_laboratorio)}
+            <ImprimirSobreVenta idventa={idventa} />
             </>
         }},
     ]} />
