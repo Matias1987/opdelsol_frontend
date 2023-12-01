@@ -39,7 +39,7 @@ const ListaVentas = (props) => {
     const buttons = (_idventa, _idcliente) => {
         return <>
             <><VentaDetallePopup idventa={_idventa} />&nbsp;&nbsp;</>
-            {typeof props.imprimir !== 'undefined' ?  <><ImprimirSobreVenta idventa={_idventa} />&nbsp;&nbsp;</>:<></>}
+            {typeof props.imprimir !== 'undefined' || true/* <-- TEMPORARY */ ?  <><ImprimirSobreVenta idventa={_idventa} />&nbsp;&nbsp;</>:<></>}
             {typeof props.cobrar !== 'undefined' ?  <>
             <CobroOperacion 
                 buttonText={typeof props.buttonText !== 'undefined' ? props.buttonText : "Cobrar"}

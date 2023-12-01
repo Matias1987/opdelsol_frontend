@@ -75,8 +75,8 @@ export default function FichaCliente(props){
             }
           
         }},
-        {dataIndex: 'debe',  title: 'Debe', align: 'right'},
-        {dataIndex: 'haber',  title: 'Haber', align: 'right'},
+        {dataIndex: 'debe',  title: 'Debe', align: 'right', render:(_,{debe})=>(<>{parseFloat(debe||0).toFixed(2)}</>)},
+        {dataIndex: 'haber',  title: 'Haber', align: 'right', render:(_,{haber})=>(<>{parseFloat(haber||0).toFixed(2)}</>)},
         { title: 'Saldo', align: 'right'},
     ]
 
@@ -137,13 +137,13 @@ export default function FichaCliente(props){
                                 <b>Totales</b>
                             </Table.Summary.Cell>
                             <Table.Summary.Cell align="right">
-                                <b>{total_debe}</b>
+                                <b>{total_debe.toFixed(2)}</b>
                             </Table.Summary.Cell>
                             <Table.Summary.Cell align="right">
-                                <b>{total_haber}</b>
+                                <b>{(total_haber).toFixed(2)}</b>
                             </Table.Summary.Cell>
                             <Table.Summary.Cell align="right">
-                                <b>{total_debe-total_haber}</b>
+                                <b>{(total_debe-total_haber).toFixed(2)}</b>
                             </Table.Summary.Cell>
                         </Table.Summary.Row>
                         </>
@@ -157,7 +157,7 @@ export default function FichaCliente(props){
     </Row>
     <Row>
         <Col span={24}>
-            <Input prefix={"Saldo: $ "} style={{backgroundColor:"lightblue"}} readOnly={true} value={saldo}/>
+            <Input prefix={"Saldo: $ "} style={{backgroundColor:"lightblue"}} readOnly={true} value={parseFloat(saldo).toFixed(2)}/>
         </Col>
     </Row>
     <Row>
