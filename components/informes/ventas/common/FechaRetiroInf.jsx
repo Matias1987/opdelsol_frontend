@@ -9,10 +9,10 @@ const FechaEntregaInf = (props) => (
 			<td style={{padding:"0", fontSize:".85em"}}>Fecha:</td>
 			<td style={{padding:"0", fontSize:".85em"}}>{props.data.fecha_formated}</td>
 		</tr>
-		<tr>
+		{/*<tr>
 			<td style={{padding:"0", fontSize:".85em"}}>Hora:</td>
 			<td style={{padding:"0", fontSize:".85em"}}>{props.data.hora == null ? "-" : props.data.hora}</td>
-		</tr>
+		</tr>*/}
 		<tr>
 			<td style={{padding:"0", fontSize:".85em"}}>Fecha Entrega:</td>
 			<td style={{padding:"0", fontSize:".85em"}}>{props.data.fecha_entrega_formated}</td>

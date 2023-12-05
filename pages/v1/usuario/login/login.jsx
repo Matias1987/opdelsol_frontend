@@ -46,7 +46,7 @@ export default function Login(){
             return;
 
         }
-        //alert("submit..")
+        //alert(urls.post.login)
         post_helper.post_method(urls.post.login,values,(res)=>{
             //alert(JSON.stringify(res))
             if(res.data.logged == 1){
@@ -67,9 +67,10 @@ export default function Login(){
                 setItem("laboratorio", res.data.udata.laboratorio)
                 globals.setUserLogedIn(1)
                 //globals.establecerSucursal(1);
-
+             
                 if (typeof window !== "undefined") {
-                        window.location.replace(urls.public_urls.modo)
+                    
+                        window.location.replace(urls.public_urls.auth)
                   }
                 
                 

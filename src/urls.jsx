@@ -7,6 +7,7 @@ const local_base_url = "http://localhost:3000/v1/"
 
 //const token = "&token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3QiLCJpYXQiOjE2ODI0NjEwMjksImV4cCI6MTY4MjQ2NDYyOX0.Unf5zmxNVQCJVD4qxSAcdcmsrs1s-q4h7Q0e2dYHHEo";
 const public_urls = {
+    auth: local_base_url + "usuario/auth/", 
     dashboard_admin : local_base_url + "admin/",
     dashboard_deposito : local_base_url + "deposito/",
     dashboard_venta : local_base_url + "ventas/",
@@ -102,6 +103,7 @@ const post = {
         destinatario: remote_base_url + "cliente/destinatario/",
         mensajes: remote_base_url + "mensajes/",
         pagare: remote_base_url + "pagares/",
+        session: remote_base_url + "usuarios/adds/"
     },
     update:{
         familia: remote_base_url + "familia/",
@@ -256,6 +258,8 @@ const get = {
     obtener_provincias: remote_base_url + "localidad/obtener_provincias/",
 
     cliente_ventas_gral: remote_base_url + "clientes/ventas_gral/",
+
+    check_session: remote_base_url + "usuarios/checks/",
 
 }
 

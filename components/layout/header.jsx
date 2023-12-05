@@ -40,6 +40,7 @@ const HeaderSol =(props)=> {
                     .then((response)=>{
                         window.location.replace(public_urls.login);
                     })
+                    .catch(err=>{console.log("error")})
                 }}>
 
                 <LogoutOutlined />Salir     

@@ -75,6 +75,10 @@ const items = [
     //label: (<Link href={"#"} onClick={()=>{alert("Buscar")}}>Buscar Venta</Link>),
     label: (<BuscarVenta />),
     key: '404',
+  },{
+    label: (<Link href={public_urls.ventas_ingresadas}>Autorizaciones Pendientes</Link>),
+    key: '10',
+    icon: <StarOutlined />,
   },
  
 ];
