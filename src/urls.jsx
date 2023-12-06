@@ -127,6 +127,7 @@ const post = {
         verificar_cantidades_productos: remote_base_url + "stock/verificar_cantidades_productos/",
 
         bloquear_cliente: remote_base_url + "clientes/bloquear/",
+        update_perm_request_status: remote_base_url + "usuarios/update_s/",
 
     },
 }
@@ -260,6 +261,8 @@ const get = {
     cliente_ventas_gral: remote_base_url + "clientes/ventas_gral/",
 
     check_session: remote_base_url + "usuarios/checks/",
+
+    lista_request: remote_base_url + "usuarios/l/sessions/"
 
 }
 

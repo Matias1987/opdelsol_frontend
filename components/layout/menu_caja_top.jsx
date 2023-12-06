@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link"
 import { public_urls } from "@/src/urls";
 import BuscarVenta from "../forms/ventas/BuscarVenta";
+import PopupAutPendientes from "../forms/caja/PopupAutorizacionesPendientes";
 
 const items = [
  
@@ -76,9 +77,8 @@ const items = [
     label: (<BuscarVenta />),
     key: '404',
   },{
-    label: (<Link href={public_urls.ventas_ingresadas}>Autorizaciones Pendientes</Link>),
+    label: (<PopupAutPendientes />),
     key: '10',
-    icon: <StarOutlined />,
   },
  
 ];

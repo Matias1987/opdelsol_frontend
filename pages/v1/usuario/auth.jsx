@@ -18,7 +18,7 @@ export default function Auth(){
             update()
             setCount(count + 1); 
             
-        }, 10000); 
+        }, 5000); 
         //Clearing the interval 
         return () => clearInterval(interval); 
     },[count]);
