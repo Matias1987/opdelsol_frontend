@@ -1,6 +1,7 @@
+import { post_method } from "@/src/helpers/post_helper"
+import { get, post } from "@/src/urls"
 import { EditOutlined } from "@ant-design/icons"
-import { Button, Col, Input, Row, Space } from "antd"
-import Modal from "antd/es/modal/Modal"
+import { Button, Col, Input, Modal, Row, Space } from "antd"
 
 const { useState } = require("react")
 
@@ -8,8 +9,10 @@ const EdicionClientePopup = (props) => {
     const [open, setOpen] = useState(false)
     const [cliente, setCliente] = useState({
         nombre: '',
-        cliente: '',
+        apellido: '',
         telefono: '',
+        direccion: '',
+        idcliente: '',
 
     })
     const [fechaNac, setFechaNac] = useState({
@@ -18,31 +21,77 @@ const EdicionClientePopup = (props) => {
         anio:""
     })
     const onOpen = () => {
-        fetch(url)
+        fetch(get.cliente_por_id + props.idcliente)
         .then(r=>r.json())
         .then((response)=>{
             setOpen(true)
+            if(response?.data==null || response?.data?.length<1)
+            {
+                alert("Error")
+                return
+            }
+            setCliente({
+                nombre: response.data[0].nombre,
+                apellido: response.data[0].apellido,
+                telefono: response.data[0].telefono1,
+                direccion: response.data[0].direccion,
+                idcliente: props.idcliente,
+            })
         })
         .catch(err=>{console.log("error")})
     }
     const onClose = () => {
+        setOpen(false)
+        setCliente({
+            nombre: '',
+            apellido: '',
+            telefono: '',
+            idcliente: '',
+            direccion: '',
+        })
+    }
 
+    const onPost = _ => {
+        const is_invalid = (_v) => (_v.trim()).match(/^[a-zA-Z\s0-9]{1,}$/g) == null
+        if(is_invalid(cliente.nombre))
+        {
+            alert("Nombre no válido")
+            return;
+        }
+        if(is_invalid(cliente.apellido))
+        {
+            alert("Apellido no válido")
+            return;
+        }
+        if(is_invalid(cliente.telefono))
+        {
+            alert("Teléfono no válido")
+            return;
+        }
+        post_method(post.update.update_cliente,cliente,(resp)=>{
+            alert("OK")
+            setOpen(false)
+            props?.callback?.()
+        })
     }
     
     return <>
     <Button onClick={onOpen} ><EditOutlined /></Button>
-    <Modal title="Editar Cliente">
+    <Modal open={open} title="Editar Cliente" onCancel={()=>{onClose()}} onOk={onPost}>
     <Row>
         <Col span={24}>
-            <Input prefix={"Apellido"} onChange={cliente.apellido} value={cliente.apellido} />
+            <Input prefix={"Apellido"} onChange={(e)=>{setCliente((__c)=>({...__c,apellido:e.target.value}))}} value={cliente.apellido} />
         </Col>
         <Col span={24}>
-            <Input prefix={"Nombre"} onChange={cliente.nombre} value={cliente.nombre} />
+            <Input prefix={"Nombre"} onChange={(e)=>{setCliente((__c)=>({...__c, nombre:e.target.value}))}} value={cliente.nombre} />
         </Col>
         <Col span={24}>
-            <Input prefix={"Telefono"} onChange={cliente.telefono} value={cliente.telefono} />
+            <Input prefix={"Telefono"} onChange={(e)=>{setCliente((__c)=>({...__c,telefono:e.target.value}))}} value={cliente.telefono} />
         </Col>
-        <Col span={20}>
+        <Col span={24}>
+            <Input prefix={"Dirección"} onChange={(e)=>{setCliente((__c)=>({...__c,direccion:e.target.value}))}} value={cliente.direccion} />
+        </Col>
+        {/*<Col span={20}>
             <Space>
                 <Space.Compact>
                     <Input 
@@ -86,7 +135,7 @@ const EdicionClientePopup = (props) => {
                     min="1900" />
                 </Space.Compact>
             </Space>
-        </Col>
+        </Col>*/}
     </Row>
     </Modal>
     </>

@@ -147,8 +147,8 @@ const Pagare = (props) => {
                             nombre: resp.data[0].nombre_completo,
                             dni: resp.data[0].dni,
                             telefono: resp.data[0].telefono1,
-                            domicilio: resp.data[0].domicilio,
-                            localidad: "-",
+                            domicilio: resp.data[0].direccion,
+                            localidad: resp.data[0].localidad,
                         })
                         fetch(get.obtener_categorias_productos_venta + props.fkventa)
                         .then(r=>r.json())

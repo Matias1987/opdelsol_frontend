@@ -128,6 +128,7 @@ const post = {
 
         bloquear_cliente: remote_base_url + "clientes/bloquear/",
         update_perm_request_status: remote_base_url + "usuarios/update_s/",
+        update_cliente: remote_base_url + "clientes/edit_c/",
 
     },
 }

@@ -12,13 +12,18 @@ export default function PrinterWrapper({ children }) {
         body{
             background-color: white;
             color: black;
+            font-size: 0.25em;
         }
         td, th {
             background-color: white;
             color: black;
+            padding: 0;
+            font-size: .75em;
+            border: 1px solid black;
         }
         table{
             border: 1px solid black;
+            padding: 0;
         }
     `
     const componentRef = useRef();

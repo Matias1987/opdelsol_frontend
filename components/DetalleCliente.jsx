@@ -3,9 +3,11 @@ import SaldoCtaCte from "./SaldoCtaCte";
 import { useEffect, useState } from "react";
 import { get } from "@/src/urls";
 import VentaDetallePopup from "./VentaDetalle";
+import EdicionClientePopup from "./forms/EdicionCliente";
 
 const DetalleCliente = (props) =>
 {
+    const [reload, setReload] = useState(false)
     const [data, setData] = useState(null)
     const [ventas, setVentas] = useState([])
     const columns = [
@@ -57,7 +59,7 @@ const DetalleCliente = (props) =>
                 )
             )
         })
-    },[])
+    },[reload])
     return data == null ? <></>:
      <>
      <Divider />
@@ -76,6 +78,11 @@ const DetalleCliente = (props) =>
     <Row>
         <Col span={"6"}>Direcci&oacute;n:</Col>
         <Col span={"12"}><b>{data.direccion}</b></Col>
+    </Row>
+    <Row>
+        <Col span={24}>
+            <EdicionClientePopup callback={()=>{setReload(!reload)}} idcliente={props.idcliente} />
+        </Col>
     </Row>
     {
         data.bloqueado==1 ? <><Row><Col span={24}> <Tag color="red">BLOQUEADO</Tag> </Col></Row></>:<></>
