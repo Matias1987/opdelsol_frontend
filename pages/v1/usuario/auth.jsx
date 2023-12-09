@@ -1,4 +1,5 @@
 import LayoutSingle from "@/components/layout/layout_single";
+import SucursalLabel from "@/components/sucursal_label";
 import globals from "@/src/globals";
 import { post_method } from "@/src/helpers/post_helper";
 import { get, post, public_urls } from "@/src/urls";
@@ -107,13 +108,18 @@ export default function Auth(){
 
     return <>
     <Row>
+        <Col span={24} style={{backgroundColor:"black", color:"white"}}>
+            Sucursal: <SucursalLabel idsucursal={globals.obtenerSucursal()} />
+        </Col>
+    </Row>
+    <Row>
         <Col span={24}>
-        <Alert
-            message={`${message}`}
-        />
-        
-        {request === null ? <Spin /> : <>
-        </>}
+            <Alert
+                message={`${message}`}
+            />
+            
+            {request === null ? <Spin /> : <>
+            </>}
         </Col>
     </Row>
     <Row>

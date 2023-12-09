@@ -263,7 +263,9 @@ const get = {
 
     check_session: remote_base_url + "usuarios/checks/",
 
-    lista_request: remote_base_url + "usuarios/l/sessions/"
+    lista_request: remote_base_url + "usuarios/l/sessions/",
+
+    admin_totales_sucursal: remote_base_url + "admin/",
 
 }
 

@@ -80,16 +80,16 @@ const EdicionClientePopup = (props) => {
     <Modal open={open} title="Editar Cliente" onCancel={()=>{onClose()}} onOk={onPost}>
     <Row>
         <Col span={24}>
-            <Input prefix={"Apellido"} onChange={(e)=>{setCliente((__c)=>({...__c,apellido:e.target.value}))}} value={cliente.apellido} />
+            <Input style={{backgroundColor:"rgba(110,127,128,0.3)"}} prefix={"Apellido:"} onChange={(e)=>{setCliente((__c)=>({...__c,apellido:e.target.value}))}} value={cliente.apellido} />
         </Col>
         <Col span={24}>
-            <Input prefix={"Nombre"} onChange={(e)=>{setCliente((__c)=>({...__c, nombre:e.target.value}))}} value={cliente.nombre} />
+            <Input style={{backgroundColor:"rgba(110,127,128,0.3)"}} prefix={"Nombre:"} onChange={(e)=>{setCliente((__c)=>({...__c, nombre:e.target.value}))}} value={cliente.nombre} />
         </Col>
         <Col span={24}>
-            <Input prefix={"Telefono"} onChange={(e)=>{setCliente((__c)=>({...__c,telefono:e.target.value}))}} value={cliente.telefono} />
+            <Input style={{backgroundColor:"rgba(110,127,128,0.3)"}} prefix={"Telefono:"} onChange={(e)=>{setCliente((__c)=>({...__c,telefono:e.target.value}))}} value={cliente.telefono} />
         </Col>
         <Col span={24}>
-            <Input prefix={"Dirección"} onChange={(e)=>{setCliente((__c)=>({...__c,direccion:e.target.value}))}} value={cliente.direccion} />
+            <Input style={{backgroundColor:"rgba(110,127,128,0.3)"}} prefix={"Dirección:"} onChange={(e)=>{setCliente((__c)=>({...__c,direccion:e.target.value}))}} value={cliente.direccion} />
         </Col>
         {/*<Col span={20}>
             <Space>
