@@ -11,6 +11,7 @@ const SucursalLabel = (props) => {
         .then((response)=>{
             setData(response.data)
         })
+        .catch(e=>{console.log("error")})
     },[])
 
     return typeof data === 'undefined' || data === null ? <Spin /> : (

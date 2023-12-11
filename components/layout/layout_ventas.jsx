@@ -8,6 +8,7 @@ import globals from "@/src/globals";
 import MenuVentasTop from "./menu_ventas_top";
 import Alerts from "./alert_container";
 import HeaderSol from "./header";
+import MenuV2 from "./menu_v2";
 
 export default function LayoutVentas(props){
     const { Header, Sider, Content } = Layout;
@@ -83,6 +84,7 @@ export default function LayoutVentas(props){
             }}/>
             
             <MenuVentasTop />
+            {/*<MenuV2 />*/}
             <Content style={{ margin: '40px 100px', padding: 24,  borderRadius:"15px", minHeight: 580 }}>
             {
                 (alerta!="") ? <><Alert key={alerta} message={alerta} type="error" showIcon/></>:<></>

@@ -1,22 +1,19 @@
 import { get, public_urls } from "@/src/urls";
 import useStorage from "@/useStorage";
 import { LogoutOutlined } from "@ant-design/icons";
-import { Alert, Anchor, Button, Col, Input, Layout, Row } from "antd";
+import { Alert, Button, Layout } from "antd";
 import { useEffect, useState } from "react";
 import SucursalLabel from "../sucursal_label";
 import globals from "@/src/globals";
-import MenuCajaTop from "./menu_caja_top";
+import MenuVentasTop from "./menu_ventas_top";
 import Alerts from "./alert_container";
 import HeaderSol from "./header";
-import Chat from "../chat/chat";
 import MenuV2 from "./menu_v2";
 
-export default function LayoutCaja(props){
+export default function LayoutDepositoMin(props){
     const { Header, Sider, Content } = Layout;
-
-    const { getItem } = useStorage();
     const [alerta, setAlerta] = useState("")
-
+    const { getItem } = useStorage();
     const validate_user = () => {
 
         const _token = getItem("token",'session')
@@ -40,7 +37,6 @@ export default function LayoutCaja(props){
                     window.location.replace(public_urls.login)
                 }
                 else{
-                    console.log("user validated")
                     //_t  = validate_user();
                     validate_user();
                 }
@@ -75,29 +71,26 @@ export default function LayoutCaja(props){
     }
   useEffect(()=>{
     //console.log("run user effect")
-
-    if(!globals.esUsuarioCaja1())
+    if(!globals.esUsuarioVentas())
     {
         window.location.replace(public_urls.modo)
     }
-    
     validate_user()
-    //globals.validate_user(window)
   },[])
     return (
-        <Layout className='layout' style={{minHeight: 1200}}>
-
-                <HeaderSol tipoCuenta="CAJA" displaymodechange={(__c)=>{
+        <Layout style={{ padding:0}} className='layout'>
+            <HeaderSol tipoCuenta="Deposito" displaymodechange={(__c)=>{
                 props?.displaymodechange?.(__c)
-                    }}/>
-                {/*<MenuCajaTop />*/}
-                {<MenuV2 />}
-            <Content style={{ margin: '40px 100px', padding: 24, borderRadius:"15px", overflowY:'scroll' }}>
-                {
-                    (alerta!="") ? <><Alert key={alerta} message={alerta} type="error" showIcon/></>:<></>
-                }
+            }}/>
+            
+            
+            <MenuV2 />
+            <Content style={{ margin: '40px 100px', padding: 24,  borderRadius:"15px", minHeight: 580 }}>
+            {
+                (alerta!="") ? <><Alert key={alerta} message={alerta} type="error" showIcon/></>:<></>
+            }
+            {/*<Alerts />*/}
                 {props.children}
-                {/*<Chat />*/}
             </Content>
         </Layout>
     )

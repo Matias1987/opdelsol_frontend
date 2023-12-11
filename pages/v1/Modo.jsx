@@ -9,6 +9,7 @@ import { getItem } from "localforage";
   export default function Modo(){
 
     const [permisos, setPermisos] = useState(null)
+    const [redirecting, setRedirecting] = useState(false)
 
     useEffect(()=>{
       setPermisos(p => {
@@ -23,6 +24,20 @@ import { getItem } from "localforage";
         }
         return _t
       })
+
+      /**
+       * if the user is only ventas or caja, redirect
+       */
+
+      const stay = globals.esUsuarioDeposito() || globals.esUsuarioLaboratorio() || globals.esUsuarioAdmin() || globals.esUsuarioAdminMin();
+      setRedirecting(!stay)
+      if(!stay)
+      {
+        if(globals.esUsuarioVentas() || globals.esUsuarioCaja1())
+        {
+          window.location.replace(public_urls.dashboard_caja)
+        }
+      }
 
     },[])
 
@@ -174,7 +189,7 @@ import { getItem } from "localforage";
 <>
 <Card title="" size="small" style={{paddingLeft:"40%", paddingRight:"40%"}} >
         {
-        buttons()
+        redirecting? <></> : buttons()
         }
         
       </Card>

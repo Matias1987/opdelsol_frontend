@@ -10,6 +10,7 @@ const public_urls = {
     auth: local_base_url + "usuario/auth/", 
     dashboard_admin : local_base_url + "admin/",
     dashboard_deposito : local_base_url + "deposito/",
+    dashboard_deposito_min : local_base_url + "deposito/index_min",
     dashboard_venta : local_base_url + "ventas/",
     dashboard_caja : local_base_url + "caja/",
     dashboard_laboratorio : local_base_url + "laboratorio/",
@@ -56,6 +57,8 @@ const public_urls = {
     arbol_codigos: local_base_url + "deposito/arbol_codigos",
 
     editar_precios: local_base_url + "deposito/stock/editar_precios",
+
+    bajar_envios: local_base_url + "deposito/envio/descargar_envio",
 }
 
 

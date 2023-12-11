@@ -70,7 +70,8 @@ export default function Login(){
              
                 if (typeof window !== "undefined") {
                     
-                        window.location.replace(urls.public_urls.auth)
+                        //window.location.replace(urls.public_urls.auth)
+                        window.location.replace(urls.public_urls.modo)
                   }
                 
                 

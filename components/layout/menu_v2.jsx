@@ -1,0 +1,142 @@
+import BuscarVenta from "../forms/ventas/BuscarVenta";
+import { Menu } from "antd";
+const { default: globals } = require("@/src/globals");
+const { public_urls } = require("@/src/urls");
+const { MenuOutlined, MailOutlined, AppstoreOutlined, SettingOutlined } = require("@ant-design/icons");
+
+const { useState, useEffect } = require("react");
+import Link from "next/link"
+
+
+
+export default function MenuV2(props){
+   const [current, setCurrent] = useState('mail');
+
+   const _menu_deposito_min = {
+    label: 'Menú Depósito',
+    key: 'SubMenuStockMin',
+    disabled: !globals.esUsuarioDepositoMin(),
+    children: [{
+      key: '201',
+      label: (<Menu.Item><Link href={public_urls.bajar_envios}>Descargar Env&iacute;o  </Link></Menu.Item>),
+    }
+  ]
+  }
+
+  const menu_ventas = {
+    label: 'Menú Ventas',
+    key: 'SubMenuVentas',
+    disabled: !globals.esUsuarioVentas(),
+    children: [
+      {
+        key: '1',
+        label: (<Menu.Item><Link href={public_urls.venta_directa}>Venta Directa  </Link></Menu.Item>),
+      },
+      {
+        key: '2',
+        label: (<Menu.Item><Link href={public_urls.venta_recetastock}>Venta Receta Stock</Link></Menu.Item>),
+      },
+      {
+        key: '3',
+        label: (<Menu.Item><Link href={public_urls.venta_monoflab}>Venta Monofocales Laboratorio</Link></Menu.Item>),
+      },
+      {
+        key: '4',
+        label: (<Menu.Item><Link href={public_urls.venta_multilab}>Venta Multifocales Laboratorio</Link></Menu.Item>),
+      },
+      {
+        key: '5',
+        label: (<Menu.Item><Link href={public_urls.venta_lcstock}>Venta L.C. Stock</Link></Menu.Item>),
+      },
+      {
+        key: '6',
+        label: (<Menu.Item><Link href={public_urls.venta_lclab}>Venta L.C. Laboratorio</Link></Menu.Item>),
+      },
+      
+    ],
+  }
+
+  const menu_caja = {
+    label: 'Menú Caja',
+    key: 'SubMenuCaja',
+    disabled: !globals.esUsuarioCaja1(),
+    children: [
+      {
+        key: '100',
+        label: (<Menu.Item><Link style={{color:"red"}} href={public_urls.ventas_ingresadas}>Operaciones Ingresadas  </Link></Menu.Item>)
+      },
+      {
+        key: '101',
+        label: (<Menu.Item><Link href={public_urls.lista_clientes_caja}>Clientes  </Link></Menu.Item>),
+      },
+      {
+        key: '102',
+        label: (<Menu.Item><Link href={public_urls.ventas_pendientes}>Operaciones Pendientes En Sucursal</Link></Menu.Item>),
+      },
+      {
+        key: '113',
+        label: (<Menu.Item><Link href={public_urls.ventas_pendientes_lab}>Operaciones Pendientes En Taller</Link></Menu.Item>),
+      },
+      {
+        key: '103',
+        label: (<Menu.Item><Link href={public_urls.ventas_terminadas}>Operaciones Terminadas</Link></Menu.Item>),
+      },
+      {
+        key: '107',
+        label: (<Menu.Item><Link href={public_urls.ventas_entregadas}>Operaciones Entregadas</Link></Menu.Item>),
+      },
+      {
+        key: '108',
+        label: (<Menu.Item><Link href={public_urls.ventas_anuladas}>Operaciones Anuladas</Link></Menu.Item>),
+      },
+      {
+        key: '109',
+        label: (<Menu.Item><Link href={public_urls.lista_cobros_sucursal}>Cobros</Link></Menu.Item>),
+      },
+      {
+        key: '104',
+        label: (<Menu.Item><Link href={public_urls.lista_gastos}>Gastos</Link></Menu.Item>),
+      },
+      {
+        key: '105',
+        label: (<Menu.Item><Link href={public_urls.caja_admin}>Caja</Link></Menu.Item>),
+      },
+      
+      {
+        key: '112',
+        label: (<Menu.Item><Link href={public_urls.transferencias}>Transferencias</Link></Menu.Item>),
+      },
+     
+      
+    ],
+  } 
+   const items = [
+    menu_caja, 
+    menu_ventas,
+    _menu_deposito_min
+   ]
+
+   useEffect(()=>{
+
+   },[])
+  
+
+
+    
+
+
+
+      const _style_ = {
+        background: "rgb(34,193,195)",
+        background: "linear-gradient(81deg, rgba(34,193,195,1) 0%, rgba(253,187,45,1) 100%)",
+        color: "black",
+        //backgroundColor:"#6CA12B",
+      }
+
+      const onClick = (e) => {
+        console.log('click ', e);
+        setCurrent(e.key);
+      };
+
+      return <Menu  style={_style_}  onClick={onClick} selectedKeys={[current]} mode={ typeof props.mode === 'undefined' ? "horizontal" : props.mode} items={items} />;
+}

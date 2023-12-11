@@ -12,6 +12,7 @@ import MenuDepositoMinTop from './menu_deposito_min_top';
 import MenuSideDepositoMin from './menu_side_desposito_min';
 import { redirect } from 'next/dist/server/api-utils';
 import HeaderSol from './header';
+import MenuV2 from './menu_v2';
 
 
 export default function MyLayout(props){
@@ -78,7 +79,7 @@ export default function MyLayout(props){
                         <TestMenu />
                     </>:
                     uDepositoMin?<>
-                        <MenuSideDepositoMin />
+                        <MenuV2 mode="vertical"/>
                     </>:<></>
                     }
                 </Sider>
