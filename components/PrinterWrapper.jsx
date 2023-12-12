@@ -19,10 +19,10 @@ export default function PrinterWrapper({ children }) {
             color: black;
             padding: 0;
             font-size: .85em;
-            border: 1px solid black;
+            border: 0px solid black;
         }
         table{
-            border: 1px solid black;
+            border: 0px solid black;
             padding: 0;
         }
     `
