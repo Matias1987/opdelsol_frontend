@@ -1,4 +1,4 @@
-const remote_base_url = "http://54.90.66.197:3001/api/v1/"
+const remote_base_url = "http://54.174.39.15:3001/api/v1/"
 const local_base_url = "http://gestion.opticadelsol.com/v1/"
 //const local_base_url = "http://54.90.66.197:3000/v1/"
 
