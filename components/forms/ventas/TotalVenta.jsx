@@ -7,9 +7,10 @@ const TotalesVenta = (props) => {
     
     const onDescuentoChange = (e)=>{
         setDescuento((descuento)=>{
-            props?.callback?.(e.target.value)
-            setTotal(e.target.value)
-            return e.target.value
+            const _n = parseFloat(e.target.value.length<1 ? 0 : e.target.value )
+            props?.callback?.(_n)
+            setTotal(_n)
+            return _n
         })
     }
 

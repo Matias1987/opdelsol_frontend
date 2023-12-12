@@ -73,7 +73,6 @@ const items = [
     icon: <StarOutlined />,
   },
   {
-    //label: (<Link href={"#"} onClick={()=>{alert("Buscar")}}>Buscar Venta</Link>),
     label: (<BuscarVenta />),
     key: '404',
   },{

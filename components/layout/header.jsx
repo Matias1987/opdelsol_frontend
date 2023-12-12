@@ -15,7 +15,10 @@ const HeaderSol =(props)=> {
     const { Header, Sider, Content } = Layout;
     const { getItem } = useStorage();
     const [uname, setUName] = useState('')
+    const [soloVtasCaja, setCambiarModo] = useState(true)
     useEffect(()=>{
+        //alert(globals.obtenerSoloVtaCajaUser())
+        setCambiarModo(globals.obtenerSoloVtaCajaUser())
         setUName(globals.obtenerUserName())
     },[])
     return(    
@@ -46,11 +49,14 @@ const HeaderSol =(props)=> {
                 <LogoutOutlined />Salir     
                 </Button>
                 &nbsp;&nbsp;
-                <Button type="link" style={{color:"white", padding:".5em"}} onClick={(e)=>{
+                {
+                    soloVtasCaja ? <></> :  
+                    <Button type="link" style={{color:"white", padding:".5em"}} onClick={(e)=>{
                     window.location.replace(public_urls.modo);
-                }}>
-                    Cambiar Modo
-                </Button>
+                    }}>
+                        Cambiar Modo
+                    </Button>
+                    }
                 &nbsp;&nbsp;
                 {/*<Switch defaultChecked checkedChildren={<> </>} unCheckedChildren={<> </>} onChange={(c)=>{
                     props?.displaymodechange?.(c)

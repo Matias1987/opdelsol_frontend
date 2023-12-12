@@ -2,7 +2,7 @@ import BuscarVenta from "../forms/ventas/BuscarVenta";
 import { Menu } from "antd";
 const { default: globals } = require("@/src/globals");
 const { public_urls } = require("@/src/urls");
-const { MenuOutlined, MailOutlined, AppstoreOutlined, SettingOutlined } = require("@ant-design/icons");
+const { MenuOutlined, StarOutlined } = require("@ant-design/icons");
 
 const { useState, useEffect } = require("react");
 import Link from "next/link"
@@ -10,11 +10,12 @@ import Link from "next/link"
 
 
 export default function MenuV2(props){
-   const [current, setCurrent] = useState('mail');
+   const [current, setCurrent] = useState(globals.esUsuarioVentas() ? "SubMenuVentas" : "SubMenuCaja");
 
    const _menu_deposito_min = {
     label: 'Menú Depósito',
     key: 'SubMenuStockMin',
+    icon: <MenuOutlined />,
     disabled: !globals.esUsuarioDepositoMin(),
     children: [{
       key: '201',
@@ -26,6 +27,7 @@ export default function MenuV2(props){
   const menu_ventas = {
     label: 'Menú Ventas',
     key: 'SubMenuVentas',
+    icon: <MenuOutlined />,
     disabled: !globals.esUsuarioVentas(),
     children: [
       {
@@ -59,6 +61,7 @@ export default function MenuV2(props){
   const menu_caja = {
     label: 'Menú Caja',
     key: 'SubMenuCaja',
+    icon: <MenuOutlined />,
     disabled: !globals.esUsuarioCaja1(),
     children: [
       {
@@ -113,29 +116,33 @@ export default function MenuV2(props){
    const items = [
     menu_caja, 
     menu_ventas,
-    _menu_deposito_min
+    _menu_deposito_min,
+    {
+      label: (<Link href={globals.esUsuarioCaja1() ? public_urls.lista_clientes_caja : public_urls.lista_clientes_ventas}>Clientes</Link>),
+      key: '11',
+      icon: <StarOutlined />,
+    },
+    {
+      label: (<BuscarVenta />),
+      key: '404',
+    }
    ]
 
-   useEffect(()=>{
-
-   },[])
-  
-
-
-    
-
-
-
-      const _style_ = {
+      /*const _style_ = {
         background: "rgb(34,193,195)",
         background: "linear-gradient(81deg, rgba(34,193,195,1) 0%, rgba(253,187,45,1) 100%)",
         color: "black",
-        //backgroundColor:"#6CA12B",
+      }*/
+      const _style_ = {
+        background: "rgb(34,193,195)",
+        background: "linear-gradient(81deg, rgba(201,216,231,1)  0%, rgba(237,237,237,1) 100%)",
+        color: "black",
       }
 
       const onClick = (e) => {
-        console.log('click ', e);
+        //console.log('click ', e);
         setCurrent(e.key);
+        //alert(e.key)
       };
 
       return <Menu  style={_style_}  onClick={onClick} selectedKeys={[current]} mode={ typeof props.mode === 'undefined' ? "horizontal" : props.mode} items={items} />;

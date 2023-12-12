@@ -2,6 +2,17 @@ import useStorage from "../useStorage"
 import { parse_DMY_date } from "./helpers/string_helper";
 import { get, public_urls } from "./urls";
 const globals =  {
+
+    establecerUserSoloVentaCaja: (val) => {
+        const {setItem} = useStorage()
+        setItem("soloVtaCaja",val)
+    },
+
+    obtenerSoloVtaCajaUser: () => {
+        const {getItem} = useStorage();
+        return getItem("soloVtaCaja");
+    },
+
     establecerSucursal: (idsucursal) =>
     {
         const {setItem} = useStorage();

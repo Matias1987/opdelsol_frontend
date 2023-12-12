@@ -95,7 +95,7 @@ const SearchStockVentas = (props) => {
         </Row>
         <Row>
             <Col span={24}>
-                <Button onClick={onSearch} block><SearchOutlined /></Button>
+                <Button type="primary" size="small" onClick={onSearch} block><SearchOutlined /> Buscar</Button>
             </Col>
         </Row>
         <Row style={{height: "300px", overflowY: "scroll"}}>

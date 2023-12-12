@@ -30,12 +30,20 @@ import { getItem } from "localforage";
        */
 
       const stay = globals.esUsuarioDeposito() || globals.esUsuarioLaboratorio() || globals.esUsuarioAdmin() || globals.esUsuarioAdminMin();
+      globals.establecerUserSoloVentaCaja(!stay)
       setRedirecting(!stay)
       if(!stay)
       {
         if(globals.esUsuarioVentas() || globals.esUsuarioCaja1())
         {
-          window.location.replace(public_urls.dashboard_caja)
+          if(globals.esUsuarioVentas())
+          {
+            window.location.replace(public_urls.dashboard_venta)
+          }
+          else{
+            window.location.replace(public_urls.dashboard_caja)
+          }
+          
         }
       }
 

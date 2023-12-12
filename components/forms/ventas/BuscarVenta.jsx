@@ -136,7 +136,7 @@ const BuscarVenta = (props)=>{
         {title:'Acciones', dataIndex:'idventa', render:(_,{idventa, estado, en_laboratorio})=>{
             return <>
             <VentaDetallePopup idventa={idventa} />&nbsp;
-            {show_buttons(estado,idventa,en_laboratorio)}
+            { globals.esUsuarioCaja1() ? show_buttons(estado,idventa,en_laboratorio) : <></>}
             <ImprimirSobreVenta idventa={idventa} />
             </>
         }},

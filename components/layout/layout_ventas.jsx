@@ -83,8 +83,8 @@ export default function LayoutVentas(props){
                 props?.displaymodechange?.(__c)
             }}/>
             
-            <MenuVentasTop />
-            {/*<MenuV2 />*/}
+            {/*<MenuVentasTop />*/}
+            <MenuV2 />
             <Content style={{ margin: '40px 100px', padding: 24,  borderRadius:"15px", minHeight: 580 }}>
             {
                 (alerta!="") ? <><Alert key={alerta} message={alerta} type="error" showIcon/></>:<></>
