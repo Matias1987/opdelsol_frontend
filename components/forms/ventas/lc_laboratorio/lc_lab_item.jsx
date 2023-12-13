@@ -3,6 +3,7 @@ import { useRef, useState } from "react";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import SelectCodigoVenta from "../SelectCodigoVenta";
 import globals from "@/src/globals";
+import { parse_float_string } from "@/src/helpers/string_helper";
 
 const LCLabItem = (props) =>{
     const [visible, setVisible] = useState(false);
@@ -11,7 +12,10 @@ const LCLabItem = (props) =>{
         codigo: null,
         precio: 0,
         cantidad:1,
+        esf: "",
+        cil: "",
         cb: 0,
+        eje: "",
         diametro: 0,
     })
     const on_codigo_change = (val) => {
@@ -34,7 +38,7 @@ const LCLabItem = (props) =>{
     const on_precio_change = (v) => {
         
         setLC((_LC)=>{
-            const __LC = {..._LC, precio: v};
+            const __LC = {..._LC, precio: parse_float_string(v)};
             props?.callback?.(__LC);
             return __LC;    
         })

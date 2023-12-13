@@ -3,6 +3,7 @@ import SelectCodigoVenta from "./SelectCodigoVenta";
 import { useRef, useState } from "react";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import globals from "@/src/globals";
+import { parse_float_string } from "@/src/helpers/string_helper";
 
 const VentasArmazon = (props) => {
     const [visible, setVisible] = useState(false);
@@ -19,7 +20,7 @@ const VentasArmazon = (props) => {
         setArmazon(
             (__armazon) => 
             { 
-                const _armazon = {...__armazon,precio: e.target.value};
+                const _armazon = {...__armazon,precio: parse_float_string(e.target.value)};
                 props.callback(_armazon); 
                 return _armazon; 
             })

@@ -3,6 +3,7 @@ import SelectCodigoVenta from "../SelectCodigoVenta";
 import { useRef, useState } from "react";
 import { DeleteOutlined } from "@ant-design/icons";
 import globals from "@/src/globals";
+import { parse_float_string, parse_int_string, round_float } from "@/src/helpers/string_helper";
 
 const LCItem = (props) => {
     const [visible, setVisible] = useState(false);
@@ -30,7 +31,7 @@ const LCItem = (props) => {
 
     const onCantidadChange = (value) => {
         setLC((lc)=>{
-            const _lc = {...lc,cantidad:value, total: (lc.precio * value)};
+            const _lc = {...lc,cantidad:value, total: round_float(lc.precio * value)};
             props?.callback?.(_lc);
             return _lc;
         });
@@ -38,7 +39,7 @@ const LCItem = (props) => {
 
     const onPrecioChange = (value) => {
         setLC((lc)=>{
-            const _lc = {...lc,precio:value, total: (lc.cantidad * value)};
+            const _lc = {...lc,precio:value, total: round_float(lc.cantidad * value)};
             props?.callback?.(_lc);
             return _lc;
         });
@@ -65,13 +66,13 @@ const LCItem = (props) => {
                 </Col>
                 
                 <Col span={4}>
-                    <Input size="small" type="number" addonBefore="Precio: " readOnly={false} value={lc.precio} onChange={(v)=>{onPrecioChange(v.target.value)}}/>
+                    <Input size="small" type="number" addonBefore="Precio: " readOnly={false} value={lc.precio} onChange={(v)=>{onPrecioChange(parse_float_string(v.target.value))}}/>
                 </Col>
                 <Col span={4}>
-                    <InputNumber size="small" addonBefore="Cant.:" addonAfter={"/"+(typeof lc.max === 'undefined' ? 0 : lc.max)} max={typeof lc.max === 'undefined' ? 0 : lc.max } value={lc.cantidad} onChange={(v)=>{onCantidadChange(v)}} />
+                    <InputNumber size="small" addonBefore="Cant.:" addonAfter={"/"+(typeof lc.max === 'undefined' ? 0 : lc.max)} max={typeof lc.max === 'undefined' ? 0 : lc.max } value={lc.cantidad} onChange={(v)=>{onCantidadChange(parse_int_string(v))}} />
                 </Col>
                 <Col span={4}>
-                    <Input style={{backgroundColor:"rgba(131,137,150, 0.4)"}} size="small" readOnly prefix={"Total:"} value={lc.cantidad * lc.precio} />&nbsp;
+                    <Input style={{backgroundColor:"rgba(131,137,150, 0.4)"}} size="small" readOnly prefix={"Total:"} value={lc.total} />&nbsp;
                 </Col>
                 <Col span={1}>
                     <Button size="small" danger  onClick={()=>{onRemove()}}><DeleteOutlined/></Button>

@@ -3,6 +3,7 @@ import SelectCodigoVenta from "./SelectCodigoVenta";
 import { useRef, useState } from "react";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import globals from "@/src/globals";
+import { parse_float_string } from "@/src/helpers/string_helper";
 
 const VentasInsumo = (props) => {
     const [visible, setVisible] = useState(false);
@@ -27,7 +28,7 @@ const VentasInsumo = (props) => {
     const on_precio_change = (e) => {
         
         setInsumo((_insumo_)=>{
-            const __insumo = {..._insumo_, precio: e.target.value};
+            const __insumo = {..._insumo_, precio: parse_float_string(e.target.value)};
             props?.callback?.(__insumo);
             return __insumo;    
         })

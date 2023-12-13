@@ -4,6 +4,7 @@ import SelectCodigoVenta from "../SelectCodigoVenta";
 import { useEffect, useRef, useState } from "react";
 import { DeleteOutlined } from "@ant-design/icons";
 import globals from "@/src/globals";
+import { parse_float_string } from "@/src/helpers/string_helper";
 
 const MultifLabCristal = (props) => {
     const [visible, setVisible] = useState(false);
@@ -99,7 +100,7 @@ const MultifLabCristal = (props) => {
         setPrecio(e.target.value)
         props.callback(cristal)*/
         setCristal((_cristal)=>{
-            const __cristal = {..._cristal,precio:e.target.value}
+            const __cristal = {..._cristal,precio:parse_float_string(e.target.value)}
             props?.callback(__cristal)
             return __cristal
         })

@@ -3,6 +3,7 @@ import SelectCodigoVenta from "../SelectCodigoVenta";
 import { useEffect, useRef, useState } from "react";
 import { DeleteOutlined } from "@ant-design/icons";
 import globals from "@/src/globals";
+import { parse_float_string } from "@/src/helpers/string_helper";
 
 const RecStockCristal = (props) => {
     const [visible, setVisible] = useState(false);
@@ -94,7 +95,7 @@ const RecStockCristal = (props) => {
                 </Col>
                 <Col span={4}>
                     {/*<span>&nbsp;&nbsp;Precio: </span><input readOnly onChange={onchange_precio} ref={precioRef} style={{textAlign:"right", width:"100px", border: "1px solid #ccc", borderRadius:"6px", borderColor:"lightgray", padding:".4em", fontSize:"1.1em"}} />*/}
-                    <Input type="number" value={cristal.precio} readOnly={false} onChange={(e)=>{onchange_precio({precio:e.target.value})}} size="small" style={{backgroundColor:"rgba(131,137,150, 0.4)"}} prefix="Precio: " />
+                    <Input type="number" value={cristal.precio} readOnly={false} onChange={(e)=>{onchange_precio({precio: parse_float_string(e.target.value)})}} size="small" style={{backgroundColor:"rgba(131,137,150, 0.4)"}} prefix="Precio: " />
                 </Col>
                 <Col span={1}>
                     <Button danger size="small" onClick={()=>{onRemove()}}><DeleteOutlined/></Button>

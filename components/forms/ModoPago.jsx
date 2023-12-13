@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import CustomModal from "../CustomModal";
 import { DeleteFilled, ForwardFilled, PlayCircleFilled, PlaySquareFilled, PlaySquareTwoTone, RedoOutlined, RightCircleFilled } from "@ant-design/icons";
 import { get } from "@/src/urls";
+import { round_float } from "@/src/helpers/string_helper";
 
 /**
  * 
@@ -279,7 +280,7 @@ export default function ModoPago(props){
                                     ...modoPago,
                                     ["ctacte_interes"]: _i.interes,
                                     ["ctacte_cuotas"]:v,
-                                    ["ctacte_monto_cuotas"]:  (parseFloat(_i.interes) * (parseFloat(modoPago.ctacte_monto)/parseFloat(v))).toFixed(2),
+                                    ["ctacte_monto_cuotas"]:  (round_float(parseFloat(_i.interes) * (parseFloat(modoPago.ctacte_monto)/parseFloat(v)))).toFixed(2),
                                     ["total"]:  _total,
                                     ["saldo"]:  total - _total,
                                     };
@@ -292,7 +293,7 @@ export default function ModoPago(props){
                         }
                         } />
                 </Col>
-                <Col span={8}><Input  type="number" readOnly onClick={(e)=>{e.target.select()}} value={modoPago.ctacte_monto_cuotas}  prefix="Valor Cuota: " onChange={(e)=>{onChange("ctacte_monto_cuotas", e.target.value)}}></Input></Col>
+                <Col span={8}><Input  type="number" readOnly={false} onClick={(e)=>{e.target.select()}} value={modoPago.ctacte_monto_cuotas}  prefix="Valor Cuota: " onChange={(e)=>{onChange("ctacte_monto_cuotas", parseFloat(e.target.value))}}></Input></Col>
             </Row>
             <Row>
                 <Col span={9}>

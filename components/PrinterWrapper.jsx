@@ -12,13 +12,13 @@ export default function PrinterWrapper({ children }) {
         body{
             background-color: white;
             color: black;
-            font-size: .95em;
+            font-size: .97em;
         }
         td, th {
             background-color: white;
             color: black;
             padding: 0;
-            font-size: .95em;
+            font-size: .97em;
             border: 0px solid black;
         }
         table{

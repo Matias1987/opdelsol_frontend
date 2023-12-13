@@ -3,6 +3,7 @@ import SelectCodigoVenta from "./SelectCodigoVenta";
 import { useRef, useState } from "react";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import globals from "@/src/globals";
+import { parse_float_string } from "@/src/helpers/string_helper";
 
 const VentasTratamiento = (props) => {
 
@@ -28,9 +29,10 @@ const VentasTratamiento = (props) => {
     
     const on_precio_change = (e) => {
         setTratamiento((_tratamiento_)=>{
-            const _tratamiento = {..._tratamiento_,precio: e.target.value}
+            const p = parse_float_string(e.target.value)
+            const _tratamiento = {..._tratamiento_,precio: p}
             props?.callback(_tratamiento)
-            return {..._tratamiento, precio: e.target.precio}
+            return _tratamiento
         })
     }
 

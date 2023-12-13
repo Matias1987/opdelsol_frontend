@@ -5,6 +5,7 @@ import { get } from "@/src/urls";
 import globals from "@/src/globals";
 import SearchStockVentas from "../SearchStockVentas";
 import { CloseCircleTwoTone } from "@ant-design/icons";
+import { parse_float_string, parse_int_string } from "@/src/helpers/string_helper";
 
 const VDItem = (props) => {
     const [items, setItems] = useState([])
@@ -86,15 +87,15 @@ const VDItem = (props) => {
         {title:"Desc.", dataIndex:"descripcion"},
         {title:"Cantidad", dataIndex:"cantidad_max", render:(_,{idcodigo,cantidad_max,cantidad})=>(
             <>
-                <InputNumber addonAfter={"/" + cantidad_max} min={1} max={cantidad_max} value={cantidad} onChange={(v)=>{
-                    onCantidadChange(v,idcodigo)
+                <Input type="number" addonAfter={"/" + cantidad_max} min={1} max={cantidad_max} value={cantidad} onChange={(e)=>{
+                    onCantidadChange(parse_int_string(e.target.value) > cantidad_max ? cantidad_max : parse_int_string(e.target.value) ,idcodigo)
                 }} />
             </>
         )},
-        {title:"Precio", dataIndex:"precio", render:(_,{precio,codigo})=><Input type="number" defaultValue={precio} onChange={(e)=>{
+        {title:"Precio", dataIndex:"precio", render:(_,{precio,codigo})=><Input type="number" value={precio} onChange={(e)=>{
             setItems(__items=>
                 {
-                    const _items_ = __items.map((i)=>(i.codigo==codigo ? { ...i,precio:parseFloat(e.target.value), total: parseFloat(e.target.value) * parseFloat(i.cantidad)}:i))
+                    const _items_ = __items.map((i)=>(i.codigo==codigo ? { ...i,precio:parse_float_string(e.target.value), total: parse_float_string(e.target.value) * parse_float_string(i.cantidad)}:i))
                     props?.callback?.(_items_)
                     return _items_
                 }   

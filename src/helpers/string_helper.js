@@ -1,5 +1,17 @@
 //////
 
+const parse_int_string = (value) => {
+    return value.length <1 ? 0 : parseInt(value)
+}
+
+const parse_float_string = (value) => {
+    return value.length <1 ? 0 : parseFloat(value)
+}
+
+const round_float = (value, base=10) => {
+    return Math.round(Math.trunc(value / base)) * base
+}
+
 const currency_format = (value) => {
     return parseFloat(value).toLocaleString()
 }
@@ -224,4 +236,13 @@ const convertToWords = (value, centavos=true) => {
 
 
 
-module.exports={current_date_ymd,parse_DMY_date, convertToWords, current_date, format_date, currency_format}
+module.exports={
+    parse_int_string,
+    parse_float_string,
+    round_float,
+    current_date_ymd,
+    parse_DMY_date, 
+    convertToWords, 
+    current_date, 
+    format_date, 
+    currency_format}
