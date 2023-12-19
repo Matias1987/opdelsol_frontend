@@ -6,6 +6,7 @@ const { MenuOutlined, StarOutlined } = require("@ant-design/icons");
 
 const { useState, useEffect } = require("react");
 import Link from "next/link"
+import ListaPrecios from "../informes/lista_precios/lista_precios";
 
 
 
@@ -125,6 +126,10 @@ export default function MenuV2(props){
     {
       label: (<BuscarVenta />),
       key: '404',
+    },
+    {
+      label: (<ListaPrecios />),
+      key: '405',
     }
    ]
 

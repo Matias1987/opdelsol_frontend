@@ -26,6 +26,7 @@ export default function LCLabItems(props){
                 <th></th>
                 <th style={{padding:"0", textAlign:"left"}}>C&oacute;digo</th>
                 {/*<th style={{padding:"0", textAlign:"left"}}>Descripci&oacute;n</th>*/}
+
                 <th style={{padding:"0", textAlign:"right"}}>Precio</th>
             </tr>
         </thead>
@@ -35,7 +36,9 @@ export default function LCLabItems(props){
                     <tr >
                         <td>{r.tipo}</td>
                         {/*<td style={{padding:"0",textAlign:"left"}}><b>{r.codigo}</b></td>*/}
-                        <td style={{padding:"0",textAlign:"left"}}>{r.descripcion}</td>
+                        <td style={{padding:"0",textAlign:"left"}}>{r.tipo=='od' || r.tipo=='oi' ? <>
+                            ESF:&nbsp;{r.esf} CIL:&nbsp;{r.cil} EJE:&nbsp;{r.eje} CB:&nbsp;{r.curva_base} DIAM:&nbsp;{r.diametro}
+                        </> : <>{r.descripcion}</> }</td>
                         <td style={{padding:"0",textAlign:"right"}}>{currency_format(r.precio)}</td>
                     </tr>
                 ))
