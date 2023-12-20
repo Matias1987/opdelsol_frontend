@@ -1,5 +1,6 @@
 import globals from "@/src/globals"
 import { post_method } from "@/src/helpers/post_helper"
+import { current_date_ymd } from "@/src/helpers/string_helper"
 import { get, post } from "@/src/urls"
 
 const { Form, Input, Select, Button } = require("antd")
@@ -57,6 +58,7 @@ const GastoForm = (props) => {
             }
             const data = {
                 ...gasto,
+                fecha: current_date_ymd(),
                 caja_idcaja: result.idcaja,
                 usuario_idusuario: globals.obtenerUID(),
                 sucursal_idsucursal: globals.obtenerSucursal()

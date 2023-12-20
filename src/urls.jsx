@@ -76,6 +76,7 @@ const post = {
     venta_estado_sucursal: remote_base_url+"ventas/venta_estado_sucursal/",
     obtener_lista_cobros: remote_base_url+"cobros/lista/",
     cambiar_estado_venta: remote_base_url + "ventas/cambiar_estado/",
+    caja_exists: remote_base_url + "caja/exists/",
     
     search:{
         filtro_stock: remote_base_url + "stock/filtro_stock/",

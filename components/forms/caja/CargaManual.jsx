@@ -1,5 +1,6 @@
 import globals from "@/src/globals"
 import { post_method } from "@/src/helpers/post_helper"
+import { current_date_ymd } from "@/src/helpers/string_helper"
 
 const { get, post } = require("@/src/urls")
 const { Form, Input, Row, Col, Modal, Button, Spin } = require("antd")
@@ -43,6 +44,7 @@ const CargaManual = (props) => {
         }
         const data = {
             ...cargaManual,
+            fecha: current_date_ymd(),
             caja_idcaja: c.idcaja,
             usuario_idusuario: globals.obtenerUID(),
             cliente_idcliente: props.idcliente,

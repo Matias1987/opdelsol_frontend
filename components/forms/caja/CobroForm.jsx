@@ -209,6 +209,7 @@ export default function CobroOperacion(props){
             usuario_idusuario: globals.obtenerUID(),
             sucursal_idsucursal: globals.obtenerSucursal(),
             descuento: descuento,
+            fecha: current_date_ymd(),
         }
         params = typeof props.idventa === 'undefined' ? params : {...params,idventa:props.idventa} 
         params = typeof props.idcliente === 'undefined' ? params : {...params,idcliente:props.idcliente} 

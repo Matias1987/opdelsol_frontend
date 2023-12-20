@@ -1,6 +1,7 @@
 import LayoutCaja from "@/components/layout/layout_caja"
 import globals from "@/src/globals";
 import { post_method } from "@/src/helpers/post_helper";
+import { current_date_ymd } from "@/src/helpers/string_helper";
 import { post } from "@/src/urls";
 import { Button, Form, Input, Modal } from "antd";
 import { useState } from "react";
@@ -8,20 +9,54 @@ import { useState } from "react";
 export default function InicioCaja(props){
     const [open, setOpen] = useState(false)
     const [btnBlocked, setBtnBlocked] = useState(false)
+
+    const check_if_caja_exists = (callback) => {
+        post_method(post.caja_exists,{
+            idsucursal: globals.obtenerSucursal(),
+            fecha: current_date_ymd()
+        },
+        (response)=>{
+            if(response?.data==null)
+            {
+                callback()
+                return 
+            }
+            if(response.data.length>0)
+            {
+                alert("La caja existe")
+                setBtnBlocked(false)
+                return 
+            }
+            callback()
+        }
+        )
+    }
+
     const onFinishFailed = ()=> {
 
     }
 
     const onFinish = (values) => {
+
         setBtnBlocked(true)
-        const data = {
-            sucursal_idsucursal: globals.obtenerSucursal(),
-            monto_inicial: values.monto,
-        }
-        post_method(post.insert.caja, data, (result)=>{
-            alert("OK")
-            props?.callback?.()
+
+        check_if_caja_exists(()=>{
+
+            const data = {
+                sucursal_idsucursal: globals.obtenerSucursal(),
+                monto_inicial: values.monto,
+                fecha: current_date_ymd()
+            }
+            post_method(post.insert.caja, data, (result)=>{
+                alert("OK")
+                props?.callback?.()
+            })
+            
         })
+
+
+        
+        
     }
     return (<>
                 
