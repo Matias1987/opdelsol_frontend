@@ -126,11 +126,11 @@ export default function MenuV2(props){
     {
       label: (<BuscarVenta />),
       key: '404',
-    },
+    }/*,
     {
       label: (<ListaPrecios />),
       key: '405',
-    }
+    }*/
    ]
 
       /*const _style_ = {
