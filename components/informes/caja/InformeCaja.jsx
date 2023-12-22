@@ -40,12 +40,12 @@ export default function InformeCaja(props){
             //alert(get.sucursal_details + response.data[0].sucursal_idsucursal)
             //get data sucursal
             setDataCaja(response.data[0])
-            /*fetch(get.sucursal_details + response.data[0].sucursal_idsucursal)
+            fetch(get.sucursal_details + response.data[0].sucursal_idsucursal)
             .then(__response=>__response.json())
             .then((__response)=>{
-                alert("SUCURSAL::::: " + JSON.stringify(__response.data))
-                setDataSucursal(__response.data)
-            })*/
+                //alert("SUCURSAL::::: " + JSON.stringify(__response.data))
+                setDataSucursal(__response.data[0])
+            })
         })
 
 
@@ -93,6 +93,7 @@ export default function InformeCaja(props){
     },[])
 
     const data_sucursal = _ => dataSucursal == null ? <></> : <> 
+        Sucursal: {dataSucursal.nombre}
     </>
     const header = _ => (
         dataCaja == null ? <></> :
