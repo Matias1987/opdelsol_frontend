@@ -8,15 +8,11 @@ const items = [
  
   
   {
-    label: (<Link href={public_urls.venta_directa}>M&eacute;dicos</Link>),
+    label: (<Link href={public_urls.totales_venta_vendedores}>Totales Venta</Link>),
     key: '10',
     icon: <StarOutlined />,
   },
-  {
-    label: (<Link href={public_urls.venta_directa}>Ventas</Link>),
-    key: '11',
-    icon: <StarOutlined />,
-  },
+  
 ];
 export default function MenuAdminTop(){
   const [current, setCurrent] = useState('mail');

@@ -1,8 +1,8 @@
-//const remote_base_url = "http://54.174.39.15:3001/api/v1/"
-//const local_base_url = "http://54.174.39.15:3000/v1/"
+const remote_base_url = "http://54.174.39.15:3001/api/v1/"
+const local_base_url = "http://54.174.39.15:3000/v1/"
 
-const remote_base_url = "http://localhost:3001/api/v1/"
-const local_base_url = "http://localhost:3000/v1/"
+//const remote_base_url = "http://localhost:3001/api/v1/"
+//const local_base_url = "http://localhost:3000/v1/"
 
 //const token = "&token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3QiLCJpYXQiOjE2ODI0NjEwMjksImV4cCI6MTY4MjQ2NDYyOX0.Unf5zmxNVQCJVD4qxSAcdcmsrs1s-q4h7Q0e2dYHHEo";
 const public_urls = {
@@ -58,6 +58,8 @@ const public_urls = {
     editar_precios: local_base_url + "deposito/stock/editar_precios",
 
     bajar_envios: local_base_url + "deposito/envio/descargar_envio",
+
+    totales_venta_vendedores: local_base_url + "ventas/informes/t_ventas_v",
 }
 
 
@@ -78,6 +80,7 @@ const post = {
     cambiar_estado_venta: remote_base_url + "ventas/cambiar_estado/",
     caja_exists: remote_base_url + "caja/exists/",
     totales_venta_vendedor: remote_base_url + "ventas/inf/v/totales_v/",
+    totales_venta_sucursal: remote_base_url + "ventas/inf/v/lista_ventas_sucursal_mes/",
     
     search:{
         filtro_stock: remote_base_url + "stock/filtro_stock/",

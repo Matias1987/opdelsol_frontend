@@ -1,0 +1,3 @@
+const ListaVentasVendedorMes = (props) => {
+    return <></>
+}
