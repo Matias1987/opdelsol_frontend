@@ -58,12 +58,12 @@ export default function panelCajaAdmin(){
         return loading ? <Spin/> :<> 
         {caja == null ? caja_cerrada() : detalle_caja()} 
         <br />
-        {caja==null? <></>:
-        <CustomModal openButtonText="Imprimir" block>
+        {caja==null? <></>: <InformeCaja idcaja={caja.idcaja} />
+        /*<CustomModal openButtonText="Imprimir" block>
             <PrinterWrapper>
-                <InformeCaja idcaja={caja.idcaja} />
+                
             </PrinterWrapper>
-        </CustomModal>
+        </CustomModal>*/
         }
         <br /> <br />
         <CustomModal openButtonText="Lista" block>

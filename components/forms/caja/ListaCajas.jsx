@@ -26,11 +26,12 @@ export default function ListaCaja(){
         {dataIndex:'estado', title: 'Estado'},
         {dataIndex: 'idcaja', title: 'Acciones', render: (_,{idcaja})=>{
             return <>
-                <CustomModal openButtonText="Imprimir" block>
+                <InformeCaja idcaja={idcaja} />
+                {/*<CustomModal openButtonText="Imprimir" block>
                     <PrinterWrapper>
-                        <InformeCaja idcaja={idcaja} />
+                        
                     </PrinterWrapper>
-                </CustomModal>
+                </CustomModal>*/}
             </>
         }}
     ]

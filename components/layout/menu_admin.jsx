@@ -12,10 +12,15 @@ const items = [
     key: '10',
     icon: <StarOutlined />,
   },
+  {
+    label: (<Link href={public_urls.ventas_medicos}>Ventas M&eacute;dicos</Link>),
+    key: '11',
+    icon: <StarOutlined />,
+  },
   
 ];
 export default function MenuAdminTop(){
-  const [current, setCurrent] = useState('mail');
+  const [current, setCurrent] = useState('10');
   const onClick = (e) => {
     console.log('click ', e);
     setCurrent(e.key);

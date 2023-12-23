@@ -29,9 +29,7 @@ export default function PrinterWrapper({ children }) {
     const componentRef = useRef();
     return (
         <>
-        <Row>
-            <Col span={24}>
-                <ReactToPrint pageStyle={page_style} trigger={linkToPrint} content={() => componentRef.current} />
+        <ReactToPrint pageStyle={page_style} trigger={linkToPrint} content={() => componentRef.current} />
                 <hr />
                 <br />
                 <div ref={componentRef}>
@@ -39,9 +37,7 @@ export default function PrinterWrapper({ children }) {
                 </div>
                 <br />
                 <hr />
-                <ReactToPrint trigger={linkToPrint} content={() => componentRef.current} />
-            </Col>
-        </Row>
+        <ReactToPrint  pageStyle={page_style} trigger={linkToPrint} content={() => componentRef.current} />
             
         </>
     );
