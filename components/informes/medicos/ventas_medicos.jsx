@@ -51,9 +51,14 @@ const VentasMedicos = (props) => {
             mes: props.mes,
             anio: props.anio,
         })
-    })
+    },[])
 
     const init = () => {
+        alert(JSON.stringify({
+            mes: periodo.mes, 
+            anio: periodo.anio, 
+            idmedico: idmedico
+        }))
         post_method(post.lista_ventas_medico,
         {
             mes: periodo.mes, 

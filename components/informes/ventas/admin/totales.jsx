@@ -3,7 +3,7 @@ import { currency_format, parse_int_string } from "@/src/helpers/string_helper"
 import { get, post } from "@/src/urls"
 
 const { default: PrinterWrapper } = require("@/components/PrinterWrapper")
-const { Row, Col, Select, Input, Table, Button, Divider } = require("antd")
+const { Row, Col, Input, Table, Button, Divider } = require("antd")
 const { useState, useEffect } = require("react")
 
 const InformeVentasTotales = () => {

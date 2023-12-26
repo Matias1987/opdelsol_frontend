@@ -20,8 +20,8 @@ const ListaVentasMedicosTotales = (props) => {
         {dataIndex: 'cheque', title: 'cheque'},
         {dataIndex: 'ctacte', title: 'ctacte'},
         {dataIndex: 'mutual', title: 'mutual'},
-        {dataIndes: 'idmedico', title: '', render:(_,{idmedico,medico})=>{
-            return <><VentasMedicos nombre_medico={medico} mes={mes} anio={anio} idmedico={idmedico} /></>
+        {dataIndex: 'idmedico', title: '', render:(_,{idmedico,medico})=>{
+            return <><VentasMedicos className="test" nombre_medico={medico} mes={mes} anio={anio} idmedico={idmedico} /></>
         }}
     ]
 
@@ -32,11 +32,13 @@ const ListaVentasMedicosTotales = (props) => {
     },[])
 
     const init_totales =()=> {
+        
         //alert(post.totales_ventas_medicos)
         post_method(post.totales_ventas_medicos,
         {
             mes: mes,
             anio: anio,
+            nombre: nombre,
         },
         (response)=>{
             //alert(JSON.stringify(response))
@@ -77,7 +79,7 @@ const ListaVentasMedicosTotales = (props) => {
             <Input  value={nombre} onChange={(e)=>{setNombre(e.target.value)}} prefix="Nombre: " />
         </Col>
         <Col span={4}>
-            <Button onClick={init_totales}>Aplicar</Button>
+            <Button onClick={init_totales} type="primary">Aplicar</Button>
         </Col>
     </Row>
     <Row>

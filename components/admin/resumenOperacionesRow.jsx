@@ -1,3 +1,4 @@
+import { parse_float_string } from "@/src/helpers/string_helper";
 import { get } from "@/src/urls";
 import { CloseCircleOutlined, DollarCircleOutlined } from "@ant-design/icons";
 import { Card, Col, Row, Statistic } from "antd";
@@ -9,6 +10,8 @@ const ResumenOperacionesRow = (props) => {
     const [idcaja, setIdCaja] = useState(null)
    
     const [data, setData] = useState({
+        nombre_sucursal:"",
+        cant_anulados: 0,
         efectivo: 0,
         tarjeta: 0,
         mutual: 0,
@@ -19,16 +22,20 @@ const ResumenOperacionesRow = (props) => {
     const update = () => {
         if(idcaja==null)
         {
+            //setIdCaja(-1)
             //fetch caja
-            fetch(url_caja_sucursal_fecha + props.idsucursal)
+            //alert(get.caja + props.idsucursal)
+            fetch(get.caja + props.idsucursal)
             .then(r=>r.json())
             .then((response)=>{
-                setIdCaja(response.data[0])
+                //alert("set id caja")
+                setIdCaja(response.data.idcaja)
             })
 
         }
         else{
             //fetch operations data
+            //alert(get.admin_totales_sucursal + idcaja)
             fetch(get.admin_totales_sucursal + idcaja)
             .then(r=>r.json())
             .then((response)=>{
@@ -36,11 +43,12 @@ const ResumenOperacionesRow = (props) => {
                 {
                     setData
                     ({
-                        efectivo: response.data[0].efectivo,
-                        tarjeta: response.data[0].tarjeta,
-                        mutual: response.data[0].mutual,
-                        cheque: response.data[0].cheque,
-                        ctacte: response.data[0].ctacte,
+                        efectivo: parse_float_string( response.data[0].efectivo||""),
+                        tarjeta: parse_float_string( response.data[0].tarjeta||""),
+                        mutual: parse_float_string( response.data[0].mutual||""),
+                        cheque: parse_float_string( response.data[0].cheque||""),
+                        ctacte: parse_float_string( response.data[0].ctacte||""),
+                        cuotas: parse_float_string( response.data[0].cuotas||""),
                     })
                 }
             })
@@ -49,6 +57,7 @@ const ResumenOperacionesRow = (props) => {
 
 
     useEffect(()=>{
+        //setData(d=>({...d,nombre_sucursal:props.nombre_sucursal}))
         const interval = setInterval(() => { 
             update()
             setCount(count + 1); 
@@ -58,12 +67,13 @@ const ResumenOperacionesRow = (props) => {
         //Clearing the interval 
         return () => clearInterval(interval); 
     },[count]);
+
     return <><Row gutter={24}>
         <Col  span={4}>
         <Card bordered={false}>
             <Statistic
             title="Sucursal"
-            value={props.nombre_sucursal}
+            value={props.nombre_sucursal.length>7 ? props.nombre_sucursal.substr(0,6) : props.nombre_sucursal}
             precision={0}
             valueStyle={{
                 color: '#3f8600',
@@ -80,7 +90,7 @@ const ResumenOperacionesRow = (props) => {
             valueStyle={{
                 color: '#3f8600',
             }}
-            prefix={<DollarCircleOutlined />}
+            
             suffix=""
             />
         </Card>
@@ -94,7 +104,7 @@ const ResumenOperacionesRow = (props) => {
             valueStyle={{
                 color: '#3f8600',
             }}
-            prefix={<DollarCircleOutlined />}
+            
             suffix=""
             />
         </Card>
@@ -108,7 +118,7 @@ const ResumenOperacionesRow = (props) => {
             valueStyle={{
                 color: '#3f8600',
             }}
-            prefix={<DollarCircleOutlined />}
+            
             suffix=""
             />
         </Card>
@@ -122,7 +132,7 @@ const ResumenOperacionesRow = (props) => {
             valueStyle={{
                 color: '#3f8600',
             }}
-            prefix={<DollarCircleOutlined />}
+            
             suffix=""
             />
         </Card>
@@ -136,7 +146,7 @@ const ResumenOperacionesRow = (props) => {
             valueStyle={{
                 color: '#3f8600',
             }}
-            prefix={<DollarCircleOutlined />}
+           
             suffix=""
             />
         </Card>
@@ -149,44 +159,17 @@ const ResumenOperacionesRow = (props) => {
         <Card bordered={false}>
             <Statistic
             title="Ventas Anuladas"
-            value={cant_anulados}
+            value={data.cant_anulados}
             precision={0}
             valueStyle={{
                 color: 'red',
             }}
-            prefix={<CloseCircleOutlined />}
+            
             suffix=""
             />
         </Card>
         </Col>
-        <Col span={4}>
-            <Card bordered={false}>
-                <Statistic
-                title="Total Cobros"
-                value={9.3}
-                precision={2}
-                valueStyle={{
-                    color: 'green',
-                }}
-                prefix={<DollarCircleOutlined />}
-                suffix=""
-                />
-            </Card>
-        </Col>
-        <Col span={4}>
-            <Card bordered={false}>
-                <Statistic
-                title="Total Gastos"
-                value={9.3}
-                precision={2}
-                valueStyle={{
-                    color: 'red',
-                }}
-                prefix={<DollarCircleOutlined />}
-                suffix=""
-                />
-            </Card>
-        </Col>
+       
   </Row>
   </>
 }

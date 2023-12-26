@@ -14,11 +14,9 @@ const SucursalLabel = (props) => {
         .catch(e=>{console.log("error")})
     },[])
 
-    return typeof data === 'undefined' || data === null ? <Spin /> : (
+    return data === null ? <></> : (
         <>
-        <span style={
-            (typeof props.style !== 'undefined' ? props.style : {color:'white'})
-        }>{data[0].nombre}</span>
+        <span style={ {color:'white'}} >{data[0].nombre}</span>
         </>
     )
 }

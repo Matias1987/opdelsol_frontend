@@ -5,7 +5,6 @@ import { useEffect } from "react";
 import globals from "@/src/globals";
 import HeaderSol from "./header";
 import MenuAdminTop from "./menu_admin";
-import Chat from "../chat/chat";
 
 export default function LayoutAdmin({children}){
     const { Content } = Layout;
@@ -52,15 +51,14 @@ export default function LayoutAdmin({children}){
     validate_user()
   },[])
     return (
-        <Layout className='layout' style={{minHeight: 1200}}>
+        <Layout style={{minHeight: 1200}}>
                 <HeaderSol tipoCuenta="ADMIN" displaymodechange={()=>{
-                props?.displaymodechange?.()
-            }}/>
+                    props?.displaymodechange?.()
+                }}/>
                 <MenuAdminTop />
   
             <Content style={{ margin: '40px 100px', padding: 24, overflowY:'scroll' }}>
                 {children}
-                <Chat />
             </Content>
         </Layout>
     )

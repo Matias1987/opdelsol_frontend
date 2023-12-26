@@ -18,14 +18,47 @@ export default function PrinterWrapper({ children }) {
             background-color: white;
             color: black;
             padding: 0;
+            margin: 0;
             font-size: .90em;
             border: 0px solid black;
         }
         table{
+            margin:0;
             border: 0px solid black;
             padding: 0;
         }
+        button{
+            width:0;
+            height: 0;
+            font-size:0em;
+            padding:0;
+            margin:0;
+            border: none;
+            display:none;
+        }
+        svg{
+            display:none; 
+            opacity:0;
+            padding:0;
+            margin:0;
+            border:0;
+        }
+        span{
+            opacity:0;
+            margin:0;
+            border:0; 
+            display:none;
+        }
+        
     `
+
+    const __style = {
+        backgroundColor: "white",
+        color: "black",
+        fontSize: ".9em",
+    }
+
+
     const componentRef = useRef();
     return (
         <>

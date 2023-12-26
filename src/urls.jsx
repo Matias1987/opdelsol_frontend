@@ -276,7 +276,7 @@ const get = {
 
     lista_request: remote_base_url + "usuarios/l/sessions/",
 
-    admin_totales_sucursal: remote_base_url + "admin/",
+    admin_totales_sucursal: remote_base_url + "admin/resumen_op_sucursal/",//:idcaja
 
     lista_subgrupos_subfamilia: remote_base_url + "subgrupos/subgrupos_subfamilia/",
 
