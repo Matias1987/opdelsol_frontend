@@ -1,12 +1,15 @@
-import {StarOutlined } from "@ant-design/icons";
+import {HomeFilled, StarOutlined } from "@ant-design/icons";
 import { Menu } from "antd";
 import { useState } from "react";
 import Link from "next/link"
 import { public_urls } from "@/src/urls";
 
 const items = [
- 
-  
+ {
+  label: <Link href={public_urls.dashboard_admin}>Inicio</Link>,
+  key: '12',
+  icon:<HomeFilled />,
+ },
   {
     label: (<Link href={public_urls.totales_venta_vendedores}>Totales Venta</Link>),
     key: '10',

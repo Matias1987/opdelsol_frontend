@@ -6,11 +6,24 @@ const { default: PrinterWrapper } = require("@/components/PrinterWrapper")
 const { Row, Col, Input, Table, Button, Divider } = require("antd")
 const { useState, useEffect } = require("react")
 
+
+
 const InformeVentasTotales = () => {
     const [filtros, setFiltros] = useState({
         mes: 1,
         anio: 2023,
     })
+
+    useEffect(()=>{
+        const d = new Date()
+       
+        setFiltros({
+            mes: d.getMonth()+1,
+            anio: d.getFullYear(),
+        })
+    },[])
+
+
 
 
     const [dataSource, setDatasource] = useState([])

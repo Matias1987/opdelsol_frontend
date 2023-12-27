@@ -12,7 +12,6 @@ import { useEffect, useState } from "react";
  * @param idmedico 
  * @param mes 
  * @param anio 
- * @returns 
  */
 const VentasMedicos = (props) => {
     const [open, setOpen] = useState(false)
@@ -25,6 +24,7 @@ const VentasMedicos = (props) => {
     })
     const columns = [
         {dataIndex: "idventa",  title: "Nro. Op."},
+        {dataIndex: "sucursal",  title: "Sucursal"},
         {dataIndex: "cliente",  title: "Cliente"},
         {dataIndex: "dni",  title: "DNI"},
         {dataIndex: "tipo",  title: "Detalle", render:(_,{tipo})=>{
@@ -46,19 +46,20 @@ const VentasMedicos = (props) => {
     ]
 
     useEffect(()=>{
+        const d = new Date()
         setIdMedico(props.idmedico)
         setPeriodo({
-            mes: props.mes,
-            anio: props.anio,
+            mes: d.getMonth()+1,
+            anio: d.getFullYear(),
         })
     },[])
 
     const init = () => {
-        alert(JSON.stringify({
+        /*alert(JSON.stringify({
             mes: periodo.mes, 
             anio: periodo.anio, 
             idmedico: idmedico
-        }))
+        }))*/
         post_method(post.lista_ventas_medico,
         {
             mes: periodo.mes, 
@@ -79,6 +80,7 @@ const VentasMedicos = (props) => {
                     dni: r.dni,
                     tipo: r.tipo,
                     monto: r.monto_total,
+                    sucursal: r.sucursal,
                 }))
             )
         })

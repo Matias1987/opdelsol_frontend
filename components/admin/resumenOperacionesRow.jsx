@@ -1,7 +1,7 @@
 import { parse_float_string } from "@/src/helpers/string_helper";
 import { get } from "@/src/urls";
 import { CloseCircleOutlined, DollarCircleOutlined } from "@ant-design/icons";
-import { Card, Col, Row, Statistic } from "antd";
+import { Button, Card, Col, Row, Statistic } from "antd";
 
 const { useEffect, useState } = require("react")
 
@@ -70,13 +70,14 @@ const ResumenOperacionesRow = (props) => {
 
     return <><Row gutter={24}>
         <Col  span={4}>
-        <Card bordered={false}>
+        <Card bordered={false} >
             <Statistic
+            
             title="Sucursal"
             value={props.nombre_sucursal.length>7 ? props.nombre_sucursal.substr(0,6) : props.nombre_sucursal}
             precision={0}
             valueStyle={{
-                color: '#3f8600',
+                color: '#5F1600',
             }}
             />
         </Card>
@@ -88,7 +89,7 @@ const ResumenOperacionesRow = (props) => {
             value={data.efectivo}
             precision={0}
             valueStyle={{
-                color: '#3f8600',
+                color: '#5F1600',
             }}
             
             suffix=""
@@ -102,7 +103,7 @@ const ResumenOperacionesRow = (props) => {
             value={data.tarjeta}
             precision={0}
             valueStyle={{
-                color: '#3f8600',
+                color: '#5F1600',
             }}
             
             suffix=""
@@ -116,7 +117,7 @@ const ResumenOperacionesRow = (props) => {
             value={data.mutual}
             precision={0}
             valueStyle={{
-                color: '#3f8600',
+                color: '#5F1600',
             }}
             
             suffix=""
@@ -130,7 +131,7 @@ const ResumenOperacionesRow = (props) => {
             value={data.cheque}
             precision={0}
             valueStyle={{
-                color: '#3f8600',
+                color: '#5F1600',
             }}
             
             suffix=""
@@ -140,11 +141,11 @@ const ResumenOperacionesRow = (props) => {
         <Col  span={4}>
         <Card bordered={false}>
             <Statistic
-            title="Cta. Cte."
-            value={data.ctacte}
+            title="Cuotas"
+            value={data.cuotas}
             precision={0}
             valueStyle={{
-                color: '#3f8600',
+                color: '#5F1600',
             }}
            
             suffix=""
@@ -154,7 +155,7 @@ const ResumenOperacionesRow = (props) => {
         </Row>
 
 
-        <Row gutter={24}>
+        {/*<Row gutter={24}>
         <Col span={4}>
         <Card bordered={false}>
             <Statistic
@@ -170,7 +171,7 @@ const ResumenOperacionesRow = (props) => {
         </Card>
         </Col>
        
-  </Row>
+        </Row>*/}
   </>
 }
 
