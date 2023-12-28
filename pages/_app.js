@@ -24,6 +24,13 @@ export default function App({ Component, pageProps }) {
           //colorBgContainer: '#f6ffed',
           
         },
+        components: {
+          Statistic: {
+            /* here is your component tokens */
+            contentFontSize: 16,
+            titleFontSize: 12,
+          },
+        }
       }}
       >
     { 

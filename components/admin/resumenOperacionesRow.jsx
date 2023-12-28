@@ -1,13 +1,15 @@
 import { parse_float_string } from "@/src/helpers/string_helper";
 import { get } from "@/src/urls";
 import { CloseCircleOutlined, DollarCircleOutlined } from "@ant-design/icons";
-import { Button, Card, Col, Row, Statistic } from "antd";
+import { Button, Card, Col, Modal, Row, Statistic } from "antd";
+import InformeCaja from "../informes/caja/InformeCaja";
 
 const { useEffect, useState } = require("react")
 
 const ResumenOperacionesRow = (props) => {
     const [count, setCount] = useState(0);
     const [idcaja, setIdCaja] = useState(null)
+    const [open, setOpen] = useState(false)
    
     const [data, setData] = useState({
         nombre_sucursal:"",
@@ -17,6 +19,8 @@ const ResumenOperacionesRow = (props) => {
         mutual: 0,
         cheque: 0,
         ctacte: 0,
+        anulado: 0,
+        cuotas:0,
     })
 
     const update = () => {
@@ -49,6 +53,8 @@ const ResumenOperacionesRow = (props) => {
                         cheque: parse_float_string( response.data[0].cheque||""),
                         ctacte: parse_float_string( response.data[0].ctacte||""),
                         cuotas: parse_float_string( response.data[0].cuotas||""),
+                        total: parse_float_string(response.data[0].monto_total||""),
+                        anulado: parse_float_string(response.data[0].anulado||""),
                     })
                 }
             })
@@ -58,6 +64,11 @@ const ResumenOperacionesRow = (props) => {
 
     useEffect(()=>{
         //setData(d=>({...d,nombre_sucursal:props.nombre_sucursal}))
+        if(count==0)
+        {
+            update()
+            setCount(count + 1); 
+        }
         const interval = setInterval(() => { 
             update()
             setCount(count + 1); 
@@ -68,24 +79,25 @@ const ResumenOperacionesRow = (props) => {
         return () => clearInterval(interval); 
     },[count]);
 
-    return <><Row gutter={24}>
-        <Col  span={4}>
-        <Card bordered={false} >
+    return <><Row style={{backgroundColor:props.color}} gutter={24} onClick={()=>{setOpen(true)}}>
+        <Col  span={3}>
+        <Card bordered={false} style={{backgroundColor:"rgba(0,0,0,0)"}} >
             <Statistic
             
             title="Sucursal"
             value={props.nombre_sucursal.length>7 ? props.nombre_sucursal.substr(0,6) : props.nombre_sucursal}
             precision={0}
             valueStyle={{
+                fontWeight: "bold",
                 color: '#5F1600',
             }}
             />
         </Card>
         </Col>
-        <Col  span={4}>
-        <Card bordered={false}>
+        <Col  span={3}>
+        <Card bordered={false}  style={{backgroundColor:"rgba(0,0,0,0)"}}>
             <Statistic
-            title="Monto Ventas"
+            title="Efvo."
             value={data.efectivo}
             precision={0}
             valueStyle={{
@@ -96,8 +108,8 @@ const ResumenOperacionesRow = (props) => {
             />
         </Card>
         </Col>
-        <Col  span={4}>
-        <Card bordered={false}>
+        <Col  span={3}>
+        <Card bordered={false}  style={{backgroundColor:"rgba(0,0,0,0)"}}>
             <Statistic
             title="Tarjetas"
             value={data.tarjeta}
@@ -110,8 +122,8 @@ const ResumenOperacionesRow = (props) => {
             />
         </Card>
         </Col>
-        <Col  span={4}>
-        <Card bordered={false}>
+        <Col  span={3}>
+        <Card bordered={false}  style={{backgroundColor:"rgba(0,0,0,0)"}}>
             <Statistic
             title="Mutual"
             value={data.mutual}
@@ -124,8 +136,8 @@ const ResumenOperacionesRow = (props) => {
             />
         </Card>
         </Col>
-        <Col  span={4}>
-        <Card bordered={false}>
+        <Col  span={3}>
+        <Card bordered={false}  style={{backgroundColor:"rgba(0,0,0,0)"}}>
             <Statistic
             title="Cheque"
             value={data.cheque}
@@ -138,8 +150,8 @@ const ResumenOperacionesRow = (props) => {
             />
         </Card>
         </Col>
-        <Col  span={4}>
-        <Card bordered={false}>
+        <Col  span={3}>
+        <Card bordered={false}  style={{backgroundColor:"rgba(0,0,0,0)"}}>
             <Statistic
             title="Cuotas"
             value={data.cuotas}
@@ -152,7 +164,41 @@ const ResumenOperacionesRow = (props) => {
             />
         </Card>
         </Col>
+        <Col  span={3}>
+        <Card bordered={false}  style={{backgroundColor:"rgba(0,0,0,0)"}}>
+            <Statistic
+            title="Total Efvo."
+            value={parseFloat(data.efectivo) + parseFloat(data.cuotas)}
+            precision={0}
+            valueStyle={{
+                color: 'black',
+            }}
+           
+            suffix=""
+            />
+        </Card>
+        </Col>
+        <Col  span={3}>
+        <Card bordered={false}  style={{backgroundColor:"rgba(0,0,0,0)"}}>
+            <Statistic
+            title="Anulados"
+            value={data.anulado}
+            precision={0}
+            valueStyle={{
+                color: '#CA0000',
+            }}
+           
+            suffix=""
+            />
+        </Card>
+        </Col>
+        
+        
         </Row>
+
+        <Modal open={open} footer={null} onCancel={()=>{setOpen(false)}}>
+             <InformeCaja idcaja={idcaja} />
+        </Modal>
 
 
         {/*<Row gutter={24}>
