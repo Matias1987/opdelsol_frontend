@@ -43,12 +43,7 @@ export default function PrinterWrapper({ children }) {
             margin:0;
             border:0;
         }
-        span{
-            opacity:0;
-            margin:0;
-            border:0; 
-            display:none;
-        }
+       
         
     `
 
