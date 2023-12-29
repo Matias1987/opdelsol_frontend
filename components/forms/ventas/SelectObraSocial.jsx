@@ -89,7 +89,10 @@ const SelectObraSocial = (props) => {
             <CustomModal openButtonText="+ Agregar" title="Agregar" >
                 <ObraSocialForm callback={onOSSelected} />
             </CustomModal>
-            <Table columns={columns} dataSource={obrasociales} />
+            <Table 
+            rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'}
+            columns={columns} 
+            dataSource={obrasociales} />
         </CustomModal>
         </> 
         : 

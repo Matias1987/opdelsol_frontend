@@ -101,6 +101,7 @@ const SearchStockVentas = (props) => {
         <Row style={{height: "300px", overflowY: "scroll"}}>
             <Col span={24}>
                 <Table 
+                    rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'}
                     pagination={false}
                     loading={loading}
                     dataSource={dataSource} 

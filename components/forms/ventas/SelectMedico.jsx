@@ -88,7 +88,10 @@ export default function SelectMedico(props){
             {/*<CustomModal openButtonText="+ Agregar" title="Agregar" >
                 <MedicoForm callback={(id)=>{onMedicoSelected(id)}} />
             </CustomModal>*/}
-            <Table columns={columns} dataSource={medicos} />
+            <Table 
+            rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'}
+            columns={columns} 
+            dataSource={medicos} />
         </CustomModal>
         </>
         :

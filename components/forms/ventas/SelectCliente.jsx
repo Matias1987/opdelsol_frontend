@@ -149,7 +149,10 @@ const SelectCliente = (props) =>{
         </Row>
         <Row>
             <Col span={24}>
-                <Table columns={columns} dataSource={clientes} />
+                <Table 
+                rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'}
+                columns={columns} 
+                dataSource={clientes}  />
             </Col>
         </Row>
         </CustomModal>

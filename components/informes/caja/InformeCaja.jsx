@@ -43,6 +43,10 @@ export default function InformeCaja(props){
              //alert(JSON.stringify(response))
              //alert(get.sucursal_details + response.data[0].sucursal_idsucursal)
              //get data sucursal
+			 if((response?.data||[]).length<1)
+			 {
+				return 
+			 }
              setDataCaja(response.data[0])
              fetch(get.sucursal_details + response.data[0].sucursal_idsucursal)
              .then(__response=>__response.json())
@@ -57,6 +61,10 @@ export default function InformeCaja(props){
          fetch(get.informe_caja + props.idcaja)
          .then(response=>response.json())
          .then((response)=>{
+			if(typeof response.data === 'undefined' || response.data==null)
+			{
+				return
+			}
              //alert(JSON.stringify(response))
             setDataOperaciones(response.data)
 
@@ -91,6 +99,10 @@ export default function InformeCaja(props){
          fetch(get.lista_gastos_caja + props.idcaja)
          .then(response=>response.json())
          .then((response)=>{
+			if(typeof response.data === 'undefined' || response.data==null)
+			{
+				return
+			}
             setDataGastos(response.data)
             var total = 0;
 			response.data.forEach(r=>{
@@ -106,6 +118,10 @@ export default function InformeCaja(props){
          fetch(get.transferencias_enviadas + globals.obtenerSucursal() + "/" + props.idcaja)
          .then(response=>response.json())
          .then((response)=>{
+			if(typeof response.data === 'undefined' || response.data==null)
+			{
+				return
+			}
              setDataTransfEnviadas(response.data.map(r=>({
                  idtransferencia: r.idtransferencia,
                  fecha: r.fecha,
@@ -129,6 +145,10 @@ export default function InformeCaja(props){
          fetch(get.transferencias_recibidas + globals.obtenerSucursal() + "/" + props.idcaja)
          .then(response=>response.json())
          .then((response)=>{
+			if(typeof response.data === 'undefined' || response.data==null)
+			{
+				return
+			}
              setDataTransfRecibidas(response.data.map(r=>({
                  idtransferencia: r.idtransferencia,
                  fecha: r.fecha,

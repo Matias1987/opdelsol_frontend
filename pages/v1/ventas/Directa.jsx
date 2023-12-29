@@ -37,7 +37,7 @@ export default function VentaDirecta(){
     <>
         <h3>Venta Directa</h3>
         <VentaBase 
-        ocultarFechaRetiro
+        
         subTotal={subTotal}
         total={total}
 

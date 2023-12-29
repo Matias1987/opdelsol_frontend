@@ -17,9 +17,7 @@ const Pagare = (props) => {
     const [detalleProducto, setDetalleProducto] = useState("")
 
     useEffect(()=>{
-        const date = new Date()
-        date.setFullYear(date.getFullYear() + 1)
-        setFechaVencimiento(date)
+       
         
     },[])
 
@@ -124,7 +122,12 @@ const Pagare = (props) => {
             {
                 if(response.data!=null)
                 {
-                    
+                    const date = new Date()
+                    date.setMonth(date.getMonth() + response.data.cant_cuotas + 1)
+                    date.setDate(1)
+                    date.setDate(date.getDate() - 1)
+                    setFechaVencimiento(date)
+
                     setModoPago({
                         id_modopago: 0,
                         fkoperacion: response.data.idventa,

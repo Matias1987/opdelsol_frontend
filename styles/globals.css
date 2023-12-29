@@ -159,4 +159,9 @@ a::before{
 }*/
 
 
-
+.table-row-light {
+  background-color: #e0daff;
+}
+.table-row-dark {
+  background-color: #8ebbf7;
+}

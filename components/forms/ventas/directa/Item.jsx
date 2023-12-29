@@ -75,14 +75,18 @@ const VDItem = (props) => {
 
     return (<>
     <Button size="small" block type="primary" onClick={()=>{setModalOpen(true)}}>Agregar Producto</Button>
-    <Modal title="Agregar Producto" open={modalOpen} onOk={onOK} onCancel={onCancel} destroyOnClose={true}>
+    <Modal width={"80%"} title="Agregar Producto" open={modalOpen} onOk={onOK} onCancel={onCancel} destroyOnClose={true}>
         <SearchStockVentas callback={(idcodigo)=>{
                 onAddNewCode(idcodigo)
                 setModalOpen(false)
             }} />
     </Modal>
 
-    <Table columns={[
+    <Table 
+
+    rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'}
+    
+    columns={[
         {title:"Codigo", dataIndex:"codigo"},
         {title:"Desc.", dataIndex:"descripcion"},
         {title:"Cantidad", dataIndex:"cantidad_max", render:(_,{idcodigo,cantidad_max,cantidad})=>(
