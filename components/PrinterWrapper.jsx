@@ -12,14 +12,14 @@ export default function PrinterWrapper({ children }) {
         body{
             background-color: white;
             color: black;
-            font-size: .90em;
+            font-size: .93em;
         }
         td, th {
             background-color: white;
             color: black;
             padding: 0;
             margin: 0;
-            font-size: .90em;
+            font-size: .93em;
             border: 0px solid black;
         }
         table{
@@ -50,7 +50,7 @@ export default function PrinterWrapper({ children }) {
     const __style = {
         backgroundColor: "white",
         color: "black",
-        fontSize: ".9em",
+        fontSize: ".93em",
     }
 
 
