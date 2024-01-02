@@ -1,10 +1,11 @@
+import CustomModal from "@/components/CustomModal";
 import PrinterWrapper from "@/components/PrinterWrapper";
 import VentaDetallePopup from "@/components/VentaDetalle";
 import globals from "@/src/globals";
 import { post_method } from "@/src/helpers/post_helper";
 import { post } from "@/src/urls";
 import { InfoCircleFilled } from "@ant-design/icons";
-import { Button, Col, Divider, Modal, Row, Table } from "antd";
+import { Button, Col, Divider, Input, Modal, Row, Table } from "antd";
 import { useEffect, useState } from "react";
 
 /**
@@ -28,7 +29,7 @@ const VentasMedicos = (props) => {
         {dataIndex: "cliente",  title: "Cliente"},
         {dataIndex: "dni",  title: "DNI"},
         {dataIndex: "tipo",  title: "Detalle", render:(_,{tipo})=>{
-            switch(tipo)
+            switch(tipo.toString())
             {
                 case globals.tiposVenta.DIRECTA: return "VENTA DIRECTA";
                 case globals.tiposVenta.LCLAB: return "L.C. Lab.";
@@ -46,15 +47,19 @@ const VentasMedicos = (props) => {
     ]
 
     useEffect(()=>{
-        const d = new Date()
+        //const d = new Date()
         setIdMedico(props.idmedico)
-        setPeriodo({
+        /*setPeriodo({
             mes: d.getMonth()+1,
             anio: d.getFullYear(),
-        })
+        })*/
     },[])
 
     const init = () => {
+        setPeriodo({
+            mes: props.mes,
+            anio: props.anio,
+        })
         /*alert(JSON.stringify({
             mes: periodo.mes, 
             anio: periodo.anio, 
@@ -62,9 +67,9 @@ const VentasMedicos = (props) => {
         }))*/
         post_method(post.lista_ventas_medico,
         {
-            mes: periodo.mes, 
-            anio: periodo.anio, 
-            idmedico: idmedico
+            mes: props.mes, 
+            anio: props.anio, 
+            idmedico: props.idmedico
         },(response)=>{
             
             var _total = 0;
@@ -85,11 +90,40 @@ const VentasMedicos = (props) => {
             )
         })
     }
+    const gtipe = ( v ) => 
+    {
+        switch(v)
+            {
+                case globals.tiposVenta.DIRECTA: return "VENTA DIRECTA";
+                case globals.tiposVenta.LCLAB: return "L.C. Lab.";
+                case globals.tiposVenta.LCSTOCK: return "L.C. Stock";
+                case globals.tiposVenta.MONOFLAB: return "Monof. Lab.";
+                case globals.tiposVenta.MULTILAB: return "Multif. Lab.";
+                case globals.tiposVenta.RECSTOCK: return "Rec. Stock";
+                case 7: return "";
+            }
+    }
     return <>
         <Button onClick={()=>{setOpen(true); init()}}><InfoCircleFilled /></Button>
         <Modal width={"90%"} open={open} onCancel={()=>{setOpen(false)}}>
             <Row>
                 <Col span={24}>
+                    <CustomModal openButtonText="CSV">
+                        <Input.TextArea value={
+                            JSON.stringify(
+                                dataSource.map(r=>({
+                                    Nro_Op: r.idventa,
+                                    sucursal: r.sucursal,
+                                    cliente: r.cliente,
+                                    dni: r.dni,
+                                    tipo: gtipe(r.tipo.toString()),
+                                    monto: r.monto
+
+                                }))
+
+                            )
+                        }/>
+                    </CustomModal>
                 </Col>
             </Row>
             <Row>

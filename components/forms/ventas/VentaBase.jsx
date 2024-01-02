@@ -68,24 +68,24 @@ export default function VentaBase(props){
             children: 
             <>
             <Row>
-                    <Col span={24} >
+                    <Col  className="table-row-dark"  span={24} >
                         <Form.Item>
                             <SelectCliente callback={(value)=>{onChange("fkcliente", value)}} />
                         </Form.Item>
                     </Col>
-                    <Col span={24} >
+                    <Col  className="table-row-light"  span={24} >
                         <Form.Item>
                             <SelectCliente  destinatario callback={(value)=>{onChange("fkdestinatario", value)}} />
                         </Form.Item>
                     </Col>
                 </Row>
                 <Row>
-                    <Col span={24}>
+                    <Col  className="table-row-dark"  span={24}>
                         <Form.Item>
                             <SelectMedico  callback={(value)=>{onChange("fkmedico", value)}} />
                         </Form.Item>
                     </Col>
-                    <Col span={24}>
+                    <Col  className="table-row-light"  span={24}>
                         <Form.Item>
                             <SelectObraSocial callback={(value)=>{onChange("fkos", value)}} />
                         </Form.Item>

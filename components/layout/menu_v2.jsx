@@ -12,7 +12,7 @@ import ListaPrecios from "../informes/lista_precios/lista_precios";
 
 export default function MenuV2(props){
    const [current, setCurrent] = useState(globals.esUsuarioVentas() ? "SubMenuVentas" : "SubMenuCaja");
-
+   const [itemsMenu, setItemsMenu] = useState([])
    const _menu_deposito_min = {
     label: 'Menú Depósito',
     key: 'SubMenuStockMin',
@@ -113,8 +113,12 @@ export default function MenuV2(props){
      
       
     ],
-  } 
-   const items = [
+  }
+  
+   
+useEffect(()=>{
+  
+   const items = []/*
     menu_caja, 
     menu_ventas,
     _menu_deposito_min,
@@ -126,12 +130,41 @@ export default function MenuV2(props){
     {
       label: (<BuscarVenta />),
       key: '404',
-    }/*,
+    }
+   ]*/
+
+   
+
+   if(globals.esUsuarioCaja1())
+   {
+      items.push(menu_caja)
+   }
+   if(globals.esUsuarioVentas())
+   {
+    items.push(menu_ventas)
+   }
+
+   if(globals.esUsuarioDepositoMin())
+   {
+    items.push(_menu_deposito_min)
+   }
+
+   if(globals.esUsuarioCaja1() || globals.esUsuarioVentas()){
+    items.push(
+      {
+      label: (<Link href={globals.esUsuarioCaja1() ? public_urls.lista_clientes_caja : public_urls.lista_clientes_ventas}>Clientes</Link>),
+      key: '11',
+      icon: <StarOutlined />,
+    },
     {
-      label: (<ListaPrecios />),
-      key: '405',
-    }*/
-   ]
+      label: (<BuscarVenta />),
+      key: '404',
+    }
+    )
+   }
+
+   setItemsMenu(items)
+  },[])
 
       /*const _style_ = {
         background: "rgb(34,193,195)",
@@ -150,5 +183,5 @@ export default function MenuV2(props){
         //alert(e.key)
       };
 
-      return <Menu  style={_style_}  onClick={onClick} selectedKeys={[current]} mode={ typeof props.mode === 'undefined' ? "horizontal" : props.mode} items={items} />;
+      return <Menu  style={_style_}  onClick={onClick} selectedKeys={[current]} mode={ typeof props.mode === 'undefined' ? "horizontal" : props.mode} items={itemsMenu} />;
 }

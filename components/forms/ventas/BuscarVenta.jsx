@@ -120,7 +120,10 @@ const BuscarVenta = (props)=>{
     title="Buscar Venta"> 
         <FiltroVentas callback={f=>{ setFiltros(_f=>f); setReload(!reload)}} />
         <Button type="link" onClick={(e)=>{setFiltros(_f=>({})); setReload(!reload)}}><ReloadOutlined /></Button>
-        <Table dataSource={dataSource} columns={[
+        <Table 
+        rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'}
+        dataSource={dataSource} 
+        columns={[
         {title:'Nro.:', dataIndex:'idventa'},
         {title:'Cliente', dataIndex:'cliente'},
         {title:'Fecha', dataIndex:'fecha'},

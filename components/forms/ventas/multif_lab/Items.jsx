@@ -39,16 +39,16 @@ const MultifLabItems = (props) => {
 
 
     return <>
-        <Form.Item  label={"OD: "}>
+        <Form.Item className="table-row-light" label={"OD: "}>
             <MultifLabCristal onVisibleChange={(_value)=>onVisibleChange("od_visible",_value)}  tipo='OD' buttonText={<SelectCodeButton />} callback={(v)=>{on_change("od",v)}}/>
         </Form.Item>
-        <Form.Item  label={"OI: "}>    
+        <Form.Item className="table-row-dark" label={"OI: "}>    
             <MultifLabCristal onVisibleChange={(_value)=>onVisibleChange("oi_visible",_value)}  tipo='OI' buttonText={<SelectCodeButton />} callback={(v)=>{on_change("oi",v)}}/>
         </Form.Item>
-        <Form.Item  label={"ARMAZON: "}>    
+        <Form.Item className="table-row-light" label={"ARMAZON: "}>    
             <VentasArmazon onVisibleChange={(_value)=>onVisibleChange("armazon_visible",_value)}  tipo='ARMAZON' buttonText={<SelectCodeButton />}  callback={(v)=>{on_change("armazon",v)}}/>
         </Form.Item>
-        <Form.Item  label={"TRATAMIENTO: "}>    
+        <Form.Item className="table-row-dark" label={"TRATAMIENTO: "}>    
             <VentasTratamiento onVisibleChange={(_value)=>onVisibleChange("tratamiento_visible",_value)}  tipo='TRATAMIENTO' buttonText={<SelectCodeButton />} callback={(v)=>{on_change("tratamiento",v)}}/>
         </Form.Item>
     </>
