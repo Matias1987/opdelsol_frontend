@@ -38,7 +38,7 @@ export default function MultifLabItems(props){
                 data.map(r=>(
                     <tr >
                         <td>{r.tipo}</td>
-                        <td style={{padding:"0",textAlign:"center"}}>{(parseFloat(+r.esf||0)>0 ? "+":"") + r.esf}</td>
+                        <td style={{padding:"0",textAlign:"center"}}>{(parseFloat(+r.esf||0)>0 ? "":"") + r.esf}</td>
                         <td style={{padding:"0",textAlign:"center"}}>{r.cil}</td>
                         <td style={{padding:"0",textAlign:"center"}}>{r.eje}</td>
                         <td style={{padding:"0",textAlign:"left"}}><b>{r.codigo}</b></td>
