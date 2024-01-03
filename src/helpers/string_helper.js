@@ -1,5 +1,10 @@
 //////
 
+const validate_signed_number = (value) => {
+    const _v = ((value||"").toString()).trim()
+    return (/^(\+|\-)?[\.0-9]+$/).test(_v) ?  _v : "0"
+}
+
 const parse_int_string = (value) => {
     return value.length <1 ? 0 : parseInt(value)
 }
@@ -245,4 +250,5 @@ module.exports={
     convertToWords, 
     current_date, 
     format_date, 
-    currency_format}
+    currency_format,
+    validate_signed_number}

@@ -14,7 +14,7 @@ const LCLabItem = (props) =>{
         cantidad:1,
         esf: "",
         cil: "",
-        cb: 0,
+        cb: "0",
         eje: "",
         diametro: 0,
     })

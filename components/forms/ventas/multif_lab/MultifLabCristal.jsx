@@ -72,7 +72,7 @@ const MultifLabCristal = (props) => {
     }
     const onchange_eje = (v) => {
         setCristal((_cristal_)=>{
-            const __cristal = {..._cristal_,eje:v}
+            const __cristal = {..._cristal_,eje:((v||"")==""?"0":v)}
             props?.callback(__cristal)
             return __cristal
         })
@@ -80,7 +80,7 @@ const MultifLabCristal = (props) => {
     }
     const onchange_esf = (v) => {
         setCristal((_cristal_)=>{
-            const __cristal = {..._cristal_,esf:v}
+            const __cristal = {..._cristal_,esf:(v||"")==""?"0":v}
             props?.callback(__cristal)
             return __cristal
         })
@@ -88,7 +88,7 @@ const MultifLabCristal = (props) => {
     }
     const onchange_cil = (v) => {
         setCristal((_cristal_)=>{
-            const __cristal = {..._cristal_,cil:v}
+            const __cristal = {..._cristal_,cil:(v||"")==""?"0":v}
             props?.callback(__cristal)
             return __cristal
         })
@@ -130,14 +130,16 @@ const MultifLabCristal = (props) => {
                     {/*<Input type="number" step={0.25} min={-17} max={17} addonBefore={"Esf:"} onChange={onchange_esf} />&nbsp;*/}
                 </Col>
                 <Col span={3}>
-                    <Select size="small" options={itemsEsf} onChange={(v)=>{onchange_esf(v)}} />
+                    <Input  value={cristal.esf} step={".25"} onChange={(e)=>{onchange_esf(e.target.value)}} />
+                    {/*<Select size="small" options={itemsEsf} onChange={(v)=>{onchange_esf(v)}} />*/}
                 </Col>
                 <Col span={1} style={_estilo_label}>
                 &nbsp;Cil:
                     {/*<Input addonBefore={"Cil:"} onChange={onchange_cil} />&nbsp;*/}
                 </Col>
                 <Col span={3}>
-                    <Select size="small" options={itemsCil} onChange={(v)=>{onchange_cil(v)}}/>
+                    {/*<Select size="small" options={itemsCil} onChange={(v)=>{onchange_cil(v)}}/>*/}
+                    <Input  value={cristal.cil} step={"0.25"} onChange={(e)=>{onchange_cil(e.target.value)}}/>
                 </Col>
                 {/*<Col span={3}>
                     <Input addonBefore={"Eje:"} onChange={onchange_eje} />&nbsp;
@@ -146,7 +148,8 @@ const MultifLabCristal = (props) => {
                     Eje:
                 </Col>
                 <Col span={2}>
-                    <Select size="small" options={itemsEje} onChange={(v)=>{onchange_eje(v)}} />
+                    <Input  value={cristal.eje} step={"0.25"} onChange={(e)=>{onchange_eje(e.target.value)}} />
+                    {/*<Select size="small" options={itemsEje} onChange={(v)=>{onchange_eje(v)}} />*/}
                 </Col>
                 <Col span={8}>
                     <SelectCodigoVenta idfamilias={[globals.familiaIDs.CRISTALES]} buttonText={"Seleccionar Base"} callback={onchange_codigo} />

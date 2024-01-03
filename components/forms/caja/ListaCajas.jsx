@@ -7,11 +7,11 @@ import { get } from "@/src/urls";
 import { Button, Form, Input, Table } from "antd";
 import { useEffect, useState } from "react";
 
-export default function ListaCaja(){
+export default function ListaCaja(props){
     const [dataSource, setDataSource] = useState([])
 
     useEffect(()=>{
-        fetch(get.lista_caja_sucursal + globals.obtenerSucursal())
+        fetch(get.lista_caja_sucursal + props.idsucursal /*globals.obtenerSucursal()*/)
         .then(response=>response.json())
         .then((response)=>{
             setDataSource(response.data)

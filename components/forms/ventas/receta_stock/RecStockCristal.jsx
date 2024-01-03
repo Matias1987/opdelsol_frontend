@@ -91,7 +91,8 @@ const RecStockCristal = (props) => {
                     Eje:
                 </Col>
                 <Col span={2}>
-                    <Select size="small" options={itemsEje} onChange={(v)=>{onchange_eje(v)}}/>
+                    <Input size="small" value={cristal.eje} onChange={(e)=>{onchange_eje(e.target.value)}}/>
+                    {/*<Select size="small" options={itemsEje} onChange={(v)=>{onchange_eje(v)}}/>*/}
                 </Col>
                 <Col span={4}>
                     {/*<span>&nbsp;&nbsp;Precio: </span><input readOnly onChange={onchange_precio} ref={precioRef} style={{textAlign:"right", width:"100px", border: "1px solid #ccc", borderRadius:"6px", borderColor:"lightgray", padding:".4em", fontSize:"1.1em"}} />*/}

@@ -3,6 +3,7 @@ import { get } from "@/src/urls";
 import { CloseCircleOutlined, DollarCircleOutlined } from "@ant-design/icons";
 import { Button, Card, Col, Modal, Row, Statistic } from "antd";
 import InformeCaja from "../informes/caja/InformeCaja";
+import ListaCaja from "../forms/caja/ListaCajas";
 
 const { useEffect, useState } = require("react")
 
@@ -197,7 +198,8 @@ const ResumenOperacionesRow = (props) => {
         </Row>
 
         <Modal open={open} footer={null} onCancel={()=>{setOpen(false)}}>
-             <InformeCaja idcaja={idcaja} />
+             {/*<InformeCaja idcaja={idcaja} />*/}
+             <ListaCaja idsucursal={ props.idsucursal} />
         </Modal>
 
 

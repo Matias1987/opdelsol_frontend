@@ -67,7 +67,7 @@ export default function panelCajaAdmin(){
         }
         <br /> <br />
         <CustomModal openButtonText="Lista" block>
-            <ListaCaja />
+            <ListaCaja idsucursal={globals.obtenerSucursal()}/>
         </CustomModal>
         </>; 
     

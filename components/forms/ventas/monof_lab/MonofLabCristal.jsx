@@ -72,7 +72,7 @@ const MonofLabCristal = (props) => {
     }
     const onchange_eje = (v) => {
         setCristal((_cristal)=>{
-            const __cristal = {..._cristal,eje:v}
+            const __cristal = {..._cristal,eje:(v||"")==""?"0":v}
             props?.callback(__cristal)
             return __cristal
         })
@@ -80,7 +80,7 @@ const MonofLabCristal = (props) => {
     }
     const onchange_esf = (v) => {
         setCristal((_cristal)=>{
-            const __cristal = {..._cristal,esf:v}
+            const __cristal = {..._cristal,esf:(v||"")==""?"0":v}
             props?.callback(__cristal)
             return __cristal
         })
@@ -88,7 +88,7 @@ const MonofLabCristal = (props) => {
     }
     const onchange_cil = (v) => {
         setCristal((_cristal)=>{
-            const __cristal = {..._cristal,cil:v}
+            const __cristal = {..._cristal,cil:(v||"")==""?"0":v}
             props?.callback(__cristal)
             return __cristal
         })
@@ -137,19 +137,22 @@ const MonofLabCristal = (props) => {
                     Esf:
                 </Col>
                 <Col span={3}>
-                    <Select size="small" style={{fontSize:".5em"}} options={itemsEsf} onChange={(v)=>{onchange_esf(v)}} />
+                    {/*<Select size="small" style={{fontSize:".5em"}} options={itemsEsf} onChange={(v)=>{onchange_esf(v)}} />*/}
+                    <Input  step={"0.25"} value={cristal.esf} onChange={(e)=>{onchange_esf(e.target.value)}} />
                 </Col>
                 <Col span={1} style={_estilo_label}>
                     Cil:
                 </Col>
                 <Col span={3}>
-                    <Select size="small" options={itemsCil} onChange={(v)=>{onchange_cil(v)}}/>
+                    {/*<Select size="small" options={itemsCil} onChange={(v)=>{onchange_cil(v)}}/>*/}
+                    <Input  step={"0.25"}  value={cristal.cil} onChange={(e)=>{onchange_cil(e.target.value)}}/>
                 </Col>
                 <Col span={1} style={_estilo_label}>
                     Eje:
                 </Col>
                 <Col span={2}>
-                    <Select size="small" options={itemsEje} onChange={(v)=>{onchange_eje(v)}}/>
+                    {/*<Select size="small" options={itemsEje} onChange={(v)=>{onchange_eje(v)}}/>*/}
+                    <Input  step={"0.25"} value={cristal.eje} onChange={(e)=>{onchange_eje(e.target.value)}}/>
                 </Col>
                 
                 <Col span={8}>

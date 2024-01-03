@@ -85,6 +85,8 @@ export default function InformeX(props){
         .then((response)=>{
             
             setDataPago(response.data[0])
+
+            //alert(JSON.stringify(response))
             
             /*now that I have the pago data, I can know the client id  */
             
@@ -207,7 +209,7 @@ export default function InformeX(props){
                                     <tr>
                                         <td>
                                             <p>Recibi la suma de: <b>{convertToWords(dataPago.monto)}</b><br />
-                                            En concepto de: {dataPago.concepto}<br />
+                                            En concepto de: {dataPago.concepto_pago}<br />
                                             {"SALDO CTA CTE:  " + currency_format(dataPago.saldo_actual) }</p>
                                             <hr />
                                             {html_cheque_tarjeta()}
