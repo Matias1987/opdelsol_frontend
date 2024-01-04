@@ -1,5 +1,5 @@
 const { Row, Input, Select, Col } = require("antd")
-const { useState } = require("react")
+const { useState, useEffect } = require("react")
 const { default: MP_Efectivo } = require("./tipos/mp_efectivo")
 const { default: MP_CtaCte } = require("./tipos/mp_ctacte")
 const { default: MP_Tarjeta } = require("./tipos/mp_tarjeta")
@@ -16,13 +16,15 @@ const ModoPagoV2 = (props) => {
             ...d
         }))
     }
+
+    useEffect(()=>{},[])
     
 
     const _list_mp = (mp) => {
         
         switch (mp) {
             case "efectivo":
-                alert(JSON.stringify(mp))
+            
                     return <MP_Efectivo callback={callback}  />
                 break;
             case "ctacte":
@@ -55,8 +57,9 @@ const ModoPagoV2 = (props) => {
                 onChange={(val)=>{
                     
                     if(typeof mp.find(r=>r==val) === 'undefined'){
-                        //alert(val)
+                        //alert(JSON.stringify())
                         setMP(_mp=>([..._mp,val]))
+                        
                     }
 
                 }}
@@ -72,14 +75,10 @@ const ModoPagoV2 = (props) => {
             </Col>
         </Row>
         {
-            mp.map((_mp)=>{<>
-                <Row>
-                    <Col span={24}>
-                        {_list_mp(_mp)}
-                    </Col>
-                </Row>
+            mp.map((_mp)=><>
+                {_list_mp(_mp)}
                 </>
-            })
+            )
 
         }
     </> 

@@ -85,6 +85,7 @@ const post = {
     totales_venta_sucursal: remote_base_url + "ventas/inf/v/lista_ventas_sucursal_mes/",
     totales_ventas_medicos: remote_base_url + "medicos/ventas_medico_totales/",
     lista_ventas_medico: remote_base_url + "medicos/ventas_medico/",
+    obtener_caja_sucursal_dia: remote_base_url + "admin/obtener_caja_s_dia/",
     
     search:{
         filtro_stock: remote_base_url + "stock/filtro_stock/",

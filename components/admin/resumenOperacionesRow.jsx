@@ -1,9 +1,10 @@
 import { parse_float_string } from "@/src/helpers/string_helper";
-import { get } from "@/src/urls";
+import { get, post } from "@/src/urls";
 import { CloseCircleOutlined, DollarCircleOutlined } from "@ant-design/icons";
 import { Button, Card, Col, Modal, Row, Statistic } from "antd";
 import InformeCaja from "../informes/caja/InformeCaja";
 import ListaCaja from "../forms/caja/ListaCajas";
+import { post_method } from "@/src/helpers/post_helper";
 
 const { useEffect, useState } = require("react")
 
@@ -27,15 +28,29 @@ const ResumenOperacionesRow = (props) => {
     const update = () => {
         if(idcaja==null)
         {
-            //setIdCaja(-1)
-            //fetch caja
-            //alert(get.caja + props.idsucursal)
-            fetch(get.caja + props.idsucursal)
+
+            /*fetch(get.caja + props.idsucursal)
             .then(r=>r.json())
             .then((response)=>{
-                //alert("set id caja")
                 setIdCaja(response.data.idcaja)
-            })
+            })*/
+
+            const d = new Date()
+
+            post_method(post.obtener_caja_sucursal_dia,
+                {
+                    mes:d.getMonth()+1,
+                    anio: d.getFullYear(),
+                    dia: d.getDate(),
+                    idsucursal: props.idsucursal,
+                },
+                (response)=>{
+                    if(response.data!=null)
+                    {
+                        setIdCaja(response.data.idcaja)
+                    }
+                }
+                )
 
         }
         else{

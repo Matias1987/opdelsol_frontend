@@ -7,7 +7,8 @@ import globals from "@/src/globals";
 import { Button, Col, DatePicker, Form, Input, Row, Tabs, TimePicker } from "antd";
 
 import { useState } from "react";
-import ModoPagoV2 from "../modo_pago/ModoPagoV2";
+//import ModoPagoV2 from "../modo_pago/ModoPagoV2";
+//import ModoPagoV3 from "../modo_pago/ModoPagoV3";
 
 /* leer: https://refine.dev/blog/common-usestate-mistakes-and-how-to-avoid/ */
 /**

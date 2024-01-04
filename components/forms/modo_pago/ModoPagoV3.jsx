@@ -1,6 +1,5 @@
 import { Button, Checkbox, Col, Divider, Input, Row, Select, Spin, Table } from "antd";
 import { useEffect, useState } from "react";
-import CustomModal from "../CustomModal";
 import { DeleteFilled, ForwardFilled, PlayCircleFilled, PlaySquareFilled, PlaySquareTwoTone, RedoOutlined, RightCircleFilled } from "@ant-design/icons";
 import { get } from "@/src/urls";
 import { round_float } from "@/src/helpers/string_helper";
@@ -11,7 +10,13 @@ import { round_float } from "@/src/helpers/string_helper";
  * @param ctacteHidden  
  * @param tarjetaHidden  
  */
-export default function ModoPago(props){
+export default function ModoPagoV3(props){
+    const [efectivoChecked, setEfectivoChecked] = useState(false)
+    const [tarjetaChecked, setTarjetaChecked] = useState(false)
+    const [ctacteChecked, setCtaCteChecked] = useState(false)
+    const [chequeChecked, setChequeChecked] = useState(false)
+    const [mutualChecked, setMutualChecked] = useState(false)
+    const [mercadopagoChecked, setMercadoPagoChecked] = useState(false)
     const [tarjetas, setTarjetas] = useState(null)
     const [bancos, setBancos] = useState(null)
     const [mpLoaded, setMPLoaded] = useState(false)
@@ -22,7 +27,7 @@ export default function ModoPago(props){
         tarjeta_monto: 0,
         tarjeta_tarjeta: 0,
         fk_tarjeta: null,
-        tarjeta_nro: "",
+        tarjeta_nro: "0",
         fk_banco: null,
         ctacte_monto: 0,
         ctacte_cuotas: 0,
@@ -33,7 +38,9 @@ export default function ModoPago(props){
         mutual_mutual: 0,
         total: 0,
         saldo: 0,
+        mercadopago_monto:0,
     })
+
     useEffect(()=>{
 
         if(typeof props.total !== 'undefined')
@@ -82,12 +89,11 @@ export default function ModoPago(props){
                             .then(response=>response.json())
                             .then((response)=>{
 
-                                //alert(JSON.stringify(response))
-
+                              
                                 setMPLoaded(true)
                                 
                                 var _temp = JSON.parse(JSON.stringify(modoPago));
-                                //alert(__url)
+                     
                                 response.data.forEach(r=>{
                                     switch(r.modo_pago)
                                     {
@@ -111,6 +117,10 @@ export default function ModoPago(props){
                                             _temp = {..._temp,tarjeta_monto: r.monto, fk_tarjeta: r.fk_tarjeta, tarjeta_nro: r.tarjeta_nro, tarjeta_tarjeta: r.cant_cuotas}
                                             
                                             break;
+                                        case 'mercadopago':
+                                            _temp = {..._temp,mercadopago_monto: r.monto}
+                                            
+                                            break;
                                     }
                                 })
 
@@ -120,7 +130,8 @@ export default function ModoPago(props){
                                                     parseFloat(_temp.ctacte_monto||0)+
                                                     parseFloat(_temp.tarjeta_monto||0)+
                                                     parseFloat(_temp.mutual_monto||0)+
-                                                    parseFloat(_temp.efectivo_monto||0)
+                                                    parseFloat(_temp.efectivo_monto||0)+
+                                                    parseFloat(_temp.mercadopago_monto||0)
                                     ;
 
                                     _temp.saldo = (props?.total||0) - _temp.total
@@ -169,7 +180,10 @@ export default function ModoPago(props){
                         parseFloat(_mp.ctacte_monto||0)+
                         parseFloat(_mp.tarjeta_monto||0)+
                         parseFloat(_mp.mutual_monto||0)+
-                        parseFloat(_mp.efectivo_monto||0);
+                        parseFloat(_mp.efectivo_monto||0)+
+                        parseFloat(_mp.mercadopago_monto||0)
+                        
+                        ;
             
             _mp.saldo = total - _mp.total
 
@@ -185,7 +199,9 @@ export default function ModoPago(props){
                 parseFloat(value||0)+
                 parseFloat(modoPago.tarjeta_monto||0)+
                 parseFloat(modoPago.mutual_monto||0)+
-                parseFloat(modoPago.efectivo_monto||0)
+                parseFloat(modoPago.efectivo_monto||0)+
+                parseFloat(modoPago.mercadopago_monto||0)
+                ;
                 const _mp = {
                     ...modoPago,
                     ["ctacte_monto"]: value.length<1 ? 0 : parseFloat(value),
@@ -208,9 +224,45 @@ export default function ModoPago(props){
     return (
         (tarjetas == null || bancos == null) ? <Spin  /> :
     <>
-        <h5>Modo de Pago</h5>
+    <Row>
+        <Col span={24}>
+            <Divider />
+        </Col>
+    </Row>
+        <Row>
+            <Col span={6}>
+                <b>Modo de Pago</b>
+            </Col>
+            <Col span={12}>
+                <Checkbox value={efectivoChecked} onChange={()=>{
+                    setEfectivoChecked(!efectivoChecked)
+                    if(!efectivoChecked){
+                        //reset efectivo values
+                    }
+                }}>Efectivo</Checkbox>
+                <Checkbox value={tarjetaChecked} onChange={()=>{
+                    setTarjetaChecked(!tarjetaChecked)
+                    if(!tarjetaChecked){
+
+                    }
+                }}>Tarjeta</Checkbox>
+                <Checkbox value={ctacteChecked} onChange={()=>{
+                    setCtaCteChecked(!ctacteChecked)
+                }}>CtaCte</Checkbox>
+                <Checkbox value={mutualChecked} onChange={()=>{
+                    setMutualChecked(!mutualChecked)
+                }}>Mutual</Checkbox>
+                <Checkbox value={chequeChecked} onChange={()=>{
+                    setChequeChecked(!chequeChecked)
+                }}>Cheque</Checkbox>
+                <Checkbox value={mercadopagoChecked} onChange={()=>{
+                    setMercadoPagoChecked(!mercadopagoChecked)
+                }}>MercadoPago</Checkbox>
+            </Col>
+        </Row>
+        
         <>
-            <Row>
+            <Row style={{display: efectivoChecked ? "flex" : "none", backgroundColor:"#F4E8B3", padding:"2px"}}>
                 <Col span={8} >
                     <Input 
                     type="number" 
@@ -219,13 +271,13 @@ export default function ModoPago(props){
                     onClick={(e)=>{e.target.select()}} 
                     value={modoPago.efectivo_monto}  
                     /*prefix={<><Button type="link" onClick={()=>{ if(modoPago.saldo<0){return} onChange("efectivo_monto",modoPago.saldo)}}>Efectivo</Button></> }*/
-                    prefix="Efectivo: " 
+                    prefix={<b>Efectivo: </b>} 
                     onChange={(e)=>{onChange("efectivo_monto", e.target.value.length<1 ? 0 : e.target.value)}}
                     />
                 </Col>
             </Row>
 
-            <Row style={{display: props.tarjetaHidden ? "none" : "flex"}}>
+            <Row style={{display: props.tarjetaHidden || !tarjetaChecked ? "none" : "flex", backgroundColor:"#F0BFA1", padding:"2px"}}>
                 <Col span={6}>
                     <Input 
                     type="number" 
@@ -234,7 +286,7 @@ export default function ModoPago(props){
                     onClick={(e)=>{e.target.select()}} 
                     value={modoPago.tarjeta_monto}  
                     /*prefix={<><Button type="link" onClick={()=>{ if(modoPago.saldo<0){return} onChange("tarjeta_monto",modoPago.saldo)}}>Tarjeta</Button></> }*/
-                    prefix="Tarjeta: "  
+                    prefix={<b>Tarjeta: </b>} 
                     onChange={(e)=>{onChange("tarjeta_monto", e.target.value.length<1 ? 0 : e.target.value)}} 
                     />
                 </Col>
@@ -243,20 +295,19 @@ export default function ModoPago(props){
                     <Select placeholder="Seleccione Tarjeta" value={modoPago.fk_tarjeta} options={tarjetas} style={{width:'100%'}} onChange={(value)=>{onChange("fk_tarjeta", value)}} />
                 </Col>
 
-                <Col span={4}><Input value={modoPago.tarjeta_nro}  onClick={(e)=>{e.target.select()}}  prefix="Nro.: " onChange={(e)=>{onChange("tarjeta_nro", e.target.value)}}></Input></Col>
                 
                 <Col span={4}><Input value={modoPago.tarjeta_tarjeta}  onClick={(e)=>{e.target.select()}}  prefix="C. Cuotas: " onChange={(e)=>{onChange("tarjeta_tarjeta", e.target.value)}}></Input></Col>
                 
             </Row>
             
-            <Row style={{display: props.ctacteHidden  ? "none" : "flex"}}>
+            <Row style={{display: props.ctacteHidden  || !ctacteChecked ? "none" : "flex", backgroundColor:"#EBB1AC", padding:"2px"}}>
                 <Col span={11}>
                     <Input 
                     type="number" 
                     onClick={(e)=>{e.target.select()}} 
                     value={modoPago.ctacte_monto} 
                     /*prefix={<><Button type="link" onClick={()=>{ if(modoPago.saldo<0){return} onChangeMontoCtaCte(modoPago.saldo)}}>Cta. Cte.: </Button></>} */
-                    prefix="Cta. Cte.: " 
+                    prefix={<b>Cta. Cte.: </b>} 
                     onChange={(e)=>{onChangeMontoCtaCte(e.target.value)}} 
                     />
                 </Col>
@@ -274,7 +325,9 @@ export default function ModoPago(props){
                                 parseFloat(modoPago.ctacte_monto||0)+
                                 parseFloat(modoPago.tarjeta_monto||0)+
                                 parseFloat(modoPago.mutual_monto||0)+
-                                parseFloat(modoPago.efectivo_monto||0)
+                                parseFloat(modoPago.efectivo_monto||0)+
+                                parseFloat(modoPago.mercadopago_monto||0)
+                                ;
 
                                 const _mp = {
                                     ...modoPago,
@@ -295,14 +348,14 @@ export default function ModoPago(props){
                 </Col>
                 <Col span={8}><Input  type="number" readOnly={false} onClick={(e)=>{e.target.select()}} value={modoPago.ctacte_monto_cuotas}  prefix="Valor Cuota: " onChange={(e)=>{onChange("ctacte_monto_cuotas", parseFloat(e.target.value))}}></Input></Col>
             </Row>
-            <Row style={{display:"none"}}>
+            <Row style={{display:  chequeChecked ? "flex" : "none", backgroundColor:"#CCB6C0", padding:"2px"}}>
                 <Col span={9}>
                     <Input 
                     type="number" 
                     onClick={(e)=>{e.target.select()}} 
                     value={modoPago.cheque_monto} 
                     /*prefix={<><Button type="link" onClick={()=>{ if(modoPago.saldo<0){return} onChange("cheque_monto",modoPago.saldo)}}>Cheque</Button></> }*/
-                    prefix="Cheque: "  
+                    prefix={<b>Cheque: </b>} 
                     onChange={(e)=>{onChange("cheque_monto", e.target.value.length<1 ? 0 : e.target.value)}}
                     />
                 </Col>
@@ -311,17 +364,28 @@ export default function ModoPago(props){
                 </Col>
             </Row>
 
-            <Row>
+            <Row  style={{display: mutualChecked ? "flex": "none", backgroundColor:"#CFBAEB", padding:"2px"}}>
                 <Col span={9}>
                     <Input 
                     type="number" 
                     onClick={(e)=>{e.target.select()}} 
                     value={modoPago.mutual_monto}  
                     /*prefix={<><Button type="link" onClick={()=>{ if(modoPago.saldo<0){return} onChange("mutual_monto",modoPago.saldo)}}>Mutual</Button></> }*/
-                    prefix="Mutual: " 
+                    prefix={<b>Mutual: </b>} 
                     onChange={(e)=>{onChange("mutual_monto", e.target.value.length<1 ? 0 : e.target.value)}}
                     />
                     
+                </Col>
+            </Row>
+            <Row style={{display: mercadopagoChecked? "flex" : "none", backgroundColor:"#A1C4E7", padding:"2px"}}>
+                <Col span={9}>
+                    <Input
+                    type="number"
+                    prefix={<b>Mercado Pago: </b>} 
+                    onChange={(e)=>{onChange("mercadopago_monto", e.target.value.length<1 ? 0 : e.target.value)}} 
+                    value={modoPago.mercadopago_monto}  
+                    onClick={(e)=>{e.target.select()}} 
+                    />
                 </Col>
             </Row>
 
@@ -343,6 +407,7 @@ export default function ModoPago(props){
                                 mutual_mutual: 0,
                                 total: 0,
                                 tarjeta_nro:0,
+                                mercadopago_monto:0,
                             }
                             props?.callback?.(___mp)
                             return ___mp

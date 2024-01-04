@@ -8,6 +8,7 @@ const { useState, useEffect } = require("react")
 
 const GastoForm = (props) => {
     const [options, setOptions] = useState([])
+    const [enabled, setEnabled] = useState(true)
     const [gasto, setGasto] = useState({
         idmotivo: null,
         monto: 0,
@@ -21,6 +22,7 @@ const GastoForm = (props) => {
     }
 
     useEffect(()=>{
+        
         fetch(get.conceptos_gasto)
         .then(response=>response.json())
         .then((response)=>{
@@ -35,18 +37,20 @@ const GastoForm = (props) => {
 
     const onFinish = (values) => {
         
-        
+        setEnabled(false)
 
         //alert(JSON.stringify(values))
         globals.obtenerCajaAsync((result)=>{
             if(result==null){
                 alert("Caja Cerrada")
+                setEnabled(true)
                 return;
             }
 
             if(gasto.idmotivo==null)
             {
                 alert("Seleccionar motivo gasto")
+                setEnabled(true)
                 return
             }
 
@@ -54,6 +58,7 @@ const GastoForm = (props) => {
 
             if(!confirm("Confirmar gasto"))
             {
+                setEnabled(true)
                 return;
             }
             const data = {
@@ -66,6 +71,7 @@ const GastoForm = (props) => {
             post_method(post.insert.gasto,data,(response)=>{
                 alert("OK")
                 //set
+                setEnabled(true)
                 props?.callback?.(response.data)
             })
         })
@@ -94,7 +100,7 @@ const GastoForm = (props) => {
             </Form.Item>
 
             <Form.Item>
-                <Button  block type="primary" htmlType="submit">Guardar</Button>
+                <Button disabled={!enabled} block type="primary" htmlType="submit">Guardar</Button>
             </Form.Item>
 
         </Form>

@@ -24,7 +24,7 @@ export default function dashboard_admin(){
     },[])
     return <>
     {
-        sucursales.map(s=><ResumenOperacionesRow color={(++col%2==0?"#C4D5E7":"#E1E1E1")} idsucursal={s.idsucursal} nombre_sucursal={s.nombre} />)
+        sucursales.map(s=><ResumenOperacionesRow color={(++col%2==0?"#C4D5E7":"#E1E1E1")} key={s.idsucursal} idsucursal={s.idsucursal} nombre_sucursal={s.nombre} />)
     }
     
     </>
