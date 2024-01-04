@@ -295,7 +295,7 @@ export default function ModoPago(props){
                 </Col>
                 <Col span={8}><Input  type="number" readOnly={false} onClick={(e)=>{e.target.select()}} value={modoPago.ctacte_monto_cuotas}  prefix="Valor Cuota: " onChange={(e)=>{onChange("ctacte_monto_cuotas", parseFloat(e.target.value))}}></Input></Col>
             </Row>
-            <Row style={{display:"none"}}>
+            <Row>
                 <Col span={9}>
                     <Input 
                     type="number" 
