@@ -9,7 +9,6 @@ import { useEffect, useState } from "react"
 /**
  * 
  * @param idcobro  
- * @returns 
  */
 export default function InformeX(props){
     const [dataSucursal, setDataSucursal] = useState(null)
@@ -31,6 +30,7 @@ export default function InformeX(props){
         tarjeta_cupon: "",
         cheque_nro: "",
         cheque_fecha: "",
+        mercadopago_monto:0,
 
     })
 
@@ -55,6 +55,7 @@ export default function InformeX(props){
                 tarjeta_cupon: "",
                 cheque_nro: "",
                 cheque_fecha: "",
+                mercadopago_monto:0,
             }
             response.data.forEach(r=>{
                 switch(r.modo_pago){
@@ -72,6 +73,9 @@ export default function InformeX(props){
                     break;
                     case "cheque": 
                         __temp.cheque_monto=r.monto;
+                    break;
+                    case "mercadopago": 
+                        __temp.mercadopago_monto=r.monto;
                     break;
                 }
             })
@@ -131,6 +135,10 @@ export default function InformeX(props){
             <tr>
                 <td>Mutual:</td>
                 <td style={{textAlign:"right"}}>$&nbsp;{currency_format(modoPago.mutual_monto)}</td>
+            </tr>
+            <tr>
+                <td>Mercado Pago:</td>
+                <td style={{textAlign:"right"}}>$&nbsp;{currency_format(modoPago.mercadopago_monto)}</td>
             </tr>
             <tr>
                 <td>TOTAL:</td>

@@ -165,6 +165,8 @@ export default function FichaCliente(props){
             <CobroOperacion 
             tarjetaHidden={true}
             ctacteHidden={true}
+            chequeHidden={false}
+            mutualHidden={true}
             buttonText="Cargar Cuota" 
             totalsHidden={true} 
             tipo="cuota" 

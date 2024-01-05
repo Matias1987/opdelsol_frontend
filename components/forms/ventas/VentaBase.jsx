@@ -8,7 +8,7 @@ import { Button, Col, DatePicker, Form, Input, Row, Tabs, TimePicker } from "ant
 
 import { useState } from "react";
 //import ModoPagoV2 from "../modo_pago/ModoPagoV2";
-//import ModoPagoV3 from "../modo_pago/ModoPagoV3";
+import ModoPagoV3 from "../modo_pago/ModoPagoV3";
 
 /* leer: https://refine.dev/blog/common-usestate-mistakes-and-how-to-avoid/ */
 /**
@@ -119,7 +119,14 @@ export default function VentaBase(props){
                         total={ typeof props !== 'undefined' ? props.total : "0"} 
                         callback={(value)=>{onChange("descuento", value)}} 
                         />
-                        {<ModoPago  total={ typeof props !== 'undefined' ? props.total : "0"} callback={(value)=>{onChange("mp", value)}} />}
+                        {<ModoPagoV3  
+                        total={ typeof props !== 'undefined' ? props.total : "0"} 
+                        callback={(value)=>{onChange("mp", value)}}
+                        tarjetaHidden={false}
+                        ctacteHidden={false}
+                        chequeHidden={false}
+                        mutualHidden={false}
+                        />}
                         {/*<ModoPagoV2 />*/}
                     </Form.Item>
                 </Col>

@@ -11,6 +11,7 @@ import ListaCobros from "./ListaCobros";
 import { ResponseCookies } from "next/dist/compiled/@edge-runtime/cookies";
 import VentaDetallePopup from "@/components/VentaDetalle";
 import { current_date_ymd } from "@/src/helpers/string_helper";
+import ModoPagoV3 from "../modo_pago/ModoPagoV3";
 
 /**
  * 
@@ -323,7 +324,7 @@ export default function CobroOperacion(props){
             <p>Nro. Venta: {dataVenta.idventa} &nbsp;&nbsp;&nbsp; Fecha: {dataVenta.fecha_formated}</p>
             <p>
                 Monto: <b>{dataVenta.subtotal}</b>  &nbsp;&nbsp;
-                <Input prefix={"Descuento:" } value={descuento} onChange={(e)=>{setDescuento(parseFloat(e.target.value))}} />
+                <Input prefix={"Descuento:" } value={descuento} onChange={(e)=>{setDescuento(parseFloat(e.target.value.length<1?"0":e.target.value))}} />
                 {/*Descuento: <b>{dataVenta.descuento}</b>&nbsp;&nbsp;*/}
                 Haber: <b>{dataVenta.haber}</b>  &nbsp;&nbsp;
                 <span style={{backgroundColor:"lightyellow", color:"red"}}>Saldo:  <b>{parseFloat(dataVenta.subtotal) - parseFloat(descuento) - parseFloat(dataVenta.haber||0)}</b></span>&nbsp;&nbsp;
@@ -426,7 +427,7 @@ export default function CobroOperacion(props){
                 </Row>
                 <Row>
                     <Col span={24}>
-                        <ModoPago 
+                        <ModoPagoV3
                         idventa={typeof props.idventa === 'undefined' ? -1 : props.idventa}
                         mostrarSoloCtaCte={props.tipo!='ingreso'}
                         totalsHidden={typeof props.totalsHidden === 'undefined' ? true : props.totalsHidden} 
@@ -434,6 +435,9 @@ export default function CobroOperacion(props){
                         total={dataVenta == null ? 0 : parseFloat(dataVenta.subtotal) - parseFloat(descuento) - parseFloat(dataVenta.haber||0)} 
                         ctacteHidden = {typeof props.ctacteHidden !== undefined ? props.ctacteHidden : false}
                         tarjetaHidden = {typeof props.tarjetaHidden !== undefined ? props.tarjetaHidden : false}
+                        chequeHidden = {typeof props.chequeHidden !== undefined ? props.chequeHidden : false}
+                        mutualHidden = {typeof props.mutualHidden !== undefined ? props.mutualHidden : false}
+
                         />  
                     </Col>
                 </Row>

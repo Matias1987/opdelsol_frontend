@@ -43,6 +43,13 @@ export default function ModoPagoV3(props){
 
     useEffect(()=>{
 
+        setEfectivoChecked(false)
+        setTarjetaChecked(false)
+        setCtaCteChecked(false)
+        setChequeChecked(false)
+        setMutualChecked(false)
+        setMercadoPagoChecked(false)
+
         if(typeof props.total !== 'undefined')
         {
             setTotal(props.total)
@@ -99,27 +106,27 @@ export default function ModoPagoV3(props){
                                     {
                                         case 'efectivo':
                                             _temp = {..._temp,efectivo_monto: r.monto}
-                                            
+                                            setEfectivoChecked(true)
                                             break;
                                         case 'ctacte':
                                             _temp = {..._temp,ctacte_monto: r.monto, ctacte_cuotas: r.cant_cuotas, ctacte_monto_cuotas: r.monto_cuota, ctacte_interes: 1 }
-                                            
+                                            setCtaCteChecked(true)
                                             break;
                                         case 'cheque':
                                             _temp = {..._temp,cheque_monto: r.monto, fk_banco: r.banco_idbanco}
-                                            
+                                            setChequeChecked(true)
                                             break;
                                         case 'mutual':
                                             _temp = {..._temp,mutual_monto: r.monto}
-                                            
+                                            setMutualChecked(true)
                                             break;
                                         case 'tarjeta':
                                             _temp = {..._temp,tarjeta_monto: r.monto, fk_tarjeta: r.fk_tarjeta, tarjeta_nro: r.tarjeta_nro, tarjeta_tarjeta: r.cant_cuotas}
-                                            
+                                            setTarjetaChecked(true)
                                             break;
                                         case 'mercadopago':
                                             _temp = {..._temp,mercadopago_monto: r.monto}
-                                            
+                                            setMercadoPagoChecked(true)
                                             break;
                                     }
                                 })
@@ -229,34 +236,54 @@ export default function ModoPagoV3(props){
             <Divider />
         </Col>
     </Row>
-        <Row>
-            <Col span={6}>
+        <Row style={{backgroundColor:"rgba(0,255,0,0.1)"}}>
+            <Col span={6} >
                 <b>Modo de Pago</b>
             </Col>
-            <Col span={12}>
-                <Checkbox value={efectivoChecked} onChange={()=>{
+            <Col span={12} style={{backgroundColor:"rgba(0,255,0,0.2)"}}>
+                <Checkbox checked={efectivoChecked} onChange={(e)=>{
                     setEfectivoChecked(!efectivoChecked)
-                    if(!efectivoChecked){
+                    
+                    if(false==e.target.checked){
                         //reset efectivo values
+                        onChange("efectivo_monto",0)
                     }
                 }}>Efectivo</Checkbox>
-                <Checkbox value={tarjetaChecked} onChange={()=>{
+                <Checkbox disabled={props.tarjetaHidden} checked={tarjetaChecked} onChange={(e)=>{
                     setTarjetaChecked(!tarjetaChecked)
-                    if(!tarjetaChecked){
-
+                    if(false==e.target.checked){
+                        onChange("tarjeta_monto", 0)
                     }
                 }}>Tarjeta</Checkbox>
-                <Checkbox value={ctacteChecked} onChange={()=>{
+                <Checkbox disabled={props.ctacteHidden} checked={ctacteChecked} onChange={(e)=>{
                     setCtaCteChecked(!ctacteChecked)
+                    if(false==e.target.checked)
+                    {
+                        onChangeMontoCtaCte(0)
+                    }
+                    
                 }}>CtaCte</Checkbox>
-                <Checkbox value={mutualChecked} onChange={()=>{
+                <Checkbox disabled={props.mutualHidden} checked={mutualChecked} onChange={(e)=>{
                     setMutualChecked(!mutualChecked)
+                    if(false==e.target.checked)
+                    {
+                        onChange("mutual_monto", 0)
+                    }
+                    
                 }}>Mutual</Checkbox>
-                <Checkbox value={chequeChecked} onChange={()=>{
+                <Checkbox disabled={props.chequeHidden} checked={chequeChecked} onChange={(e)=>{
                     setChequeChecked(!chequeChecked)
+                    if(false==e.target.checked)
+                    {
+                        onChange("cheque_monto", 0)
+                    }
                 }}>Cheque</Checkbox>
-                <Checkbox value={mercadopagoChecked} onChange={()=>{
+                <Checkbox checked={mercadopagoChecked} onChange={(e)=>{
                     setMercadoPagoChecked(!mercadopagoChecked)
+                    if(false==e.target.checked)
+                    {
+                        onChange("mercadopago_monto", 0)
+                    }
                 }}>MercadoPago</Checkbox>
             </Col>
         </Row>
@@ -277,7 +304,7 @@ export default function ModoPagoV3(props){
                 </Col>
             </Row>
 
-            <Row style={{display: props.tarjetaHidden || !tarjetaChecked ? "none" : "flex", backgroundColor:"#F0BFA1", padding:"2px"}}>
+            <Row style={{display: tarjetaChecked ? "flex" : "none", backgroundColor:"#F0BFA1", padding:"2px"}}>
                 <Col span={6}>
                     <Input 
                     type="number" 
@@ -300,7 +327,7 @@ export default function ModoPagoV3(props){
                 
             </Row>
             
-            <Row style={{display: props.ctacteHidden  || !ctacteChecked ? "none" : "flex", backgroundColor:"#EBB1AC", padding:"2px"}}>
+            <Row style={{display: ctacteChecked ? "flex" : "none", backgroundColor:"#EBB1AC", padding:"2px"}}>
                 <Col span={11}>
                     <Input 
                     type="number" 
@@ -389,7 +416,7 @@ export default function ModoPagoV3(props){
                 </Col>
             </Row>
 
-            <Row>
+            {/*<Row>
                 <Col span={24}><Button size="small" danger type="link" onClick={(e)=>{
                     if(confirm("Limpiar Campos?")){
                         setModoPago(__mp => {
@@ -414,7 +441,7 @@ export default function ModoPagoV3(props){
                         })
                     }
                 }}><RedoOutlined /></Button></Col>
-            </Row>
+            </Row>*/}
 
             {
                 props.totalsHidden ?  <></> :

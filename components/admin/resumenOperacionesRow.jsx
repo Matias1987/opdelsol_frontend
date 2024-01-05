@@ -71,6 +71,7 @@ const ResumenOperacionesRow = (props) => {
                         cuotas: parse_float_string( response.data[0].cuotas||""),
                         total: parse_float_string(response.data[0].monto_total||""),
                         anulado: parse_float_string(response.data[0].anulado||""),
+                        mercadopago: parse_float_string(response.data[0].mercadopago||""),
                     })
                 }
             })
@@ -183,6 +184,20 @@ const ResumenOperacionesRow = (props) => {
         <Col  span={3}>
         <Card bordered={false}  style={{backgroundColor:"rgba(0,0,0,0)"}}>
             <Statistic
+            title="M.P."
+            value={data.mercadopago}
+            precision={0}
+            valueStyle={{
+                color: '#5F1600',
+            }}
+           
+            suffix=""
+            />
+        </Card>
+        </Col>
+        <Col  span={3}>
+        <Card bordered={false}  style={{backgroundColor:"rgba(0,0,0,0)"}}>
+            <Statistic
             title="Total Efvo."
             value={parseFloat(data.efectivo) + parseFloat(data.cuotas)}
             precision={0}
@@ -194,7 +209,8 @@ const ResumenOperacionesRow = (props) => {
             />
         </Card>
         </Col>
-        <Col  span={3}>
+        
+        {/*<Col  span={3}>
         <Card bordered={false}  style={{backgroundColor:"rgba(0,0,0,0)"}}>
             <Statistic
             title="Anulados"
@@ -207,7 +223,7 @@ const ResumenOperacionesRow = (props) => {
             suffix=""
             />
         </Card>
-        </Col>
+        </Col>*/}
         
         
         </Row>

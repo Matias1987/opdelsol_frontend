@@ -74,6 +74,7 @@ export default function InformeCaja(props){
             var totalTarjetas=0;
             var totalMutual=0;
             var totalCtaCte=0;
+			var totalMercadoPago=0;
 
             response.data.forEach(r=>{
 				totalVentas += parseFloat(r.efectivo);
@@ -82,6 +83,7 @@ export default function InformeCaja(props){
 				totalTarjetas += parseFloat(r.tarjeta);
 				totalMutual += parseFloat(r.mutual);
 				totalCtaCte += parseFloat(r.ctacte);
+				totalMercadoPago += parseFloat(r.marcadopago);
 			})
 
             setTotales(t=>({
@@ -92,6 +94,7 @@ export default function InformeCaja(props){
 				tarjetas: totalTarjetas,
 				mutual: totalMutual,
 				ctacte: totalCtaCte,
+				mercadopago: totalMercadoPago,
 			}))
              
          })
@@ -237,6 +240,7 @@ export default function InformeCaja(props){
 			{align: 'right', title:"Tarjetas", dataIndex:"tarjeta", render:(_,{tarjeta})=>(currency_format(tarjeta))},
 			{align: 'right', title:"Mutual", dataIndex:"mutual", render:(_,{mutual})=>(currency_format(mutual))},
 			{align: 'right', title:"Cta.Cte.", dataIndex:"ctacte", render:(_,{ctacte})=>(currency_format(ctacte))},
+			{align: 'right', title:"Mercado Pago", dataIndex:"mercadopago", render:(_,{mercadopago})=>(currency_format(mercadopago))},
 		]} 
 		summary={data=>{
 			var totalVentas=0;
@@ -245,6 +249,7 @@ export default function InformeCaja(props){
 			var totalTarjetas=0;
 			var totalMutual=0;
 			var totalCtaCte=0;
+			var totalMercadoPago=0;
 			data.forEach(r=>{
 				totalVentas += parseFloat(r.efectivo);
 				totalCuotas += parseFloat(r.cuotas);
@@ -252,6 +257,7 @@ export default function InformeCaja(props){
 				totalTarjetas += parseFloat(r.tarjeta);
 				totalMutual += parseFloat(r.mutual);
 				totalCtaCte += parseFloat(r.ctacte);
+				totalMercadoPago += parseFloat(r.mercadopago);
 			})
 			/*setTotales(t=>({
 				...t,
@@ -273,6 +279,7 @@ export default function InformeCaja(props){
 					<Table.Summary.Cell align={'right'}><b>{currency_format(totalTarjetas)}</b></Table.Summary.Cell>
 					<Table.Summary.Cell align={'right'}><b>{currency_format(totalMutual)}</b></Table.Summary.Cell>
 					<Table.Summary.Cell align={'right'}><b>{currency_format(totalCtaCte)}</b></Table.Summary.Cell>
+					<Table.Summary.Cell align={'right'}><b>{currency_format(totalMercadoPago)}</b></Table.Summary.Cell>
 				</Table.Summary.Row>
 			</>
 		}}
