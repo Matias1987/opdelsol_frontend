@@ -206,7 +206,12 @@ const ListaVentas = (props) => {
     </Row>
     <Row>
         <Col span={24} style={_row_style}>
-            <Table dataSource={dataSource} columns={columns.filter(r=>!r.hidden)} loading={loading} />
+            <Table 
+            rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'}
+            dataSource={dataSource} 
+            columns={columns.filter(r=>!r.hidden)} 
+            loading={loading} 
+            />
         </Col>
     </Row>
 

@@ -53,7 +53,7 @@ const SearchStockVentas = (props) => {
         <Row>
             <Col span={24}>
                 <Input 
-
+                placeholder="Ingrese valor de búsqueda"
                 onChange={(e)=>{
                     setFiltros(
                         _f=>({..._f,mainval:e.target.value})

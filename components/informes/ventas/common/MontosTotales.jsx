@@ -15,24 +15,24 @@ const MontosTotalesInf = (props) => {
 			<table width='100%' border='0' cellSpacing='0' cellPadding='0'>
 				<tbody>
 					<tr>
-						<td style={{fontSize:".8em"}}>Importe</td>
-						<td style={{textAlign:"right", fontSize:".8em"}}>${currency_format(props.data.subtotal)}</td>
+						<td style={{fontSize:".96em"}}>Importe</td>
+						<td style={{textAlign:"right", fontSize:".96em"}}>${currency_format(props.data.subtotal)}</td>
 					</tr>
 					<tr>
-						<td style={{fontSize:".8em"}}>Descuento</td>
-						<td style={{textAlign:"right", fontSize:".8em"}}>${currency_format(props.data.descuento)}</td>
+						<td style={{fontSize:".96em"}}>Descuento</td>
+						<td style={{textAlign:"right", fontSize:".96em"}}>${currency_format(props.data.descuento)}</td>
 					</tr>
 					<tr>
-						<td style={{fontSize:".8em"}}>Subtotal</td>
-						<td style={{textAlign:"right", fontSize:".8em"}}>${currency_format(parseFloat(props.data.subtotal) - parseFloat(props.data.descuento))}</td>
+						<td style={{fontSize:".96em"}}>Subtotal</td>
+						<td style={{textAlign:"right", fontSize:".96em"}}>${currency_format(parseFloat(props.data.subtotal) - parseFloat(props.data.descuento))}</td>
 					</tr>
 					<tr>
-						<td style={{fontSize:".8em"}}>Se&ntilde;a</td>
-						<td style={{textAlign:"right", fontSize:".8em"}}>${currency_format(props.data.total_haber)}</td>
+						<td style={{fontSize:".96em"}}>Se&ntilde;a</td>
+						<td style={{textAlign:"right", fontSize:".96em"}}>${currency_format(props.data.total_haber)}</td>
 					</tr>
 					<tr>
-						<td style={{fontSize:".8em"}}>Saldo</td>
-						<td style={{textAlign:"right", fontSize:".8em"}}>${currency_format(parseFloat(props.data.subtotal) - parseFloat(props.data.descuento) - parseFloat(props.data.total_haber))}</td>
+						<td style={{fontSize:".96em"}}>Saldo</td>
+						<td style={{textAlign:"right", fontSize:".96em"}}>${currency_format(parseFloat(props.data.subtotal) - parseFloat(props.data.descuento) - parseFloat(props.data.total_haber))}</td>
 					</tr>
 				</tbody>
             </table>

@@ -240,7 +240,7 @@ export default function ModoPagoV3(props){
             <Col span={6} >
                 <b>Modo de Pago</b>
             </Col>
-            <Col span={12} style={{backgroundColor:"rgba(0,255,0,0.2)"}}>
+            <Col span={12} style={{backgroundColor:"rgba(0,255,0,0.2)", padding:".3em"}}>
                 <Checkbox checked={efectivoChecked} onChange={(e)=>{
                     setEfectivoChecked(!efectivoChecked)
                     
@@ -263,6 +263,13 @@ export default function ModoPagoV3(props){
                     }
                     
                 }}>CtaCte</Checkbox>
+                <Checkbox disabled={props.chequeHidden} checked={chequeChecked} onChange={(e)=>{
+                    setChequeChecked(!chequeChecked)
+                    if(false==e.target.checked)
+                    {
+                        onChange("cheque_monto", 0)
+                    }
+                }}>Cheque</Checkbox>
                 <Checkbox disabled={props.mutualHidden} checked={mutualChecked} onChange={(e)=>{
                     setMutualChecked(!mutualChecked)
                     if(false==e.target.checked)
@@ -271,13 +278,7 @@ export default function ModoPagoV3(props){
                     }
                     
                 }}>Mutual</Checkbox>
-                <Checkbox disabled={props.chequeHidden} checked={chequeChecked} onChange={(e)=>{
-                    setChequeChecked(!chequeChecked)
-                    if(false==e.target.checked)
-                    {
-                        onChange("cheque_monto", 0)
-                    }
-                }}>Cheque</Checkbox>
+                
                 <Checkbox checked={mercadopagoChecked} onChange={(e)=>{
                     setMercadoPagoChecked(!mercadopagoChecked)
                     if(false==e.target.checked)
@@ -289,7 +290,7 @@ export default function ModoPagoV3(props){
         </Row>
         
         <>
-            <Row style={{display: efectivoChecked ? "flex" : "none", backgroundColor:"#F4E8B3", padding:"2px"}}>
+            <Row style={{display: efectivoChecked ? "flex" : "none", backgroundColor:"rgba(244,232,179,0.5)", padding:"2px"}}>
                 <Col span={8} >
                     <Input 
                     type="number" 
@@ -304,7 +305,7 @@ export default function ModoPagoV3(props){
                 </Col>
             </Row>
 
-            <Row style={{display: tarjetaChecked ? "flex" : "none", backgroundColor:"#F0BFA1", padding:"2px"}}>
+            <Row style={{display: tarjetaChecked ? "flex" : "none", backgroundColor:"rgba(240,191,161,0.5)", padding:"2px"}}>
                 <Col span={6}>
                     <Input 
                     type="number" 
@@ -319,7 +320,19 @@ export default function ModoPagoV3(props){
                 </Col>
                 <Col span={9}> 
                     
-                    <Select placeholder="Seleccione Tarjeta" value={modoPago.fk_tarjeta} options={tarjetas} style={{width:'100%'}} onChange={(value)=>{onChange("fk_tarjeta", value)}} />
+                    <Select 
+                    showSearch
+                    placeholder="Seleccione Tarjeta" 
+                    value={modoPago.fk_tarjeta} 
+                    options={tarjetas} 
+                    style={{width:'100%'}} 
+                    onChange={(value)=>{onChange("fk_tarjeta", value)}} 
+                    optionFilterProp="children"
+                    filterOption={(input, option) => (option?.label.toUpperCase() ?? '').includes(input.toUpperCase())}
+                    filterSort={(optionA, optionB) =>
+                    (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
+                    }
+                    />
                 </Col>
 
                 
@@ -327,7 +340,7 @@ export default function ModoPagoV3(props){
                 
             </Row>
             
-            <Row style={{display: ctacteChecked ? "flex" : "none", backgroundColor:"#EBB1AC", padding:"2px"}}>
+            <Row style={{display: ctacteChecked ? "flex" : "none", backgroundColor:"rgba(235,177,172,0.5)", padding:"2px"}}>
                 <Col span={11}>
                     <Input 
                     type="number" 
@@ -340,7 +353,14 @@ export default function ModoPagoV3(props){
                 </Col>
                 <Col span={1}>Cuotas</Col>
                 <Col span={3}>
-                    <Select options={dataCuotas} value={modoPago.ctacte_cuotas} onChange={(v)=>{
+                    <Select 
+                    showSearch
+                    optionFilterProp="children"
+                    filterOption={(input, option) => (option.label.toString() == input.toString())}
+                    
+                    options={dataCuotas} 
+                    value={modoPago.ctacte_cuotas} 
+                    onChange={(v)=>{
                         
                         const _i = dataCuotas.find(r=>+r.cantidad_cuotas ==+v)
                         if(_i)
@@ -375,7 +395,7 @@ export default function ModoPagoV3(props){
                 </Col>
                 <Col span={8}><Input  type="number" readOnly={false} onClick={(e)=>{e.target.select()}} value={modoPago.ctacte_monto_cuotas}  prefix="Valor Cuota: " onChange={(e)=>{onChange("ctacte_monto_cuotas", parseFloat(e.target.value))}}></Input></Col>
             </Row>
-            <Row style={{display:  chequeChecked ? "flex" : "none", backgroundColor:"#CCB6C0", padding:"2px"}}>
+            <Row style={{display:  chequeChecked ? "flex" : "none", backgroundColor:"rgba(204,182,192,0.5) ", padding:"2px"}}>
                 <Col span={9}>
                     <Input 
                     type="number" 
@@ -387,11 +407,24 @@ export default function ModoPagoV3(props){
                     />
                 </Col>
                 <Col span={14}>
-                    &nbsp;Banco:&nbsp;<Select value={modoPago.fk_banco} placeholder="Seleccione Banco" style={{width:"300px"}} options={bancos} onChange={(value)=>{onChange("fk_banco",value)}} />
+                    &nbsp;Banco:&nbsp;
+                    <Select 
+                    showSearch 
+                    value={modoPago.fk_banco} 
+                    placeholder="Seleccione Banco" 
+                    style={{width:"300px"}} 
+                    options={bancos} 
+                    onChange={(value)=>{onChange("fk_banco",value)}} 
+                    optionFilterProp="children"
+                    filterOption={(input, option) => (option?.label.toUpperCase() ?? '').includes(input.toUpperCase())}
+                    filterSort={(optionA, optionB) =>
+                    (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
+                    }
+                    />
                 </Col>
             </Row>
 
-            <Row  style={{display: mutualChecked ? "flex": "none", backgroundColor:"#CFBAEB", padding:"2px"}}>
+            <Row  style={{display: mutualChecked ? "flex": "none", backgroundColor:"rgba(207,186,235,0.5) ", padding:"2px"}}>
                 <Col span={9}>
                     <Input 
                     type="number" 
@@ -404,7 +437,7 @@ export default function ModoPagoV3(props){
                     
                 </Col>
             </Row>
-            <Row style={{display: mercadopagoChecked? "flex" : "none", backgroundColor:"#A1C4E7", padding:"2px"}}>
+            <Row style={{display: mercadopagoChecked? "flex" : "none", backgroundColor:"rgba(161,196,231,0.5)", padding:"2px"}}>
                 <Col span={9}>
                     <Input
                     type="number"

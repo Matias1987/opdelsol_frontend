@@ -1,4 +1,5 @@
 import { get } from "@/src/urls"
+import { ScissorOutlined } from "@ant-design/icons"
 import { Spin, Tag } from "antd"
 import Barcode from "react-barcode"
 
@@ -135,7 +136,11 @@ const InformeVenta = (props) => {
 							</table>
 						</td>
 					</tr>
-					<tr><td style={{padding:"0"}}><hr style={{border:"dotted"}} /></td></tr>
+					<tr>
+						<td style={{padding:"0", fontSize:".6em"}}>
+							<ScissorOutlined  /><hr style={{ margin:"-1em", border:"1px dotted"}} />
+							<br />
+						</td></tr>
 					<tr>
 						<td>
 							<table style={{height: '21px', width:'100%'}} >
@@ -148,9 +153,11 @@ const InformeVenta = (props) => {
 											<hr />
            									 {data.obra_social!="" ? "Obra Social: "+data.obra_social : ""}<br /> {data.medico!="" ? "Medico: " + data.medico : ""} <br />Fecha de Entrega: {data.fecha_entrega_formated + "  " + (data.hora_retiro == "null" ? "-" : data.hora_retiro)}
 										</td>
-										<td width='250px'>
-										<DataSucursalInf idsucursal={data.sucursal_idsucursal} />
-											<FechaEntregaInf data={data} />
+										<td width='180px'>
+											<div style={{marginTop:"-3em"}}>
+												<DataSucursalInf idsucursal={data.sucursal_idsucursal} />
+												<FechaEntregaInf data={data} />
+											</div>
 										</td>
 									</tr>
 								</tbody>

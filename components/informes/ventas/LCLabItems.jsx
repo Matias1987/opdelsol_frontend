@@ -20,7 +20,7 @@ export default function LCLabItems(props){
 
 
     return data == null ? <Spin /> : <>
-    <table style={{width:"100%", fontSize:".75em", padding:"0"}}>
+    <table style={{width:"70%", fontSize:".95em", padding:"0", marginLeft:"auto", marginRight:"auto"}}>
         <thead>
             <tr>
                 <th></th>
@@ -34,12 +34,12 @@ export default function LCLabItems(props){
             {
                 data.map(r=>(
                     <tr >
-                        <td>{r.tipo}</td>
+                        <td style={{borderBottom:"1px dotted"}}>{r.tipo}</td>
                         {/*<td style={{padding:"0",textAlign:"left"}}><b>{r.codigo}</b></td>*/}
-                        <td style={{padding:"0",textAlign:"left"}}>{r.tipo=='od' || r.tipo=='oi' ? <>
-                            ESF:&nbsp;{r.esf} CIL:&nbsp;{r.cil} EJE:&nbsp;{r.eje} CB:&nbsp;{r.curva_base} DIAM:&nbsp;{r.diametro}
+                        <td style={{padding:"0",textAlign:"left", borderBottom:"1px dotted"}}>{r.tipo=='od' || r.tipo=='oi' ? <>
+                            ESF:&nbsp;{r.esf} &nbsp;&nbsp;CIL:&nbsp;{r.cil} &nbsp;&nbsp;EJE:&nbsp;{r.eje} &nbsp;&nbsp;CB:&nbsp;{r.curva_base} &nbsp;&nbsp;DIAM:&nbsp;{r.diametro}
                         </> : <>{r.descripcion}</> }</td>
-                        <td style={{padding:"0",textAlign:"right"}}>{currency_format(r.precio)}</td>
+                        <td style={{padding:"0",textAlign:"right", borderBottom:"1px dotted"}}>{currency_format(r.precio)}</td>
                     </tr>
                 ))
             }

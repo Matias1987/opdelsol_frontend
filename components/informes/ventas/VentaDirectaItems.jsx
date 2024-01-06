@@ -20,7 +20,7 @@ export default function VentaDirectaItems(props){
 
 
     return data == null ? <Spin /> : <>
-    <table style={{width:"100%", fontSize:".75em", padding:"0"}}>
+    <table style={{width:"80%", fontSize:".95em", padding:"0",  marginLeft:"auto", marginRight:"auto",}}>
         <thead>
             <tr>
                 <th style={{padding:"0", textAlign:"left"}}>C&oacute;digo</th>
@@ -34,11 +34,11 @@ export default function VentaDirectaItems(props){
             {
                 data.map(r=>(
                     <tr >
-                        <td style={{padding:"0"}}><b>{r.codigo}</b></td>
-                        <td style={{padding:"0"}}>{r.descripcion}</td>
-                        <td style={{padding:"0", textAlign:"right"}}>$&nbsp;{currency_format(r.precio)}</td>
-                        <td style={{padding:"0", textAlign:"right"}}>{r.cantidad}</td>
-                        <td style={{padding:"0",textAlign:"right"}}>$&nbsp;{currency_format(r.total)}</td>
+                        <td style={{borderBottom:"1px dotted", padding:"0"}}><b>{r.codigo}</b></td>
+                        <td style={{borderBottom:"1px dotted", padding:"0"}}>{r.descripcion}</td>
+                        <td style={{borderBottom:"1px dotted", padding:"0", textAlign:"right"}}>$&nbsp;{currency_format(r.precio)}</td>
+                        <td style={{borderBottom:"1px dotted", padding:"0", textAlign:"right"}}>{r.cantidad}</td>
+                        <td style={{borderBottom:"1px dotted", padding:"0",textAlign:"right"}}>$&nbsp;{currency_format(r.total)}</td>
                     </tr>
                 ))
             }

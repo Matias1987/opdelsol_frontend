@@ -19,30 +19,30 @@ export default function RecStockItems(props){
 
 
 
-    return data == null ? <Spin /> : <>
-    <table style={{width:"100%", fontSize:".75em", padding:"0"}}>
+    return data == null ? <Spin /> : <div style={{width:"100%"}}>
+    <table style={{width:"70%", fontSize:".95em", padding:"0", marginLeft:"auto", marginRight:"auto"}}>
         <thead>
             <tr>
                 <th style={{width:'10%'}}></th>
-                <th style={{padding:"0", textAlign:"left"}}>C&oacute;digo</th>
-                <th style={{padding:"0", textAlign:"left"}}>Eje</th>
+                <th style={{padding:".1em", textAlign:"left"}}>C&oacute;digo</th>
+                <th style={{padding:".1em", textAlign:"left"}}>Eje</th>
                 {/*<th style={{padding:"0", textAlign:"left"}}>Descripci&oacute;n</th>*/}
-                <th style={{padding:"0", textAlign:"right"}}>Precio</th>
+                <th style={{padding:".1em", textAlign:"right"}}>Precio</th>
             </tr>
         </thead>
         <tbody>
             {
                 data.map(r=>(
                     <tr >
-                        <td>{r.tipo}</td>
-                        <td style={{padding:"0",textAlign:"left"}}><b>{r.codigo}</b></td>
-                        <td style={{padding:"0",textAlign:"left"}}><b>{r.eje}</b></td>
+                        <td style={{borderBottom:"1px dotted"}}>{r.tipo}</td>
+                        <td style={{borderBottom:"1px dotted", padding:".2em",textAlign:"left"}}><b>{r.codigo}</b></td>
+                        <td style={{borderBottom:"1px dotted", padding:".2em",textAlign:"left"}}><b>{r.eje}</b></td>
                         {/*<td style={{padding:"0",textAlign:"left"}}>{r.descripcion}</td>*/}
-                        <td style={{padding:"0",textAlign:"right"}}>{currency_format(r.precio)}</td>
+                        <td style={{borderBottom:"1px dotted", padding:".2em",textAlign:"right"}}>{currency_format(r.precio)}</td>
                     </tr>
                 ))
             }
         </tbody>
     </table>
-    </>;
+    </div>;
 }

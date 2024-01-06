@@ -20,7 +20,7 @@ export default function MultifLabItems(props){
 
 
     return data == null ? <Spin /> : <>
-    <table style={{width:"100%", fontSize:".75em", padding:"0"}}>
+    <table style={{width:"70%", fontSize:".95em", padding:"0", marginLeft:"auto", marginRight:"auto"}}>
         <thead>
             <tr>
                 <th></th>
@@ -37,15 +37,15 @@ export default function MultifLabItems(props){
             {
                 data.map(r=>(
                     <tr >
-                        <td>{r.tipo}</td>
-                        <td style={{padding:"0",textAlign:"center"}}>{(parseFloat(+r.esf||0)>0 ? "":"") + r.esf}</td>
-                        <td style={{padding:"0",textAlign:"center"}}>{r.cil}</td>
-                        <td style={{padding:"0",textAlign:"center"}}>{r.eje}</td>
-                        <td style={{padding:"0",textAlign:"left"}}><b>{r.codigo}</b></td>
+                        <td style={{borderBottom:"1px dotted"}} >{r.tipo}</td>
+                        <td style={{ borderBottom:"1px dotted", padding:"0",textAlign:"center"}}>{(parseFloat(+r.esf||0)>0 ? "":"") + r.esf}</td>
+                        <td style={{ borderBottom:"1px dotted", padding:"0",textAlign:"center"}}>{r.cil}</td>
+                        <td style={{ borderBottom:"1px dotted", padding:"0",textAlign:"center"}}>{r.eje}</td>
+                        <td style={{ borderBottom:"1px dotted", padding:"0",textAlign:"left"}}><b>{r.codigo}</b></td>
                         
                         {/*<td style={{padding:"0",textAlign:"left"}}>{r.descripcion}</td>*/}
                         
-                        <td style={{padding:"0",textAlign:"right"}}>{currency_format(r.precio)}</td>
+                        <td style={{ borderBottom:"1px dotted", padding:"0",textAlign:"right"}}>{currency_format(r.precio)}</td>
                     </tr>
                 ))
             }

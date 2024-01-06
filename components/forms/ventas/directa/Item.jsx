@@ -76,7 +76,9 @@ const VDItem = (props) => {
     return (<>
     <Button size="small" block type="primary" onClick={()=>{setModalOpen(true)}}>Agregar Producto</Button>
     <Modal width={"80%"} title="Agregar Producto" open={modalOpen} onOk={onOK} onCancel={onCancel} destroyOnClose={true}>
-        <SearchStockVentas callback={(idcodigo)=>{
+        <SearchStockVentas 
+        
+        callback={(idcodigo)=>{
                 onAddNewCode(idcodigo)
                 setModalOpen(false)
             }} />

@@ -14,8 +14,7 @@ const DataSucursalInf = (props) => {
     return data == null ? <Spin /> : <>
     Sucursal: <span style={{fontWeight:'bold',}}>{data.denominacion}</span>
     <br /> 
-    {data.direccion}<br /> 
-    {data.telefono}<br /> 
+    {data.direccion} &nbsp;&nbsp;&nbsp;    {data.telefono}
     </>
 }
 

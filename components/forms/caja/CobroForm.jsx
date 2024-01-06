@@ -395,6 +395,14 @@ export default function CobroOperacion(props){
      */
 
     const enviarADeposito = () =>{
+        if(mp.total!=0)
+        {
+            alert("Monto a pagar distinto a 0")
+            return
+        }
+        if(!confirm("Confirmar envio a depósito")){
+            return
+        }
         /**
          * Al marcarse como deposito sin cobrar, las filas de modo de pago deben ser eliminadas!!
          */
@@ -446,7 +454,7 @@ export default function CobroOperacion(props){
                 <Row>
                     <Col span={24}>
                         <Divider />
-                        <Button disabled={cobrarDisabled} danger onClick={onCobrarClick}>Cobrar {props.tipo == 'entrega' ? ' y marcar como entregado' : ''}</Button>&nbsp;&nbsp;
+                        <Button disabled={cobrarDisabled} danger onClick={onCobrarClick}>Cobrar {props.tipo == 'entrega' ? ' y/o marcar como entregado' : ''}</Button>&nbsp;&nbsp;
                         {
                             props.tipo == 'ingreso' && !entrega ? <Button size="small" type="primary" onClick={enviarADeposito}>Enviar a dep&oacute;sito</Button> : <></>
                         }
