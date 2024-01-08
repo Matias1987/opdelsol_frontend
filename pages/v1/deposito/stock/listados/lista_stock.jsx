@@ -4,13 +4,14 @@ import GrupoSelect from "@/components/GrupoSelect";
 import SubFamiliaSelect from "@/components/SubFamiliaSelect";
 import SubGroupSelect from "@/components/SubGroupSelect";
 import DetalleStock from "@/components/forms/deposito/DetalleStock";
+import EditarCodigoIndiv from "@/components/forms/deposito/EditarCodigoIndiv";
 import ModificarCantidadForm from "@/components/forms/deposito/modificarCantidadForm";
 import MyLayout from "@/components/layout/layout";
 import InformeStock from "@/pages/v1/informes/informe_stock";
 import globals from "@/src/globals";
 import { post_method } from "@/src/helpers/post_helper";
 import { get, post } from "@/src/urls";
-import { CheckCircleOutlined } from "@ant-design/icons";
+import { CheckCircleOutlined, EditFilled } from "@ant-design/icons";
 import { Button, Checkbox, Col, Divider, Form, Input, InputNumber, Row, Select, Space, Table, Tag } from "antd";
 import { useEffect, useRef, useState } from "react";
 
@@ -25,6 +26,7 @@ export default function ListaStock(){
     const idsucursal = globals.obtenerSucursal();//temporary
     const [form] = Form.useForm();
     const [form1] = Form.useForm();
+    const [listId, setListId] = useState(0)
     const tipos_filtro_dic = {
         "codigo_contenga_a":{tipo: "codigo", descripcion: "Codigo Cont."},
         "codigo_igual_a":{tipo: "codigo", descripcion: "Codigo Igual a"},
@@ -77,6 +79,7 @@ export default function ListaStock(){
     //THIS IS NEW
     useEffect(()=>{
         setLoading(true)
+       
         const data = procesar_tags();
         post_method(post.search.filtro_stock,data,(response)=>{
             setData(response.data.map(
@@ -102,6 +105,7 @@ export default function ListaStock(){
                 )
             ))
     setLoading(false)
+    setListId(listId+1)
         })
     },[valueChanged])
 
@@ -128,7 +132,7 @@ export default function ListaStock(){
         {
             title: 'Acciones', dataIndex: 'idstock', key: 'idstock',
             render: 
-                (_,{idcodigo})=><DetalleStock idcodigo={idcodigo} />                
+                (_,{idcodigo})=><><DetalleStock idcodigo={idcodigo} /><EditarCodigoIndiv idcodigo={idcodigo} butonText={<EditFilled />} /></>                
         },
         {
             title: '', dataIndex: 'checked', key: 'check', render:(_,{checked, idcodigo})=>(
@@ -381,8 +385,8 @@ export default function ListaStock(){
             </Col>
         </Row>
         <Row>
-            <Col span={24}>
-                <InformeStock data={data} key={data} />
+            <Col span={24} key={listId} >
+                <InformeStock data={data} />
             </Col>
         </Row>
         </>

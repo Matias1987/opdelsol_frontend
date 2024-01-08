@@ -21,7 +21,7 @@ export default function TestMenu(){
           <Menu.Item key="100"><Link href={get_url_to("deposito/")}><HomeOutlined />&nbsp;Inicio  </Link></Menu.Item>
           <Menu.Item key="40"><Link href={get_url_to("deposito/envio/nuevo_envio")}><StarOutlined />&nbsp;Nuevo Envio  </Link></Menu.Item>
           <Menu.Item key={"31"}><Link href={get_url_to("deposito/stock/listados/lista_stock")}><StarOutlined />&nbsp;Lista Stock</Link></Menu.Item>
-          <Menu.Item key="27"><Link href={get_url_to("deposito/stock/modificar_precios_categoria")}><StarOutlined />&nbsp; Editar Multiplicadores Por Categor&iacute;a</Link></Menu.Item>
+          {/*<Menu.Item key="27"><Link href={get_url_to("deposito/stock/modificar_precios_categoria")}><StarOutlined />&nbsp; Editar Multiplicadores Por Categor&iacute;a</Link></Menu.Item>*/}
           <Menu.Item key="107"><Link href={public_urls.editar_precios}><StarOutlined />&nbsp; Editar Precios de SubGrupos</Link></Menu.Item>
           <Menu.Item key="13"><Link href={get_url_to("deposito/imprimir_codigos")}><StarOutlined />&nbsp; Imprimir C&oacute;digos</Link></Menu.Item>
           
@@ -45,9 +45,9 @@ export default function TestMenu(){
             <Menu.Item key="42" ><PartitionOutlined /> 
               <Link href={get_url_to("deposito/arbol_codigos")}>&nbsp;&Aacute;rbol de C&oacute;digos</Link>
             </Menu.Item>
-            <Menu.Item key="43" ><PartitionOutlined /> 
+            {/*<Menu.Item key="43" ><PartitionOutlined /> 
               <Link href={get_url_to("deposito/stock/modif_cant_cat")}>&nbsp;Modificar Cantidad Categor&iacute;a;</Link>
-            </Menu.Item>
+            </Menu.Item>*/}
             
             <Menu.Divider></Menu.Divider>
             <Menu.Item key="15" ><PlusCircleOutlined /> 

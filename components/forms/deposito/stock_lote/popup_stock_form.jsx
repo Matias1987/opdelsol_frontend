@@ -224,7 +224,7 @@ useEffect(()=>{
                                             return e.target.value})
                                         setValue("modo_precio",e.target.value)
                                     }}>
-                                    <Radio value={0}>Multiplicador <b>({multiplicador})</b></Radio>
+                                    <Radio disabled value={0}>Multiplicador <b>({multiplicador})</b></Radio>
                                     <Radio value={1}>Precio Subgrupo <b>(${precioSubgrupo})</b></Radio>
                                     <Radio value={2}>Precio Individual</Radio>
                                 </Radio.Group>
