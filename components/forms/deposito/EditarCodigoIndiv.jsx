@@ -35,19 +35,19 @@ const EditarCodigoIndiv = (props) =>{
     }
 
     return <>
-    <Button onClick={onOpen}>{props.butonText}</Button>
+    <Button onClick={onOpen} type="primary">{props.buttonText}</Button>
     
     <Modal open={open} destroyOnClose onCancel={onClose} footer={null}> 
 
         {codigo == null ? <><Spin /></> :<> 
         <Row>
             <Col span={24}>
-                Modificar Stock
+                Modificar C&oacute;digo
             </Col>
         </Row>
             <Row>
                 <Col span={24}>
-                    <Input readOnly prefix="Código: " value={codigo.codigo}/>
+                    <Input style={{backgroundColor:"lightyellow"}} readOnly prefix="Código: " value={codigo.codigo}/>
                 </Col>
             </Row>
             <Row>

@@ -9,7 +9,7 @@ columns:
     }
 */
 const CustomTable = (props) => {
-    const [tableloading,setLoading] = useState(false);
+    const [tableloading,setLoading] = useState(true);
     const [data, setData] = useState([]);
     useEffect(()=>{
         setLoading(true)
@@ -19,6 +19,7 @@ const CustomTable = (props) => {
              response.json()
         )
         .then((response)=>{
+            //alert(JSON.stringify(response))
             let _data = props.parsefnt(response)
             
             setData(_data)
@@ -26,7 +27,7 @@ const CustomTable = (props) => {
             setLoading(false)
 
         })
-        .catch(error=>(console.error(error)))
+        .catch(error=>("ERROR: " + console.error(error)))
     },[])
     return (
         <Table

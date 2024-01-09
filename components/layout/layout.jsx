@@ -1,22 +1,16 @@
 import React, { useState } from 'react';
-import { Layout, Menu, Icon, Button, Image } from 'antd';
-import SideMenu from './sidemenu';
+import { Layout} from 'antd';
 import TestMenu from './menu_test';
-import { EyeOutlined, LogoutOutlined, MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 import { useEffect } from 'react'
 import useStorage from "../../useStorage";
 import { get, public_urls } from '@/src/urls';
-import SucursalLabel from '../sucursal_label';
 import globals from '@/src/globals';
-import MenuDepositoMinTop from './menu_deposito_min_top';
-import MenuSideDepositoMin from './menu_side_desposito_min';
-import { redirect } from 'next/dist/server/api-utils';
 import HeaderSol from './header';
 import MenuV2 from './menu_v2';
 
 
 export default function MyLayout(props){
-    const { Header, Sider, Content } = Layout;
+    const { Sider, Content } = Layout;
     const [collapsed, setCollapsed] = useState(false);
     const [uDepositoMin, setUDepositoMin] = useState(false)
     const [uDeposito, setUDeposito] = useState(false)

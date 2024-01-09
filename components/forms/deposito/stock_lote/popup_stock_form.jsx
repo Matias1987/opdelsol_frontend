@@ -203,7 +203,7 @@ useEffect(()=>{
                         <Col span={24}>
                             <Form.Item label={"Modo Precio"} name={"modo_precio"}>
                                 <Radio.Group 
-                                
+                                value={modoPrecio}
                                 onChange={(e)=>{
                                         setModoPrecio(v=>{
                                             switch(e.target.value)
@@ -224,7 +224,7 @@ useEffect(()=>{
                                             return e.target.value})
                                         setValue("modo_precio",e.target.value)
                                     }}>
-                                    <Radio disabled value={0}>Multiplicador <b>({multiplicador})</b></Radio>
+                                   { /*<Radio disabled value={0}>Multiplicador <b>({multiplicador})</b></Radio>*/}
                                     <Radio value={1}>Precio Subgrupo <b>(${precioSubgrupo})</b></Radio>
                                     <Radio value={2}>Precio Individual</Radio>
                                 </Radio.Group>
@@ -246,7 +246,7 @@ useEffect(()=>{
                 </Col>
             </Row>
             <Row>
-                <Col span={24}>
+                <Col span={12}>
                     <Form.Item  label={"Edad"} name={"edad"} style={{width: "200px"}}>
                     <Select 
                         onChange={
@@ -270,7 +270,9 @@ useEffect(()=>{
                             ]
                         } />
                 </Form.Item>
-                <Form.Item  label={"Género"} name={"genero"} style={{width: "200px"}}>
+                </Col>
+                <Col span={12}>
+                    <Form.Item  label={"Género"} name={"genero"} style={{width: "200px"}}>
                         <Select 
 
                         onChange={

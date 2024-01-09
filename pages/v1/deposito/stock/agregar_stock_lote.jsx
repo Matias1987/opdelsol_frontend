@@ -505,7 +505,8 @@ export default function AgregarStockLote(props){
                             {/* agregar facturas */}
                             {agregarFacturaPopup()}
                             {/* FIN agregar facturas */}
-                            
+                            <br />
+                            <br />
                         </>
                     </Form.Item>
                     
@@ -515,7 +516,7 @@ export default function AgregarStockLote(props){
                         <PopUpAgregarStockLoteForm precioDefecto={precioDefecto} multiplicador={multiplier} title={"Agregar"} edit={false} values={null} callback={(_data)=>{
                                     agregarRow(_data)
                                 }} />
-                        <PopupAgregarCodigoLoteStockV2 callback={
+                        {/*<PopupAgregarCodigoLoteStockV2 callback={
                             (cods)=>{
                                 const _codes = []
                                 cods.forEach((r)=>{
@@ -533,7 +534,7 @@ export default function AgregarStockLote(props){
                                 })
                                 setTableData([..._codes])
                             }
-                        } />
+                        } />*/}
                         <Table dataSource={tableData} columns={columns} pagination={false} />
                         </>
                         }

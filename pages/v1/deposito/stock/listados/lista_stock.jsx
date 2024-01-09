@@ -5,6 +5,7 @@ import SubFamiliaSelect from "@/components/SubFamiliaSelect";
 import SubGroupSelect from "@/components/SubGroupSelect";
 import DetalleStock from "@/components/forms/deposito/DetalleStock";
 import EditarCodigoIndiv from "@/components/forms/deposito/EditarCodigoIndiv";
+import EditarStockIndiv from "@/components/forms/deposito/EditarStockIndiv";
 import ModificarCantidadForm from "@/components/forms/deposito/modificarCantidadForm";
 import MyLayout from "@/components/layout/layout";
 import InformeStock from "@/pages/v1/informes/informe_stock";
@@ -82,6 +83,7 @@ export default function ListaStock(){
        
         const data = procesar_tags();
         post_method(post.search.filtro_stock,data,(response)=>{
+            //alert(JSON.stringify(response))
             setData(response.data.map(
                 (row)=>(
                     {
@@ -100,6 +102,7 @@ export default function ListaStock(){
                         subfamilia: row.subfamilia,
                         grupo: row.grupo,
                         subgrupo: row.subgrupo,
+                        modo_precio: row.modo_precio,
 
                     }
                 )
@@ -127,12 +130,20 @@ export default function ListaStock(){
         
         {title: 'Edad',dataIndex: 'edad',key: 'edad', hidden: true},
         {title: 'Género',dataIndex: 'genero',key: 'genero', hidden: true},
-        {title: 'Precio',dataIndex: 'precio',key: 'precio'},
+        {title: 'Precio',dataIndex: 'idcodigo',key: 'precio', render:(_,{precio,modo_precio})=>{
+            
+            switch(modo_precio)
+            {
+                case 0: return <>{precio}&nbsp;&nbsp;<Tag color="blue">Mult.</Tag></>;
+                case 1: return <>{precio}&nbsp;&nbsp;<Tag color="orange">Subgrupo</Tag></>;
+                case 2: return <>{precio}&nbsp;&nbsp;<Tag color="red">Propio</Tag></>;
+            }
+        }},
         {title: 'Cantidad',dataIndex: 'cantidad',key: 'cantidad'},
         {
             title: 'Acciones', dataIndex: 'idstock', key: 'idstock',
             render: 
-                (_,{idcodigo})=><><DetalleStock idcodigo={idcodigo} /><EditarCodigoIndiv idcodigo={idcodigo} butonText={<EditFilled />} /></>                
+                (_,{idcodigo})=><><DetalleStock idcodigo={idcodigo} /><EditarStockIndiv buttonText={"Edit. Cant."} idcodigo={idcodigo} idsucursal={globals.obtenerSucursal()} /></>                
         },
         {
             title: '', dataIndex: 'checked', key: 'check', render:(_,{checked, idcodigo})=>(
