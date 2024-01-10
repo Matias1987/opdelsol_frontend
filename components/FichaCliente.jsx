@@ -166,7 +166,7 @@ export default function FichaCliente(props){
             tarjetaHidden={true}
             ctacteHidden={true}
             chequeHidden={false}
-            mutualHidden={true}
+            mutualHidden={false}
             buttonText="Cargar Cuota" 
             totalsHidden={true} 
             tipo="cuota" 

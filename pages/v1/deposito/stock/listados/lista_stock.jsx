@@ -143,7 +143,7 @@ export default function ListaStock(){
         {
             title: 'Acciones', dataIndex: 'idstock', key: 'idstock',
             render: 
-                (_,{idcodigo})=><><DetalleStock idcodigo={idcodigo} /><EditarStockIndiv buttonText={"Edit. Cant."} idcodigo={idcodigo} idsucursal={globals.obtenerSucursal()} /></>                
+                (_,{idcodigo})=><><DetalleStock idcodigo={idcodigo} /><EditarStockIndiv callback={()=>{setValueChanged(!valueChanged)}} buttonText={"Edit. Cant."} idcodigo={idcodigo} idsucursal={globals.obtenerSucursal()} /></>                
         },
         {
             title: '', dataIndex: 'checked', key: 'check', render:(_,{checked, idcodigo})=>(
@@ -287,6 +287,7 @@ export default function ListaStock(){
 
     return(
         <>
+            <h2>Lista Stock</h2>
             <Form {...{labelCol:{span:5}, wrapperCol:{span:18}}} onFinish={onFinishFiltro} form={form}>
             <Row style={{backgroundColor:"rgba(255, 99, 71, 0.4)", paddingTop:"1em", paddingLeft:"1em", borderRadius:"15px"}}>
                 <Col span={8}>

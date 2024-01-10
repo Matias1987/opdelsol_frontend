@@ -86,6 +86,7 @@ const post = {
     totales_ventas_medicos: remote_base_url + "medicos/ventas_medico_totales/",
     lista_ventas_medico: remote_base_url + "medicos/ventas_medico/",
     obtener_caja_sucursal_dia: remote_base_url + "admin/obtener_caja_s_dia/",
+    obtener_codigos_filtro: remote_base_url + "codigos/codigos_filtros/",
     
     search:{
         filtro_stock: remote_base_url + "stock/filtro_stock/",
@@ -141,6 +142,8 @@ const post = {
         bloquear_cliente: remote_base_url + "clientes/bloquear/",
         update_perm_request_status: remote_base_url + "usuarios/update_s/",
         update_cliente: remote_base_url + "clientes/edit_c/",
+        editar_codigo: remote_base_url + "codigos/editar_c/",
+        modificar_cantidad_stock: remote_base_url + "stock/modificar_cantidad/",
 
     },
 }

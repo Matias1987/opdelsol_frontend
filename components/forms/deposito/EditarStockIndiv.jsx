@@ -1,5 +1,7 @@
+import globals from "@/src/globals";
+import { post_method } from "@/src/helpers/post_helper";
 import { parse_int_string } from "@/src/helpers/string_helper";
-import { get } from "@/src/urls";
+import { get, post } from "@/src/urls";
 import { Button, Col, Input, Modal, Row, Spin } from "antd";
 import { useState } from "react";
 
@@ -34,6 +36,22 @@ const EditarStockIndiv = (props) => {
     const onClose = () => {
         setOpen(false)
     }
+
+
+    const guardarCambios = () => {
+        post_method(post.update.modificar_cantidad_stock,{
+            cantidad:stock.cantidad,
+            fksucursal:props.idsucursal,
+            idcodigo:props.idcodigo
+        },
+        (response)=>{
+            alert("OK")
+            props?.callback?.()
+            setOpen(false)
+        }
+        )
+    }
+
     return <>
     <Button onClick={onOpen} type="default">{props.buttonText}</Button>
         <Modal title={"Editar Cantidad Stock"} open={open} onCancel={onClose} footer={null}>
@@ -55,7 +73,7 @@ const EditarStockIndiv = (props) => {
             </Row>
             <Row>
                 <Col span={24}>
-                    <Button  block type="primary">Guardar Cambios</Button>
+                    <Button  block type="primary" onClick={guardarCambios}>Guardar Cambios</Button>
                 </Col>
             </Row>
             </>
