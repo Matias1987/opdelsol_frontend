@@ -26,6 +26,8 @@ const EditarCodigoIndiv = (props) =>{
                 descripcion: response.data[0].descripcion,
                 modo_precio: response.data[0].modo_precio,
             })
+            setPrecioSubgrupo(response.data[0].precio_defecto)
+            //alert(JSON.stringify(response.data))
         })
         .catch(er=>{console.log(er)})
     }

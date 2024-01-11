@@ -1,4 +1,4 @@
-import { InfoCircleFilled } from "@ant-design/icons";
+import { EyeFilled, InfoCircleFilled } from "@ant-design/icons";
 import { Button, Modal, Spin } from "antd";
 import { useState } from "react";
 import InformeVenta from "./informes/ventas/Base";
@@ -50,7 +50,7 @@ const VentaDetallePopup = (props)=> {
     }
     return <>
         <Button type="ghost" onClick={onOpen}>
-            <InfoCircleFilled />
+            <EyeFilled />
         </Button>
         <Modal
             open={open}

@@ -4,6 +4,7 @@ import { get, post } from "@/src/urls";
 import globals from "@/src/globals";
 import { CheckCircleFilled, CloseCircleFilled, SearchOutlined } from "@ant-design/icons";
 import { post_method } from "@/src/helpers/post_helper";
+import { regex_get_id_if_match } from "@/src/helpers/barcode_helper";
 
 /**
  * 
@@ -20,15 +21,23 @@ const SearchStockVentas = (props) => {
         mainval: "", esf:"",cil:"",add:""
     })
     
-    const onSearch = () => {
-        const _srchval = `${filtros.mainval}${filtros.esf == "" ? "" : " ESF"+filtros.esf}${filtros.cil == "" ? "" : " CIL" + filtros.cil}${filtros.add == "" ? "" : " ADD"+filtros.add}`
+    const onSearch = (e) => {
+        const id = regex_get_id_if_match(e?.target?.value?.toUpperCase()||"")
+          
+        var fil = id>0 ? "" : filtros.mainval
+        if(id>0)
+        {
+            setFiltros(f=>({...f,mainval:""}))
+        }
+        const _srchval = `${fil}${filtros.esf == "" ? "" : " ESF"+filtros.esf}${filtros.cil == "" ? "" : " CIL" + filtros.cil}${filtros.add == "" ? "" : " ADD"+filtros.add}`
         setLoading(true)
-        //alert(_srchval)
-        //console.log(JSON.stringify(props.idfamilias))
-        post_method(search_url, {filtroCod: _srchval, idSucursal: id_sucursal, filtroFamilias: typeof props.idfamilias === 'undefined' ? [] : props.idfamilias },
+        
+        const filters= {filtroCod: _srchval, idSucursal: id_sucursal, filtroFamilias: typeof props.idfamilias === 'undefined' ? [] : props.idfamilias, idcodigo: id }
+        
+        post_method(search_url, filters,
         (_response)=>{
             var response = typeof props.onParseResponse !== 'undefined' ? props.onParseResponse(_response) : _response;
-            //alert(JSON.stringify(response))
+
             setDataSource(
                 response.data.map(
                     (row) => ({
@@ -44,25 +53,25 @@ const SearchStockVentas = (props) => {
         )
     }
 
-   /* const onChange = () => {
-        setSrchVal(`${value}${filtros.esf == "" ? "" : " ESF"+filtros.esf}${filtros.cil == "" ? "" : " CIL"+filtros.cil}${filtros.add == "" ? "" : " ADD"+filtros.add}`)
-    }*/
 
     return (
         <>
         <Row>
             <Col span={24}>
                 <Input 
+                value={filtros.mainval}
                 placeholder="Ingrese valor de búsqueda"
                 onChange={(e)=>{
                     setFiltros(
                         _f=>({..._f,mainval:e.target.value})
-                        )}
+                        )
+                    }
                     }
 
                 onKeyUp={(e)=>{
                     if (e.key === 'Enter') {
-                        onSearch()
+                        
+                        onSearch(e)
                     }
                 }}
                     
@@ -73,21 +82,21 @@ const SearchStockVentas = (props) => {
             <Col span={6}>
                 <Input step={.25} min={-20} max={20} prefix="Esf.:" value={filtros.esf} onKeyUp={(e)=>{
                     if (e.key === 'Enter') {
-                        onSearch()
+                        onSearch(e)
                     }
                 }} onChange={(e)=>{setFiltros(_f=>({..._f,esf:e.target.value}))}}/>
             </Col>
             <Col span={6}>
                 <Input prefix="Cil.:" step={.25} min={-20} max={20} value={filtros.cil} onKeyUp={(e)=>{
                     if (e.key === 'Enter') {
-                        onSearch()
+                        onSearch(e)
                     }
                 }}onChange={(e)=>{setFiltros(_f=>({..._f,cil:e.target.value}))}}/>
             </Col>
             <Col span={6}>
                 <Input prefix="Add.:" step={.25} min={-20} max={20} value={filtros.add} onKeyUp={(e)=>{
                     if (e.key === 'Enter') {
-                        onSearch()
+                        onSearch(e)
                     }
                 }}onChange={(e)=>{setFiltros(_f=>({..._f,add:e.target.value}))}}/>
             </Col>

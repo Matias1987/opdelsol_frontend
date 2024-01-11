@@ -18,10 +18,15 @@ export default function MenuV2(props){
     key: 'SubMenuStockMin',
     icon: <MenuOutlined />,
     disabled: !globals.esUsuarioDepositoMin(),
-    children: [{
-      key: '201',
-      label: (<Menu.Item><Link href={public_urls.bajar_envios}>Descargar Env&iacute;o  </Link></Menu.Item>),
-    }
+    children: [
+      {
+        key: '201',
+        label: (<Menu.Item><Link href={public_urls.bajar_envios}>Descargar Env&iacute;o  </Link></Menu.Item>),
+      },
+      {
+        key: '202',
+        label: (<Menu.Item><Link href={public_urls.lista_stock}>Lista Stock  </Link></Menu.Item>),
+      },
   ]
   }
 

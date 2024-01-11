@@ -9,10 +9,11 @@ import { useEffect, useState } from "react";
 export default function ListaCodigos(){
     
     const [dataSource, setDataSource] = useState([])
+    const [change, setChange] = useState(false)
 
     useEffect(()=>{
         update_list()
-    },[])
+    },[change])
 
     
     const update_list = (filtros) => {
@@ -27,6 +28,7 @@ export default function ListaCodigos(){
                         codigo: row.codigo,
                         descripcion: row.descripcion,
                         modo_precio: row.modo_precio,
+                        precio: row.precio_codigo,
                         checked: false,
                         //estado: "ACTIVO"
                     }))
@@ -52,6 +54,7 @@ export default function ListaCodigos(){
                 case 2: return <Tag color="yellow">Propio</Tag>
             }
         }},
+        {title: "Precio", dataIndex: "precio"},
         /*{
             title: 'Estado',
             dataIndex: 'estado', 
@@ -65,7 +68,7 @@ export default function ListaCodigos(){
                     return (
                     <>
                        
-                            <EditarCodigoIndiv idcodigo={idcodigo} buttonText="Editar" />
+                            <EditarCodigoIndiv idcodigo={idcodigo} buttonText="Editar" callback={()=>{setChange(!change)}} />
                     </>    
                     )                
                 }

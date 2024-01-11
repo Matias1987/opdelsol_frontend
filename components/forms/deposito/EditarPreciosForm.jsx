@@ -50,13 +50,15 @@ const EditarPreciosForm = (props) => {
 
     }
 
-    const row_style = {padding:"1em", color:"white"}
+    const row_style = {padding:".5em"   }
 
   
     return (<>
     <h3>Editar Precios</h3>
     <h4><i>Editar Precios de SubGrupos</i></h4>
-    <Row style={row_style}>
+
+    
+    <Row style={{...row_style,backgroundColor:"lightblue"}}>
         <Col  span={24}>
             <h5>Categor&iacute;a:&nbsp;</h5>
             <Select
@@ -97,7 +99,7 @@ const EditarPreciosForm = (props) => {
         </Col>
     </Row>
 
-    <Row style={row_style}>
+    <Row style={{...row_style,backgroundColor:"lightblue"}}>
         <Col span={24}>
                 <Input 
                 

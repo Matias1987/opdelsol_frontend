@@ -161,22 +161,24 @@ const DetalleStock = (props) => {
                     </tr>
                     <tr>
                         <td style={{width:"30%"}}>Costo: <b>${dataDetalles.costo}</b></td>
-                        <td style={{width:"30%"}}>Multiplicador: <b>{dataDetalles.multiplicador}</b></td>
+                        {/*<td style={{width:"30%"}}>Multiplicador: <b>{dataDetalles.multiplicador}</b></td>*/}
+                        <td style={{width:"30%"}}>Modo Precio:&nbsp;&nbsp;{dataDetalles.modo_precio==1?<Tag>Subgrupo</Tag>:(dataDetalles.modo_precio==2? <Tag>Propio</Tag>:<Tag>Multiplicador</Tag>)}</td>
                         <td style={{width:"auto"}}><i>Precio:&nbsp;
                         
-                        {parseFloat(dataDetalles.costo) * parseFloat(dataDetalles.multiplicador)}</i>
+                        {dataDetalles.precio}</i>
 
-                        &nbsp;&nbsp;&nbsp;&nbsp;<span style={{ fontSize: "1.10em"}}>Redondeo:&nbsp;
+                        {/*&nbsp;&nbsp;&nbsp;&nbsp;<span style={{ fontSize: "1.10em"}}>Redondeo:&nbsp;
                         <b>${ 
                             Math.round(parseFloat(dataDetalles.costo) * parseFloat(dataDetalles.multiplicador) * (1/error_margin)) * error_margin
-                        }</b></span></td>
+                        }</b></span>*/}</td>
                         
                     </tr>
+                    {/*
                     <tr>
                         <td>G&eacute;nero: <Tag color="purple">{dataDetalles.genero}</Tag></td>
                         <td>Edad: <Tag color="blue">{dataDetalles.edad}</Tag></td>
                     </tr>
-                    
+                    */}
                 </tbody>
             </table>
         </>

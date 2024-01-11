@@ -18,6 +18,17 @@ const BuscarVenta = (props)=>{
 
     const add = (obj,value,key) => typeof value === 'undefined' ? obj : {...obj, [key]:value}
 
+    const get_tipo = (tipo)=>{
+        switch(+tipo)
+        {
+            case 1: return "Vta. Dir."; 
+            case 2: return "Rec. Stock"; 
+            case 3: return "L.C. Stock"; 
+            case 4: return "Monof. Lab."; 
+            case 5: return "Multif. Lab."; 
+            case 6: return "L.C. Lab."; 
+        }
+    }
 
     useEffect(()=>{
         const url = post.venta_estado_sucursal;
@@ -127,6 +138,9 @@ const BuscarVenta = (props)=>{
         {title:'Nro.:', dataIndex:'idventa'},
         {title:'Cliente', dataIndex:'cliente'},
         {title:'Fecha', dataIndex:'fecha'},
+        {hidden: false, title: "Tipo", dataIndex: "tipo", render:(_,{tipo})=>(
+            <span style={{fontSize:".75em", }}><b>{get_tipo(tipo)}</b></span>
+        ) },
         { title: "Estado", dataIndex:"estado", render:(_,{estado})=>{
             switch(estado){
                 case "INGRESADO": return <Tag color="magenta">{estado}</Tag>

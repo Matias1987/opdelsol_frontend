@@ -36,13 +36,7 @@ export default function PrinterWrapper({ children }) {
             border: none;
             display:none;
         }
-        svg{
-            display:none; 
-            opacity:0;
-            padding:0;
-            margin:0;
-            border:0;
-        }
+        
        
         
     `
