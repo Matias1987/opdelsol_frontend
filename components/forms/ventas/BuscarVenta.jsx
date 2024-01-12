@@ -30,9 +30,10 @@ const BuscarVenta = (props)=>{
         }
     }
 
-    useEffect(()=>{
+ 
+    const load = () => {
         const url = post.venta_estado_sucursal;
-        var params = {idsucursal: globals.obtenerSucursal()}
+        var params = {};//{idsucursal: globals.obtenerSucursal()}
         
         params = add(params, filtros.idcliente, 'idcliente')
         params = add(params, filtros.idmedico, 'idmedico')
@@ -51,7 +52,7 @@ const BuscarVenta = (props)=>{
             {
                 return
             }
-
+            //alert(JSON.stringify(response))
             setDataSource(src=>(
                  response.data.map(v=>({
                     idventa: v.idventa,
@@ -62,14 +63,18 @@ const BuscarVenta = (props)=>{
                     estado: v.estado,
                     monto: v.monto,
                     tipo: v.tipo,
+                    idsucursal: v.sucursal_idsucursal,
+                    sucursal: v.sucursal,
                     en_laboratorio: v.en_laboratorio,
                 }))
             ))
         })
-    },[reload])
+    }
 
 
     const onPopupClosed = () => {setReload(!reload)}
+
+    useEffect(()=>{load()},[reload])
 
 
     const show_buttons = (estado, id, en_deposito) => {
@@ -82,7 +87,7 @@ const BuscarVenta = (props)=>{
                 onOk={onPopupClosed} 
                 onCancel={onPopupClosed} 
                 openButtonText ="Ventas Ingresadas">
-                    <ListaVentas id={id} imprimir anular cobrar accion="ingreso" titulo="Ventas Ingresadas" estado="INGRESADO" buttonText="Dar Ingreso"/>
+                    <ListaVentas ignoreSucursal id={id} imprimir anular cobrar accion="ingreso" titulo="Ventas Ingresadas" estado="INGRESADO" buttonText="Dar Ingreso"/>
                 </CustomModal>
             </>
             break;
@@ -92,14 +97,14 @@ const BuscarVenta = (props)=>{
             onOk={onPopupClosed} 
             onCancel={onPopupClosed} 
             openButtonText ="Ventas Pendientes en Taller">
-                <ListaVentas id={id} cobrar accion="resfuerzo" en_laboratorio={1} titulo="Ventas Pendientes en Laboratorio" estado="PENDIENTE" buttonText="Resfuerzo Seña"  />
+                <ListaVentas ignoreSucursal id={id} cobrar accion="resfuerzo" en_laboratorio={1} titulo="Ventas Pendientes en Laboratorio" estado="PENDIENTE" buttonText="Resfuerzo Seña"  />
             </CustomModal>
             </> : <>
             <CustomModal 
             onOk={onPopupClosed} 
             onCancel={onPopupClosed} 
             openButtonText ="Ventas Pendientes">
-                <ListaVentas id={id} enviarALaboratorio cobrar marcarTerminado en_laboratorio={0} accion="resfuerzo"  titulo="Ventas Pendientes" estado="PENDIENTE" buttonText="Resfuerzo Seña"  />
+                <ListaVentas ignoreSucursal id={id} enviarALaboratorio cobrar marcarTerminado en_laboratorio={0} accion="resfuerzo"  titulo="Ventas Pendientes" estado="PENDIENTE" buttonText="Resfuerzo Seña"  />
             </CustomModal>
             </>
             break;
@@ -107,18 +112,22 @@ const BuscarVenta = (props)=>{
             return <><CustomModal 
             onOk={onPopupClosed} 
             onCancel={onPopupClosed} 
-            openButtonText ="Ventas Terminadas"><ListaVentas id={id} mustCancel cobrar accion="entrega" titulo="Ventas Terminadas" estado="TERMINADO" buttonText="Entrega" /></CustomModal></>
+            openButtonText ="Ventas Terminadas"><ListaVentas ignoreSucursal id={id} mustCancel cobrar accion="entrega" titulo="Ventas Terminadas" estado="TERMINADO" buttonText="Entrega" /></CustomModal></>
             break;
             case 'ENTREGADO': 
             return <><CustomModal 
             onOk={onPopupClosed} 
             onCancel={onPopupClosed} 
-            openButtonText ="Ventas Entregadas"><ListaVentas id={id} titulo="Ventas Entregadas" estado={"ENTREGADO"} /></CustomModal></>
+            openButtonText ="Ventas Entregadas"><ListaVentas ignoreSucursal id={id} titulo="Ventas Entregadas" estado={"ENTREGADO"} /></CustomModal></>
             break;
         }
     }
     const onCancel = ()=>{setOpen(false)}
-    const onOpen = ()=>{setOpen(true); setReload(true) }
+    const onOpen = ()=>{
+        setOpen(true); 
+        //load()
+    
+    }
     return <div >
     <Button 
     type="dashed" onClick={()=>{onOpen()}}>Buscar Venta</Button>
@@ -150,6 +159,11 @@ const BuscarVenta = (props)=>{
                 case "TERMINADO": return <Tag color="green">{estado}</Tag>
             }
         }},
+        {
+            title:"Sucursal", dataIndex: "sucursal", render:(_,{sucursal})=>{
+                return <>{sucursal}</>
+            }
+        },
         {title:'Acciones', dataIndex:'idventa', render:(_,{idventa, estado, en_laboratorio})=>{
             return <>
             <VentaDetallePopup idventa={idventa} />&nbsp;

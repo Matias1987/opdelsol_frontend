@@ -78,26 +78,7 @@ export default function MenuV2(props){
         key: '101',
         label: (<Menu.Item><Link href={public_urls.lista_clientes_caja}>Clientes  </Link></Menu.Item>),
       },
-      {
-        key: '102',
-        label: (<Menu.Item><Link href={public_urls.ventas_pendientes}>Operaciones Pendientes En Sucursal</Link></Menu.Item>),
-      },
-      {
-        key: '113',
-        label: (<Menu.Item><Link href={public_urls.ventas_pendientes_lab}>Operaciones Pendientes En Taller</Link></Menu.Item>),
-      },
-      {
-        key: '103',
-        label: (<Menu.Item><Link href={public_urls.ventas_terminadas}>Operaciones Terminadas</Link></Menu.Item>),
-      },
-      {
-        key: '107',
-        label: (<Menu.Item><Link href={public_urls.ventas_entregadas}>Operaciones Entregadas</Link></Menu.Item>),
-      },
-      {
-        key: '108',
-        label: (<Menu.Item><Link href={public_urls.ventas_anuladas}>Operaciones Anuladas</Link></Menu.Item>),
-      },
+      
       {
         key: '109',
         label: (<Menu.Item><Link href={public_urls.lista_cobros_sucursal}>Cobros</Link></Menu.Item>),
@@ -115,7 +96,26 @@ export default function MenuV2(props){
         key: '112',
         label: (<Menu.Item><Link href={public_urls.transferencias}>Transferencias</Link></Menu.Item>),
       },
-     
+     {
+        key: '102',
+        label: (<Menu.Item style={{fontSize:".85em"}}><Link href={public_urls.ventas_pendientes}>Operaciones Pendientes En Sucursal</Link></Menu.Item>),
+      },
+      {
+        key: '113',
+        label: (<Menu.Item style={{fontSize:".85em"}}><Link href={public_urls.ventas_pendientes_lab}>Operaciones Pendientes En Taller</Link></Menu.Item>),
+      },
+      {
+        key: '103',
+        label: (<Menu.Item style={{fontSize:".85em"}}><Link href={public_urls.ventas_terminadas}>Operaciones Terminadas</Link></Menu.Item>),
+      },
+      {
+        key: '107',
+        label: (<Menu.Item style={{fontSize:".85em"}}><Link href={public_urls.ventas_entregadas}>Operaciones Entregadas</Link></Menu.Item>),
+      },
+      {
+        key: '108',
+        label: (<Menu.Item style={{fontSize:".85em"}}><Link href={public_urls.ventas_anuladas}>Operaciones Anuladas</Link></Menu.Item>),
+      },
       
     ],
   }

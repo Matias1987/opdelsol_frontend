@@ -63,7 +63,7 @@ const ListaVentas = (props) => {
                 }
             }}>Terminado</Button>&nbsp;&nbsp;</>:<></>}
 
-            {typeof props.enviarALaboratorio !== 'undefined' ?  <Button size="small" danger onClick={(e)=>{
+            {typeof props.enviarALaboratorio !== 'undefined' ?  <Button disabled size="small" danger onClick={(e)=>{
                 if(confirm("Enviar venta a taller?"))
                 {
                     post_method(post.update.cambiar_venta_sucursal_deposito,{idventa: _idventa, en_laboratorio: "1"},(resp)=>{alert("OK"); setReload(!reload)})
@@ -94,7 +94,7 @@ const ListaVentas = (props) => {
     }
 
     useEffect(()=>{
-
+        
         var params = {}
         if(typeof props.ignoreSucursal === 'undefined')
         {
@@ -115,7 +115,7 @@ const ListaVentas = (props) => {
         params = add(params, filtros.fecha, 'fecha')
 
         const url = post.venta_estado_sucursal;
-        
+        //alert(JSON.stringify(params))
         post_method(url, params,(response)=>{
             
             if(response==null)
@@ -127,7 +127,7 @@ const ListaVentas = (props) => {
             {
                 return
             }
-
+            
             setDataSource(src=>(
                  response.data.map(v=>({
                     idventa: v.idventa,

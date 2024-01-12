@@ -448,6 +448,11 @@ export default function ModoPagoV3(props){
                     />
                 </Col>
             </Row>
+            <Row>
+                <Col span={24}>
+                    &nbsp;
+                </Col>
+            </Row>
 
             {/*<Row>
                 <Col span={24}><Button size="small" danger type="link" onClick={(e)=>{

@@ -3,7 +3,7 @@ import LayoutCaja from "@/components/layout/layout_caja";
 
 export default function VentasAnuladas(){
     return (<>
-    <ListaVentas titulo="Ventas Anuladas" estado="ANULADO" />
+    <ListaVentas ignoreSucursal titulo="Ventas Anuladas" estado="ANULADO" />
     </>)
 }
 

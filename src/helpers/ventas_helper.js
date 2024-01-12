@@ -208,7 +208,7 @@ const submit_venta = (v, productos,total,subTotal, tipo_vta, validate_items, cal
                     {
                         post_method(post.insert.venta,__venta,(response)=>{
                             //THIS SHOULD NOT BE HERE! but it is
-                            post_method(post.update.desc_cantidades_stock_venta,{idventa: response.data},()=>{
+                            post_method(post.update.desc_cantidades_stock_venta,{idventa: response.data, idsucursal: globals.obtenerSucursal()},()=>{
                                 console.log("Cantidades descontadas? ...")
                             })
             
