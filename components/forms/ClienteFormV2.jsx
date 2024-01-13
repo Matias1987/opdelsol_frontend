@@ -244,13 +244,16 @@ export default function ClienteFormV2(props){
                             
                             let a= parseInt(e.target.value||0); 
                             
-                            setFechaNac(_d=>({..._d,anio:(a<1900?1900 : a)}))
+                            setFechaNac(_d=>({..._d,anio:a}))
                             
                             }} 
                         value={fechaNac.anio} 
-                        type="number" 
+                        
                         prefix="Año" 
-                        min="1900" />
+                        type="number"
+                        />
+                        {/*type="number" 
+                        min="1900" */}
                     </Space.Compact>
                 </Space>
             </Col>

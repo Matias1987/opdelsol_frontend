@@ -1,6 +1,5 @@
-import { Button, Col, Divider, Form, Input, Modal, Row, Spin, Switch } from "antd";
-import { use, useEffect, useState } from "react";
-import ModoPago from "../ModoPago";
+import { Button, Col, Divider, Input, Modal, Row, Spin, Switch } from "antd";
+import { useEffect, useState } from "react";
 import { get, post } from "@/src/urls";
 import { post_method } from "@/src/helpers/post_helper";
 import PrinterWrapper from "@/components/PrinterWrapper";
@@ -8,7 +7,6 @@ import InformeX from "@/components/informes/caja/InformeX";
 import globals from "@/src/globals";
 import CustomModal from "@/components/CustomModal";
 import ListaCobros from "./ListaCobros";
-import { ResponseCookies } from "next/dist/compiled/@edge-runtime/cookies";
 import VentaDetallePopup from "@/components/VentaDetalle";
 import { current_date_ymd } from "@/src/helpers/string_helper";
 import ModoPagoV3 from "../modo_pago/ModoPagoV3";
@@ -101,6 +99,26 @@ export default function CobroOperacion(props){
         }
 
         const _mc = typeof props.mustCancel !== 'undefined' ? props.mustCancel : false;
+        //alert(JSON.stringify(props) + "  " + (parseFloat(dataVenta.subtotal) - parseFloat(descuento) - parseFloat(dataVenta.haber||0)) )
+        
+        if(typeof props.tipo!= 'undefined')
+        {
+            if(props.tipo=='resfuerzo')
+            {
+                if((parseFloat(dataVenta.subtotal) - parseFloat(descuento) - parseFloat(dataVenta.haber||0)) <= 0 )
+                {
+                    alert("Saldo igual a 0")
+                    setCobrarDisabled(false)
+                    return
+                }
+                if(+mp.total==0)
+                {
+                    alert("Monto igual a 0")
+                    setCobrarDisabled(false)
+                    return
+                }
+            }
+        }
         /**
          * si hay venta pero es de monto 0
          */
@@ -125,10 +143,11 @@ export default function CobroOperacion(props){
 
             return
         }
-
+        
         if(dataVenta!=null){
 
             const _sdo =  (parseFloat(dataVenta.subtotal) - parseFloat(descuento) - parseFloat(dataVenta.haber||0)) - parseFloat( mp.total)
+            
             
 
             if(+mp.total == 0 && _sdo != 0) { 

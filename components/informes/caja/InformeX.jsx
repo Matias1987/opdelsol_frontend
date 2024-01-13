@@ -105,7 +105,7 @@ export default function InformeX(props){
             fetch(get.sucursal_details + response.data[0].sucursal_idsucursal)
             .then(__response=>__response.json())
             .then((__response)=>{
-                
+               // alert(JSON.stringify(__response))
                 setDataSucursal(__response.data)
             })
 
@@ -180,7 +180,7 @@ export default function InformeX(props){
                                     <tr>
                                         <td style={{width: '33%'}}>
                                             <p>
-                                                Sucursal: <SucursalLabel idsucursal={dataPago.sucursal_idsucursal} /><br />
+                                                Sucursal: {dataSucursal == null ? "" : dataSucursal[0].nombre} <br />
                                                 {data_cliente()}
                                             </p>
                                         </td>

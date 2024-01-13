@@ -23,6 +23,7 @@ const ListaCobros = (props) => {
         {title: "Cliente", dataIndex: "cliente_nombre"},
         {title: "Tipo", dataIndex: "tipo"},
         {title: "Monto", dataIndex: "monto"},
+        {title: "Sucursal", dataIndex: "sucursal"},
         {title: "Acciones", dataIndex: "idcobro", hidden:false, render: (_,{idcobro})=>{
             return <>
             <CustomModal openButtonText="Imprimir">
@@ -40,11 +41,11 @@ const ListaCobros = (props) => {
 
     useEffect(()=>{
 
-        var params = {idsucursal: globals.obtenerSucursal()}
+        var params = {};//{idsucursal: globals.obtenerSucursal()}
         params = add(params, filtros.idcliente, 'idcliente')
         params = add(params, filtros.iddestinatario, 'iddestinatario')
         params = add(params, props?.idventa, 'idventa')
-        params = add(params, props?.idsucursal, 'idsucursal')
+        //params = add(params, props?.idsucursal, 'idsucursal')
         params = add(params, filtros?.idcobro, 'idcobro')
         params = add(params, filtros?.fecha, 'fecha')
 
