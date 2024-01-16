@@ -12,6 +12,8 @@ const InformeVentasTotales = () => {
     const [filtros, setFiltros] = useState({
         mes: 1,
         anio: 2023,
+        fkcliente: '-1',
+
     })
 
     useEffect(()=>{
@@ -20,6 +22,7 @@ const InformeVentasTotales = () => {
         setFiltros({
             mes: d.getMonth()+1,
             anio: d.getFullYear(),
+            fkcliente: '-1',
         })
     },[])
 

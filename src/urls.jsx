@@ -62,6 +62,8 @@ const public_urls = {
     totales_venta_vendedores: local_base_url + "ventas/informes/t_ventas_v",
 
     ventas_medicos: local_base_url + "informes/medicos/ventas_medicos",
+
+    ventas_vendedor: local_base_url + "ventas/informes/ventas_vendedor"
 }
 
 

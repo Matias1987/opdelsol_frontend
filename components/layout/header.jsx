@@ -2,9 +2,11 @@ import globals from "@/src/globals";
 import { Alert, Button, Col, Input, Layout, Row, Switch } from "antd";
 import SucursalLabel from "../sucursal_label";
 import useStorage from "@/useStorage";
-import { FilterOutlined, LogoutOutlined, MehFilled, SkinFilled, SkinOutlined } from "@ant-design/icons";
+import { FilterOutlined, InfoCircleFilled, LogoutOutlined, MehFilled, SkinFilled, SkinOutlined } from "@ant-design/icons";
 import { get, public_urls } from "@/src/urls";
 import { useEffect, useState } from "react";
+import CustomModal from "../CustomModal";
+import VentasVendedor from "../informes/ventas/VentasVendedor";
 
 /**
  * 
@@ -30,8 +32,10 @@ const HeaderSol =(props)=> {
                         Sucursal:&nbsp;&nbsp;<SucursalLabel idsucursal={
                             globals.obtenerSucursal()
                             } />
-                            &nbsp;- Cuenta: <b>{props.tipoCuenta}</b>
-                            &nbsp;- Usuario: <b>{uname}</b>
+                           { /* &nbsp;- Cuenta: <b>{props.tipoCuenta}</b>*/}
+                           { /*&nbsp;- Usuario: <b>{uname}</b>*/}
+                           &nbsp; Usuario:
+                           <CustomModal openButtonText={<><InfoCircleFilled />&nbsp;{uname}</>}><VentasVendedor /></CustomModal>
                     </i>
                 </span>
                 <Button type="link"  style={{color:"white", padding:".5em"}} onClick={()=>{
