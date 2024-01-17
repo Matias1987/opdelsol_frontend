@@ -9,6 +9,7 @@ const ResponsableInf = (props) => {
         .then(response=>response.json())
         .then((response)=>{
             setData(data=>response.data[0])
+            props?.callback?.()
         })
     },[])
     return data == null ? <Spin /> :<>

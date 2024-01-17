@@ -13,6 +13,7 @@ const DestinatarioInf = (props) => {
             .then(response=>response.json())
             .then((response)=>{
                 setData(_data=>(response.data[0]))
+                props?.callback?.()
                 //setLoading(false)
             })
         }

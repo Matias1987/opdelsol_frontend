@@ -14,6 +14,7 @@ export default function LCStockItems(props){
         .then((response)=>{
             setData(response.data)
             //alert("ITEMS::: " + JSON.stringify(response))
+            props?.callback?.()
         })
     },[])
 

@@ -15,7 +15,10 @@ const FiltroVentas =(props) => {
     },[])
 
 
-    const showModal = () => {setOpen(true);}
+    const showModal = () => {
+        setFiltros({})
+        setOpen(true);
+    }
 
     const onSelectCliente = (id) => {
         setFiltros(_=>{

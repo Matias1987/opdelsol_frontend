@@ -11,6 +11,7 @@ export default function ModoPagoInf(props){
         .then(response=>response.json())
         .then((response)=>{
             setData(response.data)
+            props?.callback?.()
             //alert(JSON.stringify(response))
         })
     },[])

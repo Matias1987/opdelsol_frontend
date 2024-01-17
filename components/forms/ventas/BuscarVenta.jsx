@@ -7,14 +7,19 @@ import { post_method } from "@/src/helpers/post_helper";
 import globals from "@/src/globals";
 import VentaDetallePopup from "@/components/VentaDetalle";
 import CustomModal from "@/components/CustomModal";
-import { ReloadOutlined } from "@ant-design/icons";
+import { PrinterFilled, ReloadOutlined } from "@ant-design/icons";
 import ImprimirSobreVenta from "@/pages/v1/ventas/informes/sobre_venta";
+import InformeVentaMinV3 from "@/components/informes/ventas/InformeVentasMinV3";
+import InformeVentaV2 from "@/components/informes/ventas/InformeVentaV2";
 
 const BuscarVenta = (props)=>{
     const [open, setOpen] = useState(false)
     const [dataSource, setDataSource] = useState([])
     const [filtros, setFiltros] = useState({})
     const [reload, setReload] = useState(true)
+
+    const [detalleOpen, setDetalleOpen] = useState(false)
+    const [idventaDetalle, setIdVentaDetalle] = useState(-1)
 
     const add = (obj,value,key) => typeof value === 'undefined' ? obj : {...obj, [key]:value}
 
@@ -141,6 +146,16 @@ const BuscarVenta = (props)=>{
         <FiltroVentas callback={f=>{ setFiltros(_f=>f); setReload(!reload)}} />
         <Button type="link" onClick={(e)=>{setFiltros(_f=>({})); setReload(!reload)}}><ReloadOutlined /></Button>
         <Table 
+        onRow={(record, rowIndex) => {
+            return {
+              onClick: event => {
+                //alert(JSON.stringify(event.currentTarget.tagName))
+                event.stopPropagation()
+                setIdVentaDetalle(record.idventa)
+                setDetalleOpen(true)
+            }, // click row
+            };
+          }}
         rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'}
         dataSource={dataSource} 
         columns={[
@@ -164,14 +179,23 @@ const BuscarVenta = (props)=>{
                 return <>{sucursal}</>
             }
         },
-        {title:'Acciones', dataIndex:'idventa', render:(_,{idventa, estado, en_laboratorio})=>{
-            return <>
-            <VentaDetallePopup idventa={idventa} />&nbsp;
+        {
+            title:'Acciones', 
+            dataIndex:'idventa', 
+            render:(_,{idventa, estado, en_laboratorio})=>{
+            return <div onClick={(e)=>{e.stopPropagation()}}>
+            
             { globals.esUsuarioCaja1() ? show_buttons(estado,idventa,en_laboratorio) : <></>}
-            <ImprimirSobreVenta idventa={idventa} />
-            </>
+            {/*<VentaDetallePopup idventa={idventa} key={idventa} />&nbsp;*/}
+            {/*<ImprimirSobreVenta  idventa={idventa}  key={idventa}/>*/}
+            <InformeVentaV2 hidebutton={false} idventa={idventa} key={idventa} />
+            </div>
         }},
     ]} />
+    <Modal width={"80%"} open={detalleOpen} footer={null} onCancel={()=>{setDetalleOpen(false)}}>
+        <InformeVentaMinV3 idventa={idventaDetalle} key={idventaDetalle} />
+    </Modal>
+    
     </Modal>
     </div>
 }
