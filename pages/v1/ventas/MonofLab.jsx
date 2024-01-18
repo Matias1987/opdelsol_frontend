@@ -11,6 +11,7 @@ import { submit_venta, validar_items_venta } from "@/src/helpers/ventas_helper";
 import { validar_modo_pago } from "@/src/helpers/pago_helper";
 import PrinterWrapper from "@/components/PrinterWrapper";
 import InformeVenta from "@/components/informes/ventas/Base";
+import InformeVentaV2 from "@/components/informes/ventas/InformeVentaV2";
 
 export default function VentaMonofocalesLab(){
     const [productos, setProductos] = useState(null);
@@ -65,11 +66,12 @@ export default function VentaMonofocalesLab(){
     <VentaBase subTotal={subTotal} total={total} onfinish={onFinish} callback={callback_venta_modif}>
         <MonofLabItems callback={onProductosCallback}/>
     </VentaBase>
-    <Modal width={"80%"} open={idVenta!=-1 && printOpen} onOk={()=>{onClosePrintPopup()}} onCancel={()=>{onClosePrintPopup()}} footer={null} >
+   { /*<Modal width={"80%"} open={idVenta!=-1 && printOpen} onOk={()=>{onClosePrintPopup()}} onCancel={()=>{onClosePrintPopup()}} footer={null} >
         <PrinterWrapper>
             <InformeVenta idventa={idVenta} />
         </PrinterWrapper>
-    </Modal>
+    </Modal>*/}
+    <InformeVentaV2 idventa={idVenta} open={idVenta!=-1 && printOpen} hidebutton={true} key={idVenta} onclose={onClosePrintPopup}/>
     </>)
 }
 
