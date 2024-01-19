@@ -82,17 +82,24 @@ const BuscarVenta = (props)=>{
     useEffect(()=>{load()},[reload])
 
 
-    const show_buttons = (estado, id, en_deposito) => {
+    const show_buttons = (estado, id, en_deposito, idsucursal) => {
         
         switch(estado)
         {
             case 'INGRESADO': 
             return <>
                 <CustomModal 
+                validateOpen={()=>{
+                    if(idsucursal!=globals.obtenerSucursal()){
+                        alert("<!> Venta de Otra Sucursal")
+                        return false
+                    }
+                    return true
+                }}
                 onOk={onPopupClosed} 
                 onCancel={onPopupClosed} 
                 openButtonText ="Ventas Ingresadas">
-                    <ListaVentas ignoreSucursal id={id} imprimir anular cobrar accion="ingreso" titulo="Ventas Ingresadas" estado="INGRESADO" buttonText="Dar Ingreso"/>
+                    <ListaVentas imprimir anular cobrar accion="ingreso" titulo="Ventas Ingresadas" estado="INGRESADO" buttonText="Dar Ingreso"/>
                 </CustomModal>
             </>
             break;
@@ -130,7 +137,7 @@ const BuscarVenta = (props)=>{
     const onCancel = ()=>{setOpen(false)}
     const onOpen = ()=>{
         setOpen(true); 
-        //load()
+        load()
     
     }
     return <div >
@@ -167,10 +174,10 @@ const BuscarVenta = (props)=>{
         ) },
         { title: "Estado", dataIndex:"estado", render:(_,{estado})=>{
             switch(estado){
-                case "INGRESADO": return <Tag color="magenta">{estado}</Tag>
+                case "INGRESADO": return <Tag color="red"><b>{estado}</b></Tag>
                 case "PENDIENTE": return <Tag color="geekblue">{estado}</Tag>
                 case "ENTREGADO": return <Tag color="volcano">{estado}</Tag>
-                case "ANULADO": return <Tag color="red">{estado}</Tag>
+                case "ANULADO": return <Tag color="geekblue">{estado}</Tag>
                 case "TERMINADO": return <Tag color="green">{estado}</Tag>
             }
         }},
@@ -182,10 +189,10 @@ const BuscarVenta = (props)=>{
         {
             title:'Acciones', 
             dataIndex:'idventa', 
-            render:(_,{idventa, estado, en_laboratorio})=>{
+            render:(_,{idventa, estado, en_laboratorio, idsucursal})=>{
             return <div onClick={(e)=>{e.stopPropagation()}}>
             
-            { globals.esUsuarioCaja1() ? show_buttons(estado,idventa,en_laboratorio) : <></>}
+            { globals.esUsuarioCaja1() ? show_buttons(estado,idventa,en_laboratorio, idsucursal) : <></>}
             {/*<VentaDetallePopup idventa={idventa} key={idventa} />&nbsp;*/}
             {/*<ImprimirSobreVenta  idventa={idventa}  key={idventa}/>*/}
             <InformeVentaV2 hidebutton={false} idventa={idventa} key={idventa} />

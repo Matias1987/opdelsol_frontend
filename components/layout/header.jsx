@@ -33,9 +33,9 @@ const HeaderSol =(props)=> {
                             globals.obtenerSucursal()
                             } />
                            { /* &nbsp;- Cuenta: <b>{props.tipoCuenta}</b>*/}
-                           { /*&nbsp;- Usuario: <b>{uname}</b>*/}
-                           &nbsp; Usuario:
-                           <CustomModal openButtonText={<><InfoCircleFilled />&nbsp;{uname}</>}><VentasVendedor /></CustomModal>
+                           &nbsp;&nbsp;&nbsp;  Usuario: <b>{uname}</b>
+                           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   |&nbsp;&nbsp;&nbsp;
+                           {/*<CustomModal openButtonText={<><InfoCircleFilled />&nbsp;{uname}</>}><VentasVendedor /></CustomModal>*/}
                     </i>
                 </span>
                 <Button type="link"  style={{color:"white", padding:".5em"}} onClick={()=>{

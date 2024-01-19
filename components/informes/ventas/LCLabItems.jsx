@@ -21,7 +21,7 @@ export default function LCLabItems(props){
 
 
     return data == null ? <Spin /> : <>
-    <table style={{width:"70%", fontSize:".95em", padding:"0", marginLeft:"auto", marginRight:"auto"}}>
+    <table style={{width:"90%", fontSize:".95em", padding:"0", marginLeft:"auto", marginRight:"auto"}}>
         <thead>
             <tr>
                 <th></th>
@@ -35,11 +35,11 @@ export default function LCLabItems(props){
             {
                 data.map(r=>(
                     <tr >
-                        <td style={{borderBottom:"1px dotted"}}>{r.tipo}</td>
+                        <td style={{borderBottom:"1px dotted"}}><i><b>{r.tipo}</b></i>&nbsp;&nbsp;</td>
                         {/*<td style={{padding:"0",textAlign:"left"}}><b>{r.codigo}</b></td>*/}
                         <td style={{padding:"0",textAlign:"left", borderBottom:"1px dotted"}}>{r.tipo=='od' || r.tipo=='oi' ? <>
-                            ESF:&nbsp;{r.esf} &nbsp;&nbsp;CIL:&nbsp;{r.cil} &nbsp;&nbsp;EJE:&nbsp;{r.eje} &nbsp;&nbsp;CB:&nbsp;{r.curva_base} &nbsp;&nbsp;DIAM:&nbsp;{r.diametro}
-                        </> : <>{r.descripcion}</> }</td>
+                        <b>{r.codigo}</b>&nbsp;&nbsp;&nbsp;ESF:&nbsp;{r.esf} &nbsp;&nbsp;CIL:&nbsp;{r.cil} &nbsp;&nbsp;EJE:&nbsp;{r.eje} &nbsp;&nbsp;CB:&nbsp;{r.curva_base} &nbsp;&nbsp;DIAM:&nbsp;{r.diametro} 
+                        </> : <>{r.codigo}</> }</td>
                         <td style={{padding:"0",textAlign:"right", borderBottom:"1px dotted"}}>{currency_format(r.precio)}</td>
                     </tr>
                 ))

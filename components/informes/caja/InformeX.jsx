@@ -151,7 +151,7 @@ export default function InformeX(props){
     const data_cliente = () => {
         //el campo condicion iva no tiene sentido....
         return dataCliente == null ? <Spin /> : <>
-            Se&ntilde;or/es: {dataCliente.apellido + ", " + dataCliente.nombre}<br />
+            Se&ntilde;or/es: {dataCliente.apellido + ", " + dataCliente.nombre}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;D.N.I.:{dataCliente.dni}<br />
             Domicilio: {dataCliente.direccion}<br />
             Condicion IVA: {"NO INSCRIPTO"}<br />   
         </>
@@ -218,7 +218,7 @@ export default function InformeX(props){
                                         <td>
                                             <p>Recibi la suma de: <b>{convertToWords(dataPago.monto)}</b><br />
                                             En concepto de: {dataPago.concepto_pago}<br />
-                                            {"SALDO CTA CTE:  " + currency_format(dataPago.saldo_actual) }</p>
+                                            {/*"SALDO CTA CTE:  " + currency_format(dataPago.saldo_actual) */}</p>
                                             <hr />
                                             {html_cheque_tarjeta()}
                                         </td>

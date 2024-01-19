@@ -236,7 +236,7 @@ const InformeVentaV2 = (props) => {
                                                     {data.obra_social!="" ? "Obra Social: "+data.obra_social : ""}<br /> {data.medico!="" ? "Medico: " + data.medico : ""} <br />Fecha de Entrega: {data.fecha_entrega_formated + "  " + (data.hora_retiro == "null" ? "-" : data.hora_retiro)}
                                                 </td>
                                                 <td width='180px'>
-                                                    <div style={{marginTop:"-3em"}}>
+                                                    <div style={{marginTop:"-1.2em"}}>
                                                         <DataSucursalInf idsucursal={data.sucursal_idsucursal} callback={callback_sucursalLoaded} />
                                                         <FechaEntregaInf data={data} />
                                                     </div>

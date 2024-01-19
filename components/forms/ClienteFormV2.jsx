@@ -193,6 +193,12 @@ export default function ClienteFormV2(props){
                 />
             </Col>
         </Row>
+        
+        <Row>
+            <Col style={{padding:".5em"}} span={24}>
+                <Input  maxLength={45} prefix={"Apellidos:"} value={clienteData.apellidos} onChange={(e)=>{setClienteData(v=>({...v,apellidos:e.target.value.toUpperCase()}))}} />
+            </Col>
+        </Row>
 
         <Row>
             <Col style={{padding:".5em"}} span={24}>
@@ -200,11 +206,7 @@ export default function ClienteFormV2(props){
             </Col>
         </Row>
 
-        <Row>
-            <Col style={{padding:".5em"}} span={24}>
-                <Input  maxLength={45} prefix={"Apellidos:"} value={clienteData.apellidos} onChange={(e)=>{setClienteData(v=>({...v,apellidos:e.target.value.toUpperCase()}))}} />
-            </Col>
-        </Row>
+        
         <Row>
             <Col span={4}>
                 Fecha de Nacimiento

@@ -1,5 +1,5 @@
 import { get } from "@/src/urls"
-import { Button, Col, Input, Row, Spin, Table, Tag } from "antd"
+import { Button, Checkbox, Col, Input, Row, Spin, Table, Tag } from "antd"
 import { useEffect, useRef, useState } from "react"
 import CustomModal from "./CustomModal"
 import CobroOperacion from "./forms/caja/CobroForm"
@@ -9,6 +9,8 @@ import PrinterWrapper from "./PrinterWrapper"
 import InformeX from "./informes/caja/InformeX"
 import VentaDetallePopup from "./VentaDetalle"
 import CargaBloqueo from "./forms/caja/CargaBloqueo"
+import globals from "@/src/globals"
+import { post_method } from "@/src/helpers/post_helper"
 
 export default function FichaCliente(props){
     const [operaciones, setOperaciones] = useState([])
@@ -16,6 +18,7 @@ export default function FichaCliente(props){
     const [dataChange, setDataChange] = useState(true)
     const [scrollChange, setScrollChange] = useState(false)
     const [saldo, setSaldo] = useState(0)
+    const [filtrarSucursal, setFiltrarSucursal] = useState(false)
     
     const dummyref = useRef(null)
 
@@ -96,10 +99,19 @@ export default function FichaCliente(props){
                 setDataCliente(response.data[0])
             })
             //operaciones
-            fetch(get.operaciones_cliente + props.idcliente)
+            
+            /*fetch(get.operaciones_cliente + props.idcliente)
             .then(response=>response.json())
             .then((response)=>{
                 //alert(JSON.stringify(response.data))
+                setOperaciones(response.data)
+                setScrollChange(true)
+            })*/
+            post_method(get.operaciones_cliente,
+                {
+                idcliente: props.idcliente,
+                idsucursal: filtrarSucursal ? globals.obtenerSucursal() : -1
+            },(response)=>{
                 setOperaciones(response.data)
                 setScrollChange(true)
             })
@@ -110,13 +122,24 @@ export default function FichaCliente(props){
             //alert("scroll?")
         }
 
-    },[dataChange, scrollChange, dataChange])
+    },[dataChange, scrollChange])
 
     return (<>
     <h3>Ficha Cliente</h3>
     <Row>
-        <Col span={24}>
+        <Col span={20}>
             {detalles_cliente()}
+        </Col>
+        <Col span={4} >
+            <Checkbox
+            style={{fontSize:"1.2em"}}
+            checked={filtrarSucursal}
+            onChange={(e)=>{
+                setFiltrarSucursal(!filtrarSucursal)
+                setDataChange(!dataChange)
+            }}>
+                <span style={{color:"darkred"}}>Ver S&oacute;lo Sucursal</span>
+                </Checkbox>
         </Col>
     </Row>
     <Row>
