@@ -11,6 +11,7 @@ import { PrinterFilled, ReloadOutlined } from "@ant-design/icons";
 import ImprimirSobreVenta from "@/pages/v1/ventas/informes/sobre_venta";
 import InformeVentaMinV3 from "@/components/informes/ventas/InformeVentasMinV3";
 import InformeVentaV2 from "@/components/informes/ventas/InformeVentaV2";
+import CambiarResponsableDestinatario from "./edicion/CambiarResponsableDestinatario";
 
 const BuscarVenta = (props)=>{
     const [open, setOpen] = useState(false)
@@ -71,6 +72,7 @@ const BuscarVenta = (props)=>{
                     idsucursal: v.sucursal_idsucursal,
                     sucursal: v.sucursal,
                     en_laboratorio: v.en_laboratorio,
+                    iddestinatario: v.fk_destinatario,
                 }))
             ))
         })
@@ -167,7 +169,18 @@ const BuscarVenta = (props)=>{
         dataSource={dataSource} 
         columns={[
         {title:'Nro.:', dataIndex:'idventa'},
-        {title:'Cliente', dataIndex:'cliente'},
+        {
+            title:'Cliente', 
+            dataIndex:'cliente', 
+            render:(_,{cliente,idventa,idcliente,iddestinatario})=>{
+            return <div onClick={(e)=>{e.stopPropagation()}}>
+            {cliente} 
+            <CambiarResponsableDestinatario 
+                idcliente={idcliente} 
+                iddestinatario={iddestinatario} 
+                idventa={idventa} 
+                /></div>}
+        },
         {title:'Fecha', dataIndex:'fecha'},
         {hidden: false, title: "Tipo", dataIndex: "tipo", render:(_,{tipo})=>(
             <span style={{fontSize:".75em", }}><b>{get_tipo(tipo)}</b></span>
@@ -190,7 +203,7 @@ const BuscarVenta = (props)=>{
             title:'Acciones', 
             dataIndex:'idventa', 
             render:(_,{idventa, estado, en_laboratorio, idsucursal})=>{
-            return <div onClick={(e)=>{e.stopPropagation()}}>
+                return <div onClick={(e)=>{e.stopPropagation()}}>
             
             { globals.esUsuarioCaja1() ? show_buttons(estado,idventa,en_laboratorio, idsucursal) : <></>}
             {/*<VentaDetallePopup idventa={idventa} key={idventa} />&nbsp;*/}

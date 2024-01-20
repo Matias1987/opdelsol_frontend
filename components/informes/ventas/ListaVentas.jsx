@@ -36,7 +36,7 @@ const ListaVentas = (props) => {
 
     const add = (obj,value,key) => typeof value === 'undefined' ? obj : {...obj, [key]:value}
 
-    const buttons = (_idventa, _idcliente) => {
+    const buttons = (_idventa, _idcliente, _idsucursal) => {
         return <>
             <><VentaDetallePopup idventa={_idventa} />&nbsp;&nbsp;</>
             {typeof props.imprimir !== 'undefined' || true/* <-- TEMPORARY */ ?  <><ImprimirSobreVenta idventa={_idventa} />&nbsp;&nbsp;</>:<></>}
@@ -59,6 +59,11 @@ const ListaVentas = (props) => {
             {typeof props.marcarTerminado !== 'undefined' ?  <><Button size="small" type="primary" onClick={(e)=>{
                 if(confirm("Marcar operación como disponible para entrega?"))
                 {
+                    if(_idsucursal != globals.obtenerSucursal())
+                    {
+                        alert("<!> Venta de Otra Sucursal")
+                        return
+                    }
                     post_method(post.cambiar_estado_venta,{idventa: _idventa, estado: 'TERMINADO', fecha_retiro:current_date_ymd()},(resp)=>{alert("OK"); setReload(!reload)})
                 }
             }}>Terminado</Button>&nbsp;&nbsp;</>:<></>}
@@ -66,12 +71,22 @@ const ListaVentas = (props) => {
             {typeof props.enviarALaboratorio !== 'undefined' ?  <Button disabled size="small" danger onClick={(e)=>{
                 if(confirm("Enviar venta a taller?"))
                 {
+                    if(_idsucursal != globals.obtenerSucursal())
+                    {
+                        alert("<!> Venta de Otra Sucursal")
+                        return
+                    }
                     post_method(post.update.cambiar_venta_sucursal_deposito,{idventa: _idventa, en_laboratorio: "1"},(resp)=>{alert("OK"); setReload(!reload)})
                 }
             }}>Devoluci&oacute;n</Button>:<></>}
 
             {typeof props.anular !== 'undefined' ?<><Button size="small" danger onClick={(e)=>{
                 if(confirm("Anular Operacion?")){
+                    if(_idsucursal != globals.obtenerSucursal())
+                    {
+                        alert("<!> Venta de Otra Sucursal")
+                        return
+                    }   
                     post_method(post.cambiar_estado_venta,{idventa: _idventa, estado: 'ANULADO'},(resp)=>{
                         
                         setReload(!reload);
@@ -139,6 +154,7 @@ const ListaVentas = (props) => {
                     monto: v.monto,
                     tipo: v.tipo,
                     sucursal: v.sucursal,
+                    idsucursal: v.sucursal_idsucursal,
                 }))
             ))
         })
@@ -178,9 +194,9 @@ const ListaVentas = (props) => {
         }},
         {hidden: false, title: "Monto", dataIndex:"monto"},
         {hidden: false, title: "Sucursal", dataIndex:"sucursal"},
-        {hidden: false, title: "Acciones", dataIndex:"idventa", render: (_,{idventa,idcliente})=>{
+        {hidden: false, title: "Acciones", dataIndex:"idventa", render: (_,{idventa,idcliente, idsucursal})=>{
             return <>
-                {buttons(idventa,idcliente)}
+                {buttons(idventa,idcliente, idsucursal)}
             </>
         }},
     ]
