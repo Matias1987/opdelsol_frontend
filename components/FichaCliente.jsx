@@ -186,7 +186,7 @@ export default function FichaCliente(props){
     <Row>
         <Col span={12}>
             <CobroOperacion 
-            tarjetaHidden={true}
+            tarjetaHidden={false}
             ctacteHidden={true}
             chequeHidden={false}
             mutualHidden={false}

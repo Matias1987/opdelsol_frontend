@@ -56,11 +56,13 @@ const ListaCobros = (props) => {
     },[reload])
 
     return <>
+        {(props.readOnly||false) ? <></> :   
         <Row>
             <Col span={24}>
                 <FiltroCobros callback={f=>{setFiltros(_f=>f); setReload(!reload)}} />
             </Col>
         </Row>
+        }
         <Row>
             <Col span={24}>
                 <Table dataSource={dataSource} columns={columns} />

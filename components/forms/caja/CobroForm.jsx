@@ -363,7 +363,7 @@ export default function CobroOperacion(props){
                 <VentaDetallePopup idventa={dataVenta.idventa} /> 
             </p>&nbsp;&nbsp;
             <CustomModal title={"Cobros Venta Nro.: " + dataVenta.idventa} openButtonText="Ver Cobros">
-                <ListaCobros idventa={dataVenta.idventa} />
+                <ListaCobros idventa={dataVenta.idventa} readOnly={true} />
             </CustomModal>
         </>
     )
