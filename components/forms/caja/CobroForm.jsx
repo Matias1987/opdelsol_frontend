@@ -90,8 +90,12 @@ export default function CobroOperacion(props){
     const onCobrarClick = (e) => {
         setCobrarDisabled(true)
 //#region  validations
-  
-
+        if(mp==null)
+        {
+            setCobrarDisabled(false)
+            return
+        }
+     
         if(typeof props.tipo === 'undefined'){
             alert("tipo undefined")
             setCobrarDisabled(false)
@@ -103,6 +107,15 @@ export default function CobroOperacion(props){
         
         if(typeof props.tipo!= 'undefined')
         {
+            if(props.tipo == 'cuota')
+            {
+                if(+mp.total==0)
+                {
+                    alert("Monto igual a 0")
+                    setCobrarDisabled(false)
+                    return
+                }
+            }
             if(props.tipo=='resfuerzo')
             {
                 if((parseFloat(dataVenta.subtotal) - parseFloat(descuento) - parseFloat(dataVenta.haber||0)) <= 0 )

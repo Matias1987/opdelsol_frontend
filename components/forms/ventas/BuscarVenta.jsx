@@ -173,13 +173,16 @@ const BuscarVenta = (props)=>{
             title:'Cliente', 
             dataIndex:'cliente', 
             render:(_,{cliente,idventa,idcliente,iddestinatario})=>{
-            return <div onClick={(e)=>{e.stopPropagation()}}>
-            {cliente} 
-            <CambiarResponsableDestinatario 
-                idcliente={idcliente} 
-                iddestinatario={iddestinatario} 
-                idventa={idventa} 
-                /></div>}
+            return <>{cliente}
+                    {/*<span onClick={(e)=>{e.stopPropagation()}}>
+                        <CambiarResponsableDestinatario 
+                            idcliente={idcliente} 
+                            iddestinatario={iddestinatario} 
+                            idventa={idventa} 
+                            />
+            </span>*/}
+                </>
+            }
         },
         {title:'Fecha', dataIndex:'fecha'},
         {hidden: false, title: "Tipo", dataIndex: "tipo", render:(_,{tipo})=>(
