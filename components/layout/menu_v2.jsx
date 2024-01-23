@@ -96,6 +96,9 @@ export default function MenuV2(props){
         key: '112',
         label: (<Menu.Item><Link href={public_urls.transferencias}>Transferencias</Link></Menu.Item>),
       },
+      {
+        type: 'divider',
+      },
      {
         key: '102',
         label: (<Menu.Item style={{fontSize:".85em"}}><Link href={public_urls.ventas_pendientes}>Operaciones Pendientes En Sucursal</Link></Menu.Item>),

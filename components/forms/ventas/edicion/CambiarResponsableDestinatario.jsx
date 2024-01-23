@@ -1,8 +1,9 @@
-import { EditOutlined } from "@ant-design/icons";
+import { EditFilled, EditOutlined } from "@ant-design/icons";
 import { Button, Col, Divider, Input, Modal, Row, Spin } from "antd";
 import { useState } from "react";
 import SelectCliente from "../SelectCliente";
-import { get } from "@/src/urls";
+import { get, post } from "@/src/urls";
+import { post_method } from "@/src/helpers/post_helper";
 
 const CambiarResponsableDestinatario = (props) =>{
     const [open, setOpen] = useState(false)
@@ -43,12 +44,17 @@ const CambiarResponsableDestinatario = (props) =>{
 
     const load = () => {
        
-        if(typeof props.idcliente !== 'undefined'){
+        fetch(get.venta + props.idventa)
+        .then(r=>r.json())
+        .then((resp)=>{
+
             setResponsableLoading(true)
-            fetch(get.cliente_por_id + props.idcliente)
+
+            
+            fetch(get.cliente_por_id + resp.data[0].cliente_idcliente)
             .then(r=>r.json())
             .then((response)=>{
-                alert(JSON.stringify(response))
+               
                 setResponsable({
                     id:response.data[0].idcliente,
                     dni:response.data[0].dni,
@@ -57,21 +63,26 @@ const CambiarResponsableDestinatario = (props) =>{
 
                 setResponsableLoading(false)
             })
-        }
 
-        if(typeof props.iddestinatario !== 'undefined'){
+
             setDestinatarioLoading(true)
-            fetch(get.cliente_por_id + props.iddestinatario)
+            fetch(get.cliente_por_id + resp.data[0].fk_destinatario)
             .then(r=>r.json())
             .then((response)=>{
-                setDestinatario({
-                    id:response.data[0].idcliente,
-                    dni:response.data[0].dni,
-                    nombre:response.data[0].apellido + ', ' + response.data[0].nombre,
-                })
-                setDestinatarioLoading(false)
+                if((response?.data||[]).length>0)
+                {
+                    setDestinatario({
+                        id:response.data[0].idcliente,
+                        dni:response.data[0].dni,
+                        nombre:response.data[0].apellido + ', ' + response.data[0].nombre,
+                    })
+                    setDestinatarioLoading(false)
+                }
+                
             })
-        }
+
+        })
+
     }
 
     const onOpenClick = () => {
@@ -82,15 +93,35 @@ const CambiarResponsableDestinatario = (props) =>{
 
     const onCancel = () => { 
         setOpen(false)
+        props?.callback?.()
     }
 
     const onGuardar = () => {
+        if(!confirm("Realizar Cambios?")){
+            return
+        }
+        if(cambios.iddestinatario!=-1)
+        {
+            post_method(post.update.cambiar_destinatario,{idventa: props.idventa, iddestinatario:cambios.iddestinatario},(response)=>{
+                alert("Destinatario Cambiado")
+                load()
+            })
+        }
+
+        if(cambios.idresponsable!=-1)
+        {
+            post_method(post.update.cambiar_responsable,{idventa: props.idventa, idresponsable:cambios.idresponsable},(response)=>{
+                alert("Responsable cambiado")
+                load()
+            })
+        }
+
 
     }
 
     return <>
-    <Button size="small" type="ghost" onClick={onOpenClick}><EditOutlined /></Button>
-    <Modal open={open} onCancel={onCancel} width="80%">
+    <Button size="small" type="ghost" onClick={onOpenClick} style={{color:"red"}}><EditFilled /></Button>
+    <Modal open={open} onCancel={onCancel} width="80%" onOk={oncancel} footer={null}>
         <>
 
         
@@ -125,7 +156,7 @@ const CambiarResponsableDestinatario = (props) =>{
         </Row>
         <Row>
             <Col span={24}>
-                <SelectCliente callback={onResponsableChange} />
+                <SelectCliente callback={onResponsableChange}  />
             </Col>
         </Row>
         <Row>

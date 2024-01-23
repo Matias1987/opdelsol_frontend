@@ -1,4 +1,5 @@
-import { Button, Col, DatePicker, Input, Modal, Row } from "antd"
+import globals from "@/src/globals"
+import { Button, Col, DatePicker, Input, Modal, Row, Select } from "antd"
 
 
 const { useState, useEffect } = require("react")
@@ -20,10 +21,16 @@ const FiltroVentas =(props) => {
         setOpen(true);
     }
 
+    const onChange = (idx,value) => {
+        setFiltros(_ff=>{
+            const _f = {..._ff,[idx]:value}
+            return _f
+        })
+    }
+
     const onSelectCliente = (id) => {
         setFiltros(_=>{
             const _f = {...filtros,idcliente:id}
-            //props?.callback?.(_f)
             return _f
         })
     }
@@ -31,7 +38,6 @@ const FiltroVentas =(props) => {
     const onSelectMedico = (id) => {
         setFiltros(_=>{
             const _f = {...filtros,idmedico:id}
-            //props?.callback?.(_f)
             return _f
         })
     }
@@ -39,7 +45,6 @@ const FiltroVentas =(props) => {
     const onSelectDestinatario = (id) => {
         setFiltros(_=>{
             const _f = {...filtros,iddestinatario:id}
-            //props?.callback?.(_f)
             return _f
         })
     }
@@ -47,7 +52,6 @@ const FiltroVentas =(props) => {
     const onIDChange = (e) => {
         setFiltros(_=>{
             const _f = {...filtros,id:e.target.value}
-            //props?.callback?.(_f)
             return _f
         })
     }
@@ -69,7 +73,7 @@ const FiltroVentas =(props) => {
         cancelButtonProps={{ style: { display: 'none' } }}
         okButtonProps={{children:"CERRAR"}}
         
-        width={"80%"}
+        width={"60%"}
         title={"Filtros"}
         open={open}
         onOk={()=>{ 
@@ -88,6 +92,43 @@ const FiltroVentas =(props) => {
                 <Input onChange={onIDChange} />
             </Col>
             
+        </Row>
+        <Row style={{padding:".65em"}}>
+        <Col span={1}>
+            Estado:
+            </Col>
+            
+            <Col span={22}>
+                <Select style={{width:"300px"}} onChange={(v)=>{onChange("estado",v)}}
+                options={[
+                    {label:"-", value:""},
+                    {label:"INGRESADO", value:"INGRESADO"},
+                    {label:"PENDIENTE", value:"PENDIENTE"},
+                    {label:"TERMINADO", value:"TERMINADO"},
+                    {label:"ENTREGADO", value:"ENTREGADO"},
+                    {label:"ANULADO", value:"ANULADO"},
+                ]}
+                />
+            </Col>
+        </Row>
+        <Row style={{padding:".65em"}}>
+            <Col span={1}>
+            Tipo:
+            </Col>
+            
+            <Col span={22}>
+                <Select style={{width:"300px"}} onChange={(v)=>{onChange("tipo",v)}}
+                options={[
+                    {label:"-", value:""},
+                    {label:"Vta. Directa", value:globals.tiposVenta.DIRECTA},
+                    {label:"Recta Stock", value:globals.tiposVenta.RECSTOCK},
+                    {label:"LC Laboratorio", value:globals.tiposVenta.LCLAB},
+                    {label:"LC Stock", value:globals.tiposVenta.LCSTOCK},
+                    {label:"Monof Lab", value:globals.tiposVenta.MONOFLAB},
+                    {label:"Monof Stock", value:globals.tiposVenta.MONOFLAB},
+                ]}
+                />
+            </Col>
         </Row>
         <Row style={{padding: ".65em"}}>
             <Col span={24}>

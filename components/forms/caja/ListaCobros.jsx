@@ -65,7 +65,7 @@ const ListaCobros = (props) => {
         }
         <Row>
             <Col span={24}>
-                <Table dataSource={dataSource} columns={columns} />
+                <Table dataSource={dataSource} columns={columns} rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'}/>
             </Col>
         </Row>
         
