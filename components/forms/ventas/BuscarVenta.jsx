@@ -1,5 +1,5 @@
 import ListaVentas from "@/components/informes/ventas/ListaVentas";
-import { Button, Input, Modal, Table, Tag } from "antd";
+import { Button, Checkbox, Col, Input, Modal, Row, Table, Tag } from "antd";
 import { useEffect, useState } from "react";
 import FiltroVentas from "./filtroVentas";
 import { post } from "@/src/urls";
@@ -7,7 +7,7 @@ import { post_method } from "@/src/helpers/post_helper";
 import globals from "@/src/globals";
 import VentaDetallePopup from "@/components/VentaDetalle";
 import CustomModal from "@/components/CustomModal";
-import { PrinterFilled, ReloadOutlined } from "@ant-design/icons";
+import { HomeFilled, PrinterFilled, ReloadOutlined } from "@ant-design/icons";
 import ImprimirSobreVenta from "@/pages/v1/ventas/informes/sobre_venta";
 import InformeVentaMinV3 from "@/components/informes/ventas/InformeVentasMinV3";
 import InformeVentaV2 from "@/components/informes/ventas/InformeVentaV2";
@@ -21,6 +21,8 @@ const BuscarVenta = (props)=>{
 
     const [detalleOpen, setDetalleOpen] = useState(false)
     const [idventaDetalle, setIdVentaDetalle] = useState(-1)
+
+    const [verSoloSucursal, setVerSoloSucursal] = useState(true)
 
     const add = (obj,value,key) => typeof value === 'undefined' ? obj : {...obj, [key]:value}
 
@@ -40,12 +42,15 @@ const BuscarVenta = (props)=>{
     const load = () => {
         const url = post.venta_estado_sucursal;
         var params = {};//{idsucursal: globals.obtenerSucursal()}
-        
+        params
         params = add(params, filtros.idcliente, 'idcliente')
         params = add(params, filtros.idmedico, 'idmedico')
         params = add(params, filtros.id, 'id')
         params = add(params, filtros.iddestinatario, 'iddestinatario')
         params = add(params, filtros.fecha, 'fecha')
+        params = add(params, filtros.estado, 'estado')
+        params = add(params, filtros.tipo, 'tipo')
+        params = add(params, verSoloSucursal ? globals.obtenerSucursal() : '', 'idsucursal')
 
         post_method(url, params,(response)=>{
 
@@ -151,10 +156,25 @@ const BuscarVenta = (props)=>{
     width={"80%"} 
     onCancel={onCancel} 
     open={open} 
-    title="Buscar Venta"> 
+    title={<>Buscar Venta &nbsp;&nbsp;<span style={{fontSize:".8em", color: "gray"}} ><i>(M&aacute;x. 200)</i> </span></>}> 
+    <Row>
+        <Col span={3}>
         <FiltroVentas callback={f=>{ setFiltros(_f=>f); setReload(!reload)}} />
+        </Col>
+        <Col span={2}>
         <Button type="link" onClick={(e)=>{setFiltros(_f=>({})); setReload(!reload)}}><ReloadOutlined /></Button>
+        </Col>
+        <Col span={8}>
+        <Checkbox checked={verSoloSucursal} style={{fontSize:"1.2em", color:"#362056FF"}} onChange={()=>{setVerSoloSucursal(!verSoloSucursal); setReload(!reload)}}><HomeFilled /> Ver Solo Sucursal</Checkbox>
+        </Col>
+    </Row>
+        
+    <Row>
+        <Col span={24}>
         <Table 
+        scroll={{
+            y: 400,
+          }}
         onRow={(record, rowIndex) => {
             return {
               onClick: event => {
@@ -172,15 +192,14 @@ const BuscarVenta = (props)=>{
         {
             title:'Cliente', 
             dataIndex:'cliente', 
-            render:(_,{cliente,idventa,idcliente,iddestinatario})=>{
+            render:(_,{cliente,idventa,estado,idsucursal})=>{
             return <>{cliente}
-                    {/*<span onClick={(e)=>{e.stopPropagation()}}>
+                    {estado=="INGRESADO" && idsucursal==globals.obtenerSucursal()? <span onClick={(e)=>{e.stopPropagation()}}>
                         <CambiarResponsableDestinatario 
-                            idcliente={idcliente} 
-                            iddestinatario={iddestinatario} 
                             idventa={idventa} 
+                            callback={load}
                             />
-            </span>*/}
+            </span> : <></>}
                 </>
             }
         },
@@ -193,7 +212,7 @@ const BuscarVenta = (props)=>{
                 case "INGRESADO": return <Tag color="red"><b>{estado}</b></Tag>
                 case "PENDIENTE": return <Tag color="geekblue">{estado}</Tag>
                 case "ENTREGADO": return <Tag color="volcano">{estado}</Tag>
-                case "ANULADO": return <Tag color="geekblue">{estado}</Tag>
+                case "ANULADO": return <Tag color="#56051DFF">{estado}</Tag>
                 case "TERMINADO": return <Tag color="green">{estado}</Tag>
             }
         }},
@@ -204,6 +223,7 @@ const BuscarVenta = (props)=>{
         },
         {
             title:'Acciones', 
+            fixed: 'right',
             dataIndex:'idventa', 
             render:(_,{idventa, estado, en_laboratorio, idsucursal})=>{
                 return <div onClick={(e)=>{e.stopPropagation()}}>
@@ -215,6 +235,9 @@ const BuscarVenta = (props)=>{
             </div>
         }},
     ]} />
+        </Col>
+    </Row>
+        
     <Modal width={"80%"} open={detalleOpen} footer={null} onCancel={()=>{setDetalleOpen(false)}}>
         <InformeVentaMinV3 idventa={idventaDetalle} key={idventaDetalle} />
     </Modal>

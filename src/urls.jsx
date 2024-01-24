@@ -147,6 +147,9 @@ const post = {
         editar_codigo: remote_base_url + "codigos/editar_c/",
         modificar_cantidad_stock: remote_base_url + "stock/modificar_cantidad/",
 
+        cambiar_destinatario: remote_base_url + "ventas/cambiar_destinatario/",
+        cambiar_responsable: remote_base_url + "ventas/cambiar_responsable/",
+
     },
 }
 
