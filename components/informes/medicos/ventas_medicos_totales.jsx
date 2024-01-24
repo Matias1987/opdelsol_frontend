@@ -1,11 +1,12 @@
 import PrinterWrapper from "@/components/PrinterWrapper";
 import { post_method } from "@/src/helpers/post_helper";
 import { parse_int_string } from "@/src/helpers/string_helper";
-import { post } from "@/src/urls";
+import { get, post } from "@/src/urls";
 import { InfoCircleFilled } from "@ant-design/icons";
-import { Button, Col, Input, Row, Table } from "antd";
+import { Button, Col, Input, Row, Select, Table } from "antd";
 import { useEffect, useState } from "react";
 import VentasMedicos from "./ventas_medicos";
+import ExportToCSV from "@/components/ExportToCSV";
 
 const ListaVentasMedicosTotales = (props) => {
     const [dataSource, setDataSource] = useState([])
@@ -13,6 +14,8 @@ const ListaVentasMedicosTotales = (props) => {
     const [mes, setMes]=useState(1)
     const [anio, setAnio]=useState(1)
     const [nombre, setNombre] = useState("")
+    const [idsucursal , setIdSucursal] = useState(-1)
+    const [sucursales, setSucursales] = useState([])
     const columns =[ 
         {dataIndex: 'medico', title:'medico'},
         {dataIndex: 'efectivo', title: 'efectivo'},
@@ -21,7 +24,7 @@ const ListaVentasMedicosTotales = (props) => {
         {dataIndex: 'ctacte', title: 'ctacte'},
         {dataIndex: 'mutual', title: 'mutual'},
         {dataIndex: 'idmedico', title: '', render:(_,{idmedico,medico})=>{
-            return <><VentasMedicos className="test" nombre_medico={medico} mes={mes} anio={anio} idmedico={idmedico} /></>
+            return <><VentasMedicos className="test" nombre_medico={medico} mes={mes} anio={anio} idmedico={idmedico}idsucursal={idsucursal} /></>
         }}
     ]
 
@@ -29,6 +32,16 @@ const ListaVentasMedicosTotales = (props) => {
         const d = new Date()
         setMes(d.getMonth()+1)
         setAnio(d.getFullYear())
+        /* get sucursales */
+        fetch(get.sucursales)
+        .then(r=>r.json())
+        .then(r=>{
+            if(((r||null)?.data||null)!=null)
+            {
+                setSucursales([...[{label:"-", value:-1}],...r.data.map(s=>({label: s.nombre,value: s.idsucursal,}))])
+            }
+        })
+        .catch(ex=>{console.log(ex)})
     },[])
 
     const init_totales =()=> {
@@ -39,6 +52,7 @@ const ListaVentasMedicosTotales = (props) => {
             mes: mes,
             anio: anio,
             nombre: nombre,
+            idsucursal: idsucursal,
         },
         (response)=>{
             //alert(JSON.stringify(response))
@@ -63,10 +77,22 @@ const ListaVentasMedicosTotales = (props) => {
     return <>
     <Row>
         <Col span={24}>
+            <ExportToCSV 
+                parseFnt={()=>{
+                    let str = ""
+                    str+=`MES:,${mes}, ANIO:,${anio}, ,\r\n`
+                    str+=`SUCURSAL:,${idsucursal}, ,, ,\r\n`
+                    str+="MEDICO, EFECTIVO, TARJETA,  CHEQUE, CTACTE, MUTUAL\r\n"
+                    dataSource.forEach(r=>{
+                        str+=`${r.medico},${r.efectivo},${r.tarjeta},${r.cheque},${r.ctacte},${r.mutual}\r\n`
+                    })
+                    return str
+                }}
+             />
         </Col>
     </Row>
     <Row>
-        <Col span={4}>
+        <Col span={1}>
             <b>Filtros:</b>
         </Col>
         <Col span={4}>
@@ -77,6 +103,12 @@ const ListaVentasMedicosTotales = (props) => {
         </Col>
         <Col span={4}>
             <Input  value={nombre} onChange={(e)=>{setNombre(e.target.value)}} prefix="Nombre: " />
+        </Col>
+        <Col span={1} style={{textAlign:"right", paddingTop:".2em"}}>
+            Sucursal:
+        </Col>
+        <Col span={4}>
+            <Select style={{width:"200px"}} options={sucursales} placeholder="Seleccione sucursal" onChange={(v)=>{setIdSucursal(v)}}/>
         </Col>
         <Col span={4}>
             <Button onClick={init_totales} type="primary">Aplicar</Button>

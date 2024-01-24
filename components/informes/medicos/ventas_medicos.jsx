@@ -1,4 +1,5 @@
 import CustomModal from "@/components/CustomModal";
+import ExportToCSV from "@/components/ExportToCSV";
 import PrinterWrapper from "@/components/PrinterWrapper";
 import VentaDetallePopup from "@/components/VentaDetalle";
 import globals from "@/src/globals";
@@ -13,6 +14,7 @@ import { useEffect, useState } from "react";
  * @param idmedico 
  * @param mes 
  * @param anio 
+ * @param idsucursal
  */
 const VentasMedicos = (props) => {
     const [open, setOpen] = useState(false)
@@ -69,7 +71,8 @@ const VentasMedicos = (props) => {
         {
             mes: props.mes, 
             anio: props.anio, 
-            idmedico: props.idmedico
+            idmedico: props.idmedico,
+            idsucursal: props.idsucursal,
         },(response)=>{
             
             var _total = 0;
@@ -108,22 +111,18 @@ const VentasMedicos = (props) => {
         <Modal width={"90%"} open={open} onCancel={()=>{setOpen(false)}}>
             <Row>
                 <Col span={24}>
-                    <CustomModal openButtonText="CSV">
-                        <Input.TextArea value={
-                            JSON.stringify(
-                                dataSource.map(r=>({
-                                    Nro_Op: r.idventa,
-                                    sucursal: r.sucursal,
-                                    cliente: r.cliente,
-                                    dni: r.dni,
-                                    tipo: gtipe(r.tipo.toString()),
-                                    monto: r.monto
-
-                                }))
-
-                            )
-                        }/>
-                    </CustomModal>
+                <ExportToCSV 
+                parseFnt={()=>{
+                    let str = ""
+                    str+=`MES:,${props.mes}, ANIO:,${props.anio}, ,\r\n`
+                    str+=`SUCURSAL:,${props.idsucursal}, ,, ,\r\n`
+                    str+="MEDICO, EFECTIVO, TARJETA,  CHEQUE, CTACTE, MUTUAL\r\n"
+                    dataSource.forEach(r=>{
+                        str+=`${r.medico},${r.efectivo},${r.tarjeta},${r.cheque},${r.ctacte},${r.mutual}\r\n`
+                    })
+                    return str
+                }}
+             />
                 </Col>
             </Row>
             <Row>
