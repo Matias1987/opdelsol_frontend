@@ -3,6 +3,7 @@ import { Menu } from "antd";
 import { useState } from "react";
 import Link from "next/link"
 import { public_urls } from "@/src/urls";
+import BuscarVenta from "../forms/ventas/BuscarVenta";
 
 const items = [
  {
@@ -20,6 +21,10 @@ const items = [
     key: '11',
     icon: <StarOutlined />,
   },
+  {
+    label: (<BuscarVenta />),
+    key: '404',
+  }
   
 ];
 export default function MenuAdminTop(){

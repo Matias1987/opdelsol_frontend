@@ -1,7 +1,7 @@
 import CustomModal from "@/components/CustomModal";
 import PrinterWrapper from "@/components/PrinterWrapper";
 import InformeX from "@/components/informes/caja/InformeX";
-import { Col, Row, Table } from "antd";
+import { Button, Col, Row, Table } from "antd";
 import { useEffect, useState } from "react";
 import FiltroCobros from "./FiltroCobros";
 import globals from "@/src/globals";
@@ -31,6 +31,10 @@ const ListaCobros = (props) => {
                     <InformeX idcobro={idcobro} />
                 </PrinterWrapper>
             </CustomModal>
+            {
+                typeof props?.anular!=='undefined' ? <Button danger>Anular</Button> : <></>
+            }
+            
             </>
         }},
 
@@ -40,7 +44,12 @@ const ListaCobros = (props) => {
     
 
     useEffect(()=>{
+      
+        load()
+       
+    },[reload])
 
+    const load=_=>{
         var params = {};//{idsucursal: globals.obtenerSucursal()}
         params = add(params, filtros.idcliente, 'idcliente')
         params = add(params, filtros.iddestinatario, 'iddestinatario')
@@ -48,12 +57,14 @@ const ListaCobros = (props) => {
         //params = add(params, props?.idsucursal, 'idsucursal')
         params = add(params, filtros?.idcobro, 'idcobro')
         params = add(params, filtros?.fecha, 'fecha')
-
+        setLoading(true)
         //get list
         post_method(post.obtener_lista_cobros,params,(response)=>{
+            
             setDataSource(response.data)
+            setLoading(false)
         })
-    },[reload])
+    }
 
     return <>
         {(props.readOnly||false) ? <></> :   
@@ -65,7 +76,7 @@ const ListaCobros = (props) => {
         }
         <Row>
             <Col span={24}>
-                <Table dataSource={dataSource} columns={columns} rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'}/>
+                <Table loading={loading} pagination={false} dataSource={dataSource} columns={columns} rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'}/>
             </Col>
         </Row>
         

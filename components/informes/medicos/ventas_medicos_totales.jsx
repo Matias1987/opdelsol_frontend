@@ -15,6 +15,7 @@ const ListaVentasMedicosTotales = (props) => {
     const [anio, setAnio]=useState(1)
     const [nombre, setNombre] = useState("")
     const [idsucursal , setIdSucursal] = useState(-1)
+    const [nombreSucursal , setNombreSucursal] = useState(-1)
     const [sucursales, setSucursales] = useState([])
     const columns =[ 
         {dataIndex: 'medico', title:'medico'},
@@ -77,18 +78,7 @@ const ListaVentasMedicosTotales = (props) => {
     return <>
     <Row>
         <Col span={24}>
-            <ExportToCSV 
-                parseFnt={()=>{
-                    let str = ""
-                    str+=`MES:,${mes}, ANIO:,${anio}, ,\r\n`
-                    str+=`SUCURSAL:,${idsucursal}, ,, ,\r\n`
-                    str+="MEDICO, EFECTIVO, TARJETA,  CHEQUE, CTACTE, MUTUAL\r\n"
-                    dataSource.forEach(r=>{
-                        str+=`${r.medico},${r.efectivo},${r.tarjeta},${r.cheque},${r.ctacte},${r.mutual}\r\n`
-                    })
-                    return str
-                }}
-             />
+            
         </Col>
     </Row>
     <Row>
@@ -108,7 +98,17 @@ const ListaVentasMedicosTotales = (props) => {
             Sucursal:
         </Col>
         <Col span={4}>
-            <Select style={{width:"200px"}} options={sucursales} placeholder="Seleccione sucursal" onChange={(v)=>{setIdSucursal(v)}}/>
+            <Select style={{width:"200px"}} options={sucursales} placeholder="Seleccione sucursal" onChange={
+                (v)=>{setIdSucursal(v)
+                let n=""
+                sucursales.forEach(s=>{
+                  
+                    if(s.value==v){n=s.label}
+                })
+                
+                setNombreSucursal(n)
+                }
+                }/>
         </Col>
         <Col span={4}>
             <Button onClick={init_totales} type="primary">Aplicar</Button>
@@ -116,10 +116,24 @@ const ListaVentasMedicosTotales = (props) => {
     </Row>
     <Row>
         <Col span={24}>
+            <ExportToCSV 
+                fileName={`ventas_medicos_${mes}-${anio}`}
+                parseFnt={()=>{
+                    let str = ""
+                    str+=`MES:,${mes}, ANIO:,${anio}, ,\r\n`
+                    str+=`SUCURSAL:,${nombreSucursal}, ,, ,\r\n`
+                    str+="MEDICO, EFECTIVO, TARJETA,  CHEQUE, CTACTE, MUTUAL\r\n"
+                    dataSource.forEach(r=>{
+                        str+=`${r.medico},${r.efectivo},${r.tarjeta},${r.cheque},${r.ctacte},${r.mutual}\r\n`
+                    })
+                    return str
+                }}
+             />
             <PrinterWrapper>
                 <b>Totales ventas M&eacute;dicos periodo {mes}-{anio}</b>
                 <Table columns={columns} dataSource={dataSource} pagination={false} />
             </PrinterWrapper>
+            
         </Col>
     </Row>
     

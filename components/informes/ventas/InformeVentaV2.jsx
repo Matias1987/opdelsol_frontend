@@ -69,7 +69,28 @@ const InformeVentaV2 = (props) => {
             border: none;
             display:none;
         }
-        
+
+        .background-anulado{
+            position:absolute;
+            z-index:0;
+            background:white;
+            display:block;
+            min-height:50%; 
+            min-width:50%;
+            color:yellow;
+        }
+
+        .bg-text-anulado
+        {
+            color:lightgrey;
+            font-size:120px;
+            transform:rotate(300deg);
+            -webkit-transform:rotate(300deg);
+        }
+        .sobre-content{
+            position:absolute;
+            z-index:1;
+        }
        
         
     `
@@ -164,8 +185,17 @@ const InformeVentaV2 = (props) => {
         <ReactToPrint pageStyle={page_style} trigger={linkToPrint} content={() => componentRef.current} />
                 <hr />
                 <br />
-                <div ref={componentRef}>
-                    <div style={{width: '100%', paddingLeft: '12px', paddingRight: '12px', paddingTop: '20px'}}> 
+                
+                <div ref={componentRef} >
+
+                    {data.estado!='ANULADO' ? <></> :
+                        <div className="box-overlay">
+                        <br />
+                        <span>ANULADO<br /> </span>
+                        </div>
+                    }
+
+                    <div  style={{width: '100%', paddingLeft: '12px', paddingRight: '12px', paddingTop: '20px'}}> 
                     <table style={{height: '78px', width:'96%', border:'1', cellspacing:'0', cellpadding:'0', fontSize:"16px", padding:"0"}}>
                         <tbody>
                             <tr>

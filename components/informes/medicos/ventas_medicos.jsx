@@ -91,7 +91,7 @@ const VentasMedicos = (props) => {
                     sucursal: r.sucursal,
                 }))
             )
-        })
+        }) 
     }
     const gtipe = ( v ) => 
     {
@@ -108,17 +108,18 @@ const VentasMedicos = (props) => {
     }
     return <>
         <Button onClick={()=>{setOpen(true); init()}}><InfoCircleFilled /></Button>
-        <Modal width={"90%"} open={open} onCancel={()=>{setOpen(false)}}>
+        <Modal width={"90%"} open={open} onCancel={()=>{setOpen(false)}} footer={null}>
             <Row>
                 <Col span={24}>
                 <ExportToCSV 
+                fileName={`ventas_${props?.nombre_medico}__${props.mes}-${props.anio}`}
                 parseFnt={()=>{
                     let str = ""
                     str+=`MES:,${props.mes}, ANIO:,${props.anio}, ,\r\n`
-                    str+=`SUCURSAL:,${props.idsucursal}, ,, ,\r\n`
-                    str+="MEDICO, EFECTIVO, TARJETA,  CHEQUE, CTACTE, MUTUAL\r\n"
+                    str+=`MEDICO:,${props?.nombre_medico},,,,\r\n`
+                    str+="NRO. VTA., CLIENTE, DNI,  TIPO, SUCURSAL, MONTO\r\n"
                     dataSource.forEach(r=>{
-                        str+=`${r.medico},${r.efectivo},${r.tarjeta},${r.cheque},${r.ctacte},${r.mutual}\r\n`
+                        str+=`${r.idventa},${r.cliente},${r.dni},${r.tipo},${r.sucursal},${r.monto}\r\n`
                     })
                     return str
                 }}

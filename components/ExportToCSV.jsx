@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const { DownCircleFilled } = require("@ant-design/icons");
+const { DownCircleFilled, ExportOutlined } = require("@ant-design/icons");
 const { Button } = require("antd");
 
 /**
@@ -22,7 +22,7 @@ const ExportToCSV = (props) =>{
             const element = document.createElement("a");
             const file = new Blob([data], {type: 'text/plain'});
             element.href = URL.createObjectURL(file);
-            element.download = "myFile.csv";
+            element.download = `${(props?.fileName||"")||"file"}_${(new Date()).getTime()}.csv`;
             document.body.appendChild(element); // Required for this to work in FireFox
             element.click();
         }
@@ -32,7 +32,7 @@ const ExportToCSV = (props) =>{
       }
 
       return <>
-        <Button onClick={downloadTxtFile}><DownCircleFilled />CSV</Button>
+        <Button onClick={downloadTxtFile} style={{backgroundColor:"#F4E086FF"}} size="small"><ExportOutlined />CSV</Button>
       </>
 
 }

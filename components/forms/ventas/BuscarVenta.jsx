@@ -12,6 +12,7 @@ import ImprimirSobreVenta from "@/pages/v1/ventas/informes/sobre_venta";
 import InformeVentaMinV3 from "@/components/informes/ventas/InformeVentasMinV3";
 import InformeVentaV2 from "@/components/informes/ventas/InformeVentaV2";
 import CambiarResponsableDestinatario from "./edicion/CambiarResponsableDestinatario";
+import AnularVentasCobradas from "@/components/admin/anularVentasCobradas";
 
 const BuscarVenta = (props)=>{
     const [open, setOpen] = useState(false)
@@ -232,6 +233,11 @@ const BuscarVenta = (props)=>{
             {/*<VentaDetallePopup idventa={idventa} key={idventa} />&nbsp;*/}
             {/*<ImprimirSobreVenta  idventa={idventa}  key={idventa}/>*/}
             <InformeVentaV2 hidebutton={false} idventa={idventa} key={idventa} />
+            { globals.esUsuarioAdmin() || globals.esUsuarioAdminMin() ?
+            <AnularVentasCobradas idventa={idventa} />
+            :
+            <></>
+            }
             </div>
         }},
     ]} />

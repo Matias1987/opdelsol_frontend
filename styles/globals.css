@@ -165,3 +165,23 @@ a::before{
 .table-row-dark {
   background-color: #e7f0fc;
 }
+.box-overlay{
+
+  width:100%;  
+  height: 100%;
+}
+
+.box-overlay span{
+  display:table-cell;
+  vertical-align:middle;
+  text-align:center;
+  color:red;
+  font-size:1.5em;
+  border-top:2px solid red;
+  border-bottom:2px solid red;
+  font-family:arial;
+  font-weight:bold;  
+  transform:rotate(-25deg);
+  height: 100%;
+  
+}
