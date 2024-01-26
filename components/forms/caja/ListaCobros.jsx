@@ -1,7 +1,7 @@
 import CustomModal from "@/components/CustomModal";
 import PrinterWrapper from "@/components/PrinterWrapper";
 import InformeX from "@/components/informes/caja/InformeX";
-import { Button, Col, Row, Table } from "antd";
+import { Button, Col, Row, Table, Tag } from "antd";
 import { useEffect, useState } from "react";
 import FiltroCobros from "./FiltroCobros";
 import globals from "@/src/globals";
@@ -18,7 +18,7 @@ const ListaCobros = (props) => {
     const [filtros, setFiltros] = useState({})
     const [reload, setReload] = useState(true)
     const columns = [
-        {title: "Nro.", dataIndex: "idcobro"},
+        {title: "Nro.", dataIndex: "idcobro", render:(_,{anulado,idcobro})=>(<>{anulado==1?<Tag color="red">Anulado</Tag>:<></>}{idcobro}</>)},
         {title: "Fecha", dataIndex: "fecha_formated"},
         {title: "Cliente", dataIndex: "cliente_nombre"},
         {title: "Tipo", dataIndex: "tipo"},
@@ -76,7 +76,7 @@ const ListaCobros = (props) => {
         }
         <Row>
             <Col span={24}>
-                <Table loading={loading} pagination={false} dataSource={dataSource} columns={columns} rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'}/>
+                <Table loading={loading} pagination={true} dataSource={dataSource} columns={columns} rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'}/>
             </Col>
         </Row>
         

@@ -150,6 +150,8 @@ const post = {
         cambiar_destinatario: remote_base_url + "ventas/cambiar_destinatario/",
         cambiar_responsable: remote_base_url + "ventas/cambiar_responsable/",
 
+        anular_cobros: remote_base_url + "cobros/anular_cobro/",
+
     },
 }
 

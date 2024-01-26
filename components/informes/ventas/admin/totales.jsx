@@ -3,16 +3,18 @@ import { currency_format, parse_int_string } from "@/src/helpers/string_helper"
 import { get, post } from "@/src/urls"
 
 const { default: PrinterWrapper } = require("@/components/PrinterWrapper")
-const { Row, Col, Input, Table, Button, Divider } = require("antd")
+const { Row, Col, Input, Table, Button, Divider, Select } = require("antd")
 const { useState, useEffect } = require("react")
 
 
 
 const InformeVentasTotales = () => {
+    const [sucursales, setSucursales] = useState([])
     const [filtros, setFiltros] = useState({
         mes: 1,
         anio: 2023,
         fkcliente: '-1',
+        fksucursal: '-1',
 
     })
 
@@ -23,7 +25,18 @@ const InformeVentasTotales = () => {
             mes: d.getMonth()+1,
             anio: d.getFullYear(),
             fkcliente: '-1',
+            fksucursal: '-1',
         })
+
+        fetch(get.sucursales)
+        .then(r=>r.json())
+        .then(r=>{
+            if(((r||null)?.data||null)!=null)
+            {
+                setSucursales([...[{label:"-", value:-1}],...r.data.map(s=>({label: s.nombre,value: s.idsucursal,}))])
+            }
+        })
+        .catch(ex=>{console.log(ex)})
     },[])
 
 
@@ -116,22 +129,30 @@ const InformeVentasTotales = () => {
     </Row>
         <Row>
            
-            <Col span={8}>
+            <Col span={3}>
                 <Input type="number" prefix="Año" min={2023} onChange={(e)=>{setFiltros(f=>({...f,anio:parse_int_string( e.target.value)}))}} value={filtros.anio} />
             </Col>
-            <Col span={8}>
+            <Col span={2}>
                 <Input type="number" prefix="Mes" min={1} max={12} onChange={(e)=>{setFiltros(f=>({...f,mes:parse_int_string(e.target.value)}))}} value={filtros.mes} />
+            </Col>
+            <Col span={5}>
+                Sucursal: <Select style={{width:"150px"}} options={sucursales} onChange={(v)=>{
+                    setFiltros(f=>({...f,fksucursal:v}))
+                }} />
             </Col>
         </Row>
         <Row>
             <Col span={24}>
+                <br />
                 <Button type="primary" size="small" block onClick={aplicar_filtros}>Aplicar Filtros</Button>
+                <br />
+                <br />
             </Col>
         </Row>
         <Row>
             <Col span={24}>
                 <PrinterWrapper>
-                    <b>{`Ventas vendedoes del periodo ${filtros.mes}/${filtros.anio}`} </b>
+                    <b>{`Ventas vendedores del período ${filtros.mes}/${filtros.anio}`} </b>
                     <Table
                     
                     style={{width:"100%"}}
@@ -179,7 +200,7 @@ const InformeVentasTotales = () => {
             <Col span={24}>
                 <b>Ventas por Sucursal</b>
                 <PrinterWrapper>
-                    <b>{`Ventas por sucursal del periodo ${filtros.mes}/${filtros.anio}`} </b>
+                    <b>{`Ventas por sucursal del período ${filtros.mes}/${filtros.anio}`} </b>
                     <Table
                     
                     style={{width:"100%"}}

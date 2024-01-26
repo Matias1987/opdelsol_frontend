@@ -233,8 +233,8 @@ const BuscarVenta = (props)=>{
             {/*<VentaDetallePopup idventa={idventa} key={idventa} />&nbsp;*/}
             {/*<ImprimirSobreVenta  idventa={idventa}  key={idventa}/>*/}
             <InformeVentaV2 hidebutton={false} idventa={idventa} key={idventa} />
-            { globals.esUsuarioAdmin() || globals.esUsuarioAdminMin() ?
-            <AnularVentasCobradas idventa={idventa} />
+            { (globals.esUsuarioAdmin() || globals.esUsuarioAdminMin()) && estado!='ANULADO' ?
+            <AnularVentasCobradas idventa={idventa} callback={load}/>
             :
             <></>
             }
