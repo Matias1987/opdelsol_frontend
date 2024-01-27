@@ -24,7 +24,7 @@ const SubGrupoFormV2 = (props) => {
     })
 
     const onFinish = () => {
-        alert(JSON.stringify(subgrupo))
+        //alert(JSON.stringify(subgrupo))
 
         switch(props.action){
             case 'ADD': post_helper.post_method(urls.post.insert.subgrupo,subgrupo,(res)=>{
