@@ -106,7 +106,7 @@ const BuscarVenta = (props)=>{
                 }}
                 onOk={onPopupClosed} 
                 onCancel={onPopupClosed} 
-                openButtonText ="Ventas Ingresadas">
+                openButtonText ={<span style={{color:"red", fontSize:".9em"}}>Ventas<br />Ingresadas</span>}>
                     <ListaVentas imprimir anular cobrar accion="ingreso" titulo="Ventas Ingresadas" estado="INGRESADO" buttonText="Dar Ingreso"/>
                 </CustomModal>
             </>
@@ -116,14 +116,14 @@ const BuscarVenta = (props)=>{
             <CustomModal 
             onOk={onPopupClosed} 
             onCancel={onPopupClosed} 
-            openButtonText ="Ventas Pendientes en Taller">
+            openButtonText ={<span style={{color:"blue", fontSize:".9em"}}>Ventas Pendientes en Taller</span>}>
                 <ListaVentas ignoreSucursal id={id} cobrar accion="resfuerzo" en_laboratorio={1} titulo="Ventas Pendientes en Laboratorio" estado="PENDIENTE" buttonText="Resfuerzo Seña"  />
             </CustomModal>
             </> : <>
             <CustomModal 
             onOk={onPopupClosed} 
             onCancel={onPopupClosed} 
-            openButtonText ="Ventas Pendientes">
+            openButtonText ={<span style={{color:"blue", fontSize:".9em"}}>Ventas<br />Pendientes</span>}>
                 <ListaVentas ignoreSucursal id={id} enviarALaboratorio cobrar marcarTerminado en_laboratorio={0} accion="resfuerzo"  titulo="Ventas Pendientes" estado="PENDIENTE" buttonText="Resfuerzo Seña"  />
             </CustomModal>
             </>
@@ -132,13 +132,13 @@ const BuscarVenta = (props)=>{
             return <><CustomModal 
             onOk={onPopupClosed} 
             onCancel={onPopupClosed} 
-            openButtonText ="Ventas Terminadas"><ListaVentas ignoreSucursal id={id} mustCancel cobrar accion="entrega" titulo="Ventas Terminadas" estado="TERMINADO" buttonText="Entrega" /></CustomModal></>
+            openButtonText ={<span style={{color:"green", fontSize:".9em"}}>Ventas<br />Terminadas</span>}><ListaVentas ignoreSucursal id={id} mustCancel cobrar accion="entrega" titulo="Ventas Terminadas" estado="TERMINADO" buttonText="Entrega" /></CustomModal></>
             break;
             case 'ENTREGADO': 
             return <><CustomModal 
             onOk={onPopupClosed} 
             onCancel={onPopupClosed} 
-            openButtonText ="Ventas Entregadas"><ListaVentas ignoreSucursal id={id} titulo="Ventas Entregadas" estado={"ENTREGADO"} /></CustomModal></>
+            openButtonText ={<span style={{color:"orange", fontSize:".9em"}}>Ventas<br />Entregadas</span>}><ListaVentas ignoreSucursal id={id} titulo="Ventas Entregadas" estado={"ENTREGADO"} /></CustomModal></>
             break;
         }
     }
@@ -154,7 +154,7 @@ const BuscarVenta = (props)=>{
     <Modal 
     footer={null}
     destroyOnClose={true} 
-    width={"80%"} 
+    width={"90%"} 
     onCancel={onCancel} 
     open={open} 
     title={<>Buscar Venta &nbsp;&nbsp;<span style={{fontSize:".8em", color: "gray"}} ><i>(M&aacute;x. 200)</i> </span></>}> 

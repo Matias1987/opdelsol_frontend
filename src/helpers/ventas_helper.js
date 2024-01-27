@@ -143,6 +143,12 @@ const submit_venta = (v, productos,total,subTotal, tipo_vta, validate_items, cal
         return false;
     }
 
+    if(v.fkmedico==null){
+        alert("Medico no seleccionado")
+        callbackOnFailValidation?.()
+        return false
+    }
+
     
     if(v.mp!=null){
         if(v.mp.total>total){

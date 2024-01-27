@@ -22,7 +22,7 @@ const DestinatarioInf = (props) => {
     return data == null  ? <></> :<>
         <p>
             <span style={{fontWeight: 'bold'}}>DESTINATARIO:</span><br /> 
-            Ap. y Nombre: {data.nombre_completo}<br />
+            <span style={{whiteSpace:"nowrap"}}>Ap. y Nombre: {data.nombre_completo}</span><br />
         </p>
     </>
 }

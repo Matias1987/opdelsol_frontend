@@ -94,7 +94,7 @@ const FiltroVentas =(props) => {
             
         </Row>
         <Row style={{padding:".65em"}}>
-        <Col span={1}>
+        <Col span={2}>
             Estado:
             </Col>
             
@@ -112,7 +112,7 @@ const FiltroVentas =(props) => {
             </Col>
         </Row>
         <Row style={{padding:".65em"}}>
-            <Col span={1}>
+            <Col span={2}>
             Tipo:
             </Col>
             

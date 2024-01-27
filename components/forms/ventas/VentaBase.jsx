@@ -69,30 +69,35 @@ export default function VentaBase(props){
             label: 'Cliente y Medico',
             children: 
             <>
-            <Row>
-                    <Col  className="table-row-dark"  span={24} >
-                        <Form.Item>
-                            <SelectCliente callback={(value)=>{onChange("fkcliente", value)}} />
-                        </Form.Item>
-                    </Col>
-                    <Col  className="table-row-light"  span={24} >
-                        <Form.Item>
-                            <SelectCliente  destinatario callback={(value)=>{onChange("fkdestinatario", value)}} />
-                        </Form.Item>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col  className="table-row-dark"  span={24}>
-                        <Form.Item>
-                            <SelectMedico  callback={(value)=>{onChange("fkmedico", value)}} />
-                        </Form.Item>
-                    </Col>
-                    <Col  className="table-row-light"  span={24}>
-                        <Form.Item>
-                            <SelectObraSocial callback={(value)=>{onChange("fkos", value)}} />
-                        </Form.Item>
-                    </Col>
-                </Row>
+            <Row className="table-row-dark"  style={{paddingTop:".3em", paddingLeft:"1em"}}>
+                <Col   span={24} >
+                    <Form.Item>
+                        <SelectCliente openButtonText={<span style={{color:"red"}}>&nbsp;Seleccione Cliente</span>} callback={(value)=>{onChange("fkcliente", value)}} />
+                    </Form.Item>
+                </Col>
+            </Row>
+            <Row className="table-row-light" style={{paddingTop:".3em", paddingLeft:"1em"}}>
+                <Col  span={24}>
+                    <Form.Item>
+                        <SelectMedico  openButtonText={<span style={{color:"red"}}>&nbsp;Seleccione M&eacute;dico</span>} callback={(value)=>{onChange("fkmedico", value)}} />
+                    </Form.Item>
+                </Col>
+            </Row>
+            <Row className="table-row-dark" style={{paddingTop:".3em", paddingLeft:"1em"}}>
+                <Col    span={24} >
+                    <Form.Item>
+                        <SelectCliente  destinatario callback={(value)=>{onChange("fkdestinatario", value)}} />
+                    </Form.Item>
+                </Col>
+            </Row>
+           
+            <Row className="table-row-light" style={{paddingTop:".3em", paddingLeft:"1em"}} >
+                <Col   span={24}>
+                    <Form.Item>
+                        <SelectObraSocial callback={(value)=>{onChange("fkos", value)}} />
+                    </Form.Item>
+                </Col>
+            </Row>
             </>
         },
         {

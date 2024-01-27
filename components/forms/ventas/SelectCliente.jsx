@@ -128,7 +128,7 @@ const SelectCliente = (props) =>{
     return (
         idCliente==-1 ? 
         <>
-        <CustomModal onOpen={onOpenPopup} openButtonText={typeof props.destinatario !== 'undefined' ? 'Seleccionar Destinatario' : "Seleccione Cliente" } title="" >
+        <CustomModal onOpen={onOpenPopup} openButtonText={ typeof props.openButtonText === 'undefined' ? (typeof props.destinatario !== 'undefined' ? 'Seleccionar Destinatario' : "Seleccione Cliente") : props.openButtonText } title="" >
         {typeof props.destinatario !== 'undefined' ? 'Buscar Destinatario' : "Buscar Cliente" }
         <Row>
             <Col span={24}>

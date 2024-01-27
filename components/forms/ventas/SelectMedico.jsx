@@ -82,7 +82,7 @@ export default function SelectMedico(props){
     ]
     return (idMedico==-1 ? 
         <>
-        <CustomModal openButtonText="Seleccione Medico" title="" >
+        <CustomModal openButtonText={ typeof props.openButtonText === 'undefined' ? "Seleccione Medico" : props.openButtonText} title="" >
             Medico
             <Input.Search onSearch={onSearch} />
             {/*<CustomModal openButtonText="+ Agregar" title="Agregar" >
