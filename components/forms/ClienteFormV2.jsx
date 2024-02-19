@@ -61,7 +61,10 @@ export default function ClienteFormV2(props){
             return _val;
 
         }
-
+        if(!/^[0-9]+$/.test(clienteData.dni.trim())){
+            alert("Campo DNI no válido")
+            return
+        }
         if(!validateStr(clienteData.dni, "DNI Vacío")){return}
         if(!validateStr(clienteData.nombres, "Nombres Vacío")){return}
         if(!validateStr(clienteData.apellidos, "Apellidos Vacío")){return}
@@ -187,6 +190,7 @@ export default function ClienteFormV2(props){
                 value={clienteData.dni} 
                 onChange={(e)=>{setClienteData(v=>({...v,dni:e.target.value}))}} 
                 readOnly={false/*props.destinatario*/}
+                
                 onBlur={(e)=>{
                     checkIfDNIExists(e.target.value)
                 }}

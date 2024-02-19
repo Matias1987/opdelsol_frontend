@@ -72,24 +72,25 @@ export default function VentaBase(props){
             <Row className="table-row-dark"  style={{paddingTop:".3em", paddingLeft:"1em"}}>
                 <Col   span={24} >
                     <Form.Item>
-                        <SelectCliente openButtonText={<span style={{color:"red"}}>&nbsp;Seleccione Cliente</span>} callback={(value)=>{onChange("fkcliente", value)}} />
+                        <SelectCliente openButtonText={<span style={{color:"#3300CC"}}>&nbsp;*Seleccione Cliente</span>} callback={(value)=>{onChange("fkcliente", value)}} />
                     </Form.Item>
                 </Col>
             </Row>
             <Row className="table-row-light" style={{paddingTop:".3em", paddingLeft:"1em"}}>
-                <Col  span={24}>
-                    <Form.Item>
-                        <SelectMedico  openButtonText={<span style={{color:"red"}}>&nbsp;Seleccione M&eacute;dico</span>} callback={(value)=>{onChange("fkmedico", value)}} />
-                    </Form.Item>
-                </Col>
-            </Row>
-            <Row className="table-row-dark" style={{paddingTop:".3em", paddingLeft:"1em"}}>
                 <Col    span={24} >
                     <Form.Item>
                         <SelectCliente  destinatario callback={(value)=>{onChange("fkdestinatario", value)}} />
                     </Form.Item>
                 </Col>
             </Row>
+            <Row className="table-row-dark" style={{paddingTop:".3em", paddingLeft:"1em"}}>
+                <Col  span={24}>
+                    <Form.Item>
+                        <SelectMedico  openButtonText={<span style={{color:"#3300CC"}}>&nbsp;*Seleccione M&eacute;dico</span>} callback={(value)=>{onChange("fkmedico", value)}} />
+                    </Form.Item>
+                </Col>
+            </Row>
+           
            
             <Row className="table-row-light" style={{paddingTop:".3em", paddingLeft:"1em"}} >
                 <Col   span={24}>
