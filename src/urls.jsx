@@ -1,8 +1,8 @@
-const remote_base_url = "http://54.174.39.15:3001/api/v1/"
-const local_base_url = "http://54.174.39.15:3000/v1/"
+//const remote_base_url = "http://54.174.39.15:3001/api/v1/"
+//const local_base_url = "http://54.174.39.15:3000/v1/"
 
-//const remote_base_url = "http://localhost:3001/api/v1/"
-//const local_base_url = "http://localhost:3000/v1/"
+const remote_base_url = "http://localhost:3001/api/v1/"
+const local_base_url = "http://localhost:3000/v1/"
 
 //const token = "&token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3QiLCJpYXQiOjE2ODI0NjEwMjksImV4cCI6MTY4MjQ2NDYyOX0.Unf5zmxNVQCJVD4qxSAcdcmsrs1s-q4h7Q0e2dYHHEo";
 const public_urls = {
@@ -118,7 +118,8 @@ const post = {
         destinatario: remote_base_url + "cliente/destinatario/",
         mensajes: remote_base_url + "mensajes/",
         pagare: remote_base_url + "pagares/",
-        session: remote_base_url + "usuarios/adds/"
+        session: remote_base_url + "usuarios/adds/",
+        llamada_cliente: remote_base_url + "llamadas/",
     },
     update:{
         familia: remote_base_url + "familia/",
@@ -151,6 +152,7 @@ const post = {
         cambiar_responsable: remote_base_url + "ventas/cambiar_responsable/",
 
         anular_cobros: remote_base_url + "cobros/anular_cobro/",
+        anular_carga_manual: remote_base_url + "cargamanual/anular/"
 
     },
 }
@@ -290,6 +292,8 @@ const get = {
     admin_totales_sucursal: remote_base_url + "admin/resumen_op_sucursal/",//:idcaja
 
     lista_subgrupos_subfamilia: remote_base_url + "subgrupos/subgrupos_subfamilia/",
+
+    lista_llamadas_cliente: remote_base_url + "llamadas/",
 
 }
 

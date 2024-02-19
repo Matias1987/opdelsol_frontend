@@ -4,12 +4,14 @@ import { useEffect, useState } from "react";
 import { get } from "@/src/urls";
 import VentaDetallePopup from "./VentaDetalle";
 import EdicionClientePopup from "./forms/EdicionCliente";
+import LlamadasCliente from "./LLamadasCliente";
 
 const DetalleCliente = (props) =>
 {
     const [reload, setReload] = useState(false)
     const [data, setData] = useState(null)
     const [ventas, setVentas] = useState([])
+    
     const columns = [
         {dataIndex: "idventa", title: "Nro."},
         {dataIndex: "sucursal", title: "Sucursal", render:(_,{sucursal})=>{return <Tag>{sucursal}</Tag>}},
@@ -59,6 +61,7 @@ const DetalleCliente = (props) =>
                 )
             )
         })
+        
     },[reload])
     return data == null ? <></>:
      <>
@@ -93,10 +96,13 @@ const DetalleCliente = (props) =>
         </Col>
     </Row>
     <Row>
-        <Col span={24}>
+        <Col span={14}>
             <hr />
             <b>Ventas</b>
             <Table  dataSource={ventas} columns={columns} />
+        </Col>
+        <Col span={10}>
+            <LlamadasCliente idcliente={data.idcliente} />
         </Col>
     </Row>
     </>

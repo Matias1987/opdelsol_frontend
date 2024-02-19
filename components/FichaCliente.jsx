@@ -1,4 +1,4 @@
-import { get } from "@/src/urls"
+import { get, post } from "@/src/urls"
 import { Button, Checkbox, Col, Input, Row, Spin, Table, Tag } from "antd"
 import { useEffect, useRef, useState } from "react"
 import CustomModal from "./CustomModal"
@@ -30,6 +30,15 @@ export default function FichaCliente(props){
         fetch(get.bloquear_cliente + dataCliente.idcliente)
         .then(resp=>resp.json())
         .then((resp)=>{ setDataChange(!dataChange)})
+    }
+    const anular_carga_manual = (id) => {
+        if(!confirm("Anular Carga Manual?"))
+        {
+            return
+        }
+        post_method(post.update.anular_carga_manual,{id:id},(response)=>{
+            setDataChange(!dataChange)
+        })
     }
     const desBloquear = _ => {
         if(!confirm("Desbloquear Cuenta?"))
@@ -71,7 +80,7 @@ export default function FichaCliente(props){
                     break;
                     case 'CARGA MANUAL':
                         return <>
-                        {detalle}
+                        {detalle}&nbsp;<Button danger size="small" onClick={(e)=>{anular_carga_manual(id)}}>Anular</Button>
                         </>
                     default: return {detalle}
                 }
@@ -172,10 +181,7 @@ export default function FichaCliente(props){
                         </>
                     }}
                 />}
-                
-                
                 <div ref={dummyref}></div>
-           
         </Col>
     </Row>
     <Row>
