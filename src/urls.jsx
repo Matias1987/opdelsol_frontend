@@ -1,8 +1,8 @@
-const remote_base_url = "http://54.174.39.15:3001/api/v1/"
-const local_base_url = "http://54.174.39.15:3000/v1/"
+//const remote_base_url = "http://54.174.39.15:3001/api/v1/"
+//const local_base_url = "http://54.174.39.15:3000/v1/"
 
-//const remote_base_url = "http://localhost:3001/api/v1/"
-//const local_base_url = "http://localhost:3000/v1/"
+const remote_base_url = "http://localhost:3001/api/v1/"
+const local_base_url = "http://localhost:3000/v1/"
 
 //const token = "&token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3QiLCJpYXQiOjE2ODI0NjEwMjksImV4cCI6MTY4MjQ2NDYyOX0.Unf5zmxNVQCJVD4qxSAcdcmsrs1s-q4h7Q0e2dYHHEo";
 const public_urls = {
@@ -89,7 +89,9 @@ const post = {
     lista_ventas_medico: remote_base_url + "medicos/ventas_medico/",
     obtener_caja_sucursal_dia: remote_base_url + "admin/obtener_caja_s_dia/",
     obtener_codigos_filtro: remote_base_url + "codigos/codigos_filtros/",
-    
+    obtener_totales_ventas_vendedor_dia: remote_base_url + "admin/obtener_totales_ventas_vendedor_dia/",
+    obtener_ventas_dia_vendedor: remote_base_url + "admin/obtener_ventas_dia_vendedor/",
+
     search:{
         filtro_stock: remote_base_url + "stock/filtro_stock/",
     },

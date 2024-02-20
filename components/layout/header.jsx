@@ -32,10 +32,10 @@ const HeaderSol =(props)=> {
                         Sucursal:&nbsp;&nbsp;<SucursalLabel idsucursal={
                             globals.obtenerSucursal()
                             } />
-                           { /* &nbsp;- Cuenta: <b>{props.tipoCuenta}</b>*/}
+                           { /* &nbsp;- Cuenta: <b>{props.tipoCuenta}</b>
                            &nbsp;&nbsp;&nbsp;  Usuario: <b>{uname}</b>
-                           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   |&nbsp;&nbsp;&nbsp;
-                           {/*<CustomModal openButtonText={<><InfoCircleFilled />&nbsp;{uname}</>}><VentasVendedor /></CustomModal>*/}
+                           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   |&nbsp;&nbsp;&nbsp;*/}
+                           {<CustomModal title={uname} width="50%" openButtonText={<><InfoCircleFilled />&nbsp;{uname}</>}><VentasVendedor /></CustomModal>}
                     </i>
                 </span>
                 <Button type="link"  style={{color:"white", padding:".5em"}} onClick={()=>{

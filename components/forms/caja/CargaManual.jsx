@@ -65,6 +65,7 @@ const CargaManual = (props) => {
     const showModal = () => {
     
         setOpen(true);
+        setBtnEnabled(true)
     
         
       };

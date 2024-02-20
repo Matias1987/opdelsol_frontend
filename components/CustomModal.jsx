@@ -47,7 +47,7 @@ export default function CustomModal(props){
         cancelButtonProps={{ style: { display: 'none' } }}
         okButtonProps={(typeof props.okButtonProps === 'undefined') ? {children:"CERRAR"} : props.okButtonProps}
         
-        width={"80%"}
+        width={props?.width||"80%"}
         title={<><h3>{props.title}</h3></>}
         open={open}
         onOk={()=>{ 
