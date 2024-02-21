@@ -63,7 +63,9 @@ const public_urls = {
 
     ventas_medicos: local_base_url + "informes/medicos/ventas_medicos",
 
-    ventas_vendedor: local_base_url + "ventas/informes/ventas_vendedor"
+    ventas_vendedor: local_base_url + "ventas/informes/ventas_vendedor",
+
+    lista_ventas_dia_vendedor: local_base_url + "admin/lista_ventas_dia",
 }
 
 
@@ -154,7 +156,8 @@ const post = {
         cambiar_responsable: remote_base_url + "ventas/cambiar_responsable/",
 
         anular_cobros: remote_base_url + "cobros/anular_cobro/",
-        anular_carga_manual: remote_base_url + "cargamanual/anular/"
+        anular_carga_manual: remote_base_url + "cargamanual/anular/",
+        modificar_carga_manual: remote_base_url + "cargamanual/update/",
 
     },
 }
@@ -296,6 +299,10 @@ const get = {
     lista_subgrupos_subfamilia: remote_base_url + "subgrupos/subgrupos_subfamilia/",
 
     lista_llamadas_cliente: remote_base_url + "llamadas/",
+
+    lista_usuarios: remote_base_url + "usuarios/",
+
+    carga_manual: remote_base_url + "cargamanual/",
 
 }
 

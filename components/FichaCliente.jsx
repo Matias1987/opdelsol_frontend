@@ -11,6 +11,7 @@ import VentaDetallePopup from "./VentaDetalle"
 import CargaBloqueo from "./forms/caja/CargaBloqueo"
 import globals from "@/src/globals"
 import { post_method } from "@/src/helpers/post_helper"
+import EditarCargaManualPopup from "./forms/caja/EditarCargaManualPopup"
 
 export default function FichaCliente(props){
     const [operaciones, setOperaciones] = useState([])
@@ -81,6 +82,7 @@ export default function FichaCliente(props){
                     case 'CARGA MANUAL':
                         return <>
                         {detalle}&nbsp;<Button danger size="small" onClick={(e)=>{anular_carga_manual(id)}}>Anular</Button>
+                       &nbsp;<EditarCargaManualPopup idcargamanual={id} callback={()=>{setDataChange(!dataChange)}} />
                         </>
                     default: return {detalle}
                 }

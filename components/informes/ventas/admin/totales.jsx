@@ -1,3 +1,4 @@
+import ExportToCSV from "@/components/ExportToCSV"
 import { post_method } from "@/src/helpers/post_helper"
 import { currency_format, parse_int_string } from "@/src/helpers/string_helper"
 import { get, post } from "@/src/urls"
@@ -56,6 +57,7 @@ const InformeVentasTotales = () => {
         {dataIndex: 'cheque', title: "cheque" , render:(_,{cheque})=><div style={money_style}>{  currency_format(cheque)  }</div>},
         {dataIndex: 'ctacte', title: "ctacte" , render:(_,{ctacte})=><div style={money_style}>{  currency_format(ctacte)  }</div>},
         {dataIndex: 'mutual', title: "mutual" , render:(_,{mutual})=><div style={money_style}>{  currency_format(mutual)  }</div>},
+        {dataIndex: 'mp', title: "mp" , render:(_,{mp})=><div style={money_style}>{  currency_format(mp)  }</div>},
         {dataIndex: 'total', title: "total" , render:(_,{total})=><div style={money_style}>{   currency_format(total)  }</div>},
         { title: "", render:(_,{idusuario})=>{
             return <></>
@@ -68,6 +70,7 @@ const InformeVentasTotales = () => {
         {dataIndex: 'cheque', title: "cheque" , render:(_,{cheque})=><div style={money_style}>{  currency_format(cheque)  }</div>},
         {dataIndex: 'ctacte', title: "ctacte" , render:(_,{ctacte})=><div style={money_style}>{  currency_format(ctacte)  }</div>},
         {dataIndex: 'mutual', title: "mutual" , render:(_,{mutual})=><div style={money_style}>{  currency_format(mutual)  }</div>},
+        {dataIndex: 'mp', title: "mp" , render:(_,{mp})=><div style={money_style}>{  currency_format(mp)  }</div>},
         {dataIndex: 'total', title: "total" , render:(_,{total})=><div style={money_style}>{   currency_format(total)  }</div>},
         { title: "", render:(_,{idusuario})=>{
             return <></>
@@ -90,6 +93,7 @@ const InformeVentasTotales = () => {
                                 cheque: r.cheque,
                                 ctacte: r.ctacte,
                                 mutual: r.mutual,
+                                mp: r.mp,
                                 total: r.total,
                             }
                         )
@@ -112,6 +116,7 @@ const InformeVentasTotales = () => {
                                 cheque: r.cheque,
                                 ctacte: r.ctacte,
                                 mutual: r.mutual,
+                                mp: r.mp,
                                 total: r.total,
                             }
                         )
@@ -147,6 +152,24 @@ const InformeVentasTotales = () => {
                 <Button type="primary" size="small" block onClick={aplicar_filtros}>Aplicar Filtros</Button>
                 <br />
                 <br />
+            </Col>
+        </Row>
+        <Row>
+            <Col span={24}>
+            <ExportToCSV 
+                fileName={`ventas_vendedores__${filtros.mes}-${filtros.anio}`}
+                parseFnt={()=>{
+                    let s = sucursales.find(s=>s.value==filtros.fksucursal)
+                    let str = ""
+                    str+=`MES:,${filtros.mes}, ANIO:,${filtros.anio}, ,,,\r\n`
+                    str+=`SUCURSAL:,${(s?.label)||""},,,,,,\r\n`
+                    str+="usuario, efectivo, tarjeta,  cheque, ctacte, mutual, mp , total\r\n"
+                    dataSource.forEach(r=>{
+                        str+=`${r.usuario},${r.efectivo},${r.tarjeta},${r.cheque},${r.ctacte},${r.mutual},${r.mp},${r.total}\r\n`
+                    })
+                    return str
+                }}
+             />
             </Col>
         </Row>
         <Row>

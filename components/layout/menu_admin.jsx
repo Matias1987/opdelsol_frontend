@@ -22,6 +22,11 @@ const items = [
     icon: <StarOutlined />,
   },
   {
+    label: (<Link href={public_urls.lista_ventas_dia_vendedor}>Ventas D&iacute;a</Link>),
+    key: '14',
+    icon: <StarOutlined />,
+  },
+  {
     label: (<BuscarVenta />),
     key: '404',
   }
