@@ -1,5 +1,6 @@
 import CustomModal from "@/components/CustomModal";
 import PrinterWrapper from "@/components/PrinterWrapper";
+import CodigosQR from "@/components/forms/deposito/codigosQR";
 import CodigosDeBarraEnvio from "@/components/informes/CodigosDeBarra";
 import InformeEnvio from "@/components/informes/InformeEnvio";
 
@@ -32,10 +33,13 @@ const ListaEnvios = (props) => {
                             </PrinterWrapper>
                         </CustomModal>
                          &nbsp;
-                        <CustomModal openButtonText="Imprimir Codigos Envio" title="Imprimir Codigos Envio" onOk={()=>{}}>
+                        <CustomModal openButtonText="Imprimir Codigos Barra" title="Imprimir Codigos Envio" onOk={()=>{}}>
                             <PrinterWrapper>
                                 <CodigosDeBarraEnvio idenvio={idenvio}/>
                             </PrinterWrapper>
+                        </CustomModal>
+                        <CustomModal openButtonText="Imprimir Codigos QR" title="Imprimir Codigos Envio" onOk={()=>{}}>
+                            <CodigosQR idenvio={idenvio}/>
                         </CustomModal>
                          &nbsp;
                         <Button  size="small" danger   onClick={()=>{}}>Anular</Button>

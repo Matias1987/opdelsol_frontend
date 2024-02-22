@@ -1,5 +1,6 @@
 import CustomModal from "@/components/CustomModal";
 import PrinterWrapper from "@/components/PrinterWrapper";
+import CodigosQR from "@/components/forms/deposito/codigosQR";
 import CodigosDeBarraEnvio from "@/components/informes/CodigosDeBarra";
 import InformeEnvio from "@/components/informes/InformeEnvio";
 import { useRouter } from "next/router";
@@ -35,14 +36,27 @@ export default function Envio(){
         </PrinterWrapper>
         &nbsp;
         <CustomModal 
-        openButtonText="Imprimir C&oacute;digos"
+        openButtonText="Imprimir C&oacute;digos de Barra"
         title=""
         onOk={()=>{}}
         >
            <PrinterWrapper>
                 <CodigosDeBarraEnvio idenvio={envioid} />
             </PrinterWrapper>
+            
         </CustomModal>
+        
+        -
+
+        <CustomModal 
+        openButtonText="Imprimir C&oacute;digos QR"
+        title=""
+        onOk={()=>{}}
+        >
+           <CodigosQR idenvio={envioid} />
+            
+        </CustomModal>
+        
     
         </> )
 }

@@ -11,7 +11,6 @@
   "dependencies": {
     "@ant-design/icons": "^5.0.1",
     "antd": "5.12.1",
-    
     "dayjs": "^1.11.9",
     "jsonwebtoken": "^9.0.0",
     "localforage": "^1.10.0",
@@ -20,8 +19,8 @@
     "next-auth": "^4.22.1",
     "react": "^18.2.0",
     "react-barcode": "^1.4.6",
-   
     "react-dom": "^18.2.0",
+    "react-google-charts": "^4.0.1",
     "react-router-dom": "^6.10.0",
     "react-to-print": "^2.14.12",
     "sort-by": "^0.0.2"

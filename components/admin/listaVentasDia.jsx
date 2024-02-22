@@ -1,12 +1,14 @@
 import { post_method } from "@/src/helpers/post_helper";
 import { get, post } from "@/src/urls";
-import { Button, Col, Input, Row, Select, Space, Table } from "antd";
+import { Button, Col, Divider, Input, Row, Select, Space, Table } from "antd";
 import { useEffect, useState } from "react";
 import VentaDetallePopup from "../VentaDetalle";
+import InformeUsuarioGraphVentas from "./InformeUsuarioGraphVentas";
 
 const ListaVentasDia = (props) => {
 
     const [ventas, setVentas] = useState([])
+    const [idusuarioGraph, setIdUsuarioGraph] = useState(-1)
     const [total, setTotal] = useState(0)
     const [vendedores, setVendedores] = useState([])
     const [filtros, setFiltros] = useState({
@@ -64,6 +66,7 @@ const ListaVentasDia = (props) => {
     const onChange = (idx,value) => {setFiltros(_f=>({..._f,[idx]:value}))}
 
     const aplicarFiltros = _ => {
+        setIdUsuarioGraph(filtros.idusuario)
         load()
     }
 
@@ -110,7 +113,14 @@ const ListaVentasDia = (props) => {
         </Col>
     </Row>
     <Row>
-        
+        <Col span={24}>
+            <Divider />
+        </Col>
+    </Row>
+    <Row>
+        <Col span={24}>
+            <InformeUsuarioGraphVentas idusuario={idusuarioGraph} key={idusuarioGraph} />
+        </Col>
     </Row>
     
         
