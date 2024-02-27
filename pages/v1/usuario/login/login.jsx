@@ -5,6 +5,7 @@ import useStorage from "../../../../useStorage"
 import globals from "@/src/globals";
 import SucursalSelect from "@/components/SucursalSelect";
 import LoadSelect from "@/components/LoadSelect";
+import { registrar_evento } from "@/src/helpers/evento_helper";
 const post_helper = require("../../../../src/helpers/post_helper")
 const urls = require("../../../../src/urls")
 
@@ -67,6 +68,8 @@ export default function Login(){
                 setItem("laboratorio", res.data.udata.laboratorio)
                 globals.setUserLogedIn(1)
                 //globals.establecerSucursal(1);
+
+                registrar_evento("USER_LOGIN", "Inicio de sesion",res.data.uid )
              
                 if (typeof window !== "undefined") {
                     

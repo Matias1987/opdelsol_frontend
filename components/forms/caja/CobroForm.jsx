@@ -10,6 +10,7 @@ import ListaCobros from "./ListaCobros";
 import VentaDetallePopup from "@/components/VentaDetalle";
 import { current_date_ymd } from "@/src/helpers/string_helper";
 import ModoPagoV3 from "../modo_pago/ModoPagoV3";
+import { registrarVentaEntregada, registrarVentaPendiente, registrar_evento } from "@/src/helpers/evento_helper";
 
 /**
  * 
@@ -85,6 +86,7 @@ export default function CobroOperacion(props){
         }
 
         post_method(post.cambiar_estado_venta,{idventa: dataVenta.idventa, estado: 'ENTREGADO'},(resp)=>{alert("OK"); setOpen(false); props?.callback?.()})
+        registrar_evento("VENTA", "Cambio estado a ENTREGADO", dataVenta.idventa)
     }
 
     const onCobrarClick = (e) => {
@@ -142,14 +144,18 @@ export default function CobroOperacion(props){
                 if(props.tipo=='entrega')
                 {
                     post_method(post.cambiar_estado_venta,{idventa: dataVenta.idventa, estado: 'ENTREGADO',fecha_retiro: current_date_ymd()},(resp)=>{alert("OK"); setOpen(false); props?.callback?.()})
+                    registrarVentaEntregada(dataVenta.idventa)
                 }
                 else{
                     if(entrega)
                     {
                         post_method(post.cambiar_estado_venta,{idventa: dataVenta.idventa, estado: 'ENTREGADO',fecha_retiro: current_date_ymd()},(resp)=>{alert("OK"); setOpen(false); props?.callback?.()})
+                        registrarVentaEntregada(dataVenta.idventa)
                     }
                     else{
                         post_method(post.cambiar_estado_venta,{idventa: dataVenta.idventa, estado: 'PENDIENTE'},(resp)=>{alert("OK"); setOpen(false); props?.callback?.()})
+                        registrarVentaPendiente(dataVenta.idventa)
+                    
                     }
                 }
             }
@@ -285,19 +291,22 @@ export default function CobroOperacion(props){
             post_method(post.insert.cobro,params,(id)=>{
                 if(id.data==0){
                     if(dataVenta!=null && props.tipo!='resfuerzo')
-                    {
+                    {   let est = (props.tipo=='entrega' ? 'ENTREGADO' : (entrega ? "ENTREGADO" : "PENDIENTE"))
+
                         post_method(
                             post.cambiar_estado_venta,
                             {
                                 idventa: dataVenta.idventa, 
                                 /*estado at this point could be entrega or ingreso  */
-                                estado: (props.tipo=='entrega' ? 'ENTREGADO' : (entrega ? "ENTREGADO" : "PENDIENTE")),
+                                estado: est,
 
                                 fecha_retiro: current_date_ymd()
                             },
                             (resp)=>{
+
                                 setIdCobro(0)
                             })
+                            registrar_evento("VENTA", "Cambio estado a "+ est,dataVenta.idventa)
                     }
                     else{
                         setIdCobro(0)
@@ -307,12 +316,13 @@ export default function CobroOperacion(props){
                 {
                     if(dataVenta!=null && props.tipo!='resfuerzo')
                     {
+                        let est = (props.tipo=='entrega' ? 'ENTREGADO' : (entrega ? "ENTREGADO" : "PENDIENTE"))
                         post_method(
                             post.cambiar_estado_venta,
                             {
                                 idventa: dataVenta.idventa, 
                                 /*estado at this point could be entrega or ingreso  */
-                                estado: (props.tipo=='entrega' ? 'ENTREGADO' : (entrega ? "ENTREGADO" : "PENDIENTE")),
+                                estado: est,
 
                                 fecha_retiro: current_date_ymd()
                             },
@@ -324,6 +334,7 @@ export default function CobroOperacion(props){
                                     setIdCobro(id.data)
                                 })
                         })
+                        registrar_evento("VENTA", "Cambio estado a "+ est,dataVenta.idventa)
                     }
                     else{
                         /**
@@ -335,6 +346,8 @@ export default function CobroOperacion(props){
                             setIdCobro(id.data)
                         })
                     }   
+
+                    registrar_evento("COBRO", "Registro Cobro $"+mp.total.toString(), id.data)
                 }
             })
         })

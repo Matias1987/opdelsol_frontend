@@ -4,6 +4,7 @@
 
 const { default: globals } = require("../globals");
 const { post } = require("../urls");
+const { registrar_evento } = require("./evento_helper");
 const { validar_modo_pago } = require("./pago_helper");
 const { post_method } = require("./post_helper");
 
@@ -217,6 +218,8 @@ const submit_venta = (v, productos,total,subTotal, tipo_vta, validate_items, cal
                             post_method(post.update.desc_cantidades_stock_venta,{idventa: response.data, idsucursal: globals.obtenerSucursal()},()=>{
                                 console.log("Cantidades descontadas? ...")
                             })
+
+                            registrar_evento("VENTA", "Venta Generada $" + total, response.data)
             
                             callbackOnComplete?.(response.data)
                                 

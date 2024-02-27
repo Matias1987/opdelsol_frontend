@@ -7,6 +7,7 @@ import { get, public_urls } from "@/src/urls";
 import { useEffect, useState } from "react";
 import CustomModal from "../CustomModal";
 import VentasVendedor from "../informes/ventas/VentasVendedor";
+import { registrar_evento } from "@/src/helpers/evento_helper";
 
 /**
  * 
@@ -45,6 +46,7 @@ const HeaderSol =(props)=> {
                     fetch(get.logout + _token)
                     .then(response=>response.json())
                     .then((response)=>{
+                        registrar_evento("USER_LOGOUT", "Cierre de sesion",globals.obtenerUID() )
                         window.location.replace(public_urls.login);
                     })
                     .catch(err=>{console.log("error")})

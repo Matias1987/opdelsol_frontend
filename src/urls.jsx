@@ -1,8 +1,8 @@
-const remote_base_url = "http://54.174.39.15:3001/api/v1/"
-const local_base_url = "http://54.174.39.15:3000/v1/"
+//const remote_base_url = "http://54.174.39.15:3001/api/v1/"
+//const local_base_url = "http://54.174.39.15:3000/v1/"
 
-//const remote_base_url = "http://localhost:3001/api/v1/"
-//const local_base_url = "http://localhost:3000/v1/"
+const remote_base_url = "http://localhost:3001/api/v1/"
+const local_base_url = "http://localhost:3000/v1/"
 
 //const token = "&token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3QiLCJpYXQiOjE2ODI0NjEwMjksImV4cCI6MTY4MjQ2NDYyOX0.Unf5zmxNVQCJVD4qxSAcdcmsrs1s-q4h7Q0e2dYHHEo";
 const public_urls = {
@@ -125,6 +125,7 @@ const post = {
         pagare: remote_base_url + "pagares/",
         session: remote_base_url + "usuarios/adds/",
         llamada_cliente: remote_base_url + "llamadas/",
+        evento: remote_base_url+"evt/",
     },
     update:{
         familia: remote_base_url + "familia/",
@@ -304,6 +305,8 @@ const get = {
     lista_usuarios: remote_base_url + "usuarios/",
 
     carga_manual: remote_base_url + "cargamanual/",
+
+    eventos: remote_base_url + "evt/",
 
 }
 

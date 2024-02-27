@@ -1,4 +1,5 @@
 import globals from "@/src/globals"
+import { registrar_evento } from "@/src/helpers/evento_helper"
 import { post_method } from "@/src/helpers/post_helper"
 import { current_date_ymd } from "@/src/helpers/string_helper"
 import { get, post } from "@/src/urls"
@@ -72,6 +73,7 @@ const GastoForm = (props) => {
                 alert("OK")
                 //set
                 setEnabled(true)
+                registrar_evento("GASTO", "Carga Gasto $"+gasto.monto, response?.data)
                 props?.callback?.(response.data)
             })
         })

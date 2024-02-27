@@ -11,6 +11,7 @@ import { InfoCircleFilled, ReloadOutlined } from "@ant-design/icons";
 import VentaDetallePopup from "@/components/VentaDetalle";
 import EditarVentaItems from "@/components/forms/ventas/edicion/editar_venta_items";
 import { current_date_ymd } from "@/src/helpers/string_helper";
+import { registrarVentaAnulado, registrarVentaTerminado } from "@/src/helpers/evento_helper";
 const { Table, Button, Tag, Alert, Row, Col } = require("antd");
 /**
  * 
@@ -39,7 +40,7 @@ const ListaVentas = (props) => {
     const buttons = (_idventa, _idcliente, _idsucursal) => {
         return <>
             <><VentaDetallePopup idventa={_idventa} />&nbsp;&nbsp;</>
-            {typeof props.imprimir !== 'undefined' || true/* <-- TEMPORARY */ ?  <><ImprimirSobreVenta idventa={_idventa} />&nbsp;&nbsp;</>:<></>}
+            {typeof props.imprimir !== 'undefined'  ?  <><ImprimirSobreVenta idventa={_idventa} />&nbsp;&nbsp;</>:<></>}
             {typeof props.cobrar !== 'undefined' ?  <>
             <CobroOperacion 
                 buttonText={typeof props.buttonText !== 'undefined' ? props.buttonText : "Cobrar"}
@@ -65,6 +66,7 @@ const ListaVentas = (props) => {
                         return
                     }
                     post_method(post.cambiar_estado_venta,{idventa: _idventa, estado: 'TERMINADO', fecha_retiro:current_date_ymd()},(resp)=>{alert("OK"); setReload(!reload)})
+                    registrarVentaTerminado(_idventa)
                 }
             }}>Terminado</Button>&nbsp;&nbsp;</>:<></>}
 
@@ -92,6 +94,7 @@ const ListaVentas = (props) => {
                         setReload(!reload);
                         alert("OK");
                         post_method(post.update.inc_cantidades_stock_venta,{idventa:_idventa},(response)=>{ })
+                        registrarVentaAnulado(_idventa)
                     })
                 }
             }}>Anular</Button></>:<></>}
@@ -99,6 +102,7 @@ const ListaVentas = (props) => {
             {typeof props.enviar_a_sucursal !== 'undefined' ?<><Button size="small" danger onClick={(e)=>{
                 if(confirm("Confirmar")){
                     post_method(post.update.cambiar_venta_sucursal_deposito,{idventa: _idventa, en_laboratorio: "0"},(resp)=>{alert("OK"); setReload(!reload)})
+
                 }
             }}>Enviar a Sucursal</Button></>:<></>}
 
@@ -223,6 +227,7 @@ const ListaVentas = (props) => {
     <Row>
         <Col span={24} style={_row_style}>
             <Table 
+            pagination={typeof props.pagination === 'undefined' ? true : props.pagination}
             rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'}
             dataSource={dataSource} 
             columns={columns.filter(r=>!r.hidden)} 

@@ -1,5 +1,6 @@
 import InformeEnvio from "@/components/informes/InformeEnvio"
 import globals from "@/src/globals"
+import { registrar_evento } from "@/src/helpers/evento_helper"
 import { post_method } from "@/src/helpers/post_helper"
 import { Button, Col, Divider, Row, Table } from "antd"
 
@@ -14,6 +15,7 @@ const DescargarEnvio = (props) => {
 
         post_method(post.cargar_envio,{idenvio: idEnvio,idsucursal: globals.obtenerSucursal()},(resp)=>{
             alert("OK")
+            registrar_evento("DESCARGA_ENVIO", "Descarga Envio", idEnvio)
         })
     }
     return (
