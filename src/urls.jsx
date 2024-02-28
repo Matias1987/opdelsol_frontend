@@ -94,6 +94,7 @@ const post = {
     obtener_totales_ventas_vendedor_dia: remote_base_url + "admin/obtener_totales_ventas_vendedor_dia/",
     obtener_ventas_dia_vendedor: remote_base_url + "admin/obtener_ventas_dia_vendedor/",
     gr_ventas_dia_totales: remote_base_url + "admin/gr/ventas_dia_totales/",
+    eventos: remote_base_url + "evt/get/",
 
     search:{
         filtro_stock: remote_base_url + "stock/filtro_stock/",
@@ -306,7 +307,7 @@ const get = {
 
     carga_manual: remote_base_url + "cargamanual/",
 
-    eventos: remote_base_url + "evt/",
+   
 
 }
 

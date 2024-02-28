@@ -9,7 +9,7 @@ import { post_method } from "@/src/helpers/post_helper";
 const { useEffect, useState } = require("react")
 
 const ResumenOperacionesRow = (props) => {
-    const [count, setCount] = useState(0);
+    //const [count, setCount] = useState(0);
     const [idcaja, setIdCaja] = useState(null)
     const [open, setOpen] = useState(false)
    
@@ -81,20 +81,16 @@ const ResumenOperacionesRow = (props) => {
 
     useEffect(()=>{
         //setData(d=>({...d,nombre_sucursal:props.nombre_sucursal}))
-        if(count==0)
-        {
-            update()
-            setCount(count + 1); 
-        }
+        update()
         const interval = setInterval(() => { 
             update()
-            setCount(count + 1); 
+            //setCount(count + 1); 
             
         }, 5000); 
   
         //Clearing the interval 
         return () => clearInterval(interval); 
-    },[count]);
+    },[]);
 
     return <><Row style={{backgroundColor:props.color}} gutter={24} onClick={()=>{setOpen(true)}}>
         <Col  span={3}>
