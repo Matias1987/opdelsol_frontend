@@ -11,10 +11,22 @@ const Eventos = (props) => {
     const [eventos, setEventos] = useState([])
     const [enventos_filtro , setEventosFiltro] = useState([])
     const [sucursales, setSucursales] = useState([])
+    const [usuarios, setUsuarios] = useState([])
+    const tipos = [
+
+        {value:"-1", label:"Todos los tipos"},
+        {value:"USER_LOGIN", label:"Login"},
+        {value:"USER_LOGOUT", label:"Logout"},
+        {value:"VENTA", label:"Venta"},
+        {value:"COBRO", label:"Cobro"},
+        {value:"GASTO", label:"Gasto"},
+        {value:"DESCARGA_ENVIO", label:"Descarga Envio"},
+    ]
     const [filtros, setFiltros] = useState({
         fksucursal:-1,
         fkusuario:-1,
-        fecha:"-1"
+        fecha:"-1",
+        tipo:"-1",
     })
     const update = _ => {
         const date = new Date()
@@ -88,6 +100,24 @@ const Eventos = (props) => {
         })
         .catch(e=>{console.log("smth")})
 
+        fetch(get.lista_usuarios)
+        .then(r=>r.json())
+        .then((response)=>{
+            setUsuarios(
+                [
+                    ...[{label:"Todas los usuarios", value:"-1"}]
+                    ,
+                    ...response.data.map(
+                        r=>({
+                            label: r.nombre,
+                            value: r.idusuario
+                        })
+                    )
+                ]
+                )
+        })
+        .catch(e=>{console.log("smth")})
+
         const interval = setInterval(() => { 
             update()
 
@@ -101,14 +131,17 @@ const Eventos = (props) => {
     const onChange = (key,val)=> { setFiltros(f=>({...f,[key]:val}))  }
 
     const isvisible = (row) => {
+        
         let visible = true
 
-        visible = filtros.fksucursal!=-1 ? row.idsucursal== filtros.fksucursal : visible
+        visible &= filtros.fksucursal!=-1 ? row.idsucursal== filtros.fksucursal : visible
+        visible &= filtros.fkusuario!=-1 ? row.idusuario == filtros.fkusuario : visible
+        visible &= +filtros.tipo!=-1 ? row.tipo == filtros.tipo : visible
 
         return visible
     }
 
-    return <div>
+    return <div style={{padding:"1em"}}>
     <Row>
         <Col span={24}>
             Eventos
@@ -119,6 +152,15 @@ const Eventos = (props) => {
             <Select options={sucursales} style={{width:"80%"}} onChange={(v)=>{onChange('fksucursal',v)}} defaultValue={"-1"} />
         </Col>
     </Row>
+    <Row>
+        <Col span={12}>
+            <Select options={usuarios} style={{width:"100%"}} onChange={(v)=>{onChange('fkusuario',v)}} defaultValue={"-1"} />
+        </Col>
+        <Col span={12}>
+            <Select options={tipos} style={{width:"90%"}} onChange={(v)=>{onChange('tipo',v)}} defaultValue={"-1"} />
+        </Col>
+    </Row>
+
     <Row>
         <Col span={24}>
             <div style={{overflow:"scroll", width:"100%", height:"500px"}}>
