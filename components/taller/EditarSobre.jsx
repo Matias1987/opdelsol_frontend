@@ -1,15 +1,18 @@
 import globals from "@/src/globals";
 import { get } from "@/src/urls";
-import { Button, Col, Modal, Row, Select, Table } from "antd";
-import { useState } from "react";
+import { Button, Col, Modal, Row, Select, Table, Tag } from "antd";
+import { useEffect, useState } from "react";
 import VentaDetallePopup from "../VentaDetalle";
-import { PlusOutlined } from "@ant-design/icons";
+import { ArrowRightOutlined, PlusOutlined, RightCircleTwoTone, RightOutlined, RightSquareTwoTone } from "@ant-design/icons";
 import SearchStock from "../SearchStock";
 import SearchStockVentas from "../forms/ventas/SearchStockVentas";
 
 const EditarSobre = (props) => {
+    const [loading, setLoading] = useState(false)
     const [venta, setVenta] = useState(null)
     const [open, setOpen] = useState(false)
+    const [modifyingId, setModifyingId] = useState(-1)
+    const query_detalles = get.obtener_stock_detalles_venta + globals.obtenerSucursal() + "/";
     const columns_6rows = [
         //{dataIndex:"idventaitem", width:"3%"},
         {
@@ -20,29 +23,71 @@ const EditarSobre = (props) => {
         },
         {dataIndex:"tipo", width:"10%", title:"Tipo"},
         {dataIndex:"codigo", title:"Código Original", width:"30%"},
-        {title:"Acción", 
-        width:"10%",
+        {title:"", 
+        width:"70px",
+
         render:(_,record)=><>
-            <Select placeholder="Seleccione..." style={{width:"100%"}} options={[
-                {value:"USAR", label:"Utilizar"},
-                {value:"REEMPLAZO", label:"Reemplazo"},
-            ]}
-            />
+            <Button 
+            block
+            disabled={!record.usarEnabled} 
+            onClick={()=>{
+
+                setVentaItems(ventaItems.map(vi=>{return vi.idventaitem===record.idventaitem ? 
+                    {
+                    ...vi, 
+                    usarEnabled: false,
+                    agregarEnabled: false,
+                    items: vi.items.filter(_i=>!_i.closable)
+                    } : 
+                    vi }))
+
+                setModifyingId(record.idventaitem)
+                onCodigoSelected(record.idcodigo, record.idventaitem)
+
+            }}>
+                <ArrowRightOutlined />
+            </Button>
         </>},
-        {title:"Resultado", render:(_,record)=><><Button onClick={setOpen(true)}><PlusOutlined /></Button></>}
+        {title:"Resultado", render:(_,record)=><>
+            {
+            record.items.map(i=><>
+                <Tag closable={i.closable} 
+                onClose={()=>
+                {
+                    setVentaItems(_ventaItems=>(_ventaItems.map(vi=>(vi.idventaitem===record.idventaitem ? {...vi,agregarEnabled:true, usarEnabled:true} : vi))))}} 
+                    style={{fontSize:"1.2em"}} color={i.closable ? "red" : "green-inverse"}
+                >
+                    {i.codigo}</Tag>
+                </>)
+            }
+                <Button 
+                    disabled={!record.agregarEnabled} 
+                    onClick={()=>{
+                    setLoading(true)
+                    setModifyingId(record.idventaitem)
+                    onPlusClick()
+                    }}>
+                        <PlusOutlined />
+                </Button>
+            </>
+        }
         
     ]
+    const onPlusClick = () => {
+        setOpen(true)
+    }
     const [ventaItems, setVentaItems] = useState([
 
-        {idventaitem: 1, orden: "LEJOS", tipo: "OD",        codigo:"COMECODE",      idcodigo: 1},
-        {idventaitem: 2, orden: "LEJOS", tipo: "OI",        codigo:"COMECODE1",     idcodigo: 2},
-        {idventaitem: 3, orden: "LEJOS", tipo: "ARMAZON",   codigo:"ARMAZON1",      idcodigo: 1},
-
-        {idventaitem: 4, orden: "CERCA", tipo: "OD",        codigo:"COMECODE3",     idcodigo: 3},
-        {idventaitem: 5, orden: "CERCA", tipo: "OI",        codigo:"COMECODE3",     idcodigo: 3},
-        {idventaitem: 6, orden: "CERCA", tipo: "ARMAZON",   codigo:"ARMAZON2",      idcodigo: 3},
+        {idventaitem: 1, orden: "LEJOS", tipo: "OD",        codigo:"COMECODE",      idcodigo: 1000, agregarEnabled: true,usarEnabled: true,  items:[]},
+        {idventaitem: 2, orden: "LEJOS", tipo: "OI",        codigo:"COMECODE1",     idcodigo: 200, agregarEnabled:  true, usarEnabled: true, items:[]},
+        {idventaitem: 3, orden: "LEJOS", tipo: "ARMAZON",   codigo:"ARMAZON1",      idcodigo: 400, agregarEnabled:  false, usarEnabled: false, items:[]},
+        {idventaitem: 4, orden: "CERCA", tipo: "OD",        codigo:"COMECODE3",     idcodigo: 300, agregarEnabled:  true, usarEnabled: true, items:[]},
+        {idventaitem: 5, orden: "CERCA", tipo: "OI",        codigo:"COMECODE3",     idcodigo: 300, agregarEnabled:  true, usarEnabled: true, items:[]},
+        {idventaitem: 6, orden: "CERCA", tipo: "ARMAZON",   codigo:"ARMAZON2",      idcodigo: 300, agregarEnabled:  false, usarEnabled: false, items:[]},
 
     ])
+
+    useEffect(()=>{},[modifyingId])
 
     const load = _ => {
         fetch(get.venta + props.idventa)
@@ -65,6 +110,35 @@ const EditarSobre = (props) => {
                 ))
             )
         })
+    }
+
+    const onCodigoSelected = (id, idventaitem)=>{
+        //get details!
+        setLoading(true)
+        fetch(query_detalles + id)
+        .then(response=>response.json())
+        .then((response)=>{
+            const _data = {
+                codigo: response.data[0].codigo,
+                descripcion: response.data[0].descripcion,
+                precio: response.data[0].precio,
+                cantidad: response.data[0].cantidad,
+                idcodigo: id,
+                closable: true,
+            };
+            if(typeof idventaitem==='undefined')
+            {
+                setVentaItems((_ventaitems)=>(_ventaitems.map(vi=>(vi.idventaitem == modifyingId ? { ...vi, items:[...vi.items,_data], agregarEnabled:false, usarEnabled:false } : vi))))
+            }
+            else{
+                setVentaItems((_ventaitems)=>(_ventaitems.map(vi=>(vi.idventaitem == idventaitem ? { ...vi, items:[...vi.items,_data], agregarEnabled:false, usarEnabled:false } : vi))))
+            }
+            
+            
+            setLoading(false)
+
+        })
+        .catch((error)=>{alert(error)})
     }
 
 
@@ -107,6 +181,7 @@ const EditarSobre = (props) => {
     <Row>
         <Col span={24}>
             <Table
+                loading={loading}
                 rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'}
                 pagination={false}
                 columns={columns_6rows}
@@ -120,9 +195,24 @@ const EditarSobre = (props) => {
             />
         </Col>
     </Row>
-    <Modal open={open} onCancel={()=>{setOpen(false)}}>
+    <Row>
+        <Col span={10}>
+            <Button block type="primary">Aplicar Cambios</Button>
+        </Col>
+        <Col span={4}></Col>
+        <Col span={10}>
+            <Button block danger>Marcar Como Terminado</Button>
+        </Col>
+    </Row>
+    <Modal open={open} onCancel={()=>{setOpen(false)}} title="Agregar Código" >
         <SearchStock 
-        
+            callback={(resp)=>{
+                //alert(JSON.stringify(resp))
+                onCodigoSelected(resp)
+                setOpen(false)
+            }
+            }
+            onco
         />
     </Modal>
     </>
