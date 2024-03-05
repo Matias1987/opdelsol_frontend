@@ -127,6 +127,7 @@ const post = {
         session: remote_base_url + "usuarios/adds/",
         llamada_cliente: remote_base_url + "llamadas/",
         evento: remote_base_url+"evt/",
+        item_adicional: remote_base_url + "adic/",
     },
     update:{
         familia: remote_base_url + "familia/",
@@ -306,6 +307,8 @@ const get = {
     lista_usuarios: remote_base_url + "usuarios/",
 
     carga_manual: remote_base_url + "cargamanual/",
+
+    items_adicional_venta: remote_base_url + "adic/",
 
    
 

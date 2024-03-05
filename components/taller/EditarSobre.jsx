@@ -11,17 +11,17 @@ const EditarSobre = (props) => {
     const [loading, setLoading] = useState(false)
     const [venta, setVenta] = useState(null)
     const [open, setOpen] = useState(false)
-    const [modifyingId, setModifyingId] = useState(-1)
+    const [modifyingId, setModifyingId] = useState('')
     const query_detalles = get.obtener_stock_detalles_venta + globals.obtenerSucursal() + "/";
     const columns_6rows = [
         //{dataIndex:"idventaitem", width:"3%"},
         {
             title:"Orden",
             width:"10%",
-            onCell:(record)=>({rowSpan: record.tipo == 'OD' ? 3 : 0}), 
+            onCell:(record)=>({rowSpan: record.orden1 == 'OD' ? 3 : 0}), 
             render:(_,{orden})=>(<><b>{orden}</b></>)
         },
-        {dataIndex:"tipo", width:"10%", title:"Tipo"},
+        {dataIndex:"orden1", width:"10%", title:"Tipo"},
         {dataIndex:"codigo", title:"Código Original", width:"30%"},
         {title:"", 
         width:"70px",
@@ -32,7 +32,7 @@ const EditarSobre = (props) => {
             disabled={!record.usarEnabled} 
             onClick={()=>{
 
-                setVentaItems(ventaItems.map(vi=>{return vi.idventaitem===record.idventaitem ? 
+                setVentaItems6Rows(ventaItems6Rows.map(vi=>{return vi.tipo===record.tipo ? 
                     {
                     ...vi, 
                     usarEnabled: false,
@@ -41,20 +41,20 @@ const EditarSobre = (props) => {
                     } : 
                     vi }))
 
-                setModifyingId(record.idventaitem)
-                onCodigoSelected(record.idcodigo, record.idventaitem)
+                setModifyingId(record.tipo)
+                onCodigoSelected(record.idcodigo, record.tipo)
 
             }}>
                 <ArrowRightOutlined />
             </Button>
         </>},
-        {title:"Resultado", render:(_,record)=><>
+        {title:"Uso", render:(_,record)=><>
             {
             record.items.map(i=><>
                 <Tag closable={i.closable} 
                 onClose={()=>
                 {
-                    setVentaItems(_ventaItems=>(_ventaItems.map(vi=>(vi.idventaitem===record.idventaitem ? {...vi,agregarEnabled:true, usarEnabled:true} : vi))))}} 
+                    setVentaItems6Rows(_ventaItems=>(_ventaItems.map(vi=>(vi.tipo===record.tipo ? {...vi,agregarEnabled:true, usarEnabled:true} : vi))))}} 
                     style={{fontSize:"1.2em"}} color={i.closable ? "red" : "green-inverse"}
                 >
                     {i.codigo}</Tag>
@@ -64,7 +64,7 @@ const EditarSobre = (props) => {
                     disabled={!record.agregarEnabled} 
                     onClick={()=>{
                     setLoading(true)
-                    setModifyingId(record.idventaitem)
+                    setModifyingId(record.tipo)
                     onPlusClick()
                     }}>
                         <PlusOutlined />
@@ -76,43 +76,71 @@ const EditarSobre = (props) => {
     const onPlusClick = () => {
         setOpen(true)
     }
-    const [ventaItems, setVentaItems] = useState([
+    const [ventaItems6Rows, setVentaItems6Rows] = useState([
 
-        {idventaitem: 1, orden: "LEJOS", tipo: "OD",        codigo:"COMECODE",      idcodigo: 1000, agregarEnabled: true,usarEnabled: true,  items:[]},
-        {idventaitem: 2, orden: "LEJOS", tipo: "OI",        codigo:"COMECODE1",     idcodigo: 200, agregarEnabled:  true, usarEnabled: true, items:[]},
-        {idventaitem: 3, orden: "LEJOS", tipo: "ARMAZON",   codigo:"ARMAZON1",      idcodigo: 400, agregarEnabled:  false, usarEnabled: false, items:[]},
-        {idventaitem: 4, orden: "CERCA", tipo: "OD",        codigo:"COMECODE3",     idcodigo: 300, agregarEnabled:  true, usarEnabled: true, items:[]},
-        {idventaitem: 5, orden: "CERCA", tipo: "OI",        codigo:"COMECODE3",     idcodigo: 300, agregarEnabled:  true, usarEnabled: true, items:[]},
-        {idventaitem: 6, orden: "CERCA", tipo: "ARMAZON",   codigo:"ARMAZON2",      idcodigo: 300, agregarEnabled:  false, usarEnabled: false, items:[]},
+        {  tipo: "lejos_od" ,      orden: "LEJOS", orden1: "OD",     codigo:"",  idcodigo: -1, agregarEnabled:  true,  usarEnabled: true,  items:[]},
+        {  tipo: "lejos_oi" ,      orden: "LEJOS", orden1: "OI",     codigo:"",  idcodigo: -1,  agregarEnabled:  true,  usarEnabled: true,  items:[]},
+        {  tipo: "lejos_armazon" , orden: "LEJOS", orden1: "ARMAZON",codigo:"",  idcodigo: -1,  agregarEnabled:  false, usarEnabled: false, items:[]},
+        {  tipo: "cerca_od" ,      orden: "CERCA", orden1: "OD",     codigo:"",  idcodigo: -1,  agregarEnabled:  true,  usarEnabled: true,  items:[]},
+        {  tipo: "cerca_oi" ,      orden: "CERCA", orden1: "OI",     codigo:"",  idcodigo: -1,  agregarEnabled:  true,  usarEnabled: true,  items:[]},
+        {  tipo: "cerca_armazon" , orden: "CERCA", orden1: "ARMAZON",codigo:"",  idcodigo: -1,  agregarEnabled:  false, usarEnabled: false, items:[]},
+
+    ])
+    const [ventaItems3Rows, setVentaItems3Rows] = useState([
+
+        {tipo: "OD",        tipo: "od" ,codigo:"",     idcodigo: 1000,    agregarEnabled: true,usarEnabled: true,  items:[]},
+        {tipo: "OI",        tipo: "oi" ,codigo:"",     idcodigo: 200,     agregarEnabled:  true, usarEnabled: true, items:[]},
+        {tipo: "ARMAZON",   tipo: "armazon" ,codigo:"",idcodigo: 400,     agregarEnabled:  false, usarEnabled: false, items:[]},
 
     ])
 
-    useEffect(()=>{},[modifyingId])
+    const populate_rows = (data, six_rows_type) => {
+        let _rows = six_rows_type ? [...ventaItems6Rows] : [...ventaItems3Rows]
+        //alert(JSON.stringify(_rows))
+        //loop thru rows finding keys
+        data.forEach(
+            data_row=>{
+                
+                if(+data_row.original==1){
+                    
+                    //alert(JSON.stringify(_rows.map(r=>(r.tipo == data_row.tipo ? {...r, codigo: data_row.codigo, isadicional: false, idcodigo: data_row.idcodigo} : {}))))
+                    //_rows.forEach(r=>{alert(JSON.stringify({t1: data_row.tipo, t2: r.tipo}))})
+                    _rows = _rows.map(_row=>(_row.tipo == data_row.tipo ? {..._row, codigo: data_row.codigo, isadicional: false, idcodigo: data_row.idcodigo} : _row))
+
+                }
+                else{
+                    
+                    _rows = _rows.map(_row=>(_row.tipo == data_row.tipo ? {..._row,items:[..._row.items,{tipo: data_row.tipo, codigo: data_row.codigo, isadicional: true, idcodigo: data_row.idcodigo}]}: _row))
+                }
+
+            }
+        )
+        //alert(JSON.stringify(_rows))
+        setVentaItems6Rows(_rows)
+    }
+
+
+    useEffect(()=>{
+        load()
+    },[])
 
     const load = _ => {
-        fetch(get.venta + props.idventa)
+        //fetch(get.venta + 6021)
+        //.then(r=>r.json())
+        //.then((response)=>{
+        //    setVenta({
+//
+        //    })
+        //})
+        fetch(get.items_adicional_venta+6021)
         .then(r=>r.json())
         .then((response)=>{
-            setVenta({
-
-            })
-        })
-        fetch(get.obtener_venta_items+props.idventa)
-        .then(r=>r.json())
-        .then((response)=>{
-            setVentaItems(
-                response.data.map(vi=>(
-                    {
-                        idventaitem: vi.idventaitem,
-                        codigo: vi.codigo,
-                        idcodigo: vi.stock_codigo_idcodigo,
-                    }
-                ))
-            )
+           // alert(JSON.stringify(response))
+            populate_rows(response.data, true)
         })
     }
 
-    const onCodigoSelected = (id, idventaitem)=>{
+    const onCodigoSelected = (id, tipo)=>{
         //get details!
         setLoading(true)
         fetch(query_detalles + id)
@@ -124,14 +152,15 @@ const EditarSobre = (props) => {
                 precio: response.data[0].precio,
                 cantidad: response.data[0].cantidad,
                 idcodigo: id,
+                tipo: typeof tipo==='undefined' ? modifyingId:tipo,
                 closable: true,
             };
-            if(typeof idventaitem==='undefined')
+            if(typeof tipo==='undefined')
             {
-                setVentaItems((_ventaitems)=>(_ventaitems.map(vi=>(vi.idventaitem == modifyingId ? { ...vi, items:[...vi.items,_data], agregarEnabled:false, usarEnabled:false } : vi))))
+                setVentaItems6Rows((_ventaitems)=>(_ventaitems.map(vi=>(vi.tipo == modifyingId ? { ...vi, items:[...vi.items,_data], agregarEnabled:false, usarEnabled:false } : vi))))
             }
             else{
-                setVentaItems((_ventaitems)=>(_ventaitems.map(vi=>(vi.idventaitem == idventaitem ? { ...vi, items:[...vi.items,_data], agregarEnabled:false, usarEnabled:false } : vi))))
+                setVentaItems6Rows((_ventaitems)=>(_ventaitems.map(vi=>(vi.tipo == tipo ? { ...vi, items:[...vi.items,_data], agregarEnabled:false, usarEnabled:false } : vi))))
             }
             
             
@@ -142,40 +171,10 @@ const EditarSobre = (props) => {
     }
 
 
-
-    const rows_venta = () => {
-
-    }
-
-
-    const getRows = _ => {
-        let items =[]
-        switch(venta.tipo){
-            case globals.tiposVenta.MONOFLAB:
-                    items.push({label:"LEJOS_OI"})
-                    items.push({label:"LEJOS_OD"})
-                    items.push({label:"CERCA_OI"})
-                    items.push({label:"CERCA_OD"})
-                break
-            case globals.tiposVenta.RECSTOCK:
-                    items.push({label:"LEJOS_OI"})
-                    items.push({label:"LEJOS_OD"})
-                    items.push({label:"CERCA_OI"})
-                    items.push({label:"CERCA_OD"})
-                break
-            case globals.tiposVenta.MULTILAB:
-                    items.push({label:"OI"})
-                    items.push({label:"OD"})
-                break
-            
-        }
-    }
-
-
     return <>
     <Row>
         <Col span={24}>
-             {rows_venta()}
+            
         </Col>
     </Row>
     <Row>
@@ -185,7 +184,7 @@ const EditarSobre = (props) => {
                 rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'}
                 pagination={false}
                 columns={columns_6rows}
-                dataSource={ventaItems}
+                dataSource={ventaItems6Rows}
                 bordered
                 size="middle"
                 scroll={{
