@@ -5,7 +5,7 @@ import SelectObraSocial from "@/components/forms/ventas/SelectObraSocial";
 import TotalesVenta from "@/components/forms/ventas/TotalVenta";
 import globals from "@/src/globals";
 import { Button, Col, DatePicker, Form, Input, Row, Tabs, TimePicker } from "antd";
-
+import esES from "antd/locale/es_ES"
 import { useState } from "react";
 //import ModoPagoV2 from "../modo_pago/ModoPagoV2";
 import ModoPagoV3 from "../modo_pago/ModoPagoV3";
@@ -150,7 +150,7 @@ export default function VentaBase(props){
                     <>
                         <Col span="12">
                             <Form.Item label={"Fecha de Retiro"}>
-                                <DatePicker format={"DD-MM-YYYY"} onChange={(value)=>{onChange("fechaRetiro", value.format("DD-MM-YYYY"))}} />
+                                <DatePicker locale={esES} format={"DD-MM-YYYY"} onChange={(value)=>{onChange("fechaRetiro", value.format("DD-MM-YYYY"))}} />
                             </Form.Item>
                         </Col>
                         <Col span="12">

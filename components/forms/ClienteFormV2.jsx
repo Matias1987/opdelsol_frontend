@@ -216,6 +216,18 @@ export default function ClienteFormV2(props){
                 Fecha de Nacimiento
             </Col>
             <Col span={20}>
+                <DatePicker 
+                format={'DD-MM-YYYY'}
+                onChange={(day,daystr)=>{
+                    
+                    setFechaNac({
+                        dia:day.date(),
+                        mes:day.month(),
+                        anio:day.year()
+                    })
+                }} />
+            </Col>
+            {/*<Col span={20}>
                 <Space>
                     <Space.Compact>
                         <Input 
@@ -223,27 +235,26 @@ export default function ClienteFormV2(props){
                             
                             let d= parseInt(e.target.value||0); 
                             
-                            setFechaNac(_d=>({..._d,dia:(d<1?1 : (d>31?31:d))}))
+                            setFechaNac(_d=>({..._d,dia:d}))
                             
                             }} 
                             value={fechaNac.dia} 
                             type="number" 
                             prefix="Día" 
-                            min="1" 
-                            max="31"/>
+
+                            />
                         <Input 
                         onChange={(e)=>{
                             
                             let m= parseInt(e.target.value||0); 
                             
-                            setFechaNac(_d=>({..._d,mes:(m<1?1 : (m>12?12:m))}))
+                            setFechaNac(_d=>({..._d,mes:m}))
                             
                             }} 
                         value={fechaNac.mes} 
                         type="number" 
                         prefix="Mes" 
-                        min="1" 
-                        max="12"
+
                         />
                         <Input 
                         onChange={(e)=>{
@@ -258,11 +269,10 @@ export default function ClienteFormV2(props){
                         prefix="Año" 
                         type="number"
                         />
-                        {/*type="number" 
-                        min="1900" */}
+                        
                     </Space.Compact>
                 </Space>
-            </Col>
+            </Col>*/}
         </Row>
 
         <Row>

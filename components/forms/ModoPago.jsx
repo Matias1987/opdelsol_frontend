@@ -217,10 +217,10 @@ export default function ModoPago(props){
                     min={0} 
                     step={0.01} 
                     onClick={(e)=>{e.target.select()}} 
-                    value={modoPago.efectivo_monto}  
+                    value={parseFloat(modoPago.efectivo_monto)}  
                     /*prefix={<><Button type="link" onClick={()=>{ if(modoPago.saldo<0){return} onChange("efectivo_monto",modoPago.saldo)}}>Efectivo</Button></> }*/
                     prefix="Efectivo: " 
-                    onChange={(e)=>{onChange("efectivo_monto", e.target.value.length<1 ? 0 : e.target.value)}}
+                    onChange={(e)=>{onChange("efectivo_monto", e.target.value.length<1 ? 0 : parseFloat(e.target.value))}}
                     />
                 </Col>
             </Row>
@@ -303,7 +303,7 @@ export default function ModoPago(props){
                     value={modoPago.cheque_monto} 
                     /*prefix={<><Button type="link" onClick={()=>{ if(modoPago.saldo<0){return} onChange("cheque_monto",modoPago.saldo)}}>Cheque</Button></> }*/
                     prefix="Cheque: "  
-                    onChange={(e)=>{onChange("cheque_monto", e.target.value.length<1 ? 0 : e.target.value)}}
+                    onChange={(e)=>{onChange("cheque_monto", e.target.value.length<1 ? 0 : parseFloat(e.target.value))}}
                     />
                 </Col>
                 <Col span={14}>

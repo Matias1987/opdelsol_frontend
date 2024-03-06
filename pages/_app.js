@@ -3,15 +3,24 @@ import MyLayout from '@/components/layout/layout'
 import '@/styles/globals.css'
 import { ConfigProvider, theme } from 'antd'
 import { useState } from 'react'
-
-
+import es_ES from 'antd/locale/es_ES'
+import moment from 'moment'
+import dayjs from "dayjs";
+import "dayjs/locale/es";
+import "moment/locale/es";
 
 export default function App({ Component, pageProps }) {
   const [isDarkTheme, setDarkTheme] = useState(true)
-
+  moment.locale("es")
+  dayjs.locale("es")
+  moment.updateLocale('en', {
+    weekdaysMin : ["Dom", "Lun", "Mar", "Mier", "Thu", "Fri", "Sat"]
+  });
   return (
       <>  
       <ConfigProvider
+      locale={es_ES}
+      
       theme={{
         algorithm:  theme.defaultAlgorithm,// isDarkTheme ? theme.darkAlgorithm : theme.defaultAlgorithm,
         //algorithm: theme.compactAlgorithm,
