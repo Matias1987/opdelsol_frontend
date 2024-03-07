@@ -14,11 +14,12 @@ const EditarSobre = (props) => {
     const [open, setOpen] = useState(false)
     const [modifyingId, setModifyingId] = useState('')
     const query_detalles = get.obtener_stock_detalles_venta + globals.obtenerSucursal() + "/";
-    //const [six_rows_type, setSixRowType] = useState(true)
     const [reload, setReload] = useState(true)
+    const [btnSaveEnabled, setBtnSaveEnabled] = useState(true)
+    const [btnCambiarEstadoEnabled, setBtnCambiarEstadoEnabled] = useState(false)
     var six_rows_type=true;
 
-    const columns_6rows = [
+    const columns = [
         {
             title:"",
             width:"30px",
@@ -31,9 +32,9 @@ const EditarSobre = (props) => {
         width:"60px",
 
         render:(_,record)=><>
-            <Button 
+            <Button  
             block
-            disabled={!record.usarEnabled} 
+            disabled={!record.usarEnabled || record.idcodigo<1} 
             onClick={()=>{
 
                 setVentaItems6Rows(ventaItems6Rows.map(vi=>{return vi.tipo===record.tipo ? 
@@ -80,60 +81,6 @@ const EditarSobre = (props) => {
     ]
 
 
-    const columns_3rows = [
-        {dataIndex:"orden1", width:"90px", title:"Tipo"},
-        {dataIndex:"codigo", title:"Código Original", width:"30%"},
-        {title:"", 
-        width:"60px",
-
-        render:(_,record)=><>
-            <Button 
-            block
-            disabled={!record.usarEnabled} 
-            onClick={()=>{
-
-                setVentaItems6Rows(ventaItems6Rows.map(vi=>{return vi.tipo===record.tipo ? 
-                    {
-                    ...vi, 
-                    usarEnabled: false,
-                    agregarEnabled: false,
-                    items: vi.items.filter(_i=>!_i.closable)
-                    } : 
-                    vi }))
-
-                setModifyingId(record.tipo)
-                onCodigoSelected(record.idcodigo, record.tipo)
-
-            }}>
-                <ArrowRightOutlined />
-            </Button>
-        </>},
-        {title:"Uso", render:(_,record)=><>
-            {
-            record.items.map(i=><>
-                <Tag closable={i.closable} 
-                onClose={()=>
-                {
-                    setVentaItems6Rows(_ventaItems=>(_ventaItems.map(vi=>(vi.tipo===record.tipo ? {...vi,agregarEnabled:true, usarEnabled:true, items:record.items.filter(r=>!r.closable)} : vi))))}
-                } 
-                    style={{fontSize:i.closable ? "1.4em" : ".85em"}} color={i.closable ? "red" : "purple"}
-                >
-                    {i.codigo}</Tag>
-                </>)
-            }
-                <Button 
-                    disabled={!record.agregarEnabled} 
-                    onClick={()=>{
-                    setLoading(true)
-                    setModifyingId(record.tipo)
-                    onPlusClick()
-                    }}>
-                        <PlusOutlined />
-                </Button>
-            </>
-        }
-        
-    ]
     const onPlusClick = () => {
         setOpen(true)
     }
@@ -156,14 +103,32 @@ const EditarSobre = (props) => {
     ])
 
     const save = _ => {
+
+        let valid_data = true
+
         var _data = [];
 
         (six_rows_type ? ventaItems6Rows : ventaItems3Rows).forEach(row=>{
+            if(row.required && row.items.length<1 && +row.idcodigo!=-1){
+                valid_data=false
+            }
             _data = [..._data,...row.items.filter(it=>it.userAdded)]
         })
-        
+
+        if(!valid_data)
+        {
+            alert("Todos los campos con código, excepto armazones, son requeridos")
+            return
+        }
+
+        if(!confirm("Confirmar")){
+            return
+        }
+        setBtnSaveEnabled(false)
         post_method(post.insert.item_adicional,{fkventa: props.idventa, fksucursal: globals.obtenerSucursal() , items: _data},(response)=>{
             alert("Datos guardados")
+            setBtnCambiarEstadoEnabled(true)
+            setBtnSaveEnabled(true)
             setReload(!reload)
         })
 
@@ -224,11 +189,11 @@ const EditarSobre = (props) => {
                 
                 populate_rows(response.data, true)
                 setLoading(false)
-
-                //alert(six_rows_type)
             })
+            .catch(e=>{console.log("err 1")})
 
         })
+        .catch(e=>{console.log("err 2")})
         
     }
 
@@ -267,7 +232,7 @@ const EditarSobre = (props) => {
         <Col span={24} style={{padding:"1em"}}>
             <Row>
                 <Col span={24}>
-                    <h4>Detalle Venta</h4>
+                    <h4>Detalle Venta  Nro.: {props.idventa}</h4>
                 </Col>
             </Row>
             <Row style={{padding:"1em"}}>
@@ -297,7 +262,7 @@ const EditarSobre = (props) => {
                 loading={loading}
                 rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'}
                 pagination={false}
-                columns={ six_rows_type? columns_6rows : columns_3rows }
+                columns={ columns }
                 dataSource={ six_rows_type? ventaItems6Rows : ventaItems3Rows }
                 bordered
                 size="middle"
@@ -310,17 +275,23 @@ const EditarSobre = (props) => {
     </Row>
     <Row>
         <Col span={10}>
-            <Button block type="primary" onClick={save}>Aplicar Cambios</Button>
+            <Button block type="primary" onClick={save} disabled={!btnSaveEnabled}>Aplicar Cambios</Button>
         </Col>
         <Col span={4}></Col>
         <Col span={10}>
-            <Button block danger>Marcar Como Terminado</Button>
+            <Button block danger disabled={!btnCambiarEstadoEnabled} onClick={()=>{
+                setBtnCambiarEstadoEnabled(false)
+                setBtnSaveEnabled(false)
+                post_method(post.update.cambiar_venta_sucursal_deposito,{idventa:props.idventa, en_laboratorio: 0},(resp)=>{
+                    alert("OK")
+                    props?.callback?.()
+                })
+            }}>Marcar Como Terminado</Button>
         </Col>
     </Row>
     <Modal open={open} onCancel={()=>{setOpen(false); setLoading(false);}} title="Agregar Código" footer={null} >
         <SearchStock 
             callback={(resp)=>{
-                //alert(JSON.stringify(resp))
                 onCodigoSelected(resp)
                 setOpen(false)
             }

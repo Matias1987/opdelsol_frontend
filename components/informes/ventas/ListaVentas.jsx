@@ -7,12 +7,12 @@ import { get, post } from "@/src/urls";
 import globals from "@/src/globals";
 import FiltroVentas from "@/components/forms/ventas/filtroVentas";
 import CobroOperacion from "@/components/forms/caja/CobroForm";
-import { InfoCircleFilled, ReloadOutlined } from "@ant-design/icons";
+import { EditFilled, InfoCircleFilled, ReloadOutlined } from "@ant-design/icons";
 import VentaDetallePopup from "@/components/VentaDetalle";
 import EditarVentaItems from "@/components/forms/ventas/edicion/editar_venta_items";
 import { current_date_ymd } from "@/src/helpers/string_helper";
 import { registrarVentaAnulado, registrarVentaTerminado } from "@/src/helpers/evento_helper";
-const { Table, Button, Tag, Alert, Row, Col } = require("antd");
+import { Table, Button, Tag, Alert, Row, Col } from "antd"
 /**
  * 
  * @param estado INGRESADO, PENDIENTE, TERMINADO, ENTREGADO, ANULADO... 
@@ -105,6 +105,10 @@ const ListaVentas = (props) => {
 
                 }
             }}>Enviar a Sucursal</Button></>:<></>}
+
+            {typeof props.en_laboratorio!=='undefined' && props?.en_laboratorio==1 ? <>
+                <Button onClick={()=>{props?.onEditLaboratorioClick?.(_idventa)}}><EditFilled /></Button>
+            </> : <></>}
 
             {/*<EditarVentaItems idventa={_idventa} />*/}
 

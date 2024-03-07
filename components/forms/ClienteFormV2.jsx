@@ -69,11 +69,16 @@ export default function ClienteFormV2(props){
         if(!validateStr(clienteData.nombres, "Nombres Vacío")){return}
         if(!validateStr(clienteData.apellidos, "Apellidos Vacío")){return}
         if(!validateStr(clienteData.domicilio, "Domicilio Vacío")){return}
+        if(fechaNac.anio==""||fechaNac.mes==""||fechaNac.dia==""){
+            alert("Campo fecha de nacimiento vacío")
+            return
+        }
 
         if(!validateStr(clienteData.telefono, "Teléfono Vacío")){return}
         //if(!validateStr(clienteData.nacimiento, "Fecha de Nacimiento Vacío")){return}
 
         clienteData.fechaNac = `${fechaNac.anio}-${fechaNac.mes}-${fechaNac.dia}`
+        
         //alert(JSON.stringify(clienteData))
 
         if(!confirm("Confirmar agregar cliente"))
@@ -97,7 +102,7 @@ export default function ClienteFormV2(props){
             else{
                 
                 post_method(url,clienteData,(res)=>{
-                    alert("Cliente Agregado")
+                    //alert("Cliente Agregado")
 
                     setBtnDisabled(false)
 
@@ -219,7 +224,24 @@ export default function ClienteFormV2(props){
                 <DatePicker 
                 format={'DD-MM-YYYY'}
                 onChange={(day,daystr)=>{
-                    
+                    if(typeof day === 'undefined')
+                    {
+                        setFechaNac({
+                            dia:"",
+                            mes:"",
+                            anio:""
+                        })
+                        return
+                    }
+                    if(day==null)
+                    {
+                        setFechaNac({
+                            dia:"",
+                            mes:"",
+                            anio:""
+                        })
+                        return
+                    }
                     setFechaNac({
                         dia:day.date(),
                         mes:day.month(),
