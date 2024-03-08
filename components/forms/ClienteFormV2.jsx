@@ -6,6 +6,7 @@ import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 import SelectLocalidad from "../SelectLocalidad";
 import SelectLocalidadV2 from "../SelectLocalidadV2";
+import Edad from "../Edad";
 
 
 export default function ClienteFormV2(props){
@@ -172,14 +173,23 @@ export default function ClienteFormV2(props){
         }
     }
 
+    const onOpen = () => {
+        setFechaNac({ 
+            dia:"",
+            mes:"",
+            anio:""})
+
+            setOpen(true)
+    }
+
     return (<>
     <Row>
         <Col  span={24}>
-            <Button block type="primary" size="small" onClick={()=>{ props?.test?.();  setOpen(true)}}>Agregar Cliente</Button>
+            <Button block type="primary" size="small" onClick={()=>{ props?.test?.(); onOpen();  }}>Agregar Cliente</Button>
         </Col>
     </Row>
     
-    <Modal width={"70%"} title="Agregar Cliente" open={open} onCancel={()=>{setOpen(false)}} footer={false}>
+    <Modal width={"70%"} title="Agregar Cliente" open={open} onCancel={()=>{setOpen(false)}} footer={false} destroyOnClose={true}>
         <Row>
             <Col style={{padding:".5em"}} span={24}>
                 <Input  prefix={"QR"} onChange={onQRChange} value={qr} placeholder="  Escanee código QR..." />
@@ -220,7 +230,7 @@ export default function ClienteFormV2(props){
             <Col span={4}>
                 Fecha de Nacimiento
             </Col>
-            <Col span={20}>
+            <Col span={4}>
                 <DatePicker 
                 format={'DD-MM-YYYY'}
                 onChange={(day,daystr)=>{
@@ -248,6 +258,9 @@ export default function ClienteFormV2(props){
                         anio:day.year()
                     })
                 }} />
+            </Col>
+            <Col span={4}>
+                <Edad dia={fechaNac.dia} mes={fechaNac.mes} anio={fechaNac.anio} />
             </Col>
             {/*<Col span={20}>
                 <Space>

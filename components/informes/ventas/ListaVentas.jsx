@@ -99,14 +99,14 @@ const ListaVentas = (props) => {
                 }
             }}>Anular</Button></>:<></>}
             
-            {typeof props.enviar_a_sucursal !== 'undefined' ?<><Button size="small" danger onClick={(e)=>{
+            {/*typeof props.enviar_a_sucursal !== 'undefined' ?<><Button size="small" danger onClick={(e)=>{
                 if(confirm("Confirmar")){
                     post_method(post.update.cambiar_venta_sucursal_deposito,{idventa: _idventa, en_laboratorio: "0"},(resp)=>{alert("OK"); setReload(!reload)})
 
                 }
-            }}>Enviar a Sucursal</Button></>:<></>}
+            }}>Enviar a Sucursal</Button></>:<></>*/}
 
-            {typeof props.en_laboratorio!=='undefined' && props?.en_laboratorio==1 ? <>
+            {typeof props.laboratorio_modificar!=='undefined' && props?.en_laboratorio==1 && typeof props.laboratorio_modificar!=='undefined' ? <>
                 <Button onClick={()=>{props?.onEditLaboratorioClick?.(_idventa)}}><EditFilled /></Button>
             </> : <></>}
 

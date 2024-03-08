@@ -13,7 +13,7 @@ const EditarSobre = (props) => {
     const [venta, setVenta] = useState(null)
     const [open, setOpen] = useState(false)
     const [modifyingId, setModifyingId] = useState('')
-    const query_detalles = get.obtener_stock_detalles_venta + globals.obtenerSucursal() + "/";
+    const query_detalles = get.detalle_codigo ;
     const [reload, setReload] = useState(true)
     const [btnSaveEnabled, setBtnSaveEnabled] = useState(true)
     const [btnCambiarEstadoEnabled, setBtnCambiarEstadoEnabled] = useState(false)
@@ -102,24 +102,33 @@ const EditarSobre = (props) => {
 
     ])
 
-    const save = _ => {
 
-        let valid_data = true
-
-        var _data = [];
-
+    const validate = _ =>{
+        let valid_data = true;
         (six_rows_type ? ventaItems6Rows : ventaItems3Rows).forEach(row=>{
             if(row.required && row.items.length<1 && +row.idcodigo!=-1){
                 valid_data=false
             }
-            _data = [..._data,...row.items.filter(it=>it.userAdded)]
         })
+        return valid_data
+    }
 
-        if(!valid_data)
+    const save = _ => {
+
+        if(!validate())
         {
             alert("Todos los campos con código, excepto armazones, son requeridos")
             return
         }
+
+        var _data = [];
+
+        (six_rows_type ? ventaItems6Rows : ventaItems3Rows).forEach(row=>{
+           
+            _data = [..._data,...row.items.filter(it=>it.userAdded)]
+        })
+
+        
 
         if(!confirm("Confirmar")){
             return
@@ -154,12 +163,26 @@ const EditarSobre = (props) => {
 
             }
         )
+       // alert("afsf" + validate())
+       let valid_data = true;
+        _rows.forEach(row=>{
+           if(row.required && row.items.length<1 && +row.idcodigo!=-1){
+               valid_data=false
+           }
+       })
+
+        if(valid_data){
+            
+            setBtnCambiarEstadoEnabled(true)
+        }
+
         setVentaItems6Rows(_rows)
     }
 
 
     useEffect(()=>{
         load()
+
     },[reload])
 
     const load = _ => {
@@ -167,11 +190,15 @@ const EditarSobre = (props) => {
         fetch(get.venta + props.idventa)
         .then(r=>r.json())
         .then((response)=>{
+
+            //alert(JSON.stringify(response.data[0]))
             
             switch(response.data[0].tipo.toString())
             {
+                case globals.tiposVenta.LCLAB:
+                    six_rows_type=false;
+                    break
                 case globals.tiposVenta.MONOFLAB:
-                    
                     six_rows_type=true
                     break
                 case globals.tiposVenta.MULTILAB:
@@ -180,15 +207,21 @@ const EditarSobre = (props) => {
                 case globals.tiposVenta.RECSTOCK:
                     six_rows_type=true
                     break
+                case globals.tiposVenta.LCSTOCK:
+                    six_rows_type=false
+                    break
             }
-            setVenta(response.data[0])
 
+            setVenta(response.data[0])
+            
             fetch(get.items_adicional_venta+props.idventa)
             .then(r=>r.json())
             .then((response)=>{
-                
+               
                 populate_rows(response.data, true)
                 setLoading(false)
+                
+                
             })
             .catch(e=>{console.log("err 1")})
 
@@ -203,11 +236,12 @@ const EditarSobre = (props) => {
         fetch(query_detalles + id)
         .then(response=>response.json())
         .then((response)=>{
+            //alert(JSON.stringify(response))
             const _data = {
                 codigo: response.data[0].codigo,
                 descripcion: response.data[0].descripcion,
-                precio: response.data[0].precio,
-                cantidad: response.data[0].cantidad,
+                //precio: response.data[0].precio,
+                //cantidad: response.data[0].cantidad,
                 idcodigo: id,
                 tipo: typeof tipo==='undefined' ? modifyingId:tipo,
                 closable: true,
@@ -280,6 +314,9 @@ const EditarSobre = (props) => {
         <Col span={4}></Col>
         <Col span={10}>
             <Button block danger disabled={!btnCambiarEstadoEnabled} onClick={()=>{
+                if(!confirm("Confirmar")){
+                    return
+                }
                 setBtnCambiarEstadoEnabled(false)
                 setBtnSaveEnabled(false)
                 post_method(post.update.cambiar_venta_sucursal_deposito,{idventa:props.idventa, en_laboratorio: 0},(resp)=>{
