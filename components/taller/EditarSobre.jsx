@@ -13,7 +13,7 @@ const EditarSobre = (props) => {
     const [venta, setVenta] = useState(null)
     const [open, setOpen] = useState(false)
     const [modifyingId, setModifyingId] = useState('')
-    const query_detalles = get.detalle_codigo ;
+    const query_detalles = get.obtener_stock_detalles_venta ;
     const [reload, setReload] = useState(true)
     const [btnSaveEnabled, setBtnSaveEnabled] = useState(true)
     const [btnCambiarEstadoEnabled, setBtnCambiarEstadoEnabled] = useState(false)
@@ -67,7 +67,7 @@ const EditarSobre = (props) => {
                 </>)
             }
                 <Button 
-                    disabled={!record.agregarEnabled} 
+                    /*disabled={!record.agregarEnabled} */
                     onClick={()=>{
                     setLoading(true)
                     setModifyingId(record.tipo)
@@ -233,15 +233,27 @@ const EditarSobre = (props) => {
     const onCodigoSelected = (id, tipo)=>{
         //get details!
         setLoading(true)
-        fetch(query_detalles + id)
+        fetch(query_detalles + `${globals.obtenerSucursal()}/${id}`)
         .then(response=>response.json())
         .then((response)=>{
+            //alert(JSON.stringify(response))
+            if(response.data.length<1)
+            {
+                alert("Stock no disponible en sucursal")
+                setLoading(false)
+                return
+            }
+            if(parseInt(response.data[0].cantidad)<1){
+                setLoading(false)
+                alert("Stock insuficiente")
+                return
+            }
             //alert(JSON.stringify(response))
             const _data = {
                 codigo: response.data[0].codigo,
                 descripcion: response.data[0].descripcion,
                 //precio: response.data[0].precio,
-                //cantidad: response.data[0].cantidad,
+                cantidad: response.data[0].cantidad,
                 idcodigo: id,
                 tipo: typeof tipo==='undefined' ? modifyingId:tipo,
                 closable: true,
