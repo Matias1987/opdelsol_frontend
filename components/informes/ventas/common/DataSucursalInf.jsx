@@ -1,5 +1,5 @@
 import { get } from "@/src/urls";
-import { InstagramFilled, InstagramOutlined, WhatsAppOutlined } from "@ant-design/icons";
+import { InstagramOutlined, WhatsAppOutlined } from "@ant-design/icons";
 import { Spin } from "antd";
 import { useEffect, useState } from "react";
 
@@ -17,7 +17,7 @@ const DataSucursalInf = (props) => {
     Sucursal: <span style={{fontWeight:'bold',}}>{data.denominacion}</span>
     <br /> 
 
-    {data.direccion} &nbsp;&nbsp;&nbsp;    {data.telefono}
+    {data.direccion} &nbsp;&nbsp;&nbsp;    <br />{data.telefono}
     <br />
     <div style={{whiteSpace: "nowrap", fontSize:".9em"}}>
     {

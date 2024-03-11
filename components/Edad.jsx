@@ -1,6 +1,11 @@
 const { Row, Col } = require("antd")
 const { useEffect, useState } = require("react")
-
+/**
+ * 
+ * @param dia
+ * @param mes
+ * @param anio
+ */
 const Edad =(props) => {
     const {dia, mes, anio} = props
     const [edad, setEdad] = useState(0)

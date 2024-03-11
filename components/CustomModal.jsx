@@ -40,7 +40,7 @@ export default function CustomModal(props){
   };
   return (
     <>
-      <Button  type="link" ghost  size="small"  onClick={showModal} block={typeof props.block !== 'undefined'}>
+      <Button  type="link"  size="small"  onClick={showModal} block={typeof props.block !== 'undefined'}>
         <span style={{fontSize:"1.10em", fontWeight:"500"}}>{props.openButtonText}</span>
       </Button>
       <Modal

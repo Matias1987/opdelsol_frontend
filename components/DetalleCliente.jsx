@@ -5,6 +5,7 @@ import { get } from "@/src/urls";
 import VentaDetallePopup from "./VentaDetalle";
 import EdicionClientePopup from "./forms/EdicionCliente";
 import LlamadasCliente from "./LLamadasCliente";
+import Edad from "./Edad";
 
 const DetalleCliente = (props) =>
 {
@@ -35,6 +36,29 @@ const DetalleCliente = (props) =>
         fetch(get.cliente_por_id + props.idcliente)
         .then(response=>response.json())
         .then((response)=>{
+            //alert(JSON.stringify(response))
+            if(response==null)
+            {
+                return
+            }
+            if((response.data||[]).lenth<1)
+            {
+                return
+            }
+            let arr=[]
+            let now = new Date()
+            let _d = now.getDate()
+            let _m = now.getMonth() +1 
+            let _y = now.getFullYear()
+            try {
+                arr = response.data[0].fecha_nacimiento_f.split("-")
+                _d = arr[0]
+                _m = arr[1]
+                _y = arr[2]
+            } catch (error) {
+                console.log("error trying to extract birthdate parts, continuing anyway...")
+            }
+            
             setData({
                 nombre: response.data[0].nombre,
                 apellido: response.data[0].apellido,
@@ -43,6 +67,10 @@ const DetalleCliente = (props) =>
                 direccion: response.data[0].direccion,
                 idcliente: response.data[0].idcliente,
                 bloqueado: response.data[0].bloqueado,
+                fecha_nacimiento_f: response.data[0].fecha_nacimiento_f,
+                dia:_d,
+                mes:_m,
+                anio:_y,
             })
         })
        // alert(get.cliente_ventas_gral + props.idcliente)
@@ -66,22 +94,37 @@ const DetalleCliente = (props) =>
     return data == null ? <></>:
      <>
      <Divider />
-    <Row>
-        <Col span={"6"}>Apellido y nombre:</Col>
-        <Col span={"12"}><b>{data.apellido + " " + data.nombre}</b></Col>
-    </Row>
-    <Row>
-        <Col span={"6"}>DNI:</Col>
-        <Col span={"12"}><b>{data.dni}</b></Col>
-    </Row>
-    <Row>
-        <Col span={"6"}>Tel&eacute;fono:</Col>
-        <Col span={"12"}><b>{data.telefono}</b></Col>
-    </Row>
-    <Row>
-        <Col span={"6"}>Direcci&oacute;n:</Col>
-        <Col span={"12"}><b>{data.direccion}</b></Col>
-    </Row>
+     <Row>
+        <Col span={12}>
+            <Row>
+                <Col span={6}>Apellido y nombre:</Col>
+                <Col span={18}><b>{data.apellido + " " + data.nombre}</b></Col>
+            </Row>
+            <Row>
+                <Col span={6}>DNI:</Col>
+                <Col span={18}><b>{data.dni}</b></Col>
+            </Row>
+            <Row>
+                <Col span={6}>Tel&eacute;fono:</Col>
+                <Col span={18}><b>{data.telefono}</b></Col>
+            </Row>
+            <Row>
+                <Col span={6}>Direcci&oacute;n:</Col>
+                <Col span={18}><b>{data.direccion}</b></Col>
+            </Row>
+        </Col>
+        <Col span={12}>
+            <Row>
+                <Col span={6}>Fecha de Nacimiento</Col>
+                <Col span={18}>{data.fecha_nacimiento_f}</Col>
+            </Row>
+            <Row>
+                <Col span={6}>Edad</Col>
+                <Col span={18}><Edad dia={data.dia} mes={data.mes} anio={data.anio} /> </Col>
+            </Row>
+        </Col>
+     </Row>
+    
     <Row>
         <Col span={24}>
             <EdicionClientePopup callback={()=>{setReload(!reload)}} idcliente={props.idcliente} />
