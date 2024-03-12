@@ -12,11 +12,13 @@ const SelectCliente = (props) =>{
     const [clientes, setClientes] = useState(null);
     const [clienteData, setClienteData] = useState(null);
     const [reload, setReload] = useState(false)
+    const [loading, setLoading] = useState(false)
 
     const onSearch = (value) => {
         
         const params = encodeURIComponent(value);
         //alert(value)
+        setLoading(true)
         fetch(get.buscar_cliente+params)
         .then(response=>response.json())
         .then((response)=>{
@@ -31,6 +33,7 @@ const SelectCliente = (props) =>{
                     bloqueado: r.bloqueado,
                 }
             )))
+            setLoading(false)
         })
         .catch((err)=>{console.log(err)})
     } 
@@ -66,6 +69,7 @@ const SelectCliente = (props) =>{
     }
 
     useEffect(()=>{
+        setLoading(true)
         fetch(get.lista_clientes)
         .then(response=>response.json())
         .then((response)=>{
@@ -83,6 +87,7 @@ const SelectCliente = (props) =>{
                     }
                 ))
             )
+            setLoading(false)
         })
         .catch((err)=>{console.log(err)})
     },[reload])
@@ -150,6 +155,7 @@ const SelectCliente = (props) =>{
         <Row>
             <Col span={24}>
                 <Table 
+                loading={loading}
                 rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'}
                 columns={columns} 
                 dataSource={clientes}  />

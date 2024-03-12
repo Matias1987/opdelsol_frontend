@@ -117,7 +117,7 @@ const ListaVentas = (props) => {
     }
 
     useEffect(()=>{
-        
+        setLoading(true)
         var params = {}
         if(typeof props.ignoreSucursal === 'undefined')
         {
@@ -165,10 +165,11 @@ const ListaVentas = (props) => {
                     idsucursal: v.sucursal_idsucursal,
                 }))
             ))
+            setLoading(false)
         })
 
        
-        setLoading(false)
+       
     },[reload])
 
     const get_tipo = (tipo)=>{

@@ -9,6 +9,7 @@ const SelectObraSocial = (props) => {
     const [idOS , setIdOS] = useState(-1);
     const [obrasociales, setObraSociales] = useState([]);
     const [dataObraSocial, setDataObraSocial] = useState(null)
+    const [loading, setLoading] = useState(false)
     const columns = [
         {title: 'Nombre', dataIndex: 'nombre'},
         {title: '', dataIndex: 'idmutual', render: (_,{idmutual})=>(
@@ -21,6 +22,7 @@ const SelectObraSocial = (props) => {
     useEffect(()=>{
         //alert(get.lista_mutuales)
         //load os
+        setLoading(true)
         fetch(get.lista_mutuales)
         .then(response=>response.json())
         .then((response)=>{
@@ -32,6 +34,7 @@ const SelectObraSocial = (props) => {
                     }
                 ))
             )
+            setLoading(false)
         })
     },[])
 
@@ -59,7 +62,7 @@ const SelectObraSocial = (props) => {
     }
 
     const onSearch = (value) => {
-
+        setLoading(true)
         const url = get.buscar_mutual;
         const _value = encodeURIComponent(value);
         fetch(url + _value)
@@ -76,6 +79,7 @@ const SelectObraSocial = (props) => {
                     )
                 )
             )
+            setLoading(false)
         })
         .catch((err)=>{console.log(err)})
     }

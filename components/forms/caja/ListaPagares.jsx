@@ -9,11 +9,11 @@ const { useEffect, useState } = require("react")
  */
 const ListaPagares = (props) => {
     const [pagares, setPagares] = useState([])
-
+    const [loading, setLoading] = useState(false)
    
     useEffect(()=>{
         const url = get.obtener_pagares_cliente+props.idcliente
-        
+        setLoading(true)
         fetch(url)
         .then(r=>r.json())
         .then((response)=>{
@@ -23,11 +23,13 @@ const ListaPagares = (props) => {
                 fecha: r.fecha,
                 monto: r.monto,
             }))))
+            setLoading(false)
         })
     },[])
 
     return <>
         <Table
+        loading={loading}
         dataSource={pagares}
         columns = {
             [

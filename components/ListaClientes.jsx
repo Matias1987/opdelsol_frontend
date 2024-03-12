@@ -1,10 +1,9 @@
 import CustomModal from "@/components/CustomModal";
-import { Button, Col, Input, Row, Spin, Table } from "antd";
+import { Button, Col, Input, Modal, Row, Spin, Table } from "antd";
 import { useEffect, useState } from "react";
-import { CheckCircleFilled, CloseOutlined, EditOutlined, ReloadOutlined } from "@ant-design/icons";
+import { ReloadOutlined } from "@ant-design/icons";
 
 import { get } from "@/src/urls";
-import ClienteForm from "@/components/forms/ClienteForm";
 import FichaCliente from "@/components/FichaCliente";
 import LayoutCaja from "@/components/layout/layout_caja";
 import DetalleCliente from "@/components/DetalleCliente";
@@ -14,8 +13,9 @@ import ListaPagares from "./forms/caja/ListaPagares";
 export default function ListaClientes(props){
     const [clientes, setClientes] = useState(null);
     const [searchVal , setSearchVal] = useState("")
-
+    const [loading, setLoading] = useState(false)
     const onSearch = (value) => {
+        setLoading(true)
         const params = encodeURIComponent(value);
         fetch(get.buscar_cliente+params)
         .then(response=>response.json())
@@ -31,11 +31,13 @@ export default function ListaClientes(props){
                     bloqueado: r.bloqueado,
                 }
             )))
+            setLoading(false)
         })
         .catch((err)=>{console.log(err)})
     } 
     
     const refresh = () => {
+        setLoading(true)
         fetch(get.lista_clientes)
         .then(response=>response.json())
         .then((response)=>{
@@ -52,6 +54,7 @@ export default function ListaClientes(props){
                     }
                 ))
             )
+            setLoading(false)
         })
         .catch((err)=>{console.log(err)})
     }
@@ -69,10 +72,8 @@ export default function ListaClientes(props){
             <>
             {
                 typeof props.ficha !== 'undefined' ?
-                    <CustomModal openButtonText={"Ficha Cliente"}>
-                        <FichaCliente idcliente={idcliente} />
-                    </CustomModal>
-                :
+                    <FichaCliente idcliente={idcliente} key={idcliente}/>
+                    :
                 <></>
                 
             }
@@ -111,11 +112,15 @@ export default function ListaClientes(props){
     <Row>
         <Col span={24}>
             <Table 
+            loading={loading}
             rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'}
             columns={columns} 
             dataSource={clientes} />
         </Col>
     </Row>
+    {/*<Modal width={"80%"} open={modalFichaOpen} footer={null}  onCancel={()=>{setModalFichaOpen(false)}}>
+        <FichaCliente idcliente={curCliente} open={modalFichaOpen} key={curCliente} />
+    </Modal>*/}
     
 
     

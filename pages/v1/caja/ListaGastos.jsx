@@ -9,9 +9,10 @@ export default function ListaGastos(){
     const [gastos, setGastos] = useState([])
     const [open, setOpen] = useState(false)
     const [reload, setReload]  = useState(true)
-
+    const [loading, setLoading] = useState(false)
 
     useEffect(()=>{
+        setLoading(true);
         fetch(get.lista_gastos_sucursal + globals.obtenerSucursal())
         .then(response=>response.json())
         .then((response)=>{
@@ -21,6 +22,7 @@ export default function ListaGastos(){
                 monto: r.monto,
                 fecha_f: r.fecha_f,
             })))
+            setGastos(false)
         })
     },[reload])
 
@@ -40,7 +42,10 @@ export default function ListaGastos(){
         >
             <GastoForm callback={()=>{setReload(!reload); setOpen(false)}}/>
         </Modal>
-        <Table dataSource={gastos} columns={
+        <Table 
+        loading={loading}
+        dataSource={gastos} 
+        columns={
             [
                 {dataIndex: "idgasto", title: "Nro."},
                 {dataIndex: "fecha_f", title: "Fecha"},

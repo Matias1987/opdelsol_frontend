@@ -9,8 +9,10 @@ export default function SelectMedico(props){
     const [idMedico, setIdMedico] = useState(-1)
     const [medicos, setMedicos] = useState([])
     const [dataMedico, setDataMedico] = useState(null)
+    const [loading, setLoading] = useState(false)
 
     useEffect(()=>{
+        setLoading(true)
         const url = get.lista_medicos;
         fetch(url)
         .then(response=>response.json())
@@ -26,6 +28,7 @@ export default function SelectMedico(props){
                     )
                 )
             )
+            setLoading(false)
         })
         .catch((err)=>{
             console.log(err)
@@ -35,6 +38,7 @@ export default function SelectMedico(props){
     const onSearch = (value) => {
         const url = get.buscar_medico;
         const _value = encodeURIComponent(value)
+        setLoading(true)
         fetch(url + _value)
         .then(response => response.json())
         .then((response)=>{
@@ -49,6 +53,7 @@ export default function SelectMedico(props){
                     )
                 )
             )
+            setLoading(false)
         })
         .catch((err)=>{console.log(err)})
     }
