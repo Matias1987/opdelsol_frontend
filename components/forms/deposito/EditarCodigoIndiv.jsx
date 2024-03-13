@@ -43,7 +43,7 @@ const EditarCodigoIndiv = (props) =>{
     }
 
     const onSave = () => {
-        alert(JSON.stringify({...codigo, modo_precio: modoPrecio}))
+       //alert(JSON.stringify({...codigo, modo_precio: modoPrecio}))
 
         post_method(post.update.editar_codigo,
             {

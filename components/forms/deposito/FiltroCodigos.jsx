@@ -38,7 +38,7 @@ const FiltroCodigos = (props) => {
     </Row>
     <Row>
         <Col span={24}>
-            <Input prefix="Codigo" onChange={(e)=>{onCodigoChange(e.target.value)}}/>
+            <Input prefix="Codigo: " style={{backgroundColor:"lightblue"}} value={filtros.codigo}  onChange={(e)=>{onCodigoChange((e.target.value||""))}}/>
         </Col>
     </Row>
     <Row>

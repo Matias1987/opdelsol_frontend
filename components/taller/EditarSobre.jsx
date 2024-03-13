@@ -7,6 +7,8 @@ import { ArrowRightOutlined, PlusOutlined, RightCircleTwoTone, RightOutlined, Ri
 import SearchStock from "../SearchStock";
 import SearchStockVentas from "../forms/ventas/SearchStockVentas";
 import { post_method } from "@/src/helpers/post_helper";
+import DetalleCodigo from "../forms/deposito/DetalleCodigo";
+import CustomModal from "../CustomModal";
 
 const EditarSobre = (props) => {
     const [loading, setLoading] = useState(false)
@@ -27,7 +29,9 @@ const EditarSobre = (props) => {
             render:(_,{orden})=>(<span style={{textOrientation:"upright"}}><b>{orden}</b></span>)
         },
         {dataIndex:"orden1", width:"90px", title:"Tipo"},
-        {dataIndex:"codigo", title:"Código Original", width:"30%"},
+        {dataIndex:"codigo", title:"Código Original", width:"30%", render:(_,record)=><>
+        {record.codigo} &nbsp;  {record.idcodigo>0 ? <CustomModal openButtonText="Detalle"> <DetalleCodigo idcodigo={record.idcodigo} /> </CustomModal> :<></>} 
+        </>},
         {title:"", 
         width:"60px",
 

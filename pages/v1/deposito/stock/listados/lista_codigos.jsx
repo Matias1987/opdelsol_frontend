@@ -1,4 +1,6 @@
+import CustomModal from "@/components/CustomModal";
 import CustomTable from "@/components/forms/CustomTable";
+import DetalleCodigo from "@/components/forms/deposito/DetalleCodigo";
 import EditarCodigoIndiv from "@/components/forms/deposito/EditarCodigoIndiv";
 import FiltroCodigos from "@/components/forms/deposito/FiltroCodigos";
 import MyLayout from "@/components/layout/layout";
@@ -67,8 +69,11 @@ export default function ListaCodigos(){
                 (_,{idcodigo})=>{
                     return (
                     <>
-                       
-                            <EditarCodigoIndiv idcodigo={idcodigo} buttonText="Editar" callback={()=>{setChange(!change)}} />
+                        <CustomModal openButtonText="Detalle">
+                            <DetalleCodigo idcodigo={idcodigo} />
+                        </CustomModal>
+                        &nbsp;&nbsp;&nbsp;
+                        <EditarCodigoIndiv idcodigo={idcodigo} buttonText="Editar" callback={()=>{setChange(!change)}} />
                     </>    
                     )                
                 }
