@@ -310,7 +310,7 @@ const get = {
 
     items_adicional_venta: remote_base_url + "adic/",
 
-   
+    obtener_grilla_stock: remote_base_url + "stock/obtener_grilla_stock/",
 
 }
 

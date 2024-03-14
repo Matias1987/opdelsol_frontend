@@ -84,8 +84,6 @@ const ResumenOperacionesRow = (props) => {
         update()
         const interval = setInterval(() => { 
             update()
-            //setCount(count + 1); 
-            
         }, 5000); 
   
         //Clearing the interval 

@@ -1,5 +1,7 @@
+import CustomModal from "@/components/CustomModal";
 import Eventos from "@/components/admin/eventos";
 import ResumenOperacionesRow from "@/components/admin/resumenOperacionesRow";
+import CodeGrid from "@/components/etc/CodeGrid";
 import InformeCaja from "@/components/informes/caja/InformeCaja";
 import LayoutAdmin from "@/components/layout/layout_admin";
 import { get } from "@/src/urls";
@@ -39,7 +41,9 @@ export default function dashboard_admin(){
     <Row>
         <Col span={24}>
             <Divider />
-           
+            <CustomModal openButtonText="test" >
+                <CodeGrid width={600} height={480} />
+            </CustomModal>
         </Col>
     </Row>
     
