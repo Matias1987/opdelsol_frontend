@@ -1,25 +1,30 @@
-import { Col, Divider, Row, Table, Tag } from "antd";
+import { Col, Divider, Row, Select, Table, Tag } from "antd";
 import { useEffect, useRef, useState } from "react";
 import SubGroupSelect from "../SubGroupSelect";
-import { get } from "@/src/urls";
+import { get, post } from "@/src/urls";
 import EditarStockIndiv from "../forms/deposito/EditarStockIndiv";
 import globals from "@/src/globals";
+import { post_method } from "@/src/helpers/post_helper";
 
 const CodeGrid = (props) => {
     const canvasRef = useRef(null);
     const [dataSource, setDataSource] = useState([])
     const [selectedCode, setSelectedCode] = useState(null)
     const [reload, setReload] = useState(false)
+    const [ejes, setEjes] = useState([])
+    const [selectedEje, setSelectedEje] = useState("-1")
+    const [firstLoad, setFirstLoad] = useState(true)
+    const [subgrupo, setSubgrupo] = useState(null)
     var canvas = null
     var ctx = null
 
     const tilew=48
     const tileh=48
-    const min_esf = -6
-    const max_esf = 6
-    const min_cil = -4
-    const max_cil = 0
-    const ncols = (max_cil - min_cil) * 4 +1
+    const [min_esf , setMinEsf] = useState(-9)
+    const [max_esf , setMaxEsf] = useState(0)
+    const [min_cil , setMinCil] = useState(-4)
+    const [max_cil , setMaxCil] = useState(0)
+    const [ncols , setNCols] = useState(0)
     let dict = {}
     let cols = {}
     let rows = {} 
@@ -29,8 +34,58 @@ const CodeGrid = (props) => {
     let xoffset=0
     let yoffset=0
     let start_point = {x:0, y:0}
-    let mMouseX=0
-    let mMouseY=0
+
+    const load_ejes_if_any = () => {
+        post_method(post.obtener_grilla_stock,{idsubgrupo: props.idsubgrupo, idsucursal: globals.obtenerSucursal(), eje: "-1"},(response)=>{
+            let t_ejes = {}
+            let _ejes = []
+            let _min_esf = 9999
+            let _max_esf = -99999
+            let _min_cil = 99999
+            let _max_cil = -99999
+            response.data.forEach(c=>{
+                
+                _max_esf = parseFloat(c.esf)>_max_esf ? parseFloat(c.esf) : _max_esf
+                _min_esf = parseFloat(c.esf)<_min_esf ? parseFloat(c.esf) : _min_esf
+
+                _min_cil = parseFloat(c.cil)<_min_cil ? parseFloat(c.cil) : _min_cil
+                _max_cil = parseFloat(c.cil)>_max_cil ? parseFloat(c.cil) : _max_cil
+
+                if(c.eje!=null)
+                {
+                    if(typeof t_ejes[c.eje] === 'undefined'){
+                        t_ejes[c.eje] = null
+                        _ejes.push({label:c.eje, value: c.eje})
+                    }
+                }
+                
+            })
+
+            setMinCil(_min_cil)
+            setMaxCil(_max_cil)
+
+            setMinEsf(_min_esf)
+            setMaxEsf(_max_esf)
+
+            setNCols((_max_cil - _min_cil) * 4 + 1)
+
+            setEjes(_ejes)
+            if(_ejes.length>0)
+            {
+                setSelectedEje(_ejes[0].value)
+            }
+            setReload(!reload)
+        })
+
+        fetch(get.obtener_detalle_subgrupo + props.idsubgrupo)
+        .then(r=>r.json())
+        .then((response)=>{
+            //alert(JSON.stringify(response))
+            setSubgrupo(response.data[0])
+        })
+        .catch(e=>{console.log("error")})
+       
+    }
 
     
     const load = () => {
@@ -40,14 +95,13 @@ const CodeGrid = (props) => {
         rows = {} 
         map = []
         xoffset=yoffset=0
-        
-        fetch(get.obtener_grilla_stock + props.idsubgrupo + "/" + globals.obtenerSucursal())
-        .then(r=>r.json())
-        .then((response)=>{
-           
+
+        post_method(post.obtener_grilla_stock,{idsubgrupo: props.idsubgrupo, idsucursal: globals.obtenerSucursal(), eje: selectedEje},
+        (response)=>{
             setDataSource(response.data.map(d=>({
                 ...d,mouseover:false
             })))
+           
             for(let esf=min_esf;esf<=max_esf;esf+=0.25)
             { 
         
@@ -65,16 +119,13 @@ const CodeGrid = (props) => {
                 }
             
             }
-            
+          
             response.data.forEach(c=>{
                 dict[`${c.esf}${c.cil}`] = {...c, mouseover:false, selected:false,}
                 cols[`${c.cil}`] = 1
                 rows[`${c.esf}`] = 1
-                
             })
-        
         })
-
     }
 
     const draw = () => {
@@ -119,7 +170,8 @@ const CodeGrid = (props) => {
                 if(y<tilew/2) continue
     
                 if(x<tileh/2) continue
-    
+
+
                 
                 let idx = `${(esf>0?"+":"") + esf.toFixed(2)}${cil.toFixed(2)}`
     
@@ -134,7 +186,11 @@ const CodeGrid = (props) => {
                     if(dict[idx].cantidad>0)
                     {
                         ctx.fillStyle="black"
-                        ctx.fillText(dict[idx].cantidad.toString(), x + 8,y + 18)
+                        ctx.fillText(dict[idx].cantidad.toString(), x + 8,y + 14)
+                       //ctx.fillStyle="red"
+                       //ctx.fillText(dict[idx].esf, x ,y + 32)
+                       //ctx.fillText(dict[idx].cil, x ,y + 44)
+
                     }
                     
                 }
@@ -153,6 +209,14 @@ const CodeGrid = (props) => {
 
 
     useEffect(()=>{
+
+        if(firstLoad)
+        {
+            setFirstLoad(false)
+            load_ejes_if_any()
+            return
+        }
+
         canvas = canvasRef.current;
         ctx = canvas.getContext('2d');
 
@@ -268,7 +332,7 @@ const CodeGrid = (props) => {
     return <>
     <Row>
         <Col span={24}>
-            <h1>Grilla C&oacute;digos</h1>
+            <h3>Grilla de C&oacute;digos</h3>
         </Col>
     </Row>
     <Row>
@@ -282,10 +346,25 @@ const CodeGrid = (props) => {
         <Col span={8}>
             <Row>
                 <Col span={24}>
-                    Subgrupo: {props.idsubgrupo}
+                    Subgrupo: {subgrupo==null ? props.idsubgrupo : <><Tag color="geekblue">{subgrupo.nombre_largo}</Tag></>}
                     <Divider />
                 </Col>
             </Row>
+
+            { ejes.length<1 ? <></>:
+                <Row>
+                    <Col span={24}>
+                        Ejes: <Select 
+                        value={selectedEje} 
+                        options={ejes} 
+                        onChange={(v)=>{
+                            setSelectedEje(v);  
+                            setReload(!reload)}} 
+                        style={{width:"200px"}}/>
+                        <Divider />
+                    </Col>
+                </Row>
+            }
             {
                 selectedCode!=null ? <>
                 <Row>

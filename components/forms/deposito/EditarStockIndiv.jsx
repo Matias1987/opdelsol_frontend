@@ -55,7 +55,7 @@ const EditarStockIndiv = (props) => {
     return <>
     <Button onClick={onOpen} type="primary">{props.buttonText}</Button>
         <Modal title={"Editar Cantidad Stock"} open={open} onCancel={onClose} footer={null}>
-            {stock==null ? <Spin /> : 
+            {stock==null || codigo==null ? <Spin /> : 
             <>
             <Row>
                 <Col span={24}>

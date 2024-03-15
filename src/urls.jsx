@@ -95,6 +95,8 @@ const post = {
     obtener_ventas_dia_vendedor: remote_base_url + "admin/obtener_ventas_dia_vendedor/",
     gr_ventas_dia_totales: remote_base_url + "admin/gr/ventas_dia_totales/",
     eventos: remote_base_url + "evt/get/",
+    obtener_grilla_stock: remote_base_url + "stock/obtener_grilla_stock/",
+
 
     search:{
         filtro_stock: remote_base_url + "stock/filtro_stock/",
@@ -310,8 +312,7 @@ const get = {
 
     items_adicional_venta: remote_base_url + "adic/",
 
-    obtener_grilla_stock: remote_base_url + "stock/obtener_grilla_stock/",
-
+    
 }
 
 module.exports = {
