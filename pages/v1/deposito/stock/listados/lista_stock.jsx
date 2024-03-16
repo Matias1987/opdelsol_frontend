@@ -3,8 +3,8 @@ import FamiliaSelect from "@/components/FamiliaSelect";
 import GrupoSelect from "@/components/GrupoSelect";
 import SubFamiliaSelect from "@/components/SubFamiliaSelect";
 import SubGroupSelect from "@/components/SubGroupSelect";
+import CodeGrid from "@/components/etc/CodeGrid";
 import DetalleStock from "@/components/forms/deposito/DetalleStock";
-import EditarCodigoIndiv from "@/components/forms/deposito/EditarCodigoIndiv";
 import EditarStockIndiv from "@/components/forms/deposito/EditarStockIndiv";
 import ModificarCantidadForm from "@/components/forms/deposito/modificarCantidadForm";
 import MyLayout from "@/components/layout/layout";
@@ -12,11 +12,12 @@ import InformeStock from "@/pages/v1/informes/informe_stock";
 import globals from "@/src/globals";
 import { post_method } from "@/src/helpers/post_helper";
 import { get, post } from "@/src/urls";
-import { CheckCircleOutlined, EditFilled } from "@ant-design/icons";
-import { Button, Checkbox, Col, Divider, Form, Input, InputNumber, Row, Select, Space, Table, Tag } from "antd";
+import { CheckCircleOutlined, EditFilled, TableOutlined } from "@ant-design/icons";
+import { Button, Checkbox, Col, Divider, Form, Input, InputNumber, Modal, Row, Select, Space, Table, Tag } from "antd";
 import { useEffect, useRef, useState } from "react";
 
 export default function ListaStock(){
+    const [open, setOpen] = useState(false)
     const [popupOpen, setPopupOpen] = useState(false)
     const [tipoOrden, setTipoOrden] = useState("");
     const [tipoFiltro, setTipoFitro] = useState(-1);
@@ -27,7 +28,8 @@ export default function ListaStock(){
     const idsucursal = globals.obtenerSucursal();//temporary
     const [form] = Form.useForm();
     const [form1] = Form.useForm();
-    const [listId, setListId] = useState(0)
+    const [listId, setListId] = useState(0);
+    const [idsubgrupo, setIdSubgrupo] = useState(-1)
     const tipos_filtro_dic = {
         "codigo_contenga_a":{tipo: "codigo", descripcion: "Codigo Cont."},
         "codigo_igual_a":{tipo: "codigo", descripcion: "Codigo Igual a"},
@@ -277,7 +279,7 @@ export default function ListaStock(){
                 {label: 'Joven', value: 'joven'},
             ]} onChange={(val)=>{setValue("valor",val)}}/>;
             case 'detalles': return <Input type="text" onChange={(e)=>{setValue("valor",e.target.value)}}/>;
-            case 'subgrupo': return <SubGroupSelect callback={(id)=>{setValue("valor",id)}} />;
+            case 'subgrupo': return <SubGroupSelect callback={(id)=>{setValue("valor",id); setIdSubgrupo(id);}} />;
             case 'grupo': return <GrupoSelect callback={(id)=>{setValue("valor",id)}} />;
             case 'subfamilia': return <SubFamiliaSelect callback={(id)=>{setValue("valor",id)}} />;
             case 'familia': return <><FamiliaSelect callback={(id)=>{setValue("valor",id)}}/></>;
@@ -378,18 +380,35 @@ export default function ListaStock(){
                     </Col>
                 </Row>
             </Form>
+            <Row>
+                <Col span={24}>
+
+                </Col>
+            </Row>
             <Row style={{backgroundColor:"#D3E1E6"}}>
-                <Col span={8}>Acciones para selecci&oacute;n M&uacute;ltiple:</Col>
-                <Col span={8}>{edit_popup()}</Col>
-                <Col span={8}>
-                    <Button block size="small" onClick={(e)=>{
+                <Col span={4}>
+                    <Button onClick={()=>{setOpen(true)}} ><TableOutlined />  Grilla de C&oacute;digos</Button>
+                    <Modal 
+                    footer={null} 
+                    width={"900px"} 
+                    open={open} 
+                    key={idsubgrupo} 
+                    destroyOnClose={true} 
+                    onCancel={()=>{setOpen(false); setValueChanged(!valueChanged)} }>
+                        <CodeGrid idsubgrupo={idsubgrupo} width={500} height={480}/>
+                    </Modal>
+                </Col>
+                <Col span={4}>{edit_popup()}</Col>
+                <Col span={4}>
+                    <Button block onClick={(e)=>{
                     setData(
                         data.map(r=>{
                             r.checked=!r.checked;
                             return r;
                         })
                     )
-                }}><CheckCircleOutlined />Seleccionar / Deseleccionar Todo</Button></Col>
+                    }}><CheckCircleOutlined />Seleccionar / Deseleccionar Todo</Button>
+                </Col>
             </Row>
         <Row>
             <Col span={24}>
