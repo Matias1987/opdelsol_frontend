@@ -1,4 +1,5 @@
 import CustomModal from "@/components/CustomModal";
+import ExportToCSV from "@/components/ExportToCSV";
 import FamiliaSelect from "@/components/FamiliaSelect";
 import GrupoSelect from "@/components/GrupoSelect";
 import SubFamiliaSelect from "@/components/SubFamiliaSelect";
@@ -291,7 +292,7 @@ export default function ListaStock(){
         <>
             <h2>Lista Stock</h2>
             <Form {...{labelCol:{span:5}, wrapperCol:{span:18}}} onFinish={onFinishFiltro} form={form}>
-            <Row style={{backgroundColor:"rgba(255, 99, 71, 0.4)", paddingTop:"1em", paddingLeft:"1em", borderRadius:"15px"}}>
+            <Row >
                 <Col span={8}>
                     <Form.Item label={"Filtar Por"} name={"tipo_filtro"}>
                         <Select  options={[
@@ -338,7 +339,7 @@ export default function ListaStock(){
             </Row>
             </Form>
             <Form form={form1} onFinish={onFinish}>
-                <Row style={{paddingTop:"1em", paddingLeft:"1em"}}>
+                <Row>
                     
                     <Col span={8} >
                     <Form.Item label={"Filtros:"}>
@@ -389,13 +390,13 @@ export default function ListaStock(){
                 <Col span={4}>
                     <Button onClick={()=>{setOpen(true)}} ><TableOutlined />  Grilla de C&oacute;digos</Button>
                     <Modal 
-                    footer={null} 
-                    width={"900px"} 
-                    open={open} 
-                    key={idsubgrupo} 
-                    destroyOnClose={true} 
-                    onCancel={()=>{setOpen(false); setValueChanged(!valueChanged)} }>
-                        <CodeGrid idsubgrupo={idsubgrupo} width={500} height={480}/>
+                        footer={null} 
+                        width={"900px"} 
+                        open={open} 
+                        key={idsubgrupo} 
+                        destroyOnClose={true} 
+                        onCancel={()=>{setOpen(false); setValueChanged(!valueChanged)} }>
+                            <CodeGrid idsubgrupo={idsubgrupo} width={500} height={480}/>
                     </Modal>
                 </Col>
                 <Col span={4}>{edit_popup()}</Col>
@@ -408,6 +409,16 @@ export default function ListaStock(){
                         })
                     )
                     }}><CheckCircleOutlined />Seleccionar / Deseleccionar Todo</Button>
+                </Col>
+                <Col span={4}>
+                    <ExportToCSV parseFnt={()=>{
+                        let str = "Ruta, Codigo, Descripcion, Cantidad,\r\n"
+                        data.forEach(r=>{
+                            str+=`${r.ruta},${r.codigo},${r.descripcion},${r.cantidad},\r\n`
+                        })
+                        return str
+                    }} 
+                    />
                 </Col>
             </Row>
         <Row>
