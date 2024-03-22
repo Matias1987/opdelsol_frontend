@@ -13,8 +13,8 @@ import InformeStock from "@/pages/v1/informes/informe_stock";
 import globals from "@/src/globals";
 import { post_method } from "@/src/helpers/post_helper";
 import { get, post } from "@/src/urls";
-import { CheckCircleOutlined, EditFilled, TableOutlined } from "@ant-design/icons";
-import { Button, Checkbox, Col, Divider, Form, Input, InputNumber, Modal, Row, Select, Space, Table, Tag } from "antd";
+import { CheckCircleOutlined, EditFilled, SearchOutlined, TableOutlined } from "@ant-design/icons";
+import { Button, Checkbox, Col, Divider, Form, Input, InputNumber, Modal, Row, Select, Space, Switch, Table, Tabs, Tag } from "antd";
 import { useEffect, useRef, useState } from "react";
 
 export default function ListaStock(){
@@ -31,7 +31,11 @@ export default function ListaStock(){
     const [form1] = Form.useForm();
     const [listId, setListId] = useState(0);
     const [idsubgrupo, setIdSubgrupo] = useState(-1)
+    const [activeTab, setActiveTab] = useState("1")
+    const [quickSearchValue, setQuickSearchValue] = useState("")
+    const [codigoSearch, setCodigoSearch] = useState(true)
     const tipos_filtro_dic = {
+        "grupo_contenga_a":{tipo: "grupo", descripcion: "Grupo Cont."},
         "codigo_contenga_a":{tipo: "codigo", descripcion: "Codigo Cont."},
         "codigo_igual_a":{tipo: "codigo", descripcion: "Codigo Igual a"},
         "precio_mayor_a":{tipo: "precio", descripcion: "Precio Mayor a"},
@@ -51,6 +55,9 @@ export default function ListaStock(){
     
     const edit_popup = () => <>
         <CustomModal
+            type="default"
+            size="normal"
+            block
             openButtonText={"Modificar Selección"}
             title={""}
             _open = {popupOpen}
@@ -230,6 +237,7 @@ export default function ListaStock(){
         return {
             sucursal: globals.obtenerSucursal(),
             codigo_contenga_a: typeof _tags["codigo_contenga_a"] === 'undefined' ? "" : _tags["codigo_contenga_a"],
+            grupo_contenga_a: typeof _tags["grupo_contenga_a"] === 'undefined' ? "" : _tags["grupo_contenga_a"],
             codigo_igual_a: typeof _tags["codigo_igual_a"] === 'undefined' ? "" : _tags["codigo_igual_a"],
             precio_mayor_a: typeof _tags["precio_mayor_a"] === 'undefined' ? "" : _tags["precio_mayor_a"],
             precio_menor_a: typeof _tags["precio_menor_a"] === 'undefined' ? "" : _tags["precio_menor_a"],
@@ -261,6 +269,7 @@ export default function ListaStock(){
     const FiltroValor = () => {
         
         switch(tipoFiltro){
+            case 'grupo_contenga_a': return <Input type="text" onChange={(e)=>{setValue("valor",e.target.value)}}/>;
             case 'codigo_contenga_a': return <Input type="text" onChange={(e)=>{setValue("valor",e.target.value)}}/>;
             case 'codigo_igual_a': return <Input type="text" onChange={(e)=>{setValue("valor",e.target.value)}}/>;
             case 'precio_mayor_a': return <InputNumber onChange={(val)=>{setValue("valor",val)}}/>;
@@ -288,104 +297,129 @@ export default function ListaStock(){
         }
     }
 
+    const onQuickSearchClick =()=>
+    {
+        if(codigoSearch)
+        {
+            setTags([{tipo:"codigo_contenga_a", valor:quickSearchValue}])
+        }
+        else
+        {
+            setTags([{tipo:"grupo_contenga_a", valor:quickSearchValue}])
+        }
+        
+        setValueChanged(!valueChanged)
+    }
+
     return(
         <>
             <h2>Lista Stock</h2>
-            <Form {...{labelCol:{span:5}, wrapperCol:{span:18}}} onFinish={onFinishFiltro} form={form}>
-            <Row >
-                <Col span={8}>
-                    <Form.Item label={"Filtar Por"} name={"tipo_filtro"}>
-                        <Select  options={[
-                            {label: 'Codigo Contenga a', value: 'codigo_contenga_a'},
-                            {label: 'Codigo Igual a ', value: 'codigo_igual_a'},
-                            
-                            {label: 'Precio - Mayor a', value: 'precio_mayor_a'},
-                            {label: 'Precio - Menor a', value: 'precio_menor_a'},
-                            {label: 'Precio - Igual a', value: 'precio_igual_a'},
+            <Tabs
+            onChange={(v)=>{setActiveTab(v)}}
+            defaultActiveKey="1"
+            activeKey={activeTab}
+            type="card"
+            items={[
+                {
+                    label:'Búsqueda',
+                    key:"1",
+                    children: <div style={{backgroundColor:"lightblue", }}>
+                        <Row style={{padding:"1em", }}>
+                            <Col span={24}>
+                                <Input style={{fontSize:"2.5em", backgroundColor:"#D8E3E6"}} prefix={<><Switch checked={codigoSearch} onChange={(c)=>{setCodigoSearch(!codigoSearch)}} checkedChildren="Código" unCheckedChildren="Grupo" /></>} onChange={e=>{setQuickSearchValue(e.target.value)}} addonAfter={<><Button type="text" onClick={(e)=>{onQuickSearchClick(e.target.value)}}><SearchOutlined /></Button></>} />
+                            </Col>
+                        </Row>
+                    </div>
+                },
+                {
+                    label: 'Adv.',
+                    key: '2',
+                    children: <div style={{backgroundColor:"lightblue", padding:"1em"}}>
+                    <Form {...{labelCol:{span:5}, wrapperCol:{span:18}}} onFinish={onFinishFiltro} form={form}>
+                        <Row >
+                            <Col span={8}>
+                                <Form.Item label={"Filtar Por"} name={"tipo_filtro"}>
+                                    <Select  options={[
+                                        {label: 'Codigo Contenga a', value: 'codigo_contenga_a'},
+                                        {label: 'Codigo Igual a ', value: 'codigo_igual_a'},
+                                        {label: 'Precio - Mayor a', value: 'precio_mayor_a'},
+                                        {label: 'Precio - Menor a', value: 'precio_menor_a'},
+                                        {label: 'Precio - Igual a', value: 'precio_igual_a'},
+                                        {label: 'Cantidad - Igual a', value: 'cantidad_igual_a'},
+                                        {label: 'Cantidad - Mayor a', value: 'cantidad_mayor_a'},
+                                        {label: 'Cantidad - Menor a', value: 'cantidad_menor_a'},
+                                        {label: 'Género', value: 'sexo'},
+                                        {label: 'Edad', value: 'edad'},
+                                        {label: 'Descripción', value: 'detalles'},
+                                        {label: 'SubGrupo', value: 'subgrupo'},
+                                        {label: 'Grupo', value: 'grupo'},
+                                        {label: 'SubFamilia', value: 'subfamilia'},
+                                        {label: 'Familia', value: 'familia'},
+                                        {label: 'Grupo Contenga a', value: 'grupo_contenga_a'},
+                                    ]} 
+                                    onChange={(value)=>{
+                                        setValue("tipo_filtro",value)
+                                        setTipoFitro(value)
+                                    }}
+                                    />
+                                </Form.Item>
+                            </Col>
+                            <Col span={8}>
+                                <Form.Item label={"Valor"} name={"valor"} key={valueChanged}>
+                                    {FiltroValor()}
+                                </Form.Item>
+                            </Col>
+                            <Col span={8}>
+                            <Form.Item>
+                                    <Button type="primary" htmlType="submit" size="small">Agregar</Button>
+                                </Form.Item>
+                            </Col>
+                        </Row>
+                        </Form>
+                        <Form form={form1} onFinish={onFinish}>
+                            <Row>
+                                <Col span={8} >
+                                <Form.Item label={"Filtros:"}>
+                                    {
+                                        tags.map(t=>(
+                                            (typeof tipos_filtro_dic[t.tipo] === 'undefined' || tipos_filtro_dic[t.tipo] === null) ? <></> :
 
-                            {label: 'Cantidad - Igual a', value: 'cantidad_igual_a'},
-                            {label: 'Cantidad - Mayor a', value: 'cantidad_mayor_a'},
-                            {label: 'Cantidad - Menor a', value: 'cantidad_menor_a'},
-                            
-                            {label: 'Género', value: 'sexo'},
-                            {label: 'Edad', value: 'edad'},
-                            
-                            {label: 'Descripción', value: 'detalles'},
-                            
-                            {label: 'SubGrupo', value: 'subgrupo'},
-                            {label: 'Grupo', value: 'grupo'},
-                            {label: 'SubFamilia', value: 'subfamilia'},
-                            {label: 'Familia', value: 'familia'},
-
-
-                        ]} 
-                        onChange={(value)=>{
-                            setValue("tipo_filtro",value)
-                            setTipoFitro(value)
-                        }}
-                        />
-                    </Form.Item>
-                </Col>
-                <Col span={8}>
-                    <Form.Item label={"Valor"} name={"valor"} key={valueChanged}>
-                        {FiltroValor()}
-                    </Form.Item>
-                </Col>
-                <Col span={8}>
-                <Form.Item>
-                        <Button type="primary" htmlType="submit" size="small">Agregar</Button>
-                    </Form.Item>
-                </Col>
-            </Row>
-            </Form>
-            <Form form={form1} onFinish={onFinish}>
-                <Row>
-                    
-                    <Col span={8} >
-                    <Form.Item label={"Filtros:"}>
-                        {
-                            tags.map(t=>(
-                                (typeof tipos_filtro_dic[t.tipo] === 'undefined' || tipos_filtro_dic[t.tipo] === null) ? <></> :
-
-                                <Tag color="red" closable  onClose={(e)=>{
-                                    e.preventDefault();
-                                    removeTag(t);
-                                }}>{tipos_filtro_dic[t?.tipo]?.descripcion + ": " +t?.valor}</Tag>
-
-                            ))
-                        }
-                        </Form.Item>
-                    </Col>
-                    <Col span={9}>
-                        <Form.Item label={"Orden"} name={"orden"}>
-                            <Select options={[
-                                {label: 'Alfabetico - Ascendiente', value: 'alf_asc'},
-                                {label: 'Alfabetico - Descendiente', value: 'alf_desc'},
-                                {label: 'Precio - Descendiente', value: 'precio_desc'},
-                                {label: 'Precio - Ascendiente', value: 'precio_asc'},
-                                {label: 'Cantidad - Ascendiente', value: 'cantidad_asc'},
-                                {label: 'Cantidad - Descendiente', value: 'cantidad_desc'},
-                            ]} 
-                            onChange={(value)=>{
-                                setValue1("orden",value)
-                                setTipoOrden(value);
-                            }}
-                            />
-                        </Form.Item>
-
-                    </Col>
-                    <Col span={3}>
-                        <Form.Item>
-                            <Button type="primary" htmlType="submit" size="small">Aplicar Filtros</Button>
-                        </Form.Item>
-                    </Col>
-                </Row>
-            </Form>
-            <Row>
-                <Col span={24}>
-
-                </Col>
-            </Row>
+                                            <Tag color="red" closable  onClose={(e)=>{
+                                                e.preventDefault();
+                                                removeTag(t);
+                                            }}>{tipos_filtro_dic[t?.tipo]?.descripcion + ": " +t?.valor}</Tag>
+                                        ))
+                                    }
+                                    </Form.Item>
+                                </Col>
+                                <Col span={9}>
+                                    <Form.Item label={"Orden"} name={"orden"}>
+                                        <Select options={[
+                                            {label: 'Alfabetico - Ascendiente', value: 'alf_asc'},
+                                            {label: 'Alfabetico - Descendiente', value: 'alf_desc'},
+                                            {label: 'Precio - Descendiente', value: 'precio_desc'},
+                                            {label: 'Precio - Ascendiente', value: 'precio_asc'},
+                                            {label: 'Cantidad - Ascendiente', value: 'cantidad_asc'},
+                                            {label: 'Cantidad - Descendiente', value: 'cantidad_desc'},
+                                        ]} 
+                                        onChange={(value)=>{
+                                            setValue1("orden",value)
+                                            setTipoOrden(value);
+                                        }}
+                                        />
+                                    </Form.Item>
+                                </Col>
+                                <Col span={3}>
+                                    <Form.Item>
+                                        <Button type="primary" htmlType="submit" size="small">Aplicar Filtros</Button>
+                                    </Form.Item>
+                                </Col>
+                            </Row>
+                        </Form>
+                    </div>
+                }
+            ]}
+            />
             <Row style={{backgroundColor:"#D3E1E6"}}>
                 <Col span={4}>
                     <Button onClick={()=>{setOpen(true)}} ><TableOutlined />  Grilla de C&oacute;digos</Button>
