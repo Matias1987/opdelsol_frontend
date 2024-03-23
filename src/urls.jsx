@@ -169,6 +169,7 @@ const post = {
 }
 
 const get = {
+    obtener_usuarios_permisos: remote_base_url + "usuarios/l/a/s/obtener_usuarios_permisos/",
     lista_codigos_categoria: remote_base_url + "codigos/lista_por_categoria/", ///:idfamilia/:idsubfamilia/:idgrupo/:idsubgrupo
     lista_familia: remote_base_url + "familia/",
     lista_subgrupo: remote_base_url + "subgrupos/",
