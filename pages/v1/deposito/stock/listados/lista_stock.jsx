@@ -6,6 +6,7 @@ import SubFamiliaSelect from "@/components/SubFamiliaSelect";
 import SubGroupSelect from "@/components/SubGroupSelect";
 import CodeGrid from "@/components/etc/CodeGrid";
 import DetalleStock from "@/components/forms/deposito/DetalleStock";
+import EditarCodigoIndiv from "@/components/forms/deposito/EditarCodigoIndiv";
 import EditarStockIndiv from "@/components/forms/deposito/EditarStockIndiv";
 import ModificarCantidadForm from "@/components/forms/deposito/modificarCantidadForm";
 import MyLayout from "@/components/layout/layout";
@@ -144,19 +145,26 @@ export default function ListaStock(){
             
             switch(modo_precio)
             {
-                case 0: return <>{precio}&nbsp;&nbsp;<Tag color="blue">Mult.</Tag></>;
-                case 1: return <>{precio}&nbsp;&nbsp;<Tag color="orange">Subgrupo</Tag></>;
-                case 2: return <>{precio}&nbsp;&nbsp;<Tag color="red">Propio</Tag></>;
+                case 0: return <div style={{width:"100%", textAlign:"right"}}>$&nbsp;{precio}&nbsp;&nbsp;<Tag color="blue">M</Tag></div>;
+                case 1: return <div style={{width:"100%", textAlign:"right"}}>$&nbsp;{precio}&nbsp;&nbsp;<Tag color="orange">SG</Tag></div>;
+                case 2: return <div style={{width:"100%", textAlign:"right"}}>$&nbsp;{precio}&nbsp;&nbsp;<Tag color="red">P</Tag></div>;
             }
         }},
-        {title: 'Cantidad',dataIndex: 'cantidad',key: 'cantidad'},
+        {title: 'Cantidad',dataIndex: 'cantidad',key: 'cantidad', width:"100px", render:(_,{cantidad})=><div style={{width:"100%", textAlign:"right"}}>{cantidad}</div>},
         {
-            title: 'Acciones', dataIndex: 'idstock', key: 'idstock',
+            title: 'Acciones', dataIndex: 'idstock', key: 'idstock',  width:"350px",
             render: 
-                (_,{idcodigo})=><><DetalleStock idcodigo={idcodigo} /><EditarStockIndiv callback={()=>{setValueChanged(!valueChanged)}} buttonText={"Edit. Cant."} idcodigo={idcodigo} idsucursal={globals.obtenerSucursal()} /></>                
+                (_,{idcodigo})=><>
+                <DetalleStock idcodigo={idcodigo} />
+                &nbsp;&nbsp;
+                <EditarStockIndiv callback={()=>{setValueChanged(!valueChanged)}} buttonText={"Edit. Stock"} idcodigo={idcodigo} idsucursal={globals.obtenerSucursal()} />
+                &nbsp;&nbsp;
+                <EditarCodigoIndiv idcodigo={idcodigo} buttonText="Editar Código" callback={()=>{setValueChanged(!valueChanged)}} />
+                </>                
         },
         {
-            title: '', dataIndex: 'checked', key: 'check', render:(_,{checked, idcodigo})=>(
+            title: '', dataIndex: 'checked', key: 'check', width:"50px",
+            render:(_,{checked, idcodigo})=>(
                 <>
                     <Checkbox checked={checked} onChange={(e)=>{
                         let _data = data.map(r=>{
@@ -326,7 +334,9 @@ export default function ListaStock(){
                     children: <div style={{backgroundColor:"lightblue", }}>
                         <Row style={{padding:"1em", }}>
                             <Col span={24}>
-                                <Input style={{fontSize:"2.5em", backgroundColor:"#D8E3E6"}} prefix={<><Switch checked={codigoSearch} onChange={(c)=>{setCodigoSearch(!codigoSearch)}} checkedChildren="Código" unCheckedChildren="Grupo" /></>} onChange={e=>{setQuickSearchValue(e.target.value)}} addonAfter={<><Button type="text" onClick={(e)=>{onQuickSearchClick(e.target.value)}}><SearchOutlined /></Button></>} />
+                                <Input style={{fontSize:"2.5em", backgroundColor:"#D8E3E6"}} prefix={<><Switch checked={codigoSearch} onChange={(c)=>{setCodigoSearch(!codigoSearch)}} checkedChildren="Código" unCheckedChildren="Grupo" /></>} onChange={e=>{
+                                    setQuickSearchValue(e.target.value)
+                                    }} addonAfter={<><Button type="text" onClick={(e)=>{onQuickSearchClick(e.target.value)}}><SearchOutlined /></Button></>} />
                             </Col>
                         </Row>
                     </div>
@@ -457,7 +467,7 @@ export default function ListaStock(){
             </Row>
         <Row>
             <Col span={24}>
-            <Table columns={columns.filter(item=>!item.hidden)} dataSource={data} loading={loading} />
+            <Table rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'} columns={columns.filter(item=>!item.hidden)} dataSource={data} loading={loading} scroll={{y:400}} pagination={false} />
             </Col>
         </Row>
         <Row>

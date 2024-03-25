@@ -27,6 +27,7 @@ const ListaUsuarios = (props) => {
             return <>
                 <Button>Editar</Button>
             </>
+            
         }}
     ]
 

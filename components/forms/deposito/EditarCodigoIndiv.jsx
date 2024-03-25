@@ -26,6 +26,7 @@ const EditarCodigoIndiv = (props) =>{
                 descripcion: response.data[0].descripcion,
                 modo_precio: response.data[0].modo_precio,
             })
+            setModoPrecio(response.data[0].modo_precio)
             setPrecioSubgrupo(response.data[0].precio_defecto)
             //alert(JSON.stringify(response.data))
         })
@@ -52,13 +53,14 @@ const EditarCodigoIndiv = (props) =>{
             (response)=>{
                 alert("OK")
                 props?.callback?.(codigo.idcodigo)
+                setOpen(false)
             }
             )
 
     }
 
     return <>
-    <Button onClick={onOpen} type="primary">{props.buttonText}</Button>
+    <Button onClick={onOpen} danger type="primary">{props.buttonText}</Button>
     
     <Modal open={open} destroyOnClose onCancel={onClose} footer={null}> 
 
@@ -75,7 +77,7 @@ const EditarCodigoIndiv = (props) =>{
             </Row>
             <Row>
                 <Col span={24}>
-                    <Input prefix="Precio: " value={codigo.precio} onChange={(e)=>{onChange("precio",e.target.value)}}/>
+                    <Input prefix="Precio: " value={codigo.precio} onChange={(e)=>{onChange("precio",parseFloat(e.target.value))}}/>
                 </Col>
             </Row>
            

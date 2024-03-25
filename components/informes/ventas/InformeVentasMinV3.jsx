@@ -1,3 +1,4 @@
+import ListaCobros from "@/components/forms/caja/ListaCobros"
 import { get } from "@/src/urls"
 import { Spin, Tag } from "antd"
 import Barcode from "react-barcode"
@@ -80,6 +81,7 @@ const InformeVentaMinV3 = (props) => {
     return (
 		data === null ? <Spin /> :
         <>
+		
 			<div style={{width: '90%', paddingLeft: '12px', paddingRight: '12px', paddingTop: '20px', }}> 
 			<table style={{height: '78px', width:'96%', border:'1', cellspacing:'0', cellpadding:'0', fontSize:"1em", padding:"0"}}>
 				<tbody>
@@ -167,6 +169,9 @@ const InformeVentaMinV3 = (props) => {
 				</tbody>
 			</table>
 			</div>
+			<hr />
+			<h3>Lista de Cobros</h3>
+			<ListaCobros idventa={data.idventa} readOnly={true} />
 		</>
     )
 }
