@@ -134,14 +134,14 @@ const InformeVentasTotales = () => {
     </Row>
         <Row>
            
-            <Col span={3}>
+            <Col span={8}>
                 <Input type="number" prefix="Año" min={2023} onChange={(e)=>{setFiltros(f=>({...f,anio:parse_int_string( e.target.value)}))}} value={filtros.anio} />
             </Col>
-            <Col span={2}>
+            <Col span={8}>
                 <Input type="number" prefix="Mes" min={1} max={12} onChange={(e)=>{setFiltros(f=>({...f,mes:parse_int_string(e.target.value)}))}} value={filtros.mes} />
             </Col>
-            <Col span={5}>
-                Sucursal: <Select style={{width:"150px"}} options={sucursales} onChange={(v)=>{
+            <Col span={8}>
+                Sucursal: <Select style={{width:"200px"}} options={sucursales} onChange={(v)=>{
                     setFiltros(f=>({...f,fksucursal:v}))
                 }} />
             </Col>

@@ -101,8 +101,14 @@ export default function ClienteFormV2(props){
                 setBtnDisabled(false)
             }
             else{
+
+                let _data = {...clienteData, 
+                    nombres: clienteData.nombres.toUpperCase(),
+                    apellidos: clienteData.apellidos.toUpperCase(),
+                    domicilio: clienteData.domicilio.toUpperCase(),
+                }
                 
-                post_method(url,clienteData,(res)=>{
+                post_method(url,_data,(res)=>{
                     //alert("Cliente Agregado")
 
                     setBtnDisabled(false)
@@ -215,13 +221,20 @@ export default function ClienteFormV2(props){
         
         <Row>
             <Col style={{padding:".5em"}} span={24}>
-                <Input  maxLength={45} prefix={"Apellidos:"} value={clienteData.apellidos} onChange={(e)=>{setClienteData(v=>({...v,apellidos:e.target.value.toUpperCase()}))}} />
+                <Input 
+                style={{appearance:"textfield"}}  
+                maxLength={45} 
+                prefix={"Apellido:"} 
+                value={clienteData.apellidos} 
+                onChange={(e)=>{setClienteData(v=>({...v,apellidos:e.target.value}))}} 
+                readOnly={false}
+                />
             </Col>
         </Row>
 
         <Row>
             <Col style={{padding:".5em"}} span={24}>
-                <Input  maxLength={45} prefix={"Nombres:"} value={clienteData.nombres} onChange={(e)=>{setClienteData(v=>({...v,nombres:e.target.value.toUpperCase()}))}} />
+                <Input  maxLength={45} prefix={"Nombres:"} value={clienteData.nombres} onChange={(e)=>{setClienteData(v=>({...v,nombres:e.target.value}))}} />
             </Col>
         </Row>
 
@@ -312,7 +325,7 @@ export default function ClienteFormV2(props){
 
         <Row>
             <Col style={{padding:".5em"}} span={12}>
-                <Input  maxLength={45} prefix={"Domicilio:"} onChange={(e)=>{setClienteData(d=>({...d,domicilio:e.target.value}))}} value={clienteData.domicilio.toUpperCase()} />
+                <Input  maxLength={45} prefix={"Domicilio:"} onChange={(e)=>{setClienteData(d=>({...d,domicilio:e.target.value}))}} value={clienteData.domicilio} />
             </Col>
             <Col style={{padding:".5em"}} span={12}>
                 <SelectLocalidadV2 callback={(p)=>{setClienteData(c=>({...c,idlocalidad:p.idlocalidad}))}} />
@@ -321,7 +334,7 @@ export default function ClienteFormV2(props){
 
         <Row>
             <Col style={{padding:".5em"}} span={24}>
-                <Input  maxLength={20} prefix={"Teléfono:"} onChange={(e)=>{setClienteData(d=>({...d,telefono:e.target.value}))}} value={clienteData.telefono.toUpperCase()} />
+                <Input  maxLength={20} prefix={"Teléfono:"} onChange={(e)=>{setClienteData(d=>({...d,telefono:e.target.value}))}} value={clienteData.telefono} />
             </Col>
         </Row>
         <Row>

@@ -16,7 +16,7 @@ const PopUpAgregarStockLoteForm = (props) => {
 
     const onFinish = (values) => {
     if(typeof props.callback !== 'undefined'){
-        props.callback({...values, p1: part1, p2: part2, p3: part3});
+        props.callback({...values, p1: part1.toUpperCase(), p2: part2.toUpperCase(), p3: part3.toUpperCase()});
         setOpen(false)
     }
    }
@@ -167,10 +167,10 @@ useEffect(()=>{
                 <Col span={12}>
                     <Form.Item  rules={[{required:true}]} label={"Codigo"} name={"codigo"} style={{width: "90%"}}>
                     {
-                        props.edit ? <><Input value={props.values.codigo} disabled /></> : <Input onInput={e => e.target.value = e.target.value.toUpperCase()} onChange={onCodigoChange} />
+                        props.edit ? <><Input value={props.values.codigo} disabled /></> : <Input  onChange={onCodigoChange} />
                     }
                     </Form.Item>
-                    <Form.Item  label={"Descripcion"} name={"descripcion"} style={{width: "90%"}} onInput={e => e.target.value = e.target.value.toUpperCase()} >
+                    <Form.Item  label={"Descripcion"} name={"descripcion"} style={{width: "90%"}}  >
                         {descripcion_input()}
                     </Form.Item>
 

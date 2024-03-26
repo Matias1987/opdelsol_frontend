@@ -13,16 +13,19 @@ export default function ListaGastos(){
 
     useEffect(()=>{
         setLoading(true);
+        
         fetch(get.lista_gastos_sucursal + globals.obtenerSucursal())
         .then(response=>response.json())
         .then((response)=>{
+            
             setGastos(response.data.map(r=>({
                 idgasto: r.idgasto,
                 concepto_gasto: r.concepto_gasto,
                 monto: r.monto,
                 fecha_f: r.fecha_f,
             })))
-            setGastos(false)
+          
+           setLoading(false)
         })
     },[reload])
 

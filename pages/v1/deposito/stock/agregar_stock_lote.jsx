@@ -65,8 +65,13 @@ export default function AgregarStockLote(props){
 
     } 
 
-    const procesar_codigos = (values) => 
+    const procesar_codigos = (_values) => 
     {
+        let values = {..._values,
+            codigo: _values.codigo.toUpperCase(),
+            p1: _values.p1.toUpperCase(),
+            p2: _values.p2.toUpperCase(),
+        }
         var codigos = []
 
         const pattern1 = /^([0-9A-Z_\.\s]+)\[([\-0-9\.]+)\s([\-0-9\.]+)\s([\-0-9\.]+)\]([0-9A-Z_\.\s]+)$/gm
@@ -118,8 +123,9 @@ export default function AgregarStockLote(props){
         return codigos;
     }
     
-    const agregarRow = (values) => 
+    const agregarRow = (_values) => 
     {
+        let values = {..._values, codigo: _values.codigo.toUpperCase()}
         var codigos = procesar_codigos(values)
 
         
@@ -315,7 +321,7 @@ export default function AgregarStockLote(props){
         })
 
 
-        alert("values: " + JSON.stringify(values))
+        //alert("values: " + JSON.stringify(values))
 
         const update_status_row = (_status, _codigo) => {
             for(let i=0;i<tableData.length;i++){
