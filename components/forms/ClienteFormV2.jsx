@@ -247,8 +247,10 @@ export default function ClienteFormV2(props){
                 <DatePicker 
                 format={'DD-MM-YYYY'}
                 onChange={(day,daystr)=>{
+       
                     if(typeof day === 'undefined')
                     {
+                        
                         setFechaNac({
                             dia:"",
                             mes:"",
@@ -258,6 +260,7 @@ export default function ClienteFormV2(props){
                     }
                     if(day==null)
                     {
+                        
                         setFechaNac({
                             dia:"",
                             mes:"",
@@ -265,15 +268,16 @@ export default function ClienteFormV2(props){
                         })
                         return
                     }
-                    setFechaNac({
+                    
+                    setFechaNac(f=>({
                         dia:day.date(),
-                        mes:day.month(),
+                        mes:(+day.month()+1),
                         anio:day.year()
-                    })
+                    }))
                 }} />
             </Col>
             <Col span={4}>
-                <Edad dia={fechaNac.dia} mes={fechaNac.mes} anio={fechaNac.anio} />
+                <Edad dia={fechaNac.dia} mes={fechaNac.mes} anio={fechaNac.anio} key={fechaNac}/>
             </Col>
             {/*<Col span={20}>
                 <Space>

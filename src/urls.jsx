@@ -136,6 +136,7 @@ const post = {
         subfamilia: remote_base_url + "subfamilia/",
         grupo: remote_base_url + "grupos/",
         subgrupo: remote_base_url + "subgrupos/",
+        subgrupo_2: remote_base_url + "subgrupos/m/modif_sg/",
         codigo: remote_base_url + "codigo/",
         stock: remote_base_url + "stock/",
         envio: remote_base_url + "envio/",

@@ -3,8 +3,8 @@ import { post_method } from "@/src/helpers/post_helper"
 import { get, post } from "@/src/urls"
 import CostoCheckBox from "./Costo"
 
-const { Form, InputNumber, Button, Checkbox, Input } = require("antd")
-const { useState, useEffect } = require("react")
+import { Form, InputNumber, Button, Checkbox, Input, Row, Col, Radio, Divider } from "antd"
+import { useState, useEffect }  from "react"
 
 const ModificarCantidadForm = (props) => {
     const [form] = Form.useForm();
@@ -12,6 +12,8 @@ const ModificarCantidadForm = (props) => {
     const [data, setData] = useState(null)
     const [descripcion, setDescripcion] = useState("")
     const [textareaval, setTextAreaVal] = useState("")
+    const [modoPrecio, setModoPrecio] = useState(1)
+    const [modMP, setModMP] = useState(false)
     
     const [reload, setReload] = useState(false);
     useEffect(()=>{
@@ -59,9 +61,11 @@ const ModificarCantidadForm = (props) => {
             factura_idfactura: (values.factura == null ? -1 : values.factura),
             descripcion: descripcion.trim(),
             costo: typeof values.costo === 'undefined' ? -1 : values.costo ,
+            modo_precio: modMP ? modoPrecio : -1,
         }
      
         if(
+            !modMP &&
             __data.cantidad == 0 && 
             __data.costo < 0 && 
             (__data.descripcion.trim()).length<1
@@ -128,7 +132,7 @@ const ModificarCantidadForm = (props) => {
             name={"cantidad"}
             label={"Cantidad a Incrementar"}
             >
-                <InputNumber step={1} value="0"  />
+                <Input type="number"  defaultValue={0} />
             </Form.Item>
             <Form.Item
                 label={"Costo"}
@@ -137,11 +141,38 @@ const ModificarCantidadForm = (props) => {
             >
                 <CostoCheckBox callback={(v)=>{setCostoValue(v)}} />
             </Form.Item>
-            <Form.Item label={"Descripcion"}  >
+            {/*<Form.Item label={"Descripcion"}  >
                 <Input value={descripcion} onChange={(e)=>{setDescripcion(e.target.value)}}/>
-            </Form.Item>
+            </Form.Item>*/}
+            <Row>
+                <Col span={8}>
+                    <Checkbox
+                    onChange={(v)=>{
+                        setModMP(!modMP)
+                    }}
+                    value={modMP}
+                    >Modificar Modo Precio</Checkbox>
+                </Col>
+                <Col span={16}>
+                <Radio.Group 
+                    disabled={!modMP}
+                    value={modoPrecio}
+                    onChange={(e)=>{
+                        setModoPrecio(v=>{return e.target.value})
+                        }}>
+                    <Radio value={1}>Precio Subgrupo</Radio>
+                    <Radio value={2}>Precio Individual</Radio>
+                </Radio.Group>
+                </Col>
+            </Row>
             <Form.Item>
-                <Button type="primary" htmlType="submit">Guardar</Button>
+                <Row>
+                    <Col span={24}>
+                        <Divider />
+                        <Button type="primary" htmlType="submit">Guardar</Button>
+                    </Col>
+                </Row>
+                
             </Form.Item>
         </Form>
         </>

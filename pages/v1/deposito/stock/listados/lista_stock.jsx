@@ -17,6 +17,8 @@ import { get, post } from "@/src/urls";
 import { CheckCircleOutlined, EditFilled, SearchOutlined, TableOutlined } from "@ant-design/icons";
 import { Button, Checkbox, Col, Divider, Form, Input, InputNumber, Modal, Row, Select, Space, Switch, Table, Tabs, Tag } from "antd";
 import { useEffect, useRef, useState } from "react";
+import EditarSubGrupo from "../editar_subgrupo";
+import EditarSubgrupo from "@/components/forms/deposito/EditarSubgrupo";
 
 export default function ListaStock(){
     const [open, setOpen] = useState(false)
@@ -114,6 +116,7 @@ export default function ListaStock(){
                         grupo: row.grupo,
                         subgrupo: row.subgrupo,
                         modo_precio: row.modo_precio,
+                        idsubgrupo: row.idsubgrupo,
 
                     }
                 )
@@ -124,13 +127,13 @@ export default function ListaStock(){
     },[valueChanged])
 
     const columns = [
-        {title: 'Ruta',dataIndex: 'idcodigo',key: 'ruta', render:(_,{familia,subfamilia,grupo,subgrupo}) => 
+        {title: 'Ruta',dataIndex: 'idcodigo',key: 'ruta', render:(_,{familia,subfamilia,grupo,subgrupo, idsubgrupo}) => 
         <Space size={[0, 'small']} wrap>
             <span style={{fontSize:".25em"}}>
                 <Tag color="success">{familia}</Tag>
                 <Tag color="processing">{subfamilia}</Tag>
                 <Tag color="error"><b>{grupo}</b></Tag>
-                <Tag color="warning">{subgrupo}</Tag>
+                <EditarSubgrupo idsubgrupo={idsubgrupo} buttonText={subgrupo} callback={()=>{setValueChanged(!valueChanged)}} />
             </span>
         </Space>},
         {title: 'Codigo',dataIndex: 'codigo',key: 'codigo', render:(_,{codigo})=>

@@ -1,3 +1,4 @@
+import ListaCobros from "@/components/forms/caja/ListaCobros"
 import { get } from "@/src/urls"
 import { Spin, Tag } from "antd"
 import Barcode from "react-barcode"
@@ -131,6 +132,9 @@ const InformeVentaMinV2 = (props) => {
 				</tbody>
 			</table>
 			</div>
+			<hr />
+			<h3>Lista de Cobros</h3>
+			<ListaCobros idventa={props.data.idventa} readOnly={true} />
 		</>
     )
 }
