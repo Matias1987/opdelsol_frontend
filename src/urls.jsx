@@ -1,8 +1,8 @@
-//const remote_base_url = "http://54.174.39.15:3001/api/v1/"
-//const local_base_url = "http://54.174.39.15:3000/v1/"
+const remote_base_url = "http://54.174.39.15:3001/api/v1/"
+const local_base_url = "http://54.174.39.15:3000/v1/"
 
-const remote_base_url = "http://localhost:3001/api/v1/"
-const local_base_url = "http://localhost:3000/v1/"
+//const remote_base_url = "http://localhost:3001/api/v1/"
+//const local_base_url = "http://localhost:3000/v1/"
 
 //const token = "&token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3QiLCJpYXQiOjE2ODI0NjEwMjksImV4cCI6MTY4MjQ2NDYyOX0.Unf5zmxNVQCJVD4qxSAcdcmsrs1s-q4h7Q0e2dYHHEo";
 const public_urls = {
@@ -315,6 +315,8 @@ const get = {
     carga_manual: remote_base_url + "cargamanual/",
 
     items_adicional_venta: remote_base_url + "adic/",
+
+    obtener_lista_controles: remote_base_url + "cs/",
 
     
 }

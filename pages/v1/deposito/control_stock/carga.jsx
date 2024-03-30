@@ -1,3 +1,4 @@
+import MyLayout from "@/components/layout/layout";
 import globals from "@/src/globals";
 import { regex_get_id_if_match } from "@/src/helpers/barcode_helper";
 import { post_method } from "@/src/helpers/post_helper";
@@ -12,6 +13,7 @@ export default function CargaStock(){
   
     const columns = [
         {dataIndex: "codigo", title:"Codigo", render:(_,reg)=>(<>{reg.codigo=="" ? "Pending..." : reg.codigo}</>)},
+        {dataIndex:"cantidad_actual", title: "Cantidad Act."},
         {dataIndex:"cantidad", title: "Cantidad"},
         {dataIndex:"mensaje", title: "Msg"}
     ]
@@ -33,6 +35,7 @@ export default function CargaStock(){
                             id:_id,
                             codigo:"",
                             cantidad:1,
+                            cantidad_actual: 0,
                             mensaje: "",
                         }
                     }))
@@ -76,7 +79,7 @@ export default function CargaStock(){
         
                         
                         setCodes(_c1=>{
-                            return _c1.map(_c=>(_c.id==response.data[0].idcodigo ? {..._c,codigo:response.data[0].codigo, mensaje: "OK"} : {..._c}))
+                            return _c1.map(_c=>(_c.id==response.data[0].idcodigo ? {..._c,codigo:response.data[0].codigo,cantidad_actual:response.data[0].cantidad, mensaje: "OK"} : {..._c}))
                         })
                     })
                 }
@@ -99,7 +102,9 @@ export default function CargaStock(){
     const aplicar = () => {
         post_method(post.update.modificar_cantidad_lista,{
             fksucursal: globals.obtenerSucursal(),
-            codigos: codes
+            codigos: codes,
+            fkusuario: globals.obtenerUID(),
+            tipo: 'carga'
         },(resp)=>{
             alert("OK")
         })
@@ -145,3 +150,5 @@ export default function CargaStock(){
         </Row>
     </>
 }
+
+CargaStock.PageLayout = MyLayout;

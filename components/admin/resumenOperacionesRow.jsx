@@ -9,7 +9,7 @@ import { post_method } from "@/src/helpers/post_helper";
 const { useEffect, useState } = require("react")
 
 const ResumenOperacionesRow = (props) => {
-    //const [count, setCount] = useState(0);
+    const [count, setCount] = useState(0);
     const [idcaja, setIdCaja] = useState(null)
     const [open, setOpen] = useState(false)
    
@@ -34,7 +34,7 @@ const ResumenOperacionesRow = (props) => {
             .then((response)=>{
                 setIdCaja(response.data.idcaja)
             })*/
-
+            //alert("jl")
             const d = new Date()
 
             post_method(post.obtener_caja_sucursal_dia,
@@ -83,14 +83,16 @@ const ResumenOperacionesRow = (props) => {
         //setData(d=>({...d,nombre_sucursal:props.nombre_sucursal}))
         update()
         const interval = setInterval(() => { 
+            //alert("jklkjkl")
             update()
+            setCount(count+1)
         }, 5000); 
   
         //Clearing the interval 
         return () => clearInterval(interval); 
-    },[]);
+    },[count]);
 
-    return <><Row style={{backgroundColor:props.color}} gutter={24} onClick={()=>{setOpen(true)}}>
+    return <><Row style={{backgroundColor:props.color}} gutter={24} onClick={()=>{setOpen(true)}} key={count}>
         <Col  span={3}>
         <Card bordered={false} style={{backgroundColor:"rgba(0,0,0,0)"}} >
             <Statistic
@@ -155,6 +157,7 @@ const ResumenOperacionesRow = (props) => {
             precision={0}
             valueStyle={{
                 color: '#5F1600',
+            
             }}
             
             suffix=""
