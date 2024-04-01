@@ -1,11 +1,13 @@
 import ExportToCSV from "@/components/ExportToCSV"
+import PrinterWrapper from "@/components/PrinterWrapper"
 import { post_method } from "@/src/helpers/post_helper"
 import { currency_format, parse_int_string } from "@/src/helpers/string_helper"
 import { get, post } from "@/src/urls"
 
-const { default: PrinterWrapper } = require("@/components/PrinterWrapper")
-const { Row, Col, Input, Table, Button, Divider, Select } = require("antd")
-const { useState, useEffect } = require("react")
+
+import { Row, Col, Input, Table, Button, Divider, Select } from "antd"
+import { useEffect, useState } from "react"
+
 
 
 
@@ -189,12 +191,14 @@ const InformeVentasTotales = () => {
                         var totalTarjetas=0;
                         var totalMutual=0;
                         var totalCtaCte=0;
+                        var totalMP=0;
                         data.forEach(r=>{
                             totalEfvo += parseFloat(r.efectivo);
                             totalCheques += parseFloat(r.cheque);
                             totalTarjetas += parseFloat(r.tarjeta);
                             totalMutual += parseFloat(r.mutual);
                             totalCtaCte += parseFloat(r.ctacte);
+                            totalMP += parseFloat(r.mp);
                             total += parseFloat(r.total);
                         })
     
@@ -208,6 +212,7 @@ const InformeVentasTotales = () => {
                                 <Table.Summary.Cell align={'right'}><b>{currency_format(totalCheques)}</b></Table.Summary.Cell>
                                 <Table.Summary.Cell align={'right'}><b>{currency_format(totalCtaCte)}</b></Table.Summary.Cell>
                                 <Table.Summary.Cell align={'right'}><b>{currency_format(totalMutual)}</b></Table.Summary.Cell>
+                                <Table.Summary.Cell align={'right'}><b>{currency_format(totalMP)}</b></Table.Summary.Cell>
                                 <Table.Summary.Cell align={'right'}><b>{currency_format(total)}</b></Table.Summary.Cell>
                             </Table.Summary.Row>
                         </>
@@ -237,12 +242,14 @@ const InformeVentasTotales = () => {
                         var totalTarjetas=0;
                         var totalMutual=0;
                         var totalCtaCte=0;
+                        var totalMP=0;
                         data.forEach(r=>{
                             totalEfvo += parseFloat(r.efectivo);
                             totalCheques += parseFloat(r.cheque);
                             totalTarjetas += parseFloat(r.tarjeta);
                             totalMutual += parseFloat(r.mutual);
                             totalCtaCte += parseFloat(r.ctacte);
+                            totalMP += parseFloat(r.mp);
                             total += parseFloat(r.total);
                         })
     
@@ -256,6 +263,7 @@ const InformeVentasTotales = () => {
                                 <Table.Summary.Cell align={'right'}><b>{currency_format(totalCheques)}</b></Table.Summary.Cell>
                                 <Table.Summary.Cell align={'right'}><b>{currency_format(totalCtaCte)}</b></Table.Summary.Cell>
                                 <Table.Summary.Cell align={'right'}><b>{currency_format(totalMutual)}</b></Table.Summary.Cell>
+                                <Table.Summary.Cell align={'right'}><b>{currency_format(totalMP)}</b></Table.Summary.Cell>
                                 <Table.Summary.Cell align={'right'}><b>{currency_format(total)}</b></Table.Summary.Cell>
                             </Table.Summary.Row>
                         </>

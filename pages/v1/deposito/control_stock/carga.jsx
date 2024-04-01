@@ -1,16 +1,24 @@
+import FamiliaSelect from "@/components/FamiliaSelect";
+import GrupoSelect from "@/components/GrupoSelect";
+import SubFamiliaSelect from "@/components/SubFamiliaSelect";
+import SubGroupSelect from "@/components/SubGroupSelect";
 import MyLayout from "@/components/layout/layout";
 import globals from "@/src/globals";
 import { regex_get_id_if_match } from "@/src/helpers/barcode_helper";
 import { post_method } from "@/src/helpers/post_helper";
 import { get, post } from "@/src/urls";
-import { Button, Col, Input, Row, Table } from "antd";
+import { SaveOutlined } from "@ant-design/icons";
+import { Button, Checkbox, Col, Input, Row, Select, Table } from "antd";
 import { useState } from "react";
 
 export default function CargaStock(){
     const [codes, setCodes] = useState([])
     const [inputVal, setInputVal] = useState("") 
     const [dict, setDict] = useState({})
-  
+    const [categoria, setCategoria] = useState("")
+    const [modoControl, setModoControl] = useState(false)
+    const [srcControl, setSrcControl] = useState([])
+    const [verSoloFaltantes, setVerSoloFaltantes] = useState(false)
     const columns = [
         {dataIndex: "codigo", title:"Codigo", render:(_,reg)=>(<>{reg.codigo=="" ? "Pending..." : reg.codigo}</>)},
         {dataIndex:"cantidad_actual", title: "Cantidad Act."},
@@ -28,7 +36,7 @@ export default function CargaStock(){
                 setInputVal("")
                 if(typeof dict[_id.toString()] === 'undefined')
                 {
-                    
+                    compare_quantities(_id,1)
                     setDict(__d=>({...__d,
                         [_id.toString()]:
                         {
@@ -73,6 +81,7 @@ export default function CargaStock(){
                                     })
                                 }
                             })
+                            
                             return
                         }
 
@@ -86,6 +95,7 @@ export default function CargaStock(){
                 else{
                     let _temp = {...dict}
                     _temp[_id.toString()].cantidad++;
+                    compare_quantities(_id,_temp[_id.toString()].cantidad)
                     setDict(_d=>_temp)
 
                     let  _codes = codes.map(_c=>(_c.id==_id ? {..._c,cantidad:_c.cantidad+1} : {..._c}))
@@ -97,6 +107,8 @@ export default function CargaStock(){
                 alert("pattern not Found")
             }
         }
+
+        
     }
 
     const aplicar = () => {
@@ -109,28 +121,182 @@ export default function CargaStock(){
             alert("OK")
         })
     }
+
+    const filtros = () => {
+        switch(categoria)
+        {
+            case "": return <></>
+            case "familia": return <FamiliaSelect callback={(id)=>{load("familia",id)}}/>
+            case "subfamilia": return <SubFamiliaSelect callback={(id)=>{load("subfamilia",id)}}/>
+            case "grupo": return <GrupoSelect callback={(id)=>{load("grupo",id)}}/>
+            case "subgrupo": return <SubGroupSelect callback={(id)=>{load("subgrupo",id)}}/>
+            default: return <></>
+
+        }
+    }
+
+    const proc_filtros =(cat, valor)=>{
+
+        return {
+            sucursal: globals.obtenerSucursal(),
+            codigo_contenga_a: "",
+            grupo_contenga_a: "",
+            codigo_igual_a: "",
+            precio_mayor_a: "",
+            precio_menor_a: "",
+            precio_igual_a: "",
+            cantidad_igual_a: "",
+            cantidad_mayor_a: "",
+            cantidad_menor_a: "",
+            sexo: "",
+            edad: "",
+            descripcion: "",
+            
+            subgrupo:(cat=="subgrupo" ? valor: ""),
+            grupo: (cat=="grupo" ? valor: ""),
+            subfamilia: (cat=="subfamilia" ? valor: ""),
+            familia: (cat=="familia" ? valor: ""),
+            order: "",
+        }
+    }
+
+    const load =(cat, id) => {
+        if(id<0)
+        {
+            return
+        }
+        const filtros = proc_filtros(cat,id)
+        //alert(JSON.stringify(filtros))
+        post_method(post.search.filtro_stock,filtros,(response)=>{
+            setSrcControl(d=>response.data.map(r=>({
+                idcodigo: r.idcodigo,
+                codigo: r.codigo,
+                cantidad: r.cantidad,
+                dif: r.cantidad,
+            })))
+        })
+    }
+
+    const compare_quantities = (idcod,cant) => {
+        const temp = [...srcControl]
+        for(let i=0;i<temp.length;i++)
+        {
+            if(temp[i].idcodigo == idcod)
+            {
+                temp[i].dif =   temp[i].cantidad - cant
+            }
+        }
+        
+        setSrcControl(_src => [...temp])
+    }
+
+    const guardar = () => {
+        post_method(post.insert.control_stock,{
+            fksucursal: globals.obtenerSucursal(),
+            codigos: codes,
+            fkusuario: globals.obtenerUID(),
+            tipo: 'carga'
+        },
+        (resp)=>{
+            alert("OK")
+        })
+    }
+
+    const aplicar_filtros = _ => verSoloFaltantes ? srcControl.filter(r=>r.dif!=0) : srcControl
+
     return <>
+        <Row>
+            <Col span={24}>
+                <Checkbox 
+                value={modoControl}
+                onChange={(e)=>{
+                    setModoControl(!modoControl)
+                }} 
+                >
+                    Control de Cantidades
+                </Checkbox>
+            </Col>
+        </Row>
         <Row>
             <Col span={24}>
                 
             </Col>
         </Row>
         <Row>
-            <Col span={24}>
-                <Input prefix="Valor:   " onKeyDown={onKeyDown} onChange={(e)=>{setInputVal(_=>e.target.value)}} value={inputVal} style={{backgroundColor:"lightblue"}} />
+            <Col span={16} style={{padding:"1em"}}>
+                <Row>
+                    <Col span={24}>
+                        <Input prefix="Valor:   " onKeyDown={onKeyDown} onChange={(e)=>{setInputVal(_=>e.target.value)}} value={inputVal} style={{backgroundColor:"lightblue"}} />
+                    </Col>
+                </Row>
+                <Row>
+                    <Col span={24}>
+                        <Table columns={columns} dataSource={codes} pagination={false} scroll={{y:"400px"}}/>
+                    </Col>
+                </Row>
+                
+            </Col>
+            <Col span={8} style={{padding:"1em"}}>
+                <Row>
+                    <Col span={24}>
+                        Filtro
+                    </Col>
+                </Row>
+                <Row>
+                    <Col span={24}>
+                        <Select 
+                        placeholder="Seleccione Categoría"
+                        style={{width:"100%"}}
+                        options={[
+                            {label:"FAMILIA", value:"familia"},
+                            {label:"SUBFAMILIA", value:"subfamilia"},
+                            {label:"GRUPO", value:"grupo"},
+                            {label:"SUBGRUPO", value:"subgrupo"}
+                        ]}
+                        onChange={(v)=>{
+                            setCategoria(v)
+                        }}
+                        
+                        />
+                    </Col>
+                </Row>
+                <Row>
+                    <Col span={24}>
+                        {filtros()}
+                    </Col>
+                </Row>
+                <Row>
+                    <Col span={24} style={{padding:"1em"}}>
+                        <Checkbox value={verSoloFaltantes} onChange={()=>{setVerSoloFaltantes(!verSoloFaltantes)}}>Ver s&oacute;lo faltantes</Checkbox>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col span={24}>
+                        <Table 
+                        rowClassName={(record, index) => (record.dif != 0 ? "error-row" : "ok-row")}
+                        scroll={{y:"500px"}}
+                        pagination={false}
+                        dataSource={aplicar_filtros()}
+                        columns={[
+                            {dataIndex:"idcodigo", title:"ID"},
+                            {dataIndex:"codigo", title:"CODIGO"},
+                            {dataIndex:"cantidad", title:"CANT.", render:(_,o)=>(<><b>{o.cantidad}</b></>)},
+                            {dataIndex:"dif", title:"DIF."},
+                            {title:"L.", render:(_,o)=>(<>{o.cantidad - o.dif}</>)},
+                        ]}/>
+                    </Col>
+                </Row>
+                
             </Col>
         </Row>
         <Row>
-            <Col span={18}>
-                <Table columns={columns} dataSource={codes} pagination={false} scroll={{y:"400px"}}/>
+            <Col span={12}>
+                <Button disabled={modoControl} block type="primary" onClick={aplicar}>Aplicar Cantidades</Button>
             </Col>
-            <Col span={6}>
-                <Input.TextArea value={JSON.stringify(dict)} rows={30} />
-            </Col>
-        </Row>
-        <Row>
-            <Col span={24}>
-                <Button block type="primary" onClick={aplicar}>Aplicar</Button>
+            
+            <Col span={12}>
+                <Button disabled={!modoControl} block type="primary" onClick={guardar}><SaveOutlined /> Guardar</Button>
+            
             </Col>
         </Row>
         <Row>

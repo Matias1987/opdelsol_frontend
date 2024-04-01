@@ -467,6 +467,9 @@ export default function ListaStock(){
                     }} 
                     />
                 </Col>
+                <Col span={4} style={{padding:".3em"}}>
+                    <Checkbox >Ver Todo</Checkbox>
+                </Col>
             </Row>
         <Row>
             <Col span={24}>

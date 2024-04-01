@@ -165,6 +165,12 @@ a::before{
 .table-row-dark {
   background-color: #e7f0fc;
 }
+.error-row {
+  background-color: #eb331a;
+}
+.ok-row {
+  background-color: #47dd53;
+}
 .box-overlay{
 
   width:100%;  

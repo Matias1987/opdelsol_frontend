@@ -8,7 +8,7 @@ export default function ListaControlesStock(){
     
 
     useEffect(()=>{
-        alert(get.obtener_lista_controles)
+        //alert(get.obtener_lista_controles)
         fetch(get.obtener_lista_controles)
         .then(r=>r.json())
         .then((response)=>{
