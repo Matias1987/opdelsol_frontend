@@ -1,5 +1,5 @@
 import { local_base_url, public_urls, remote_base_url } from "@/src/urls";
-import { AlertFilled, BarsOutlined, BoxPlotOutlined, CheckOutlined, DollarCircleFilled, EditOutlined, FileTextOutlined, HomeOutlined, PartitionOutlined, PlusCircleOutlined, PrinterOutlined, RocketOutlined, SnippetsOutlined, StarOutlined, UserOutlined, WarningFilled } from "@ant-design/icons";
+import { AlertFilled, BarsOutlined, BoxPlotOutlined, CheckOutlined, DollarCircleFilled, EditOutlined, FileAddOutlined, FileTextOutlined, HomeOutlined, PartitionOutlined, PlusCircleOutlined, PrinterOutlined, RocketOutlined, SnippetsOutlined, StarOutlined, UserOutlined, WarningFilled } from "@ant-design/icons";
 
 import { Divider, Menu } from "antd";
 import Link from "next/link"
@@ -92,6 +92,10 @@ export default function TestMenu(){
                 <Link href={get_url_to("deposito/stock/listados/lista_desperfectos")}>Lista Desperfectos</Link>
               </Menu.Item>
             </SubMenu>
+          </SubMenu>
+          <SubMenu key="sub7" title={<span><AlertFilled /><span>Control De Stock</span></span>}>
+            <Menu.Item key="sub7_1"><Link href={get_url_to("deposito/control_stock/lista")}><FileTextOutlined />&nbsp;Lista  </Link></Menu.Item>
+            <Menu.Item key="sub7_2"><Link href={get_url_to("deposito/control_stock/carga")}><FileAddOutlined />&nbsp;Nuevo Control  </Link></Menu.Item>
           </SubMenu>
           <SubMenu key="sub4" title={<span><UserOutlined /><span>Proveedores</span></span>}>
             <Menu.Item key="sub4_29"><FileTextOutlined />

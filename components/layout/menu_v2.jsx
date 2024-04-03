@@ -27,6 +27,10 @@ export default function MenuV2(props){
         key: '202',
         label: (<Menu.Item><Link href={public_urls.lista_stock}>Lista Stock  </Link></Menu.Item>),
       },
+      {
+        key: '203',
+        label: (<Menu.Item><Link href={public_urls.nuevo_control_stock}>Control Stock  </Link></Menu.Item>),
+      },
   ]
   }
 

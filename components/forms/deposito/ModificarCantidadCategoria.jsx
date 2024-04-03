@@ -1,3 +1,4 @@
+import FamiliaSelect from "@/components/FamiliaSelect";
 import GrupoSelect from "@/components/GrupoSelect";
 import SubFamiliaSelect from "@/components/SubFamiliaSelect";
 import SubGroupSelect from "@/components/SubGroupSelect";
@@ -24,13 +25,17 @@ const ModificarCantidadCategoria = (props) => {
             url:post.update.modificar_cantidad_categoria,
             params__: selection
         }))
+        if(!confirm("Confirma modificar Cantidades?"))
+        {
+            return
+        }
         post_method(post.update.modificar_cantidad_categoria,selection,(response)=>{
             alert("OK")
         })
     }
 
 
-    const onUpdateList = _ => {
+    /*const onUpdateList = _ => {
         post_method(
             post.search.filtro_stock,
             {
@@ -51,13 +56,13 @@ const ModificarCantidadCategoria = (props) => {
         .then((response)=>{
 
         })
-    }
+    }*/
 
     const onChange = (v) => {
         
         switch(v)
         {
-            case "familia": setOptions(<></>); break;
+            case "familia": setOptions(<FamiliaSelect callback={(id)=>{setSelection(s=>({...s,id:id,tipo:"familia"}))}} />); break;
             case "subfamilia": setOptions(<><SubFamiliaSelect callback={(id)=>{setSelection(s=>({...s,id:id,tipo:"subfamilia"}))}}/></>); break;
             case "grupo": setOptions(<><GrupoSelect callback={(id)=>{setSelection(s=>({...s,id:id,tipo:"grupo"}))}}/></>); break;
             case "subgrupo": setOptions(<><SubGroupSelect callback={(id)=>{setSelection(s=>({...s,id:id,tipo:"subgrupo"}))}}/></>); break;
@@ -94,12 +99,7 @@ const ModificarCantidadCategoria = (props) => {
         {_options}
         
         </Col>
-        <Col span={2}>
-        {/*<Button type="ghost" onClick={()=>{
-            
-            setOpen(true)
-            }}><EyeFilled /></Button>*/}
-        
+        <Col span={2}>       
         </Col>
     </Row>
     <Row style={row_style}>

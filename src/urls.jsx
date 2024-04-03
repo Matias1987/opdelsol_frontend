@@ -66,6 +66,10 @@ const public_urls = {
     ventas_vendedor: local_base_url + "ventas/informes/ventas_vendedor",
 
     lista_ventas_dia_vendedor: local_base_url + "admin/lista_ventas_dia",
+
+    lista_control_stock: local_base_url + "deposito/control_stock/lista",
+    
+    nuevo_control_stock: local_base_url + "deposito/control_stock/carga",
 }
 
 

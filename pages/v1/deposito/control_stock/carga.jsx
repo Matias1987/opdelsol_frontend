@@ -8,7 +8,7 @@ import { regex_get_id_if_match } from "@/src/helpers/barcode_helper";
 import { post_method } from "@/src/helpers/post_helper";
 import { get, post } from "@/src/urls";
 import { SaveOutlined } from "@ant-design/icons";
-import { Button, Checkbox, Col, Input, Row, Select, Table } from "antd";
+import { Button, Checkbox, Col, Divider, Input, Row, Select, Table } from "antd";
 import { useState } from "react";
 
 export default function CargaStock(){
@@ -19,6 +19,7 @@ export default function CargaStock(){
     const [modoControl, setModoControl] = useState(false)
     const [srcControl, setSrcControl] = useState([])
     const [verSoloFaltantes, setVerSoloFaltantes] = useState(false)
+    const [comentarios, setComentarios] = useState("")
     const columns = [
         {dataIndex: "codigo", title:"Codigo", render:(_,reg)=>(<>{reg.codigo=="" ? "Pending..." : reg.codigo}</>)},
         {dataIndex:"cantidad_actual", title: "Cantidad Act."},
@@ -112,11 +113,21 @@ export default function CargaStock(){
     }
 
     const aplicar = () => {
+        if(!confirm("Modificar Cantidades del Stock?"))
+        {
+            return
+        }
+        if(comentarios.trim().length<1)
+        {
+            alert("Comentario vacio")
+            return
+        }
         post_method(post.update.modificar_cantidad_lista,{
             fksucursal: globals.obtenerSucursal(),
             codigos: codes,
             fkusuario: globals.obtenerUID(),
-            tipo: 'carga'
+            tipo: 'carga',
+            comentarios: comentarios,
         },(resp)=>{
             alert("OK")
         })
@@ -191,11 +202,17 @@ export default function CargaStock(){
     }
 
     const guardar = () => {
+        if(comentarios.trim().length<1)
+        {
+            alert("Comentario vacio")
+            return
+        }
         post_method(post.insert.control_stock,{
             fksucursal: globals.obtenerSucursal(),
             codigos: codes,
             fkusuario: globals.obtenerUID(),
-            tipo: 'carga'
+            tipo: 'carga',
+            comentarios: comentarios
         },
         (resp)=>{
             alert("OK")
@@ -237,13 +254,13 @@ export default function CargaStock(){
                 
             </Col>
             <Col span={8} style={{padding:"1em"}}>
+
                 <Row>
-                    <Col span={24}>
+                    <Col span={4}>
                         Filtro
                     </Col>
-                </Row>
-                <Row>
-                    <Col span={24}>
+                    <Col span={16}>
+                        
                         <Select 
                         placeholder="Seleccione Categoría"
                         style={{width:"100%"}}
@@ -290,8 +307,19 @@ export default function CargaStock(){
             </Col>
         </Row>
         <Row>
+            <Col span={24}>
+                    Comentarios:
+                    <Input.TextArea showCount rows={2} onChange={(e)=>{setComentarios(e.target.value)}} maxLength={125} placeholder="Max. 125 Carácteres"></Input.TextArea>
+            </Col>
+        </Row>
+        <Row>
+            <Col span={24}>
+                <Divider />
+            </Col>
+        </Row>
+        <Row>
             <Col span={12}>
-                <Button disabled={modoControl} block type="primary" onClick={aplicar}>Aplicar Cantidades</Button>
+                <Button disabled={modoControl} block type="primary" onClick={aplicar}>Aplicar Cantidades y Guardar</Button>
             </Col>
             
             <Col span={12}>
@@ -299,11 +327,7 @@ export default function CargaStock(){
             
             </Col>
         </Row>
-        <Row>
-            <Col span={24}>
-
-            </Col>
-        </Row>
+        
         <Row>
             <Col span={24}>
 
