@@ -75,6 +75,7 @@ const GrupoSelect = (props) => {
         <>
             <Space wrap>
                 <Select 
+                disabled={typeof props.disabled === 'undefined' ? false : props.disabled}
                 style={{ width: 240 }}
                 
                 loading = {familiaLoading}
@@ -95,6 +96,7 @@ const GrupoSelect = (props) => {
                     idFamilia==-1 ? <Spin /> :
                     (
                         <Select 
+                        disabled={typeof props.disabled === 'undefined' ? false : props.disabled}
                         style={{ width: 240 }}
                         loading = {subFamiliaLoading}
                         options = {subFamiliaOptions}
@@ -116,6 +118,7 @@ const GrupoSelect = (props) => {
                     idSubFamilia == -1 ? <Spin /> :
                     (
                         <Select 
+                        disabled={typeof props.disabled === 'undefined' ? false : props.disabled}
                         style={{ width: 240 }}
                         loading = {grupoLoading}
                         options = {grupoOptions}

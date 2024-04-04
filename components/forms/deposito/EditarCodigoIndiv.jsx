@@ -77,7 +77,7 @@ const EditarCodigoIndiv = (props) =>{
             </Row>
             <Row>
                 <Col span={24}>
-                    <Input prefix="Precio: " value={codigo.precio} onChange={(e)=>{onChange("precio",parseFloat(e.target.value))}}/>
+                    <Input prefix="Precio Indv.: " value={codigo.precio} onChange={(e)=>{onChange("precio",parseFloat(e.target.value))}}/>
                 </Col>
             </Row>
            
@@ -91,26 +91,8 @@ const EditarCodigoIndiv = (props) =>{
                 <Radio.Group 
                                 value={modoPrecio}
                                 onChange={(e)=>{
-                                    setModoPrecio(v=>{
-                                            switch(e.target.value)
-                                            {
-                                                case 0: 
-                                                onChange(
-                                                    'precio',
-                                                    parseFloat(form.getFieldValue('costo')) * multiplicador
-                                                ); 
-                                                break; 
-                                                case 1: 
-                                                onChange(
-                                                    'precio',
-                                                    parseFloat(precioSubgrupo)
-                                                    )
-                                                break;
-                                            }
-                                            return e.target.value})
-                                        /*setValue("modo_precio",e.target.value)*/
+                                    setModoPrecio(v=>{ return e.target.value})
                                     }}>
-                                   { /*<Radio disabled value={0}>Multiplicador <b>({multiplicador})</b></Radio>*/}
                                     <Radio value={1}>Precio Subgrupo <b>(${precioSubgrupo})</b></Radio>
                                     <Radio value={2}>Precio Individual</Radio>
                                 </Radio.Group>

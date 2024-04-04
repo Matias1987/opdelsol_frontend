@@ -91,6 +91,7 @@ const SubGroupSelect = (props) => {
             <Space wrap>
                 <>
                 <Select 
+                disabled={typeof props.disabled === 'undefined' ? false : props.disabled}
                 
                  bordered={idFamilia==-1}
                  style={{ width: "400px" }}
@@ -116,6 +117,7 @@ const SubGroupSelect = (props) => {
                     (
                         <>
                         <Select 
+                        disabled={typeof props.disabled === 'undefined' ? false : props.disabled}
                          bordered={idSubFamilia<0}
                         style={{ width: "400px" }}
                         loading = {subFamiliaLoading}
@@ -141,6 +143,7 @@ const SubGroupSelect = (props) => {
                     idSubFamilia == -1 ? <Spin /> :
                     (   <>
                             <Select 
+                            disabled={typeof props.disabled === 'undefined' ? false : props.disabled}
                              bordered={idGrupo<0}
                             style={{ width: "400px" }}
                             loading = {grupoLoading}
@@ -164,6 +167,7 @@ const SubGroupSelect = (props) => {
                     (
                         <>
                         <Select 
+                        disabled={typeof props.disabled === 'undefined' ? false : props.disabled}
                          bordered={idSubGrupo<0}
                         style={{ width: "400px" }}
                         loading = {subGrupoLoading}

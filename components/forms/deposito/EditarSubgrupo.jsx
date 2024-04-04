@@ -7,7 +7,7 @@ const EditarSubgrupo = (props) => {
     const [open, setOpen] = useState(false)
     const [precio, setPrecio] = useState(0)
     const actualizar = () => {
-        
+
         post_method(post.update.subgrupo_2,
             {
                 idsubgrupo: props.idsubgrupo,
@@ -21,7 +21,7 @@ const EditarSubgrupo = (props) => {
             })
     }
     return <>
-        <Button size="small" onClick={()=>{setOpen(true)}}>{props.buttonText}</Button>
+        <Button danger size="small" onClick={()=>{setOpen(true)}}>{props.buttonText}</Button>
         <Modal footer={null} title={`Editar Subgrupo ${props.buttonText}`} open={open} onCancel={()=>{setOpen(false)}}>
             <Row>
                 <Col span={24}>
@@ -35,9 +35,9 @@ const EditarSubgrupo = (props) => {
                     }} />
                 </Col>
             </Row>
-            <Row>
+            <Row style={{padding:"1em"}}>
                 <Col span={24}>
-                    <Button onClick={actualizar}>Aplicar</Button>
+                    <Button type="primary" block onClick={actualizar}>Aplicar</Button>
                 </Col>
             </Row>
         </Modal>

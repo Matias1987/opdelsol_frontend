@@ -1,5 +1,5 @@
-const { Table } = require("antd")
-const { useState, useEffect } = require("react")
+import Table from "antd"
+import { useState, useEffect } from "react"
 /*
 columns:
 {

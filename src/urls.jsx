@@ -173,6 +173,8 @@ const post = {
 
         modificar_cantidad_lista: remote_base_url + "stock/modificar_cantidad_lista/",
 
+        editar_lote_codigos: remote_base_url + "codigos/editar_lote/",
+
     },
 }
 

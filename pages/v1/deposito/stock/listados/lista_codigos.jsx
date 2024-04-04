@@ -1,7 +1,9 @@
 import CustomModal from "@/components/CustomModal";
 import CustomTable from "@/components/forms/CustomTable";
 import DetalleCodigo from "@/components/forms/deposito/DetalleCodigo";
+import EditarCodigoGrupo from "@/components/forms/deposito/EditarCodigoGrupo";
 import EditarCodigoIndiv from "@/components/forms/deposito/EditarCodigoIndiv";
+import EditarSubgrupo from "@/components/forms/deposito/EditarSubgrupo";
 import FiltroCodigos from "@/components/forms/deposito/FiltroCodigos";
 import MyLayout from "@/components/layout/layout";
 import { post_method } from "@/src/helpers/post_helper";
@@ -32,6 +34,9 @@ export default function ListaCodigos(){
                         modo_precio: row.modo_precio,
                         precio: row.precio_codigo,
                         checked: false,
+                        ruta: `${row.familia} / ${row.subfamilia} / ${row.grupo} / `,
+                        idsubgrupo: row.subgrupo_idsubgrupo,
+                        subgrupo: row.subgrupo,
                         //estado: "ACTIVO"
                     }))
                 )
@@ -46,6 +51,7 @@ export default function ListaCodigos(){
     }
 
     const columns = [
+        {title: 'Ruta',dataIndex: 'ruta', render:(_,obj)=><span style={{fontSize:".75em"}}>{obj.ruta}<EditarSubgrupo idsubgrupo={obj.idsubgrupo} buttonText={obj.subgrupo} callback={()=>{setChange(!change)}} /></span>},
         {title: 'Codigo',dataIndex: 'codigo'},
         {title: 'Descripcion',dataIndex: 'descripcion'},
         {title: 'Modo Precio',dataIndex: 'modo_precio', render:(_,{modo_precio})=>{
@@ -92,9 +98,17 @@ export default function ListaCodigos(){
     return(
         <>
             <h2>Lista C&oacute;digos</h2>
-            <Row>
+            <Row style={{padding:"1em"}}>
                 <Col span={24}>
                     <FiltroCodigos callback={callback_filtros}  />
+                </Col>
+            </Row>
+            <Row style={{padding:"1em"}}>
+                <Col span={24}>
+                    <EditarCodigoGrupo 
+                    codigos={ (dataSource.filter(d=>d.checked)).map(c=>({idcodigo: c.idcodigo, codigo: c.codigo}))  }  
+                    callback={()=>{setChange(!change)}}
+                    />
                 </Col>
             </Row>
             <Table columns={columns} dataSource={dataSource} />

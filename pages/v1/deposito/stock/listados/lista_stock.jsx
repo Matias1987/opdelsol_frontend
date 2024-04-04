@@ -459,9 +459,9 @@ export default function ListaStock(){
                 </Col>
                 <Col span={4}>
                     <ExportToCSV parseFnt={()=>{
-                        let str = "Ruta, Codigo, Descripcion, Cantidad,\r\n"
+                        let str = "Familia, SubFamilia, Grupo, Subgrupo, Codigo, Descripcion, Cantidad,\r\n"
                         data.forEach(r=>{
-                            str+=`${r.ruta},${r.codigo},${r.descripcion},${r.cantidad},\r\n`
+                            str+=`${r.familia},${r.subfamilia},${r.grupo},${r.subgrupo},${r.codigo},${r.descripcion},${r.cantidad},\r\n`
                         })
                         return str
                     }} 
@@ -473,7 +473,7 @@ export default function ListaStock(){
             </Row>
         <Row>
             <Col span={24}>
-            <Table rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'} columns={columns.filter(item=>!item.hidden)} dataSource={data} loading={loading} scroll={{y:400}} pagination={false} />
+            <Table rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'} columns={columns.filter(item=>!item.hidden)} dataSource={data} loading={loading} scroll={{y:400}}  />
             </Col>
         </Row>
         <Row>
