@@ -20,12 +20,13 @@ const FacturaSelect = (props) =>{
         fetchurl = {get.lista_proveedores}
         parsefnt = {
             (data) => {
-                return data.map((row)=>(
+                return [...[{value:0,label:"Todos"}], ...data.map((row)=>(
                     {
                         "value": row.idproveedor,
                         "label": row.nombre
                     }
-                ))
+                )
+                )]
             }
         }
         callback = {
@@ -38,8 +39,9 @@ const FacturaSelect = (props) =>{
     />
     { idProveedor<0 ? <Spin/> :
         (<LoadSelect 
+        key={idProveedor}
         reload={_reload}
-        fetchurl = {get.lista_facturas}
+        fetchurl = {get.lista_facturas  + idProveedor}
         parsefnt = {
             (data)=>{
                 return data.map((row)=>(

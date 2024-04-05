@@ -14,13 +14,20 @@ export default function ListaCodigos(){
     
     const [dataSource, setDataSource] = useState([])
     const [change, setChange] = useState(false)
+    const [filtros, setFiltros] = useState({        
+        idfamilia:"-1",
+        idsubfamilia:"-1",
+        idgrupo:"-1",
+        idsubgrupo:"-1",
+        codigo:""
+    })
 
     useEffect(()=>{
         update_list()
     },[change])
 
     
-    const update_list = (filtros) => {
+    const update_list = () => {
         
         post_method(
             post.obtener_codigos_filtro,
@@ -46,7 +53,8 @@ export default function ListaCodigos(){
 
     const callback_filtros = (filtros) => {
         //alert(JSON.stringify(filtros))
-        update_list(filtros)
+        setFiltros(filtros)
+        setChange(!change)
 
     }
 

@@ -14,6 +14,12 @@ const EditarCodigoGrupo = (props) => {
     const [idsubgrupo, setIdSubgrupo] = useState(-1)
     
     const onOpen = _ => {
+        if((props.codigos||[]).length<1)
+        {
+            alert("No hay codigos seleccionados")
+            setOpen(false)
+            return
+        }
         setEditarModoPrecio(false)
         setEditarSubgrupo(false)
         setOpen(true)
@@ -27,7 +33,7 @@ const EditarCodigoGrupo = (props) => {
             idcodigos: (props.codigos||[]).map(c=>c.idcodigo)
         }
 
-        alert(JSON.stringify(params))
+        //alert(JSON.stringify(params))
 
         if(!confirm("Confirmar cambios")){
             return

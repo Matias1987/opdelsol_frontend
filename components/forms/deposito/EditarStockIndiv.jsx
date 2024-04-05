@@ -1,17 +1,22 @@
+import FacturaSelect from "@/components/FacturaSelect";
 import globals from "@/src/globals";
 import { post_method } from "@/src/helpers/post_helper";
 import { parse_int_string } from "@/src/helpers/string_helper";
 import { get, post } from "@/src/urls";
-import { Button, Col, Input, Modal, Row, Spin } from "antd";
+import { Button, Checkbox, Col, Input, Modal, Row, Spin } from "antd";
 import { useState } from "react";
 
 const EditarStockIndiv = (props) => {
     const [stock ,setStock] = useState(null)
     const [open, setOpen] = useState(false)
     const [codigo, setCodigo] = useState(null)
+    const [idfactura, setIdFactura] = useState(-1)
+    const [editarCosto, setEditarCosto] = useState(false)
+    const [costo, setCosto] = useState(0)
     const onOpen = () => {
         setOpen(true)
-       
+        setEditarCosto(false)
+        setIdFactura(-1)
         fetch(get.obtener_stock_sucursal + `${props.idsucursal}/${props.idcodigo}`)
         .then(r=>r.json())
         .then((response)=>{
@@ -26,6 +31,7 @@ const EditarStockIndiv = (props) => {
             setCodigo({
                 idcodigo: response.data[0].idcodigo,
                 codigo: response.data[0].codigo,
+                //costo: response.data[0].costo,
                 
                 precio: response.data[0].precio,
                 descripcion: response.data[0].descripcion,
@@ -40,9 +46,11 @@ const EditarStockIndiv = (props) => {
 
     const guardarCambios = () => {
         post_method(post.update.modificar_cantidad_stock,{
+            idfactura: idfactura,
             cantidad:stock.cantidad,
             fksucursal:props.idsucursal,
-            idcodigo:props.idcodigo
+            idcodigo:props.idcodigo,
+            costo: editarCosto ? costo : -1,
         },
         (response)=>{
             alert("OK")
@@ -54,15 +62,31 @@ const EditarStockIndiv = (props) => {
 
     return <>
     <Button onClick={onOpen} type="primary">{props.buttonText}</Button>
-        <Modal title={"Editar Cantidad Stock"} open={open} onCancel={onClose} footer={null}>
+        <Modal title={"Editar Cantidad Stock"} open={open} onCancel={onClose} footer={null} width={"60%"} destroyOnClose={true}>
             {stock==null || codigo==null ? <Spin /> : 
             <>
-            <Row>
+            <Row style={{padding:"1em"}}>
                 <Col span={24}>
                     <Input style={{backgroundColor:"lightyellow"}} readOnly prefix="Código: " value={codigo.codigo}/>
                 </Col>
             </Row>
-            <Row>
+            <Row style={{padding:"1em"}}>
+                <Col span={24}>
+                    Factura:&nbsp;
+                    <FacturaSelect callback={(id)=>{
+                        setIdFactura(id)
+                    }}/>
+                </Col>
+            </Row>
+            <Row style={{padding:"1em"}}>
+                <Col span={3}>
+                    <Checkbox onChange={()=>{setEditarCosto(!editarCosto)}} value={editarCosto}>Costo</Checkbox>
+                </Col>
+                <Col span={21}>
+                    <Input type="number" disabled={!editarCosto} value={costo} onChange={(e)=>{setCosto(parseInt(e.target.value))}}/>
+                </Col>
+            </Row>
+            <Row style={{padding:"1em"}}>
                 <Col span={24}>
                     <Input prefix={<b>Cantidad: </b>} value={stock.cantidad} onChange={(e)=>{
                         setStock(
@@ -71,7 +95,7 @@ const EditarStockIndiv = (props) => {
                     }} />  
                 </Col>
             </Row>
-            <Row>
+            <Row style={{padding:"1em"}}>
                 <Col span={24}>
                     <Button  block type="primary" onClick={guardarCambios}>Guardar Cambios</Button>
                 </Col>

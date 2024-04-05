@@ -2,7 +2,7 @@ import GrupoSelect from "@/components/GrupoSelect";
 import EditarSubgrupo from "@/components/forms/deposito/EditarSubgrupo";
 import MyLayout from "@/components/layout/layout";
 import { get } from "@/src/urls";
-import { Button, Checkbox, Col, Row, Table } from "antd";
+import { Button, Checkbox, Col, Divider, Input, Row, Table } from "antd";
 import { useEffect, useState } from "react";
 
 export default function ListaSubGrupos(){
@@ -10,8 +10,9 @@ export default function ListaSubGrupos(){
     const [dataSource, setDataSource] = useState([])
     const [filtrarPorGrupo, setFiltrarPorGrupo] = useState(false)
     const [idgrupo, setIdGrupo] = useState(-1)
+    const [filtroTabla, setFiltroTable] = useState("")
     useEffect(()=>{
-        fetch(get.lista_subgrupo)
+        fetch(get.lista_subgrupo + (filtrarPorGrupo ? idgrupo : -1) )
         .then(r=>r.json())
         .then(response=>{
             setDataSource(
@@ -49,26 +50,40 @@ export default function ListaSubGrupos(){
             
         }
     ]
+
+    const onSearch = (value) => {
+        setFiltroTable(value)
+    }
+
     return(
         <>
         <h1>Lista de SubGrupos</h1>
        
-        <Row>
-            <Col span={24}>
-                
-            </Col>
-        </Row>
-        <Row>
+
+        <Row style={{padding:"1em"}}>
             <Col span={6}>
-                <Checkbox value={filtrarPorGrupo} onChange={()=>{setFiltrarPorGrupo(!filtrarPorGrupo)}}>Filtrar por Grupo</Checkbox>
+                <Checkbox value={filtrarPorGrupo} onChange={(e)=>{
+                    setFiltrarPorGrupo(!filtrarPorGrupo)
+                    setChange(!change)
+                }
+                    
+                    }>Filtrar por Grupo</Checkbox>
             </Col>
-            <Col span={18}>
-                <GrupoSelect callback={(id)=>{setIdGrupo(id)}} disabled={!filtrarPorGrupo} />
+            <Col span={14}>
+                <GrupoSelect callback={(id)=>{setIdGrupo(id); setChange(!change)}} disabled={!filtrarPorGrupo} />
             </Col>
         </Row>
         <Row>
             <Col span={24}>
-                <Table columns={columns} dataSource={dataSource} scroll={{y:"500px"}} pagination={true} />
+                <Divider />
+                <Input.Search style={{ backgroundColor:"lightblue"}} onSearch={onSearch} prefix="QuickSearch: "/>
+            </Col>
+        </Row>
+        <Row>
+            <Col span={24}>
+                <Table columns={columns} dataSource={
+                    filtroTabla.trim().length<1 ? dataSource : dataSource.filter(r=>(r.nombre_corto.toString().toUpperCase().includes(filtroTabla.toUpperCase()) || r.nombre_largo.toString().toUpperCase().includes(filtroTabla.toUpperCase())))
+                } scroll={{y:"500px"}} pagination={true} />
             </Col>
         </Row>
         <Row>

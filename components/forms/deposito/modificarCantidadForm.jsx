@@ -7,37 +7,22 @@ import { Form, InputNumber, Button, Checkbox, Input, Row, Col, Radio, Divider } 
 import { useState, useEffect }  from "react"
 
 const ModificarCantidadForm = (props) => {
-    const [form] = Form.useForm();
     const [loading, setLoading] = useState(false)
-    const [data, setData] = useState(null)
     const [descripcion, setDescripcion] = useState("")
     const [textareaval, setTextAreaVal] = useState("")
     const [modoPrecio, setModoPrecio] = useState(1)
     const [modMP, setModMP] = useState(false)
-    
+    const [cambiarCantidad, setCambiarCantidad] = useState(false)
+    const [incrementarCantidad, setIncrementarCantidad] = useState(false)
     const [reload, setReload] = useState(false);
+
+    const [stock, setStock] = useState({
+        cantidad: 0,
+        idfactura: -1,
+        costo: -1,
+    })
     useEffect(()=>{
-        //alert(JSON.stringify( props.codigos))
-        /*setLoading(true)
-        fetch(get.detalle_stock+props.idsucursal+"/"+props.idcodigo)
-        .then(response=>response.json())
-        .then((response)=>{
-           
-            setData({
-
-                codigo: response.data[0].codigo,
-                ruta: response.data[0].ruta,
-                cantidad: response.data[0].cantidad,
-                idcodigo: response.data[0].idcodigo,
-                costo:  response.data[0].costo,
-                
-            })
-          
-            setCostoValue(-1)
-            setCantidadValue(0)
-            setLoading(false)
-
-        })*/
+        
         var l = ""
         if(typeof props.codigos !== 'undefined'){
 
@@ -52,17 +37,20 @@ const ModificarCantidadForm = (props) => {
     
     ,[props.codigos])
 
-    const onFinish = (values) => {
+    const onFinish = () => {
         const __data = {
             //idcodigo: props.idcodigo,
+            incrementarCantidad: incrementarCantidad,
             codigos: props.codigos,
             idsucursal: props.idsucursal,
-            cantidad: typeof values.cantidad === 'undefined' ? 0 : values.cantidad,
-            factura_idfactura: (values.factura == null ? -1 : values.factura),
+            cantidad: cambiarCantidad ? stock.cantidad : -1,
+            factura_idfactura: (stock.idfactura == null ? -1 : stock.idfactura),
             descripcion: descripcion.trim(),
-            costo: typeof values.costo === 'undefined' ? -1 : values.costo ,
+            costo: stock.costo,
             modo_precio: modMP ? modoPrecio : -1,
         }
+
+        alert(JSON.stringify(__data))
      
         if(
             !modMP &&
@@ -82,28 +70,24 @@ const ModificarCantidadForm = (props) => {
                     props.onOk();
                 }
             }
+            
         })
     }
     const onFinishFailed = (e) => {alert(JSON.stringify(e))}
 
     const setCantidadValue = (value)=>{
-        form.setFieldsValue({cantidad:value})
+        setStock(s=>({...s,cantidad:value}))
     }
 
     const setFacturaValue = (value) => {
-        form.setFieldsValue({factura:value});
+        setStock(s=>({...s,idfactura:value}))
     }
     const setCostoValue = (value) => {
-        form.setFieldsValue({costo:value});
+        setStock(s=>({...s,costo:value}))
     }
 
     
-    const detalles = _ =>
-    <>
-        <p>Modificar C&oacute;digo: <span style={{fontSize:".75em", color:"lightgrey"}}><i>{data.ruta}</i></span> <b>{data.codigo}</b></p>
-        <p>Cantidad Actual: <b>{data.cantidad}</b></p>
-        <p>Costo Actual: <b>{data.costo}</b></p>
-    </>
+
 
     const detalles_multiple = _ =>
     <> Codigos:
@@ -117,64 +101,39 @@ const ModificarCantidadForm = (props) => {
         {
             detalles_multiple()
         }
-        </>    
-        <Form
-            onFinish={onFinish}
-            onFinishFailed={onFinishFailed}
-            form={form}
-        >
-            <Form.Item label={"Factura (Opcional)"} name={"factura"} value="">
+        </>  
+        <Divider />   
+        <Row>
+            <Col span={24}>
                 <FacturaSelect callback={(v)=>{
-                    setFacturaValue(v)
-                }}/>
-            </Form.Item>
-            <Form.Item
-            name={"cantidad"}
-            label={"Cantidad a Incrementar"}
-            >
-                <Input type="number"  defaultValue={0} />
-            </Form.Item>
-            <Form.Item
-                label={"Costo"}
-                name={"costo"}
-                
-            >
+                                setFacturaValue(v)
+                            }}/>
+            </Col>
+        </Row>
+        <Row style={{padding:"1em"}}>
+            <Col span={4}>
+                <Checkbox checked={cambiarCantidad} onChange={()=>{
+                    setCambiarCantidad(!cambiarCantidad)
+                    }}>Cambiar Cantidad</Checkbox>
+            </Col>
+            <Col span={4}>
+                <Checkbox disabled={!cambiarCantidad} checked={incrementarCantidad} onChange={()=>{setIncrementarCantidad(!incrementarCantidad)}}>Incrementar Cantidad</Checkbox>
+            </Col>
+            <Col span={16}>
+                <Input disabled={!cambiarCantidad} type="number"  defaultValue={0}  onChange={(e)=>{setCantidadValue(e.target.value)}}  />
+            </Col>
+        </Row>
+        <Row style={{padding:"1em"}}>
+            <Col span={24}>
                 <CostoCheckBox callback={(v)=>{setCostoValue(v)}} />
-            </Form.Item>
-            {/*<Form.Item label={"Descripcion"}  >
-                <Input value={descripcion} onChange={(e)=>{setDescripcion(e.target.value)}}/>
-            </Form.Item>*/}
-            <Row>
-                <Col span={8}>
-                    <Checkbox
-                    onChange={(v)=>{
-                        setModMP(!modMP)
-                    }}
-                    value={modMP}
-                    >Modificar Modo Precio</Checkbox>
-                </Col>
-                <Col span={16}>
-                <Radio.Group 
-                    disabled={!modMP}
-                    value={modoPrecio}
-                    onChange={(e)=>{
-                        setModoPrecio(v=>{return e.target.value})
-                        }}>
-                    <Radio value={1}>Precio Subgrupo</Radio>
-                    <Radio value={2}>Precio Individual</Radio>
-                </Radio.Group>
-                </Col>
-            </Row>
-            <Form.Item>
-                <Row>
-                    <Col span={24}>
-                        <Divider />
-                        <Button type="primary" htmlType="submit">Guardar</Button>
-                    </Col>
-                </Row>
-                
-            </Form.Item>
-        </Form>
+            </Col>
+        </Row>
+        <Row style={{padding:"1em"}}>
+            <Col span={24}>
+                <Divider />
+                <Button type="primary" htmlType="submit" onClick={onFinish}>Guardar</Button>
+            </Col>
+        </Row>
         </>
     
 

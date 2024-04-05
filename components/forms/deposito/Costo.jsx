@@ -1,4 +1,4 @@
-import { Checkbox, InputNumber } from "antd";
+import { Checkbox, Col, Input,  Row } from "antd";
 import { useState } from "react";
 
 const CostoCheckBox = (props) => {
@@ -8,8 +8,16 @@ const CostoCheckBox = (props) => {
         setChecked(!checked)
     }
     return <>
-    <Checkbox onChange={(e)=>{toggleChecked(e)}} checked={checked} />&nbsp;
-    <InputNumber max="500000" step={.01} onChange={(v)=>{props.callback(v)}} disabled={!checked} />
+    <Row>
+        <Col span={4}>
+            <Checkbox onChange={(e)=>{toggleChecked(e)}} checked={checked} >Modificar Costo</Checkbox>
+        </Col>
+        <Col span={18}>
+            <Input type="number"  step={.01} onChange={(v)=>{props.callback(v)}} disabled={!checked} />
+        </Col>
+    </Row>
+    
+    
 </>
 }
 
