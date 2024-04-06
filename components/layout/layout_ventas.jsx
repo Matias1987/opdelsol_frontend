@@ -1,7 +1,7 @@
 import { get, public_urls } from "@/src/urls";
 import useStorage from "@/useStorage";
 import { LogoutOutlined } from "@ant-design/icons";
-import { Alert, Button, Layout } from "antd";
+import { Alert, Button, Layout, Row, Col, Input, Menu } from "antd";
 import { useEffect, useState } from "react";
 import SucursalLabel from "../sucursal_label";
 import globals from "@/src/globals";
@@ -9,11 +9,24 @@ import MenuVentasTop from "./menu_ventas_top";
 import Alerts from "./alert_container";
 import HeaderSol from "./header";
 import MenuV2 from "./menu_v2";
+import PopupResultadoBusqueda from "../precios/PopupResultadoBusqueda";
 
 export default function LayoutVentas(props){
     const { Header, Sider, Content } = Layout;
     const [alerta, setAlerta] = useState("")
     const { getItem } = useStorage();
+    const [popupBusquedaOpen, setPopupBusquedaOpen] = useState(false)
+    const [busqueda, setBusqueda] = useState("")
+  
+    const onSearch = (value) => {
+    if(value.trim().length<1)
+    {
+        return;
+    }
+    setBusqueda(value)
+    setPopupBusquedaOpen(true)
+    }
+
     const validate_user = () => {
 
         const _token = getItem("token",'session')
@@ -85,12 +98,26 @@ export default function LayoutVentas(props){
             
             {/*<MenuVentasTop />*/}
             <MenuV2 />
+            <Menu items={[{
+                label:<Input.Search style={{padding:".3em"}} prefix={"Buscar Código: "} value={busqueda} onChange={(e)=>{setBusqueda(e.target.value)}} onSearch={onSearch} />
+
+            }]}
+            />
+            
             <Content style={{ margin: '40px 100px', padding: 24,  borderRadius:"15px", minHeight: 580 }}>
             {
                 (alerta!="") ? <><Alert key={alerta} message={alerta} type="error" showIcon/></>:<></>
             }
             {/*<Alerts />*/}
-                {props.children}
+          
+            <Row>
+                <Col span={24}>
+                    {props.children}
+                </Col>
+            </Row>
+               
+                <PopupResultadoBusqueda open = {popupBusquedaOpen} busqueda = {busqueda} callback={()=>{setPopupBusquedaOpen(false); setBusqueda("");} } />
+        
             </Content>
         </Layout>
     )

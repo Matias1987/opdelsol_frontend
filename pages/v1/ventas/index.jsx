@@ -1,11 +1,14 @@
 import LayoutVentas from "@/components/layout/layout_ventas";
-import { Divider } from "antd";
+import PopupResultadoBusqueda from "@/components/precios/PopupResultadoBusqueda";
+import { Divider , Row, Col, Input} from "antd";
+import { useState } from "react";
 
 export default function Index(){
+
     return (<>
-        <i>Bienvenido</i>
+        
         <Divider />
-        <br />
+       <br />
         
     </>)
 }

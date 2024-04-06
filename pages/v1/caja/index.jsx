@@ -1,9 +1,9 @@
 import LayoutCaja from "@/components/layout/layout_caja";
-import { Divider } from "antd";
+import { Divider, Row, Input, Col } from "antd";
 
 export default function Index(){
     return (<>
-        <i>Bienvenido</i>
+      
         <Divider />
         <br />
         

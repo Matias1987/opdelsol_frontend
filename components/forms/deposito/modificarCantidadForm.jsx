@@ -3,7 +3,7 @@ import { post_method } from "@/src/helpers/post_helper"
 import { get, post } from "@/src/urls"
 import CostoCheckBox from "./Costo"
 
-import { Form, InputNumber, Button, Checkbox, Input, Row, Col, Radio, Divider } from "antd"
+import { Button, Checkbox, Input, Row, Col, Divider } from "antd"
 import { useState, useEffect }  from "react"
 
 const ModificarCantidadForm = (props) => {
@@ -73,7 +73,6 @@ const ModificarCantidadForm = (props) => {
             
         })
     }
-    const onFinishFailed = (e) => {alert(JSON.stringify(e))}
 
     const setCantidadValue = (value)=>{
         setStock(s=>({...s,cantidad:value}))
