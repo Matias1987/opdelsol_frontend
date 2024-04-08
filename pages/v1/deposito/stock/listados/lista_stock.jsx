@@ -459,9 +459,9 @@ export default function ListaStock(){
                 </Col>
                 <Col span={4}>
                     <ExportToCSV parseFnt={()=>{
-                        let str = "Familia, SubFamilia, Grupo, Subgrupo, Codigo, Descripcion, Cantidad,\r\n"
+                        let str = "Familia, SubFamilia, Grupo, Subgrupo, Codigo, Descripcion, Cantidad, Precio,\r\n"
                         data.forEach(r=>{
-                            str+=`${r.familia},${r.subfamilia},${r.grupo},${r.subgrupo},${r.codigo},${r.descripcion},${r.cantidad},\r\n`
+                            str+=`${r.familia},${r.subfamilia},${r.grupo},${r.subgrupo},${r.codigo},${r.descripcion},${r.cantidad},${r.precio},\r\n`
                         })
                         return str
                     }} 

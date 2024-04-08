@@ -46,6 +46,7 @@ export default function VentaLCLab(){
     const onFinish = (v, onFailValidation) => {
         //alert(JSON.stringify(productos))
         //return
+        console.log(JSON.stringify(productos))
         submit_venta(v,productos,total,subTotal,globals.tiposVenta.LCLAB,true,(idventa)=>{
             setIdVenta(idventa)
             setPrintOpen(true)

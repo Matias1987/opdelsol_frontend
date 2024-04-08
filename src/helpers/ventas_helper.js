@@ -170,6 +170,7 @@ const submit_venta = (v, productos,total,subTotal, tipo_vta, validate_items, cal
 
         const __venta = {
             ...v, 
+            json_items: JSON.stringify(productos),
             productos:productos, 
             tipo:tipo_vta, 
             total: total,

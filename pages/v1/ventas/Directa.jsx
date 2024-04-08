@@ -47,6 +47,7 @@ export default function VentaDirecta(){
             (v,onFailValidation)=>{
 
                 submit_venta(v,productos,total,subTotal,globals.tiposVenta.DIRECTA,false,(idventa)=>{
+                    console.log(JSON.stringify(productos))
                     setIdVenta(idventa)
                     setPrintOpen(true)
                 },{ignore_fecha_retiro:1,},

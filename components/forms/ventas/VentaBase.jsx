@@ -34,6 +34,7 @@ export default function VentaBase(props){
         productos: null,
         fksucursal: globals.obtenerSucursal(),
         fkcaja: globals.obtenerCajaID(),
+        json_items:'',
 
     })
     

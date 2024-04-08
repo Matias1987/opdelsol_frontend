@@ -33,6 +33,7 @@ export default function VentaLCStock(){
     }
 
     const onFinish = (v,onFailValidation) => {
+        console.log(JSON.stringify(productos))
         submit_venta(v,productos,total,subTotal,globals.tiposVenta.LCSTOCK,true,(idventa)=>{
             setIdVenta(idventa)
             setPrintOpen(true)
