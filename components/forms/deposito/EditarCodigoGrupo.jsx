@@ -63,7 +63,7 @@ const EditarCodigoGrupo = (props) => {
             <Col span={24}>
                 <Row>
                     <Col span={12}>
-                        <Checkbox onChange={()=>{setEditarSubgrupo(!editarSubgrupo)}} value={editarSubgrupo}>Cambiar Subgrupo</Checkbox>
+                        <Checkbox onChange={()=>{setEditarSubgrupo(!editarSubgrupo)}} checked={editarSubgrupo}>Cambiar Subgrupo</Checkbox>
                     </Col>
                     <Col span={12}>
                         <SubGroupSelect callback={(id)=>{setIdSubgrupo(id)}} disabled={!editarSubgrupo} />
@@ -75,7 +75,7 @@ const EditarCodigoGrupo = (props) => {
             <Col span={24}>
                 <Row >
                     <Col span={12}>
-                        <Checkbox onChange={()=>{setEditarModoPrecio(!editarModoPrecio)}} value={editarModoPrecio}>Cambiar Modo Precio</Checkbox>
+                        <Checkbox onChange={()=>{setEditarModoPrecio(!editarModoPrecio)}} checked={editarModoPrecio}>Cambiar Modo Precio</Checkbox>
                     </Col>
                     <Col span={12}>
                         <Radio.Group 
