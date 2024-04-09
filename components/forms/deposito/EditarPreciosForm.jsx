@@ -103,7 +103,7 @@ const EditarPreciosForm = (props) => {
         <Col span={24}>
                 <Input 
                 
-                prefix={"Porcentaje"} 
+                prefix={"Porcentaje a Aumentar:   "} 
                 onChange={(e)=>{
                     setValue('porcentaje',e.target.value)
                     setValue('multiplicador', 1 + parseFloat(e.target.value) / 100)
@@ -117,7 +117,7 @@ const EditarPreciosForm = (props) => {
         <Col  span={24}>
                 <Input 
                 
-                prefix={"Valor"} 
+                prefix={"Valor a Aumentar:   "} 
                 onChange={(e)=>{
                     setValue('valor',e.target.value)
                 }} 

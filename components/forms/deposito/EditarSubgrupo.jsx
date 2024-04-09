@@ -21,8 +21,8 @@ const EditarSubgrupo = (props) => {
             })
     }
     return <>
-        <Button danger size="small" onClick={()=>{setOpen(true)}}>{props.buttonText}</Button>
-        <Modal footer={null} title={`Editar Subgrupo ${props.buttonText}`} open={open} onCancel={()=>{setOpen(false)}}>
+        <Button danger size="small" onClick={()=>{setOpen(true); setPrecio(0); }  }>{props.buttonText}</Button>
+        <Modal destroyOnClose footer={null} title={`Editar Subgrupo ${props.buttonText}`} open={open} onCancel={()=>{setOpen(false)}}>
             <Row>
                 <Col span={24}>
                     

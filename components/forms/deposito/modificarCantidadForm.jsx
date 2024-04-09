@@ -40,8 +40,9 @@ const ModificarCantidadForm = (props) => {
     const onFinish = () => {
         const __data = {
             //idcodigo: props.idcodigo,
+     
             incrementarCantidad: incrementarCantidad,
-            codigos: props.codigos,
+            codigos: props.codigos.map(c=>c.idcodigo),
             idsucursal: props.idsucursal,
             cantidad: cambiarCantidad ? stock.cantidad : -1,
             factura_idfactura: (stock.idfactura == null ? -1 : stock.idfactura),
@@ -50,17 +51,16 @@ const ModificarCantidadForm = (props) => {
             modo_precio: modMP ? modoPrecio : -1,
         }
 
-        alert(JSON.stringify(__data))
      
-        if(
-            !modMP &&
-            __data.cantidad == 0 && 
-            __data.costo < 0 && 
-            (__data.descripcion.trim()).length<1
-        ){
-            alert("Sin Cambios")
-            return;
-        }
+       //if(
+       //    !modMP &&
+       //    __data.cantidad == 0 && 
+       //    __data.costo < 0 && 
+       //    (__data.descripcion.trim()).length<1
+       //){
+       //    alert("Sin Cambios")
+       //    return;
+       //}
 
         post_method(post.update.incrementar_cantidad,__data,(r)=>{
             if(r.status == "OK"){
@@ -119,14 +119,15 @@ const ModificarCantidadForm = (props) => {
                 <Checkbox disabled={!cambiarCantidad} checked={incrementarCantidad} onChange={()=>{setIncrementarCantidad(!incrementarCantidad)}}>Incrementar Cantidad</Checkbox>
             </Col>
             <Col span={16}>
-                <Input disabled={!cambiarCantidad} type="number"  defaultValue={0}  onChange={(e)=>{setCantidadValue(e.target.value)}}  />
+                <Input disabled={!cambiarCantidad} type="number" value={stock.cantidad}  defaultValue={0}  onChange={(e)=>{setCantidadValue(parseFloat(e.target.value||"0"))}}  />
             </Col>
         </Row>
         <Row style={{padding:"1em"}}>
             <Col span={24}>
-                <CostoCheckBox callback={(v)=>{setCostoValue(v)}} />
+                <CostoCheckBox callback={(v)=>{setCostoValue(parseFloat(v))}} />
             </Col>
         </Row>
+        
         <Row style={{padding:"1em"}}>
             <Col span={24}>
                 <Divider />

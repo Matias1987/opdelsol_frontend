@@ -13,7 +13,7 @@ const CostoCheckBox = (props) => {
             <Checkbox onChange={(e)=>{toggleChecked(e)}} checked={checked} >Modificar Costo</Checkbox>
         </Col>
         <Col span={18}>
-            <Input type="number"  step={.01} onChange={(v)=>{props.callback(v)}} disabled={!checked} />
+            <Input type="number"  step={.01} onChange={(e)=>{props.callback(parseFloat(e.target.value||"0"))}} disabled={!checked} />
         </Col>
     </Row>
     

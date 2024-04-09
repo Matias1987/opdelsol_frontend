@@ -12,6 +12,8 @@ const EditarCodigoGrupo = (props) => {
     const [editarModoPrecio, setEditarModoPrecio] = useState(false)
     const [modoPrecio, setModoPrecio] = useState(0)
     const [idsubgrupo, setIdSubgrupo] = useState(-1)
+    const [modificarPrecio, setModificarPrecio] = useState(false)
+    const [precio, setPrecio] = useState(0)
     
     const onOpen = _ => {
         if((props.codigos||[]).length<1)
@@ -28,6 +30,7 @@ const EditarCodigoGrupo = (props) => {
     const onSave = _ => {
         
         const params = {
+            precio: modificarPrecio ? precio : -1,
             idsubgrupo: editarSubgrupo ? idsubgrupo : -1,
             modoPrecio: !editarModoPrecio ? -1 : modoPrecio,
             idcodigos: (props.codigos||[]).map(c=>c.idcodigo)
@@ -99,6 +102,14 @@ const EditarCodigoGrupo = (props) => {
                     </Col>
                 </Row> 
                 
+            </Col>
+        </Row>
+        <Row style={{padding:"1em"}}> 
+            <Col span={4}>
+                    <Checkbox onChange={()=>{setModificarPrecio(!modificarPrecio)}} checked={modificarPrecio}>Modificar Precio </Checkbox>
+            </Col>
+            <Col span={20}>
+                    <Input disabled={!modificarPrecio} type="number" value={precio} onChange={(e)=>{setPrecio(parseFloat(e.target.value||"0"))}} />
             </Col>
         </Row>
         <Row style={{padding:"1em"}}>

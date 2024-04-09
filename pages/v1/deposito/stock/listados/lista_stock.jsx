@@ -37,6 +37,7 @@ export default function ListaStock(){
     const [activeTab, setActiveTab] = useState("1")
     const [quickSearchValue, setQuickSearchValue] = useState("")
     const [codigoSearch, setCodigoSearch] = useState(true)
+    const [selectAll, setSelectAll] = useState(false)
     const tipos_filtro_dic = {
         "grupo_contenga_a":{tipo: "grupo", descripcion: "Grupo Cont."},
         "codigo_contenga_a":{tipo: "codigo", descripcion: "Codigo Cont."},
@@ -166,7 +167,17 @@ export default function ListaStock(){
                 </>                
         },
         {
-            title: '', dataIndex: 'checked', key: 'check', width:"50px",
+            title: (<><Checkbox 
+                checked={selectAll}
+                onChange={(e)=>{
+                setSelectAll(!selectAll)
+                setData(
+                    data.map(r=>{
+                        r.checked=!selectAll;
+                        return r;
+                    })
+                )
+            }} /></>), dataIndex: 'checked', key: 'check', width:"50px",
             render:(_,{checked, idcodigo})=>(
                 <>
                     <Checkbox checked={checked} onChange={(e)=>{
@@ -447,16 +458,16 @@ export default function ListaStock(){
                     </Modal>
                 </Col>
                 <Col span={4}>{edit_popup()}</Col>
-                <Col span={4}>
+                {/*<Col span={4}>
                     <Button block onClick={(e)=>{
                     setData(
                         data.map(r=>{
-                            r.checked=!r.checked;
+                            r.checked=e.target.checked;
                             return r;
                         })
                     )
                     }}><CheckCircleOutlined />Seleccionar / Deseleccionar Todo</Button>
-                </Col>
+                </Col>*/}
                 <Col span={4}>
                     <ExportToCSV parseFnt={()=>{
                         let str = "Familia, SubFamilia, Grupo, Subgrupo, Codigo, Descripcion, Cantidad, Precio,\r\n"
@@ -467,9 +478,9 @@ export default function ListaStock(){
                     }} 
                     />
                 </Col>
-                <Col span={4} style={{padding:".3em"}}>
+                {/*<Col span={4} style={{padding:".3em"}}>
                     <Checkbox >Ver Todo</Checkbox>
-                </Col>
+                </Col>*/}
             </Row>
         <Row>
             <Col span={24}>

@@ -16,7 +16,7 @@ export default function CargaStock(){
     const [inputVal, setInputVal] = useState("") 
     const [dict, setDict] = useState({})
     const [categoria, setCategoria] = useState("")
-    const [modoControl, setModoControl] = useState(false)
+    const [modoControl, setModoControl] = useState(true)
     const [srcControl, setSrcControl] = useState([])
     const [verSoloFaltantes, setVerSoloFaltantes] = useState(false)
     const [comentarios, setComentarios] = useState("")
@@ -105,7 +105,7 @@ export default function CargaStock(){
                 }
             }
             else{
-                alert("pattern not Found")
+                alert("CODIGO NO ENCONTRADO")
             }
         }
 
@@ -225,7 +225,7 @@ export default function CargaStock(){
         <Row>
             <Col span={24}>
                 <Checkbox 
-                value={modoControl}
+                checked={modoControl}
                 onChange={(e)=>{
                     setModoControl(!modoControl)
                 }} 
