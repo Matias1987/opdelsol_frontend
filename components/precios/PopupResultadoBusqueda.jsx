@@ -5,7 +5,7 @@ import {Modal, Row, Col} from "antd"
 import { useEffect, useState } from "react"
 import StockCodigosSucursales from "../forms/deposito/StockCodigoSucursales";
 const PopupResultadoBusqueda = (props) => {
-    const [detalleCodigo, setDetalleCodigo] = useState({codigo: "not found", precio: 0, idcodigo: -1, descripcion:""})
+    const [detalleCodigo, setDetalleCodigo] = useState(null)
     useEffect(()=>{
         if(props.open)
         {
@@ -54,7 +54,7 @@ const PopupResultadoBusqueda = (props) => {
         }
         
     },[props.open])
-    return <>
+    return detalleCodigo == null ? <></> : <>
         <Modal width={"60%"} destroyOnClose open={props.open}  onCancel={()=>{props?.callback?.()}} footer={null} title="Resultados">
             <Row style={{padding:".5em"}}>
                 <Col span={24}>
@@ -71,7 +71,7 @@ const PopupResultadoBusqueda = (props) => {
                     Precio:&nbsp;&nbsp;<b style={{fontSize:"1.3em"}}>{detalleCodigo.precio}</b>
                 </Col>
             </Row>
-            <StockCodigosSucursales idcodigo={detalleCodigo.idcodigo} />
+            <StockCodigosSucursales idcodigo={detalleCodigo.idcodigo} key={detalleCodigo.idcodigo}/>
         </Modal>
     </>
 }

@@ -91,12 +91,12 @@ const RecStockCristal = (props) => {
                     Eje:
                 </Col>
                 <Col span={2}>
-                    <Input size="small" value={cristal.eje} onChange={(e)=>{onchange_eje(e.target.value)}}/>
+                    <Input disabled={cristal.codigo==null} size="small" value={cristal.eje} onChange={(e)=>{onchange_eje(e.target.value)}}/>
                     {/*<Select size="small" options={itemsEje} onChange={(v)=>{onchange_eje(v)}}/>*/}
                 </Col>
                 <Col span={4}>
                     {/*<span>&nbsp;&nbsp;Precio: </span><input readOnly onChange={onchange_precio} ref={precioRef} style={{textAlign:"right", width:"100px", border: "1px solid #ccc", borderRadius:"6px", borderColor:"lightgray", padding:".4em", fontSize:"1.1em"}} />*/}
-                    <Input type="number" value={cristal.precio} readOnly={false} onChange={(e)=>{onchange_precio({precio: parse_float_string(e.target.value)})}} size="small" style={{backgroundColor:"rgba(131,137,150, 0.4)"}} prefix="Precio: " />
+                    <Input disabled={cristal.codigo==null} type="number" value={cristal.precio} readOnly={false} onChange={(e)=>{onchange_precio({precio: parse_float_string(e.target.value)})}} size="small" style={{backgroundColor:"rgba(131,137,150, 0.4)"}} prefix="Precio: " />
                 </Col>
                 <Col span={1}>
                     <Button danger size="small" onClick={()=>{onRemove()}}><DeleteOutlined/></Button>

@@ -66,10 +66,10 @@ const LCItem = (props) => {
                 </Col>
                 
                 <Col span={4}>
-                    <Input size="small" type="number" addonBefore="Precio: " readOnly={false} value={lc.precio} onChange={(v)=>{onPrecioChange(parse_float_string(v.target.value))}}/>
+                    <Input disabled={lc.codigo==null} size="small" type="number" addonBefore="Precio: " readOnly={false} value={lc.precio} onChange={(v)=>{onPrecioChange(parse_float_string(v.target.value))}}/>
                 </Col>
                 <Col span={4}>
-                    <InputNumber size="small" addonBefore="Cant.:" addonAfter={"/"+(typeof lc.max === 'undefined' ? 0 : lc.max)} max={typeof lc.max === 'undefined' ? 0 : lc.max } value={lc.cantidad} onChange={(v)=>{onCantidadChange(parse_int_string(v))}} />
+                    <InputNumber disabled={lc.codigo==null} size="small" addonBefore="Cant.:" addonAfter={"/"+(typeof lc.max === 'undefined' ? 0 : lc.max)} max={typeof lc.max === 'undefined' ? 0 : lc.max } value={lc.cantidad} onChange={(v)=>{onCantidadChange(parse_int_string(v))}} />
                 </Col>
                 <Col span={4}>
                     <Input style={{backgroundColor:"rgba(131,137,150, 0.4)"}} size="small" readOnly prefix={"Total:"} value={lc.total} />&nbsp;

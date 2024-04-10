@@ -51,7 +51,7 @@ const VentasVendedor = (props) => {
             )
         })
         let today = new Date()
-        let target = 1_000_000
+        let target = 2_000_000
         
         post_method(post.obtener_totales_ventas_vendedor_dia,
             {
@@ -74,7 +74,6 @@ const VentasVendedor = (props) => {
             },
             (response)=>{
                 let resp = (response?.data)||[]
-                //setVentasVendedor(resp.map(r=>({})))
                 setCantVentasDia(resp.length)
             }
             )
@@ -134,7 +133,7 @@ const VentasVendedor = (props) => {
         <Col span={16}>
             <Row>
                 <Col span={24}>
-                    Objetivo 1 mill&oacute;n
+                    Objetivo 2 millones
                 </Col>
             </Row>
             <Row>

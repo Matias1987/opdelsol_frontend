@@ -12,6 +12,7 @@ export default function ListaSubGrupos(){
     const [idgrupo, setIdGrupo] = useState(-1)
     const [filtroTabla, setFiltroTable] = useState("")
     useEffect(()=>{
+        //alert(get.lista_subgrupo + (filtrarPorGrupo ? idgrupo : -1))
         fetch(get.lista_subgrupo + (filtrarPorGrupo ? idgrupo : -1) )
         .then(r=>r.json())
         .then(response=>{

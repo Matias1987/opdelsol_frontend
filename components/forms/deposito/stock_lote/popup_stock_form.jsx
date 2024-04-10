@@ -1,3 +1,4 @@
+import { regex_get_id_if_match } from "@/src/helpers/barcode_helper";
 import { EditOutlined, PlusCircleOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 
@@ -15,6 +16,11 @@ const PopUpAgregarStockLoteForm = (props) => {
     const [multiplicador, setMultiplicador] = useState(0)
 
     const onFinish = (values) => {
+        //alert(JSON.stringify(values))
+        if(regex_get_id_if_match(values.codigo.toUpperCase())>0){
+            alert("Formato de Código no válido " + part1)
+            return
+        }
     if(typeof props.callback !== 'undefined'){
         props.callback({...values, p1: part1.toUpperCase(), p2: part2.toUpperCase(), p3: part3.toUpperCase()});
         setOpen(false)

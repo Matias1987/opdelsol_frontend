@@ -1,8 +1,8 @@
-const remote_base_url = "http://54.174.39.15:3001/api/v1/"
-const local_base_url = "http://54.174.39.15:3000/v1/"
+//const remote_base_url = "http://54.174.39.15:3001/api/v1/"
+//const local_base_url = "http://54.174.39.15:3000/v1/"
 
-//const remote_base_url = "http://localhost:3001/api/v1/"
-//const local_base_url = "http://localhost:3000/v1/"
+const remote_base_url = "http://localhost:3001/api/v1/"
+const local_base_url = "http://localhost:3000/v1/"
 
 //const token = "&token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3QiLCJpYXQiOjE2ODI0NjEwMjksImV4cCI6MTY4MjQ2NDYyOX0.Unf5zmxNVQCJVD4qxSAcdcmsrs1s-q4h7Q0e2dYHHEo";
 const public_urls = {
@@ -182,7 +182,7 @@ const get = {
     obtener_usuarios_permisos: remote_base_url + "usuarios/l/a/s/obtener_usuarios_permisos/",
     lista_codigos_categoria: remote_base_url + "codigos/lista_por_categoria/", ///:idfamilia/:idsubfamilia/:idgrupo/:idsubgrupo
     lista_familia: remote_base_url + "familia/",
-    lista_subgrupo: remote_base_url + "listado/subgrupos/",
+    lista_subgrupo: remote_base_url + "subgrupos/listado/subgrupos/",
     lista_envio_stock: remote_base_url + "enviostock/",
     detalle_envio: remote_base_url + "envio/",
     lista_envios: remote_base_url + "envio/",
