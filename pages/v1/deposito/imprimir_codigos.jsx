@@ -89,7 +89,7 @@ export default function ImprimirCodigos(){
     return (
         <>
             <h1>Imprimir C&oacute;digos de Barras</h1>
-            {<ImprimirDialog />}
+            {ImprimirDialog()}
             
             <Row >
                 
@@ -120,7 +120,7 @@ export default function ImprimirCodigos(){
             
             <br />
             
-                {<ImprimirDialog />}
+              
         </>
     )
 }

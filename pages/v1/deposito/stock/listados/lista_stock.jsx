@@ -19,6 +19,7 @@ import { Button, Checkbox, Col, Divider, Form, Input, InputNumber, Modal, Row, S
 import { useEffect, useRef, useState } from "react";
 import EditarSubGrupo from "../editar_subgrupo";
 import EditarSubgrupo from "@/components/forms/deposito/EditarSubgrupo";
+import ImpresionCodigosPopup from "../impresion_codigos_popup";
 
 export default function ListaStock(){
     const [open, setOpen] = useState(false)
@@ -477,6 +478,9 @@ export default function ListaStock(){
                         return str
                     }} 
                     />
+                </Col>
+                <Col span={4}>
+                    <ImpresionCodigosPopup codigos={(data.filter(d=>d.checked)).map(c=>({codigo:c.codigo, idcodigo: c.idcodigo , cantidad:  c.cantidad}))} />
                 </Col>
                 {/*<Col span={4} style={{padding:".3em"}}>
                     <Checkbox >Ver Todo</Checkbox>
