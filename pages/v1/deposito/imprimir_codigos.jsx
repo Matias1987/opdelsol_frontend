@@ -41,7 +41,7 @@ export default function ImprimirCodigos(){
                             <tbody>
                                 {
                                     tableData.length <1 ? <h4>No hay c&oacute;digos</h4> : 
-                                    _elements.map(e=>(<tr>{e.map(r=><td style={{textAlign:"center"}}>{r.codigo}<br /><Barcode value={get_barcode_from_id2(r.codigo_ref)}  displayValue={false} width={1.5} height={20}/>&nbsp;</td>)}</tr>))
+                                    _elements.map(e=>(<tr>{e.map(r=><td style={{textAlign:"center", fontSize:".85em"}}>{r.codigo}<br /><Barcode value={get_barcode_from_id2(r.codigo_ref)}  displayValue={false} width={1.5} height={20}/>&nbsp;</td>)}</tr>))
                                 }
                             </tbody>
                         </table>

@@ -35,20 +35,16 @@ const CategoriaSelect = (props) => {
         }
     }
 
-    return <div style={{padding:".75em", backgroundColor:"rgba(100,250,250,.3)"}}>
-    <Row>
-        <Col span={24} style={{padding:".7em"}}>
-            <b>Selecci&oacute;n de Categor&iacute;a</b>
-            
-        </Col>
-    </Row>
+    return <div style={{padding:".2em", backgroundColor:"rgba(100,250,250,.3)"}}>
+    
     <Row style={{padding:".7em"}}>
-        <Col span={2}>
-            Grupo:
+        <Col span={2} style={{textAlign:"left", paddingTop:".3em"}}>
+            Categor&iacute;a:&nbsp;&nbsp;
         </Col>
         <Col span={5}>
             <div  style={!enabled?disabled_style:enabled_style}>
             <Select 
+            
             value={categoria}
             defaultValue={"Seleccione"}
             placeholder="Seleccione"

@@ -1,4 +1,4 @@
-import {HomeFilled, StarOutlined } from "@ant-design/icons";
+import {HomeFilled, StarOutlined, DollarOutlined } from "@ant-design/icons";
 import { Menu } from "antd";
 import { useState } from "react";
 import Link from "next/link"
@@ -24,7 +24,16 @@ const items = [
   {
     label: (<Link href={public_urls.lista_ventas_dia_vendedor}>Ventas D&iacute;a</Link>),
     key: '14',
-    icon: <StarOutlined />,
+    icon: <DollarOutlined />,
+  },
+  
+  /*{
+    label: (<Link href={public_urls.stock_admin}>Stock</Link>),
+    key: '16',
+  },*/
+  {
+    label: (<Link href={public_urls.eventos_admin}>Eventos</Link>),
+    key: '15',
   },
   {
     label: (<BuscarVenta />),

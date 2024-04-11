@@ -1,14 +1,25 @@
-const { Select } = require("antd");
-const { useState, useEffect } = require("react");
+import { get } from "@/src/urls";
+
+import { Select, Row, Col } from "antd";
+import { useState, useEffect } from "react";
 
 const SucursalSelect = (props) => {
     const [sucursalData,setSucursalData] = useState([]);
-    const sucursalUrl = "";
+    const sucursalUrl = get.sucursales;
+    const [selectedSucursal, setSelectedSucursal] = useState("-1")
     const loadSucursales = () => {
         fetch(sucursalUrl)
         .then((response)=>response.json())
         .then((response)=>{
-            setSucursalData(response)
+            setSucursalData(
+                [
+                    ...[{label:"Todas", value:"-1"}],
+                    ...response.data.map(r=>({
+                        label: r.nombre,
+                        value: r.idsucursal,
+                    }))
+                ]
+            )
         })
         .catch((error)=>{console.error(error)})
     }
@@ -18,17 +29,31 @@ const SucursalSelect = (props) => {
     },[])
 
     return (
-        <>
-        <Select 
-            options={sucursalData}
-            style={{width:240}}
-            onChange={
-                (value)=>{
-                    props.callback(value)
+        <Row style={{padding:"1em"}}>
+            <Col span={1} style={
+                {
+                    textAlign:"right", 
+                    paddingTop:".4em",
+                    paddingRight:"1em"
                 }
-            }
-        />
-        </>
+                }>
+                Sucursal:
+            </Col>
+            <Col span={20}>
+                <Select 
+                    options={sucursalData}
+                    style={{width:240}}
+                    value={selectedSucursal}
+
+                    onChange={
+                        (value)=>{
+                            setSelectedSucursal(value)
+                            props.callback(value)
+                        }
+                    }
+                />
+            </Col>
+        </Row>
     )
 
 }

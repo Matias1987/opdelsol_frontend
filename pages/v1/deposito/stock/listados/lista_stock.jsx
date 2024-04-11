@@ -446,7 +446,7 @@ export default function ListaStock(){
             ]}
             />
             <Row style={{backgroundColor:"#D3E1E6"}}>
-                <Col span={4}>
+                <Col span={4} style={{padding:".5em"}}>
                     <Button onClick={()=>{setOpen(true)}} ><TableOutlined />  Grilla de C&oacute;digos</Button>
                     <Modal 
                         footer={null} 
@@ -458,7 +458,7 @@ export default function ListaStock(){
                             <CodeGrid idsubgrupo={idsubgrupo} width={500} height={480}/>
                     </Modal>
                 </Col>
-                <Col span={4}>{edit_popup()}</Col>
+                <Col span={4} style={{padding:".5em"}}>{edit_popup()}</Col>
                 {/*<Col span={4}>
                     <Button block onClick={(e)=>{
                     setData(
@@ -469,7 +469,7 @@ export default function ListaStock(){
                     )
                     }}><CheckCircleOutlined />Seleccionar / Deseleccionar Todo</Button>
                 </Col>*/}
-                <Col span={4}>
+                <Col span={4} style={{padding:".5em"}}>
                     <ExportToCSV parseFnt={()=>{
                         let str = "Familia, SubFamilia, Grupo, Subgrupo, Codigo, Descripcion, Cantidad, Precio,\r\n"
                         data.forEach(r=>{
@@ -479,7 +479,7 @@ export default function ListaStock(){
                     }} 
                     />
                 </Col>
-                <Col span={4}>
+                <Col span={4} style={{padding:".5em"}}>
                     <ImpresionCodigosPopup codigos={(data.filter(d=>d.checked)).map(c=>({codigo:c.codigo, idcodigo: c.idcodigo , cantidad:  c.cantidad}))} />
                 </Col>
                 {/*<Col span={4} style={{padding:".3em"}}>

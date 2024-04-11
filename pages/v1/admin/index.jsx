@@ -27,10 +27,8 @@ export default function dashboard_admin(){
     },[])
     return <>
     <Row>
-        <Col span={8}>
-            <Eventos />
-        </Col>
-        <Col span={16}>
+
+        <Col span={24}>
             Totales
             {
                 sucursales.map(s=><ResumenOperacionesRow color={(++col%2==0?"#C4D5E7":"#E1E1E1")} key={s.idsucursal} idsucursal={s.idsucursal} nombre_sucursal={s.nombre} />)
@@ -38,14 +36,7 @@ export default function dashboard_admin(){
         </Col>
     </Row>
 
-    <Row>
-        <Col span={24}>
-            <Divider />
-            <CustomModal openButtonText="test" >
-                <CodeGrid width={600} height={480} />
-            </CustomModal>
-        </Col>
-    </Row>
+   
     
     
     
