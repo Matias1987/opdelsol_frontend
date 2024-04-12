@@ -4,17 +4,37 @@ const { useEffect, useState } = require("react")
 
 const SucursalLabel = (props) => {
     const [data,setData] = useState(null)
+    
     useEffect(()=>{
         //get details
-        fetch(get.sucursal_details + props.idsucursal)
+        fetch(
+            get.sucursal_details  + props.idsucursal
+        )
         .then(response=>response.json())
         .then((response)=>{
+            
+            if((response.data||null)==null)
+            {
+                setData(null)
+                return
+            }
+            if(typeof response.data.length === 'undefined')
+            {
+                setData(null)
+                return
+            }
+            if(response.data.length <1)
+            {
+                setData(null)
+                return
+            }
+
             setData(response.data)
         })
         .catch(e=>{console.log("error")})
     },[])
 
-    return data === null ? <></> : (
+    return data == null  ? <></> : (
         <>
         <span style={ {color:'white'}} >{data[0].nombre}</span>
         </>

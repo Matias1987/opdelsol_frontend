@@ -102,14 +102,15 @@ const SearchStockVentas = (props) => {
             </Col>
             <Col span={6}><Button danger onClick={(e)=>{setFiltros(_f=>({esf:"", cil:"",add:""}))}}><CloseCircleFilled /></Button></Col>
         </Row>
-        <Row>
+        <Row style={{padding:"1em"}}>
             <Col span={24}>
                 <Button type="primary" size="small" onClick={onSearch} block><SearchOutlined /> Buscar</Button>
             </Col>
         </Row>
-        <Row style={{height: "300px", overflowY: "scroll"}}>
+        <Row>
             <Col span={24}>
                 <Table 
+                    scroll={{y:"300px"}}
                     rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'}
                     pagination={false}
                     loading={loading}

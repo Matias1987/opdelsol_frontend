@@ -2,7 +2,7 @@ import { useState } from "react"
 import VentasArmazon from "../Armazon"
 import VentasTratamiento from "../Tratamiento"
 import MultifLabCristal from "./MultifLabCristal"
-import { Form } from "antd"
+import { Row, Col } from "antd"
 import SelectCodeButton from "../selectCodeButton"
 
 const MultifLabItems = (props) => {
@@ -37,20 +37,47 @@ const MultifLabItems = (props) => {
         })
     }
 
+    const _style_label = {
+        paddingTop: "1em",
+        textAlign: "left",
+        fontWeight: "bold", 
+        fontSize: ".75em",
+    }
+
 
     return <>
-        <Form.Item className="table-row-light" label={"OD: "}>
+        <Row className="table-row-light" style={{padding:".7em"}}>
+            <Col style={_style_label} span={2}>
+                OD
+            </Col>
+            <Col span={22}>
             <MultifLabCristal onVisibleChange={(_value)=>onVisibleChange("od_visible",_value)}  tipo='OD' buttonText={<SelectCodeButton />} callback={(v)=>{on_change("od",v)}}/>
-        </Form.Item>
-        <Form.Item className="table-row-dark" label={"OI: "}>    
+            </Col>
+        </Row>
+        <Row className="table-row-dark" style={{padding:".7em"}} >
+            <Col style={_style_label} span={2}>
+                OI
+            </Col>
+            <Col span={22}>
             <MultifLabCristal onVisibleChange={(_value)=>onVisibleChange("oi_visible",_value)}  tipo='OI' buttonText={<SelectCodeButton />} callback={(v)=>{on_change("oi",v)}}/>
-        </Form.Item>
-        <Form.Item className="table-row-light" label={"ARMAZON: "}>    
+            </Col>
+        </Row>
+        <Row className="table-row-light" style={{padding:".7em"}}>
+            <Col style={_style_label} span={2}>
+                ARMAZ&Oacute;N
+            </Col>
+            <Col span={22}>
             <VentasArmazon onVisibleChange={(_value)=>onVisibleChange("armazon_visible",_value)}  tipo='ARMAZON' buttonText={<SelectCodeButton />}  callback={(v)=>{on_change("armazon",v)}}/>
-        </Form.Item>
-        <Form.Item className="table-row-dark" label={"TRATAMIENTO: "}>    
+            </Col>
+        </Row>
+        <Row className="table-row-dark" style={{padding:".7em"}} >
+            <Col style={_style_label} span={2}>
+                TRATAMIENTO
+            </Col>
+            <Col span={22}>
             <VentasTratamiento onVisibleChange={(_value)=>onVisibleChange("tratamiento_visible",_value)}  tipo='TRATAMIENTO' buttonText={<SelectCodeButton />} callback={(v)=>{on_change("tratamiento",v)}}/>
-        </Form.Item>
+            </Col>
+        </Row>
     </>
 }
 

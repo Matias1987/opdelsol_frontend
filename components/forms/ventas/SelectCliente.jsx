@@ -119,7 +119,7 @@ const SelectCliente = (props) =>{
             <></>
         }
         </>
-        <Button danger onClick={()=>{
+        <Button type="ghost" style={{color:"red"}} onClick={()=>{
             props?.callback?.(null)
             setIdCliente(-1)
             }}><CloseOutlined /></Button>

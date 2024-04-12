@@ -67,7 +67,7 @@ const RecStockCristal = (props) => {
     }
 
     const _estilo_label = {
-        padding: ".30em",
+        /*padding: ".30em",*/
         textAlign: "right",
     }
       
@@ -82,7 +82,7 @@ const RecStockCristal = (props) => {
         <>
             <Row>
                 <Col span={16}>
-                    <SelectCodigoVenta idfamilias={[globals.familiaIDs.CRISTALES]} buttonText={"Seleccionar Codigo Cristal"} callback={onchange_codigo} />
+                    <SelectCodigoVenta idfamilias={[globals.familiaIDs.CRISTALES]} buttonText={"Seleccionar Código Cristal"} callback={onchange_codigo} />
                 </Col>
                 {/*<Col span={4}>
                     <Input addonBefore={"Eje:"} onChange={onchange_eje} />&nbsp;
@@ -99,7 +99,7 @@ const RecStockCristal = (props) => {
                     <Input disabled={cristal.codigo==null} type="number" value={cristal.precio} readOnly={false} onChange={(e)=>{onchange_precio({precio: parse_float_string(e.target.value)})}} size="small" style={{backgroundColor:"rgba(131,137,150, 0.4)"}} prefix="Precio: " />
                 </Col>
                 <Col span={1}>
-                    <Button danger size="small" onClick={()=>{onRemove()}}><DeleteOutlined/></Button>
+                    <Button danger  size="small" onClick={()=>{onRemove()}}><DeleteOutlined/></Button>
                 </Col>
             </Row>
 

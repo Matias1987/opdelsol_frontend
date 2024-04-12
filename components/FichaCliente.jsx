@@ -85,8 +85,8 @@ export default function FichaCliente(props){
                     break;
                     case 'CARGA MANUAL':
                         return <>
-                        {detalle}&nbsp;<Button danger size="small" onClick={(e)=>{anular_carga_manual(id)}}>Anular</Button>
-                       &nbsp;<EditarCargaManualPopup idcargamanual={id} callback={()=>{load()}} />
+                        {detalle} {/*&nbsp;<Button danger size="small" onClick={(e)=>{anular_carga_manual(id)}}>Anular</Button>
+                       &nbsp;<EditarCargaManualPopup idcargamanual={id} callback={()=>{load()}} />*/}
                         </>
                     default: return {detalle}
                 }

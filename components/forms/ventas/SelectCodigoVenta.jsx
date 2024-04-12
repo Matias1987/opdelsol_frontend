@@ -47,14 +47,16 @@ export default function SelectCodigoVenta(props){
 
 
     const _codigo_style = {
-        fontSize:".75em"
+        fontSize:".85em",
     }
+
+    const _button = _ => <Button danger size="small" type="ghost" style={{color:"red"}} onClick={()=>{on_remove()}}><CloseCircleFilled /></Button>
 
     return (
         dataCodigo === null ?
     <>
         <CustomModal 
-        openButtonText= { typeof props.buttonText === 'undefined' ? 'Seleccione Codigo' : props.buttonText }
+        openButtonText= { typeof props.buttonText === 'undefined' ? 'Seleccionar Código' : props.buttonText }
         title="Buscar"
         >
             <SearchStockVentas idfamilias={typeof props.idfamilias === 'undefined' ? [] : props.idfamilias} callback={onCodigoSelected} />
@@ -62,6 +64,6 @@ export default function SelectCodigoVenta(props){
         </>
         :
         <>
-        <span style={_codigo_style}>Codigo:&nbsp;<b>{dataCodigo.codigo}</b>&nbsp;&nbsp;&nbsp;{/*Desc.:<b>{dataCodigo.descripcion}</b>&nbsp;*/}<Button danger size="small" onClick={()=>{on_remove()}}><CloseCircleFilled /></Button></span>
+        <span style={_codigo_style}>Codigo:&nbsp;<b>{dataCodigo.codigo.length>30 ? dataCodigo.codigo.substring(0,30)+"..." : dataCodigo.codigo}</b>{/*Desc.:<b>{dataCodigo.descripcion}</b>&nbsp;*/}{_button()}</span>
         </>
         )}

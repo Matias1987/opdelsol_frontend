@@ -50,7 +50,7 @@ const VentasInsumo = (props) => {
         <>
             <Row>
                 <Col span={19}>
-                    <SelectCodigoVenta buttonText="Seleccione Codigo Insumo" idfamilias={[globals.familiaIDs.INSUMO,globals.familiaIDs.LIQUIDOS]} callback={on_codigo_change} />
+                    <SelectCodigoVenta buttonText="Seleccione Código Insumo" idfamilias={[globals.familiaIDs.INSUMO,globals.familiaIDs.LIQUIDOS]} callback={on_codigo_change} />
                 </Col>
                 <Col span={4}>
                     <Input disabled={insumo.codigo==null} type="number" min={0} prefix={"Precio: "} readOnly={false} style={{backgroundColor:"rgba(131,137,150, 0.4)"}} value={insumo.precio} onChange={on_precio_change} size="small" />

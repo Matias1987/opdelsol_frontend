@@ -44,7 +44,7 @@ const VentasTratamiento = (props) => {
     return (
         !visible ? <Button size="small" type="primary" onClick={()=>{setVisible(v=>{ props?.onVisibleChange?.(true); return true;})}}>{
             typeof props.buttonText === 'undefined' ?
-            "Establecer Cristal"
+            "Establecer Tratamiento"
             :
             props.buttonText
             }</Button>  :

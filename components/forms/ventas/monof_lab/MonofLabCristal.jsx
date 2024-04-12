@@ -109,7 +109,6 @@ const MonofLabCristal = (props) => {
     }
 
     const _estilo_label = {
-        padding: ".30em",
         textAlign: "right",
     }
       
@@ -123,40 +122,28 @@ const MonofLabCristal = (props) => {
             }</Button> :
         <>
             <Row>
-                {/*<Col span={3}>
-                    <Input addonBefore={"Esf:"} onChange={onchange_esf} />&nbsp;
-                </Col>
-                <Col span={3}>
-                    <Input addonBefore={"Cil:"} onChange={onchange_cil} />&nbsp;
-                </Col>
-                <Col span={3}>
-                    <Input addonBefore={"Eje:"} onChange={onchange_eje} />&nbsp;
-                </Col>
-                */}
+ 
                 <Col span={1} style={_estilo_label}>
                     Esf:
                 </Col>
-                <Col span={3}>
-                    {/*<Select size="small" style={{fontSize:".5em"}} options={itemsEsf} onChange={(v)=>{onchange_esf(v)}} />*/}
-                    <Input  disabled={cristal.codigo==null} step={"0.25"} value={cristal.esf} onChange={(e)=>{onchange_esf(e.target.value)}} />
+                <Col span={2}>
+                    <Input size="small"  disabled={cristal.codigo==null} step={"0.25"} value={cristal.esf} onChange={(e)=>{onchange_esf(e.target.value)}} />
                 </Col>
                 <Col span={1} style={_estilo_label}>
                     Cil:
                 </Col>
-                <Col span={3}>
-                    {/*<Select size="small" options={itemsCil} onChange={(v)=>{onchange_cil(v)}}/>*/}
-                    <Input  disabled={cristal.codigo==null} step={"0.25"}  value={cristal.cil} onChange={(e)=>{onchange_cil(e.target.value)}}/>
+                <Col span={2}>
+                    <Input size="small"  disabled={cristal.codigo==null} step={"0.25"}  value={cristal.cil} onChange={(e)=>{onchange_cil(e.target.value)}}/>
                 </Col>
                 <Col span={1} style={_estilo_label}>
                     Eje:
                 </Col>
                 <Col span={2}>
-                    {/*<Select size="small" options={itemsEje} onChange={(v)=>{onchange_eje(v)}}/>*/}
-                    <Input  disabled={cristal.codigo==null} step={"0.25"} value={cristal.eje} onChange={(e)=>{onchange_eje(e.target.value)}}/>
+                    <Input size="small"  disabled={cristal.codigo==null} step={"0.25"} value={cristal.eje} onChange={(e)=>{onchange_eje(e.target.value)}}/>
                 </Col>
                 
-                <Col span={8}>
-                    <SelectCodigoVenta idfamilias={[globals.familiaIDs.CRISTALES]} buttonText={"Seleccionar Codigo Base"} callback={onchange_codigo} />
+                <Col span={10}>
+                    <SelectCodigoVenta idfamilias={[globals.familiaIDs.CRISTALES]} buttonText={"Seleccionar Código"} callback={onchange_codigo} />
                 </Col>
                 <Col span={4}>
                     <Input disabled={cristal.codigo==null} type="number" readOnly={false} size="small"  prefix="Precio" value={cristal.precio} onChange={onchange_precio} style={{backgroundColor:"rgba(131,137,150, 0.4)"}} />
