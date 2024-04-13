@@ -80,7 +80,7 @@ const EditarStockIndiv = (props) => {
             </Row>
             <Row style={{padding:"1em"}}>
                 <Col span={3}>
-                    <Checkbox onChange={()=>{setEditarCosto(!editarCosto)}} value={editarCosto}>Costo</Checkbox>
+                    <Checkbox onChange={()=>{setEditarCosto(!editarCosto)}} checked={editarCosto}>Costo</Checkbox>
                 </Col>
                 <Col span={21}>
                     <Input type="number" disabled={!editarCosto} value={costo} onChange={(e)=>{setCosto(parseInt(e.target.value))}}/>

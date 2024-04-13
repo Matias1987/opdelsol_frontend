@@ -284,7 +284,7 @@ export default function CargaStock(){
                 </Row>
                 <Row>
                     <Col span={24} style={{padding:"1em"}}>
-                        <Checkbox value={verSoloFaltantes} onChange={()=>{setVerSoloFaltantes(!verSoloFaltantes)}}>Ver s&oacute;lo faltantes</Checkbox>
+                        <Checkbox checked={verSoloFaltantes} onChange={()=>{setVerSoloFaltantes(!verSoloFaltantes)}}>Ver s&oacute;lo faltantes</Checkbox>
                     </Col>
                 </Row>
                 <Row>

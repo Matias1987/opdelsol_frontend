@@ -38,17 +38,17 @@ const CategoriaSelect = (props) => {
     return <div style={{padding:".2em", backgroundColor:"rgba(100,250,250,.3)"}}>
     
     <Row style={{padding:".7em"}}>
-        <Col span={2} style={{textAlign:"left", paddingTop:".3em"}}>
+        <Col span={4} style={{textAlign:"left", paddingTop:".3em"}}>
             Categor&iacute;a:&nbsp;&nbsp;
         </Col>
-        <Col span={5}>
+        <Col span={20}>
             <div  style={!enabled?disabled_style:enabled_style}>
             <Select 
             
             value={categoria}
             defaultValue={"Seleccione"}
             placeholder="Seleccione"
-            style={{width:"200px"}}
+            style={{width:"100%"}}
             onChange={(v)=>{
                 setCategoria(v)
                 if(v=='-1'){
@@ -64,18 +64,29 @@ const CategoriaSelect = (props) => {
             ]} />
             </div>
         </Col>
-    
-        <Col span={15}>
+        </Row>
+    <Row style={{padding:"1em"}}>
+        <Col span={24}>
             <div style={!enabled?disabled_style:enabled_style}>
                 {_opt()}
             </div>
         </Col>
+    </Row>
+    <Row>
         <Col span={1}>
-            <Button size="large" danger onClick={()=>{
+            <Button 
+            size="small" 
+            type="ghost"
+            style={{color:"red", textAlign:"center"}} 
+            block
+            onClick={()=>{
                 setEnabled(true)
                 setCategoria("-1")
                 props?.callback?.("-1","-1")
-                }}><CloseCircleFilled /></Button>
+                }}
+            >
+                    <CloseCircleFilled />Limpiar
+            </Button>
         </Col>
     </Row>
     </div>

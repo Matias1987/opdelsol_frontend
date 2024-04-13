@@ -63,7 +63,7 @@ export default function ListaSubGrupos(){
 
         <Row style={{padding:"1em"}}>
             <Col span={6}>
-                <Checkbox value={filtrarPorGrupo} onChange={(e)=>{
+                <Checkbox checked={filtrarPorGrupo} onChange={(e)=>{
                     setFiltrarPorGrupo(!filtrarPorGrupo)
                     setChange(!change)
                 }

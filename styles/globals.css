@@ -160,10 +160,10 @@ a::before{
 
 
 .table-row-light {
-  background-color: #DEDCE8;
+  background-color: #E1DFEB;
 }
 .table-row-dark {
-  background-color: #e7f0fc;
+  background-color: #E9E9E9/*#e7f0fc;*/
 }
 .error-row {
   background-color: #eb331a;
