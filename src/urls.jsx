@@ -102,6 +102,7 @@ const post = {
     gr_ventas_dia_totales: remote_base_url + "admin/gr/ventas_dia_totales/",
     eventos: remote_base_url + "evt/get/",
     obtener_grilla_stock: remote_base_url + "stock/obtener_grilla_stock/",
+    totales_stock_ventas_periodo: remote_base_url + "admin/inf/stock/ventas/periodo/",
 
 
     search:{

@@ -24,11 +24,11 @@ export default function StockSucursalAdmin(){
             key: "3",
             children:  <VentasTotalesSucursales idsucursal={selectedSucursal}  />
         },
-        {
+        /*{
             label:"Envíos",
             key: "2",
             children:  <MovimientosPeriodoSucursales idsucursal={selectedSucursal}  />
-        },
+        },*/
         {
             label:"Controles de Stock",
             key: "4",

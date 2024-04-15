@@ -3,7 +3,7 @@ import SubGroupSelect from "@/components/SubGroupSelect"
 import { Button, Col, Input, Row } from "antd"
 import { useState } from "react"
 
-const FiltroCodigos = (props) => {
+const   FiltroCodigos = (props) => {
     const [filtros, setFiltros] = useState({
         idfamilia:"-1",
         idsubfamilia:"-1",
@@ -38,7 +38,7 @@ const FiltroCodigos = (props) => {
     </Row>
     <Row>
         <Col span={24}>
-            <Input prefix="Codigo: " style={{backgroundColor:"lightblue"}} value={filtros.codigo}  onChange={(e)=>{onCodigoChange((e.target.value||""))}}/>
+            <Input allowClear prefix="Codigo: " style={{backgroundColor:"lightblue"}} value={filtros.codigo}  onChange={(e)=>{onCodigoChange((e.target.value||""))}}/>
         </Col>
     </Row>
     <Row>

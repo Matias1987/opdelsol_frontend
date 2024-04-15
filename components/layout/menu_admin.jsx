@@ -27,10 +27,10 @@ const items = [
     icon: <DollarOutlined />,
   },
   
-  /*{
+  {
     label: (<Link href={public_urls.stock_admin}>Stock</Link>),
     key: '16',
-  },*/
+  },
   {
     label: (<Link href={public_urls.eventos_admin}>Eventos</Link>),
     key: '15',
