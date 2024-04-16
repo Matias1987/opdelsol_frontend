@@ -36,6 +36,10 @@ const items = [
     key: '15',
   },
   {
+    label: (<Link href={public_urls.listausuarios}>Usuarios</Link>),
+    key: '17',
+  },
+  {
     label: (<BuscarVenta />),
     key: '404',
   }

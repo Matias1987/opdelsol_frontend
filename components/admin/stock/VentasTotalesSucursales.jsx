@@ -38,11 +38,6 @@ const VentasTotalesSucursales = (props) => {
         let to = _parse(JSON.stringify(val[1]))
 
         
-
-        //alert(JSON.stringify(val[0]))
-        //alert(JSON.stringify(from))
-        //alert(JSON.stringify(to))
-
         setFiltros(_f=>({..._f,
             desde: `${from.anio}-${from.mes}-${from.dia}`,
             hasta: `${to.anio}-${to.mes}-${to.dia}`,
@@ -51,8 +46,6 @@ const VentasTotalesSucursales = (props) => {
     
     }
     const periodoSemana = (val, dateString) => {
-        //ej ["2024-04-01T13:08:12.768Z","2024-04-21T13:08:12.768Z"]
-        //alert(JSON.stringify(val))
         if(val==null)
         {
             _limpiar_fechas()
@@ -62,8 +55,6 @@ const VentasTotalesSucursales = (props) => {
         let from = _parse(JSON.stringify(val[0]))
         let to = _parse(JSON.stringify(val[1]))
         
-        //alert(JSON.stringify(from))
-        //alert(JSON.stringify(to))
     
     }
     const periodoMes = (val, dateString) => {
@@ -74,8 +65,6 @@ const VentasTotalesSucursales = (props) => {
             return
         }
         
-        //alert(JSON.stringify(val))
-        //alert(JSON.stringify(val[0]))
         let from = _parse(JSON.stringify(val[0]))
         let to = _parse(JSON.stringify(val[1]))
 
@@ -83,8 +72,6 @@ const VentasTotalesSucursales = (props) => {
         let date_to = new Date(to.anio,to.mes-1, '1')
         date_to.setMonth(date_to.getMonth()+1)
         date_to.setDate(date_to.getDate()-1)
-
-        //alert(`${date_from.toDateString()}  to  ${date_to.toDateString()}`)
 
         setFiltros(_f=>({..._f,
             
@@ -96,14 +83,12 @@ const VentasTotalesSucursales = (props) => {
     
     const load = ( ) => {
         post_method(post.totales_stock_ventas_periodo,filtros,(rows)=>{
-            alert(JSON.stringify(rows))
             setDataSource(rows.data)
         })
     }
     
     useEffect(()=>{
         load()
-        alert(JSON.stringify(filtros))
     },[update])
 
     return <>

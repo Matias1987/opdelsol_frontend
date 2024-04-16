@@ -16,6 +16,10 @@ const CantidadesSucursales = (props) => {
         {dataIndex:"cantidad", title:"Cantidad"},
     ]
     useEffect(()=>{
+        if(typeof filtros.familia === 'undefined')
+        {
+            return
+        }
         let f = {familia: filtros.familia||'', subfamilia: filtros.subfamilia||'', grupo:filtros.grupo||'', subgrupo:filtros.subgrupo||'', sucursal:props.idsucursal}
         //alert(JSON.stringify(f))
 

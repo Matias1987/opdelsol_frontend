@@ -69,6 +69,8 @@ const public_urls = {
 
     lista_ventas_dia_vendedor: local_base_url + "admin/lista_ventas_dia",
 
+    listausuarios: local_base_url + "admin/listausuarios",
+
     lista_control_stock: local_base_url + "deposito/control_stock/lista",
     
     nuevo_control_stock: local_base_url + "deposito/control_stock/carga",
@@ -138,6 +140,7 @@ const post = {
         evento: remote_base_url+"evt/",
         item_adicional: remote_base_url + "adic/",
         control_stock: remote_base_url + "cs/",
+        u_permisos_a_u: remote_base_url + "usuarios/perm/u/a/m/",
     },
     update:{
         familia: remote_base_url + "familia/",
