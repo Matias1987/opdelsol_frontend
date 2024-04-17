@@ -97,6 +97,7 @@ export default function ListaStock(){
         setLoading(true)
        
         const data = procesar_tags();
+        //alert(JSON.stringify(data))
         post_method(post.search.filtro_stock,data,(response)=>{
             //alert(JSON.stringify(response))
             setData(response.data.map(

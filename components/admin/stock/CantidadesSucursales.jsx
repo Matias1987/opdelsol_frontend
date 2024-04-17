@@ -7,7 +7,25 @@ import { useEffect, useState } from "react";
 const CantidadesSucursales = (props) => {
     const [dataSource, setDataSource] = useState([])
     const [loading, setLoading] = useState(false)
-    const [filtros, setFiltros] = useState({idsucursal:props.idsucursal})
+    const [filtros, setFiltros] = useState({
+            codigo_contenga_a:'',
+            codigo_igual_a:'',
+            precio_mayor_a:'',
+            precio_menor_a:'',
+            precio_igual_a:'',
+            cantidad_igual_a:'',
+            cantidad_mayor_a:'',
+            cantidad_menor_a:'',
+            sexo:'',
+            edad:'',
+            descripcion:'',
+            subgrupo:'',
+            grupo:'',
+            subfamilia:'',
+            familia:'',
+            grupo_contenga_a:'',
+            sucursal:props.idsucursal,
+        })
     const [update, setUpdate] = useState(false)
     const [total, setTotal] = useState(0)
     const columns = [
@@ -20,10 +38,10 @@ const CantidadesSucursales = (props) => {
         {
             return
         }
-        let f = {familia: filtros.familia||'', subfamilia: filtros.subfamilia||'', grupo:filtros.grupo||'', subgrupo:filtros.subgrupo||'', sucursal:props.idsucursal}
+        //let f = {familia: filtros.familia||'', subfamilia: filtros.subfamilia||'', grupo:filtros.grupo||'', subgrupo:filtros.subgrupo||'', sucursal:props.idsucursal}
         //alert(JSON.stringify(f))
 
-        post_method(post.search.filtro_stock,f,(response)=>{
+        post_method(post.search.filtro_stock,filtros,(response)=>{
            // alert(JSON.stringify(response))
             setDataSource(response.data)
             let t = 0

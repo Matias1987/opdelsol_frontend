@@ -331,6 +331,8 @@ const get = {
 
     obtener_lista_controles: remote_base_url + "cs/",
 
+    anular_envio: remote_base_url + "envio/anular/envio/",
+
     
 }
 

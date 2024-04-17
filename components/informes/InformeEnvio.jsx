@@ -25,7 +25,9 @@ const InformeEnvio = (props, ref) =>{
                     cantidad: response.data[0].cantidad_total,
                     monto_total: 0,
                     sucursal: response.data[0].sucursal,
-                    id: response.data[0].idenvio
+                    sucursal_origen: response.data[0].sucursal_origen,
+                    id: response.data[0].idenvio,
+
                 }
             )
             //now load data from items
@@ -59,7 +61,8 @@ const InformeEnvio = (props, ref) =>{
                             </tr>
                             <tr>
                                 <td>Nro. Envio: &nbsp; <b>{content.id}</b></td>
-                                <td>Sucursal: &nbsp; <b>{content.sucursal}</b></td>
+                                <td style={{fontSize:"1.2em"}}>Sucursal Destino: &nbsp; <b>{content.sucursal}</b></td>
+                                <td style={{fontSize:".7em"}}>Sucursal Origen: &nbsp; {content.sucursal_origen}</td>
                             </tr>
                             <tr>
                                 <td>Cantidad: &nbsp; <b>{content.cantidad}</b></td>
