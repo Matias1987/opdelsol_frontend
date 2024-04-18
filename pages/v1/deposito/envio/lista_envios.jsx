@@ -1,11 +1,12 @@
 import CustomModal from "@/components/CustomModal";
+import ExportToCSV from "@/components/ExportToCSV";
 import PrinterWrapper from "@/components/PrinterWrapper";
 import CodigosQR from "@/components/forms/deposito/codigosQR";
 import CodigosDeBarraEnvio from "@/components/informes/CodigosDeBarra";
 import InformeEnvio from "@/components/informes/InformeEnvio";
 
-const { Table, Button, Tag } = require("antd");
-const { useEffect, useState } = require("react");
+import { Table, Button, Tag, Row, Col } from "antd";
+import { useEffect, useState } from "react";
 const urls = require("../../../../src/urls")
 const ListaEnvios = (props) => {
     const [data,setData] = useState([])
@@ -86,11 +87,46 @@ const ListaEnvios = (props) => {
 
     return(
         <>
-        <h1 >Env&iacute;os</h1>
-        <Table
+        <Row>
+            <Col span={24}>
+            <h2 >Env&iacute;os</h2>
+            </Col>
+        </Row>
+        <Row>
+            <Col span={24}>
+                <ExportToCSV 
+                parseFnt={
+                    ()=>{
+                        let str = "Nro., Sucursal Origen, Sucursal Destino, Cantidad Total, Fecha, Estado,\r\n"
+                        data.forEach(r=>{
+                            str+=`${r.idenvio},${r.sucursal_origen},${r.sucursal_idsucursal},${r.cantidad_total},${r.fecha},${r.estado},\r\n`
+                        })
+
+                        return str;
+                    }
+                }
+                />
+            </Col>
+        </Row>
+        <Row>
+            <Col span={24}>
+            <Table
             columns={columns}
             dataSource={data}
         />
+            </Col>
+        </Row>
+        <Row>
+            <Col span={24}>
+            </Col>
+        </Row>
+        <Row>
+            <Col span={24}>
+            </Col>
+        </Row>
+        
+
+        
         </>
     )
 }

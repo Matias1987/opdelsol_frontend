@@ -151,7 +151,7 @@ const CodeGrid = (props) => {
                 {
                         continue
                 }
-            
+                ctx.font = `13px Arial`;
                 ctx.fillStyle="blue"
                 if(j==0)
                 {
@@ -183,15 +183,16 @@ const CodeGrid = (props) => {
 
                     //ctx.fillStyle=(dict[idx].cantidad==0 ? "#20B2AA" : "#EB4C42")
                     //ctx.fillRect(x ,y ,tilew,tileh)
-                    if(dict[idx].cantidad>0)
-                    {
-                        ctx.fillStyle="black"
-                        ctx.fillText(dict[idx].cantidad.toString(), x + 8,y + 14)
+                    //if(dict[idx].cantidad>0)
+                    //{
+                        ctx.font = dict[idx].cantidad>0 ? `12px Arial` : `8px Arial`
+                        ctx.fillStyle=dict[idx].cantidad>0 ? "black" : "#5BA1E7"
+                        ctx.fillText(dict[idx].cantidad.toString(), x + 6,y + 14)
                        //ctx.fillStyle="red"
                        //ctx.fillText(dict[idx].esf, x ,y + 32)
                        //ctx.fillText(dict[idx].cil, x ,y + 44)
 
-                    }
+                    //}
                     
                 }
     
