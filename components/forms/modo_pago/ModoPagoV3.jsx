@@ -236,11 +236,11 @@ export default function ModoPagoV3(props){
             <Divider />
         </Col>
     </Row>
-        <Row style={{backgroundColor:"rgba(0,255,0,0.1)"}}>
-            <Col span={6} >
+        <Row style={{backgroundColor:"#B4FFA2", paddingLeft:"1.3em"}}>
+            <Col span={6} style={{paddingTop:".2em"}}>
                 <b>Modo de Pago</b>
             </Col>
-            <Col span={12} style={{backgroundColor:"rgba(0,255,0,0.2)", padding:".3em"}}>
+            <Col span={12} style={{backgroundColor:"#F9F871", padding:".3em"}}>
                 <Checkbox checked={efectivoChecked} onChange={(e)=>{
                     setEfectivoChecked(!efectivoChecked)
                     

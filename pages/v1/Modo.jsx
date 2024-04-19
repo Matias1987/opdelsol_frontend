@@ -4,7 +4,7 @@
 import { getItem } from "localforage";
   import { useEffect, useState } from "react";
 
-  const { Space, Card, Button } = require("antd");
+  import { Space, Card, Button, Col, Row } from "antd";
 
   export default function Modo(){
 
@@ -72,19 +72,23 @@ import { getItem } from "localforage";
       fontWeight: "bold",
     }*/
     const button_style_default = {
-      background: "rgb(184,203,217)",
+      /*background: "rgb(184,203,217)",
       background: "radial-gradient(circle,  rgba(218,205,186,1) 0%,  rgba(184,203,217,1) 100%)",
       marginTop: "1em",
-      color: "#284459",
+      color: "#284459",*/
       //fontWeight: "bold",
     }
 
     const button_style_danger = {
-      background: "rgb(28,77,142)",
+      /*background: "rgb(28,77,142)",
       background: "radial-gradient(circle, rgba(199,0,0,1) 0%, rgba(252,70,70,1) 100%)",
       marginTop: "1em",
-      color: "white",
+      color: "white",*/
       //fontWeight: "bold",
+    }
+
+    const row_style = {
+      padding:"1em"
     }
 
     const buttons = () => (
@@ -92,60 +96,80 @@ import { getItem } from "localforage";
       <>
         {(permisos.esUsuarioDeposito || permisos.esUsuarioDepositoMin)?
           <>
-          <Button 
-          shape="round"
-          type="primary" onClick={(e)=>{
-            window.location.replace(public_urls.dashboard_deposito)
-          }} 
-          style={button_style_default} 
-          size="large" 
-          block>Dep&oacute;sito</Button>
+          <Row style={row_style}>
+            <Col span={24}>
+                <Button 
+              shape="round"
+              type="primary" onClick={(e)=>{
+                window.location.replace(public_urls.dashboard_deposito)
+              }} 
+              style={button_style_default} 
+              size="large" 
+              block>Dep&oacute;sito</Button>
+            </Col>
+          </Row>
+          
           </>
           :<></>
         }
         {
         permisos.esUsuarioVentas?
         <>
-        <Button 
-        shape="round"
-        type="primary" onClick={(e)=>{
-          window.location.replace(public_urls.dashboard_venta)
-        }} 
-        style={button_style_default} 
-        size="large" 
-        block>Ventas</Button>
+          <Row style={row_style}>
+            <Col span={24}>
+                <Button 
+            shape="round"
+            type="primary" onClick={(e)=>{
+              window.location.replace(public_urls.dashboard_venta)
+            }} 
+            style={button_style_default} 
+            size="large" 
+            block>Ventas</Button>
+            </Col>
+          </Row>
+        
         </>
         :<></>
         }
         {
         permisos.esUsuarioCaja1?
         <>
-          <Button 
-          shape="round"
-          type="primary" onClick={(e)=>{
-            window.location.replace(public_urls.dashboard_caja)
-          }} 
-          style={button_style_default} 
-          size="large" 
-          block>
-          Caja
-          </Button>
+          <Row style={row_style}>
+            <Col span={24}>
+                <Button 
+              shape="round"
+              type="primary" onClick={(e)=>{
+                window.location.replace(public_urls.dashboard_caja)
+              }} 
+              style={button_style_default} 
+              size="large" 
+              block>
+              Caja
+              </Button>
+            </Col>
+          </Row>
+          
         </>
         :<></>
         }
         {
         permisos.esUsuarioLaboratorio?
         <>
-          <Button 
-          shape="round"
-          type="primary" onClick={(e)=>{
-            window.location.replace(public_urls.dashboard_laboratorio)
-          }} 
-          style={button_style_default} 
-          size="large" 
-          block>
-          Laboratorio
-          </Button>
+          <Row style={row_style}>
+            <Col span={24}>
+                <Button 
+              shape="round"
+              type="primary" onClick={(e)=>{
+                window.location.replace(public_urls.dashboard_laboratorio)
+              }} 
+              style={button_style_default} 
+              size="large" 
+              block>
+              Laboratorio
+              </Button>
+            </Col>
+          </Row>
+          
         </>
         :<></>
         
@@ -153,16 +177,21 @@ import { getItem } from "localforage";
         {
         permisos.esUsuarioAdmin?
         <>
-          <Button 
-          shape="round"
-          type="primary" onClick={(e)=>{
-            window.location.replace(public_urls.dashboard_admin)
-          }} 
-          style={button_style_default} 
-          size="large" 
-          block>
-          Admin
-          </Button>
+          <Row style={row_style}>
+            <Col span={24}>
+                <Button 
+              shape="round"
+              type="primary" onClick={(e)=>{
+                window.location.replace(public_urls.dashboard_admin)
+              }} 
+              style={button_style_default} 
+              size="large" 
+              block>
+              Admin
+              </Button>
+            </Col>
+          </Row>
+          
         </>
         :<></>
         
@@ -170,22 +199,28 @@ import { getItem } from "localforage";
         {
         globals.userLogedIn() ? 
         <>
-          <Button 
-          shape="circle"
-          type="primary" 
-          danger 
-          size="large" 
-          style={button_style_danger}
-          onClick={()=>{
-            const _token = getItem("token",'session')
-      
-            fetch(get.logout + _token)
-            .then(response=>response.json())
-            .then((response)=>{
-                window.location.replace(public_urls.login);
-            })
-          }}>Salir
-          </Button>
+        <Row style={row_style}>
+          <Col span={24}>
+            <Button 
+            block
+            shape="round"
+            type="primary" 
+            danger 
+            size="small" 
+            style={button_style_danger}
+            onClick={()=>{
+              const _token = getItem("token",'session')
+        
+              fetch(get.logout + _token)
+              .then(response=>response.json())
+              .then((response)=>{
+                  window.location.replace(public_urls.login);
+              })
+            }}>Salir
+            </Button>
+          </Col>
+        </Row>
+          
         </>
         :<></>
         }

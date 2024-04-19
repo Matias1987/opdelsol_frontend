@@ -159,14 +159,23 @@ const BuscarVenta = (props)=>{
     open={open} 
     title={<>Buscar Venta &nbsp;&nbsp;<span style={{fontSize:".8em", color: "gray"}} ><i>(M&aacute;x. 200)</i> </span></>}> 
     <Row>
-        <Col span={3}>
+        <Col span={4}>
         <FiltroVentas callback={f=>{ setFiltros(_f=>f); setReload(!reload)}} />
         </Col>
-        <Col span={2}>
+        <Col span={4}>
         <Button type="link" onClick={(e)=>{setFiltros(_f=>({})); setReload(!reload)}}><ReloadOutlined /></Button>
         </Col>
-        <Col span={8}>
+        <Col span={5}>
         <Checkbox checked={verSoloSucursal} style={{fontSize:"1.2em", color:"#362056FF"}} onChange={()=>{setVerSoloSucursal(!verSoloSucursal); setReload(!reload)}}><HomeFilled /> Ver Solo Sucursal</Checkbox>
+        </Col>
+        <Col span={4}>
+            <Input value={filtros.id} allowClear 
+            type="number"
+            onChange={(e)=>{ 
+                
+                let _id = isNaN(e.target.value) ? 0 : parseInt(e.target.value)
+       
+                setFiltros(_f=>({..._f,id:_id})); setReload(!reload)}} placeholder="Nro. Venta"/>
         </Col>
     </Row>
         

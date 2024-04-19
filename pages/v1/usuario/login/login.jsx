@@ -1,4 +1,4 @@
-import { Button, Form, Input } from "antd";
+import { Button, Card, Col, Form, Input, Row } from "antd";
 import LayoutSingle from "@/components/layout/layout_single";
 import { redirect } from "next/dist/server/api-utils";
 import useStorage from "../../../../useStorage"
@@ -91,45 +91,54 @@ export default function Login(){
     }
 
     return (
-    <Form
-    onFinish={onFinish}
-    onFinishFailed={onFinishFailed}
-    form={form}
-    >
-        <h4>Log In</h4>
-        <Form.Item label={"Usuario"}  name="nombre"  required={true} value="">
-            <Input style={{width:"300px"}} placeholder="Ingrese Usuario"/>
-        </Form.Item>
-        <Form.Item label={"Contraseña"} name="password" required={true} value="">
-            <Input.Password style={{width:"300px"}}  />
-        </Form.Item>
-        <Form.Item
-            label={"Sucursal"}
-            name={"sucursal"}
-            required={true}
-        >
-            <LoadSelect fetchurl={urls.get.sucursales} 
-                        parsefnt={(data) =>(
-                                    data.map((row)=>(
-                                        {
-                                            "value": row.idsucursal,
-                                            "label": row.nombre
+        <Row align={"center"}>
+            <Col span={12}>
+                <Card style={{backgroundColor:"rgba(255,255,255,.25)", borderColor:"rgba(255,255,255,.25)"}}>
+                <Form
+                onFinish={onFinish}
+                onFinishFailed={onFinishFailed}
+                form={form}
+                >
+                    <h4></h4>
+                    <Form.Item label={"Usuario"}  name="nombre"  required={true} value="">
+                        <Input style={{width:"300px"}} placeholder="Ingrese Usuario"/>
+                    </Form.Item>
+                    <Form.Item label={"Contraseña"} name="password" required={true} value="">
+                        <Input.Password style={{width:"300px"}}  />
+                    </Form.Item>
+                    <Form.Item
+                        label={"Sucursal"}
+                        name={"sucursal"}
+                        required={true}
+                    >
+                        <LoadSelect fetchurl={urls.get.sucursales} 
+                                    parsefnt={(data) =>(
+                                                data.map((row)=>(
+                                                    {
+                                                        "value": row.idsucursal,
+                                                        "label": row.nombre
+                                                    }
+                                                ))
+                                            )}  
+                                    callback={
+                                        (id)=>{
+                                            globals.establecerSucursal(id)
+                                            setValue("sucursal",id)
                                         }
-                                    ))
-                                )}  
-                        callback={
-                            (id)=>{
-                                globals.establecerSucursal(id)
-                                setValue("sucursal",id)
-                            }
-                        }
-                                />
-        </Form.Item>
-        <Form.Item>
-            <Button type="primary" htmlType="submit">Log In</Button>
-        </Form.Item>
+                                    }
+                                            />
+                    </Form.Item>
+                    <Form.Item>
+                        <Button type="primary" htmlType="submit">Acceder</Button>
+                    </Form.Item>
 
-    </Form>)
+                </Form>
+                </Card>
+            </Col>
+
+        </Row>
+        
+    )
 
 }
 
