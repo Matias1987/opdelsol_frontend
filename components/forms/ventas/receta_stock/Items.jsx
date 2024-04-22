@@ -31,8 +31,9 @@ const RecetaStockItems = (props) => {
     })
 
     const on_change = (field, value) => {
-        setItems((rcitems)=>{
-            const _rcitems = {...rcitems,[field]:value}
+        setItems((__rcitems)=>{
+            const _rcitems = {...__rcitems,[field]:value}
+            //alert("en la lista:  " + JSON.stringify(_rcitems))
             props?.callback(_rcitems)
             //alert(JSON.stringify(_rcitems))
             return _rcitems;
@@ -41,8 +42,9 @@ const RecetaStockItems = (props) => {
 
     const onVisibleChange = (field,value) => {
         //alert(`${field} : ${value}`)
-        setItems(_=>{
-            const _values = {...rcitems,[field]:value}
+        setItems(__rcitems_=>{
+            const _values = {...__rcitems_,[field]:value}
+            //alert("lalala")
             props?.callback(_values)
             return _values
         })

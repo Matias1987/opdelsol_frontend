@@ -3,6 +3,7 @@ import GrupoSelect from "@/components/GrupoSelect";
 import SubFamiliaSelect from "@/components/SubFamiliaSelect";
 import SubGroupSelect from "@/components/SubGroupSelect";
 import MyLayout from "@/components/layout/layout";
+import LayoutCaja from "@/components/layout/layout_caja";
 import globals from "@/src/globals";
 import { regex_get_id_if_match } from "@/src/helpers/barcode_helper";
 import { post_method } from "@/src/helpers/post_helper";
@@ -12,6 +13,7 @@ import { Button, Checkbox, Col, Divider, Input, Row, Select, Table } from "antd"
 import { useState } from "react";
 
 export default function CargaStock(){
+    //const esDepAdm = globals.esUsuarioDeposito()
     const [codes, setCodes] = useState([])
     const [inputVal, setInputVal] = useState("") 
     const [dict, setDict] = useState({})
@@ -222,6 +224,11 @@ export default function CargaStock(){
     const aplicar_filtros = _ => verSoloFaltantes ? srcControl.filter(r=>r.dif!=0) : srcControl
 
     return <>
+    <Row>
+        <Col span={24}>
+            <h3>Contro de Stock</h3>
+        </Col>
+    </Row>
         <Row>
             <Col span={24}>
                 <Checkbox 
@@ -341,4 +348,4 @@ export default function CargaStock(){
     </>
 }
 
-CargaStock.PageLayout = MyLayout;
+CargaStock.PageLayout = globals.esUsuarioDeposito() ? MyLayout : LayoutCaja ;

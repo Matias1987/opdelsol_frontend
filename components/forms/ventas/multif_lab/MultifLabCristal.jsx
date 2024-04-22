@@ -125,6 +125,9 @@ const MultifLabCristal = (props) => {
             }</Button> :
         <>
             <Row>
+                <Col span={10}>
+                    <SelectCodigoVenta idfamilias={[globals.familiaIDs.CRISTALES]} buttonText={"Seleccionar Código"} callback={onchange_codigo} />
+                </Col>
                 <Col span={1} style={_estilo_label}>
                 &nbsp;Esf:
                     {/*<Input type="number" step={0.25} min={-17} max={17} addonBefore={"Esf:"} onChange={onchange_esf} />&nbsp;*/}
@@ -151,9 +154,7 @@ const MultifLabCristal = (props) => {
                     <Input size="small" disabled={cristal.codigo==null} value={cristal.eje} step={"0.25"} onChange={(e)=>{onchange_eje(e.target.value)}} />
                     {/*<Select size="small" options={itemsEje} onChange={(v)=>{onchange_eje(v)}} />*/}
                 </Col>
-                <Col span={10}>
-                    <SelectCodigoVenta idfamilias={[globals.familiaIDs.CRISTALES]} buttonText={"Seleccionar Código"} callback={onchange_codigo} />
-                </Col>
+                
                 
                 <Col span={4}>
                     {/*<span>&nbsp;&nbsp;Precio: </span><input readOnly onChange={onchange_precio} ref={precioRef} style={{textAlign:"right", width:"100px", border: "1px solid #ccc", borderRadius:"6px", borderColor:"lightgray", padding:".4em", fontSize:"1.1em"}} />*/}

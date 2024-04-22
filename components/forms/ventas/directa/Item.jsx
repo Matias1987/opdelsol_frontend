@@ -13,8 +13,8 @@ const VDItem = (props) => {
 
     const onCantidadChange = (value, _idcodigo) => {
         setItems(
-            (items)=>{
-                const _items = items.map(i=>{
+            (__items)=>{
+                const _items = __items.map(i=>{
                     if(i.idcodigo == _idcodigo){
                         i.cantidad = value;
                         i.total = i.cantidad * i.precio;
@@ -37,9 +37,9 @@ const VDItem = (props) => {
         fetch(get.detalle_stock + globals.obtenerSucursal() + "/" + idcodigo)
         .then(response=>response.json())
         .then((response)=>{
-            setItems((items)=>{
+            setItems((__items)=>{
                 const _items = [
-                    ...items,
+                    ...__items,
                     {
                     tipo:"vdir",
                     idcodigo: response.data[0].idcodigo,
@@ -58,8 +58,8 @@ const VDItem = (props) => {
     }
 
     const OnRemoveRow = (id)=>{
-        setItems((items)=>{
-            const _items = items.filter(r=>r.idcodigo!=id);
+        setItems((__items)=>{
+            const _items = __items.filter(r=>r.idcodigo!=id);
             props?.callback?.(_items)
             return _items;
         })
@@ -77,7 +77,7 @@ const VDItem = (props) => {
     <Button size="small" block type="primary" onClick={()=>{setModalOpen(true)}}>Agregar Producto</Button>
     <Modal width={"80%"} title="Agregar Producto" open={modalOpen} onOk={onOK} onCancel={onCancel} destroyOnClose={true}>
         <SearchStockVentas 
-        
+        idfamilias={[globals.familiaIDs.ARMAZON, globals.familiaIDs.INSUMO, globals.familiaIDs.LC, globals.familiaIDs.LIQUIDOS, globals.familiaIDs.TRATAMIENTO]}
         callback={(idcodigo)=>{
                 onAddNewCode(idcodigo)
                 setModalOpen(false)

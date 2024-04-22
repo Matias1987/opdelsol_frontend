@@ -19,8 +19,8 @@ const LCLabItems = (props) => {
     })
 
     const onChange= ( index, value) => {
-        setItems((items)=>{
-            const _items = {...items,[index]:value};
+        setItems((__items)=>{
+            const _items = {...__items,[index]:value};
             props?.callback?.(_items);
             return _items;
         })
@@ -28,8 +28,8 @@ const LCLabItems = (props) => {
 
     const onVisibleChange = (field,value) => {
         //alert(`${field} : ${value}`)
-        setItems(_=>{
-            const _values = {...items,[field]:value}
+        setItems(_items_=>{
+            const _values = {..._items_,[field]:value}
             props?.callback(_values)
             return _values
         })

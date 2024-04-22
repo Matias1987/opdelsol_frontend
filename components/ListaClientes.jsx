@@ -15,6 +15,10 @@ export default function ListaClientes(props){
     const [searchVal , setSearchVal] = useState("")
     const [loading, setLoading] = useState(false)
     const onSearch = (value) => {
+        if((value||"").trim().length<1)
+        {
+            return;
+        }
         setLoading(true)
         const params = encodeURIComponent(value);
         fetch(get.buscar_cliente+params)
@@ -92,7 +96,7 @@ export default function ListaClientes(props){
     <h3>Lista de Clientes</h3>
     <Row>
         <Col span={24}>
-            <Input.Search onSearch={onSearch} value={searchVal} onChange={(e)=>{setSearchVal(e.target.value)}} />
+            <Input.Search allowClear onSearch={onSearch} value={searchVal} onChange={(e)=>{setSearchVal(e.target.value)}} />
         </Col>
         
     </Row>

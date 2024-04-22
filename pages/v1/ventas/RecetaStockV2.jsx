@@ -23,6 +23,7 @@ export default function VentaRecetaStock(){
     const [printOpen, setPrintOpen] = useState(false) 
     
     const callback = (productos)=>{
+        //alert("en la venta" + JSON.stringify(productos))
         setProductos(_productos=>{
             calcular_total(productos)
             return productos

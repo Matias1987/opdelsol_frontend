@@ -20,6 +20,7 @@ import { useEffect, useRef, useState } from "react";
 import EditarSubGrupo from "../editar_subgrupo";
 import EditarSubgrupo from "@/components/forms/deposito/EditarSubgrupo";
 import ImpresionCodigosPopup from "../impresion_codigos_popup";
+import LayoutCaja from "@/components/layout/layout_caja";
 
 export default function ListaStock(){
     const [open, setOpen] = useState(false)
@@ -163,9 +164,9 @@ export default function ListaStock(){
                 (_,{idcodigo})=><>
                 <DetalleStock idcodigo={idcodigo} />
                 &nbsp;&nbsp;
-                <EditarStockIndiv callback={()=>{setValueChanged(!valueChanged)}} buttonText={"Edit. Stock"} idcodigo={idcodigo} idsucursal={globals.obtenerSucursal()} />
+                {globals.esUsuarioDeposito() ? <EditarStockIndiv callback={()=>{setValueChanged(!valueChanged)}} buttonText={"Edit. Stock"} idcodigo={idcodigo} idsucursal={globals.obtenerSucursal()} /> : <></>}
                 &nbsp;&nbsp;
-                <EditarCodigoIndiv idcodigo={idcodigo} buttonText="Editar Código" callback={()=>{setValueChanged(!valueChanged)}} />
+                {globals.esUsuarioDeposito() ? <EditarCodigoIndiv idcodigo={idcodigo} buttonText="Editar Código" callback={()=>{setValueChanged(!valueChanged)}} /> : <></>}
                 </>                
         },
         {
@@ -337,7 +338,7 @@ export default function ListaStock(){
 
     return(
         <>
-            <h2>Lista Stock</h2>
+            <h3>Lista Stock</h3>
             <Tabs
             onChange={(v)=>{setActiveTab(v)}}
             defaultActiveKey="1"
@@ -501,4 +502,5 @@ export default function ListaStock(){
     )
 }
 
-ListaStock.PageLayout = MyLayout;
+ListaStock.PageLayout = globals.esUsuarioDepositoMin() ? LayoutCaja : MyLayout;
+

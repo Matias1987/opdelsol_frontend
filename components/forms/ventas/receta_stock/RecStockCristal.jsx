@@ -32,9 +32,11 @@ const RecStockCristal = (props) => {
 
     const onchange_codigo = (value) => {
         //precioRef.current.value = value.precio;
+        //alert(JSON.stringify(value))
         setCristal(
             (cristal)=>{
                 const _cristal = {...cristal, codigo: value.codigo, precio: value.precio, idcodigo: value.idcodigo}
+                //alert("en el cristal:  " + JSON.stringify(_cristal))
                 props?.callback(_cristal)
                 return _cristal
             }

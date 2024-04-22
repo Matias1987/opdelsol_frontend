@@ -1,3 +1,4 @@
+import globals from "@/src/globals"
 import { post_method } from "@/src/helpers/post_helper"
 import { post } from "@/src/urls"
 import { Row, Col, Input, Button, Modal } from "antd"
@@ -21,7 +22,7 @@ const EditarSubgrupo = (props) => {
             })
     }
     return <>
-        <Button danger size="small" onClick={()=>{setOpen(true); setPrecio(0); }  }>{props.buttonText}</Button>
+        <Button disabled={!globals.esUsuarioDeposito()} danger size="small" onClick={()=>{setOpen(true); setPrecio(0); }  }>{props.buttonText}</Button>
         <Modal destroyOnClose footer={null} title={`Editar Subgrupo ${props.buttonText}`} open={open} onCancel={()=>{setOpen(false)}}>
             <Row>
                 <Col span={24}>

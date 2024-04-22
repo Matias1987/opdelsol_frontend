@@ -8,7 +8,7 @@ import InformeEnvio from "@/components/informes/InformeEnvio";
 import { Table, Button, Tag, Row, Col } from "antd";
 import { useEffect, useState } from "react";
 const urls = require("../../../../src/urls")
-const ListaEnvios = (props) => {
+export default function  ListaEnvios(props){
     const [data,setData] = useState([])
     const [update, setUpdate] = useState(false)
 
@@ -131,4 +131,4 @@ const ListaEnvios = (props) => {
     )
 }
 
-export default ListaEnvios;
+//export default ListaEnvios;

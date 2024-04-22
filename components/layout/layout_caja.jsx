@@ -1,14 +1,9 @@
 import { get, public_urls } from "@/src/urls";
 import useStorage from "@/useStorage";
-import { LogoutOutlined } from "@ant-design/icons";
-import { Alert, Anchor, Button, Col, Input, Layout, Row } from "antd";
+import { Alert,  Layout } from "antd";
 import { useEffect, useState } from "react";
-import SucursalLabel from "../sucursal_label";
 import globals from "@/src/globals";
-import MenuCajaTop from "./menu_caja_top";
-import Alerts from "./alert_container";
 import HeaderSol from "./header";
-import Chat from "../chat/chat";
 import MenuV2 from "./menu_v2";
 
 export default function LayoutCaja(props){

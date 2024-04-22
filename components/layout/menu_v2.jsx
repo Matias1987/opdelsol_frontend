@@ -1,17 +1,18 @@
 import BuscarVenta from "../forms/ventas/BuscarVenta";
 import { Menu } from "antd";
-const { default: globals } = require("@/src/globals");
-const { public_urls } = require("@/src/urls");
-const { MenuOutlined, StarOutlined } = require("@ant-design/icons");
+//const { default: globals } = require("@/src/globals");
+//const { public_urls } = require("@/src/urls");
+import  { MenuOutlined, StarOutlined } from "@ant-design/icons";
 
-const { useState, useEffect } = require("react");
+import { useState, useEffect }  from "react";
 import Link from "next/link"
-import ListaPrecios from "../informes/lista_precios/lista_precios";
+import { public_urls } from "@/src/urls";
+import globals from "@/src/globals";
 
 
 
 export default function MenuV2(props){
-   const [current, setCurrent] = useState(globals.esUsuarioVentas() ? "SubMenuVentas" : "SubMenuCaja");
+   const [current, setCurrent] = useState(null);
    const [itemsMenu, setItemsMenu] = useState([])
    const _menu_deposito_min = {
     label: 'Menú Depósito',
@@ -30,6 +31,10 @@ export default function MenuV2(props){
       {
         key: '203',
         label: (<Menu.Item><Link href={public_urls.nuevo_control_stock}>Control Stock  </Link></Menu.Item>),
+      },
+      {
+        key: '204',
+        label: (<Menu.Item><Link href={public_urls.nuevo_envio}>Nuevo Env&iacute;o  </Link></Menu.Item>),
       },
   ]
   }
@@ -191,6 +196,10 @@ useEffect(()=>{
 
       const onClick = (e) => {
         //console.log('click ', e);
+        if(typeof e.key === 'undefined')
+        {
+          return
+        }
         setCurrent(e.key);
         //alert(e.key)
       };
