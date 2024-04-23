@@ -448,7 +448,7 @@ export default function ListaStock(){
             ]}
             />
             <Row style={{backgroundColor:"#D3E1E6"}}>
-                <Col span={4} style={{padding:".5em"}}>
+                {global.esUsuarioDeposito()?<Col span={4} style={{padding:".5em"}}>
                     <Button onClick={()=>{setOpen(true)}} ><TableOutlined />  Grilla de C&oacute;digos</Button>
                     <Modal 
                         footer={null} 
@@ -459,18 +459,8 @@ export default function ListaStock(){
                         onCancel={()=>{setOpen(false); setValueChanged(!valueChanged)} }>
                             <CodeGrid idsubgrupo={idsubgrupo} width={500} height={480}/>
                     </Modal>
-                </Col>
-                <Col span={4} style={{padding:".5em"}}>{edit_popup()}</Col>
-                {/*<Col span={4}>
-                    <Button block onClick={(e)=>{
-                    setData(
-                        data.map(r=>{
-                            r.checked=e.target.checked;
-                            return r;
-                        })
-                    )
-                    }}><CheckCircleOutlined />Seleccionar / Deseleccionar Todo</Button>
-                </Col>*/}
+                </Col>:<></>}
+                {globals.esUsuarioDeposito()?<Col span={4} style={{padding:".5em"}}>{edit_popup()}</Col>:<></>}
                 <Col span={4} style={{padding:".5em"}}>
                     <ExportToCSV parseFnt={()=>{
                         let str = "Familia, SubFamilia, Grupo, Subgrupo, Codigo, Descripcion, Cantidad, Precio,\r\n"
