@@ -448,7 +448,7 @@ export default function ListaStock(){
             ]}
             />
             <Row style={{backgroundColor:"#D3E1E6"}}>
-                {global.esUsuarioDeposito()?<Col span={4} style={{padding:".5em"}}>
+                {globals.esUsuarioDeposito()?<Col span={4} style={{padding:".5em"}}>
                     <Button onClick={()=>{setOpen(true)}} ><TableOutlined />  Grilla de C&oacute;digos</Button>
                     <Modal 
                         footer={null} 
