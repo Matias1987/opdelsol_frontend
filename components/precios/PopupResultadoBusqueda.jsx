@@ -1,80 +1,111 @@
-import { regex_get_id_if_match } from "@/src/helpers/barcode_helper";
+import { post } from "@/src/urls";
+import { InfoCircleTwoTone, SearchOutlined } from "@ant-design/icons";
+import { Button, Col, Input, Modal, Row, Table } from "antd";
+import { useEffect, useState } from "react";
+import PopupDetalleBusqueda from "./DetalleBusqueda";
 import { post_method } from "@/src/helpers/post_helper";
-import { get, post } from "@/src/urls";
-import {Modal, Row, Col} from "antd"
-import { useEffect, useState } from "react"
-import StockCodigosSucursales from "../forms/deposito/StockCodigoSucursales";
+import { regex_get_id_if_match } from "@/src/helpers/barcode_helper";
+
 const PopupResultadoBusqueda = (props) => {
-    const [detalleCodigo, setDetalleCodigo] = useState(null)
+    const [dataSource, setDataSource] = useState([])
+    const [loading, setLoading] = useState(false)
+    const [idcodigo, setIdCodigo] = useState(-1)
+    const [codigo, setCodigo] = useState(-1)
+    const [openDetalle, setOpenDetalle] = useState(false)
+    const [busqueda, setBusqueda] = useState(null)
+    const [reload, setReload] = useState(false)
+    const columns = [
+        {dataIndex:"codigo", title:"Codigo"},
+        {dataIndex:"precio", title:"Precio"},
+        {render:(_,obj)=><><Button onClick={()=>{setCodigo(obj.codigo); setOpenDetalle(true);}}><InfoCircleTwoTone /> Detalle</Button>  </>}
+    ]
+
     useEffect(()=>{
         if(props.open)
         {
-           // alert(props.busqueda)
-            //check if it is a barcode 
             
-            const _id = regex_get_id_if_match(props.busqueda);
+            setDataSource([])
+            if(busqueda==null)
+            {
+                const _id = regex_get_id_if_match(props.busqueda);
 
-            if(_id>-1){
-                fetch(get.detalle_codigo + _id)
-                .then(r=>r.json())
-                .then(response=>{
-                    if((response.data||[]).length<1)
-                    {
-                        alert("Codigo no encontrado")
-                        props?.callback?.()
-                        return
-                    }
-                    setDetalleCodigo(c=>({
-                        codigo: response.data[0].codigo,
-                        idcodigo: response.data[0].idcodigo,
-                        descripcion: response.data[0].descripcion,
-                        precio: response.data[0].precio_codigo,
-                    }))
-                })
-                .catch(e=>{console.log("codigo not found")})
+                if(_id>-1){
+
+                    setCodigo(props.busqueda);
+
+                    setOpenDetalle(true);
+
+                    return
+                    
+                }
+                setBusqueda(props.busqueda)
             }
-            else{
-                post_method(post.codigo_por_codigo,{codigo: props.busqueda},(response)=>{
-                   
-                    if((response.data||[]).length<1)
-                    {
-                        alert("Codigo no encontrado")
-                        props?.callback?.()
-                        return
-                    }
-    
-                    setDetalleCodigo(c=>({
-                        codigo: response.data[0].codigo,
-                        idcodigo: response.data[0].idcodigo,
-                        descripcion: response.data[0].descripcion,
-                        precio: response.data[0].precio_codigo,
-                    }))
-                })
-            }
+            load()
         }
         
-    },[props.open])
-    return detalleCodigo == null ? <></> : <>
-        <Modal width={"60%"} destroyOnClose open={props.open}  onCancel={()=>{props?.callback?.()}} footer={null} title="Resultados">
-            <Row style={{padding:".5em"}}>
+    },[reload, props.open])
+
+    const load = () => {
+        setLoading(true)
+        
+        post_method(post.obtener_codigos_filtro,
+            {        
+                idfamilia:"-1",
+                idsubfamilia:"-1",
+                idgrupo:"-1",
+                idsubgrupo:"-1",
+                codigo: busqueda==null? props.busqueda : busqueda
+            },r=>{
+                setLoading(false)
+                setDataSource(_=>
+                    r.data.map(c=>({
+                        idcodigo: c.idcodigo,
+                        codigo: c.codigo,
+                        precio: c.precio,
+                    }))
+                )
+            })
+    }
+
+    
+
+    return <>
+        <Modal footer={null} open={props.open} destroyOnClose  onCancel={()=>{setBusqueda(null); props.callback();}} width={"60%"}>
+            <Row>
                 <Col span={24}>
-                    C&oacute;digo:&nbsp;&nbsp;<b style={{fontSize:"1.3em"}}>{detalleCodigo.codigo}</b>
+                    <h3>Resultado B&uacute;squeda</h3>
                 </Col>
             </Row>
-            <Row style={{padding:".5em"}}>
+            <Row>
                 <Col span={24}>
-                    Descripci&oacute;n:&nbsp;&nbsp;<b style={{fontSize:"1.3em"}}>{detalleCodigo.descripcion}</b>
+                    <Input style={{width:"100%"}} value={busqueda} 
+                    onChange={(e)=>{
+                        setBusqueda(e.target.value);
+                  
+                        }} 
+                    onKeyUp={(e)=>{
+                        if(e.key === "Enter")
+                        {
+                            setReload(!reload)
+                        }
+                    }}
+                    suffix={<><Button type="primary" onClick={()=>{
+                        setReload(!reload)
+                    }}><SearchOutlined /></Button></>}
+                        />
+                                
                 </Col>
             </Row>
-            <Row style={{padding:".5em"}}>
+
+            <Row>
                 <Col span={24}>
-                    Precio:&nbsp;&nbsp;<b style={{fontSize:"1.3em"}}>{detalleCodigo.precio}</b>
+                    <Table columns={columns} dataSource={dataSource} scroll={{y:"600px"}}   loading={loading} />
                 </Col>
             </Row>
-            <StockCodigosSucursales idcodigo={detalleCodigo.idcodigo} key={detalleCodigo.idcodigo}/>
+            
         </Modal>
+        <PopupDetalleBusqueda open={openDetalle} busqueda={codigo} callback={()=>{setOpenDetalle(false); setBusqueda(null); props?.callback?.()}} />
     </>
 }
 
-
-export default PopupResultadoBusqueda
+export default PopupResultadoBusqueda;

@@ -1,4 +1,5 @@
 import * as React from "react";
+import ExportToCSV from "../ExportToCSV";
 
 const { Spin } = require("antd")
 const { useEffect, useState} = require("react")
@@ -49,6 +50,15 @@ const InformeEnvio = (props, ref) =>{
 
     const contenido =  () => {
         return (<div style={{backgroundColor:"white"}}>
+                {
+                    typeof props.exportEnabled === 'undefined' ? <></> : <ExportToCSV parseFnt={ ()=>{
+                    let str = `Fecha:, ${content.fecha}, Nro.:,${content.id},\r\nOrig.:,${content.sucursal_origen},Dest.:,${content.sucursal},\r\nCant. Total:,${content.cantidad},,,\r\n,,,,\r\n `
+
+                    itemsContent.forEach(i=>{str+=`"${i.codigo}",${i.cantidad},,,\r\n`})
+
+                    return str;
+                }} />
+                }
                 <div style={{padding: "4em"}}>
                     <div style={{textAlign:"center"}}>
                         <h2 style={{all:"initial"}}><u>Resumen Env&iacute;o</u></h2>

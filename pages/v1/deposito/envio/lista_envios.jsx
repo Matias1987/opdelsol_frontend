@@ -33,7 +33,7 @@ export default function  ListaEnvios(props){
                     return (<>
                         <CustomModal openButtonText="Detalle Envio" title="Detalle Envio" onOk={()=>{}}>
                             <PrinterWrapper>
-                                <InformeEnvio idenvio={idenvio}/>
+                                <InformeEnvio idenvio={idenvio} exportEnabled/>
                             </PrinterWrapper>
                         </CustomModal>
                          &nbsp;

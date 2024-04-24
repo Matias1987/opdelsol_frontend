@@ -116,7 +116,7 @@ export default function LayoutVentas(props){
                 </Col>
             </Row>
                
-                <PopupResultadoBusqueda open = {popupBusquedaOpen} busqueda = {busqueda} callback={()=>{setPopupBusquedaOpen(false); setBusqueda("");} } />
+                <PopupResultadoBusqueda open = {popupBusquedaOpen} busqueda = {busqueda} callback={()=>{setPopupBusquedaOpen(false); setBusqueda("");} }  />
         
             </Content>
         </Layout>

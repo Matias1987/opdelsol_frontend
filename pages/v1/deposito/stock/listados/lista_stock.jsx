@@ -21,6 +21,7 @@ import EditarSubGrupo from "../editar_subgrupo";
 import EditarSubgrupo from "@/components/forms/deposito/EditarSubgrupo";
 import ImpresionCodigosPopup from "../impresion_codigos_popup";
 import LayoutCaja from "@/components/layout/layout_caja";
+import LayoutVentas from "@/components/layout/layout_ventas";
 
 export default function ListaStock(){
     const [open, setOpen] = useState(false)
@@ -492,5 +493,5 @@ export default function ListaStock(){
     )
 }
 
-ListaStock.PageLayout = globals.esUsuarioDepositoMin() ? LayoutCaja : MyLayout;
+ListaStock.PageLayout = globals.esUsuarioDepositoMin() ? LayoutVentas : MyLayout;
 

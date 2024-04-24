@@ -4,6 +4,7 @@ import SubFamiliaSelect from "@/components/SubFamiliaSelect";
 import SubGroupSelect from "@/components/SubGroupSelect";
 import MyLayout from "@/components/layout/layout";
 import LayoutCaja from "@/components/layout/layout_caja";
+import LayoutVentas from "@/components/layout/layout_ventas";
 import globals from "@/src/globals";
 import { regex_get_id_if_match } from "@/src/helpers/barcode_helper";
 import { post_method } from "@/src/helpers/post_helper";
@@ -348,4 +349,4 @@ export default function CargaStock(){
     </>
 }
 
-CargaStock.PageLayout = globals.esUsuarioDeposito() ? MyLayout : LayoutCaja ;
+CargaStock.PageLayout = globals.esUsuarioDeposito() ? MyLayout : LayoutVentas ;
