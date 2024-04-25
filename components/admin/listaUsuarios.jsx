@@ -2,11 +2,15 @@ import { get } from "@/src/urls";
 import { Button, Card, Col, Modal, Row, Table, Tag } from "antd";
 import { useEffect, useState } from "react";
 import AgregarPrivilegiosUsuarios from "./agregarPrivilegiosUsuarios";
+import AgregarUsuarioForm from "./agregarUsuario";
+import { EditFilled } from "@ant-design/icons";
 
 const ListaUsuarios = (props) => {
     const [usuarios, setUsuarios] = useState([])
+    const [popupAddEditOpen, setPopupAddEditOpen] = useState(false)
     const [selectedUsuario, setSelectedUsuario] = useState(-1)
     const [popupPrivilegiosOpen, setPopupPrivilegiosOpen] = useState(false)
+    const [editarUsuario, setEditarUsuario] = useState(false)
     const [update, setUpdate] = useState(false)
     const columns = [
         {title:"Nombre", dataIndex:"nombre"},
@@ -29,11 +33,16 @@ const ListaUsuarios = (props) => {
         }},
         {title:"Acciones", dataIndex:"idusuario", render:(_,{id})=>{
             return <>
-                <Button disabled>Editar</Button>
+                <Button onClick={()=>{
+                    setEditarUsuario(true)
+                    setSelectedUsuario(id)
+                    setPopupAddEditOpen(true)
+                }}><EditFilled /></Button>
                 <Button onClick={()=>{
                     setSelectedUsuario(id)
                     setPopupPrivilegiosOpen(true)}
                     }>Modificar Permisos</Button>
+                
             </>
             
         }}
@@ -50,6 +59,7 @@ const ListaUsuarios = (props) => {
 
             let data = []
             let temp = {}
+            //alert(JSON.stringify(resp))
             resp.forEach(e => {
                 if(typeof temp[e.id.toString()] === 'undefined')
                 {
@@ -122,13 +132,15 @@ const ListaUsuarios = (props) => {
     </Row>
     <Row>
         <Col span={24}>
-
+            <Button onClick={()=>{ setEditarUsuario(false); setPopupAddEditOpen(true);}}>Agregar</Button>
         </Col>
     </Row>
     <Modal destroyOnClose footer={null} title="Editar" open={popupPrivilegiosOpen} onCancel={()=>{setPopupPrivilegiosOpen(false)}} key={selectedUsuario}>
         <AgregarPrivilegiosUsuarios idusuario={selectedUsuario}  key={selectedUsuario} callback={()=>{setUpdate(!update); setPopupPrivilegiosOpen(false);}} />
     </Modal>
-        
+    <Modal destroyOnClose open={popupAddEditOpen} onCancel={()=>{setPopupAddEditOpen(false)}} footer={null} title={editarUsuario?"Editar":"Agregar Usuario"} >
+        <AgregarUsuarioForm idusuario={selectedUsuario}  key={selectedUsuario} edicion={editarUsuario} />
+    </Modal>
     </>
 }
 
