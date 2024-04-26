@@ -1,5 +1,18 @@
 //////
 
+//s is from space
+const reg_only_numbers_and_letters_s = /^[a-zA-Z\s0-9]+$/
+
+const reg_only_letters_s = /^[a-zA-Z\s]+$/
+
+const reg_only_numbers_dec_s = /^[\.\s0-9]+$/
+
+const reg_only_numbers_dec = /^[0-9\.]+$/
+
+const reg_only_numbers_int = /^[0-9]+$/
+
+
+
 const validate_signed_number = (value) => {
     const _v = ((value||"").toString()).trim()
     return (/^(\+|\-)?[\.0-9]+$/).test(_v) ?  _v : "0"
@@ -251,4 +264,10 @@ module.exports={
     current_date, 
     format_date, 
     currency_format,
-    validate_signed_number}
+    validate_signed_number,
+    reg_only_letters_s,
+    reg_only_numbers_and_letters_s,
+    reg_only_numbers_dec,
+    reg_only_numbers_dec_s,
+    reg_only_numbers_int,
+}

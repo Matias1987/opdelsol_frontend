@@ -1,5 +1,8 @@
+import globals from "@/src/globals";
 import { post_method } from "@/src/helpers/post_helper";
+import { reg_only_letters_s, reg_only_numbers_and_letters_s } from "@/src/helpers/string_helper";
 import { get } from "@/src/urls";
+import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
 import { Button, Checkbox, Col, Input, Row } from "antd";
 import { useEffect, useState } from "react";
 
@@ -43,8 +46,8 @@ const AgregarUsuarioForm = (props) =>{
             fetch(get.detalle_usuario + _idusuario)
             .then(r=>r.json())
             .then((response)=>{
-                //alert(JSON.stringify(response))
-                if(response.data.length<1)
+                
+                if((response.data||[]).length<1)
                 {
                     return
                 }
@@ -75,8 +78,7 @@ const AgregarUsuarioForm = (props) =>{
                 _dv=_add(u.laboratorio,'laboratorio',_dv)
 
                 setDefValues(_dv)
-                //defValues = [..._dv]
-                //alert(JSON.stringify(_dv))
+               
                 setLoading(false)
             })
         }
@@ -90,17 +92,30 @@ const AgregarUsuarioForm = (props) =>{
 
     const validar_y_guardar = () => {
 
-        const text_regex = /^[a-zA-Z\s0-9]+$/
+        //const text_regex = globals ///^[a-zA-Z\s0-9]+$/
+
+        if(usuario.nombre.length<4)
+        {
+            alert("El Nombre debe tener al menos 4 carácteres")
+            return
+        }
+        if(usuario.usuario.length<4)
+        {
+            alert("El Usuario debe tener al menos 4 carácteres")
+            return
+        }
+
+        
 
         let _edicion = typeof props.edicion === 'undefined' ? false : props.edicion
 
-        if(!text_regex.test(usuario.usuario.trim()))
+        if(!reg_only_letters_s.test(usuario.usuario.trim()))
         {
             alert("El usuario sólo debe contener letras")
             return 
         }
         
-        if(!text_regex.test(usuario.nombre.trim()))
+        if(!reg_only_letters_s.test(usuario.nombre.trim()))
         {
             alert("El nombre sólo debe contener letras")
             return 
@@ -117,7 +132,7 @@ const AgregarUsuarioForm = (props) =>{
 
         if(_pass.length>0)
         {
-            if(false===text_regex.test(_pass))
+            if(false===reg_only_numbers_and_letters_s.test(_pass))
             {
                 alert("La contraseña sólo debe contener números y/o letras")
                 return;
@@ -129,7 +144,9 @@ const AgregarUsuarioForm = (props) =>{
         //do not include password if unchanged in edition...
         let _usr = _edicion ? (password=="" ? {...usuario} : {...usuario,passwd:password}) : {...usuario,passwd:password} 
 
-        alert(JSON.stringify(_usr))
+        //alert(JSON.stringify(_usr))
+        //console.log(JSON.stringify(_usr))
+
         return
         post_method("",_usr,(resp)=>{
             alert("OK")
@@ -159,17 +176,23 @@ const AgregarUsuarioForm = (props) =>{
  
     <Row style={row_style}>
         <Col span={24}>
-            <Input disabled={loading} value={usuario.nombre} prefix="Nombre" onChange={(e)=>{setValue("nombre",e.target.value)}} />
+            <Input style={{backgroundColor:"lightblue"}} disabled={loading} value={usuario.nombre} prefix="Nombre" onChange={(e)=>{setValue("nombre",e.target.value)}} />
         </Col>
     </Row>
     <Row style={row_style}>
         <Col span={24}>
-            <Input disabled={loading} value={usuario.usuario} prefix="Usuario" onChange={(e)=>{setValue("usuario",e.target.value)}} />
+            <Input style={{backgroundColor:"lightblue"}} disabled={loading} value={usuario.usuario} prefix="Usuario" onChange={(e)=>{setValue("usuario",e.target.value)}} />
         </Col>
     </Row>
     <Row style={row_style}>
         <Col span={24}>
-            <Input disabled={loading} value={password} prefix="Contraseña" type="password"  onChange={(e)=>{setPassword(e.target.value)}} />
+            <Input.Password 
+            style={{backgroundColor:"lightblue"}} 
+            iconRender={(visible) => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
+            disabled={loading} 
+            value={password} 
+            prefix="Contraseña"  
+            onChange={(e)=>{setPassword(e.target.value)}} />
         </Col>
     </Row>
     <Row style={row_style}>

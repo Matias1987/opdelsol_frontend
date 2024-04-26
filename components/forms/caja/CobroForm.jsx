@@ -104,6 +104,8 @@ export default function CobroOperacion(props){
             return
         }
 
+        
+
         const _mc = typeof props.mustCancel !== 'undefined' ? props.mustCancel : false;
         //alert(JSON.stringify(props) + "  " + (parseFloat(dataVenta.subtotal) - parseFloat(descuento) - parseFloat(dataVenta.haber||0)) )
         
@@ -134,6 +136,8 @@ export default function CobroOperacion(props){
                 }
             }
         }
+
+       
         /**
          * si hay venta pero es de monto 0
          */
@@ -162,6 +166,8 @@ export default function CobroOperacion(props){
 
             return
         }
+
+     
         
         if(dataVenta!=null){
 
@@ -200,6 +206,7 @@ export default function CobroOperacion(props){
                 setCobrarDisabled(false)
                 return
             }*/
+          
         }
         /*
         some other validations for secondary fields which 
@@ -250,6 +257,9 @@ export default function CobroOperacion(props){
             descuento: descuento,
             fecha: current_date_ymd(),
         }
+
+        //alert(JSON.stringify(params))
+
         params = typeof props.idventa === 'undefined' ? params : {...params,idventa:props.idventa} 
         params = typeof props.idcliente === 'undefined' ? params : {...params,idcliente:props.idcliente} 
 
@@ -284,6 +294,9 @@ export default function CobroOperacion(props){
                 return;
             }
 
+            //alert("obtuvo caja")
+            
+
             setCobrarDisabled(true)
 
             params.caja_idcaja=response.idcaja;
@@ -316,6 +329,7 @@ export default function CobroOperacion(props){
                 {
                     if(dataVenta!=null && props.tipo!='resfuerzo')
                     {
+                        //alert("entrega ")
                         let est = (props.tipo=='entrega' ? 'ENTREGADO' : (entrega ? "ENTREGADO" : "PENDIENTE"))
                         post_method(
                             post.cambiar_estado_venta,
@@ -327,6 +341,7 @@ export default function CobroOperacion(props){
                                 fecha_retiro: current_date_ymd()
                             },
                             (resp)=>{
+                                //alert("actualizar saldo")
                                 /** actualizar balance de cta cte en recibo x */
                                 fetch(get.actualizar_saldo_en_cobro + id.data)
                                 .then(___response=>___response.json())
