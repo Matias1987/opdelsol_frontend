@@ -1,12 +1,11 @@
-import { post_method } from "@/src/helpers/post_helper"
-import { get, post } from "@/src/urls"
-
-const { default: GrupoSelect } = require("@/components/GrupoSelect")
-const { default: LoadSelect } = require("@/components/LoadSelect")
-const { default: SubFamiliaSelect } = require("@/components/SubFamiliaSelect")
-const { default: SubGroupSelect } = require("@/components/SubGroupSelect")
-const { Row, Col, Select, Input, Button, Modal, Table } = require("antd")
-const { useState } = require("react")
+import GrupoSelect from "@/components/GrupoSelect";
+import LoadSelect from "@/components/LoadSelect";
+import SubFamiliaSelect from "@/components/SubFamiliaSelect";
+import SubGroupSelect from "@/components/SubGroupSelect";
+import { post_method } from "@/src/helpers/post_helper";
+import { get, post } from "@/src/urls";
+import { Row, Col, Select, Input, Button, Modal, Table } from "antd";
+import { useState } from "react";
 
 const EditarPreciosForm = (props) => {
     const [values, setValues] = useState({

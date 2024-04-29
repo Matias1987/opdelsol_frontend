@@ -1,12 +1,11 @@
 import CustomModal from "@/components/CustomModal";
 import PrinterWrapper from "@/components/PrinterWrapper";
 import SearchCodigo from "@/components/SearchCodigo";
-import SearchStock from "@/components/SearchStock";
 import MyLayout from "@/components/layout/layout";
-import { get_barcode_from_id, get_barcode_from_id2 } from "@/src/helpers/barcode_helper";
+import { get_barcode_from_id2 } from "@/src/helpers/barcode_helper";
 import { CloseCircleOutlined } from "@ant-design/icons";
-import { Button, Col, Divider, Form, InputNumber, Row, Table } from "antd";
-import { useEffect, useState } from "react";
+import { Button, Col, Row, Table } from "antd";
+import { useState } from "react";
 import Barcode from "react-barcode";
 const urls = require("../../../src/urls")
 
@@ -47,7 +46,6 @@ export default function ImprimirCodigos(){
                         </table>
                         </div>
                     </PrinterWrapper>
-
             </CustomModal>
     )
     
@@ -72,8 +70,6 @@ export default function ImprimirCodigos(){
     }
 
     const load_details_for_selected_id = (idcodigo) => {
-        /*const found = tableData.find(e=>e.key == idcodigo)
-        if(found) {alert("Codigo ya cargado!"); return;}*/
         setTableLoading(true);
         /* get stock data for the column */
         fetch(urls.get.detalle_codigo + "/" + idcodigo)
@@ -102,9 +98,7 @@ export default function ImprimirCodigos(){
                     pagination={false}
                     loading={tableLoading}
                         columns = {[
-                            /*{title:"ruta", dataIndex: "ruta",},*/
                             {title:"codigo", dataIndex: "codigo", },
-                            
                             {
                                 title:"Acciones", 
                                 dataIndex: "ref_id",
@@ -117,10 +111,7 @@ export default function ImprimirCodigos(){
                     />
                 </Col>
             </Row>
-            
             <br />
-            
-              
         </>
     )
 }

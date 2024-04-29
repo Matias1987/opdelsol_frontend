@@ -1,7 +1,7 @@
 import globals from "@/src/globals";
 import { post_method } from "@/src/helpers/post_helper";
 import { reg_only_letters_s, reg_only_numbers_and_letters_s } from "@/src/helpers/string_helper";
-import { get } from "@/src/urls";
+import { get, post } from "@/src/urls";
 import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
 import { Button, Checkbox, Col, Input, Row } from "antd";
 import { useEffect, useState } from "react";
@@ -147,9 +147,11 @@ const AgregarUsuarioForm = (props) =>{
         //alert(JSON.stringify(_usr))
         //console.log(JSON.stringify(_usr))
 
-        return
-        post_method("",_usr,(resp)=>{
+        //return
+        //alert(post.insert.usuario)
+        post_method(post.insert.usuario,_usr,(resp)=>{
             alert("OK")
+            props?.callback?.()
         })
     }
 

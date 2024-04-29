@@ -1,7 +1,7 @@
 import { get } from "@/src/urls";
 
-const { Table, Spin } = require("antd");
-const { useEffect, useState } = require("react")
+import { Table, Spin } from "antd";
+import { useEffect, useState } from "react";
 
 const DetalleFactura = (props) => {
     const [dataFactura, setDataFactura] = useState([]);
@@ -24,6 +24,7 @@ const DetalleFactura = (props) => {
         setElementosLoading(true)
         setDetallesLoading(true)
         //load data factura:
+      
         fetch(fetchUrlDetalles + props.idFactura)
         .then(response=>response.json())
         .then((response)=>{
@@ -63,7 +64,7 @@ const DetalleFactura = (props) => {
         })
     },[]);
 
-    const Detalles = _ =>(
+    const detalles = _ =>(
         <>
         Proveedor: {dataFactura[0].proveedor}<br />
         Nro.: {dataFactura[0].numero}<br />
@@ -73,10 +74,11 @@ const DetalleFactura = (props) => {
         </>
     )
 
-    const Elementos = _ =>(
+    const elementos = _ =>(
         <>
         <h4>Lista de Productos</h4>
         <Table
+        rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'}
         dataSource={dataElementos}
         loading={elementosLoading}
         columns={[
@@ -91,8 +93,8 @@ const DetalleFactura = (props) => {
     return (
         <>
         <h3>Detalles Factura</h3>
-        {detallesLoading ? <Spin /> : <Detalles />}
-        {elementosLoading ? <Spin /> : <Elementos />}
+        {detallesLoading ? <Spin /> :detalles()}
+        {elementosLoading ? <Spin /> : elementos()}
         </>
     )
 }

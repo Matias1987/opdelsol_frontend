@@ -1,9 +1,9 @@
-const { default: FacturaForm } = require("@/components/forms/FacturaForm")
+import FacturaForm from "@/components/forms/FacturaForm";
 
 const AgregarFactura = () =>{
     return (
         <>
-        <h1>Agregar Factura</h1>
+        <h3>Agregar Factura</h3>
         <FacturaForm  action="ADD" />
         </>
     

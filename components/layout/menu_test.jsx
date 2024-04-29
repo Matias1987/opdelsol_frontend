@@ -24,7 +24,6 @@ export default function TestMenu(){
           <Menu.Item key="110" ><StarOutlined /> 
                 <Link href={get_url_to("deposito/stock/listados/lista_codigos")}>&nbsp;Lista C&oacute;digos</Link>
           </Menu.Item>
-          {/*<Menu.Item key="27"><Link href={get_url_to("deposito/stock/modificar_precios_categoria")}><StarOutlined />&nbsp; Editar Multiplicadores Por Categor&iacute;a</Link></Menu.Item>*/}
           <Menu.Item key="107"><Link href={public_urls.editar_precios}><StarOutlined />&nbsp; Editar Precios de SubGrupos</Link></Menu.Item>
           <Menu.Item key="13"><Link href={get_url_to("deposito/imprimir_codigos")}><StarOutlined />&nbsp; Imprimir C&oacute;digos</Link></Menu.Item>
           
@@ -111,6 +110,11 @@ export default function TestMenu(){
             </Menu.Item>
             <Menu.Item key="sub6_31"><PlusCircleOutlined />
              <Link href={get_url_to("deposito/facturas/agregar_factura")}>Agregar Factura</Link>
+            </Menu.Item>
+          </SubMenu>
+          <SubMenu key="sub8" title={<span><FileTextOutlined /><span>Informes</span></span>}>
+            <Menu.Item key="sub8_30"><FileTextOutlined />
+             <Link href={get_url_to("deposito/stock/stock_venta_periodo")}>Stock Ventas</Link>
             </Menu.Item>
           </SubMenu>
           

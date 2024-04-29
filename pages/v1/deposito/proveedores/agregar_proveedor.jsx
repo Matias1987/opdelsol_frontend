@@ -1,6 +1,8 @@
 import ProveedorForm from "@/components/forms/ProveedorForm";
-const urls = require("../../../../src/urls")
-const post_helper = require("../../../../src/helpers/post_helper")
+import { post_method } from "@/src/helpers/post_helper";
+import { post } from "@/src/urls";
+//const urls = require("../../../../src/urls")
+//const post_helper = require("../../../../src/helpers/post_helper")
 const AgregarProveedor = () => {
     
     return(
@@ -9,7 +11,7 @@ const AgregarProveedor = () => {
         <ProveedorForm onSubmit={
            (data)=>{
             //handleSubmit(data)
-            post_helper.post_method(urls.post.insert.proveedor,data,(res)=>{
+            post_method(post.insert.proveedor,data,(res)=>{
                 if(res.status == "OK"){
                     if(res.data<0){
                         alert("El proveedor ya existe")

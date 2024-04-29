@@ -3,8 +3,8 @@ import { post_method } from "@/src/helpers/post_helper";
 import { get, post } from "@/src/urls"
 import { EditOutlined } from "@ant-design/icons";
 
-const { Table, Button, Modal } = require("antd")
-const { useState, useEffect } = require("react")
+import { Table, Button, Modal } from "antd";
+import { useState, useEffect } from "react";
 
 const ListaProveedores = (props) => {
     const [change, setChange] = useState(false)

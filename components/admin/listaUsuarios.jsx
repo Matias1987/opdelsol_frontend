@@ -139,7 +139,7 @@ const ListaUsuarios = (props) => {
         <AgregarPrivilegiosUsuarios idusuario={selectedUsuario}  key={selectedUsuario} callback={()=>{setUpdate(!update); setPopupPrivilegiosOpen(false);}} />
     </Modal>
     <Modal destroyOnClose open={popupAddEditOpen} onCancel={()=>{setPopupAddEditOpen(false)}} footer={null} title={editarUsuario?"Editar":"Agregar Usuario"} >
-        <AgregarUsuarioForm idusuario={selectedUsuario}  key={selectedUsuario} edicion={editarUsuario} />
+        <AgregarUsuarioForm idusuario={selectedUsuario}  key={selectedUsuario} edicion={editarUsuario} callback={()=>{setUpdate(!update)}} />
     </Modal>
     </>
 }

@@ -141,6 +141,7 @@ const post = {
         item_adicional: remote_base_url + "adic/",
         control_stock: remote_base_url + "cs/",
         u_permisos_a_u: remote_base_url + "usuarios/perm/u/a/m/",
+        usuario: remote_base_url + "usuarios/",
     },
     update:{
         familia: remote_base_url + "familia/",
@@ -225,7 +226,7 @@ const get = {
 
     obtener_lista_baja_desperfectos: remote_base_url + "bajadesperfecto/",
 
-    detalle_factura: remote_base_url + "facturas/",//idfactura
+    detalle_factura: remote_base_url + "facturas/df/",//idfactura
     elementos_factura: remote_base_url + "facturas/elementos/",//idfactura
 
     obtener_detalle_subgrupo: remote_base_url + "subgrupos/",//subgrupoId

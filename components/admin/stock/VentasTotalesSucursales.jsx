@@ -94,58 +94,58 @@ const VentasTotalesSucursales = (props) => {
     return <>
         <Row>
             <Col span={10}>
-                    <Row style={{padding:".5em"}}>
-                        <Col span={24}>
-                        <Radio.Group value={modo} onChange={(e)=>{setModo(e.target.value)}}>
-                            <Radio.Button value="dia">D&iacute;a</Radio.Button>
-                            <Radio.Button disabled value="semana">Semana</Radio.Button>
-                            <Radio.Button value="mes">Mes</Radio.Button>
-                        </Radio.Group>
-                        </Col>
-                    </Row>
-                    <Row style={{padding:".5em"}}>
-                        <Col span={24}>
-                            <RangePicker size="large" disabled={modo!="dia"} onChange={periodoDia}/>
-                        </Col>
-                    </Row>
-                    <Row style={{padding:".5em"}}>
-                        <Col span={24}>
-                            <RangePicker size="large" disabled={modo!="semana"} picker="week"  onChange={periodoSemana}/>
-                        </Col>
-                    </Row>
-                    <Row style={{padding:".5em"}}>
+                <Row style={{padding:".5em"}}>
                     <Col span={24}>
-                            <RangePicker format="MM/YYYY" disabledTime={true} size="large" disabled={modo!="mes"} picker="month"  onChange={periodoMes}/>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col span={24}>
-                            <CategoriaSelect callback={(categoria, id)=>{
-                                setFiltros(_f=>({..._f,cat:categoria, idcategoria:id}))
-                            }} />
-                        </Col>
-                    </Row>
-                    <Row style={{padding:".5em"}}>
-                        <Col span={24}>
-                            <Input prefix={"Código: "} style={{width:"100%", backgroundColor:"lightgray"}} allowClear onChange={(e)=>{
-                                setFiltros(_f=>({..._f,codigo:e.target.value}))
-                            }} />
-                        </Col>
-                    </Row>
-                    <Row style={{padding:".5em"}}>
-                        <Col span={24}>
-                            <Button block type="primary" onClick={()=>{setUpdate(!update)}}>Aplicar</Button>
-                        </Col>
-                    </Row>
-            </Col>
-            <Col span={14}>
-                <Row>
-                    <Col span={24}>
-                            <Table dataSource={dataSource} columns={columns} pagination={false} scroll={{y:"600px"}}/>
+                    <Radio.Group value={modo} onChange={(e)=>{setModo(e.target.value)}}>
+                        <Radio.Button value="dia">D&iacute;a</Radio.Button>
+                        <Radio.Button disabled value="semana">Semana</Radio.Button>
+                        <Radio.Button value="mes">Mes</Radio.Button>
+                    </Radio.Group>
                     </Col>
                 </Row>
-            </Col>
-        </Row>
+                <Row style={{padding:".5em"}}>
+                    <Col span={24}>
+                        <RangePicker size="large" disabled={modo!="dia"} onChange={periodoDia}/>
+                    </Col>
+                </Row>
+                <Row style={{padding:".5em"}}>
+                    <Col span={24}>
+                        <RangePicker size="large" disabled={modo!="semana"} picker="week"  onChange={periodoSemana}/>
+                    </Col>
+                </Row>
+                <Row style={{padding:".5em"}}>
+                <Col span={24}>
+                        <RangePicker format="MM/YYYY" disabledTime={true} size="large" disabled={modo!="mes"} picker="month"  onChange={periodoMes}/>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col span={24}>
+                        <CategoriaSelect callback={(categoria, id)=>{
+                            setFiltros(_f=>({..._f,cat:categoria, idcategoria:id}))
+                        }} />
+                    </Col>
+                </Row>
+                <Row style={{padding:".5em"}}>
+                    <Col span={24}>
+                        <Input prefix={"Código: "} style={{width:"100%", backgroundColor:"lightgray"}} allowClear onChange={(e)=>{
+                            setFiltros(_f=>({..._f,codigo:e.target.value}))
+                        }} />
+                    </Col>
+                </Row>
+                <Row style={{padding:".5em"}}>
+                    <Col span={24}>
+                        <Button block type="primary" onClick={()=>{setUpdate(!update)}}>Aplicar</Button>
+                    </Col>
+                </Row>
+        </Col>
+        <Col span={14}>
+            <Row>
+                <Col span={24}>
+                        <Table dataSource={dataSource} columns={columns} pagination={false} scroll={{y:"600px"}}/>
+                </Col>
+            </Row>
+        </Col>
+    </Row>
   
         
         

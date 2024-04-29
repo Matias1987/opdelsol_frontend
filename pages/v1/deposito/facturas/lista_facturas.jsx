@@ -1,12 +1,10 @@
 import CustomModal from "@/components/CustomModal";
 import { get } from "@/src/urls";
-import { CloseCircleOutlined, EditOutlined, FieldTimeOutlined } from "@ant-design/icons";
-import AgregarFactura from "./agregar_factura";
 import FacturaForm from "@/components/forms/FacturaForm";
 import DetalleFactura from "@/components/forms/deposito/DetalleFactura";
 
-const { Table, Button, Modal } = require("antd")
-const { useState, useEffect } = require("react")
+import { Table, Button, Modal } from "antd"
+import { useState, useEffect } from "react"
 
 const ListaFacturas = (props) => {
     const [change, setChange] = useState(false)
@@ -73,7 +71,7 @@ useEffect(()=>{
 
     return (
         <>
-            <h1>Lista de Facturas</h1>
+            <h3>Lista de Facturas</h3>
             <Button type="primary"  size="small"  onClick={openPopup}>Agregar Factura</Button>
             <Modal
             cancelButtonProps={{ style: { display: 'none' } }}
@@ -89,6 +87,7 @@ useEffect(()=>{
             <FacturaForm action="ADD" callback={onOk} />
         </Modal>
             <Table 
+                rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'}
                 columns={columns}
                 dataSource={tableData}
             />
