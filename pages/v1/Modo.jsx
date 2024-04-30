@@ -165,7 +165,7 @@ import { getItem } from "localforage";
               style={button_style_default} 
               size="large" 
               block>
-              Laboratorio
+              Dep. Cristales
               </Button>
             </Col>
           </Row>

@@ -60,7 +60,7 @@ const ListaVentas = (props) => {
             {typeof props.marcarTerminado !== 'undefined' ?  <><Button size="small" type="primary" onClick={(e)=>{
                 if(confirm("Marcar operación como disponible para entrega?"))
                 {
-                    if(_idsucursal != globals.obtenerSucursal())
+                    if(_idsucursal != globals.obtenerSucursal() && ((props.ignoreSucursalEntrega||"0")=="0"))
                     {
                         alert("<!> Venta de Otra Sucursal")
                         return

@@ -11,7 +11,7 @@ export default function  ListaOperacionesLab(){
     const [reload, setReload] = useState(false)
     useEffect(()=>{},[])
     return <>
-        <ListaVentas ignoreSucursal laboratorio_modificar enviar_a_sucursal en_laboratorio={1}  estado={"PENDIENTE"} onEditLaboratorioClick={(id)=>{setIdVenta(id), setOpen(true)}} key={reload} />
+        <ListaVentas marcarTerminado ignoreSucursal laboratorio_modificar enviar_a_sucursal en_laboratorio={1} ignoreSucursalEntrega  estado={"PENDIENTE"} onEditLaboratorioClick={(id)=>{setIdVenta(id), setOpen(true)}} key={reload} />
         <Modal open={open} footer={null} onCancel={()=>{setOpen(false)}} key={idventa} width={"80%"}>
             <EditarSobre idventa={idventa} callback={()=>{setReload(!reload), setOpen(false)}} />
         </Modal>

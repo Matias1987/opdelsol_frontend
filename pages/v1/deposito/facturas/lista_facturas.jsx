@@ -16,7 +16,7 @@ const ListaFacturas = (props) => {
         {title: 'Fecha', dataIndex: 'fecha', key: 'fecha'},
         {title: 'Proveedor', dataIndex: 'proveedor', key: 'proveedor'},
         {title: 'Cantidad', dataIndex: 'cantidad', key: 'cantidad'},
-        {title: 'Monto', dataIndex: 'monto', key: 'monto'},
+        {title: 'Monto', dataIndex: 'monto', key: 'monto', render:(_,{monto})=><div style={{textAlign:"right", width:"100%"}}>$&nbsp;{monto}</div>},
         {title: 'Acciones', dataIndex: 'idfactura', key: 'acciones',
             render: (idfactura)=>{
                     return(

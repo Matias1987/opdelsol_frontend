@@ -1,13 +1,14 @@
 import { Form, Input, Button, Row, Col }  from "antd";
 import LoadSelect from "../LoadSelect";
-import { get } from "@/src/urls";
+import { get, post } from "@/src/urls";
 import { post_method } from "@/src/helpers/post_helper";
 
 const FacturaForm = (props) => {
     const [form] = Form.useForm();
     const onFinish = (values) => {
+        //alert(JSON.stringify(values))
         switch(props.action){
-            case 'ADD': post_method(urls.post.insert.factura,values,(res)=>{
+            case 'ADD': post_method(post.insert.factura,values,(res)=>{
               if(res.status == "OK"){
                 alert("Datos Guardados")
                 if(typeof props.callback !== 'undefined'){
