@@ -61,7 +61,7 @@ const PopupResultadoBusqueda = (props) => {
                     r.data.map(c=>({
                         idcodigo: c.idcodigo,
                         codigo: c.codigo,
-                        precio: c.precio,
+                        precio: c.precio_codigo,
                     }))
                 )
             })
