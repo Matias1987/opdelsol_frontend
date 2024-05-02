@@ -221,7 +221,15 @@ const globals =  {
         MULTILAB: "5",
         RECSTOCK: "2",
 
-    }
+    },
+    estdosVenta:{
+        INGREDADO: 'INGRESADO',
+        PENDIENTE: 'PENDIENTE',
+        ANULADO: 'ANULADO',
+        TERMINADO: 'TERMINADO',
+        ENTREGADO: 'ENTREGADO',
+        PEDIDO: 'PEDIDO',
+    },
 
 }
 export default globals;

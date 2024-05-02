@@ -79,6 +79,9 @@ const EditarSobre = (props) => {
                     }}>
                         <PlusOutlined />
                 </Button>
+                <Button>
+                    Pedir
+                </Button>
             </>
         }
         

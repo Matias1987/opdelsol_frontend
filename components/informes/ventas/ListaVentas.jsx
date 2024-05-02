@@ -93,7 +93,7 @@ const ListaVentas = (props) => {
                         
                         setReload(!reload);
                         alert("OK");
-                        post_method(post.update.inc_cantidades_stock_venta,{idventa:_idventa},(response)=>{ })
+                        post_method(post.update.inc_cantidades_stock_venta,{idventa:_idventa, idsucursal: globals.obtenerSucursal()},(response)=>{ })
                         registrarVentaAnulado(_idventa)
                     })
                 }
