@@ -1,8 +1,8 @@
-const remote_base_url = "http://54.174.39.15:3001/api/v1/"
-const local_base_url = "http://54.174.39.15:3000/v1/"
+//const remote_base_url = "http://54.174.39.15:3001/api/v1/"
+//const local_base_url = "http://54.174.39.15:3000/v1/"
 
-//const remote_base_url = "http://localhost:3001/api/v1/"
-//const local_base_url = "http://localhost:3000/v1/"
+const remote_base_url = "http://localhost:3001/api/v1/"
+const local_base_url = "http://localhost:3000/v1/"
 
 //const token = "&token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3QiLCJpYXQiOjE2ODI0NjEwMjksImV4cCI6MTY4MjQ2NDYyOX0.Unf5zmxNVQCJVD4qxSAcdcmsrs1s-q4h7Q0e2dYHHEo";
 const public_urls = {
@@ -105,6 +105,7 @@ const post = {
     eventos: remote_base_url + "evt/get/",
     obtener_grilla_stock: remote_base_url + "stock/obtener_grilla_stock/",
     totales_stock_ventas_periodo: remote_base_url + "admin/inf/stock/ventas/periodo/",
+    cambiar_estado_venta_taller: remote_base_url + "",
 
 
     search:{
@@ -142,6 +143,7 @@ const post = {
         control_stock: remote_base_url + "cs/",
         u_permisos_a_u: remote_base_url + "usuarios/perm/u/a/m/",
         usuario: remote_base_url + "usuarios/",
+        pedido: remote_base_url + "",
     },
     update:{
         familia: remote_base_url + "familia/",
