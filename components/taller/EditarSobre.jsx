@@ -1,6 +1,6 @@
 import globals from "@/src/globals";
 import { get, post } from "@/src/urls";
-import { Button, Col, Modal, Row, Select, Table, Tag } from "antd";
+import { Button, Checkbox, Col, Modal, Row, Select, Table, Tag } from "antd";
 import { useEffect, useState } from "react";
 import VentaDetallePopup from "../VentaDetalle";
 import { ArrowRightOutlined, PlusOutlined, RightCircleTwoTone, RightOutlined, RightSquareTwoTone } from "@ant-design/icons";
@@ -32,6 +32,7 @@ const EditarSobre = (props) => {
         {dataIndex:"codigo", title:"Código Original", width:"30%", render:(_,record)=><>
         {record.codigo} &nbsp;  {record.idcodigo>0 ? <CustomModal openButtonText="Detalle"> <DetalleCodigo idcodigo={record.idcodigo} /> </CustomModal> :<></>} 
         </>},
+        
         {title:"", 
         width:"60px",
 
@@ -57,6 +58,7 @@ const EditarSobre = (props) => {
                 <ArrowRightOutlined />
             </Button>
         </>},
+        
         {title:"Uso", render:(_,record)=><>
             {
             record.items.map(i=><>
@@ -79,11 +81,14 @@ const EditarSobre = (props) => {
                     }}>
                         <PlusOutlined />
                 </Button>
-                <Button>
-                    Pedir
-                </Button>
+                
             </>
-        }
+        },
+        {title:"Pedidos", render:(_,record)=>{return <>
+                <Checkbox>
+                    Pedir
+                </Checkbox>
+        </>}},
         
     ]
 

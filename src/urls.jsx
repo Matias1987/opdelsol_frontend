@@ -105,7 +105,8 @@ const post = {
     eventos: remote_base_url + "evt/get/",
     obtener_grilla_stock: remote_base_url + "stock/obtener_grilla_stock/",
     totales_stock_ventas_periodo: remote_base_url + "admin/inf/stock/ventas/periodo/",
-    cambiar_estado_venta_taller: remote_base_url + "",
+    obtener_ventas_taller: remote_base_url + "tl/",
+    obtener_items_ventas_taller: remote_base_url + "tl/items/op/",
 
 
     search:{
@@ -143,7 +144,7 @@ const post = {
         control_stock: remote_base_url + "cs/",
         u_permisos_a_u: remote_base_url + "usuarios/perm/u/a/m/",
         usuario: remote_base_url + "usuarios/",
-        pedido: remote_base_url + "",
+        pedido: remote_base_url + "tl/ped/",
     },
     update:{
         familia: remote_base_url + "familia/",
@@ -183,6 +184,9 @@ const post = {
         modificar_cantidad_lista: remote_base_url + "stock/modificar_cantidad_lista/",
 
         editar_lote_codigos: remote_base_url + "codigos/editar_lote/",
+
+        marcar_como_calibrando: remote_base_url + "tl/c/est/dep/cal/",
+        marcar_como_terminado: remote_base_url + "tl/c/est/dep/ter/",
 
     },
 }

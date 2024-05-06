@@ -129,6 +129,11 @@ const ListaVentas = (props) => {
         
         params = add(params, props?.fecha, 'fecha')
         params = add(params, props?.id, 'id')
+
+        if(typeof props.estado_taller !== 'undefined' )
+        {
+            params = add(params, props?.estado_taller,'estado_taller')
+        }
         
         //filtros
         params = add(params, filtros.idcliente, 'idcliente')
