@@ -28,6 +28,7 @@ import { Table, Button, Tag, Alert, Row, Col } from "antd"
  * @param en_laboratorio
  * @param enviar_a_sucursal
  * @param ocultarFiltros
+ * @param estado_taller
  */
 const ListaVentas = (props) => {
     const [dataSource, setDataSource] = useState([])
@@ -128,11 +129,16 @@ const ListaVentas = (props) => {
         params = add(params, props?.en_laboratorio, 'en_laboratorio')
         
         params = add(params, props?.fecha, 'fecha')
-        params = add(params, props?.id, 'id')
+        if(+props.id>0)
+        {
+            params = add(params, props?.id, 'id')
+        }
+        
 
         if(typeof props.estado_taller !== 'undefined' )
         {
             params = add(params, props?.estado_taller,'estado_taller')
+            
         }
         
         //filtros
@@ -206,7 +212,7 @@ const ListaVentas = (props) => {
                 case "TERMINADO": return <Tag color="green">{estado}</Tag>
             }
         }},
-        {hidden: false, title: "Monto", dataIndex:"monto"},
+        {hidden: false, title: "Monto", dataIndex:"monto", render:(_,{monto})=><div style={{textAlign:"right"}}>$&nbsp;{parseFloat(monto)}</div>},
         {hidden: false, title: "Sucursal", dataIndex:"sucursal"},
         {hidden: false, title: "Acciones", dataIndex:"idventa", render: (_,{idventa,idcliente, idsucursal})=>{
             return <>

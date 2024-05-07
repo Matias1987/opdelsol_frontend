@@ -1,11 +1,9 @@
 import globals from "@/src/globals";
 import { get, post } from "@/src/urls";
-import { Button, Checkbox, Col, Modal, Row, Select, Table, Tag } from "antd";
+import { Button, Checkbox, Col, Modal, Row, Table, Tag } from "antd";
 import { useEffect, useState } from "react";
-import VentaDetallePopup from "../VentaDetalle";
-import { ArrowRightOutlined, PlusOutlined, RightCircleTwoTone, RightOutlined, RightSquareTwoTone } from "@ant-design/icons";
+import { ArrowRightOutlined, PlusOutlined } from "@ant-design/icons";
 import SearchStock from "../SearchStock";
-import SearchStockVentas from "../forms/ventas/SearchStockVentas";
 import { post_method } from "@/src/helpers/post_helper";
 import DetalleCodigo from "../forms/deposito/DetalleCodigo";
 import CustomModal from "../CustomModal";
@@ -85,7 +83,7 @@ const EditarSobre = (props) => {
             </>
         },
         {title:"Pedidos", render:(_,record)=>{return <>
-                <Checkbox>
+                <Checkbox disabled>
                     Pedir
                 </Checkbox>
         </>}},
@@ -98,19 +96,19 @@ const EditarSobre = (props) => {
     }
     const [ventaItems6Rows, setVentaItems6Rows] = useState([
 
-        {  tipo: "lejos_od" ,      orden: "LEJOS", orden1: "OD",     codigo:"",  idcodigo: -1, agregarEnabled:  true,  usarEnabled: true, required:true,  items:[]},
-        {  tipo: "lejos_oi" ,      orden: "LEJOS", orden1: "OI",     codigo:"",  idcodigo: -1,  agregarEnabled:  true,  usarEnabled: true, required:true,  items:[]},
-        {  tipo: "lejos_armazon" , orden: "LEJOS", orden1: "ARMAZON",codigo:"",  idcodigo: -1,  agregarEnabled:  false, usarEnabled: false, required:false, items:[]},
-        {  tipo: "cerca_od" ,      orden: "CERCA", orden1: "OD",     codigo:"",  idcodigo: -1,  agregarEnabled:  true,  usarEnabled: true, required:true,  items:[]},
-        {  tipo: "cerca_oi" ,      orden: "CERCA", orden1: "OI",     codigo:"",  idcodigo: -1,  agregarEnabled:  true,  usarEnabled: true, required:true,  items:[]},
-        {  tipo: "cerca_armazon" , orden: "CERCA", orden1: "ARMAZON",codigo:"",  idcodigo: -1,  agregarEnabled:  false, usarEnabled: false, required:false, items:[]},
+        {  tipo: "lejos_od" ,      orden: "LEJOS", orden1: "OD",     codigo:"",  idcodigo: -1, agregarEnabled:  true,   usarEnabled: true,  required:true,   pedidos:[], items:[]},
+        {  tipo: "lejos_oi" ,      orden: "LEJOS", orden1: "OI",     codigo:"",  idcodigo: -1,  agregarEnabled:  true,  usarEnabled: true,  required:true,   pedidos:[], items:[]},
+        {  tipo: "lejos_armazon" , orden: "LEJOS", orden1: "ARMAZON",codigo:"",  idcodigo: -1,  agregarEnabled:  false, usarEnabled: false,  required:false, pedidos:[],  items:[]},
+        {  tipo: "cerca_od" ,      orden: "CERCA", orden1: "OD",     codigo:"",  idcodigo: -1,  agregarEnabled:  true,  usarEnabled: true,  required:true,   pedidos:[], items:[]},
+        {  tipo: "cerca_oi" ,      orden: "CERCA", orden1: "OI",     codigo:"",  idcodigo: -1,  agregarEnabled:  true,  usarEnabled: true,  required:true,   pedidos:[], items:[]},
+        {  tipo: "cerca_armazon" , orden: "CERCA", orden1: "ARMAZON",codigo:"",  idcodigo: -1,  agregarEnabled:  false, usarEnabled: false,  required:false, pedidos:[],  items:[]},
 
     ])
     const [ventaItems3Rows, setVentaItems3Rows] = useState([
 
-        {  tipo: "od" ,      orden: "-", orden1: "OD",     codigo:"",  idcodigo: -1, agregarEnabled:  true,  usarEnabled: true, required: true, items:[]},
-        {  tipo: "oi" ,      orden: "-", orden1: "OI",     codigo:"",  idcodigo: -1,  agregarEnabled:  true,  usarEnabled: true,required: true,  items:[]},
-        {  tipo: "armazon" , orden: "-", orden1: "ARMAZON",codigo:"",  idcodigo: -1,  agregarEnabled:  false, usarEnabled: false, required: false, items:[]},
+        {  tipo: "od" ,      orden: "-", orden1: "OD",     codigo:"",  idcodigo: -1, agregarEnabled:  true,  usarEnabled: true, required: true,    pedidos:[], items:[]},
+        {  tipo: "oi" ,      orden: "-", orden1: "OI",     codigo:"",  idcodigo: -1,  agregarEnabled:  true,  usarEnabled: true,required: true,    pedidos:[], items:[]},
+        {  tipo: "armazon" , orden: "-", orden1: "ARMAZON",codigo:"",  idcodigo: -1,  agregarEnabled:  false, usarEnabled: false, required: false, pedidos:[], items:[]},
 
     ])
 
@@ -189,6 +187,19 @@ const EditarSobre = (props) => {
         }
 
         setVentaItems6Rows(_rows)
+
+        load_pedidos();
+    }
+
+    const load_pedidos = () => {
+        let rows = six_rows_type ? ventaItems6Rows : ventaItems3Rows
+        post_method(post.obtener_items_ventas_taller,{idventa: props.idventa},(response)=>{
+            alert(JSON.stringify(response))
+            //loop thru each items
+            //response.data.forEach((r)=>{
+            //   rows = rows.map(r1=>(r.tipo == r1.tipo ? r1 : {...r1, pedidos: [...r1.pedidos,...[{}]]}))
+            //})
+        })
     }
 
 
@@ -321,7 +332,7 @@ const EditarSobre = (props) => {
                 rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'}
                 pagination={false}
                 columns={ columns }
-                dataSource={ six_rows_type? ventaItems6Rows : ventaItems3Rows }
+                dataSource={ ventaItems6Rows /*six_rows_type? ventaItems6Rows : ventaItems3Rows */}
                 bordered
                 size="middle"
                 scroll={{

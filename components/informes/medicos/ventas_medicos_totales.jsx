@@ -2,7 +2,6 @@ import PrinterWrapper from "@/components/PrinterWrapper";
 import { post_method } from "@/src/helpers/post_helper";
 import { parse_int_string } from "@/src/helpers/string_helper";
 import { get, post } from "@/src/urls";
-import { InfoCircleFilled } from "@ant-design/icons";
 import { Button, Col, Input, Row, Select, Table } from "antd";
 import { useEffect, useState } from "react";
 import VentasMedicos from "./ventas_medicos";
@@ -24,6 +23,7 @@ const ListaVentasMedicosTotales = (props) => {
         {dataIndex: 'cheque', title: 'cheque'},
         {dataIndex: 'ctacte', title: 'ctacte'},
         {dataIndex: 'mutual', title: 'mutual'},
+        {dataIndex: 'mercadopago', title: 'mercadopago'},
         {dataIndex: 'idmedico', title: '', render:(_,{idmedico,medico})=>{
             return <><VentasMedicos className="test" nombre_medico={medico} mes={mes} anio={anio} idmedico={idmedico}idsucursal={idsucursal} /></>
         }}
@@ -68,6 +68,7 @@ const ListaVentasMedicosTotales = (props) => {
                         cheque: r.cheque,
                         ctacte: r.ctacte,
                         mutual:r.mutual,
+                        mercadopago: r.mercadopago,
                     }))
                 )
             }
@@ -120,11 +121,11 @@ const ListaVentasMedicosTotales = (props) => {
                 fileName={`ventas_medicos_${mes}-${anio}`}
                 parseFnt={()=>{
                     let str = ""
-                    str+=`MES:,${mes}, ANIO:,${anio}, ,\r\n`
-                    str+=`SUCURSAL:,${nombreSucursal}, ,, ,\r\n`
-                    str+="MEDICO, EFECTIVO, TARJETA,  CHEQUE, CTACTE, MUTUAL\r\n"
+                    str+=`MES:,${mes}, ANIO:,${anio}, ,,\r\n`
+                    str+=`SUCURSAL:,${nombreSucursal}, ,, ,,\r\n`
+                    str+="MEDICO, EFECTIVO, TARJETA,  CHEQUE, CTACTE, MUTUAL, MERCADOPAGO\r\n"
                     dataSource.forEach(r=>{
-                        str+=`${r.medico},${r.efectivo},${r.tarjeta},${r.cheque},${r.ctacte},${r.mutual}\r\n`
+                        str+=`${r.medico},${r.efectivo},${r.tarjeta},${r.cheque},${r.ctacte},${r.mutual},${r.mercadopago}\r\n`
                     })
                     return str
                 }}

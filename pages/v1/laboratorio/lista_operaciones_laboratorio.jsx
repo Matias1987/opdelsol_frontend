@@ -1,10 +1,9 @@
+import ListaVentas from "@/components/informes/ventas/ListaVentas";
 import LayoutLaboratorio from "@/components/layout/layout_laboratorio";
 import EditarSobre from "@/components/taller/EditarSobre";
 import { SearchOutlined } from "@ant-design/icons";
 import { Button, Col, Input, Modal, Row } from "antd";
 import { useEffect, useState } from "react";
-
-const { default: ListaVentas } = require("@/components/informes/ventas/ListaVentas")
 
 export default function  ListaOperacionesLab(){
     const [idventa, setIdVenta] = useState(-1)
@@ -34,13 +33,20 @@ export default function  ListaOperacionesLab(){
     </Row>
     <Row>
         <Col span={24}>
-            {
-                idBusqueda>0?
-        <ListaVentas id={idBusqueda} marcarTerminado ignoreSucursal laboratorio_modificar enviar_a_sucursal en_laboratorio={1} ignoreSucursalEntrega  estado={"PENDIENTE"} onEditLaboratorioClick={(id)=>{setIdVenta(id), setOpen(true)}} key={reload} />
-        :
-        <ListaVentas marcarTerminado ignoreSucursal laboratorio_modificar enviar_a_sucursal en_laboratorio={1} ignoreSucursalEntrega  estado={"PENDIENTE"} onEditLaboratorioClick={(id)=>{setIdVenta(id), setOpen(true)}} key={reload} />
-        
-            }
+        <ListaVentas 
+            
+            id={idBusqueda} 
+            marcarTerminado 
+            ignoreSucursal 
+            laboratorio_modificar 
+            enviar_a_sucursal 
+            en_laboratorio={1} 
+            ignoreSucursalEntrega  
+            estado={"PENDIENTE"} 
+            onEditLaboratorioClick={(id)=>{setIdVenta(id), setOpen(true)}} 
+            key={reload} 
+        />
+       
         
         </Col>
     </Row>
