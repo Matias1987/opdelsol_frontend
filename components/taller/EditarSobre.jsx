@@ -9,6 +9,7 @@ import DetalleCodigo from "../forms/deposito/DetalleCodigo";
 import CustomModal from "../CustomModal";
 
 const EditarSobre = (props) => {
+    const [firstLoad, setFirstLoad] = useState(true)
     const [loading, setLoading] = useState(false)
     const [venta, setVenta] = useState(null)
     const [open, setOpen] = useState(false)
@@ -17,6 +18,7 @@ const EditarSobre = (props) => {
     const [reload, setReload] = useState(true)
     const [btnSaveEnabled, setBtnSaveEnabled] = useState(true)
     const [btnCambiarEstadoEnabled, setBtnCambiarEstadoEnabled] = useState(false)
+    const [accion, setAccion] = useState("")
     var six_rows_type=true;
 
     const columns = [
@@ -37,10 +39,10 @@ const EditarSobre = (props) => {
         render:(_,record)=><>
             <Button  
             block
-            disabled={!record.usarEnabled || record.idcodigo<1} 
+            disabled={!record.usarEnabled || record.idcodigo<1 || record.pedir} 
             onClick={()=>{
 
-                setVentaItems6Rows(ventaItems6Rows.map(vi=>{return vi.tipo===record.tipo ? 
+                setUsedRows(usedRows.map(vi=>{return vi.tipo===record.tipo ? 
                     {
                     ...vi, 
                     usarEnabled: false,
@@ -48,7 +50,7 @@ const EditarSobre = (props) => {
                     items: vi.items.filter(_i=>!_i.closable)
                     } : 
                     vi }))
-
+                setAccion("adicional")
                 setModifyingId(record.tipo)
                 onCodigoSelected(record.idcodigo, record.tipo)
 
@@ -63,7 +65,7 @@ const EditarSobre = (props) => {
                 <Tag closable={i.closable} 
                 onClose={()=>
                 {
-                    setVentaItems6Rows(_ventaItems=>(_ventaItems.map(vi=>(vi.tipo===record.tipo ? {...vi,agregarEnabled:true, usarEnabled:true, items:record.items.filter(r=>!r.closable)} : vi))))}
+                    setUsedRows(_ventaItems=>(_ventaItems.map(vi=>(vi.tipo===record.tipo ? {...vi,agregarEnabled:true, usarEnabled:true, items:record.items.filter(r=>!r.closable)} : vi))))}
                 } 
                     style={{fontSize:i.closable ? "1.4em" : ".85em"}} color={i.closable ? "red" : "purple"}
                 >
@@ -71,10 +73,11 @@ const EditarSobre = (props) => {
                 </>)
             }
                 <Button 
-                    /*disabled={!record.agregarEnabled} */
+                    disabled={record.pedir} 
                     onClick={()=>{
                     setLoading(true)
                     setModifyingId(record.tipo)
+                    setAccion("adicional")
                     onPlusClick()
                     }}>
                         <PlusOutlined />
@@ -83,9 +86,17 @@ const EditarSobre = (props) => {
             </>
         },
         {title:"Pedidos", render:(_,record)=>{return <>
-                <Checkbox disabled>
-                    Pedir
-                </Checkbox>
+                {
+                    record.pedidos.map(p=><Tag color="red">{p.fecha}</Tag>)
+                }
+                <Button
+                onClick={()=>{
+                    setLoading(true)
+                    setModifyingId(record.tipo)
+                    setAccion("pedido")
+                    onPlusClick()
+                    }}
+                >Pedir</Button>
         </>}},
         
     ]
@@ -96,26 +107,28 @@ const EditarSobre = (props) => {
     }
     const [ventaItems6Rows, setVentaItems6Rows] = useState([
 
-        {  tipo: "lejos_od" ,      orden: "LEJOS", orden1: "OD",     codigo:"",  idcodigo: -1, agregarEnabled:  true,   usarEnabled: true,  required:true,   pedidos:[], items:[]},
-        {  tipo: "lejos_oi" ,      orden: "LEJOS", orden1: "OI",     codigo:"",  idcodigo: -1,  agregarEnabled:  true,  usarEnabled: true,  required:true,   pedidos:[], items:[]},
-        {  tipo: "lejos_armazon" , orden: "LEJOS", orden1: "ARMAZON",codigo:"",  idcodigo: -1,  agregarEnabled:  false, usarEnabled: false,  required:false, pedidos:[],  items:[]},
-        {  tipo: "cerca_od" ,      orden: "CERCA", orden1: "OD",     codigo:"",  idcodigo: -1,  agregarEnabled:  true,  usarEnabled: true,  required:true,   pedidos:[], items:[]},
-        {  tipo: "cerca_oi" ,      orden: "CERCA", orden1: "OI",     codigo:"",  idcodigo: -1,  agregarEnabled:  true,  usarEnabled: true,  required:true,   pedidos:[], items:[]},
-        {  tipo: "cerca_armazon" , orden: "CERCA", orden1: "ARMAZON",codigo:"",  idcodigo: -1,  agregarEnabled:  false, usarEnabled: false,  required:false, pedidos:[],  items:[]},
+        {  tipo: "lejos_od" ,      orden: "LEJOS", orden1: "OD",     codigo:"",  idcodigo: -1, agregarEnabled:  true,   usarEnabled: true,  required:true,   pedir:false , pedidos:[], items:[]},
+        {  tipo: "lejos_oi" ,      orden: "LEJOS", orden1: "OI",     codigo:"",  idcodigo: -1,  agregarEnabled:  true,  usarEnabled: true,  required:true,   pedir:false , pedidos:[], items:[]},
+        {  tipo: "lejos_armazon" , orden: "LEJOS", orden1: "ARMAZON",codigo:"",  idcodigo: -1,  agregarEnabled:  false, usarEnabled: false,  required:false, pedir:false , pedidos:[],  items:[]},
+        {  tipo: "cerca_od" ,      orden: "CERCA", orden1: "OD",     codigo:"",  idcodigo: -1,  agregarEnabled:  true,  usarEnabled: true,  required:true,   pedir:false , pedidos:[], items:[]},
+        {  tipo: "cerca_oi" ,      orden: "CERCA", orden1: "OI",     codigo:"",  idcodigo: -1,  agregarEnabled:  true,  usarEnabled: true,  required:true,   pedir:false , pedidos:[], items:[]},
+        {  tipo: "cerca_armazon" , orden: "CERCA", orden1: "ARMAZON",codigo:"",  idcodigo: -1,  agregarEnabled:  false, usarEnabled: false,  required:false, pedir:false , pedidos:[],  items:[]},
 
     ])
     const [ventaItems3Rows, setVentaItems3Rows] = useState([
 
-        {  tipo: "od" ,      orden: "-", orden1: "OD",     codigo:"",  idcodigo: -1, agregarEnabled:  true,  usarEnabled: true, required: true,    pedidos:[], items:[]},
-        {  tipo: "oi" ,      orden: "-", orden1: "OI",     codigo:"",  idcodigo: -1,  agregarEnabled:  true,  usarEnabled: true,required: true,    pedidos:[], items:[]},
-        {  tipo: "armazon" , orden: "-", orden1: "ARMAZON",codigo:"",  idcodigo: -1,  agregarEnabled:  false, usarEnabled: false, required: false, pedidos:[], items:[]},
+        {  tipo: "od" ,      orden: "-", orden1: "OD",     codigo:"",  idcodigo: -1, agregarEnabled:  true,  usarEnabled: true, required: true,    pedidos:[], pedir:false , items:[]},
+        {  tipo: "oi" ,      orden: "-", orden1: "OI",     codigo:"",  idcodigo: -1,  agregarEnabled:  true,  usarEnabled: true,required: true,    pedidos:[], pedir:false , items:[]},
+        {  tipo: "armazon" , orden: "-", orden1: "ARMAZON",codigo:"",  idcodigo: -1,  agregarEnabled:  false, usarEnabled: false, required: false, pedidos:[], pedir:false , items:[]},
 
     ])
+
+    const [usedRows, setUsedRows] = useState([])
 
 
     const validate = _ =>{
         let valid_data = true;
-        (six_rows_type ? ventaItems6Rows : ventaItems3Rows).forEach(row=>{
+        usedRows.forEach(row=>{
             if(row.required && row.items.length<1 && +row.idcodigo!=-1){
                 valid_data=false
             }
@@ -125,18 +138,23 @@ const EditarSobre = (props) => {
 
     const save = _ => {
 
-        if(!validate())
-        {
-            alert("Todos los campos con código, excepto armazones, son requeridos")
-            return
-        }
+        //if(!validate())
+        //{
+        //    alert("Todos los campos con código, excepto armazones, son requeridos")
+        //    return
+        //}
 
-        var _data = [];
+        var _data_items_adicionales = [];
+        var _data_pedidos = [];
 
-        (six_rows_type ? ventaItems6Rows : ventaItems3Rows).forEach(row=>{
+        usedRows.forEach(row=>{
            
-            _data = [..._data,...row.items.filter(it=>it.userAdded)]
+            _data_items_adicionales = [..._data_items_adicionales,...row.items.filter(it=>it.userAdded)]
         })
+        //ventaItems6Rows.forEach(row=>{
+        //   
+        //    _data_items_adicionales = [..._data_items_adicionales,...row.items.filter(it=>it.userAdded)]
+        //})
 
         
 
@@ -144,8 +162,9 @@ const EditarSobre = (props) => {
             return
         }
         setBtnSaveEnabled(false)
-        post_method(post.insert.item_adicional,{fkventa: props.idventa, fksucursal: globals.obtenerSucursal() , items: _data},(response)=>{
+        post_method(post.insert.item_adicional,{fkventa: props.idventa, fksucursal: globals.obtenerSucursal() , items: _data_items_adicionales},(response)=>{
             alert("Datos guardados")
+            setFirstLoad(true)
             setBtnCambiarEstadoEnabled(true)
             setBtnSaveEnabled(true)
             setReload(!reload)
@@ -154,7 +173,7 @@ const EditarSobre = (props) => {
     }
 
     const populate_rows = (data) => {
-        let _rows = six_rows_type ? [...ventaItems6Rows] : [...ventaItems3Rows]
+        let _rows =  six_rows_type ? [...ventaItems6Rows] : [...ventaItems3Rows] //first time
 
         _rows = _rows.map(r=>({...r, idcodigo: -1, items:[]})) //reset
         //alert(JSON.stringify(_rows))
@@ -186,25 +205,32 @@ const EditarSobre = (props) => {
             setBtnCambiarEstadoEnabled(true)
         }
 
-        setVentaItems6Rows(_rows)
+        /*************************************************************************************************************************
+         * PEDIDOS
+         */
 
-        load_pedidos();
-    }
-
-    const load_pedidos = () => {
-        let rows = six_rows_type ? ventaItems6Rows : ventaItems3Rows
         post_method(post.obtener_items_ventas_taller,{idventa: props.idventa},(response)=>{
-            alert(JSON.stringify(response))
-            //loop thru each items
-            //response.data.forEach((r)=>{
-            //   rows = rows.map(r1=>(r.tipo == r1.tipo ? r1 : {...r1, pedidos: [...r1.pedidos,...[{}]]}))
-            //})
+            //alert("1")
+            response.data.forEach((r)=>{
+              
+                _rows = _rows.map(r1=>(r.tipo != r1.tipo ? r1 : {...r1, pedidos: [...r1.pedidos,...[{idpedido:0,fecha:"08-05-2024"}]]}))
+               
+            })
+            setUsedRows(_rows)
+
+            setLoading(false)
         })
     }
 
 
+
     useEffect(()=>{
-        load()
+        if(firstLoad)
+        {
+            setFirstLoad(false)
+            load()
+        }
+        
 
     },[reload])
 
@@ -242,7 +268,7 @@ const EditarSobre = (props) => {
             .then((response)=>{
                
                 populate_rows(response.data, true)
-                setLoading(false)
+                
                 
                 
             })
@@ -253,7 +279,7 @@ const EditarSobre = (props) => {
         
     }
 
-    const onCodigoSelected = (id, tipo)=>{
+    const on_agregar_adicional = (id, tipo) =>{ 
         //get details!
         setLoading(true)
         fetch(query_detalles + `${globals.obtenerSucursal()}/${id}`)
@@ -284,16 +310,41 @@ const EditarSobre = (props) => {
             };
             if(typeof tipo==='undefined')
             {
-                setVentaItems6Rows((_ventaitems)=>(_ventaitems.map(vi=>(vi.tipo == modifyingId ? { ...vi, items:[...vi.items,_data], agregarEnabled:false, usarEnabled:false } : vi))))
+                setUsedRows((_ventaitems)=>(_ventaitems.map(vi=>(vi.tipo == modifyingId ? { ...vi, items:[...vi.items,_data], agregarEnabled:false, usarEnabled:false } : vi))))
             }
             else{
-                setVentaItems6Rows((_ventaitems)=>(_ventaitems.map(vi=>(vi.tipo == tipo ? { ...vi, items:[...vi.items,_data], agregarEnabled:false, usarEnabled:false } : vi))))
+                setUsedRows((_ventaitems)=>(_ventaitems.map(vi=>(vi.tipo == tipo ? { ...vi, items:[...vi.items,_data], agregarEnabled:false, usarEnabled:false } : vi))))
             }
 
             setLoading(false)
 
+            setReload(!reload)
+
         })
         .catch((error)=>{alert(error)})
+    }
+
+    const on_agregar_pedido = (id, tipo) => {
+        //get codigo details
+        fetch(get.detalle_codigo + id).then(r=>r.json()).then((response)=>{
+
+
+            setUsedRows(_ur => _ur.map(r1=>(r1.tipo != modifyingId ? r1 : {...r1, pedidos: [...r1.pedidos,...[{idpedido:1, codigo: "-", fecha:"18-05-2024"}]]})))
+
+            setLoading(false)
+            setReload(!reload)
+        })
+    }
+
+    const onCodigoSelected = (id, tipo)=>{
+        alert(accion)
+       if(accion=="adicional")
+        {
+            on_agregar_adicional(id, tipo)
+        }
+        else{
+            on_agregar_pedido(id)
+        }
     }
 
     const detalle_venta = _ => venta == null ? <></> : <>
@@ -332,7 +383,7 @@ const EditarSobre = (props) => {
                 rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'}
                 pagination={false}
                 columns={ columns }
-                dataSource={ ventaItems6Rows /*six_rows_type? ventaItems6Rows : ventaItems3Rows */}
+                dataSource={ usedRows}
                 bordered
                 size="middle"
                 scroll={{
@@ -352,13 +403,14 @@ const EditarSobre = (props) => {
                 if(!confirm("Confirmar")){
                     return
                 }
+
                 setBtnCambiarEstadoEnabled(false)
                 setBtnSaveEnabled(false)
                 post_method(post.update.cambiar_venta_sucursal_deposito,{idventa:props.idventa, en_laboratorio: 0},(resp)=>{
                     alert("OK")
                     props?.callback?.()
                 })
-            }}>Marcar Como Terminado</Button>
+            }}>Marcar Como Calibrado</Button>
         </Col>
     </Row>
     <Modal open={open} onCancel={()=>{setOpen(false); setLoading(false);}} title="Agregar Código" footer={null} >
