@@ -106,7 +106,7 @@ const EditarCodigoGrupo = (props) => {
         </Row>
         <Row style={{padding:"1em"}}> 
             <Col span={4}>
-                    <Checkbox onChange={()=>{setModificarPrecio(!modificarPrecio)}} checked={modificarPrecio}>Modificar Precio </Checkbox>
+                    <Checkbox onChange={()=>{setModificarPrecio(!modificarPrecio)}} checked={modificarPrecio}>Modificar Precio (Individual) </Checkbox>
             </Col>
             <Col span={20}>
                     <Input disabled={!modificarPrecio} type="number" value={precio} onChange={(e)=>{setPrecio(parseFloat(e.target.value||"0"))}} />

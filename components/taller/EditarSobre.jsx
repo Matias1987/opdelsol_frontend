@@ -52,7 +52,7 @@ const EditarSobre = (props) => {
                     vi }))
                 setAccion("adicional")
                 setModifyingId(record.tipo)
-                onCodigoSelected(record.idcodigo, record.tipo)
+                onCodigoSelected(record.idcodigo, record.tipo, "adicional")
 
             }}>
                 <ArrowRightOutlined />
@@ -87,7 +87,7 @@ const EditarSobre = (props) => {
         },
         {title:"Pedidos", render:(_,record)=>{return <>
                 {
-                    record.pedidos.map(p=><Tag color="red">{p.fecha}</Tag>)
+                    record.pedidos.map(p=><Tag color={p.userAdded ? "red" : "purple"}>{p.codigo}</Tag>)
                 }
                 <Button
                 onClick={()=>{
@@ -150,25 +150,49 @@ const EditarSobre = (props) => {
         usedRows.forEach(row=>{
            
             _data_items_adicionales = [..._data_items_adicionales,...row.items.filter(it=>it.userAdded)]
+
+            _data_pedidos = [..._data_pedidos, ...row.pedidos.filter(p=>p.userAdded)]
         })
+
         //ventaItems6Rows.forEach(row=>{
         //   
         //    _data_items_adicionales = [..._data_items_adicionales,...row.items.filter(it=>it.userAdded)]
         //})
 
-        
+
+        if(_data_items_adicionales.length>0 && _data_pedidos.length>0)
+        {
+            alert("La cantidad de pedidos es mayor a 0")
+            return
+        }
 
         if(!confirm("Confirmar")){
             return
         }
         setBtnSaveEnabled(false)
-        post_method(post.insert.item_adicional,{fkventa: props.idventa, fksucursal: globals.obtenerSucursal() , items: _data_items_adicionales},(response)=>{
-            alert("Datos guardados")
-            setFirstLoad(true)
-            setBtnCambiarEstadoEnabled(true)
-            setBtnSaveEnabled(true)
-            setReload(!reload)
-        })
+
+        if(_data_pedidos.length>0)
+        {
+            post_method(post.insert.pedido,{items: _data_pedidos, fkventa: props.idventa, fksucursalpedido: globals.obtenerSucursal()},(response)=>{
+                alert("Datos guardados")
+                setFirstLoad(true)
+                setBtnCambiarEstadoEnabled(true)
+                setBtnSaveEnabled(true)
+                setReload(!reload)
+    
+            })
+        }
+        else{
+            post_method(post.insert.item_adicional,{fkventa: props.idventa, fksucursal: globals.obtenerSucursal() , items: _data_items_adicionales},(response)=>{
+                alert("Datos guardados")
+                setFirstLoad(true)
+                setBtnCambiarEstadoEnabled(true)
+                setBtnSaveEnabled(true)
+                setReload(!reload)
+            })
+        }
+
+
 
     }
 
@@ -176,7 +200,7 @@ const EditarSobre = (props) => {
         let _rows =  six_rows_type ? [...ventaItems6Rows] : [...ventaItems3Rows] //first time
 
         _rows = _rows.map(r=>({...r, idcodigo: -1, items:[]})) //reset
-        //alert(JSON.stringify(_rows))
+        
         data.forEach(
             data_row=>{
                 
@@ -192,7 +216,7 @@ const EditarSobre = (props) => {
 
             }
         )
-       // alert("afsf" + validate())
+       
        let valid_data = true;
         _rows.forEach(row=>{
            if(row.required && row.items.length<1 && +row.idcodigo!=-1){
@@ -210,10 +234,10 @@ const EditarSobre = (props) => {
          */
 
         post_method(post.obtener_items_ventas_taller,{idventa: props.idventa},(response)=>{
-            //alert("1")
+        
             response.data.forEach((r)=>{
               
-                _rows = _rows.map(r1=>(r.tipo != r1.tipo ? r1 : {...r1, pedidos: [...r1.pedidos,...[{idpedido:0,fecha:"08-05-2024"}]]}))
+                _rows = _rows.map(r1=>(r.tipo != r1.tipo ? r1 : {...r1, pedidos: [...r1.pedidos,...[{codigo: r.codigo, tipo: r.tipo, userAdded:false}]]}))
                
             })
             setUsedRows(_rows)
@@ -239,8 +263,6 @@ const EditarSobre = (props) => {
         fetch(get.venta + props.idventa)
         .then(r=>r.json())
         .then((response)=>{
-
-            //alert(JSON.stringify(response.data[0]))
             
             switch(response.data[0].tipo.toString())
             {
@@ -285,7 +307,7 @@ const EditarSobre = (props) => {
         fetch(query_detalles + `${globals.obtenerSucursal()}/${id}`)
         .then(response=>response.json())
         .then((response)=>{
-            //alert(JSON.stringify(response))
+         
             if(response.data.length<1)
             {
                 alert("Stock no disponible en sucursal")
@@ -297,7 +319,7 @@ const EditarSobre = (props) => {
                 alert("Stock insuficiente")
                 return
             }
-            //alert(JSON.stringify(response))
+   
             const _data = {
                 codigo: response.data[0].codigo,
                 descripcion: response.data[0].descripcion,
@@ -327,18 +349,19 @@ const EditarSobre = (props) => {
     const on_agregar_pedido = (id, tipo) => {
         //get codigo details
         fetch(get.detalle_codigo + id).then(r=>r.json()).then((response)=>{
-
-
-            setUsedRows(_ur => _ur.map(r1=>(r1.tipo != modifyingId ? r1 : {...r1, pedidos: [...r1.pedidos,...[{idpedido:1, codigo: "-", fecha:"18-05-2024"}]]})))
+           
+            let cod = response.data[0]
+            setUsedRows(_ur => _ur.map(r1=>(r1.tipo != modifyingId ? r1 : {...r1, pedidos: [...r1.pedidos,...[{codigo: cod.codigo, fkcodigo: cod.idcodigo, tipo: modifyingId, userAdded:true}]]})))
 
             setLoading(false)
             setReload(!reload)
         })
     }
 
-    const onCodigoSelected = (id, tipo)=>{
-        alert(accion)
-       if(accion=="adicional")
+    const onCodigoSelected = (id, tipo, _accion="")=>{
+        let _a = _accion == "" ? accion : _accion
+      
+       if(_a=="adicional")
         {
             on_agregar_adicional(id, tipo)
         }

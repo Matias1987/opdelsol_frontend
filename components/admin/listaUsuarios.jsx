@@ -42,6 +42,9 @@ const ListaUsuarios = (props) => {
                     setSelectedUsuario(id)
                     setPopupPrivilegiosOpen(true)}
                     }>Modificar Permisos</Button>
+                <Button>
+                    Cerrar Sesi&oacute;n
+                </Button>
                 
             </>
             
