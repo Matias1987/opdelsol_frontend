@@ -11,7 +11,18 @@ const MenuLaboratorioTop = (props)=>{
         {
           label: (<Link href={public_urls.lista_operaciones_laboratorio}>Lista de Operaciones</Link>),
           key: '10',
-          icon: <StarOutlined />,
+        },
+        {
+          label: (<Link href={public_urls.lista_operaciones_pedidos}>Lista de Pedidos</Link>),
+          key: '11',
+        },
+        {
+          label: (<Link href={public_urls.lista_operaciones_calibrado}>Lista de Operaciones en Calibrado</Link>),
+          key: '12',
+        },
+        {
+          label: (<Link href={public_urls.lista_operaciones_terminadas_taller}>Lista de Operaciones Terminadas</Link>),
+          key: '13',
         },
         
       ];

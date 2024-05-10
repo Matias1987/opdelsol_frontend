@@ -34,9 +34,10 @@ export default function LisaOperacionesPedidos(){
     <Row>
         <Col span={24}>
         <ListaVentas 
+            titulo="Pedidos"
             id={idBusqueda} 
             estado_taller="PEDIDO" 
-            marcarTerminado 
+            mostrarEstado="0"  
             ignoreSucursal 
             laboratorio_modificar 
             enviar_a_sucursal 
@@ -65,3 +66,6 @@ export default function LisaOperacionesPedidos(){
         </Modal>
     </>
 }
+
+
+LisaOperacionesPedidos.PageLayout = LayoutLaboratorio;

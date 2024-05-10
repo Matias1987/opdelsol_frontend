@@ -5,7 +5,7 @@ import { SearchOutlined } from "@ant-design/icons";
 import { Button, Col, Input, Modal, Row } from "antd";
 import { useEffect, useState } from "react";
 
-export default function  ListaOperacionesLab(){
+export default function ListaOperacionesTerminadasTaller(){
     const [idventa, setIdVenta] = useState(-1)
     const [busqueda, setBusqueda] = useState("")
     const [idBusqueda, setIdBusqueda] = useState(-1)
@@ -34,20 +34,18 @@ export default function  ListaOperacionesLab(){
     <Row>
         <Col span={24}>
         <ListaVentas 
-            titulo="Pendientes"
-            estado_taller="PENDIENTE" 
+            titulo="Terminados"
             id={idBusqueda} 
-            mostrarEstado="0" 
+            estado_taller="TERMINADO" 
+             
             ignoreSucursal 
-            laboratorio_modificar 
-            enviar_a_sucursal 
-            en_laboratorio={1} 
+            mostrarEstado="0" 
+             
             ignoreSucursalEntrega  
-            estado={"PENDIENTE"} 
             onEditLaboratorioClick={(id)=>{setIdVenta(id), setOpen(true)}} 
             key={reload} 
         />
-       
+        
         
         </Col>
     </Row>
@@ -67,4 +65,5 @@ export default function  ListaOperacionesLab(){
     </>
 }
 
-ListaOperacionesLab.PageLayout = LayoutLaboratorio;
+
+ListaOperacionesTerminadasTaller.PageLayout = LayoutLaboratorio;

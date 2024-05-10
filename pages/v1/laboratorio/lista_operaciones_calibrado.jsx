@@ -34,9 +34,10 @@ export default function LisaOperacionesCalibrado(){
     <Row>
         <Col span={24}>
         <ListaVentas 
+            titulo="Calibrado"
             id={idBusqueda} 
             estado_taller="CALIBRADO" 
-            marcarTerminado 
+            mostrarEstado="0"  
             ignoreSucursal 
             laboratorio_modificar 
             enviar_a_sucursal 
@@ -65,3 +66,6 @@ export default function LisaOperacionesCalibrado(){
         </Modal>
     </>
 }
+
+
+LisaOperacionesCalibrado.PageLayout = LayoutLaboratorio;

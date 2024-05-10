@@ -108,7 +108,7 @@ const ListaVentas = (props) => {
             }}>Enviar a Sucursal</Button></>:<></>*/}
 
             {typeof props.laboratorio_modificar!=='undefined' && props?.en_laboratorio==1 && typeof props.laboratorio_modificar!=='undefined' ? <>
-                <Button onClick={()=>{props?.onEditLaboratorioClick?.(_idventa)}}><EditFilled /></Button>
+                <Button onClick={()=>{props?.onEditLaboratorioClick?.(_idventa)}} danger><EditFilled /> Modificar</Button>
             </> : <></>}
 
             {/*<EditarVentaItems idventa={_idventa} />*/}
@@ -203,7 +203,7 @@ const ListaVentas = (props) => {
         {hidden: false, title: "Fecha", dataIndex:"fecha"},
         {hidden: false, title: "Cliente", dataIndex:"cliente"},
         {hidden: false, title: "Vendedor", dataIndex:"vendedor"},
-        {hidden: false, title: "Estado", dataIndex:"estado", render:(_,{estado})=>{
+        {hidden: (props.mostrarEstado||"1") == "0" , title: "Estado", dataIndex:"estado", render:(_,{estado})=>{
             switch(estado){
                 case "INGRESADO": return <Tag color="magenta">{estado}</Tag>
                 case "PENDIENTE": return <Tag color="geekblue">{estado}</Tag>

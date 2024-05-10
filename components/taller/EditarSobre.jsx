@@ -17,7 +17,7 @@ const EditarSobre = (props) => {
     const query_detalles = get.obtener_stock_detalles_venta ;
     const [reload, setReload] = useState(true)
     const [btnSaveEnabled, setBtnSaveEnabled] = useState(true)
-    const [btnCambiarEstadoEnabled, setBtnCambiarEstadoEnabled] = useState(false)
+    const [btnCambiarEstadoEnabled, setBtnCambiarEstadoEnabled] = useState(true)
     const [accion, setAccion] = useState("")
     var six_rows_type=true;
 
@@ -87,7 +87,11 @@ const EditarSobre = (props) => {
         },
         {title:"Pedidos", render:(_,record)=>{return <>
                 {
-                    record.pedidos.map(p=><Tag color={p.userAdded ? "red" : "purple"}>{p.codigo}</Tag>)
+                    record.pedidos.map(p=><Tag closable={p.userAdded} onClose={(e)=>{
+                       //setUsedRows(r=>{
+                       //    r.map(r1=>(record.tipo == r.tipo ? {...r1, pedidos:r1.filter(r2=>)}))
+                       //})
+                    }} color={p.userAdded ? "red" : "purple"}>{p.codigo}</Tag>)
                 }
                 <Button
                 onClick={()=>{
@@ -179,6 +183,8 @@ const EditarSobre = (props) => {
                 setBtnCambiarEstadoEnabled(true)
                 setBtnSaveEnabled(true)
                 setReload(!reload)
+
+                
     
             })
         }
@@ -341,6 +347,7 @@ const EditarSobre = (props) => {
             setLoading(false)
 
             setReload(!reload)
+            setBtnCambiarEstadoEnabled(false)
 
         })
         .catch((error)=>{alert(error)})
@@ -355,6 +362,7 @@ const EditarSobre = (props) => {
 
             setLoading(false)
             setReload(!reload)
+            setBtnCambiarEstadoEnabled(false)
         })
     }
 
@@ -417,23 +425,91 @@ const EditarSobre = (props) => {
         </Col>
     </Row>
     <Row>
-        <Col span={10}>
+        <Col style={{padding:".5em"}} span={10}>
             <Button block type="primary" onClick={save} disabled={!btnSaveEnabled}>Aplicar Cambios</Button>
         </Col>
-        <Col span={4}></Col>
-        <Col span={10}>
-            <Button block danger disabled={!btnCambiarEstadoEnabled} onClick={()=>{
+        <Col style={{padding:".5em"}} span={6}>
+            <Button type="primary" onClick={()=>{props?.callback?.()}} block>
+                Cerrar
+            </Button>
+        </Col>
+        <Col style={{padding:".5em"}} span={4}>
+            <Button block danger disabled={!btnCambiarEstadoEnabled} size="small"  onClick={()=>{
+
+                var _data_items_adicionales = [];
+                var _data_pedidos = [];
+
+                usedRows.forEach(row=>{
+                
+                    _data_items_adicionales = [..._data_items_adicionales,...row.items.filter(it=>it.userAdded)]
+
+                    _data_pedidos = [..._data_pedidos, ...row.pedidos.filter(p=>p.userAdded)]
+                })
+
+                if(_data_items_adicionales.length>0){
+                    alert("Hay elementos adicionales cargados")
+                    return
+                }
+
                 if(!confirm("Confirmar")){
                     return
                 }
 
                 setBtnCambiarEstadoEnabled(false)
                 setBtnSaveEnabled(false)
-                post_method(post.update.cambiar_venta_sucursal_deposito,{idventa:props.idventa, en_laboratorio: 0},(resp)=>{
+                //post_method(post.update.cambiar_venta_sucursal_deposito,{idventa:props.idventa, en_laboratorio: 0},(resp)=>{
+                //    alert("OK")
+                //    props?.callback?.()
+                //})
+                post_method(post.update.marcar_como_calibrando,{idventa:props.idventa},(resp)=>{
                     alert("OK")
                     props?.callback?.()
                 })
             }}>Marcar Como Calibrado</Button>
+        </Col>
+        <Col style={{padding:".5em"}} span={4}>
+            <Button block danger disabled={!btnCambiarEstadoEnabled}  size="small"  onClick={()=>{
+
+                var _data_items_adicionales = [];
+                var _data_pedidos = [];
+
+                usedRows.forEach(row=>{
+
+                    _data_items_adicionales = [..._data_items_adicionales,...row.items.filter(it=>it.userAdded)]
+
+                    _data_pedidos = [..._data_pedidos, ...row.pedidos.filter(p=>p.userAdded)]
+                })
+
+                if(_data_pedidos.length>0){
+                    alert("Hay pedidos cargados")
+                    return
+                }
+
+                if(!validate())
+                    {
+                        if(!confirm("Todos los campos con código, No estan cargados. Continuar?"))
+                        {
+                            return
+                        }
+                        else{
+                            if(!confirm("Confirmar")){
+                                return
+                            }
+                        }
+                    }
+
+
+                setBtnCambiarEstadoEnabled(false)
+                setBtnSaveEnabled(false)
+                //post_method(post.update.cambiar_venta_sucursal_deposito,{idventa:props.idventa, en_laboratorio: 0},(resp)=>{
+                //    alert("OK")
+                //    props?.callback?.()
+                //})
+                post_method(post.update.marcar_como_terminado,{idventa:props.idventa},(resp)=>{
+                    alert("OK")
+                    props?.callback?.()
+                })
+            }}>Marcar Como Terminado</Button>
         </Col>
     </Row>
     <Modal open={open} onCancel={()=>{setOpen(false); setLoading(false);}} title="Agregar Código" footer={null} >
