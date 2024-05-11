@@ -19,6 +19,8 @@ const EditarSobre = (props) => {
     const [btnSaveEnabled, setBtnSaveEnabled] = useState(true)
     const [btnCambiarEstadoEnabled, setBtnCambiarEstadoEnabled] = useState(true)
     const [accion, setAccion] = useState("")
+
+    const [idlocalPedidos, setIdLocalPedidos] = useState(0)
     var six_rows_type=true;
 
     const columns = [
@@ -87,11 +89,20 @@ const EditarSobre = (props) => {
         },
         {title:"Pedidos", render:(_,record)=>{return <>
                 {
-                    record.pedidos.map(p=><Tag closable={p.userAdded} onClose={(e)=>{
-                       //setUsedRows(r=>{
-                       //    r.map(r1=>(record.tipo == r.tipo ? {...r1, pedidos:r1.filter(r2=>)}))
-                       //})
-                    }} color={p.userAdded ? "red" : "purple"}>{p.codigo}</Tag>)
+                    
+                    record.pedidos.map(p=><Tag key={p.localId} closable={p.userAdded} onClose={()=>{
+                       //usedRows.forEach(r1=>(record.tipo == r1.tipo ? {...r1, pedidos:r1.pedidos.filter(r2=>r2.localId!=p.localId)} : r1))
+                       //setUsedRows(r=>r.map(r1=>(record.tipo == r1.tipo ? {...r1, pedidos:r1.pedidos.filter(r2=>r2.localId!=p.localId)} : r1)))
+                       //setReload(!reload)
+                       //alert(JSON.stringify(usedRows))
+
+                       let _ur = usedRows.map(r1=>(record.tipo == r1.tipo ? {...r1, pedidos:r1.pedidos.filter(r2=>r2.localId!=p.localId)} : r1))
+
+                       //alert(JSON.stringify(_ur))
+
+                       setUsedRows(_ur)
+                       
+                    }} color={p.userAdded ? "red" : "purple"}>{p.localId}</Tag>)
                 }
                 <Button
                 onClick={()=>{
@@ -163,7 +174,7 @@ const EditarSobre = (props) => {
         //    _data_items_adicionales = [..._data_items_adicionales,...row.items.filter(it=>it.userAdded)]
         //})
 
-
+        alert(JSON.stringify(_data_pedidos))
         if(_data_items_adicionales.length>0 && _data_pedidos.length>0)
         {
             alert("La cantidad de pedidos es mayor a 0")
@@ -243,7 +254,7 @@ const EditarSobre = (props) => {
         
             response.data.forEach((r)=>{
               
-                _rows = _rows.map(r1=>(r.tipo != r1.tipo ? r1 : {...r1, pedidos: [...r1.pedidos,...[{codigo: r.codigo, tipo: r.tipo, userAdded:false}]]}))
+                _rows = _rows.map(r1=>(r.tipo != r1.tipo ? r1 : {...r1, pedidos: [...r1.pedidos,...[{codigo: r.codigo, tipo: r.tipo, userAdded:false, localId:0}]]}))
                
             })
             setUsedRows(_rows)
@@ -358,8 +369,8 @@ const EditarSobre = (props) => {
         fetch(get.detalle_codigo + id).then(r=>r.json()).then((response)=>{
            
             let cod = response.data[0]
-            setUsedRows(_ur => _ur.map(r1=>(r1.tipo != modifyingId ? r1 : {...r1, pedidos: [...r1.pedidos,...[{codigo: cod.codigo, fkcodigo: cod.idcodigo, tipo: modifyingId, userAdded:true}]]})))
-
+            setUsedRows(_ur => _ur.map(r1=>(r1.tipo != modifyingId ? r1 : {...r1, pedidos: [...r1.pedidos,...[{codigo: cod.codigo, fkcodigo: cod.idcodigo, tipo: modifyingId, userAdded:true, localId: idlocalPedidos}]]})))
+            setIdLocalPedidos(idlocalPedidos+1)
             setLoading(false)
             setReload(!reload)
             setBtnCambiarEstadoEnabled(false)
