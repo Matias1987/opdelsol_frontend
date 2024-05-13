@@ -5,7 +5,12 @@ import { parse_int_string } from "@/src/helpers/string_helper";
 import { get, post } from "@/src/urls";
 import { Button, Checkbox, Col, Input, Modal, Row, Spin } from "antd";
 import { useState } from "react";
-
+/**
+ * 
+ * @param nrofactura
+ * @param idfactura
+ * 
+ */
 const EditarStockIndiv = (props) => {
     const [stock ,setStock] = useState(null)
     const [open, setOpen] = useState(false)
@@ -13,10 +18,12 @@ const EditarStockIndiv = (props) => {
     const [idfactura, setIdFactura] = useState(-1)
     const [editarCosto, setEditarCosto] = useState(false)
     const [costo, setCosto] = useState(0)
+    const [factura, setFactura] = useState(null)
     const onOpen = () => {
+
         setOpen(true)
         setEditarCosto(false)
-        setIdFactura(-1)
+        setIdFactura(typeof props.idfactura==='undefined' ? -1 : props.idfactura)
         fetch(get.obtener_stock_sucursal + `${props.idsucursal}/${props.idcodigo}`)
         .then(r=>r.json())
         .then((response)=>{
@@ -70,7 +77,10 @@ const EditarStockIndiv = (props) => {
                     <Input style={{backgroundColor:"lightyellow"}} readOnly prefix="Código: " value={codigo.codigo}/>
                 </Col>
             </Row>
-            <Row style={{padding:"1em"}}>
+
+            {
+                (typeof props.idfactura === 'undefined') ? 
+                <Row style={{padding:"1em"}}>
                 <Col span={24}>
                     Factura:&nbsp;
                     <FacturaSelect callback={(id)=>{
@@ -78,6 +88,13 @@ const EditarStockIndiv = (props) => {
                     }}/>
                 </Col>
             </Row>
+            : 
+            <Row>
+                <Col span={24}>
+                    ///*/**/*/*//*/* */
+                </Col>
+            </Row>    
+        }
             <Row style={{padding:"1em"}}>
                 <Col span={3}>
                     <Checkbox onChange={()=>{setEditarCosto(!editarCosto)}} checked={editarCosto}>Costo</Checkbox>

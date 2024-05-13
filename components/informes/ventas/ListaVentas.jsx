@@ -107,8 +107,8 @@ const ListaVentas = (props) => {
                 }
             }}>Enviar a Sucursal</Button></>:<></>*/}
 
-            {typeof props.laboratorio_modificar!=='undefined' && props?.en_laboratorio==1 && typeof props.laboratorio_modificar!=='undefined' ? <>
-                <Button onClick={()=>{props?.onEditLaboratorioClick?.(_idventa)}} danger><EditFilled /> Modificar</Button>
+            {typeof props.laboratorio_modificar!=='undefined'  ? <>
+                <Button onClick={()=>{props?.onEditLaboratorioClick?.(_idventa)}} danger> Insumos </Button>
             </> : <></>}
 
             {/*<EditarVentaItems idventa={_idventa} />*/}

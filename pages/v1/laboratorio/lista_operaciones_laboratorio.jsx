@@ -62,7 +62,7 @@ export default function  ListaOperacionesLab(){
         </Col>
     </Row>
         <Modal open={open} footer={null} onCancel={()=>{setOpen(false)}} key={idventa} width={"80%"}>
-            <EditarSobre idventa={idventa} callback={()=>{setReload(!reload), setOpen(false)}} />
+            <EditarSobre readonly={false} idventa={idventa} callback={()=>{setReload(!reload), setOpen(false)}} />
         </Modal>
     </>
 }

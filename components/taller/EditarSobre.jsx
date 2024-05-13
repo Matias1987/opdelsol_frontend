@@ -7,6 +7,7 @@ import SearchStock from "../SearchStock";
 import { post_method } from "@/src/helpers/post_helper";
 import DetalleCodigo from "../forms/deposito/DetalleCodigo";
 import CustomModal from "../CustomModal";
+import SearchCodigo from "../SearchCodigo";
 
 const EditarSobre = (props) => {
     const [firstLoad, setFirstLoad] = useState(true)
@@ -21,6 +22,7 @@ const EditarSobre = (props) => {
     const [accion, setAccion] = useState("")
 
     const [idlocalPedidos, setIdLocalPedidos] = useState(0)
+    const [idlocalAdicionales, setIdLocalAdicionales] = useState(0)
     var six_rows_type=true;
 
     const columns = [
@@ -41,7 +43,7 @@ const EditarSobre = (props) => {
         render:(_,record)=><>
             <Button  
             block
-            disabled={!record.usarEnabled || record.idcodigo<1 || record.pedir} 
+            disabled={!record.usarEnabled || record.idcodigo<1 || record.pedir || props.readonly} 
             onClick={()=>{
 
                 setUsedRows(usedRows.map(vi=>{return vi.tipo===record.tipo ? 
@@ -64,10 +66,12 @@ const EditarSobre = (props) => {
         {title:"Uso", render:(_,record)=><>
             {
             record.items.map(i=><>
-                <Tag closable={i.closable} 
+                <Tag 
+                key={i.localId}
+                closable={i.closable} 
                 onClose={()=>
                 {
-                    setUsedRows(_ventaItems=>(_ventaItems.map(vi=>(vi.tipo===record.tipo ? {...vi,agregarEnabled:true, usarEnabled:true, items:record.items.filter(r=>!r.closable)} : vi))))}
+                    setUsedRows(_ventaItems=>(_ventaItems.map(vi=>(vi.tipo===record.tipo ? {...vi,agregarEnabled:true, usarEnabled:true, items:record.items.filter(vi1=>vi1.localId!=i.localId)} : vi))))}
                 } 
                     style={{fontSize:i.closable ? "1.4em" : ".85em"}} color={i.closable ? "red" : "purple"}
                 >
@@ -75,7 +79,7 @@ const EditarSobre = (props) => {
                 </>)
             }
                 <Button 
-                    disabled={record.pedir} 
+                    disabled={record.pedir||props.readonly} 
                     onClick={()=>{
                     setLoading(true)
                     setModifyingId(record.tipo)
@@ -102,9 +106,10 @@ const EditarSobre = (props) => {
 
                        setUsedRows(_ur)
                        
-                    }} color={p.userAdded ? "red" : "purple"}>{p.localId}</Tag>)
+                    }} color={p.userAdded ? "red" : "purple"}>{p.codigo}</Tag>)
                 }
                 <Button
+                disabled={props.readonly}
                 onClick={()=>{
                     setLoading(true)
                     setModifyingId(record.tipo)
@@ -174,40 +179,39 @@ const EditarSobre = (props) => {
         //    _data_items_adicionales = [..._data_items_adicionales,...row.items.filter(it=>it.userAdded)]
         //})
 
-        alert(JSON.stringify(_data_pedidos))
-        if(_data_items_adicionales.length>0 && _data_pedidos.length>0)
-        {
-            alert("La cantidad de pedidos es mayor a 0")
-            return
-        }
+        //alert(JSON.stringify(_data_pedidos))
+        //if(_data_items_adicionales.length>0 && _data_pedidos.length>0)
+        //{
+        //    alert("La cantidad de pedidos es mayor a 0")
+        //    return
+        //}
 
         if(!confirm("Confirmar")){
             return
         }
         setBtnSaveEnabled(false)
 
-        if(_data_pedidos.length>0)
-        {
-            post_method(post.insert.pedido,{items: _data_pedidos, fkventa: props.idventa, fksucursalpedido: globals.obtenerSucursal()},(response)=>{
-                alert("Datos guardados")
-                setFirstLoad(true)
-                setBtnCambiarEstadoEnabled(true)
-                setBtnSaveEnabled(true)
-                setReload(!reload)
+        post_method(post.insert.pedido,{items: _data_pedidos, fkventa: props.idventa, fksucursalpedido: globals.obtenerSucursal()},(response)=>{
+            //alert("Datos guardados")
+            //setFirstLoad(true)
+            //setBtnCambiarEstadoEnabled(true)
+            //setBtnSaveEnabled(true)
+            //setReload(!reload)
 
-                
-    
-            })
-        }
-        else{
             post_method(post.insert.item_adicional,{fkventa: props.idventa, fksucursal: globals.obtenerSucursal() , items: _data_items_adicionales},(response)=>{
-                alert("Datos guardados")
+                //alert("Datos guardados")
                 setFirstLoad(true)
                 setBtnCambiarEstadoEnabled(true)
                 setBtnSaveEnabled(true)
                 setReload(!reload)
             })
-        }
+        })
+
+        //if(_data_pedidos.length>0)
+        //{
+        //}
+        //if(_data_items_adicionales.length>0){
+        //}
 
 
 
@@ -346,6 +350,7 @@ const EditarSobre = (props) => {
                 tipo: typeof tipo==='undefined' ? modifyingId:tipo,
                 closable: true,
                 userAdded:true,
+                localId: idlocalAdicionales,
             };
             if(typeof tipo==='undefined')
             {
@@ -359,6 +364,7 @@ const EditarSobre = (props) => {
 
             setReload(!reload)
             setBtnCambiarEstadoEnabled(false)
+            setIdLocalAdicionales(idlocalAdicionales+1)
 
         })
         .catch((error)=>{alert(error)})
@@ -437,7 +443,7 @@ const EditarSobre = (props) => {
     </Row>
     <Row>
         <Col style={{padding:".5em"}} span={10}>
-            <Button block type="primary" onClick={save} disabled={!btnSaveEnabled}>Aplicar Cambios</Button>
+            <Button block type="primary" onClick={save} disabled={!btnSaveEnabled||props.readonly}>Aplicar Cambios</Button>
         </Col>
         <Col style={{padding:".5em"}} span={6}>
             <Button type="primary" onClick={()=>{props?.callback?.()}} block>
@@ -445,7 +451,7 @@ const EditarSobre = (props) => {
             </Button>
         </Col>
         <Col style={{padding:".5em"}} span={4}>
-            <Button block danger disabled={!btnCambiarEstadoEnabled} size="small"  onClick={()=>{
+            <Button block danger disabled={!btnCambiarEstadoEnabled||props.readonly} size="small"  onClick={()=>{
 
                 var _data_items_adicionales = [];
                 var _data_pedidos = [];
@@ -479,7 +485,7 @@ const EditarSobre = (props) => {
             }}>Marcar Como Calibrado</Button>
         </Col>
         <Col style={{padding:".5em"}} span={4}>
-            <Button block danger disabled={!btnCambiarEstadoEnabled}  size="small"  onClick={()=>{
+            <Button block danger disabled={!btnCambiarEstadoEnabled||props.readonly}  size="small"  onClick={()=>{
 
                 var _data_items_adicionales = [];
                 var _data_pedidos = [];
@@ -496,19 +502,24 @@ const EditarSobre = (props) => {
                     return
                 }
 
-                if(!validate())
-                    {
-                        if(!confirm("Todos los campos con código, No estan cargados. Continuar?"))
-                        {
-                            return
-                        }
-                        else{
-                            if(!confirm("Confirmar")){
-                                return
-                            }
-                        }
-                    }
+                //if(!validate())
+                //    {
+                //        if(!confirm("Todos los campos con código, No estan cargados. Continuar?"))
+                //        {
+                //            return
+                //        }
+                //        else{
+                //            if(!confirm("Confirmar")){
+                //                return
+                //            }
+                //        }
+                //    }
 
+                if(!validate())
+                {
+                    alert("Todos los campos con códigos no estan cargados.")
+                    return
+                }
 
                 setBtnCambiarEstadoEnabled(false)
                 setBtnSaveEnabled(false)
@@ -524,14 +535,21 @@ const EditarSobre = (props) => {
         </Col>
     </Row>
     <Modal open={open} onCancel={()=>{setOpen(false); setLoading(false);}} title="Agregar Código" footer={null} >
-        <SearchStock 
+        {/*<SearchStock 
             callback={(resp)=>{
                 onCodigoSelected(resp)
                 setOpen(false)
             }
             }
-            onco
-        />
+            
+        />*/}
+        <SearchCodigo
+        callback={(resp)=>{
+            onCodigoSelected(resp)
+            setOpen(false)
+        }
+        }
+            />
     </Modal>
     </>
 }

@@ -37,7 +37,7 @@ export default function ListaOperacionesTerminadasTaller(){
             titulo="Terminados"
             id={idBusqueda} 
             estado_taller="TERMINADO" 
-             
+            laboratorio_modificar
             ignoreSucursal 
             mostrarEstado="0" 
              
@@ -60,7 +60,7 @@ export default function ListaOperacionesTerminadasTaller(){
         </Col>
     </Row>
         <Modal open={open} footer={null} onCancel={()=>{setOpen(false)}} key={idventa} width={"80%"}>
-            <EditarSobre idventa={idventa} callback={()=>{setReload(!reload), setOpen(false)}} />
+            <EditarSobre readonly={true} idventa={idventa} callback={()=>{setReload(!reload), setOpen(false)}} />
         </Modal>
     </>
 }
