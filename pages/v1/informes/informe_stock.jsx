@@ -1,8 +1,8 @@
+import CustomModal from "@/components/CustomModal";
 import PrinterWrapper from "@/components/PrinterWrapper"
+import { Col, Row } from "antd";
+import { useEffect, useState } from "react";
 
-const { default: CustomModal } = require("@/components/CustomModal")
-const { Row, Col } = require("antd")
-const { useState, useEffect } = require("react")
 
 const InformeStock = (props) => {
 

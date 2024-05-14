@@ -1,16 +1,8 @@
-/*
-familia
-    subfamilia
-        grupo
-            subgrupo
-                codigo
-
-*/
 
 import { get } from "@/src/urls";
 
-const { Space, Select, Spin } = require("antd");
-const { useState, useEffect } = require("react");
+import { Space, Select, Spin } from "antd";
+import { useState, useEffect }  from "react";
 
 const GrupoSelect = (props) => {
 

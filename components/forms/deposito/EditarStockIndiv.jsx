@@ -1,5 +1,4 @@
 import FacturaSelect from "@/components/FacturaSelect";
-import globals from "@/src/globals";
 import { post_method } from "@/src/helpers/post_helper";
 import { parse_int_string } from "@/src/helpers/string_helper";
 import { get, post } from "@/src/urls";
@@ -79,21 +78,21 @@ const EditarStockIndiv = (props) => {
             </Row>
 
             {
-                (typeof props.idfactura === 'undefined') ? 
+                ( props.idfactura || null ) == null ? 
                 <Row style={{padding:"1em"}}>
-                <Col span={24}>
-                    Factura:&nbsp;
-                    <FacturaSelect callback={(id)=>{
-                        setIdFactura(id)
-                    }}/>
-                </Col>
-            </Row>
-            : 
-            <Row>
-                <Col span={24}>
-                    ///*/**/*/*//*/* */
-                </Col>
-            </Row>    
+                    <Col span={24}>
+                        Factura:&nbsp;
+                        <FacturaSelect callback={(id)=>{
+                            setIdFactura(id)
+                        }}/>
+                    </Col>
+                </Row>
+                : 
+                <Row>
+                    <Col span={24}>
+                        Factura: 0-000-888
+                    </Col>
+                </Row>    
         }
             <Row style={{padding:"1em"}}>
                 <Col span={3}>

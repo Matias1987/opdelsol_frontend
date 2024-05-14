@@ -1,10 +1,11 @@
 /*first select provider and then factura */
 
 import { get } from "@/src/urls"
-import { Col, Row, Spin } from "antd"
+import { DeleteFilled } from "@ant-design/icons"
+import { Button, Col, Row, Spin } from "antd"
 import { useState } from "react"
+import LoadSelect from "./LoadSelect"
 
-const { default: LoadSelect } = require("./LoadSelect")
 
 
 const FacturaSelect = (props) =>{ 
@@ -78,6 +79,11 @@ const FacturaSelect = (props) =>{
                                     }
                                 />
                                 </Col>
+                        </Row>
+                        <Row>
+                            <Col span={24}>
+                                <Button block size="small" danger onClick={()=>{setIdProveedor(-1);  props.callback(-1)}}><DeleteFilled /></Button>
+                            </Col>
                         </Row>
                         </>
                 )

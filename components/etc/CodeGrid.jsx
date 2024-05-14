@@ -1,11 +1,10 @@
-import { Col, Divider, Row, Select, Table, Tag } from "antd";
+import { Col, Divider, Row, Select, Tag } from "antd";
 import { useEffect, useRef, useState } from "react";
-import SubGroupSelect from "../SubGroupSelect";
 import { get, post } from "@/src/urls";
 import EditarStockIndiv from "../forms/deposito/EditarStockIndiv";
 import globals from "@/src/globals";
 import { post_method } from "@/src/helpers/post_helper";
-import FacturaSelect from "../FacturaSelect";
+import FacturaSelect2 from "../FacturaSelect2";
 
 const CodeGrid = (props) => {
     const canvasRef = useRef(null);
@@ -17,7 +16,7 @@ const CodeGrid = (props) => {
     const [firstLoad, setFirstLoad] = useState(true)
     const [subgrupo, setSubgrupo] = useState(null)
 
-    const [idfactura, setIdFactura] = useState(-1)
+    const [idfactura, setIdFactura] = useState(null)
 
     var canvas = null
     var ctx = null
@@ -395,7 +394,7 @@ const CodeGrid = (props) => {
                 </Row>
                 <Row>
                     <Col span={24}>
-                        <EditarStockIndiv buttonText={"Editar Cantidad"}  callback={()=>{
+                        <EditarStockIndiv buttonText={"Editar Cantidad"} idfactura={idfactura}  callback={()=>{
                             setReload(!reload )
                         }} idcodigo={selectedCode.idcodigo} idsucursal={globals.obtenerSucursal()} />
                     </Col>
@@ -406,12 +405,12 @@ const CodeGrid = (props) => {
             <Row>
                 <Col span={24}>
                     <Divider />
-                    Factura:
+                    Factura: (Opcional)
                 </Col>
             </Row>
             <Row>
                 <Col span={24}>
-                    <FacturaSelect callback={id=>{setIdFactura(id)}} />
+                    <FacturaSelect2 callback={id=>{setIdFactura(id)}} />
                 </Col>
             </Row>
         </Col>

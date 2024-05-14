@@ -13,17 +13,18 @@ import MyLayout from "@/components/layout/layout";
 import InformeStock from "@/pages/v1/informes/informe_stock";
 import globals from "@/src/globals";
 import { post_method } from "@/src/helpers/post_helper";
-import { get, post } from "@/src/urls";
-import { CheckCircleOutlined, EditFilled, SearchOutlined, TableOutlined } from "@ant-design/icons";
-import { Button, Checkbox, Col, Divider, Form, Input, InputNumber, Modal, Row, Select, Space, Switch, Table, Tabs, Tag } from "antd";
-import { useEffect, useRef, useState } from "react";
-import EditarSubGrupo from "../editar_subgrupo";
+import { post } from "@/src/urls";
+import { SearchOutlined, TableOutlined } from "@ant-design/icons";
+import { Button, Checkbox, Col,  Form, Input, InputNumber, Modal, Row, Select, Space, Switch, Table, Tabs, Tag } from "antd";
+import { useEffect,  useState } from "react";
+
 import EditarSubgrupo from "@/components/forms/deposito/EditarSubgrupo";
 import ImpresionCodigosPopup from "../impresion_codigos_popup";
-import LayoutCaja from "@/components/layout/layout_caja";
+
 import LayoutVentas from "@/components/layout/layout_ventas";
 
 export default function ListaStock(){
+    const [usuarioDep, setUsuarioDep] = useState(false)
     const [open, setOpen] = useState(false)
     const [popupOpen, setPopupOpen] = useState(false)
     const [tipoOrden, setTipoOrden] = useState("");
@@ -96,6 +97,7 @@ export default function ListaStock(){
     
     //THIS IS NEW
     useEffect(()=>{
+        setUsuarioDep(globals.esUsuarioDeposito())
         setLoading(true)
        
         const data = procesar_tags();
@@ -449,7 +451,8 @@ export default function ListaStock(){
             ]}
             />
             <Row style={{backgroundColor:"#D3E1E6"}}>
-                {globals.esUsuarioDeposito()?<Col span={4} style={{padding:".5em"}}>
+                {usuarioDep?
+                <Col span={4} style={{padding:".5em"}}>
                     <Button onClick={()=>{setOpen(true)}} ><TableOutlined />  Grilla de C&oacute;digos</Button>
                     <Modal 
                         footer={null} 
@@ -461,7 +464,7 @@ export default function ListaStock(){
                             <CodeGrid idsubgrupo={idsubgrupo} width={500} height={480}/>
                     </Modal>
                 </Col>:<></>}
-                {globals.esUsuarioDeposito()?<Col span={4} style={{padding:".5em"}}>{edit_popup()}</Col>:<></>}
+                {usuarioDep?<Col span={4} style={{padding:".5em"}}>{edit_popup()}</Col>:<></>}
                 <Col span={4} style={{padding:".5em"}}>
                     <ExportToCSV parseFnt={()=>{
                         let str = "Familia, SubFamilia, Grupo, Subgrupo, Codigo, Descripcion, Cantidad, Precio,\r\n"

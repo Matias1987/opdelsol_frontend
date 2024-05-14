@@ -1,7 +1,5 @@
-import { useState } from "react";
-
-const { DownCircleFilled, ExportOutlined } = require("@ant-design/icons");
-const { Button } = require("antd");
+import {  ExportOutlined }  from"@ant-design/icons";
+import { Button }  from "antd";
 
 /**
  * 

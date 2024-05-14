@@ -1,11 +1,9 @@
 import CustomModal from "@/components/CustomModal";
-import PrinterWrapper from "@/components/PrinterWrapper";
-import InformeEnvio from "@/components/informes/InformeEnvio";
 import globals from "@/src/globals";
 import { get } from "@/src/urls";
 import { Divider, Spin, Tag } from "antd";
+import { useEffect, useState } from "react";
 
-const { useEffect, useState } = require("react")
 
 const DetalleStock = (props) => {
     

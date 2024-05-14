@@ -2,7 +2,7 @@ import PrinterWrapper from "@/components/PrinterWrapper"
 import { get_barcode_from_id2 } from "@/src/helpers/barcode_helper";
 import {Modal, Button} from "antd"
 import { useState } from "react"
-import {PrinterOutlined, BarcodeOutlined} from "@ant-design/icons";
+import { BarcodeOutlined} from "@ant-design/icons";
 import Barcode from "react-barcode";
 
 const ImpresionCodigosPopup = (props) => {

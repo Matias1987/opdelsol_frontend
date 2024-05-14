@@ -1,7 +1,6 @@
-import style_colors from "@/src/style_colors";
 import { Button, Modal } from "antd";
-import React from "react";
-const {  useState  } = React;;
+import { useState } from "react";
+
 /**
  * 
  * @param onOpen function to be called before setting open to true 
