@@ -2,7 +2,7 @@ import FacturaSelect from "@/components/FacturaSelect";
 import { post_method } from "@/src/helpers/post_helper";
 import { parse_int_string } from "@/src/helpers/string_helper";
 import { get, post } from "@/src/urls";
-import { Button, Checkbox, Col, Input, Modal, Row, Spin } from "antd";
+import { Button, Checkbox, Col, Input, Modal, Row, Spin, Tag } from "antd";
 import { useState } from "react";
 /**
  * 
@@ -17,9 +17,9 @@ const EditarStockIndiv = (props) => {
     const [idfactura, setIdFactura] = useState(-1)
     const [editarCosto, setEditarCosto] = useState(false)
     const [costo, setCosto] = useState(0)
-    const [factura, setFactura] = useState(null)
+    //const [factura, setFactura] = useState(null)
     const onOpen = () => {
-
+       
         setOpen(true)
         setEditarCosto(false)
         setIdFactura(typeof props.idfactura==='undefined' ? -1 : props.idfactura)
@@ -51,8 +51,13 @@ const EditarStockIndiv = (props) => {
 
 
     const guardarCambios = () => {
+        let _idfactura = idfactura
+        if(props.factura!=null)
+        {
+            _idfactura=props.factura.idfactura
+        }
         post_method(post.update.modificar_cantidad_stock,{
-            idfactura: idfactura,
+            idfactura: _idfactura,
             cantidad:stock.cantidad,
             fksucursal:props.idsucursal,
             idcodigo:props.idcodigo,
@@ -78,19 +83,19 @@ const EditarStockIndiv = (props) => {
             </Row>
 
             {
-                ( props.idfactura || null ) == null ? 
+                props.factura  == null ? 
                 <Row style={{padding:"1em"}}>
                     <Col span={24}>
-                        Factura:&nbsp;
+                        Factura: (Opcional)&nbsp;
                         <FacturaSelect callback={(id)=>{
                             setIdFactura(id)
                         }}/>
                     </Col>
                 </Row>
                 : 
-                <Row>
+                <Row style={{padding:"1em"}}>
                     <Col span={24}>
-                        Factura: 0-000-888
+                       <Tag color="geekblue-inverse" style={{fontSize:"1.25em"}} > Factura: {props.factura.nro} </Tag>
                     </Col>
                 </Row>    
         }

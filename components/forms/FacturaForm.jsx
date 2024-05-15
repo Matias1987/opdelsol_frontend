@@ -16,7 +16,7 @@ const FacturaForm = (props) => {
                 }
             }else{alert("Error.")}});
               break;
-            case 'EDIT': post_helper.post_method(urls.post.update.factura,values,(res)=>{
+            case 'EDIT': post_helper.post_method(post.update.factura,values,(res)=>{
               if(res.status == "OK"){alert("Cambios Guardados")}else{alert("Error.")}});
               break;
             };

@@ -70,24 +70,7 @@ useEffect(()=>{
                 onCancel={closePopup}
                 okText="CERRAR"
             >
-                <ProveedorForm action="ADD" callback={onOk} onSubmit={
-                    (data)=>{
-                        //handleSubmit(data)
-                        post_method(post.insert.proveedor,data,(res)=>{
-                            if(res.status == "OK"){
-                                if(res.data<0){
-                                    alert("El proveedor ya existe")
-                                }
-                                else{
-                                    alert("Proveedor Agregado")
-                                    closePopup();
-                                    setChange(!change)
-                                }
-
-                                
-                            }
-                        })
-                    } }
+                <ProveedorForm action="ADD" callback={onOk} 
                     />
             </Modal>
             <Table 

@@ -15,8 +15,8 @@ const CodeGrid = (props) => {
     const [selectedEje, setSelectedEje] = useState("-1")
     const [firstLoad, setFirstLoad] = useState(true)
     const [subgrupo, setSubgrupo] = useState(null)
-
-    const [idfactura, setIdFactura] = useState(null)
+    
+    const [factura, setFactura] = useState(null)
 
     var canvas = null
     var ctx = null
@@ -394,7 +394,7 @@ const CodeGrid = (props) => {
                 </Row>
                 <Row>
                     <Col span={24}>
-                        <EditarStockIndiv buttonText={"Editar Cantidad"} idfactura={idfactura}  callback={()=>{
+                        <EditarStockIndiv buttonText={"Editar Cantidad"} factura={factura}  callback={()=>{
                             setReload(!reload )
                         }} idcodigo={selectedCode.idcodigo} idsucursal={globals.obtenerSucursal()} />
                     </Col>
@@ -410,7 +410,10 @@ const CodeGrid = (props) => {
             </Row>
             <Row>
                 <Col span={24}>
-                    <FacturaSelect2 callback={id=>{setIdFactura(id)}} />
+                    <FacturaSelect2 callback={(__factura)=>{
+                        //alert(JSON.stringify({idfactura:id, nro:nro}))
+                        setFactura(__factura)
+                        }} />
                 </Col>
             </Row>
         </Col>
