@@ -17,6 +17,7 @@ const FacturaSelect2 = (props) =>{
     const [popupFacturaOpen, setPopupFacturaOpen] = useState(false)
     const [popupProvOpen, setPopupProvOpen] = useState(false)
     const [reload, setReload] = useState(false)
+    const [enabled, setEnabled] = useState(true)
 
     useEffect(()=>{
         if(proveedores.length<1)
@@ -74,7 +75,7 @@ const FacturaSelect2 = (props) =>{
         </Row>
         <Row>
             <Col span={24}>
-                <Select options={proveedores} value={idProveedor} onChange={(v)=>{ 
+                <Select disabled={!enabled} options={proveedores} value={idProveedor} onChange={(v)=>{ 
                     if(v==-2)
                     {
                         setPopupProvOpen(true)
@@ -97,7 +98,7 @@ const FacturaSelect2 = (props) =>{
                         </Row>
                         <Row>
                             <Col span={24}>
-                                <Select options={facturas} value={idFactura} onChange={(v)=>{
+                                <Select disabled={!enabled} options={facturas} value={idFactura} onChange={(v)=>{
 
                                     if(v==-2)
                                     {
@@ -111,12 +112,14 @@ const FacturaSelect2 = (props) =>{
 
                                     props.callback({idfactura: __f.value, nro:__f.label});
 
+                                    setEnabled(false)
+
                                     }} style={{width:"100%"}} key={idProveedor}/>
                             </Col>
                         </Row>
                         <Row>
                             <Col span={24} style={{padding:"1.5em"}}>
-                                <Button block size="small" danger onClick={()=>{setIdProveedor(-1); setIdFactura(-1);  props.callback(null)}}><CloseOutlined /></Button>
+                                <Button block size="small" danger onClick={()=>{ setEnabled(true); setIdProveedor(-1); setIdFactura(-1);  props.callback(null)}}><CloseOutlined /></Button>
                             </Col>
                         </Row>
                         </>
@@ -124,10 +127,10 @@ const FacturaSelect2 = (props) =>{
                 }
            
    
-    <Modal open={popupFacturaOpen} onCancel={()=>{setPopupFacturaOpen(false)}} title="Agregar Factura" footer={null}>
+    <Modal open={popupFacturaOpen} onCancel={()=>{setPopupFacturaOpen(false)}} title="Agregar Factura" footer={null} destroyOnClose>
         <FacturaForm action="ADD" callback={()=>{setPopupFacturaOpen(false); setReload(!reload)}} />
     </Modal>
-    <Modal open={popupProvOpen} onCancel={()=>{setPopupProvOpen(false)}} title="Agregar Proveedor" footer={null}>
+    <Modal open={popupProvOpen} onCancel={()=>{setPopupProvOpen(false)}} title="Agregar Proveedor" footer={null} destroyOnClose>
         <ProveedorForm action="ADD" callback={()=>{setPopupProvOpen(false); setProveedores([]); setReload(!reload)}} />
     </Modal>
     

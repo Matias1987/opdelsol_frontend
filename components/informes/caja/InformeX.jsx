@@ -31,7 +31,7 @@ export default function InformeX(props){
         cheque_nro: "",
         cheque_fecha: "",
         mercadopago_monto:0,
-
+        transferencia_monto:0,
     })
 
     useEffect(()=>{
@@ -56,6 +56,7 @@ export default function InformeX(props){
                 cheque_nro: "",
                 cheque_fecha: "",
                 mercadopago_monto:0,
+                transferencia_monto:0,
             }
             response.data.forEach(r=>{
                 switch(r.modo_pago){
@@ -76,6 +77,9 @@ export default function InformeX(props){
                     break;
                     case "mercadopago": 
                         __temp.mercadopago_monto=r.monto;
+                    break;
+                    case "transferencia": 
+                        __temp.transferencia_monto=r.monto;
                     break;
                 }
             })
@@ -139,6 +143,10 @@ export default function InformeX(props){
             <tr>
                 <td>Mercado Pago:</td>
                 <td style={{textAlign:"right"}}>$&nbsp;{currency_format(modoPago.mercadopago_monto)}</td>
+            </tr>
+            <tr>
+                <td>Transferencia:</td>
+                <td style={{textAlign:"right"}}>$&nbsp;{currency_format(modoPago.transferencia_monto)}</td>
             </tr>
             <tr>
                 <td>TOTAL:</td>

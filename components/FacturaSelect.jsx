@@ -82,7 +82,7 @@ const FacturaSelect = (props) =>{
                         </Row>
                         <Row>
                             <Col span={24}>
-                                <Button block size="small" danger onClick={()=>{setIdProveedor(-1);  props.callback(-1)}}><DeleteFilled /></Button>
+                                <Button size="small" danger onClick={()=>{setIdProveedor(-1);  props.callback(-1)}}><DeleteFilled /></Button>
                             </Col>
                         </Row>
                         </>

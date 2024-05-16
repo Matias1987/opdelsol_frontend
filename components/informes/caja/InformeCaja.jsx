@@ -26,8 +26,9 @@ export default function InformeCaja(props){
         mutual: 0,
         ctacte: 0,
         gastos: 0,
-        transferido: 0,
+        transferido: 0, //entre sucursales
         recibido: 0,
+		transferencias: 0,
     })
 
 
@@ -75,6 +76,7 @@ export default function InformeCaja(props){
             var totalMutual=0;
             var totalCtaCte=0;
 			var totalMercadoPago=0;
+			var totalTransferencias=0;
 
             response.data.forEach(r=>{
 				totalVentas += parseFloat(r.efectivo);
@@ -84,6 +86,7 @@ export default function InformeCaja(props){
 				totalMutual += parseFloat(r.mutual);
 				totalCtaCte += parseFloat(r.ctacte);
 				totalMercadoPago += parseFloat(r.marcadopago);
+				totalTransferencias += parseFloat(r.transferencia);
 			})
 
             setTotales(t=>({
@@ -95,6 +98,8 @@ export default function InformeCaja(props){
 				mutual: totalMutual,
 				ctacte: totalCtaCte,
 				mercadopago: totalMercadoPago,
+				transferencias: totalTransferencias,
+
 			}))
              
          })
@@ -117,7 +122,7 @@ export default function InformeCaja(props){
 			}))
          })
  
-         //lista de transferencias
+         //lista de transferencias ENTRE SUCURSALES
          fetch(get.transferencias_enviadas + globals.obtenerSucursal() + "/" + props.idcaja)
          .then(response=>response.json())
          .then((response)=>{
@@ -241,6 +246,7 @@ export default function InformeCaja(props){
 			{align: 'right', title:"Mutual", dataIndex:"mutual", render:(_,{mutual})=>(currency_format(mutual))},
 			{align: 'right', title:"Cta.Cte.", dataIndex:"ctacte", render:(_,{ctacte})=>(currency_format(ctacte))},
 			{align: 'right', title:"Mercado Pago", dataIndex:"mercadopago", render:(_,{mercadopago})=>(currency_format(mercadopago))},
+			{align: 'right', title:"Transferencia", dataIndex:"transferencia", render:(_,{transferencia})=>(currency_format(transferencia))},
 		]} 
 		summary={data=>{
 			var totalVentas=0;
@@ -250,6 +256,7 @@ export default function InformeCaja(props){
 			var totalMutual=0;
 			var totalCtaCte=0;
 			var totalMercadoPago=0;
+			var totalTransferencias=0;
 			data.forEach(r=>{
 				totalVentas += parseFloat(r.efectivo);
 				totalCuotas += parseFloat(r.cuotas);
@@ -258,6 +265,7 @@ export default function InformeCaja(props){
 				totalMutual += parseFloat(r.mutual);
 				totalCtaCte += parseFloat(r.ctacte);
 				totalMercadoPago += parseFloat(r.mercadopago);
+				totalTransferencias += parseFloat(r.transferencia)
 			})
 			/*setTotales(t=>({
 				...t,
@@ -280,6 +288,7 @@ export default function InformeCaja(props){
 					<Table.Summary.Cell align={'right'}><b>{currency_format(totalMutual)}</b></Table.Summary.Cell>
 					<Table.Summary.Cell align={'right'}><b>{currency_format(totalCtaCte)}</b></Table.Summary.Cell>
 					<Table.Summary.Cell align={'right'}><b>{currency_format(totalMercadoPago)}</b></Table.Summary.Cell>
+					<Table.Summary.Cell align={'right'}><b>{currency_format(totalTransferencias)}</b></Table.Summary.Cell>
 				</Table.Summary.Row>
 			</>
 		}}

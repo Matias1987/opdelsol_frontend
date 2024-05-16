@@ -24,6 +24,7 @@ const ListaVentasMedicosTotales = (props) => {
         {dataIndex: 'ctacte', title: 'ctacte'},
         {dataIndex: 'mutual', title: 'mutual'},
         {dataIndex: 'mercadopago', title: 'mercadopago'},
+        {dataIndex: 'transferencia', title: 'transferencia'},
         {dataIndex: 'idmedico', title: '', render:(_,{idmedico,medico})=>{
             return <><VentasMedicos className="test" nombre_medico={medico} mes={mes} anio={anio} idmedico={idmedico}idsucursal={idsucursal} /></>
         }}
@@ -69,6 +70,7 @@ const ListaVentasMedicosTotales = (props) => {
                         ctacte: r.ctacte,
                         mutual:r.mutual,
                         mercadopago: r.mercadopago,
+                        transferencia: r.transferencia,
                     }))
                 )
             }
@@ -121,11 +123,11 @@ const ListaVentasMedicosTotales = (props) => {
                 fileName={`ventas_medicos_${mes}-${anio}`}
                 parseFnt={()=>{
                     let str = ""
-                    str+=`MES:,${mes}, ANIO:,${anio}, ,,\r\n`
-                    str+=`SUCURSAL:,${nombreSucursal}, ,, ,,\r\n`
-                    str+="MEDICO, EFECTIVO, TARJETA,  CHEQUE, CTACTE, MUTUAL, MERCADOPAGO\r\n"
+                    str+=`MES:,${mes}, ANIO:,${anio}, ,,,\r\n`
+                    str+=`SUCURSAL:,${nombreSucursal}, ,, ,,,\r\n`
+                    str+="MEDICO, EFECTIVO, TARJETA,  CHEQUE, CTACTE, MUTUAL, MERCADOPAGO,TRANSFERENCIA,\r\n"
                     dataSource.forEach(r=>{
-                        str+=`${r.medico},${r.efectivo},${r.tarjeta},${r.cheque},${r.ctacte},${r.mutual},${r.mercadopago}\r\n`
+                        str+=`${r.medico},${r.efectivo},${r.tarjeta},${r.cheque},${r.ctacte},${r.mutual},${r.mercadopago},${r.transferencia},\r\n`
                     })
                     return str
                 }}

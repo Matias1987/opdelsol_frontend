@@ -16,6 +16,7 @@ export default function ModoPagoV3(props){
     const [ctacteChecked, setCtaCteChecked] = useState(false)
     const [chequeChecked, setChequeChecked] = useState(false)
     const [mutualChecked, setMutualChecked] = useState(false)
+    const [transferenciaChecked, setTransferenciaChecked] = useState(false)
     const [mercadopagoChecked, setMercadoPagoChecked] = useState(false)
     const [tarjetas, setTarjetas] = useState(null)
     const [bancos, setBancos] = useState(null)
@@ -39,6 +40,8 @@ export default function ModoPagoV3(props){
         total: 0,
         saldo: 0,
         mercadopago_monto:0,
+        transferencia_monto:0,
+        fk_banco_transferencia:null
     })
 
     useEffect(()=>{
@@ -128,6 +131,9 @@ export default function ModoPagoV3(props){
                                             _temp = {..._temp,mercadopago_monto: r.monto}
                                             setMercadoPagoChecked(true)
                                             break;
+                                        case 'transferencia':
+                                            _temp = {..._temp, transferencia_monto: r.monto, fk_banco_transferencia: r.fk_banco_transferencia}
+                                            setTransferenciaChecked(true)
                                     }
                                 })
 
@@ -138,7 +144,8 @@ export default function ModoPagoV3(props){
                                                     parseFloat(_temp.tarjeta_monto||0)+
                                                     parseFloat(_temp.mutual_monto||0)+
                                                     parseFloat(_temp.efectivo_monto||0)+
-                                                    parseFloat(_temp.mercadopago_monto||0)
+                                                    parseFloat(_temp.mercadopago_monto||0)+
+                                                    parseFloat(_temp.transferencia_monto||0)
                                     ;
 
                                     _temp.saldo = (props?.total||0) - _temp.total
@@ -188,7 +195,8 @@ export default function ModoPagoV3(props){
                         parseFloat(_mp.tarjeta_monto||0)+
                         parseFloat(_mp.mutual_monto||0)+
                         parseFloat(_mp.efectivo_monto||0)+
-                        parseFloat(_mp.mercadopago_monto||0)
+                        parseFloat(_mp.mercadopago_monto||0)+
+                        parseFloat(_mp.transferencia_monto||0)
                         
                         ;
             
@@ -286,6 +294,16 @@ export default function ModoPagoV3(props){
                         onChange("mercadopago_monto", 0)
                     }
                 }}>MercadoPago</Checkbox>
+
+                <Checkbox checked={transferenciaChecked} onChange={(e)=>{
+                    setTransferenciaChecked(!transferenciaChecked)
+                    if(false==e.target.checked)
+                    {
+                        onChange("transferencia_monto",0)      
+                    }
+                }}>
+                    Transferencia
+                </Checkbox>
             </Col>
         </Row>
         
@@ -448,9 +466,31 @@ export default function ModoPagoV3(props){
                     />
                 </Col>
             </Row>
-            <Row>
-                <Col span={24}>
-                    &nbsp;
+            <Row style={{display:  transferenciaChecked ? "flex" : "none", backgroundColor:"rgba(141,163,153,0.5) ", padding:"2px"}}>
+                <Col span={9}>
+                    <Input
+                    type="number"
+                    prefix={<b>Transferencia: </b>} 
+                    onChange={(e)=>{onChange("transferencia_monto", e.target.value.length<1 ? 0 : parseFloat(e.target.value))}} 
+                    value={modoPago.transferencia_monto}  
+                    onClick={(e)=>{e.target.select()}} 
+                    />
+                </Col>
+                <Col span={9}>
+                &nbsp;Banco:&nbsp;
+                    <Select 
+                    showSearch 
+                    value={modoPago.fk_banco_transferencia} 
+                    placeholder="Seleccione Banco" 
+                    style={{width:"300px"}} 
+                    options={bancos} 
+                    onChange={(value)=>{onChange("fk_banco_transferencia",value)}} 
+                    optionFilterProp="children"
+                    filterOption={(input, option) => (option?.label.toUpperCase() ?? '').includes(input.toUpperCase())}
+                    filterSort={(optionA, optionB) =>
+                    (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
+                    }
+                    />
                 </Col>
             </Row>
 
