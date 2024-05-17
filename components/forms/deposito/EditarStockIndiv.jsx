@@ -16,7 +16,10 @@ const EditarStockIndiv = (props) => {
     const [codigo, setCodigo] = useState(null)
     const [idfactura, setIdFactura] = useState(-1)
     const [editarCosto, setEditarCosto] = useState(false)
+    const [incrementarCantidad, setIncrementarCantidad] = useState(false)
+    const [cantInput, setCantInput] = useState(0)
     const [costo, setCosto] = useState(0)
+    
     //const [factura, setFactura] = useState(null)
     const onOpen = () => {
        
@@ -27,7 +30,7 @@ const EditarStockIndiv = (props) => {
         .then(r=>r.json())
         .then((response)=>{
             
-            setStock(response.data[0])
+            setStock({...response.data[0], cant_ant:response.data[0].cantidad})
         })
 
 
@@ -71,6 +74,12 @@ const EditarStockIndiv = (props) => {
         )
     }
 
+    const actualizar_cantidad = (v) => {
+        setStock(
+            s=>(
+                {...s,"cantidad":(incrementarCantidad ? parseInt( stock.cant_ant ) : 0) +parse_int_string(((v.toString())||"").toString())}))
+    }
+
     return <>
     <Button onClick={onOpen} type="primary">{props.buttonText}</Button>
         <Modal title={"Editar Cantidad Stock"} open={open} onCancel={onClose} footer={null} width={"60%"} destroyOnClose={true}>
@@ -109,11 +118,29 @@ const EditarStockIndiv = (props) => {
             </Row>
             <Row style={{padding:"1em"}}>
                 <Col span={24}>
-                    <Input prefix={<b>Cantidad: </b>} value={stock.cantidad} onChange={(e)=>{
-                        setStock(
-                            s=>(
-                                {...s,"cantidad":parse_int_string(((e.target?.value?.toString())||"").toString())}))
+                    <Input readOnly prefix={<b>Cantidad Actual: </b>} value={stock.cant_ant}  />  
+                </Col>
+            </Row>
+            <Row style={{padding:"1em"}}>
+                <Col span={24}>
+                    <Input 
+                    prefix={<><Checkbox  checked={incrementarCantidad} onChange={()=>{
+                        setIncrementarCantidad(!incrementarCantidad)
+                        actualizar_cantidad(cantInput)
+                    }}
+                    >Sumar
+                    </Checkbox><b>Cantidad: </b></>} 
+                    value={cantInput} 
+                    onChange={(e)=>{
+                        //alert(((e.target.value.toString())||"").toString())
+                        setCantInput(parse_int_string((e.target.value.toString())||"").toString())
+                        actualizar_cantidad(parse_int_string(((e.target.value.toString())||"").toString()))
                     }} />  
+                </Col>
+            </Row>
+            <Row style={{padding:"1em"}}>
+                <Col span={24}>
+                    <Input readOnly prefix={<b>Nueva Cantidad: </b>} value={stock.cantidad}  />  
                 </Col>
             </Row>
             <Row style={{padding:"1em"}}>
