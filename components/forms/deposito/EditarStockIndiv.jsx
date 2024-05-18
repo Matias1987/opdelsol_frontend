@@ -74,10 +74,10 @@ const EditarStockIndiv = (props) => {
         )
     }
 
-    const actualizar_cantidad = (v) => {
+    const actualizar_cantidad = (v, inc) => {
         setStock(
             s=>(
-                {...s,"cantidad":(incrementarCantidad ? parseInt( stock.cant_ant ) : 0) +parse_int_string(((v.toString())||"").toString())}))
+                {...s,"cantidad":(inc ? parseInt( stock.cant_ant ) : 0) +parse_int_string(((v.toString())||"").toString())}))
     }
 
     return <>
@@ -126,7 +126,7 @@ const EditarStockIndiv = (props) => {
                     <Input 
                     prefix={<><Checkbox  checked={incrementarCantidad} onChange={()=>{
                         setIncrementarCantidad(!incrementarCantidad)
-                        actualizar_cantidad(cantInput)
+                        actualizar_cantidad(cantInput,!incrementarCantidad)
                     }}
                     >Sumar
                     </Checkbox><b>Cantidad: </b></>} 
@@ -134,7 +134,7 @@ const EditarStockIndiv = (props) => {
                     onChange={(e)=>{
                         //alert(((e.target.value.toString())||"").toString())
                         setCantInput(parse_int_string((e.target.value.toString())||"").toString())
-                        actualizar_cantidad(parse_int_string(((e.target.value.toString())||"").toString()))
+                        actualizar_cantidad(parse_int_string(((e.target.value.toString())||"").toString()), incrementarCantidad)
                     }} />  
                 </Col>
             </Row>

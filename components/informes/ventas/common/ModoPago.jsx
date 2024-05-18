@@ -24,7 +24,7 @@ export default function ModoPagoInf(props){
             case "cheque": return   <tr><td><span>{r.modo_pago}: <b>${currency_format(r.monto)}</b>&nbsp;&nbsp;Banco: &nbsp;{r.nombre_banco}</span><hr /></td></tr>
             case "mutual": return   <tr><td><span>{r.modo_pago}: <b>${currency_format(r.monto)}</b></span><hr /></td></tr>
             case "mercadopago": return   <tr><td><span>{"Mercado Pago"}: <b>${currency_format(r.monto)}</b></span><hr /></td></tr>
-            case "transferencia": return   <tr><td><span>{"Transferencia"}: <b>${currency_format(r.monto)}</b></span><hr /></td></tr>
+            case "transferencia": return   <tr><td><span>{"Transferencia"}: <b>${currency_format(r.monto)}</b>&nbsp;&nbsp;Banco: &nbsp;{r.nombre_banco}</span><hr /></td></tr>
         }
     }
 
