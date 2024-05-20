@@ -41,7 +41,7 @@ const LlamadasCliente = (props) => {
         </Row>
         <Row>
             <Col span={24}>
-                <Table columns={columns_llamadas} dataSource={llamadas} />
+                <Table scroll={{y:"500px"}} columns={columns_llamadas} dataSource={llamadas} />
             </Col>
         </Row>
     </div>

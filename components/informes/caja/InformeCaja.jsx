@@ -3,7 +3,7 @@ import globals from "@/src/globals"
 import { currency_format } from "@/src/helpers/string_helper"
 import { get } from "@/src/urls"
 import { Button, Col, Modal, Row, Table } from "antd"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 
 export default function InformeCaja(props){
     const[dataOperaciones, setDataOperaciones] = useState(null)

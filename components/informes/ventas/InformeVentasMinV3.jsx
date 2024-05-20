@@ -1,7 +1,6 @@
 import ListaCobros from "@/components/forms/caja/ListaCobros"
 import { get } from "@/src/urls"
-import { Spin, Tag } from "antd"
-import Barcode from "react-barcode"
+import { Spin } from "antd"
 
 const { useState, useEffect } = require("react")
 const { default: VentaDirectaItems } = require("./VentaDirectaItems")

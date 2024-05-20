@@ -1,9 +1,8 @@
 import globals from "@/src/globals";
 import { get, post } from "@/src/urls";
-import { Button, Checkbox, Col, Modal, Row, Table, Tag } from "antd";
+import { Button, Col, Modal, Row, Table, Tag } from "antd";
 import { useEffect, useState } from "react";
 import { ArrowRightOutlined, PlusOutlined } from "@ant-design/icons";
-import SearchStock from "../SearchStock";
 import { post_method } from "@/src/helpers/post_helper";
 import DetalleCodigo from "../forms/deposito/DetalleCodigo";
 import CustomModal from "../CustomModal";
@@ -221,7 +220,9 @@ const EditarSobre = (props) => {
         let _rows =  six_rows_type ? [...ventaItems6Rows] : [...ventaItems3Rows] //first time
 
         _rows = _rows.map(r=>({...r, idcodigo: -1, items:[]})) //reset
-        
+
+        let _local_id =  -1;
+
         data.forEach(
             data_row=>{
                 
@@ -232,9 +233,9 @@ const EditarSobre = (props) => {
                 }
                 else{
                     
-                    _rows = _rows.map(_row=>(_row.tipo == data_row.tipo ? {..._row,items:[..._row.items,{tipo: data_row.tipo, codigo: data_row.codigo, isadicional: true, idcodigo: data_row.idcodigo, userAdded:false}]}: _row))
+                    _rows = _rows.map(_row=>(_row.tipo == data_row.tipo ? {..._row,items:[..._row.items,{tipo: data_row.tipo, codigo: data_row.codigo, isadicional: true, idcodigo: data_row.idcodigo, userAdded:false, localId:_local_id}]}: _row))
                 }
-
+                _local_id--;
             }
         )
        
@@ -253,12 +254,14 @@ const EditarSobre = (props) => {
         /*************************************************************************************************************************
          * PEDIDOS
          */
+        _local_id =  -1;
 
         post_method(post.obtener_items_ventas_taller,{idventa: props.idventa},(response)=>{
         
             response.data.forEach((r)=>{
               
-                _rows = _rows.map(r1=>(r.tipo != r1.tipo ? r1 : {...r1, pedidos: [...r1.pedidos,...[{codigo: r.codigo, tipo: r.tipo, userAdded:false, localId:0}]]}))
+                _rows = _rows.map(r1=>(r.tipo != r1.tipo ? r1 : {...r1, pedidos: [...r1.pedidos,...[{codigo: r.codigo, tipo: r.tipo, userAdded:false, localId:_local_id}]]}))
+                _local_id --;
                
             })
             setUsedRows(_rows)
@@ -534,7 +537,7 @@ const EditarSobre = (props) => {
             }}>Marcar Como Terminado</Button>
         </Col>
     </Row>
-    <Modal open={open} onCancel={()=>{setOpen(false); setLoading(false);}} title="Agregar Código" footer={null} >
+    <Modal width={"80%"} open={open} onCancel={()=>{setOpen(false); setLoading(false);}} title="Agregar Código" footer={null} >
         {/*<SearchStock 
             callback={(resp)=>{
                 onCodigoSelected(resp)
@@ -544,6 +547,7 @@ const EditarSobre = (props) => {
             
         />*/}
         <SearchCodigo
+        suggestions={usedRows.map(r=>r.codigo)}
         callback={(resp)=>{
             onCodigoSelected(resp)
             setOpen(false)

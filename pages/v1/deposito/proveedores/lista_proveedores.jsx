@@ -1,6 +1,5 @@
 import ProveedorForm from "@/components/forms/ProveedorForm";
-import { post_method } from "@/src/helpers/post_helper";
-import { get, post } from "@/src/urls"
+import { get } from "@/src/urls"
 import { EditOutlined } from "@ant-design/icons";
 
 import { Table, Button, Modal } from "antd";

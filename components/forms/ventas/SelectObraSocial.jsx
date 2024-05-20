@@ -94,6 +94,7 @@ const SelectObraSocial = (props) => {
                 <ObraSocialForm callback={onOSSelected} />
             </CustomModal>
             <Table 
+            scroll={{y:"500px"}}
             rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'}
             columns={columns} 
             dataSource={obrasociales} />

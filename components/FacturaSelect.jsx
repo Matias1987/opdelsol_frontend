@@ -1,8 +1,6 @@
-/*first select provider and then factura */
-
 import { get } from "@/src/urls"
 import { DeleteFilled } from "@ant-design/icons"
-import { Button, Col, Row, Spin } from "antd"
+import { Button, Col, Row } from "antd"
 import { useState } from "react"
 import LoadSelect from "./LoadSelect"
 

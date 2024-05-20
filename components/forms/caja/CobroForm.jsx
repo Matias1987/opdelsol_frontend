@@ -223,8 +223,19 @@ export default function CobroOperacion(props){
             }
 
         }
+
+        if(mp.transferencia_monto != 0)
+        {
+            if(mp.fk_banco_transferencia == null)
+                {
+                    //invalid bank
+                    alert("Seleccione Banco")
+                    setCobrarDisabled(false)
+                    return
+                }
+        }
         
-        if(mp.cheque_monto != 0)
+        if(mp.cheque_monto != 0  )
         {
             if(mp.fk_banco == null)
             {

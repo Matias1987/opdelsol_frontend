@@ -94,6 +94,7 @@ export default function SelectMedico(props){
                 <MedicoForm callback={(id)=>{onMedicoSelected(id)}} />
             </CustomModal>*/}
             <Table 
+            scroll={{y:"500px"}}
             rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'}
             columns={columns} 
             dataSource={medicos} />

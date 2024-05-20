@@ -1,7 +1,6 @@
 import { post_method } from "@/src/helpers/post_helper";
 import { post } from "@/src/urls";
-
-const { Input, Form, Button } = require("antd");
+import { Input, Form, Button } from "antd";
 
 const ProveedorForm = (props) => {
     const [form] = Form.useForm();

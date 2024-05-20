@@ -1,6 +1,4 @@
 import DetallesVendedor from "@/components/DetallesVendedor"
-import SaldoCtaCte from "@/components/SaldoCtaCte"
-import SucursalLabel from "@/components/sucursal_label"
 import globals from "@/src/globals"
 import { convertToWords, currency_format } from "@/src/helpers/string_helper"
 import { get } from "@/src/urls"

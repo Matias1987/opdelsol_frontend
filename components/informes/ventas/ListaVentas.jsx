@@ -1,18 +1,15 @@
-import CustomModal from "@/components/CustomModal";
 import ImprimirSobreVenta from "@/pages/v1/ventas/informes/sobre_venta";
 import { post_method } from "@/src/helpers/post_helper";
 import { useEffect, useState } from "react";
-import InformeVenta from "./Base";
-import { get, post } from "@/src/urls";
+import { post } from "@/src/urls";
 import globals from "@/src/globals";
 import FiltroVentas from "@/components/forms/ventas/filtroVentas";
 import CobroOperacion from "@/components/forms/caja/CobroForm";
-import { EditFilled, InfoCircleFilled, ReloadOutlined } from "@ant-design/icons";
+import { ReloadOutlined } from "@ant-design/icons";
 import VentaDetallePopup from "@/components/VentaDetalle";
-import EditarVentaItems from "@/components/forms/ventas/edicion/editar_venta_items";
 import { current_date_ymd } from "@/src/helpers/string_helper";
 import { registrarVentaAnulado, registrarVentaTerminado } from "@/src/helpers/evento_helper";
-import { Table, Button, Tag, Alert, Row, Col } from "antd"
+import { Table, Button, Tag, Row, Col } from "antd"
 /**
  * 
  * @param estado INGRESADO, PENDIENTE, TERMINADO, ENTREGADO, ANULADO... 
@@ -38,7 +35,7 @@ const ListaVentas = (props) => {
 
     const add = (obj,value,key) => typeof value === 'undefined' ? obj : {...obj, [key]:value}
 
-    const buttons = (_idventa, _idcliente, _idsucursal) => {
+    const buttons = (_idventa, _idcliente, _idsucursal, _tipo) => {
         return <>
             <><VentaDetallePopup idventa={_idventa} />&nbsp;&nbsp;</>
             {typeof props.imprimir !== 'undefined'  ?  <><ImprimirSobreVenta idventa={_idventa} />&nbsp;&nbsp;</>:<></>}
@@ -71,7 +68,7 @@ const ListaVentas = (props) => {
                 }
             }}>Terminado</Button>&nbsp;&nbsp;</>:<></>}
 
-            {typeof props.enviarALaboratorio !== 'undefined' ?  <Button disabled size="small" danger onClick={(e)=>{
+            {(typeof props.enviarALaboratorio !== 'undefined'&& _tipo!=globals.tiposVenta.DIRECTA) ?  <Button size="small" danger onClick={(e)=>{
                 if(confirm("Enviar venta a taller?"))
                 {
                     if(_idsucursal != globals.obtenerSucursal())
@@ -214,9 +211,9 @@ const ListaVentas = (props) => {
         }},
         {hidden: false, title: "Monto", dataIndex:"monto", render:(_,{monto})=><div style={{textAlign:"right"}}>$&nbsp;{parseFloat(monto)}</div>},
         {hidden: false, title: "Sucursal", dataIndex:"sucursal"},
-        {hidden: false, title: "Acciones", dataIndex:"idventa", render: (_,{idventa,idcliente, idsucursal})=>{
+        {hidden: false, title: "Acciones", dataIndex:"idventa", render: (_,{idventa,idcliente, idsucursal, tipo})=>{
             return <>
-                {buttons(idventa,idcliente, idsucursal)}
+                {buttons(idventa,idcliente, idsucursal, tipo)}
             </>
         }},
     ]
@@ -243,6 +240,7 @@ const ListaVentas = (props) => {
     <Row>
         <Col span={24} style={_row_style}>
             <Table 
+            scroll={{y:"500px"}}
             pagination={typeof props.pagination === 'undefined' ? true : props.pagination}
             rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'}
             dataSource={dataSource} 

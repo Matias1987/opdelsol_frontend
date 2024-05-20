@@ -1,6 +1,6 @@
-import { Button, Checkbox, Col, Divider, Input, Row, Select, Spin, Table } from "antd";
+import { Button, Checkbox, Col, Divider, Input, Row, Select, Spin } from "antd";
 import { useEffect, useState } from "react";
-import { DeleteFilled, ForwardFilled, PlayCircleFilled, PlaySquareFilled, PlaySquareTwoTone, RedoOutlined, RightCircleFilled } from "@ant-design/icons";
+import { RightCircleFilled } from "@ant-design/icons";
 import { get } from "@/src/urls";
 import { round_float } from "@/src/helpers/string_helper";
 

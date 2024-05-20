@@ -1,17 +1,16 @@
-import { Button, Table, Input } from "antd";
+import { Button, Table, Input,  Row, Col } from "antd";
 import { useState } from "react";
-import CustomModal from "./CustomModal";
-import ModificarCantidadForm from "./forms/deposito/modificarCantidadForm";
-import { PlusCircleFilled } from "@ant-design/icons";
-const urls = require("../src/urls")
+import { PlusCircleFilled, SearchOutlined } from "@ant-design/icons";
+import { get } from "@/src/urls";
 
 const SearchCodigo = (props) => {
     const [dataSource, setDataSource] = useState([])
     const [loading, setLoading] = useState(false)
+    const [searchValue, setSearchValue] = useState("")
 
-    const onSearch = (value) => {
+    const onSearch = () => {
         setLoading(true)
-        fetch(urls.get.search_codigos + value)
+        fetch(get.search_codigos + searchValue)
         .then((response)=>response.json())
         .then((response)=>{
             /*
@@ -31,34 +30,64 @@ const SearchCodigo = (props) => {
         })
         .catch((error)=>{console.error(error)})
     }
+
+
+    const _suggestions = _ => <>
+        {
+            typeof props.suggestions === 'undefined' ? <></> : props.suggestions.map(s=>(s||"").trim().length<1 ? <></> : <Button type="link" onClick={()=>{setSearchValue(s)}}><i>{s}</i></Button>)
+        }
+    </>
+
     return (
         <>
-        
-        <Input.Search onSearch={onSearch}  />
-        <Table 
-        loading={loading}
-        dataSource={dataSource} 
-        columns={
-            [
-                {title:"Codigo", dataIndex: "codigo",},
-                {title:"Descripcion", dataIndex: "descripcion",},
-                {
-                    title:"", 
-                    dataIndex: "idcodigo",
-                    render: 
-                        (_,{idcodigo})=>{
-                            return (
-                                <>
-                                    <Button onClick={()=>{props.callback(idcodigo)}}><PlusCircleFilled /></Button>
-                                    
-                                </>
-                            )
-                        }
-                    
-                },
-            ]
-        }
-        />
+        <Row>
+            <Col span={2} style={{fontSize:"0.75em" ,padding:"1em", textAlign:"right"}}>
+                Sugerencias:
+            </Col>
+            <Col span={22} style={{padding:"1em"}}>
+            {_suggestions()}   
+            </Col>
+        </Row>
+        <Row>
+            <Col span={24}>
+                <Input 
+                allowClear
+                value={searchValue}
+                addonAfter={<><Button onClick={onSearch}><SearchOutlined /></Button></>}
+                onChange={(e)=>{
+                    setSearchValue(e.target.value)
+                }}   prefix={<div style={{color:"red", backgroundColor:"lightblue"}} >Buscar por código:&nbsp;&nbsp;&nbsp;</div>} 
+                />
+            </Col>
+        </Row>
+        <Row>
+            <Col span={24}>
+                <Table 
+                scroll={{y:"500px"}}
+                rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'}
+                loading={loading}
+                dataSource={dataSource} 
+                columns={
+                    [
+                        {title:"Codigo", dataIndex: "codigo",},
+                        {title:"Descripcion", dataIndex: "descripcion",},
+                        {
+                            title:"", 
+                            dataIndex: "idcodigo",
+                            render: 
+                                (_,{idcodigo})=>{
+                                    return (
+                                        <>
+                                            <Button onClick={()=>{props.callback(idcodigo)}}><PlusCircleFilled /></Button>
+                                        </>
+                                    )
+                                }
+                        },
+                    ]
+                }
+            />
+            </Col>
+        </Row>
         </>
     )
 }

@@ -142,7 +142,7 @@ const DetalleCliente = (props) =>
         <Col span={14}>
             <hr />
             <b>Ventas</b>
-            <Table  dataSource={ventas} columns={columns} />
+            <Table scroll={{y:"500px"}} dataSource={ventas} columns={columns} />
         </Col>
         <Col span={10}>
             <LlamadasCliente idcliente={data.idcliente} />
