@@ -22,7 +22,7 @@ const EditarStockIndiv = (props) => {
     
     //const [factura, setFactura] = useState(null)
     const onOpen = () => {
-       
+       setCantInput(0)
         setOpen(true)
         setEditarCosto(false)
         setIdFactura(typeof props.idfactura==='undefined' ? -1 : props.idfactura)
@@ -81,7 +81,7 @@ const EditarStockIndiv = (props) => {
     }
 
     return <>
-    <Button onClick={onOpen} type="primary">{props.buttonText}</Button>
+    <Button onClick={onOpen} type="primary" size="small">{props.buttonText}</Button>
         <Modal title={"Editar Cantidad Stock"} open={open} onCancel={onClose} footer={null} width={"60%"} destroyOnClose={true}>
             {stock==null || codigo==null ? <Spin /> : 
             <>

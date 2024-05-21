@@ -267,15 +267,6 @@ export default function InformeCaja(props){
 				totalMercadoPago += parseFloat(r.mercadopago);
 				totalTransferencias += parseFloat(r.transferencia)
 			})
-			/*setTotales(t=>({
-				...t,
-				ventas: totalVentas,
-				cuotas: totalCuotas,
-				cheques: totalCheques,
-				tarjetas: totalTarjetas,
-				mutual: totalMutual,
-				ctacte: totalCtaCte,
-			}))*/
 			return <>
 				<Table.Summary.Row>
 					<Table.Summary.Cell colSpan={4}>

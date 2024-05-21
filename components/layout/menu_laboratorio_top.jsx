@@ -24,6 +24,10 @@ const MenuLaboratorioTop = (props)=>{
           label: (<Link href={public_urls.lista_operaciones_terminadas_taller}>Lista de Operaciones Terminadas</Link>),
           key: '13',
         },
+        {
+          label: (<Link href={public_urls.lista_stock_taller}>Stock</Link>),
+          key: '14',
+        },
         
       ];
 

@@ -21,6 +21,7 @@ const public_urls = {
     login: local_base_url + "usuario/login/login",
     nuevo_envio: local_base_url + "deposito/envio/nuevo_envio",
     lista_stock: local_base_url + "deposito/stock/listados/lista_stock",
+    lista_stock_taller: local_base_url + "laboratorio/stock_taller",
     modo: local_base_url + "Modo",
     //ventas: 
     venta_directa: local_base_url + "ventas/Directa",

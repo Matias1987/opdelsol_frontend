@@ -1,7 +1,7 @@
 
 import { get } from "@/src/urls";
 
-import { Space, Select, Spin }  from "antd";
+import { Space, Select, Spin, Col }  from "antd";
 import { useState, useEffect }  from "react";
 
 const SubGroupSelect = (props) => {
@@ -81,63 +81,65 @@ const SubGroupSelect = (props) => {
     return (
         <>
             <Space wrap>
-                <>
-                <Select 
-                disabled={typeof props.disabled === 'undefined' ? false : props.disabled}
-                
-                 bordered={idFamilia==-1}
-                 style={{ width: "400px" }}
-                 value={idFamilia==-1 ? "Seleccione Familia" : idFamilia}
-                 loading = {familiaLoading}
-                 onChange={
-                    (value)=>{
-                        
-                        setIdFamilia(value);
-                        setIdSubFamilia(-1);
-                        setIdGrupo(-1);
-                        setIdSubGrupo(-1);
+                <Col span={6}>
+                    <Select 
+                    disabled={typeof props.disabled === 'undefined' ? false : props.disabled}
+                    
+                    bordered={idFamilia==-1}
+                    style={{ width: "200px" }}
+                    value={idFamilia==-1 ? "Seleccione Familia" : idFamilia}
+                    loading = {familiaLoading}
+                    onChange={
+                        (value)=>{
+                            
+                            setIdFamilia(value);
+                            setIdSubFamilia(-1);
+                            setIdGrupo(-1);
+                            setIdSubGrupo(-1);
 
-                        loadSubFamilia(value);
-                        props.callback(-1)
+                            loadSubFamilia(value);
+                            props.callback(-1)
+                        }
                     }
-                }
-                options = {familiaOptions}
-                />
-                </>
+                    options = {familiaOptions}
+                    />
+                </Col>
                 {
                     idFamilia==-1 ? <Spin /> :
                     (
-                        <>
-                        <Select 
-                        disabled={typeof props.disabled === 'undefined' ? false : props.disabled}
-                         bordered={idSubFamilia<0}
-                        style={{ width: "400px" }}
-                        loading = {subFamiliaLoading}
-                        options = {subFamiliaOptions}
-                        placeholder = {"Select"}
-                        value = {idSubFamilia<0? "Seleccione Sub Familia" : idSubFamilia}
-                        onChange = {
-                            (value)=>{
-                                setIdSubFamilia(value);
-                                setIdGrupo(-1);
-                                setIdSubGrupo(-1);
+                        <Col span={6}>
+                            <Select 
+                            disabled={typeof props.disabled === 'undefined' ? false : props.disabled}
+                            bordered={idSubFamilia<0}
+                            style={{ width: "200px" }}
+                            loading = {subFamiliaLoading}
+                            options = {subFamiliaOptions}
+                            placeholder = {"Select"}
+                            value = {idSubFamilia<0? "Seleccione Sub Familia" : idSubFamilia}
+                            onChange = {
+                                (value)=>{
+                                    setIdSubFamilia(value);
+                                    setIdGrupo(-1);
+                                    setIdSubGrupo(-1);
 
-                                loadGrupo(value);
-                                props.callback(-1)
+                                    loadGrupo(value);
+                                    props.callback(-1)
+                                }
+
                             }
-
-                        }
-                        />
-                        </>
+                            />
+                        </Col>
+                        
                     )
                 }
                 {
                     idSubFamilia == -1 ? <Spin /> :
-                    (   <>
+                    (   
+                        <Col span={6}>
                             <Select 
                             disabled={typeof props.disabled === 'undefined' ? false : props.disabled}
                              bordered={idGrupo<0}
-                            style={{ width: "400px" }}
+                            style={{ width: "200px" }}
                             loading = {grupoLoading}
                             options = {grupoOptions}
                             placeholder = {"Select"}
@@ -151,30 +153,32 @@ const SubGroupSelect = (props) => {
                                 }
                             }
                             />
-                        </>
+                        </Col>
+                        
                     )
                 }
                 {
                     idGrupo == -1 ? <Spin /> :
                     (
-                        <>
-                        <Select 
-                        disabled={typeof props.disabled === 'undefined' ? false : props.disabled}
-                         bordered={idSubGrupo<0}
-                        style={{ width: "400px" }}
-                        loading = {subGrupoLoading}
-                        options = {subGrupoOptions}
-                        placeholder = {"Seleccione"}
-                        value = {idSubGrupo<0? "Seleccione Subgrupo" : idSubGrupo}
-                        onChange = {
-                            (value)=>{
-                                setIdSubGrupo(value)
-                                props.callback(value)
+                        <Col span={6}>
+                            <Select 
+                            disabled={typeof props.disabled === 'undefined' ? false : props.disabled}
+                            bordered={idSubGrupo<0}
+                            style={{ width: "200px" }}
+                            loading = {subGrupoLoading}
+                            options = {subGrupoOptions}
+                            placeholder = {"Seleccione"}
+                            value = {idSubGrupo<0? "Seleccione Subgrupo" : idSubGrupo}
+                            onChange = {
+                                (value)=>{
+                                    setIdSubGrupo(value)
+                                    props.callback(value)
+                                }
                             }
-                        }
+                            
+                            />
+                        </Col>
                         
-                        />
-                        </>
                     )
                 }
 

@@ -1,11 +1,11 @@
 import { CloseCircleFilled } from "@ant-design/icons"
+import { Button, Col, Row, Select } from "antd"
+import { useState } from "react"
+import FamiliaSelect from "./FamiliaSelect"
+import SubFamiliaSelect from "./SubFamiliaSelect"
+import GrupoSelect from "./GrupoSelect"
+import SubGroupSelect from "./SubGroupSelect"
 
-const { useState } = require("react")
-const { default: FamiliaSelect } = require("./FamiliaSelect")
-const { default: GrupoSelect } = require("./GrupoSelect")
-const { default: SubFamiliaSelect } = require("./SubFamiliaSelect")
-const { default: SubGroupSelect } = require("./SubGroupSelect")
-const { Select, Col, Row, Button } = require("antd")
 
 const CategoriaSelect = (props) => {
     
@@ -36,9 +36,9 @@ const CategoriaSelect = (props) => {
         }
     }
 
-    return <div style={{padding:".2em", backgroundColor:"rgba(100,250,250,.3)"}}> 
-                <Row style={{padding:".7em"}}>
-                    <Col span={4} style={{textAlign:"left", paddingTop:".3em"}}>
+    return <div style={{paddingLeft:"1.2em", backgroundColor:"rgba(141,163,153,.15)"}}> 
+                <Row >
+                    <Col span={2} style={{textAlign:"left", paddingTop:".3em"}}>
                         Categor&iacute;a:&nbsp;&nbsp;
                     </Col>
                     <Col span={20}>
@@ -65,15 +65,14 @@ const CategoriaSelect = (props) => {
                     </Col>
                     </Row>
                 <Row style={{padding:"1em"}}>
-                    <Col span={24}>
+                    <Col span={23}>
                         <div style={!enabled?disabled_style:enabled_style}>
                             {_opt()}
                         </div>
                     </Col>
-                </Row>
-                <Row>
                     <Col span={1}>
                         <Button 
+                        disabled = {categoria=="-1"}
                         size="small" 
                         type="ghost"
                         style={{color:"red", textAlign:"center"}} 
@@ -84,9 +83,12 @@ const CategoriaSelect = (props) => {
                             props?.callback?.("-1","-1")
                             }}
                         >
-                                <CloseCircleFilled />Limpiar
+                                <CloseCircleFilled />
                         </Button>
                     </Col>
+                </Row>
+                <Row>
+                    
                 </Row>
             </div>
 }

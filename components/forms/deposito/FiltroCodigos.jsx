@@ -1,9 +1,9 @@
 import CategoriaSelect from "@/components/CategoriaSelect"
-import SubGroupSelect from "@/components/SubGroupSelect"
 import { Button, Col, Input, Row } from "antd"
 import { useState } from "react"
 
 const   FiltroCodigos = (props) => {
+    const [applyPending, setApplyPending] = useState(false)
     const [filtros, setFiltros] = useState({
         idfamilia:"-1",
         idsubfamilia:"-1",
@@ -12,6 +12,7 @@ const   FiltroCodigos = (props) => {
         codigo:""
     })
     const callback = (cat,id)=>{
+        setApplyPending(true)
         setFiltros(f=>({
             ...f,
             idfamilia:cat=='familia'?id:'-1',
@@ -27,27 +28,30 @@ const   FiltroCodigos = (props) => {
 
     return <div >
     <Row>
-        <Col span={24}>
-            <h3>Filtros</h3>
+        <Col span={1} style={{writingMode:"vertical-lr"}}>
+            <b>Filtros</b>
+        </Col>
+        <Col span={23}>
+            <Row>
+                <Col span={24}>
+                    <CategoriaSelect callback={callback} />
+                </Col>
+            </Row>
+            <Row>
+                <Col span={18}>
+                    <Input allowClear prefix="Codigo: " style={{backgroundColor:"lightblue"}} value={filtros.codigo}  onChange={(e)=>{setApplyPending(true); onCodigoChange((e.target.value||""))}}/>
+                </Col>
+                <Col span={6}>
+                    <Button block disabled={!applyPending} type={"primary"}  onClick={()=>{
+                        setApplyPending(false)
+                        props?.callback?.(filtros)
+                    }}>Aplicar</Button>
+                </Col>
+            </Row>
         </Col>
     </Row>
-    <Row>
-        <Col span={24}>
-            <CategoriaSelect callback={callback} />
-        </Col>
-    </Row>
-    <Row>
-        <Col span={24}>
-            <Input allowClear prefix="Codigo: " style={{backgroundColor:"lightblue"}} value={filtros.codigo}  onChange={(e)=>{onCodigoChange((e.target.value||""))}}/>
-        </Col>
-    </Row>
-    <Row>
-        <Col span={24}>
-            <Button block type="primary" size="small" onClick={()=>{
-                props?.callback?.(filtros)
-            }}>Aplicar</Button>
-        </Col>
-    </Row>
+    
+
 
     
     

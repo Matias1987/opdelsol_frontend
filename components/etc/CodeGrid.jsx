@@ -396,6 +396,7 @@ const CodeGrid = (props) => {
                     <Col span={24}>
                         <EditarStockIndiv buttonText={"Editar Cantidad"} factura={factura}  callback={()=>{
                             setReload(!reload )
+                            props?.callback?.()
                         }} idcodigo={selectedCode.idcodigo} idsucursal={globals.obtenerSucursal()} />
                     </Col>
                 </Row>
