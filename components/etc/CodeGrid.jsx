@@ -18,6 +18,8 @@ const CodeGrid = (props) => {
     
     const [factura, setFactura] = useState(null)
 
+    const [total, setTotal] = useState(0)
+
     var canvas = null
     var ctx = null
 
@@ -101,6 +103,10 @@ const CodeGrid = (props) => {
 
         post_method(post.obtener_grilla_stock,{idsubgrupo: props.idsubgrupo, idsucursal: globals.obtenerSucursal(), eje: selectedEje},
         (response)=>{
+            let _total=0
+            response.data.forEach(d=>_total+=parseInt(d.cantidad))
+            setTotal(_total)
+
             setDataSource(response.data.map(d=>({
                 ...d,mouseover:false
             })))
@@ -406,7 +412,7 @@ const CodeGrid = (props) => {
             <Row>
                 <Col span={24}>
                     <Divider />
-                    Factura: (Opcional)
+                    
                 </Col>
             </Row>
             <Row>
@@ -426,6 +432,11 @@ const CodeGrid = (props) => {
             dataSource={dataSource}
             />
         </Col>*/}
+    </Row>
+    <Row>
+        <Col span={24}>
+            Cantidad total:&nbsp;{total}
+        </Col>
     </Row>
         
     </>

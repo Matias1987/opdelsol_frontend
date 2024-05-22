@@ -12,8 +12,8 @@ export default function stock_taller(){
     const [reload, setReload] = useState(false)
     const [data, setData]  = useState([])
     const [filtros, setFiltros] = useState(null)
-    const [gridVisible, setGridVisible] = useState(false)
-    const [columns, setColumns] = useState([
+    
+    const columns = [
        
         {title: "Código", dataIndex: "codigo", width:"50%"},
         {title: "Cantidad", dataIndex: "cantidad", render:(_,{cantidad})=><div style={{textAlign:"right"}}>{cantidad}</div>},
@@ -24,7 +24,7 @@ export default function stock_taller(){
                     }} idcodigo={obj.idcodigo} idsucursal={globals.obtenerSucursal()} 
                 />
         </>}}
-    ])
+    ]
 
 
     const load = () => {
@@ -152,7 +152,8 @@ export default function stock_taller(){
         <Row>
             <Col span={24}> 
                 <FiltroCodigos callback={(f)=>{
-                    setGridVisible(f.idsubgrupo!="-1")
+                    setData([])
+                    //setGridVisible(f.idsubgrupo!="-1")
                     setFiltros(f)
                     setReload(!reload)
                 }} />
