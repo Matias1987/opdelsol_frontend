@@ -151,7 +151,7 @@ const InformeVenta = (props) => {
 											<ResponsableInf id={data.cliente_idcliente}/>
 											<DestinatarioInf id={data.fk_destinatario} />
 											<hr />
-           									 {data.obra_social!="" ? "Obra Social: "+data.obra_social : ""}<br /> {data.medico!="" ? "Medico: " + data.medico : ""} <br />Fecha de Entrega: {data.fecha_entrega_formated + "  " + (data.hora_retiro == "null" ? "-" : data.hora_retiro)}
+           									 {data.obra_social!="" ? "Obra Social: "+data.obra_social : ""}<br /> <b>{data.medico!="" ? "Medico: " + data.medico + "" : ""}</b> <br />Fecha de Entrega: <b>{data.fecha_entrega_formated + "  " + (data.hora_retiro == "null" ? "-" : data.hora_retiro)}</b>
 										</td>
 										<td width='180px'>
 											<div style={{marginTop:"-3em"}}>

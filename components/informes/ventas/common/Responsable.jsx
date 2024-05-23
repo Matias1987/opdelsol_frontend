@@ -14,11 +14,11 @@ const ResponsableInf = (props) => {
     },[])
     return data == null ? <Spin /> :<>
     <p>
-        <span style={{fontWeight: 'bold'}}>RESPONSABLE:</span><br /> 
-        <span style={{whiteSpace:"nowrap"}}>Ap. y Nombre: {data.nombre_completo}&nbsp;</span><br />
-        <span style={{whiteSpace:"nowrap"}}>Nro. Cliente: {props.id}&nbsp;&nbsp;<span style={{fontWeight: 'bold'}}>DNI:{data.dni}&nbsp;&nbsp;</span>Tel.:{data.telefono1}</span><br /> 
-        <span style={{whiteSpace:"nowrap"}}>Fecha de Nac: {data.fecha_nacimiento_f}&nbsp;&nbsp;Direcci&oacute;n:&nbsp;{data.direccion}</span><br />
-        <span style={{whiteSpace:"nowrap"}}>Domicilio: {data.direccion  + " - " + data.localidad}</span>
+        <span style={{fontWeight: 'bold', fontSize:".80em"}}>RESPONSABLE:</span><br /> 
+        <span style={{whiteSpace:"nowrap"}}>Ap. y Nombre: <b>{data.nombre_completo}</b>&nbsp;</span><br />
+        <span style={{whiteSpace:"nowrap"}}>Nro. Cliente: <b>{props.id}</b>&nbsp;&nbsp;DNI:<span style={{fontWeight: 'bold'}}><b>{data.dni}</b>&nbsp;&nbsp;</span>Tel.:<b>{data.telefono1}</b></span><br /> 
+        <span style={{whiteSpace:"nowrap"}}>Fecha de Nac: <b>{data.fecha_nacimiento_f}</b>&nbsp;&nbsp;Direcci&oacute;n:&nbsp;<b>{data.direccion}</b></span><br />
+        <span style={{whiteSpace:"nowrap"}}>Domicilio: <b>{data.direccion  + " - " + data.localidad}</b></span>
         </p>
     </>
 }
