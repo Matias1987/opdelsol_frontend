@@ -149,6 +149,7 @@ const post = {
         u_permisos_a_u: remote_base_url + "usuarios/perm/u/a/m/",
         usuario: remote_base_url + "usuarios/",
         pedido: remote_base_url + "tl/ped/",
+        anotacion: remote_base_url + "anot/"
     },
     update:{
         familia: remote_base_url + "familia/",
@@ -343,6 +344,9 @@ const get = {
     obtener_lista_controles: remote_base_url + "cs/",
 
     anular_envio: remote_base_url + "envio/anular/envio/",
+
+    obtener_anotaciones: remote_base_url + "anot/",
+    obtener_anotacion: remote_base_url + "anot/",//:idanotacion
 
     
 }

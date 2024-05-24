@@ -1,8 +1,9 @@
 import CustomModal from "@/components/CustomModal";
 import globals from "@/src/globals";
 import { get } from "@/src/urls";
-import { Divider, Spin, Tag } from "antd";
+import { Col, Divider, Row, Spin, Tag } from "antd";
 import { useEffect, useState } from "react";
+import StockCodigosSucursales from "./StockCodigoSucursales";
 
 
 const DetalleStock = (props) => {
@@ -125,11 +126,27 @@ const DetalleStock = (props) => {
                 }
             }
             >
-                {Detalle()}
+                <>
+                <Row>
+                    <Col span={24}>
+                        {Detalle()}
+                    </Col>
+                </Row>
+                
                 <Divider />
-                {descripcionSG()}
-               
-                <Divider />
+                <Row>
+                    <Col span={24}>
+                        {descripcionSG()}
+                        <Divider />
+                    </Col>
+
+                </Row>
+                <Row>
+                    <Col span={24}>
+                        <StockCodigosSucursales idcodigo={props.idcodigo} />
+                    </Col>
+                </Row>
+                </>
                 
             </CustomModal>
         </>

@@ -146,7 +146,7 @@ export default function stock_taller(){
     return <>
         <Row>
             <Col span={24}>
-                
+                <h3>Editar Stock</h3>
             </Col>
         </Row>
         <Row>

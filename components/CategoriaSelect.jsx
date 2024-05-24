@@ -36,7 +36,7 @@ const CategoriaSelect = (props) => {
         }
     }
 
-    return <div style={{paddingLeft:"1.2em", backgroundColor:"rgba(141,163,153,.15)"}}> 
+    return <div style={{paddingLeft:"1.2em"}}> 
                 <Row >
                     <Col span={2} style={{textAlign:"left", paddingTop:".3em"}}>
                         Categor&iacute;a:&nbsp;&nbsp;

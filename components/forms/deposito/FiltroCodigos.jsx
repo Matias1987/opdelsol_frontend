@@ -26,22 +26,34 @@ const   FiltroCodigos = (props) => {
         setFiltros(f=>({...f,codigo:v}))
     }
 
-    return <div >
-    <Row>
-        <Col span={1} style={{writingMode:"vertical-lr"}}>
-            <b>Filtros</b>
-        </Col>
+    return <div style={{borderRadius:"15px", }}>
+        <div style={{
+            zIndex:2, 
+            marginBottom:"-9px", 
+            fontSize:".85em", 
+            backgroundColor:"#E5E8E7",  
+            width:"fit-content", 
+            padding:".5em", 
+            borderTopLeftRadius:"15px", 
+            borderTopRightRadius:"15px",
+            borderBottomLeftRadius:"15px",
+            fontWeight:"bold"
+            }}>
+        <i>Filtros</i>
+        </div>
+    <Row style={{padding:".2em"}}>
+        
         <Col span={23}>
             <Row>
-                <Col span={24}>
+                <Col span={24} style={{backgroundColor:"#E5E8E7"}}>
                     <CategoriaSelect callback={callback} />
                 </Col>
             </Row>
-            <Row>
+            <Row style={{borderBottomLeftRadius:"15px"}}>
                 <Col span={18}>
                     <Input allowClear prefix="Codigo: " style={{backgroundColor:"lightblue"}} value={filtros.codigo}  onChange={(e)=>{setApplyPending(true); onCodigoChange((e.target.value||""))}}/>
                 </Col>
-                <Col span={6}>
+                <Col span={6} >
                     <Button block disabled={!applyPending} type={"primary"}  onClick={()=>{
                         setApplyPending(false)
                         props?.callback?.(filtros)

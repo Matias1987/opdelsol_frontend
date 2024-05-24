@@ -12,6 +12,7 @@ import CargaBloqueo from "./forms/caja/CargaBloqueo"
 import globals from "@/src/globals"
 import { post_method } from "@/src/helpers/post_helper"
 import EditarCargaManualPopup from "./forms/caja/EditarCargaManualPopup"
+import Anotaciones from "./anotacion/anotaciones"
 
 
 export default function FichaCliente(props){
@@ -224,6 +225,11 @@ export default function FichaCliente(props){
             </>
             }
             
+        </Col>
+    </Row>
+    <Row>
+        <Col span={24} style={{padding:"2em", height:"180px", overflowY:"scroll"}}>
+            {dataCliente==null ? <></> :  <Anotaciones tipo="CLIENTE" idref={dataCliente.idcliente} />}
         </Col>
     </Row>
    </Modal>

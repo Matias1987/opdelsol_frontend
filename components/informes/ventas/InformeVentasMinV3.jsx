@@ -1,3 +1,4 @@
+import Anotaciones from "@/components/anotacion/anotaciones"
 import ListaCobros from "@/components/forms/caja/ListaCobros"
 import { get } from "@/src/urls"
 import { Spin } from "antd"
@@ -171,6 +172,8 @@ const InformeVentaMinV3 = (props) => {
 			<hr />
 			<h3>Lista de Cobros</h3>
 			<ListaCobros idventa={data.idventa} readOnly={true} />
+			<h3>Anotaciones</h3>
+			<Anotaciones idref={data.idventa} tipo={"VENTA"} />
 		</>
     )
 }
