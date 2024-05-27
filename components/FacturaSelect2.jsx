@@ -4,6 +4,7 @@ import { Button, Col, Modal, Row, Select } from "antd"
 import { useEffect, useState } from "react"
 import FacturaForm from "./forms/FacturaForm"
 import ProveedorForm from "./forms/ProveedorForm"
+import DetalleFactura from "./forms/deposito/DetalleFactura"
 
 
 
@@ -18,6 +19,8 @@ const FacturaSelect2 = (props) =>{
     const [popupProvOpen, setPopupProvOpen] = useState(false)
     const [reload, setReload] = useState(false)
     const [enabled, setEnabled] = useState(true)
+    const [popupDetalleFacturaOpen, setPopupDetalleFacturaOpen] = useState(false)
+    const [nroFactura, setNroFactura] = useState("")
 
     useEffect(()=>{
         if(proveedores.length<1)
@@ -101,7 +104,7 @@ const FacturaSelect2 = (props) =>{
                             </Row>
                             <Row>
                                 <Col span={24}>
-                                    <Select disabled={!enabled} options={facturas} value={idFactura} onChange={(v)=>{
+                                    {idFactura<0? <Select disabled={!enabled} options={facturas} value={idFactura} onChange={(v)=>{
 
                                         if(v==-2)
                                         {
@@ -117,7 +120,11 @@ const FacturaSelect2 = (props) =>{
 
                                         setEnabled(false)
 
-                                        }} style={{width:"100%"}} key={idProveedor}/>
+                                        setNroFactura(__f.label)
+
+                                        }} style={{width:"100%"}} key={idProveedor}
+                                        /> : <>
+                                        <Button type="primary" block  onClick={()=>{setPopupDetalleFacturaOpen(true)}} >{nroFactura}</Button></>}
                                 </Col>
                             </Row>
                             <Row>
@@ -125,6 +132,9 @@ const FacturaSelect2 = (props) =>{
                                     <Button block size="small" danger onClick={()=>{ setEnabled(true); setIdProveedor(-1); setIdFactura(-1);  props.callback(null)}}><CloseOutlined /></Button>
                                 </Col>
                             </Row>
+                            <Modal width={"70%"} destroyOnClose open={popupDetalleFacturaOpen} onCancel={()=>{setPopupDetalleFacturaOpen(false)}} footer={null}>
+                                <DetalleFactura idFactura={idFactura} />
+                            </Modal>
                             </>
                     )
                     }

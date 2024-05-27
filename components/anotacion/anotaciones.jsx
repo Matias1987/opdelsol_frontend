@@ -2,8 +2,9 @@
 import { Button, Col, Modal, Row, Table } from "antd"
 import { useEffect, useState } from "react"
 import AnotacionForm from "./anotacion_form"
-import { get } from "@/src/urls"
+import { get, post } from "@/src/urls"
 import { PlusOutlined } from "@ant-design/icons"
+import { post_method } from "@/src/helpers/post_helper"
 
 /**
  * @param tipo
@@ -15,9 +16,9 @@ const Anotaciones = (props) => {
     const [anotaciones, setAnotaciones] = useState([])
     
     const columns = [
-        {title:<span style={{fontSize:".65em", fontWeight:"bold", color:"#000680"}}>Fecha</span>},
-        {title:<span style={{fontSize:".65em", fontWeight:"bold", color:"#000680"}}>Autor</span>},
-        {title:<span style={{fontSize:".65em", fontWeight:"bold", color:"#000680"}}>Mensaje</span>},
+        {dataIndex: 'fecha_f' ,title:<span style={{fontSize:".65em", fontWeight:"bold", color:"#000680"}}>Fecha</span>},
+        {dataIndex: 'usuario',title:<span style={{fontSize:".65em", fontWeight:"bold", color:"#000680"}}>Autor</span>},
+        {dataIndex: 'nota',title:<span style={{fontSize:".65em", fontWeight:"bold", color:"#000680"}}>Mensaje</span>},
     ]
 
     useEffect(()=>{load()},[update])
@@ -26,11 +27,12 @@ const Anotaciones = (props) => {
     const onPopupCancel = () => {setPopupAddOpen(false)}
 
     const load = _ => {
-        fetch(get.anotaciones)
-        .then(r=>r.json())
-        .then((response)=>{
+        post_method(post.lista_anotaciones,{idref: props.idref||"-1", tipo:props.tipo||"-1"},
+        (response)=>{
+            //alert(JSON.stringify(response))
             setAnotaciones(response.data)
-        })
+        }
+        )
     }
 
     return <div style={{border:"1px solid #6E7F80"}}>
@@ -41,7 +43,7 @@ const Anotaciones = (props) => {
                 <Table dataSource={anotaciones} columns={columns} scroll={{y:"200px"}} size="small" />
             </Col>
             <Col span={2}>
-                <Button type="primary" style={{width:"100%", height:"100%", maxWidth:"50px"}} block><PlusOutlined /></Button>
+                <Button onClick={()=>{setPopupAddOpen(true)}} type="primary" style={{width:"100%", height:"100%", maxWidth:"50px"}} block><PlusOutlined /></Button>
             </Col>
         </Row>
         <Row>
@@ -49,11 +51,11 @@ const Anotaciones = (props) => {
         </Row>
         <Modal 
         title="Agregar Anotacion"
-   
+        open={popupAddOpen}
         onCancel={onPopupCancel}
         footer={null}
         >
-            <AnotacionForm callback={()=>{setPopupAddOpen(false); setUpdate(!update)}} />
+            <AnotacionForm refId={props.idref} tipo={props?.tipo||""} callback={()=>{setPopupAddOpen(false); setUpdate(!update)}} />
         </Modal> 
     
     </div>

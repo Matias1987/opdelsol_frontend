@@ -111,6 +111,7 @@ const post = {
     totales_stock_ventas_periodo: remote_base_url + "admin/inf/stock/ventas/periodo/",
     obtener_ventas_taller: remote_base_url + "tl/",
     obtener_items_ventas_taller: remote_base_url + "tl/items/op/",
+    lista_anotaciones: remote_base_url + "anot/lista/anot/",
 
 
     search:{

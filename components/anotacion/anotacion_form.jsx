@@ -14,27 +14,32 @@ import { useState } from "react"
  */
 const AnotacionForm = (props) => {
     const [anotacion, setAnotacion] = useState({
-        asunto:"",
+        asunto:"Varios",
         mensaje:"",
         enviarCorreo:false,
         enviarCorreoAdmin:false,
         correo:"",
         fksucursal: globals.obtenerSucursal(),
         fkusuario: globals.obtenerUID(),
+        tipo:props?.tipo,
+        refId:props?.refId,
     })
 
     const setValue = (idx,val) => { setAnotacion(_a=>({..._a,[idx]:val})) }
 
     const onAgregar = () => {
+        //alert(JSON.stringify(anotacion))
+        //return
         post_method(post.insert.anotacion, anotacion, (resp) => {
             alert("OK")
             props?.callback?.()
+            
         })
     }
     return <>
         <Row>
             <Col span={24}>
-                <Input value={anotacion.asunto} prefix="Asunto" onChange={(e)=>{setValue("asunto", e.target.value)}} />
+                <Input value={anotacion.asunto} prefix="Asunto: " onChange={(e)=>{setValue("asunto", e.target.value)}} />
             </Col>
         </Row>
         <Row>
@@ -42,7 +47,7 @@ const AnotacionForm = (props) => {
                 <Input.TextArea value={anotacion.mensaje} prefix="Mensaje" onChange={(e)=>{setValue("mensaje", e.target.value)}} />
             </Col>
         </Row>
-        <Row>
+        {/*<Row>
             <Col span={24}>
                 <Checkbox 
                 onChange={(e)=>{
@@ -64,10 +69,10 @@ const AnotacionForm = (props) => {
                     Enviar correo a administrador
                 </Checkbox>
             </Col>
-        </Row>
+            </Row>*/}
         <Row>
-            <Col span={24}>
-                <Button onClick={onAgregar}>Guardar Anotaci&oacute;n</Button>
+            <Col span={24} style={{padding:"1em"}}>
+                <Button type="primary" block onClick={onAgregar}>Guardar Anotaci&oacute;n</Button>
             </Col>
         </Row>
     </>
