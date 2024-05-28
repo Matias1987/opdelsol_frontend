@@ -113,6 +113,9 @@ const post = {
     obtener_items_ventas_taller: remote_base_url + "tl/items/op/",
     lista_anotaciones: remote_base_url + "anot/lista/anot/",
 
+    lista_tag: remote_base_url + "tag/lista/",
+    lista_categoria_tag: remote_base_url + "tag/categoria/lista/",
+
 
     search:{
         filtro_stock: remote_base_url + "stock/filtro_stock/",
@@ -150,7 +153,10 @@ const post = {
         u_permisos_a_u: remote_base_url + "usuarios/perm/u/a/m/",
         usuario: remote_base_url + "usuarios/",
         pedido: remote_base_url + "tl/ped/",
-        anotacion: remote_base_url + "anot/"
+        anotacion: remote_base_url + "anot/",
+        tag: remote_base_url + "tag/",
+        categoria_tag: remote_base_url + "tag/categoria/",
+        categoria_tag: remote_base_url + "tag/codigo/",
     },
     update:{
         familia: remote_base_url + "familia/",
