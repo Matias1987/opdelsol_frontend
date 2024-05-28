@@ -2,7 +2,7 @@ const { Row, Tag, Col } = require("antd")
 
 const TagEdit = (props) => {
 
-    const loadTags
+    //const loadTags
 
     return <>
         <Row>
