@@ -115,7 +115,7 @@ const post = {
 
     lista_tag: remote_base_url + "tag/lista/",
     lista_categoria_tag: remote_base_url + "tag/categoria/lista/",
-
+    lisa_tags_codigo: remote_base_url + "tag/lista/tag/codigo/",
 
     search:{
         filtro_stock: remote_base_url + "stock/filtro_stock/",
@@ -156,7 +156,7 @@ const post = {
         anotacion: remote_base_url + "anot/",
         tag: remote_base_url + "tag/",
         categoria_tag: remote_base_url + "tag/categoria/",
-        categoria_tag: remote_base_url + "tag/codigo/",
+        tag_codigo: remote_base_url + "tag/tag/codigo/",
     },
     update:{
         familia: remote_base_url + "familia/",
