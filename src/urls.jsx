@@ -115,7 +115,7 @@ const post = {
 
     lista_tag: remote_base_url + "tag/lista/",
     lista_categoria_tag: remote_base_url + "tag/categoria/lista/",
-    lisa_tags_codigo: remote_base_url + "tag/lista/tag/codigo/",
+    lista_tags_codigo: remote_base_url + "tag/lista/tag/codigo/",
 
     search:{
         filtro_stock: remote_base_url + "stock/filtro_stock/",

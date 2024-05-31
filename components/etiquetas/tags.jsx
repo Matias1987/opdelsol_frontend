@@ -1,4 +1,5 @@
 import { post_method } from "@/src/helpers/post_helper"
+import { post } from "@/src/urls"
 import { Row, Tag, Col, Select } from "antd"
 import { useEffect, useState } from "react"
 
@@ -10,7 +11,9 @@ const Tags = (props) => {
     useEffect(()=>{load()},[])
 
     const load = () => {
-        post_method("",{},(resp)=>{})
+        post_method(post.lista_tags_codigo,{idcodigo},(resp)=>{
+            
+        })
     }
 
     return <>
