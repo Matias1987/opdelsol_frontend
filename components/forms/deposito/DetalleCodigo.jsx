@@ -2,7 +2,10 @@ import { Row, Col, Input, Spin }  from "antd"
 import { useEffect, useState } from "react"
 import StockCodigosSucursales from "./StockCodigoSucursales"
 import EnviosCodigos from "./EnviosCodigo"
-const { get } = require("@/src/urls")
+import { get } from "@/src/urls"
+import Tags from "@/components/etiquetas/tagsCodigos"
+
+
 
 const DetalleCodigo = (props) => {
     const [codigo, setCodigo] = useState(null)
@@ -30,6 +33,11 @@ const DetalleCodigo = (props) => {
     <Row>
         <Col span={24}>
             <Input style={{backgroundColor:"lightblue"}} prefix={"Descripción"} readOnly value={codigo.descripcion} />
+        </Col>
+    </Row>
+    <Row>
+        <Col span={24}>
+            <Tags idcodigo={codigo.idcodigo}  />
         </Col>
     </Row>
     <Row>

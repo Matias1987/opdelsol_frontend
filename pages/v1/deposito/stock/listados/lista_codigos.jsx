@@ -1,5 +1,4 @@
 import CustomModal from "@/components/CustomModal";
-import CustomTable from "@/components/forms/CustomTable";
 import DetalleCodigo from "@/components/forms/deposito/DetalleCodigo";
 import EditarCodigoGrupo from "@/components/forms/deposito/EditarCodigoGrupo";
 import EditarCodigoIndiv from "@/components/forms/deposito/EditarCodigoIndiv";
@@ -10,6 +9,7 @@ import { post_method } from "@/src/helpers/post_helper";
 import { get, post } from "@/src/urls";
 import { Checkbox, Col, Input, Row, Table, Tag } from "antd";
 import { useEffect, useState } from "react";
+
 export default function ListaCodigos(){
     const [loading, setLoading] = useState(false)
     const [dataSource, setDataSource] = useState([])
