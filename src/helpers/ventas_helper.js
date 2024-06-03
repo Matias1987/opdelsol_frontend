@@ -3,17 +3,18 @@
  */
 
 //const { post } = require("../urls")
+/*import globals from "../globals";
 import {post} from "../urls";
-import {globals} from "../globals";
+
 import {registrar_evento} from "./evento_helper";
 import {validar_modo_pago} from "./pago_helper";
-import {post_method} from "./post_helper";
+import {post_method} from "./post_helper";*/
 
-/*const { default: globals } = require("../globals");
+const { default: globals } = require("../globals");
 const { post } = require("../urls");
 const { registrar_evento } = require("./evento_helper");
 const { validar_modo_pago } = require("./pago_helper");
-const { post_method } = require("./post_helper");*/
+const { post_method } = require("./post_helper");
 
 
 const validar_tipo = (arr, _root, field, aditional_fields) =>

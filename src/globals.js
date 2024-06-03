@@ -1,6 +1,10 @@
-import useStorage from "../useStorage"
+import useStorage from "@/useStorage";
 import { parse_DMY_date } from "./helpers/string_helper";
 import { get, public_urls } from "./urls";
+
+/*import useStorage from "../useStorage"
+import { parse_DMY_date } from "./helpers/string_helper";
+import { get, public_urls } from "./urls";*/
 const globals =  {
 
     establecerUserSoloVentaCaja: (val) => {
