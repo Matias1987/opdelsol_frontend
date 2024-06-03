@@ -49,7 +49,8 @@ const Tags = (props) => {
     }
 
     const on_agregar_tag =_=>{
-        
+        setModalAddOpen(false)
+        setModalAddTagOpen(true)
     }
 
 
@@ -82,8 +83,8 @@ const Tags = (props) => {
                 </Col>
             </Row>
         </Modal>
-        <Modal open={modalAddTagOpen}>
-            <TagForm callback={()=>{setModalAddOpen(false); setReload(!reload);}}/>
+        <Modal footer={null} open={modalAddTagOpen} title="Agregar Etiqueta" onCancel={()=>{setModalAddTagOpen(false)}}>
+            <TagForm callback={()=>{setModalAddTagOpen(false); setReload(!reload); setModalAddOpen(true)}}/>
         </Modal>
     </div >
 }

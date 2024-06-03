@@ -77,7 +77,7 @@ const VentasMedicos = (props) => {
             
             var _total = 0;
             response.data.forEach(r=>{
-                _total+=parseFloat(r.monto_total)
+                _total+=parseFloat(r.monto_total_raw)
             })
             setTotal(_total)
 
@@ -115,11 +115,11 @@ const VentasMedicos = (props) => {
                 fileName={`ventas_${props?.nombre_medico}__${props.mes}-${props.anio}`}
                 parseFnt={()=>{
                     let str = ""
-                    str+=`MES:,${props.mes}, ANIO:,${props.anio}, ,\r\n`
-                    str+=`MEDICO:,${props?.nombre_medico},,,,\r\n`
-                    str+="NRO. VTA., CLIENTE, DNI,  TIPO, SUCURSAL, MONTO\r\n"
+                    str+=`MES:;${props.mes}; ANIO:;${props.anio}; ;\r\n`
+                    str+=`MEDICO:;${props?.nombre_medico};;;;\r\n`
+                    str+="NRO. VTA.; CLIENTE; DNI;  TIPO; SUCURSAL; MONTO\r\n"
                     dataSource.forEach(r=>{
-                        str+=`${r.idventa},${r.cliente},${r.dni},${r.tipo},${r.sucursal},${r.monto}\r\n`
+                        str+=`${r.idventa};${r.cliente};${r.dni};${r.tipo};${r.sucursal};${r.monto}\r\n`
                     })
                     return str
                 }}
