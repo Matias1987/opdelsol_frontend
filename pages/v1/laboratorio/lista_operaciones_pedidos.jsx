@@ -34,6 +34,7 @@ export default function LisaOperacionesPedidos(){
     <Row>
         <Col span={24}>
         <ListaVentas 
+        marcarTerminado
             titulo="Pedidos"
             id={idBusqueda} 
             estado_taller="PEDIDO" 

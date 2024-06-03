@@ -34,6 +34,7 @@ export default function  ListaOperacionesLab(){
     <Row>
         <Col span={24}>
         <ListaVentas 
+        marcarTerminado
             titulo="Pendientes"
             estado_taller="PENDIENTE" 
             id={idBusqueda} 

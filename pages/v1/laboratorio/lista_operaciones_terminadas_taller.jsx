@@ -34,6 +34,7 @@ export default function ListaOperacionesTerminadasTaller(){
     <Row>
         <Col span={24}>
         <ListaVentas 
+        marcarTerminado
             titulo="Terminados"
             id={idBusqueda} 
             estado_taller="TERMINADO" 

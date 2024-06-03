@@ -34,6 +34,7 @@ export default function LisaOperacionesCalibrado(){
     <Row>
         <Col span={24}>
         <ListaVentas 
+        marcarTerminado
             titulo="Calibrado"
             id={idBusqueda} 
             estado_taller="CALIBRADO" 
