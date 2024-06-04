@@ -36,7 +36,7 @@ const CargaBloqueo = (props) => {
     }
 
     return <>
-    <Button type="primary" size="small" danger onClick={()=>{setOpen(true)}}>Bloquear Usuario</Button>
+    <Button type="primary" size="small" danger onClick={()=>{setOpen(true)}}>Bloquear Cliente</Button>
     <Modal destroyOnClose open={open} onCancel={()=>{setOpen(false)}} footer={false} title={"Carga Bloqueo"}>
         <Row>
             <Col span={24}>

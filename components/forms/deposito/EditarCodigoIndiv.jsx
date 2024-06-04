@@ -1,3 +1,4 @@
+import Tags from "@/components/etiquetas/tagsCodigos";
 import { post_method } from "@/src/helpers/post_helper";
 import { get, post } from "@/src/urls";
 import { Button, Col,  Input, Modal, Radio, Row, Spin } from "antd";
@@ -84,6 +85,11 @@ const EditarCodigoIndiv = (props) =>{
             <Row>
                 <Col span={24}>
                     <Input prefix="Descripción: " value={codigo.descripcion} onChange={(e)=>{onChange("descripcion",e.target.value)}}/>
+                </Col>
+            </Row>
+            <Row>
+                <Col span={24}>
+                    <Tags idcodigo={codigo.idcodigo} readOnly={false}/>
                 </Col>
             </Row>
             <Row>

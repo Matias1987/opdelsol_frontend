@@ -54,11 +54,13 @@ const Tags = (props) => {
     }
 
 
-    return loading ? <Spin /> : <div style={{backgroundColor:"lightgreen"}}>
+    return loading ? <Spin /> : <div style={{backgroundColor:"rgba(218,238,218,1)", padding:".75em", borderRadius:"8px"}}>
         <Row>
             <Col span={24}>
-                {codigo_tags.map(t=><Tag>{t.nombre}</Tag>)}
-                <Button onClick={()=>{setModalAddOpen(true)}}><PlusOutlined /></Button>
+                <span>Etiquetas: </span>
+                {codigo_tags.map(t=><Tag color="green-inverse">{t.nombre}</Tag>)}
+                {false === props.readOnly ? <Button onClick={()=>{setModalAddOpen(true)}}><PlusOutlined /></Button> : <></> }
+                
             </Col>
         </Row>
         <Modal open={modalAddOpen} onCancel={()=>{setModalAddOpen(false)}} footer={null} title="Agregar Etiqueta" destroyOnClose>

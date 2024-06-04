@@ -200,17 +200,24 @@ export default function FichaCliente(props){
     </Row>
     <Row>
         <Col span={12}>
-            <CobroOperacion 
-            tarjetaHidden={false}
-            ctacteHidden={true}
-            chequeHidden={false}
-            mutualHidden={false}
-            buttonText="Cargar Cuota" 
-            totalsHidden={true} 
-            tipo="cuota" 
-            idcliente={props.idcliente}  
-            callback={()=>{load()}} 
-            />
+        {dataCliente==null ? <></> :
+            <>
+                {
+                    dataCliente.bloqueado == 1 ? <></> :  <CobroOperacion 
+                    tarjetaHidden={false}
+                    ctacteHidden={true}
+                    chequeHidden={false}
+                    mutualHidden={false}
+                    buttonText="Cargar Cuota" 
+                    totalsHidden={true} 
+                    tipo="cuota" 
+                    idcliente={props.idcliente}  
+                    callback={()=>{load()}} 
+                    />
+                }
+            </>
+        }
+           
             <CargaManual idcliente={props.idcliente} callback={()=>{load()}} />
         </Col>
         <Col span={12}>

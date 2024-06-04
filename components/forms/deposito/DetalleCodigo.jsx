@@ -37,7 +37,7 @@ const DetalleCodigo = (props) => {
     </Row>
     <Row>
         <Col span={24}>
-            <Tags idcodigo={codigo.idcodigo}  />
+            <Tags idcodigo={codigo.idcodigo} readOnly={true} />
         </Col>
     </Row>
     <Row>
