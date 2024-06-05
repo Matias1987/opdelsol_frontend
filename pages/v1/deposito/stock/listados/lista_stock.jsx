@@ -14,7 +14,7 @@ import InformeStock from "@/pages/v1/informes/informe_stock";
 import globals from "@/src/globals";
 import { post_method } from "@/src/helpers/post_helper";
 import { post } from "@/src/urls";
-import { SearchOutlined, TableOutlined } from "@ant-design/icons";
+import { PlusOutlined, SearchOutlined, TableOutlined } from "@ant-design/icons";
 import { Button, Checkbox, Col,  Form, Input, InputNumber, Modal, Row, Select, Space, Switch, Table, Tabs, Tag } from "antd";
 import { useEffect,  useState } from "react";
 
@@ -22,6 +22,7 @@ import EditarSubgrupo from "@/components/forms/deposito/EditarSubgrupo";
 import ImpresionCodigosPopup from "../impresion_codigos_popup";
 
 import LayoutVentas from "@/components/layout/layout_ventas";
+import SelectTag from "@/components/etiquetas/selectTag";
 
 export default function ListaStock(){
     const [usuarioDep, setUsuarioDep] = useState(false)
@@ -41,6 +42,7 @@ export default function ListaStock(){
     const [activeTab, setActiveTab] = useState("1")
     const [quickSearchValue, setQuickSearchValue] = useState("")
     const [codigoSearch, setCodigoSearch] = useState(true)
+    const [etiquetas, setEtiquetas] = useState([])
     const [selectAll, setSelectAll] = useState(false)
     const tipos_filtro_dic = {
         "grupo_contenga_a":{tipo: "grupo", descripcion: "Grupo Cont."},
@@ -282,6 +284,7 @@ export default function ListaStock(){
             subfamilia: typeof _tags["subfamilia"] === 'undefined' ? "" : _tags["subfamilia"],
             familia: typeof _tags["familia"] === 'undefined' ? "" : _tags["familia"],
             order: tipoOrden,
+            etiquetas: etiquetas,
         }
     }
     
@@ -364,10 +367,10 @@ export default function ListaStock(){
                 {
                     label: 'Adv.',
                     key: '2',
-                    children: <div style={{backgroundColor:"lightblue", padding:"1em"}}>
+                    children: <div style={{backgroundColor:"lightblue", padding:".3em"}}>
                     <Form {...{labelCol:{span:5}, wrapperCol:{span:18}}} onFinish={onFinishFiltro} form={form}>
                         <Row >
-                            <Col span={8}>
+                            <Col span={6}>
                                 <Form.Item label={"Filtar Por"} name={"tipo_filtro"}>
                                     <Select  options={[
                                         {label: 'Codigo Contenga a', value: 'codigo_contenga_a'},
@@ -378,8 +381,8 @@ export default function ListaStock(){
                                         {label: 'Cantidad - Igual a', value: 'cantidad_igual_a'},
                                         {label: 'Cantidad - Mayor a', value: 'cantidad_mayor_a'},
                                         {label: 'Cantidad - Menor a', value: 'cantidad_menor_a'},
-                                        {label: 'Género', value: 'sexo'},
-                                        {label: 'Edad', value: 'edad'},
+                                        /*{label: 'Género', value: 'sexo'},
+                                        {label: 'Edad', value: 'edad'},*/
                                         {label: 'Descripción', value: 'detalles'},
                                         {label: 'SubGrupo', value: 'subgrupo'},
                                         {label: 'Grupo', value: 'grupo'},
@@ -394,35 +397,17 @@ export default function ListaStock(){
                                     />
                                 </Form.Item>
                             </Col>
-                            <Col span={8}>
+                            <Col span={6}>
                                 <Form.Item label={"Valor"} name={"valor"} key={valueChanged}>
                                     {FiltroValor()}
                                 </Form.Item>
                             </Col>
-                            <Col span={8}>
+                            <Col span={1}>
                             <Form.Item>
-                                    <Button type="primary" htmlType="submit" size="small">Agregar</Button>
+                                    <Button type="primary" htmlType="submit" size="small"><PlusOutlined /></Button>
                                 </Form.Item>
                             </Col>
-                        </Row>
-                        </Form>
-                        <Form form={form1} onFinish={onFinish}>
-                            <Row>
-                                <Col span={8} >
-                                <Form.Item label={"Filtros:"}>
-                                    {
-                                        tags.map(t=>(
-                                            (typeof tipos_filtro_dic[t.tipo] === 'undefined' || tipos_filtro_dic[t.tipo] === null) ? <></> :
-
-                                            <Tag color="red" closable  onClose={(e)=>{
-                                                e.preventDefault();
-                                                removeTag(t);
-                                            }}>{tipos_filtro_dic[t?.tipo]?.descripcion + ": " +t?.valor}</Tag>
-                                        ))
-                                    }
-                                    </Form.Item>
-                                </Col>
-                                <Col span={9}>
+                            <Col span={8}>
                                     <Form.Item label={"Orden"} name={"orden"}>
                                         <Select options={[
                                             {label: 'Alfabetico - Ascendiente', value: 'alf_asc'},
@@ -439,13 +424,39 @@ export default function ListaStock(){
                                         />
                                     </Form.Item>
                                 </Col>
-                                <Col span={3}>
+                        </Row>
+                        </Form>
+                        <Form form={form1} onFinish={onFinish}>
+                            <Row>
+                                <Col span={12}>
+                                    <SelectTag callback={(v=>{
+                                        setEtiquetas(v)
+                                        })} />
+                                </Col>
+                                <Col span={6}>
                                     <Form.Item>
-                                        <Button type="primary" htmlType="submit" size="small">Aplicar Filtros</Button>
+                                            <Button  type="primary" htmlType="submit" size="small">Aplicar Filtros</Button>
+                                    </Form.Item>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col span={12} >
+                                    <Form.Item label={"Filtros:"}>
+                                        {
+                                            tags.map(t=>(
+                                                (typeof tipos_filtro_dic[t.tipo] === 'undefined' || tipos_filtro_dic[t.tipo] === null) ? <></> :
+
+                                                <Tag color="red" closable  onClose={(e)=>{
+                                                    e.preventDefault();
+                                                    removeTag(t);
+                                                }}>{tipos_filtro_dic[t?.tipo]?.descripcion + ": " +t?.valor}</Tag>
+                                            ))
+                                        }
                                     </Form.Item>
                                 </Col>
                             </Row>
                         </Form>
+                        
                     </div>
                 }
             ]}
