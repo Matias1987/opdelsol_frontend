@@ -124,6 +124,7 @@ const EditarStockIndiv = (props) => {
             <Row style={{padding:"1em"}}>
                 <Col span={24}>
                     <Input 
+                    style={{backgroundColor:"lightblue"}}
                     prefix={<><Checkbox  checked={incrementarCantidad} onChange={()=>{
                         setIncrementarCantidad(!incrementarCantidad)
                         actualizar_cantidad(cantInput,!incrementarCantidad)

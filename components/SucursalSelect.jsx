@@ -30,7 +30,7 @@ const SucursalSelect = (props) => {
 
     return (
         <Row style={{padding:"1em"}}>
-            <Col span={1} style={
+            <Col span={4} style={
                 {
                     textAlign:"right", 
                     paddingTop:".4em",
@@ -42,7 +42,7 @@ const SucursalSelect = (props) => {
             <Col span={20}>
                 <Select 
                     options={sucursalData}
-                    style={{width:240}}
+                    style={{width:"100%", minWidth:"80px", maxWidth:"160px"}}
                     value={selectedSucursal}
 
                     onChange={

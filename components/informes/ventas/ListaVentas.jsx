@@ -121,6 +121,14 @@ const ListaVentas = (props) => {
         {
             params = {idsucursal: globals.obtenerSucursal()}
         }
+        if(typeof props.idsucursal !== 'undefined')
+        {
+            if(props.idsucursal!='-1')
+            {
+                params =    {idsucursal: props.idsucursal}
+            }
+            
+        }
         params = add(params, props?.estado, 'estado')
         params = add(params, props?.idCliente, 'idCliente')
         params = add(params, props?.en_laboratorio, 'en_laboratorio')

@@ -59,7 +59,7 @@ const Tags = (props) => {
             <Col span={24}>
                 <span>Etiquetas: </span>
                 {codigo_tags.map(t=><Tag color="green-inverse">{t.nombre}</Tag>)}
-                {false === props.readOnly ? <Button onClick={()=>{setModalAddOpen(true)}}><PlusOutlined /></Button> : <></> }
+                {"1" === (props.readOnly||"1") ? <></> : <Button onClick={()=>{setModalAddOpen(true)}}><PlusOutlined /></Button>  }
                 
             </Col>
         </Row>

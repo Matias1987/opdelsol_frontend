@@ -89,7 +89,7 @@ const EditarCodigoIndiv = (props) =>{
             </Row>
             <Row>
                 <Col span={24}>
-                    <Tags idcodigo={codigo.idcodigo} readOnly={false}/>
+                    <Tags idcodigo={codigo.idcodigo} readOnly={"-1"}/>
                 </Col>
             </Row>
             <Row>

@@ -4,6 +4,7 @@ import { get } from "@/src/urls";
 import { Col, Divider, Row, Spin, Tag } from "antd";
 import { useEffect, useState } from "react";
 import StockCodigosSucursales from "./StockCodigoSucursales";
+import Tags from "@/components/etiquetas/tagsCodigos";
 
 
 const DetalleStock = (props) => {
@@ -142,6 +143,12 @@ const DetalleStock = (props) => {
 
                 </Row>
                 <Row>
+                    <Col span={24}>
+                        <Tags  idcodigo={props.idcodigo} />
+                    </Col>
+                </Row>
+                <Row>
+                    
                     <Col span={24}>
                         <StockCodigosSucursales idcodigo={props.idcodigo} />
                     </Col>
