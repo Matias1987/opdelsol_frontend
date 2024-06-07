@@ -25,9 +25,17 @@ import { getItem } from "localforage";
         return _t
       })
 
-      /**
-       * if the user is only ventas or caja, redirect
-       */
+      let permisos_count = 0;
+      permisos_count += (globals.esUsuarioAdmin() ? 1:0) + 
+                        (globals.esUsuarioCaja1() ? 1 : 0) + 
+                        (globals.esUsuarioVentas()? 1:0 ) +
+                        (globals.esUsuarioLaboratorio()? 1:0) +
+                        (globals.esUsuarioCaja2()?1:0) +
+                        (globals.esUsuarioAdminMin()?1:0)+
+                        (globals.esUsuarioDeposito()?1:0)+
+                        (globals.esUsuarioDepositoMin()?1:0)
+
+
 
       const stay = globals.esUsuarioDeposito() || globals.esUsuarioLaboratorio() || globals.esUsuarioAdmin() || globals.esUsuarioAdminMin();
       globals.establecerUserSoloVentaCaja(!stay)
@@ -43,9 +51,81 @@ import { getItem } from "localforage";
           else{
             window.location.replace(public_urls.dashboard_caja)
           }
-          
+          return
         }
       }
+      //alert(permisos_count)
+
+      if(permisos_count>1)
+        {
+          return
+        }
+      
+      setRedirecting(true)
+
+      if(globals.esUsuarioAdmin())
+      {
+        window.location.replace(public_urls.dashboard_admin)
+        return
+      }
+
+      if(globals.esUsuarioVentas())
+      {
+        window.location.replace(public_urls.dashboard_venta)
+        return
+      }
+      
+      if(globals.esUsuarioCaja1()){
+
+        window.location.replace(public_urls.dashboard_caja)
+        return
+
+      }
+
+      if(globals.esUsuarioLaboratorio()){
+
+        window.location.replace(public_urls.dashboard_laboratorio)
+        return
+
+      }
+      if(globals.esUsuarioDepositoMin()){
+
+        window.location.replace(public_urls.dashboard_deposito)
+        return
+
+      }
+      if(globals.esUsuarioDeposito()){
+
+        window.location.replace(public_urls.dashboard_deposito)
+        return
+
+      }
+
+     
+
+     
+
+      /**
+       * if the user is only ventas or caja, redirect
+       */
+
+      /*const stay = globals.esUsuarioDeposito() || globals.esUsuarioLaboratorio() || globals.esUsuarioAdmin() || globals.esUsuarioAdminMin();
+      globals.establecerUserSoloVentaCaja(!stay)
+      setRedirecting(!stay)
+      if(!stay)
+      {
+        if(globals.esUsuarioVentas() || globals.esUsuarioCaja1())
+        {
+          if(globals.esUsuarioVentas())
+          {
+            window.location.replace(public_urls.dashboard_venta)
+          }
+          else{
+            window.location.replace(public_urls.dashboard_caja)
+          }
+          
+        }
+      }*/
 
     },[])
 
