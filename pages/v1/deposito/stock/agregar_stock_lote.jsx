@@ -86,8 +86,8 @@ export default function AgregarStockLote(props){
             var end = parseFloat(res1[3])
             for(let i=start;i<=end; i+=step ){
                 codigos.push({
-                    codigo: `${res1[1]}${(i>0?"":"")+i.toFixed(2)}${res1[5]}`,
-                    descripcion: `${values.p1}${(i>0?"":"")+i.toFixed(2)}${values.p2}`,
+                    codigo: `${res1[1]}${(i>0?"+":"")+i.toFixed(2)}${res1[5]}`,
+                    descripcion: `${values.p1}${(i>0?"+":"")+i.toFixed(2)}${values.p2}`,
                     esf:  i.toFixed(2),
                     cil: "",
                 })
@@ -107,8 +107,8 @@ export default function AgregarStockLote(props){
                 for(let i=start;i<=end; i+=step ){
                     for(let j=start2;j<=end2; j+=step2 ){
                         codigos.push({
-                            codigo: `${res[1]}${(i>0?"":"")+i.toFixed(2)}${res[5]}${j.toFixed(2)}${res[9]}`,
-                            descripcion: `${values.p1}${(i>0?"":"")+i.toFixed(2)}${values.p3}${j.toFixed(2)}${values.p2}`,
+                            codigo: `${res[1]}${(i>0?"+":"")+i.toFixed(2)}${res[5]}${j.toFixed(2)}${res[9]}`,
+                            descripcion: `${values.p1}${(i>0?"+":"")+i.toFixed(2)}${values.p3}${j.toFixed(2)}${values.p2}`,
                             esf:i.toFixed(2),
                             cil:j.toFixed(2),
                         })
