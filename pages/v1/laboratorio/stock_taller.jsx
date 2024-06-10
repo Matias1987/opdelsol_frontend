@@ -12,6 +12,7 @@ export default function stock_taller(){
     const [reload, setReload] = useState(false)
     const [data, setData]  = useState([])
     const [filtros, setFiltros] = useState(null)
+    const [factura, setFactura] = useState(null)
     
     const columns = [
        

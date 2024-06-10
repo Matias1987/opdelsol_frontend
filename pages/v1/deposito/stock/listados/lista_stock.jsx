@@ -425,23 +425,12 @@ export default function ListaStock(){
                                     </Form.Item>
                                 </Col>
                         </Row>
+                        
                         </Form>
                         <Form form={form1} onFinish={onFinish}>
                             <Row>
-                                <Col span={12}>
-                                    <SelectTag callback={(v=>{
-                                        setEtiquetas(v)
-                                        })} />
-                                </Col>
-                                <Col span={6}>
-                                    <Form.Item>
-                                            <Button  type="primary" htmlType="submit" size="small">Aplicar Filtros</Button>
-                                    </Form.Item>
-                                </Col>
-                            </Row>
-                            <Row>
-                                <Col span={12} >
-                                    <Form.Item label={"Filtros:"}>
+                                <Col span={24} >
+                                    <Form.Item label={"Filtros:"} style={{backgroundColor:"#D8DFE6"}}>
                                         {
                                             tags.map(t=>(
                                                 (typeof tipos_filtro_dic[t.tipo] === 'undefined' || tipos_filtro_dic[t.tipo] === null) ? <></> :
@@ -455,6 +444,19 @@ export default function ListaStock(){
                                     </Form.Item>
                                 </Col>
                             </Row>
+                            <Row>
+                                <Col span={12}>
+                                    <SelectTag callback={(v=>{
+                                        setEtiquetas(v)
+                                        })} />
+                                </Col>
+                                <Col span={6}>
+                                    <Form.Item>
+                                            <Button  type="primary" htmlType="submit" size="small">Aplicar Filtros</Button>
+                                    </Form.Item>
+                                </Col>
+                            </Row>
+                            
                         </Form>
                         
                     </div>

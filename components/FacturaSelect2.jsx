@@ -23,9 +23,19 @@ const FacturaSelect2 = (props) =>{
     const [nroFactura, setNroFactura] = useState("")
 
     useEffect(()=>{
+        alert(JSON.stringify(props.factura))
         if(proveedores.length<1)
         {
             load_proveedores()
+        }
+
+        if(typeof props.factura!=='undefined')
+        {
+            if(props.factura!==null)
+            {
+                setIdFactura(props.idfactura)
+                setNroFactura(props.nro)
+            }   
         }
         
         load_facturas()

@@ -220,6 +220,11 @@ const CodeGrid = (props) => {
 
     useEffect(()=>{
 
+        if(typeof props.factura!==undefined)
+        {
+            setFactura(props.factura)
+        }
+
         if(firstLoad)
         {
             setFirstLoad(false)
@@ -417,7 +422,9 @@ const CodeGrid = (props) => {
             </Row>
             <Row>
                 <Col span={24}>
-                    <FacturaSelect2 callback={(__factura)=>{
+                    <FacturaSelect2 
+                    factura={factura}
+                    callback={(__factura)=>{
                         //alert(JSON.stringify({idfactura:id, nro:nro}))
                         setFactura(__factura)
                         }} />
