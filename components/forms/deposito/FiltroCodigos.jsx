@@ -1,4 +1,5 @@
 import CategoriaSelect from "@/components/CategoriaSelect"
+import SelectTag from "@/components/etiquetas/selectTag"
 import { Button, Col, Input, Row } from "antd"
 import { useState } from "react"
 
@@ -9,7 +10,8 @@ const   FiltroCodigos = (props) => {
         idsubfamilia:"-1",
         idgrupo:"-1",
         idsubgrupo:"-1",
-        codigo:""
+        codigo:"",
+        etiquetas:[]
     })
     const callback = (cat,id)=>{
         setApplyPending(true)
@@ -47,6 +49,15 @@ const   FiltroCodigos = (props) => {
             <Row>
                 <Col span={24} style={{backgroundColor:"#E5E8E7"}}>
                     <CategoriaSelect callback={callback} />
+                </Col>
+            </Row>
+            <Row>
+                <Col span={24}>
+                    <SelectTag callback={(v=>{
+                        setFiltros(f=>({...f,etiquetas:v}))
+                        setApplyPending(true)
+                        })} 
+                    />
                 </Col>
             </Row>
             <Row style={{borderBottomLeftRadius:"15px"}}>

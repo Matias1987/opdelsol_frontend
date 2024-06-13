@@ -2,8 +2,8 @@ import { get } from "@/src/urls";
 import { useEffect, useState } from "react";
 import GrillaCristales from "./informes/GrillaCristales";
 
-const { CarryOutOutlined, FormOutlined, TableOutlined } = require("@ant-design/icons");
-const { Tree, Row, Col, Table, Divider, Button, Modal } = require("antd");
+import { CarryOutOutlined, FormOutlined, TableOutlined }  from "@ant-design/icons";
+import { Tree, Row, Col, Table, Divider, Button, Modal }  from "antd";
 
 
 

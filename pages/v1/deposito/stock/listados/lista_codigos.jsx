@@ -1,4 +1,5 @@
 import CustomModal from "@/components/CustomModal";
+import TagsLote from "@/components/etiquetas/TagsLote";
 import DetalleCodigo from "@/components/forms/deposito/DetalleCodigo";
 import EditarCodigoGrupo from "@/components/forms/deposito/EditarCodigoGrupo";
 import EditarCodigoIndiv from "@/components/forms/deposito/EditarCodigoIndiv";
@@ -7,19 +8,21 @@ import FiltroCodigos from "@/components/forms/deposito/FiltroCodigos";
 import MyLayout from "@/components/layout/layout";
 import { post_method } from "@/src/helpers/post_helper";
 import { get, post } from "@/src/urls";
-import { Checkbox, Col, Input, Row, Table, Tag } from "antd";
+import { Button, Checkbox, Col, Input, Modal, Row, Table, Tag } from "antd";
 import { useEffect, useState } from "react";
 
 export default function ListaCodigos(){
     const [loading, setLoading] = useState(false)
     const [dataSource, setDataSource] = useState([])
     const [change, setChange] = useState(false)
+    const [popupTagsOpen, setPopupTagsOpen] = useState(false)
     const [filtros, setFiltros] = useState({        
         idfamilia:"-1",
         idsubfamilia:"-1",
         idgrupo:"-1",
         idsubgrupo:"-1",
-        codigo:""
+        codigo:"",
+        etiquetas:[],
     })
 
     useEffect(()=>{
@@ -33,9 +36,11 @@ export default function ListaCodigos(){
             post.obtener_codigos_filtro,
             filtros,
             (response)=>{
+               
                 setDataSource(
                     response.data.map(row=>({
                         idcodigo: row.idcodigo,
+                        etiquetas: row.etiquetas,
                         codigo: row.codigo,
                         descripcion: row.descripcion,
                         modo_precio: row.modo_precio,
@@ -72,6 +77,7 @@ export default function ListaCodigos(){
                 case 2: return <Tag color="yellow">Propio</Tag>
             }
         }},
+        {title:"Etiquetas", render:(_,{etiquetas})=>{return<span style={{color:"blue", fontWeight:"bold"}}>{etiquetas}</span>}},
         {title: "Precio", dataIndex: "precio"},
         /*{
             title: 'Estado',
@@ -114,14 +120,33 @@ export default function ListaCodigos(){
                 </Col>
             </Row>
             <Row style={{padding:"1em"}}>
-                <Col span={24}>
+                <Col span={12}>
                     <EditarCodigoGrupo 
                     codigos={ (dataSource.filter(d=>d.checked)).map(c=>({idcodigo: c.idcodigo, codigo: c.codigo}))  }  
                     callback={()=>{setChange(!change)}}
                     />
                 </Col>
+                <Col span={12}>
+                    <Button disabled={(dataSource.filter(d=>d.checked)).length<1} type="primary" onClick={()=>{setPopupTagsOpen(true)}}>Editar Etiquetas</Button>
+                </Col>
             </Row>
             <Table columns={columns} dataSource={dataSource} loading={loading} />
+            <Modal 
+                footer={null}
+                width={"80%"}
+                title="Editar Etiquetas"
+                open={popupTagsOpen} 
+                destroyOnClose 
+                onCancel={()=>{
+                    setPopupTagsOpen(false)
+                }}
+            >
+                <TagsLote 
+                    
+                    codigos={ (dataSource.filter(d=>d.checked)).map(c=>({idcodigo: c.idcodigo, codigo: c.codigo}))  }  
+                    callback={()=>{setPopupTagsOpen(false); setChange(!change)}}
+                />
+            </Modal>
         </>
 
     )

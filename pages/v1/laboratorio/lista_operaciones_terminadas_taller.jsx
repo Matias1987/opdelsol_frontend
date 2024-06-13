@@ -71,7 +71,7 @@ export default function ListaOperacionesTerminadasTaller(){
 
         </Col>
     </Row>
-        <Modal open={open} footer={null} onCancel={()=>{setOpen(false)}} key={idventa} width={"80%"}>
+        <Modal open={open} footer={null} onCancel={()=>{setOpen(false)}} key={idventa} width={"100%"}>
             <EditarSobre readonly={true} idventa={idventa} callback={()=>{setReload(!reload), setOpen(false)}} />
         </Modal>
     </>

@@ -72,7 +72,7 @@ const EditarSobre = (props) => {
                 {
                     setUsedRows(_ventaItems=>(_ventaItems.map(vi=>(vi.tipo===record.tipo ? {...vi,agregarEnabled:true, usarEnabled:true, items:record.items.filter(vi1=>vi1.localId!=i.localId)} : vi))))}
                 } 
-                    style={{fontSize:i.closable ? "1.4em" : ".85em"}} color={i.closable ? "red" : "purple"}
+                    style={{fontSize:i.closable ? "1em" : ".85em"}} color={i.closable ? "red" : "purple"}
                 >
                     {i.codigo}</Tag>
                 </>)

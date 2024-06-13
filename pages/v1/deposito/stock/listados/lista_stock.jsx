@@ -126,6 +126,7 @@ export default function ListaStock(){
                         subgrupo: row.subgrupo,
                         modo_precio: row.modo_precio,
                         idsubgrupo: row.idsubgrupo,
+                        etiquetas: row.etiquetas,
 
                     }
                 )
@@ -163,6 +164,7 @@ export default function ListaStock(){
             }
         }},
         {title: 'Cantidad',dataIndex: 'cantidad',key: 'cantidad', width:"100px", render:(_,{cantidad})=><div style={{width:"100%", textAlign:"right"}}>{cantidad}</div>},
+        {title:'Etiquetas',render:(_,{etiquetas})=><span style={{fontWeight:"bold", color:"darkgreen"}}>{etiquetas}</span>},
         {
             title: 'Acciones', dataIndex: 'idstock', key: 'idstock',  width:"350px",
             render: 
