@@ -23,6 +23,7 @@ import ImpresionCodigosPopup from "../impresion_codigos_popup";
 
 import LayoutVentas from "@/components/layout/layout_ventas";
 import SelectTag from "@/components/etiquetas/selectTag";
+import TagsLote from "@/components/etiquetas/TagsLote";
 
 export default function ListaStock(){
     const [usuarioDep, setUsuarioDep] = useState(false)
@@ -44,6 +45,8 @@ export default function ListaStock(){
     const [codigoSearch, setCodigoSearch] = useState(true)
     const [etiquetas, setEtiquetas] = useState([])
     const [selectAll, setSelectAll] = useState(false)
+    const [popupTagsOpen, setPopupTagsOpen] = useState(false)
+    const [total, setTotal] = useState(0)
     const tipos_filtro_dic = {
         "grupo_contenga_a":{tipo: "grupo", descripcion: "Grupo Cont."},
         "codigo_contenga_a":{tipo: "codigo", descripcion: "Codigo Cont."},
@@ -106,6 +109,11 @@ export default function ListaStock(){
         //alert(JSON.stringify(data))
         post_method(post.search.filtro_stock,data,(response)=>{
             //alert(JSON.stringify(response))
+            let _t =0
+            response.data.forEach(r=>{
+                _t+=parseInt(r.cantidad)
+            })
+            setTotal(_t)
             setData(response.data.map(
                 (row)=>(
                     {
@@ -493,13 +501,21 @@ export default function ListaStock(){
                 <Col span={4} style={{padding:".5em"}}>
                     <ImpresionCodigosPopup codigos={(data.filter(d=>d.checked)).map(c=>({codigo:c.codigo, idcodigo: c.idcodigo , cantidad:  c.cantidad}))} />
                 </Col>
+                <Col span={4} style={{padding:".5em"}}>
+                    <Button disabled={(data.filter(d=>d.checked)).length<1} type="primary" onClick={()=>{setPopupTagsOpen(true)}}>Editar Etiquetas</Button>
+                </Col>
                 {/*<Col span={4} style={{padding:".3em"}}>
                     <Checkbox >Ver Todo</Checkbox>
                 </Col>*/}
             </Row>
         <Row>
             <Col span={24}>
-            <Table rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'} columns={columns.filter(item=>!item.hidden)} dataSource={data} loading={loading} scroll={{y:400}}  />
+                <Table rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'} columns={columns.filter(item=>!item.hidden)} dataSource={data} loading={loading} scroll={{y:400}}  />
+            </Col>
+        </Row>
+        <Row>
+            <Col span={24} style={{color:"blue", padding:"1em", fontWeight:"bold", fontSize:"1.3em"}}>
+                Cantidad Total: {total}
             </Col>
         </Row>
         <Row>
@@ -507,6 +523,21 @@ export default function ListaStock(){
                 <InformeStock data={data} />
             </Col>
         </Row>
+        <Modal 
+            footer={null}
+            width={"80%"}
+            title="Editar Etiquetas"
+            open={popupTagsOpen} 
+            destroyOnClose 
+            onCancel={()=>{
+                setPopupTagsOpen(false)
+            }}
+        >
+            <TagsLote 
+                codigos={(data.filter(d=>d.checked)).map(c=>({codigo:c.codigo, idcodigo: c.idcodigo }))}
+                callback={()=>{setPopupTagsOpen(false); setValueChanged(!valueChanged)}}
+            />
+        </Modal>
         </>
     )
 }
