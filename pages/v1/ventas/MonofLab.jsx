@@ -2,15 +2,9 @@
 import VentaBase from "../../../components/forms/ventas/VentaBase";
 import LayoutVentas from "@/components/layout/layout_ventas";
 import { useState } from "react";
-import { post, public_urls } from "@/src/urls";
-import { post_method } from "@/src/helpers/post_helper";
-import { Modal } from "antd";
-import ImprimirSobreVenta from "./informes/sobre_venta";
+import { public_urls } from "@/src/urls";
 import globals from "@/src/globals";
-import { submit_venta, validar_items_venta } from "@/src/helpers/ventas_helper";
-import { validar_modo_pago } from "@/src/helpers/pago_helper";
-import PrinterWrapper from "@/components/PrinterWrapper";
-import InformeVenta from "@/components/informes/ventas/Base";
+import { submit_venta } from "@/src/helpers/ventas_helper";
 import InformeVentaV2 from "@/components/informes/ventas/InformeVentaV2";
 
 export default function VentaMonofocalesLab(){

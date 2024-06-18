@@ -1,16 +1,10 @@
 import VentaBase from "@/components/forms/ventas/VentaBase";
 import VDItem from "@/components/forms/ventas/directa/Item";
 import LayoutVentas from "@/components/layout/layout_ventas";
-import { post_method } from "@/src/helpers/post_helper";
-import { post, public_urls } from "@/src/urls";
-import { Modal } from "antd";
-import { useEffect, useState } from "react";
-import ImprimirSobreVenta from "./informes/sobre_venta";
+import { public_urls } from "@/src/urls";
+import { useState } from "react";
 import globals from "@/src/globals";
-import { validar_modo_pago } from "@/src/helpers/pago_helper";
-import { submit_venta, validar_ventas_base } from "@/src/helpers/ventas_helper";
-import PrinterWrapper from "@/components/PrinterWrapper";
-import InformeVenta from "@/components/informes/ventas/Base";
+import { submit_venta } from "@/src/helpers/ventas_helper";
 import InformeVentaV2 from "@/components/informes/ventas/InformeVentaV2";
 
 export default function VentaDirecta(){

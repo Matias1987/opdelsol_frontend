@@ -2,15 +2,9 @@ import RecetaStockItems from "@/components/forms/ventas/receta_stock/Items"
 import VentaBase from "../../../components/forms/ventas/VentaBase"
 import { useState } from "react";
 import LayoutVentas from "@/components/layout/layout_ventas";
-import { post_method } from "@/src/helpers/post_helper";
-import { post, public_urls } from "@/src/urls";
+import { public_urls } from "@/src/urls";
 import globals from "@/src/globals";
-import { Modal } from "antd";
-import InformeVenta from "@/components/informes/ventas/Base";
-import ImprimirSobreVenta from "./informes/sobre_venta";
-import { submit_venta, validar_items_venta } from "@/src/helpers/ventas_helper";
-import { validar_modo_pago } from "@/src/helpers/pago_helper";
-import PrinterWrapper from "@/components/PrinterWrapper";
+import { submit_venta } from "@/src/helpers/ventas_helper";
 import InformeVentaV2 from "@/components/informes/ventas/InformeVentaV2";
 
 
