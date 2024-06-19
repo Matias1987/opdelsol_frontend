@@ -192,7 +192,7 @@ const EnvioForm = (props) => {
     return (
         <>
             <Row>
-            <Col span={14} style={{padding:"1em"}}>
+            <Col span={14} style={{padding:".5em", borderRadius:"14px", backgroundColor:"#C8DFE6"}}>
             &nbsp;
             <Form
             style={{color: "white"}}
@@ -275,7 +275,7 @@ const EnvioForm = (props) => {
                 </Form.Item>
             </Form>
             </Col>
-            <Col span={10} style={{padding:"2em"}}>
+            <Col span={10} style={{padding:"2em", backgroundColor:"#C8DFE6", borderRadius:"15px"}}>
                 <h3>Agregar C&oacute;digos</h3>
                 <SearchStockEnvio 
                 idSucursalDestino={sucursalDestId}

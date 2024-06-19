@@ -36,8 +36,9 @@ const TagsLote = (props) => {
     return <>
         <Row style={{padding:"1em"}}>
             <Col span={24}>
+                <i><span style={{fontSize:".95em", color:"darkblue"}}>C&oacute;digos:</span></i>
                 <Input.TextArea 
-                    style={{color:"red"}}
+                    style={{color:"#5555FF", backgroundColor:"lightgray"}}
                     rows={2} 
                     value={codigos.map(c=>c.codigo)}
                     readOnly

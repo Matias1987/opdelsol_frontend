@@ -257,11 +257,6 @@ const ListaVentas = (props) => {
             />
         </Col>
     </Row>
-
-       
-       
-        
-        
     </>
 }
 

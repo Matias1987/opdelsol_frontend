@@ -28,7 +28,7 @@ const DescargarEnvio = (props) => {
             }} />
         </Col>
     </Row>
-    <Row style={{overflowY:"scroll", height:"300px"}}>
+    <Row style={{overflowY:"scroll", height:"300px", backgroundColor:"lightblue"}}>
         <Col span={24}>
             <h5>Detalles:</h5>
             

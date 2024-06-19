@@ -181,14 +181,7 @@ export default function CobroOperacion(props){
                 return;
             }
 
-           /* alert(JSON.stringify({
-               debe: dataVenta.debe,
-                saldo: (parseFloat(dataVenta.subtotal) - parseFloat(descuento) - parseFloat(dataVenta.haber||0)) - parseFloat( mp.total),
-                descuento: descuento,
-                total: mp.total,
-                saldodv: dataVenta.saldo,
-            }))
-            */
+
             if( (entrega || _mc) && _sdo!=0){
                 
                 alert("Saldo distinto a 0")
@@ -200,12 +193,7 @@ export default function CobroOperacion(props){
                 setCobrarDisabled(false)
                 return 
             }
-            /*
-            if(dataVenta.debe < mp.total){
-                alert("Monto mayor a deuda")
-                setCobrarDisabled(false)
-                return
-            }*/
+ 
           
         }
         /*
@@ -269,8 +257,6 @@ export default function CobroOperacion(props){
             fecha: current_date_ymd(),
         }
 
-        //alert(JSON.stringify(params))
-
         params = typeof props.idventa === 'undefined' ? params : {...params,idventa:props.idventa} 
         params = typeof props.idcliente === 'undefined' ? params : {...params,idcliente:props.idcliente} 
 
@@ -305,8 +291,7 @@ export default function CobroOperacion(props){
                 return;
             }
 
-            //alert("obtuvo caja")
-            
+ 
 
             setCobrarDisabled(true)
 
@@ -425,10 +410,6 @@ export default function CobroOperacion(props){
                 .then(response=>response.json())
                 .then((response)=>{
                     
-                    /*if(response.data[0].saldo==0){
-                        setCobrarDisabled(true)
-                    }*/
-
                     setDescuento(response.data[0].descuento)
                     setDataVenta(d=>{
                         return response.data[0]
