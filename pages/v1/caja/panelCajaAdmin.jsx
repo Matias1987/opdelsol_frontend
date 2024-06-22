@@ -3,6 +3,7 @@ import PrinterWrapper from "@/components/PrinterWrapper";
 import InicioCaja from "@/components/forms/caja/InicioCaja";
 import ListaCaja from "@/components/forms/caja/ListaCajas";
 import InformeCaja from "@/components/informes/caja/InformeCaja";
+import InformeCajaV2 from "@/components/informes/caja/InformeCajaV2";
 import LayoutCaja from "@/components/layout/layout_caja";
 import globals from "@/src/globals";
 import { get } from "@/src/urls";
@@ -58,7 +59,7 @@ export default function panelCajaAdmin(){
         return loading ? <Spin/> :<> 
         {caja == null ? caja_cerrada() : detalle_caja()} 
         <br />
-        {caja==null? <></>: <InformeCaja idcaja={caja.idcaja} />
+        {caja==null? <></>: <InformeCajaV2 idcaja={caja.idcaja} />
         /*<CustomModal openButtonText="Imprimir" block>
             <PrinterWrapper>
                 

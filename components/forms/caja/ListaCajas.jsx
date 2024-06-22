@@ -1,6 +1,7 @@
 import CustomModal from "@/components/CustomModal";
 import PrinterWrapper from "@/components/PrinterWrapper";
 import InformeCaja from "@/components/informes/caja/InformeCaja";
+import InformeCajaV2 from "@/components/informes/caja/InformeCajaV2";
 import LayoutCaja from "@/components/layout/layout_caja"
 import globals from "@/src/globals";
 import { get } from "@/src/urls";
@@ -26,7 +27,7 @@ export default function ListaCaja(props){
         {dataIndex:'estado', title: 'Estado'},
         {dataIndex: 'idcaja', title: 'Acciones', render: (_,{idcaja})=>{
             return <>
-                <InformeCaja idcaja={idcaja} />
+                <InformeCajaV2 idcaja={idcaja} />
                 {/*<CustomModal openButtonText="Imprimir" block>
                     <PrinterWrapper>
                         
