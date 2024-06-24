@@ -139,11 +139,8 @@ export default function FichaCliente(props){
     return (<>
     <Button onClick={()=>{setOpen(true); load();}}>Ficha</Button>
     <Modal open={open} title={"Ficha Cliente"} onCancel={()=>{setOpen(false)}} footer={null} width={"80%"} destroyOnClose={true}>  
-    <h3></h3>
+    
     <Row>
-        <Col span={20}>
-            {detalles_cliente()}
-        </Col>
         <Col span={4} >
             <Checkbox
             style={{fontSize:"1.2em"}}
@@ -154,12 +151,22 @@ export default function FichaCliente(props){
             }}>
                 <span style={{color:"darkred"}}>Ver S&oacute;lo Sucursal</span>
                 </Checkbox>
+        </Col> 
+    </Row>
+    <PrinterWrapper>
+    <Row>
+        <Col span={20}>
+            {detalles_cliente()}
+        </Col>
+        <Col span={4}>
+        <b>{filtrarSucursal?"Saldo Sucursal "  : ""}</b>
         </Col>
     </Row>
     <Row>
-        <Col span={24} style={{height:'350px', overflowY:'scroll', width:'100%'}}>
+        <Col span={24} className="scrollable-div" >
             
                 {<Table 
+                
                 loading={loading}
                 columns={columns} 
                 dataSource={operaciones} 
@@ -198,6 +205,7 @@ export default function FichaCliente(props){
             <Input prefix={"Saldo: $ "} style={{backgroundColor:"lightblue"}} readOnly={true} value={parseFloat(saldo).toFixed(2)}/>
         </Col>
     </Row>
+    </PrinterWrapper>
     <Row>
         <Col span={12}>
         {dataCliente==null ? <></> :
@@ -234,11 +242,13 @@ export default function FichaCliente(props){
             
         </Col>
     </Row>
+    
     <Row>
         <Col span={24} style={{padding:"2em", height:"180px", overflowY:"scroll"}}>
             {dataCliente==null ? <></> :  <Anotaciones tipo="CLIENTE" idref={dataCliente.idcliente} />}
         </Col>
     </Row>
+    
    </Modal>
     
     </>)

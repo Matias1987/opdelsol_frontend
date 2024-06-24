@@ -71,7 +71,7 @@ export default function InformeCajaV2(props){
 			}
              //alert(JSON.stringify(response))
             setDataOperaciones(response.data)
-
+            
             var totalVentas=0;
             var totalCuotas=0;
             var totalCheques=0;
@@ -88,7 +88,7 @@ export default function InformeCajaV2(props){
 				totalTarjetas += parseFloat(r.tarjeta);
 				totalMutual += parseFloat(r.mutual);
 				totalCtaCte += parseFloat(r.ctacte);
-				totalMercadoPago += parseFloat(r.marcadopago);
+				totalMercadoPago += parseFloat(r.mercadopago);
 				totalTransferencias += parseFloat(r.transferencia);
 			})
 
@@ -159,7 +159,7 @@ export default function InformeCajaV2(props){
 			if(typeof response.data === 'undefined' || response.data==null)
 			{
 				return
-			}
+			} 
              setDataTransfRecibidas(response.data.map(r=>({
                  idtransferencia: r.idtransferencia,
                  fecha: r.fecha,
@@ -225,9 +225,10 @@ export default function InformeCajaV2(props){
     )
     const body =_=>{
         return <>
+        {header()}
         <Row>
 	<Col span={24}>
-    <table style={style_tables}>
+    <table className="tabla-informe-caja">
         <thead>
             <th>Oper.</th>
             <th>Detalle</th>
@@ -256,59 +257,59 @@ export default function InformeCajaV2(props){
                 <td>
                     {row["recibo"]}
                 </td>
-                <td>
-                    {currency_format(row["efectivo"])}
+                <td className="money-cell">
+                    $&nbsp;{currency_format(row["efectivo"])}
                 </td>
-                <td>
-                    {currency_format(row["cuotas"])}
+                <td className="money-cell">
+                    $&nbsp;{currency_format(row["cuotas"])}
                 </td>
-                <td>
-                    {currency_format(row["cheque"])}
+                <td className="money-cell">
+                    $&nbsp;{currency_format(row["cheque"])}
                 </td>
-                <td>
-                    {currency_format(row["tarjeta"])}
+                <td className="money-cell">
+                    $&nbsp;{currency_format(row["tarjeta"])}
                 </td>
-                <td>
-                    {currency_format(row["mutual"])}
+                <td className="money-cell">
+                    $&nbsp;{currency_format(row["mutual"])}
                 </td>
-                <td>
-                    {currency_format(row["ctacte"])}
+                <td className="money-cell">
+                    $&nbsp;{currency_format(row["ctacte"])}
                 </td>
-                <td>
-                    {currency_format(row["mercadopago"])}
+                <td className="money-cell">
+                    $&nbsp;{currency_format(row["mercadopago"])}
                 </td>
-                <td>
-                    {currency_format(row["transferencia"])}
+                <td className="money-cell">
+                    $&nbsp;{currency_format(row["transferencia"])}
                 </td>
             </tr>)}
         </tbody>
         <tfoot>
-            <th colSpan={"3"}>
+            <th colSpan={"4"}>
                 Totales:
             </th>
-            <th>
-                {currency_format(totales["ventas"])}
+            <th className="money-cell">
+                $&nbsp;{currency_format(totales["ventas"])}
             </th>
-            <th>
-                {currency_format(totales["cuotas"])}
+            <th className="money-cell">
+                $&nbsp;{currency_format(totales["cuotas"])}
             </th>
-            <th>
-                {currency_format(totales["cheques"])}
+            <th className="money-cell">
+                $&nbsp;{currency_format(totales["cheques"])}
             </th>
-            <th>
-                {currency_format(totales["tarjetas"])}
+            <th className="money-cell">
+                $&nbsp;{currency_format(totales["tarjetas"])}
             </th>
-            <th>
-                {currency_format(totales["mutual"])}
+            <th className="money-cell">
+                $&nbsp;{currency_format(totales["mutual"])}
             </th>
-            <th>
-                {currency_format(totales["ctacte"])}
+            <th className="money-cell">
+                $&nbsp;{currency_format(totales["ctacte"])}
             </th>
-            <th>
-                {currency_format(totales["mercadopago"])}
+            <th className="money-cell">
+                $&nbsp;{currency_format(totales["mercadopago"])}
             </th>
-            <th>
-                {currency_format(totales["transferencias"])}
+            <th className="money-cell">
+                $&nbsp;{currency_format(totales["transferencias"])}
             </th>
             
     
@@ -320,7 +321,7 @@ export default function InformeCajaV2(props){
 	<Row>
 	<Col span={24} style={{padding:"1em"}}>
 		<b>Gastos</b>
-        <table style={style_tables}>
+        <table  className="tabla-informe-caja">
             <thead>
                 <th>Rec.</th>
                 <th>Detalle</th>
@@ -331,22 +332,23 @@ export default function InformeCajaV2(props){
                     dataGastos.map(row=><tr>
                         <td>{row["idgasto"]}</td>
                         <td>{row["concepto_gasto"]}</td>
-                        <td>{currency_format(row["monto"])}</td>
+                        <td className="money-cell">$&nbsp;{currency_format(row["monto"])}</td>
                     </tr>)
                 }
             </tbody>
             <tfoot>
             <th colSpan={2}></th>
-            <th>{currency_format(totales.gastos)}</th>
+            <th className="money-cell">$&nbsp;{currency_format(totales.gastos)}</th>
             </tfoot>
         </table>
 		
 		</Col>
 		</Row>
-		<Row>
+        <Row>
+		{dataTransfEnviadas.length<1 ? <></>:
 		<Col span={12} style={{padding:"1em"}}>
 		<b>Monto Transferido</b>
-        <table style={style_tables}>
+        <table  className="tabla-informe-caja">
             <thead>
                 <th>Sucursal Destino</th>
                 <th>Importe</th>
@@ -355,39 +357,42 @@ export default function InformeCajaV2(props){
                 {
                     dataTransfEnviadas.map(row=><tr>
                         <td>{row["destino"]}</td>
-                        <td>{currency_format(row["monto"])}</td>
+                        <td className="money-cell">$&nbsp;{currency_format(row["monto"])}</td>
                     </tr>)
                 }
             </tbody>
             <tfoot>
                 <th></th>
-                <th>{currency_format(totales.transferido)}</th>
+                <th className="money-cell">$&nbsp;{currency_format(totales.transferido)}</th>
             </tfoot>
         </table>
 		
-		</Col>
-		<Col span={12} style={{padding:"1em"}}>
-		<b>Monto Recibido</b>
-        <table>
-            <thead>
-                <th>Sucursal Origen</th>
-                <th>Importe</th>
-            </thead>
-            <tbody>
-                {
-                    dataTransfRecibidas.map(row=><tr>
-                        <td>{row["origen"]}</td>
-                        <td>{currency_format(row["monto"])}</td>
-                    </tr>)
-                }
-            </tbody>
-            <tfoot>
-                <th></th>
-                <th>{currency_format(totales.recibido)}</th>
-            </tfoot>
-        </table>
-		
-	</Col>
+		</Col>}
+        {
+            dataTransfRecibidas.length<1 ? <></> :
+            <Col span={12} style={{padding:"1em"}}>
+            <b>Monto Recibido</b>
+            <table  className="tabla-informe-caja">
+                <thead>
+                    <th>Sucursal Origen</th>
+                    <th>Importe</th>
+                </thead>
+                <tbody>
+                    {
+                        dataTransfRecibidas.map(row=><tr>
+                            <td>{row["origen"]}</td>
+                            <td className="money-cell">$&nbsp;{currency_format(row["monto"])}</td>
+                        </tr>)
+                    }
+                </tbody>
+                <tfoot>
+                    <th></th>
+                    <th className="money-cell">$&nbsp;{currency_format(totales.recibido)}</th>
+                </tfoot>
+            </table>
+            
+        </Col>
+    }
 </Row>
         </>
     }
@@ -404,7 +409,7 @@ export default function InformeCajaV2(props){
             dataTransfRecibidas == null ? <Spin /> : 
             body()
             }
-            {header()}
+           
             
 {footer()}
             </>
