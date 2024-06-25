@@ -59,7 +59,7 @@ export default function PrinterWrapper({ children }) {
                 </div>
                 <br />
                 <hr />
-        <ReactToPrint  pageStyle={page_style} trigger={linkToPrint} content={() => componentRef.current} />
+        {/*<ReactToPrint  pageStyle={page_style} trigger={linkToPrint} content={() => componentRef.current} />*/}
             
         </>
     );
