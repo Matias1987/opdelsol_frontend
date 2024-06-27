@@ -200,7 +200,7 @@ const post = {
 
         marcar_como_calibrando: remote_base_url + "tl/c/est/dep/cal/",
         marcar_como_terminado: remote_base_url + "tl/c/est/dep/ter/",
-
+        editar_cantidad_ideal: remote_base_url + "codigos/cod/editar/stock/ideal/",
     },
 }
 
