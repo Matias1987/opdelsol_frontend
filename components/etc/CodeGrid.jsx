@@ -1,4 +1,4 @@
-import { Button, Col, Divider, Flex, Modal, Radio, Row, Select, Tag } from "antd";
+import { Button, Col, DatePicker, Divider, Flex, Modal, Radio, Row, Select, Tag } from "antd";
 import { useEffect, useRef, useState } from "react";
 import { get, post } from "@/src/urls";
 import EditarStockIndiv from "../forms/deposito/EditarStockIndiv";
@@ -16,7 +16,9 @@ const CodeGrid = (props) => {
     const [selectedEje, setSelectedEje] = useState("-1")
     const [firstLoad, setFirstLoad] = useState(true)
     const [subgrupo, setSubgrupo] = useState(null)
+
     const [tipoGrilla, setTipoGrilla] = useState('s')
+    const [filtroPeriodo, setFiltroPeriodo] = useState({desde: '',  hasta: '',})
     
     const [factura, setFactura] = useState(null)
 
@@ -43,6 +45,27 @@ const CodeGrid = (props) => {
     let xoffset=0
     let yoffset=0
     let start_point = {x:0, y:0}
+
+    const _parse = str => ({dia:str.substring(9,11), mes:str.substring(6,8), anio:str.substring(1,5)}) 
+
+    const periodoDia = (val, dateString) => {
+        if(val==null)
+        {
+            //_limpiar_fechas()
+            return
+        }
+
+        let from = _parse(JSON.stringify(val[0]))
+        let to = _parse(JSON.stringify(val[1]))
+
+        
+        setFiltroPeriodo(_f=>({..._f,
+            desde: `${from.anio}-${from.mes}-${from.dia}`,
+            hasta: `${to.anio}-${to.mes}-${to.dia}`,
+        
+        }))
+    
+    }
 
     const load_ejes_if_any = () => {
         post_method(post.obtener_grilla_stock,{idsubgrupo: props.idsubgrupo, idsucursal: globals.obtenerSucursal(), eje: "-1"},(response)=>{
@@ -105,8 +128,22 @@ const CodeGrid = (props) => {
         map = []
         xoffset=yoffset=0
 
-        post_method(post.obtener_grilla_stock,{idsubgrupo: props.idsubgrupo, idsucursal: globals.obtenerSucursal(), eje: selectedEje},
+        if(tipoGrilla=='p' && (filtroPeriodo.desde==''||filtroPeriodo.hasta==''))
+        {
+            return
+        }
+
+        
+
+        post_method((tipoGrilla == 'p' ? post.obtener_ventas_subgrupo : post.obtener_grilla_stock),{
+            idsubgrupo: props.idsubgrupo, 
+            idsucursal: globals.obtenerSucursal(), 
+            eje: selectedEje,
+            desde: filtroPeriodo.desde,
+            hasta: filtroPeriodo.hasta,
+        },
         (response)=>{
+            
             let _total=0
             response.data.forEach(d=>_total+=parseInt(d.cantidad))
             setTotal(_total)
@@ -153,6 +190,8 @@ const CodeGrid = (props) => {
         ctx.font = `11px Arial`;
         ctx.fillStyle="black"
 
+        const defaultCellFillStyle = tipoGrilla=='s' ? '#9BEDEA' : tipoGrilla=='i' ? '#F4E085': tipoGrilla=='p' ? '#D7E4DE' : '#F4BCEA';
+
         let d=0
         for(let esf=min_esf, i=0;esf<=max_esf;esf+=.25,i++)
         {
@@ -190,7 +229,7 @@ const CodeGrid = (props) => {
     
                 if(dict[idx]!=null)
                 {
-                    ctx.fillStyle= dict[idx].mouseover ? "#75DBA3" : "#9BEDEA"
+                    ctx.fillStyle= dict[idx].mouseover ? "#75DBA3" : defaultCellFillStyle
                     ctx.fillStyle = dict[idx].selected ? "#B58EEB" : ctx.fillStyle
                     ctx.fillRect(x ,y ,tilew,tileh)
 
@@ -198,12 +237,13 @@ const CodeGrid = (props) => {
                     //ctx.fillRect(x ,y ,tilew,tileh)
                     //if(dict[idx].cantidad>0)
                     //{
-                        ctx.font = dict[idx].cantidad>0 ? `12px Arial` : `8px Arial`
-                        ctx.fillStyle=dict[idx].cantidad>0 ? "black" : "#5BA1E7"
+                        ctx.font = dict[idx].cantidad>0 || dict[idx].stock_ideal>0? `12px Arial` : `10px Arial`
+                        ctx.fillStyle=dict[idx].cantidad>0 || dict[idx].stock_ideal>0? "black" : "#5BA1E7"
                         
                         switch(tipoGrilla)
                         {
                             case 's': ctx.fillText(dict[idx].cantidad.toString(), x + 6,y + 14); break;
+                            case 'p': ctx.fillText(dict[idx].cantidad.toString(), x + 6,y + 14); break;
                             case 'i': ctx.fillText(dict[idx].stock_ideal.toString(), x + 6,y + 14); break;
                             case 'd' :ctx.fillText((parseInt(dict[idx].cantidad) - parseInt(dict[idx].stock_ideal)).toString(), x + 6,y + 14); break;
                         }
@@ -349,17 +389,11 @@ const CodeGrid = (props) => {
     },[reload, tipoGrilla])
 
     const onChange = (e)=>{
+        setSelectedCode(null)
         setTipoGrilla(e.target.value)
     }
 
     const stock_mode = _ => <>
-            <Row>
-                <Col span={24}>
-                    Subgrupo: {subgrupo==null ? props.idsubgrupo : <><Tag color="geekblue">{subgrupo.nombre_largo}</Tag></>}
-                    <Divider />
-                </Col>
-            </Row>
-
             { ejes.length<1 ? <></>:
                 <Row>
                     <Col span={24}>
@@ -376,27 +410,7 @@ const CodeGrid = (props) => {
             }
             {
                 selectedCode!=null ? <>
-                <Row>
-                    <Col span={24}>
-                        C&oacute;digo Seleccionado: 
-                    </Col>
-                </Row>
-                <Row>
-                    <Col span={24}>
-                        <Tag color="blue">{"ESF " +selectedCode.esf}</Tag>  
-                        <Tag color="green">{"CIL " +selectedCode.cil}</Tag>  
-                    </Col>
-                </Row>
-                <Row>
-                    <Col span={24}>
-                        <b>{selectedCode.codigo}</b>  
-                    </Col>
-                </Row>
-                <Row>
-                    <Col span={24}>
-                        Cantidad: <b>{selectedCode.cantidad}</b>  
-                    </Col>
-                </Row>
+            
                 <Row>
                     <Col span={24}>
                         <EditarStockIndiv buttonText={"Editar Cantidad"} factura={factura}  callback={()=>{
@@ -411,7 +425,6 @@ const CodeGrid = (props) => {
             <Row>
                 <Col span={24}>
                     <Divider />
-                    
                 </Col>
             </Row>
             <Row>
@@ -431,6 +444,83 @@ const CodeGrid = (props) => {
                 selectedCode!=null ? <>
                 <Row>
                     <Col span={24}>
+                        <Button onClick={()=>{setPopupStockIdeal(true)}}>Editar Cantidad</Button>
+                    </Col>
+                </Row>
+                <Modal footer={null} open={popupStockIdeal} onCancel={()=>{setPopupStockIdeal(false)}} >
+                    <CargaStockIdeal idcodigo={selectedCode.idcodigo} callback={()=>{setPopupStockIdeal(false); setReload(!reload)}}  />
+                </Modal>                
+                </>:<></>
+            }
+    </>
+
+    const dif_mode = _ => <>
+
+    </>
+
+    const periodo_mode = _ => <>
+        <Row>
+            <Col span={24}>
+                Consumo Por Periodo
+            </Col>
+        </Row>
+        <Row>
+            <Col span={24}>
+            <DatePicker.RangePicker size="large"  onChange={periodoDia}/>
+            </Col>
+        </Row>
+        <Row>
+            <Col span={24}>
+                <Button disabled={filtroPeriodo.desde==''&&filtroPeriodo.hasta==''} block onClick={()=>{setReload(!reload)}}>Aplicar</Button>
+            </Col>
+        </Row>
+        <Row>
+            <Col span={24}>
+            </Col>
+        </Row>
+        <Row>
+            <Col span={24}>
+            </Col>
+        </Row>
+        <Row>
+            <Col span={24}>
+            </Col>
+        </Row>
+    </>
+
+    return <>
+    <Row>
+        <Col span={24}>
+            <h3>Grilla de C&oacute;digos</h3>
+        </Col>
+    </Row>
+    <Row>
+        <Col span={24}>
+            <Flex vertical gap="middle">
+                <Radio.Group onChange={onChange} defaultValue="s" value={tipoGrilla}>
+                    <Radio.Button value="s">Actual</Radio.Button>
+                    <Radio.Button value="i">Ideal</Radio.Button>
+                    <Radio.Button value="d">Dif.</Radio.Button>
+                    <Radio.Button value="p">Uso Periodo</Radio.Button>
+                </Radio.Group>
+            </Flex>
+        </Col>
+    </Row>
+    <Row>
+        <Col span={16}>
+            <canvas ref={canvasRef} width={props.width} height={props.height} style={{border:"1px solid #536872"}}/>
+        </Col>
+        <Col span={8}>
+            <Row>
+                <Col span={24}>
+                    Subgrupo: {subgrupo==null ? props.idsubgrupo : <><Tag color="geekblue">{subgrupo.nombre_largo}</Tag></>}
+                    <Divider />
+                </Col>
+            </Row>
+        {
+                selectedCode!=null ? <>
+                <Row>
+                    <Col span={24}>
                         C&oacute;digo Seleccionado: 
                     </Col>
                 </Row>
@@ -447,50 +537,14 @@ const CodeGrid = (props) => {
                 </Row>
                 <Row>
                     <Col span={24}>
-                        Cantidad: <b>{selectedCode.stock_ideal}</b>  
+                        Cantidad: <b>{tipoGrilla == 's' || tipoGrilla == 'p' ?  selectedCode.cantidad : tipoGrilla == 'i' ? selectedCode.stock_ideal : (parseInt(selectedCode.cantidad) - parseInt(selectedCode.stock_ideal))}</b>  
                     </Col>
                 </Row>
-                <Row>
-                    <Col span={24}>
-                        <Button onClick={()=>{setPopupStockIdeal(true)}}>Editar Cantidad</Button>
-                    </Col>
-                </Row>
-                <Modal footer={null} open={popupStockIdeal} onCancel={()=>{setPopupStockIdeal(false)}} >
-                    <CargaStockIdeal idcodigo={selectedCode.idcodigo} callback={()=>{setPopupStockIdeal(false); setReload(!reload)}}  />
-                </Modal>                
+                
                 </>:<></>
             }
-    </>
-
-    const dif_mode = _ => <>
-
-    </>
-
-
-    return <>
-    <Row>
-        <Col span={24}>
-            <h3>Grilla de C&oacute;digos</h3>
-        </Col>
-    </Row>
-    <Row>
-        <Col span={24}>
-            <Flex vertical gap="middle">
-                <Radio.Group onChange={onChange} defaultValue="s" value={tipoGrilla}>
-                    <Radio.Button value="s">Actual</Radio.Button>
-                    <Radio.Button value="i">Ideal</Radio.Button>
-                    <Radio.Button value="d">Dif.</Radio.Button>
-                </Radio.Group>
-            </Flex>
-        </Col>
-    </Row>
-    <Row>
-        <Col span={16}>
-            <canvas ref={canvasRef} width={props.width} height={props.height} style={{border:"1px solid #536872"}}/>
-        </Col>
-        <Col span={8}>
         {
-            tipoGrilla=="s" ? stock_mode() : tipoGrilla == "i" ? ideal_mode() : dif_mode()
+            tipoGrilla=="s" ? stock_mode() : tipoGrilla == "i" ? ideal_mode() : tipoGrilla=="p" ? periodo_mode() : dif_mode()
         }
         </Col>
     </Row>

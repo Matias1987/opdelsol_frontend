@@ -158,7 +158,7 @@ export default function ListaStock(){
             <>
             <span style={{fontSize:"1.2em"}}><b>{codigo}</b></span>
             </>},
-        {title: 'Descripción',dataIndex: 'descripcion',key: 'descripcion'},
+      /*  {title: 'Descripción',dataIndex: 'descripcion',key: 'descripcion'},*/
         
         {title: 'Edad',dataIndex: 'edad',key: 'edad', hidden: true},
         {title: 'Género',dataIndex: 'genero',key: 'genero', hidden: true},
