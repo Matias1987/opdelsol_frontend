@@ -135,7 +135,7 @@ const CodeGrid = (props) => {
 
         
 
-        post_method((tipoGrilla == 'p' ? post.obtener_ventas_subgrupo : post.obtener_grilla_stock),{
+        post_method((tipoGrilla == 'p' ? post.obtener_uso_items_adic_subgrupo_periodo : post.obtener_grilla_stock),{
             idsubgrupo: props.idsubgrupo, 
             idsucursal: globals.obtenerSucursal(), 
             eje: selectedEje,
@@ -230,6 +230,11 @@ const CodeGrid = (props) => {
                 if(dict[idx]!=null)
                 {
                     ctx.fillStyle= dict[idx].mouseover ? "#75DBA3" : defaultCellFillStyle
+                    
+                    if(tipoGrilla=='p' && dict[idx].cantidad>0)
+                    {
+                        ctx.fillStyle='#318CE7'
+                    }
                     ctx.fillStyle = dict[idx].selected ? "#B58EEB" : ctx.fillStyle
                     ctx.fillRect(x ,y ,tilew,tileh)
 
