@@ -1,11 +1,11 @@
 //const remote_base_url = "http://54.174.39.15:3001/api/v1/"
 //const local_base_url = "http://54.174.39.15:3000/v1/"
 
-//const remote_base_url = "http://localhost:3001/api/v1/"
-//const local_base_url = "http://localhost:3000/v1/"
+const remote_base_url = "http://localhost:3001/api/v1/"
+const local_base_url = "http://localhost:3000/v1/"
 
-const remote_base_url = "http://172.31.176.1:3001/api/v1/" //"https://43b1-186-123-181-180.ngrok-free.app/api/v1/"
-const local_base_url =  "http://cute-singers-watch.loca.lt/v1/"
+//const remote_base_url = "https://2a7b-186-123-181-180.ngrok-free.app/api/v1/";// "http://172.31.176.1:3001/api/v1/" //
+//const local_base_url =  "https://clever-mice-tap.loca.lt/v1/"
 
 //const token = "&token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3QiLCJpYXQiOjE2ODI0NjEwMjksImV4cCI6MTY4MjQ2NDYyOX0.Unf5zmxNVQCJVD4qxSAcdcmsrs1s-q4h7Q0e2dYHHEo";
 const public_urls = {
@@ -122,7 +122,7 @@ const post = {
     rem_t_c: remote_base_url + "tag/rem/tag/cod/",
     obtener_ventas_subgrupo: remote_base_url + "ventas/obtener/ventas/subgrupo/",
     obtener_uso_items_adic_subgrupo_periodo: remote_base_url + "adic/obtener/uso/items/adic/subgrupo/periodo/",
-
+    obtener_lista_ventas_sucursal_periodo: remote_base_url + "obtener/ventas/sucursal/periodo/",
 
     search:{
         filtro_stock: remote_base_url + "stock/filtro_stock/",

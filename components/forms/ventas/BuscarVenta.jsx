@@ -154,7 +154,7 @@ const BuscarVenta = (props)=>{
     <Modal 
     footer={null}
     destroyOnClose={true} 
-    width={"90%"} 
+    width={"95%"} 
     onCancel={onCancel} 
     open={open} 
     title={<>Buscar Venta &nbsp;&nbsp;<span style={{fontSize:".8em", color: "gray"}} ><i>(M&aacute;x. 200)</i> </span></>}> 

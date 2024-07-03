@@ -176,7 +176,7 @@ const InformeVentaV2 = (props) => {
     return (
         <>
         { (props.hidebutton||false) == false ?  <Button onClick={()=>{onOpen()}} size="small"><PrinterFilled /></Button> : <></>}
-        <Modal footer={null} width={"80%"} open={open} onCancel={()=>{
+        <Modal footer={null} width={"95%"} open={open} onCancel={()=>{
             setOpen(false)
             props?.onclose?.()
         }}>

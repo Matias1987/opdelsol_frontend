@@ -464,7 +464,7 @@ export default function CobroOperacion(props){
     return (<>
             <Button type="primary" onClick={onOpen}>{typeof props.buttonText === 'undefined' ? "Cargar Pago" : props.buttonText}</Button>
             <Modal
-                width={"80%"}
+                width={"90%"}
                 title={"Cobro"}
                 open={open}
                 onCancel={()=>{ setOpen(false);}}
