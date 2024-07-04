@@ -1,11 +1,13 @@
 import ExportToCSV from "@/components/ExportToCSV"
 import PrinterWrapper from "@/components/PrinterWrapper"
+import ListaVentasSucursalPeriodo from "@/components/admin/ListaVentasSucursalPeriodo"
 import { post_method } from "@/src/helpers/post_helper"
 import { currency_format, parse_int_string } from "@/src/helpers/string_helper"
 import { get, post } from "@/src/urls"
+import { InfoCircleOutlined } from "@ant-design/icons"
 
 
-import { Row, Col, Input, Table, Button, Divider, Select } from "antd"
+import { Row, Col, Input, Table, Button, Divider, Select, Modal } from "antd"
 import { useEffect, useState } from "react"
 
 
@@ -20,6 +22,11 @@ const InformeVentasTotales = () => {
         fksucursal: '-1',
 
     })
+    const [filtrosListaVtas, setFiltrosListaVtas] = useState({
+        fksucursal:-1,
+        fkvendedor:-1,
+    })
+    const [popupDetalleOpen, setPopupDetalleOpen] = useState(false)
 
     useEffect(()=>{
         const d = new Date()
@@ -42,6 +49,10 @@ const InformeVentasTotales = () => {
         .catch(ex=>{console.log(ex)})
     },[])
 
+    const onDetalleLisaVentasClick = (fksucursal, fkvendedor) => {
+        setFiltrosListaVtas(f=>({...f,fksucursal: fksucursal, fkvendedor: fkvendedor}))
+        setPopupDetalleOpen(true)
+    }
 
 
 
@@ -62,7 +73,7 @@ const InformeVentasTotales = () => {
         {dataIndex: 'mp', title: "mp" , render:(_,{mp})=><div style={money_style}>{  currency_format(mp)  }</div>},
         {dataIndex: 'total', title: "total" , render:(_,{total})=><div style={money_style}>{   currency_format(total)  }</div>},
         { title: "", render:(_,{idusuario})=>{
-            return <></>
+            return <><Button onClick={()=>{onDetalleLisaVentasClick(filtros.fksucursal,idusuario)}}><InfoCircleOutlined /></Button></>
         }},
     ]
     const columns_s = [ 
@@ -74,8 +85,8 @@ const InformeVentasTotales = () => {
         {dataIndex: 'mutual', title: "mutual" , render:(_,{mutual})=><div style={money_style}>{  currency_format(mutual)  }</div>},
         {dataIndex: 'mp', title: "mp" , render:(_,{mp})=><div style={money_style}>{  currency_format(mp)  }</div>},
         {dataIndex: 'total', title: "total" , render:(_,{total})=><div style={money_style}>{   currency_format(total)  }</div>},
-        { title: "", render:(_,{idusuario})=>{
-            return <></>
+        { title: "", render:(_,{idsucursal})=>{
+            return <><Button onClick={()=>{onDetalleLisaVentasClick(idsucursal,-1)}}><InfoCircleOutlined /></Button></>
         }},
     ]
    
@@ -272,6 +283,20 @@ const InformeVentasTotales = () => {
                 </PrinterWrapper>
             </Col>
         </Row>
+        <Modal 
+        width={"95%"}
+        footer={null}
+        open={popupDetalleOpen} 
+        destroyOnClose 
+        onCancel={()=>{setPopupDetalleOpen(false)}}>
+            <ListaVentasSucursalPeriodo 
+            callback={()=>{setPopupDetalleOpen(false)}}
+            fkusuario={filtrosListaVtas.fkvendedor} 
+            mes={filtros.mes} 
+            anio={filtros.anio} 
+            fksucursal={filtrosListaVtas.fksucursal}  
+            />
+        </Modal>
     </>
 }
 

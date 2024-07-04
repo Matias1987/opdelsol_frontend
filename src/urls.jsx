@@ -122,7 +122,7 @@ const post = {
     rem_t_c: remote_base_url + "tag/rem/tag/cod/",
     obtener_ventas_subgrupo: remote_base_url + "ventas/obtener/ventas/subgrupo/",
     obtener_uso_items_adic_subgrupo_periodo: remote_base_url + "adic/obtener/uso/items/adic/subgrupo/periodo/",
-    obtener_lista_ventas_sucursal_periodo: remote_base_url + "obtener/ventas/sucursal/periodo/",
+    obtener_lista_ventas_sucursal_periodo: remote_base_url + "admin/obtener/ventas/sucursal/periodo/",
 
     search:{
         filtro_stock: remote_base_url + "stock/filtro_stock/",

@@ -1,6 +1,9 @@
 import { post_method } from "@/src/helpers/post_helper"
 import { post } from "@/src/urls"
-import { Col, Row } from "antd"
+import { InfoCircleFilled } from "@ant-design/icons"
+import { Button, Col, Modal, Row, Table } from "antd"
+import VentaDetallePopup from "../VentaDetalle"
+import InformeVentaMinV3 from "../informes/ventas/InformeVentasMinV3"
 
 const { useState, useEffect } = require("react")
 
@@ -8,14 +11,30 @@ const ListaVentasSucursalPeriodo = (props) => {
     const [ventas, setVentas] = useState([])
     const [totales, setTotales] = useState({cant_total:0, monto_total:0})
     const [loading, setLoading] = useState(false)
+    const [selectedId, setSelectedId] = useState(-1)
+    const [popupOpen, setPopupOpen] = useState(false)
+
+    const columns = [
+        {dataIndex:"idventa", title:"Nro."},
+        {dataIndex:"fecha_retiro_f", title:"Fecha Retiro"},
+        {dataIndex:"cliente", title:"Cliente"},
+        {dataIndex:"vendedor", title:"Vendedor"},
+        {dataIndex:"monto", title:"Monto"},
+        {render:(_,{idventa})=><><Button onClick={()=>{
+            setSelectedId(idventa);
+            setPopupOpen(true)
+        }}><InfoCircleFilled /></Button></>},
+    ]
     
     const load = () => {
+        
         post_method(
             post.obtener_lista_ventas_sucursal_periodo,
             {
                 mes: props.mes,
                 anio:props.anio,
-                sucursal: props.fksucursal,
+                fksucursal: props.fksucursal,
+                fkusuario: props.fkusuario,
             },
             (response)=>{
                 
@@ -62,6 +81,7 @@ const ListaVentasSucursalPeriodo = (props) => {
                         <td>{r.cliente}</td>
                         <td>{r.vendedor}</td>
                         <td style={{textAlign:"right"}}>$&nbsp;{r.monto}</td>
+                        <td><Button><InfoCircleFilled /></Button></td>
                     </tr>))
                 }
             </tbody>
@@ -76,11 +96,14 @@ const ListaVentasSucursalPeriodo = (props) => {
         <Col span={24}>{html_totales()}</Col>
     </Row>
     <Row>
-        <Col span={24}>{html_table()}</Col>
+        <Table dataSource={ventas} columns={columns} scroll={{y:"800px"}} />
     </Row>
     <Row>
         <Col span={24}>{html_totales()}</Col>
     </Row>
+    <Modal destroyOnClose width={"90%"} open={popupOpen} onCancel={()=>{setPopupOpen(false)}}>
+        <InformeVentaMinV3  idventa={selectedId} />
+    </Modal>
     </>
 }
 
