@@ -10,8 +10,8 @@ const CargaStockIdeal = (props) => {
     })
 
     const onSave = () => {
-        alert(JSON.stringify(codigo))
-        alert(post.update.editar_cantidad_ideal)
+        //alert(JSON.stringify(codigo))
+        //alert(post.update.editar_cantidad_ideal)
         post_method(post.update.editar_cantidad_ideal,codigo,(resp)=>{
             alert("OK")
             props?.callback?.()

@@ -346,7 +346,7 @@ export default function AgregarStockLote(props){
                 if(response.data.length>0){
                     
                     update_status_row("Ya Existe",curr.codigo)
-                    alert("el codigo ya existe: " + response.data[0].idcodigo)
+                    //alert("el codigo ya existe: " + response.data[0].idcodigo)
                     //el codigo ya existe
                     /*
                     ES POSIBLE QUE EL OBJETO STOCK NO EXISTA...
