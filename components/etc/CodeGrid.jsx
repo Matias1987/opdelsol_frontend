@@ -46,6 +46,18 @@ const CodeGrid = (props) => {
     let yoffset=0
     let start_point = {x:0, y:0}
 
+    /**
+     * for miniature
+     */
+    const tilew1 = 1;
+    const tileh1 = 1; 
+    const xoffset2 = 450
+    const yoffset2 = 350
+    const m = tilew1 / tilew 
+    const rect_w = m * props.width
+    const rect_h = m * props.height
+
+
     const _parse = str => ({dia:str.substring(9,11), mes:str.substring(6,8), anio:str.substring(1,5)}) 
 
     const periodoDia = (val, dateString) => {
@@ -260,13 +272,57 @@ const CodeGrid = (props) => {
                     
                 }
     
-                ctx.fillStyle="#F0EAD6"
+                ctx.strokeStyle="#272727"
                 ctx.rect(x ,y ,tilew,tileh)
                 
     
             
             }
         }
+        ctx.stroke();
+        ctx.beginPath()
+
+
+        /**
+         * miniature
+         */
+
+        for(let esf=min_esf, i=0;esf<=max_esf;esf+=.25,i++)
+            {
+                
+                for(let cil=min_cil, j=0;cil<=max_cil;cil+=.25, j++)
+                {
+                    
+                    if(cols[`${cil.toFixed(2)}`]==0 && rows[`${(esf>0?"+":"") + esf.toFixed(2)}`]==0)
+                    {
+                            continue
+                    }
+
+                    let x = tilew1 * (j+1) + xoffset2
+                    let y = tileh1 * (i+1) + yoffset2
+        
+                    if(y<4/2) continue
+        
+                    if(x<4/2) continue
+                    
+                    let idx = `${(esf>0?"+":"") + esf.toFixed(2)}${cil.toFixed(2)}`
+        
+                    if(dict[idx]!=null)
+                    {
+                        ctx.fillStyle= "red"
+                        ctx.fillRect(x ,y ,tilew1,tileh1)
+                    }
+                    
+                }
+            }
+        ctx.strokeStyle="#2727C4"
+        ctx.rect(
+            xoffset2 -(xoffset* m)  , 
+            yoffset2 -(yoffset* m)  ,
+            rect_w,
+            rect_h
+        )
+
         ctx.stroke();
         ctx.beginPath()
     

@@ -28,7 +28,7 @@ const AgregarSucursal = (props) => {
     return <>
     <Row style={row_style}>
         <Col span={24}>
-            <Input prefix="Nombre Empresa" value={sucursal.nombre_empresa} />
+            <Input prefix="Nombre" value={sucursal.nombre_empresa} />
         </Col>
     </Row>
     <Row style={row_style}>

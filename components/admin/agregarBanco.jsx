@@ -10,7 +10,7 @@ const AgregarBancoForm  = (props) => {
     return <>
     <Row>
         <Col span={24}>
-            <h2>Agregar Banco</h2>
+            <h3>Agregar Banco</h3>
         </Col>
     </Row>
     <Row>
@@ -34,7 +34,11 @@ const AgregarBancoForm  = (props) => {
                 post_method("",banco,(response)=>{
                     alert("Banco agregado")
                 })
-            }}>Guardar</Button>
+            }}
+            type="primary"
+            >Guardar</Button>
+            &nbsp;
+            <Button size="small" danger>Cancelar</Button>
         </Col>
     </Row>
     

@@ -7,4 +7,4 @@ export default function lista_sucursales( ){
     </>
 }
 
-ListaSucursales.PageLayout = LayoutAdmin;  
+lista_sucursales.PageLayout = LayoutAdmin;  

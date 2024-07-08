@@ -81,6 +81,13 @@ const public_urls = {
     lista_control_stock: local_base_url + "deposito/control_stock/lista",
     
     nuevo_control_stock: local_base_url + "deposito/control_stock/carga",
+
+    admin_sucursales: local_base_url + "admin/lista_sucursales",
+    admin_medicos: local_base_url + "admin/lista_medicos",
+    admin_tarjetas: local_base_url + "admin/lista_tarjetas",
+    admin_bancos: local_base_url + "admin/lista_bancos",
+    /*admin_sucursales: local_base_url + "",
+    admin_sucursales: local_base_url + "",*/
 }
 
 
