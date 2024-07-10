@@ -1,4 +1,5 @@
 import { post_method } from "@/src/helpers/post_helper";
+import { post } from "@/src/urls";
 import { Button, Col, Input, Row } from "antd";
 import { useState } from "react";
 
@@ -31,14 +32,14 @@ const AgregarBancoForm  = (props) => {
                 if(banco.nombre.trim().length<1){
                     return
                 }
-                post_method("",banco,(response)=>{
+                post_method(post.insert.banco,banco,(response)=>{
                     alert("Banco agregado")
+                    props?.callback?.()
                 })
             }}
             type="primary"
             >Guardar</Button>
-            &nbsp;
-            <Button size="small" danger>Cancelar</Button>
+           
         </Col>
     </Row>
     

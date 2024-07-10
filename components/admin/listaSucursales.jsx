@@ -15,7 +15,7 @@ const ListaSucursales = (props) => {
         {dataIndex: "telefono", title:"Teléfono"},
         {title:"Acciones", render:(_,obj)=>{
             return <>
-                <Button onClick={()=>{
+                <Button disabled onClick={()=>{
                     onEditarClick(obj.idsucursal)
                 }}>Editar</Button>
             </>
@@ -60,7 +60,7 @@ const ListaSucursales = (props) => {
     </Row>
     <Row>
         <Col span={24}>
-            <Button onClick={onAgregarClick} type="primary">Agregar</Button>
+            <Button disabled onClick={onAgregarClick} type="primary">Agregar</Button>
         </Col>
     </Row>
     <Row>

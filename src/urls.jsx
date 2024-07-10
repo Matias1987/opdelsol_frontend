@@ -171,6 +171,8 @@ const post = {
         tag: remote_base_url + "tag/",
         categoria_tag: remote_base_url + "tag/categoria/",
         tag_codigo: remote_base_url + "tag/tag/codigo/",
+        banco: remote_base_url + "bancos/",
+        tarjeta: remote_base_url + "tarjetas/",
     },
     update:{
         familia: remote_base_url + "familia/",
