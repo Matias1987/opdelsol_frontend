@@ -131,6 +131,10 @@ const post = {
     obtener_uso_items_adic_subgrupo_periodo: remote_base_url + "adic/obtener/uso/items/adic/subgrupo/periodo/",
     obtener_lista_ventas_sucursal_periodo: remote_base_url + "admin/obtener/ventas/sucursal/periodo/",
 
+    desactivar_tarjeta: remote_base_url + "tarjetas/de/t/",
+    desactivar_banco: remote_base_url + "bancos/de/b/",
+    desactivar_medico: remote_base_url + "medicos/d/m/",
+
     search:{
         filtro_stock: remote_base_url + "stock/filtro_stock/",
     },

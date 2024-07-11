@@ -1,8 +1,9 @@
-import { Button, Col, Input, Modal, Row, Table } from "antd";
+import { Button, Checkbox, Col, Input, Modal, Row, Table } from "antd";
 import { useEffect, useState } from "react";
 import AgregarMedicoForm from "./agregarMedico";
-import { get } from "@/src/urls";
+import { get, post } from "@/src/urls";
 import { EditFilled } from "@ant-design/icons";
+import { post_method } from "@/src/helpers/post_helper";
 
 const ListaMedicos = (props) => {
     const [data, setData] = useState([])
@@ -11,6 +12,7 @@ const ListaMedicos = (props) => {
     const [reload, setReload] = useState(false)
     const [idmedico, setIdMedico] = useState(-1)
     const [filtro, setFiltro] = useState("")
+    const [loading, setLoading] = useState(false)
     const columns = [
         {dataIndex: "nombre", title:"Nombre"},
         {dataIndex: "direccion", title:"Direccion"},
@@ -20,10 +22,26 @@ const ListaMedicos = (props) => {
             setModoEditar(true)
             setOpen(true)
         }}><EditFilled /></Button></>},
+        {
+            title:"Activo", 
+            render:(_,{idmedico, activo})=><>
+                <Checkbox 
+                
+                checked={activo} 
+                onChange={(e)=>{
+                    setLoading(true)
+                    post_method(post.desactivar_medico,{idmedico:idmedico},(resp)=>{
+                        setReload(!reload)
+                    })
+                    //setData(_data=>_data.map(t=>t.idmedico==idmedico ? {...t,activo:!t.activo}:t))
+                }} 
+                /></>
+        },
 
     ]
     
     const load = () => {
+        setLoading(true)
         fetch(get.lista_medicos)
         .then(r=>r.json())
         .then(response=>{
@@ -37,7 +55,8 @@ const ListaMedicos = (props) => {
              * },
 
             */
-           setData(response.data)
+           setData(d=>response.data.map(m=>({...m,activo:+m.enabled==1})))
+           setLoading(false)
         })
         .catch(e=>{console.log("Error of some kind...")})
     }

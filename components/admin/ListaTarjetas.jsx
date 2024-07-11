@@ -1,21 +1,44 @@
-import { Button, Col, Input, Modal, Row, Table } from "antd";
-import { useEffect, useState } from "react";
+import { Button, Checkbox, Col, Input, Modal, Row, Table } from "antd";
+import { act, useEffect, useState } from "react";
 import AgregarTarjetaForm from "./agregarTarjeta";
-import { get } from "@/src/urls";
+import { get, post } from "@/src/urls";
+import { post_method } from "@/src/helpers/post_helper";
 
 const ListaTarjetas = (props) => {
     const [data, setData] = useState([])
     const [open, setOpen] = useState(false)
     const [filtro, setFiltro] = useState("")
     const [reload, setReload] = useState(false)
+    const [loading, setLoading] = useState(false)
     const columns = [
-        {dataIndex:"nombre", title:"Nombre"}
+        {dataIndex:"nombre", title:"Nombre"},
+        {
+            title:"Activo", 
+            render:(_,{idtarjeta, activo})=><>
+                <Checkbox 
+                
+                checked={activo} 
+                onChange={(e)=>{
+                    //setData(_data=>_data.map(t=>t.idtarjeta==idtarjeta ? {...t,activo:!t.activo}:t))
+                    
+                    setLoading(true)
+                    
+                    post_method(post.desactivar_tarjeta,{idtarjeta:idtarjeta},(resp)=>{
+                        setReload(!reload)
+                    })
+
+                }} 
+                /></>
+        },
+            
     ]
     useEffect(()=>{
+        setLoading(true)
         fetch(get.lista_tarjetas)
         .then(r=>r.json())
         .then(response=>{
-            setData(response.data)
+            setLoading(false)
+            setData(response.data.map(r=>({...r,activo:+r.activo==1})))
         })
     },[reload])
     return <>
@@ -31,7 +54,7 @@ const ListaTarjetas = (props) => {
     </Row>
     <Row>
         <Col span={24}>
-            <Table columns={columns} dataSource={data.filter(r=>filtro.trim().length>0 ? r.nombre.includes(filtro) : true  )} scroll={{y:"500px"}} />
+            <Table loading={loading} columns={columns} dataSource={data.filter(r=>filtro.trim().length>0 ? r.nombre.includes(filtro) : true  )} scroll={{y:"500px"}} />
         </Col>
     </Row>
     <Row>
