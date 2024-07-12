@@ -29,7 +29,7 @@ const SucursalSelect = (props) => {
     },[])
 
     return (
-        <Row style={{padding:"1em"}}>
+        <Row >
             <Col span={4} style={
                 {
                     textAlign:"right", 

@@ -24,6 +24,7 @@ import ImpresionCodigosPopup from "../impresion_codigos_popup";
 import LayoutVentas from "@/components/layout/layout_ventas";
 import SelectTag from "@/components/etiquetas/selectTag";
 import TagsLote from "@/components/etiquetas/TagsLote";
+import SucursalSelect from "@/components/SucursalSelect";
 
 export default function ListaStock(){
     const [usuarioDep, setUsuarioDep] = useState(false)
@@ -47,6 +48,7 @@ export default function ListaStock(){
     const [selectAll, setSelectAll] = useState(false)
     const [popupTagsOpen, setPopupTagsOpen] = useState(false)
     const [total, setTotal] = useState(0)
+    const [selectedSucursal, setSelectedSucursal] = useState(-2)
     const tipos_filtro_dic = {
         "grupo_contenga_a":{tipo: "grupo", descripcion: "Grupo Cont."},
         "codigo_contenga_a":{tipo: "codigo", descripcion: "Codigo Cont."},
@@ -64,6 +66,7 @@ export default function ListaStock(){
         "grupo":{tipo: "grupo", descripcion:"Grupo"},
         "subfamilia":{tipo: "subfamilia", descripcion:"Subfamilia"},
         "familia":{tipo: "familia", descripcion:"Familia"},
+        "sucursal":{tipo:"sucursal", descripcion:"Sucursal"},
     }
     
     const edit_popup = () => <>
@@ -274,8 +277,13 @@ export default function ListaStock(){
         tags.forEach(t=>{
             _tags[t.tipo] = t.valor
         })
+
+        let _sucursal = selectedSucursal < -1 ? globals.obtenerSucursal() : selectedSucursal
+
+
+
         return {
-            sucursal: globals.obtenerSucursal(),
+            sucursal: _sucursal,
             codigo_contenga_a: typeof _tags["codigo_contenga_a"] === 'undefined' ? "" : _tags["codigo_contenga_a"],
             grupo_contenga_a: typeof _tags["grupo_contenga_a"] === 'undefined' ? "" : _tags["grupo_contenga_a"],
             codigo_igual_a: typeof _tags["codigo_igual_a"] === 'undefined' ? "" : _tags["codigo_igual_a"],
@@ -400,6 +408,7 @@ export default function ListaStock(){
                                         {label: 'Familia', value: 'familia'},
                                         {label: 'Grupo Contenga a', value: 'grupo_contenga_a'},
                                     ]} 
+                                    style={{width:"200px"}}
                                     onChange={(value)=>{
                                         setValue("tipo_filtro",value)
                                         setTipoFitro(value)
@@ -417,23 +426,33 @@ export default function ListaStock(){
                                     <Button type="primary" htmlType="submit" size="small"><PlusOutlined /></Button>
                                 </Form.Item>
                             </Col>
-                            <Col span={8}>
-                                    <Form.Item label={"Orden"} name={"orden"}>
-                                        <Select options={[
-                                            {label: 'Alfabetico - Ascendiente', value: 'alf_asc'},
-                                            {label: 'Alfabetico - Descendiente', value: 'alf_desc'},
-                                            {label: 'Precio - Descendiente', value: 'precio_desc'},
-                                            {label: 'Precio - Ascendiente', value: 'precio_asc'},
-                                            {label: 'Cantidad - Ascendiente', value: 'cantidad_asc'},
-                                            {label: 'Cantidad - Descendiente', value: 'cantidad_desc'},
-                                        ]} 
-                                        onChange={(value)=>{
-                                            setValue1("orden",value)
-                                            setTipoOrden(value);
-                                        }}
-                                        />
-                                    </Form.Item>
-                                </Col>
+                            <Col span={4}>
+                                <Form.Item label={"Orden"} name={"orden"}>
+                                    <Select options={[
+                                        {label: 'Alfabetico - Ascendiente', value: 'alf_asc'},
+                                        {label: 'Alfabetico - Descendiente', value: 'alf_desc'},
+                                        {label: 'Precio - Descendiente', value: 'precio_desc'},
+                                        {label: 'Precio - Ascendiente', value: 'precio_asc'},
+                                        {label: 'Cantidad - Ascendiente', value: 'cantidad_asc'},
+                                        {label: 'Cantidad - Descendiente', value: 'cantidad_desc'},
+                                    ]} 
+                                    style={{width:"200px"}}
+                                    onChange={(value)=>{
+                                        setValue1("orden",value)
+                                        setTipoOrden(value);
+                                    }}
+                                    />
+                                </Form.Item>
+                            </Col>
+                            { globals.esUsuarioDeposito() ?
+                            <Col span={7}>
+                                <Form.Item>
+                                    <SucursalSelect callback={(id)=>{setSelectedSucursal(id)}} />
+                                </Form.Item>    
+                            </Col>
+                            :
+                            <></>
+                            }
                         </Row>
                         
                         </Form>
