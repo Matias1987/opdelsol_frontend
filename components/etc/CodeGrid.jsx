@@ -51,7 +51,7 @@ const CodeGrid = (props) => {
      */
     const tilew1 = 1;
     const tileh1 = 1; 
-    const xoffset2 = 450
+    const xoffset2 = 600
     const yoffset2 = 350
     const m = tilew1 / tilew 
     const rect_w = m * props.width
