@@ -132,7 +132,7 @@ const BuscarVenta = (props)=>{
             return <><CustomModal 
             onOk={onPopupClosed} 
             onCancel={onPopupClosed} 
-            openButtonText ={<span style={{color:"green", fontSize:".9em"}}>Ventas<br />Terminadas</span>}><ListaVentas ignoreSucursal id={id} mustCancel cobrar accion="entrega" titulo="Ventas Terminadas" estado="TERMINADO" buttonText="Entrega" /></CustomModal></>
+            openButtonText ={<span style={{color:"green", fontSize:".9em"}}>Ventas<br />Terminadas</span>}><ListaVentas ignoreSucursal id={id}  cobrar accion="entrega" titulo="Ventas Terminadas" estado="TERMINADO" buttonText="Entrega o Resfuerzo" /></CustomModal></>
             break;
             case 'ENTREGADO': 
             return <><CustomModal 

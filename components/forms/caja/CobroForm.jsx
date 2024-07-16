@@ -80,14 +80,6 @@ export default function CobroOperacion(props){
 
     const onMPChange = (val) => {setMP(_mp=>val)}
 
-    const onEntregaClick = (e) => {
-        if(dataVenta.saldo != 0){
-            return;
-        }
-
-        post_method(post.cambiar_estado_venta,{idventa: dataVenta.idventa, estado: 'ENTREGADO'},(resp)=>{alert("OK"); setOpen(false); props?.callback?.()})
-        registrar_evento("VENTA", "Cambio estado a ENTREGADO", dataVenta.idventa)
-    }
 
     const onCobrarClick = (e) => {
         setCobrarDisabled(true)
@@ -105,10 +97,10 @@ export default function CobroOperacion(props){
         }
 
         
-
+        //<!> props.mustCancel is obsolete, therefore, _mc is must be removed...
         const _mc = typeof props.mustCancel !== 'undefined' ? props.mustCancel : false;
-        //alert(JSON.stringify(props) + "  " + (parseFloat(dataVenta.subtotal) - parseFloat(descuento) - parseFloat(dataVenta.haber||0)) )
         
+
         if(typeof props.tipo!= 'undefined')
         {
             if(props.tipo == 'cuota')
@@ -180,7 +172,6 @@ export default function CobroOperacion(props){
                 setCobrarDisabled(false)
                 return;
             }
-
 
             if( (entrega || _mc) && _sdo!=0){
                 
@@ -260,8 +251,16 @@ export default function CobroOperacion(props){
         params = typeof props.idventa === 'undefined' ? params : {...params,idventa:props.idventa} 
         params = typeof props.idcliente === 'undefined' ? params : {...params,idcliente:props.idcliente} 
 
+        /**
+         * if parametric action is 'entrega' but balance is higher than 0, then change status to 'resfuerzo'.. the status of the operation will remain as 'terminado'
+         * get 'saldo'
+         */
+        const _sdo =  (parseFloat(dataVenta.subtotal) - parseFloat(descuento) - parseFloat(dataVenta.haber||0)) - parseFloat( mp.total)
+
+        const __tipo = props.tipo!=='undefined' ? props.tipo == 'entrega' && _sdo > 0 ? 'resfuerzo' : 'entrega' : '';
+
         if(typeof props.tipo !== 'undefined'){
-            switch(props.tipo)
+            switch(__tipo)
             {
                 case "ingreso": 
                     params = {...params, accion: "ingreso", estado: (entrega ? "entrega" : "deposito"), removeMPRows: 1}; 
@@ -270,7 +269,6 @@ export default function CobroOperacion(props){
                     params = {...params, accion: "entrega", removeCtaCteRow: 1}; 
                 break;
                 case "resfuerzo": 
-                
                     params = {...params, accion: "resfuerzo", removeCtaCteRow: 1}; 
                 break;
             }
@@ -291,16 +289,14 @@ export default function CobroOperacion(props){
                 return;
             }
 
- 
-
             setCobrarDisabled(true)
 
             params.caja_idcaja=response.idcaja;
             
             post_method(post.insert.cobro,params,(id)=>{
                 if(id.data==0){
-                    if(dataVenta!=null && props.tipo!='resfuerzo')
-                    {   let est = (props.tipo=='entrega' ? 'ENTREGADO' : (entrega ? "ENTREGADO" : "PENDIENTE"))
+                    if(dataVenta!=null && __tipo!='resfuerzo')
+                    {   let est = (__tipo=='entrega' ? 'ENTREGADO' : (entrega ? "ENTREGADO" : "PENDIENTE"))
 
                         post_method(
                             post.cambiar_estado_venta,
@@ -323,10 +319,10 @@ export default function CobroOperacion(props){
                 }
                 else
                 {
-                    if(dataVenta!=null && props.tipo!='resfuerzo')
+                    if(dataVenta!=null && __tipo!='resfuerzo')
                     {
-                        //alert("entrega ")
-                        let est = (props.tipo=='entrega' ? 'ENTREGADO' : (entrega ? "ENTREGADO" : "PENDIENTE"))
+                        //entrega
+                        let est = (__tipo=='entrega' ? 'ENTREGADO' : (entrega ? "ENTREGADO" : "PENDIENTE"))
                         post_method(
                             post.cambiar_estado_venta,
                             {
@@ -337,7 +333,7 @@ export default function CobroOperacion(props){
                                 fecha_retiro: current_date_ymd()
                             },
                             (resp)=>{
-                                //alert("actualizar saldo")
+
                                 /** actualizar balance de cta cte en recibo x */
                                 fetch(get.actualizar_saldo_en_cobro + id.data)
                                 .then(___response=>___response.json())
@@ -381,7 +377,7 @@ export default function CobroOperacion(props){
             <p>
                 Monto: <b>{dataVenta.subtotal}</b>  &nbsp;&nbsp;
                 <Input prefix={"Descuento:" } value={descuento} onChange={(e)=>{setDescuento(parseFloat(e.target.value.length<1?"0":e.target.value))}} />
-                {/*Descuento: <b>{dataVenta.descuento}</b>&nbsp;&nbsp;*/}
+                
                 Haber: <b>{dataVenta.haber}</b>  &nbsp;&nbsp;
                 <span style={{backgroundColor:"lightyellow", color:"red"}}>Saldo:  <b>{parseFloat(dataVenta.subtotal) - parseFloat(descuento) - parseFloat(dataVenta.haber||0)}</b></span>&nbsp;&nbsp;
                 <VentaDetallePopup idventa={dataVenta.idventa} /> 
@@ -510,9 +506,7 @@ export default function CobroOperacion(props){
                         {
                             props.tipo == 'ingreso' && !entrega ? <Button size="small" type="primary" onClick={enviarADeposito}>Enviar a dep&oacute;sito</Button> : <></>
                         }
-                        {/*
-                            props.tipo == 'entrega' ? <Button disabled={cobrarDisabled} onClick={onEntregaClick}>Marcar Como Entregado</Button>:<></>
-                    */}
+                        
                     </Col>
                 </Row>
                 </Modal>
@@ -520,7 +514,6 @@ export default function CobroOperacion(props){
             <Modal
                 cancelButtonProps={{ style: { display: 'none' } }}
                 okButtonProps={(typeof props.okButtonProps === 'undefined') ? {children:"CERRAR"} : props.okButtonProps}
-                
                 width={"80%"}
                 title={"Recibo X"}
                 open={informeOpen}
