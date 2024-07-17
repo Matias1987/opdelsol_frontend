@@ -1,3 +1,4 @@
+import FichaProveedor from "@/components/admin/proveedor/fichaProveedor";
 import ProveedorForm from "@/components/forms/ProveedorForm";
 import { get } from "@/src/urls"
 import { EditOutlined } from "@ant-design/icons";
@@ -8,6 +9,10 @@ import { useState, useEffect } from "react";
 const ListaProveedores = (props) => {
     const [change, setChange] = useState(false)
     const [open, setOpen] = useState(false);
+
+    const [popupFichaOpen, setPopupFichaOpen] = useState(false)
+    const [idproveedor, setIdProveedor] = useState(-1)
+
     const url_for_proveedores = get.lista_proveedores;
     const [tableData, setTableData] = useState([])
     const columns = [
@@ -16,7 +21,12 @@ const ListaProveedores = (props) => {
         {title: 'C.U.I.T.', dataIndex: 'cuit', key: 'cuit'},
         {title: 'Acciones', dataIndex: 'idproveedor', key: 'acciones',
             render: (idproveedor)=>{
-                    return(<><Button><EditOutlined />&nbsp;Editar</Button></>)
+                    return(<>
+                    <Button onClick={()=>{
+                        setIdProveedor(idproveedor)
+                        setPopupFichaOpen(true)
+                        }}>Ficha</Button>
+                    </>)
             }
     },
 
@@ -76,7 +86,12 @@ useEffect(()=>{
                 columns={columns}
                 dataSource={tableData}
             />
-        
+
+
+            {/** is this temporary? */}
+            <Modal footer={null} width={"90%"} open={popupFichaOpen} onCancel={()=>{setPopupFichaOpen(false)}} destroyOnClose>
+                <FichaProveedor idproveedor={idproveedor} callback={()=>{}} />
+            </Modal>
         </>
     )
 }

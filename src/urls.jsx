@@ -135,6 +135,9 @@ const post = {
     desactivar_banco: remote_base_url + "bancos/de/b/",
     desactivar_medico: remote_base_url + "medicos/d/m/",
 
+
+    ficha_proveedor: remote_base_url + "proveedores/prov/ficha/",
+
     search:{
         filtro_stock: remote_base_url + "stock/filtro_stock/",
     },
@@ -374,6 +377,8 @@ const get = {
 
     obtener_anotaciones: remote_base_url + "anot/",
     obtener_anotacion: remote_base_url + "anot/",//:idanotacion
+
+    detalle_proveedor: remote_base_url + "proveedores/",
 
     
 }

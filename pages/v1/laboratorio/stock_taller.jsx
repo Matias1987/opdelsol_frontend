@@ -75,7 +75,7 @@ export default function stock_taller(){
                 )
             ))
     //setLoading(false)
-    setListId(listId+1)
+    //setListId(listId+1)
         })
     }
 
