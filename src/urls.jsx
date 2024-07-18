@@ -180,6 +180,8 @@ const post = {
         tag_codigo: remote_base_url + "tag/tag/codigo/",
         banco: remote_base_url + "bancos/",
         tarjeta: remote_base_url + "tarjetas/",
+        cm_proveedor: remote_base_url + "proveedores/agregar/cm/proveedor/",
+        pago_proveedor: remote_base_url + "proveedores/agregar/pago/proveedor/"
     },
     update:{
         familia: remote_base_url + "familia/",
