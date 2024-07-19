@@ -1,4 +1,4 @@
-import { Form, Input, Button, Row, Col }  from "antd";
+import { Form, Input, Button, Row, Col, DatePicker }  from "antd";
 import LoadSelect from "../LoadSelect";
 import { get, post } from "@/src/urls";
 import { post_method } from "@/src/helpers/post_helper";
@@ -73,6 +73,7 @@ const FacturaForm = (props) => {
                     </Form.Item>
                 </Col>
             </Row>
+
             <Row style={row_style}>
                 <Col span={24}>
                     <Form.Item name={"monto"} label={"Monto"} style={{width:200}} rules={[{required:true}]}>
