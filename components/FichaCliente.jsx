@@ -25,7 +25,7 @@ export default function FichaCliente(props){
     const [filtrarSucursal, setFiltrarSucursal] = useState(false)
     const [loading, setLoading] = useState(false)
     const [open, setOpen] = useState(false)
-    
+    const [fix, setFix] = useState(0)
     const dummyref = useRef(null)
 
     const bloquear = _ => {
@@ -134,6 +134,7 @@ export default function FichaCliente(props){
              setScrollChange(true)
              setLoading(false)
          })
+         setFix(fix+1)
     }
 
     return (<>
@@ -245,7 +246,7 @@ export default function FichaCliente(props){
     
     <Row>
         <Col span={24} style={{padding:"2em", height:"180px", overflowY:"scroll"}}>
-            {dataCliente==null ? <></> :  <Anotaciones tipo="CLIENTE" idref={dataCliente.idcliente} />}
+            {dataCliente==null ? <></> :  <Anotaciones tipo="CLIENTE" idref={dataCliente.idcliente} key={fix} />}
         </Col>
     </Row>
     

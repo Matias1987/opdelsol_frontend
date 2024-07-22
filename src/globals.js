@@ -7,6 +7,19 @@ import { parse_DMY_date } from "./helpers/string_helper";
 import { get, public_urls } from "./urls";*/
 const globals =  {
 
+    /**printers */
+    setPrinters: (val) => {
+        const {setItem} = useStorage()
+        setItem("printers",val)
+    },
+
+    getPrinters:()=>{
+        const {getItem} = useStorage()
+        return getItem("printers")
+    },
+
+    /** end of printers */
+
     establecerUserSoloVentaCaja: (val) => {
         const {setItem} = useStorage()
         setItem("soloVtaCaja",val)
@@ -234,6 +247,8 @@ const globals =  {
         ENTREGADO: 'ENTREGADO',
         PEDIDO: 'PEDIDO',
     },
+
+    zpl2_code: `^XA ^FO400,10^BY3 ^BUN,30,Y,N ^FD{0}^FS ^CFA,20 ^FO400,65^FD{1}^FS ^CFA,20 ^FO380,85^FD{2}^FS ^XZ`
 
 }
 export default globals;

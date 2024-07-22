@@ -1,12 +1,13 @@
-import PrinterWrapper from "@/components/PrinterWrapper"
-import CodigosDeBarraEnvio from "@/components/informes/CodigosDeBarra"
-import Barcode from "react-barcode"
+import ZebraPrintDialog from "@/components/etc/ZebraPrintDialog";
+import MyLayout from "@/components/layout/layout";
 
 
-export default function BarcodeTest () { return (
+
+export default function PrintTest () { return (
     <>
-        <PrinterWrapper>
-            <CodigosDeBarraEnvio idenvio="16" />
-        </PrinterWrapper>
+        <ZebraPrintDialog />
     </>
     )}
+
+
+    PrintTest.PageLayout = MyLayout;
