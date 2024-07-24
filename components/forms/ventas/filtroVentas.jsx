@@ -2,9 +2,9 @@ import globals from "@/src/globals"
 import { Button, Col, DatePicker, Input, Modal, Row, Select } from "antd"
 
 
-const { useState, useEffect } = require("react")
-const { default: SelectCliente } = require("./SelectCliente")
-const { default: SelectMedico } = require("./SelectMedico")
+import { useState, useEffect } from "react"
+import SelectCliente from "./SelectCliente"
+import SelectMedico from "./SelectMedico"
 
 
 const FiltroVentas =(props) => {
