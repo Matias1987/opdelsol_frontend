@@ -1,4 +1,5 @@
 import CustomModal from "@/components/CustomModal";
+import ExportToCSV from "@/components/ExportToCSV";
 import PrinterWrapper from "@/components/PrinterWrapper";
 import SearchCodigo from "@/components/SearchCodigo";
 import MyLayout from "@/components/layout/layout";
@@ -33,7 +34,16 @@ export default function ImprimirCodigos(){
                 
                 onOk={()=>{}}
                 style={{overflowY:"scroll"}}
-                >
+                >   
+                    <ExportToCSV parseFnt={()=>{
+                        /* codigo;cantidad; */
+                        let _csv = ""
+                        _elements.forEach(e=>{
+                            _csv += `${get_barcode_from_id2(e.codigo_ref)};${e.codigo};${1}`
+                        })
+
+                        return _csv;
+                    }} />
                     <PrinterWrapper >
                         <div >
                         <table style={{width:"auto"}}>

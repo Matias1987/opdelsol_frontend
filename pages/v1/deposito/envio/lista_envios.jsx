@@ -38,9 +38,7 @@ export default function  ListaEnvios(props){
                         </CustomModal>
                          &nbsp;
                         <CustomModal openButtonText="Imprimir Codigos Barra" title="Imprimir Codigos Envio" onOk={()=>{}}>
-                            <PrinterWrapper>
-                                <CodigosDeBarraEnvio idenvio={idenvio}/>
-                            </PrinterWrapper>
+                            <CodigosDeBarraEnvio idenvio={idenvio}/>
                         </CustomModal>
                        {/* <CustomModal openButtonText="Imprimir Codigos QR" title="Imprimir Codigos Envio" onOk={()=>{}}>
                             <CodigosQR idenvio={idenvio}/>

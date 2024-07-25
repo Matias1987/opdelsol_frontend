@@ -1,8 +1,12 @@
 import { get_barcode_from_id, get_barcode_from_id2 } from "@/src/helpers/barcode_helper";
+import { get } from "@/src/urls";
+import { useEffect, useState } from "react";
 import Barcode from "react-barcode";
-
+import PrinterWrapper from "../PrinterWrapper";
+import ExportToCSV from "../ExportToCSV";
+/*
 const { useEffect, useState } = require("react");
-const urls = require("../../src/urls");
+const urls = require("../../src/urls");*/
 
 const CodigosDeBarraEnvio = (props) => {
     const [codigosId, setCodigosId] = useState([]);
@@ -11,7 +15,7 @@ const CodigosDeBarraEnvio = (props) => {
         setLoading(true);
         //get barcodes!
         
-        fetch(urls.get.lista_envio_stock+props.idenvio)
+        fetch(get.lista_envio_stock+props.idenvio)
         .then(response=>response.json())
         .then((response)=>{
             setCodigosId(
@@ -55,16 +59,26 @@ const CodigosDeBarraEnvio = (props) => {
         }
 
         return (<>
-        <table style={{width:"auto"}}>
-                        <tbody>
-                        <tr>
-        {
-            
-            _elements.map(e=>(<tr>{e.map(r=><td style={{textAlign:"center"}}>{r.codigo}<br /><Barcode value={get_barcode_from_id2(r.idcodigo)}  displayValue={false} width={1.5} height={20}/>&nbsp;</td>)}</tr>))
-        }
-        </tr>
-            </tbody>
-        </table>
+        <ExportToCSV parseFnt={()=>{
+                        /* codigo;cantidad; */
+                        let _csv = ""
+                        _elements.forEach(e=>{
+                            e.forEach(c=>{_csv += `${get_barcode_from_id2(c.idcodigo)};${c.codigo};${1}\r\n`}) 
+                        })
+
+                        return _csv;
+                    }} />
+        <PrinterWrapper>
+            <table style={{width:"auto"}}>
+                            <tbody>
+                            <tr>
+            {
+                _elements.map(e=>(<tr>{e.map(r=><td style={{textAlign:"center"}}>{r.codigo}<br /><Barcode value={get_barcode_from_id2(r.idcodigo)}  displayValue={false} width={1.5} height={20}/>&nbsp;</td>)}</tr>))
+            }
+            </tr>
+                </tbody>
+            </table>
+        </PrinterWrapper>
         </>)
     }
 

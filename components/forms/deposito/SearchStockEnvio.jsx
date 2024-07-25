@@ -5,6 +5,7 @@ import globals from "@/src/globals";
 import { PlusCircleFilled, PlusCircleOutlined } from "@ant-design/icons";
 import { regex_get_id_if_match } from "@/src/helpers/barcode_helper";
 import SubGroupSelect from "@/components/SubGroupSelect";
+import CategoriaSelect from "@/components/CategoriaSelect";
 /**
  * 
  * @param ids array of id to filter
@@ -21,12 +22,16 @@ const SearchStockEnvio = (props) => {
     const [searchValue, setSearchValue] = useState("");
     const [buttonText, setButtonText] = useState("...")
     const [modalOpen, setModalOpen] = useState(false)
-    const [idSubgrupo, setIdSubgrupo] = useState(-1)
+    const [idCat, setIdCat] = useState(-1)
+    const [categoria, setCategoria] = useState(-1)
    
 
-    const doSearch = (value, id, idsubrupo)=>{
-        //alert(search_url + props.idSucursalDestino + "/" + encodeURIComponent( value )+ "/" + id + "/" + idsubrupo)
-        fetch(search_url + props.idSucursalDestino + "/" + encodeURIComponent( value )+ "/" + id + "/" + idsubrupo)
+    const doSearch = (value, id)=>{
+        let _searchvalue = value.trim().length<1 ?"-1": value.trim();
+        const url = search_url + props.idSucursalDestino + "/" + encodeURIComponent( _searchvalue )+ "/" + id + "/" + categoria + "/" + idCat;
+        //alert(url);
+        //return;
+        fetch(url)
         .then((response)=>response.json())
         .then((_response)=>{
             
@@ -65,11 +70,11 @@ const SearchStockEnvio = (props) => {
             alert("Sucursal destino no especificada");
             return
         }
-        if(value.trim().length<1)
-        {
-            alert("Campo Vacío")
-            return;
-        }
+        //if(value.trim().length<1)
+        //{
+        //    alert("Campo Vacío")
+        //    return;
+        //}
         setLoading(true)
 
         //test if the input value match a barcode pattern
@@ -77,12 +82,12 @@ const SearchStockEnvio = (props) => {
 
         if(_id>-1){
             //this is an id!
-            doSearch("null",_id,idSubgrupo)
+            doSearch("null",_id)
             setSearchValue("")
 
         }
         else{
-            doSearch(value,0,idSubgrupo)
+            doSearch(value,0)
         }
     }
         
@@ -92,11 +97,11 @@ const SearchStockEnvio = (props) => {
         <Row>
             <Col span={24}>
                 <Affix offsetTop={top}>
-                    <Input.Search prefix={<><Button onClick={()=>{
-                        if(idSubgrupo>-1)
+                    <Input.Search allowClear prefix={<><Button style={{backgroundColor:"lightseagreen", fontWeight:"bold"}} onClick={()=>{
+                        if(idCat>-1)
                         {
                             setButtonText("..."); 
-                            setIdSubgrupo(-1); 
+                            setIdCat(-1); 
                             return
                         }
                         
@@ -156,22 +161,19 @@ const SearchStockEnvio = (props) => {
             <Modal destroyOnClose={true} title="Filtro por Subgrupo" open={modalOpen} onCancel={()=>{setModalOpen(false)}} 
             okText="Aplicar"
             footer={null}
+            width={"80%"}
             >
                 <Row>
                     <Col span={24}>
-                        <SubGroupSelect callback={(id)=>{setIdSubgrupo(id)}}/>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col span={24}>
-                        <Divider />
-                        <Button type="primary" disabled={idSubgrupo<0} onClick={(e)=>{
-                            setButtonText("SubGrupo: " + idSubgrupo.toString() + "/" )
+                        <CategoriaSelect callback={(categoria, id)=>{
+                            setCategoria(categoria)
+                            setIdCat(id)
                             setModalOpen(false)
-                            doSearch("null",0,idSubgrupo)
-                        }}>Aplicar</Button>
+                            setButtonText(categoria + " " + id)
+                        }}/>
                     </Col>
                 </Row>
+           
                 
                  
             </Modal>
