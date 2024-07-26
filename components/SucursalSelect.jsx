@@ -13,7 +13,7 @@ const SucursalSelect = (props) => {
         .then((response)=>{
             setSucursalData(
                 [
-                    ...[{label:"Todas", value:"-1"}],
+                    ...[{label:"-", value:"-1"}],
                     ...response.data.map(r=>({
                         label: r.nombre,
                         value: r.idsucursal,

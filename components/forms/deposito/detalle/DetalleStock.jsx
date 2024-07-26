@@ -1,9 +1,8 @@
-import CustomModal from "@/components/CustomModal";
 import globals from "@/src/globals";
 import { get } from "@/src/urls";
 import { Col, Divider, Row, Spin, Tag } from "antd";
 import { useEffect, useState } from "react";
-import StockCodigosSucursales from "./StockCodigoSucursales";
+import StockCodigosSucursales from "../StockCodigoSucursales";
 import Tags from "@/components/etiquetas/tagsCodigos";
 
 
@@ -11,12 +10,9 @@ const DetalleStock = (props) => {
     
     const [loadingDetalles, setLoadingDetalles] = useState(true)
     
-
-    
     const [dataDetalles, setDataDetalles] = useState(null)
     
     const [descripcionSubgrupo, setDescripcionSubgrupo] = useState(null)
-
     
     const url_detalle_stock = get.detalle_stock;//:idsucursal/:idcodigo
     
@@ -31,7 +27,7 @@ const DetalleStock = (props) => {
             alert("codigo no establecido");
             return;
         }
-
+        setLoadingDetalles(true)
         //get detalles
         fetch(url_detalle_stock + idsucursal + "/" + props.idcodigo)
         .then(response=>response.json())
@@ -39,14 +35,14 @@ const DetalleStock = (props) => {
             setDataDetalles(
                 response.data[0]
             )
-            setLoadingDetalles(false)
+           
 
             if(response.data.length>0){
-                //alert(get.descripcion_cat_subgrupo+response.data[0].idsubgrupo)
+                
                 fetch(get.descripcion_cat_subgrupo+response.data[0].idsubgrupo)
                 .then(__r=>__r.json())
                 .then(_resp=>{
-                    //alert(JSON.stringify(_resp))
+                    
                     if((_resp.data||[]).length>0)
                     {
                         setDescripcionSubgrupo(r=>({
@@ -56,15 +52,12 @@ const DetalleStock = (props) => {
                     }
                 })
             }
-            
-                
+
+            setLoadingDetalles(false)
 
         });
 
-        
 
-
-        
     },[reload])
     
 
@@ -116,46 +109,31 @@ const DetalleStock = (props) => {
 
     return (
         <>
-        <CustomModal
-            openButtonText={"Detalles"}
-            title={"Detalles"}
-            onOk={()=>{}}
-            onCancel={()=>{}}
-            onOpen={
-                ()=>{
-                    setReload(!reload)
-                }
-            }
-            >
-                <>
-                <Row>
-                    <Col span={24}>
-                        {Detalle()}
-                    </Col>
-                </Row>
-                
+        <Row>
+            <Col span={24}>
+                {Detalle()}
+            </Col>
+        </Row>
+        
+        <Divider />
+        <Row>
+            <Col span={24}>
+                {descripcionSG()}
                 <Divider />
-                <Row>
-                    <Col span={24}>
-                        {descripcionSG()}
-                        <Divider />
-                    </Col>
+            </Col>
 
-                </Row>
-                <Row>
-                    <Col span={24}>
-                        <Tags  idcodigo={props.idcodigo} />
-                    </Col>
-                </Row>
-                <Row>
-                    
-                    <Col span={24}>
-                        <StockCodigosSucursales idcodigo={props.idcodigo} />
-                    </Col>
-                </Row>
-                </>
-                
-            </CustomModal>
+        </Row>
+        <Row>
+            <Col span={24}>
+                <Tags  idcodigo={props.idcodigo} />
+            </Col>
+        </Row>
+        <Row>
+            
+            <Col span={24}>
+                <StockCodigosSucursales idcodigo={props.idcodigo} />
+            </Col>
+        </Row>
         </>
     )
 }

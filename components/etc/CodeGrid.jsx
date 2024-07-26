@@ -26,6 +26,9 @@ const CodeGrid = (props) => {
 
     const [popupStockIdeal, setPopupStockIdeal] = useState(false)
 
+    const [popupEditarStockOpen, setPopupEditarStockOpen] = useState(false)
+
+
     var canvas = null
     var ctx = null
 
@@ -474,10 +477,7 @@ const CodeGrid = (props) => {
             
                 <Row>
                     <Col span={24}>
-                        <EditarStockIndiv buttonText={"Editar Cantidad"} factura={factura}  callback={()=>{
-                            setReload(!reload )
-                            props?.callback?.()
-                        }} idcodigo={selectedCode.idcodigo} idsucursal={globals.obtenerSucursal()} />
+                        <Button disabled={selectedCode==null} onClick={()=>{setPopupEditarStockOpen(true)}}>Editar Cantidad</Button>
                     </Col>
                 </Row>
                 
@@ -497,6 +497,17 @@ const CodeGrid = (props) => {
                         }} />
                 </Col>
             </Row>
+            <Modal destroyOnClose open={popupEditarStockOpen} onCancel={()=>{setPopupEditarStockOpen(false)}} footer={null} width={"90%"}>
+                <EditarStockIndiv 
+                buttonText={"Editar Cantidad"} 
+                factura={factura}  
+                callback={()=>{
+                    setPopupEditarStockOpen(false)
+                    setReload(!reload )
+                    props?.callback?.()
+                }} idcodigo={(selectedCode?.idcodigo||"-1")} idsucursal={globals.obtenerSucursal()} 
+                />
+            </Modal>
       
     </>
 

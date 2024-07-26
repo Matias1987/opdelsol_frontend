@@ -5,7 +5,8 @@ import LayoutLaboratorio from "@/components/layout/layout_laboratorio";
 import globals from "@/src/globals";
 import { post_method } from "@/src/helpers/post_helper";
 import { post } from "@/src/urls";
-import { Col, Row, Table, Tabs } from "antd";
+import { Button, Col, Modal, Row, Table, Tabs } from "antd";
+
 import { useEffect, useState } from "react";
 
 export default function stock_taller(){
@@ -13,17 +14,24 @@ export default function stock_taller(){
     const [data, setData]  = useState([])
     const [filtros, setFiltros] = useState(null)
     const [factura, setFactura] = useState(null)
+    const [popupEditarStockOpen, setPopupEditarStockOpen] = useState(false)
+    const [selectedCodigo, setSelectedCodigo] = useState(-1)
+
     
     const columns = [
        
         {title: "Código", dataIndex: "codigo", width:"50%"},
         {title: "Cantidad", dataIndex: "cantidad", render:(_,{cantidad})=><div style={{textAlign:"right"}}>{cantidad}</div>},
         {title: "Acciones", render:(_,obj)=>{ return <>
-                <EditarStockIndiv buttonText={"Editar Cantidad"}  callback={()=>{
-                    setReload(!reload )
-                    
-                    }} idcodigo={obj.idcodigo} idsucursal={globals.obtenerSucursal()} 
-                />
+                <Button 
+                    onClick={()=>
+                        {
+                            setSelectedCodigo(obj.idcodigo);
+                            setPopupEditarStockOpen(true)
+                        }}
+                >
+                    Editar Cantidad
+                </Button>
         </>}}
     ]
 
@@ -74,8 +82,6 @@ export default function stock_taller(){
                     }
                 )
             ))
-    //setLoading(false)
-    //setListId(listId+1)
         })
     }
 
@@ -140,7 +146,7 @@ export default function stock_taller(){
         {
             label: "Grilla",
             key: "2",
-            children: <CodeGrid callback={()=>{setReload(!reload)}} idsubgrupo={(filtros?.idsubgrupo)||"-1"}  width={680} height={480} key={(reload)||"-1"}/>
+            children: <CodeGrid callback={()=>{setReload(!reload)}} idsubgrupo={(filtros?.idsubgrupo)||"-1"}  width={640} height={480} key={(reload)||"-1"}/>
         }
     ]
 
@@ -163,16 +169,25 @@ export default function stock_taller(){
         <Row>
             <Col span={24}>
                 <Tabs defaultActiveKey="2" type="card" items={tabItems} onChange={()=>{}} />
-                {/*<Row>
-                    <Col span={gridVisible ? 12 : 24}>
-                        {table()}
-                    </Col>
-                    <Col span={gridVisible ? 12 : 0} key={filtros} style={{border:"1px solid #828282", borderRadius:"10px", padding:"1em"}}>
-                        <CodeGrid callback={()=>{setReload(!reload)}} idsubgrupo={(filtros?.idsubgrupo)||"-1"}  width={480} height={480} />
-                    </Col>
-                </Row>*/}
             </Col>
         </Row>
+        <Modal 
+        destroyOnClose
+        onCancel={()=>{setPopupEditarStockOpen(false)}} 
+        footer={null} 
+        open={popupEditarStockOpen} 
+        width={"90%"}>
+            <EditarStockIndiv 
+                buttonText={"Editar Cantidad"}  
+                callback={()=>{
+                    setPopupEditarStockOpen(false)
+                    setReload(!reload )
+
+                    }} 
+                idcodigo={selectedCodigo} 
+                idsucursal={globals.obtenerSucursal()} 
+                />
+        </Modal>
 
     </>
 }

@@ -5,7 +5,7 @@ import GrupoSelect from "@/components/GrupoSelect";
 import SubFamiliaSelect from "@/components/SubFamiliaSelect";
 import SubGroupSelect from "@/components/SubGroupSelect";
 import CodeGrid from "@/components/etc/CodeGrid";
-import DetalleStock from "@/components/forms/deposito/DetalleStock";
+//import DetalleStockPopup from "@/components/forms/deposito/detalle/DetalleStockPopup";
 import EditarCodigoIndiv from "@/components/forms/deposito/EditarCodigoIndiv";
 import EditarStockIndiv from "@/components/forms/deposito/EditarStockIndiv";
 import ModificarCantidadForm from "@/components/forms/deposito/modificarCantidadForm";
@@ -25,6 +25,7 @@ import LayoutVentas from "@/components/layout/layout_ventas";
 import SelectTag from "@/components/etiquetas/selectTag";
 import TagsLote from "@/components/etiquetas/TagsLote";
 import SucursalSelect from "@/components/SucursalSelect";
+import DetalleStock from "@/components/forms/deposito/detalle/DetalleStock";
 
 export default function ListaStock(){
     const [usuarioDep, setUsuarioDep] = useState(false)
@@ -47,8 +48,11 @@ export default function ListaStock(){
     const [etiquetas, setEtiquetas] = useState([])
     const [selectAll, setSelectAll] = useState(false)
     const [popupTagsOpen, setPopupTagsOpen] = useState(false)
+    const [popupDetalleOpen, setPopupDetalleOpen] = useState(false)
+    const [popupEditarStockIndvOpen, setPopupEditarStockIndvOpen] = useState(false)
     const [total, setTotal] = useState(0)
     const [selectedSucursal, setSelectedSucursal] = useState(-2)
+    const [selectedIdCodigo, setSelectedIdCodigo] = useState(-1)
     const tipos_filtro_dic = {
         "grupo_contenga_a":{tipo: "grupo", descripcion: "Grupo Cont."},
         "codigo_contenga_a":{tipo: "codigo", descripcion: "Codigo Cont."},
@@ -180,11 +184,12 @@ export default function ListaStock(){
             title: 'Acciones', dataIndex: 'idstock', key: 'idstock',  width:"350px",
             render: 
                 (_,{idcodigo})=><>
-                <DetalleStock idcodigo={idcodigo} />
+                <Button onClick={()=>{setSelectedIdCodigo(idcodigo); setPopupDetalleOpen(true);}}>Detalle</Button>
                 &nbsp;&nbsp;
-                {globals.esUsuarioDeposito() ? <EditarStockIndiv callback={()=>{setValueChanged(!valueChanged)}} buttonText={"Edit. Stock"} idcodigo={idcodigo} idsucursal={globals.obtenerSucursal()} /> : <></>}
+                {/*globals.esUsuarioDeposito() && (selectedSucursal==globals.obtenerSucursal() || selectedSucursal<-1) ? <EditarStockIndiv callback={()=>{setValueChanged(!valueChanged)}} buttonText={"Edit. Stock"} idcodigo={idcodigo} idsucursal={globals.obtenerSucursal()} /> : <></>*/}
+                <Button onClick={()=>{setSelectedIdCodigo(idcodigo); setPopupEditarStockIndvOpen(true);}}>Editar Stock</Button>
                 &nbsp;&nbsp;
-                {globals.esUsuarioDeposito() ? <EditarCodigoIndiv idcodigo={idcodigo} buttonText="Editar Código" callback={()=>{setValueChanged(!valueChanged)}} /> : <></>}
+                {globals.esUsuarioDeposito() ? <EditarCodigoIndiv  idcodigo={idcodigo} buttonText="Editar Código" callback={()=>{setValueChanged(!valueChanged)}} /> : <></>}
                 </>                
         },
         {
@@ -498,12 +503,12 @@ export default function ListaStock(){
                     <Button onClick={()=>{setOpen(true)}} ><TableOutlined />  Grilla de C&oacute;digos</Button>
                     <Modal 
                         footer={null} 
-                        width={"900px"} 
+                        width={"1100px"} 
                         open={open} 
                         key={idsubgrupo} 
                         destroyOnClose={true} 
                         onCancel={()=>{setOpen(false); setValueChanged(!valueChanged)} }>
-                            <CodeGrid idsubgrupo={idsubgrupo} width={500} height={480}/>
+                            <CodeGrid idsubgrupo={idsubgrupo} width={640} height={480}/>
                     </Modal>
                 </Col>:<></>}
                 {usuarioDep?<Col span={4} style={{padding:".5em"}}>{edit_popup()}</Col>:<></>}
@@ -555,6 +560,37 @@ export default function ListaStock(){
             <TagsLote 
                 codigos={(data.filter(d=>d.checked)).map(c=>({codigo:c.codigo, idcodigo: c.idcodigo }))}
                 callback={()=>{setPopupTagsOpen(false); setValueChanged(!valueChanged)}}
+            />
+        </Modal>
+        {/** DETALLE POPUP */}
+        <Modal 
+        destroyOnClose
+        open={popupDetalleOpen} 
+        footer={null} 
+        onCancel={()=>{setPopupDetalleOpen(false)}} 
+        width={"80%"}
+        >
+            <DetalleStock 
+            idcodigo={selectedIdCodigo} 
+            idsucursal={selectedSucursal < 0 ? idsucursal : selectedSucursal} 
+            callback={()=>{setPopupDetalleOpen(false); setValueChanged(!valueChanged);}}
+            />
+        </Modal>
+        {/** EDITAR STOCK INDV. */}
+        <Modal 
+        destroyOnClose
+        open={popupEditarStockIndvOpen} 
+        footer={null} 
+        onCancel={()=>{setPopupEditarStockIndvOpen(false); setValueChanged(!valueChanged)}}  
+        width={"80%"}
+        >
+            <EditarStockIndiv 
+            idcodigo={selectedIdCodigo} 
+            idsucursal={globals.obtenerSucursal()} 
+            callback={()=>{
+                setPopupEditarStockIndvOpen(false);
+                setValueChanged(!valueChanged)
+            }}
             />
         </Modal>
         </>

@@ -3,7 +3,7 @@ import { post_method } from "@/src/helpers/post_helper";
 import { parse_int_string } from "@/src/helpers/string_helper";
 import { get, post } from "@/src/urls";
 import { Button, Checkbox, Col, Input, Modal, Row, Spin, Tag } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 /**
  * 
  * @param nrofactura
@@ -20,7 +20,6 @@ const EditarStockIndiv = (props) => {
     const [cantInput, setCantInput] = useState(0)
     const [costo, setCosto] = useState(0)
     
-    //const [factura, setFactura] = useState(null)
     const onOpen = () => {
        setCantInput(0)
         setOpen(true)
@@ -47,9 +46,6 @@ const EditarStockIndiv = (props) => {
             })
         })
         .catch(er=>{console.log(er)})
-    }
-    const onClose = () => {
-        setOpen(false)
     }
 
 
@@ -80,78 +76,77 @@ const EditarStockIndiv = (props) => {
                 {...s,"cantidad":(inc ? parseInt( stock.cant_ant ) : 0) +parse_int_string(((v.toString())||"").toString())}))
     }
 
-    return <>
-    <Button onClick={onOpen} type="primary" size="small">{props.buttonText}</Button>
-        <Modal title={"Editar Cantidad Stock"} open={open} onCancel={onClose} footer={null} width={"60%"} destroyOnClose={true}>
-            {stock==null || codigo==null ? <Spin /> : 
-            <>
-            <Row style={{padding:"1em"}}>
-                <Col span={24}>
-                    <Input style={{backgroundColor:"lightyellow"}} readOnly prefix="Código: " value={codigo.codigo}/>
-                </Col>
-            </Row>
+    useEffect(()=>{onOpen()},[])
 
-            {
-                props.factura  == null ? 
-                <Row style={{padding:"1em"}}>
-                    <Col span={24}>
-                        Factura: (Opcional)&nbsp;
-                        <FacturaSelect callback={(id)=>{
-                            setIdFactura(id)
-                        }}/>
-                    </Col>
-                </Row>
-                : 
-                <Row style={{padding:"1em"}}>
-                    <Col span={24}>
-                       <Tag color="geekblue-inverse" style={{fontSize:"1.25em"}} > Factura: {props.factura.nro} </Tag>
-                    </Col>
-                </Row>    
-        }
-            <Row style={{padding:"1em"}}>
-                <Col span={3}>
-                    <Checkbox onChange={()=>{setEditarCosto(!editarCosto)}} checked={editarCosto}>Costo</Checkbox>
-                </Col>
-                <Col span={21}>
-                    <Input type="number" disabled={!editarCosto} value={costo} onChange={(e)=>{setCosto(parseInt(e.target.value))}}/>
-                </Col>
-            </Row>
-            <Row style={{padding:"1em"}}>
-                <Col span={24}>
-                    <Input readOnly prefix={<b>Cantidad Actual: </b>} value={stock.cant_ant}  />  
-                </Col>
-            </Row>
-            <Row style={{padding:"1em"}}>
-                <Col span={24}>
-                    <Input 
-                    style={{backgroundColor:"lightblue"}}
-                    prefix={<><Checkbox  checked={incrementarCantidad} onChange={()=>{
-                        setIncrementarCantidad(!incrementarCantidad)
-                        actualizar_cantidad(cantInput,!incrementarCantidad)
-                    }}
-                    >Sumar
-                    </Checkbox><b>Cantidad: </b></>} 
-                    value={cantInput} 
-                    onChange={(e)=>{
-                        //alert(((e.target.value.toString())||"").toString())
-                        setCantInput(parse_int_string((e.target.value.toString())||"").toString())
-                        actualizar_cantidad(parse_int_string(((e.target.value.toString())||"").toString()), incrementarCantidad)
-                    }} />  
-                </Col>
-            </Row>
-            <Row style={{padding:"1em"}}>
-                <Col span={24}>
-                    <Input readOnly prefix={<b>Nueva Cantidad: </b>} value={stock.cantidad}  />  
-                </Col>
-            </Row>
-            <Row style={{padding:"1em"}}>
-                <Col span={24}>
-                    <Button  block type="primary" onClick={guardarCambios}>Guardar Cambios</Button>
-                </Col>
-            </Row>
-            </>
-            }
-        </Modal>
+    return <>
+    {stock==null || codigo==null ? <Spin /> : 
+    <>
+    <Row style={{padding:"1em"}}>
+        <Col span={24}>
+            <Input style={{backgroundColor:"lightyellow"}} readOnly prefix="Código: " value={codigo.codigo}/>
+        </Col>
+    </Row>
+
+    {
+        props.factura  == null ? 
+        <Row style={{padding:"1em"}}>
+            <Col span={24}>
+                Factura: (Opcional)&nbsp;
+                <FacturaSelect callback={(id)=>{
+                    setIdFactura(id)
+                }}/>
+            </Col>
+        </Row>
+        : 
+        <Row style={{padding:"1em"}}>
+            <Col span={24}>
+                <Tag color="geekblue-inverse" style={{fontSize:"1.25em"}} > Factura: {props.factura.nro} </Tag>
+            </Col>
+        </Row>    
+    }
+    <Row style={{padding:"1em"}}>
+        <Col span={3}>
+            <Checkbox onChange={()=>{setEditarCosto(!editarCosto)}} checked={editarCosto}>Costo</Checkbox>
+        </Col>
+        <Col span={21}>
+            <Input type="number" disabled={!editarCosto} value={costo} onChange={(e)=>{setCosto(parseInt(e.target.value))}}/>
+        </Col>
+    </Row>
+    <Row style={{padding:"1em"}}>
+        <Col span={24}>
+            <Input readOnly prefix={<b>Cantidad Actual: </b>} value={stock.cant_ant}  />  
+        </Col>
+    </Row>
+    <Row style={{padding:"1em"}}>
+        <Col span={24}>
+            <Input 
+            style={{backgroundColor:"lightblue"}}
+            prefix={<><Checkbox  checked={incrementarCantidad} onChange={()=>{
+                setIncrementarCantidad(!incrementarCantidad)
+                actualizar_cantidad(cantInput,!incrementarCantidad)
+            }}
+            >Sumar
+            </Checkbox><b>Cantidad: </b></>} 
+            value={cantInput} 
+            onChange={(e)=>{
+                //alert(((e.target.value.toString())||"").toString())
+                setCantInput(parse_int_string((e.target.value.toString())||"").toString())
+                actualizar_cantidad(parse_int_string(((e.target.value.toString())||"").toString()), incrementarCantidad)
+            }} />  
+        </Col>
+    </Row>
+    <Row style={{padding:"1em"}}>
+        <Col span={24}>
+            <Input readOnly prefix={<b>Nueva Cantidad: </b>} value={stock.cantidad}  />  
+        </Col>
+    </Row>
+    <Row style={{padding:"1em"}}>
+        <Col span={24}>
+            <Button  block type="primary" onClick={guardarCambios}>Guardar Cambios</Button>
+        </Col>
+    </Row>
+    </>
+    }
     </>
 }
 
