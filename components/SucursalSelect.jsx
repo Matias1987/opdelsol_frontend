@@ -30,16 +30,15 @@ const SucursalSelect = (props) => {
 
     return (
         <Row >
-            <Col span={4} style={
+            <Col span={3} style={
                 {
-                    textAlign:"right", 
                     paddingTop:".4em",
                     paddingRight:"1em"
                 }
                 }>
                 Sucursal:
             </Col>
-            <Col span={20}>
+            <Col span={21}>
                 <Select 
                     options={sucursalData}
                     style={{width:"100%", minWidth:"80px", maxWidth:"160px"}}

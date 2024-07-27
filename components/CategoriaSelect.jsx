@@ -36,12 +36,12 @@ const CategoriaSelect = (props) => {
         }
     }
 
-    return <div style={{paddingLeft:"1.2em"}}> 
+    return <div style={{paddingLeft:"0.2em"}}> 
                 <Row >
-                    <Col span={2} style={{textAlign:"left", paddingTop:".3em"}}>
+                    <Col span={3} style={{textAlign:"left", paddingTop:".5em", fontSize:".75em"}}>
                         Categor&iacute;a:&nbsp;&nbsp;
                     </Col>
-                    <Col span={20}>
+                    <Col span={19}>
                         <div  style={!enabled?disabled_style:enabled_style}>
                         <Select 
                         value={categoria}

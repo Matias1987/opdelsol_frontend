@@ -1,4 +1,5 @@
 import CategoriaSelect from "@/components/CategoriaSelect";
+import SucursalSelect from "@/components/SucursalSelect";
 import { post_method } from "@/src/helpers/post_helper";
 import { post } from "@/src/urls";
 import {Row, Col, DatePicker, Radio, Table, Button, Input} from "antd";
@@ -11,7 +12,7 @@ const VentasTotalesSucursales = (props) => {
     const [filtros, setFiltros] = useState({
         desde: '',
         hasta: '',
-        idsucursal: props.idsucursal,
+        idsucursal: -1,
         codigo: '',
         cat: '',
         idcategoria: '-1',
@@ -94,6 +95,11 @@ const VentasTotalesSucursales = (props) => {
     return <>
         <Row>
             <Col span={10}>
+                <Row>
+                    <Col span={24}>
+                        <SucursalSelect callback={(id)=>{setFiltros(f=>({...f,idsucursal:id})); setUpdate(!update);}} />
+                    </Col>
+                </Row>
                 <Row style={{padding:".5em"}}>
                     <Col span={24}>
                     <Radio.Group value={modo} onChange={(e)=>{setModo(e.target.value)}}>

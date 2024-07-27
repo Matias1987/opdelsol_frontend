@@ -6,7 +6,14 @@ import globals from "@/src/globals";
 import { post_method } from "@/src/helpers/post_helper";
 import FacturaSelect2 from "../FacturaSelect2";
 import CargaStockIdeal from "../forms/deposito/cargaStockIdeal";
-
+/**
+ * 
+ * @param width 
+ * @param height
+ * @param callback
+ * @param idsubgrupo
+ *  
+ */
 const CodeGrid = (props) => {
     const canvasRef = useRef(null);
     const [dataSource, setDataSource] = useState([])
@@ -152,7 +159,7 @@ const CodeGrid = (props) => {
 
         post_method((tipoGrilla == 'p' ? post.obtener_uso_items_adic_subgrupo_periodo : post.obtener_grilla_stock),{
             idsubgrupo: props.idsubgrupo, 
-            idsucursal: globals.obtenerSucursal(), 
+            idsucursal: (props.idsucursal||"-1") == "-1" ? globals.obtenerSucursal() : props.idsucursal, 
             eje: selectedEje,
             desde: filtroPeriodo.desde,
             hasta: filtroPeriodo.hasta,
