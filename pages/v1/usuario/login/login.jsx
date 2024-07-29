@@ -6,8 +6,10 @@ import globals from "@/src/globals";
 import SucursalSelect from "@/components/SucursalSelect";
 import LoadSelect from "@/components/LoadSelect";
 import { registrar_evento } from "@/src/helpers/evento_helper";
-const post_helper = require("../../../../src/helpers/post_helper")
-const urls = require("../../../../src/urls")
+import { post, public_urls } from "@/src/urls";
+import { post_method } from "@/src/helpers/post_helper";
+
+
 
 export default function Login(){
     const [form] = Form.useForm();
@@ -28,10 +30,10 @@ export default function Login(){
             alert("completar campos obligatorios (*)");
             return;
         }
-        if(typeof values.sucursal === 'undefined'){
+        /*if(typeof values.sucursal === 'undefined'){
             alert("completar campos obligatorios (*)");
             return;
-        }
+        }*/
         if(values.nombre == "" || values.nombre === null){
             alert("completar campos obligatorios (*)");
             return;
@@ -42,17 +44,17 @@ export default function Login(){
             return;
 
         }
-        if(values.sucursal == "" || values.sucursal === null){
+        /*if(values.sucursal == "" || values.sucursal === null){
             alert("completar campos obligatorios (*)");
             return;
 
-        }
+        }*/
         //alert(urls.post.login)
-        post_helper.post_method(urls.post.login,values,(res)=>{
+        post_method(post.login,values,(res)=>{
             //alert(JSON.stringify(res))
             if(res.data.logged == 1){
                 const {setItem} = useStorage();
-                //alert(JSON.stringify(res.data))
+               
                 console.log(res.data.token)
                 setItem("token",res.data.token)
                 setItem("uid",res.data.uid)
@@ -70,11 +72,11 @@ export default function Login(){
                 //globals.establecerSucursal(1);
 
                 registrar_evento("USER_LOGIN", "Inicio de sesion",res.data.uid )
-             
+                
                 if (typeof window !== "undefined") {
-                    
+                   
                         //window.location.replace(urls.public_urls.auth)
-                        window.location.replace(urls.public_urls.modo)
+                        window.location.replace(public_urls.modo)
                   }
                 
                 
@@ -106,12 +108,12 @@ export default function Login(){
                     <Form.Item label={"Contraseña"} name="password" required={true} value="">
                         <Input.Password style={{width:"300px"}}  />
                     </Form.Item>
-                    <Form.Item
+                    {/*<Form.Item
                         label={"Sucursal"}
                         name={"sucursal"}
                         required={true}
                     >
-                        <LoadSelect fetchurl={urls.get.sucursales} 
+                        {<LoadSelect fetchurl={urls.get.sucursales} 
                                     parsefnt={(data) =>(
                                                 data.map((row)=>(
                                                     {
@@ -126,8 +128,8 @@ export default function Login(){
                                             setValue("sucursal",id)
                                         }
                                     }
-                                            />
-                    </Form.Item>
+                                            />}
+                    </Form.Item>*/}
                     <Form.Item>
                         <Button type="primary" htmlType="submit">Acceder</Button>
                     </Form.Item>

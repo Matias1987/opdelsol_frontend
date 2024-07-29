@@ -186,8 +186,10 @@ export default function ListaStock(){
                 (_,{idcodigo})=><>
                 <Button onClick={()=>{setSelectedIdCodigo(idcodigo); setPopupDetalleOpen(true);}}>Detalle</Button>
                 &nbsp;&nbsp;
-                {/*globals.esUsuarioDeposito() && (selectedSucursal==globals.obtenerSucursal() || selectedSucursal<-1) ? <EditarStockIndiv callback={()=>{setValueChanged(!valueChanged)}} buttonText={"Edit. Stock"} idcodigo={idcodigo} idsucursal={globals.obtenerSucursal()} /> : <></>*/}
-                <Button onClick={()=>{setSelectedIdCodigo(idcodigo); setPopupEditarStockIndvOpen(true);}}>Editar Stock</Button>
+                {
+                    globals.esUsuarioDeposito() && (selectedSucursal==globals.obtenerSucursal() || selectedSucursal<-1) ?
+                    <Button onClick={()=>{setSelectedIdCodigo(idcodigo); setPopupEditarStockIndvOpen(true);}}>Editar Stock</Button> : <></>
+                }
                 &nbsp;&nbsp;
                 {globals.esUsuarioDeposito() ? <EditarCodigoIndiv  idcodigo={idcodigo} buttonText="Editar Código" callback={()=>{setValueChanged(!valueChanged)}} /> : <></>}
                 </>                
@@ -452,7 +454,7 @@ export default function ListaStock(){
                             { globals.esUsuarioDeposito() ?
                             <Col span={7}>
                                 <Form.Item>
-                                    <SucursalSelect callback={(id)=>{setSelectedSucursal(id)}} />
+                                    <SucursalSelect callback={(id)=>{setSelectedSucursal(id); setValueChanged(!valueChanged)}} />
                                 </Form.Item>    
                             </Col>
                             :
@@ -484,9 +486,9 @@ export default function ListaStock(){
                                         setEtiquetas(v)
                                         })} />
                                 </Col>
-                                <Col span={6}>
+                                <Col span={6} style={{paddingLeft:"25px"}}>
                                     <Form.Item>
-                                            <Button  type="primary" htmlType="submit" size="small">Aplicar Filtros</Button>
+                                            <Button  type="primary" htmlType="submit" size="small" block>Aplicar Filtros</Button>
                                     </Form.Item>
                                 </Col>
                             </Row>

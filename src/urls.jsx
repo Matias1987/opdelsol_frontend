@@ -138,6 +138,8 @@ const post = {
 
     ficha_proveedor: remote_base_url + "proveedores/prov/ficha/",
 
+    user_credentials: remote_base_url + "usuarios/perm/u/s/",
+
     search:{
         filtro_stock: remote_base_url + "stock/filtro_stock/",
     },
