@@ -268,9 +268,10 @@ const EnvioForm = (props) => {
                 </Form.Item>
                 <Form.Item>
                     <Affix offsetBottom={bottom}>
-                        <Input readOnly addonBefore="Total:" value={total} />
-                        <Button disabled={tableLoading || tableData.length<1} block type="primary" htmlType="submit">Generar Env&iacute;o</Button>
-                        
+                        <div>
+                            <Input readOnly addonBefore="Total:" value={total} />
+                            <Button disabled={tableLoading || tableData.length<1} block type="primary" htmlType="submit">Generar Env&iacute;o</Button>
+                        </div>
                     </Affix>
                 </Form.Item>
             </Form>

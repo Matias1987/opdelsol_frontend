@@ -1,23 +1,48 @@
-import {Button, Col, Modal, Row} from "antd"
+import {Button, Col, Modal, Row, Select} from "antd"
 import SucursalSelect from "./SucursalSelect"
 import { useEffect, useState } from "react"
 import globals from "@/src/globals"
 import { post_method } from "@/src/helpers/post_helper"
-import { post } from "@/src/urls"
+import { get, post } from "@/src/urls"
 import useStorage from "@/useStorage"
 
 const SucursalSelectModal = (props) => {
     const [open, setOpen] = useState(false)
     const [selectedSucursal, setSelectedSucursal] = useState(null)
 
+    const [sucursales, setSucursales] = useState([])
+
     useEffect(()=>{
-        if(typeof globals.obtenerUID()!== 'undefined')
-        {
-            if(null==selectedSucursal)
+        fetch(get.sucursales)
+        .then(r=>r.json())
+        .then(response=>{
+            setSucursales(
+                [
+                    ...[{label:"-", value:"-1"}],
+                    ...response.data.map(r=>({
+                        label: r.nombre,
+                        value: r.idsucursal,
+                    }))
+                ]
+            )
+
+            if(response.data.length==1)
             {
-                setOpen(true)
+                setSelectedSucursal(response.data[0].idsucursal)
+                props.callback(response.data[0].idsucursal)
             }
-        }
+            else{
+                if(typeof globals.obtenerUID()!== 'undefined')
+                {
+                    if(null==selectedSucursal)
+                    {
+                        setOpen(true)
+                    }
+                }
+            }
+
+        })
+        
         
     },[])
 
@@ -54,7 +79,7 @@ const SucursalSelectModal = (props) => {
 
     return <>
         <Modal
-            width={"60%"}
+            width={"700px"}
             footer={null}
             closable={false}
             open={open}
@@ -63,13 +88,10 @@ const SucursalSelectModal = (props) => {
         >
             <Row>
                 <Col span={24} style={{padding:"1em"}}>
-                    <SucursalSelect callback={(id)=>{
-                        on_sucursal_selected(id)
-                        
-                    }} />
+                    <Select onChange={(v)=>{on_sucursal_selected(v)}} options={sucursales} style={{width:"100%"}} />
                 </Col>
                 <Col span={24}>
-                    <Button disabled={selectedSucursal==null} type="primary" block onClick={()=>{aplicar()}}>Aplicar</Button>
+                    <Button disabled={selectedSucursal==null} type="primary" block onClick={()=>{aplicar()}}>Seleccionar</Button>
                 </Col>
             </Row>
         </Modal>
