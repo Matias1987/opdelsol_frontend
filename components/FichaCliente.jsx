@@ -144,7 +144,7 @@ export default function FichaCliente(props){
     <Row>
         <Col span={4} >
             <Checkbox
-            style={{fontSize:"1.2em"}}
+            style={{fontSize:"1em"}}
             checked={filtrarSucursal}
             onChange={(e)=>{
                 setFiltrarSucursal(!filtrarSucursal)
@@ -226,7 +226,7 @@ export default function FichaCliente(props){
                 }
             </>
         }
-           
+            &nbsp;&nbsp;
             <CargaManual idcliente={props.idcliente} callback={()=>{load()}} />
         </Col>
         <Col span={12}>

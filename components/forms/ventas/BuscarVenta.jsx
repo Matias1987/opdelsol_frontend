@@ -148,7 +148,7 @@ const BuscarVenta = (props)=>{
     }
     return <div >
     <Button 
-    type="dashed" onClick={()=>{onOpen()}}>Buscar Venta</Button>
+    type="dashed" onClick={()=>{onOpen()}}>{typeof props.textButton==='undefined' ? 'Buscar Venta' : props.textButton }</Button>
     <Modal 
     footer={null}
     destroyOnClose={true} 

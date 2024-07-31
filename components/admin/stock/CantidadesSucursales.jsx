@@ -121,7 +121,7 @@ const CantidadesSucursales = (props) => {
                 </Row>
                 
             </Col>
-            <Col span={16}>
+            <Col span={16}  style={{border:"1px solid #A9A9A9", padding:"12px", borderRadius:"6px"}}>
                 <Tabs defaultActiveKey="1" items={items} onChange={onChange} />
             </Col>
         </Row>

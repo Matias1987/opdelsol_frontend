@@ -179,7 +179,7 @@ a::before{
   background-color: #E9E9E9
 }*/
 .table-row-light {
-  background-color: #F9F9C5;
+  background-color: #FFFFFF;/*#F9F9C5;*/
 }
 .table-row-dark {
   background-color: #DDFFD4;/*#e7f0fc;*/

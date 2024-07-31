@@ -1,11 +1,12 @@
-import { Button, Col, Row } from "antd";
+import { PrinterFilled } from "@ant-design/icons";
+import { Button, Col, FloatButton, Row } from "antd";
 import React, { useRef } from "react";
 import ReactToPrint from "react-to-print";
 
 export default function PrinterWrapper({ children }) {
     const linkToPrint = () => {
         return (
-            <Button>Imprimir</Button>
+            <FloatButton shape="square" type="primary"  size="small" style={{insetInlineEnd: 24,}}icon={<PrinterFilled />} />
         )
     }
     const page_style = `

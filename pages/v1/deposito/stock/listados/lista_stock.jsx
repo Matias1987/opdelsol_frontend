@@ -379,7 +379,7 @@ export default function ListaStock(){
                 {
                     label:'Búsqueda',
                     key:"1",
-                    children: <div style={{backgroundColor:"lightblue", }}>
+                    children: <div style={{backgroundColor:"rgba(173,216,230,.2)", border:"1px solid rgba(173,216,230,1)" }}>
                         <Row style={{padding:"1em", }}>
                             <Col span={24}>
                                 <Input style={{fontSize:"2.5em", backgroundColor:"#D8E3E6"}} prefix={<><Switch checked={codigoSearch} onChange={(c)=>{setCodigoSearch(!codigoSearch)}} checkedChildren="Código" unCheckedChildren="Grupo" /></>} onChange={e=>{
@@ -390,14 +390,17 @@ export default function ListaStock(){
                     </div>
                 },
                 {
-                    label: 'Adv.',
+                    label: 'Búsqueda Av.',
                     key: '2',
-                    children: <div style={{backgroundColor:"lightblue", padding:".3em"}}>
+                    children: <div style={{backgroundColor:"rgba(173,216,230,.2)", padding:".3em", border:"1px solid rgba(173,216,230,1)"}}>
                     <Form {...{labelCol:{span:5}, wrapperCol:{span:18}}} onFinish={onFinishFiltro} form={form}>
                         <Row >
                             <Col span={6}>
                                 <Form.Item label={"Filtar Por"} name={"tipo_filtro"}>
-                                    <Select  options={[
+                                    <Select 
+                                        
+                                        placeholder="Seleccione..."
+                                    options={[
                                         {label: 'Codigo Contenga a', value: 'codigo_contenga_a'},
                                         {label: 'Codigo Igual a ', value: 'codigo_igual_a'},
                                         {label: 'Precio - Mayor a', value: 'precio_mayor_a'},
@@ -415,7 +418,7 @@ export default function ListaStock(){
                                         {label: 'Familia', value: 'familia'},
                                         {label: 'Grupo Contenga a', value: 'grupo_contenga_a'},
                                     ]} 
-                                    style={{width:"200px"}}
+                                    style={{width:"100%"}}
                                     onChange={(value)=>{
                                         setValue("tipo_filtro",value)
                                         setTipoFitro(value)
@@ -500,7 +503,7 @@ export default function ListaStock(){
             ]}
             />
             <Row style={{backgroundColor:"#D3E1E6"}}>
-                {usuarioDep?
+                {usuarioDep && (selectedSucursal==globals.obtenerSucursal() || selectedSucursal<-1) ?
                 <Col span={4} style={{padding:".5em"}}>
                     <Button onClick={()=>{setOpen(true)}} ><TableOutlined />  Grilla de C&oacute;digos</Button>
                     <Modal 
@@ -513,7 +516,7 @@ export default function ListaStock(){
                             <CodeGrid idsubgrupo={idsubgrupo} width={640} height={480}/>
                     </Modal>
                 </Col>:<></>}
-                {usuarioDep?<Col span={4} style={{padding:".5em"}}>{edit_popup()}</Col>:<></>}
+                {usuarioDep  && (selectedSucursal==globals.obtenerSucursal() || selectedSucursal<-1)?<Col span={4} style={{padding:".5em"}}>{edit_popup()}</Col>:<></>}
                 <Col span={4} style={{padding:".5em"}}>
                     <ExportToCSV parseFnt={()=>{
                         let str = "Familia, SubFamilia, Grupo, Subgrupo, Codigo, Descripcion, Cantidad, Precio,\r\n"

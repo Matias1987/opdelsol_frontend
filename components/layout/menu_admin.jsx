@@ -1,4 +1,4 @@
-import {HomeFilled, StarOutlined, DollarOutlined, MenuOutlined } from "@ant-design/icons";
+import {HomeFilled, StarOutlined, DollarOutlined, MenuOutlined, BoxPlotTwoTone, BoxPlotFilled } from "@ant-design/icons";
 import { Menu } from "antd";
 import { useState } from "react";
 import Link from "next/link"
@@ -25,10 +25,11 @@ const items = [
   {
     label: (<Link href={public_urls.lista_ventas_dia_vendedor}>Ventas D&iacute;a</Link>),
     key: '14',
-    icon: <DollarOutlined />,
+    icon: <StarOutlined />,
   },
   
   {
+    icon: <BoxPlotFilled />,
     label: (<Link href={public_urls.stock_admin}>Stock</Link>),
     key: '16',
   },
@@ -41,7 +42,7 @@ const items = [
     key: '17',
   },*/
   {
-    label: (<BuscarVenta />),
+    label: (<BuscarVenta textButton="Ventas" />),
     key: '404',
   },
   {
@@ -76,5 +77,5 @@ export default function MenuAdminTop(){
     console.log('click ', e);
     setCurrent(e.key);
   };
-  return <Menu style={{backgroundColor:"lightblue"}} onClick={onClick} selectedKeys={[current]} mode="horizontal" items={items} />;
+  return <Menu style={{backgroundColor:"#CCCCE4"/*"lightblue"*/}} onClick={onClick} selectedKeys={[current]} mode="horizontal" items={items} />;
 };

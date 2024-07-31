@@ -111,7 +111,6 @@ import SucursalSelectModal from "@/components/SucursalSelectModal";
       
       if(sucursalSelected)
       {
-        
         procesar_permisos()
       }
      
@@ -279,7 +278,17 @@ import SucursalSelectModal from "@/components/SucursalSelectModal";
     return (
      
 <>
-    <SucursalSelectModal callback={(id)=>{if(id>0){setSucursalSelected(true); setReload(!reload)}}} />
+    <SucursalSelectModal callback={(id)=>{
+      if(globals.esUsuarioAdmin())
+      {
+        setSucursalSelected(true); 
+        setReload(!reload);
+        return;
+      }
+      if(id>0){
+        setSucursalSelected(true); 
+        setReload(!reload)}
+        }} />
     <Card title="" size="small" style={{paddingLeft:"40%", paddingRight:"40%"}} >
         {
         redirecting? <></> : buttons()

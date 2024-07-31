@@ -1,6 +1,6 @@
 import { get } from "@/src/urls"
 import { PrinterFilled, ScissorOutlined } from "@ant-design/icons"
-import { Button, Modal, Spin, Tag } from "antd"
+import { Button, FloatButton, Modal, Spin, Tag } from "antd"
 import Barcode from "react-barcode"
 import ReactToPrint from "react-to-print"
 
@@ -38,7 +38,7 @@ const InformeVentaV2 = (props) => {
 
     const linkToPrint = () => {
         return (
-            <Button disabled={ !(dataLoaded && itemsLoaded && sucursalLoaded && clienteLoaded && mpLoaded) }>Imprimir</Button>
+            <FloatButton type="primary" disabled={ !(dataLoaded && itemsLoaded && sucursalLoaded && clienteLoaded && mpLoaded) } icon={<PrinterFilled />} />
         )
     }
     const page_style = `

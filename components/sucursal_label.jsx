@@ -6,6 +6,10 @@ const SucursalLabel = (props) => {
     const [data,setData] = useState(null)
     
     useEffect(()=>{
+        if(props.idsucursal<0)
+        {
+            return;
+        }
         //get details
         fetch(
             get.sucursal_details  + props.idsucursal

@@ -146,8 +146,8 @@ const VentasTotalesSucursales = (props) => {
         </Col>
         <Col span={14}>
             <Row>
-                <Col span={24}>
-                        <Table dataSource={dataSource} columns={columns} pagination={false} scroll={{y:"600px"}}/>
+                <Col span={24} style={{border:"1px solid #A9A9A9", padding:"12px", borderRadius:"6px"}}>
+                    <Table dataSource={dataSource} columns={columns} pagination={false} scroll={{y:"600px"}}/>
                 </Col>
             </Row>
         </Col>

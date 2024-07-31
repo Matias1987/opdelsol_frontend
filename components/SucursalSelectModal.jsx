@@ -13,6 +13,7 @@ const SucursalSelectModal = (props) => {
     const [sucursales, setSucursales] = useState([])
 
     useEffect(()=>{
+        
         fetch(get.sucursales)
         .then(r=>r.json())
         .then(response=>{
@@ -25,6 +26,13 @@ const SucursalSelectModal = (props) => {
                     }))
                 ]
             )
+
+            if(globals.esUsuarioAdmin())
+            {
+                setSelectedSucursal(-1)
+                props.callback(-1)
+                return;
+            }
 
             if(response.data.length==1)
             {

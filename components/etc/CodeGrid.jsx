@@ -90,7 +90,7 @@ const CodeGrid = (props) => {
     }
 
     const load_ejes_if_any = () => {
-        post_method(post.obtener_grilla_stock,{idsubgrupo: props.idsubgrupo, idsucursal: globals.obtenerSucursal(), eje: "-1"},(response)=>{
+        post_method(post.obtener_grilla_stock,{idsubgrupo: props.idsubgrupo, idsucursal: props.idsucursal, eje: "-1"},(response)=>{
             let t_ejes = {}
             let _ejes = []
             let _min_esf = 9999
@@ -512,7 +512,7 @@ const CodeGrid = (props) => {
                     setPopupEditarStockOpen(false)
                     setReload(!reload )
                     props?.callback?.()
-                }} idcodigo={(selectedCode?.idcodigo||"-1")} idsucursal={globals.obtenerSucursal()} 
+                }} idcodigo={(selectedCode?.idcodigo||"-1")} idsucursal={props.idsucursal} 
                 />
             </Modal>
       
