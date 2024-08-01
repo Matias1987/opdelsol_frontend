@@ -24,7 +24,7 @@ export default function TestMenu(){
           <Menu.Item key="110" ><StarOutlined /> 
                 <Link href={get_url_to("deposito/stock/listados/lista_codigos")}>&nbsp;Lista C&oacute;digos</Link>
           </Menu.Item>
-          <Menu.Item key="107"><Link href={public_urls.editar_precios}><StarOutlined />&nbsp; Editar Precios de SubGrupos</Link></Menu.Item>
+          {/*<Menu.Item key="107"><Link href={public_urls.editar_precios}><StarOutlined />&nbsp; Editar Precios de SubGrupos</Link></Menu.Item>*/}
           <Menu.Item key="13"><Link href={get_url_to("deposito/imprimir_codigos")}><StarOutlined />&nbsp; Imprimir C&oacute;digos</Link></Menu.Item>
           
           <SubMenu key="sub1" title={<span><RocketOutlined /><span>Envios</span></span>}>

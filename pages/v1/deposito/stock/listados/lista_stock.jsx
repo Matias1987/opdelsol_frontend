@@ -154,16 +154,16 @@ export default function ListaStock(){
     const columns = [
         {title: 'Ruta',dataIndex: 'idcodigo',key: 'ruta', render:(_,{familia,subfamilia,grupo,subgrupo, idsubgrupo}) => 
         <Space size={[0, 'small']} wrap>
-            <span style={{fontSize:".25em"}}>
-                <Tag color="success">{familia}</Tag>
-                <Tag color="processing">{subfamilia}</Tag>
-                <Tag color="error"><b>{grupo}</b></Tag>
+            <span style={{fontSize:"1em"}}>
+                <Tag color="success" style={{fontSize:".65em", margin:"0", padding:"1px"}}>{familia}</Tag>
+                <Tag color="processing" style={{fontSize:".65em", margin:"0", padding:"1px"}}>{subfamilia}</Tag>
+                <Tag color="error" style={{fontSize:".65em", margin:"0", padding:"1px"}}><b>{grupo}</b></Tag>
                 <EditarSubgrupo idsubgrupo={idsubgrupo} buttonText={subgrupo} callback={()=>{setValueChanged(!valueChanged)}} />
             </span>
         </Space>},
         {title: 'Codigo',dataIndex: 'codigo',key: 'codigo', render:(_,{codigo})=>
             <>
-            <span style={{fontSize:"1.2em"}}><b>{codigo}</b></span>
+            <span style={{fontSize:"1em"}}><b>{codigo}</b></span>
             </>},
       /*  {title: 'Descripción',dataIndex: 'descripcion',key: 'descripcion'},*/
         

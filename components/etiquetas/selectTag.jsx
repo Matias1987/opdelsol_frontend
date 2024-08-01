@@ -20,7 +20,7 @@ const SelectTag = (props) => {
 
     return <>
             <Row>
-                <Col span={3} style={{fontSize:".75em", paddingTop:".5em"}}>Etiquetas: </Col>
+                <Col span={3} style={{fontSize:"1em", paddingTop:".5em"}}>Etiquetas: </Col>
                 <Col span={21}>
                     
                     <Select 

@@ -99,7 +99,7 @@ const SucursalSelectModal = (props) => {
                     <Select onChange={(v)=>{on_sucursal_selected(v)}} options={sucursales} style={{width:"100%"}} />
                 </Col>
                 <Col span={24}>
-                    <Button disabled={selectedSucursal==null} type="primary" block onClick={()=>{aplicar()}}>Seleccionar</Button>
+                    <Button disabled={selectedSucursal==null || selectedSucursal<0} type="primary" block onClick={()=>{aplicar()}}>Seleccionar</Button>
                 </Col>
             </Row>
         </Modal>
