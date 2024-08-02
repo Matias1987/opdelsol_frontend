@@ -25,7 +25,10 @@ const IVAForm = (props) => {
     </Row>
     <Row>
         <Col span={21}>
-            <Input prefix="Monto: "  onChange={(e)=>{setIva(i=>({...i,monto:parseFloat(e.target.value)}))}}/>
+            <Input 
+            value={parseFloat(iva.monto||"0")}
+            prefix="Monto: "  
+            onChange={(e)=>{setIva(i=>({...i,monto:parseFloat(e.target.value)}))}}/>
         </Col>
     </Row>
     <Row>

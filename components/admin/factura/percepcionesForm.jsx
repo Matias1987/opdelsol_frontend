@@ -9,7 +9,10 @@ const PercepcionesForm = (props) => {
     return <>
     <Row>
         <Col span={24}>
-            <Input prefix="Monto Percepción" onChange={(e)=>{
+            <Input 
+            value={parseFloat(percepcion.monto||"0")}
+            prefix="Monto Percepción" 
+            onChange={(e)=>{
                 setPercepcion(p=>({...p,monto:parseFloat(e.target.value||"0")}))
             }} />
         </Col>

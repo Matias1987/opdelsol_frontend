@@ -10,7 +10,10 @@ const RetencionesForm = (props) => {
     return <>
         <Row style={{padding:"1em"}}>
             <Col span={24}>
-                <Input prefix="Monto Retención: " onChange={(e)=>{
+                <Input 
+                value={parseFloat(retencion.monto||"0")}
+                prefix="Monto Retención: " 
+                onChange={(e)=>{
                     setRetencion(r=>({...r,monto:parseFloat(e.target.value)}))
                 }} />
             </Col>

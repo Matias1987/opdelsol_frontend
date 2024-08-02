@@ -15,9 +15,10 @@ const AgregarFacturaV2 = (props) => {
         iva:[],
         percepciones:[],
         retenciones:[],
-        fkproveedor:-1,
+        fkproveedor:"-1",
         nro:"",
         fecha:"",
+        periodo:"",
         tipo:"A",
         puntoVenta:"",
     })
@@ -33,29 +34,54 @@ const AgregarFacturaV2 = (props) => {
     const [popupPercepcionesOpen, setPopupPercepcionesOpen] = useState(false)
     const [popupIVAopen, setPopupIVAOpen] = useState(false)
     const [proveedores, setProveedores] = useState([])
+
     const columnsIVA = [
         {title:"Tipo", dataIndex:"tipo"},
         {title:"Monto", dataIndex:"monto",},
-        {title:"localid", dataIndex:"id"},
+        /*{title:"localid", dataIndex:"id"},*/
         {render:(_,{id})=><><Button onClick={()=>{
-            setIvaRows(_=>ivaRows.filter(i=>i.id!=id))
+
+            let _rows =  ivaRows.filter(i=>i.id!=id)
+            
+            let _total = calcularTotal(factura,_rows,percepcionRows,retencionRows)
+
+            setFactura(f=>({...f,total:_total}))
+            
+            setIvaRows(_=>_rows)
+        
         }}><CloseCircleTwoTone /></Button></>}
 
     ]
     const columnsPercepcionRows = [
         {title:"Monto", dataIndex:"monto",},
-        {title:"localid", dataIndex:"id"},
+        /*{title:"localid", dataIndex:"id"},*/
         {render:(_,{id})=><><Button onClick={()=>{
-            setPercepcionRows(_=>percepcionRows.filter(i=>i.id!=id))
+
+            let _rows = percepcionRows.filter(i=>i.id!=id)
+
+            let _total = calcularTotal(factura,ivaRows,_rows,retencionRows)
+
+            setFactura(f=>({...f,total:_total}))
+
+            setPercepcionRows(_=>_rows)
+
         }}><CloseCircleTwoTone /></Button></>}
 
     ]
     const columnsRetencionRows = [
         {title:"Monto", dataIndex:"monto",},
         {title:"Detalle", dataIndex:"tipo",},
-        {title:"localid", dataIndex:"id"},
+       /* {title:"localid", dataIndex:"id"},*/
         {render:(_,{id})=><><Button onClick={()=>{
-            setRetencionRows(_=>retencionRows.filter(i=>i.id!=id))
+
+            let _rows = retencionRows.filter(i=>i.id!=id)
+
+            let _total = calcularTotal(factura,ivaRows,percepcionRows,_rows)
+
+            setFactura(f=>({...f,total:_total}))
+
+            setRetencionRows(_=>_rows)
+
         }}><CloseCircleTwoTone /></Button></>}
 
     ]
@@ -64,20 +90,34 @@ const AgregarFacturaV2 = (props) => {
         fetch(get.lista_proveedores)
         .then(r=>r.json())
         .then((response)=>{
-            setProveedores(response.data.map(r=>({value:r.idproveedor, label:r.nombre})))
+            setProveedores(
+                [   ...[{value:"-1", label:"Seleccione..."}],
+                    ...response.data.map(r=>({value:r.idproveedor, label:r.nombre}))
+                ]
+            )
         })
     },[reload])
 
     const onProveedorChange = (v)=> {
-    setFactura(f=>({...f,fkproveedor:v}))        
+    
+        setFactura(f=>({...f,fkproveedor:v}))        
+    
     }
 
     const onConceptosNoGravadosChange = (v)=>{
-        setFactura(f=>({...f,conceptosNoGravados:v}))
+        let temp = {...factura, conceptosNoGravados:v}
+
+        let total = calcularTotal(temp, ivaRows, percepcionRows, retencionRows)
+
+        setFactura(f=>({...f,conceptosNoGravados:v, total:total}))
     }
 
     const onImpuestosInternosChange = (v) =>{
-        setFactura(f=>({...f,impuestosInternos:v}))
+        let temp = {...factura, impuestosInternos:v}
+
+        let total = calcularTotal(temp, ivaRows, percepcionRows, retencionRows)
+
+        setFactura(f=>({...f,impuestosInternos:v, total:total}))
     }
 
     const onNroChange = (v) => {
@@ -99,14 +139,35 @@ const AgregarFacturaV2 = (props) => {
             percepciones: percepcionRows,
             retenciones: retencionRows,
         }
-
+        console.log(JSON.stringify(data))
         alert(JSON.stringify(data))
     }
 
+    const onChange = (idx, value) => {
+        setFactura(f=>({...f,[idx]:value}))
+    }
 
-    const tablaIVA = () => <Table pagination={false} title={() => <>IVA <Button onClick={()=>{setPopupIVAOpen(true)}}><PlusCircleFilled /></Button></>} columns={columnsIVA} dataSource={ivaRows} scroll={{y:"150px"}} />
-    const tablaPercepcion = () => <Table  pagination={false} title={() => <>Percepciones <Button onClick={()=>{setPopupPercepcionesOpen(true)}}><PlusCircleFilled /></Button></>}  columns={columnsPercepcionRows} dataSource={percepcionRows} scroll={{y:"150px"}} />
-    const tablaRetencion = () => <Table  pagination={false} title={() => <>Retenciones <Button onClick={()=>{setPopupRetencionesOpen(true)}}><PlusCircleFilled /></Button></>}  columns={columnsRetencionRows} dataSource={retencionRows} scroll={{y:"150px"}} />
+    const calcularTotal = (_factura, _ivarows, _percepcionesrows, _retencionesrows) => {
+        let totalIVA = 0;
+        let totalPercepciones = 0;
+        let totalRetenciones = 0;
+
+        _ivarows.forEach(i=>{totalIVA+=parseFloat(i.monto)})
+        _percepcionesrows.forEach(i=>{totalPercepciones+=parseFloat(i.monto)})
+        _retencionesrows.forEach(i=>{totalRetenciones+=parseFloat(i.monto)})
+        
+        return parseFloat(_factura.conceptosNoGravados) + 
+        parseFloat(_factura.impuestosInternos) + 
+        parseFloat(totalIVA) + 
+        parseFloat(totalPercepciones) + 
+        parseFloat(totalRetenciones)
+
+    }
+
+
+    const tablaIVA = () => <Table locale={{emptyText:" "}} pagination={false} title={() => <>IVA <Button onClick={()=>{setPopupIVAOpen(true)}}><PlusCircleFilled /></Button></>} columns={columnsIVA} dataSource={ivaRows} scroll={{y:"150px"}} />
+    const tablaPercepcion = () => <Table locale={{emptyText:" "}} pagination={false} title={() => <>Percepciones <Button onClick={()=>{setPopupPercepcionesOpen(true)}}><PlusCircleFilled /></Button></>}  columns={columnsPercepcionRows} dataSource={percepcionRows} scroll={{y:"150px"}} />
+    const tablaRetencion = () => <Table locale={{emptyText:" "}} pagination={false} title={() => <>Retenciones <Button onClick={()=>{setPopupRetencionesOpen(true)}}><PlusCircleFilled /></Button></>}  columns={columnsRetencionRows} dataSource={retencionRows} scroll={{y:"150px"}} />
     const _rows_style = {setPopupRetencionesOpen:"1em"}
     return <>
     <FloatButton shape="square" icon={<SaveFilled />} onClick={onSave} />
@@ -131,13 +192,13 @@ const AgregarFacturaV2 = (props) => {
             Fecha:
         </Col>
         <Col span={10}>
-            <DatePicker />
+            <DatePicker format={"DD-MM-YYYY"} onChange={(value)=>{onChange("fecha", value.format("DD-MM-YYYY"))}}/>
         </Col>
         <Col span={2}>
             Periodo:
         </Col>
         <Col span={10}>
-            <DatePicker />
+            <DatePicker format={"DD-MM-YYYY"} onChange={(value)=>{onChange("periodo", value.format("DD-MM-YYYY"))}}/>
         </Col>
     </Row>
     <Row style={_rows_style}>
@@ -185,20 +246,21 @@ const AgregarFacturaV2 = (props) => {
     </Row>
     <Row style={_rows_style}>
         <Col span={24}>
-            <Input prefix="Conceptos no Gravados: " value={factura.conceptosNoGravados} onChange={(e)=>{onConceptosNoGravadosChange(e.target.value)}} />
+            <Input prefix="Conceptos no Gravados: " value={parseFloat(factura.conceptosNoGravados||"0")} onChange={(e)=>{onConceptosNoGravadosChange(e.target.value||"0")}} allowClear/>
         </Col>
     </Row>
     <Row style={_rows_style}>
         <Col span={24}>
-            <Input prefix="Impuestos Internos: " value={factura.impuestosInternos} />
+            <Input prefix="Impuestos Internos: " value={parseFloat(factura.impuestosInternos||"0")} onChange={(e)=>{onImpuestosInternosChange(e.target.value||"0")}} allowClear/>
         </Col>
     </Row>
     <Row style={_rows_style}>
         <Col span={24}>
-            <Input prefix="Monto Total: " readOnly value={factura.total} />
+            <Input prefix="Monto Total: " readOnly value={parseFloat(factura.total||"0")} />
         </Col>
     </Row>
-    <Modal 
+    <Modal
+    destroyOnClose 
     width={"80%"}
     title="Agregar Percepcion" 
     open={popupPercepcionesOpen} 
@@ -206,7 +268,12 @@ const AgregarFacturaV2 = (props) => {
     onCancel={()=>{setPopupPercepcionesOpen(false)}}
         >
         <PercepcionesForm callback={(n)=>{ 
-            setPercepcionRows(p=>[...p,{...n, id:localIdx}]); 
+            let _rows = [...percepcionRows,{...n, id:localIdx}]
+
+            let total = calcularTotal(factura, ivaRows,_rows,retencionRows)
+            setFactura(f=>({...f,total:total}))
+
+            setPercepcionRows(_rows);
             setLocalIdx(localIdx+1); 
             setPopupPercepcionesOpen(false)
             setReload(!reload)
@@ -216,6 +283,7 @@ const AgregarFacturaV2 = (props) => {
             />
     </Modal>
     <Modal 
+    destroyOnClose
     width={"80%"}
     title="Agregar Retencion" 
     open={popupRetencionesOpen} 
@@ -223,7 +291,12 @@ const AgregarFacturaV2 = (props) => {
     onCancel={()=>{setPopupRetencionesOpen(false)}}
         >
         <RetencionesForm callback={(n)=>{ 
-            setRetencionRows(r=>[...r,{...n, id:localIdx}]); 
+            let _rows = [...retencionRows,{...n, id:localIdx}]
+
+            let total = calcularTotal(factura, ivaRows,percepcionRows,_rows)
+            setFactura(f=>({...f,total:total}))
+
+            setRetencionRows(_rows); 
             setLocalIdx(localIdx+1);
             setPopupRetencionesOpen(false) 
             setReload(!reload)
@@ -232,6 +305,7 @@ const AgregarFacturaV2 = (props) => {
             />
     </Modal>
     <Modal 
+    destroyOnClose
     width={"80%"}
     title="Agregar IVA" 
     open={popupIVAopen} 
@@ -239,7 +313,12 @@ const AgregarFacturaV2 = (props) => {
     onCancel={()=>{setPopupIVAOpen(false)}}
         >
         <IVAForm callback={(n)=>{ 
-            setIvaRows(i=>[...i,{...n, id:localIdx}]); 
+            let _rows = [...ivaRows,{...n, id:localIdx}]
+
+            let total = calcularTotal(factura, _rows,percepcionRows,retencionRows)
+            setFactura(f=>({...f,total:total}))
+
+            setIvaRows(_rows); 
             setLocalIdx(localIdx+1); 
             setPopupIVAOpen(false)
             setReload(!reload)
