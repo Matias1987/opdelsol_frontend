@@ -4,7 +4,8 @@ import { useEffect, useState } from "react";
 import PercepcionesForm from "./percepcionesForm";
 import RetencionesForm from "./retencionesForm";
 import IVAForm from "./ivaForm";
-import { get } from "@/src/urls";
+import { get, post } from "@/src/urls";
+import { post_method } from "@/src/helpers/post_helper";
 
 const AgregarFacturaV2 = (props) => {
     
@@ -141,6 +142,9 @@ const AgregarFacturaV2 = (props) => {
         }
         console.log(JSON.stringify(data))
         alert(JSON.stringify(data))
+        post_method(post.insert.factura,data,(resp)=>{
+            alert("OK")
+        })
     }
 
     const onChange = (idx, value) => {

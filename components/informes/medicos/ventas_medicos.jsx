@@ -27,6 +27,7 @@ const VentasMedicos = (props) => {
     })
     const columns = [
         {dataIndex: "idventa",  title: "Nro. Op."},
+        {dataIndex: "fecha_retiro",  title: "Fecha Retiro"},
         {dataIndex: "sucursal",  title: "Sucursal"},
         {dataIndex: "cliente",  title: "Cliente"},
         {dataIndex: "dni",  title: "DNI"},
@@ -81,6 +82,8 @@ const VentasMedicos = (props) => {
             })
             setTotal(_total)
 
+            //alert(JSON.stringify(response))
+
             setDataSource(
                 response.data.map(r=>({
                     idventa: r.idventa,
@@ -89,6 +92,7 @@ const VentasMedicos = (props) => {
                     tipo: r.tipo,
                     monto: r.monto_total,
                     sucursal: r.sucursal,
+                    fecha_retiro:r.fecha_retiro_f,
                 }))
             )
         }) 
@@ -117,9 +121,9 @@ const VentasMedicos = (props) => {
                     let str = ""
                     str+=`MES:;${props.mes}; ANIO:;${props.anio}; ;\r\n`
                     str+=`MEDICO:;${props?.nombre_medico};;;;\r\n`
-                    str+="NRO. VTA.; CLIENTE; DNI;  TIPO; SUCURSAL; MONTO\r\n"
+                    str+="NRO. VTA.; FECHA RETIRO; CLIENTE; DNI;  TIPO; SUCURSAL; MONTO\r\n"
                     dataSource.forEach(r=>{
-                        str+=`${r.idventa};${r.cliente};${r.dni};${r.tipo};${r.sucursal};${r.monto}\r\n`
+                        str+=`${r.idventa};${r.fecha_retiro};${r.cliente};${r.dni};${r.tipo};${r.sucursal};${r.monto}\r\n`
                     })
                     return str
                 }}
