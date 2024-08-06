@@ -3,12 +3,12 @@
 //const local_base_url = "http://54.174.39.15:3000/v1/"
 
 //TEST
-const remote_base_url = "http://54.174.39.15:3002/api/v1/"
-const local_base_url = "http://54.174.39.15:3003/v1/"
+//const remote_base_url = "http://54.174.39.15:3002/api/v1/"
+//const local_base_url = "http://54.174.39.15:3003/v1/"
 
 //LOCAL
-//const remote_base_url = "http://localhost:3001/api/v1/"
-//const local_base_url = "http://localhost:3000/v1/"
+const remote_base_url = "http://localhost:3001/api/v1/"
+const local_base_url = "http://localhost:3000/v1/"
 
 //const remote_base_url = "https://2a7b-186-123-181-180.ngrok-free.app/api/v1/";// "http://172.31.176.1:3001/api/v1/" //
 //const local_base_url =  "https://clever-mice-tap.loca.lt/v1/"
@@ -145,6 +145,8 @@ const post = {
     ficha_proveedor: remote_base_url + "proveedores/prov/ficha/",
 
     user_credentials: remote_base_url + "usuarios/perm/u/s/",
+
+    obtener_factura_por_nro: remote_base_url + "facturas/detalle/factura/nro",
 
     search:{
         filtro_stock: remote_base_url + "stock/filtro_stock/",

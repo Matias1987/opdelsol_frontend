@@ -1,6 +1,8 @@
 
 import CantidadesSucursales from "@/components/admin/stock/CantidadesSucursales";
+import EditarCodesTree from "@/components/admin/stock/EditarCodesTree";
 import VentasTotalesSucursales from "@/components/admin/stock/VentasTotalesSucursales";
+import CodesTree from "@/components/CodesTree";
 import LayoutAdmin from "@/components/layout/layout_admin";
 import {Row, Col, Select, Tabs} from "antd";
 
@@ -24,11 +26,11 @@ export default function StockSucursalAdmin(){
             key: "2",
             children:  <MovimientosPeriodoSucursales idsucursal={selectedSucursal}  />
         },*/
-        /*{
-            label:"Controles de Stock",
+        {
+            label:"Arból de Códigos",
             key: "4",
-            children:  <ListadoControles  />
-        },*/
+            children:  <EditarCodesTree  />
+        },
     ]
     
     return <>

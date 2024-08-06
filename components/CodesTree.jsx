@@ -2,23 +2,27 @@ import { get } from "@/src/urls";
 import { useEffect, useState } from "react";
 import GrillaCristales from "./informes/GrillaCristales";
 
-import { CarryOutOutlined, FormOutlined, TableOutlined }  from "@ant-design/icons";
+import { CarryOutOutlined,  EditFilled,  TableOutlined }  from "@ant-design/icons";
 import { Tree, Row, Col, Table, Divider, Button, Modal }  from "antd";
+import EditarCodigo from "@/pages/v1/deposito/stock/editar_codigo";
+import EditarCodigoIndiv from "./forms/deposito/EditarCodigoIndiv";
 
 
 
-const CodesTree = () => {
+const CodesTree = (props) => {
 
   const [treeData, setTreeData] = useState();
   const [dataSource, setDataSource] = useState([])
   const [seleccion,  setSeleccion] = useState(null)
-  const [gridPopupOpen, setGridPopupOpen] = useState(false)
+  const [popupEditCodigoOpen, setPopupEditCodigoOpen] = useState(false)
+  const [codigoSeleccion, setCodigoSeleccion] = useState(-1)
+  //const [gridPopupOpen, setGridPopupOpen] = useState(false)
   useEffect(()=>{
-    //alert(get.stock_full)
+   
     fetch(get.stock_full)
     .then(response=>response.json())
     .then((response)=>{
-      //alert(JSON.stringify(response.data))
+      
       process_tree(response.data)
     })
     .catch(err=>{console.log(err)})
@@ -58,20 +62,18 @@ const CodesTree = () => {
       }
     })
     
-    //console.log(JSON.stringify(data));
-    //alert(JSON.stringify(tree))
+   
     setTreeData(tree)
   }
   
   const onSelect = (selectedKeys, info) => {
-    console.log('selected', selectedKeys, info);
+    props?.callback?.(info.node.type, info.node.id)
     setSeleccion({
       tipo: info.node.type,
       id:info.node.id,
     })
     if(info.node.type=='subgrupo')
     {
-      //alert(get.lista_codigos_categoria + `${-1}/${-1}/${-1}/${info.node.idsubgrupo}/-1`)
       fetch(get.lista_codigos_categoria + `${-1}/${-1}/${-1}/${info.node.idsubgrupo}/-1`)
       .then(response=>response.json())
       .then((response)=>{
@@ -81,6 +83,7 @@ const CodesTree = () => {
               codigo: r.codigo,
               descripcion: r.descripcion,
               idcodigo: r.idcodigo,
+              precio:r.precio
             })
           )
          )
@@ -91,46 +94,40 @@ const CodesTree = () => {
   
   return (
     <>
-    <Row>
+    {<Row>
       <Col>
       {
-        seleccion==null?<></>:<>
-          <h5>Tipo:&nbsp;<b>{seleccion.tipo}</b>&nbsp;&nbsp;&nbsp;ID:&nbsp;<b>{seleccion.id}</b></h5> 
-          <Button onClick={()=>{setGridPopupOpen(true)}}><TableOutlined /></Button>
-          <Modal
-          
-          width={"80%"}
-            onCancel={()=>{setGridPopupOpen(false)}}
-            open={gridPopupOpen}
-          >
-            <GrillaCristales id={seleccion.id} categoria={seleccion.tipo} key={seleccion.id} />
-          </Modal>
-          <Divider />
-        </>
+        seleccion==null?<></>:<div style={{padding:"1em"}}>
+          <i style={{color:"#555555", fontSize:".9em"}} >Tipo:&nbsp;<b>{seleccion.tipo.toUpperCase()}</b>&nbsp;&nbsp;&nbsp;ID:&nbsp;<b>{seleccion.id}</b></i> 
+  
+        </div>
       }
       </Col>
-    </Row>
+    </Row>}
     <Row>
-      <Col span={12} style={{overflowY: "scroll", height: "600px"}}>
-      <Tree
-        showLine={true}
-        showIcon={true}
-        defaultExpandedKeys={['2']}
-        onSelect={onSelect}
-        treeData={treeData}
-      />
+      <Col span={12} style={{overflowY: "scroll", height: "600px", padding:"1em"}}>
+        <Tree
+          style={{backgroundColor:"lightyellow", fontWeight:"bold", color:"#000D9D"}}
+          showLine={true}
+          showIcon={true}
+          defaultExpandedKeys={['2']}
+          onSelect={onSelect}
+          treeData={treeData}
+        />
       </Col>
       <Col span={12}>
         <Table 
         dataSource={dataSource}
         columns={[
-          {dataIndex:'codigo', title:'Codigo'},
-          {dataIndex:'descripcion', title:'Descripción'},
-        
-        ]}
+          {dataIndex:'codigo', title:'Codigo', visible:true},
+          {dataIndex:'descripcion', title:'Descripción', visible:true},
+          {dataIndex:'precio', title:'Precio', visible:true},
+          {render:(_,{idcodigo})=><><EditarCodigoIndiv  buttonText={<><EditFilled /></>} idcodigo={idcodigo} callback={()=>{setPopupEditCodigoOpen(false)}} /></>, visible:true}
+        ].filter(r=>r.visible)}
         />
       </Col>
     </Row>
+    
     </>
   );
 };

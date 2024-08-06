@@ -23,7 +23,7 @@ const AgregarFacturaV2 = (props) => {
         tipo:"A",
         puntoVenta:"",
     })
-
+    const [loading, setLoading] = useState(false)
     const [reload, setReload] = useState(false)
 
     const [ivaRows, setIvaRows] = useState([])
@@ -174,7 +174,7 @@ const AgregarFacturaV2 = (props) => {
     const tablaRetencion = () => <Table locale={{emptyText:" "}} pagination={false} title={() => <>Retenciones <Button onClick={()=>{setPopupRetencionesOpen(true)}}><PlusCircleFilled /></Button></>}  columns={columnsRetencionRows} dataSource={retencionRows} scroll={{y:"150px"}} />
     const _rows_style = {setPopupRetencionesOpen:"1em"}
     return <>
-    <FloatButton shape="square" icon={<SaveFilled />} onClick={onSave} />
+    <FloatButton shape="square" icon={<SaveFilled />} onClick={onSave}/>
     <Row style={_rows_style}>
         <Col span={3}>
             Proveedor

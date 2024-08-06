@@ -22,8 +22,8 @@ const EditarSubgrupo = (props) => {
             })
     }
     return <>
-        <Button style={{fontSize:".75em", maxWidth:"90px", padding:"1px", overflow:"hidden", wordBreak:"break-all", wordWrap:"break-word", height:"auto", textAlign:"center"}} disabled={!globals.esUsuarioDeposito()} danger size="small" onClick={()=>{setOpen(true); setPrecio(0); }  }>{props.buttonText}</Button>
-        <Modal destroyOnClose footer={null} title={`Editar Subgrupo ${props.buttonText}`} open={open} onCancel={()=>{setOpen(false)}}>
+        <Button style={{fontSize:".75em", maxWidth:"90px", padding:"1px", overflow:"hidden", wordBreak:"break-all", wordWrap:"break-word", height:"auto", textAlign:"center"}} disabled={!globals.esUsuarioDeposito()&&!globals.esUsuarioAdmin()} danger size="small" onClick={()=>{setOpen(true); setPrecio(0); }  }>{props.buttonText}</Button>
+        <Modal destroyOnClose footer={null} title={`Editar Subgrupo ${props.title||" "}`} open={open} onCancel={()=>{setOpen(false)}}>
             <Row>
                 <Col span={24}>
                     
