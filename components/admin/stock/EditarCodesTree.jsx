@@ -3,8 +3,8 @@ import CodeGrid from "@/components/etc/CodeGrid";
 import EditarSubGrupo from"@/components/forms/deposito/EditarSubgrupo";
 import EditarCodigo from "@/pages/v1/deposito/stock/editar_codigo";
 import { EditFilled, GroupOutlined } from "@ant-design/icons";
-import { Button, Col, Row } from "antd";
-import Modal from "antd/es/modal/Modal";
+import { Button, Col, Modal, Row } from "antd";
+
 import { useState } from "react";
 
 const EditarCodesTree = (props) => {

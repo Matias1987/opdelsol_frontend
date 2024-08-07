@@ -2,7 +2,6 @@
 import CantidadesSucursales from "@/components/admin/stock/CantidadesSucursales";
 import EditarCodesTree from "@/components/admin/stock/EditarCodesTree";
 import VentasTotalesSucursales from "@/components/admin/stock/VentasTotalesSucursales";
-import CodesTree from "@/components/CodesTree";
 import LayoutAdmin from "@/components/layout/layout_admin";
 import {Row, Col, Select, Tabs} from "antd";
 

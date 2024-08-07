@@ -148,6 +148,8 @@ const post = {
 
     obtener_factura_por_nro: remote_base_url + "facturas/detalle/factura/nro",
 
+    obtener_subfamilias_de_familias: remote_base_url + "subfamilia/obtener/subfamilias/familias/",
+
     search:{
         filtro_stock: remote_base_url + "stock/filtro_stock/",
     },
