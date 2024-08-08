@@ -15,7 +15,7 @@ const EditarCodesTree = (props) => {
     
     const _subgrupo_options =_=> <>
     <Row>
-        <Col span={6}><EditarSubGrupo callback={()=>{setReload(!reload)}} idsubgrupo={seleccion.id} buttonText={<><EditFilled />&nbsp;&nbsp;Editar Subgrupo&nbsp;</> } title={seleccion.id} /></Col>
+        <Col span={6}><EditarSubGrupo readOnly={false} callback={()=>{setReload(!reload)}} idsubgrupo={seleccion.id} buttonText={<><EditFilled />&nbsp;&nbsp;Editar Subgrupo&nbsp;</> } title={seleccion.id} /></Col>
     </Row>
     </>
     const _codigo_options =_=> <Row>

@@ -10,7 +10,7 @@ const ListaPrecios = (props) => {
 
     const [grupos, setGrupos] = useState([])
 
-    const [selectedFamilia, setSelectedFamilia] = useState(-1)
+    const [selectedFamilia, setSelectedFamilia] = useState({nombre:"", id:-1})
 
     const [loading, setLoading] = useState(false)
 
@@ -27,10 +27,10 @@ const ListaPrecios = (props) => {
         )
     },[])
 
-    const onSubfamiliaClick = (idsf) => {
+    const onSubfamiliaClick = (idsf, nombre) => {
         
         setLoading(true)
-        setSelectedFamilia(idsf)
+        setSelectedFamilia(_=>({nombre:nombre, id:idsf}))
         console.log(get.optionsforsubfamilia + idsf)
         fetch(get.optionsforsubfamilia + idsf)
         .then(r=>r.json())
@@ -46,6 +46,11 @@ const ListaPrecios = (props) => {
     return <> 
     <Row>
         <Col span={18}>
+            <Row>
+                <Col span={24} style={{padding:"1em", fontWeight:"bold", backgroundColor:"#FAFAFA", color:"black", borderRadius:"6px", textAlign:"center"}}>
+                    {selectedFamilia.nombre}
+                </Col>
+            </Row>
             <Row key={fix}>
                 {
                     grupos.map(g=><ListaPreciosGrupo nombre={g.nombre} idgrupo={g.id} />)
@@ -54,9 +59,12 @@ const ListaPrecios = (props) => {
             </Row>  
         </Col>
         <Col span={6}>
-            <Table dataSource={subfamilias} columns={
+            <Table 
+            rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'}
+            dataSource={subfamilias} 
+            columns={
                 [
-                    {dataIndex:"nombre", render:(_,obj)=><Button disabled={loading} type="link" onClick={()=>{onSubfamiliaClick(obj.id)}}>{obj.nombre}</Button>}
+                    {title:"Categorías", dataIndex:"nombre", render:(_,obj)=><Button disabled={loading} type="link" onClick={()=>{onSubfamiliaClick(obj.id,obj.nombre)}}>{obj.nombre}</Button>}
                 ] 
                 }
                 pagination={false} 

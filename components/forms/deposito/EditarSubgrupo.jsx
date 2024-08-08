@@ -1,18 +1,36 @@
 import globals from "@/src/globals"
 import { post_method } from "@/src/helpers/post_helper"
-import { post } from "@/src/urls"
+import { get, post } from "@/src/urls"
 import { Row, Col, Input, Button, Modal } from "antd"
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import SubGrupoFormV3 from "./SubgrupoFormV3"
 
 const EditarSubgrupo = (props) => {
     const [open, setOpen] = useState(false)
-    const [precio, setPrecio] = useState(0)
-    const actualizar = () => {
 
+    /*useEffect(()=>{
+        
+    },[])
+
+    const load = () => {
+        fetch(get.obtener_detalle_subgrupo + props.idsubgrupo)
+        .then(r=>r.json())
+        .then((response)=>{
+            
+            setPrecio(response.data[0].precio_defecto)
+            setComentarios(response.data[0].comentarios)
+            setNombreCorto(response.data[0].nombre_corto)
+            setNombreLargo(response.data[0].nombre_largo)
+        })
+        .catch(e=>{console.log("error")})
+    }
+
+    const actualizar = () => {
         post_method(post.update.subgrupo_2,
             {
                 idsubgrupo: props.idsubgrupo,
-                precio_defecto: precio
+                precio_defecto: precio,
+                comentarios: comentarios,
             },
             (resp)=>{
                 alert("Ok")
@@ -20,27 +38,18 @@ const EditarSubgrupo = (props) => {
                 props?.callback?.()
                 setOpen(false)
             })
-    }
+    }*/
     return <>
-        <Button style={{fontSize:".75em", maxWidth:"90px", padding:"1px", overflow:"hidden", wordBreak:"break-all", wordWrap:"break-word", height:"auto", textAlign:"center"}} disabled={!globals.esUsuarioDeposito()&&!globals.esUsuarioAdmin()} danger size="small" onClick={()=>{setOpen(true); setPrecio(0); }  }>{props.buttonText}</Button>
+        <Button 
+        style={{fontSize:".75em", maxWidth:"90px", padding:"1px", overflow:"hidden", wordBreak:"break-all", wordWrap:"break-word", height:"auto", textAlign:"center"}} 
+        disabled={!globals.esUsuarioDeposito()&&!globals.esUsuarioAdmin()} 
+        danger 
+        size="small" 
+        onClick={()=>{ setOpen(true); }  }>
+            {props.buttonText}
+        </Button>
         <Modal destroyOnClose footer={null} title={`Editar Subgrupo ${props.title||" "}`} open={open} onCancel={()=>{setOpen(false)}}>
-            <Row>
-                <Col span={24}>
-                    
-                </Col>
-            </Row>
-            <Row>
-                <Col span={24}>
-                    <Input prefix="Precio Defecto" type="number" value={precio} onChange={(e)=>{
-                        setPrecio(p=>parseFloat(e.target.value))
-                    }} />
-                </Col>
-            </Row>
-            <Row style={{padding:"1em"}}>
-                <Col span={24}>
-                    <Button type="primary" block onClick={actualizar}>Aplicar</Button>
-                </Col>
-            </Row>
+            <SubGrupoFormV3 idsubgrupo={props.idsubgrupo} callback={()=>{props?.callback?.()}} />
         </Modal>
     </>
 }

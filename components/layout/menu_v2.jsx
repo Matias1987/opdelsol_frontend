@@ -8,6 +8,8 @@ import { useState, useEffect }  from "react";
 import Link from "next/link"
 import { public_urls } from "@/src/urls";
 import globals from "@/src/globals";
+import CustomModal from "../CustomModal";
+import ListaPrecios from "../lista_precios/listaPrecios";
 
 
 
@@ -169,7 +171,7 @@ useEffect(()=>{
    if(globals.esUsuarioCaja1() || globals.esUsuarioVentas()){
     items.push(
       {
-      label: (<Link href={globals.esUsuarioCaja1() ? public_urls.lista_clientes_caja : public_urls.lista_clientes_ventas}>Clientes</Link>),
+      label: (<Link href={globals.esUsuarioCaja1() ? public_urls.lista_clientes_caja : public_urls.lista_clientes_ventas}>Clientes...</Link>),
       key: '11',
       icon: <StarOutlined />,
     },
@@ -179,6 +181,13 @@ useEffect(()=>{
     }
     )
    }
+    
+   items.push( 
+      {
+        label: (<CustomModal openButtonText="Lista de Precios" type="primary"><ListaPrecios /></CustomModal>),
+        key: '1001'
+      }
+    )
 
    setItemsMenu(items)
   },[])

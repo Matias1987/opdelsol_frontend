@@ -2,7 +2,7 @@ import { get } from "@/src/urls";
 import { useEffect, useState } from "react";
 import GrillaCristales from "./informes/GrillaCristales";
 
-import { CarryOutOutlined,  EditFilled,  TableOutlined }  from "@ant-design/icons";
+import { CarryOutOutlined,  EditFilled,  ReloadOutlined,  TableOutlined }  from "@ant-design/icons";
 import { Tree, Row, Col, Table, Divider, Button, Modal }  from "antd";
 import EditarCodigo from "@/pages/v1/deposito/stock/editar_codigo";
 import EditarCodigoIndiv from "./forms/deposito/EditarCodigoIndiv";
@@ -14,19 +14,27 @@ const CodesTree = (props) => {
   const [treeData, setTreeData] = useState();
   const [dataSource, setDataSource] = useState([])
   const [seleccion,  setSeleccion] = useState(null)
+  const [loading, setLoading] = useState(false)
   const [popupEditCodigoOpen, setPopupEditCodigoOpen] = useState(false)
   const [codigoSeleccion, setCodigoSeleccion] = useState(-1)
   //const [gridPopupOpen, setGridPopupOpen] = useState(false)
+  const [reload, setReload] = useState(false)
   useEffect(()=>{
-   
+    load()
+  },[])
+
+  const load = () => {
+    setLoading(true)
+
     fetch(get.stock_full)
     .then(response=>response.json())
     .then((response)=>{
       
       process_tree(response.data)
+      setLoading(false)
     })
     .catch(err=>{console.log(err)})
-  },[])
+  }
 
   const process_tree = (data) => {
 
@@ -95,7 +103,10 @@ const CodesTree = (props) => {
   return (
     <>
     {<Row>
-      <Col>
+      <Col span={2} style={{padding:"1em"}}>
+        <Button size="small" type="text" disabled={loading} onClick={()=>{setReload(!reload)}}><ReloadOutlined /> Recargar</Button>
+      </Col>
+      <Col span={6}>
       {
         seleccion==null?<></>:<div style={{padding:"1em"}}>
           <i style={{color:"#555555", fontSize:".9em"}} >Tipo:&nbsp;<b>{seleccion.tipo.toUpperCase()}</b>&nbsp;&nbsp;&nbsp;ID:&nbsp;<b>{seleccion.id}</b></i> 
@@ -103,10 +114,13 @@ const CodesTree = (props) => {
         </div>
       }
       </Col>
+      <Col span={12}>
+      </Col>
     </Row>}
     <Row>
       <Col span={12} style={{overflowY: "scroll", height: "600px", padding:"1em"}}>
         <Tree
+          key={reload}
           style={{backgroundColor:"lightyellow", fontWeight:"bold", color:"#000D9D"}}
           showLine={true}
           showIcon={true}
