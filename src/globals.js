@@ -94,12 +94,13 @@ const globals =  {
     },
 
 
-    obtenerCajaAsync: (callback) => {
-        const {setItem} = useStorage();
+    obtenerCajaAsync: (callback, avoidOutdated=true) => {
+       
         fetch(get.caja+globals.obtenerSucursal())
         .then(response=>response.json())
         .then((response)=>{
             //alert(JSON.stringify(response))
+            const {setItem} = useStorage();
             if(response.data.status=='OK')
             {
                 //check if the 'caja' is old
@@ -108,8 +109,11 @@ const globals =  {
                 let today = new Date()
                 today.setHours(0,0,0,0);
 
-                if(_date < today){
+                if(_date < today && avoidOutdated){
                     alert("<!> Caja abierta de " + response.data.fecha_f)
+                    callback(null)
+                    setItem("caja", 0);
+                    return
                 }
 
                 callback(response.data)

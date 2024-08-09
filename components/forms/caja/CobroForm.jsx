@@ -278,7 +278,7 @@ export default function CobroOperacion(props){
 
             if(response==null)
             {
-                alert("Caja cerrada")
+                alert("Caja cerrada o desactualizada.")
                 setCobrarDisabled(false)
                 return;
             }

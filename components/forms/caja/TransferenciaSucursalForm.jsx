@@ -23,7 +23,7 @@ const TransferenciaSucursalForm = (props) => {
 
             if(data==null)
             {
-                alert("Caja Cerrada")
+                alert("Caja Cerrada o Desactualizada")
                 return;
             }
 

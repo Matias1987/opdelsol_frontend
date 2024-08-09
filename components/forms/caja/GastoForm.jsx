@@ -43,7 +43,7 @@ const GastoForm = (props) => {
         //alert(JSON.stringify(values))
         globals.obtenerCajaAsync((result)=>{
             if(result==null){
-                alert("Caja Cerrada")
+                alert("Caja Cerrada o Desactualizada")
                 setEnabled(true)
                 return;
             }

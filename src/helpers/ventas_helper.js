@@ -171,7 +171,7 @@ const submit_venta = (v, productos,total,subTotal, tipo_vta, validate_items, cal
 
         if(result===null)
         {
-            alert("Caja cerrada")
+            alert("Caja cerrada o Desactualizada")
             callbackOnFailValidation?.()
             return false;
         }

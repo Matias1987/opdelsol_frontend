@@ -26,7 +26,7 @@ export default function panelCajaAdmin(){
             {
                 setCaja(null)
             }
-        })
+        },false)
     },[reload])
 
     const cerrar_caja = () => {

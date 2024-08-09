@@ -34,7 +34,7 @@ const CargaManual = (props) => {
        }
        globals.obtenerCajaAsync(c=>{
         if(c==null){
-            alert("Caja Cerrada")
+            alert("Caja Cerrada o Desactualizada")
             setBtnEnabled(true)
             return
         }
