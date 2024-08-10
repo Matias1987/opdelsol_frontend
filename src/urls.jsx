@@ -92,6 +92,8 @@ const public_urls = {
     admin_medicos: local_base_url + "admin/lista_medicos",
     admin_tarjetas: local_base_url + "admin/lista_tarjetas",
     admin_bancos: local_base_url + "admin/lista_bancos",
+
+    lista_codigos: local_base_url + "deposito/stock/listados/lista_codigos",
     /*admin_sucursales: local_base_url + "",
     admin_sucursales: local_base_url + "",*/
 }

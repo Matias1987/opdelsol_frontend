@@ -27,7 +27,7 @@ const ListaPreciosGrupo = (props) => {
        .then(r=>r.json())
        .then((response)=>{
         setLoading(false)
-            setSubgrupos(response.data.map(sg=>({producto:sg.label, precio:"10000000", idsubgrupo: sg.value })))
+            setSubgrupos(response.data.map(sg=>({producto:sg.label, precio:sg.precio_defecto, idsubgrupo: sg.value })))
        })
        .catch(r=>{console.log("error")})
     },[])
@@ -51,7 +51,7 @@ const ListaPreciosGrupo = (props) => {
                 </Col>
             </Row>
         </Col>
-        <Modal destroyOnClose open={popupDetalleOpen} onCancel={()=>{setPopupDetalleOpen(false)}}>
+        <Modal destroyOnClose open={popupDetalleOpen} onCancel={()=>{setPopupDetalleOpen(false)}} footer={null} title="Detalle " width={"80%"}>
             <SubGrupoFormV3 readOnly={true} idsubgrupo={selectedSubgrupoId} title="Detalle Subgrupo" />
         </Modal>
     </div>

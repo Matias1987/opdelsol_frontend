@@ -46,10 +46,14 @@ const items = [
     key: '404',
   },
   {
-    label: 'Tablas Auxiliares',
+    label: 'Tablas',
     key: 'SubMenu',
     icon: <MenuOutlined />,
     children: [
+      {
+        key: '100',
+        label: (<Menu.Item><Link href={public_urls.lista_codigos}>C&oacute;digos</Link></Menu.Item>),
+      },
       {
         key: '100',
         label: (<Menu.Item><Link href={public_urls.admin_sucursales}>Sucursales</Link></Menu.Item>),

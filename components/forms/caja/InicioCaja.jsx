@@ -44,6 +44,7 @@ export default function InicioCaja(props){
 
             const data = {
                 sucursal_idsucursal: globals.obtenerSucursal(),
+                usuario_idusuario: globals.obtenerUID(),
                 monto_inicial: values.monto,
                 fecha: current_date_ymd()
             }
@@ -53,11 +54,8 @@ export default function InicioCaja(props){
             })
             
         })
-
-
-        
-        
     }
+    
     return (<>
                 
                 <Button

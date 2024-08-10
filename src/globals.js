@@ -109,16 +109,18 @@ const globals =  {
                 let today = new Date()
                 today.setHours(0,0,0,0);
 
-                if(_date < today && avoidOutdated){
+                if(_date < today){
                     alert("<!> Caja abierta de " + response.data.fecha_f)
-                    callback(null)
-                    setItem("caja", 0);
-                    return
+                    //callback(null)
+                    //setItem("caja", 0);
+                    //return
                 }
+
+                setItem("caja", response.data);
 
                 callback(response.data)
                 
-                setItem("caja", response.data);
+                
             }
             else{
                 //caja not found!

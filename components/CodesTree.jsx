@@ -3,11 +3,16 @@ import { useEffect, useState } from "react";
 import GrillaCristales from "./informes/GrillaCristales";
 
 import { CarryOutOutlined,  EditFilled,  ReloadOutlined,  TableOutlined }  from "@ant-design/icons";
-import { Tree, Row, Col, Table, Divider, Button, Modal }  from "antd";
+import { Tree, Row, Col, Table, Divider, Button, Modal, Checkbox }  from "antd";
 import EditarCodigo from "@/pages/v1/deposito/stock/editar_codigo";
 import EditarCodigoIndiv from "./forms/deposito/EditarCodigoIndiv";
 
-
+/**
+ * 
+ * @param onCodeSelect 
+ * @param callback 
+ * @returns 
+ */
 
 const CodesTree = (props) => {
 
@@ -91,7 +96,8 @@ const CodesTree = (props) => {
               codigo: r.codigo,
               descripcion: r.descripcion,
               idcodigo: r.idcodigo,
-              precio:r.precio
+              precio:r.precio,
+              checked:false
             })
           )
          )
@@ -136,7 +142,25 @@ const CodesTree = (props) => {
           {dataIndex:'codigo', title:'Codigo', visible:true},
           {dataIndex:'descripcion', title:'Descripción', visible:true},
           {dataIndex:'precio', title:'Precio', visible:true},
-          {render:(_,{idcodigo})=><><EditarCodigoIndiv  buttonText={<><EditFilled /></>} idcodigo={idcodigo} callback={()=>{setPopupEditCodigoOpen(false)}} /></>, visible:true}
+          {render:(_,{idcodigo})=><><EditarCodigoIndiv  buttonText={<><EditFilled /></>} idcodigo={idcodigo} callback={()=>{setPopupEditCodigoOpen(false)}} /></>, visible:true},
+          { title: <><Checkbox onChange={(e)=>{
+            const _items = dataSource.map(c=>({...c,checked:e.target.checked})) 
+            setDataSource(_items)
+            props?.onCodeSelect?.(_items.filter(c=>c.checked))
+
+          }}></Checkbox></>,
+            render:(_,{idcodigo, checked})=><Checkbox 
+            checked={checked}
+            onChange={(e)=>{ 
+              const _items = dataSource.map((c=>c.idcodigo==idcodigo?{...c,checked:e.target.checked} : c))
+              setDataSource(
+               _items 
+              )
+              props?.onCodeSelect?.(_items.filter(c=>c.checked))
+            }}></Checkbox>,
+            visible:true
+        }
+          
         ].filter(r=>r.visible)}
         />
       </Col>

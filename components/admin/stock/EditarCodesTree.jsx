@@ -1,5 +1,6 @@
 import CodesTree from "@/components/CodesTree";
 import CodeGrid from "@/components/etc/CodeGrid";
+import EditarCodigoGrupo from "@/components/forms/deposito/EditarCodigoGrupo";
 import EditarSubGrupo from"@/components/forms/deposito/EditarSubgrupo";
 import EditarCodigo from "@/pages/v1/deposito/stock/editar_codigo";
 import { EditFilled, GroupOutlined } from "@ant-design/icons";
@@ -12,10 +13,18 @@ const EditarCodesTree = (props) => {
     const [seleccion, setSeleccion] = useState({tipo:"-1", id:0})
     const [open, setOpen] = useState(false)
     const [reload, setReload] = useState(false)
+    const [selectedCodes, setSelectedCodes] = useState([])
     
     const _subgrupo_options =_=> <>
     <Row>
-        <Col span={6}><EditarSubGrupo readOnly={false} callback={()=>{setReload(!reload)}} idsubgrupo={seleccion.id} buttonText={<><EditFilled />&nbsp;&nbsp;Editar Subgrupo&nbsp;</> } title={seleccion.id} /></Col>
+        <Col span={6}>
+        <EditarSubGrupo readOnly={false} callback={()=>{setReload(!reload)}} idsubgrupo={seleccion.id} buttonText={<><EditFilled />&nbsp;&nbsp;Editar Subgrupo&nbsp;</> } title={seleccion.id} />
+        &nbsp;
+        <EditarCodigoGrupo 
+            codigos={ selectedCodes.map(c=>({idcodigo: c.idcodigo, codigo: c.codigo}))}  
+            callback={()=>{setReload(!reload)}}
+            />
+        </Col>
     </Row>
     </>
     const _codigo_options =_=> <Row>
@@ -31,7 +40,7 @@ const EditarCodesTree = (props) => {
     </Row>
     <Row>
         <Col span={24}>
-            <CodesTree callback={(tipo,id)=>{setSeleccion(_=>({tipo:tipo, id:id}))}} key={reload} />
+            <CodesTree callback={(tipo,id)=>{setSeleccion(_=>({tipo:tipo, id:id}))}} key={reload} onCodeSelect={(codes)=>{setSelectedCodes(codes);}} />
         </Col>
     </Row>
     <Modal open={open} onCancel={()=>{setOpen(false)}} footer={null} title="Editar Código" width={"100%"} destroyOnClose key={seleccion.id}>

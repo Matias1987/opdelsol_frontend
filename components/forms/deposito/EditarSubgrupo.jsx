@@ -49,7 +49,7 @@ const EditarSubgrupo = (props) => {
             {props.buttonText}
         </Button>
         <Modal destroyOnClose footer={null} title={`Editar Subgrupo ${props.title||" "}`} open={open} onCancel={()=>{setOpen(false)}}>
-            <SubGrupoFormV3 idsubgrupo={props.idsubgrupo} callback={()=>{props?.callback?.()}} />
+            <SubGrupoFormV3 idsubgrupo={props.idsubgrupo} callback={()=>{setOpen(false); props?.callback?.()}} />
         </Modal>
     </>
 }

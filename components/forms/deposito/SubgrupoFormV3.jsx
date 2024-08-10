@@ -43,19 +43,25 @@ const SubGrupoFormV3 = (props) =>{
 
 
     return <>
-            <Row>
+            {/*<Row>
                 <Col span={24}>
                     <Input readOnly prefix="Nombre Corto: " value={nombreCorto}/>
                 </Col>
-            </Row>
+            </Row>*/}
             <Row>
                 <Col span={24}>
-                    <Input readOnly prefix="Nombre Largo: " value={nombreLargo}/>
+                    <Input readOnly prefix="Nombre: " value={nombreLargo} style={{backgroundColor:"#E8EAF0"}}/>
                 </Col>
             </Row>
             <Row>
                 <Col span={24}>
-                    <Input disabled={(props.readOnly||"0")=="0" ? false : true} prefix="Precio Defecto: " type="number" value={precio} onChange={(e)=>{
+                    <Input 
+                    style={{backgroundColor:"#E8EAF0", }}
+                    readOnly={(props.readOnly||"0")=="0" ? false : true} 
+                    prefix="Precio Defecto:  $" 
+                    type="number" 
+                    value={precio} 
+                    onChange={(e)=>{
                         setPrecio(p=>parseFloat(e.target.value))
                     }} />
                 </Col>
@@ -67,7 +73,7 @@ const SubGrupoFormV3 = (props) =>{
             </Row>
             <Row>
                 <Col span={24}>
-                    <Input.TextArea disabled={(props.readOnly||"0")=="0" ? false : true} prefix="Comentarios" rows={4} value={comentarios} onChange={(e)=>{setComentarios(e.target.value)}} />
+                    <Input.TextArea style={{fontWeight:props.readOnly ? "bold" : "inherit"}} readOnly={(props.readOnly||"0")=="0" ? false : true} prefix="Comentarios" rows={4} value={comentarios} onChange={(e)=>{setComentarios(e.target.value)}} />
                 </Col>
             </Row>
             { (props.readOnly||"0")=="0" ? 
