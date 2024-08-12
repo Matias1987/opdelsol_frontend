@@ -14,7 +14,7 @@ import InformeStock from "@/pages/v1/informes/informe_stock";
 import globals from "@/src/globals";
 import { post_method } from "@/src/helpers/post_helper";
 import { post } from "@/src/urls";
-import { PlusOutlined, SearchOutlined, TableOutlined } from "@ant-design/icons";
+import { EditFilled, PlusOutlined, SearchOutlined, TableOutlined } from "@ant-design/icons";
 import { Button, Checkbox, Col,  Form, Input, InputNumber, Modal, Row, Select, Space, Switch, Table, Tabs, Tag } from "antd";
 import { useEffect,  useState } from "react";
 
@@ -163,13 +163,13 @@ export default function ListaStock(){
         </Space>},
         {title: 'Codigo',dataIndex: 'codigo',key: 'codigo', render:(_,{codigo})=>
             <>
-            <span style={{fontSize:"1em"}}><b>{codigo}</b></span>
+            <span style={{fontSize:".85em"}}><b>{codigo}</b></span>
             </>},
       /*  {title: 'Descripción',dataIndex: 'descripcion',key: 'descripcion'},*/
         
         {title: 'Edad',dataIndex: 'edad',key: 'edad', hidden: true},
         {title: 'Género',dataIndex: 'genero',key: 'genero', hidden: true},
-        {title: 'Precio',dataIndex: 'idcodigo',key: 'precio', render:(_,{precio,modo_precio})=>{
+        {title: 'Precio',dataIndex: 'idcodigo',key: 'precio', width:"100px", render:(_,{precio,modo_precio})=>{
             
             switch(modo_precio)
             {
@@ -178,44 +178,33 @@ export default function ListaStock(){
                 case 2: return <div style={{width:"100%", textAlign:"right"}}>$&nbsp;{precio}&nbsp;&nbsp;<Tag color="red">P</Tag></div>;
             }
         }},
-        {title: 'Cantidad',dataIndex: 'cantidad',key: 'cantidad', width:"100px", render:(_,{cantidad})=><div style={{width:"100%", textAlign:"right"}}>{cantidad}</div>},
+        {title: 'Cantidad',dataIndex: 'cantidad',key: 'cantidad', width:"90px", render:(_,{cantidad})=><div style={{width:"90%", textAlign:"right"}}>{cantidad}</div>},
         {title:'Etiquetas',render:(_,{etiquetas})=><span style={{fontWeight:"bold", color:"darkgreen"}}>{etiquetas}</span>},
         {
-            title: 'Acciones', dataIndex: 'idstock', key: 'idstock',  width:"350px",
+            title: 'Acciones', dataIndex: 'idstock', key: 'idstock',  width:"120px",
             render: 
                 (_,{idcodigo})=><>
-                <Button onClick={()=>{setSelectedIdCodigo(idcodigo); setPopupDetalleOpen(true);}}>Detalle</Button>
-                &nbsp;&nbsp;
+                <Button size="small" onClick={()=>{setSelectedIdCodigo(idcodigo); setPopupDetalleOpen(true);}}>Detalle</Button>
+             
                 {
                     globals.esUsuarioDeposito() && (selectedSucursal==globals.obtenerSucursal() || selectedSucursal<-1) ?
-                    <Button onClick={()=>{setSelectedIdCodigo(idcodigo); setPopupEditarStockIndvOpen(true);}}>Editar Stock</Button> : <></>
+                    <Button size="small" onClick={()=>{setSelectedIdCodigo(idcodigo); setPopupEditarStockIndvOpen(true);}}>Editar Stock</Button> : <></>
                 }
-                &nbsp;&nbsp;
-                {globals.esUsuarioDeposito() ? <EditarCodigoIndiv  idcodigo={idcodigo} buttonText="Editar Código" callback={()=>{setValueChanged(!valueChanged)}} /> : <></>}
+             
+                {globals.esUsuarioDeposito() ? <EditarCodigoIndiv  idcodigo={idcodigo} buttonText={<>Editar C&oacute;digo</>} callback={()=>{setValueChanged(!valueChanged)}} /> : <></>}
                 </>                
         },
         {
-            title: (<><Checkbox 
-                checked={selectAll}
+            title: (<>
+            <Checkbox 
                 onChange={(e)=>{
-                setSelectAll(!selectAll)
-                setData(
-                    data.map(r=>{
-                        r.checked=!selectAll;
-                        return r;
-                    })
-                )
-            }} /></>), dataIndex: 'checked', key: 'check', width:"50px",
+                    setData(_data=>_data.map(d=>({...d,checked:e.target.checked})))
+            }} /></>), 
+            width:"50px",
             render:(_,{checked, idcodigo})=>(
                 <>
                     <Checkbox checked={checked} onChange={(e)=>{
-                        let _data = data.map(r=>{
-                            if(r.idcodigo == idcodigo){
-                                r.checked = e.target.checked;
-                            }
-                            return r;
-                        })
-                        setData(_data)
+                        setData(_data=>_data.map(d=>(d.idcodigo==idcodigo?{...d,checked:e.target.checked}:d)))
                     }} />
                 </>
             )
@@ -395,7 +384,7 @@ export default function ListaStock(){
                     children: <div style={{backgroundColor:"rgba(173,216,230,.2)", padding:".3em", border:"1px solid rgba(173,216,230,1)"}}>
                     <Form {...{labelCol:{span:5}, wrapperCol:{span:18}}} onFinish={onFinishFiltro} form={form}>
                         <Row >
-                            <Col span={6}>
+                            <Col span={8}>
                                 <Form.Item label={"Filtar Por"} name={"tipo_filtro"}>
                                     <Select 
                                         
@@ -433,42 +422,16 @@ export default function ListaStock(){
                             </Col>
                             <Col span={1}>
                             <Form.Item>
-                                    <Button type="primary" htmlType="submit" size="small"><PlusOutlined /></Button>
+                                    <Button type="primary" htmlType="submit" size="small"><PlusOutlined /> Agregar</Button>
                                 </Form.Item>
                             </Col>
-                            <Col span={4}>
-                                <Form.Item label={"Orden"} name={"orden"}>
-                                    <Select options={[
-                                        {label: 'Alfabetico - Ascendiente', value: 'alf_asc'},
-                                        {label: 'Alfabetico - Descendiente', value: 'alf_desc'},
-                                        {label: 'Precio - Descendiente', value: 'precio_desc'},
-                                        {label: 'Precio - Ascendiente', value: 'precio_asc'},
-                                        {label: 'Cantidad - Ascendiente', value: 'cantidad_asc'},
-                                        {label: 'Cantidad - Descendiente', value: 'cantidad_desc'},
-                                    ]} 
-                                    style={{width:"200px"}}
-                                    onChange={(value)=>{
-                                        setValue1("orden",value)
-                                        setTipoOrden(value);
-                                    }}
-                                    />
-                                </Form.Item>
-                            </Col>
-                            { globals.esUsuarioDeposito() ?
-                            <Col span={7}>
-                                <Form.Item>
-                                    <SucursalSelect callback={(id)=>{setSelectedSucursal(id); setValueChanged(!valueChanged)}} />
-                                </Form.Item>    
-                            </Col>
-                            :
-                            <></>
-                            }
+                            
                         </Row>
                         
                         </Form>
                         <Form form={form1} onFinish={onFinish}>
                             <Row>
-                                <Col span={24} >
+                                <Col span={12} >
                                     <Form.Item label={"Filtros:"} style={{backgroundColor:"#D8DFE6"}}>
                                         {
                                             tags.map(t=>(
@@ -482,6 +445,33 @@ export default function ListaStock(){
                                         }
                                     </Form.Item>
                                 </Col>
+                                <Col span={6}>
+                                <Form.Item label={<span style={{fontSize:".8em"}}>Orden</span>} name={"orden"}>
+                                    <Select options={[
+                                        {label: 'Alfabetico - Ascendiente', value: 'alf_asc'},
+                                        {label: 'Alfabetico - Descendiente', value: 'alf_desc'},
+                                        {label: 'Precio - Descendiente', value: 'precio_desc'},
+                                        {label: 'Precio - Ascendiente', value: 'precio_asc'},
+                                        {label: 'Cantidad - Ascendiente', value: 'cantidad_asc'},
+                                        {label: 'Cantidad - Descendiente', value: 'cantidad_desc'},
+                                    ]} 
+                                    style={{width:"150px"}}
+                                    onChange={(value)=>{
+                                        setValue1("orden",value)
+                                        setTipoOrden(value);
+                                    }}
+                                    />
+                                </Form.Item>
+                                </Col>
+                                { globals.esUsuarioDeposito() ?
+                                <Col span={6}>
+                                    <Form.Item>
+                                        <SucursalSelect callback={(id)=>{setSelectedSucursal(id); setValueChanged(!valueChanged)}} />
+                                    </Form.Item>    
+                                </Col>
+                                :
+                                <></>
+                                }
                             </Row>
                             <Row>
                                 <Col span={12}>
@@ -513,7 +503,7 @@ export default function ListaStock(){
                         key={idsubgrupo} 
                         destroyOnClose={true} 
                         onCancel={()=>{setOpen(false); setValueChanged(!valueChanged)} }>
-                            <CodeGrid idsubgrupo={idsubgrupo} width={640} height={480}/>
+                            <CodeGrid idsubgrupo={idsubgrupo} width={640} height={480} idsucursal={selectedSucursal} />
                     </Modal>
                 </Col>:<></>}
                 {usuarioDep  && (selectedSucursal==globals.obtenerSucursal() || selectedSucursal<-1)?<Col span={4} style={{padding:".5em"}}>{edit_popup()}</Col>:<></>}
@@ -539,7 +529,12 @@ export default function ListaStock(){
             </Row>
         <Row>
             <Col span={24}>
-                <Table rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'} columns={columns.filter(item=>!item.hidden)} dataSource={data} loading={loading} scroll={{y:400}}  />
+                <Table 
+                rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'} 
+                columns={columns.filter(item=>!item.hidden)} 
+                dataSource={data} 
+                loading={loading} 
+                scroll={{y:400}}  />
             </Col>
         </Row>
         <Row>

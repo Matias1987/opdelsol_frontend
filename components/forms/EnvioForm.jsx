@@ -15,7 +15,7 @@ const EnvioForm = (props) => {
     const [form] = Form.useForm();
     const sucursal_id = globals.obtenerSucursal();
     const [total, setTotal] = useState(0);
-
+    const [generarEnvioBtnEnabled,setGenerarEnvioBtnEnabled] = useState(true)
     const [rows_to_add, setRowsToAdd] = useState([])
 
     useEffect(()=>{
@@ -78,6 +78,8 @@ const EnvioForm = (props) => {
             return;
         }
 
+        setGenerarEnvioBtnEnabled(false)
+
         const __values = {
             sucursal_idsucursal: values.sucursal_idsucursal,
             usuario_idusuario: globals.obtenerUID(),
@@ -111,6 +113,7 @@ const EnvioForm = (props) => {
       };
       
       const onFinishFailed = (errorInfo) => {
+        setGenerarEnvioBtnEnabled(false)
         console.log('Failed:', errorInfo);
       };
 
@@ -270,7 +273,7 @@ const EnvioForm = (props) => {
                     <Affix offsetBottom={bottom}>
                         <div>
                             <Input readOnly addonBefore="Total:" value={total} />
-                            <Button disabled={tableLoading || tableData.length<1} block type="primary" htmlType="submit">Generar Env&iacute;o</Button>
+                            <Button disabled={tableLoading || tableData.length<1 || !generarEnvioBtnEnabled} block type="primary" htmlType="submit">Generar Env&iacute;o</Button>
                         </div>
                     </Affix>
                 </Form.Item>

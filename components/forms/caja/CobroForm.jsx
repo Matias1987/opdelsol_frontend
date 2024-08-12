@@ -257,7 +257,9 @@ export default function CobroOperacion(props){
          */
         const _sdo =  (parseFloat(dataVenta.subtotal) - parseFloat(descuento) - parseFloat(dataVenta.haber||0)) - parseFloat( mp.total)
 
-        const __tipo = props.tipo!=='undefined' ? props.tipo == 'entrega' && _sdo > 0 ? 'resfuerzo' : 'entrega' : '';
+        const __tipo = props.tipo!=='undefined' ? props.tipo == 'entrega' && _sdo > 0 ? 'resfuerzo' : props.tipo : '';
+        
+        params.tipo=__tipo;
 
         if(typeof props.tipo !== 'undefined'){
             switch(__tipo)
@@ -297,7 +299,7 @@ export default function CobroOperacion(props){
                 if(id.data==0){
                     if(dataVenta!=null && __tipo!='resfuerzo')
                     {   let est = (__tipo=='entrega' ? 'ENTREGADO' : (entrega ? "ENTREGADO" : "PENDIENTE"))
-
+                        
                         post_method(
                             post.cambiar_estado_venta,
                             {
@@ -323,6 +325,7 @@ export default function CobroOperacion(props){
                     {
                         //entrega
                         let est = (__tipo=='entrega' ? 'ENTREGADO' : (entrega ? "ENTREGADO" : "PENDIENTE"))
+                       
                         post_method(
                             post.cambiar_estado_venta,
                             {

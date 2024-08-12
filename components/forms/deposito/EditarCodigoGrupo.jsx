@@ -44,6 +44,7 @@ const EditarCodigoGrupo = (props) => {
 
         post_method(post.update.editar_lote_codigos, params, (response)=>{
             alert("OK")
+            setOpen(false)
             props?.callback?.()
         })
     }

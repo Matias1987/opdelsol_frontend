@@ -181,14 +181,14 @@ useEffect(()=>{
     }
     )
    }
-    
+    /*
    items.push( 
       {
         label: (<CustomModal openButtonText="Lista de Precios" type="primary"><ListaPrecios /></CustomModal>),
         key: '1001'
       }
     )
-
+*/
    setItemsMenu(items)
   },[])
 

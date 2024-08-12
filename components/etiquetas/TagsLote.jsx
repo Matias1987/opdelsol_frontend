@@ -26,6 +26,10 @@ const TagsLote = (props) => {
     }
 
     const on_delete = () => {
+        if(!confirm("Eliminar etiquetas? Esta acción no se puede deshacer."))
+        {
+            return
+        }
         post_method(post.rem_t_c,{codigos:codigos.map(c=>c.idcodigo)},(resp)=>{
             alert("OK")
             props?.callback?.()

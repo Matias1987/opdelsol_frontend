@@ -61,7 +61,7 @@ const EditarCodigoIndiv = (props) =>{
     }
 
     return <>
-    <Button onClick={onOpen} danger type="primary">{props.buttonText}</Button>
+    <Button onClick={onOpen} danger type="primary" size="small">{props.buttonText}</Button>
     
     <Modal open={open} destroyOnClose onCancel={onClose} footer={null} key={props.idcodigo}> 
 
