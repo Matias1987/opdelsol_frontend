@@ -309,7 +309,7 @@ const InformeVentaV2 = (props) => {
                             <tr>
                                 <td>
                                     <b>Comentarios: </b><br />
-                                    {data.comentarios}
+                                    <b><span style={{fontSize:"1.2em"}}>{data.comentarios}</span></b>
                                 </td>
                             </tr>
                         </tbody>

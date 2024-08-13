@@ -3,9 +3,9 @@ import globals from "@/src/globals"
 import { currency_format } from "@/src/helpers/string_helper"
 import { get } from "@/src/urls"
 import { Button, Col, Modal, Row, Spin, Table } from "antd"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
-export default function InformeCajaV2(props){
+export default function InformeCajaV3(props){
     const[dataOperaciones, setDataOperaciones] = useState(null)
     const[dataTransferencias, setDataTransferencias] = useState(null)
     const[dataGastos, setDataGastos] = useState(null)
@@ -16,10 +16,6 @@ export default function InformeCajaV2(props){
     const[fecha, setFecha] = useState("")
     const[hora, setHora] = useState("")
 
-    const [open, setOpen] = useState(false)
-
-    const style_tables = {width:"100%"}
-    const style_th = {fontWeight:"bold"}
 
     const [totales, setTotales] = useState({
         ventas:0,
@@ -126,7 +122,7 @@ export default function InformeCajaV2(props){
          })
  
          //lista de transferencias ENTRE SUCURSALES
-         fetch(get.transferencias_enviadas + globals.obtenerSucursal() + "/" + props.idcaja)
+         fetch(get.transferencias_enviadas + props.idsucursal + "/" + props.idcaja)
          .then(response=>response.json())
          .then((response)=>{
 			if(typeof response.data === 'undefined' || response.data==null)
@@ -153,7 +149,7 @@ export default function InformeCajaV2(props){
 
          })
  
-         fetch(get.transferencias_recibidas + globals.obtenerSucursal() + "/" + props.idcaja)
+         fetch(get.transferencias_recibidas + props.idsucursal + "/" + props.idcaja)
          .then(response=>response.json())
          .then((response)=>{
 			if(typeof response.data === 'undefined' || response.data==null)
@@ -178,12 +174,6 @@ export default function InformeCajaV2(props){
 			}))
          })
  
-    }
-
-    const onOpen = () => {
-        //alert("on open")
-        setOpen(true)
-        init()
     }
 
     const data_sucursal = _ => dataSucursal == null ? <></> : <> 
@@ -396,26 +386,26 @@ export default function InformeCajaV2(props){
 </Row>
         </>
     }
+
+    useEffect(()=>{init()})
+
     return (
     <>
-        <Button onClick={()=>{onOpen()}}>Ver Informe</Button>
-        <Modal width={"90%"} open={open} footer={null} onCancel={()=>{setOpen(false)}}>
-            <PrinterWrapper>
-            <>
-            {
-                dataOperaciones==null || 
-                dataGastos == null || 
-                dataTransfEnviadas==null || 
-                dataTransfRecibidas == null ? <Spin /> : 
-                body()
-            }
-           
-            
-            {
-                footer()
-            }
-            </>
+        <PrinterWrapper>
+        <>
+        {
+            dataOperaciones==null || 
+            dataGastos == null || 
+            dataTransfEnviadas==null || 
+            dataTransfRecibidas == null ? <Spin /> : 
+            body()
+        }
+        
+        
+        {
+            footer()
+        }
+        </>
         </PrinterWrapper>
-        </Modal>
     </>)
 }

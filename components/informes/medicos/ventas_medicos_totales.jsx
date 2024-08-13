@@ -88,16 +88,16 @@ const ListaVentasMedicosTotales = (props) => {
         <Col span={1}>
             <b>Filtros:</b>
         </Col>
-        <Col span={4}>
+        <Col span={3}>
             <Input type="number" min={1} max={12} value={mes} onChange={(e)=>{setMes(parse_int_string(e.target.value))}} prefix="Mes: " />
         </Col>
-        <Col span={4}>
+        <Col span={3}>
             <Input type="number" min={2023} value={anio}  onChange={(e)=>{setAnio(parse_int_string(e.target.value))}} prefix="Año: " />
         </Col>
-        <Col span={4}>
+        <Col span={3}>
             <Input  value={nombre} onChange={(e)=>{setNombre(e.target.value)}} prefix="Nombre: " />
         </Col>
-        <Col span={1} style={{textAlign:"right", paddingTop:".2em"}}>
+        <Col span={2} style={{textAlign:"right", paddingTop:".2em"}}>
             Sucursal:
         </Col>
         <Col span={4}>

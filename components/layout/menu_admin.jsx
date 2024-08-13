@@ -4,6 +4,9 @@ import { useState } from "react";
 import Link from "next/link"
 import { public_urls } from "@/src/urls";
 import BuscarVenta from "../forms/ventas/BuscarVenta";
+import CustomModal from "../CustomModal";
+import ListaPrecios from "../lista_precios/listaPrecios";
+import FamiliaForm from "../forms/FamiliaForm";
 
 const items = [
   
@@ -50,10 +53,7 @@ const items = [
     key: 'SubMenu',
     icon: <MenuOutlined />,
     children: [
-      {
-        key: '100',
-        label: (<Menu.Item><Link href={public_urls.lista_codigos}>C&oacute;digos</Link></Menu.Item>),
-      },
+     
       {
         key: '100',
         label: (<Menu.Item><Link href={public_urls.admin_sucursales}>Sucursales</Link></Menu.Item>),
@@ -69,10 +69,14 @@ const items = [
       {
         key: '400',
         label: (<Menu.Item><Link href={public_urls.admin_tarjetas}>Tarjetas</Link></Menu.Item>),
-      },
+      }
       
     ],
   },
+  {
+    label: (<CustomModal openButtonText="Lista de Precios" type="primary"><ListaPrecios /></CustomModal>),
+    key: '1001'
+  }
   
 ];
 export default function MenuAdminTop(){

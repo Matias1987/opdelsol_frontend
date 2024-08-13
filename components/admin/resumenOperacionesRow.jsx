@@ -225,7 +225,7 @@ const ResumenOperacionesRow = (props) => {
         
         </Row>
 
-        <Modal open={open} footer={null} onCancel={()=>{setOpen(false)}}>
+        <Modal open={open} footer={null} onCancel={()=>{setOpen(false)}}  width={"80%"}>
              {/*<InformeCaja idcaja={idcaja} />*/}
              <ListaCaja idsucursal={ props.idsucursal} />
         </Modal>

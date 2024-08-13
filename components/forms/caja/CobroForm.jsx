@@ -164,8 +164,6 @@ export default function CobroOperacion(props){
         if(dataVenta!=null){
 
             const _sdo =  (parseFloat(dataVenta.subtotal) - parseFloat(descuento) - parseFloat(dataVenta.haber||0)) - parseFloat( mp.total)
-            
-            
 
             if(+mp.total == 0 && _sdo != 0) { 
                 alert("Monto igual a 0")
@@ -184,8 +182,6 @@ export default function CobroOperacion(props){
                 setCobrarDisabled(false)
                 return 
             }
- 
-          
         }
         /*
         some other validations for secondary fields which 
@@ -254,8 +250,10 @@ export default function CobroOperacion(props){
         /**
          * if parametric action is 'entrega' but balance is higher than 0, then change status to 'resfuerzo'.. the status of the operation will remain as 'terminado'
          * get 'saldo'
-         */
-        const _sdo =  (parseFloat(dataVenta.subtotal) - parseFloat(descuento) - parseFloat(dataVenta.haber||0)) - parseFloat( mp.total)
+        
+        * the following two lines were modified * 
+        */
+        const _sdo = typeof props.idventa === 'undefined' ? 0 : (parseFloat(dataVenta.subtotal) - parseFloat(descuento) - parseFloat(dataVenta.haber||0)) - parseFloat( mp.total)
 
         const __tipo = props.tipo!=='undefined' ? props.tipo == 'entrega' && _sdo > 0 ? 'resfuerzo' : props.tipo : '';
         
