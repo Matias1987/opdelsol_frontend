@@ -222,21 +222,21 @@ a::before{
 .tabla-informe-caja > tbody > tr >  td{
   padding:3px !important;
   font-family: 'Courier New', Courier, monospace;
-  font-size: 8px;
+  font-size: 14px;
   border: 1px solid black !important;
   border-collapse: collapse !important;
 }
 
 .tabla-informe-caja > thead > th{
   padding: 3px !important;
-  font-size: 7px;
+  font-size: 12px;
   font-weight: bold;
   border: 1px solid black;
   border-collapse: collapse !important;
 }
 .tabla-informe-caja > tfoot > th{
   padding: 3px !important;
-  font-size: 7px;
+  font-size: 12px;
   font-weight: bold;
   border: 1px solid black;
   border-collapse: collapse !important;
@@ -256,4 +256,15 @@ a::before{
     height: auto;
     overflow-y: visible;
   }
+}
+
+.floatbuttonsol>.ant-float-btn-body{
+  background-color: #E20809 !important;
+  
+  
+}
+.floatbuttonsol> * > * > .ant-float-btn-icon{
+  color:white !important;
+  font-size: 20px !important;
+
 }

@@ -43,7 +43,7 @@ const ListaPrecios = (props) => {
         .catch(e=>{console.log("error")})
     }
 
-    return <> 
+    return <div style={{backgroundColor:"#E8EAF0"}}> 
     <Row>
         <Col span={18}>
             <Row>
@@ -73,7 +73,7 @@ const ListaPrecios = (props) => {
         </Col>
     </Row>
           
-    </>
+    </div>
 }
 
 export default ListaPrecios

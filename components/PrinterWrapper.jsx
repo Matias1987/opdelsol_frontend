@@ -6,7 +6,7 @@ import ReactToPrint from "react-to-print";
 export default function PrinterWrapper({ children }) {
     const linkToPrint = () => {
         return (
-            <FloatButton shape="square" type="primary"  size="small" style={{insetInlineEnd: 24,}}icon={<PrinterFilled />} />
+            <FloatButton  className="floatbuttonsol" shape="square"   size="small" style={{backgroundColor:"red !important"}}icon={<PrinterFilled />} />
         )
     }
     const page_style = `

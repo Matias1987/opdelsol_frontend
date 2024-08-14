@@ -146,7 +146,7 @@ export default function stock_taller(){
         {
             label: "Grilla",
             key: "2",
-            children: <CodeGrid callback={()=>{setReload(!reload)}} idsubgrupo={(filtros?.idsubgrupo)||"-1"}  width={640} height={480} key={(reload)||"-1"}/>
+            children: <CodeGrid callback={()=>{setReload(!reload)}} idsubgrupo={(filtros?.idsubgrupo)||"-1"}  idsucursal={globals.obtenerSucursal()} width={640} height={480} key={(reload)||"-1"}/>
         }
     ]
 

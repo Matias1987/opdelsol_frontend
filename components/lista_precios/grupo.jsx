@@ -13,10 +13,19 @@ const ListaPreciosGrupo = (props) => {
     const [subgrupos, setSubgrupos] = useState([])
     const [selectedSubgrupoId, setSelectedSubgrupoId] = useState(-1)
     const columns = [
-        {title:"Producto", dataIndex:"producto", render:(_,{producto, idsubgrupo})=><><Button onClick={()=>{
-            setSelectedSubgrupoId(idsubgrupo)
-            setPopupDetalleOpen(true)
-        }} type="link" size="small">{producto}</Button></>},
+        {title:"Producto", dataIndex:"producto", render:(_,{producto, idsubgrupo})=><>
+            <Button 
+            onClick={()=>{
+                setSelectedSubgrupoId(idsubgrupo)
+                setPopupDetalleOpen(true)
+            }} 
+            type="link" 
+            size="small"
+            style={{color:"#000000", fontWeight:"bold"}}
+            >
+                {producto}
+            </Button>
+        </>},
         {title:"Precio", dataIndex:"precio", render:(_,{precio})=><div style={{textAlign:"right"}}>$&nbsp;{precio}</div>},
      
        
