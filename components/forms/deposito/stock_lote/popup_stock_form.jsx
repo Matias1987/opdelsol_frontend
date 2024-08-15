@@ -1,4 +1,8 @@
+import TagForm from "@/components/etiquetas/tagForm";
+import Tags from "@/components/etiquetas/tagsCodigos";
 import { regex_get_id_if_match } from "@/src/helpers/barcode_helper";
+import { post_method } from "@/src/helpers/post_helper";
+import { post } from "@/src/urls";
 import { EditOutlined, PlusCircleOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 
@@ -15,6 +19,16 @@ const PopUpAgregarStockLoteForm = (props) => {
     const [precioSubgrupo, setPrecioSubgrupo] = useState(0)
     const [multiplicador, setMultiplicador] = useState(0)
 
+    /** tags */
+    const [tagsToAdd, setTagsToAdd] = useState([])
+    const [tags, setTags] = useState([])
+
+    const loadTags = _ => {
+        post_method(post.lista_tag,{fkcategoria:"-1"},(resp)=>{
+            setTags(_=>resp.data.map(t=>({value:t.etiqueta, label:t.etiqueta})))
+        })
+    }
+
     const onFinish = (values) => {
         //alert(JSON.stringify(values))
         if(regex_get_id_if_match(values.codigo.toUpperCase())>0){
@@ -22,7 +36,7 @@ const PopUpAgregarStockLoteForm = (props) => {
             return
         }
     if(typeof props.callback !== 'undefined'){
-        props.callback({...values, p1: part1.toUpperCase(), p2: part2.toUpperCase(), p3: part3.toUpperCase()});
+        props.callback({...values, p1: part1.toUpperCase(), p2: part2.toUpperCase(), p3: part3.toUpperCase(), tags: tagsToAdd});
         setOpen(false)
     }
    }
@@ -138,6 +152,8 @@ useEffect(()=>{
 
             ))*/
         }
+
+        loadTags()
         
     }
    },[open])
@@ -166,8 +182,6 @@ useEffect(()=>{
         }}
         okText="CANCELAR"
       >
-        {//`${part1}  ,  ${part2}  ,  ${part3}`
-        }
         <Form onFinish={onFinish} onFinishFailed={onFinishFailed} form={form}>
             <Row>
                 <Col span={12}>
@@ -237,77 +251,31 @@ useEffect(()=>{
                             </Form.Item>
                         </Col>
                     </Row>
-                    
-                    
-                     
-                   {/*<Form.Item>
-                        <Switch checkedChildren="Precio por Subgrupo" unCheckedChildren="Multiplicador" />
-                </Form.Item>*/}
-                    
                 </Col>
             </Row>
+
             <Row>
                 <Col span={24}>
-                    <Divider />
+                    <h3>Etiquetas</h3>
                 </Col>
             </Row>
-            <Row>
-                <Col span={12}>
-                    <Form.Item  label={"Edad"} name={"edad"} style={{width: "200px"}}>
-                    <Select 
-                        onChange={
-                            onChangeEdad
-                        }
-
-                        options={
-                            [
-                                {
-                                    value: 'adulto',
-                                    label: 'Adulto',
-                                },
-                                {
-                                    value: 'niño',
-                                    label: 'Niño',
-                                },
-                                {
-                                    value: 'joven',
-                                    label: 'Joven',
-                                },
-                            ]
-                        } />
-                </Form.Item>
-                </Col>
-                <Col span={12}>
-                    <Form.Item  label={"Género"} name={"genero"} style={{width: "200px"}}>
-                        <Select 
-
-                        onChange={
-                            onChangeGenero
-                        }
-                        
-                        options={
-                            [
-                                {
-                                    value: 'femenino',
-                                    label: 'Femenino',
-                                },
-                                {
-                                    value: 'masculino',
-                                    label: 'Masculino',
-                                },
-                                {
-                                    value: 'unisex',
-                                    label: 'Unisex',
-                                },
-                            ]
-                            } />
-                    </Form.Item>
-                </Col>
+            <Row style={{padding:"1em"}}>
+            <Col span={24}>
+                <Select 
+                style={{width:"100%"}}
+                mode="multiple" 
+                allowClear 
+                options={tags} 
+                onChange={(v)=>{
+                setTagsToAdd(v)
+                }} 
+                /> 
+            </Col>
             </Row>
             <Row>
                 <Col span={24}>
                     <Form.Item>
-                        <Button type="primary" htmlType="submit">OK</Button>
+                        <Button block size="small" type="primary" htmlType="submit">GUARDAR</Button>
                     </Form.Item>
                 </Col>
             </Row>

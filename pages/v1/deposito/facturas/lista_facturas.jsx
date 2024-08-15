@@ -5,12 +5,15 @@ import DetalleFactura from "@/components/forms/deposito/DetalleFactura";
 
 import { Table, Button, Modal, Row, Col, Select } from "antd"
 import { useState, useEffect } from "react"
+import { InfoOutlined } from "@ant-design/icons";
 
 const ListaFacturas = (props) => {
     const [change, setChange] = useState(false)
     const [open, setOpen] = useState(false);
     const [proveedores, setProveedores] = useState([])
     const [selectedProveedor, setSelectedProveedor] = useState(-1)
+    const [selectedFactura, setSelectedFactura] = useState(-1)
+    const [popupDetalleFacturaOpen, setPopupDetalleFacturaOpen] = useState(false)
     const url_for_facturas = get.lista_facturas;
     const [tableData, setTableData] = useState([])
     const columns = [
@@ -20,14 +23,12 @@ const ListaFacturas = (props) => {
         {title: 'Cantidad', dataIndex: 'cantidad', key: 'cantidad'},
         {title: 'Monto', dataIndex: 'monto', key: 'monto', render:(_,{monto})=><div style={{textAlign:"right", width:"100%"}}>$&nbsp;{monto}</div>},
         {title: 'Acciones', dataIndex: 'idfactura', key: 'acciones',
-            render: (idfactura)=>{
+            render: (_,{idfactura})=>{
                     return(
                     <>
-                    <CustomModal openButtonText="Detalles" title="">
-                        <DetalleFactura idFactura={idfactura} />
-                    </CustomModal>
-                    {/*<Button><EditOutlined />&nbsp;Editar</Button>
-                    <Button danger><CloseCircleOutlined />&nbsp;Anular</Button>*/}
+                        <Button onClick={()=>{setSelectedFactura(idfactura); setPopupDetalleFacturaOpen(true);}}>
+                            <InfoOutlined />
+                        </Button>
                     </>
                     )
             }
@@ -123,6 +124,15 @@ useEffect(()=>{
                 />
             </Col>
         </Row>
+        <Modal 
+        destroyOnClose
+        footer={null}
+        width={"80%"}
+        open={popupDetalleFacturaOpen} 
+        onCancel={()=>{setPopupDetalleFacturaOpen(false)}}
+        >
+            <DetalleFactura idFactura={selectedFactura} />
+        </Modal>
             
 
         </>

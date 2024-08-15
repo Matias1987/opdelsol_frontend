@@ -5,6 +5,7 @@ import { Row, Tag, Col, Select, Spin, Button, Modal } from "antd"
 import { useEffect, useState } from "react"
 import TagForm from "./tagForm"
 
+
 const Tags = (props) => {
     const [codigo_tags, setCodigoTags] = useState([])
     const [tags, setTags] = useState([])

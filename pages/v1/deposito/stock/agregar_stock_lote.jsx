@@ -1,6 +1,5 @@
 import FacturaForm from "@/components/forms/FacturaForm";
 import SubGrupoForm from "@/components/forms/SubGrupoForm";
-import PopupAgregarCodigoLoteStockV2 from "@/components/forms/deposito/stock_lote/popup_stock_v2";
 import MyLayout from "@/components/layout/layout";
 import globals from "@/src/globals";
 import { post_method } from "@/src/helpers/post_helper";
@@ -27,6 +26,9 @@ export default function AgregarStockLote(props){
     const [precioDefecto, setPrecioDefecto] = useState(100);
 
     const [subgrupo, setSubgrupo] = useState(null)
+
+    const HOOK = `${globals.obtenerUID()}.${Date.now()}.${Math.floor(Math.random() * 100)}`
+
 
     const subgrupoDetailsURL = get.obtener_detalle_subgrupo;
 
@@ -90,6 +92,7 @@ export default function AgregarStockLote(props){
                     descripcion: `${values.p1}${(i>0?"+":"")+i.toFixed(2)}${values.p2}`,
                     esf:  i.toFixed(2),
                     cil: "",
+                    tags: values.tags,
                 })
             }
         }
@@ -111,20 +114,24 @@ export default function AgregarStockLote(props){
                             descripcion: `${values.p1}${(i>0?"+":"")+i.toFixed(2)}${values.p3}${j.toFixed(2)}${values.p2}`,
                             esf:i.toFixed(2),
                             cil:j.toFixed(2),
+                            tags: values.tags,
                         })
                     }	
                 }
             }
             else
             {
+               
                 return null
             }
         }
+        //alert(JSON.stringify(codigos))
         return codigos;
     }
     
     const agregarRow = (_values) => 
     {
+        //alert(JSON.stringify(_values))
         let values = {..._values, codigo: _values.codigo.toUpperCase()}
         var codigos = procesar_codigos(values)
 
@@ -143,6 +150,7 @@ export default function AgregarStockLote(props){
                             descripcion: values.p1,
                             precio: values.precio,//Math.round((multiplier * values.costo) / 100) * 100,
                             modo_precio: values.modo_precio,
+                            tags:values.tags,
                         } : x
                     ))
                 )
@@ -158,6 +166,7 @@ export default function AgregarStockLote(props){
                     edad: values.edad,
                     precio: values.precio,// Math.round((multiplier * values.costo) / 100) * 100, 
                     modo_precio: values.modo_precio,
+                    tags:values.tags,
                 }])
             }
         }
@@ -178,6 +187,7 @@ export default function AgregarStockLote(props){
                     modo_precio: values.modo_precio,
                     esf: cod.esf,
                     cil: cod.cil,
+                    tags:values.tags,
                 })
             })
            
@@ -241,6 +251,7 @@ export default function AgregarStockLote(props){
         {title:"Cantidad", dataIndex: "cantidad"},
         {title:"Costo", dataIndex: "costo"},
         {title:"Precio", dataIndex: "precio"},
+        {title:"Etiquetas", render:(_,{tags})=>tags.map(t=><Tag>{t}</Tag>)},
         {title:"Acciones", dataIndex: "codigo", render: (codigo)=>{
             let temp = null;
             for(let i=0;i<tableData.length;i++){
@@ -296,8 +307,6 @@ export default function AgregarStockLote(props){
 
         setBtnDisabled(true);
 
-        //alert(JSON.stringify(tableData))
-
         tableData.forEach(r=>{
             values.push(
                 {
@@ -314,14 +323,13 @@ export default function AgregarStockLote(props){
                     precio: r.precio,
                     esf: typeof r.esf === 'undefined' ? "" : r.esf,
                     cil: typeof r.cil === 'undefined' ? "" : r.cil,
+                    tags: r.tags,
                     //add: typeof r.add === 'undefined' ? "" : r.add,
 
                 }
             )
         })
 
-
-        //alert("values: " + JSON.stringify(values))
 
         const update_status_row = (_status, _codigo) => {
             for(let i=0;i<tableData.length;i++){
@@ -341,7 +349,6 @@ export default function AgregarStockLote(props){
             var curr = values.shift();
 
             //check if code exists
-            //alert(JSON.stringify(curr))
             post_method(post.codigo_por_codigo,{codigo: curr.codigo},(response)=>{
                 if(response.data.length>0){
                     
@@ -393,7 +400,7 @@ export default function AgregarStockLote(props){
                     //alert("el codigo NO existe")
                     //start saving, first the code
                     //alert(JSON.stringify(curr))
-                    post_method(post.insert.codigo,curr,(res)=>{
+                    post_method(post.insert.codigo,{...curr,hook:HOOK},(res)=>{
                         //THEN THE STOCK
                         if(res.status == "OK")
                         {
@@ -494,6 +501,7 @@ export default function AgregarStockLote(props){
     return(
         <>
         <h1>Agregar Stock por Lote</h1>
+
             <Form onFinish={onFinish} form={form} onFinishFailed={onFinishFailed}>
 
                     <Form.Item style={{  padding:"3.5em", fontSize:".25em"}} label={"Subgrupo"} name={"subgrupo"} rules={[{required:true}]}>

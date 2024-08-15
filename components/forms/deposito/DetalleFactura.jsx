@@ -4,6 +4,7 @@ import { Table, Spin } from "antd";
 import { useEffect, useState } from "react";
 
 const DetalleFactura = (props) => {
+
     const [dataFactura, setDataFactura] = useState([]);
     const [dataElementos, setDataElementos] = useState([]);
     const [detallesLoading, setDetallesLoading] = useState(true);
@@ -12,6 +13,7 @@ const DetalleFactura = (props) => {
     const fetchUrlDetalles = get.detalle_factura;
     const fetchUrlElementos = get.elementos_factura;
 
+    
     const open = _ => {
         if(typeof props.idFactura === 'undefined'){
             alert("couldn't find id factura")
@@ -24,7 +26,7 @@ const DetalleFactura = (props) => {
         setElementosLoading(true)
         setDetallesLoading(true)
         //load data factura:
-        //alert(fetchUrlDetalles + props.idFactura)
+        
         fetch(fetchUrlDetalles + props.idFactura)
         .then(response=>response.json())
         .then((response)=>{
