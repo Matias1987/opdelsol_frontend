@@ -97,16 +97,32 @@ const SearchStockEnvio = (props) => {
         <Row>
             <Col span={24}>
                 <Affix offsetTop={top}>
-                    <Input.Search allowClear prefix={<><Button style={{backgroundColor:"lightseagreen", fontWeight:"bold"}} onClick={()=>{
+                    <Input.Search 
+                    allowClear
+
+                    prefix={<><Button style={{backgroundColor:"lightseagreen", fontWeight:"bold"}} 
+
+                    onClick={()=>{
                         if(idCat>-1)
                         {
                             setButtonText("..."); 
                             setIdCat(-1); 
+                            setCategoria("-1")
                             return
                         }
                         
                         setModalOpen(true)
-                        }}>{buttonText}</Button></>} width={"100%"} onSearch={onSearch} value={searchValue} onChange={(e)=>{setSearchValue(e.target.value)}} />
+                        }}
+
+                        >{buttonText}</Button></>} 
+                        width={"100%"} 
+                        onSearch={onSearch} 
+                        value={searchValue} 
+                        onChange={(e)=>{
+                            //if(e.target.)
+                            setSearchValue(e.target.value)
+                        }} 
+                        />
                 </Affix>
             </Col>
         </Row>
@@ -123,7 +139,8 @@ const SearchStockEnvio = (props) => {
                             {title:"Dest.", dataIndex: "cantidad_destino", render: (_,{cantidad_destino})=>(<span style={{color:"red"}}>{cantidad_destino}</span>)},
                             {
                                 title:<>
-                                    <Button onClick={
+                                    <Button 
+                                    onClick={
                                         (e)=>{
                                             props.callback((dataSource.filter(r=>r.checked)).map(e=>e.idcodigo))
                                         }
