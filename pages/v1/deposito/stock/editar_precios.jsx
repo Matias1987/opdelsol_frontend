@@ -1,9 +1,10 @@
-import EditarPreciosForm from "@/components/forms/deposito/EditarPreciosForm";
+import EditarPreciosSubgruposForm from "@/components/forms/deposito/EditarPreciosSubgruposForm";
+import EditarPreciosForm from "@/components/forms/deposito/EditarPreciosSubgruposForm";
 import MyLayout from "@/components/layout/layout";
 
 export default function EditarPrecios(){
     return (<>
-        <EditarPreciosForm />
+        <EditarPreciosSubgruposForm />
     </>)
 }
 

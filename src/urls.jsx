@@ -1,14 +1,14 @@
 //RELEASE
-const remote_base_url = "http://54.174.39.15:3001/api/v1/"
-const local_base_url = "http://54.174.39.15:3000/v1/"
+//const remote_base_url = "http://54.174.39.15:3001/api/v1/"
+//const local_base_url = "http://54.174.39.15:3000/v1/"
 
 //TEST
 //const remote_base_url = "http://54.174.39.15:3002/api/v1/"
 //const local_base_url = "http://54.174.39.15:3003/v1/"
 
 //LOCAL
-//const remote_base_url = "http://localhost:3001/api/v1/"
-//const local_base_url = "http://localhost:3000/v1/"
+const remote_base_url = "http://localhost:3001/api/v1/"
+const local_base_url = "http://localhost:3000/v1/"
 
 //const remote_base_url = "https://2a7b-186-123-181-180.ngrok-free.app/api/v1/";// "http://172.31.176.1:3001/api/v1/" //
 //const local_base_url =  "https://clever-mice-tap.loca.lt/v1/"
@@ -395,6 +395,8 @@ const get = {
     obtener_anotacion: remote_base_url + "anot/",//:idanotacion
 
     detalle_proveedor: remote_base_url + "proveedores/",
+
+    listado_subgrupos_filtros: remote_base_url + "subgrupos/listado/subgrupos/fitros/",
 
     
 }

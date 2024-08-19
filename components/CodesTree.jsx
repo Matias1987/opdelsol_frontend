@@ -103,6 +103,9 @@ const CodesTree = (props) => {
          )
       })
     }
+    else{
+      setDataSource([])
+    }
     
   };
   
