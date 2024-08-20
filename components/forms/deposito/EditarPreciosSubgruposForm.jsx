@@ -4,7 +4,7 @@ import SubFamiliaSelect from "@/components/SubFamiliaSelect";
 import SubGroupSelect from "@/components/SubGroupSelect";
 import { post_method } from "@/src/helpers/post_helper";
 import { get, post } from "@/src/urls";
-import { Row, Col, Select, Input, Button, Modal, Table } from "antd";
+import { Row, Col, Select, Input, Button, Modal, Table, Checkbox } from "antd";
 import { useState } from "react";
 /**
  * 
@@ -23,6 +23,7 @@ const EditarPreciosSubgruposForm = (props) => {
     const [vpOpen, setVPOpen] = useState(false)
     const [dataSourceVP, setDataSourceVP] = useState([])
     const [subgrupos, setSubgrupos] = useState([])
+    const [selectedSubgrupo, setSelectedSubgrupo] = useState(-1)
     
     const setValue = (idx, value) => {
 
@@ -115,6 +116,7 @@ const EditarPreciosSubgruposForm = (props) => {
                             response.data.map(
                                 r=>(
                                     {
+                                        idsubgrupo: r.subgrupo_idsubgrupo,
                                         codigo: r.codigo,
                                         precio_ant: r.precio_defecto,
                                         precio_n: (r.precio_defecto * values.multiplicador) + parseFloat(values.valor),
@@ -128,9 +130,11 @@ const EditarPreciosSubgruposForm = (props) => {
                     .then(r=>r.json())
                     .then(response=>{
                         setSubgrupos(response.data.map(sg=>({
+                            idsubgrupo:sg.idsubgrupo,
                             nombre_largo: sg.nombre_largo,
                             precio_ant: sg.precio_defecto,
                             precio_n: (parseFloat(sg.precio_defecto) * values.multiplicador) + parseFloat(values.valor),
+                            checked:false
                         })))
                     })
 
@@ -150,19 +154,36 @@ const EditarPreciosSubgruposForm = (props) => {
                     <Row>
                         <Col span={12}>
                             <h4>Subgrupos Afectados</h4>
-                            <Table dataSource={subgrupos} columns={[
+                            <Table 
+                            scroll={{y:"600px"}}
+                            dataSource={subgrupos} 
+                            columns={[
                                 {title:"Subgrupo", render:(_,obj)=><>{obj.nombre_largo}</>},
                                 {title:"Precio Ant.", render:(_,obj)=><>{obj.precio_ant}</>},
                                 {title:"Precio Nuevo", render:(_,obj)=><>{obj.precio_n}</>},
+                                {
+                                    render:(_,{idsubgrupo, checked})=><>
+                                       <Checkbox 
+                                       checked={checked}
+                                       onChange={(e)=>{
+                                            
+                                            setSubgrupos(_sgs=>subgrupos.map(_sg=>(_sg.idsubgrupo==idsubgrupo ? {..._sg,checked:e.target.checked} : {..._sg,checked:false})))
+                                            
+                                            setSelectedSubgrupo( e.target.checked ? idsubgrupo : -1 )
+
+                                       }}></Checkbox>
+                                    </>
+                                }
                                 ]} />
                         </Col>
                         <Col span={12}>
                             <h4>C&oacute;digos Afectados</h4>
                             <Table 
-                            dataSource={dataSourceVP}
+                            scroll={{y:"600px"}}
+                            dataSource={dataSourceVP.filter(sg=>selectedSubgrupo<0 ? true : selectedSubgrupo == sg.idsubgrupo )}
                             columns={[
                                 {dataIndex:"codigo", title:"Codigo"},
-                                {dataIndex:"precio_ant", title:<span style={{fontWeight:"bold", color:"red"}}>Precio Ant.</span>, render:(_,{precio_ant})=><div style={{textAlign:"right", color:"red"}}>$&nbsp;{precio_ant}</div>},
+                                {dataIndex:"precio_ant", title:<div style={{fontWeight:"bold", color:"red", textAlign:"right"}}>Precio Ant.</div>, render:(_,{precio_ant})=><div style={{textAlign:"right", color:"red"}}>$&nbsp;{precio_ant}</div>},
                                 {dataIndex:"precio_n", title:`Precio Nuevo  + ${values.porcentaje}% | Valor: ${values.valor} `, render:(_,{precio_n})=><div style={{textAlign:"right", color:"blue"}}>$&nbsp;{precio_n}</div> },
                             ]}
                             />
@@ -195,6 +216,7 @@ const EditarPreciosSubgruposForm = (props) => {
                         ,
                         (response)=>{
                             alert("OK")
+                            props?.callback?.()
                         }
                     )
                 }}>Aplicar</Button>

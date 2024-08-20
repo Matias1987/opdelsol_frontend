@@ -58,7 +58,7 @@ const EditarCodesTree = (props) => {
                     </Col>
                 </Row>
                 <br />
-                <EditarPreciosSubgruposForm fkcategoria={seleccion.id} categoria={seleccion.tipo} />
+                <EditarPreciosSubgruposForm fkcategoria={seleccion.id} categoria={seleccion.tipo} callback={()=>{setEditarPopupPreciosOpen(false)}}/>
             </Col>
         </Row>
     </Modal>
