@@ -156,6 +156,7 @@ const post = {
         filtro_stock: remote_base_url + "stock/filtro_stock/",
     },
     insert:{
+        optica: remote_base_url + "op/",
         stock_lote: remote_base_url + "stock/agregar_stock/lote/",
         familia: remote_base_url + "familia/",
         subfamilia: remote_base_url + "subfamilia/",
@@ -198,6 +199,7 @@ const post = {
         pago_proveedor: remote_base_url + "proveedores/agregar/pago/proveedor/"
     },
     update:{
+        optica: remote_base_url + "op/mod/",
         familia: remote_base_url + "familia/",
         subfamilia: remote_base_url + "subfamilia/",
         grupo: remote_base_url + "grupos/",
@@ -243,6 +245,7 @@ const post = {
 }
 
 const get = {
+    opticas: remote_base_url + "op/",
     obtener_usuarios_permisos: remote_base_url + "usuarios/l/a/s/obtener_usuarios_permisos/",
     lista_codigos_categoria: remote_base_url + "codigos/lista_por_categoria/", ///:idfamilia/:idsubfamilia/:idgrupo/:idsubgrupo
     lista_familia: remote_base_url + "familia/",

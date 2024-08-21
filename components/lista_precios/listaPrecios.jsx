@@ -22,7 +22,7 @@ const ListaPrecios = (props) => {
             {ids:[globals.familiaIDs.CRISTALES, globals.familiaIDs.LIQUIDOS, globals.familiaIDs.LC]},
             (resp)=>{
                 //alert(JSON.stringify(resp))
-                setSubfamilias(resp.data.map(sf=>({id:sf.idsubfamilia, nombre: sf.nombre_largo})))
+                setSubfamilias(resp.data.map(sf=>({id:sf.idsubfamilia, nombre: sf.nombre_largo, familia: sf.familia})))
             }
         )
     },[])
@@ -64,7 +64,7 @@ const ListaPrecios = (props) => {
             dataSource={subfamilias} 
             columns={
                 [
-                    {title:"Categorías", dataIndex:"nombre", render:(_,obj)=><Button disabled={loading} type="link" onClick={()=>{onSubfamiliaClick(obj.id,obj.nombre)}}>{obj.nombre}</Button>}
+                    {title:"Categorías", dataIndex:"nombre", render:(_,obj)=><Button style={{fontWeight:"bold"}} disabled={loading} type="link" onClick={()=>{onSubfamiliaClick(obj.id,obj.nombre)}}>{obj.familia + ' / ' +obj.nombre}</Button>}
                 ] 
                 }
                 pagination={false} 

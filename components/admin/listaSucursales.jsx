@@ -9,10 +9,13 @@ const ListaSucursales = (props) => {
     const [popupAddOpen, setPopupAddOpen] = useState(false)
     const [reload, setReload] = useState(false)
     const [idsucursal, setIdSucursal] = useState(-1)
+    
     const columns = [
         {dataIndex: "nombre", title:"Nombre"},
         {dataIndex: "direccion", title:"Dirección"},
         {dataIndex: "telefono", title:"Teléfono"},
+        {title:"Óptica", dataIndex:"optica"},
+
         {title:"Acciones", render:(_,obj)=>{
             return <>
                 <Button disabled onClick={()=>{

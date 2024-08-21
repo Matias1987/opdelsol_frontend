@@ -1,8 +1,10 @@
 import { post_method } from "@/src/helpers/post_helper";
-import { Button, Col, Input, Row } from "antd";
+import { Button, Col, Input, Row, Select } from "antd";
 import { useState } from "react";
 
 const AgregarSucursal = (props) => {
+
+    const [opticas, setOpticas] = useState([])
 
     const [sucursal, setSucursal] = useState({
         id: "",
@@ -44,6 +46,14 @@ const AgregarSucursal = (props) => {
     <Row style={row_style}>
         <Col span={24}>
             <Input prefix="Teléfono" value={sucursal.telefono} />
+        </Col>
+    </Row>
+    <Row>
+        <Col span={3}>
+            &Oacute;ptica:
+        </Col>
+        <Col span={24}>
+            <Select options={opticas} />
         </Col>
     </Row>
     <Row style={row_style}>

@@ -13,26 +13,26 @@ const items = [
  {
   label: <Link href={public_urls.dashboard_admin}>Inicio</Link>,
   key: '12',
-  icon:<HomeFilled />,
+
  },
   {
     label: (<Link href={public_urls.totales_venta_vendedores}>Totales Venta</Link>),
     key: '10',
-    icon: <StarOutlined />,
+
   },
   {
     label: (<Link href={public_urls.ventas_medicos}>Ventas M&eacute;dicos</Link>),
     key: '11',
-    icon: <StarOutlined />,
+
   },
   {
     label: (<Link href={public_urls.lista_ventas_dia_vendedor}>Ventas D&iacute;a</Link>),
     key: '14',
-    icon: <StarOutlined />,
+
   },
   
   {
-    icon: <BoxPlotFilled />,
+
     label: (<Link href={public_urls.stock_admin}>Stock</Link>),
     key: '16',
   },
@@ -45,7 +45,7 @@ const items = [
     key: '17',
   },*/
   {
-    label: (<BuscarVenta textButton="Ventas" />),
+    label: (<BuscarVenta textButton="Buscar Venta" />),
     key: '404',
   },
   {
