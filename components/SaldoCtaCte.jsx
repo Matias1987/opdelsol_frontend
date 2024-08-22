@@ -25,7 +25,7 @@ const SaldoCtaCte = (props) =>
         })
     },[])
     return balance == null ? <></> : <>
-        Saldo Cta. Cte.: ${balance.saldo}
+        Saldo (General): ${parseFloat(balance.saldo).toFixed(2)}
     </>
 }
 

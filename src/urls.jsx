@@ -241,6 +241,8 @@ const post = {
         marcar_como_calibrando: remote_base_url + "tl/c/est/dep/cal/",
         marcar_como_terminado: remote_base_url + "tl/c/est/dep/ter/",
         editar_cantidad_ideal: remote_base_url + "codigos/cod/editar/stock/ideal/",
+        mover_subgrupos:remote_base_url + "subgrupos/m/v/sg/",
+        mover_grupos: remote_base_url + "grupos/mover/",
     },
 }
 
@@ -300,6 +302,7 @@ const get = {
     operaciones_cliente: remote_base_url + "clientes/operaciones/",
     buscar_cliente: remote_base_url + "clientes/buscar/",
     saldo_ctacte: remote_base_url + "clientes/saldo/ctacte/",//:idcliente
+    saldo_ctacte_optica:remote_base_url + "op/obtener/saldo/cliente/optica/",
     actualizar_saldo_en_cobro: remote_base_url + "clientes/actualizar_saldo_en_cobro/",//:idcobro
 
     
@@ -400,6 +403,8 @@ const get = {
     detalle_proveedor: remote_base_url + "proveedores/",
 
     listado_subgrupos_filtros: remote_base_url + "subgrupos/listado/subgrupos/fitros/",
+
+    obtener_optica: remote_base_url + "op/",//:idoptica
 
     
 }

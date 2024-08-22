@@ -23,6 +23,7 @@ const SucursalSelectModal = (props) => {
                     ...response.data.map(r=>({
                         label: r.nombre,
                         value: r.idsucursal,
+                        idoptica: r.fkoptica,
                     }))
                 ]
             )
@@ -48,14 +49,17 @@ const SucursalSelectModal = (props) => {
                     }
                 }
             }
-
         })
-        
-        
     },[])
 
     const on_sucursal_selected = (id) => {
+        const obj = sucursales.find(s=>s.value==id)
+        if(typeof obj !== 'undefined')
+        {
+            globals.establecerOptica(obj.idoptica)
+        }
         globals.establecerSucursal(id)
+        
         setSelectedSucursal(id)
         
     }

@@ -6,6 +6,7 @@ import VentaDetallePopup from "./VentaDetalle";
 import EdicionClientePopup from "./forms/EdicionCliente";
 import LlamadasCliente from "./LLamadasCliente";
 import Edad from "./Edad";
+import SaldoCtaCteOptica from "./SaldoCtaCteOptica";
 
 const DetalleCliente = (props) =>
 {
@@ -134,8 +135,11 @@ const DetalleCliente = (props) =>
         data.bloqueado==1 ? <><Row><Col span={24}> <Tag color="red">BLOQUEADO</Tag> </Col></Row></>:<></>
     }
     <Row>
-        <Col span={"24"}>
+        <Col span={"12"}>
             <span style={{color:"blueviolet"}}><SaldoCtaCte idcliente={data.idcliente} /></span>
+        </Col>
+        <Col span={"12"}>
+            <span style={{color:"blueviolet"}}><SaldoCtaCteOptica idcliente={data.idcliente} /></span>
         </Col>
     </Row>
     <Row>

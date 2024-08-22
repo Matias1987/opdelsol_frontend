@@ -40,6 +40,16 @@ const globals =  {
         const {getItem} = useStorage();
         return getItem("idsucursal");
     },
+    establecerOptica: (idoptica) =>
+    {
+        const {setItem} = useStorage();
+        setItem("idoptica",idoptica);
+    },
+    obtenerOptica: () =>
+    {
+        const {getItem} = useStorage();
+        return getItem("idoptica");
+    },
     obtenerUserName: () =>
     {
         const {getItem} = useStorage();
