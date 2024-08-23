@@ -15,7 +15,10 @@ const SubFamiliaForm = (props) =>{
     const agregar = ( _values ) => {
         post_helper.post_method(urls.post.insert.subfamilia,_values,(res)=>{
 
-            if(res.status == "OK"){alert("Datos Guardados")}else{
+            if(res.status == "OK"){
+                alert("Datos Guardados")
+                props?.callback?.()
+            }else{
                 alert("Error: " + res.data)
             }
         });
@@ -48,14 +51,14 @@ const SubFamiliaForm = (props) =>{
   
       const onOkPopup = () => {
         setPopupOpen(false);
-        //setReload(!reload)
-        location.reload();
+        setReload(!reload)
+        //location.reload();
       }
   
-      const AgregarFamiliaFormPopup = _=>
+      const agregarFamiliaFormPopup = _=>
       (<>
           <Button type="primary"  size="small"  onClick={()=>{setPopupOpen(true)}}>
-              <PlusCircleOutlined />&nbsp;Agregar
+              <PlusCircleOutlined />&nbsp;Agregar Familia
           </Button>
           <Modal
               cancelButtonProps={{ style: { display: 'none' } }}
@@ -93,7 +96,7 @@ const SubFamiliaForm = (props) =>{
                 ]}
             >
                 <>
-            <LoadSelect fetchurl={urls.get.familia_menu_opt} callback={
+            <LoadSelect key={reload} fetchurl={urls.get.familia_menu_opt} callback={
                     (id)=>{
                         setValue(id);
                     }
@@ -101,7 +104,7 @@ const SubFamiliaForm = (props) =>{
                 }
                 reload={reload} 
                 />
-                <AgregarFamiliaFormPopup />
+                {agregarFamiliaFormPopup()}
                 </>
             </Form.Item>
             <Form.Item

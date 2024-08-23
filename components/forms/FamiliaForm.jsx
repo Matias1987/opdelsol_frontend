@@ -9,6 +9,7 @@ const FamiliaForm = (props) => {
     post_helper.post_method(urls.post.insert.familia,_values,(res)=>{
         if(res.status == "OK"){
           alert("Datos Guardados")
+          props?.callback?.()
         }else
         {
           alert("Error: " + res.data)
@@ -84,7 +85,7 @@ const onFinishFailed = (errorInfo) => {
       }}
     >
       <Button type="primary" htmlType="submit">
-        Submit
+        GUARDAR
       </Button>
     </Form.Item>
   </Form>)

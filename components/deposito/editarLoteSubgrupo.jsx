@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import GrupoSelect from "../GrupoSelect";
 /**
  * 
- * @param grupos 
+ * @param subgrupos 
  * 
  */
 const EditarLoteSubgrupo = (props) => {
@@ -14,41 +14,51 @@ const EditarLoteSubgrupo = (props) => {
 
     useEffect(()=>{
         setSubgrupos(props.subgrupos)
+        if((props.subgrupos||[]).length<1)
+        {
+            alert("Lista de subgrupos vacía")
+            props?.callback?.()
+        }
     },[])
 
     const onAplicar = _ => {
         post_method(post.update.mover_subgrupos,
-            {ids:subgrupos.map(sg=>(sg.idsubgrupo)), idgrupo:selectedGrupo},
+            {ids:subgrupos.map(sg=>(sg.idsubgrupo)), targetId:selectedGrupo},
             (resp)=>{
                 alert("Hecho")
                 props?.callback?.(resp)
             }
         )
     }
+
+    const row_style = {
+        padding:"6px"
+    }
+
     return <>
     <Row>
         <Col span={24}>
         
         </Col>
     </Row>
-    <Row>
+    <Row style={row_style}>
         <Col span={24}>
             <Input.TextArea value={subgrupos.map(sg=>sg.nombre_corto)} />
         </Col>
     </Row>
-    <Row>
+    <Row style={row_style}>
         <Col span={24}>
-            Grupo a Cambiar: 
+            Grupo Destino: 
         </Col>
     </Row>
-    <Row>
+    <Row style={row_style}>
         <Col span={24}>
             <GrupoSelect callback={(id)=>{setSelectedGrupo(id)}} />
         </Col>
     </Row>
-    <Row>
+    <Row style={row_style}>
         <Col span={24}>
-            <Button onClick={onAplicar}>Aplicar Cambios</Button>
+            <Button disabled={subgrupos.length<1} onClick={onAplicar} type="primary">Aplicar Cambios</Button>
         </Col>
     </Row>
     

@@ -1,11 +1,12 @@
 import { PlusCircleOutlined } from "@ant-design/icons"
 import GrupoForm from "./GrupoForm"
 import { useState } from "react"
+import GrupoSelect from "../GrupoSelect"
 
-const { Form, Input, Button, InputNumber, Switch, Modal, Row, Col, Checkbox } = require("antd")
-const { default: GrupoSelect } = require("../GrupoSelect")
-const urls = require("../../src/urls")
-const post_helper = require("../../src/helpers/post_helper")
+import { Form, Input, Button, Modal, Row, Col, Checkbox } from "antd"
+import { post_method } from "@/src/helpers/post_helper"
+import { post } from "@/src/urls"
+
 const SubGrupoFormV2 = (props) => {
     const [form] = Form.useForm();
 
@@ -24,17 +25,29 @@ const SubGrupoFormV2 = (props) => {
     })
 
     const onFinish = () => {
-        //alert(JSON.stringify(subgrupo))
-
+        if(subgrupo.grupo_idgrupo==null)
+        {
+            alert("Grupo no seleccionado")
+            return
+        }
+        if(subgrupo.grupo_idgrupo<1)
+        {
+            alert("Grupo no seleccionado")
+            return
+        }
         switch(props.action){
-            case 'ADD': post_helper.post_method(urls.post.insert.subgrupo,subgrupo,(res)=>{
-              if(res.status == "OK"){alert("Datos Guardados")}else{alert("Error: " + res.data)}});
+            case 'ADD': post_method(post.insert.subgrupo,subgrupo,(res)=>{
+              if(res.status == "OK"){
+                alert("Datos Guardados")
+                props?.callback?.()
+            }else{
+                alert("Error: " + res.data)
+            }});
               break;
-            case 'EDIT': post_helper.post_method(urls.post.update.subgrupo,subgrupo,(res)=>{
+            case 'EDIT': post_method(post.update.subgrupo,subgrupo,(res)=>{
               if(res.status == "OK"){alert("Cambios Guardados")}else{alert("Error.")}});
               break;
-            };
-
+            }
       };
     
 
@@ -46,14 +59,14 @@ const SubGrupoFormV2 = (props) => {
 
     const onOkPopup = () => {
         setPopupOpen(false);
-        //setReload(!reload)
-        location.reload();
+        //location.reload();
+        setReload(!reload)
     }
 
-    const AgregarGrupoFormPopup = _=>
+    const agregarGrupoFormPopup = _=>
     (<>
         <Button type="primary"  size="small"  onClick={()=>{setPopupOpen(true)}}>
-            <PlusCircleOutlined />&nbsp;Agregar
+            <PlusCircleOutlined />&nbsp;Agregar Grupo
         </Button>
         <Modal
             cancelButtonProps={{ style: { display: 'none' } }}
@@ -78,11 +91,12 @@ const SubGrupoFormV2 = (props) => {
          <Row style={_row_style}>
             <Col span={24}>
                 Grupo:&nbsp;
-                <GrupoSelect callback = {(id)=>{
-                    //setValue("grupo_idgrupo",id)
+                <GrupoSelect 
+                key={reload}
+                callback = {(id)=>{
                     setSubgrupo((sg)=>({...sg,grupo_idgrupo:id}))
                 }} reload={reload} />
-                <AgregarGrupoFormPopup />
+                {agregarGrupoFormPopup()}
             </Col>
          </Row>
          <Row style={_row_style}>

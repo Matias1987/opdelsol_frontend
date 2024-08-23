@@ -13,7 +13,7 @@ const CustomTable = (props) => {
     const [data, setData] = useState([]);
     useEffect(()=>{
         setLoading(true)
-
+        alert(props.fetchUrl)
         fetch(props.fetchUrl)
         .then(response=>
              response.json()

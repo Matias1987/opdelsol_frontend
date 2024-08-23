@@ -1,47 +1,8 @@
-import CustomTable from "@/components/forms/CustomTable";
-import MyLayout from "@/components/layout/layout";
-import { get } from "@/src/urls";
-import { Button } from "antd";
 
+import ListadoSubFamilias from "@/components/deposito/listadoSubfamilias";
+import MyLayout from "@/components/layout/layout";
 export default function ListaSubFamilias(){
-    return(
-        <>
-        <h1>Lista de SubFamilias</h1>
-        <CustomTable 
-            fetchUrl={get.lista_subfamilias}
-            columns = {
-                [
-                    {title: 'ID',dataIndex: 'id',key: 'id'},
-                    {title: 'Nombre Largo',dataIndex: 'nombre_largo',key: 'nombre_largo'},
-                    {title: 'Nombre Corto',dataIndex: 'nombre_corto',key: 'nombre_corto'},
-                    {
-                        title: 'Acciones', dataIndex: 'idsubfamilia', key: 'idsubfamilia',
-                        render: 
-                            (_,{idsubfamilia})=>{
-                                return (<>
-                                     <Button onClick={()=>{}}>Editar</Button>
-                                </>    )                
-                            }
-                        
-                    }
-                ]
-            }
-            parsefnt={
-                (response)=>(
-                    response.data.map(
-                        (row)=>(
-                            {
-                                id: row.idsubfamilia,
-                                nombre_corto: row.nombre_corto,
-                                nombre_largo: row.nombre_largo
-                            }
-                        )
-                    )
-                )
-            }
-        />
-        </>
-    )
+    return <ListadoSubFamilias />
 }
 
 ListaSubFamilias.PageLayout = MyLayout;

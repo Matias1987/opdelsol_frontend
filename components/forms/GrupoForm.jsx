@@ -15,7 +15,10 @@ const GrupoForm = (props) => {
     const onFinish = (values) => {
         switch(props.action){
             case 'ADD': post_helper.post_method(urls.post.insert.grupo,values,(res)=>{
-              if(res.status == "OK"){alert("Datos Guardados")}else{alert("Error: " + res.data)}});
+              if(res.status == "OK"){
+                alert("Datos Guardados")
+                props?.callback?.()
+            }else{alert("Error: " + res.data)}});
               break;
             case 'EDIT': post_helper.post_method(urls.post.update.grupo,values,(res)=>{
               if(res.status == "OK"){alert("Cambios Guardados")}else{alert("Error.")}});
@@ -38,14 +41,14 @@ const GrupoForm = (props) => {
 
     const onOkPopup = () => {
         setPopupOpen(false);
-        //setReload(!reload)
-        location.reload();
+        setReload(!reload)
+        //location.reload();
     }
 
-    const AgregarSubFamiliaFormPopup = _=>
+    const agregarSubFamiliaFormPopup = _=>
     (<>
         <Button type="primary"  size="small"  onClick={()=>{setPopupOpen(true)}}>
-            <PlusCircleOutlined />&nbsp;Agregar
+            <PlusCircleOutlined />&nbsp;Agregar Subfamilia
         </Button>
         <Modal
             cancelButtonProps={{ style: { display: 'none' } }}
@@ -78,7 +81,7 @@ const GrupoForm = (props) => {
                 >
                     <>
                         <SubFamiliaSelect 
-                        
+                        key={reload}
                         callback = {(id) =>{
                             setValue(id)
                         }}
@@ -86,7 +89,7 @@ const GrupoForm = (props) => {
                         reload={reload} 
                         
                         />
-                        <AgregarSubFamiliaFormPopup />
+                        {agregarSubFamiliaFormPopup()}
                     </>
                 </Form.Item>
                 <Form.Item
