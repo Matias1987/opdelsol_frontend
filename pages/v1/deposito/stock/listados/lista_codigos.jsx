@@ -113,7 +113,7 @@ export default function ListaCodigos(){
 
     return(
         <>
-            <h2>Lista C&oacute;digos</h2>
+            <h3>C&oacute;digos</h3>
             <Row style={{padding:"1em"}}>
                 <Col span={24}>
                     <FiltroCodigos callback={callback_filtros}  />

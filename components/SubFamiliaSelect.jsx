@@ -51,6 +51,7 @@ const SubFamiliaSelect = (props) => {
         <>
             <Space wrap>
                 <Select 
+                disabled={typeof props.disabled === 'undefined' ? false : props.disabled}
                 style={{ width: 240 }}
                 
                 loading = {familiaLoading}
@@ -66,9 +67,10 @@ const SubFamiliaSelect = (props) => {
                 options = {familiaOptions}
                 />
                 {
-                    idFamilia==-1 ? <Spin /> :
+                    idFamilia==-1 ? <></> :
                     (
                         <Select 
+                        disabled={typeof props.disabled === 'undefined' ? false : props.disabled}
                         style={{ width: 240 }}
                         loading = {subFamiliaLoading}
                         options = {subFamiliaOptions}

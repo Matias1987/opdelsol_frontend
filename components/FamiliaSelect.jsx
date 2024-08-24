@@ -32,6 +32,7 @@ const FamiliaSelect = (props) => {
 
 
                 <Select 
+                disabled={typeof props.disabled==='undefined' ? false: props.disabled}
                 style={{ width: 240 }}
                 value={idFamilia<0 ? "Seleccione Familia" : idFamilia}
                 loading = {familiaLoading}

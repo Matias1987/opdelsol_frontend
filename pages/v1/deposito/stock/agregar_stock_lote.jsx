@@ -1,16 +1,19 @@
+import FacturaSelect from "@/components/FacturaSelect";
+import PopUpAgregarStockLoteForm from "@/components/forms/deposito/stock_lote/popup_stock_form";
 import FacturaForm from "@/components/forms/FacturaForm";
 import SubGrupoForm from "@/components/forms/SubGrupoForm";
 import MyLayout from "@/components/layout/layout";
+import SubGroupSelect from "@/components/SubGroupSelect";
 import globals from "@/src/globals";
 import { post_method } from "@/src/helpers/post_helper";
 import { get, post, public_urls } from "@/src/urls";
+import { DeleteOutlined, EditOutlined, PlusCircleOutlined } from "@ant-design/icons";
 
-const { default: FacturaSelect } = require("@/components/FacturaSelect");
-const { default: SubGroupSelect } = require("@/components/SubGroupSelect");
-const { default: PopUpAgregarStockLoteForm } = require("@/components/forms/deposito/stock_lote/popup_stock_form");
-const { DeleteOutlined, EditOutlined, PlusCircleOutlined } = require("@ant-design/icons");
-const { Button, Table, Form, Tag, Modal } = require("antd");
-const { useState } = require("react")
+
+
+import { Button, Table, Form, Tag, Modal, Card } from "antd";
+import { useState } from "react";
+
 
 export default function AgregarStockLote(props){
     const [form] = Form.useForm();
@@ -500,7 +503,14 @@ export default function AgregarStockLote(props){
 
     return(
         <>
-        <h1>Agregar Stock por Lote</h1>
+        <Card
+        bodyStyle={{backgroundColor:"#E7E7E7"}}
+        headStyle={{backgroundColor:"#F07427", color:"white"}}
+        bordered
+        title={<><span>Agregar Stock por Lote</span></>}
+        size="small"
+        
+        >
 
             <Form onFinish={onFinish} form={form} onFinishFailed={onFinishFailed}>
 
@@ -530,26 +540,8 @@ export default function AgregarStockLote(props){
                         <PopUpAgregarStockLoteForm precioDefecto={precioDefecto} multiplicador={multiplier} title={"Agregar"} edit={false} values={null} callback={(_data)=>{
                                     agregarRow(_data)
                                 }} />
-                        {/*<PopupAgregarCodigoLoteStockV2 callback={
-                            (cods)=>{
-                                const _codes = []
-                                cods.forEach((r)=>{
-                                    _codes.push(
-                                        {
-                                            codigo: r.codigo,
-                                            descripcion: r.descripcion,
-                                            costo: 0,
-                                            precio: 0,
-                                            modo_precio: 0,
-                                            cantidad: 0,
-                                            status: "PENDING"
-                                        }
-                                    )
-                                })
-                                setTableData([..._codes])
-                            }
-                        } />*/}
-                        <Table dataSource={tableData} columns={columns} pagination={false} />
+                     
+                        <Table scroll={{y:"400px"}} dataSource={tableData} columns={columns} pagination={false} />
                         </>
                         }
                     </Form.Item>
@@ -558,6 +550,7 @@ export default function AgregarStockLote(props){
                         <Button disabled={btnDisabled} type="primary" htmlType="submit">Confirmar</Button>
                     </Form.Item>
             </Form>
+            </Card>
         </>
     )
 }

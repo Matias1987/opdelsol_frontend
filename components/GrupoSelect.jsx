@@ -85,7 +85,7 @@ const GrupoSelect = (props) => {
                 options = {familiaOptions}
                 />
                 {
-                    idFamilia==-1 ? <Spin /> :
+                    idFamilia==-1 ? <></> :
                     (
                         <Select 
                         disabled={typeof props.disabled === 'undefined' ? false : props.disabled}
@@ -107,7 +107,7 @@ const GrupoSelect = (props) => {
                     )
                 }
                 {
-                    idSubFamilia == -1 ? <Spin /> :
+                    idSubFamilia == -1 ? <></> :
                     (
                         <Select 
                         disabled={typeof props.disabled === 'undefined' ? false : props.disabled}

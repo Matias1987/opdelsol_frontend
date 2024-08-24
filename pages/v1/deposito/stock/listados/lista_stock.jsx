@@ -358,7 +358,7 @@ export default function ListaStock(){
 
     return(
         <>
-            <h3>Lista Stock</h3>
+            <h3>Stock</h3>
             <Tabs
             onChange={(v)=>{setActiveTab(v)}}
             defaultActiveKey="1"

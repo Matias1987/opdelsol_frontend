@@ -13,7 +13,6 @@ const CustomTable = (props) => {
     const [data, setData] = useState([]);
     useEffect(()=>{
         setLoading(true)
-        alert(props.fetchUrl)
         fetch(props.fetchUrl)
         .then(response=>
              response.json()
@@ -31,6 +30,8 @@ const CustomTable = (props) => {
     },[])
     return (
         <Table
+        rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'}
+        size="small"
         columns={props.columns}
         dataSource={data}
         loading={tableloading}

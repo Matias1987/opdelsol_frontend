@@ -189,39 +189,40 @@ const EditarPreciosSubgruposForm = (props) => {
                             />
                         </Col>
                     </Row>
+                    <Row style={row_style}>
+                        <Col  span={24}>
+                            <Button 
+                       
+                            danger 
+                            block 
+                            onClick={()=>{
+                                if(!confirm("Aplicar Cambios?"))
+                                {
+                                    return;
+                                }
+                                post_method(post.update.modificar_precios_defecto_subgrupo,
+                                    {
+                                        idfamilia:values.categoria=="familia"? values.fkcategoria:"-1",
+                                        idsubfamilia:values.categoria=="subfamilia"? values.fkcategoria:"-1",
+                                        idgrupo:values.categoria=="grupo"? values.fkcategoria:"-1",
+                                        idsubgrupo:values.categoria=="subgrupo"? values.fkcategoria:"-1",
+                                        multiplicador: values.multiplicador,
+                                        valor: values.valor,
+                                    }
+                                    ,
+                                    (response)=>{
+                                        alert("OK")
+                                        props?.callback?.()
+                                    }
+                                )
+                            }}>Aplicar Cambios</Button>
+                        </Col>
+                    </Row>
                     
                 </Modal>
         </Col>
     </Row>
-    <Row style={row_style}>
-        <Col  span={24}>
-                <Button 
-                size="small"
-                danger 
-                block 
-                onClick={()=>{
-                    if(!confirm("Aplicar Cambios?"))
-                    {
-                        return;
-                    }
-                    post_method(post.update.modificar_precios_defecto_subgrupo,
-                        {
-                            idfamilia:values.categoria=="familia"? values.fkcategoria:"-1",
-                            idsubfamilia:values.categoria=="subfamilia"? values.fkcategoria:"-1",
-                            idgrupo:values.categoria=="grupo"? values.fkcategoria:"-1",
-                            idsubgrupo:values.categoria=="subgrupo"? values.fkcategoria:"-1",
-                            multiplicador: values.multiplicador,
-                            valor: values.valor,
-                        }
-                        ,
-                        (response)=>{
-                            alert("OK")
-                            props?.callback?.()
-                        }
-                    )
-                }}>Aplicar</Button>
-        </Col>
-    </Row>
+    
         
     </div>)
 }

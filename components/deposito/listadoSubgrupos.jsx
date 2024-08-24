@@ -1,10 +1,11 @@
 import GrupoSelect from "@/components/GrupoSelect";
 import EditarSubgrupo from "@/components/forms/deposito/EditarSubgrupo";
 import { get } from "@/src/urls";
-import { Button, Checkbox, Col, Divider, Input, Modal, Row, Table } from "antd";
+import { Button, Card, Checkbox, Col, Divider, Input, Modal, Row, Table } from "antd";
 import { useEffect, useState } from "react";
 import EditarLoteSubgrupo from "./editarLoteSubgrupo";
 import SubGrupoFormV2 from "../forms/SubGrupoFormV2";
+import { PlusOutlined } from "@ant-design/icons";
 
 const ListadoSubGrupos = ( props ) => {
     const [change, setChange] = useState(false)
@@ -40,7 +41,7 @@ const ListadoSubGrupos = ( props ) => {
         .catch(e=>{"error"})
     },[change])
     const columns = [
-        {title: 'ID',dataIndex: 'id',key: 'id'},
+        /*{title: 'ID',dataIndex: 'id',key: 'id'},*/
         {title: 'Ruta',dataIndex: 'ruta',key: 'ruta', render:(_,{ruta})=><>
         <i style={{fontSize:".75em", color:"blue"}}>{ruta}</i>
         </>},
@@ -56,7 +57,9 @@ const ListadoSubGrupos = ( props ) => {
             
         },
         {
-            title: <Checkbox onChange={(e)=>{
+            title: <Checkbox
+            disabled={filtrarPorGrupo} 
+            onChange={(e)=>{
                 setDataSource(dt=>dt.map(_sg=>({..._sg,checked:e.target.checked})))
             }}></Checkbox>,
             render:(_,{id, checked})=><Checkbox 
@@ -73,51 +76,60 @@ const ListadoSubGrupos = ( props ) => {
 
     return(
         <>
-        <Row>
-            <Col span={24}>
-                <h3>Lista de SubGrupos</h3>
-            </Col>
-        </Row>
-        <Row>
-            <Col span={24}>
-                <Button onClick={()=>{setPopupEditSeleccionOpen(true)}}>Editar Selecci&oacute;n</Button>
-                &nbsp;
-                <Button onClick={()=>{setPopupAddOpen(true)}}>Agregar Subgrupo</Button>
-            </Col>
-          
-        </Row>
-        
-        
-        <Row style={{padding:"1em"}}>
-            <Col span={6}>
-                <Checkbox checked={filtrarPorGrupo} onChange={(e)=>{
-                    setFiltrarPorGrupo(!filtrarPorGrupo)
-                    setChange(!change)
-                    }
-                }>Filtrar por Grupo</Checkbox>
-            </Col>
-            <Col span={14}>
-                <GrupoSelect callback={(id)=>{setIdGrupo(id); setChange(!change)}} disabled={!filtrarPorGrupo} />
-            </Col>
-        </Row>
-        <Row>
-            <Col span={24}>
-                <Divider />
-                <Input.Search style={{ backgroundColor:"lightblue"}} onSearch={onSearch} prefix="QuickSearch: "/>
-            </Col>
-        </Row>
-        <Row>
-            <Col span={24}>
-                <Table columns={columns} dataSource={
-                    filtroTabla.trim().length<1 ? dataSource : dataSource.filter(r=>(r.nombre_corto.toString().toUpperCase().includes(filtroTabla.toUpperCase()) || r.nombre_largo.toString().toUpperCase().includes(filtroTabla.toUpperCase())))
-                } scroll={{y:"500px"}} pagination={true} />
-            </Col>
-        </Row>
-        <Row>
-            <Col span={24}>
+        <Card 
+        bodyStyle={{backgroundColor:"#E7E7E7"}}
+        headStyle={{backgroundColor:"#F07427", color:"white"}}
+        bordered
+        title={<><span>SubGrupos</span>&nbsp;&nbsp;<Button size="small" style={{color:"blue"}} onClick={()=>{setPopupAddOpen(true)}}><PlusOutlined /> Agregar Subgrupo</Button></>}
+        size="small" >
+            <Row>
+                <Col span={24}>
+                    
+                </Col>
+            </Row>
+            <Row>
+                <Col span={24}>
+                    <Button size="small" danger onClick={()=>{setPopupEditSeleccionOpen(true)}}>Editar Selecci&oacute;n</Button>
+                    &nbsp;
+                    
+                </Col>
+            
+            </Row>
+            
+            
+            <Row style={{padding:"1em"}}>
+                <Col span={6}>
+                    <Checkbox checked={filtrarPorGrupo} onChange={(e)=>{
+                        setFiltrarPorGrupo(!filtrarPorGrupo)
+                        setChange(!change)
+                        }
+                    }>Filtrar por Grupo</Checkbox>
+                </Col>
+                <Col span={14}>
+                    <GrupoSelect callback={(id)=>{setIdGrupo(id);setChange(!change);}} disabled={!filtrarPorGrupo} />
+                </Col>
+            </Row>
+            <Row>
+                <Col span={24}>
+                    <Input.Search style={{ backgroundColor:"lightblue"}} onSearch={onSearch} prefix="QuickSearch: "/>
+                </Col>
+            </Row>
+            <Row>
+                <Col span={24}>
+                    <Table 
+                    size="small"
+                    rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'}
+                    columns={columns} dataSource={
+                        filtroTabla.trim().length<1 ? dataSource : dataSource.filter(r=>(r.nombre_corto.toString().toUpperCase().includes(filtroTabla.toUpperCase()) || r.nombre_largo.toString().toUpperCase().includes(filtroTabla.toUpperCase())))
+                    } scroll={{y:"500px"}} pagination={true} />
+                </Col>
+            </Row>
+            <Row>
+                <Col span={24}>
 
-            </Col>
-        </Row>
+                </Col>
+            </Row>
+        </Card>
         <Modal 
         destroyOnClose
         title="Editar Lote Subgrupo"
