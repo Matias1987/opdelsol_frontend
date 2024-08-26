@@ -465,6 +465,7 @@ export default function AgregarStockLote(props){
         {props.edit ? <EditOutlined /> : <><PlusCircleOutlined />&nbsp;Agregar</>}
       </Button>
     <Modal
+        destroyOnClose
         cancelButtonProps={{ style: { display: 'none' } }}
         okButtonProps={{children:"CANCELAR"}}
         

@@ -163,13 +163,13 @@ export default function ListaStock(){
         </Space>},
         {title: 'Codigo',dataIndex: 'codigo',key: 'codigo', render:(_,{codigo})=>
             <>
-            <span style={{fontSize:".85em"}}><b>{codigo}</b></span>
+            <div style={{fontSize:".85em", whiteSpace:"nowrap", overflowX:"scroll", width:"100%"}}><b>{codigo}</b></div>
             </>},
-      /*  {title: 'Descripción',dataIndex: 'descripcion',key: 'descripcion'},*/
+        {title: 'Descripción',dataIndex: 'descripcion',key: 'descripcion', width:"20%", render:(_,{descripcion})=><div  style={{width:"100%", overflowX:"scroll", whiteSpace:"nowrap" }}>{descripcion}</div>},
         
         {title: 'Edad',dataIndex: 'edad',key: 'edad', hidden: true},
         {title: 'Género',dataIndex: 'genero',key: 'genero', hidden: true},
-        {title: 'Precio',dataIndex: 'idcodigo',key: 'precio', width:"100px", render:(_,{precio,modo_precio})=>{
+        {title: 'Precio',dataIndex: 'idcodigo',key: 'precio', width:"10%", render:(_,{precio,modo_precio})=>{
             
             switch(modo_precio)
             {

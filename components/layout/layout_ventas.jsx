@@ -95,7 +95,7 @@ export default function LayoutVentas(props){
             {/*<MenuVentasTop />*/}
             <MenuV2 />
             <Menu items={[{
-                label:<Input.Search style={{padding:".3em"}} prefix={"Buscar Código: "} value={busqueda} onChange={(e)=>{setBusqueda(e.target.value)}} onSearch={onSearch} />
+                label:<Input.Search style={{padding:".3em"}} prefix={<span style={{fontWeight:"bold", backgroundColor:"lightyellow"}}>Buscar Código:&nbsp;&nbsp;&nbsp;</span>} value={busqueda} onChange={(e)=>{setBusqueda(e.target.value)}} onSearch={onSearch} />
 
             }]}
             />

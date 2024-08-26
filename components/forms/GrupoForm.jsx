@@ -36,7 +36,7 @@ const GrupoForm = (props) => {
 
     const closePopup = () => {
         setPopupOpen(false);
-        location.reload();
+        //location.reload();
     }
 
     const onOkPopup = () => {

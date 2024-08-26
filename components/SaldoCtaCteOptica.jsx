@@ -30,7 +30,7 @@ const SaldoCtaCteOptica = (props) =>
         fetch(get.obtener_optica + globals.obtenerOptica())
         .then(r=>r.json())
         .then(r=>{
-            alert(JSON.stringify(r))
+            //alert(JSON.stringify(r))
             if((r||null) == null || (r?.data||null) == null)
             {
                 return

@@ -14,7 +14,11 @@ const SubGrupoForm = (props) => {
     const onFinish = (values) => {
         switch(props.action){
             case 'ADD': post_helper.post_method(urls.post.insert.subgrupo,values,(res)=>{
-              if(res.status == "OK"){alert("Datos Guardados")}else{alert("Error: " + res.data)}});
+              if(res.status == "OK"){
+                alert("Datos Guardados");
+                props?.callback?.();
+
+              }else{alert("Error: " + res.data)}});
               break;
             case 'EDIT': post_helper.post_method(urls.post.update.subgrupo,values,(res)=>{
               if(res.status == "OK"){alert("Cambios Guardados")}else{alert("Error.")}});
@@ -27,26 +31,29 @@ const SubGrupoForm = (props) => {
     };
 
     const setValue = (idx,value)=>{
-        switch(idx){
-            case "grupo_idgrupo": form.setFieldsValue({grupo_idgrupo:value}); break;
+        form.setFieldsValue({[idx]:value}); 
+        /*switch(idx){
+            case "grupo_idgrupo": 
             case "multiplicador": form.setFieldsValue({multiplicador:value}); break;
-        }
+        }*/
     
 
     }
 
     const closePopup = () => {
         setPopupOpen(false);
-        location.reload();
+        
+        //location.reload();
     }
 
     const onOkPopup = () => {
         setPopupOpen(false);
-        //setReload(!reload)
-        location.reload();
+        setReload(!reload)
+        
+        //location.reload();
     }
 
-    const AgregarGrupoFormPopup = _=>
+    const agregarGrupoFormPopup = _=>
     (<>
         <Button type="primary"  size="small"  onClick={()=>{setPopupOpen(true)}}>
             <PlusCircleOutlined />&nbsp;Agregar
@@ -80,10 +87,13 @@ const SubGrupoForm = (props) => {
             rules={[{required: true,}]}
             >
                 <>
-                    <GrupoSelect callback = {(id)=>{
+                    <GrupoSelect 
+                    key={reload}
+                    
+                    callback = {(id)=>{
                         setValue("grupo_idgrupo",id)
                     }} reload={reload} />
-                    <AgregarGrupoFormPopup />
+                    {agregarGrupoFormPopup()}
                 </>
             </Form.Item>
             <Form.Item
@@ -102,7 +112,7 @@ const SubGrupoForm = (props) => {
             >
                 <Input onInput={e => e.target.value = e.target.value.toUpperCase()}/>
             </Form.Item>
-            <Form.Item
+            {/*<Form.Item
             label={"Multiplicador"}
             name={"multiplicador"}
             rules={[{required: true,}]}
@@ -110,15 +120,15 @@ const SubGrupoForm = (props) => {
                 <InputNumber step={".1"} value={"1"} min="0" onChange={(v)=>{
                     setValue("multiplicador",v)
                 }}/>
-            </Form.Item>
+            </Form.Item>*/}
             <Form.Item
             label={"Precio por defecto"}
-            name={"precio"}
+            name={"precio_defecto"}
             rules={[{required: true,}]}
             
             >
-                <Input style={{width:'310px'}} type="number" step={".1"} value={"1"} min="0" onChange={(v)=>{
-                    setValue("precio",v)
+                <Input style={{width:'310px'}} type="number" step={".1"} value={"1"} min="0" onChange={(e)=>{
+                    setValue("precio_defecto",parseFloat(e.target.value))
                 }}/>
             </Form.Item>
             <Form.Item>

@@ -4,6 +4,7 @@ import { regex_get_id_if_match } from "@/src/helpers/barcode_helper";
 import { post_method } from "@/src/helpers/post_helper";
 import { post } from "@/src/urls";
 import { EditOutlined, PlusCircleOutlined } from "@ant-design/icons";
+import Card from "antd/es/card/Card";
 import { useEffect, useState } from "react";
 
 const { Spin, Form, InputNumber, Button, Modal, Input, Select, Space, Checkbox, Switch, Row, Col, Divider, Radio } = require("antd")
@@ -168,11 +169,12 @@ useEffect(()=>{
         {props.edit ? <EditOutlined /> : <><PlusCircleOutlined />&nbsp;Agregar</>}
       </Button>
     <Modal
-        cancelButtonProps={{ style: { display: 'none' } }}
+    title=" "
+       footer={null}
         okButtonProps={{children:"CERRAR"}}
         
         width={"80%"}
-        title={props.title}
+        
         open={open}
         onOk={()=>{ 
           setOpen(false)}
@@ -180,8 +182,16 @@ useEffect(()=>{
         onCancel={()=>{
             setOpen(false)
         }}
-        okText="CANCELAR"
+      
       >
+        <Card
+        bodyStyle={{backgroundColor:"#E7E7E7"}}
+        headStyle={{backgroundColor:"#F07427", color:"white"}}
+        bordered
+        size="small" 
+        title={<>Agregar Stock</>}
+    
+        >
         <Form onFinish={onFinish} onFinishFailed={onFinishFailed} form={form}>
             <Row>
                 <Col span={12}>
@@ -281,7 +291,7 @@ useEffect(()=>{
             </Row>
             
         </Form>
-
+        </Card>
         </Modal>
     </>)
 }

@@ -1,7 +1,3 @@
-import GrupoSelect from "@/components/GrupoSelect";
-import LoadSelect from "@/components/LoadSelect";
-import SubFamiliaSelect from "@/components/SubFamiliaSelect";
-import SubGroupSelect from "@/components/SubGroupSelect";
 import { post_method } from "@/src/helpers/post_helper";
 import { get, post } from "@/src/urls";
 import { Row, Col, Select, Input, Button, Modal, Table, Checkbox } from "antd";
@@ -24,6 +20,8 @@ const EditarPreciosSubgruposForm = (props) => {
     const [dataSourceVP, setDataSourceVP] = useState([])
     const [subgrupos, setSubgrupos] = useState([])
     const [selectedSubgrupo, setSelectedSubgrupo] = useState(-1)
+    const [decimalPlaces, setDecimalPlaces] = useState(0)
+    const [roundFactor, setRoundFactor] = useState(100)
     
     const setValue = (idx, value) => {
 
@@ -87,6 +85,11 @@ const EditarPreciosSubgruposForm = (props) => {
                 />
         </Col>
     </Row>
+    <Row style={row_style}>
+        <Col span={24}>
+            <Input type="number" prefix="Redondeo: " value={parseInt(roundFactor||"0")} onChange={(e)=>{setRoundFactor(parseInt(e.target.value||"0"))}} min={"1"} />
+        </Col>
+    </Row>
 
     <Row style={row_style}>
         <Col  span={24}>
@@ -112,30 +115,31 @@ const EditarPreciosSubgruposForm = (props) => {
                     fetch(get.lista_codigos_categoria + `${idfamilia}/${idsubfamilia}/${idgrupo}/${idsubgrupo}/1`)///:idfamilia/:idsubfamilia/:idgrupo/:idsubgrupo/:modo_precio
                     .then(response=>response.json())
                     .then((response)=>{
-                        setDataSourceVP(
-                            response.data.map(
-                                r=>(
-                                    {
-                                        idsubgrupo: r.subgrupo_idsubgrupo,
-                                        codigo: r.codigo,
-                                        precio_ant: r.precio_defecto,
-                                        precio_n: (r.precio_defecto * values.multiplicador) + parseFloat(values.valor),
-                                    }
+                        setDataSourceVP(_=>
+                                response.data.map(r=>(
+                                        {
+                                            idsubgrupo: r.subgrupo_idsubgrupo,
+                                            codigo: r.codigo,
+                                            precio_ant: r.precio_defecto,
+                                            precio_n: Math.trunc((r.precio_defecto * values.multiplicador)/roundFactor) * roundFactor + parseFloat(values.valor),
+                                        }
+                                    )   
                                 )
-                            )
                         )
                     })
 
                     fetch(get.listado_subgrupos_filtros + `${idsubgrupo}/${idgrupo}/${idsubfamilia}/${idfamilia}`)
                     .then(r=>r.json())
                     .then(response=>{
-                        setSubgrupos(response.data.map(sg=>({
-                            idsubgrupo:sg.idsubgrupo,
-                            nombre_largo: sg.nombre_largo,
-                            precio_ant: sg.precio_defecto,
-                            precio_n: (parseFloat(sg.precio_defecto) * values.multiplicador) + parseFloat(values.valor),
-                            checked:false
-                        })))
+                        setSubgrupos(_=>
+                            response.data.map(sg=>({
+                                idsubgrupo:sg.idsubgrupo,
+                                nombre_largo: sg.nombre_largo,
+                                precio_ant: sg.precio_defecto,
+                                precio_n: (Math.trunc(parseFloat(sg.precio_defecto) * values.multiplicador) / roundFactor) * roundFactor + parseFloat(values.valor),
+                                checked:false
+                            }))
+                        )
                     })
 
 
@@ -151,6 +155,8 @@ const EditarPreciosSubgruposForm = (props) => {
                 open={vpOpen} 
                 onCancel={()=>{setVPOpen(false)}} 
                 footer={null}>
+                    <>
+                    
                     <Row>
                         <Col span={12}>
                             <h4>Subgrupos Afectados</h4>
@@ -208,6 +214,7 @@ const EditarPreciosSubgruposForm = (props) => {
                                         idsubgrupo:values.categoria=="subgrupo"? values.fkcategoria:"-1",
                                         multiplicador: values.multiplicador,
                                         valor: values.valor,
+                                        roundFactor: roundFactor,
                                     }
                                     ,
                                     (response)=>{
@@ -218,7 +225,7 @@ const EditarPreciosSubgruposForm = (props) => {
                             }}>Aplicar Cambios</Button>
                         </Col>
                     </Row>
-                    
+                    </>
                 </Modal>
         </Col>
     </Row>
