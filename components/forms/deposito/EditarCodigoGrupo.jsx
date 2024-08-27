@@ -2,7 +2,7 @@ import { post_method } from "@/src/helpers/post_helper"
 import { post } from "@/src/urls"
 
 const { default: SubGroupSelect } = require("@/components/SubGroupSelect")
-const { Row, Col, Checkbox, Modal, Button, Input, Radio } = require("antd")
+const { Row, Col, Checkbox, Modal, Button, Input, Radio, Table } = require("antd")
 const { useState, useEffect } = require("react")
 
 const EditarCodigoGrupo = (props) => {
@@ -14,7 +14,13 @@ const EditarCodigoGrupo = (props) => {
     const [idsubgrupo, setIdSubgrupo] = useState(-1)
     const [modificarPrecio, setModificarPrecio] = useState(false)
     const [precio, setPrecio] = useState(0)
+    const [porcentaje, setPorcentaje] = useState(0)
+    const [vistaPreviaOpen, setVistaPreviaOpen] = useState(false)
+    const [redondeo, setRedondeo] = useState(100)
     
+
+ 
+
     const onOpen = _ => {
         if((props.codigos||[]).length<1)
         {
@@ -22,6 +28,9 @@ const EditarCodigoGrupo = (props) => {
             setOpen(false)
             return
         }
+
+        setCodigos(props.codigos)
+        
         setEditarModoPrecio(false)
         setEditarSubgrupo(false)
         setOpen(true)
@@ -33,7 +42,10 @@ const EditarCodigoGrupo = (props) => {
             precio: modificarPrecio ? precio : -1,
             idsubgrupo: editarSubgrupo ? idsubgrupo : -1,
             modoPrecio: !editarModoPrecio ? -1 : modoPrecio,
-            idcodigos: (props.codigos||[]).map(c=>c.idcodigo)
+            idcodigos: (props.codigos||[]).map(c=>c.idcodigo),
+            porcentaje: modificarPrecio ? porcentaje : -1,
+            redondeo: modificarPrecio ? redondeo : -1,
+            modificarPrecio: modificarPrecio ? 1 : 0,
         }
 
         //alert(JSON.stringify(params))
@@ -45,6 +57,7 @@ const EditarCodigoGrupo = (props) => {
         post_method(post.update.editar_lote_codigos, params, (response)=>{
             alert("OK")
             setOpen(false)
+            setVistaPreviaOpen(false)
             props?.callback?.()
         })
     }
@@ -107,15 +120,31 @@ const EditarCodigoGrupo = (props) => {
         </Row>
         <Row style={{padding:"1em"}}> 
             <Col span={4}>
-                    <Checkbox onChange={()=>{setModificarPrecio(!modificarPrecio)}} checked={modificarPrecio}>Modificar Precio (Individual) </Checkbox>
+                    <Checkbox onChange={()=>{setModificarPrecio(!modificarPrecio)}} checked={modificarPrecio}>Aumentar Precio (Individual) </Checkbox>
             </Col>
             <Col span={20}>
-                    <Input disabled={!modificarPrecio} type="number" value={precio} onChange={(e)=>{setPrecio(parseFloat(e.target.value||"0"))}} />
+                    <Input disabled={!modificarPrecio} prefix={"Valor: "} type="number" value={precio} onChange={(e)=>{setPrecio(parseFloat(e.target.value||"0"))}} allowClear />
+                    <Button type="link" size="small" onClick={()=>{
+                        setPorcentaje("-100")
+                        setRedondeo(1)
+                    }}>Reemplazar Precio</Button>
+                    <Input 
+                    allowClear
+                    disabled={!modificarPrecio} prefix={"Porcentaje: "} suffix="%" onChange={(e)=>{setPorcentaje(parseFloat(e.target.value||"0"))}} value={parseFloat(porcentaje||"0")} />
+                    <Input 
+                    
+                    disabled={!modificarPrecio} 
+                    
+                    min={1} prefix={"Redondeo: "} type="number"  onChange={(e)=>{setRedondeo(parseFloat(e.target.value||"1")<1 ? 1 : parseFloat(e.target.value))}} value={parseFloat(redondeo||"0")} />
+                    
             </Col>
         </Row>
         <Row style={{padding:"1em"}}>
             <Col span={24}>
-                <Button type="primary" block onClick={onSave}>Aplicar</Button>
+                <Button type="primary" disabled={modificarPrecio} block onClick={onSave}>Aplicar</Button>
+                <Button type="primary" disabled={!modificarPrecio} block onClick={()=>{
+                    setVistaPreviaOpen(true)
+                }}>Vista Previa</Button>
             </Col>
         </Row>
         <Row>
@@ -128,6 +157,32 @@ const EditarCodigoGrupo = (props) => {
                 
             </Col>
         </Row>
+    </Modal>
+    <Modal open={vistaPreviaOpen} title=" " onCancel={()=>{setVistaPreviaOpen(false)}} destroyOnClose width={"70%"} footer={null}>
+        <>
+        <Row>
+            <Col span={24}>
+                <Table
+                    columns={[{title:"Codigo", dataIndex:"codigo"}, {title:"Precio Ant.", dataIndex:"precio_ant"}, {title:"Precio Nuevo", dataIndex:"precio_n"}]}
+                    dataSource={codigos.map(
+                        c=>(
+                            {
+                                codigo: c.codigo,
+                                precio_ant: c.precio,
+                                precio_n: precio + Math.trunc((c.precio * (1 + parseFloat(porcentaje)/100.0)) / redondeo) * redondeo 
+                            }
+                        )
+                    )}
+                />
+            </Col>
+        </Row>
+        <Row>
+            <Col span={24}>
+                <Button type="primary"block onClick={onSave}>Aplicar</Button>
+            </Col>
+        </Row>
+            
+        </>
     </Modal>
     </>
 }

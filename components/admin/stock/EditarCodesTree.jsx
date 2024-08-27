@@ -19,7 +19,7 @@ const EditarCodesTree = (props) => {
     
     const _subgrupo_options =_=> <>
     <EditarCodigoGrupo 
-            codigos={ selectedCodes.map(c=>({idcodigo: c.idcodigo, codigo: c.codigo}))}  
+            codigos={ selectedCodes.map(c=>({idcodigo: c.idcodigo, codigo: c.codigo, precio: c.precio}))}  
             callback={()=>{setReload(!reload)}}
             />
     </>

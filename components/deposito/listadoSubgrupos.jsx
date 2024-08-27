@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import EditarLoteSubgrupo from "./editarLoteSubgrupo";
 import SubGrupoFormV2 from "../forms/SubGrupoFormV2";
 import { PlusOutlined } from "@ant-design/icons";
+import EditarPreciosSubgruposForm from "../forms/deposito/EditarPreciosSubgruposForm";
 
 const ListadoSubGrupos = ( props ) => {
     const [change, setChange] = useState(false)
@@ -14,7 +15,10 @@ const ListadoSubGrupos = ( props ) => {
     const [idgrupo, setIdGrupo] = useState(-1)
     const [filtroTabla, setFiltroTable] = useState("")
     const [popupEditSeleccionOpen, setPopupEditSeleccionOpen] = useState(false)
+    const [popupEditarPreciosOpen,setEditarPopupPreciosOpen] = useState(false)
     const [popupAddOpen, setPopupAddOpen] = useState(false)
+    const [selectedSubGrupo, setSelectedSubgrupo] = useState(-1)
+
     
     useEffect(()=>{
         
@@ -52,7 +56,11 @@ const ListadoSubGrupos = ( props ) => {
             title: 'Acciones',
             render: 
                 (_,{idsubgrupo})=>{
-                    return<EditarSubgrupo idsubgrupo={idsubgrupo} buttonText="Editar" callback={()=>{setChange(!change)}} />               
+                    return<>
+                    <EditarSubgrupo idsubgrupo={idsubgrupo} buttonText="Editar" callback={()=>{setChange(!change)}} /> 
+                        &nbsp;
+                    <Button size="small" type="link" danger onClick={()=>{setSelectedSubgrupo(idsubgrupo); setEditarPopupPreciosOpen(true)}}>Modif. Precios Subgrupo</Button>   
+                        </>           
                 }
             
         },
@@ -152,6 +160,26 @@ const ListadoSubGrupos = ( props ) => {
         footer={null}
         >
             <SubGrupoFormV2 callback={()=>{setChange(!change); setPopupAddOpen(false);}}  action="ADD" />
+        </Modal>
+        <Modal 
+        width={"60%"} 
+        title={<i style={{color:"#555555", fontSize:".9em"}} >Editar Precios Tipo:&nbsp;<b>{"Subgrupo"}</b>&nbsp;&nbsp;&nbsp;ID:&nbsp;<b>{selectedSubGrupo}</b></i>   } 
+        open={popupEditarPreciosOpen} 
+        onCancel={()=>{setEditarPopupPreciosOpen(false)}} 
+        footer={null} 
+        destroyOnClose
+        >
+            <Row>
+                <Col span={24}>
+                    <Row>
+                        <Col span={24}>
+                            <span style={{fontSize:".8em"}}>Modifica C&oacute;digos cuyos precios son por SUBGRUPO</span>
+                        </Col>
+                    </Row>
+                    <br />
+                    <EditarPreciosSubgruposForm fkcategoria={selectedSubGrupo} categoria={"subgrupo"} callback={()=>{setEditarPopupPreciosOpen(false)}}/>
+                </Col>
+            </Row>
         </Modal>
         </>)
 }

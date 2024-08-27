@@ -503,7 +503,7 @@ export default function ListaStock(){
                         key={idsubgrupo} 
                         destroyOnClose={true} 
                         onCancel={()=>{setOpen(false); setValueChanged(!valueChanged)} }>
-                            <CodeGrid idsubgrupo={idsubgrupo} width={640} height={480} idsucursal={selectedSucursal} />
+                            <CodeGrid idsubgrupo={idsubgrupo} width={640} height={480} idsucursal={globals.obtenerSucursal()} />
                     </Modal>
                 </Col>:<></>}
                 {usuarioDep  && (selectedSucursal==globals.obtenerSucursal() || selectedSucursal<-1)?<Col span={4} style={{padding:".5em"}}>{edit_popup()}</Col>:<></>}

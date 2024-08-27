@@ -37,6 +37,11 @@ const DetalleCodigo = (props) => {
     </Row>
     <Row>
         <Col span={24}>
+            <Input style={{backgroundColor:"lightblue"}} prefix={"Precio: $"} readOnly value={codigo.precio.toLocaleString()} />
+        </Col>
+    </Row>
+    <Row>
+        <Col span={24}>
             <Tags idcodigo={codigo.idcodigo} readOnly={"1"} />
         </Col>
     </Row>
