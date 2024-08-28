@@ -121,9 +121,10 @@ export default function ListaCodigos(){
             </Row>
             <Row style={{padding:"1em"}}>
                 <Col span={12}>
-                    <EditarCodigoGrupo 
-                    codigos={ (dataSource.filter(d=>d.checked)).map(c=>({idcodigo: c.idcodigo, codigo: c.codigo, precio: c.precio}))  }  
-                    callback={()=>{setChange(!change);}}
+                    <EditarCodigoGrupo
+                        disabled={(dataSource.filter(d=>d.checked)).length<1} 
+                        codigos={ (dataSource.filter(d=>d.checked)).map(c=>({idcodigo: c.idcodigo, codigo: c.codigo, precio: c.precio}))  }  
+                        callback={()=>{setChange(!change);}}
                     />
                 </Col>
                 <Col span={12}>

@@ -6,6 +6,7 @@ import { PlusCircleFilled, PlusCircleOutlined } from "@ant-design/icons";
 import { regex_get_id_if_match } from "@/src/helpers/barcode_helper";
 import SubGroupSelect from "@/components/SubGroupSelect";
 import CategoriaSelect from "@/components/CategoriaSelect";
+import FiltroBusquedaProductoEnvio from "./filtroBusquedaProductoEnvio";
 /**
  * 
  * @param ids array of id to filter
@@ -182,12 +183,16 @@ const SearchStockEnvio = (props) => {
             >
                 <Row>
                     <Col span={24}>
-                        <CategoriaSelect callback={(categoria, id)=>{
+                        {/*<CategoriaSelect callback={(categoria, id)=>{
                             setCategoria(categoria)
                             setIdCat(id)
                             setModalOpen(false)
                             setButtonText(categoria + " " + id)
-                        }}/>
+                        }}/>*/}
+                        <FiltroBusquedaProductoEnvio callback={()=>{
+
+                        }}
+                        />
                     </Col>
                 </Row>
            

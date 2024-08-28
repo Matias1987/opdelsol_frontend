@@ -63,13 +63,13 @@ const EditarCodigoGrupo = (props) => {
     }
 
     return <>
-    <Button danger type="primary" onClick={()=>{onOpen()}}>Editar Lote</Button>
+    <Button danger type="primary" onClick={()=>{onOpen()}} disabled={typeof props.disabled === 'undefined' ? false : props.disabled }>Editar Lote</Button>
     <Modal width={"80%"} open={open} onCancel={()=>{setOpen(false)}} footer={null} title="Editar Codigos Lote" destroyOnClose>
         
         
         <Row>
             <Col span={24}>
-                <Input.TextArea value={((props.codigos||[]).map(c=>c.codigo)).toString()} readOnly></Input.TextArea>
+                <Input.TextArea disabled value={((props.codigos||[]).map(c=>c.codigo)).toString()} readOnly style={{backgroundColor:"lightyellow", color:"darkblue"}}></Input.TextArea>
             </Col>
         </Row>
         
