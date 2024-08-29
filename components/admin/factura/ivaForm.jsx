@@ -1,4 +1,4 @@
-import { Button, Col, Input, Row, Select } from "antd";
+import { Button, Col, Input, Radio, Row, Select } from "antd";
 import { useState } from "react";
 
 const IVAForm = (props) => {
@@ -7,33 +7,32 @@ const IVAForm = (props) => {
         tipo:"21"
     })
     return <>
-    <Row>
-        <Col span={3}>
+    <Row style={{padding:"1em"}}>
+        <Col span={24}>
+            Tipo:&nbsp;&nbsp;
+            <Radio.Group  onChange={(e)=>{
+                setIva(i=>({...i,tipo:e.target.value}))
+            }} value={iva.tipo}>
+                <Radio value={"21"}>21%</Radio>
+                <Radio value={"10.5"}>10.5%</Radio>
+                <Radio value={"27"}>27%</Radio>
+                <Radio value={"2.5"}>2.5%</Radio>
+            </Radio.Group>
         </Col>
-        <Col span={21}>
-            <Select 
-            style={{width:"200px"}}
-            options={[
-                {value:"21", label:"21%"},
-                {value:"10", label:"10%"},
-            ]}
-            onChange={v=>{
-                setIva(i=>({...i,tipo:v}))
-            }}
-            />
-        </Col>
+       
     </Row>
-    <Row>
-        <Col span={21}>
+    <Row style={{padding:"1em"}}>
+        <Col span={24}>
             <Input 
+            style={{width:"100%"}}
             value={parseFloat(iva.monto||"0")}
             prefix="Monto: "  
             onChange={(e)=>{setIva(i=>({...i,monto:parseFloat(e.target.value)}))}}/>
         </Col>
     </Row>
-    <Row>
+    <Row style={{padding:"1em"}}>
         <Col span={24}>
-        <Button onClick={()=>{props?.callback?.(iva)}}>Agregar</Button>
+        <Button type="primary" block onClick={()=>{props?.callback?.(iva)}}>Agregar</Button>
         </Col>
     </Row>
     

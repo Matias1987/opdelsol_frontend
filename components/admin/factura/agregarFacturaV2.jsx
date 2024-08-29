@@ -1,5 +1,5 @@
-import { CloseCircleTwoTone, PlusCircleFilled, SaveFilled } from "@ant-design/icons";
-import { Button, Col, DatePicker, FloatButton, Input, Modal, Row, Select, Table } from "antd";
+import { CloseCircleTwoTone, PlusCircleFilled, PlusOutlined, SaveFilled } from "@ant-design/icons";
+import { Button, Col, DatePicker, Divider, FloatButton, Input, Modal, Row, Select, Table } from "antd";
 import { useEffect, useState } from "react";
 import PercepcionesForm from "./percepcionesForm";
 import RetencionesForm from "./retencionesForm";
@@ -35,6 +35,8 @@ const AgregarFacturaV2 = (props) => {
     const [popupPercepcionesOpen, setPopupPercepcionesOpen] = useState(false)
     const [popupIVAopen, setPopupIVAOpen] = useState(false)
     const [proveedores, setProveedores] = useState([])
+    const [proveedorSelectEnabled, setProveedorSelectEnabled] = useState(false)
+    const [esRemito, setEsRemito] = useState(false)
 
     const columnsIVA = [
         {title:"Tipo", dataIndex:"tipo"},
@@ -88,6 +90,16 @@ const AgregarFacturaV2 = (props) => {
     ]
 
     useEffect(()=>{
+        if('undefined'!== typeof props.idproveedor)
+        {
+            setProveedorSelectEnabled(false)
+            setFactura(_f=>({..._f,fkproveedor:props.idproveedor}))
+        }
+        if('undefined'!== typeof props.esremito)
+        {
+            setEsRemito(props.esremito)
+        }
+
         fetch(get.lista_proveedores)
         .then(r=>r.json())
         .then((response)=>{
@@ -139,11 +151,13 @@ const AgregarFacturaV2 = (props) => {
             iva:ivaRows,
             percepciones: percepcionRows,
             retenciones: retencionRows,
+            esremito: esRemito ? 1:0,
         }
         console.log(JSON.stringify(data))
         alert(JSON.stringify(data))
         post_method(post.insert.factura,data,(resp)=>{
             alert("OK")
+            props?.callback?.()
         })
     }
 
@@ -169,103 +183,112 @@ const AgregarFacturaV2 = (props) => {
     }
 
 
-    const tablaIVA = () => <Table locale={{emptyText:" "}} pagination={false} title={() => <>IVA <Button onClick={()=>{setPopupIVAOpen(true)}}><PlusCircleFilled /></Button></>} columns={columnsIVA} dataSource={ivaRows} scroll={{y:"150px"}} />
-    const tablaPercepcion = () => <Table locale={{emptyText:" "}} pagination={false} title={() => <>Percepciones <Button onClick={()=>{setPopupPercepcionesOpen(true)}}><PlusCircleFilled /></Button></>}  columns={columnsPercepcionRows} dataSource={percepcionRows} scroll={{y:"150px"}} />
-    const tablaRetencion = () => <Table locale={{emptyText:" "}} pagination={false} title={() => <>Retenciones <Button onClick={()=>{setPopupRetencionesOpen(true)}}><PlusCircleFilled /></Button></>}  columns={columnsRetencionRows} dataSource={retencionRows} scroll={{y:"150px"}} />
-    const _rows_style = {setPopupRetencionesOpen:"1em"}
+    const tablaIVA = () => <Table size="small" locale={{emptyText:" "}} pagination={false} title={() => <div style={{color:"blue", fontSize:".8em"}}>IVA <Button size="small" style={{fontSize:".8em", color:"blue"}} onClick={()=>{setPopupIVAOpen(true)}}><PlusOutlined /></Button></div>} columns={columnsIVA} dataSource={ivaRows} scroll={{y:"150px"}} />
+    const tablaPercepcion = () => <Table size="small" locale={{emptyText:" "}} pagination={false} title={() => <div style={{color:"blue", fontSize:".8em"}}>Percepciones <Button size="small" style={{fontSize:".8em", color:"blue"}} onClick={()=>{setPopupPercepcionesOpen(true)}}><PlusOutlined /></Button></div>}  columns={columnsPercepcionRows} dataSource={percepcionRows} scroll={{y:"150px"}} />
+    const tablaRetencion = () => <Table size="small" locale={{emptyText:" "}} pagination={false} title={() => <div style={{color:"blue", fontSize:".8em"}}>Retenciones <Button size="small" style={{fontSize:".8em", color:"blue"}} onClick={()=>{setPopupRetencionesOpen(true)}}><PlusOutlined /></Button></div>}  columns={columnsRetencionRows} dataSource={retencionRows} scroll={{y:"150px"}} />
+    const _rows_style = {padding:"1em"}
     return <>
-    <FloatButton shape="square" icon={<SaveFilled />} onClick={onSave}/>
+    {/*<FloatButton shape="square" icon={<SaveFilled />} onClick={onSave}/>*/}
     <Row style={_rows_style}>
-        <Col span={3}>
+        <Col span={4}>
             Proveedor
         </Col>
-        <Col span={9}>
+        <Col span={20}>
             <Select  
-            style={{width:"300px"}} 
+            disabled={!proveedorSelectEnabled}
+            style={{width:"100%"}} 
             options={proveedores} 
             onChange={(v)=>{onProveedorChange(v)}}
             value={factura.fkproveedor}
             />
         </Col>
-        <Col span={12}>
-            <Input prefix="Nro.:" onChange={e=>{onNroChange(e.target.value)}} value={factura.nro} />
-        </Col>
+        
     </Row>
     <Row style={_rows_style}>
-        <Col span={2}>
+        <Col span={4}>
+            <Input prefix="Nro.:" onChange={e=>{onNroChange(e.target.value)}} value={factura.nro} />
+        </Col>
+        <Col span={2} style={{padding:".2em"}}>
             Fecha:
         </Col>
         <Col span={10}>
             <DatePicker format={"DD-MM-YYYY"} onChange={(value)=>{onChange("fecha", value.format("YYYY-MM-DD"))}}/>
         </Col>
+    </Row>
+   
+
+    {/*<Row style={_rows_style}>
         <Col span={2}>
             Periodo:
         </Col>
         <Col span={10}>
             <DatePicker format={"DD-MM-YYYY"} onChange={(value)=>{onChange("periodo", value.format("YYYY-MM-DD"))}}/>
         </Col>
-    </Row>
-    <Row style={_rows_style}>
-        <Col span={2}>
-            Tipo de Comprobante:
-        </Col>
-        <Col span={10}>
-            <Select options={[
-                {label:"A", value:"A"},
-                {label:"B", value:"B"},
-                {label:"C", value:"C"},
-                {label:"ND", value:"ND"},
-                {label:"NC", value:"NC"},
-                ]} style={{width:"100px"}} 
+    </Row>*/}
 
-                onChange={(v)=>{onTipoChange(v)}}
+    { esRemito ? <></> :
+    <>
+        <Row style={_rows_style}>
+            <Col span={2}>
+                Tipo de Comprobante:
+            </Col>
+            <Col span={10}>
+                <Select options={[
+                    {label:"A", value:"A"},
+                    {label:"B", value:"B"},
+                    {label:"C", value:"C"},
+                    {label:"ND", value:"ND"},
+                    {label:"NC", value:"NC"},
+                    ]} style={{width:"100px"}} 
 
-                value={factura.tipo}
+                    onChange={(v)=>{onTipoChange(v)}}
 
-                />
-        </Col>
+                    value={factura.tipo}
 
-       
-        <Col span={10}>
-            <Input prefix="Punto de Venta:  " value={factura.puntoVenta} onChange={(e)=>{onPuntoVentaChange(e.target.value)}} />
-        </Col>
-
-    </Row>
-    <Row>
-       
-    </Row>
-    <Row style={_rows_style}>
-        <Col span={24} style={{padding:"3px", backgroundColor:"lightblue"}}>
-            {tablaIVA()}
-        </Col>
-    </Row>
-    <Row style={_rows_style}>
-        <Col span={12} style={{padding:"3px", backgroundColor:"lightcoral"}}>
-            {tablaPercepcion()}
-        </Col>
-   
-        <Col span={12} style={{padding:"3px", backgroundColor:"lightgreen"}}>
-            {tablaRetencion()}
-        </Col>
-    </Row>
-    <Row style={_rows_style}>
-        <Col span={24}>
-            <Input prefix="Conceptos no Gravados: " value={parseFloat(factura.conceptosNoGravados||"0")} onChange={(e)=>{onConceptosNoGravadosChange(e.target.value||"0")}} allowClear/>
-        </Col>
-    </Row>
-    <Row style={_rows_style}>
-        <Col span={24}>
-            <Input prefix="Impuestos Internos: " value={parseFloat(factura.impuestosInternos||"0")} onChange={(e)=>{onImpuestosInternosChange(e.target.value||"0")}} allowClear/>
-        </Col>
-    </Row>
+                    />
+            </Col>
+            <Col span={10}>
+                <Input prefix="Punto de Venta:  " value={factura.puntoVenta} onChange={(e)=>{onPuntoVentaChange(e.target.value)}} />
+            </Col>
+        </Row>
+        <Row style={_rows_style}>
+            <Col span={8} style={{padding:"2px", backgroundColor:"lightgrey"}}>
+                {tablaIVA()}
+            </Col>
+            <Col span={8} style={{padding:"2px", backgroundColor:"lightgrey"}}>
+                {tablaPercepcion()}
+            </Col>
+    
+            <Col span={8} style={{padding:"2px", backgroundColor:"lightgrey"}}>
+                {tablaRetencion()}
+            </Col>
+        </Row>
+        <Row style={_rows_style}>
+            <Col span={24}>
+                <Input prefix="Conceptos no Gravados: " value={parseFloat(factura.conceptosNoGravados||"0")} onChange={(e)=>{onConceptosNoGravadosChange(e.target.value||"0")}} allowClear/>
+            </Col>
+        </Row>
+        <Row style={_rows_style}>
+            <Col span={24}>
+                <Input prefix="Impuestos Internos: " value={parseFloat(factura.impuestosInternos||"0")} onChange={(e)=>{onImpuestosInternosChange(e.target.value||"0")}} allowClear/>
+            </Col>
+        </Row>
+    </>
+    }
+    
     <Row style={_rows_style}>
         <Col span={24}>
             <Input prefix="Monto Total: " readOnly value={parseFloat(factura.total||"0")} />
         </Col>
     </Row>
+    <Row>
+        <Col span={24} style={{padding:"12px"}}>
+                <Button block type="primary" onClick={onSave}>Agregar</Button>
+        </Col>
+    </Row>
     <Modal
     destroyOnClose 
-    width={"80%"}
+    width={"400px"}
     title="Agregar Percepcion" 
     open={popupPercepcionesOpen} 
     footer={null} 
@@ -288,7 +311,7 @@ const AgregarFacturaV2 = (props) => {
     </Modal>
     <Modal 
     destroyOnClose
-    width={"80%"}
+    width={"400px"}
     title="Agregar Retencion" 
     open={popupRetencionesOpen} 
     footer={null} 
@@ -310,7 +333,7 @@ const AgregarFacturaV2 = (props) => {
     </Modal>
     <Modal 
     destroyOnClose
-    width={"80%"}
+    width={"350px"}
     title="Agregar IVA" 
     open={popupIVAopen} 
     footer={null} 

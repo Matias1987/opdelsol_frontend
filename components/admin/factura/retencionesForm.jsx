@@ -18,27 +18,35 @@ const RetencionesForm = (props) => {
                 }} />
             </Col>
         </Row>
-        <Row style={{padding:"1em"}}>
-            <Col span={3} style={{paddingTop:".3em"}}>
-            Detalle
-            </Col>
-            <Col span={21}>
-                <Select 
-                value={retencion.tipo}
-                style={{width:"100%"}}
-                options={[
-                    {label:"RETENCIONES IVA", value:"iva"},
-                    {label:"RETENCIONES GANANCIAS", value:"ganancias"},
-                ]}
-                onChange={(v)=>{
-                    setRetencion(r=>({...r,tipo:v}))
-                }}
-                />
+        <Row  style={{padding:"1em"}}>
+            <Col span={24}>
+                <Row>
+                    <Col span={24} style={{paddingTop:".3em"}}>
+                    Detalle
+                    </Col>
+                </Row>
+
+                <Row>
+                    <Col span={24}>
+                        <Select 
+                        value={retencion.tipo}
+                        style={{width:"100%"}}
+                        options={[
+                            {label:"RETENCIONES IVA", value:"iva"},
+                            {label:"RETENCIONES GANANCIAS", value:"ganancias"},
+                        ]}
+                        onChange={(v)=>{
+                            setRetencion(r=>({...r,tipo:v}))
+                        }}
+                        />
+                    </Col>
+                </Row>
             </Col>
         </Row>
+        
         <Row style={{padding:"1em"}}>
             <Col span={24}>
-                <Button onClick={()=>{props?.callback?.(retencion)}}>Agregar</Button>
+                <Button type="primary" block onClick={()=>{props?.callback?.(retencion)}}>Agregar</Button>
             </Col>
         </Row>
         

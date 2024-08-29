@@ -4,6 +4,7 @@ import AgregarPagoProveedor from "./AgregarPagoProveedor"
 import AgregarCMProveedor from "./AregarCMProveedor"
 import { get, post } from "@/src/urls"
 import { post_method } from "@/src/helpers/post_helper"
+import AgregarFacturaV2 from "../factura/agregarFacturaV2"
 const { TabPane } = Tabs;
 const FichaProveedor = (props) => {
     
@@ -13,14 +14,16 @@ const FichaProveedor = (props) => {
     const [datosProveedor, setDatosProveedor] = useState(null)
     const [popupPagoOpen, setPopupPagoOpen] = useState(false)
     const [popupCMOpen, setPopupCMOpen] = useState(false)
+    const [popupAddFacturaOpen, setPopupAddFacturaOpen] = useState(false)
+    const [popupAddRemitoOpen, setPopupAddRemitoOpen] = useState(false)
     const [modo, setModo] = useState(1)
 
     const columns = [
         {title:"Nro.", dataIndex:"id"},
         {title:"Fecha", dataIndex: "fecha_f"},
-        {title:"Detalle", dateIndex:"detalle"},
-        {title:"Debe", render:(_,{debe})=><div style={{color:"red", textAlign:"right"}}>$&nbsp;<b>{debe}</b></div>},
-        {title:"Haber", render:(_,{haber})=><div style={{color:"blue", textAlign:"right"}}>$&nbsp;<b>{haber}</b></div>},
+        {title:"Detalle", dataIndex:"detalle"},
+        {title:<div style={{textAlign:"right"}}>Debe</div>, render:(_,{debe})=><div style={{color:"red", textAlign:"right"}}>$&nbsp;<b>{debe}</b></div>},
+        {title:<div style={{textAlign:"right"}}>Haber</div>, render:(_,{haber})=><div style={{color:"blue", textAlign:"right"}}>$&nbsp;<b>{haber}</b></div>},
     ]
 
     const detalle_cliente = _ => datosProveedor==null ? <Spin /> : <>
@@ -69,8 +72,8 @@ const FichaProveedor = (props) => {
     const callback = () =>{}
 
     const _remitos =_=><>
-        <Row>
-            <Col span={24}>
+        <Row style={{backgroundColor:"#E7E7E7"}}>
+            <Col span={24} style={{padding:"1em"}}>
                 <Table dataSource={operacionesR} columns={columns} scroll={{y:"600px"}} pagination={false} />
             </Col>
         </Row>
@@ -79,6 +82,8 @@ const FichaProveedor = (props) => {
                 <Button type="primary" onClick={()=>{onAgregarPago(0)}}>Agregar Pago</Button>
                 &nbsp;
                 <Button type="primary" onClick={()=>{onAgregarCargaManual(0)}}>Agregar Carga Manual</Button>
+                &nbsp;
+                <Button type="primary" onClick={()=>{setPopupAddRemitoOpen(true)}}>Agregar Remito</Button>
             </Col>
         </Row>
         <Row>
@@ -87,9 +92,9 @@ const FichaProveedor = (props) => {
         </Row>
     </>
     const _facturas =_=> <>
-        <Row>
-            <Col span={24}>
-                <Table dataSource={operacionesF} columns={columns} scroll={{y:"600px"}} pagination={false} />
+        <Row style={{backgroundColor:"#E7E7E7"}}>
+            <Col span={24} style={{padding:"1em"}}>
+                <Table size="small" dataSource={operacionesF} columns={columns} scroll={{y:"600px"}} pagination={false} />
             </Col>
         </Row>
         <Row>
@@ -97,6 +102,8 @@ const FichaProveedor = (props) => {
                 <Button type="primary" onClick={()=>{onAgregarPago(1)}}>Agregar Pago</Button>
                 &nbsp;
                 <Button type="primary" onClick={()=>{onAgregarCargaManual(1)}}>Agregar Carga Manual</Button>
+                &nbsp;
+                <Button type="primary" onClick={()=>{setPopupAddFacturaOpen(true)}}>Agregar Factura</Button>
             </Col>
         </Row>
         <Row>
@@ -146,6 +153,24 @@ const FichaProveedor = (props) => {
         setReload(!reload)
     }}>
         <AgregarCMProveedor idproveedor={props.idproveedor} modo={modo} callback={()=>{ setPopupCMOpen(false); setReload(!reload)}} />
+    </Modal>
+    <Modal 
+    destroyOnClose
+    width={"70%"}
+    open={popupAddFacturaOpen} 
+    title="Agregar Factura" 
+    footer={null} 
+    onCancel={()=>{setPopupAddFacturaOpen(false)}}>
+        <AgregarFacturaV2  idproveedor={props.idproveedor} callback={()=>{setReload(!reload); setPopupAddFacturaOpen(false)}}/>
+    </Modal>
+    <Modal 
+    destroyOnClose
+    width={"70%"}
+    open={popupAddRemitoOpen} 
+    title="Agregar Remito" 
+    footer={null} 
+    onCancel={()=>{setPopupAddRemitoOpen(false)}}>
+        <AgregarFacturaV2  idproveedor={props.idproveedor} esremito={true} callback={()=>{setReload(!reload); setPopupAddRemitoOpen(false)}}/>
     </Modal>
 
     </>
