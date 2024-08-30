@@ -35,7 +35,7 @@ const AgregarFacturaV2 = (props) => {
     const [popupPercepcionesOpen, setPopupPercepcionesOpen] = useState(false)
     const [popupIVAopen, setPopupIVAOpen] = useState(false)
     const [proveedores, setProveedores] = useState([])
-    const [proveedorSelectEnabled, setProveedorSelectEnabled] = useState(false)
+    const [proveedorSelectEnabled, setProveedorSelectEnabled] = useState(true)
     const [esRemito, setEsRemito] = useState(false)
 
     const columnsIVA = [

@@ -5,6 +5,8 @@ import AgregarCMProveedor from "./AregarCMProveedor"
 import { get, post } from "@/src/urls"
 import { post_method } from "@/src/helpers/post_helper"
 import AgregarFacturaV2 from "../factura/agregarFacturaV2"
+import Card from "antd/es/card/Card"
+import { CloseOutlined } from "@ant-design/icons"
 const { TabPane } = Tabs;
 const FichaProveedor = (props) => {
     
@@ -17,6 +19,10 @@ const FichaProveedor = (props) => {
     const [popupAddFacturaOpen, setPopupAddFacturaOpen] = useState(false)
     const [popupAddRemitoOpen, setPopupAddRemitoOpen] = useState(false)
     const [modo, setModo] = useState(1)
+    const [totales, setTotales] = useState({
+        debe:0,
+        haber:0,
+    })
 
     const columns = [
         {title:"Nro.", dataIndex:"id"},
@@ -45,6 +51,18 @@ const FichaProveedor = (props) => {
         .catch(e=>{console.log("error")})
 
         post_method(post.ficha_proveedor,{idproveedor:props.idproveedor, modo:1},(response)=>{
+            let total_d=0
+            let total_h=0
+            response.data.forEach(r=>{
+                total_d+=parseFloat(r.debe)
+                total_h+=parseFloat(r.haber)
+            })
+            setTotales(_=>(
+                {
+                    debe:total_d,
+                    haber:total_h,
+                }
+            ))
             setOperacionesF(response.data)
         })
         post_method(post.ficha_proveedor,{idproveedor:props.idproveedor, modo:0},(response)=>{
@@ -94,7 +112,24 @@ const FichaProveedor = (props) => {
     const _facturas =_=> <>
         <Row style={{backgroundColor:"#E7E7E7"}}>
             <Col span={24} style={{padding:"1em"}}>
-                <Table size="small" dataSource={operacionesF} columns={columns} scroll={{y:"600px"}} pagination={false} />
+                <Table 
+                size="small" 
+                dataSource={operacionesF} 
+                columns={columns} 
+                scroll={{y:"400px"}} 
+                pagination={false} 
+                summary={() => (
+                    <Table.Summary fixed>
+                      <Table.Summary.Row>
+                        <Table.Summary.Cell index={0}>Totales</Table.Summary.Cell>
+                        <Table.Summary.Cell index={1}></Table.Summary.Cell>
+                        <Table.Summary.Cell index={2}></Table.Summary.Cell>
+                        <Table.Summary.Cell index={3}><div style={{textAlign:"right", fontWeight:"bold", color:"black", fontSize:"1.3em"}}>$&nbsp;{parseFloat(totales.debe).toLocaleString()}</div></Table.Summary.Cell>
+                        <Table.Summary.Cell index={4}><div style={{textAlign:"right", fontWeight:"bold", color:"black", fontSize:"1.3em"}}>$&nbsp;{parseFloat(totales.haber).toLocaleString()}</div></Table.Summary.Cell>
+                      </Table.Summary.Row>
+                    </Table.Summary>
+                  )}
+                />
             </Col>
         </Row>
         <Row>
@@ -113,30 +148,37 @@ const FichaProveedor = (props) => {
     </>
 
     return <>
-    <Row>
-        <Col span={24}>
-            <h3>Ficha Proveedor</h3>
-        </Col>
-    </Row>
-    <Row>
-        <Col span={24}>
-            {detalle_cliente()}
-        </Col>
-    </Row>
+    <Card 
+    size="small"
+    bodyStyle={{backgroundColor:"#E7E7E7"}}
+    headStyle={{backgroundColor:"#F07427", color:"white"}}
+    title={
+        <>
+        Ficha Proveedor
+        </>
+    }
+    extra={<Button size="small" type="link" style={{color:"white"}} onClick={()=>{props?.callback?.()}}><CloseOutlined /></Button>}
+    >
+        <Row>
+            <Col span={24}>
+                {detalle_cliente()}
+            </Col>
+        </Row>
 
 
-    <Row>
-        <Col span={24}>
-            <Tabs defaultActiveKey="1" onChange={callback}>
-                <TabPane tab="Facturas" key="1">
-                    {_facturas()}
-                </TabPane>
-                <TabPane tab="Remitos" key="2">
-                    {_remitos()}
-                </TabPane>
-            </Tabs>
-        </Col>
-    </Row>
+        <Row>
+            <Col span={24}>
+                <Tabs defaultActiveKey="1" onChange={callback}>
+                    <TabPane tab="Facturas" key="1">
+                        {_facturas()}
+                    </TabPane>
+                    <TabPane tab="Remitos" key="2">
+                        {_remitos()}
+                    </TabPane>
+                </Tabs>
+            </Col>
+        </Row>
+    </Card>
 
     
     {/* agregar pago popup */}

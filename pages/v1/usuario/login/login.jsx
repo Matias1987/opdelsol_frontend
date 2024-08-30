@@ -67,6 +67,7 @@ export default function Login(){
                 setItem("deposito", res.data.udata.deposito)
                 setItem("admin1", res.data.udata.admin1)
                 setItem("admin2", res.data.udata.admin2)
+                setItem("admin_prov", res.data.udata.admin_prov)
                 setItem("laboratorio", res.data.udata.laboratorio)
                 globals.setUserLogedIn(1)
                 //globals.establecerSucursal(1);

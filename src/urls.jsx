@@ -96,6 +96,13 @@ const public_urls = {
     lista_codigos: local_base_url + "deposito/stock/listados/lista_codigos",
     /*admin_sucursales: local_base_url + "",
     admin_sucursales: local_base_url + "",*/
+    //admin prov
+    dashboard_adm_prov: local_base_url + "admin/prov/",
+    adm_prov_facturas: local_base_url + "admin/prov/facturas",
+    adm_prov_cargar_factura: local_base_url + "admin/prov/cargar_factura",
+    adm_prov_lista_prov: local_base_url + "admin/prov/lista_proveedores_adm",
+    adm_prov_pagos: local_base_url + "admin/prov/pagos",
+    adm_prov_remitos: local_base_url + "admin/prov/remitos",
 }
 
 

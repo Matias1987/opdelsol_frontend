@@ -226,6 +226,10 @@ const globals =  {
         const {getItem} = useStorage();
         return getItem("admin2")==1;
     },
+    esUsuarioAdminProv: () => {
+        const {getItem} = useStorage();
+        return getItem("admin_prov")==1;
+    },
 
     familiaIDs: {
         ARMAZON: 2,

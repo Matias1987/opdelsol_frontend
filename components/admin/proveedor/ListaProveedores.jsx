@@ -1,12 +1,13 @@
 import FichaProveedor from "@/components/admin/proveedor/fichaProveedor";
 import ProveedorForm from "@/components/forms/ProveedorForm";
 import { get } from "@/src/urls"
-import { EditOutlined } from "@ant-design/icons";
+import { EditOutlined, PlusOutlined } from "@ant-design/icons";
 
-import { Table, Button, Modal } from "antd";
+import { Table, Button, Modal, Row, Col } from "antd";
+import Card from "antd/es/card/Card";
 import { useState, useEffect } from "react";
 
-const ListaProveedoresDep = (props) => {
+const ListaProveedores = (props) => {
     const [change, setChange] = useState(false)
     const [open, setOpen] = useState(false);
 
@@ -66,8 +67,39 @@ useEffect(()=>{
 
     return (
         <>
-            <h1>Lista de Proveedores</h1>
-            <Button type="primary"  size="small"  onClick={openPopup}>Agregar Proveedor</Button>
+        <Card
+        bodyStyle={{backgroundColor:"#E7E7E7"}}
+        headStyle={{backgroundColor:"#F07427", color:"white"}}
+        size="small"
+        title={<>
+        Lista de Proveedores&nbsp;&nbsp;&nbsp;<Button type="default" style={{color:"blue"}}  size="small"  onClick={openPopup}><PlusOutlined /> Agregar</Button>
+        </>}
+        >
+            <Row>
+                <Col span={24}>
+                <Table 
+                size="small"
+                rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'}
+                columns={columns}
+                dataSource={tableData}
+                />
+                </Col>
+            </Row>
+            <Row>
+                <Col span={24}>
+                </Col>
+            </Row>
+            <Row>
+                <Col span={24}>
+                </Col>
+            </Row>
+            <Row>
+                <Col span={24}>
+                </Col>
+            </Row>
+
+        </Card>
+            
             <Modal
                 cancelButtonProps={{ style: { display: 'none' } }}
                 okButtonProps={{children:"CANCELAR"}}
@@ -82,18 +114,15 @@ useEffect(()=>{
                 <ProveedorForm action="ADD" callback={onOk} 
                     />
             </Modal>
-            <Table 
-                columns={columns}
-                dataSource={tableData}
-            />
+            
 
 
             {/** is this temporary? */}
-            <Modal footer={null} width={"90%"} open={popupFichaOpen} onCancel={()=>{setPopupFichaOpen(false)}} destroyOnClose>
-                <FichaProveedor idproveedor={idproveedor} callback={()=>{}} />
+            <Modal closable={false} footer={null} width={"90%"} open={popupFichaOpen} onCancel={()=>{setPopupFichaOpen(false)}} destroyOnClose>
+                <FichaProveedor idproveedor={idproveedor} callback={()=>{setPopupFichaOpen(false)}} />
             </Modal>
         </>
     )
 }
 
-export default ListaProveedoresDep;
+export default ListaProveedores;

@@ -66,6 +66,11 @@ import SucursalSelectModal from "@/components/SucursalSelectModal";
       
       setRedirecting(true)
 
+      if(globals.esUsuarioAdminProv())
+      {
+        window.location.replace(public_urls.dashboard_adm_prov)
+        return
+      }
       if(globals.esUsuarioAdmin())
       {
         window.location.replace(public_urls.dashboard_admin)
