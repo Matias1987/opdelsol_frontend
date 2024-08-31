@@ -1,12 +1,13 @@
-import { Button, Col, Modal, Row, Spin, Table, Tabs } from "antd"
+import { Button, Card, Col, Modal, Row, Spin, Table, Tabs } from "antd"
 import { useEffect, useState } from "react"
 import AgregarPagoProveedor from "./AgregarPagoProveedor"
 import AgregarCMProveedor from "./AregarCMProveedor"
 import { get, post } from "@/src/urls"
 import { post_method } from "@/src/helpers/post_helper"
 import AgregarFacturaV2 from "../factura/agregarFacturaV2"
-import Card from "antd/es/card/Card"
+
 import { CloseOutlined } from "@ant-design/icons"
+import PrinterWrapper from "@/components/PrinterWrapper"
 const { TabPane } = Tabs;
 const FichaProveedor = (props) => {
     
@@ -19,17 +20,25 @@ const FichaProveedor = (props) => {
     const [popupAddFacturaOpen, setPopupAddFacturaOpen] = useState(false)
     const [popupAddRemitoOpen, setPopupAddRemitoOpen] = useState(false)
     const [modo, setModo] = useState(1)
+    const [totalesFactura, setTotalesFactura] = useState({
+        debe:0,
+        haber:0,
+    })
     const [totales, setTotales] = useState({
+        debe:0,
+        haber:0,
+    })
+    const [totalesRemito, setTotalesRemito] = useState({
         debe:0,
         haber:0,
     })
 
     const columns = [
-        {title:"Nro.", dataIndex:"id"},
+        {title:"Nro.", dataIndex:"id",},
         {title:"Fecha", dataIndex: "fecha_f"},
         {title:"Detalle", dataIndex:"detalle"},
-        {title:<div style={{textAlign:"right"}}>Debe</div>, render:(_,{debe})=><div style={{color:"red", textAlign:"right"}}>$&nbsp;<b>{debe}</b></div>},
-        {title:<div style={{textAlign:"right"}}>Haber</div>, render:(_,{haber})=><div style={{color:"blue", textAlign:"right"}}>$&nbsp;<b>{haber}</b></div>},
+        {title:<div style={{textAlign:"right"}}>Debe</div>, render:(_,{debe})=><div style={{color:"darkblue", textAlign:"right"}}>$&nbsp;{(parseFloat(debe).toFixed(2)).toLocaleString()}</div>},
+        {title:<div style={{textAlign:"right"}}>Haber</div>, render:(_,{haber})=><div style={{color:"darkblue", textAlign:"right"}}>$&nbsp;{(parseFloat(haber).toFixed(2)).toLocaleString()}</div>},
     ]
 
     const detalle_cliente = _ => datosProveedor==null ? <Spin /> : <>
@@ -57,7 +66,7 @@ const FichaProveedor = (props) => {
                 total_d+=parseFloat(r.debe)
                 total_h+=parseFloat(r.haber)
             })
-            setTotales(_=>(
+            setTotalesFactura(_=>(
                 {
                     debe:total_d,
                     haber:total_h,
@@ -66,6 +75,18 @@ const FichaProveedor = (props) => {
             setOperacionesF(response.data)
         })
         post_method(post.ficha_proveedor,{idproveedor:props.idproveedor, modo:0},(response)=>{
+            let total_d=0
+            let total_h=0
+            response.data.forEach(r=>{
+                total_d+=parseFloat(r.debe)
+                total_h+=parseFloat(r.haber)
+            })
+            setTotalesRemito(_=>(
+                {
+                    debe:total_d,
+                    haber:total_h,
+                }
+            ))
             setOperacionesR(response.data)
         })
     }
@@ -90,61 +111,92 @@ const FichaProveedor = (props) => {
     const callback = () =>{}
 
     const _remitos =_=><>
-        <Row style={{backgroundColor:"#E7E7E7"}}>
-            <Col span={24} style={{padding:"1em"}}>
-                <Table dataSource={operacionesR} columns={columns} scroll={{y:"600px"}} pagination={false} />
-            </Col>
-        </Row>
-        <Row>
-            <Col span={24}>
-                <Button type="primary" onClick={()=>{onAgregarPago(0)}}>Agregar Pago</Button>
-                &nbsp;
-                <Button type="primary" onClick={()=>{onAgregarCargaManual(0)}}>Agregar Carga Manual</Button>
-                &nbsp;
-                <Button type="primary" onClick={()=>{setPopupAddRemitoOpen(true)}}>Agregar Remito</Button>
-            </Col>
-        </Row>
-        <Row>
-            <Col span={24}>
-            </Col>
-        </Row>
+        <PrinterWrapper>
+            <Row style={{backgroundColor:"#E7E7E7"}}>
+                <Col span={24} style={{padding:"1em"}}>
+                    <Table 
+                    dataSource={operacionesR} 
+                    columns={columns} 
+                    scroll={{y:"600px"}} 
+                    pagination={false} 
+                    summary={() => (
+                        <Table.Summary fixed>
+                        <Table.Summary.Row>
+                            <Table.Summary.Cell colSpan={3}>Totales</Table.Summary.Cell>
+                            
+                            <Table.Summary.Cell><div style={{textAlign:"right", fontWeight:"bold", color:"black", fontSize:"1.1em"}}>$&nbsp;{parseFloat(totalesRemito.debe).toLocaleString()}</div></Table.Summary.Cell>
+                            <Table.Summary.Cell><div style={{textAlign:"right", fontWeight:"bold", color:"black", fontSize:"1.1em"}}>$&nbsp;{parseFloat(totalesRemito.haber).toLocaleString()}</div></Table.Summary.Cell>
+                        </Table.Summary.Row>
+                        <Table.Summary.Row>
+                            <Table.Summary.Cell colSpan={5}>
+                            <div style={{textAlign:"left", fontWeight:"bolder", fontSize:"1.3em"}}>Saldo: $ {(parseFloat(totalesRemito.debe) - parseFloat(totalesRemito.haber)).toLocaleString()}</div>
+                            </Table.Summary.Cell>
+
+                        </Table.Summary.Row>
+                        </Table.Summary>
+                    )}
+                    />
+                </Col>
+            </Row>
+            </PrinterWrapper>
+            <Row>
+                <Col span={24}>
+                    <Button type="primary" onClick={()=>{onAgregarPago(0)}}>Agregar Pago</Button>
+                    &nbsp;
+                    <Button type="primary" onClick={()=>{onAgregarCargaManual(0)}}>Agregar Carga Manual</Button>
+                    &nbsp;
+                    <Button type="primary" onClick={()=>{setPopupAddRemitoOpen(true)}}>Agregar Remito</Button>
+                </Col>
+            </Row>
+            <Row>
+                <Col span={24}>
+                </Col>
+            </Row>
+        
     </>
     const _facturas =_=> <>
-        <Row style={{backgroundColor:"#E7E7E7"}}>
-            <Col span={24} style={{padding:"1em"}}>
-                <Table 
-                size="small" 
-                dataSource={operacionesF} 
-                columns={columns} 
-                scroll={{y:"400px"}} 
-                pagination={false} 
-                summary={() => (
-                    <Table.Summary fixed>
-                      <Table.Summary.Row>
-                        <Table.Summary.Cell index={0}>Totales</Table.Summary.Cell>
-                        <Table.Summary.Cell index={1}></Table.Summary.Cell>
-                        <Table.Summary.Cell index={2}></Table.Summary.Cell>
-                        <Table.Summary.Cell index={3}><div style={{textAlign:"right", fontWeight:"bold", color:"black", fontSize:"1.3em"}}>$&nbsp;{parseFloat(totales.debe).toLocaleString()}</div></Table.Summary.Cell>
-                        <Table.Summary.Cell index={4}><div style={{textAlign:"right", fontWeight:"bold", color:"black", fontSize:"1.3em"}}>$&nbsp;{parseFloat(totales.haber).toLocaleString()}</div></Table.Summary.Cell>
-                      </Table.Summary.Row>
-                    </Table.Summary>
-                  )}
-                />
-            </Col>
-        </Row>
-        <Row>
-            <Col span={24}>
-                <Button type="primary" onClick={()=>{onAgregarPago(1)}}>Agregar Pago</Button>
-                &nbsp;
-                <Button type="primary" onClick={()=>{onAgregarCargaManual(1)}}>Agregar Carga Manual</Button>
-                &nbsp;
-                <Button type="primary" onClick={()=>{setPopupAddFacturaOpen(true)}}>Agregar Factura</Button>
-            </Col>
-        </Row>
-        <Row>
-            <Col span={24}>
-            </Col>
-        </Row>
+        <PrinterWrapper>
+            <Row style={{backgroundColor:"#E7E7E7"}}>
+                <Col span={24} style={{padding:"1em"}}>
+                    <Table 
+                    size="small" 
+                    dataSource={operacionesF} 
+                    columns={columns} 
+                    scroll={{y:"400px"}} 
+                    pagination={false} 
+                    summary={() => (
+                        <Table.Summary fixed>
+                        <Table.Summary.Row>
+                            <Table.Summary.Cell colSpan={3}>Totales</Table.Summary.Cell>
+                            <Table.Summary.Cell><div style={{textAlign:"right", fontWeight:"bold", color:"black", fontSize:"1.1em"}}>$&nbsp;{parseFloat(totalesFactura.debe).toLocaleString()}</div></Table.Summary.Cell>
+                            <Table.Summary.Cell><div style={{textAlign:"right", fontWeight:"bold", color:"black", fontSize:"1.1em"}}>$&nbsp;{parseFloat(totalesFactura.haber).toLocaleString()}</div></Table.Summary.Cell>
+                        </Table.Summary.Row>
+                        <Table.Summary.Row>
+                            <Table.Summary.Cell colSpan={5}>
+                            <div style={{textAlign:"left", fontWeight:"bolder", fontSize:"1.3em"}}>Saldo: $ {(parseFloat(totalesFactura.debe) - parseFloat(totalesFactura.haber)).toLocaleString()}</div>
+                            </Table.Summary.Cell>
+
+                        </Table.Summary.Row>
+                        </Table.Summary>
+                    )}
+                    />
+                </Col>
+            </Row>
+            </PrinterWrapper>
+            <Row>
+                <Col span={24}>
+                    <Button type="primary" onClick={()=>{onAgregarPago(1)}}>Agregar Pago</Button>
+                    &nbsp;
+                    <Button type="primary" onClick={()=>{onAgregarCargaManual(1)}}>Agregar Carga Manual</Button>
+                    &nbsp;
+                    <Button type="primary" onClick={()=>{setPopupAddFacturaOpen(true)}}>Agregar Factura</Button>
+                </Col>
+            </Row>
+            <Row>
+                <Col span={24}>
+                </Col>
+            </Row>
+        
     </>
 
     return <>
