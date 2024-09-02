@@ -27,11 +27,10 @@ const SearchStockEnvio = (props) => {
     const [categoria, setCategoria] = useState(-1)
    
 
-    const doSearch = (value, id)=>{
+    const doSearch_old = (value, id)=>{
         let _searchvalue = value.trim().length<1 ?"-1": value.trim();
         const url = search_url + props.idSucursalDestino + "/" + encodeURIComponent( _searchvalue )+ "/" + id + "/" + categoria + "/" + idCat;
-        //alert(url);
-        //return;
+
         fetch(url)
         .then((response)=>response.json())
         .then((_response)=>{
@@ -58,6 +57,21 @@ const SearchStockEnvio = (props) => {
             setLoading(false)
         })
         .catch((error)=>{console.error(error)})
+    }
+
+    const doSearch = (value, id)=>{
+        let _searchvalue = value.trim().length<1 ?"-1": value.trim();
+        const params = {
+            tags:[],
+            sucursal_destino: props.idSucursalDestino,
+            sucursal_origen: globals.obtenerSucursal(),
+            filtro: "",
+            idsubfamilia: -1,
+            idfamilia: -1,
+            idgrupo: -1,
+            idsubgrupo: -1
+
+        }
     }
     
 
