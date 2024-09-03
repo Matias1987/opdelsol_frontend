@@ -1,12 +1,13 @@
 import { Button, Table, Input, Row, Affix, Checkbox, Col, Modal, Divider } from "antd";
 import { useRef, useState } from "react";
-import { get } from "@/src/urls";
+import { get, post } from "@/src/urls";
 import globals from "@/src/globals";
 import { PlusCircleFilled, PlusCircleOutlined } from "@ant-design/icons";
 import { regex_get_id_if_match } from "@/src/helpers/barcode_helper";
 import SubGroupSelect from "@/components/SubGroupSelect";
 import CategoriaSelect from "@/components/CategoriaSelect";
 import FiltroBusquedaProductoEnvio from "./filtroBusquedaProductoEnvio";
+import { post_method } from "@/src/helpers/post_helper";
 /**
  * 
  * @param ids array of id to filter
@@ -25,6 +26,7 @@ const SearchStockEnvio = (props) => {
     const [modalOpen, setModalOpen] = useState(false)
     const [idCat, setIdCat] = useState(-1)
     const [categoria, setCategoria] = useState(-1)
+    const [tags, setTags] = useState([])
    
 
     const doSearch_old = (value, id)=>{
@@ -62,16 +64,38 @@ const SearchStockEnvio = (props) => {
     const doSearch = (value, id)=>{
         let _searchvalue = value.trim().length<1 ?"-1": value.trim();
         const params = {
-            tags:[],
+            tags:tags,
             sucursal_destino: props.idSucursalDestino,
             sucursal_origen: globals.obtenerSucursal(),
-            filtro: "",
-            idsubfamilia: -1,
-            idfamilia: -1,
-            idgrupo: -1,
-            idsubgrupo: -1
+            filtro: _searchvalue,
+            idsubfamilia: categoria=="subfamilia" ? idCat : "-1",
+            idfamilia: categoria=="familia" ? idCat : "-1",
+            idgrupo: categoria=="grupo" ? idCat : "-1",
+            idsubgrupo: categoria=="subgrupo" ? idCat : "-1"
 
         }
+
+
+        post_method(post.buscar_stock_envios,params,(response)=>{
+            //alert(JSON.stringify(response))
+            setDataSource(
+                response.data.map(
+                    (row) => ({
+                        key: row.idcodigo,
+                        codigo: row.codigo,
+                        cantidad: row.cantidad,
+                        descripcion: row.descripcion,
+                        idcodigo: row.idcodigo,
+                        cantidad_destino: row.cantidad_destino,
+                        habilitado: {val: typeof row.habilitado === 'undefined' ? true : row.habilitado, idcodigo: row.idcodigo},/* un codigo puede no estar habilitado */
+                        checked: false,
+                    })
+                )
+            )
+            setLoading(false)
+        })
+
+       // alert(JSON.stringify(params))
     }
     
 
@@ -111,6 +135,15 @@ const SearchStockEnvio = (props) => {
         <>
         <Row>
             <Col span={24}>
+            Etiquetas: {tags.map(t=>`${t},`)}
+            {categoria=="familia" ? <>Familia: {idCat}</>:<></>}
+            {categoria=="subfamilia" ? <>SubFamilia: {idCat}</>:<></>}
+            {categoria=="grupo" ? <>Grupo: {idCat}</>:<></>}
+            {categoria=="subgrupo" ? <>SubGrupo: {idCat}</>:<></>}
+            </Col>
+        </Row>
+        <Row>
+            <Col span={24}>
                 <Affix offsetTop={top}>
                     <Input.Search 
                     allowClear
@@ -123,6 +156,7 @@ const SearchStockEnvio = (props) => {
                             setButtonText("..."); 
                             setIdCat(-1); 
                             setCategoria("-1")
+                            setTags([])
                             return
                         }
                         
@@ -190,7 +224,7 @@ const SearchStockEnvio = (props) => {
                 />
             </Col>
             </Row>
-            <Modal destroyOnClose={true} title="Filtro por Subgrupo" open={modalOpen} onCancel={()=>{setModalOpen(false)}} 
+            <Modal destroyOnClose title="Filtro por Subgrupo" open={modalOpen} onCancel={()=>{setModalOpen(false)}} 
             okText="Aplicar"
             footer={null}
             width={"80%"}
@@ -203,8 +237,12 @@ const SearchStockEnvio = (props) => {
                             setModalOpen(false)
                             setButtonText(categoria + " " + id)
                         }}/>*/}
-                        <FiltroBusquedaProductoEnvio callback={()=>{
-
+                        <FiltroBusquedaProductoEnvio callback={(filtro)=>{
+                            setCategoria(filtro.categoria)
+                            setIdCat(filtro.refId)
+                            setTags(filtro.tags)
+                            setModalOpen(false)
+                            setButtonText("X")
                         }}
                         />
                     </Col>

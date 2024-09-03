@@ -30,6 +30,7 @@ const FiltroBusquedaProductoEnvio = (props) => {
         <Col span={24}>
             <Button block type="primary" onClick={()=>{
                 alert(JSON.stringify(filtros))
+                props?.callback?.(filtros)
             }}>Aplicar</Button>
         </Col>
     </Row>

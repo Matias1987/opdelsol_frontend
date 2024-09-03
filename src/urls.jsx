@@ -159,6 +159,9 @@ const post = {
 
     obtener_subfamilias_de_familias: remote_base_url + "subfamilia/obtener/subfamilias/familias/",
 
+    buscar_stock_envios: remote_base_url +  "envio/search/stock/for/envio/", //"stock/search_stock_envio/",//idsucursal/idsucursal_destino/search_value
+    
+
     search:{
         filtro_stock: remote_base_url + "stock/filtro_stock/",
     },
@@ -270,7 +273,6 @@ const get = {
     lista_stock: remote_base_url + "stock/",
     lista_subfamilias: remote_base_url + "subfamilia/",
     buscar_stock: remote_base_url + "stock/search/",
-    buscar_stock_envios: remote_base_url +  "envio/search/stock/for/envio/", //"stock/search_stock_envio/",//idsucursal/idsucursal_destino/search_value
     lista_grupos: remote_base_url + "grupos/",
     lista_codigos: remote_base_url + "codigos/",
     check_login: remote_base_url + "usuarios/l/checklogin/",
