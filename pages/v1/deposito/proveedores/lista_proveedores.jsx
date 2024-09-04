@@ -18,7 +18,7 @@ const ListaProveedoresDep = (props) => {
     const columns = [
         {title: 'Nro.', dataIndex: 'idproveedor', key: 'idproveedor'},
         {title: 'Nombre', dataIndex: 'nombre', key: 'nombre'},
-        {title: 'C.U.I.T.', dataIndex: 'cuit', key: 'cuit'},
+        /*{title: 'C.U.I.T.', dataIndex: 'cuit', key: 'cuit'},
         {title: 'Acciones', dataIndex: 'idproveedor', key: 'acciones',
             render: (idproveedor)=>{
                     return(<>
@@ -28,7 +28,7 @@ const ListaProveedoresDep = (props) => {
                         }}>Ficha</Button>
                     </>)
             }
-    },
+    },*/
 
     ]
 

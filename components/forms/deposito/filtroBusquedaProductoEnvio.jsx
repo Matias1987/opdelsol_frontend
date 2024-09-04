@@ -29,7 +29,7 @@ const FiltroBusquedaProductoEnvio = (props) => {
     <Row style={row_style}>
         <Col span={24}>
             <Button block type="primary" onClick={()=>{
-                alert(JSON.stringify(filtros))
+                //alert(JSON.stringify(filtros))
                 props?.callback?.(filtros)
             }}>Aplicar</Button>
         </Col>
