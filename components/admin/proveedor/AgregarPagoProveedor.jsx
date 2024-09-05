@@ -2,12 +2,13 @@ import { post_method } from "@/src/helpers/post_helper";
 import { get, post } from "@/src/urls";
 import { Button, Checkbox, Col, DatePicker, Divider, Input, Row, Select } from "antd";
 import { useEffect, useState } from "react";
+import esES from "antd/locale/es_ES"
 //onChange={(e)=>{ setPago(  p=>({ ...p, monto: parseFloat(e.target.value.trim()||"0")    })  )  }}
 const AgregarPagoProveedor = (props) => {
     const [bancos, setBancos] = useState([])
     const [mpEfectivo, setMpEfectivo] = useState({
         monto:0,
-            checked:false,
+        checked:false,
    
     })
     const [mpCheque, setMpCheque] = useState({
@@ -23,13 +24,18 @@ const AgregarPagoProveedor = (props) => {
     })
     const [enabled, setEnabled] = useState(true)
     const [pago, setPago] = useState({
-        monto:0
+        monto:0,
+        fecha: "",
     })
     const [reload, setReload] = useState(false)
 
     const guardar_click = () =>
     {
-
+        if(pago.fecha=="")
+        {
+            alert("Seleccionar Fecha")
+            return
+        }
         if(mpCheque.checked)
         {
             if(mpCheque.fkbanco<0)
@@ -48,8 +54,12 @@ const AgregarPagoProveedor = (props) => {
             }
         }
 
+        const _data = {...pago,  modo:props.modo, fk_proveedor: props.idproveedor, efectivo: mpEfectivo, cheque: mpCheque, transferencia: mpTransferencia }
+
+        //alert(JSON.stringify(_data))
+
         setEnabled(false)
-        post_method(post.insert.pago_proveedor,{...pago,  modo:props.modo, fk_proveedor: props.idproveedor, efectivo: mpEfectivo, cheque: mpCheque, transferencia: mpTransferencia },(resp)=>{
+        post_method(post.insert.pago_proveedor,_data,(resp)=>{
             alert("OK")
             props?.callback?.()
         })
@@ -98,7 +108,7 @@ const AgregarPagoProveedor = (props) => {
         </Row>
         <Row style={{padding:"1em"}}>
             <Col span={24}>
-            <DatePicker />
+            <DatePicker locale={esES} format={"DD-MM-YYYY"} onChange={(value)=>{setPago(_p=>({..._p,fecha:value.format("DD-MM-YYYY")}))}} />
             </Col>
         </Row>
         <Row>

@@ -2,7 +2,11 @@ import { get } from "@/src/urls";
 
 import { Table, Spin } from "antd";
 import { useEffect, useState } from "react";
-
+/**
+ * 
+ * @param idFactura
+ * 
+ */
 const DetalleFactura = (props) => {
 
     const [dataFactura, setDataFactura] = useState([]);
@@ -39,6 +43,7 @@ const DetalleFactura = (props) => {
                             proveedor: r.proveedor,
                             cantidad_total: r.cantidad,
                             monto_total: r.monto,
+                            es_remito: r.es_remito,
                         }
                     )
                 )
@@ -87,6 +92,7 @@ const DetalleFactura = (props) => {
         <>
         <h4>Lista de Productos</h4>
         <Table
+        scroll={{y:"450px"}}
         rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'}
         dataSource={dataElementos}
         loading={elementosLoading}
@@ -101,7 +107,7 @@ const DetalleFactura = (props) => {
 
     return (
         <>
-        <h3>Detalles Factura</h3>
+        <h3>{detallesLoading ? "..." : +dataFactura[0].es_remito != 1 ? "Detalle Factura" : "Detalle Remito" }</h3>
         {detallesLoading ? <Spin /> :detalles()}
         {elementosLoading ? <Spin /> : elementos()}
         </>

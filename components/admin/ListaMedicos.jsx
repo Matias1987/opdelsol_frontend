@@ -26,7 +26,7 @@ const ListaMedicos = (props) => {
             title:"Activo", 
             render:(_,{idmedico, activo})=><>
                 <Checkbox 
-                
+                disabled
                 checked={activo} 
                 onChange={(e)=>{
                     setLoading(true)

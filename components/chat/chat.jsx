@@ -83,7 +83,7 @@ const Chat = (props) =>{
     return <>
         <FloatButton icon={<MessageOutlined />} badge onClick={()=>{setOpen(true)}} />
         <Modal 
-        width={"80%"}
+        width={"450px"}
         onCancel={()=>{setOpen(false)}}
         footer={<>
         <Input 
@@ -126,10 +126,10 @@ const Chat = (props) =>{
                     renderItem={(item, index) => (
                     <List.Item>
                         <List.Item.Meta
-                        style={{backgroundColor: item.fkemisor == uid ? "lightyellow" : "white"}}
+                        style={{backgroundColor: item.fkemisor == uid ? "lightyellow" : "white", textAlign: item.fkemisor==uid ? "right" : "left"}}
                         avatar={<Avatar src={`https://xsgames.co/randomusers/avatar.php?g=pixel&key=${item.fkemisor}`} />}
                         title={item.emisor.toUpperCase()}
-                        description={<><i style={{fontSize:".65em"}}>{item.fecha}</i>&nbsp;{item.message}</>}
+                        description={<><span style={{fontSize:"1.1em", color:"blue" , fontWeight:"bold"}}>{item.message}</span>&nbsp;&nbsp;<i style={{fontSize:".7em"}}>{item.fecha}</i></>}
                         />
                     </List.Item>
                     )}

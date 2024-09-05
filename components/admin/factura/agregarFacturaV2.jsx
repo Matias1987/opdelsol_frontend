@@ -153,10 +153,10 @@ const AgregarFacturaV2 = (props) => {
             retenciones: retencionRows,
             esremito: esRemito ? 1:0,
         }
-        console.log(JSON.stringify(data))
-        alert(JSON.stringify(data))
+        //console.log(JSON.stringify(data))
+        //alert(JSON.stringify(data))
         post_method(post.insert.factura,data,(resp)=>{
-            alert("OK")
+            alert("Hecho.")
             props?.callback?.()
         })
     }
@@ -278,7 +278,7 @@ const AgregarFacturaV2 = (props) => {
     
     <Row style={_rows_style}>
         <Col span={24}>
-            <Input prefix="Monto Total: " readOnly value={parseFloat(factura.total||"0")} />
+            <Input prefix="Monto Total: " readOnly={!esRemito} value={parseFloat(factura.total||"0")} onChange={(e)=>{setFactura(f=>({...f,total:parseFloat(e.target.value||"0")}))}} />
         </Col>
     </Row>
     <Row>

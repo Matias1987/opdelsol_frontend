@@ -1,4 +1,4 @@
-import { Button, Card, Col, Modal, Row, Spin, Table, Tabs } from "antd"
+import { Button, Card, Col, Modal, Row, Spin, Table, Tabs, Tag } from "antd"
 import { useEffect, useState } from "react"
 import AgregarPagoProveedor from "./AgregarPagoProveedor"
 import AgregarCMProveedor from "./AregarCMProveedor"
@@ -8,6 +8,7 @@ import AgregarFacturaV2 from "../factura/agregarFacturaV2"
 
 import { CloseOutlined } from "@ant-design/icons"
 import PrinterWrapper from "@/components/PrinterWrapper"
+import DetalleFactura from "@/components/forms/deposito/DetalleFactura"
 const { TabPane } = Tabs;
 const FichaProveedor = (props) => {
     
@@ -20,6 +21,8 @@ const FichaProveedor = (props) => {
     const [popupAddFacturaOpen, setPopupAddFacturaOpen] = useState(false)
     const [popupAddRemitoOpen, setPopupAddRemitoOpen] = useState(false)
     const [modo, setModo] = useState(1)
+    const [selectedFactura, setSelectedFactura] = useState(-1)
+    const [popupDetalleFacturaOpen, setPopupDetalleFacturaOpen] = useState(false)
     const [totalesFactura, setTotalesFactura] = useState({
         debe:0,
         haber:0,
@@ -34,9 +37,16 @@ const FichaProveedor = (props) => {
     })
 
     const columns = [
-        {title:"Nro.", dataIndex:"id",},
+        {title:"ID.", dataIndex:"id",},
         {title:"Fecha", dataIndex: "fecha_f"},
-        {title:"Detalle", dataIndex:"detalle"},
+        {title:"Detalle",  render:(_,{tipo, detalle, id})=>{
+            switch(tipo)
+            {
+                case 'FACTURA': return <><Tag onClick={()=>{setSelectedFactura(id); setPopupDetalleFacturaOpen(true)}}>{detalle}</Tag></>
+                case 'PAGO': return <>Pago</>
+                case 'CM': return <>{detalle}</>
+            }
+        }},
         {title:<div style={{textAlign:"right"}}>Debe</div>, render:(_,{debe})=><div style={{color:"darkblue", textAlign:"right"}}>$&nbsp;{(parseFloat(debe).toFixed(2)).toLocaleString()}</div>},
         {title:<div style={{textAlign:"right"}}>Haber</div>, render:(_,{haber})=><div style={{color:"darkblue", textAlign:"right"}}>$&nbsp;{(parseFloat(haber).toFixed(2)).toLocaleString()}</div>},
     ]
@@ -115,13 +125,14 @@ const FichaProveedor = (props) => {
             <Row style={{backgroundColor:"#E7E7E7"}}>
                 <Col span={24} style={{padding:"1em"}}>
                     <Table 
+                    size="small"
                     dataSource={operacionesR} 
                     columns={columns} 
                     scroll={{y:"600px"}} 
                     pagination={false} 
                     summary={() => (
                         <Table.Summary fixed>
-                        <Table.Summary.Row>
+                        <Table.Summary.Row  style={{backgroundColor:"lightgreen"}}>
                             <Table.Summary.Cell colSpan={3}>Totales</Table.Summary.Cell>
                             
                             <Table.Summary.Cell><div style={{textAlign:"right", fontWeight:"bold", color:"black", fontSize:"1.1em"}}>$&nbsp;{parseFloat(totalesRemito.debe).toLocaleString()}</div></Table.Summary.Cell>
@@ -166,7 +177,7 @@ const FichaProveedor = (props) => {
                     pagination={false} 
                     summary={() => (
                         <Table.Summary fixed>
-                        <Table.Summary.Row>
+                        <Table.Summary.Row style={{backgroundColor:"lightblue"}}>
                             <Table.Summary.Cell colSpan={3}>Totales</Table.Summary.Cell>
                             <Table.Summary.Cell><div style={{textAlign:"right", fontWeight:"bold", color:"black", fontSize:"1.1em"}}>$&nbsp;{parseFloat(totalesFactura.debe).toLocaleString()}</div></Table.Summary.Cell>
                             <Table.Summary.Cell><div style={{textAlign:"right", fontWeight:"bold", color:"black", fontSize:"1.1em"}}>$&nbsp;{parseFloat(totalesFactura.haber).toLocaleString()}</div></Table.Summary.Cell>
@@ -265,6 +276,15 @@ const FichaProveedor = (props) => {
     footer={null} 
     onCancel={()=>{setPopupAddRemitoOpen(false)}}>
         <AgregarFacturaV2  idproveedor={props.idproveedor} esremito={true} callback={()=>{setReload(!reload); setPopupAddRemitoOpen(false)}}/>
+    </Modal>
+    <Modal 
+    open={popupDetalleFacturaOpen} 
+    onCancel={()=>{setPopupDetalleFacturaOpen(false)}} 
+    footer={null} 
+    title=" " 
+    destroyOnClose 
+    width={"700px"}>
+        <DetalleFactura idFactura={selectedFactura} />
     </Modal>
 
     </>

@@ -3,8 +3,7 @@ import ProveedorForm from "@/components/forms/ProveedorForm";
 import { get } from "@/src/urls"
 import { EditOutlined, PlusOutlined } from "@ant-design/icons";
 
-import { Table, Button, Modal, Row, Col } from "antd";
-import Card from "antd/es/card/Card";
+import { Table, Button, Modal, Row, Col, Card } from "antd";
 import { useState, useEffect } from "react";
 
 const ListaProveedores = (props) => {
