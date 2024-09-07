@@ -2,11 +2,17 @@ import { get } from "@/src/urls";
 import FacturaForm from "@/components/forms/FacturaForm";
 import DetalleFactura from "@/components/forms/deposito/DetalleFactura";
 
-import { Table, Button, Modal, Row, Col, Select, Card } from "antd"
+import { Table, Button, Modal, Row, Col, Select, Card, DatePicker } from "antd"
 import { useState, useEffect } from "react"
 import { InfoOutlined, PlusOutlined } from "@ant-design/icons";
-
+import ExportToCSV from "@/components/ExportToCSV";
+/**
+ * 
+ * @param readOnly
+ * @param proveedoresList array
+ */
 const ListaFacturas = (props) => {
+    const [readOnly, setReadOnly] = useState(false)
     const [change, setChange] = useState(false)
     const [open, setOpen] = useState(false);
     const [proveedores, setProveedores] = useState([])
@@ -35,6 +41,7 @@ const ListaFacturas = (props) => {
     ]
 
 useEffect(()=>{
+    setReadOnly(typeof props.readOnly === 'undefined' ? false: props.readOnly)
     fetch(get.lista_proveedores)
     .then(r=>r.json())
     .then(r=>{
@@ -79,6 +86,20 @@ useEffect(()=>{
         setChange(!change)
     }
 
+    const header = ()=><>
+        <Row>
+            <Col span={24}>
+            Peri&oacute;do:&nbsp;&nbsp;
+            <DatePicker.RangePicker />
+            &nbsp;&nbsp;
+            <Button>Aplicar Filtro</Button>
+            &nbsp;&nbsp;
+            <ExportToCSV />
+            </Col>
+            
+        </Row>
+        </>
+
     return (
         <>
         <Card 
@@ -86,12 +107,12 @@ useEffect(()=>{
         headStyle={{backgroundColor:"#F07427", color:"white"}}
         size="small"
         title={<>
-            Lista de Facturas&nbsp;&nbsp;<Button type="default"  style={{color:"blue"}}  size="small"  onClick={openPopup}><PlusOutlined />Agregar</Button>
+            Lista de Facturas&nbsp;&nbsp;<Button disabled={readOnly} type="default"  style={{color:"blue"}}  size="small"  onClick={openPopup}><PlusOutlined />Agregar</Button>
             </>}>
 
 
             <Row>
-                <Col span={4} style={{textAlign:"right", paddingTop:".3em"}}>
+                <Col span={4} style={{textAlign:"right", paddingTop:".3em"}}>   
                     Proveedor:
                 </Col>
                 <Col span={20} >
@@ -101,6 +122,7 @@ useEffect(()=>{
             <Row>
                 <Col span={24}>
                     <Table 
+                        title={header}
                         size="small"
                         rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'}
                         columns={columns}

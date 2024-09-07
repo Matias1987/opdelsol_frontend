@@ -3,7 +3,7 @@ import ProveedorForm from "@/components/forms/ProveedorForm";
 import { get } from "@/src/urls"
 import { EditOutlined, PlusOutlined } from "@ant-design/icons";
 
-import { Table, Button, Modal, Row, Col, Card } from "antd";
+import { Table, Button, Modal, Row, Col, Card, Checkbox } from "antd";
 import { useState, useEffect } from "react";
 
 const ListaProveedores = (props) => {
@@ -16,6 +16,9 @@ const ListaProveedores = (props) => {
     const url_for_proveedores = get.lista_proveedores;
     const [tableData, setTableData] = useState([])
     const columns = [
+        {render:(_,{idproveedor, checked})=><Checkbox checked={checked} onChange={(e)=>{
+            setTableData(td=>td.map(p=>p.idproveedor==idproveedor ? {...p,checked:!p.checked} : p))
+        }} />},
         {title: 'Nro.', dataIndex: 'idproveedor', key: 'idproveedor'},
         {title: 'Nombre', dataIndex: 'nombre', key: 'nombre'},
         {title: 'C.U.I.T.', dataIndex: 'cuit', key: 'cuit'},
@@ -43,6 +46,7 @@ useEffect(()=>{
                     idproveedor: r.idproveedor,
                     nombre: r.nombre,
                     cuit: r.cuit,
+                    checked: false,
                 }
                 )
             )

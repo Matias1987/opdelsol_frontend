@@ -146,6 +146,18 @@ const AgregarFacturaV2 = (props) => {
     }
 
     const onSave = () => {
+
+        if(factura.fecha=="")
+        {
+            alert("Fecha no seleccionada")
+            return
+        }
+        if(factura.nro=="")
+        {
+            alert("Número no cargado")
+            return
+        }
+
         const data = {
             ...factura,
             iva:ivaRows,

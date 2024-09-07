@@ -1,4 +1,4 @@
-import { Button, Card, Col, Modal, Row, Spin, Table, Tabs, Tag } from "antd"
+import { Button, Card, Col, FloatButton, Modal, Row, Spin, Table, Tabs, Tag } from "antd"
 import { useEffect, useState } from "react"
 import AgregarPagoProveedor from "./AgregarPagoProveedor"
 import AgregarCMProveedor from "./AregarCMProveedor"
@@ -6,15 +6,17 @@ import { get, post } from "@/src/urls"
 import { post_method } from "@/src/helpers/post_helper"
 import AgregarFacturaV2 from "../factura/agregarFacturaV2"
 
-import { CloseOutlined } from "@ant-design/icons"
+import { ArrowDownOutlined, CloseOutlined } from "@ant-design/icons"
 import PrinterWrapper from "@/components/PrinterWrapper"
 import DetalleFactura from "@/components/forms/deposito/DetalleFactura"
+import ExportToCSV from "@/components/ExportToCSV"
 const { TabPane } = Tabs;
 const FichaProveedor = (props) => {
     
     const [reload, setReload] = useState(false)
     const [operacionesF, setOperacionesF] = useState([])
     const [operacionesR, setOperacionesR] = useState([])
+    const [operacionesGeneral, setOperacionesGeneral] = useState([])
     const [datosProveedor, setDatosProveedor] = useState(null)
     const [popupPagoOpen, setPopupPagoOpen] = useState(false)
     const [popupCMOpen, setPopupCMOpen] = useState(false)
@@ -99,6 +101,21 @@ const FichaProveedor = (props) => {
             ))
             setOperacionesR(response.data)
         })
+        post_method(post.ficha_proveedor,{idproveedor:props.idproveedor, modo:-1},(response)=>{
+            let total_d=0
+            let total_h=0
+            response.data.forEach(r=>{
+                total_d+=parseFloat(r.debe)
+                total_h+=parseFloat(r.haber)
+            })
+            setTotales(_=>(
+                {
+                    debe:total_d,
+                    haber:total_h,
+                }
+            ))
+            setOperacionesGeneral(response.data)
+        })
     }
 
     useEffect(()=>{
@@ -121,10 +138,22 @@ const FichaProveedor = (props) => {
     const callback = () =>{}
 
     const _remitos =_=><>
-        <PrinterWrapper>
             <Row style={{backgroundColor:"#E7E7E7"}}>
-                <Col span={24} style={{padding:"1em"}}>
+                <Col span={24} style={{padding:"0em"}}>
                     <Table 
+                    title={()=><><span style={{fontWeight:"bold"}}>Lista de Operaciones</span> &nbsp;&nbsp;&nbsp; <ExportToCSV parseFnt={()=>{
+                        if(datosProveedor==null||operacionesR==null)
+                        {
+                            return
+                        }
+                        let str = `PROVEEDOR: ,${datosProveedor.nombre},,,,\r\nID, FECHA, DETALLE, DEBE, HABER\r\n`;
+                        operacionesR.forEach(o=>{
+                            str += `${o.id},${o.fecha_f},${o.detalle},${o.debe},${o.haber}\r\n`
+                        })
+                        return str
+                    }}/>
+                    
+                    </>}
                     size="small"
                     dataSource={operacionesR} 
                     columns={columns} 
@@ -147,9 +176,11 @@ const FichaProveedor = (props) => {
                         </Table.Summary>
                     )}
                     />
+                    
                 </Col>
+              
             </Row>
-            </PrinterWrapper>
+            
             <Row>
                 <Col span={24}>
                     <Button type="primary" onClick={()=>{onAgregarPago(0)}}>Agregar Pago</Button>
@@ -166,10 +197,22 @@ const FichaProveedor = (props) => {
         
     </>
     const _facturas =_=> <>
-        <PrinterWrapper>
+        
             <Row style={{backgroundColor:"#E7E7E7"}}>
                 <Col span={24} style={{padding:"1em"}}>
                     <Table 
+                    title={()=><><span style={{fontWeight:"bold"}}>Lista de Operaciones</span> &nbsp;&nbsp;&nbsp; <ExportToCSV parseFnt={()=>{
+                        if(datosProveedor==null||operacionesF==null)
+                        {
+                            return
+                        }
+                        let str = `PROVEEDOR: ,${datosProveedor.nombre},,,,\r\nID, FECHA, DETALLE, DEBE, HABER\r\n`;
+                        operacionesF.forEach(o=>{
+                            str += `${o.id},${o.fecha_f},${o.detalle},${o.debe},${o.haber}\r\n`
+                        })
+                        return str
+
+                    }}/></>}  
                     size="small" 
                     dataSource={operacionesF} 
                     columns={columns} 
@@ -193,7 +236,7 @@ const FichaProveedor = (props) => {
                     />
                 </Col>
             </Row>
-            </PrinterWrapper>
+            
             <Row>
                 <Col span={24}>
                     <Button type="primary" onClick={()=>{onAgregarPago(1)}}>Agregar Pago</Button>
@@ -208,6 +251,35 @@ const FichaProveedor = (props) => {
                 </Col>
             </Row>
         
+    </>
+
+    const _general =_=> <>
+        <Row>
+            <Col span={24}>
+                <Table 
+                    size="small" 
+                    dataSource={operacionesGeneral} 
+                    columns={columns} 
+                    scroll={{y:"400px"}} 
+                    pagination={false} 
+                    summary={() => (
+                        <Table.Summary fixed>
+                        <Table.Summary.Row style={{backgroundColor:"lightpink"}}>
+                            <Table.Summary.Cell colSpan={3}>Totales</Table.Summary.Cell>
+                            <Table.Summary.Cell><div style={{textAlign:"right", fontWeight:"bold", color:"black", fontSize:"1.1em"}}>$&nbsp;{parseFloat(totales.debe).toLocaleString()}</div></Table.Summary.Cell>
+                            <Table.Summary.Cell><div style={{textAlign:"right", fontWeight:"bold", color:"black", fontSize:"1.1em"}}>$&nbsp;{parseFloat(totales.haber).toLocaleString()}</div></Table.Summary.Cell>
+                        </Table.Summary.Row>
+                        <Table.Summary.Row>
+                            <Table.Summary.Cell colSpan={5}>
+                            <div style={{textAlign:"left", fontWeight:"bolder", fontSize:"1.3em"}}>Saldo: $ {(parseFloat(totales.debe) - parseFloat(totales.haber)).toLocaleString()}</div>
+                            </Table.Summary.Cell>
+
+                        </Table.Summary.Row>
+                        </Table.Summary>
+                    )}
+                    />
+            </Col>
+        </Row>
     </>
 
     return <>
@@ -237,6 +309,9 @@ const FichaProveedor = (props) => {
                     </TabPane>
                     <TabPane tab="Remitos" key="2">
                         {_remitos()}
+                    </TabPane>
+                    <TabPane tab="General" key="3">
+                        {_general()}
                     </TabPane>
                 </Tabs>
             </Col>

@@ -5,6 +5,7 @@ import { Button }  from "antd";
  * 
  * @param json json to convert
  * @param columns columns acording to json 
+ * @param parseFnt 
  */
 const ExportToCSV = (props) =>{
 
