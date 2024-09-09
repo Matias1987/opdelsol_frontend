@@ -14,7 +14,7 @@ const items = [
     key: '10',
   },
   {
-    label: (<Link href={public_urls.adm_prov_facturas}>Facturas</Link>),
+    label: (<Link href={public_urls.adm_prov_facturas}>Facturas y Remitos</Link>),
     key: '13',
   },
 ];

@@ -161,6 +161,7 @@ const post = {
 
     buscar_stock_envios: remote_base_url +  "envio/search/stock/for/envio/", //"stock/search_stock_envio/",//idsucursal/idsucursal_destino/search_value
     
+    obtener_facturas_filtros: remote_base_url + "facturas/obtener/fact/uras/filtros/",
 
     search:{
         filtro_stock: remote_base_url + "stock/filtro_stock/",

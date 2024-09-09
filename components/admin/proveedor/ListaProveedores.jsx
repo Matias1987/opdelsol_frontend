@@ -5,6 +5,7 @@ import { EditOutlined, PlusOutlined } from "@ant-design/icons";
 
 import { Table, Button, Modal, Row, Col, Card, Checkbox } from "antd";
 import { useState, useEffect } from "react";
+import ListaFacturas from "../factura/listaFacturas";
 
 const ListaProveedores = (props) => {
     const [change, setChange] = useState(false)
@@ -15,9 +16,16 @@ const ListaProveedores = (props) => {
 
     const url_for_proveedores = get.lista_proveedores;
     const [tableData, setTableData] = useState([])
+
+    const [listaFacturasOpen, setListaFacturasOpen] = useState(false)
     const columns = [
         {render:(_,{idproveedor, checked})=><Checkbox checked={checked} onChange={(e)=>{
-            setTableData(td=>td.map(p=>p.idproveedor==idproveedor ? {...p,checked:!p.checked} : p))
+
+            const temp = tableData.map(p=>p.idproveedor==idproveedor ? {...p,checked:!p.checked} : p)
+
+            setTableData(temp)
+
+            props?.onProvSelected?.(temp.filter(p=>p.checked))
         }} />},
         {title: 'Nro.', dataIndex: 'idproveedor', key: 'idproveedor'},
         {title: 'Nombre', dataIndex: 'nombre', key: 'nombre'},
@@ -68,6 +76,14 @@ useEffect(()=>{
         setChange(!change)
     }
 
+    const header = () => <>
+        <Row>
+            <Col span={24}>
+               
+            </Col>
+        </Row>
+    </>
+
     return (
         <>
         <Card
@@ -81,6 +97,7 @@ useEffect(()=>{
             <Row>
                 <Col span={24}>
                 <Table 
+                title={header}
                 size="small"
                 rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'}
                 columns={columns}
@@ -88,18 +105,7 @@ useEffect(()=>{
                 />
                 </Col>
             </Row>
-            <Row>
-                <Col span={24}>
-                </Col>
-            </Row>
-            <Row>
-                <Col span={24}>
-                </Col>
-            </Row>
-            <Row>
-                <Col span={24}>
-                </Col>
-            </Row>
+
 
         </Card>
             
@@ -123,6 +129,9 @@ useEffect(()=>{
             {/** is this temporary? */}
             <Modal closable={false} footer={null} width={"90%"} open={popupFichaOpen} onCancel={()=>{setPopupFichaOpen(false)}} destroyOnClose>
                 <FichaProveedor idproveedor={idproveedor} callback={()=>{setPopupFichaOpen(false)}} />
+            </Modal>
+            <Modal destroyOnClose title="Listado" width={"800px"} open={listaFacturasOpen} onCancel={()=>{setListaFacturasOpen(false)}} footer={null} >
+                <ListaFacturas readOnly={true} />
             </Modal>
         </>
     )
