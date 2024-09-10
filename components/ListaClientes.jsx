@@ -96,7 +96,7 @@ export default function ListaClientes(props){
     <h3>Lista de Clientes</h3>
     <Row>
         <Col span={24}>
-            <Input.Search allowClear onSearch={onSearch} value={searchVal} onChange={(e)=>{setSearchVal(e.target.value)}} />
+            <Input.Search prefix={<span style={{backgroundColor:"#DBE3E6"}}>Buscar por Nombre o DNI:&nbsp;&nbsp;&nbsp;</span>}   allowClear onSearch={onSearch} value={searchVal} onChange={(e)=>{setSearchVal(e.target.value)}} />
         </Col>
         
     </Row>
@@ -104,8 +104,8 @@ export default function ListaClientes(props){
         <Col span={12}>
                 <ClienteFormV2 callback={(id)=>{refresh()}}/>
         </Col>
-        <Col span={12}>
-            <Button size="small" danger onClick={(e)=>{setSearchVal(s=>{
+        <Col span={12}>&nbsp;&nbsp;&nbsp;
+            <Button size="small" type="link" danger onClick={(e)=>{setSearchVal(s=>{
             refresh()
             return ""
             })}}><ReloadOutlined />Recargar

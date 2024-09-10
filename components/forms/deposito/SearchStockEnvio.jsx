@@ -1,4 +1,4 @@
-import { Button, Table, Input, Row, Affix, Checkbox, Col, Modal, Divider } from "antd";
+import { Button, Table, Input, Row, Affix, Checkbox, Col, Modal, Divider, Card } from "antd";
 import { useRef, useState } from "react";
 import { get, post } from "@/src/urls";
 import globals from "@/src/globals";
@@ -27,6 +27,8 @@ const SearchStockEnvio = (props) => {
     const [idCat, setIdCat] = useState(-1)
     const [categoria, setCategoria] = useState(-1)
     const [tags, setTags] = useState([])
+    const [conStockOrigen, setConStockOrigen] = useState(true)
+    const [sinStockDestino, setSinStockDestino] = useState(false)
    
 
     const doSearch_old = (value, id)=>{
@@ -71,7 +73,9 @@ const SearchStockEnvio = (props) => {
             idsubfamilia: categoria=="subfamilia" ? idCat : "-1",
             idfamilia: categoria=="familia" ? idCat : "-1",
             idgrupo: categoria=="grupo" ? idCat : "-1",
-            idsubgrupo: categoria=="subgrupo" ? idCat : "-1"
+            idsubgrupo: categoria=="subgrupo" ? idCat : "-1",
+            conStockOrigen:conStockOrigen,
+            sinStockDestino:sinStockDestino,
 
         }
 
@@ -111,7 +115,7 @@ const SearchStockEnvio = (props) => {
         }
         //if(value.trim().length<1)
         //{
-        //    alert("Campo Vacío")
+        ////    alert("Campo Vacío")
         //    return;
         //}
         setLoading(true)
@@ -133,20 +137,39 @@ const SearchStockEnvio = (props) => {
         
     return (
         <>
+        <Card
+        title={"Agregar Códigos"}
+        size="small"
+        headStyle={{backgroundColor:"lightblue"}}
+        >
+            <>
         <Row>
-            <Col span={24}>
-            Etiquetas: {tags.map(t=>`${t},`)}
-            {categoria=="familia" ? <>Familia: {idCat}</>:<></>}
-            {categoria=="subfamilia" ? <>SubFamilia: {idCat}</>:<></>}
-            {categoria=="grupo" ? <>Grupo: {idCat}</>:<></>}
-            {categoria=="subgrupo" ? <>SubGrupo: {idCat}</>:<></>}
+            <Col span={12}>
+                <Checkbox checked={conStockOrigen} onChange={()=>{setConStockOrigen(!conStockOrigen)}}>Con stock origen</Checkbox>
+            </Col>
+            <Col span={12}>
+                <Checkbox checked={sinStockDestino} onChange={()=>{setSinStockDestino(!sinStockDestino)}}>Sin stock destino</Checkbox>
             </Col>
         </Row>
         <Row>
             <Col span={24}>
+                <i style={{color:"blue"}}>
+                    {tags.map(t=>`${t},`)}
+                    {categoria=="familia" ? <>Familia: {idCat}</>:<></>}
+                    {categoria=="subfamilia" ? <>SubFamilia: {idCat}</>:<></>}
+                    {categoria=="grupo" ? <>Grupo: {idCat}</>:<></>}
+                    {categoria=="subgrupo" ? <>SubGrupo: {idCat}</>:<></>}
+                </i>
+                
+            </Col>
+        </Row>
+        
+        <Row>
+            <Col span={24}>
                 <Affix offsetTop={top}>
                     <Input.Search 
-                    allowClear
+                    
+                    allowClear={false}
 
                     prefix={<><Button style={{backgroundColor:"lightseagreen", fontWeight:"bold"}} 
 
@@ -168,16 +191,18 @@ const SearchStockEnvio = (props) => {
                         onSearch={onSearch} 
                         value={searchValue} 
                         onChange={(e)=>{
-                            //if(e.target.)
                             setSearchValue(e.target.value)
                         }} 
                         />
                 </Affix>
             </Col>
         </Row>
-        <Row style={{height: "300px", overflowY: "scroll"}}>
+        <Row>
             <Col span={24}>
                 <Table 
+                    rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'}
+                    size="small"
+                    scroll={{y:"400px"}}
                     pagination={false}
                     loading={loading}
                     dataSource={dataSource} 
@@ -223,11 +248,13 @@ const SearchStockEnvio = (props) => {
                     }
                 />
             </Col>
-            </Row>
-            <Modal destroyOnClose title="Filtro por Subgrupo" open={modalOpen} onCancel={()=>{setModalOpen(false)}} 
+        </Row>
+        </>
+    </Card>
+            <Modal destroyOnClose title="Filtros" open={modalOpen} onCancel={()=>{setModalOpen(false)}} 
             okText="Aplicar"
             footer={null}
-            width={"80%"}
+            width={"600px"}
             >
                 <Row>
                     <Col span={24}>
@@ -241,6 +268,8 @@ const SearchStockEnvio = (props) => {
                             setCategoria(filtro.categoria)
                             setIdCat(filtro.refId)
                             setTags(filtro.tags)
+                            //setConStockOrigen(filtro.conStockOrigen)
+                            //setSinStockDestino(filtro.sinStockDestino)
                             setModalOpen(false)
                             setButtonText("X")
                         }}

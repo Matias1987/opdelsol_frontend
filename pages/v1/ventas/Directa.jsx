@@ -30,7 +30,7 @@ export default function VentaDirecta(){
     }
     return (
     <>
-        <h3>Venta Directa</h3>
+        <h2 style={{color:"#312EB4"}}>Venta Directa</h2>
         <VentaBase 
         
         subTotal={subTotal}

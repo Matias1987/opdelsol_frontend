@@ -1,16 +1,28 @@
 import { get, public_urls } from "@/src/urls";
 import useStorage from "@/useStorage";
-import { Alert,  Layout } from "antd";
+import { Alert,  Input,  Layout, Menu } from "antd";
 import { useEffect, useState } from "react";
 import globals from "@/src/globals";
 import HeaderSol from "./header";
 import MenuV2 from "./menu_v2";
+import PopupResultadoBusqueda from "../precios/PopupResultadoBusqueda";
 
 export default function LayoutCaja(props){
     const { Header, Sider, Content } = Layout;
 
     const { getItem } = useStorage();
     const [alerta, setAlerta] = useState("")
+
+    const [busqueda, setBusqueda] = useState("")
+    const [popupBusquedaOpen, setPopupBusquedaOpen] = useState(false)
+    const onSearch = (value) => {
+        if(value.trim().length<1)
+        {
+            return;
+        }
+        setBusqueda(value)
+        setPopupBusquedaOpen(true)
+    }
 
     const validate_user = () => {
 
@@ -87,12 +99,18 @@ export default function LayoutCaja(props){
                     }}/>
                 {/*<MenuCajaTop />*/}
                 {<MenuV2 />}
+                <Menu items={[{
+                label:<Input.Search style={{padding:".3em"}} prefix={<span style={{fontWeight:"bold", backgroundColor:"lightyellow"}}>Buscar Código:&nbsp;&nbsp;&nbsp;</span>} value={busqueda} onChange={(e)=>{setBusqueda(e.target.value)}} onSearch={onSearch} />
+
+                }]}
+                />
             <Content style={{ margin: '40px 100px', padding: 24, borderRadius:"15px", overflowY:'scroll' }}>
                 {
                     (alerta!="") ? <><Alert key={alerta} message={alerta} type="error" showIcon/></>:<></>
                 }
                 {props.children}
                 {/*<Chat />*/}
+                <PopupResultadoBusqueda open = {popupBusquedaOpen} busqueda = {busqueda} callback={()=>{setPopupBusquedaOpen(false); setBusqueda("");} }  />
             </Content>
         </Layout>
     )

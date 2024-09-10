@@ -1,13 +1,15 @@
 import CategoriaSelect from "@/components/CategoriaSelect";
 import SelectTag from "@/components/etiquetas/selectTag";
-import { Button, Card, Col, Row } from "antd";
+import { Button, Card, Checkbox, Col, Row } from "antd";
 import { useState } from "react"
 
 const FiltroBusquedaProductoEnvio = (props) => {
     const [filtros, setFiltros] = useState({
         categoria: -1,
         refId:-1,
-        tags:[]
+        tags:[],
+        conStockOrigen:true,
+        sinStockDestino:false,
     })
     const row_style = {
         padding:"8px"
@@ -26,10 +28,10 @@ const FiltroBusquedaProductoEnvio = (props) => {
             <SelectTag callback={(t)=>{setFiltros(_f=>({..._f, tags:t}))}} />
         </Col>
     </Row>
+ 
     <Row style={row_style}>
         <Col span={24}>
             <Button block type="primary" onClick={()=>{
-                //alert(JSON.stringify(filtros))
                 props?.callback?.(filtros)
             }}>Aplicar</Button>
         </Col>

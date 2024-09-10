@@ -1,4 +1,4 @@
-import { Form, Input, Button, Row, Col, DatePicker }  from "antd";
+import { Form, Input, Button, Row, Col }  from "antd";
 import LoadSelect from "../LoadSelect";
 import { get, post } from "@/src/urls";
 import { post_method } from "@/src/helpers/post_helper";

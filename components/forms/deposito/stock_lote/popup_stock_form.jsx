@@ -1,13 +1,11 @@
-import TagForm from "@/components/etiquetas/tagForm";
-import Tags from "@/components/etiquetas/tagsCodigos";
+
 import { regex_get_id_if_match } from "@/src/helpers/barcode_helper";
 import { post_method } from "@/src/helpers/post_helper";
 import { post } from "@/src/urls";
 import { EditOutlined, PlusCircleOutlined } from "@ant-design/icons";
-import Card from "antd/es/card/Card";
 import { useEffect, useState } from "react";
 
-const { Spin, Form, InputNumber, Button, Modal, Input, Select, Space, Checkbox, Switch, Row, Col, Divider, Radio } = require("antd")
+import { Form, Card, Button, Modal, Input, Select, Space, Row, Col, Radio } from "antd"
 
 const PopUpAgregarStockLoteForm = (props) => {
     const [form] = Form.useForm();

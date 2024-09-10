@@ -47,7 +47,7 @@ export default function VentaRecetaStock(){
 
     return (
     <>
-        <h3>Venta de Receta Stock</h3>
+        <h2 style={{color:"#312EB4"}}>Venta de Receta Stock</h2>
         <VentaBase 
         total={total}
         subTotal={subTotal}

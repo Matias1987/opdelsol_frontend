@@ -221,8 +221,11 @@ const EnvioForm = (props) => {
                     />
                 </Form.Item>
                 <Divider />
-                    <Form.Item name={"items"} label={""} style={{height:"400px", overflowY:"scroll"}}>
+                    <Form.Item name={"items"} label={""}>
                         <Table
+                        rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'}
+                        scroll={{y:"400px"}}
+                        size="small"
                         pagination={false}
                         loading={tableLoading}
                         columns = {[
@@ -279,13 +282,13 @@ const EnvioForm = (props) => {
                 </Form.Item>
             </Form>
             </Col>
-            <Col span={10} style={{padding:"2em", backgroundColor:"#C8DFE6", borderRadius:"15px"}}>
-                <h3>Agregar C&oacute;digos</h3>
-                <SearchStockEnvio 
+            <Col span={10} style={{padding:"8px"}}>
+            <SearchStockEnvio 
                 idSucursalDestino={sucursalDestId}
                 
                 callback={(arr)=>{setRowsToAdd(arr)}} 
                 />
+                
             </Col>
             </Row>
         </>
