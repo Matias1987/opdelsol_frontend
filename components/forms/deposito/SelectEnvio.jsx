@@ -1,9 +1,9 @@
+import globals from "@/src/globals"
 import { get } from "@/src/urls"
+import { CheckCircleTwoTone } from "@ant-design/icons"
 
-const { default: globals } = require("@/src/globals")
-const { CheckCircleTwoTone } = require("@ant-design/icons")
-const { Table, Button, Modal } = require("antd")
-const { useState, useEffect } = require("react")
+import { Table, Button, Modal } from "antd"
+import { useState, useEffect }  from "react"
 /**
  * 
  * @param onOpen function to be executed on opening
@@ -16,6 +16,8 @@ const SelectEnvio = (props) => {
     const [source, setSource] = useState([])
     const [loading, setLoading] = useState(true)
     const [open, setOpen] = useState(false)
+    const [buttonText, setButtonText] = useState("")
+    const [header, setHeader] = useState("")
     const url_envios = get.envio_pendientes+ globals.obtenerSucursal();
 
     const showModal = () => {
@@ -24,6 +26,8 @@ const SelectEnvio = (props) => {
     }
 
     useEffect(()=>{
+        setButtonText(props?.openButtonText||"Seleccionar Envío")
+        setHeader(props?.title||"Seleccione Envío")
         if(!open) return;
         setLoading(true)
         fetch(url_envios )
@@ -57,14 +61,14 @@ const SelectEnvio = (props) => {
     return (
     <>
     <Button type="primary" ghost size="small" onClick={showModal}>
-        {props?.openButtonText||"Seleccionar Envío"}
+        {buttonText}
     </Button>
     <Modal
         cancelButtonProps={{ style: { display: 'none' } }}
         okButtonProps={{children:"CERRAR"}}
         
         width={"80%"}
-        title={props?.title||"Seleccione Envío"}
+        title={header}
         open={open}
         
         onOk={()=>{ 

@@ -1,9 +1,9 @@
-import * as React from "react";
+
+import { get } from "@/src/urls";
 import ExportToCSV from "../ExportToCSV";
 
-const { Spin } = require("antd")
-const { useEffect, useState} = require("react")
-const urls = require("../../src/urls");
+import { useEffect, useState } from "react";
+
 
 const InformeEnvio = (props, ref) =>{
 
@@ -15,7 +15,7 @@ const InformeEnvio = (props, ref) =>{
         setLoading(true)
         //alert(urls.get.detalle_envio+props.idenvio)
         //load data from envio
-        fetch(urls.get.detalle_envio+props.idenvio)
+        fetch(get.detalle_envio+props.idenvio)
         .then(response=>response.json())
         .then((response)=>{
             //alert(JSON.stringify( response))
@@ -32,7 +32,7 @@ const InformeEnvio = (props, ref) =>{
                 }
             )
             //now load data from items
-            fetch(urls.get.lista_envio_stock+props.idenvio)
+            fetch(get.lista_envio_stock+props.idenvio)
             .then(_response=>_response.json())
             .then((_response)=>{
 
