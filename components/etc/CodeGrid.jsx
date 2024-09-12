@@ -35,6 +35,7 @@ const CodeGrid = (props) => {
 
     const [popupEditarStockOpen, setPopupEditarStockOpen] = useState(false)
 
+    
 
     var canvas = null
     var ctx = null
@@ -50,11 +51,18 @@ const CodeGrid = (props) => {
     let cols = {}
     let rows = {} 
     let map = []
+    
     let moving_mouse = false
     let mouse_down = false
     let xoffset=0
     let yoffset=0
     let start_point = {x:0, y:0}
+
+    let selected_layer = []
+    let selection_rect={
+        x:-1,y:-1,x1:-1,y1:-1
+    }
+    
 
     /**
      * for miniature
@@ -187,6 +195,8 @@ const CodeGrid = (props) => {
                     cols[`${cil.toFixed(2)}`] = 0
         
                     map.push(idx)
+
+                    selected_layer.push(0)
             
                 }
             
@@ -264,27 +274,36 @@ const CodeGrid = (props) => {
                     //ctx.fillRect(x ,y ,tilew,tileh)
                     //if(dict[idx].cantidad>0)
                     //{
-                        ctx.font = dict[idx].cantidad>0 || dict[idx].stock_ideal>0? `12px Arial` : `10px Arial`
-                        ctx.fillStyle=dict[idx].cantidad>0 || dict[idx].stock_ideal>0? "black" : "#5BA1E7"
-                        
-                        switch(tipoGrilla)
-                        {
-                            case 's': ctx.fillText(dict[idx].cantidad.toString(), x + 6,y + 14); break;
-                            case 'p': ctx.fillText(dict[idx].cantidad.toString(), x + 6,y + 14); break;
-                            case 'i': ctx.fillText(dict[idx].stock_ideal.toString(), x + 6,y + 14); break;
-                            case 'd' :ctx.fillText((parseInt(dict[idx].cantidad) - parseInt(dict[idx].stock_ideal)).toString(), x + 6,y + 14); break;
-                        }
+                    ctx.font = dict[idx].cantidad>0 || dict[idx].stock_ideal>0? `12px Arial` : `10px Arial`
+                    ctx.fillStyle=dict[idx].cantidad>0 || dict[idx].stock_ideal>0? "black" : "#5BA1E7"
+                    
+                    switch(tipoGrilla)
+                    {
+                        case 's': ctx.fillText(dict[idx].cantidad.toString(), x + 6,y + 14); break;
+                        case 'p': ctx.fillText(dict[idx].cantidad.toString(), x + 6,y + 14); break;
+                        case 'i': ctx.fillText(dict[idx].stock_ideal.toString(), x + 6,y + 14); break;
+                        case 'd' :ctx.fillText((parseInt(dict[idx].cantidad) - parseInt(dict[idx].stock_ideal)).toString(), x + 6,y + 14); break;
+                    }
                        //ctx.fillStyle="red"
                        //ctx.fillText(dict[idx].esf, x ,y + 32)
                        //ctx.fillText(dict[idx].cil, x ,y + 44)
 
                     //}
                     
+                    
                 }
     
                 ctx.strokeStyle="#272727"
                 ctx.rect(x ,y ,tilew,tileh)
                 
+                ctx.fillStyle = "#CC397B"
+                
+                if(selected_layer[i * ncols + j]>0)
+                {
+                    //console.log("PINTARRR " + JSON.stringify({x:j, y:i, v:i * ncols + j}))
+                    //alert("ffff")
+                    ctx.fillRect(x ,y ,tilew,tileh)
+                }
     
             
             }
@@ -338,6 +357,30 @@ const CodeGrid = (props) => {
     
     }
 
+    const mark_selected_rect = () =>{
+        let xstep = selection_rect.x<selection_rect.x1 ? 1:-1
+        let ystep = selection_rect.y<selection_rect.y1 ? 1:-1
+
+        for(let i=0;i<selected_layer.length;i++)
+        {
+            selected_layer[i]=0
+        }
+        alert(JSON.stringify({
+                xstep:xstep,
+                ystep:ystep,
+                selection_rect: selection_rect
+        }))
+        for(let i=selection_rect.x;i!=selection_rect.x1;i+=xstep)
+        {
+            for(let j=selection_rect.y;j!=selection_rect.y1;j+=ystep)
+            {
+                console.log(JSON.stringify({x:j, y:i, selection_rect: selection_rect}))
+                
+                selected_layer[i * ncols + j ] = 1
+            }
+        }
+
+    }
 
     useEffect(()=>{
 
@@ -366,7 +409,7 @@ const CodeGrid = (props) => {
         
                 for(let i=0;i<map.length;i++){
 
-                    let  __x = ((i % ncols)+1) * tilew + xoffset
+                    let __x = ((i % ncols)+1) * tilew + xoffset
                     let __y = (parseInt(i / ncols)+1) * tileh + yoffset
 
                     let xhover = mouse_x>__x && mouse_x<__x+tilew 
@@ -387,6 +430,28 @@ const CodeGrid = (props) => {
                         if(dict[map[i]]!=null)
                         {
                             dict[map[i]].selected=true
+                        }
+
+                        if(selection_rect.x<0)
+                        {
+                            selection_rect.x=i%ncols
+                            selection_rect.y=parseInt(i/ncols)
+                        }
+                        else
+                        {
+                            if(selection_rect.x1<0)
+                            {
+                                selection_rect.x1=i%ncols
+                                selection_rect.y1=parseInt(i/ncols)
+                                mark_selected_rect()
+                            }
+                            else
+                            {
+                                selection_rect.x=i%ncols
+                                selection_rect.y=parseInt(i/ncols)
+                                selection_rect.x1=-1
+                                selection_rect.y1=-1
+                            }
                         }
                         
                     }
@@ -410,10 +475,10 @@ const CodeGrid = (props) => {
             if(mouse_down){
                 moving_mouse=true
         
-                yoffset +=  (e.clientY - start_point.y ) * 1.3
+                yoffset +=  (e.clientY - start_point.y ) * 1
                 start_point.y = e.clientY
         
-                xoffset += (e.clientX - start_point.x) * 1.3
+                xoffset += (e.clientX - start_point.x) * 1
                 start_point.x = e.clientX
             }
             
