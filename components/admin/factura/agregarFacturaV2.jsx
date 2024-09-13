@@ -22,6 +22,7 @@ const AgregarFacturaV2 = (props) => {
         periodo:"",
         tipo:"A",
         puntoVenta:"",
+        cant_productos: 0
     })
     const [loading, setLoading] = useState(false)
     const [reload, setReload] = useState(false)
@@ -277,12 +278,12 @@ const AgregarFacturaV2 = (props) => {
         </Row>
         <Row style={_rows_style}>
             <Col span={24}>
-                <Input prefix="Conceptos no Gravados: " value={parseFloat(factura.conceptosNoGravados||"0")} onChange={(e)=>{onConceptosNoGravadosChange(e.target.value||"0")}} allowClear/>
+                <Input type="number" prefix="Conceptos no Gravados: " value={parseFloat(factura.conceptosNoGravados||"0")} onChange={(e)=>{onConceptosNoGravadosChange(e.target.value||"0")}} allowClear/>
             </Col>
         </Row>
         <Row style={_rows_style}>
             <Col span={24}>
-                <Input prefix="Impuestos Internos: " value={parseFloat(factura.impuestosInternos||"0")} onChange={(e)=>{onImpuestosInternosChange(e.target.value||"0")}} allowClear/>
+                <Input type="number"  prefix="Impuestos Internos: " value={parseFloat(factura.impuestosInternos||"0")} onChange={(e)=>{onImpuestosInternosChange(e.target.value||"0")}} allowClear/>
             </Col>
         </Row>
     </>
@@ -291,6 +292,12 @@ const AgregarFacturaV2 = (props) => {
     <Row style={_rows_style}>
         <Col span={24}>
             <Input prefix="Monto Total: " readOnly={!esRemito} value={parseFloat(factura.total||"0")} onChange={(e)=>{setFactura(f=>({...f,total:parseFloat(e.target.value||"0")}))}} />
+        </Col>
+    </Row>
+    <Row style={_rows_style}>
+        <Col span={24}>
+        <Divider />
+            <Input prefix="Cant. Productos: " value={parseInt(factura.cant_productos||"0")} onChange={(e)=>setFactura(f=>({...f,cant_productos:parseInt(e.target.value||"0")}))} />
         </Col>
     </Row>
     <Row>

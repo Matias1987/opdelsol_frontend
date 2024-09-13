@@ -1,4 +1,4 @@
-import { Button, Col, DatePicker, Divider, Flex, Modal, Radio, Row, Select, Tag } from "antd";
+import { Button, Col, DatePicker, Divider, Flex, Modal, Radio, Row, Select, Table, Tag } from "antd";
 import { useEffect, useRef, useState } from "react";
 import { get, post } from "@/src/urls";
 import EditarStockIndiv from "../forms/deposito/EditarStockIndiv";
@@ -6,6 +6,8 @@ import globals from "@/src/globals";
 import { post_method } from "@/src/helpers/post_helper";
 import FacturaSelect2 from "../FacturaSelect2";
 import CargaStockIdeal from "../forms/deposito/cargaStockIdeal";
+import { BorderOuterOutlined } from "@ant-design/icons";
+import EditarCodigoGrupo from "../forms/deposito/EditarCodigoGrupo";
 /**
  * 
  * @param width 
@@ -35,11 +37,13 @@ const CodeGrid = (props) => {
 
     const [popupEditarStockOpen, setPopupEditarStockOpen] = useState(false)
 
-    
+    const [popupSelectionOpen, setPopupSelectionOpen] = useState(false)
+
+    const [codigosSeleccion, setCodigosSeleccion] = useState([])
 
     var canvas = null
     var ctx = null
-
+    var modoSeleccion = false    
     const tilew=48
     const tileh=48
     const [min_esf , setMinEsf] = useState(-9)
@@ -270,10 +274,18 @@ const CodeGrid = (props) => {
                     ctx.fillStyle = dict[idx].selected ? "#B58EEB" : ctx.fillStyle
                     ctx.fillRect(x ,y ,tilew,tileh)
 
+                    ctx.fillStyle = "#F0BB5F"
+                    if(selected_layer[i * ncols + j]>0)
+                    {
+                        ctx.fillRect(x ,y ,tilew,tileh)
+                    }
+
                     //ctx.fillStyle=(dict[idx].cantidad==0 ? "#20B2AA" : "#EB4C42")
                     //ctx.fillRect(x ,y ,tilew,tileh)
                     //if(dict[idx].cantidad>0)
                     //{
+
+                    //TEXT
                     ctx.font = dict[idx].cantidad>0 || dict[idx].stock_ideal>0? `12px Arial` : `10px Arial`
                     ctx.fillStyle=dict[idx].cantidad>0 || dict[idx].stock_ideal>0? "black" : "#5BA1E7"
                     
@@ -296,14 +308,7 @@ const CodeGrid = (props) => {
                 ctx.strokeStyle="#272727"
                 ctx.rect(x ,y ,tilew,tileh)
                 
-                ctx.fillStyle = "#CC397B"
                 
-                if(selected_layer[i * ncols + j]>0)
-                {
-                    //console.log("PINTARRR " + JSON.stringify({x:j, y:i, v:i * ncols + j}))
-                    //alert("ffff")
-                    ctx.fillRect(x ,y ,tilew,tileh)
-                }
     
             
             }
@@ -338,7 +343,7 @@ const CodeGrid = (props) => {
         
                     if(dict[idx]!=null)
                     {
-                        ctx.fillStyle= "red"
+                        ctx.fillStyle= selected_layer[i * ncols + j]>0 ? "red" : "blue"
                         ctx.fillRect(x ,y ,tilew1,tileh1)
                     }
                     
@@ -358,27 +363,41 @@ const CodeGrid = (props) => {
     }
 
     const mark_selected_rect = () =>{
-        let xstep = selection_rect.x<selection_rect.x1 ? 1:-1
-        let ystep = selection_rect.y<selection_rect.y1 ? 1:-1
+        let selection = []
+        //let xstep = selection_rect.x<selection_rect.x1 ? 1:-1
+        //let ystep = selection_rect.y<selection_rect.y1 ? 1:-1
+        let xstart = selection_rect.x<selection_rect.x1 ? selection_rect.x:selection_rect.x1
+        let ystart = selection_rect.y<selection_rect.y1 ? selection_rect.y:selection_rect.y1
+
+        let xend = selection_rect.x>selection_rect.x1 ? selection_rect.x:selection_rect.x1
+        let yend = selection_rect.y>selection_rect.y1 ? selection_rect.y:selection_rect.y1
 
         for(let i=0;i<selected_layer.length;i++)
         {
             selected_layer[i]=0
         }
-        alert(JSON.stringify({
-                xstep:xstep,
-                ystep:ystep,
-                selection_rect: selection_rect
-        }))
-        for(let i=selection_rect.x;i!=selection_rect.x1;i+=xstep)
+       //alert(JSON.stringify({
+       //        xstep:xstep,
+       //        ystep:ystep,
+       //        selection_rect: selection_rect
+       //}))
+        for(let i=xstart;i<xend+1;i++)
         {
-            for(let j=selection_rect.y;j!=selection_rect.y1;j+=ystep)
+            for(let j=ystart;j<yend+1;j++)
             {
                 console.log(JSON.stringify({x:j, y:i, selection_rect: selection_rect}))
                 
-                selected_layer[i * ncols + j ] = 1
+                selected_layer[i + ncols * j ] = 1
+
+                if(dict[map[i]]!=null)
+                {
+                    //alert(JSON.stringify({idcodigo: dict[selected_layer[i]].idcodigo, codigo: dict[selected_layer[i]].codigo}))
+                    selection.push({idcodigo: dict[map[i]].idcodigo, codigo: dict[map[i]].codigo})
+                }
             }
         }
+
+        setCodigosSeleccion(selection)
 
     }
 
@@ -431,33 +450,44 @@ const CodeGrid = (props) => {
                         {
                             dict[map[i]].selected=true
                         }
-
-                        if(selection_rect.x<0)
+                        
+                        if(modoSeleccion)
                         {
-                            selection_rect.x=i%ncols
-                            selection_rect.y=parseInt(i/ncols)
-                        }
-                        else
-                        {
-                            if(selection_rect.x1<0)
-                            {
-                                selection_rect.x1=i%ncols
-                                selection_rect.y1=parseInt(i/ncols)
-                                mark_selected_rect()
-                            }
-                            else
-                            {
-                                selection_rect.x=i%ncols
-                                selection_rect.y=parseInt(i/ncols)
-                                selection_rect.x1=-1
-                                selection_rect.y1=-1
+                            if(selection_rect.x<0)
+                                {
+                                    selection_rect.x=i%ncols
+                                    selection_rect.y=parseInt(i/ncols)
+                                }
+                                else
+                                {
+                                    if(selection_rect.x1<0)
+                                    {
+                                        selection_rect.x1=i%ncols
+                                        selection_rect.y1=parseInt(i/ncols)
+                                        mark_selected_rect()
+                                    }
+                                    else
+                                    {
+                                        selection_rect.x=i%ncols
+                                        selection_rect.y=parseInt(i/ncols)
+                                        selection_rect.x1=-1
+                                        selection_rect.y1=-1
+                                    }
+                                }
+                                
                             }
                         }
                         
-                    }
         
                 }
             }
+        })
+
+        canvas.addEventListener('keyup', (e) => {
+            if (e.key.toUpperCase() == "S")
+            {
+                modoSeleccion=true
+            } 
         })
 
         canvas.addEventListener("mousedown",(e)=>{
@@ -527,6 +557,12 @@ const CodeGrid = (props) => {
     const onChange = (e)=>{
         setSelectedCode(null)
         setTipoGrilla(e.target.value)
+    }
+
+    const onPopupSeleccionOpen = _ => {
+        
+       
+        setPopupSelectionOpen(true)
     }
 
     const stock_mode = _ => <>
@@ -599,7 +635,7 @@ const CodeGrid = (props) => {
     </>
 
     const dif_mode = _ => <>
-
+        
     </>
 
     const periodo_mode = _ => <>
@@ -656,6 +692,10 @@ const CodeGrid = (props) => {
         </Col>
         <Col span={8}>
             <Row>
+                <Button size="small" onClick={onPopupSeleccionOpen} disabled={codigosSeleccion.length<1}><BorderOuterOutlined /> Selecci&oacute;n</Button>
+                <Divider />
+            </Row>
+            <Row>
                 <Col span={24}>
                     Subgrupo: {subgrupo==null ? props.idsubgrupo : <><Tag color="geekblue">{subgrupo.nombre_largo}</Tag></>}
                     <Divider />
@@ -697,6 +737,43 @@ const CodeGrid = (props) => {
             Cantidad total:&nbsp;{total}
         </Col>
     </Row>
+    <Modal 
+    footer={null}
+    width={"600px"}
+    destroyOnClose
+    open={popupSelectionOpen} 
+    onCancel={()=>{
+        setPopupSelectionOpen(false)
+    }}
+    >
+        <>
+        <Row>
+            <Col span={24}>
+                <EditarCodigoGrupo
+                        disabled={codigosSeleccion.length<1} 
+                        codigos={ codigosSeleccion.map(c=>({idcodigo: c.idcodigo, codigo: c.codigo, precio: c.precio}))  }  
+                        callback={()=>{setReload(!reload)}}
+                    />
+            </Col>
+        </Row>
+        <Row>
+            <Col span={24}>
+            <Table  
+            pagination={false}
+            scroll={{y:"300px"}}
+            columns={[
+                {title:"Codigo", dataIndex: "codigo"},
+                
+            ]}
+
+            dataSource={codigosSeleccion}
+            
+            />
+            
+            </Col>
+        </Row>
+        </>
+    </Modal>
         
     </>
 

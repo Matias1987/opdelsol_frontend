@@ -24,6 +24,7 @@ const IVAForm = (props) => {
     <Row style={{padding:"1em"}}>
         <Col span={24}>
             <Input 
+            type="number"
             style={{width:"100%"}}
             value={parseFloat(iva.monto||"0")}
             prefix="Monto: "  
