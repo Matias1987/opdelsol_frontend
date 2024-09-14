@@ -1,3 +1,4 @@
+import AgregarFacturaV2 from "@/components/admin/factura/agregarFacturaV2";
 import FacturaSelect from "@/components/FacturaSelect";
 import PopUpAgregarStockLoteForm from "@/components/forms/deposito/stock_lote/popup_stock_form";
 import FacturaForm from "@/components/forms/FacturaForm";
@@ -498,7 +499,8 @@ export default function AgregarStockLote(props){
         onCancel={closePopup}
         okText="CERRAR"
     >
-        <FacturaForm action="ADD" callback={onOk} />
+        {/*<FacturaForm action="ADD" callback={onOk} />*/}
+        <AgregarFacturaV2 callback={()=>{onOk()}} />
     </Modal>
     </>
 

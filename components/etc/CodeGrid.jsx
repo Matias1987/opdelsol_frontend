@@ -357,6 +357,15 @@ const CodeGrid = (props) => {
             rect_h
         )
 
+        if(modoSeleccion)
+        {
+            ctx.fillStyle="blue"
+            ctx.fillRect(0,0,16,16)
+            ctx.fillStyle="white"
+            ctx.fillText("S", 4,12); 
+        }
+       
+
         ctx.stroke();
         ctx.beginPath()
     
@@ -450,13 +459,18 @@ const CodeGrid = (props) => {
                         {
                             dict[map[i]].selected=true
                         }
-                        
+
                         if(modoSeleccion)
                         {
                             if(selection_rect.x<0)
                                 {
                                     selection_rect.x=i%ncols
                                     selection_rect.y=parseInt(i/ncols)
+                                    setCodigosSeleccion([])
+                                    for(let i=0;i<selected_layer.length;i++)
+                                    {
+                                        selected_layer[i]=0
+                                    }
                                 }
                                 else
                                 {
@@ -472,6 +486,11 @@ const CodeGrid = (props) => {
                                         selection_rect.y=parseInt(i/ncols)
                                         selection_rect.x1=-1
                                         selection_rect.y1=-1
+                                        setCodigosSeleccion([])
+                                        for(let i=0;i<selected_layer.length;i++)
+                                        {
+                                            selected_layer[i]=0
+                                        }
                                     }
                                 }
                                 
@@ -483,10 +502,24 @@ const CodeGrid = (props) => {
             }
         })
 
-        canvas.addEventListener('keyup', (e) => {
+        window.addEventListener('keyup', (e) => {
+            
             if (e.key.toUpperCase() == "S")
             {
-                modoSeleccion=true
+                
+                modoSeleccion=!modoSeleccion
+                if(!modoSeleccion)
+                {
+                    selection_rect.x=-1
+                    selection_rect.y=-1
+                    selection_rect.x1=-1
+                    selection_rect.y1=-1
+                    for(let i=0;i<selected_layer.length;i++)
+                    {
+                        selected_layer[i]=0
+                    }
+                    setCodigosSeleccion([])
+                }
             } 
         })
 
@@ -581,7 +614,7 @@ const CodeGrid = (props) => {
                 </Row>
             }
             {
-                selectedCode!=null ? <>
+                selectedCode!=null && codigosSeleccion.length<1? <>
             
                 <Row>
                     <Col span={24}>
@@ -621,7 +654,7 @@ const CodeGrid = (props) => {
 
     const ideal_mode = _ => <>
         {
-                selectedCode!=null ? <>
+                selectedCode!=null && codigosSeleccion.length<1 ?<>
                 <Row>
                     <Col span={24}>
                         <Button onClick={()=>{setPopupStockIdeal(true)}}>Editar Cantidad</Button>
@@ -654,18 +687,7 @@ const CodeGrid = (props) => {
                 <Button disabled={filtroPeriodo.desde==''&&filtroPeriodo.hasta==''} block onClick={()=>{setReload(!reload)}}>Aplicar</Button>
             </Col>
         </Row>
-        <Row>
-            <Col span={24}>
-            </Col>
-        </Row>
-        <Row>
-            <Col span={24}>
-            </Col>
-        </Row>
-        <Row>
-            <Col span={24}>
-            </Col>
-        </Row>
+        
     </>
 
     return <>
@@ -692,7 +714,12 @@ const CodeGrid = (props) => {
         </Col>
         <Col span={8}>
             <Row>
-                <Button size="small" onClick={onPopupSeleccionOpen} disabled={codigosSeleccion.length<1}><BorderOuterOutlined /> Selecci&oacute;n</Button>
+                {/*<Button size="small" onClick={onPopupSeleccionOpen} disabled={codigosSeleccion.length<1}><BorderOuterOutlined /> Selecci&oacute;n</Button>*/}
+                <EditarCodigoGrupo
+                        disabled={codigosSeleccion.length<1} 
+                        codigos={ codigosSeleccion.map(c=>({idcodigo: c.idcodigo, codigo: c.codigo, precio: c.precio}))  }  
+                        callback={()=>{setReload(!reload)}}
+                    />
                 <Divider />
             </Row>
             <Row>
@@ -702,7 +729,7 @@ const CodeGrid = (props) => {
                 </Col>
             </Row>
         {
-                selectedCode!=null ? <>
+                selectedCode!=null && codigosSeleccion.length<1? <>
                 <Row>
                     <Col span={24}>
                         C&oacute;digo Seleccionado: 
@@ -737,43 +764,7 @@ const CodeGrid = (props) => {
             Cantidad total:&nbsp;{total}
         </Col>
     </Row>
-    <Modal 
-    footer={null}
-    width={"600px"}
-    destroyOnClose
-    open={popupSelectionOpen} 
-    onCancel={()=>{
-        setPopupSelectionOpen(false)
-    }}
-    >
-        <>
-        <Row>
-            <Col span={24}>
-                <EditarCodigoGrupo
-                        disabled={codigosSeleccion.length<1} 
-                        codigos={ codigosSeleccion.map(c=>({idcodigo: c.idcodigo, codigo: c.codigo, precio: c.precio}))  }  
-                        callback={()=>{setReload(!reload)}}
-                    />
-            </Col>
-        </Row>
-        <Row>
-            <Col span={24}>
-            <Table  
-            pagination={false}
-            scroll={{y:"300px"}}
-            columns={[
-                {title:"Codigo", dataIndex: "codigo"},
-                
-            ]}
-
-            dataSource={codigosSeleccion}
-            
-            />
-            
-            </Col>
-        </Row>
-        </>
-    </Modal>
+    
         
     </>
 

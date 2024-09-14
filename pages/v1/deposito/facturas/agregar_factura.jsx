@@ -1,10 +1,10 @@
-import FacturaForm from "@/components/forms/FacturaForm";
+import AgregarFacturaV2 from "@/components/admin/factura/agregarFacturaV2";
 
 const AgregarFactura = () =>{
     return (
         <>
         <h3>Agregar Factura</h3>
-        <FacturaForm  action="ADD" />
+        <AgregarFacturaV2 callback={()=>{}} />
         </>
     
     )
