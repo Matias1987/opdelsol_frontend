@@ -28,12 +28,7 @@ export default function ListaCaja(props){
         {dataIndex:'fecha_f', title: 'Fecha'},
         {dataIndex:'monto_inicial', title: 'Monto'},
         {dataIndex:'estado', title: 'Estado'},
-        {dataIndex: 'idcaja', title: 'Acciones', render: (_,{idcaja})=>{
-            return <>
-                <Button onClick={()=>{setSelectedCaja(idcaja);setPopupOpen(true)}}>Ver</Button>
-                
-            </>
-        }}
+        {dataIndex: 'idcaja', title: 'Acciones', render: (_,{idcaja})=> <Button onClick={()=>{setSelectedCaja(idcaja);setPopupOpen(true)}}>Ver</Button>}
     ]
     
     return (<>

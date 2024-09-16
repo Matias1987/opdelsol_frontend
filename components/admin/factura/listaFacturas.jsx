@@ -226,7 +226,7 @@ useEffect(()=>{
         
         <Modal 
         destroyOnClose
-        
+        footer={null}
         width={"80%"}
         open={popupDetalleFacturaOpen} 
         onCancel={()=>{setPopupDetalleFacturaOpen(false)}}

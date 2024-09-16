@@ -1,6 +1,6 @@
 import { get } from "@/src/urls";
 
-import { Table, Spin } from "antd";
+import { Table, Spin, Row, Col } from "antd";
 import { useEffect, useState } from "react";
 /**
  * 
@@ -80,18 +80,38 @@ const DetalleFactura = (props) => {
 
     const detalles = _ =>(
         <>
-        Proveedor: {dataFactura[0].proveedor}<br />
-        Nro.: {dataFactura[0].numero}<br />
-        Fecha: {dataFactura[0].fecha}<br />
-        Cantidad Total: {dataFactura[0].cantidad_total}<br />
-        Monto Total: {dataFactura[0].monto_total}<br />
+        <Row>
+            <Col span={12}>
+                <Row>
+                    <Col span={24}>Proveedor: <span style={{fontWeight:"bold", color:"darkblue"}}>{dataFactura[0].proveedor}</span></Col>
+                </Row>
+                <Row>
+                    <Col span={24}>Nro.: <span style={{fontWeight:"bold", color:"darkblue"}}>{dataFactura[0].numero}</span></Col>
+                </Row>
+                <Row>
+                    <Col span={24}>Fecha: <span style={{fontWeight:"bold", color:"darkblue"}}>{dataFactura[0].fecha}</span></Col>
+                </Row>
+            </Col>
+            <Col span={12}>
+                <Row>
+                    <Col span={24}>Cantidad Total: <span style={{fontWeight:"bold", color:"darkblue"}}>{dataFactura[0].cantidad_total}</span></Col>
+                </Row>
+                <Row>
+                    <Col span={24}>Monto Total: <span style={{fontWeight:"bold", color:"darkblue"}}>{dataFactura[0].monto_total}</span></Col>
+                </Row>
+            </Col>
+        </Row>
+            
+            
         </>
     )
 
     const elementos = _ =>(
         <>
-        <h4>Lista de Productos</h4>
         <Table
+        title={()=><><b>Lista de Productos</b></>}
+        size="small"
+        pagination={false}
         scroll={{y:"450px"}}
         rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'}
         dataSource={dataElementos}
@@ -107,9 +127,21 @@ const DetalleFactura = (props) => {
 
     return (
         <>
-        <h3>{detallesLoading ? "..." : +dataFactura[0].es_remito != 1 ? "Detalle Factura" : "Detalle Remito" }</h3>
-        {detallesLoading ? <Spin /> :detalles()}
-        {elementosLoading ? <Spin /> : elementos()}
+            <Row>
+                <Col span={24}>
+                    <h3>{detallesLoading ? "..." : +dataFactura[0].es_remito != 1 ? "Detalle Factura" : "Detalle Remito" }</h3>
+                </Col>
+            </Row>
+            <Row style={{backgroundColor:"#E4F6FF", padding:"8px"}}>
+                <Col span={24}>
+                    {detallesLoading ? <Spin /> :detalles()}
+                </Col>
+            </Row>
+            <Row>
+                <Col span={24}>
+                {elementosLoading ? <Spin /> : elementos()}
+                </Col>
+            </Row>
         </>
     )
 }

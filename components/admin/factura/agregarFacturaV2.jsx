@@ -228,16 +228,6 @@ const AgregarFacturaV2 = (props) => {
             <DatePicker format={"DD-MM-YYYY"} onChange={(value)=>{onChange("fecha", value.format("YYYY-MM-DD"))}}/>
         </Col>
     </Row>
-   
-
-    {/*<Row style={_rows_style}>
-        <Col span={2}>
-            Periodo:
-        </Col>
-        <Col span={10}>
-            <DatePicker format={"DD-MM-YYYY"} onChange={(value)=>{onChange("periodo", value.format("YYYY-MM-DD"))}}/>
-        </Col>
-    </Row>*/}
 
     { esRemito ? <></> :
     <>

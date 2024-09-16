@@ -1,7 +1,7 @@
 import { Button, Col, Input, Row } from "antd";
 import SelectCodigoVenta from "./SelectCodigoVenta";
-import { useRef, useState } from "react";
-import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import {useState } from "react";
+import { DeleteOutlined } from "@ant-design/icons";
 import globals from "@/src/globals";
 import { parse_float_string } from "@/src/helpers/string_helper";
 

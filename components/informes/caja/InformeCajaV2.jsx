@@ -2,12 +2,11 @@ import PrinterWrapper from "@/components/PrinterWrapper"
 import globals from "@/src/globals"
 import { currency_format } from "@/src/helpers/string_helper"
 import { get } from "@/src/urls"
-import { Button, Col, Modal, Row, Spin, Table } from "antd"
+import { Button, Col, Modal, Row, Spin } from "antd"
 import { useState } from "react"
 
 export default function InformeCajaV2(props){
     const[dataOperaciones, setDataOperaciones] = useState(null)
-    const[dataTransferencias, setDataTransferencias] = useState(null)
     const[dataGastos, setDataGastos] = useState(null)
     const[dataSucursal, setDataSucursal] = useState(null)
     const [dataTransfEnviadas, setDataTransfEnviadas] = useState(null)
@@ -17,10 +16,7 @@ export default function InformeCajaV2(props){
     const[hora, setHora] = useState("")
 
     const [open, setOpen] = useState(false)
-
-    const style_tables = {width:"100%"}
-    const style_th = {fontWeight:"bold"}
-
+    
     const [totales, setTotales] = useState({
         ventas:0,
         cuotas: 0,
@@ -44,8 +40,7 @@ export default function InformeCajaV2(props){
          fetch(get.caja_id + props.idcaja)
          .then(response=>response.json())
          .then((response)=>{
-             //alert(JSON.stringify(response))
-             //alert(get.sucursal_details + response.data[0].sucursal_idsucursal)
+             
              //get data sucursal
 			 if((response?.data||[]).length<1)
 			 {
@@ -55,7 +50,7 @@ export default function InformeCajaV2(props){
              fetch(get.sucursal_details + response.data[0].sucursal_idsucursal)
              .then(__response=>__response.json())
              .then((__response)=>{
-                 //alert("SUCURSAL::::: " + JSON.stringify(__response.data))
+                
                  setDataSucursal(__response.data[0])
              })
          })
@@ -69,7 +64,7 @@ export default function InformeCajaV2(props){
 			{
 				return
 			}
-             //alert(JSON.stringify(response))
+           
             setDataOperaciones(response.data)
             
             var totalVentas=0;
@@ -230,21 +225,23 @@ export default function InformeCajaV2(props){
 	<Col span={24}>
     <table className="tabla-informe-caja">
         <thead>
-            <th>Oper.</th>
-            <th>Detalle</th>
-            <th>Cliente</th>
-            <th>Recibo</th>
-            <th>Ventas</th>
-            <th>Cuotas</th>
-            <th>Cheques</th>
-            <th>Tarjetas</th>
-            <th>Mutual</th>
-            <th>Cta.Cte.</th>
-            <th>Mercado Pago</th>
-            <th>Transferencia</th>
+            <tr>
+                <th>Oper.</th>
+                <th>Detalle</th>
+                <th>Cliente</th>
+                <th>Recibo</th>
+                <th>Ventas</th>
+                <th>Cuotas</th>
+                <th>Cheques</th>
+                <th>Tarjetas</th>
+                <th>Mutual</th>
+                <th>Cta.Cte.</th>
+                <th>Mercado Pago</th>
+                <th>Transferencia</th>
+            </tr>
         </thead>
         <tbody>
-            {dataOperaciones.map(row=><tr>
+            {dataOperaciones.map((row,idx)=><tr key={idx}>
                 <td>
                     {row["operacion"]}
                 </td>
@@ -284,34 +281,35 @@ export default function InformeCajaV2(props){
             </tr>)}
         </tbody>
         <tfoot>
-            <th colSpan={"4"}>
-                Totales:
-            </th>
-            <th className="money-cell">
-                $&nbsp;{currency_format(totales["ventas"])}
-            </th>
-            <th className="money-cell">
-                $&nbsp;{currency_format(totales["cuotas"])}
-            </th>
-            <th className="money-cell">
-                $&nbsp;{currency_format(totales["cheques"])}
-            </th>
-            <th className="money-cell">
-                $&nbsp;{currency_format(totales["tarjetas"])}
-            </th>
-            <th className="money-cell">
-                $&nbsp;{currency_format(totales["mutual"])}
-            </th>
-            <th className="money-cell">
-                $&nbsp;{currency_format(totales["ctacte"])}
-            </th>
-            <th className="money-cell">
-                $&nbsp;{currency_format(totales["mercadopago"])}
-            </th>
-            <th className="money-cell">
-                $&nbsp;{currency_format(totales["transferencias"])}
-            </th>
-            
+            <tr>
+                <th colSpan={"4"}>
+                    Totales:
+                </th>
+                <th className="money-cell">
+                    $&nbsp;{currency_format(totales["ventas"])}
+                </th>
+                <th className="money-cell">
+                    $&nbsp;{currency_format(totales["cuotas"])}
+                </th>
+                <th className="money-cell">
+                    $&nbsp;{currency_format(totales["cheques"])}
+                </th>
+                <th className="money-cell">
+                    $&nbsp;{currency_format(totales["tarjetas"])}
+                </th>
+                <th className="money-cell">
+                    $&nbsp;{currency_format(totales["mutual"])}
+                </th>
+                <th className="money-cell">
+                    $&nbsp;{currency_format(totales["ctacte"])}
+                </th>
+                <th className="money-cell">
+                    $&nbsp;{currency_format(totales["mercadopago"])}
+                </th>
+                <th className="money-cell">
+                    $&nbsp;{currency_format(totales["transferencias"])}
+                </th>
+            </tr>
     
         </tfoot>
     </table>
@@ -323,9 +321,11 @@ export default function InformeCajaV2(props){
 		<b>Gastos</b>
         <table  className="tabla-informe-caja">
             <thead>
-                <th>Rec.</th>
-                <th>Detalle</th>
-                <th>Importe</th>
+                <tr>
+                    <th>Rec.</th>
+                    <th>Detalle</th>
+                    <th>Importe</th>
+                </tr>
             </thead>
             <tbody>
                 {
@@ -337,8 +337,10 @@ export default function InformeCajaV2(props){
                 }
             </tbody>
             <tfoot>
-            <th colSpan={2}></th>
-            <th className="money-cell">$&nbsp;{currency_format(totales.gastos)}</th>
+                <tr>
+                    <th colSpan={2}></th>
+                    <th className="money-cell">$&nbsp;{currency_format(totales.gastos)}</th>
+                </tr>
             </tfoot>
         </table>
 		
@@ -362,8 +364,11 @@ export default function InformeCajaV2(props){
                 }
             </tbody>
             <tfoot>
+                <tr>
                 <th></th>
                 <th className="money-cell">$&nbsp;{currency_format(totales.transferido)}</th>
+                </tr>
+                
             </tfoot>
         </table>
 		
@@ -374,20 +379,23 @@ export default function InformeCajaV2(props){
             <b>Monto Recibido</b>
             <table  className="tabla-informe-caja">
                 <thead>
-                    <th>Sucursal Origen</th>
-                    <th>Importe</th>
+                    <tr>
+                        <th>Sucursal Origen</th>
+                        <th>Importe</th>
+                    </tr>
                 </thead>
                 <tbody>
                     {
-                        dataTransfRecibidas.map(row=><tr>
+                        dataTransfRecibidas.map((row,idx)=><tr key={idx}>
                             <td>{row["origen"]}</td>
                             <td className="money-cell">$&nbsp;{currency_format(row["monto"])}</td>
                         </tr>)
                     }
                 </tbody>
                 <tfoot>
-                    <th></th>
-                    <th className="money-cell">$&nbsp;{currency_format(totales.recibido)}</th>
+                    <tr>
+                        <td className="money-cell">$&nbsp;{currency_format(totales.recibido)}</td>
+                    </tr>
                 </tfoot>
             </table>
             
@@ -399,7 +407,7 @@ export default function InformeCajaV2(props){
     return (
     <>
         <Button onClick={()=>{onOpen()}}>Ver Informe</Button>
-        <Modal width={"90%"} open={open} footer={null} onCancel={()=>{setOpen(false)}}>
+        <Modal width={"90%"} open={open} footer={null} onCancel={()=>{setOpen(false)}} destroyOnClose>
             <PrinterWrapper>
             <>
             {

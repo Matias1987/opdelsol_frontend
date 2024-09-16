@@ -1,6 +1,4 @@
 import CustomModal from "@/components/CustomModal";
-import SearchCodigo from "@/components/SearchCodigo";
-import SearchStock from "@/components/SearchStock";
 import SearchStockVentas from "./SearchStockVentas";
 import { useState } from "react";
 import { get } from "@/src/urls";
@@ -54,16 +52,16 @@ export default function SelectCodigoVenta(props){
 
     return (
         dataCodigo === null ?
-    <>
-        <CustomModal 
-        openButtonText= { typeof props.buttonText === 'undefined' ? 'Seleccionar Código' : props.buttonText }
-        title="Buscar"
-        >
-            <SearchStockVentas idfamilias={typeof props.idfamilias === 'undefined' ? [] : props.idfamilias} callback={onCodigoSelected} />
-        </CustomModal>
-        </>
-        :
         <>
-        <span style={_codigo_style}>Codigo:&nbsp;<b>{dataCodigo.codigo.length>30 ? dataCodigo.codigo.substring(0,30)+"..." : dataCodigo.codigo}</b>{/*Desc.:<b>{dataCodigo.descripcion}</b>&nbsp;*/}{_button()}</span>
+            <CustomModal 
+            openButtonText= { typeof props.buttonText === 'undefined' ? 'Seleccionar Código' : props.buttonText }
+            title="Buscar"
+            >
+                <SearchStockVentas idfamilias={typeof props.idfamilias === 'undefined' ? [] : props.idfamilias} callback={onCodigoSelected} />
+            </CustomModal>
+            </>
+            :
+            <>
+            <span style={_codigo_style}>Codigo:&nbsp;<b>{dataCodigo.codigo.length>30 ? dataCodigo.codigo.substring(0,30)+"..." : dataCodigo.codigo}</b>{_button()}</span>
         </>
         )}
