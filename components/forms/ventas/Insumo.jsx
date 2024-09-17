@@ -7,17 +7,15 @@ import { parse_float_string } from "@/src/helpers/string_helper";
 
 const VentasInsumo = (props) => {
     const [visible, setVisible] = useState(false);
-    //const precioRef =useRef(null);
+    
     const [insumo, setInsumo] = useState({
         idcodigo: -1,
         codigo: null,
         precio: 0,
         cantidad:1,
     })
-    const on_codigo_change = (val) => {
-        
-        //precioRef.current.value=val.precio;
 
+    const on_codigo_change = (val) => {
         setInsumo((_insumo_)=>{
             const __insumo ={..._insumo_,codigo:val.codigo,idcodigo: val.idcodigo, precio: val.precio};
             props?.callback?.(__insumo);

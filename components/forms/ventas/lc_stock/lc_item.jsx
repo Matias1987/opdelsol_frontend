@@ -7,7 +7,6 @@ import { parse_float_string, parse_int_string, round_float } from "@/src/helpers
 
 const LCItem = (props) => {
     const [visible, setVisible] = useState(false);
-    const precioRef = useRef(null)
 
     const [lc, setLC] = useState({
         idcodigo: -1,

@@ -8,6 +8,7 @@ import FacturaSelect2 from "../FacturaSelect2";
 import CargaStockIdeal from "../forms/deposito/cargaStockIdeal";
 import { BorderOuterOutlined } from "@ant-design/icons";
 import EditarCodigoGrupo from "../forms/deposito/EditarCodigoGrupo";
+import ExportToCSV from "../ExportToCSV";
 /**
  * 
  * @param width 
@@ -25,6 +26,7 @@ const CodeGrid = (props) => {
     const [selectedEje, setSelectedEje] = useState("-1")
     const [firstLoad, setFirstLoad] = useState(true)
     const [subgrupo, setSubgrupo] = useState(null)
+    const [csvText, setCSVText] = useState("")
 
     const [tipoGrilla, setTipoGrilla] = useState('s')
     const [filtroPeriodo, setFiltroPeriodo] = useState({desde: '',  hasta: '',})
@@ -211,6 +213,8 @@ const CodeGrid = (props) => {
                 cols[`${c.cil}`] = 1
                 rows[`${c.esf}`] = 1
             })
+
+            getCSVText()
         })
     }
 
@@ -394,14 +398,14 @@ const CodeGrid = (props) => {
         {
             for(let j=ystart;j<yend+1;j++)
             {
-                console.log(JSON.stringify({x:j, y:i, selection_rect: selection_rect}))
-                
-                selected_layer[i + ncols * j ] = 1
+                //console.log(JSON.stringify({x:j, y:i, selection_rect: selection_rect}))
+                let idx = i + ncols * j
+                selected_layer[ idx ] = 1
 
-                if(dict[map[i]]!=null)
+                if(dict[map[idx]]!=null)
                 {
                     //alert(JSON.stringify({idcodigo: dict[selected_layer[i]].idcodigo, codigo: dict[selected_layer[i]].codigo}))
-                    selection.push({idcodigo: dict[map[i]].idcodigo, codigo: dict[map[i]].codigo})
+                    selection.push({idcodigo: dict[map[idx]].idcodigo, codigo: dict[map[idx]].codigo})
                 }
             }
         }
@@ -592,6 +596,53 @@ const CodeGrid = (props) => {
         setTipoGrilla(e.target.value)
     }
 
+    const getCSVText = _ => {
+        let csvtext = "ESF\\CIL,"
+        for(let cil=min_cil, j=0;cil<=max_cil;cil+=.25, j++)
+        {
+            csvtext+= `${cil.toString()},`
+        }
+        csvtext+="\r\n"
+        
+        for(let esf=min_esf, i=0;esf<=max_esf;esf+=.25,i++)
+        {
+            
+            for(let cil=min_cil, j=0;cil<=max_cil;cil+=.25, j++)
+            {
+                
+                //if(cols[`${cil.toFixed(2)}`]==0 && rows[`${(esf>0?"+":"") + esf.toFixed(2)}`]==0)
+                //{
+                //        continue
+                //}
+
+                let text = '0'
+                
+                if(j==0) { csvtext+=`${esf.toString()},`}
+
+                let idx = `${(esf>0?"+":"") + esf.toFixed(2)}${cil.toFixed(2)}`
+                
+                if(dict[idx]!=null)
+                {
+                    
+                    switch(tipoGrilla)
+                    {
+                        case 's': text = dict[idx].cantidad.toString(); break;
+                        case 'p': text = dict[idx].cantidad.toString(); break;
+                        case 'i': text = dict[idx].stock_ideal.toString(); break;
+                        case 'd': text = (parseInt(dict[idx].cantidad) - parseInt(dict[idx].stock_ideal)).toString(); break;
+                    }
+             
+                    
+                }
+                csvtext+=`${text},`
+                
+            }
+            csvtext+='\r\n'
+        }
+
+        setCSVText(csvtext)
+    }
+
     const onPopupSeleccionOpen = _ => {
         
        
@@ -760,8 +811,11 @@ const CodeGrid = (props) => {
         </Col>
     </Row>
     <Row>
-        <Col span={24}>
+        <Col span={12}>
             Cantidad total:&nbsp;{total}
+        </Col>
+        <Col span={12}>
+            {subgrupo == null ? <></> : <ExportToCSV parseFnt={_=> subgrupo.nombre_largo + "\r\n" + csvText} key={csvText} />}
         </Col>
     </Row>
     

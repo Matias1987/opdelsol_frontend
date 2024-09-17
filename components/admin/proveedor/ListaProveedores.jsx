@@ -1,11 +1,12 @@
 import FichaProveedor from "@/components/admin/proveedor/fichaProveedor";
 import ProveedorForm from "@/components/forms/ProveedorForm";
 import { get } from "@/src/urls"
-import { EditOutlined, PlusOutlined } from "@ant-design/icons";
+import { PlusOutlined } from "@ant-design/icons";
 
-import { Table, Button, Modal, Row, Col, Card, Checkbox } from "antd";
+import { Table, Button, Modal, Row, Col, Card, Checkbox, Input } from "antd";
 import { useState, useEffect } from "react";
 import ListaFacturas from "../factura/listaFacturas";
+import globals from "@/src/globals";
 
 const ListaProveedores = (props) => {
     const [change, setChange] = useState(false)
@@ -18,6 +19,9 @@ const ListaProveedores = (props) => {
     const [tableData, setTableData] = useState([])
 
     const [listaFacturasOpen, setListaFacturasOpen] = useState(false)
+
+    const [searchValue, setSearchValue] = useState("")
+
     const columns = [
         {render:(_,{idproveedor, checked})=><Checkbox checked={checked} onChange={(e)=>{
 
@@ -32,7 +36,7 @@ const ListaProveedores = (props) => {
         {title: 'C.U.I.T.', dataIndex: 'cuit', key: 'cuit'},
         {title: 'Acciones', dataIndex: 'idproveedor', key: 'acciones',
             render: (idproveedor)=>{
-                    return(<>
+                    return(!globals.esUsuarioAdminProv() ? <></> : <>
                     <Button onClick={()=>{
                         setIdProveedor(idproveedor)
                         setPopupFichaOpen(true)
@@ -79,7 +83,7 @@ useEffect(()=>{
     const header = () => <>
         <Row>
             <Col span={24}>
-               
+               <Input placeholder="Buscar por Nombre..." onChange={(e)=>{setSearchValue(e.target.value)}} />
             </Col>
         </Row>
     </>
@@ -101,7 +105,7 @@ useEffect(()=>{
                 size="small"
                 rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'}
                 columns={columns}
-                dataSource={tableData}
+                dataSource={tableData.filter(d=>(searchValue.trim()).length<1 ? true : (d.nombre||"").toUpperCase().includes(searchValue.toUpperCase()) )}
                 />
                 </Col>
             </Row>

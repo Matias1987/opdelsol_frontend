@@ -13,8 +13,7 @@ const VentasArmazon = (props) => {
         precio: 0,
         cantidad:1,
     })
-    //const precioRef = useRef(null)
-
+    
     const on_precio_change = (e) => {
         
         setArmazon(
@@ -27,8 +26,7 @@ const VentasArmazon = (props) => {
     }
 
     const on_codigo_change = (val) => {
-        //precioRef.current.value = val.precio;
-       
+        
         setArmazon((__armazon)=>{
         
             const _armazon = {
@@ -37,8 +35,6 @@ const VentasArmazon = (props) => {
                 idcodigo: val.idcodigo,
                 precio: val.precio,
             };
-
-            
 
             props?.callback(_armazon);
             return _armazon

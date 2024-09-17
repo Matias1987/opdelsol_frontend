@@ -10,13 +10,6 @@ const MonofLabCristal = (props) => {
     
     const [visible, setVisible] = useState(false);
     
-    //const precioRef = useRef(null)
-
-    const [itemsEsf, setItemsEsf] = useState([])
-    
-    const [itemsCil, setItemsCil] = useState([])
-
-    const [itemsEje, setItemsEje] = useState([])
 
     const [cristal, setCristal] = useState({
         idcodigo: -1,
@@ -30,7 +23,7 @@ const MonofLabCristal = (props) => {
 
     })
 
-    useEffect(()=>{
+    /*useEffect(()=>{
         var esf  = []
         for(let i=-17;i<=17;i+=.25)
         {
@@ -58,11 +51,10 @@ const MonofLabCristal = (props) => {
         setItemsEsf(esf)
         setItemsEje(eje)
 
-    },[])
+    },[])*/
 
     const onchange_codigo = (value) => {
-        //precioRef.current.value = value.precio;
-
+        
         setCristal((_cristal)=>{
             const __cristal = {..._cristal,codigo:value.codigo, precio: value.precio, idcodigo: value.idcodigo}
             props?.callback(__cristal)

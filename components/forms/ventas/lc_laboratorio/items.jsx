@@ -27,8 +27,7 @@ const LCLabItems = (props) => {
     }
 
     const onVisibleChange = (field,value) => {
-        //alert(`${field} : ${value}`)
-        setItems(_items_=>{
+         setItems(_items_=>{
             const _values = {..._items_,[field]:value}
             props?.callback(_values)
             return _values

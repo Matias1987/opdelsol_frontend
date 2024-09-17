@@ -9,8 +9,6 @@ const VentasTratamiento = (props) => {
 
     const [visible, setVisible] = useState(false);
 
-    //const precioRef =useRef(null);
-
     const [tratamiento, setTratamiento] = useState({
         idcodigo: -1,
         codigo: null,
@@ -19,7 +17,6 @@ const VentasTratamiento = (props) => {
     })
 
     const on_codigo_change = (val) => {
-        //precioRef.current.value=val.precio;
         setTratamiento((_tratamiento_)=>{
             const _tratamiento = {..._tratamiento_,codigo: val.codigo, idcodigo: val.idcodigo, precio: val.precio}
             props?.callback(_tratamiento);
@@ -54,7 +51,6 @@ const VentasTratamiento = (props) => {
                     <SelectCodigoVenta idfamilias={[globals.familiaIDs.TRATAMIENTO]} callback={on_codigo_change} />
                 </Col>
                 <Col span={4}>
-                    {/*<span>&nbsp;&nbsp;Precio: </span><input readOnly onChange={on_precio_change} ref={precioRef} style={{textAlign:"right", width:"100px", border: "1px solid #ccc", borderRadius:"6px", borderColor:"lightgray", padding:".4em", fontSize:"1.1em"}} />*/}
                     <Input disabled={tratamiento.codigo==null} prefix="Precio: " readOnly={false} min={0}   type="number" onChange={on_precio_change} size="small"  style={{backgroundColor:"rgba(131,137,150, 0.4)"}} value={tratamiento.precio} />
                 </Col>
                 <Col span={1}>

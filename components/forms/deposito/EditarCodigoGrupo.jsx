@@ -69,7 +69,7 @@ const EditarCodigoGrupo = (props) => {
         
         <Row>
             <Col span={24}>
-                <Input.TextArea disabled value={((props.codigos||[]).map(c=>c.codigo)).toString()} readOnly style={{backgroundColor:"lightyellow", color:"darkblue"}}></Input.TextArea>
+                <Input.TextArea rows={12} disabled value={((props.codigos||[]).map(c=>c.codigo + "\r\n")).toString()} readOnly style={{backgroundColor:"lightyellow", color:"darkblue"}}></Input.TextArea>
             </Col>
         </Row>
         

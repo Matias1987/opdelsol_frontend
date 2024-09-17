@@ -8,10 +8,10 @@ import { parse_float_string } from "@/src/helpers/string_helper";
 
 const MultifLabCristal = (props) => {
     const [visible, setVisible] = useState(false);
-    const precioRef = useRef(null)
-    const [itemsEsf, setItemsEsf] = useState([])
-    const [itemsCil, setItemsCil] = useState([])
-    const [itemsEje, setItemsEje] = useState([])
+    //const precioRef = useRef(null)
+    //const [itemsEsf, setItemsEsf] = useState([])
+    //const [itemsCil, setItemsCil] = useState([])
+    //const [itemsEje, setItemsEje] = useState([])
 
     const [cristal, setCristal] = useState({
         idcodigo: -1,
@@ -25,7 +25,7 @@ const MultifLabCristal = (props) => {
 
     })
 
-    useEffect(()=>{
+   /* useEffect(()=>{
         var esf  = []
         for(let i=-17;i<=17;i+=.25)
         {
@@ -52,17 +52,10 @@ const MultifLabCristal = (props) => {
         setItemsCil(cil)
         setItemsEsf(esf)
         setItemsEje(eje)
-    },[])
+    },[])*/
 
     const onchange_codigo = (value) => {
-        /*cristal.codigo = value.codigo;
-        cristal.precio = value.precio;
-        setPrecio(value.precio)
-        alert(precioRef.current.value)
-        props.callback(cristal)*/
-
-        //precioRef.current.value = value.precio;
-
+        
         setCristal((_cristal_)=>{
             const __cristal = {..._cristal_,codigo:value.codigo, precio: value.precio, idcodigo: value.idcodigo}
             props?.callback(__cristal)
@@ -95,10 +88,6 @@ const MultifLabCristal = (props) => {
         
     }
     const onchange_precio = (e) => {
-        
-        /*cristal.precio = e.target.value;
-        setPrecio(e.target.value)
-        props.callback(cristal)*/
         setCristal((_cristal)=>{
             const __cristal = {..._cristal,precio:parse_float_string(e.target.value)}
             props?.callback(__cristal)
@@ -130,11 +119,9 @@ const MultifLabCristal = (props) => {
                 </Col>
                 <Col span={1} style={_estilo_label}>
                 &nbsp;Esf:
-                    {/*<Input type="number" step={0.25} min={-17} max={17} addonBefore={"Esf:"} onChange={onchange_esf} />&nbsp;*/}
                 </Col>
                 <Col span={2}>
                     <Input size="small" disabled={cristal.codigo==null} value={cristal.esf} step={".25"} onChange={(e)=>{onchange_esf(e.target.value)}} />
-                    {/*<Select size="small" options={itemsEsf} onChange={(v)=>{onchange_esf(v)}} />*/}
                 </Col>
                 <Col span={1} style={_estilo_label}>
                 &nbsp;Cil:
