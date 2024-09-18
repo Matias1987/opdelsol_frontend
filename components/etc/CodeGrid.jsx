@@ -730,7 +730,7 @@ const CodeGrid = (props) => {
         </Row>
         <Row>
             <Col span={24}>
-            <DatePicker.RangePicker size="large"  onChange={periodoDia}/>
+                <DatePicker.RangePicker size="large"  onChange={periodoDia}/>
             </Col>
         </Row>
         <Row>
