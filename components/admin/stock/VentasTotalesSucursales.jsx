@@ -1,4 +1,5 @@
 import CategoriaSelect from "@/components/CategoriaSelect";
+import ExportToCSV from "@/components/ExportToCSV";
 import SucursalSelect from "@/components/SucursalSelect";
 import { post_method } from "@/src/helpers/post_helper";
 import { post } from "@/src/urls";
@@ -147,7 +148,20 @@ const VentasTotalesSucursales = (props) => {
         <Col span={14}>
             <Row>
                 <Col span={24} style={{border:"1px solid #A9A9A9", padding:"12px", borderRadius:"6px"}}>
-                    <Table dataSource={dataSource} columns={columns} pagination={false} scroll={{y:"600px"}}/>
+                    <Table 
+                    title={()=><><ExportToCSV parseFnt={()=>{
+                        let str = "sucursal,codigo,cantidad\r\n"
+                        dataSource.forEach(d=>{
+                            str+=`${d.sucursal},"' ${d.codigo} '",${d.cantidad}\r\n`
+                        })
+                        return str
+                    }
+                    }/></>}
+                    dataSource={dataSource} 
+                    columns={columns} 
+                    pagination={false} 
+                    scroll={{y:"600px"}}
+                    />
                 </Col>
             </Row>
         </Col>
