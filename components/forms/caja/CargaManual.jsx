@@ -14,6 +14,7 @@ const CargaManual = (props) => {
     const [cargaManual, setCargaManual] = useState({
         monto: 0,
         concepto: 0,
+        tk: globals.getToken(),
     })
 
     const onFinish = (values) => {

@@ -139,17 +139,17 @@ export default function CobroOperacion(props){
             {
                 if(props.tipo=='entrega')
                 {
-                    post_method(post.cambiar_estado_venta,{idventa: dataVenta.idventa, estado: 'ENTREGADO',fecha_retiro: current_date_ymd()},(resp)=>{alert("OK"); setOpen(false); props?.callback?.()})
+                    post_method(post.cambiar_estado_venta,{tk: globals.getToken(),idventa: dataVenta.idventa, estado: 'ENTREGADO',fecha_retiro: current_date_ymd()},(resp)=>{alert("OK"); setOpen(false); props?.callback?.()})
                     registrarVentaEntregada(dataVenta.idventa)
                 }
                 else{
                     if(entrega)
                     {
-                        post_method(post.cambiar_estado_venta,{idventa: dataVenta.idventa, estado: 'ENTREGADO',fecha_retiro: current_date_ymd()},(resp)=>{alert("OK"); setOpen(false); props?.callback?.()})
+                        post_method(post.cambiar_estado_venta,{tk: globals.getToken(),idventa: dataVenta.idventa, estado: 'ENTREGADO',fecha_retiro: current_date_ymd()},(resp)=>{alert("OK"); setOpen(false); props?.callback?.()})
                         registrarVentaEntregada(dataVenta.idventa)
                     }
                     else{
-                        post_method(post.cambiar_estado_venta,{idventa: dataVenta.idventa, estado: 'PENDIENTE'},(resp)=>{alert("OK"); setOpen(false); props?.callback?.()})
+                        post_method(post.cambiar_estado_venta,{tk: globals.getToken(),idventa: dataVenta.idventa, estado: 'PENDIENTE'},(resp)=>{alert("OK"); setOpen(false); props?.callback?.()})
                         registrarVentaPendiente(dataVenta.idventa)
                     
                     }
@@ -242,6 +242,7 @@ export default function CobroOperacion(props){
             sucursal_idsucursal: globals.obtenerSucursal(),
             descuento: descuento,
             fecha: current_date_ymd(),
+            tk: globals.getToken(),
         }
 
         params = typeof props.idventa === 'undefined' ? params : {...params,idventa:props.idventa} 

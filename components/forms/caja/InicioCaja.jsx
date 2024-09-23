@@ -46,7 +46,8 @@ export default function InicioCaja(props){
                 sucursal_idsucursal: globals.obtenerSucursal(),
                 usuario_idusuario: globals.obtenerUID(),
                 monto_inicial: values.monto,
-                fecha: current_date_ymd()
+                fecha: current_date_ymd(),
+                tk: globals.getToken(),
             }
             post_method(post.insert.caja, data, (result)=>{
                 alert("OK")

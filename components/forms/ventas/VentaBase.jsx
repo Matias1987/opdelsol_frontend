@@ -35,6 +35,7 @@ export default function VentaBase(props){
         fksucursal: globals.obtenerSucursal(),
         fkcaja: globals.obtenerCajaID(),
         json_items:'',
+        tk: globals.getToken(),
 
     })
     

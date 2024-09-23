@@ -383,6 +383,7 @@ export default function AgregarStockLote(props){
                                 cantidad: curr.cantidad,
                                 factura_idfactura: curr.factura,
                                 costo: curr.costo,
+                                tk: globals.getToken(),
                             }
                             //alert("insert stock now! " + JSON.stringify(res))
                             post_method(post.insert.stock,_data,(__res)=>{
@@ -413,6 +414,7 @@ export default function AgregarStockLote(props){
                                 codigo_idcodigo: res.data,
                                 cantidad: curr.cantidad,
                                 factura_idfactura: curr.factura,
+                                tk: globals.getToken(),
                                 /*genero: curr.genero,
                                 edad: curr.edad,
                                 costo: curr.costo,

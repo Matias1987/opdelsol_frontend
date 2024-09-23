@@ -85,6 +85,7 @@ const EnvioForm = (props) => {
             usuario_idusuario: globals.obtenerUID(),
             cantidad_total:0,
             id_sucursal_origen: globals.obtenerSucursal(),
+            tk: globals.getToken(),
             items: [
             ]
         }
@@ -101,13 +102,9 @@ const EnvioForm = (props) => {
 
         __values.cantidad_total=__cantidad;
 
-        //console.log("testing values: " , __values)
-
-
         post_helper.post_method(urls.post.insert.envio,__values,(res)=>{
             if(res.status == "OK"){
                 alert("Datos Guardados")
-                //alert(JSON.stringify( res.data ))
                 window.location.replace(urls.informes.envio+res.data);
             }else{alert("Error.")}});
       };

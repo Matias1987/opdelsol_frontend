@@ -16,6 +16,7 @@ const CargaBloqueo = (props) => {
             comentario: "",
             idsucursal: globals.obtenerSucursal(),
             idcliente: props.idcliente,
+            tk: globals.getToken(),
         })
     },[])
 

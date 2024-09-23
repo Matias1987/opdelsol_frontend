@@ -14,6 +14,7 @@ const GastoForm = (props) => {
         idmotivo: null,
         monto: 0,
         comentarios: "",
+        tk: globals.getToken(),
     })
 
     const onChange = (value,index) => {

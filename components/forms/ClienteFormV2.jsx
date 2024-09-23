@@ -28,7 +28,8 @@ export default function ClienteFormV2(props){
         domicilio: "",
         telefono: "",
         destinatario: '0',
-        idlocalidad:-1
+        idlocalidad:-1,
+        
     })
 
     const url = post.insert.cliente;
@@ -106,6 +107,7 @@ export default function ClienteFormV2(props){
                     nombres: clienteData.nombres.toUpperCase(),
                     apellidos: clienteData.apellidos.toUpperCase(),
                     domicilio: clienteData.domicilio.toUpperCase(),
+                    tk: globals.getToken(),
                 }
                 
                 post_method(url,_data,(res)=>{
