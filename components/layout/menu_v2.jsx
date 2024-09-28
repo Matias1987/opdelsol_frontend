@@ -110,6 +110,13 @@ export default function MenuV2(props){
       {
         type: 'divider',
       },
+      {
+        key:'200',
+        label: <Menu.Item><Link href={public_urls.clientes_morosos}>Morosos</Link></Menu.Item>
+      },
+      {
+        type: 'divider',
+      },
      {
         key: '102',
         label: (<Menu.Item style={{fontSize:".85em"}}><Link href={public_urls.ventas_pendientes}>Operaciones Pendientes En Sucursal</Link></Menu.Item>),

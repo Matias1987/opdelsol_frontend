@@ -103,6 +103,7 @@ const public_urls = {
     adm_prov_lista_prov: local_base_url + "admin/prov/lista_proveedores_adm",
     adm_prov_pagos: local_base_url + "admin/prov/pagos",
     adm_prov_remitos: local_base_url + "admin/prov/remitos",
+    clientes_morosos: local_base_url + "caja/clientes_morosos",
 }
 
 
@@ -162,6 +163,8 @@ const post = {
     buscar_stock_envios: remote_base_url +  "envio/search/stock/for/envio/", //"stock/search_stock_envio/",//idsucursal/idsucursal_destino/search_value
     
     obtener_facturas_filtros: remote_base_url + "facturas/obtener/fact/uras/filtros/",
+
+    o_c_m: remote_base_url + "clientes/g/cl/m/",
 
     search:{
         filtro_stock: remote_base_url + "stock/filtro_stock/",
