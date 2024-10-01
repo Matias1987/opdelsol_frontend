@@ -104,6 +104,7 @@ const public_urls = {
     adm_prov_pagos: local_base_url + "admin/prov/pagos",
     adm_prov_remitos: local_base_url + "admin/prov/remitos",
     clientes_morosos: local_base_url + "caja/clientes_morosos",
+
 }
 
 
@@ -257,6 +258,7 @@ const post = {
         editar_cantidad_ideal: remote_base_url + "codigos/cod/editar/stock/ideal/",
         mover_subgrupos:remote_base_url + "subgrupos/m/v/sg/",
         mover_grupos: remote_base_url + "grupos/mover/",
+        cl_a_f_l:remote_base_url+"/cl/a/f/l/",
     },
 }
 

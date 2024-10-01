@@ -2,7 +2,7 @@ import FichaCliente from "@/components/FichaCliente";
 import FichaClienteV2 from "@/components/FichaClienteV2";
 import { post_method } from "@/src/helpers/post_helper";
 import { post } from "@/src/urls";
-import { Button, Card, Col, Modal, Row, Table } from "antd";
+import { Button, Card, Checkbox, Col, Modal, Row, Table } from "antd";
 import { useEffect, useState } from "react";
 
 const ClientesMorosos = (props) => {
@@ -10,20 +10,23 @@ const ClientesMorosos = (props) => {
     const [selectedCliente, setSelectedCliente] = useState(-1)
     const [dataSource, setdataSource] = useState([])
     const columns  = [
-        {title:"dni", dataIndex:"dni"},
+        {title:"DNI", dataIndex:"dni"},
         {title:"Apellido y Nombre", dataIndex:"cliente"},
         {title:"Telefono",dataIndex:"telefono"},
         {title:<div style={{textAlign:"right"}}>Saldo</div>, dataIndex:"saldo", render:(_,{saldo})=><div style={{textAlign:"right"}}>$&nbsp;{saldo}</div>},
-        {render:(_,{idcliente})=><>
+        {width:"100px",  render:(_,{idcliente})=><>
             <Button onClick={()=>{setSelectedCliente(idcliente); setPopupFichaOpen(true)}}>Ficha</Button>
         
-        </>}
+        </>},
+        {
+            render:(_,{idcliente})=><><Checkbox /></>, width:"80px", title:"Marcar"
+        }
     ]
 
     const load = _ => {
-        alert(post.o_c_m)
+       // alert(post.o_c_m)
         post_method(post.o_c_m,{},(rows)=>{
-            alert(JSON.stringify(rows))
+            //alert(JSON.stringify(rows))
             setdataSource(rows.data)
         })
     }
@@ -36,7 +39,7 @@ const ClientesMorosos = (props) => {
         padding:"1em"
     }
     return <>
-    <Card title="Clientes Morosos">
+    <Card title="Clientes Morosos Sin Bloquear">
         <>
             <Row style={row_style}>
                 <Col span={24}>
