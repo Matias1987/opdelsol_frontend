@@ -195,17 +195,11 @@ const CodeGrid = (props) => {
                 for(let cil=min_cil;cil<=max_cil;cil+=0.25){
         
                     let idx = `${(esf>0?"+":"") + esf.toFixed(2)}${cil.toFixed(2)}`
-        
                     dict[idx]=null
-        
                     cols[`${cil.toFixed(2)}`] = 0
-        
                     map.push(idx)
-
                     selected_layer.push(0)
-            
                 }
-            
             }
           
             response.data.forEach(c=>{
@@ -377,8 +371,6 @@ const CodeGrid = (props) => {
 
     const mark_selected_rect = () =>{
         let selection = []
-        //let xstep = selection_rect.x<selection_rect.x1 ? 1:-1
-        //let ystep = selection_rect.y<selection_rect.y1 ? 1:-1
         let xstart = selection_rect.x<selection_rect.x1 ? selection_rect.x:selection_rect.x1
         let ystart = selection_rect.y<selection_rect.y1 ? selection_rect.y:selection_rect.y1
 
@@ -389,23 +381,17 @@ const CodeGrid = (props) => {
         {
             selected_layer[i]=0
         }
-       //alert(JSON.stringify({
-       //        xstep:xstep,
-       //        ystep:ystep,
-       //        selection_rect: selection_rect
-       //}))
+       
         for(let i=xstart;i<xend+1;i++)
         {
             for(let j=ystart;j<yend+1;j++)
             {
-                //console.log(JSON.stringify({x:j, y:i, selection_rect: selection_rect}))
                 let idx = i + ncols * j
                 selected_layer[ idx ] = 1
 
                 if(dict[map[idx]]!=null)
                 {
-                    //alert(JSON.stringify({idcodigo: dict[selected_layer[i]].idcodigo, codigo: dict[selected_layer[i]].codigo}))
-                    selection.push({idcodigo: dict[map[idx]].idcodigo, codigo: dict[map[idx]].codigo})
+                      selection.push({idcodigo: dict[map[idx]].idcodigo, codigo: dict[map[idx]].codigo})
                 }
             }
         }
@@ -456,8 +442,6 @@ const CodeGrid = (props) => {
                             {
                                 dict[map[j]].selected=false
                             }
-                           
-                            
                         }
                         if(dict[map[i]]!=null)
                         {
@@ -496,12 +480,9 @@ const CodeGrid = (props) => {
                                             selected_layer[i]=0
                                         }
                                     }
-                                }
-                                
+                                } 
                             }
                         }
-                        
-        
                 }
             }
         })
@@ -597,27 +578,24 @@ const CodeGrid = (props) => {
     }
 
     const getCSVText = _ => {
-        let csvtext = "ESF\\CIL,"
-        for(let cil=min_cil, j=0;cil<=max_cil;cil+=.25, j++)
-        {
-            csvtext+= `${cil.toString()},`
-        }
-        csvtext+="\r\n"
+        let _csvtext = ""
         
-        for(let esf=min_esf, i=0;esf<=max_esf;esf+=.25,i++)
+        _csvtext+="\r\n"
+        _csvtext+='NEGATIVOS\r\n'
+        _csvtext+='ESF\\CIL,'
+        for(let cil=max_cil;cil>=min_cil;cil-=.25)
         {
-            
-            for(let cil=min_cil, j=0;cil<=max_cil;cil+=.25, j++)
+            _csvtext+= `${cil.toString()},`
+        }
+        _csvtext+='\r\n'
+        
+        for(let esf=-0.25, i=0;esf>=min_esf;esf-=.25,i++)
+        {
+            for(let cil=max_cil, j=0;cil>=min_cil;cil-=.25, j++)
             {
-                
-                //if(cols[`${cil.toFixed(2)}`]==0 && rows[`${(esf>0?"+":"") + esf.toFixed(2)}`]==0)
-                //{
-                //        continue
-                //}
-
                 let text = '0'
                 
-                if(j==0) { csvtext+=`${esf.toString()},`}
+                if(j==0) { _csvtext+=`${esf.toString()},`}
 
                 let idx = `${(esf>0?"+":"") + esf.toFixed(2)}${cil.toFixed(2)}`
                 
@@ -634,13 +612,49 @@ const CodeGrid = (props) => {
              
                     
                 }
-                csvtext+=`${text},`
+                _csvtext+=`${text},`
                 
             }
-            csvtext+='\r\n'
+            _csvtext+='\r\n'
+        }
+        _csvtext+='POSITIVOS\r\n'
+        _csvtext+='ESF\\CIL,'
+        for(let cil=max_cil;cil>=min_cil;cil-=.25)
+        {
+            _csvtext+= `${cil.toString()},`
+        }
+        _csvtext+='\r\n'
+        
+        for(let esf=0, i=0;esf<=max_esf;esf+=.25,i++)
+        {
+            for(let cil=max_cil, j=0;cil>=min_cil;cil-=.25, j++)
+            {
+                let text = '0'
+                
+                if(j==0) { _csvtext+=`${esf.toString()},`}
+
+                let idx = `${(esf>0?"+":"") + esf.toFixed(2)}${cil.toFixed(2)}`
+                
+                if(dict[idx]!=null)
+                {
+                    
+                    switch(tipoGrilla)
+                    {
+                        case 's': text = dict[idx].cantidad.toString(); break;
+                        case 'p': text = dict[idx].cantidad.toString(); break;
+                        case 'i': text = dict[idx].stock_ideal.toString(); break;
+                        case 'd': text = (parseInt(dict[idx].cantidad) - parseInt(dict[idx].stock_ideal)).toString(); break;
+                    }
+             
+                    
+                }
+                _csvtext+=`${text},`
+                
+            }
+            _csvtext+='\r\n'
         }
 
-        setCSVText(csvtext)
+        setCSVText(_csvtext)
     }
 
     const onPopupSeleccionOpen = _ => {
