@@ -4,7 +4,7 @@ import SelectCodigoVenta from "../SelectCodigoVenta";
 import { useEffect, useRef, useState } from "react";
 import { DeleteOutlined } from "@ant-design/icons";
 import globals from "@/src/globals";
-import { parse_float_string } from "@/src/helpers/string_helper";
+import { parse_float_string, validate_esf_cil_eje } from "@/src/helpers/string_helper";
 
 const MonofLabCristal = (props) => {
     
@@ -63,6 +63,10 @@ const MonofLabCristal = (props) => {
         
     }
     const onchange_eje = (v) => {
+        if(!validate_esf_cil_eje(v))
+            {
+                return
+            }
         setCristal((_cristal)=>{
             const __cristal = {..._cristal,eje:(v||"")==""?"0":v}
             props?.callback(__cristal)
@@ -71,6 +75,10 @@ const MonofLabCristal = (props) => {
         
     }
     const onchange_esf = (v) => {
+        if(!validate_esf_cil_eje(v))
+            {
+                return
+            }
         setCristal((_cristal)=>{
             const __cristal = {..._cristal,esf:(v||"")==""?"0":v}
             props?.callback(__cristal)
@@ -79,6 +87,10 @@ const MonofLabCristal = (props) => {
         
     }
     const onchange_cil = (v) => {
+        if(!validate_esf_cil_eje(v))
+            {
+                return
+            }
         setCristal((_cristal)=>{
             const __cristal = {..._cristal,cil:(v||"")==""?"0":v}
             props?.callback(__cristal)
@@ -114,29 +126,30 @@ const MonofLabCristal = (props) => {
             }</Button> :
         <>
             <Row>
- 
-                <Col span={1} style={_estilo_label}>
-                    Esf:
-                </Col>
-                <Col span={2}>
-                    <Input size="small"  disabled={cristal.codigo==null} step={"0.25"} value={cristal.esf} onChange={(e)=>{onchange_esf(e.target.value)}} />
-                </Col>
-                <Col span={1} style={_estilo_label}>
-                    Cil:
-                </Col>
-                <Col span={2}>
-                    <Input size="small"  disabled={cristal.codigo==null} step={"0.25"}  value={cristal.cil} onChange={(e)=>{onchange_cil(e.target.value)}}/>
-                </Col>
-                <Col span={1} style={_estilo_label}>
-                    Eje:
-                </Col>
-                <Col span={2}>
-                    <Input size="small"  disabled={cristal.codigo==null} step={"0.25"} value={cristal.eje} onChange={(e)=>{onchange_eje(e.target.value)}}/>
-                </Col>
-                
                 <Col span={10}>
                     <SelectCodigoVenta idfamilias={[globals.familiaIDs.CRISTALES]} buttonText={"Seleccionar Código"} callback={onchange_codigo} />
                 </Col>
+ 
+                {/*<Col span={1} style={_estilo_label}>
+                    Esf:
+                </Col>*/}
+                <Col span={3}>
+                    <Input style={{backgroundColor:"rgba(131,137,150, 0.4)"}}  prefix="Esf.: " size="small"  disabled={cristal.codigo==null}  value={cristal.esf} onChange={(e)=>{onchange_esf(e.target.value)}} />
+                </Col>
+                {/*<Col span={1} style={_estilo_label}>
+                    Cil:
+                </Col>*/}
+                <Col span={3}>
+                    <Input style={{backgroundColor:"rgba(131,137,150, 0.4)"}}  prefix="Cil.: " size="small"  disabled={cristal.codigo==null}   value={cristal.cil} onChange={(e)=>{onchange_cil(e.target.value)}}/>
+                </Col>
+                {/*<Col span={1} style={_estilo_label}>
+                    Eje:
+                </Col>*/}
+                <Col span={3}>
+                    <Input style={{backgroundColor:"rgba(131,137,150, 0.4)"}}  prefix="Eje.: "  size="small"  disabled={cristal.codigo==null}  value={cristal.eje} onChange={(e)=>{onchange_eje(e.target.value)}}/>
+                </Col>
+                
+                
                 <Col span={4}>
                     <Input disabled={cristal.codigo==null} type="number" readOnly={false} size="small"  prefix="Precio" value={cristal.precio} onChange={onchange_precio} style={{backgroundColor:"rgba(131,137,150, 0.4)"}} />
                 </Col>

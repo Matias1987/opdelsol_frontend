@@ -4,7 +4,7 @@ import SelectCodigoVenta from "../SelectCodigoVenta";
 import { useEffect, useRef, useState } from "react";
 import { DeleteOutlined } from "@ant-design/icons";
 import globals from "@/src/globals";
-import { parse_float_string } from "@/src/helpers/string_helper";
+import { parse_float_string, validate_esf_cil_eje } from "@/src/helpers/string_helper";
 
 const MultifLabCristal = (props) => {
     const [visible, setVisible] = useState(false);
@@ -64,6 +64,10 @@ const MultifLabCristal = (props) => {
         
     }
     const onchange_eje = (v) => {
+        if(!validate_esf_cil_eje(v))
+        {
+            return
+        }
         setCristal((_cristal_)=>{
             const __cristal = {..._cristal_,eje:((v||"")==""?"0":v)}
             props?.callback(__cristal)
@@ -72,6 +76,10 @@ const MultifLabCristal = (props) => {
         
     }
     const onchange_esf = (v) => {
+        if(!validate_esf_cil_eje(v))
+        {
+            return
+        }
         setCristal((_cristal_)=>{
             const __cristal = {..._cristal_,esf:(v||"")==""?"0":v}
             props?.callback(__cristal)
@@ -80,6 +88,10 @@ const MultifLabCristal = (props) => {
         
     }
     const onchange_cil = (v) => {
+        if(!validate_esf_cil_eje(v))
+        {
+            return
+        }
         setCristal((_cristal_)=>{
             const __cristal = {..._cristal_,cil:(v||"")==""?"0":v}
             props?.callback(__cristal)
@@ -117,28 +129,27 @@ const MultifLabCristal = (props) => {
                 <Col span={10}>
                     <SelectCodigoVenta idfamilias={[globals.familiaIDs.CRISTALES]} buttonText={"Seleccionar Código"} callback={onchange_codigo} />
                 </Col>
-                <Col span={1} style={_estilo_label}>
+                {/*<Col span={1} style={_estilo_label}>
                 &nbsp;Esf:
-                </Col>
+                </Col>*/}
                 <Col span={2}>
-                    <Input size="small" disabled={cristal.codigo==null} value={cristal.esf} step={".25"} onChange={(e)=>{onchange_esf(e.target.value)}} />
+                    <Input  style={{backgroundColor:"rgba(131,137,150, 0.4)"}}  prefix="Esf.:" size="small" disabled={cristal.codigo==null} value={cristal.esf} step={".25"} onChange={(e)=>{onchange_esf(e.target.value)}} />
                 </Col>
-                <Col span={1} style={_estilo_label}>
+                {/*<Col span={1} style={_estilo_label}>
                 &nbsp;Cil:
-                    {/*<Input addonBefore={"Cil:"} onChange={onchange_cil} />&nbsp;*/}
-                </Col>
+                </Col>*/}
                 <Col span={2}>
                     {/*<Select size="small" options={itemsCil} onChange={(v)=>{onchange_cil(v)}}/>*/}
-                    <Input size="small" disabled={cristal.codigo==null} value={cristal.cil} step={"0.25"} onChange={(e)=>{onchange_cil(e.target.value)}}/>
+                    <Input  style={{backgroundColor:"rgba(131,137,150, 0.4)"}}  prefix="Cil.:" size="small" disabled={cristal.codigo==null} value={cristal.cil} step={"0.25"} onChange={(e)=>{onchange_cil(e.target.value)}}/>
                 </Col>
                 {/*<Col span={3}>
                     <Input addonBefore={"Eje:"} onChange={onchange_eje} />&nbsp;
-                </Col>*/}
+                </Col>
                 <Col span={1} style={_estilo_label}>
                     Eje:
-                </Col>
+                </Col>*/}
                 <Col span={2}>
-                    <Input size="small" disabled={cristal.codigo==null} value={cristal.eje} step={"0.25"} onChange={(e)=>{onchange_eje(e.target.value)}} />
+                    <Input  style={{backgroundColor:"rgba(131,137,150, 0.4)"}}  prefix="Eje:" size="small" disabled={cristal.codigo==null} value={cristal.eje} step={"0.25"} onChange={(e)=>{onchange_eje(e.target.value)}} />
                     {/*<Select size="small" options={itemsEje} onChange={(v)=>{onchange_eje(v)}} />*/}
                 </Col>
                 

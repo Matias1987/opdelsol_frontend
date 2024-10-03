@@ -3,7 +3,7 @@ import { useRef, useState } from "react";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import SelectCodigoVenta from "../SelectCodigoVenta";
 import globals from "@/src/globals";
-import { parse_float_string } from "@/src/helpers/string_helper";
+import { parse_float_string, validate_esf_cil_eje } from "@/src/helpers/string_helper";
 
 const LCLabItem = (props) =>{
     const [visible, setVisible] = useState(false);
@@ -28,6 +28,10 @@ const LCLabItem = (props) =>{
     }
 
     const on_change = (val, idx) => {
+        if(!validate_esf_cil_eje(val))
+        {
+            return
+        }
         setLC((_LC)=>{
             const __LC ={..._LC,[idx]:val};
             props?.callback?.(__LC);
@@ -63,19 +67,19 @@ const LCLabItem = (props) =>{
                     <SelectCodigoVenta idfamilias={[globals.familiaIDs.LC]} callback={on_codigo_change} />
                 </Col>
                 <Col span={3}>
-                    <Input disabled={LC.codigo==null} size="small" prefix="Eje" type="text" value={LC.eje} onChange={(e=>{on_change(e.target.value,"eje")})} />
+                    <Input  style={{backgroundColor:"rgba(131,137,150, 0.4)"}}  disabled={LC.codigo==null} size="small" prefix="Eje" type="text" value={LC.eje} onChange={(e=>{on_change(e.target.value,"eje")})} />
                 </Col>
                 <Col span={3}>
-                    <Input disabled={LC.codigo==null} size="small" prefix="Esf." type="text" value={LC.esf} onChange={(e=>{on_change(e.target.value,"esf")})} />
+                    <Input  style={{backgroundColor:"rgba(131,137,150, 0.4)"}}  disabled={LC.codigo==null} size="small" prefix="Esf." type="text" value={LC.esf} onChange={(e=>{on_change(e.target.value,"esf")})} />
                 </Col>
                 <Col span={3}>
-                    <Input disabled={LC.codigo==null} size="small" prefix="Cil." type="text" value={LC.cil} onChange={(e=>{on_change(e.target.value,"cil")})} />
+                    <Input  style={{backgroundColor:"rgba(131,137,150, 0.4)"}}  disabled={LC.codigo==null} size="small" prefix="Cil." type="text" value={LC.cil} onChange={(e=>{on_change(e.target.value,"cil")})} />
                 </Col>
                 <Col span={3}>
-                    <Input disabled={LC.codigo==null} size="small" prefix="C.B." type="text" value={LC.cb} onChange={(e=>{on_change(e.target.value,"cb")})} />
+                    <Input  style={{backgroundColor:"rgba(131,137,150, 0.4)"}}  disabled={LC.codigo==null} size="small" prefix="C.B." type="text" value={LC.cb} onChange={(e=>{on_change(e.target.value,"cb")})} />
                 </Col>
                 <Col span={3}>
-                    <Input disabled={LC.codigo==null} size="small" prefix="Diám." type="text" value={LC.diametro} onChange={(e=>{on_change(e.target.value,"diametro")})} />
+                    <Input  style={{backgroundColor:"rgba(131,137,150, 0.4)"}}  disabled={LC.codigo==null} size="small" prefix="Diám." type="text" value={LC.diametro} onChange={(e=>{on_change(e.target.value,"diametro")})} />
                 </Col>
                 <Col span={3}>
                     <Input disabled={LC.codigo==null} size="small" style={{backgroundColor:"rgba(131,137,150, 0.4)"}} readOnly={false} type="number" prefix={"Precio: "} value={LC.precio} onChange={(v)=>{on_precio_change(v.target.value)}} />

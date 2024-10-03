@@ -26,7 +26,7 @@ return (
 
             <Col span={5}><Input  type="number" onClick={(e)=>{e.target.select()}}  prefix={"Descuento: $"} onChange={(e)=>{onDescuentoChange(e.target.value)}} value={descuento} style={{backgroundColor:"rgba(49,140,231, 0.3)"}}/></Col>
 
-            <Col span={14}><Input prefix={"Concepto Descuento: "} style={{backgroundColor:"rgba(49,140,231, 0.1)"}} ></Input></Col>
+            {/*<Col span={14}><Input prefix={"Concepto Descuento: "} style={{backgroundColor:"rgba(49,140,231, 0.1)"}} ></Input></Col>*/}
         </Row>
         <Row>
             <Col span={24}><Input prefix={"Total: $"} style={{fontWeight: "bold"}}  bordered={false} readOnly  value={total} /></Col>

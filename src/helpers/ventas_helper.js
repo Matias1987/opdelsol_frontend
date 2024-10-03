@@ -15,6 +15,7 @@ const { post } = require("../urls");
 const { registrar_evento } = require("./evento_helper");
 const { validar_modo_pago } = require("./pago_helper");
 const { post_method } = require("./post_helper");
+const { validate_only_numbers_and_letters } = require("./string_helper");
 
 
 const validar_tipo = (arr, _root, field, aditional_fields) =>
@@ -162,6 +163,16 @@ const submit_venta = (v, productos,total,subTotal, tipo_vta, validate_items, cal
     if(v.mp!=null){
         if(v.mp.total>total){
             alert("Saldo menor a 0")
+            callbackOnFailValidation?.()
+            return false
+        }
+    }
+
+    if((v.comentarios.length||"")>0)
+    {
+        if(!validate_only_numbers_and_letters(v.comentarios))
+        {
+            alert("Comentarios sólo acepta letras, números, y el punto.")
             callbackOnFailValidation?.()
             return false
         }

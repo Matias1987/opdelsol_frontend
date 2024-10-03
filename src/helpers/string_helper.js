@@ -1,7 +1,7 @@
 //////
 
 //s is from space
-const reg_only_numbers_and_letters_s = /^[a-zA-Z\s0-9]+$/
+const reg_only_numbers_and_letters_s = /^[a-zA-Z\s0-9\.]+$/
 
 const reg_only_letters_s = /^[a-zA-Z\s]+$/
 
@@ -11,7 +11,11 @@ const reg_only_numbers_dec = /^[0-9\.]+$/
 
 const reg_only_numbers_int = /^[0-9]+$/
 
+const validate_esf_cil_eje = (value) => /^[\-\+]?[0-9\.]*$/.test((value||"").trim())
 
+const validate_only_numbers_and_letters = (value) => {
+    return reg_only_numbers_and_letters_s.test((value||"").trim()) 
+}
 
 const validate_signed_number = (value) => {
     const _v = ((value||"").toString()).trim()
@@ -255,6 +259,7 @@ const convertToWords = (value, centavos=true) => {
 
 
 module.exports={
+    validate_esf_cil_eje,
     parse_int_string,
     parse_float_string,
     round_float,
@@ -265,6 +270,7 @@ module.exports={
     format_date, 
     currency_format,
     validate_signed_number,
+    validate_only_numbers_and_letters,
     reg_only_letters_s,
     reg_only_numbers_and_letters_s,
     reg_only_numbers_dec,

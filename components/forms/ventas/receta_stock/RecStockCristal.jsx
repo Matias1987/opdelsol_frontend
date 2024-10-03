@@ -3,7 +3,7 @@ import SelectCodigoVenta from "../SelectCodigoVenta";
 import { useState } from "react";
 import { DeleteOutlined } from "@ant-design/icons";
 import globals from "@/src/globals";
-import { parse_float_string } from "@/src/helpers/string_helper";
+import { parse_float_string, validate_esf_cil_eje, validate_only_numbers_and_letters } from "@/src/helpers/string_helper";
 
 const RecStockCristal = (props) => {
     const [visible, setVisible] = useState(false);
@@ -30,6 +30,10 @@ const RecStockCristal = (props) => {
         
     }
     const onchange_eje = (v) => {
+        if(!validate_esf_cil_eje(v))
+        {
+            return
+        }
         setCristal(
             (cristal)=>{
                 const _cristal = {...cristal, eje: v}
@@ -72,11 +76,11 @@ const RecStockCristal = (props) => {
                 <Col span={16}>
                     <SelectCodigoVenta idfamilias={[globals.familiaIDs.CRISTALES]} buttonText={"Seleccionar Código Cristal"} callback={onchange_codigo} />
                 </Col>
-                <Col span={1} style={_estilo_label}>
+                {/*<Col span={1} style={_estilo_label}>
                     Eje:
-                </Col>
+                </Col>*/}
                 <Col span={2}>
-                    <Input disabled={cristal.codigo==null} size="small" value={cristal.eje} onChange={(e)=>{onchange_eje(e.target.value)}}/>
+                    <Input style={{backgroundColor:"rgba(131,137,150, 0.4)"}}  prefix="Eje:" disabled={cristal.codigo==null} size="small" value={cristal.eje} onChange={(e)=>{onchange_eje(e.target.value)}}/>
                 </Col>
                 <Col span={4}>
                     <Input disabled={cristal.codigo==null} type="number" value={cristal.precio} readOnly={false} onChange={(e)=>{onchange_precio({precio: parse_float_string(e.target.value)})}} size="small" style={{backgroundColor:"rgba(131,137,150, 0.4)"}} prefix="Precio: " />
