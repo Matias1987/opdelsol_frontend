@@ -14,7 +14,7 @@ const reg_only_numbers_int = /^[0-9]+$/
 const validate_esf_cil_eje = (value) => /^[\-\+]?[0-9\.]*$/.test((value||"").trim())
 
 const validate_only_numbers_and_letters = (value) => {
-    return reg_only_numbers_and_letters_s.test((value||"").trim()) 
+    return reg_only_numbers_and_letters_s.test((value||"").toString().trim()) 
 }
 
 const validate_signed_number = (value) => {

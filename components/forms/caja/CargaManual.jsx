@@ -54,7 +54,7 @@ const CargaManual = (props) => {
         }
 
         post_method(post.insert.carga_manual, data,(response)=>{
-            alert("Carga Manual Cargada con ID: " + response.data)
+            //alert("Carga Manual Cargada con ID: " + response.data)
             registrar_evento("CARGA_MANUAL", "Carga Manual", response?.data)
             props?.callback?.()
             setOpen(false)

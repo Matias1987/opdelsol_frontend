@@ -4,9 +4,9 @@ import { post } from "@/src/urls";
 import { Button, Col, DatePicker, Form, Input, Modal, Row, Space } from "antd";
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
-import SelectLocalidad from "../SelectLocalidad";
 import SelectLocalidadV2 from "../SelectLocalidadV2";
 import Edad from "../Edad";
+import { validate_only_numbers_and_letters } from "@/src/helpers/string_helper";
 
 
 export default function ClienteFormV2(props){
@@ -151,6 +151,14 @@ export default function ClienteFormV2(props){
     
     const onFinishFailed = (err) => {}
 
+    const onChange = (val,idx) => {
+        if(!validate_only_numbers_and_letters(val) && val.length>0)
+        {
+            return
+        }
+        setClienteData(d=>({...d,[idx]:val}))
+    }
+
     const onChangeDate = (date, datestr) => {
         
         var _parts = datestr.split("/")
@@ -211,7 +219,11 @@ export default function ClienteFormV2(props){
                 style={{appearance:"textfield"}} 
                 prefix={"D.N.I.: "} 
                 value={clienteData.dni} 
-                onChange={(e)=>{setClienteData(v=>({...v,dni:e.target.value}))}} 
+                onChange={(e)=>{
+                    //setClienteData(v=>({...v,dni:e.target.value}))
+                    onChange(e.target.value,"dni")
+                }
+                } 
                 readOnly={false/*props.destinatario*/}
                 
                 onBlur={(e)=>{
@@ -228,7 +240,10 @@ export default function ClienteFormV2(props){
                 maxLength={45} 
                 prefix={"Apellido:"} 
                 value={clienteData.apellidos} 
-                onChange={(e)=>{setClienteData(v=>({...v,apellidos:e.target.value}))}} 
+                onChange={(e)=>{
+                    //setClienteData(v=>({...v,apellidos:e.target.value}))
+                    onChange(e.target.value,"apellidos")
+                }} 
                 readOnly={false}
                 />
             </Col>
@@ -281,66 +296,30 @@ export default function ClienteFormV2(props){
             <Col span={4}>
                 <Edad dia={fechaNac.dia} mes={fechaNac.mes} anio={fechaNac.anio} key={fechaNac}/>
             </Col>
-            {/*<Col span={20}>
-                <Space>
-                    <Space.Compact>
-                        <Input 
-                            onChange={(e)=>{
-                            
-                            let d= parseInt(e.target.value||0); 
-                            
-                            setFechaNac(_d=>({..._d,dia:d}))
-                            
-                            }} 
-                            value={fechaNac.dia} 
-                            type="number" 
-                            prefix="Día" 
-
-                            />
-                        <Input 
-                        onChange={(e)=>{
-                            
-                            let m= parseInt(e.target.value||0); 
-                            
-                            setFechaNac(_d=>({..._d,mes:m}))
-                            
-                            }} 
-                        value={fechaNac.mes} 
-                        type="number" 
-                        prefix="Mes" 
-
-                        />
-                        <Input 
-                        onChange={(e)=>{
-                            
-                            let a= parseInt(e.target.value||0); 
-                            
-                            setFechaNac(_d=>({..._d,anio:a}))
-                            
-                            }} 
-                        value={fechaNac.anio} 
-                        
-                        prefix="Año" 
-                        type="number"
-                        />
-                        
-                    </Space.Compact>
-                </Space>
-            </Col>*/}
+            
         </Row>
 
         <Row>
             <Col style={{padding:".5em"}} span={12}>
-                <Input  maxLength={45} prefix={"Domicilio:"} onChange={(e)=>{setClienteData(d=>({...d,domicilio:e.target.value}))}} value={clienteData.domicilio} />
+                <Input  maxLength={45} prefix={"Domicilio:"} onChange={(e)=>{
+                    //setClienteData(d=>({...d,domicilio:e.target.value}))
+                    onChange(e.target.value,"domicilio")
+                    }} value={clienteData.domicilio} />
             </Col>
             <Col style={{padding:".5em"}} span={12}>
-                <SelectLocalidadV2 callback={(p)=>{setClienteData(c=>({...c,idlocalidad:p.idlocalidad}))}} />
+                <SelectLocalidadV2 callback={(p)=>{
+                    //setClienteData(c=>({...c,idlocalidad:p.idlocalidad}))
+                    onChange(p.idlocalidad,"idlocalidad")
+                    }} />
             </Col>
         </Row>
 
         <Row>
             <Col style={{padding:".5em"}} span={24}>
-                <Input  maxLength={20} prefix={"Teléfono:"} onChange={(e)=>{setClienteData(d=>({...d,telefono:e.target.value}))}} value={clienteData.telefono} />
+                <Input  maxLength={20} prefix={"Teléfono:"} onChange={(e)=>{
+                    //setClienteData(d=>({...d,telefono:e.target.value}))
+                    onChange(e.target.value,"telefono")
+                    }} value={clienteData.telefono} />
             </Col>
         </Row>
         <Row>
