@@ -23,11 +23,11 @@ const validate_signed_number = (value) => {
 }
 
 const parse_int_string = (value) => {
-    return value.length <1 ? 0 : parseInt(value)
+    return (value||"").toString().length <1 ? 0 : parseInt(value)
 }
 
 const parse_float_string = (value) => {
-    return value.length <1 ? 0 : parseFloat(value)
+    return (value||"").toString().length <1 ? 0 : parseFloat(value)
 }
 
 const round_float = (value, base=10) => {

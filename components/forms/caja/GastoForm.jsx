@@ -1,10 +1,10 @@
 import globals from "@/src/globals"
 import { registrar_evento } from "@/src/helpers/evento_helper"
 import { post_method } from "@/src/helpers/post_helper"
-import { current_date_ymd } from "@/src/helpers/string_helper"
+import { current_date_ymd, parse_float_string, validate_only_numbers_and_letters } from "@/src/helpers/string_helper"
 import { get, post } from "@/src/urls"
 
-const { Form, Input, Select, Button } = require("antd")
+const { Form, Input, Select, Button, Row, Col } = require("antd")
 const { useState, useEffect } = require("react")
 
 const GastoForm = (props) => {
@@ -37,7 +37,7 @@ const GastoForm = (props) => {
     },[])
 
 
-    const onFinish = (values) => {
+    const onFinish = () => {
         
         setEnabled(false)
 
@@ -56,13 +56,23 @@ const GastoForm = (props) => {
                 return
             }
 
-            
+
+            if(gasto?.comentarios.length>0)
+            {
+                if(!validate_only_numbers_and_letters(gasto.comentarios)){
+                    alert("El campo comentarios solo acepta números y letras")
+                    setEnabled(true)
+                    return
+                }
+            }            
 
             if(!confirm("Confirmar gasto"))
             {
                 setEnabled(true)
                 return;
             }
+
+
             const data = {
                 ...gasto,
                 fecha: current_date_ymd(),
@@ -84,29 +94,71 @@ const GastoForm = (props) => {
         alert(error)
     }
 
+    const row_style = {
+        padding:"6px",
+    }
+
     return (<>
-        <h3>Cargar Gasto</h3>
-        <Form  onFinish={onFinish} onFinishFailed={onFinishFailed}>
+        
+        <Row style={row_style}>
+            <Col span={24}>
+            <h3>Cargar Gasto</h3>
+            </Col>
+        </Row>
+        <Row>
+            <Col span={24}>
+            <b>Motivo</b>
+            </Col>
+        </Row>
+        <Row style={row_style}>
+            <Col span={24}>
+                <Select value={gasto.idmotivo} style={{width:"100%"}} options={options} onChange={(value)=>{onChange(value,'idmotivo')}} />
+            </Col>
+        </Row>
+        <Row>
+            <Col span={24}>
+            <b>Monto</b>
+            </Col>
+        </Row>
+        <Row style={row_style}>
+            <Col span={24}>
+                <Input value={gasto.monto}  onClick={(e)=>{e.target.select()}} type="number" onChange={(e)=>{onChange(parse_float_string(e.target.value),'monto')}} />
+            </Col>
+        </Row>
+        <Row>
+            <Col span={24}>
+            <b>Comentarios</b>
+            </Col>
+        </Row>
+        <Row style={row_style}>
+            <Col span={24}>
+                <Input value={gasto.comentarios} onClick={(e)=>{e.target.select()}}  maxLength={49} placeholder="Max. 49 carac."  onChange={(e)=>{onChange(e.target.value,'comentarios')}}  />
+            </Col>
+        </Row>
+        <Row style={row_style}>
+            <Col span={24}>
+                <Button disabled={!enabled} onClick={onFinish} block type="primary" htmlType="submit">Guardar</Button>
+            </Col>
+        </Row>
+        {/*<Form  onFinish={onFinish} onFinishFailed={onFinishFailed}>
             <Form.Item required label="Motivo" name={"motivo"} >
-                <Select options={options} onChange={(value)=>{onChange(value,'idmotivo')}} />
+                
             </Form.Item>
 
-            <Form.Item label="Monto"  name={"monto"}>
+            <Form.Item label="Monto"  name={"monto"} value={gasto.monto} >
 
-                <Input  onClick={(e)=>{e.target.select()}} type="number" onChange={(e)=>{onChange(e.target.value,'monto')}} />
-
+                
             </Form.Item>
             <Form.Item label="Comentarios"  name={"comentarios"}>
 
-                <Input  onClick={(e)=>{e.target.select()}}  maxLength={49} placeholder="Max. 49 carac."  onChange={(e)=>{onChange(e.target.value,'comentarios')}}  />
-
+                
             </Form.Item>
 
             <Form.Item>
-                <Button disabled={!enabled} block type="primary" htmlType="submit">Guardar</Button>
+                
             </Form.Item>
 
-        </Form>
+        </Form>*/}
     </>)
 }
 

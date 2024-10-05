@@ -34,6 +34,7 @@ export default function ListaGastos(){
         Cargar Gasto
         </Button>
         <Modal 
+        destroyOnClose
         open={open} 
         footer={null}
         /*onOk={()=>{
