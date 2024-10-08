@@ -251,7 +251,7 @@ const AgregarFacturaV2 = (props) => {
                     />
             </Col>
             <Col span={10}>
-                <Input style={{backgroundColor:"lightgray"}} prefix="Punto de Venta:  " value={factura.puntoVenta} onChange={(e)=>{onPuntoVentaChange(e.target.value)}} />
+                <Input maxLength={12} style={{backgroundColor:"lightgray"}} prefix="Punto de Venta:  " value={factura.puntoVenta} onChange={(e)=>{onPuntoVentaChange(e.target.value)}} />
             </Col>
         </Row>
         <Row style={_rows_style}>

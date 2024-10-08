@@ -4,7 +4,6 @@ import { get } from "@/src/urls"
 import { EditFilled, InfoCircleFilled, InfoCircleOutlined, InfoOutlined } from "@ant-design/icons"
 import { Button, Col, Modal, Row, Spin, Table } from "antd"
 import { useEffect, useState } from "react"
-import EditarSubgrupo from "../forms/deposito/EditarSubgrupo"
 import SubGrupoFormV3 from "../forms/deposito/SubgrupoFormV3"
 
 const ListaPreciosGrupo = (props) => {
