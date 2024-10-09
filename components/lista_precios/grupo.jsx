@@ -1,7 +1,5 @@
 
-import { post_method } from "@/src/helpers/post_helper"
 import { get } from "@/src/urls"
-import { EditFilled, InfoCircleFilled, InfoCircleOutlined, InfoOutlined } from "@ant-design/icons"
 import { Button, Col, Modal, Row, Spin, Table } from "antd"
 import { useEffect, useState } from "react"
 import SubGrupoFormV3 from "../forms/deposito/SubgrupoFormV3"
@@ -25,7 +23,7 @@ const ListaPreciosGrupo = (props) => {
                 {producto}
             </Button>
         </>},
-        {title:"Precio", dataIndex:"precio", render:(_,{precio})=><div style={{textAlign:"right"}}>$&nbsp;{precio}</div>},
+        {title:"Precio", dataIndex:"precio", render:(_,{precio})=><div style={{textAlign:"right", fontWeight:"bold", color:"#0800AA", fontSize:"1.12em"}}>$&nbsp;{precio}</div>},
      
        
     ]
@@ -53,8 +51,10 @@ const ListaPreciosGrupo = (props) => {
                     rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'}
                     columns={columns} 
                     dataSource={subgrupos} 
-                    pagination={true} 
+                    pagination={false} 
                     loading={loading} 
+                    
+                    
                     />
                 </Col>
             </Row>
