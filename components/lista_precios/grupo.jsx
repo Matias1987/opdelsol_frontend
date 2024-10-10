@@ -3,12 +3,14 @@ import { get } from "@/src/urls"
 import { Button, Col, Modal, Row, Spin, Table } from "antd"
 import { useEffect, useState } from "react"
 import SubGrupoFormV3 from "../forms/deposito/SubgrupoFormV3"
+import globals from "@/src/globals"
 
 const ListaPreciosGrupo = (props) => {
     const [loading, setLoading] = useState(false)
     const [popupDetalleOpen, setPopupDetalleOpen] = useState(false)
     const [subgrupos, setSubgrupos] = useState([])
     const [selectedSubgrupoId, setSelectedSubgrupoId] = useState(-1)
+    const [reload, setReload] = useState(false)
     const columns = [
         {title:"Producto", dataIndex:"producto", render:(_,{producto, idsubgrupo})=><>
             <Button 
@@ -24,6 +26,7 @@ const ListaPreciosGrupo = (props) => {
             </Button>
         </>},
         {title:"Precio", dataIndex:"precio", render:(_,{precio})=><div style={{textAlign:"right", fontWeight:"bold", color:"#0800AA", fontSize:"1.12em"}}>$&nbsp;{precio}</div>},
+       
      
        
     ]
@@ -36,7 +39,7 @@ const ListaPreciosGrupo = (props) => {
             setSubgrupos(response.data.map(sg=>({producto:sg.label, precio:sg.precio_defecto, idsubgrupo: sg.value })))
        })
        .catch(r=>{console.log("error")})
-    },[])
+    },[reload])
 
     return  loading ? <Spin /> : subgrupos.length<1 ? <></> : <div>
         <Col style={{flex:"100%",   border:"1px solid #BDC5D8", padding:"3px", borderRadius:"4px", margin:"6px"}} flex="1 0 50%" >
@@ -60,8 +63,9 @@ const ListaPreciosGrupo = (props) => {
             </Row>
         </Col>
         <Modal destroyOnClose open={popupDetalleOpen} onCancel={()=>{setPopupDetalleOpen(false)}} footer={null} title="Detalle " width={"80%"}>
-            <SubGrupoFormV3 readOnly={true} idsubgrupo={selectedSubgrupoId} title="Detalle Subgrupo" />
+            <SubGrupoFormV3 callback={()=>{setPopupDetalleOpen(false); setReload(!reload)}} readOnly={!globals.esUsuarioDepositoMin()} idsubgrupo={selectedSubgrupoId} title="Detalle Subgrupo" />
         </Modal>
+        
     </div>
     
 }
