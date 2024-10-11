@@ -30,3 +30,6 @@ yarn-error.log*
 
 # vercel
 .vercel
+
+#includes url configuration 
+/src/config.js
