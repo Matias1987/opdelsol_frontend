@@ -1,7 +1,5 @@
 import BuscarVenta from "../forms/ventas/BuscarVenta";
 import { Menu } from "antd";
-//const { default: globals } = require("@/src/globals");
-//const { public_urls } = require("@/src/urls");
 import  { MenuOutlined, StarOutlined } from "@ant-design/icons";
 
 import { useState, useEffect }  from "react";

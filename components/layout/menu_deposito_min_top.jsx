@@ -1,4 +1,4 @@
-import { MenuOutlined, PlusOutlined, SettingOutlined, StarOutlined } from "@ant-design/icons";
+import { StarOutlined } from "@ant-design/icons";
 import { Menu } from "antd";
 import { useState } from "react";
 import Link from "next/link"

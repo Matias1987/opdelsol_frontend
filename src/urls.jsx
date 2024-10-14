@@ -96,6 +96,8 @@ const public_urls = {
     admin_bancos: local_base_url + "admin/lista_bancos",
 
     lista_codigos: local_base_url + "deposito/stock/listados/lista_codigos",
+
+    imprimir_codigos: local_base_url + "deposito/imprimir_codigos",
     /*admin_sucursales: local_base_url + "",
     admin_sucursales: local_base_url + "",*/
     //admin prov
@@ -427,5 +429,5 @@ const get = {
 }
 
 module.exports = {
-    post,get,informes,public_urls,
+    post,get,informes,public_urls,local_base_url
 }
