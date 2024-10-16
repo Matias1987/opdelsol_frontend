@@ -189,7 +189,7 @@ useEffect(()=>{
     
    items.push( 
       {
-        label: (<CustomModal openButtonText="Lista de Precios" type="primary"><ListaPrecios /></CustomModal>),
+        label: (<CustomModal openButtonText="Lista de Precios " type="text"><ListaPrecios /></CustomModal>),
         key: '1001'
       }
     )

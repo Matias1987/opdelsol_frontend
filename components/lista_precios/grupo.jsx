@@ -10,22 +10,24 @@ const ListaPreciosGrupo = (props) => {
     const [popupDetalleOpen, setPopupDetalleOpen] = useState(false)
     const [subgrupos, setSubgrupos] = useState([])
     const [selectedSubgrupoId, setSelectedSubgrupoId] = useState(-1)
+    const [mostrarPrecioPar, setMostrarPrecioPar] = useState(false)
     const [reload, setReload] = useState(false)
     const columns = [
-        {title:"Producto", dataIndex:"producto", render:(_,{producto, idsubgrupo})=><>
+        {title:"Producto", dataIndex:"producto", render:(_,{producto, idsubgrupo, idfamilia})=><>
             <Button 
             onClick={()=>{
                 setSelectedSubgrupoId(idsubgrupo)
+                setMostrarPrecioPar(idfamilia == globals.familiaIDs.CRISTALES)
                 setPopupDetalleOpen(true)
             }} 
             type="link" 
             size="small"
-            style={{color:"#000000", fontWeight:"bold"}}
+            style={{color:"#314E2B", fontWeight:"bold"}}
             >
                 {producto}
             </Button>
         </>},
-        {title:"Precio", dataIndex:"precio", render:(_,{precio})=><div style={{textAlign:"right", fontWeight:"bold", color:"#0800AA", fontSize:"1.12em"}}>$&nbsp;{precio}</div>},
+        {title:"Precio", dataIndex:"precio", render:(_,{precio, precio_par, idfamilia})=><div style={{textAlign:"right", fontWeight:"bold", color:"#0800AA", fontSize:"1.12em"}}>$&nbsp;{<><>{idfamilia==globals.familiaIDs.CRISTALES ? precio_par : precio}</></>}</div>},
        
      
        
@@ -36,15 +38,15 @@ const ListaPreciosGrupo = (props) => {
        .then(r=>r.json())
        .then((response)=>{
         setLoading(false)
-            setSubgrupos(response.data.map(sg=>({producto:sg.label, precio:sg.precio_defecto, idsubgrupo: sg.value })))
+            setSubgrupos(response.data.map(sg=>({producto:sg.label, precio_par: sg.precio_par,idfamilia: sg.familia_idfamilia, precio:sg.precio_defecto, idsubgrupo: sg.value })))
        })
        .catch(r=>{console.log("error")})
     },[reload])
 
     return  loading ? <Spin /> : subgrupos.length<1 ? <></> : <div>
-        <Col style={{flex:"100%",   border:"1px solid #BDC5D8", padding:"3px", borderRadius:"4px", margin:"6px"}} flex="1 0 50%" >
+        <Col style={{flex:"100%",   border:"1px solid #314E2B", padding:"3px", borderRadius:"4px", margin:"6px"}} flex="1 0 50%" >
             <Row>
-                <Col span={24} style={{padding:"1em", fontWeight:"bold", backgroundColor:"#312EB4", color:"white"}}>
+                <Col span={24} style={{padding:"1em", fontWeight:"bold", backgroundColor:"#006BD1", color:"white"}}>
                         {props.nombre}
                 </Col>
             </Row>
@@ -62,8 +64,8 @@ const ListaPreciosGrupo = (props) => {
                 </Col>
             </Row>
         </Col>
-        <Modal destroyOnClose open={popupDetalleOpen} onCancel={()=>{setPopupDetalleOpen(false)}} footer={null} title="Detalle " width={"80%"}>
-            <SubGrupoFormV3 callback={()=>{setPopupDetalleOpen(false); setReload(!reload)}} readOnly={!globals.esUsuarioDepositoMin()} idsubgrupo={selectedSubgrupoId} title="Detalle Subgrupo" />
+        <Modal destroyOnClose open={popupDetalleOpen} onCancel={()=>{setPopupDetalleOpen(false)}} footer={null} title="Detalle " width={"400px"}>
+            <SubGrupoFormV3 mostrarPrecioPar={mostrarPrecioPar} callback={()=>{setPopupDetalleOpen(false); setReload(!reload)}} readOnly={!globals.esUsuarioDepositoMin()} idsubgrupo={selectedSubgrupoId} title="Detalle Subgrupo" />
         </Modal>
         
     </div>
