@@ -251,7 +251,14 @@ export default function ClienteFormV2(props){
 
         <Row>
             <Col style={{padding:".5em"}} span={24}>
-                <Input  maxLength={45} prefix={"Nombres:"} value={clienteData.nombres} onChange={(e)=>{setClienteData(v=>({...v,nombres:e.target.value}))}} />
+                <Input  
+                maxLength={45} 
+                prefix={"Nombres:"} 
+                value={clienteData.nombres} 
+                onChange={(e)=>{
+                    //setClienteData(v=>({...v,nombres:e.target.value}))
+                    onChange(e.target.value,"nombres")
+                    }} />
             </Col>
         </Row>
 
