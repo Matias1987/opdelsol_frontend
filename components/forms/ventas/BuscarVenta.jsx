@@ -251,7 +251,7 @@ const BuscarVenta = (props)=>{
         </Col>
     </Row>
         
-    <Modal width={"80%"} open={detalleOpen} footer={null} onCancel={()=>{setDetalleOpen(false)}}>
+    <Modal width={"80%"} destroyOnClose open={detalleOpen} footer={null} onCancel={()=>{setDetalleOpen(false)}}>
         <InformeVentaMinV3 idventa={idventaDetalle} key={idventaDetalle} />
     </Modal>
     
