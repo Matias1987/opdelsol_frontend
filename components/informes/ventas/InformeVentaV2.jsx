@@ -1,22 +1,21 @@
 import { get } from "@/src/urls"
 import { PrinterFilled, ScissorOutlined } from "@ant-design/icons"
 import { Button, FloatButton, Modal, Spin, Tag } from "antd"
-import Barcode from "react-barcode"
 import ReactToPrint from "react-to-print"
 
-const { useState, useEffect, useRef } = require("react")
-const { default: VentaDirectaItems } = require("./VentaDirectaItems")
-const { default: RecStockItems } = require("./RecStockItems")
-const { default: LCLabItems } = require("./LCLabItems")
-const { default: LCStockItems } = require("./LCStockItems")
-const { default: MultifLabItems } = require("./MultifLabItems")
-const { default: MonofLabItems } = require("./MonofLabItems")
-const { default: FechaEntregaInf } = require("./common/FechaRetiroInf")
-const { default: MontosTotalesInf } = require("./common/MontosTotales")
-const { default: ModoPagoInf } = require("./common/ModoPago")
-const { default: DestinatarioInf } = require("./common/Destinatario")
-const { default: ResponsableInf } = require("./common/Responsable")
-const { default: DataSucursalInf } = require("./common/DataSucursalInf")
+import { useState, useEffect, useRef }  from "react"
+import VentaDirectaItems from "./VentaDirectaItems"
+import RecStockItems from "./RecStockItems"
+import LCLabItems from "./LCLabItems"
+import LCStockItems from "./LCStockItems"
+import MultifLabItems from "./MultifLabItems"
+import MonofLabItems from "./MonofLabItems"
+import FechaEntregaInf from "./common/FechaRetiroInf"
+import MontosTotalesInf from "./common/MontosTotales"
+import ModoPagoInf from "./common/ModoPago"
+import DestinatarioInf from "./common/Destinatario"
+import ResponsableInf from "./common/Responsable"
+import DataSucursalInf from "./common/DataSucursalInf"
 
 const InformeVentaV2 = (props) => {
 
@@ -176,7 +175,12 @@ const InformeVentaV2 = (props) => {
     return (
         <>
         { (props.hidebutton||false) == false ?  <Button onClick={()=>{onOpen()}} size="small"><PrinterFilled /></Button> : <></>}
-        <Modal footer={null} width={"95%"} open={open} onCancel={()=>{
+        <Modal 
+        destroyOnClose
+        footer={null} 
+        width={"95%"} 
+        open={open} 
+        onCancel={()=>{
             setOpen(false)
             props?.onclose?.()
         }}>

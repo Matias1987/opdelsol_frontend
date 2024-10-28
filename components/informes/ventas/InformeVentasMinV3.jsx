@@ -3,19 +3,19 @@ import ListaCobros from "@/components/forms/caja/ListaCobros"
 import { get } from "@/src/urls"
 import { Spin } from "antd"
 
-const { useState, useEffect } = require("react")
-const { default: VentaDirectaItems } = require("./VentaDirectaItems")
-const { default: RecStockItems } = require("./RecStockItems")
-const { default: LCLabItems } = require("./LCLabItems")
-const { default: LCStockItems } = require("./LCStockItems")
-const { default: MultifLabItems } = require("./MultifLabItems")
-const { default: MonofLabItems } = require("./MonofLabItems")
-const { default: FechaEntregaInf } = require("./common/FechaRetiroInf")
-const { default: MontosTotalesInf } = require("./common/MontosTotales")
-const { default: ModoPagoInf } = require("./common/ModoPago")
-const { default: DestinatarioInf } = require("./common/Destinatario")
-const { default: ResponsableInf } = require("./common/Responsable")
-const { default: DataSucursalInf } = require("./common/DataSucursalInf")
+import { useState, useEffect } from "react"
+import VentaDirectaItems from "./VentaDirectaItems"
+import RecStockItems from "./RecStockItems"
+import LCLabItems from "./LCLabItems"
+import LCStockItems from "./LCStockItems"
+import MultifLabItems from "./MultifLabItems"
+import MonofLabItems from "./MonofLabItems"
+import FechaEntregaInf from "./common/FechaRetiroInf"
+import MontosTotalesInf from "./common/MontosTotales"
+import ResponsableInf from "./common/Responsable"
+import DestinatarioInf from "./common/Destinatario"
+import ModoPagoInf from "./common/ModoPago"
+
 
 const InformeVentaMinV3 = (props) => {
     const [data, setData] = useState(null)

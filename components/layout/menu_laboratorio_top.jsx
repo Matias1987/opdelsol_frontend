@@ -1,5 +1,4 @@
 import { public_urls } from "@/src/urls";
-import { StarOutlined } from "@ant-design/icons";
 import { useState } from "react";
 import { Menu } from "antd";
 import Link from "next/link"

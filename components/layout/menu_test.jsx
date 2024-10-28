@@ -1,7 +1,8 @@
-import { local_base_url, public_urls, remote_base_url } from "@/src/urls";
-import { AlertFilled, BarsOutlined, BoxPlotOutlined, CheckOutlined, DollarCircleFilled, EditOutlined, ExclamationOutlined, FileAddOutlined, FileTextOutlined, HomeOutlined, PartitionOutlined, PlusCircleOutlined, PrinterOutlined, RocketOutlined, SnippetsOutlined, StarOutlined, UserOutlined, WarningFilled } from "@ant-design/icons";
 
-import { Divider, Menu } from "antd";
+import { local_base_url } from "@/src/config";
+import { BarsOutlined, FileTextOutlined, HomeOutlined, PartitionOutlined, PlusCircleOutlined, PrinterOutlined, RocketOutlined, SnippetsOutlined, StarOutlined, UserOutlined, WarningFilled } from "@ant-design/icons";
+
+import { Menu } from "antd";
 import Link from "next/link"
 
 //import { Menu, Icon } from 'antd';
@@ -56,12 +57,6 @@ export default function TestMenu(){
           <Menu.Item key="sub2_42" ><PartitionOutlined /> 
               <Link href={get_url_to("deposito/arbol_codigos")}>&nbsp;&Aacute;rbol de C&oacute;digos</Link>
             </Menu.Item>
-          
-          
-          {/*<SubMenu key="sub7" title={<span><ExclamationOutlined /> Control De Stock</span>}>
-            <Menu.Item key="sub7_1"><Link href={get_url_to("deposito/control_stock/lista")}><FileTextOutlined />&nbsp;Lista  </Link></Menu.Item>
-            <Menu.Item key="sub7_2"><Link href={get_url_to("deposito/control_stock/carga")}><FileAddOutlined />&nbsp;Nuevo Control  </Link></Menu.Item>
-          </SubMenu>*/}
           <SubMenu key="sub4" title={<span><UserOutlined /><span>Proveedores</span></span>}>
             <Menu.Item key="sub4_29"><FileTextOutlined />
              <Link href={get_url_to("deposito/proveedores/lista_proveedores")}>Lista</Link>

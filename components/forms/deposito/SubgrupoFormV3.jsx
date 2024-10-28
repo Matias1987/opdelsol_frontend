@@ -5,6 +5,7 @@ import { Row, Col, Input, Button, Modal } from "antd"
 import { useEffect, useState } from "react"
 
 const SubGrupoFormV3 = (props) =>{
+    const mostrarPrecioPar = typeof props.mostrarPrecioPar === 'undefined' ?  false : props.mostrarPrecioPar 
     const [precio, setPrecio] = useState(0)
     const [comentarios, setComentarios] = useState("")
     const [nombreCorto, setNombreCorto] = useState("")
@@ -58,7 +59,7 @@ const SubGrupoFormV3 = (props) =>{
                     <Input 
                     style={{backgroundColor:"#E8EAF0", }}
                     readOnly={(props.readOnly||"0")=="0" ? false : true} 
-                    prefix="Precio Defecto:  $" 
+                    prefix="Precio (indvidual):  $" 
                     type="number" 
                     value={precio} 
                     onChange={(e)=>{
@@ -66,6 +67,13 @@ const SubGrupoFormV3 = (props) =>{
                     }} />
                 </Col>
             </Row>
+            {  !mostrarPrecioPar ? <></> :
+                <Row>
+                    <Col span={24}>
+                        <Input  style={{  color:"red", backgroundColor:"lightgoldenrodyellow"}} readOnly value={+precio * 2} prefix="Precio Par: $" />
+                    </Col>
+                </Row>
+            }
             <Row>
                 <Col span={24}>
                     Comentarios:
@@ -84,6 +92,7 @@ const SubGrupoFormV3 = (props) =>{
                 </Row>
                 : <></>
             }
+           
         </>
 }
 

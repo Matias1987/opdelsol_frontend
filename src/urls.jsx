@@ -2,6 +2,8 @@
 const remote_base_url = "http://54.174.39.15:3001/api/v1/"
 const local_base_url = "http://54.174.39.15:3000/v1/"
 
+const { local_base_url, remote_base_url } = require("./config")
+
 //TEST
 //const remote_base_url = "http://54.174.39.15:3002/api/v1/"
 //const local_base_url = "http://54.174.39.15:3003/v1/"
@@ -94,6 +96,8 @@ const public_urls = {
     admin_bancos: local_base_url + "admin/lista_bancos",
 
     lista_codigos: local_base_url + "deposito/stock/listados/lista_codigos",
+
+    imprimir_codigos: local_base_url + "deposito/imprimir_codigos",
     /*admin_sucursales: local_base_url + "",
     admin_sucursales: local_base_url + "",*/
     //admin prov
@@ -425,5 +429,5 @@ const get = {
 }
 
 module.exports = {
-    post,get,informes,remote_base_url,local_base_url,public_urls,
+    post,get,informes,public_urls,local_base_url
 }

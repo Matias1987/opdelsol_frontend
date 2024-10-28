@@ -47,7 +47,7 @@ const ListaPrecios = (props) => {
     <Row>
         <Col span={18}>
             <Row>
-                <Col span={24} style={{padding:"1em", fontWeight:"bold", backgroundColor:"#FAFAFA", color:"black", borderRadius:"6px", textAlign:"center"}}>
+                <Col span={24} style={{padding:"1em", fontWeight:"bold", backgroundColor:"#00B8FF", color:"black", borderRadius:"6px", textAlign:"center"}}>
                     {selectedFamilia.nombre}
                 </Col>
             </Row>
@@ -64,7 +64,7 @@ const ListaPrecios = (props) => {
             dataSource={subfamilias} 
             columns={
                 [
-                    {title:"Categorías", dataIndex:"nombre", render:(_,obj)=><Button style={{fontWeight:"bold"}} disabled={loading} type="link" onClick={()=>{onSubfamiliaClick(obj.id,obj.nombre)}}>{obj.familia + ' / ' +obj.nombre}</Button>}
+                    {title:"Categorías", dataIndex:"nombre", render:(_,obj)=><Button style={{color:"#00659F", fontWeight:"bold", textAlign:"left", width:"100%", whiteSpace:"normal"}} disabled={loading} type="link" onClick={()=>{onSubfamiliaClick(obj.id,obj.nombre)}}>{obj.familia + ' / ' +obj.nombre}</Button>}
                 ] 
                 }
                 pagination={false} 

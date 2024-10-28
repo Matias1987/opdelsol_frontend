@@ -1,7 +1,7 @@
 //////
 
 //s is from space
-const reg_only_numbers_and_letters_s = /^[a-zA-Z\s0-9\.]+$/
+const reg_only_numbers_and_letters_s = /^[a-zA-Z\s0-9\.ñÑáéíóúÁÉÍÓÚ]+$/
 
 const reg_only_letters_s = /^[a-zA-Z\s]+$/
 

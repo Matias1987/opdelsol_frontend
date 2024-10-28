@@ -1,7 +1,5 @@
 import BuscarVenta from "../forms/ventas/BuscarVenta";
 import { Menu } from "antd";
-//const { default: globals } = require("@/src/globals");
-//const { public_urls } = require("@/src/urls");
 import  { MenuOutlined, StarOutlined } from "@ant-design/icons";
 
 import { useState, useEffect }  from "react";
@@ -191,7 +189,7 @@ useEffect(()=>{
     
    items.push( 
       {
-        label: (<CustomModal openButtonText="Lista de Precios" type="primary"><ListaPrecios /></CustomModal>),
+        label: (<CustomModal openButtonText="Lista de Precios " type="text"><ListaPrecios /></CustomModal>),
         key: '1001'
       }
     )
