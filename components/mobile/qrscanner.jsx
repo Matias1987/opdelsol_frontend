@@ -7,11 +7,11 @@ const DelSolQRScanner = (props) => {
 
     return (
         <>
-            <Input value={result} prefix={"result:  "} />
+            {/*<Input value={result} prefix={"result:  "} />
             <QrScanner
                 onDecode={(_result) => console.log(_result)}
                 onError={(error) => console.log(error?.message)}
-            />
+    />*/}
         </>
     )
 }
