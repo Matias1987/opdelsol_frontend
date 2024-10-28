@@ -1,6 +1,6 @@
 //RELEASE
-const remote_base_url = "http://54.174.39.15:3001/api/v1/"
-const local_base_url = "http://54.174.39.15:3000/v1/"
+//const remote_base_url = "http://54.174.39.15:3001/api/v1/"
+//const local_base_url = "http://54.174.39.15:3000/v1/"
 
 const { local_base_url, remote_base_url } = require("./config")
 
