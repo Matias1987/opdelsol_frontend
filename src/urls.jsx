@@ -171,6 +171,9 @@ const post = {
 
     o_c_m: remote_base_url + "clientes/g/cl/m/",
 
+    
+    tarea_g: remote_base_url + "t//t/g/",
+
     search:{
         filtro_stock: remote_base_url + "stock/filtro_stock/",
     },
@@ -215,7 +218,8 @@ const post = {
         banco: remote_base_url + "bancos/",
         tarjeta: remote_base_url + "tarjetas/",
         cm_proveedor: remote_base_url + "proveedores/agregar/cm/proveedor/",
-        pago_proveedor: remote_base_url + "proveedores/agregar/pago/proveedor/"
+        pago_proveedor: remote_base_url + "proveedores/agregar/pago/proveedor/",
+        tarea_: remote_base_url + "t/t/add/",
     },
     update:{
         optica: remote_base_url + "op/mod/",

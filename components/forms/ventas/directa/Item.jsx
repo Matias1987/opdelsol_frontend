@@ -91,14 +91,14 @@ const VDItem = (props) => {
     columns={[
         {title:"Codigo", dataIndex:"codigo"},
         {title:"Desc.", dataIndex:"descripcion"},
-        {title:"Cantidad", dataIndex:"cantidad_max", render:(_,{idcodigo,cantidad_max,cantidad})=>(
+        {title:"Cantidad", dataIndex:"cantidad_max", width:"160px", render:(_,{idcodigo,cantidad_max,cantidad})=>(
             <>
-                <Input type="number" addonAfter={"/" + cantidad_max} min={1} max={cantidad_max} value={cantidad} onChange={(e)=>{
+                <Input type="number" min={1} max={cantidad_max} value={cantidad} onChange={(e)=>{
                     onCantidadChange(parse_int_string(e.target.value) > cantidad_max ? cantidad_max : parse_int_string(e.target.value) ,idcodigo)
                 }} />
             </>
         )},
-        {title:"Precio", dataIndex:"precio", render:(_,{precio,codigo})=><Input type="number" value={precio} onChange={(e)=>{
+        {title:"Precio", dataIndex:"precio", width:"160px", render:(_,{precio,codigo})=><Input type="number" value={precio} onChange={(e)=>{
             setItems(__items=>
                 {
                     const _items_ = __items.map((i)=>(i.codigo==codigo ? { ...i,precio:parse_float_string(e.target.value), total: parse_float_string(e.target.value) * parse_float_string(i.cantidad)}:i))
@@ -107,7 +107,7 @@ const VDItem = (props) => {
                 }   
                 )
         }}/>} ,
-        {title:"Total", dataIndex:"total"},
+        {title:"Total", dataIndex:"total", width:"160px"},
         {title:"", render:(_,{idcodigo})=>(
             <>
                 <Button onClick={()=>{OnRemoveRow(idcodigo)}}><CloseCircleTwoTone  /></Button>

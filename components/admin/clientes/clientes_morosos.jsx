@@ -1,5 +1,6 @@
 import FichaCliente from "@/components/FichaCliente";
 import FichaClienteV2 from "@/components/FichaClienteV2";
+import SelectTarea from "@/components/tarea/selectTarea";
 import { post_method } from "@/src/helpers/post_helper";
 import { post } from "@/src/urls";
 import { Button, Card, Checkbox, Col, Modal, Row, Table } from "antd";
@@ -43,7 +44,7 @@ const ClientesMorosos = (props) => {
         <>
             <Row style={row_style}>
                 <Col span={24}>
-                
+                    <SelectTarea title="Control: " />
                 </Col>
             </Row>
             <Row style={row_style}>
