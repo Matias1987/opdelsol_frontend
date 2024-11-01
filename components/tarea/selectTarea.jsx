@@ -15,7 +15,7 @@ const SelectTarea =(props) => {
         post_method(post.tarea_g,{nombre:"Control"},(resp)=>{
             
             //
-            const _rr = [...resp.data.map(t=>({label: t.desc, value: t.idtarea})), ...[{label: "AGREGAR", value:"-2"}]];
+            const _rr = [...resp.data.map(t=>({label: t.desc, value: t.uid})), ...[{label: "AGREGAR", value:"-2"}]];
             //alert(JSON.stringify(_rr))
             setTareas(_rr)
 

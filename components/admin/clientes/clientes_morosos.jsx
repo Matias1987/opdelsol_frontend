@@ -10,6 +10,10 @@ const ClientesMorosos = (props) => {
     const [popupFichaOpen, setPopupFichaOpen] = useState(false)
     const [selectedCliente, setSelectedCliente] = useState(-1)
     const [dataSource, setdataSource] = useState([])
+    const [selectedTarea, setSelectedTarea] = useState(null)
+    const [reload, setReload] = useState(false)
+    const [tableEnabled, setTableEnabled] = useState(false)
+    const [ocultarMarcados, setOcultarMarcados] = useState(false)
     const columns  = [
         {title:"DNI", dataIndex:"dni"},
         {title:"Apellido y Nombre", dataIndex:"cliente"},
@@ -20,31 +24,48 @@ const ClientesMorosos = (props) => {
         
         </>},
         {
-            render:(_,{idcliente})=><><Checkbox /></>, width:"80px", title:"Marcar"
+            render:(_,{idcliente, checked})=><><Checkbox checked={+checked==1} onChange={()=>{add_cliente_tarea(idcliente)}} /></>, width:"80px", title:"Marcar"
         }
     ]
 
     const load = _ => {
        // alert(post.o_c_m)
-        post_method(post.o_c_m,{},(rows)=>{
+       setTableEnabled(false)
+        post_method(post.o_c_m,{fk_parent:selectedTarea},(rows)=>{
             //alert(JSON.stringify(rows))
             setdataSource(rows.data)
+            setTableEnabled(true)
+            setOcultarMarcados(false)
         })
+    }
+
+    
+    const add_cliente_tarea = (idcliente) => {
+        setTableEnabled(false)
+        post_method(post.insert.tarea_,
+            {nombre:"Control", fk_parent:selectedTarea, ref_id:idcliente},
+            ()=>{
+                setReload(!reload)
+            }
+        )
     }
 
     useEffect(()=>{
         load()
-    },[])
+    },[reload])
 
     const row_style = {
         padding:"1em"
     }
     return <>
-    <Card title="Clientes Morosos Sin Bloquear">
+    <Card title="Clientes Morosos Sin Bloquear (2 meses)">
         <>
             <Row style={row_style}>
-                <Col span={24}>
-                    <SelectTarea title="Control: " />
+                <Col span={12}>
+                    <SelectTarea title="Control: " callback={idtarea=>{setSelectedTarea(idtarea); setReload(!reload)}} />
+                </Col>
+                <Col span={12}>
+                    <Checkbox value={ocultarMarcados} onChange={()=>{setOcultarMarcados(!ocultarMarcados)}}>Ocultar marcados</Checkbox>
                 </Col>
             </Row>
             <Row style={row_style}>
@@ -56,7 +77,7 @@ const ClientesMorosos = (props) => {
                 <Col span={24}>
                     <Table 
                     columns={columns}
-                    dataSource={dataSource}
+                    dataSource={ocultarMarcados ? dataSource.filter(c=>(+c.checked)!=1) : dataSource}
                     scroll={{y:"600px"}}
                     /> 
                 </Col>

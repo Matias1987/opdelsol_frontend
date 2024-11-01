@@ -26,7 +26,7 @@ const CambioSobre = (props) => {
     },[])
 
     return loading ? <><Spin /></> : <>
-    <CambioSobre idventa={props.idventa} />
+    
     </>;
 }
 

@@ -5,7 +5,7 @@ import { useState } from "react"
 
 const AddTarea = (props) => {
     const {callback} = props
-    const [tarea, setTarea] = useState({nombre:"Control", fk_parent:null, ref_id:null})
+    const [tarea, setTarea] = useState({nombre:"Control", descripcion:null, fk_parent:null, ref_id:null})
     const guardar = ()=>{
         alert(post.insert.tarea_)
         alert(JSON.stringify(tarea))
@@ -18,12 +18,17 @@ const AddTarea = (props) => {
     return <>
     <Row>
         <Col span={24}>
-            <Input prefix="Nombre: " value={tarea.nombre} readOnly/>
+            <Input prefix="Tipo: " value={tarea.nombre} readOnly/>
         </Col>
     </Row>
     <Row>
         <Col span={24}>
-            <Button onClick={guardar}>Guardar</Button>
+            <Input prefix="Detalle: " value={tarea.descripcion} onChange={(e)=>{setTarea(t=>({...t,descripcion:e.target.value||""}))}}/>
+        </Col>
+    </Row>
+    <Row>
+        <Col span={24}>
+            <Button block type="primary" onClick={guardar}>Guardar</Button>
         </Col>
     </Row>
     </>
