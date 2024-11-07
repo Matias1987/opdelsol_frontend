@@ -168,7 +168,7 @@ const submit_venta = (v, productos,total,subTotal, tipo_vta, validate_items, cal
         }
     }
 
-    if((v.comentarios.length||"")>0)
+   /* if((v.comentarios.length||"")>0)
     {
         if(!validate_only_numbers_and_letters(v.comentarios))
         {
@@ -176,7 +176,7 @@ const submit_venta = (v, productos,total,subTotal, tipo_vta, validate_items, cal
             callbackOnFailValidation?.()
             return false
         }
-    }
+    }*/
 
     globals.obtenerCajaAsync((result)=>{
 
