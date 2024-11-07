@@ -60,8 +60,9 @@ export default function CobroOperacion(props){
             if(idCobro==0)
             {
                 //alert("Nothing to show")
-                props.callback?.()
                 setOpen(false)
+                props.callback?.()
+                
                 return;
             }
 
@@ -311,11 +312,15 @@ export default function CobroOperacion(props){
                             (resp)=>{
 
                                 setIdCobro(0)
+                                props?.callback?.()
+                                setOpen(false)
                             })
                             registrar_evento("VENTA", "Cambio estado a "+ est,dataVenta.idventa)
                     }
                     else{
                         setIdCobro(0)
+                        props?.callback?.()
+                        setOpen(false)
                     }
                 }
                 else
@@ -341,6 +346,8 @@ export default function CobroOperacion(props){
                                 .then(___response=>___response.json())
                                 .then((___response)=>{
                                     setIdCobro(id.data)
+                                    props?.callback?.()
+                                    setOpen(false)
                                 })
                         })
                         registrar_evento("VENTA", "Cambio estado a "+ est,dataVenta.idventa)
@@ -353,6 +360,8 @@ export default function CobroOperacion(props){
                         .then(___response=>___response.json())
                         .then((___response)=>{
                             setIdCobro(id.data)
+                            props?.callback?.()
+                            setOpen(false)
                         })
                     }   
 
