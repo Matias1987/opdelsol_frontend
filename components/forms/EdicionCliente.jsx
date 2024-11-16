@@ -52,7 +52,7 @@ const EdicionClientePopup = (props) => {
     }
 
     const onPost = _ => {
-        const is_invalid = (_v) => (_v.trim()).match(/^[a-zA-Z\s0-9]{1,}$/g) == null
+        const is_invalid = (_v) => (_v.trim()).match(/^[ñÑa-zA-Z\s0-9]{1,}$/g) == null
         if(is_invalid(cliente.nombre))
         {
             alert("Nombre no válido")
