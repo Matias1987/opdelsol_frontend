@@ -220,6 +220,7 @@ const post = {
         cm_proveedor: remote_base_url + "proveedores/agregar/cm/proveedor/",
         pago_proveedor: remote_base_url + "proveedores/agregar/pago/proveedor/",
         tarea_: remote_base_url + "t/t/add/",
+        registrar_cambio_venta_item: remote_base_url + "cb/add/cambio/item/",
     },
     update:{
         optica: remote_base_url + "op/mod/",

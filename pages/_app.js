@@ -7,7 +7,6 @@ import es_ES from 'antd/locale/es_ES'
 import moment from 'moment'
 import dayjs from "dayjs";
 import "dayjs/locale/es";
-import "moment/locale/es";
 
 export default function App({ Component, pageProps }) {
   const [isDarkTheme, setDarkTheme] = useState(true)
