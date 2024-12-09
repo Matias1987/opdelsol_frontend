@@ -11,7 +11,7 @@ import { post } from "@/src/urls"
  */
 const ModificarCantidadesEdicion = (props) => {
     const [open, setOpen] = useState(false)
-    const {fkventa,  fkcodigo, ccodigo, title, fksucursal, callback} = props
+    const {fkventa,  fkcodigo, ccodigo, title, fksucursal, callback, mult} = props
     const [codigo, setCodigo] = useState({
         fksucursal: fksucursal,
         idcodigo:fkcodigo||-1,
@@ -32,7 +32,7 @@ const ModificarCantidadesEdicion = (props) => {
 
         post_method(
             post.update.modificar_cantidad_stock,
-            {cantidad: codigo.cantidad_actual - codigo.cantidad, fksucursal: fksucursal, idcodigo:codigo.idcodigo},
+            {cantidad: codigo.cantidad_actual + codigo.cantidad * (+mult), fksucursal: fksucursal, idcodigo:codigo.idcodigo},
             (response)=>{
                 alert("OK") 
                 callback?.()
@@ -54,10 +54,11 @@ const ModificarCantidadesEdicion = (props) => {
             <Row>
                 <Col span={24}>
                 <SelectCodigoVenta idfamilias={[globals.familiaIDs.CRISTALES]} buttonText={"SELECCIONAR CODIGO..."} callback={(data)=>{
+                    //alert(JSON.stringify(data))
                                 setCodigo(_c=>({..._c,
                                     codigo:data.codigo,
                                     idcodigo: data.idcodigo,
-                                    cantidat_actual: data.cantidad,
+                                    cantidad_actual: data.cantidad,
                                 }))
                         }} />
                 </Col>
@@ -75,7 +76,7 @@ const ModificarCantidadesEdicion = (props) => {
             
             <Row>
                 <Col span={24}>
-                    <Input prefix="Cantidad a Modificar: " type="number" min={1} step={1} value={codigo.cantidad} onChange={(e)=>{onChange(parseInt(e.target.value))}}/>
+                    <Input prefix="Cantidad a Modificar: " type="number" min={1} step={1} value={codigo.cantidad} onChange={(e)=>{onChange("cantidad",parseInt(e.target.value))}}/>
                 </Col>
             </Row>
             <Row>

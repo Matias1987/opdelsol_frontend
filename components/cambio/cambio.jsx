@@ -41,7 +41,7 @@ const CambioSobre = (props) => {
         setCodigo(__codigo=>({...__codigo,[idx]:val}))
    }
    const onAplicarCambioCodigo = ()=>{
-    alert(JSON.stringify(codigo))
+    //alert(JSON.stringify(codigo))
     if(codigo.idcodigo=="")
     {
         alert("Código no seleccionado.")
@@ -234,13 +234,13 @@ const CambioSobre = (props) => {
     <Row>
         <Col span={12}>
             <Card title={<>3 - Restaurar Cantidad de C&oacute;digo a Reemplazar</>} key={codigo.codigo}>
-                <ModificarCantidadesEdicion title={"Restaurar Cantidad en " + venta.sucursal_nombre} fksucursal={venta.sucursal_idsucursal} sucursal={venta.sucursal_nombre} />
+                <ModificarCantidadesEdicion  mult={1} title={"Restaurar Cantidad en " + venta.sucursal_nombre} fksucursal={venta.sucursal_idsucursal} sucursal={venta.sucursal_nombre} />
             </Card>
         </Col>
     
         <Col span={12}>
             <Card title={<>4 - Descontar Cantidad de C&oacute;digo Nuevo</>}  key={codigo.codigo}>
-                <ModificarCantidadesEdicion title={"Descontar Cantidad en " + venta.sucursal_nombre} fksucursal={venta.sucursal_idsucursal} sucursal={venta.sucursal_nombre} />
+                <ModificarCantidadesEdicion mult={-1} title={"Descontar Cantidad en " + venta.sucursal_nombre} fksucursal={venta.sucursal_idsucursal} sucursal={venta.sucursal_nombre} />
             </Card>
         </Col>
     </Row>
