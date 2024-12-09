@@ -96,7 +96,7 @@ const CambioSobre = (props) => {
 					}
 				})
 
-                alert(JSON.stringify(response.data))
+                //alert(JSON.stringify(response.data))
 
 				setVenta({...response.data[0], total_haber: total_haber, recargo: 0})
                 setLoading(false)

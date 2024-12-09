@@ -14,7 +14,7 @@ import InformeStock from "@/pages/v1/informes/informe_stock";
 import globals from "@/src/globals";
 import { post_method } from "@/src/helpers/post_helper";
 import { post } from "@/src/urls";
-import { EditFilled, PlusOutlined, SearchOutlined, TableOutlined } from "@ant-design/icons";
+import { PlusOutlined, SearchOutlined, TableOutlined } from "@ant-design/icons";
 import { Button, Checkbox, Col,  Form, Input, InputNumber, Modal, Row, Select, Space, Switch, Table, Tabs, Tag } from "antd";
 import { useEffect,  useState } from "react";
 
@@ -46,7 +46,6 @@ export default function ListaStock(){
     const [quickSearchValue, setQuickSearchValue] = useState("")
     const [codigoSearch, setCodigoSearch] = useState(true)
     const [etiquetas, setEtiquetas] = useState([])
-    const [selectAll, setSelectAll] = useState(false)
     const [popupTagsOpen, setPopupTagsOpen] = useState(false)
     const [popupDetalleOpen, setPopupDetalleOpen] = useState(false)
     const [popupEditarStockIndvOpen, setPopupEditarStockIndvOpen] = useState(false)
@@ -509,9 +508,9 @@ export default function ListaStock(){
                 {usuarioDep  && (selectedSucursal==globals.obtenerSucursal() || selectedSucursal<-1)?<Col span={4} style={{padding:".5em"}}>{edit_popup()}</Col>:<></>}
                 <Col span={4} style={{padding:".5em"}}>
                     <ExportToCSV parseFnt={()=>{
-                        let str = "Familia, SubFamilia, Grupo, Subgrupo, Codigo, Descripcion, Cantidad, Precio,\r\n"
+                        let str = "Familia, SubFamilia, Grupo, Subgrupo, Codigo, Descripcion, Cantidad, Precio, Tags,\r\n"
                         data.forEach(r=>{
-                            str+=`${r.familia},${r.subfamilia},${r.grupo},${r.subgrupo},' ${r.codigo} ',${r.descripcion},${r.cantidad},${r.precio},\r\n`
+                            str+=`${r.familia},${r.subfamilia},${r.grupo},${r.subgrupo},' ${r.codigo} ',${r.descripcion},${r.cantidad},${r.precio},${(r.etiquetas||"").replace(/,/g ," ; ")},\r\n`
                         })
                         return str
                     }} 
