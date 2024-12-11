@@ -1,12 +1,14 @@
 import globals from "@/src/globals" 
 import { post_method } from "@/src/helpers/post_helper"
 import { get, post } from "@/src/urls"
-import { Row, Col, Input, Button, Modal } from "antd"
+import { Row, Col, Input, Button, Modal, Divider } from "antd"
 import { useEffect, useState } from "react"
 
 const SubGrupoFormV3 = (props) =>{
     const mostrarPrecioPar = typeof props.mostrarPrecioPar === 'undefined' ?  false : props.mostrarPrecioPar 
+    const mostrarPrecioMayorista = typeof props.mostrarPrecioMayorista === 'undefined' ? false : props.mostrarPrecioMayorista
     const [precio, setPrecio] = useState(0)
+    const [precioMayorista, setPrecioMayorista] = useState(0)
     const [comentarios, setComentarios] = useState("")
     const [nombreCorto, setNombreCorto] = useState("")
     const [nombreLargo, setNombreLargo] = useState("")
@@ -20,6 +22,7 @@ const SubGrupoFormV3 = (props) =>{
         .then((response)=>{
             
             setPrecio(response.data[0].precio_defecto)
+            setPrecioMayorista(response.data[0].precio_defecto_mayorista)
             setComentarios(response.data[0].comentarios)
             setNombreCorto(response.data[0].nombre_corto)
             setNombreLargo(response.data[0].nombre_largo)
@@ -33,6 +36,7 @@ const SubGrupoFormV3 = (props) =>{
                 idsubgrupo: props.idsubgrupo,
                 precio_defecto: precio,
                 comentarios: comentarios,
+                precio_defecto_mayorista: precioMayorista,
             },
             (resp)=>{
                 alert("Ok")
@@ -52,8 +56,10 @@ const SubGrupoFormV3 = (props) =>{
             <Row>
                 <Col span={24}>
                     <Input readOnly prefix="Nombre: " value={nombreLargo} style={{backgroundColor:"#E8EAF0"}}/>
+                    
                 </Col>
             </Row>
+            <br />
             <Row>
                 <Col span={24}>
                     <Input 
@@ -73,6 +79,22 @@ const SubGrupoFormV3 = (props) =>{
                         <Input  style={{  color:"red", backgroundColor:"lightgoldenrodyellow"}} readOnly value={+precio * 2} prefix="Precio Par: $" />
                     </Col>
                 </Row>
+            }
+            <br />
+            {
+                !mostrarPrecioMayorista ? <></> : 
+                <>
+                    <Row>
+                        <Col span={24}>
+                            <Input style={{backgroundColor:"#E8EAF0"}} readOnly={props.readOnly} prefix="Precio Mayorista: $ " value={ parseFloat(precioMayorista) } type="number" onChange={(e)=>{setPrecioMayorista(e.target.value)}} />
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col span={24}>
+                            <Input style={{backgroundColor:"#E8EAF0"}} readOnly prefix="Par: $ " value={parseFloat(precioMayorista * 2).toLocaleString(2)} />
+                        </Col>
+                    </Row>
+                </>
             }
             <Row>
                 <Col span={24}>

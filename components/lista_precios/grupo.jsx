@@ -12,6 +12,8 @@ const ListaPreciosGrupo = (props) => {
     const [selectedSubgrupoId, setSelectedSubgrupoId] = useState(-1)
     const [mostrarPrecioPar, setMostrarPrecioPar] = useState(false)
     const [reload, setReload] = useState(false)
+    const [esAdmin, setEsAdmin] = useState(false)
+    const [esUDeposito, setEsUDeposito] = useState(false)
     const columns = [
         {title:"Producto", dataIndex:"producto", render:(_,{producto, idsubgrupo, idfamilia})=><>
             <Button 
@@ -33,14 +35,16 @@ const ListaPreciosGrupo = (props) => {
        
     ]
     useEffect(()=>{
-       setLoading(false)
-       fetch(get.optionsforgrupo + props.idgrupo)
-       .then(r=>r.json())
-       .then((response)=>{
+        setEsAdmin(globals.esUsuarioAdmin())
+        setEsUDeposito(globals.esUsuarioDeposito())
         setLoading(false)
-            setSubgrupos(response.data.map(sg=>({producto:sg.label, precio_par: sg.precio_par,idfamilia: sg.familia_idfamilia, precio:sg.precio_defecto, idsubgrupo: sg.value })))
-       })
-       .catch(r=>{console.log("error")})
+        fetch(get.optionsforgrupo + props.idgrupo)
+        .then(r=>r.json())
+        .then((response)=>{
+            setLoading(false)
+                setSubgrupos(response.data.map(sg=>({producto:sg.label, precio_par: sg.precio_par,idfamilia: sg.familia_idfamilia, precio:sg.precio_defecto, idsubgrupo: sg.value, precio_mayorista: sg.precio_defecto_mayorista })))
+        })
+        .catch(r=>{console.log("error")})
     },[reload])
 
     return  loading ? <Spin /> : subgrupos.length<1 ? <></> : <div>
@@ -64,8 +68,8 @@ const ListaPreciosGrupo = (props) => {
                 </Col>
             </Row>
         </Col>
-        <Modal destroyOnClose open={popupDetalleOpen} onCancel={()=>{setPopupDetalleOpen(false)}} footer={null} title="Detalle " width={"400px"}>
-            <SubGrupoFormV3 mostrarPrecioPar={mostrarPrecioPar} callback={()=>{setPopupDetalleOpen(false); setReload(!reload)}} readOnly={!globals.esUsuarioDepositoMin()} idsubgrupo={selectedSubgrupoId} title="Detalle Subgrupo" />
+        <Modal destroyOnClose open={popupDetalleOpen} onCancel={()=>{setPopupDetalleOpen(false)}} footer={null} title="Detalle " width={"600px"}>
+            <SubGrupoFormV3 mostrarPrecioMayorista={ esAdmin } mostrarPrecioPar={mostrarPrecioPar} callback={()=>{setPopupDetalleOpen(false); setReload(!reload)}} readOnly={ !(esAdmin || esUDeposito) } idsubgrupo={selectedSubgrupoId} title="Detalle Subgrupo" />
         </Modal>
         
     </div>

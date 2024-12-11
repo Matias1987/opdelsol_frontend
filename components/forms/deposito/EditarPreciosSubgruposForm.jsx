@@ -1,6 +1,6 @@
 import { post_method } from "@/src/helpers/post_helper";
 import { get, post } from "@/src/urls";
-import { Row, Col, Select, Input, Button, Modal, Table, Checkbox } from "antd";
+import { Row, Col, Select, Input, Button, Modal, Table, Checkbox, Radio } from "antd";
 import { useState } from "react";
 /**
  * 
@@ -15,13 +15,14 @@ const EditarPreciosSubgruposForm = (props) => {
         categoria: '-1',
         porcentaje: 0,
         valor: 0,
+        tipo: 1
     })
     const [vpOpen, setVPOpen] = useState(false)
     const [dataSourceVP, setDataSourceVP] = useState([])
     const [subgrupos, setSubgrupos] = useState([])
     const [selectedSubgrupo, setSelectedSubgrupo] = useState(-1)
     const [decimalPlaces, setDecimalPlaces] = useState(0)
-    const [roundFactor, setRoundFactor] = useState(100)
+    const [roundFactor, setRoundFactor] = useState(1)
     
     const setValue = (idx, value) => {
 
@@ -90,7 +91,14 @@ const EditarPreciosSubgruposForm = (props) => {
             <Input type="number" prefix="Redondeo: " value={parseInt(roundFactor||"0")} onChange={(e)=>{setRoundFactor(parseInt(e.target.value||"0"))}} min={"1"} />
         </Col>
     </Row>
-
+    <Row  style={row_style}>
+        <Col span={24}>
+                <Radio.Group value={values.tipo} onChange={(e)=>{  setValues(__v=>({...__v,tipo:e.target.value}))}}>
+                    <Radio value={1}>Minorista</Radio>
+                    <Radio value={2}>Mayorista</Radio>
+                </Radio.Group>
+        </Col>
+    </Row>
     <Row style={row_style}>
         <Col  span={24}>
                 <Button 
@@ -120,8 +128,8 @@ const EditarPreciosSubgruposForm = (props) => {
                                         {
                                             idsubgrupo: r.subgrupo_idsubgrupo,
                                             codigo: r.codigo,
-                                            precio_ant: r.precio_defecto,
-                                            precio_n: Math.trunc((r.precio_defecto * values.multiplicador)/roundFactor) * roundFactor + parseFloat(values.valor),
+                                            precio_ant: values.tipo ==1 ? r.precio_defecto : r.precio_defecto_mayorista,
+                                            precio_n: Math.trunc(((values.tipo ==1 ? r.precio_defecto : r.precio_defecto_mayorista) * values.multiplicador)/roundFactor) * roundFactor + parseFloat(values.valor),
                                         }
                                     )   
                                 )
@@ -135,8 +143,8 @@ const EditarPreciosSubgruposForm = (props) => {
                             response.data.map(sg=>({
                                 idsubgrupo:sg.idsubgrupo,
                                 nombre_largo: sg.nombre_largo,
-                                precio_ant: sg.precio_defecto,
-                                precio_n: (Math.trunc(parseFloat(sg.precio_defecto) * values.multiplicador) / roundFactor) * roundFactor + parseFloat(values.valor),
+                                precio_ant: values.tipo ==1 ? sg.precio_defecto : sg.precio_defecto_mayorista,
+                                precio_n: (Math.trunc(parseFloat(values.tipo ==1 ? sg.precio_defecto : sg.precio_defecto_mayorista) * values.multiplicador) / roundFactor) * roundFactor + parseFloat(values.valor),
                                 checked:false
                             }))
                         )
@@ -151,7 +159,7 @@ const EditarPreciosSubgruposForm = (props) => {
                 <Modal 
                 destroyOnClose
                 width={"80%"} 
-                title={"Vista de Previa (lista de productos con modo de precio por subgrupo)"} 
+                title={`Vista de Previa (lista de productos con modo de precio por subgrupo - ${values.tipo == 1 ? "Minorista"  : "Mayorista"})`} 
                 open={vpOpen} 
                 onCancel={()=>{setVPOpen(false)}} 
                 footer={null}>
@@ -215,6 +223,7 @@ const EditarPreciosSubgruposForm = (props) => {
                                         multiplicador: values.multiplicador,
                                         valor: values.valor,
                                         roundFactor: roundFactor,
+                                        modif_precio_mayorista: values.tipo == 2
                                     }
                                     ,
                                     (response)=>{
