@@ -174,6 +174,8 @@ const post = {
     
     tarea_g: remote_base_url + "t//t/g/",
 
+    sorteo_get: remote_base_url + "srt/srt/",
+
     search:{
         filtro_stock: remote_base_url + "stock/filtro_stock/",
     },
@@ -221,6 +223,7 @@ const post = {
         pago_proveedor: remote_base_url + "proveedores/agregar/pago/proveedor/",
         tarea_: remote_base_url + "t/t/add/",
         registrar_cambio_venta_item: remote_base_url + "cb/add/cambio/item/",
+        generar_sorteo: remote_base_url + "srt/gen/",
     },
     update:{
         optica: remote_base_url + "op/mod/",
@@ -267,7 +270,8 @@ const post = {
         editar_cantidad_ideal: remote_base_url + "codigos/cod/editar/stock/ideal/",
         mover_subgrupos:remote_base_url + "subgrupos/m/v/sg/",
         mover_grupos: remote_base_url + "grupos/mover/",
-        cl_a_f_l:remote_base_url+"/cl/a/f/l/",
+        cl_a_f_l:remote_base_url+"cl/a/f/l/",
+        sorteo_set_ganador: remote_base_url + "srt/set/wn/",
     },
 }
 
