@@ -2,20 +2,25 @@ import { PlusOutlined } from "@ant-design/icons"
 import {Row, Col, Table, Button, Modal} from "antd"
 import { useEffect, useState } from "react"
 import SorteoForm from "./sorteo_form"
+import { post_method } from "@/src/helpers/post_helper"
+import { post } from "@/src/urls"
 
 export default ListaSorteos = props => {
     const [dataSource, setDataSource] = useState(null)
     const [popupAddOpen, setPopupAddOpen] = useState(false)
     const [reload, setReload] = useEffect(false)
     const columns = [
-
+        {title:"Fecha", dataIndex:"fecha"} ,
+        {title:"Comentarios", dataIndex:"comentarios"}
     ]
 
     const addSorteoCallback = _ => {setReload(!reload)}
 
 
     const load = _=>{
-
+        post_method(post.sorteo_get,{},(response)=>{
+            alert(JSON.stringify(response))
+        })
     }
 
     useEffect(_=>{

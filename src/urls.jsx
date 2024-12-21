@@ -175,6 +175,7 @@ const post = {
     tarea_g: remote_base_url + "t//t/g/",
 
     sorteo_get: remote_base_url + "srt/srt/",
+    sorteo_get_participantes: remote_base_url + "srt/get/p/dis/",
 
     search:{
         filtro_stock: remote_base_url + "stock/filtro_stock/",

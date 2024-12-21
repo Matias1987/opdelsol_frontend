@@ -5,7 +5,7 @@ import { useState } from "react"
 const SorteoForm = (props) => {
     const {callback} = props
     const [sorteo, setSorteo] = useState({
-        fecha: "",
+        fecha: "2024/12/21",
         comentarios:""
     })
     const onSave = _ => {
@@ -15,21 +15,23 @@ const SorteoForm = (props) => {
         })
     }
 
+    const row_style = {padding:"8px"}
+
     return <>
-        <Row>
+        <Row style={row_style}>
             <Col span={24}>
-                Fecha
+                Fecha:&nbsp;
                 <DatePicker />
             </Col>
         </Row>
-        <Row>
+        <Row style={row_style}>
             <Col span={24}>
-                <Input prefix="Comentarios: " />
+                <Input prefix="Comentarios: " onChange={(e)=>{setSorteo(_s=>({..._s,comentarios:e.target.value}))}} />
             </Col>
         </Row>
-        <Row>
+        <Row style={row_style}>
             <Col span={24}>
-                <Button onClick={onSave}>Guardar</Button>
+                <Button onClick={onSave} block>Guardar</Button>
             </Col>
         </Row>
     </>

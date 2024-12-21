@@ -144,10 +144,6 @@ const update = _ => {
     
     
     ticks++
-
-    //console.log(delay)
-
-   
 }
 
 init()
