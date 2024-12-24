@@ -6,23 +6,24 @@ class Roulette {
         this.sin_array = []
         this.cos_array = []
         this.distances = []
-        this.offset_x = -3400
-        this.offset_y = 400
-        this.radius = 3600.0
+        this.offset_x = -3720
+        this.offset_y = 385
+        this.radius = 4000.0
         this.delay = 0
         this.ticks =this.delay
         this.count = 0
-        this.winner_index = 125
+        this.winner_index = 0
         this.max_delay = 2
         this.done=false
         this.loading=true
-        this.loops = 300
+        this.loops = 10
         this.slow_dist = 16
         this.onComplete = null
         this.bg=null
+        this.step=0
     }
 
-    init = participants =>
+    init = (participants, winner_id) =>
         {
             this.bg=new Image()
             
@@ -30,7 +31,13 @@ class Roulette {
             {
                 this.names.push(participants[i].cliente)
                 this.distances.push(this.slow_dist)
+                if(participants[i].idcliente==winner_id)
+                {
+                    this.winner_index=i
+                }
             }
+
+        
            
             const variation = 360 / this.names.length
             console.log(variation)
@@ -81,6 +88,23 @@ class Roulette {
                 ctx.font = "50px Arial"
                 ctx.fillStyle =  "white"
                 ctx.fillText("Cargando Participantes...",300,300) 
+                this.ticks=0
+                this.step=3
+                return
+            }
+            if(this.step>-1)
+            {
+                if(this.ticks<1)
+                {
+                    ctx.fillStyle="#003E8B"
+                    ctx.fillRect(0,0,1200,800)
+                    ctx.font = "50px Arial"
+                    ctx.fillStyle =  "white"
+                    ctx.fillText("Comienza en " + this.step,300,300) 
+                    this.step--
+                    this.ticks=this.slow_dist + 60
+                }
+                this.ticks--
                 return
             }
 
@@ -94,9 +118,11 @@ class Roulette {
         
             if(this.ticks>_delay)
             {
-                ctx.fillStyle ="white"
+                ctx.fillStyle ="#003E8B"
         
                 ctx.drawImage(this.bg, 0, 0);
+                //ctx.fillRect(0,0,1200,800)
+                ctx.fillStyle ="white"
 
                 if(this.loops<1)
                 {
@@ -123,7 +149,7 @@ class Roulette {
                     const position_x = parseInt(this.radius * this.cos_array[i]) + this.offset_x
                     const position_y = parseInt(this.radius * this.sin_array[i]) + this.offset_y
             
-                    if(position_x<60 || position_y<60 || position_x> 740 || position_y>740)
+                    if(position_x<100 || position_y<100 || position_x> 740 || position_y>740)
                         continue
             
                     ctx.font = i==0 ? "50px Arial": "30px Arial"

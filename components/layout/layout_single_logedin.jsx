@@ -45,7 +45,7 @@ export default function LayoutSingleLogedIn(props){
   },[])
 
     return (
-        <Layout className='layout'>
+        <Layout className='layout' style={{backgroundColor:"#003E8B"}}>
             <Content style={{ margin: '24px 16px', padding: 24,  minHeight: 280 }}>
                 {props.children}
             </Content>
