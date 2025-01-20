@@ -16,7 +16,7 @@ class Roulette {
         this.max_delay = 2
         this.done=false
         this.loading=true
-        this.loops = 10
+        this.loops = 4
         this.slow_dist = 16
         this.onComplete = null
         this.bg=null

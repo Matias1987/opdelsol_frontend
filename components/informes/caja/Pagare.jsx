@@ -38,7 +38,7 @@ const Pagare = (props) => {
                     </tr>
                     <tr>
                         <td  style = {{verticalAlign: 'top'}} colspan='2'>
-                            <p>El d&iacute;a <span style={{fontWeight: 'bold'}}>&nbsp;{current_date()}</span> Pagar&eacute; al Sr. ROVNER, Fernando 
+                            <p>El d&iacute;a <span style={{fontWeight: 'bold'}}>&nbsp;{format_date(fechaVencimiento)}</span> Pagar&eacute; al Sr. ROVNER, Fernando 
                             Jos&eacute; y/u OPTICA MIDAS S.R.L, o a su orden, 'SIN PROTESTO' &#40;Art. 50 Dcto.Ley 5965/63&#41; la cantidad de Pesos <span
                             style={{fontWeight: 'bold'}}>&nbsp;&nbsp;{convertToWords(modoPago.monto_int, false)}</span> <b> {  parseFloat(modoPago.monto_int - Math.trunc(modoPago.monto_int)).toFixed(2) }/100  </b>
                             pagaderos en calle Col&oacute;n 98 de la ciudad de Resistencia, Provincia del
