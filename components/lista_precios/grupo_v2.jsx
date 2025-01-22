@@ -1,11 +1,10 @@
-
 import { get } from "@/src/urls"
 import { Button, Col, Modal, Row, Spin, Table } from "antd"
 import { useEffect, useState } from "react"
 import SubGrupoFormV3 from "../forms/deposito/SubgrupoFormV3"
 import globals from "@/src/globals"
 
-const ListaPreciosGrupo = (props) => {
+const GrupoV2 = props => {
     const [loading, setLoading] = useState(false)
     const [popupDetalleOpen, setPopupDetalleOpen] = useState(false)
     const [subgrupos, setSubgrupos] = useState([])
@@ -15,10 +14,7 @@ const ListaPreciosGrupo = (props) => {
     const [esAdmin, setEsAdmin] = useState(false)
     const [esUDeposito, setEsUDeposito] = useState(false)
     const columns = [
-        {
-            title:"Producto", 
-            dataIndex:"producto", 
-            render:(_,{producto, idsubgrupo, idfamilia})=><>
+        {title:"Producto", dataIndex:"producto", render:(_,{producto, idsubgrupo, idfamilia})=><>
             <Button 
             onClick={()=>{
                 setSelectedSubgrupoId(idsubgrupo)
@@ -27,16 +23,15 @@ const ListaPreciosGrupo = (props) => {
             }} 
             type="link" 
             size="small"
-            style={{color:"#314E2B", fontWeight:"bold", whiteSpace:"normal", textAlign:"left", width:"180px"}}
+            style={{color:"#314E2B", fontWeight:"bold"}}
             >
                 {producto}
             </Button>
         </>},
         {title:"Precio", dataIndex:"precio", render:(_,{precio, precio_par, idfamilia})=><div style={{textAlign:"right", fontWeight:"bold", color:"#0800AA", fontSize:"1.12em"}}>$&nbsp;{<><>{idfamilia==globals.familiaIDs.CRISTALES ? precio_par : precio}</></>}</div>},
        
-     
-       
     ]
+
     useEffect(()=>{
         setEsAdmin(globals.esUsuarioAdmin())
         setEsUDeposito(globals.esUsuarioDeposito())
@@ -50,17 +45,10 @@ const ListaPreciosGrupo = (props) => {
         .catch(r=>{console.log("error")})
     },[reload])
 
-    return  loading ? <Spin /> : subgrupos.length<1 ? <></> : <div>
-        <Col style={{flex:"100%",   border:"1px solid #314E2B", padding:"3px", borderRadius:"4px", margin:"6px", width:"320px"}} flex="1 0 50%"  >
-            <Row>
-                <Col span={24} style={{padding:"1em", fontWeight:"bold", backgroundColor:"#006BD1", color:"white"}}>
-                        {props.nombre}
-                </Col>
-            </Row>
-            <Row>
-                <Col span={24}>
+
+    return  loading ? <Spin /> : <div style={{width:"300px"}}>
+
                     <Table 
-                    style={{width:"310px"}}
                     rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'}
                     columns={columns} 
                     dataSource={subgrupos} 
@@ -69,15 +57,8 @@ const ListaPreciosGrupo = (props) => {
                     
                     
                     />
-                </Col>
-            </Row>
-        </Col>
-        <Modal destroyOnClose open={popupDetalleOpen} onCancel={()=>{setPopupDetalleOpen(false)}} footer={null} title="Detalle " width={"600px"}>
-            <SubGrupoFormV3 mostrarPrecioMayorista={ esAdmin } mostrarPrecioPar={mostrarPrecioPar} callback={()=>{setPopupDetalleOpen(false); setReload(!reload)}} readOnly={ !(esAdmin || esUDeposito) } idsubgrupo={selectedSubgrupoId} title="Detalle Subgrupo" />
-        </Modal>
-        
+
     </div>
-    
 }
 
-export default ListaPreciosGrupo;   
+export default GrupoV2

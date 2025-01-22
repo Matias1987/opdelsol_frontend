@@ -8,6 +8,7 @@ import { public_urls } from "@/src/urls";
 import globals from "@/src/globals";
 import CustomModal from "../CustomModal";
 import ListaPrecios from "../lista_precios/listaPrecios";
+import ListaPreciosV3 from "../lista_precios/listaPreciosV2";
 
 
 
@@ -189,7 +190,7 @@ useEffect(()=>{
     
    items.push( 
       {
-        label: (<CustomModal openButtonText="Lista de Precios " type="text"><ListaPrecios /></CustomModal>),
+        label: (<CustomModal width="2150px" openButtonText="Lista de Precios " type="text"><ListaPrecios  /></CustomModal>),
         key: '1001'
       }
     )
