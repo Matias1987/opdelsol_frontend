@@ -5,7 +5,7 @@ import { useEffect, useState } from "react"
 import SubGrupoFormV3 from "../forms/deposito/SubgrupoFormV3"
 import globals from "@/src/globals"
 
-const ListaPreciosGrupo = (props) => {
+const ListaPreciosGrupoV3 = (props) => {
     const [loading, setLoading] = useState(false)
     const [popupDetalleOpen, setPopupDetalleOpen] = useState(false)
     const [subgrupos, setSubgrupos] = useState([])
@@ -50,8 +50,8 @@ const ListaPreciosGrupo = (props) => {
         .catch(r=>{console.log("error")})
     },[reload])
 
-    return  loading ? <Spin /> : subgrupos.length<1 ? <></> : <div>
-        <Col style={{flex:"100%",   border:"1px solid #314E2B", padding:"3px", borderRadius:"4px", margin:"6px", width:"320px"}} flex="1 0 50%"  >
+    return  loading ? <Spin /> : subgrupos.length<1 ? <></> : <div style={{padding:"8px"}}>
+        {/*<Col style={{flex:"100%",   border:"1px solid #314E2B", padding:"3px", borderRadius:"4px", margin:"6px", width:"320px"}} flex="1 0 50%"  >
             <Row>
                 <Col span={24} style={{padding:"1em", fontWeight:"bold", backgroundColor:"#006BD1", color:"white"}}>
                         {props.nombre}
@@ -59,25 +59,27 @@ const ListaPreciosGrupo = (props) => {
             </Row>
             <Row>
                 <Col span={24}>
-                    <Table 
-                    style={{width:"310px"}}
-                    rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'}
-                    columns={columns} 
-                    dataSource={subgrupos} 
-                    pagination={false} 
-                    loading={loading} 
+                    
+                </Col>
+            </Row>
+        </Col>*/}
+        <Table 
+            size="small"
+            style={{ width:"350px"}}
+            rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'}
+            columns={columns} 
+            dataSource={subgrupos} 
+            pagination={false} 
+            loading={loading} 
                     
                     
                     />
-                </Col>
-            </Row>
-        </Col>
-        <Modal destroyOnClose open={popupDetalleOpen} onCancel={()=>{setPopupDetalleOpen(false)}} footer={null} title="Detalle " width={"600px"}>
+        {/*<Modal destroyOnClose open={popupDetalleOpen} onCancel={()=>{setPopupDetalleOpen(false)}} footer={null} title="Detalle " width={"600px"}>
             <SubGrupoFormV3 mostrarPrecioMayorista={ esAdmin } mostrarPrecioPar={mostrarPrecioPar} callback={()=>{setPopupDetalleOpen(false); setReload(!reload)}} readOnly={ !(esAdmin || esUDeposito) } idsubgrupo={selectedSubgrupoId} title="Detalle Subgrupo" />
-        </Modal>
+        </Modal>*/}
         
     </div>
     
 }
 
-export default ListaPreciosGrupo;   
+export default ListaPreciosGrupoV3;   
