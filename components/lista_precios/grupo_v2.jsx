@@ -5,36 +5,33 @@ import SubGrupoFormV3 from "../forms/deposito/SubgrupoFormV3"
 import globals from "@/src/globals"
 
 const GrupoV2 = props => {
+    const {nombre, callback, reload} = props
     const [loading, setLoading] = useState(false)
-    const [popupDetalleOpen, setPopupDetalleOpen] = useState(false)
     const [subgrupos, setSubgrupos] = useState([])
     const [selectedSubgrupoId, setSelectedSubgrupoId] = useState(-1)
-    const [mostrarPrecioPar, setMostrarPrecioPar] = useState(false)
-    const [reload, setReload] = useState(false)
-    const [esAdmin, setEsAdmin] = useState(false)
-    const [esUDeposito, setEsUDeposito] = useState(false)
+
     const columns = [
         {title:"Producto", dataIndex:"producto", render:(_,{producto, idsubgrupo, idfamilia})=><>
             <Button 
             onClick={()=>{
                 setSelectedSubgrupoId(idsubgrupo)
-                setMostrarPrecioPar(idfamilia == globals.familiaIDs.CRISTALES)
-                setPopupDetalleOpen(true)
+                //setMostrarPrecioPar(idfamilia == globals.familiaIDs.CRISTALES)
+                //setPopupDetalleOpen(true)
+                callback?.(idsubgrupo,idfamilia == globals.familiaIDs.CRISTALES)
             }} 
             type="link" 
             size="small"
-            style={{color:"#314E2B", fontWeight:"bold"}}
+            style={{color:"#03045E", fontWeight:"600", whiteSpace:"normal", textAlign:"left"}}
             >
                 {producto}
             </Button>
         </>},
-        {title:"Precio", dataIndex:"precio", render:(_,{precio, precio_par, idfamilia})=><div style={{textAlign:"right", fontWeight:"bold", color:"#0800AA", fontSize:"1.12em"}}>$&nbsp;{<><>{idfamilia==globals.familiaIDs.CRISTALES ? precio_par : precio}</></>}</div>},
+        {title:"Precio", dataIndex:"precio", render:(_,{precio, precio_par, idfamilia})=><div style={{textAlign:"right", fontWeight:"bold", color:"#03045E", fontSize:"1.12em"}}>$&nbsp;{<><>{idfamilia==globals.familiaIDs.CRISTALES ? precio_par : precio}</></>}</div>},
        
     ]
 
     useEffect(()=>{
-        setEsAdmin(globals.esUsuarioAdmin())
-        setEsUDeposito(globals.esUsuarioDeposito())
+       
         setLoading(false)
         fetch(get.optionsforgrupo + props.idgrupo)
         .then(r=>r.json())
@@ -46,19 +43,20 @@ const GrupoV2 = props => {
     },[reload])
 
 
-    return  loading ? <Spin /> : <div style={{width:"300px"}}>
+    return  loading ? <Spin /> :  <Col span={24} style={{padding:"6px"}}>
+                        <Table 
+                       
+                        title={_=><div><span>{nombre}</span></div>}
+                        rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'}
+                        columns={columns} 
+                        dataSource={subgrupos} 
+                        pagination={false} 
+                        loading={loading} 
+                        
+                        
+                        />
+                    </Col>
 
-                    <Table 
-                    rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'}
-                    columns={columns} 
-                    dataSource={subgrupos} 
-                    pagination={false} 
-                    loading={loading} 
-                    
-                    
-                    />
-
-    </div>
 }
 
 export default GrupoV2

@@ -6,7 +6,7 @@ import globals from "@/src/globals"
 import { get, post } from "@/src/urls"
 import ListaPreciosGrupoV3 from "./gupo_v3"
 
-const ListaPrecios = (props) => {
+const ListaPreciosV4 = (props) => {
     const [subfamilias, setSubfamilias] = useState([])
 
     const [grupos, setGrupos] = useState([])
@@ -84,4 +84,4 @@ const ListaPrecios = (props) => {
     </div>
 }
 
-export default ListaPrecios
+export default ListaPreciosV4

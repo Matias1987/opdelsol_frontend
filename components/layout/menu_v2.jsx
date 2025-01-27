@@ -1,5 +1,5 @@
 import BuscarVenta from "../forms/ventas/BuscarVenta";
-import { Menu } from "antd";
+import { FloatButton, Menu } from "antd";
 import  { MenuOutlined, StarOutlined } from "@ant-design/icons";
 
 import { useState, useEffect }  from "react";
@@ -7,8 +7,8 @@ import Link from "next/link"
 import { public_urls } from "@/src/urls";
 import globals from "@/src/globals";
 import CustomModal from "../CustomModal";
-import ListaPrecios from "../lista_precios/listaPrecios";
-import ListaPreciosV3 from "../lista_precios/listaPreciosV2";
+import ListaPreciosV3 from "../lista_precios/listaPreciosV3";
+
 
 
 
@@ -190,7 +190,7 @@ useEffect(()=>{
     
    items.push( 
       {
-        label: (<CustomModal width="2150px" openButtonText="Lista de Precios " type="text"><ListaPrecios  /></CustomModal>),
+        label: (<CustomModal width="100%" openButtonText="Lista de Precios " type="text"><ListaPreciosV3  /></CustomModal>),
         key: '1001'
       }
     )

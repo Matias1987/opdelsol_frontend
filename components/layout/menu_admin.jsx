@@ -6,6 +6,7 @@ import { public_urls } from "@/src/urls";
 import BuscarVenta from "../forms/ventas/BuscarVenta";
 import CustomModal from "../CustomModal";
 import ListaPrecios from "../lista_precios/listaPrecios";
+import ListaPreciosV3 from "../lista_precios/listaPreciosV3";
 
 const items = [
   
@@ -73,7 +74,7 @@ const items = [
     ],
   },
   {
-    label: (<CustomModal openButtonText="Lista de Precios" type="primary"><ListaPrecios /></CustomModal>),
+    label: (<CustomModal openButtonText="Lista de Precios" type="primary"><ListaPreciosV3 /></CustomModal>),
     key: '1001'
   }
   
