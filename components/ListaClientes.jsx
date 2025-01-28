@@ -116,6 +116,7 @@ export default function ListaClientes(props){
     <Row>
         <Col span={24}>
             <Table 
+            scroll={{y:"350px"}}
             loading={loading}
             rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'}
             columns={columns} 

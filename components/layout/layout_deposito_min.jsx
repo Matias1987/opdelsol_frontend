@@ -85,7 +85,7 @@ export default function LayoutDepositoMin(props){
             
             
             <MenuV2 />
-            <Content style={{ margin: '40px 100px', padding: 24,  borderRadius:"15px", minHeight: 580 }}>
+            <Content style={{ margin: '40px 100px', padding: 24,  borderRadius:"15px", minHeight: "100hv" }}>
             {
                 (alerta!="") ? <><Alert key={alerta} message={alerta} type="error" showIcon/></>:<></>
             }

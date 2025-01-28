@@ -207,6 +207,7 @@ useEffect(()=>{
         background: "rgb(34,193,195)",
         background: "linear-gradient(81deg, rgba(201,216,231,1)  0%, rgba(237,237,237,1) 100%)",
         color: "black",
+         
       }
 
       const onClick = (e) => {

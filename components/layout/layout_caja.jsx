@@ -92,7 +92,7 @@ export default function LayoutCaja(props){
     //globals.validate_user(window)
   },[])
     return (
-        <Layout className='layout' style={{minHeight: 1200}}>
+        <Layout className='layout' >
 
                 <HeaderSol tipoCuenta="CAJA" displaymodechange={(__c)=>{
                 props?.displaymodechange?.(__c)
@@ -104,7 +104,7 @@ export default function LayoutCaja(props){
 
                 }]}
                 />
-            <Content style={{ margin: '40px 100px', padding: 24, borderRadius:"15px", overflowY:'scroll' }}>
+            <Content style={{ margin: '40px 100px', padding: 24, borderRadius:"15px" }}>
                 {
                     (alerta!="") ? <><Alert key={alerta} message={alerta} type="error" showIcon/></>:<></>
                 }

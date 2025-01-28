@@ -63,7 +63,7 @@ export default function MyLayout(props){
     
     
     return (
-            <Layout className='layout' style={{height:"100hv"}}>
+            <Layout className='layout' >
                 <Sider width={"auto"} collapsed={collapsed} style={{backgroundColor:'#262626'}}>
                     {<div className="logo" style={{padding:".45em", textAlign:"center", height:"36px" }}>
                         <span style={{color:"rgba(255,255,255,1)"}}><b></b>&nbsp;&nbsp;</span>
@@ -83,7 +83,7 @@ export default function MyLayout(props){
                         props?.displaymodechange?.(c)
                     }}/>
 
-                    <Content style={{ margin: '24px 16px', padding: 24, minHeight: 280, overflowY:"scroll"  }}>
+                    <Content style={{ margin: '24px 16px', padding: 24, minHeight: "100hv"  }}>
                         {props.children}
                     </Content>
                 </Layout>
