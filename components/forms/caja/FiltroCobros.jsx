@@ -40,6 +40,7 @@ const FiltroCobros =(props) => {
 
 
     return <>
+    
     <Row>
         <Col span={12}>
             <Button block type="primary"   size="small"  onClick={showModal}>
@@ -52,12 +53,17 @@ const FiltroCobros =(props) => {
             </Button>
         </Col>
     </Row>
+
+
+    
+
+    
     
       <Modal
         cancelButtonProps={{ style: { display: 'none' } }}
         okButtonProps={{children:"CERRAR"}}
         
-        width={"80%"}
+        width={"450px"}
         title={"Filtros"}
         open={open}
         onOk={()=>{ 
@@ -69,44 +75,51 @@ const FiltroCobros =(props) => {
         destroyOnClose={true}
       >
 
-      
-        <Row style={{padding: ".65em"}}>
-            <Col span={1} style={{textAlign:'right'}}>
-            Nro.:&nbsp;&nbsp;
+        <Row>
+            <Col span={12}>
+                <Row style={{padding: "6px"}}>
+                    <Col span={24} >
+                    Fecha:&nbsp;&nbsp;
+                    </Col>
+                    <Col span={24}>
+                        
+                        <DatePicker format={"DD/MM/YYYY"} onChange={
+                            (d,dstr)=>
+                            {
+                                const parts  = dstr.split("/")
+                                setFiltros(f=>{
+                                    const _f = {...f,["fecha"]:`${parts[2]}-${parts[1]}-${parts[0]}`}
+                                    return _f
+                                })
+                            }
+                        }  />
+                    </Col>
+                </Row>
             </Col>
-            <Col span={23}>
-                
-                <Input onChange={onIDChange} />
+            <Col span={12}>
+                <Row style={{padding: "6px"}}>
+                    <Col span={24} >
+                    Nro.:&nbsp;&nbsp;
+                    </Col>
+                    <Col span={24}>
+                        
+                        <Input onChange={onIDChange} style={{width:"120px"}} />
+                    </Col>
+                    
+                </Row>
             </Col>
-            
         </Row>
-        <Row style={{padding: ".65em"}}>
-            <Col span={2} style={{textAlign:'right'}}>
+        
+        <Row style={{padding: "6px"}}>
+            <Col span={24} >
                 Cliente:&nbsp;&nbsp;
             </Col>
-            <Col span={22}>
+            <Col span={24} style={{backgroundColor:"#EEFAFD"}}>
                 <SelectCliente callback={onSelectCliente} />
             </Col>
         </Row>
         
-        <Row style={{padding: ".65em"}}>
-            <Col span={2} style={{textAlign:'right'}}>
-            Fecha:&nbsp;&nbsp;
-            </Col>
-            <Col span={22}>
-                
-                <DatePicker format={"DD/MM/YYYY"} onChange={
-                    (d,dstr)=>
-                    {
-                        const parts  = dstr.split("/")
-                        setFiltros(f=>{
-                            const _f = {...f,["fecha"]:`${parts[2]}-${parts[1]}-${parts[0]}`}
-                            return _f
-                        })
-                    }
-                }  />
-            </Col>
-        </Row>
+        
     
         </Modal>
     </>

@@ -107,7 +107,7 @@ const SelectCliente = (props) =>{
     const show_details = _ => (
         loadingDetalles ? <Spin /> :
         <>
-        {typeof props.destinatario === 'undefined'? "Cliente" : "Destinatario"}: <>
+        {typeof props.destinatario === 'undefined'? "Nombre" : "Nombre"}: <>
             <b>{clienteData.nombre} </b> 
         {   typeof props.destinatario === 'undefined' ? 
             <>

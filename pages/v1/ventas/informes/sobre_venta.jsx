@@ -11,7 +11,7 @@ export default function ImprimirSobreVenta(props){
 
     return (
         <>
-            <Button onClick={()=>{setOpen(true)}}><PrinterFilled /></Button>
+            <Button type="link" onClick={()=>{setOpen(true)}}><PrinterFilled /></Button>
             <Modal width={"80%"} open={open} onCancel={()=>{setOpen(false)}} footer={null} title={"Detalle Venta"}>
                 <PrinterWrapper>
                     <InformeVenta idventa={props.idventa} />

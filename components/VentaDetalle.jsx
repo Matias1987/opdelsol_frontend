@@ -1,4 +1,4 @@
-import { InfoCircleFilled } from "@ant-design/icons";
+import { InfoCircleFilled, InfoCircleOutlined } from "@ant-design/icons";
 import { Button, Modal, Spin } from "antd";
 import { useState } from "react";
 import InformeVentaMinV2 from "./informes/ventas/InformeVentasMinV2";
@@ -48,7 +48,7 @@ const VentaDetallePopup = (props)=> {
     }
     return <>
         <Button type="link" size="small" onClick={onOpen}>
-            <InfoCircleFilled /> Detalle
+            <InfoCircleOutlined /> 
         </Button>
         <Modal
             open={open}

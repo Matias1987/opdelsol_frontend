@@ -24,18 +24,18 @@ export default function ListaCaja(props){
     },[])
     
     const columns = [
-        {dataIndex:'idcaja', title: 'ID'},
-        {dataIndex:'fecha_f', title: 'Fecha'},
-        {dataIndex:'monto_inicial', title: 'Monto'},
-        {dataIndex:'estado', title: 'Estado'},
-        {dataIndex: 'idcaja', title: 'Acciones', render: (_,{idcaja})=> <Button onClick={()=>{setSelectedCaja(idcaja);setPopupOpen(true)}}>Ver</Button>}
+        {width:"240px",dataIndex:'idcaja', title: 'ID'},
+        {width:"240px",dataIndex:'fecha_f', title: 'Fecha'},
+        {width:"240px",dataIndex:'monto_inicial', title: 'Monto'},
+        {width:"240px",dataIndex:'estado', title: 'Estado'},
+        {width:"240px",dataIndex: 'idcaja', title: 'Acciones', render: (_,{idcaja})=> <Button type="primary" onClick={()=>{setSelectedCaja(idcaja);setPopupOpen(true)}}>Ver</Button>}
     ]
     
     return (<>
         <h3>Lista de caja diaria</h3>
         <Row>
             <Col span={24}>
-                <Table columns={columns} dataSource={dataSource} />
+                <Table columns={columns} dataSource={dataSource} scroll={{y:"450px"}} />
             </Col>
         </Row>
         <Modal width={"80%"} open={popupOpen} onCancel={()=>{setPopupOpen(false)}} footer={null} title="Informe de Caja" destroyOnClose>

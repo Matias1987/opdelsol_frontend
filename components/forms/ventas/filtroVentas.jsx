@@ -73,7 +73,7 @@ const FiltroVentas =(props) => {
         cancelButtonProps={{ style: { display: 'none' } }}
         okButtonProps={{children:"CERRAR"}}
         
-        width={"60%"}
+        width={"620px"}
         title={"Filtros"}
         open={open}
         onOk={()=>{ 
@@ -89,16 +89,15 @@ const FiltroVentas =(props) => {
         <Row style={{padding: ".65em"}}>
             <Col span={24}>
                 Nro.:&nbsp;&nbsp;
-                <Input onChange={onIDChange} />
+                <Input onChange={onIDChange} style={{width:"200px"}} />
             </Col>
             
         </Row>
         <Row style={{padding:".65em"}}>
-        <Col span={2}>
-            Estado:
-            </Col>
+
             
             <Col span={22}>
+            Estado:&nbsp;&nbsp;
                 <Select style={{width:"300px"}} onChange={(v)=>{onChange("estado",v)}}
                 options={[
                     {label:"-", value:""},
@@ -113,7 +112,7 @@ const FiltroVentas =(props) => {
         </Row>
         <Row style={{padding:".65em"}}>
             <Col span={2}>
-            Tipo:
+            Tipo:&nbsp;&nbsp;
             </Col>
             
             <Col span={22}>

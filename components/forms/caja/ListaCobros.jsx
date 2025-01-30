@@ -18,13 +18,13 @@ const ListaCobros = (props) => {
     const [filtros, setFiltros] = useState({})
     const [reload, setReload] = useState(true)
     const columns = [
-        {title: "Nro.", dataIndex: "idcobro", render:(_,{anulado,idcobro})=>(<>{anulado==1?<Tag color="red">Anulado</Tag>:<></>}{idcobro}</>)},
-        {title: "Fecha", dataIndex: "fecha_formated"},
-        {title: "Cliente", dataIndex: "cliente_nombre"},
-        {title: "Tipo", dataIndex: "tipo"},
-        {title: "Monto", dataIndex: "monto"},
-        {title: "Sucursal", dataIndex: "sucursal"},
-        {title: "Acciones", dataIndex: "idcobro", hidden:false, render: (_,{idcobro})=>{
+        {width:"250px", title: "Nro.", dataIndex: "idcobro", render:(_,{anulado,idcobro})=>(<>{anulado==1?<Tag color="red">Anulado</Tag>:<></>}{idcobro}</>)},
+        {width:"250px", title: "Fecha", dataIndex: "fecha_formated"},
+        {width:"250px", title: "Cliente", dataIndex: "cliente_nombre"},
+        {width:"250px", title: "Tipo", dataIndex: "tipo"},
+        {width:"250px", title: "Monto", dataIndex: "monto"},
+        {width:"250px", title: "Sucursal", dataIndex: "sucursal"},
+        {width:"250px", title: "Acciones", dataIndex: "idcobro", hidden:false, render: (_,{idcobro})=>{
             return <>
             <CustomModal openButtonText="Imprimir">
                 <PrinterWrapper>
@@ -76,7 +76,14 @@ const ListaCobros = (props) => {
         }
         <Row>
             <Col span={24}>
-                <Table loading={loading} pagination={true} dataSource={dataSource} columns={columns} rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'}/>
+                <Table 
+                scroll={{y:"450px"}}
+                loading={loading} 
+                pagination={true} 
+                dataSource={dataSource} 
+                columns={columns} 
+                rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'}
+                />
             </Col>
         </Row>
         

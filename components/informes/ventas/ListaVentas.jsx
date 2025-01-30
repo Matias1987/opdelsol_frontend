@@ -201,14 +201,14 @@ const ListaVentas = (props) => {
     }
 
     const columns = [
-        {hidden: false, title: "Nro.", dataIndex:"idventa"},
-        {hidden: false, title: "Tipo", dataIndex: "tipo", render:(_,{tipo})=>(
+        {width:"100px", hidden: false, title: "Nro.", dataIndex:"idventa"},
+        {width:"150px", hidden: false, title: "Tipo", dataIndex: "tipo", render:(_,{tipo})=>(
             <span style={{fontSize:".75em", }}><b>{get_tipo(tipo)}</b></span>
         ) },
-        {hidden: false, title: "Fecha", dataIndex:"fecha"},
-        {hidden: false, title: "Cliente", dataIndex:"cliente"},
-        {hidden: false, title: "Vendedor", dataIndex:"vendedor"},
-        {hidden: (props.mostrarEstado||"1") == "0" , title: "Estado", dataIndex:"estado", render:(_,{estado})=>{
+        {width:"150px", hidden: false, title: "Fecha", dataIndex:"fecha"},
+        {width:"250px", hidden: false, title: "Cliente", dataIndex:"cliente"},
+        {width:"200px", hidden: false, title: "Vendedor", dataIndex:"vendedor"},
+        {width:"100px", hidden: (props.mostrarEstado||"1") == "0" , title: "Estado", dataIndex:"estado", render:(_,{estado})=>{
             switch(estado){
                 case "INGRESADO": return <Tag color="magenta">{estado}</Tag>
                 case "PENDIENTE": return <Tag color="geekblue">{estado}</Tag>
@@ -217,9 +217,9 @@ const ListaVentas = (props) => {
                 case "TERMINADO": return <Tag color="green">{estado}</Tag>
             }
         }},
-        {hidden: false, title: "Monto", dataIndex:"monto", render:(_,{monto})=><div style={{textAlign:"right"}}>$&nbsp;{parseFloat(monto)}</div>},
-        {hidden: false, title: "Sucursal", dataIndex:"sucursal"},
-        {hidden: false, title: "Acciones", dataIndex:"idventa", render: (_,{idventa,idcliente, idsucursal, tipo})=>{
+        {width:"150px", hidden: false, title:<div style={{textAlign:"right"}}>Monto</div> , dataIndex:"monto", render:(_,{monto})=><div style={{textAlign:"right"}}>$&nbsp;{parseFloat(monto)}</div>},
+        {width:"150px", hidden: false, title: "Sucursal", dataIndex:"sucursal"},
+        {width:"300px", hidden: false, title: "Acciones", dataIndex:"idventa", render: (_,{idventa,idcliente, idsucursal, tipo})=>{
             return <>
                 {buttons(idventa,idcliente, idsucursal, tipo)}
             </>
@@ -248,6 +248,7 @@ const ListaVentas = (props) => {
     <Row>
         <Col span={24} style={_row_style}>
             <Table 
+            size="small"
             scroll={{y:"500px"}}
             pagination={typeof props.pagination === 'undefined' ? true : props.pagination}
             rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'}
