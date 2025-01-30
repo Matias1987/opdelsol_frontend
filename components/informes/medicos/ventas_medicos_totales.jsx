@@ -17,15 +17,15 @@ const ListaVentasMedicosTotales = (props) => {
     const [nombreSucursal , setNombreSucursal] = useState(-1)
     const [sucursales, setSucursales] = useState([])
     const columns =[ 
-        {dataIndex: 'medico', title:'medico'},
-        {dataIndex: 'efectivo', title: 'efectivo'},
-        {dataIndex: 'tarjeta', title: 'tarjeta'},
-        {dataIndex: 'cheque', title: 'cheque'},
-        {dataIndex: 'ctacte', title: 'ctacte'},
-        {dataIndex: 'mutual', title: 'mutual'},
-        {dataIndex: 'mercadopago', title: 'mercadopago'},
-        {dataIndex: 'transferencia', title: 'transferencia'},
-        {dataIndex: 'idmedico', title: '', render:(_,{idmedico,medico})=>{
+        {width:"200px", dataIndex: 'medico', title:'medico'},
+        {width:"200px", dataIndex: 'efectivo', title: 'efectivo', render:(_,obj)=><div style={{textAlign:"right"}}>{parseFloat(obj.efectivo).toLocaleString(2)}</div>},
+        {width:"200px", dataIndex: 'tarjeta', title: 'tarjeta', render:(_,obj)=><div style={{textAlign:"right"}}>{parseFloat(obj.tarjeta).toLocaleString(2)}</div>},
+        {width:"200px", dataIndex: 'cheque', title: 'cheque', render:(_,obj)=><div style={{textAlign:"right"}}>{parseFloat(obj.cheque).toLocaleString(2)}</div>},
+        {width:"200px", dataIndex: 'ctacte', title: 'ctacte', render:(_,obj)=><div style={{textAlign:"right"}}>{parseFloat(obj.ctacte).toLocaleString(2)}</div>},
+        {width:"200px", dataIndex: 'mutual', title: 'mutual', render:(_,obj)=><div style={{textAlign:"right"}}>{parseFloat(obj.mutual).toLocaleString(2)}</div>},
+        {width:"200px", dataIndex: 'mercadopago', title: 'mercadopago', render:(_,obj)=><div style={{textAlign:"right"}}>{parseFloat(obj.mercadopago).toLocaleString(2)}</div>},
+        {width:"200px", dataIndex: 'transferencia', title: 'transferencia', render:(_,obj)=><div style={{textAlign:"right"}}>{parseFloat(obj.transferencia).toLocaleString(2)}</div>},
+        {width:"200px", dataIndex: 'idmedico', title: '', render:(_,{idmedico,medico})=>{
             return <><VentasMedicos className="test" nombre_medico={medico} mes={mes} anio={anio} idmedico={idmedico}idsucursal={idsucursal} /></>
         }}
     ]
@@ -132,11 +132,16 @@ const ListaVentasMedicosTotales = (props) => {
                     return str
                 }}
              />
-            <PrinterWrapper>
-                <b>Totales ventas M&eacute;dicos periodo {mes}-{anio}</b>
-                <Table columns={columns} dataSource={dataSource} pagination={false} />
-            </PrinterWrapper>
-            
+            {/*<PrinterWrapper>
+                
+            </PrinterWrapper>*/}
+           
+        </Col>
+    </Row>
+    <Row>
+        <Col span={24}>
+        <b>Totales ventas M&eacute;dicos periodo {mes}-{anio}</b>
+        <Table scroll={{y:"450px"}} columns={columns} dataSource={dataSource} pagination={false} />
         </Col>
     </Row>
     

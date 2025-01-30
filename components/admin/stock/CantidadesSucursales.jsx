@@ -100,7 +100,7 @@ const CantidadesSucursales = (props) => {
     return <>
        
         <Row style={{padding:"1em"}}>
-            <Col span={8}>
+            <Col span={24}>
                 <Row>
                     <Col span={24}>
                         <SucursalSelect callback={(id)=>{setFiltros(f=>({...f,sucursal:id})); setUpdate(!update);}}/>
@@ -121,7 +121,9 @@ const CantidadesSucursales = (props) => {
                 </Row>
                 
             </Col>
-            <Col span={16}  style={{border:"1px solid #A9A9A9", padding:"12px", borderRadius:"6px"}}>
+            </Row>
+            <Row>
+            <Col span={24}  style={{border:"1px solid #A9A9A9", padding:"12px", borderRadius:"6px"}}>
                 <Tabs defaultActiveKey="1" items={items} onChange={onChange} />
             </Col>
         </Row>
