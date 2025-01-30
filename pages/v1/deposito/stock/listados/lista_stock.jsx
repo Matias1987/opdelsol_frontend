@@ -151,7 +151,7 @@ export default function ListaStock(){
     },[valueChanged])
 
     const columns = [
-        {title: 'Ruta',dataIndex: 'idcodigo',key: 'ruta', render:(_,{familia,subfamilia,grupo,subgrupo, idsubgrupo}) => 
+        {width:"200px", title: 'Ruta',dataIndex: 'idcodigo',key: 'ruta', render:(_,{familia,subfamilia,grupo,subgrupo, idsubgrupo}) => 
         <Space size={[0, 'small']} wrap>
             <span style={{fontSize:"1em"}}>
                 <Tag color="success" style={{fontSize:".65em", margin:"0", padding:"1px"}}>{familia}</Tag>
@@ -160,15 +160,15 @@ export default function ListaStock(){
                 <EditarSubgrupo idsubgrupo={idsubgrupo} buttonText={subgrupo} callback={()=>{setValueChanged(!valueChanged)}} />
             </span>
         </Space>},
-        {title: 'Codigo',dataIndex: 'codigo',key: 'codigo', render:(_,{codigo})=>
+        {width:"200px", title: 'Codigo',dataIndex: 'codigo',key: 'codigo', render:(_,{codigo})=>
             <>
             <div style={{fontSize:".85em", whiteSpace:"nowrap", overflowX:"scroll", width:"100%"}}><b>{codigo}</b></div>
             </>},
-        {title: 'Descripción',dataIndex: 'descripcion',key: 'descripcion', width:"20%", render:(_,{descripcion})=><div  style={{width:"100%", overflowX:"scroll", whiteSpace:"nowrap" }}>{descripcion}</div>},
+        {width:"200px", title: 'Descripción',dataIndex: 'descripcion',key: 'descripcion', width:"20%", render:(_,{descripcion})=><div  style={{width:"100%", overflowX:"scroll", whiteSpace:"nowrap" }}>{descripcion}</div>},
         
-        {title: 'Edad',dataIndex: 'edad',key: 'edad', hidden: true},
-        {title: 'Género',dataIndex: 'genero',key: 'genero', hidden: true},
-        {title: 'Precio',dataIndex: 'idcodigo',key: 'precio', width:"10%", render:(_,{precio,modo_precio})=>{
+        {width:"200px", title: 'Edad',dataIndex: 'edad',key: 'edad', hidden: true},
+        {width:"200px", title: 'Género',dataIndex: 'genero',key: 'genero', hidden: true},
+        {width:"200px", title: 'Precio',dataIndex: 'idcodigo',key: 'precio',  render:(_,{precio,modo_precio})=>{
             
             switch(modo_precio)
             {
@@ -177,9 +177,9 @@ export default function ListaStock(){
                 case 2: return <div style={{width:"100%", textAlign:"right"}}>$&nbsp;{precio}&nbsp;&nbsp;<Tag color="red">P</Tag></div>;
             }
         }},
-        {title: 'Cantidad',dataIndex: 'cantidad',key: 'cantidad', width:"90px", render:(_,{cantidad})=><div style={{width:"90%", textAlign:"right"}}>{cantidad}</div>},
-        {title:'Etiquetas',render:(_,{etiquetas})=><span style={{fontWeight:"bold", color:"darkgreen"}}>{etiquetas}</span>},
-        {
+        {width:"200px", title: 'Cantidad',dataIndex: 'cantidad',key: 'cantidad', width:"90px", render:(_,{cantidad})=><div style={{width:"90%", textAlign:"right"}}>{cantidad}</div>},
+        {width:"200px", title:'Etiquetas',render:(_,{etiquetas})=><span style={{fontWeight:"bold", color:"darkgreen"}}>{etiquetas}</span>},
+        {width:"200px", 
             title: 'Acciones', dataIndex: 'idstock', key: 'idstock',  width:"120px",
             render: 
                 (_,{idcodigo})=><>

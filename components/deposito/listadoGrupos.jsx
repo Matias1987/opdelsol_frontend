@@ -18,22 +18,8 @@ const ListadoGrupos = ( props ) => {
     const [selectedGrupo, setSelectedGrupo] = useState(-1)
     const columns = 
         [
-            /*{title: 'ID',dataIndex: 'id',key: 'id'},*/
-            {title: '',dataIndex: 'ruta',key: 'ruta', render:(_,{ruta})=><span style={{fontSize:".8em", color:"blue", }}>{ruta}</span>},
-            {title: 'Nombre Largo',dataIndex: 'nombre_largo',key: 'nombre_largo'},
-            {title: 'Nombre Corto',dataIndex: 'nombre_corto',key: 'nombre_corto'},
             {
-                title: 'Acciones', dataIndex: 'idgrupo', key: 'idgrupo',
-                render: 
-                    (_,{id})=>{
-                        return (<>
-                                <Button size="small" disabled onClick={()=>{}}>Editar</Button>
-                                &nbsp;
-                                <Button size="small" type="link" danger onClick={()=>{setSelectedGrupo(id); setEditarPopupPreciosOpen(true)}}>Modif. Precios Subgrupos</Button>
-                        </>    )                
-                    }
-            },
-            {
+                width:"60px", 
                 title: <Checkbox 
                 disabled={filtrarPorSubfamilia}
                 onChange={(e)=>{
@@ -44,7 +30,23 @@ const ListadoGrupos = ( props ) => {
                 onChange={(_)=>{
                     setGrupos(ds=>ds.map(g=>({...g,checked:g.id==id ? !g.checked : g.checked}) ))
                 }}></Checkbox>
-            }
+            },
+            /*{title: 'ID',dataIndex: 'id',key: 'id'},*/
+            {width:"250px", title: '',dataIndex: 'ruta',key: 'ruta', render:(_,{ruta})=><span style={{fontSize:".8em", color:"blue", }}>{ruta}</span>},
+            {width:"250px", title: 'Nombre Largo',dataIndex: 'nombre_largo',key: 'nombre_largo'},
+            {width:"250px", title: 'Nombre Corto',dataIndex: 'nombre_corto',key: 'nombre_corto'},
+            {width:"250px", 
+                title: 'Acciones', dataIndex: 'idgrupo', key: 'idgrupo',
+                render: 
+                    (_,{id})=>{
+                        return (<>
+                                <Button size="small" disabled onClick={()=>{}}>Editar</Button>
+                                &nbsp;
+                                <Button size="small" type="link" danger onClick={()=>{setSelectedGrupo(id); setEditarPopupPreciosOpen(true)}}>Modif. Precios Subgrupos</Button>
+                        </>    )                
+                    }
+            },
+            
         ]
     
     useEffect(()=>{
@@ -96,6 +98,7 @@ const ListadoGrupos = ( props ) => {
             
             <Col span={24}>
                 <Table 
+                scroll={{y:"300px"}}
                 size="small"
                 rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'}
                 dataSource={(selectedSubfamilia>0&&filtrarPorSubfamilia) ? grupos.filter(g=>g.subfamilia_idsubfamilia==selectedSubfamilia) : grupos} 

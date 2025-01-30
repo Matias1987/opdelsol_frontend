@@ -18,10 +18,10 @@ const ListadoSubFamilias = ( props ) => {
 
     const columns = [
            
-            {title: 'Familia',dataIndex: 'familia',key: 'familia', render:(_,{familia})=><span style={{fontSize:"0.80em", color:"blue"}}>{familia}&nbsp;/</span>},
-            {title: 'Nombre Largo',dataIndex: 'nombre_largo',key: 'nombre_largo',},
-            {title: 'Nombre Corto',dataIndex: 'nombre_corto',key: 'nombre_corto'},
-            {
+            {width:"250px", title: 'Familia',dataIndex: 'familia',key: 'familia', render:(_,{familia})=><span style={{fontSize:"0.80em", color:"blue"}}>{familia}&nbsp;/</span>},
+            {width:"250px", title: 'Nombre Largo',dataIndex: 'nombre_largo',key: 'nombre_largo',},
+            {width:"250px", title: 'Nombre Corto',dataIndex: 'nombre_corto',key: 'nombre_corto'},
+            {width:"250px", 
                 title: 'Acciones', dataIndex: 'idsubfamilia', key: 'idsubfamilia',
                 render: 
                     (_,{idsubfamilia})=>{
@@ -71,6 +71,7 @@ const ListadoSubFamilias = ( props ) => {
         <Row>
             <Col span={24}>
                 <Table 
+                scroll={{y:"300px"}}
                 size="small"
                 rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'}
                 columns={columns}

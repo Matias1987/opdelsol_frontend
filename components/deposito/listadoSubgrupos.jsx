@@ -45,14 +45,26 @@ const ListadoSubGrupos = ( props ) => {
         .catch(e=>{"error"})
     },[change])
     const columns = [
+        {width:"60px", 
+            title: <Checkbox
+            disabled={filtrarPorGrupo} 
+            onChange={(e)=>{
+                setDataSource(dt=>dt.map(_sg=>({..._sg,checked:e.target.checked})))
+            }}></Checkbox>,
+            render:(_,{id, checked})=><Checkbox 
+            checked={checked}
+            onChange={(_)=>{
+                setDataSource(ds=>ds.map(sg=>({...sg,checked:sg.id==id ? !sg.checked : sg.checked}) ))
+            }}></Checkbox>
+        },
         /*{title: 'ID',dataIndex: 'id',key: 'id'},*/
-        {title: 'Ruta',dataIndex: 'ruta',key: 'ruta', render:(_,{ruta})=><>
+        {width:"250px", title: 'Ruta',dataIndex: 'ruta',key: 'ruta', render:(_,{ruta})=><>
         <i style={{fontSize:".75em", color:"blue"}}>{ruta}</i>
         </>},
-        {title: 'Nombre Largo',dataIndex: 'nombre_largo'},
-        {title: 'Nombre Corto',dataIndex: 'nombre_corto'},
-        {title: 'Precio Defecto',dataIndex: 'precio_defecto'},
-        {
+        {width:"250px", title: 'Nombre Largo',dataIndex: 'nombre_largo'},
+        {width:"250px", title: 'Nombre Corto',dataIndex: 'nombre_corto'},
+        {width:"250px", title: 'Precio Defecto',dataIndex: 'precio_defecto'},
+        {width:"250px", 
             title: 'Acciones',
             render: 
                 (_,{idsubgrupo})=>{
@@ -64,18 +76,7 @@ const ListadoSubGrupos = ( props ) => {
                 }
             
         },
-        {
-            title: <Checkbox
-            disabled={filtrarPorGrupo} 
-            onChange={(e)=>{
-                setDataSource(dt=>dt.map(_sg=>({..._sg,checked:e.target.checked})))
-            }}></Checkbox>,
-            render:(_,{id, checked})=><Checkbox 
-            checked={checked}
-            onChange={(_)=>{
-                setDataSource(ds=>ds.map(sg=>({...sg,checked:sg.id==id ? !sg.checked : sg.checked}) ))
-            }}></Checkbox>
-        }
+        
     ]
 
     const onSearch = (value) => {

@@ -1,7 +1,6 @@
 import CustomModal from "@/components/CustomModal";
 import ExportToCSV from "@/components/ExportToCSV";
 import PrinterWrapper from "@/components/PrinterWrapper";
-import CodigosQR from "@/components/forms/deposito/codigosQR";
 import CodigosDeBarraEnvio from "@/components/informes/CodigosDeBarra";
 import InformeEnvio from "@/components/informes/InformeEnvio";
 
@@ -13,12 +12,12 @@ export default function  ListaEnvios(props){
     const [update, setUpdate] = useState(false)
 
     const columns = [
-        {title: 'Nro.', dataIndex: 'idenvio', key: 'idenvio'},
-        {title: 'Fecha', dataIndex: 'fecha', key: 'fecha'},
-        {title: 'Sucursal Origen', dataIndex: 'sucursal_origen', key: 'sucursal_idsucursal'},
-        {title: 'Sucursal Destino', dataIndex: 'sucursal_idsucursal', key: 'sucursal_idsucursal'},
-        {title: 'Cantidad', dataIndex: 'cantidad_total', key: 'cantidad_total'},
-        {title: 'Estado', dataIndex: 'estado', render: (_,{estado})=>{
+        {width:"100px",title: 'Nro.', dataIndex: 'idenvio', key: 'idenvio'},
+        {width:"100px",title: 'Fecha', dataIndex: 'fecha', key: 'fecha'},
+        {width:"250px",title: 'Sucursal Origen', dataIndex: 'sucursal_origen', key: 'sucursal_idsucursal'},
+        {width:"250px",title: 'Sucursal Destino', dataIndex: 'sucursal_idsucursal', key: 'sucursal_idsucursal'},
+        {width:"250px",title: 'Cantidad', dataIndex: 'cantidad_total', key: 'cantidad_total'},
+        {width:"250px",title: 'Estado', dataIndex: 'estado', render: (_,{estado})=>{
             switch(estado){
                 case 'GENERADO': return <Tag color="blue-inverse">Generado</Tag>
                 case 'ENVIADO': return <Tag color="volcano">Enviado</Tag>
@@ -26,7 +25,7 @@ export default function  ListaEnvios(props){
                 case 'ANULADO': return <Tag color="red-inverse">Anulado</Tag>
             }
         }},
-        {
+        {width:"250px",
             title: 'Acciones', dataIndex: 'idenvio', key: 'idenvio',
             render: 
                 (_,{idenvio, estado})=>{
@@ -109,6 +108,7 @@ export default function  ListaEnvios(props){
         <Row>
             <Col span={24}>
             <Table
+            scroll={{y:"450px"}}
             columns={columns}
             dataSource={data}
         />

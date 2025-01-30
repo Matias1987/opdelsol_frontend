@@ -694,7 +694,7 @@ const CodeGrid = (props) => {
                     <Divider />
                 </Col>
             </Row>
-            <Row>
+            {/*<Row>
                 <Col span={24}>
                     <FacturaSelect2 
                     factura={factura}
@@ -702,7 +702,7 @@ const CodeGrid = (props) => {
                         setFactura(__factura)
                         }} />
                 </Col>
-            </Row>
+            </Row>*/}
             <Modal destroyOnClose open={popupEditarStockOpen} onCancel={()=>{setPopupEditarStockOpen(false)}} footer={null} width={"90%"}>
                 <EditarStockIndiv 
                 buttonText={"Editar Cantidad"} 
@@ -763,6 +763,12 @@ const CodeGrid = (props) => {
     </Row>
     <Row>
         <Col span={24}>
+            Subgrupo: {subgrupo==null ? props.idsubgrupo : <><Tag color="geekblue">{subgrupo.nombre_largo}</Tag></>}
+            <Divider />
+        </Col>
+    </Row>
+    <Row>
+        <Col span={24}>
             <Flex vertical gap="middle">
                 <Radio.Group onChange={onChange} defaultValue="s" value={tipoGrilla}>
                     <Radio.Button value="s">Actual</Radio.Button>
@@ -773,10 +779,13 @@ const CodeGrid = (props) => {
             </Flex>
         </Col>
     </Row>
+    
     <Row>
         <Col span={16}>
             <canvas ref={canvasRef} width={props.width} height={props.height} style={{border:"1px solid #536872"}}/>
         </Col>
+    </Row>
+    <Row>
         <Col span={8}>
             <Row>
                 {/*<Button size="small" onClick={onPopupSeleccionOpen} disabled={codigosSeleccion.length<1}><BorderOuterOutlined /> Selecci&oacute;n</Button>*/}
@@ -787,12 +796,7 @@ const CodeGrid = (props) => {
                     />
                 <Divider />
             </Row>
-            <Row>
-                <Col span={24}>
-                    Subgrupo: {subgrupo==null ? props.idsubgrupo : <><Tag color="geekblue">{subgrupo.nombre_largo}</Tag></>}
-                    <Divider />
-                </Col>
-            </Row>
+            
         {
                 selectedCode!=null && codigosSeleccion.length<1? <>
                 <Row>

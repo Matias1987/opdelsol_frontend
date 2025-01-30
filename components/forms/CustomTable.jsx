@@ -30,6 +30,7 @@ const CustomTable = (props) => {
     },[])
     return (
         <Table
+        scroll={{y:"300px"}}
         rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'}
         size="small"
         columns={props.columns}

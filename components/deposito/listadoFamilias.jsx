@@ -28,9 +28,10 @@ const ListadoFamilias = ( props ) => {
             columns = {
                 [
                    
-                    {title: 'Nombre Largo',dataIndex: 'nombre_largo',key: 'nombre_largo'},
-                    {title: 'Nombre Corto',dataIndex: 'nombre_corto',key: 'nombre_corto'},
+                    {width:"250px",title: 'Nombre Largo',dataIndex: 'nombre_largo',key: 'nombre_largo'},
+                    {width:"250px",title: 'Nombre Corto',dataIndex: 'nombre_corto',key: 'nombre_corto'},
                     {
+                        width:"250px",
                         title: 'Acciones', dataIndex: 'idfamilia', key: 'idfamilia',
                         render: 
                             (_,{id})=>{

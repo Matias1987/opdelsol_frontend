@@ -66,10 +66,19 @@ export default function ListaCodigos(){
     }
 
     const columns = [
-        {title: 'Ruta',dataIndex: 'ruta', render:(_,obj)=><span style={{fontSize:".75em"}}>{obj.ruta}<EditarSubgrupo idsubgrupo={obj.idsubgrupo} buttonText={obj.subgrupo} callback={()=>{setChange(!change)}} /></span>},
-        {title: 'Codigo',dataIndex: 'codigo'},
-        {title: 'Descripcion',dataIndex: 'descripcion'},
-        {title: 'Modo Precio',dataIndex: 'modo_precio', render:(_,{modo_precio})=>{
+        {
+            width:"60px", 
+            title:<><Checkbox onChange={(e)=>{setDataSource(d=>d.map(r=>({...r,checked:e.target.checked })))}} /></>,dataIndex:'idcodigo',
+            render:(_,{idcodigo, checked})=>{
+                return <><Checkbox checked={checked} onChange={(v)=>{setDataSource(d=>(
+                    d.map(r=>r.idcodigo==idcodigo?{...r,checked:!r.checked}:r)
+                ))}}/></>
+            }
+        },
+        {width:"250px", title: 'Ruta',dataIndex: 'ruta', render:(_,obj)=><span style={{fontSize:".75em"}}>{obj.ruta}<EditarSubgrupo idsubgrupo={obj.idsubgrupo} buttonText={obj.subgrupo} callback={()=>{setChange(!change)}} /></span>},
+        {width:"250px", title: 'Codigo',dataIndex: 'codigo'},
+        {width:"250px", title: 'Descripcion',dataIndex: 'descripcion'},
+        {width:"250px", title: 'Modo Precio',dataIndex: 'modo_precio', render:(_,{modo_precio})=>{
             switch(modo_precio)
             {
                 case 0: return <Tag color="blue">Multiplicador</Tag>
@@ -77,8 +86,8 @@ export default function ListaCodigos(){
                 case 2: return <Tag color="yellow">Propio</Tag>
             }
         }},
-        {title:"Etiquetas", render:(_,{etiquetas})=>{return<span style={{color:"blue", fontWeight:"bold"}}>{etiquetas}</span>}},
-        {title: "Precio", dataIndex: "precio"},
+        {width:"250px", title:"Etiquetas", render:(_,{etiquetas})=>{return<span style={{color:"blue", fontWeight:"bold"}}>{etiquetas}</span>}},
+        {width:"250px", title: "Precio", dataIndex: "precio"},
         /*{
             title: 'Estado',
             dataIndex: 'estado', 
@@ -86,6 +95,7 @@ export default function ListaCodigos(){
             render: (_,{estado})=>(<span style={{color: (estado=='ACTIVO' ? "green" : "red")}} >{estado}</span>)
         },*/
         {
+            width:"250px", 
             title: 'Acciones', dataIndex: 'idcodigo',
             render: 
                 (_,{idcodigo})=>{
@@ -101,14 +111,7 @@ export default function ListaCodigos(){
                 }
             
         },
-        {
-            title:<><Checkbox onChange={(e)=>{setDataSource(d=>d.map(r=>({...r,checked:e.target.checked })))}} /></>,dataIndex:'idcodigo',
-            render:(_,{idcodigo, checked})=>{
-                return <><Checkbox checked={checked} onChange={(v)=>{setDataSource(d=>(
-                    d.map(r=>r.idcodigo==idcodigo?{...r,checked:!r.checked}:r)
-                ))}}/></>
-            }
-        }
+        
     ]
 
     return(
@@ -131,7 +134,12 @@ export default function ListaCodigos(){
                     <Button disabled={(dataSource.filter(d=>d.checked)).length<1} type="primary" onClick={()=>{setPopupTagsOpen(true)}}>Editar Etiquetas</Button>
                 </Col>
             </Row>
-            <Table columns={columns} dataSource={dataSource} loading={loading} />
+            <Row>
+                <Col span={24}>
+                    <Table columns={columns} dataSource={dataSource} loading={loading}  scroll={{y:"300px"}}/>
+                </Col>
+            </Row>
+            
             <Modal 
                 footer={null}
                 width={"80%"}
