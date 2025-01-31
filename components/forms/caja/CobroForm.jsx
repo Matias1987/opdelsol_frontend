@@ -62,7 +62,6 @@ export default function CobroOperacion(props){
                 //alert("Nothing to show")
                 setOpen(false)
                 props.callback?.()
-                
                 return;
             }
 
@@ -347,7 +346,7 @@ export default function CobroOperacion(props){
                                 .then((___response)=>{
                                     setIdCobro(id.data)
                                     props?.callback?.()
-                                    setOpen(false)
+                                    //setOpen(false)
                                 })
                         })
                         registrar_evento("VENTA", "Cambio estado a "+ est,dataVenta.idventa)
@@ -361,7 +360,7 @@ export default function CobroOperacion(props){
                         .then((___response)=>{
                             setIdCobro(id.data)
                             props?.callback?.()
-                            setOpen(false)
+                            //setOpen(false)
                         })
                     }   
 
@@ -510,26 +509,37 @@ export default function CobroOperacion(props){
                 </Row>
                 
                 {estado_switch()}
+                { dataVenta == null || mp == null ? <></> :
+                <>
                 <Row>
                     <Col span={24}>
                         <Divider />
-                        <Button disabled={cobrarDisabled} danger onClick={onCobrarClick}>Cobrar {props.tipo == 'entrega' ? ' y/o marcar como entregado' : ''}</Button>&nbsp;&nbsp;
                         {
-                            props.tipo == 'ingreso' && !entrega ? <Button size="small" type="primary" onClick={enviarADeposito}>Enviar a dep&oacute;sito</Button> : <></>
+                            dataVenta?.saldo==0 && entrega && mp.total<1? <Button onClick={onCobrarClick} disabled={cobrarDisabled} danger>Entrega</Button> : <></>
+                        }
+                        {   dataVenta?.saldo==0? <></> :
+                            <Button disabled={cobrarDisabled || (mp.total<1 )} danger onClick={onCobrarClick}>Cobrar {props.tipo == 'entrega' ? ' y/o marcar como entregado' : entrega? ' y Marcar como entregado':' y mandar a depósito'}</Button>
+                        }
+                    
+                        {
+                            props.tipo == 'ingreso' && !entrega ? <>&nbsp;<Button disabled={mp.total>0 || cobrarDisabled}  type="primary" onClick={enviarADeposito}>Enviar a dep&oacute;sito </Button></> : <></>
                         }
                         
                     </Col>
                 </Row>
+                </>
+                }
                 </Modal>
             {/* informe x */}
             <Modal
+                maskClosable={false}
                 cancelButtonProps={{ style: { display: 'none' } }}
                 okButtonProps={(typeof props.okButtonProps === 'undefined') ? {children:"CERRAR"} : props.okButtonProps}
                 width={"80%"}
                 title={"Recibo X"}
                 open={informeOpen}
                 onOk={()=>{ 
-                    setInformeOpen(false)}}
+                    setInformeOpen(false); setOpen(false)}}
                 onCancel={handleCancel}
                 okText= {"OK"}
                 destroyOnClose={true}

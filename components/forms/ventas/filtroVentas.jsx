@@ -86,14 +86,14 @@ const FiltroVentas =(props) => {
       >
 
       
-        <Row style={{padding: ".65em"}}>
+        <Row style={{padding: "6px"}}>
             <Col span={24}>
                 Nro.:&nbsp;&nbsp;
                 <Input onChange={onIDChange} style={{width:"200px"}} />
             </Col>
             
         </Row>
-        <Row style={{padding:".65em"}}>
+        <Row style={{padding:"6px"}}>
 
             
             <Col span={22}>
@@ -110,7 +110,7 @@ const FiltroVentas =(props) => {
                 />
             </Col>
         </Row>
-        <Row style={{padding:".65em"}}>
+        <Row style={{padding:"6px"}}>
             <Col span={2}>
             Tipo:&nbsp;&nbsp;
             </Col>
@@ -129,20 +129,20 @@ const FiltroVentas =(props) => {
                 />
             </Col>
         </Row>
-        <Row style={{padding: ".65em"}}>
+        <Row style={{padding: "6px"}}>
             <Col span={24}>
                 Cliente o Destinatario:&nbsp;&nbsp;
                 <SelectCliente callback={onSelectCliente} />
             </Col>
         </Row>
-        <Row style={{padding: ".65em"}}>
+        <Row style={{padding: "6px"}}>
             <Col span={24}>
                 M&eacute;dico:&nbsp;&nbsp;
                 <SelectMedico callback={onSelectMedico} />
             </Col>
         </Row>
 
-        <Row style={{padding: ".65em"}}>
+        <Row style={{padding: "6px"}}>
             <Col span={2} style={{textAlign:'left'}}>
             Fecha:&nbsp;&nbsp;
             </Col>

@@ -35,7 +35,7 @@ const ClientesMorosos = (props) => {
             //alert(JSON.stringify(rows))
             setdataSource(rows.data)
             setTableEnabled(true)
-            setOcultarMarcados(false)
+            //setOcultarMarcados(false)
         })
     }
 
@@ -65,7 +65,7 @@ const ClientesMorosos = (props) => {
                     <SelectTarea title="Control: " callback={idtarea=>{setSelectedTarea(idtarea); setReload(!reload)}} />
                 </Col>
                 <Col span={12}>
-                    <Checkbox value={ocultarMarcados} onChange={()=>{setOcultarMarcados(!ocultarMarcados)}}>Ocultar marcados</Checkbox>
+                    <Checkbox value={ocultarMarcados} onChange={(e)=>{setOcultarMarcados(e.target.checked)}}>Ocultar marcados</Checkbox>
                 </Col>
             </Row>
             <Row style={row_style}>

@@ -7,8 +7,8 @@ const AddTarea = (props) => {
     const {callback} = props
     const [tarea, setTarea] = useState({nombre:"Control", descripcion:null, fk_parent:null, ref_id:null})
     const guardar = ()=>{
-        alert(post.insert.tarea_)
-        alert(JSON.stringify(tarea))
+        //alert(post.insert.tarea_)
+        //alert(JSON.stringify(tarea))
         
         post_method(post.insert.tarea_,tarea, (resp)=>{
             callback?.(resp)
