@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import SelectLocalidadV2 from "../SelectLocalidadV2";
 import Edad from "../Edad";
 import { validate_only_numbers_and_letters } from "@/src/helpers/string_helper";
+import { UserAddOutlined } from "@ant-design/icons";
 
 
 export default function ClienteFormV2(props){
@@ -201,7 +202,7 @@ export default function ClienteFormV2(props){
     return (<>
     <Row>
         <Col  span={24}>
-            <Button block type="primary" size="small" onClick={()=>{ props?.test?.(); onOpen();  }}>Agregar Cliente</Button>
+            <Button type="dashed" size="middle" onClick={()=>{ props?.test?.(); onOpen();  }}> <UserAddOutlined /> Agregar Cliente</Button>
         </Col>
     </Row>
     

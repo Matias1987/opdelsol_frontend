@@ -6,7 +6,7 @@ import { post } from "@/src/urls";
 import { post_method } from "@/src/helpers/post_helper";
 import globals from "@/src/globals";
 import CustomModal from "@/components/CustomModal";
-import { HomeFilled, PrinterFilled, ReloadOutlined } from "@ant-design/icons";
+import { HomeFilled, PrinterFilled, ReloadOutlined, SearchOutlined } from "@ant-design/icons";
 import InformeVentaMinV3 from "@/components/informes/ventas/InformeVentasMinV3";
 import InformeVentaV2 from "@/components/informes/ventas/InformeVentaV2";
 import CambiarResponsableDestinatario from "./edicion/CambiarResponsableDestinatario";
@@ -148,7 +148,7 @@ const BuscarVenta = (props)=>{
     }
     return <div >
     <Button 
-    type="dashed" onClick={()=>{onOpen()}}>{typeof props.textButton==='undefined' ? 'Buscar Venta' : props.textButton }</Button>
+    type="text" onClick={()=>{onOpen()}}><SearchOutlined /> {typeof props.textButton==='undefined' ? 'Buscar Venta' : props.textButton }</Button>
     <Modal 
     footer={null}
     destroyOnClose={true} 

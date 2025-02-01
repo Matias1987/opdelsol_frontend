@@ -99,12 +99,18 @@ export default function LayoutCaja(props){
                     }}/>
                 {/*<MenuCajaTop />*/}
                 {<MenuV2 />}
-                <Menu items={[{
-                label:<Input.Search style={{padding:".3em"}} prefix={<span style={{fontWeight:"bold", backgroundColor:"lightyellow"}}>Buscar Código:&nbsp;&nbsp;&nbsp;</span>} value={busqueda} onChange={(e)=>{setBusqueda(e.target.value)}} onSearch={onSearch} />
+                <Menu 
+                items={[{
+                    label:<Input.Search style={{padding:"6px"}} 
+                    prefix={<span style={{fontWeight:"bold", backgroundColor:"lightyellow"}}>
+                    Buscar Código:&nbsp;&nbsp;&nbsp;</span>} 
+                    value={busqueda} 
+                    onChange={(e)=>{setBusqueda(e.target.value)}} onSearch={onSearch} 
+                    />
 
                 }]}
                 />
-            <Content style={{ margin: '40px 100px', padding: 24, borderRadius:"15px" }}>
+            <Content style={{ margin: '40px 100px', padding: "6px", borderRadius:"15px" }}>
                 {
                     (alerta!="") ? <><Alert key={alerta} message={alerta} type="error" showIcon/></>:<></>
                 }

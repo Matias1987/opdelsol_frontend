@@ -1,3 +1,4 @@
+import { DollarOutlined } from "@ant-design/icons";
 import { Button, Modal } from "antd";
 import { useState } from "react";
 

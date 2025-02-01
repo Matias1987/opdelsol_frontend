@@ -30,7 +30,8 @@ export default function ListaGastos(){
     },[reload])
 
     return <>
-        <Button type="primary" ghost  size="small"  onClick={()=>{setOpen(true)}}>
+        <h2>Lista Cobros</h2>
+        <Button type="primary"   size="small"  onClick={()=>{setOpen(true)}}>
         Cargar Gasto
         </Button>
         <Modal 

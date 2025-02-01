@@ -68,11 +68,11 @@ export default function ListaClientes(props){
     },[])
 
     const columns = [
-        {dataIndex: 'apellido', title: 'Apellido', key: 'apellido'},
-        {dataIndex: 'nombre', title: 'Nombre', key: 'nombre'},
-        {dataIndex: 'dni', title: 'DNI', key: 'dni'},
-        {dataIndex: 'direccion', title: 'Direccion', key: 'direccion'},
-        {dataIndex: 'idcliente', title: '', key: 'acciones', render: (_,{idcliente})=>(
+        { width:"200px", dataIndex: 'apellido', title: 'Apellido', key: 'apellido'},
+        { width:"200px", dataIndex: 'nombre', title: 'Nombre', key: 'nombre'},
+        { width:"200px", dataIndex: 'dni', title: 'DNI', key: 'dni'},
+        { width:"200px", dataIndex: 'direccion', title: 'Direccion', key: 'direccion'},
+        { width:"200px", dataIndex: 'idcliente', title: '', key: 'acciones', render: (_,{idcliente})=>(
             <>
             {
                 typeof props.ficha !== 'undefined' ?
@@ -92,20 +92,24 @@ export default function ListaClientes(props){
         )},
     ]
 
+    const row_style = {
+        padding:"6px"
+    }
+
     return <>
-    <h3>Lista de Clientes</h3>
-    <Row>
+    <h2>Lista de Clientes</h2>
+    <Row style={row_style}>
         <Col span={24}>
             <Input.Search prefix={<span style={{backgroundColor:"#DBE3E6"}}>Buscar por Nombre o DNI:&nbsp;&nbsp;&nbsp;</span>}   allowClear onSearch={onSearch} value={searchVal} onChange={(e)=>{setSearchVal(e.target.value)}} />
         </Col>
         
     </Row>
-    <Row>
+    <Row style={row_style}>
         <Col span={12}>
                 <ClienteFormV2 callback={(id)=>{refresh()}}/>
         </Col>
         <Col span={12}>&nbsp;&nbsp;&nbsp;
-            <Button size="small" type="link" danger onClick={(e)=>{setSearchVal(s=>{
+            <Button size="small" type="text" onClick={(e)=>{setSearchVal(s=>{
             refresh()
             return ""
             })}}><ReloadOutlined />Recargar
@@ -113,9 +117,10 @@ export default function ListaClientes(props){
         </Col>
         
     </Row>
-    <Row>
+    <Row style={row_style}>
         <Col span={24}>
             <Table 
+            bordered
             scroll={{y:"350px"}}
             loading={loading}
             rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'}

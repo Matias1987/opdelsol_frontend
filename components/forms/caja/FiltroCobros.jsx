@@ -42,14 +42,14 @@ const FiltroCobros =(props) => {
     return <>
     
     <Row>
-        <Col span={12}>
+        <Col style={{width:"120px"}}>
             <Button block type="primary"   size="small"  onClick={showModal}>
                 {"Filtros"}
             </Button>
         </Col>
-        <Col span={12}>
-            <Button block danger size="small" type="dashed" onClick={(e)=>{setFiltros(f=>{props?.callback?.({}); return {}}); }}>
-                Borrar Filtros
+        <Col style={{width:"120px"}}>
+            <Button block  size="small" type="dashed" onClick={(e)=>{setFiltros(f=>{props?.callback?.({}); return {}}); }}>
+                Recargar
             </Button>
         </Col>
     </Row>

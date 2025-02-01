@@ -1,6 +1,6 @@
 import BuscarVenta from "../forms/ventas/BuscarVenta";
 import { FloatButton, Menu } from "antd";
-import  { MenuOutlined, StarOutlined } from "@ant-design/icons";
+import  { DollarOutlined, MenuOutlined, StarOutlined, UserOutlined } from "@ant-design/icons";
 
 import { useState, useEffect }  from "react";
 import Link from "next/link"
@@ -16,7 +16,7 @@ export default function MenuV2(props){
    const [current, setCurrent] = useState(null);
    const [itemsMenu, setItemsMenu] = useState([])
    const _menu_deposito_min = {
-    label: 'Menú Depósito',
+    label: 'Depósito',
     key: 'SubMenuStockMin',
     icon: <MenuOutlined />,
     disabled: !globals.esUsuarioDepositoMin(),
@@ -41,7 +41,7 @@ export default function MenuV2(props){
   }
 
   const menu_ventas = {
-    label: 'Menú Ventas',
+    label: 'Ventas',
     key: 'SubMenuVentas',
     icon: <MenuOutlined />,
     disabled: !globals.esUsuarioVentas(),
@@ -75,7 +75,7 @@ export default function MenuV2(props){
   }
 
   const menu_caja = {
-    label: 'Menú Caja',
+    label: 'Caja',
     key: 'SubMenuCaja',
     icon: <MenuOutlined />,
     disabled: !globals.esUsuarioCaja1(),
@@ -177,20 +177,20 @@ useEffect(()=>{
    if(globals.esUsuarioCaja1() || globals.esUsuarioVentas()){
     items.push(
       {
-      label: (<Link href={globals.esUsuarioCaja1() ? public_urls.lista_clientes_caja : public_urls.lista_clientes_ventas}>Clientes...</Link>),
+      label: (<Link href={globals.esUsuarioCaja1() ? public_urls.lista_clientes_caja : public_urls.lista_clientes_ventas}>Clientes</Link>),
       key: '11',
-      icon: <StarOutlined />,
+      icon: <UserOutlined />,
     },
     {
       label: (<BuscarVenta />),
-      key: '404',
+     
     }
     )
    }
     
    items.push( 
       {
-        label: (<CustomModal width="100%" openButtonText="Lista de Precios " type="text"><ListaPreciosV3  /></CustomModal>),
+        label: (<CustomModal width="100%" openButtonText={<><DollarOutlined /> Lista de Precios</> } type="text"><ListaPreciosV3  /></CustomModal>),
         key: '1001'
       }
     )
@@ -204,8 +204,8 @@ useEffect(()=>{
         color: "black",
       }*/
       const _style_ = {
-        background: "rgb(34,193,195)",
-        background: "linear-gradient(81deg, rgba(201,216,231,1)  0%, rgba(237,237,237,1) 100%)",
+        background: "#CEDBEB",//rgb(34,193,195)",
+        background: "linear-gradient(81deg, rgba(231,231,231,1)  0%, rgba(237,237,237,1) 100%)",
         color: "black",
          
       }
