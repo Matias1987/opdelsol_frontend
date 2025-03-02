@@ -120,6 +120,7 @@ export default function ListaClientes(props){
     <Row style={row_style}>
         <Col span={24}>
             <Table 
+            size="small"
             bordered
             scroll={{y:"350px"}}
             loading={loading}

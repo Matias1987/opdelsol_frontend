@@ -202,7 +202,7 @@ export default function ClienteFormV2(props){
     return (<>
     <Row>
         <Col  span={24}>
-            <Button type="dashed" size="middle" onClick={()=>{ props?.test?.(); onOpen();  }}> <UserAddOutlined /> Agregar Cliente</Button>
+            <Button type="primary" size="middle" onClick={()=>{ props?.test?.(); onOpen();  }}> <UserAddOutlined /> Agregar Cliente</Button>
         </Col>
     </Row>
     

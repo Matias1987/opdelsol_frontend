@@ -179,10 +179,10 @@ a::before{
   background-color: #E9E9E9
 }*/
 .table-row-light {
-  background-color: #ffffff;/*#F9F9C5;*/
+  background-color: #f9ffc2;/*#F9F9C5;*/
 }
 .table-row-dark {
-  background-color: #e5e2fc;/*#e7f0fc;*/
+  background-color: #daffcc;/*#e7f0fc;*/
 }
 .error-row {
   background-color: #eb331a;
@@ -307,3 +307,17 @@ just some testing
 .ant-layout{
   background-color: #EAEAEA;
 }*/
+
+.ant-input-outlined{
+  border: none;
+}
+
+.ant-input{
+  border: 1px solid rgb(183, 181, 181)!important;
+  border-radius: 6px !important;
+  padding:2px !important;
+}
+
+.ant-table-cell{
+  border-bottom: 1px solid rgb(183, 181, 181)!important;
+}
