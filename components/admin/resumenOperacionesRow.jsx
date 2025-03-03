@@ -1,7 +1,7 @@
 import { parse_float_string } from "@/src/helpers/string_helper";
 import { get, post } from "@/src/urls";
 import { CloseCircleOutlined, DollarCircleOutlined } from "@ant-design/icons";
-import { Button, Card, Col, Modal, Row, Statistic } from "antd";
+import { Button, Card, Col, Modal, Row, Spin, Statistic } from "antd";
 import InformeCaja from "../informes/caja/InformeCaja";
 import ListaCaja from "../forms/caja/ListaCajas";
 import { post_method } from "@/src/helpers/post_helper";
@@ -9,11 +9,13 @@ import { post_method } from "@/src/helpers/post_helper";
 const { useEffect, useState } = require("react")
 
 const ResumenOperacionesRow = (props) => {
+    const {nombre_sucursal, color} = props
     const [count, setCount] = useState(0);
     const [idcaja, setIdCaja] = useState(null)
     const [open, setOpen] = useState(false)
+    const [message, setMessage] = useState(`Cargando ${ nombre_sucursal}...`)
    
-    const [data, setData] = useState({
+    /*const [data, setData] = useState({
         nombre_sucursal:"",
         cant_anulados: 0,
         efectivo: 0,
@@ -23,7 +25,13 @@ const ResumenOperacionesRow = (props) => {
         ctacte: 0,
         anulado: 0,
         cuotas:0,
-    })
+    })*/
+    const [data, setData] = useState(null)
+
+    const styles = {
+        sucursalColor: '#000000', 
+        valueColor: '#000000'
+    }
 
     const update = () => {
         if(idcaja==null)
@@ -48,7 +56,10 @@ const ResumenOperacionesRow = (props) => {
                     if(response.data!=null)
                     {
                         setIdCaja(response.data.idcaja)
+                        return
                     }
+                    //alert("Caja cerrada.")
+                    setMessage("No se encontró caja del día.")
                 }
                 )
 
@@ -63,15 +74,15 @@ const ResumenOperacionesRow = (props) => {
                 {
                     setData
                     ({
-                        efectivo: parse_float_string( response.data[0].efectivo||""),
-                        tarjeta: parse_float_string( response.data[0].tarjeta||""),
-                        mutual: parse_float_string( response.data[0].mutual||""),
-                        cheque: parse_float_string( response.data[0].cheque||""),
-                        ctacte: parse_float_string( response.data[0].ctacte||""),
-                        cuotas: parse_float_string( response.data[0].cuotas||""),
-                        total: parse_float_string(response.data[0].monto_total||""),
-                        anulado: parse_float_string(response.data[0].anulado||""),
-                        mercadopago: parse_float_string(response.data[0].mercadopago||""),
+                        efectivo: parse_float_string( response.data[0].efectivo||"0"),
+                        tarjeta: parse_float_string( response.data[0].tarjeta||"0"),
+                        mutual: parse_float_string( response.data[0].mutual||"0"),
+                        cheque: parse_float_string( response.data[0].cheque||"0"),
+                        ctacte: parse_float_string( response.data[0].ctacte||"0"),
+                        cuotas: parse_float_string( response.data[0].cuotas||"0"),
+                        total: parse_float_string(response.data[0].monto_total||"0"),
+                        anulado: parse_float_string(response.data[0].anulado||"0"),
+                        mercadopago: parse_float_string(response.data[0].mercadopago||"0"),
                     })
                 }
             })
@@ -92,29 +103,31 @@ const ResumenOperacionesRow = (props) => {
         return () => clearInterval(interval); 
     },[count]);
 
-    return <><Row style={{backgroundColor:props.color}} gutter={24} onClick={()=>{setOpen(true)}} key={count}>
+    return <>
+    <Row style={{backgroundColor:color, borderRadius:"16px"}} gutter={24} onClick={()=>{setOpen(true)}} key={count}>
+        {data===null ?<span style={{padding:"6px", color:"red", fontWeight:"bold"}}> { message} <Spin /></span> : <>
         <Col  span={3}>
-        <Card bordered={false} style={{backgroundColor:"rgba(0,0,0,0)"}} >
+        <Card bordered={false} style={{backgroundColor:"rgba(0,0,0,0)"}} size="small">
             <Statistic
-            
             title="Sucursal"
-            value={props.nombre_sucursal.length>7 ? props.nombre_sucursal.substr(0,6) : props.nombre_sucursal}
+            value={nombre_sucursal.length>7 ? nombre_sucursal.substr(0,6) : nombre_sucursal}
             precision={0}
             valueStyle={{
                 fontWeight: "bold",
-                color: '#5F1600',
+                color: styles.sucursalColor,
             }}
             />
         </Card>
         </Col>
         <Col  span={3}>
-        <Card bordered={false}  style={{backgroundColor:"rgba(0,0,0,0)"}}>
+        <Card bordered={false}  style={{backgroundColor:"rgba(0,0,0,0)"}} size="small">
             <Statistic
             title="Efvo."
-            value={data.efectivo}
+            value={`$ ${data.efectivo}`}
             precision={0}
             valueStyle={{
-                color: '#5F1600',
+                color: styles.valueColor,
+                fontWeight:"bold",
             }}
             
             suffix=""
@@ -122,13 +135,14 @@ const ResumenOperacionesRow = (props) => {
         </Card>
         </Col>
         <Col  span={3}>
-        <Card bordered={false}  style={{backgroundColor:"rgba(0,0,0,0)"}}>
+        <Card bordered={false}  style={{backgroundColor:"rgba(0,0,0,0)"}} size="small">
             <Statistic
             title="Tarjetas"
-            value={data.tarjeta}
+            value={`$ ${data.tarjeta}`}
             precision={0}
             valueStyle={{
-                color: '#5F1600',
+                color: styles.valueColor,
+                fontWeight:"bold",
             }}
             
             suffix=""
@@ -136,13 +150,14 @@ const ResumenOperacionesRow = (props) => {
         </Card>
         </Col>
         <Col  span={3}>
-        <Card bordered={false}  style={{backgroundColor:"rgba(0,0,0,0)"}}>
+        <Card bordered={false}  style={{backgroundColor:"rgba(0,0,0,0)"}} size="small">
             <Statistic
             title="Mutual"
-            value={data.mutual}
+            value={`$ ${data.mutual}`}
             precision={0}
             valueStyle={{
-                color: '#5F1600',
+                color: styles.valueColor,
+                fontWeight:"bold",
             }}
             
             suffix=""
@@ -150,13 +165,14 @@ const ResumenOperacionesRow = (props) => {
         </Card>
         </Col>
         <Col  span={3}>
-        <Card bordered={false}  style={{backgroundColor:"rgba(0,0,0,0)"}}>
+        <Card bordered={false}  style={{backgroundColor:"rgba(0,0,0,0)"}} size="small">
             <Statistic
             title="Cheque"
-            value={data.cheque}
+            value={`$ ${data.cheque}`}
             precision={0}
             valueStyle={{
-                color: '#5F1600',
+                color: styles.valueColor,
+                fontWeight:"bold",
             
             }}
             
@@ -165,13 +181,14 @@ const ResumenOperacionesRow = (props) => {
         </Card>
         </Col>
         <Col  span={3}>
-        <Card bordered={false}  style={{backgroundColor:"rgba(0,0,0,0)"}}>
+        <Card bordered={false}  style={{backgroundColor:"rgba(0,0,0,0)"}} size="small">
             <Statistic
             title="Cuotas"
-            value={data.cuotas}
+            value={`$ ${data.cuotas}`}
             precision={0}
             valueStyle={{
-                color: '#5F1600',
+                color: styles.valueColor,
+                fontWeight:"bold",
             }}
            
             suffix=""
@@ -179,13 +196,14 @@ const ResumenOperacionesRow = (props) => {
         </Card>
         </Col>
         <Col  span={3}>
-        <Card bordered={false}  style={{backgroundColor:"rgba(0,0,0,0)"}}>
+        <Card bordered={false}  style={{backgroundColor:"rgba(0,0,0,0)"}} size="small">
             <Statistic
             title="M.P."
-            value={data.mercadopago}
+            value={`$ ${data.mercadopago}`}
             precision={0}
             valueStyle={{
-                color: '#5F1600',
+                color: styles.valueColor,
+                fontWeight:"bold",
             }}
            
             suffix=""
@@ -193,13 +211,14 @@ const ResumenOperacionesRow = (props) => {
         </Card>
         </Col>
         <Col  span={3}>
-        <Card bordered={false}  style={{backgroundColor:"rgba(0,0,0,0)"}}>
+        <Card bordered={false}  style={{backgroundColor:"rgba(0,0,0,0)"}} size="small">
             <Statistic
             title="Total Efvo."
-            value={parseFloat(data.efectivo) + parseFloat(data.cuotas)}
+            value={`$ ${parseFloat(data.efectivo) + parseFloat(data.cuotas)}`}
             precision={0}
             valueStyle={{
                 color: 'black',
+                fontWeight:"bold",
             }}
            
             suffix=""
@@ -222,7 +241,7 @@ const ResumenOperacionesRow = (props) => {
         </Card>
         </Col>*/}
         
-        
+        </>}
         </Row>
 
         <Modal open={open} footer={null} onCancel={()=>{setOpen(false)}}  width={"80%"}>
