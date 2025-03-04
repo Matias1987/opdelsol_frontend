@@ -1,9 +1,9 @@
-import { Button, Checkbox, Col, Input, Modal, Row, Table } from "antd";
+import { Button, Checkbox, Col, Input, Modal, Row, Table, Card } from "antd";
 import { useEffect, useState } from "react";
 import AgregarBancoForm from "./agregarBanco";
 import { get, post } from "@/src/urls";
 import { post_method } from "@/src/helpers/post_helper";
-import Card from "antd/es/card/Card";
+
 import { PlusOutlined } from "@ant-design/icons";
 
 const ListaBancos = (props) =>{

@@ -409,6 +409,7 @@ export default function CobroOperacion(props){
     const onOpen = () => {
         setCobrarDisabled(false)
         setEntrega(false)
+        setMP(null)
         if(typeof props.idventa !== 'undefined')
             {
                 //get venta details
@@ -509,7 +510,7 @@ export default function CobroOperacion(props){
                 </Row>
                 
                 {estado_switch()}
-                
+
                 {
                     props.tipo=='cuota' &&  mp != null  ? <Button type="primary" onClick={onCobrarClick} disabled={cobrarDisabled|| (mp.total<1 )}>Cobrar</Button> : <></>
                 }

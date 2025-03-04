@@ -1,10 +1,9 @@
-import { Button, Checkbox, Col, Input, Modal, Row, Table } from "antd";
+import { Button, Checkbox, Col, Input, Modal, Row, Table, Card } from "antd";
 import { useEffect, useState } from "react";
 import AgregarMedicoForm from "./agregarMedico";
 import { get, post } from "@/src/urls";
 import { EditFilled, PlusOutlined } from "@ant-design/icons";
 import { post_method } from "@/src/helpers/post_helper";
-import Card from "antd/es/card/Card";
 
 const ListaMedicos = (props) => {
     const [data, setData] = useState([])
