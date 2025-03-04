@@ -2,8 +2,9 @@ import { Button, Checkbox, Col, Input, Modal, Row, Table } from "antd";
 import { useEffect, useState } from "react";
 import AgregarMedicoForm from "./agregarMedico";
 import { get, post } from "@/src/urls";
-import { EditFilled } from "@ant-design/icons";
+import { EditFilled, PlusOutlined } from "@ant-design/icons";
 import { post_method } from "@/src/helpers/post_helper";
+import Card from "antd/es/card/Card";
 
 const ListaMedicos = (props) => {
     const [data, setData] = useState([])
@@ -67,29 +68,37 @@ const ListaMedicos = (props) => {
     },[reload])
     
     return <>
-    <Row>
-        <Col span={24}>
-            <Button onClick={()=>{setModoEditar(false); setOpen(true)}}>Agregar</Button>
-        </Col>
-    </Row>
-    <Row>
-        <Col span={24}>
-            <Input prefix="Buscar: " onChange={(e)=>{setFiltro(e.target.value.toUpperCase())}} allowClear/>
-        </Col>
-    </Row>
-    <Row>
-        <Col span={24}>
-            <Table columns={columns} dataSource={data.filter(r=>filtro.trim().length>0 ? r.nombre.includes(filtro) : true  )} scroll={{y:"500px"}} />
-        </Col>
-    </Row>
-    <Row>
-        <Col span={24}>
-        </Col>
-    </Row>
-    <Row>
-        <Col span={24}>
-        </Col>
-    </Row>
+    <Card
+    size="small"
+    title={<>M&eacute;dicos&nbsp;<Button type="text" onClick={()=>{setModoEditar(false); setOpen(true)}}><PlusOutlined /> Agregar</Button></>}
+    headStyle={{backgroundColor:"#F07427", color:"white"}}
+    >
+ 
+        <Row>
+            <Col span={24}>
+                <Input prefix="Buscar: " onChange={(e)=>{setFiltro(e.target.value.toUpperCase())}} allowClear/>
+            </Col>
+        </Row>
+        <Row>
+            <Col span={24}>
+                <Table 
+                size="small"
+                columns={columns} 
+                dataSource={data.filter(r=>filtro.trim().length>0 ? r.nombre.includes(filtro) : true  )} 
+                scroll={{y:"500px"}} 
+                rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'}
+                />
+            </Col>
+        </Row>
+        <Row>
+            <Col span={24}>
+            </Col>
+        </Row>
+        <Row>
+            <Col span={24}>
+            </Col>
+        </Row>
+    </Card>
     <Modal open={open} onCancel={()=>{  setOpen(false)}} footer={null} destroyOnClose>
         <AgregarMedicoForm editar={modoEditar} idmedico={idmedico} callback={()=>{setOpen(false); setReload(!reload)}} />
     </Modal>

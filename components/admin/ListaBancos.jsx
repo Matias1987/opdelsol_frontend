@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import AgregarBancoForm from "./agregarBanco";
 import { get, post } from "@/src/urls";
 import { post_method } from "@/src/helpers/post_helper";
+import Card from "antd/es/card/Card";
+import { PlusOutlined } from "@ant-design/icons";
 
 const ListaBancos = (props) =>{
     const [data, setData] = useState([])
@@ -46,29 +48,31 @@ const ListaBancos = (props) =>{
 
 
     return <>
-    <Row>
-        <Col span={24}>
-            <Input prefix="Buscar: " onChange={(e)=>{setFiltro(e.target.value.toUpperCase())}} allowClear/>
-        </Col>
-    </Row>
-    <Row>
-        <Col span={24}>
-        <Button onClick={()=>{setOpen(true)}}>Agregar</Button>
-        </Col>
-    </Row>
-    <Row>
-        <Col span={24}>
-            <Table columns={columns} dataSource={data.filter(r=>filtro.trim().length>0 ? r.nombre.includes(filtro) : true  )} scroll={{y:"500px"}}  />
-        </Col>
-    </Row>
-    <Row>
-        <Col span={24}>
-        </Col>
-    </Row>
-    <Row>
-        <Col span={24}>
-        </Col>
-    </Row>
+    <Card
+    size="small"
+    title={<>Lista de Bancos <Button size="small" type="text" onClick={()=>{setOpen(true)}}><PlusOutlined />&nbsp;Agregar</Button></>}
+    headStyle={{backgroundColor:"#F07427", color:"white"}}
+    >
+        <Row>
+            <Col span={24}>
+                <Input prefix="Buscar: " onChange={(e)=>{setFiltro(e.target.value.toUpperCase())}} allowClear/>
+            </Col>
+        </Row>
+
+        <Row>
+            <Col span={24}>
+                <Table columns={columns} dataSource={data.filter(r=>filtro.trim().length>0 ? r.nombre.includes(filtro) : true  )} scroll={{y:"500px"}}  />
+            </Col>
+        </Row>
+        <Row>
+            <Col span={24}>
+            </Col>
+        </Row>
+        <Row>
+            <Col span={24}>
+            </Col>
+        </Row>
+    </Card>
     <Modal open={open} onCancel={()=>{setOpen(false)}} footer={null}>
         <AgregarBancoForm callback={()=>{setReload(!reload); setOpen(false);}} />
     </Modal>

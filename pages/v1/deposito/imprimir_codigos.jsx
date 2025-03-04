@@ -4,11 +4,11 @@ import PrinterWrapper from "@/components/PrinterWrapper";
 import SearchCodigo from "@/components/SearchCodigo";
 import MyLayout from "@/components/layout/layout";
 import { get_barcode_from_id2 } from "@/src/helpers/barcode_helper";
+import { get } from "@/src/urls";
 import { CloseCircleOutlined } from "@ant-design/icons";
 import { Button, Col, Row, Table } from "antd";
 import { useState } from "react";
 import Barcode from "react-barcode";
-const urls = require("../../../src/urls")
 
 export default function ImprimirCodigos(){
     const [tableData,setTableData] = useState([])
@@ -82,7 +82,7 @@ export default function ImprimirCodigos(){
     const load_details_for_selected_id = (idcodigo) => {
         setTableLoading(true);
         /* get stock data for the column */
-        fetch(urls.get.detalle_codigo + "/" + idcodigo)
+        fetch(get.detalle_codigo + "/" + idcodigo)
         .then(response=>response.json())
         .then((response)=>{
             add_new_row(response.data)
@@ -94,17 +94,19 @@ export default function ImprimirCodigos(){
 
     return (
         <>
-            <h1>Imprimir C&oacute;digos de Barras</h1>
-            {ImprimirDialog()}
+            <h3>Imprimir C&oacute;digos de Barras</h3>
+            
             
             <Row >
                 
-                <Col span={8} style={{padding:"1em", height:"400px", overflowY:"scroll"}}>
-                <h4>Buscar C&oacute;digo</h4>
+                <Col span={8} style={{padding:"1em"}}>
+                <b>Agregar C&oacute;digos</b>
                     <SearchCodigo callback={(idcodigo)=>{load_details_for_selected_id(idcodigo)}} />
                 </Col>
-                <Col span={16} style={{padding:"1em", height:"400px", overflowY:"scroll"}}> 
+                <Col span={16} style={{padding:"1em"}}> 
                     <Table
+                    size="small"
+                    scroll={{y:"400px"}}
                     pagination={false}
                     loading={tableLoading}
                         columns = {[
@@ -119,6 +121,11 @@ export default function ImprimirCodigos(){
                         ]}
                         dataSource={tableData}
                     />
+                </Col>
+            </Row>
+            <Row>
+                <Col span={24}>
+                {ImprimirDialog()}
                 </Col>
             </Row>
             <br />

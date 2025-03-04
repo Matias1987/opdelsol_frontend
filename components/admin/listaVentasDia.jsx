@@ -90,9 +90,9 @@ const ListaVentasDia = (props) => {
         <Col span={20}>
             <Space direction="vertical" size="middle">
                 <Space.Compact size="middle">
-                    <Input value={filtros.dia} addonBefore={"Día"} onChange={(e)=>{onChange("dia", e.target.value)}} type="number"/>
-                    <Input value={filtros.mes} addonBefore={"Mes"} onChange={(e)=>{onChange("mes", e.target.value)}} type="number"/>
-                    <Input value={filtros.anio} addonBefore={"Año"} onChange={(e)=>{onChange("anio", e.target.value)}} type="number"/>
+                    <Input value={filtros.dia} min={1} max={31} addonBefore={"Día"} onChange={(e)=>{onChange("dia", e.target.value)}} type="number"/>
+                    <Input value={filtros.mes} min={1} max={12} addonBefore={"Mes"} onChange={(e)=>{onChange("mes", e.target.value)}} type="number"/>
+                    <Input value={filtros.anio} min={2013} addonBefore={"Año"} onChange={(e)=>{onChange("anio", e.target.value)}} type="number"/>
                 </Space.Compact>
             </Space>
         </Col>

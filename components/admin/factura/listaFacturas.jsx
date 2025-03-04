@@ -134,41 +134,41 @@ useEffect(()=>{
     }
 
     const header = ()=><>
-        <Row>
+        <Row >
             <Col span={24}>
-            Peri&oacute;do:&nbsp;&nbsp;
-            <DatePicker.RangePicker onChange={(val, dateString)=>{
-                if(val==null)
-                    {
-                        setFiltroFecha({desde:"", hasta:""})
-                        return
-                    }
-            
-                    let from = _parse(JSON.stringify(val[0]))
-                    let to = _parse(JSON.stringify(val[1]))
-
-                    setFiltroFecha({desde:`${from.anio}-${from.mes}-${from.dia}`, hasta:`${to.anio}-${to.mes}-${to.dia}`})
-            
-            }
-                } />
-            &nbsp;&nbsp;
-            {selectedProvIds.length>0 ? <><div style={{backgroundColor:"lightyellow", display:"inline-block", fontSize:".85em", maxWidth:"400px", maxHeight:"6em", overflow:"hidden"}}><Button danger size="small" type="link" onClick={()=>{setSelectedProvIds([])}}><CloseOutlined /></Button>{selectedProvIds.map(p=>`${p.nombre}, `)}</div>... </>: <Button type="primary" onClick={()=>{setPopupProvOpen(true)}}>Filtrar por Proveedores</Button>}
-            &nbsp;&nbsp;
-            <Checkbox checked={verFacturasChecked} onChange={(e)=>{setVerFacturasChecked(!verFacturasChecked)}}>Facturas</Checkbox>
-            <Checkbox checked={verRemitosChecked} onChange={(e)=>{setVerRemitosChecked(!verRemitosChecked)}}>Remitos</Checkbox>
-            &nbsp;&nbsp;
-            &nbsp;&nbsp;
-            <Button type="primary" onClick={()=>{setChange(!change)}}>Aplicar Filtros</Button>
-            &nbsp;&nbsp;
-            <ExportToCSV parseFnt={()=>{
-                let csv = "NRO, FECHA, PROVEEDOR, MONTO\r\n"
+                Peri&oacute;do:&nbsp;&nbsp;
+                <DatePicker.RangePicker onChange={(val, dateString)=>{
+                    if(val==null)
+                        {
+                            setFiltroFecha({desde:"", hasta:""})
+                            return
+                        }
                 
-                tableData.forEach(f=>{
-                    csv+=`${f.numero},${f.fecha},${f.proveedor},${f.monto}\r\n`
-                })
+                        let from = _parse(JSON.stringify(val[0]))
+                        let to = _parse(JSON.stringify(val[1]))
 
-                return csv;
-            }} />
+                        setFiltroFecha({desde:`${from.anio}-${from.mes}-${from.dia}`, hasta:`${to.anio}-${to.mes}-${to.dia}`})
+                
+                }
+                    } />
+                &nbsp;&nbsp;
+                {selectedProvIds.length>0 ? <><div style={{backgroundColor:"lightyellow", display:"inline-block", fontSize:".85em", maxWidth:"400px", maxHeight:"6em", overflow:"hidden"}}><Button danger size="small" type="link" onClick={()=>{setSelectedProvIds([])}}><CloseOutlined /></Button>{selectedProvIds.map(p=>`${p.nombre}, `)}</div>... </>: <Button type="primary" onClick={()=>{setPopupProvOpen(true)}}>Filtrar por Proveedores</Button>}
+                &nbsp;&nbsp;
+                <Checkbox checked={verFacturasChecked} onChange={(e)=>{setVerFacturasChecked(!verFacturasChecked)}}><span style={{color:"white"}}>Facturas</span></Checkbox>
+                <Checkbox checked={verRemitosChecked} onChange={(e)=>{setVerRemitosChecked(!verRemitosChecked)}}><span style={{color:"white"}}>Remitos</span></Checkbox>
+                &nbsp;&nbsp;
+                &nbsp;&nbsp;
+                <Button type="primary" onClick={()=>{setChange(!change)}}>Aplicar Filtros</Button>
+                &nbsp;&nbsp;
+                <ExportToCSV parseFnt={()=>{
+                    let csv = "NRO, FECHA, PROVEEDOR, MONTO\r\n"
+                    
+                    tableData.forEach(f=>{
+                        csv+=`${f.numero},${f.fecha},${f.proveedor},${f.monto}\r\n`
+                    })
+
+                    return csv;
+                }} />
             </Col>
             
         </Row>
@@ -196,7 +196,7 @@ useEffect(()=>{
             <Row>
                 <Col span={24}>
                     <Table 
-                    scroll={{y:"600px"}}
+                        scroll={{y:"600px"}}
                         pagination={false}
                         title={header}
                         size="small"

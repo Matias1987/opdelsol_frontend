@@ -280,11 +280,15 @@ const EnvioForm = (props) => {
             </Form>
             </Col>
             <Col span={10} style={{padding:"8px"}}>
-            <SearchStockEnvio 
-                idSucursalDestino={sucursalDestId}
-                
-                callback={(arr)=>{setRowsToAdd(arr)}} 
-                />
+
+                <SearchStockEnvio 
+                    idSucursalDestino={sucursalDestId}
+                    
+                    callback={(arr)=>{
+                        //alert(JSON.stringify(arr))
+                        setRowsToAdd(arr)
+                    }} 
+                    />
                 
             </Col>
             </Row>

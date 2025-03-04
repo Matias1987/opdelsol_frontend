@@ -196,9 +196,9 @@ const AgregarFacturaV2 = (props) => {
     }
 
 
-    const tablaIVA = () => <Table size="small" locale={{emptyText:" "}} pagination={false} title={() => <div style={{color:"blue", fontSize:".8em"}}>IVA <Button size="small" style={{fontSize:".8em", color:"blue"}} onClick={()=>{setPopupIVAOpen(true)}}><PlusOutlined /></Button></div>} columns={columnsIVA} dataSource={ivaRows} scroll={{y:"150px"}} />
-    const tablaPercepcion = () => <Table size="small" locale={{emptyText:" "}} pagination={false} title={() => <div style={{color:"blue", fontSize:".8em"}}>Percepciones <Button size="small" style={{fontSize:".8em", color:"blue"}} onClick={()=>{setPopupPercepcionesOpen(true)}}><PlusOutlined /></Button></div>}  columns={columnsPercepcionRows} dataSource={percepcionRows} scroll={{y:"150px"}} />
-    const tablaRetencion = () => <Table size="small" locale={{emptyText:" "}} pagination={false} title={() => <div style={{color:"blue", fontSize:".8em"}}>Retenciones <Button size="small" style={{fontSize:".8em", color:"blue"}} onClick={()=>{setPopupRetencionesOpen(true)}}><PlusOutlined /></Button></div>}  columns={columnsRetencionRows} dataSource={retencionRows} scroll={{y:"150px"}} />
+    const tablaIVA = () => <Table size="small" locale={{emptyText:" "}} pagination={false} title={() => <div style={{fontSize:".8em"}}>IVA <Button size="small" style={{fontSize:".8em", color:"blue"}} onClick={()=>{setPopupIVAOpen(true)}}><PlusOutlined /></Button></div>} columns={columnsIVA} dataSource={ivaRows} scroll={{y:"150px"}} />
+    const tablaPercepcion = () => <Table size="small" locale={{emptyText:" "}} pagination={false} title={() => <div style={{ fontSize:".8em"}}>Percepciones <Button size="small" style={{fontSize:".8em", color:"blue"}} onClick={()=>{setPopupPercepcionesOpen(true)}}><PlusOutlined /></Button></div>}  columns={columnsPercepcionRows} dataSource={percepcionRows} scroll={{y:"150px"}} />
+    const tablaRetencion = () => <Table size="small" locale={{emptyText:" "}} pagination={false} title={() => <div style={{ fontSize:".8em"}}>Retenciones <Button size="small" style={{fontSize:".8em", color:"blue"}} onClick={()=>{setPopupRetencionesOpen(true)}}><PlusOutlined /></Button></div>}  columns={columnsRetencionRows} dataSource={retencionRows} scroll={{y:"150px"}} />
     const _rows_style = {padding:"1em"}
     return <>
     {/*<FloatButton shape="square" icon={<SaveFilled />} onClick={onSave}/>*/}
