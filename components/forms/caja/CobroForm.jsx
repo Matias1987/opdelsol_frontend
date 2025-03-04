@@ -509,12 +509,17 @@ export default function CobroOperacion(props){
                 </Row>
                 
                 {estado_switch()}
-                { dataVenta == null || mp == null ? <></> :
-                <>
+                
+                {
+                    props.tipo=='cuota' &&  mp != null  ? <Button type="primary" onClick={onCobrarClick} disabled={cobrarDisabled|| (mp.total<1 )}>Cobrar</Button> : <></>
+                }
+                
+                { dataVenta == null || mp == null ? <></> :<>
                 <Row>
                     <Col span={24}>
                     
                         <Divider />
+                        
                         {
                             dataVenta?.saldo==0 && (entrega||props.tipo=='entrega') && mp.total<1? <Button onClick={onCobrarClick} disabled={cobrarDisabled} danger>Entrega</Button> : <></>
                         }
@@ -525,10 +530,12 @@ export default function CobroOperacion(props){
                         {
                             props.tipo == 'ingreso' && !entrega ? <>&nbsp;<Button disabled={mp.total>0 || cobrarDisabled}  type="primary" onClick={enviarADeposito}>Enviar a dep&oacute;sito </Button></> : <></>
                         }
+
                         
+                       
                     </Col>
                 </Row>
-                </>
+                </> 
                 }
                 </Modal>
             {/* informe x */}
