@@ -6,7 +6,7 @@ import MyLayout from "@/components/layout/layout";
 import { get_barcode_from_id2 } from "@/src/helpers/barcode_helper";
 import { get } from "@/src/urls";
 import { CloseCircleOutlined } from "@ant-design/icons";
-import { Button, Col, Row, Table } from "antd";
+import { Button, Card, Col, Row, Table } from "antd";
 import { useState } from "react";
 import Barcode from "react-barcode";
 
@@ -100,27 +100,34 @@ export default function ImprimirCodigos(){
             <Row >
                 
                 <Col span={8} style={{padding:"1em"}}>
-                <b>Agregar C&oacute;digos</b>
-                    <SearchCodigo callback={(idcodigo)=>{load_details_for_selected_id(idcodigo)}} />
+                    <Card size="small" title={<>Agregar C&oacute;digos</>}>
+                        <SearchCodigo callback={(idcodigo)=>{load_details_for_selected_id(idcodigo)}} />
+                    </Card>
                 </Col>
-                <Col span={16} style={{padding:"1em"}}> 
-                    <Table
+                <Col span={16} style={{padding:"1em", fontWeight:"bold"}}> 
+                
+                    <Card
                     size="small"
-                    scroll={{y:"400px"}}
-                    pagination={false}
-                    loading={tableLoading}
-                        columns = {[
-                            {title:"codigo", dataIndex: "codigo", },
-                            {
-                                title:"Acciones", 
-                                dataIndex: "ref_id",
-                                render: (_,{ref_id})=>(
-                                    <Button  onClick={()=>{remove_row(ref_id)}} danger={true}><CloseCircleOutlined/></Button>)
-                                ,
-                            },
-                        ]}
-                        dataSource={tableData}
-                    />
+                    title={<>Lista de c&oacute;digos a imprimir</>}
+                    >
+                        <Table
+                        size="small"
+                        scroll={{y:"400px"}}
+                        pagination={false}
+                        loading={tableLoading}
+                            columns = {[
+                                {title:"codigo", dataIndex: "codigo", },
+                                {
+                                    title:"Acciones", 
+                                    dataIndex: "ref_id",
+                                    render: (_,{ref_id})=>(
+                                        <Button  onClick={()=>{remove_row(ref_id)}} danger={true}><CloseCircleOutlined/></Button>)
+                                    ,
+                                },
+                            ]}
+                            dataSource={tableData}
+                        />
+                    </Card>
                 </Col>
             </Row>
             <Row>

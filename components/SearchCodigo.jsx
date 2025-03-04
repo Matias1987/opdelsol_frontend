@@ -64,7 +64,7 @@ const SearchCodigo = (props) => {
                 addonAfter={<><Button onClick={onSearch}><SearchOutlined /></Button></>}
                 onChange={(e)=>{
                     setSearchValue(e.target.value)
-                }}   prefix={<div style={{color:"red", backgroundColor:"lightblue"}} >Buscar por código:&nbsp;&nbsp;&nbsp;</div>} 
+                }}   prefix={<div style={{color:"red"}} >Buscar por código:&nbsp;&nbsp;&nbsp;</div>} 
                 />
             </Col>
         </Row>
