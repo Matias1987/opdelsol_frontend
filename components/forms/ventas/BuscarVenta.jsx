@@ -83,7 +83,7 @@ const BuscarVenta = (props)=>{
     }
 
 
-    const onPopupClosed = () => {setReload(!reload)}
+    const onPopupClosed = () => {setFiltros({}); setReload(!reload)}
 
     useEffect(()=>{load()},[reload])
 

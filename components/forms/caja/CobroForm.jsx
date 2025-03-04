@@ -525,7 +525,7 @@ export default function CobroOperacion(props){
                             dataVenta?.saldo==0 && (entrega||props.tipo=='entrega') && mp.total<1? <Button onClick={onCobrarClick} disabled={cobrarDisabled} danger>Entrega</Button> : <></>
                         }
                         {   dataVenta?.saldo==0? <></> :
-                            <Button disabled={cobrarDisabled || (mp.total<1 )} danger onClick={onCobrarClick}>Cobrar {props.tipo == 'entrega' ? ' y/o marcar como entregado' : entrega? ' y Marcar como entregado':' y mandar a depósito'}</Button>
+                            <Button disabled={cobrarDisabled || (mp.total<1 )} danger onClick={onCobrarClick}>Cobrar {props.tipo == 'entrega' ? ' y/o marcar como entregado' : entrega? ' y Marcar como entregado':''}</Button>
                         }
                     
                         {
