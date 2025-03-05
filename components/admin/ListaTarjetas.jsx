@@ -1,8 +1,9 @@
-import { Button, Checkbox, Col, Input, Modal, Row, Table } from "antd";
+import { Button, Card, Checkbox, Col, Input, Modal, Row, Table } from "antd";
 import { act, useEffect, useState } from "react";
 import AgregarTarjetaForm from "./agregarTarjeta";
 import { get, post } from "@/src/urls";
 import { post_method } from "@/src/helpers/post_helper";
+import { PlusOutlined } from "@ant-design/icons";
 
 const ListaTarjetas = (props) => {
     const [data, setData] = useState([])
@@ -42,29 +43,41 @@ const ListaTarjetas = (props) => {
         })
     },[reload])
     return <>
-    <Row>
-        <Col span={24}>
-            <Button onClick={()=>{setOpen(true)}}>Agregar</Button>
-        </Col>
-    </Row>
-    <Row>
-        <Col span={24}>
-            <Input prefix="Buscar: " onChange={(e)=>{setFiltro(e.target.value.toUpperCase())}} allowClear/>
-        </Col>
-    </Row>
-    <Row>
-        <Col span={24}>
-            <Table loading={loading} columns={columns} dataSource={data.filter(r=>filtro.trim().length>0 ? r.nombre.includes(filtro) : true  )} scroll={{y:"500px"}} />
-        </Col>
-    </Row>
-    <Row>
-        <Col span={24}>
-        </Col>
-    </Row>
-    <Row>
-        <Col span={24}>
-        </Col>
-    </Row>
+    <Card
+    headStyle={{backgroundColor:"#F07427", color:"white"}}
+    size="small"
+    title={<>Lista de Tarjetas <Button type="text" size="small" onClick={()=>{setOpen(true)}}><PlusOutlined /> Agregar</Button></>}
+    >
+        <Row>
+            <Col span={24}>
+                
+            </Col>
+        </Row>
+        <Row>
+            <Col span={24}>
+                <Input prefix="Buscar: " onChange={(e)=>{setFiltro(e.target.value.toUpperCase())}} allowClear/>
+            </Col>
+        </Row>
+        <Row>
+            <Col span={24}>
+                <Table 
+                rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'}
+                loading={loading} 
+                columns={columns} 
+                dataSource={data.filter(r=>filtro.trim().length>0 ? r.nombre.includes(filtro) : true  )} 
+                scroll={{y:"500px"}} 
+                    />
+            </Col>
+        </Row>
+        <Row>
+            <Col span={24}>
+            </Col>
+        </Row>
+        <Row>
+            <Col span={24}>
+            </Col>
+        </Row>
+    </Card>
     <Modal open={open} onCancel={()=>{setOpen(false)}} footer={null}>
         <AgregarTarjetaForm callback={()=>{setReload(!reload);setOpen(false);}} />
     </Modal>

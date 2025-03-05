@@ -61,7 +61,12 @@ const ListaBancos = (props) =>{
 
         <Row>
             <Col span={24}>
-                <Table columns={columns} dataSource={data.filter(r=>filtro.trim().length>0 ? r.nombre.includes(filtro) : true  )} scroll={{y:"500px"}}  />
+                <Table 
+                rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'}
+                columns={columns} 
+                dataSource={data.filter(r=>filtro.trim().length>0 ? r.nombre.includes(filtro) : true  )} 
+                scroll={{y:"500px"}}  
+                    />
             </Col>
         </Row>
         <Row>
