@@ -102,10 +102,10 @@ export default function MenuV2(props){
         label: (<Menu.Item><Link href={public_urls.caja_admin}>Caja</Link></Menu.Item>),
       },
       
-      {
+      /*{
         key: '112',
         label: (<Menu.Item><Link href={public_urls.transferencias}>Transferencias</Link></Menu.Item>),
-      },
+      },*/
       {
         type: 'divider',
       },
