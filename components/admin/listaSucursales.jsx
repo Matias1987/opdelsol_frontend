@@ -2,11 +2,13 @@ import { get } from "@/src/urls";
 import { Button, Col, Modal, Row, Table } from "antd";
 import { useEffect, useState } from "react";
 import AgregarSucursal from "./agregarSucursal";
+import EditarSucursal from "./editarSucursal";
 
 const ListaSucursales = (props) => {
     const [sucursales, setSucursales] = useState([])
     const [loading, setLoading] = useState(false)
     const [popupAddOpen, setPopupAddOpen] = useState(false)
+    const [popupEditOpen, setPopupEditOpen] = useState(false)
     const [reload, setReload] = useState(false)
     const [idsucursal, setIdSucursal] = useState(-1)
     
@@ -18,7 +20,7 @@ const ListaSucursales = (props) => {
 
         {title:"Acciones", render:(_,obj)=>{
             return <>
-                <Button disabled onClick={()=>{
+                <Button onClick={()=>{
                     onEditarClick(obj.idsucursal)
                 }}>Editar</Button>
             </>
@@ -27,7 +29,7 @@ const ListaSucursales = (props) => {
 
     const onEditarClick = (idsucursal) => {
         setIdSucursal(idsucursal)
-        setPopupAddOpen(true)
+        setPopupEditOpen(true)
     }
 
     const onAgregarClick = () => {
@@ -48,6 +50,10 @@ const ListaSucursales = (props) => {
 
     const onCancelPopupAddEdit = () => {
         setPopupAddOpen(false)
+        setReload(!reload)
+    }
+    const onCancelPopupEdit = () => {
+        setPopupEditOpen(false)
         setReload(!reload)
     }
 
@@ -81,6 +87,9 @@ const ListaSucursales = (props) => {
     </Row>
     <Modal open={popupAddOpen} onCancel={onCancelPopupAddEdit} footer={null}>
         <AgregarSucursal idsucursal={-1} callback={onCancelPopupAddEdit} />
+    </Modal>
+    <Modal open={popupEditOpen} onCancel={onCancelPopupEdit} footer={null}>
+        <EditarSucursal idsucursal={idsucursal} callback={onCancelPopupEdit} />
     </Modal>
  </>
 }
