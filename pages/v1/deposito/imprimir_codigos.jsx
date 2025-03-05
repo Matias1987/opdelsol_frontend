@@ -111,6 +111,7 @@ export default function ImprimirCodigos(){
                     title={<>Lista de c&oacute;digos a imprimir</>}
                     >
                         <Table
+                        rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'}
                         size="small"
                         scroll={{y:"400px"}}
                         pagination={false}

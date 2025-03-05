@@ -1,8 +1,9 @@
 import { get } from "@/src/urls";
-import { Button, Col, Modal, Row, Table } from "antd";
+import { Button, Card, Col, Modal, Row, Table } from "antd";
 import { useEffect, useState } from "react";
 import AgregarSucursal from "./agregarSucursal";
 import EditarSucursal from "./editarSucursal";
+import { EditOutlined } from "@ant-design/icons";
 
 const ListaSucursales = (props) => {
     const [sucursales, setSucursales] = useState([])
@@ -13,16 +14,19 @@ const ListaSucursales = (props) => {
     const [idsucursal, setIdSucursal] = useState(-1)
     
     const columns = [
-        {dataIndex: "nombre", title:"Nombre"},
-        {dataIndex: "direccion", title:"Dirección"},
-        {dataIndex: "telefono", title:"Teléfono"},
-        {title:"Óptica", dataIndex:"optica"},
+        {width:"200px", dataIndex: "nombre", title:"Nombre"},
+        {width:"200px", dataIndex: "direccion", title:"Dirección"},
+        {width:"200px", dataIndex: "telefono", title:"Teléfono"},
+        {width:"200px", title:"Óptica", dataIndex:"optica"},
+        {width:"200px", title:"Facebook", dataIndex:"facebook"},
+        {width:"200px", title:"Whatsapp", dataIndex:"whatsapp"},
+        {width:"200px", title:"Instagram", dataIndex:"instagram"},
 
-        {title:"Acciones", render:(_,obj)=>{
+        {fixed:'right', width:"50px", title:"", render:(_,obj)=>{
             return <>
-                <Button onClick={()=>{
+                <Button size="small" type="primary" onClick={()=>{
                     onEditarClick(obj.idsucursal)
-                }}>Editar</Button>
+                }}><EditOutlined/></Button>
             </>
         }},
     ]
@@ -62,33 +66,33 @@ const ListaSucursales = (props) => {
     },[reload])
 
  return <>
-    <Row>
-        <Col span={24}>
-            <h3>Lista de Sucursales</h3>
-        </Col>
-    </Row>
-    <Row>
-        <Col span={24}>
-            <Button disabled onClick={onAgregarClick} type="primary">Agregar</Button>
-        </Col>
-    </Row>
-    <Row>
-        <Col span={24}>
-            <Table dataSource={sucursales} columns={columns} loading={loading}/>
-        </Col>
-    </Row>
-    <Row>
-        <Col span={24}>
-        </Col>
-    </Row>
-    <Row>
-        <Col span={24}>
-        </Col>
-    </Row>
-    <Modal open={popupAddOpen} onCancel={onCancelPopupAddEdit} footer={null}>
+    <Card title={<>Lista de Sucursales</>} size="small">
+        
+        <Row>
+            <Col span={24}>
+                <Table 
+                size="small"
+                dataSource={sucursales} 
+                columns={columns} 
+                loading={loading} 
+                scroll={{y:"400px"}} 
+                rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'}
+                />
+            </Col>
+        </Row>
+        <Row>
+            <Col span={24}>
+            </Col>
+        </Row>
+        <Row>
+            <Col span={24}>
+            </Col>
+        </Row>
+    </Card>
+    <Modal destroyOnClose open={popupAddOpen} onCancel={onCancelPopupAddEdit} footer={null}>
         <AgregarSucursal idsucursal={-1} callback={onCancelPopupAddEdit} />
     </Modal>
-    <Modal open={popupEditOpen} onCancel={onCancelPopupEdit} footer={null}>
+    <Modal destroyOnClose open={popupEditOpen} onCancel={onCancelPopupEdit} footer={null}>
         <EditarSucursal idsucursal={idsucursal} callback={onCancelPopupEdit} />
     </Modal>
  </>

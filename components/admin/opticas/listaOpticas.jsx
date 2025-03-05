@@ -1,5 +1,5 @@
 import { PlusOutlined } from "@ant-design/icons";
-import { Button, Checkbox, Col, Modal, Row, Table } from "antd";
+import { Button, Card, Checkbox, Col, Modal, Row, Table } from "antd";
 import { useEffect, useState } from "react";
 import OpticaForm from "./opticaForm";
 import { get } from "@/src/urls";
@@ -13,14 +13,14 @@ const ListaOpticas = (props) => {
         {
             title:"Nombre", dataIndex:"nombre"
         },
-        {
+        /*{
             render:(_,{idoptica, checked})=><Checkbox 
             checked={checked}
             onChange={(e)=>{
                 setOpticas(opts=>opts.map(o=>({...o, checked: o.idoptica== idoptica ? e.target.checked : false  })))
                 props?.callback?.(e.target.checked?idoptica:-1)
             }} ></Checkbox>
-        }
+        }*/
     ]
 
     useEffect(()=>{
@@ -36,24 +36,26 @@ const ListaOpticas = (props) => {
         .catch(_=>{console.log("error")})
     },[reload])
     return <>
+    <Card title={<>Lista de &Oacute;pticas <Button size="small" type="primary" onClick={()=>{setPopupAddOpen(true)}}><PlusOutlined /></Button></>} size="small">
 
-    <Row>
-        <Col span={24}>
-            <h3>Lista de &Oacute;pticas</h3>
-        </Col>
-    </Row>
-    
-    <Row>
-        <Col span={24}>
-            <Button onClick={()=>{setPopupAddOpen(true)}}><PlusOutlined />&nbsp;Agregar</Button>
-        </Col>
-    </Row>
-    
-    <Row>
-        <Col span={24}>
-            <Table dataSource={opticas} columns={columns} />
-        </Col>
-    </Row>
+        <Row>
+            <Col span={24}>
+                
+            </Col>
+        </Row>
+        
+        <Row>
+            <Col span={24}>
+                <Table 
+                size="small"
+                scroll={{y:"400px"}} 
+                rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'}
+                dataSource={opticas} 
+                columns={columns} 
+                />
+            </Col>
+        </Row>
+    </Card>
     <Modal open={popupAddOpen} footer={null} title="Agregar Optica" onCancel={()=>{setPopupAddOpen(false)}}>
         <OpticaForm callback={()=>{setPopupAddOpen(false); setReload(!reload);}} />
     </Modal>

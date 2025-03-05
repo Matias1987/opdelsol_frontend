@@ -238,7 +238,7 @@ const post = {
         envio: remote_base_url + "envio/",
         factura: remote_base_url + "facturas/",
         proveedor: remote_base_url + "proveedores/",
-        sucursal: remote_base_url + "sucursales/",
+        sucursal: remote_base_url + "sucursales/edit/",
         modificar_multiplicador: remote_base_url + "subgrupos/modificar_multiplicador/",
         incrementar_cantidad: remote_base_url + "stock/m/incrementar_cantidad/",
         descontar_cantidad_por_codigo: remote_base_url + "stock/m/descontar_cantidad_por_codigo/",
