@@ -2,7 +2,7 @@ import PrinterWrapper from "@/components/PrinterWrapper";
 import { post_method } from "@/src/helpers/post_helper";
 import { parse_int_string } from "@/src/helpers/string_helper";
 import { get, post } from "@/src/urls";
-import { Button, Col, Input, Row, Select, Table } from "antd";
+import { Button, Col, Divider, Input, Row, Select, Table } from "antd";
 import { useEffect, useState } from "react";
 import VentasMedicos from "./ventas_medicos";
 import ExportToCSV from "@/components/ExportToCSV";
@@ -81,7 +81,7 @@ const ListaVentasMedicosTotales = (props) => {
     return <>
     <Row>
         <Col span={24}>
-            
+            <h3>Ventas por M&eacute;dicos</h3>
         </Col>
     </Row>
     <Row>
@@ -117,6 +117,21 @@ const ListaVentasMedicosTotales = (props) => {
             <Button onClick={init_totales} type="primary">Aplicar</Button>
         </Col>
     </Row>
+    
+    <Row>
+        <Col span={24}>
+        <Divider />
+        <b>Totales ventas M&eacute;dicos periodo {mes}-{anio}</b>
+        <Table 
+        scroll={{y:"450px"}} 
+        columns={columns} 
+        dataSource={dataSource} 
+        pagination={false} 
+        rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'}
+        />
+        </Col>
+    </Row>
+
     <Row>
         <Col span={24}>
             <ExportToCSV 
@@ -132,16 +147,7 @@ const ListaVentasMedicosTotales = (props) => {
                     return str
                 }}
              />
-            {/*<PrinterWrapper>
-                
-            </PrinterWrapper>*/}
            
-        </Col>
-    </Row>
-    <Row>
-        <Col span={24}>
-        <b>Totales ventas M&eacute;dicos periodo {mes}-{anio}</b>
-        <Table scroll={{y:"450px"}} columns={columns} dataSource={dataSource} pagination={false} />
         </Col>
     </Row>
     

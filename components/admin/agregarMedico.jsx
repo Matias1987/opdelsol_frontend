@@ -4,6 +4,7 @@ import { Button, Col, Input, Row } from "antd"
 import { useEffect, useState } from "react"
 
 const AgregarMedicoForm = (props) => {
+    const {editar} = props
     const [loading, setLoading] = useState(false)
     const [medico, setMedico] = useState({
         nombre:"",
@@ -13,8 +14,9 @@ const AgregarMedicoForm = (props) => {
     })
 
     useEffect(()=>{
-        if(typeof props.editar !== 'undefined'){
-            if(+props.editar==1)
+        
+        if(typeof editar !== 'undefined'){
+            if(+editar==1)
             {
                 //load
                 setLoading(true)
@@ -50,7 +52,7 @@ const AgregarMedicoForm = (props) => {
             alert("Valor no válido para matricula")
             return
         }*/
-        if(!isvalid(medico.direccion))
+        /*if(!isvalid(medico.direccion))
         {
             alert("Valor no válido para direccion")
             return
@@ -59,7 +61,7 @@ const AgregarMedicoForm = (props) => {
         {
             alert("Valor no válido para telefono")
             return
-        }
+        }*/
         post_method(post.insert.medico,medico,(resp)=>{
             alert("OK")
             props?.callback?.()
@@ -89,7 +91,7 @@ const AgregarMedicoForm = (props) => {
     </Row>
     <Row style={{padding:"1em"}}>
         <Col span={24}>
-        <Button disabled={loading} type="primary" onClick={onGuardarClick} block>Agregar</Button>
+        <Button disabled={loading} type="primary" onClick={onGuardarClick} block>Guardar</Button>
        </Col>
     </Row>
     <Row>

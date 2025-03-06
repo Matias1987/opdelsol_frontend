@@ -36,7 +36,7 @@ const ListaVentasDia = (props) => {
         .then(r=>r.json())
         .then((response)=>{
             const resp = (response?.data)||[]
-            setVendedores(resp.map(r=>({label: r.nombre, value: r.idusuario})))
+            setVendedores([...[{label:"Todos", value:"-1"}],...resp.map(r=>({label: r.nombre, value: r.idusuario}))])
         })
     },[])
 
@@ -77,17 +77,15 @@ const ListaVentasDia = (props) => {
         </Col>
     </Row>
     <Row>
-        <Col span={2} style={{padding:".3em", textAlign:"right"}}>
+        <Col style={{padding:".3em", textAlign:"right", width:"70px"}}>
             Vendedor: 
         </Col>
-        <Col span={20}>
+        <Col style={{width:"300px"}}>
             <Select onChange={(v)=>{onChange("idusuario", v)}} options={vendedores} placeholder="Seleccione vendedor" style={{width:"300px"}} />
         </Col>
-    </Row>
-    
-    <Row>
+   
         <Col span={2} style={{padding:".3em", textAlign:"right"}}>Fecha:</Col>
-        <Col span={20}>
+        <Col span={10}>
             <Space direction="vertical" size="middle">
                 <Space.Compact size="middle">
                     <Input value={filtros.dia} min={1} max={31} addonBefore={"Día"} onChange={(e)=>{onChange("dia", e.target.value)}} type="number"/>
@@ -99,18 +97,27 @@ const ListaVentasDia = (props) => {
     </Row>
     <Row style={{padding:"0.5em"}}>
         <Col span={24}>
-            <Button size="small" type="primary"  block onClick={aplicarFiltros}>Aplicar Filtros</Button>
+            <Button size="small" type="primary"   onClick={aplicarFiltros}>Aplicar Filtros</Button>
         </Col>
     </Row>
     <Row>
-        <Col span={18}>
-            <Table dataSource={ventas} columns={columns} />
+        <Col span={24}>
+            <Table 
+            rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'}
+            dataSource={ventas} 
+            columns={columns}  
+            size="small" 
+            bordered 
+            />
         </Col>
-        <Col span={6}>
+        
+    </Row>
+    <Row>
+    <Col span={24}>
 
-            <Input value={ventas.length} readOnly prefix="Cantidad:   " />
-            <Input value={total} readOnly prefix="Total: $  " />
-        </Col>
+        <Input value={ventas.length} readOnly prefix="Cantidad:   " />
+        <Input value={total} readOnly prefix="Total: $  " />
+    </Col>
     </Row>
     <Row>
         <Col span={24}>

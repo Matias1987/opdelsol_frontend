@@ -59,7 +59,7 @@ const ResumenOperacionesRow = (props) => {
                         return
                     }
                     //alert("Caja cerrada.")
-                    setMessage(`No se encontró caja del día de ${nombre_sucursal} .`)
+                    setMessage(`No se encontraron operaciones del día de ${nombre_sucursal} .`)
                 }
                 )
 
@@ -105,7 +105,7 @@ const ResumenOperacionesRow = (props) => {
 
     return <>
     <Row style={{backgroundColor:color, borderRadius:"16px"}} gutter={24} onClick={()=>{setOpen(true)}} key={count}>
-        {data===null ?<span style={{padding:"6px", color:"red", fontWeight:"bold"}}> { message} </span> : <>
+        {data===null ?<span style={{padding:"6px", color:"red"}}> { message} </span> : <>
         <Col  span={3}>
         <Card bordered={false} style={{backgroundColor:"rgba(0,0,0,0)"}} size="small">
             <Statistic

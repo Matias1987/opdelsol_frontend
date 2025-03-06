@@ -342,6 +342,7 @@ const get = {
     buscar_mutual: remote_base_url + "mutuales/buscar/",//:value
 
     lista_medicos: remote_base_url + "medicos/",
+    lista_medicos_opt: remote_base_url + "medicos/o/p/t/",
     obtener_medico: remote_base_url + "medicos/",//:idmedico
     buscar_medico: remote_base_url + "medicos/buscar/",//:value
 

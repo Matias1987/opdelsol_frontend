@@ -43,7 +43,8 @@ const InformeVentasTotales = () => {
         .then(r=>{
             if(((r||null)?.data||null)!=null)
             {
-                setSucursales([...[{label:"-", value:-1}],...r.data.map(s=>({label: s.nombre,value: s.idsucursal,}))])
+                setSucursales([...[{label:"Todas las Sucursales", value:-1}],...r.data.map(s=>({label: s.nombre,value: s.idsucursal,}))])
+                setFiltros(f=>({...f,fksucursal:-1}))
             }
         })
         .catch(ex=>{console.log(ex)})
@@ -142,7 +143,7 @@ const InformeVentasTotales = () => {
     return <>
     <Row>
         <Col span={24}>
-            Lista de Ventas Mes
+            <h3>Totales de Ventas Mes</h3>
         </Col>
     </Row>
         <Row>
@@ -154,7 +155,7 @@ const InformeVentasTotales = () => {
                 <Input type="number" prefix="Mes" min={1} max={12} onChange={(e)=>{setFiltros(f=>({...f,mes:parse_int_string(e.target.value)}))}} value={filtros.mes} />
             </Col>
             <Col span={8}>
-                Sucursal: <Select style={{width:"200px"}} options={sucursales} onChange={(v)=>{
+                Sucursal: <Select value={filtros.fksucursal} style={{width:"200px"}} options={sucursales} onChange={(v)=>{
                     setFiltros(f=>({...f,fksucursal:v}))
                 }} />
             </Col>
@@ -162,34 +163,18 @@ const InformeVentasTotales = () => {
         <Row>
             <Col span={24}>
                 <br />
-                <Button type="primary" size="small" block onClick={aplicar_filtros}>Aplicar Filtros</Button>
+                <Button type="primary" size="small"  onClick={aplicar_filtros}>Aplicar Filtros</Button>
                 <br />
                 <br />
             </Col>
         </Row>
-        <Row>
-            <Col span={24}>
-            <ExportToCSV 
-                fileName={`ventas_vendedores__${filtros.mes}-${filtros.anio}`}
-                parseFnt={()=>{
-                    let s = sucursales.find(s=>s.value==filtros.fksucursal)
-                    let str = ""
-                    str+=`MES:,${filtros.mes}, ANIO:,${filtros.anio}, ,,,\r\n`
-                    str+=`SUCURSAL:,${(s?.label)||""},,,,,,\r\n`
-                    str+="usuario, efectivo, tarjeta,  cheque, ctacte, mutual, mp , total\r\n"
-                    dataSource.forEach(r=>{
-                        str+=`${r.usuario},${r.efectivo},${r.tarjeta},${r.cheque},${r.ctacte},${r.mutual},${r.mp},${r.total}\r\n`
-                    })
-                    return str
-                }}
-             />
-            </Col>
-        </Row>
+        
         <Row>
             <Col span={24}>
                 <PrinterWrapper>
                     <b>{`Ventas vendedores del período ${filtros.mes}/${filtros.anio}`} </b>
                     <Table
+                    rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'}
                     scroll={{y:"400px"}}
                     style={{width:"100%"}}
                     pagination={false}
@@ -230,6 +215,24 @@ const InformeVentasTotales = () => {
                     }}
                     />
                 </PrinterWrapper>
+            </Col>
+        </Row>
+        <Row>
+            <Col span={24}>
+            <ExportToCSV 
+                fileName={`ventas_vendedores__${filtros.mes}-${filtros.anio}`}
+                parseFnt={()=>{
+                    let s = sucursales.find(s=>s.value==filtros.fksucursal)
+                    let str = ""
+                    str+=`MES:,${filtros.mes}, ANIO:,${filtros.anio}, ,,,\r\n`
+                    str+=`SUCURSAL:,${(s?.label)||""},,,,,,\r\n`
+                    str+="usuario, efectivo, tarjeta,  cheque, ctacte, mutual, mp , total\r\n"
+                    dataSource.forEach(r=>{
+                        str+=`${r.usuario},${r.efectivo},${r.tarjeta},${r.cheque},${r.ctacte},${r.mutual},${r.mp},${r.total}\r\n`
+                    })
+                    return str
+                }}
+             />
             </Col>
         </Row>
         <Row>

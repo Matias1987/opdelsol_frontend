@@ -16,7 +16,7 @@ const items = [
 
  },
   {
-    label: (<Link href={public_urls.totales_venta_vendedores}>Totales Venta</Link>),
+    label: (<Link href={public_urls.totales_venta_vendedores}>Totales Venta Mes</Link>),
     key: '10',
 
   },
@@ -36,11 +36,11 @@ const items = [
     label: (<Link href={public_urls.stock_admin}>Stock</Link>),
     key: '16',
   },
-  {
+  /*{
     label: (<Link href={public_urls.eventos_admin}>Eventos</Link>),
     key: '15',
   },
-  /*{
+  {
     label: (<Link href={public_urls.listausuarios}>Usuarios</Link>),
     key: '17',
   },*/
@@ -85,5 +85,5 @@ export default function MenuAdminTop(){
     console.log('click ', e);
     setCurrent(e.key);
   };
-  return <Menu style={{backgroundColor:"#CCCCE4"/*"lightblue"*/}} onClick={onClick} selectedKeys={[current]} mode="horizontal" items={items} />;
+  return <Menu style={{backgroundColor:"#41B79E"/*"#C4DD76""lightblue"*/}} onClick={onClick} selectedKeys={[current]} mode="horizontal" items={items} />;
 };

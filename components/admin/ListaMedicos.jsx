@@ -17,7 +17,7 @@ const ListaMedicos = (props) => {
         {dataIndex: "nombre", title:"Nombre"},
         {dataIndex: "direccion", title:"Direccion"},
         {dataIndex: "telefono", title:"Telefono"},
-        {render:(_,{idmedico})=><><Button disabled onClick={()=>{
+        {render:(_,{idmedico})=><><Button  onClick={()=>{
             setIdMedico(idmedico)
             setModoEditar(true)
             setOpen(true)
@@ -26,7 +26,7 @@ const ListaMedicos = (props) => {
             title:"Activo", 
             render:(_,{idmedico, activo})=><>
                 <Checkbox 
-                disabled
+                
                 checked={activo} 
                 onChange={(e)=>{
                     setLoading(true)
@@ -42,7 +42,7 @@ const ListaMedicos = (props) => {
     
     const load = () => {
         setLoading(true)
-        fetch(get.lista_medicos)
+        fetch(get.lista_medicos_opt)
         .then(r=>r.json())
         .then(response=>{
             /**
