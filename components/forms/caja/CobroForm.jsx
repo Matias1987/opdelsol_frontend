@@ -260,6 +260,8 @@ export default function CobroOperacion(props){
         
         params.tipo=__tipo;
 
+        //alert(__tipo)
+
         if(typeof props.tipo !== 'undefined'){
             switch(__tipo)
             {
@@ -284,7 +286,7 @@ export default function CobroOperacion(props){
                 return;
             }
 
-            if(!confirm("Confirmar Cobro"))
+            if(!confirm("Confirmar Operación"))
             {
                 setCobrarDisabled(false)
                 return;
@@ -518,15 +520,26 @@ export default function CobroOperacion(props){
                 { dataVenta == null || mp == null ? <></> :<>
                 <Row>
                     <Col span={24}>
-                    
+                        
                         <Divider />
                         
                         {
-                            dataVenta?.saldo==0 && (entrega||props.tipo=='entrega') && mp.total<1? <Button onClick={onCobrarClick} disabled={cobrarDisabled} danger>Entrega</Button> : <></>
+                            //entrega para ventas sin deuda
+                            (parseFloat(dataVenta.subtotal) - parseFloat(descuento) - parseFloat(dataVenta.haber||0) )==0  && mp.total==0 && (entrega||props.tipo=='entrega') ? <Button onClick={onCobrarClick} disabled={cobrarDisabled} danger>Entrega</Button> : <></>
                         }
-                        {   dataVenta?.saldo==0? <></> :
+                        {
+                            //resfuerzo con saldo 0 posterior
+                            mp.total!=0 && (props.tipo=='resfuerzo'||props.tipo == 'ingreso') ? <Button onClick={onCobrarClick} disabled={cobrarDisabled} danger>Cobrar</Button> : <></>
+                        }
+                        {   //intento de entrega pero con saldo distinto a 0
+                            props.tipo=='entrega'  &&(parseFloat(dataVenta.subtotal) - parseFloat(descuento) - parseFloat(dataVenta.haber||0) -+mp.total)!=0 && mp.total!=0 ? <Button onClick={onCobrarClick} disabled={cobrarDisabled} danger>Cobro Resfuerzo</Button> : <></>
+                        }
+                        {   //intento de entrega pero con saldo distinto a 0
+                            props.tipo=='entrega' && parseFloat(dataVenta.subtotal) - parseFloat(descuento) - parseFloat(dataVenta.haber||0) != 0  &&(parseFloat(dataVenta.subtotal) - parseFloat(descuento) - parseFloat(dataVenta.haber||0) -+mp.total )==0 ? <Button onClick={onCobrarClick} disabled={cobrarDisabled} danger>Entrega</Button> : <></>
+                        }
+                        {  /* (+dataVenta?.saldo - +descuento)==0? <></> :
                             <Button disabled={cobrarDisabled || (mp.total<1 )} danger onClick={onCobrarClick}>Cobrar {props.tipo == 'entrega' ? ' y/o marcar como entregado' : entrega? ' y Marcar como entregado':''}</Button>
-                        }
+                        */}
                     
                         {
                             props.tipo == 'ingreso' && !entrega ? <>&nbsp;<Button disabled={mp.total>0 || cobrarDisabled}  type="primary" onClick={enviarADeposito}>Enviar a dep&oacute;sito </Button></> : <></>
