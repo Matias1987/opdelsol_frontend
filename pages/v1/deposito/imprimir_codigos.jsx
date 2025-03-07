@@ -5,7 +5,7 @@ import SearchCodigo from "@/components/SearchCodigo";
 import MyLayout from "@/components/layout/layout";
 import { get_barcode_from_id2 } from "@/src/helpers/barcode_helper";
 import { get } from "@/src/urls";
-import { CloseCircleOutlined } from "@ant-design/icons";
+import { CloseCircleOutlined, PrinterTwoTone } from "@ant-design/icons";
 import { Button, Card, Col, Row, Table } from "antd";
 import { useState } from "react";
 import Barcode from "react-barcode";
@@ -29,8 +29,8 @@ export default function ImprimirCodigos(){
 
     const ImprimirDialog = () => (
         <CustomModal 
-                openButtonText="Imprimir"
-                title="Imprimir Códigos"
+                openButtonText={<><PrinterTwoTone />  Imprimir</>}
+                title={<>Imprimir Códigos</>}
                 
                 onOk={()=>{}}
                 style={{overflowY:"scroll"}}
@@ -110,30 +110,35 @@ export default function ImprimirCodigos(){
                     size="small"
                     title={<>Lista de c&oacute;digos a imprimir</>}
                     >
+                        
                         <Table
                         rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'}
                         size="small"
                         scroll={{y:"400px"}}
                         pagination={false}
                         loading={tableLoading}
-                            columns = {[
-                                {title:"codigo", dataIndex: "codigo", },
-                                {
-                                    title:"Acciones", 
-                                    dataIndex: "ref_id",
-                                    render: (_,{ref_id})=>(
-                                        <Button  onClick={()=>{remove_row(ref_id)}} danger={true}><CloseCircleOutlined/></Button>)
-                                    ,
-                                },
-                            ]}
-                            dataSource={tableData}
+                        
+                        columns = {[
+                            {title:"codigo", dataIndex: "codigo", },
+                            {
+                                title:"Acciones", 
+                                dataIndex: "ref_id",
+                                render: (_,{ref_id})=>(
+                                    <Button  onClick={()=>{remove_row(ref_id)}} danger={true}><CloseCircleOutlined/></Button>)
+                                ,
+                            },
+                        ]}
+                        dataSource={tableData}
+                        summary={_=><Table.Summary fixed>
+                            {ImprimirDialog()}
+                        </Table.Summary>}
                         />
                     </Card>
                 </Col>
             </Row>
             <Row>
                 <Col span={24}>
-                {ImprimirDialog()}
+                
                 </Col>
             </Row>
             <br />

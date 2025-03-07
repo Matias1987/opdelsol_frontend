@@ -83,6 +83,7 @@ const SubGroupSelect = (props) => {
             <Space wrap>
                 <Col span={6}>
                     <Select 
+                    size="small"
                     disabled={typeof props.disabled === 'undefined' ? false : props.disabled}
                     
                     bordered={idFamilia==-1}
@@ -109,6 +110,7 @@ const SubGroupSelect = (props) => {
                     (
                         <Col span={6}>
                             <Select 
+                            size="small"
                             disabled={typeof props.disabled === 'undefined' ? false : props.disabled}
                             bordered={idSubFamilia<0}
                             style={{ width: "200px" }}
@@ -137,6 +139,7 @@ const SubGroupSelect = (props) => {
                     (   
                         <Col span={6}>
                             <Select 
+                            size="small"
                             disabled={typeof props.disabled === 'undefined' ? false : props.disabled}
                              bordered={idGrupo<0}
                             style={{ width: "200px" }}
@@ -162,6 +165,7 @@ const SubGroupSelect = (props) => {
                     (
                         <Col span={6}>
                             <Select 
+                            size="small"
                             disabled={typeof props.disabled === 'undefined' ? false : props.disabled}
                             bordered={idSubGrupo<0}
                             style={{ width: "200px" }}

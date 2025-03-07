@@ -14,8 +14,8 @@ import InformeStock from "@/pages/v1/informes/informe_stock";
 import globals from "@/src/globals";
 import { post_method } from "@/src/helpers/post_helper";
 import { post } from "@/src/urls";
-import { PlusOutlined, SearchOutlined, TableOutlined } from "@ant-design/icons";
-import { Button, Checkbox, Col,  Form, Input, InputNumber, Modal, Row, Select, Space, Switch, Table, Tabs, Tag } from "antd";
+import { DownOutlined, EditOutlined, ExportOutlined, InfoOutlined, PlusOutlined, PrinterOutlined, SearchOutlined, TableOutlined, UserOutlined } from "@ant-design/icons";
+import { Button, Checkbox, Col,  Dropdown,  Form, Input, InputNumber, Modal, Row, Select, Space, Switch, Table, Tabs, Tag } from "antd";
 import { useEffect,  useState } from "react";
 
 import EditarSubgrupo from "@/components/forms/deposito/EditarSubgrupo";
@@ -29,7 +29,6 @@ import DetalleStock from "@/components/forms/deposito/detalle/DetalleStock";
 
 export default function ListaStock(){
     const [usuarioDep, setUsuarioDep] = useState(false)
-    const [open, setOpen] = useState(false)
     const [popupOpen, setPopupOpen] = useState(false)
     const [tipoOrden, setTipoOrden] = useState("");
     const [tipoFiltro, setTipoFitro] = useState(-1);
@@ -49,9 +48,12 @@ export default function ListaStock(){
     const [popupTagsOpen, setPopupTagsOpen] = useState(false)
     const [popupDetalleOpen, setPopupDetalleOpen] = useState(false)
     const [popupEditarStockIndvOpen, setPopupEditarStockIndvOpen] = useState(false)
+    const [popupEditarCodigoIndvOpen, setPopupEditarCodigoIndvOpen] = useState(false)
     const [total, setTotal] = useState(0)
     const [selectedSucursal, setSelectedSucursal] = useState(-2)
     const [selectedIdCodigo, setSelectedIdCodigo] = useState(-1)
+    const [open, setOpen] = useState(false)
+
     const tipos_filtro_dic = {
         "grupo_contenga_a":{tipo: "grupo", descripcion: "Grupo Cont."},
         "codigo_contenga_a":{tipo: "codigo", descripcion: "Codigo Cont."},
@@ -72,10 +74,32 @@ export default function ListaStock(){
         "sucursal":{tipo:"sucursal", descripcion:"Sucursal"},
     }
     
+    const items = [
+        {
+          label: 'Detalle',
+          key: '1',
+          icon: <InfoOutlined />,
+        },
+        {
+          label: 'Editar Stock',
+          key: '2',
+          icon: <EditOutlined />,
+          disabled: !globals.esUsuarioDeposito(),
+        },
+        {
+          label: 'Editar Código',
+          key: '3',
+          icon: <PrinterOutlined />,
+          disabled: !(globals.esUsuarioDeposito() && (selectedSucursal==globals.obtenerSucursal() || selectedSucursal<-1)),
+        },
+       
+      ];
+     
+      
     const edit_popup = () => <>
         <CustomModal
             type="default"
-            size="normal"
+            size="small"
             block
             openButtonText={"Modificar Selección"}
             title={""}
@@ -183,14 +207,24 @@ export default function ListaStock(){
             title: 'Acciones', dataIndex: 'idstock', key: 'idstock',  width:"120px",
             render: 
                 (_,{idcodigo})=><>
-                <Button size="small" onClick={()=>{setSelectedIdCodigo(idcodigo); setPopupDetalleOpen(true);}}>Detalle</Button>
-             
-                {
-                    globals.esUsuarioDeposito() && (selectedSucursal==globals.obtenerSucursal() || selectedSucursal<-1) ?
-                    <Button size="small" onClick={()=>{setSelectedIdCodigo(idcodigo); setPopupEditarStockIndvOpen(true);}}>Editar Stock</Button> : <></>
-                }
-             
-                {globals.esUsuarioDeposito() ? <EditarCodigoIndiv  idcodigo={idcodigo} buttonText={<>Editar C&oacute;digo</>} callback={()=>{setValueChanged(!valueChanged)}} /> : <></>}
+                <Dropdown menu={{
+                    items,
+                    onClick: ({key}) => {
+                        switch(+key)
+                        {
+                            case 1: setSelectedIdCodigo(idcodigo); setPopupDetalleOpen(true); break;
+                            case 2: setSelectedIdCodigo(idcodigo); setPopupEditarStockIndvOpen(true); break;
+                            case 3: setSelectedIdCodigo(idcodigo); setPopupEditarCodigoIndvOpen(true); break;
+                        }
+                      },
+                }}>
+                    <Button type="primary" size="small">
+                    <Space>
+                        Acciones
+                        <DownOutlined />
+                    </Space>
+                    </Button>
+                </Dropdown>
                 </>                
         },
         {
@@ -357,6 +391,10 @@ export default function ListaStock(){
 
     return(
         <>
+            
+
+        <Row>
+            <Col span={24}>
             <h3>Stock</h3>
             <Tabs
             onChange={(v)=>{setActiveTab(v)}}
@@ -386,7 +424,6 @@ export default function ListaStock(){
                             <Col span={8}>
                                 <Form.Item label={"Filtar Por"} name={"tipo_filtro"}>
                                     <Select 
-                                        
                                         placeholder="Seleccione..."
                                     options={[
                                         {label: 'Codigo Contenga a', value: 'codigo_contenga_a'},
@@ -397,8 +434,6 @@ export default function ListaStock(){
                                         {label: 'Cantidad - Igual a', value: 'cantidad_igual_a'},
                                         {label: 'Cantidad - Mayor a', value: 'cantidad_mayor_a'},
                                         {label: 'Cantidad - Menor a', value: 'cantidad_menor_a'},
-                                        /*{label: 'Género', value: 'sexo'},
-                                        {label: 'Edad', value: 'edad'},*/
                                         {label: 'Descripción', value: 'detalles'},
                                         {label: 'SubGrupo', value: 'subgrupo'},
                                         {label: 'Grupo', value: 'grupo'},
@@ -424,7 +459,6 @@ export default function ListaStock(){
                                     <Button type="primary" htmlType="submit" size="small"><PlusOutlined /> Agregar</Button>
                                 </Form.Item>
                             </Col>
-                            
                         </Row>
                         
                         </Form>
@@ -490,42 +524,41 @@ export default function ListaStock(){
                     </div>
                 }
             ]}
-            />
-            <Row style={{backgroundColor:"#D3E1E6"}}>
-                {usuarioDep && (selectedSucursal==globals.obtenerSucursal() || selectedSucursal<-1) ?
-                <Col span={4} style={{padding:".5em"}}>
-                    <Button onClick={()=>{setOpen(true)}} ><TableOutlined />  Grilla de C&oacute;digos</Button>
-                    <Modal 
-                        footer={null} 
-                        width={"1100px"} 
-                        open={open} 
-                        key={idsubgrupo} 
-                        destroyOnClose={true} 
-                        onCancel={()=>{setOpen(false); setValueChanged(!valueChanged)} }>
-                            <CodeGrid idsubgrupo={idsubgrupo} width={640} height={480} idsucursal={globals.obtenerSucursal()} />
-                    </Modal>
-                </Col>:<></>}
-                {usuarioDep  && (selectedSucursal==globals.obtenerSucursal() || selectedSucursal<-1)?<Col span={4} style={{padding:".5em"}}>{edit_popup()}</Col>:<></>}
-                <Col span={4} style={{padding:".5em"}}>
-                    <ExportToCSV parseFnt={()=>{
-                        let str = "Familia, SubFamilia, Grupo, Subgrupo, Codigo, Descripcion, Cantidad, Precio, Tags,\r\n"
-                        data.forEach(r=>{
-                            str+=`${r.familia},${r.subfamilia},${r.grupo},${r.subgrupo},' ${r.codigo} ',${r.descripcion},${r.cantidad},${r.precio},${(r.etiquetas||"").replace(/,/g ," ; ")},\r\n`
-                        })
-                        return str
-                    }} 
-                    />
-                </Col>
-                <Col span={4} style={{padding:".5em"}}>
-                    <ImpresionCodigosPopup codigos={(data.filter(d=>d.checked)).map(c=>({codigo:c.codigo, idcodigo: c.idcodigo , cantidad:  c.cantidad}))} />
-                </Col>
-                <Col span={4} style={{padding:".5em"}}>
-                    <Button disabled={(data.filter(d=>d.checked)).length<1} type="primary" onClick={()=>{setPopupTagsOpen(true)}}>Editar Etiquetas</Button>
-                </Col>
-                {/*<Col span={4} style={{padding:".3em"}}>
-                    <Checkbox >Ver Todo</Checkbox>
-                </Col>*/}
-            </Row>
+            />            
+            </Col>
+        </Row>
+        <Row style={{backgroundColor:"#D3E1E6"}}>
+            {usuarioDep && (selectedSucursal==globals.obtenerSucursal() || selectedSucursal<-1) ?
+                    <Col span={4} style={{padding:".5em"}}>
+                        <Button size="small" onClick={()=>{setOpen(true)}} ><TableOutlined />  Grilla de C&oacute;digos</Button>
+                        <Modal 
+                            footer={null} 
+                            width={"1100px"} 
+                            open={open} 
+                            key={idsubgrupo} 
+                            destroyOnClose={true} 
+                            onCancel={()=>{setOpen(false); setValueChanged(!valueChanged)} }>
+                                <CodeGrid idsubgrupo={idsubgrupo} width={640} height={480} idsucursal={globals.obtenerSucursal()} />
+                        </Modal>
+                    </Col>:<></>}
+                    {usuarioDep  && (selectedSucursal==globals.obtenerSucursal() || selectedSucursal<-1)?<Col span={4} style={{padding:".5em"}}>{edit_popup()}</Col>:<></>}
+                    <Col span={4} style={{padding:".5em"}}>
+                        <ExportToCSV parseFnt={()=>{
+                            let str = "Familia, SubFamilia, Grupo, Subgrupo, Codigo, Descripcion, Cantidad, Precio, Tags,\r\n"
+                            data.forEach(r=>{
+                                str+=`${r.familia},${r.subfamilia},${r.grupo},${r.subgrupo},' ${r.codigo} ',${r.descripcion},${r.cantidad},${r.precio},${(r.etiquetas||"").replace(/,/g ," ; ")},\r\n`
+                            })
+                            return str
+                        }} 
+                        />
+                    </Col>
+                    <Col span={4} style={{padding:".5em"}}>
+                        <ImpresionCodigosPopup codigos={(data.filter(d=>d.checked)).map(c=>({codigo:c.codigo, idcodigo: c.idcodigo , cantidad:  c.cantidad}))} />
+                    </Col>
+                    <Col span={4} style={{padding:".5em"}}>
+                        <Button size="small" disabled={(data.filter(d=>d.checked)).length<1} type="primary" onClick={()=>{setPopupTagsOpen(true)}}>Editar Etiquetas</Button>
+                    </Col>  
+        </Row>
         <Row>
             <Col span={24}>
                 <Table 
@@ -533,7 +566,9 @@ export default function ListaStock(){
                 columns={columns.filter(item=>!item.hidden)} 
                 dataSource={data} 
                 loading={loading} 
-                scroll={{y:400}}  />
+                scroll={{y:400}}  
+                size="small"
+                />
             </Col>
         </Row>
         <Row>
@@ -591,6 +626,15 @@ export default function ListaStock(){
                 setValueChanged(!valueChanged)
             }}
             />
+        </Modal>
+        <Modal 
+        width={"80%"}
+        footer={null} 
+        destroyOnClose
+        open={popupEditarCodigoIndvOpen} 
+        onCancel={_=>{setPopupEditarCodigoIndvOpen(false)}}
+        >
+            <EditarCodigoIndiv  idcodigo={selectedIdCodigo} buttonText={<>Editar C&oacute;digo</>} callback={()=>{setValueChanged(!valueChanged); setPopupEditarCodigoIndvOpen(false);}} />
         </Modal>
         </>
     )

@@ -1,4 +1,4 @@
-import { CloseCircleFilled } from "@ant-design/icons"
+import { CloseCircleFilled, CloseOutlined } from "@ant-design/icons"
 import { Button, Col, Row, Select } from "antd"
 import { useState } from "react"
 import FamiliaSelect from "./FamiliaSelect"
@@ -37,13 +37,17 @@ const CategoriaSelect = (props) => {
     }
 
     return <div style={{paddingLeft:"0.2em"}}> 
-                <Row >
-                    <Col span={3} style={{textAlign:"left", paddingTop:".5em", fontSize:"1em"}}>
-                        Categor&iacute;a:&nbsp;&nbsp;
+                <Row  style={{padding:"4px"}}>
+                    <Col span={3} style={{textAlign:"left", paddingTop:".5em", fontSize:"1em", color:"blue"}}>
+                        Seleccione Categor&iacute;a:&nbsp;&nbsp;
                     </Col>
-                    <Col span={19}>
+                </Row>
+                <Row style={{padding:"4px"}}>
+                    <Col span={24}>
                         <div  style={!enabled?disabled_style:enabled_style}>
                         <Select 
+                        size="small"
+                        
                         value={categoria}
                         defaultValue={"Seleccione"}
                         placeholder="Seleccione"
@@ -64,14 +68,14 @@ const CategoriaSelect = (props) => {
                         </div>
                     </Col>
                     </Row>
-                <Row style={{padding:"1em"}}>
+                <Row style={{padding:"4px"}}>
                     <Col span={23}>
                         <div style={!enabled?disabled_style:enabled_style}>
                             {_opt()}
                         </div>
                     </Col>
                     <Col span={1}>
-                        <Button 
+                        {categoria=="-1" ? <></> : <Button 
                         disabled = {categoria=="-1"}
                         size="small" 
                         type="ghost"
@@ -83,8 +87,8 @@ const CategoriaSelect = (props) => {
                             props?.callback?.("-1","-1")
                             }}
                         >
-                                <CloseCircleFilled />
-                        </Button>
+                                <CloseOutlined />
+                        </Button>}
                     </Col>
                 </Row>
                 <Row>

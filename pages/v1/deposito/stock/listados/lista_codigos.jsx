@@ -6,9 +6,11 @@ import EditarCodigoIndiv from "@/components/forms/deposito/EditarCodigoIndiv";
 import EditarSubgrupo from "@/components/forms/deposito/EditarSubgrupo";
 import FiltroCodigos from "@/components/forms/deposito/FiltroCodigos";
 import MyLayout from "@/components/layout/layout";
+import globals from "@/src/globals";
 import { post_method } from "@/src/helpers/post_helper";
 import { get, post } from "@/src/urls";
-import { Button, Checkbox, Col, Input, Modal, Row, Table, Tag } from "antd";
+import { DownOutlined, EditOutlined, InfoOutlined } from "@ant-design/icons";
+import { Button, Checkbox, Col, Dropdown, Input, Modal, Row, Space, Table, Tag } from "antd";
 import { useEffect, useState } from "react";
 
 export default function ListaCodigos(){
@@ -16,6 +18,9 @@ export default function ListaCodigos(){
     const [dataSource, setDataSource] = useState([])
     const [change, setChange] = useState(false)
     const [popupTagsOpen, setPopupTagsOpen] = useState(false)
+    const [popupEditarCodigoIndvOpen, setPopupEditarCodigoIndvOpen] = useState(false)
+    const [selectedIdCodigo, setSelectedIdCodigo] = useState(-1)
+    const [popupDetalleOpen, setPopupDetalleOpen] = useState(false)
     const [filtros, setFiltros] = useState({        
         idfamilia:"-1",
         idsubfamilia:"-1",
@@ -24,7 +29,21 @@ export default function ListaCodigos(){
         codigo:"",
         etiquetas:[],
     })
+    const items = [
+        {
+          label: 'Detalle',
+          key: '1',
+          icon: <InfoOutlined />,
+        },
 
+        {
+          label: 'Editar',
+          key: '2',
+          icon: <EditOutlined />,
+          disabled: !(globals.esUsuarioDeposito() ),
+        },
+       
+      ];
     useEffect(()=>{
         update_list()
     },[change])
@@ -96,20 +115,30 @@ export default function ListaCodigos(){
         },*/
         {
             width:"250px", 
-            title: 'Acciones', dataIndex: 'idcodigo',
+            title: 'Acciones',
             render: 
-                (_,{idcodigo})=>{
-                    return (
-                    <>
-                        <CustomModal openButtonText="Detalle">
-                            <DetalleCodigo idcodigo={idcodigo} />
-                        </CustomModal>
-                        &nbsp;&nbsp;&nbsp;
-                        <EditarCodigoIndiv idcodigo={idcodigo} buttonText="Editar" callback={()=>{setChange(!change)}} />
-                    </>    
-                    )                
-                }
-            
+                (_,{idcodigo})=><Dropdown 
+                        menu={
+                            {
+                                items,
+                                onClick: ({key}) => {
+                                    switch(+key)
+                                    {
+                                        case 1: setSelectedIdCodigo(idcodigo); setPopupDetalleOpen(true); break;
+                                        case 2: setSelectedIdCodigo(idcodigo); setPopupEditarCodigoIndvOpen(true); break;
+                                    }
+                                },
+                            }
+                        }
+                        >
+                            <Button type="primary" size="small">
+                                <Space>
+                                    Acciones
+                                    <DownOutlined />
+                                </Space>
+                            </Button>
+                        </Dropdown>                        
+                    
         },
         
     ]
@@ -136,7 +165,7 @@ export default function ListaCodigos(){
             </Row>
             <Row>
                 <Col span={24}>
-                    <Table columns={columns} dataSource={dataSource} loading={loading}  scroll={{y:"300px"}}/>
+                    <Table columns={columns} dataSource={dataSource} loading={loading}  scroll={{y:"300px"}} rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'} />
                 </Col>
             </Row>
             
@@ -155,6 +184,24 @@ export default function ListaCodigos(){
                     codigos={ (dataSource.filter(d=>d.checked)).map(c=>({idcodigo: c.idcodigo, codigo: c.codigo}))  }  
                     callback={()=>{setPopupTagsOpen(false); setChange(!change)}}
                 />
+            </Modal>
+            <Modal 
+                width={"80%"}
+                footer={null} 
+                destroyOnClose
+                open={popupEditarCodigoIndvOpen} 
+                onCancel={_=>{setPopupEditarCodigoIndvOpen(false)}}
+                >
+                    <EditarCodigoIndiv  idcodigo={selectedIdCodigo} buttonText={<>Editar C&oacute;digo</>} callback={()=>{setChange(!change); setPopupEditarCodigoIndvOpen(false);}} />
+            </Modal>
+            <Modal 
+                width={"80%"}
+                footer={null} 
+                destroyOnClose
+                open={popupDetalleOpen} 
+                onCancel={_=>{setPopupDetalleOpen(false)}}
+                >
+                    <DetalleCodigo idcodigo={selectedIdCodigo} />
             </Modal>
         </>
 

@@ -31,7 +31,7 @@ const ExportToCSV = (props) =>{
       }
 
       return <>
-        <Button onClick={downloadTxtFile} style={{backgroundColor:"#F4E086FF"}}><ExportOutlined />CSV</Button>
+        <Button size="small" onClick={downloadTxtFile} style={{backgroundColor:"#F4E086FF"}}><ExportOutlined />CSV</Button>
       </>
 
 }

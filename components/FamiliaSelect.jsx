@@ -36,7 +36,8 @@ const FamiliaSelect = (props) => {
                 style={{ width: 240 }}
                 value={idFamilia<0 ? "Seleccione Familia" : idFamilia}
                 loading = {familiaLoading}
-                
+                bordered={true}
+                size="small"
                 onChange={
                     (value)=>{
                        

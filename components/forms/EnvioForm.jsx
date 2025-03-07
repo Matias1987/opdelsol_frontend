@@ -226,17 +226,19 @@ const EnvioForm = (props) => {
                         pagination={false}
                         loading={tableLoading}
                         columns = {[
-                            {title:"", dataIndex: "ruta", render:(_,{ruta})=>(<span style={{ fontSize:".75em"}}><i>{ruta}</i></span>)  },
-                            {title:"codigo", dataIndex: "codigo", render: (codigo)=>(
+                            {width:"200px", title:"", dataIndex: "ruta", render:(_,{ruta})=>(<span style={{ fontSize:".75em"}}><i>{ruta}</i></span>)  },
+                            {width:"200px", title:"codigo", dataIndex: "codigo", render: (codigo)=>(
                                 <span style={{color:"red"}}><b>{codigo}</b></span>
                             ) },
-                            {title:"Precio", dataIndex: "precio", render:(_,{precio})=>(<span style={{ fontSize:".75em"}}><i>$&nbsp;{precio}</i></span>)  },
+                            {width:"150px", title:"Precio", dataIndex: "precio", render:(_,{precio})=>(<span style={{ fontSize:".75em"}}><i>$&nbsp;{precio}</i></span>)  },
                             {
+                                width:"150px",
                                 title:<>
-                                    <Button onClick={decrement_all} size="small">
+                                    <Button type="link" onClick={decrement_all} size="small">
                                         <DownOutlined />
-                                    </Button>Cantidad
-                                    <Button onClick={increment_all} size="small">
+                                    </Button>
+                                    &nbsp;Cantidad&nbsp;
+                                    <Button type="link" onClick={increment_all} size="small">
                                         <UpOutlined />
                                     </Button>
                                 </>, 
@@ -259,7 +261,8 @@ const EnvioForm = (props) => {
                                 )
                             },
                             {
-                                title:<><Button disabled={tableData.length<1} danger onClick={()=>{setTableData([])}}><CloseCircleFilled /></Button></>, 
+                                width:"50px",
+                                title:<><Button size="small" disabled={tableData.length<1} danger onClick={()=>{setTableData([])}}><CloseCircleFilled /></Button></>, 
                                 dataIndex: "ref_id",
                                 render: (_,{ref_id})=>(
                                     <Button size="small"  danger onClick={()=>{remove_row(ref_id)}}>X</Button>)
@@ -269,10 +272,12 @@ const EnvioForm = (props) => {
                         dataSource={tableData}
                         />
                 </Form.Item>
+                
                 <Form.Item>
                     <Affix offsetBottom={bottom}>
                         <div>
                             <Input readOnly addonBefore="Total:" value={total} />
+                            <Divider />
                             <Button disabled={tableLoading || tableData.length<1 || !generarEnvioBtnEnabled} block type="primary" htmlType="submit">Generar Env&iacute;o</Button>
                         </div>
                     </Affix>

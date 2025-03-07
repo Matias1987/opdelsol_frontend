@@ -53,7 +53,7 @@ const SubFamiliaSelect = (props) => {
                 <Select 
                 disabled={typeof props.disabled === 'undefined' ? false : props.disabled}
                 style={{ width: 240 }}
-                
+                size="small"
                 loading = {familiaLoading}
                 onChange={
                     (value)=>{
@@ -70,6 +70,7 @@ const SubFamiliaSelect = (props) => {
                     idFamilia==-1 ? <></> :
                     (
                         <Select 
+                        size="small"
                         disabled={typeof props.disabled === 'undefined' ? false : props.disabled}
                         style={{ width: 240 }}
                         loading = {subFamiliaLoading}

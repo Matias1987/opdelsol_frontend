@@ -67,6 +67,7 @@ const GrupoSelect = (props) => {
         <>
             <Space wrap>
                 <Select 
+                size="small"
                 disabled={typeof props.disabled === 'undefined' ? false : props.disabled}
                 style={{ width: 240 }}
                 
@@ -88,6 +89,7 @@ const GrupoSelect = (props) => {
                     idFamilia==-1 ? <></> :
                     (
                         <Select 
+                        size="small"
                         disabled={typeof props.disabled === 'undefined' ? false : props.disabled}
                         style={{ width: 240 }}
                         loading = {subFamiliaLoading}
@@ -110,6 +112,7 @@ const GrupoSelect = (props) => {
                     idSubFamilia == -1 ? <></> :
                     (
                         <Select 
+                        size="small"
                         disabled={typeof props.disabled === 'undefined' ? false : props.disabled}
                         style={{ width: 240 }}
                         loading = {grupoLoading}

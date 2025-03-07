@@ -29,7 +29,7 @@ const   FiltroCodigos = (props) => {
     }
 
     return <div style={{borderRadius:"15px", }}>
-        <div style={{
+        {/*<div style={{
             zIndex:2, 
             marginBottom:"-9px", 
             fontSize:".85em", 
@@ -42,12 +42,12 @@ const   FiltroCodigos = (props) => {
             fontWeight:"bold"
             }}>
         <i>Filtros</i>
-        </div>
+        </div>*/}
     <Row style={{padding:".2em"}}>
         
         <Col span={23}>
             <Row>
-                <Col span={24} style={{backgroundColor:"#E5E8E7"}}>
+                <Col span={24} style={{backgroundColor:"#E5E8E7", padding:"4px"}}>
                     <CategoriaSelect callback={callback} />
                 </Col>
             </Row>

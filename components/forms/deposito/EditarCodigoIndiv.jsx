@@ -2,7 +2,7 @@ import Tags from "@/components/etiquetas/tagsCodigos";
 import { post_method } from "@/src/helpers/post_helper";
 import { get, post } from "@/src/urls";
 import { Button, Col,  Input, Modal, Radio, Row, Spin } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const EditarCodigoIndiv = (props) =>{
 
@@ -13,6 +13,8 @@ const EditarCodigoIndiv = (props) =>{
     const [modoPrecio, setModoPrecio] = useState(1)
 
     const [precioSubgrupo, setPrecioSubgrupo] = useState(0)
+
+    useEffect(()=>{onOpen()},[])
 
     const onOpen = () => {
         setOpen(true)
@@ -61,11 +63,7 @@ const EditarCodigoIndiv = (props) =>{
     }
 
     return <>
-    <Button onClick={onOpen} danger type="primary" size="small">{props.buttonText}</Button>
-    
-    <Modal open={open} destroyOnClose onCancel={onClose} footer={null} key={props.idcodigo}> 
-
-        {codigo == null ? <><Spin /></> :<> 
+    {codigo == null ? <><Spin /></> :<> 
         <Row>
             <Col span={24}>
                 Modificar C&oacute;digo
@@ -115,7 +113,12 @@ const EditarCodigoIndiv = (props) =>{
                 </Col>
             </Row>
             </>}
-        </Modal>
+    {/*<Button onClick={onOpen} danger type="primary" size="small">{props.buttonText}</Button>
+    
+    <Modal open={open} destroyOnClose onCancel={onClose} footer={null} key={props.idcodigo}> 
+
+        
+    </Modal>*/}
     </>
 
 }

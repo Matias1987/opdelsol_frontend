@@ -2,7 +2,7 @@ import { Button, Table, Input, Row, Affix, Checkbox, Col, Modal, Divider, Card }
 import { useRef, useState } from "react";
 import { get, post } from "@/src/urls";
 import globals from "@/src/globals";
-import { PlusCircleFilled, PlusCircleOutlined } from "@ant-design/icons";
+import { PlusCircleFilled, PlusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import { regex_get_id_if_match } from "@/src/helpers/barcode_helper";
 import SubGroupSelect from "@/components/SubGroupSelect";
 import CategoriaSelect from "@/components/CategoriaSelect";
@@ -208,17 +208,20 @@ const SearchStockEnvio = (props) => {
                     dataSource={dataSource} 
                     columns={
                         [
-                            {title:"Codigo", dataIndex: "codigo" },
-                            {title:"Loc.", dataIndex: "cantidad", render: (_,{cantidad})=>(<span style={{color:"#00972D"}}>{cantidad}</span>)},
-                            {title:"Dest.", dataIndex: "cantidad_destino", render: (_,{cantidad_destino})=>(<span style={{color:"red"}}>{cantidad_destino}</span>)},
+                            {width:"200px", title:"Codigo", dataIndex: "codigo" },
+                            {width:"100px", title:"Loc.", dataIndex: "cantidad", render: (_,{cantidad})=>(<span style={{color:"#00972D"}}>{cantidad}</span>)},
+                            {width:"100px", title:"Dest.", dataIndex: "cantidad_destino", render: (_,{cantidad_destino})=>(<span style={{color:"red"}}>{cantidad_destino}</span>)},
                             {
+                                width:"80px", 
                                 title:<>
                                     <Button 
+                                    type="primary"
+                                    size="small"
                                     onClick={
                                         (e)=>{
                                             props.callback((dataSource.filter(r=>r.checked)).map(e=>e.idcodigo))
                                         }
-                                    }><PlusCircleOutlined /></Button>
+                                    }><PlusOutlined /></Button>
                                 </>, 
                                 dataIndex: "habilitado",
                                 render: 
@@ -227,7 +230,7 @@ const SearchStockEnvio = (props) => {
                                         <>
                                             {
                                                 habilitado.val?
-                                                <Button onClick={()=>{props.callback([habilitado.idcodigo])}}><PlusCircleFilled /></Button>
+                                                <Button size="small" onClick={()=>{props.callback([habilitado.idcodigo])}}><PlusOutlined /></Button>
                                                 :
                                                 <span>Ya seleccionado</span>
                                             }
@@ -236,14 +239,16 @@ const SearchStockEnvio = (props) => {
                                         )
                                     }
                             },
-                            {title:<>
+                            {
+                            width:"50px", 
+                            title:<>
                             <Checkbox 
                                 onChange={(e)=>{setDataSource(ds=>(ds.map(r=>({...r,checked:e.target.checked}))))}}
                             /></>, dataIndex:"", render:(_,{idcodigo, checked})=>{
                                 return <><Checkbox onChange={(e)=>{
                                                     setDataSource(ds=>ds.map(r=>(r.idcodigo==idcodigo?{...r,checked:e.target.checked}:r)))}}
                                                     checked={checked}
-                                        /></>}}
+                            /></>}}
                         ]
                     }
                 />

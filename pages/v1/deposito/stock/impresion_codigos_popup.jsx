@@ -34,7 +34,7 @@ const ImpresionCodigosPopup = (props) => {
     }
 
     return <>
-        <Button onClick={()=>{onOpen(); setOpen(true);}}><BarcodeOutlined /> Imprimir Codigos</Button>
+        <Button size="small" onClick={()=>{onOpen(); setOpen(true);}}><BarcodeOutlined /> Imprimir Codigos</Button>
     <Modal 
     width={"100%"}
     open={open}
