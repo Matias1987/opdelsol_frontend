@@ -2,8 +2,7 @@ import MyLayout from "@/components/layout/layout";
 import globals from "@/src/globals";
 import { post_method } from "@/src/helpers/post_helper";
 import { post } from "@/src/urls";
-import { Button, Form, Input } from "antd";
-import Card from "antd/es/card/Card";
+import { Button, Form, Input, Card } from "antd";
 
 export default function BajaDesperfecto(){
 
