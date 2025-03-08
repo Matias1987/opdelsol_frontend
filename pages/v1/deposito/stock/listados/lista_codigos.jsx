@@ -10,7 +10,8 @@ import globals from "@/src/globals";
 import { post_method } from "@/src/helpers/post_helper";
 import { get, post } from "@/src/urls";
 import { DownOutlined, EditOutlined, InfoOutlined } from "@ant-design/icons";
-import { Button, Checkbox, Col, Dropdown, Input, Modal, Row, Space, Table, Tag } from "antd";
+import { Card, Button, Checkbox, Col, Dropdown, Input, Modal, Row, Space, Table, Tag } from "antd";
+
 import { useEffect, useState } from "react";
 
 export default function ListaCodigos(){
@@ -97,7 +98,7 @@ export default function ListaCodigos(){
         {width:"250px", title: 'Ruta',dataIndex: 'ruta', render:(_,obj)=><span style={{fontSize:".75em"}}>{obj.ruta}<EditarSubgrupo idsubgrupo={obj.idsubgrupo} buttonText={obj.subgrupo} callback={()=>{setChange(!change)}} /></span>},
         {width:"250px", title: 'Codigo',dataIndex: 'codigo'},
         {width:"250px", title: 'Descripcion',dataIndex: 'descripcion'},
-        {width:"250px", title: 'Modo Precio',dataIndex: 'modo_precio', render:(_,{modo_precio})=>{
+        {width:"150px", title: 'Modo Precio',dataIndex: 'modo_precio', render:(_,{modo_precio})=>{
             switch(modo_precio)
             {
                 case 0: return <Tag color="blue">Multiplicador</Tag>
@@ -105,8 +106,8 @@ export default function ListaCodigos(){
                 case 2: return <Tag color="yellow">Propio</Tag>
             }
         }},
-        {width:"250px", title:"Etiquetas", render:(_,{etiquetas})=>{return<span style={{color:"blue", fontWeight:"bold"}}>{etiquetas}</span>}},
-        {width:"250px", title: "Precio", dataIndex: "precio"},
+        {width:"200px", title:"Etiquetas", render:(_,{etiquetas})=>{return<span style={{color:"blue", fontWeight:"bold"}}>{etiquetas}</span>}},
+        {width:"100px", title: "Precio", dataIndex: "precio"},
         /*{
             title: 'Estado',
             dataIndex: 'estado', 
@@ -114,8 +115,8 @@ export default function ListaCodigos(){
             render: (_,{estado})=>(<span style={{color: (estado=='ACTIVO' ? "green" : "red")}} >{estado}</span>)
         },*/
         {
-            width:"250px", 
-            title: 'Acciones',
+            width:"100px", 
+            title: '',
             render: 
                 (_,{idcodigo})=><Dropdown 
                         menu={
@@ -145,30 +146,38 @@ export default function ListaCodigos(){
 
     return(
         <>
-            <h3>C&oacute;digos</h3>
-            <Row style={{padding:"1em"}}>
-                <Col span={24}>
-                    <FiltroCodigos callback={callback_filtros}  />
-                </Col>
-            </Row>
-            <Row style={{padding:"1em"}}>
-                <Col span={12}>
-                    <EditarCodigoGrupo
-                        disabled={(dataSource.filter(d=>d.checked)).length<1} 
-                        codigos={ (dataSource.filter(d=>d.checked)).map(c=>({idcodigo: c.idcodigo, codigo: c.codigo, precio: c.precio}))  }  
-                        callback={()=>{setChange(!change);}}
-                    />
-                </Col>
-                <Col span={12}>
-                    <Button disabled={(dataSource.filter(d=>d.checked)).length<1} type="primary" onClick={()=>{setPopupTagsOpen(true)}}>Editar Etiquetas</Button>
-                </Col>
-            </Row>
-            <Row>
-                <Col span={24}>
-                    <Table columns={columns} dataSource={dataSource} loading={loading}  scroll={{y:"300px"}} rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'} />
-                </Col>
-            </Row>
-            
+            <Card
+            size="small"
+            title="Productos"
+            headStyle={{backgroundColor:"#F07427", color:"white"}}
+            >
+               
+                <Row style={{padding:"1em"}}>
+                    <Col span={24}>
+                        <FiltroCodigos callback={callback_filtros}  />
+                    </Col>
+                </Row>
+                <Row style={{padding:"1em"}}>
+                    <Col span={24}>
+                        <EditarCodigoGrupo
+                            disabled={(dataSource.filter(d=>d.checked)).length<1} 
+                            codigos={ (dataSource.filter(d=>d.checked)).map(c=>({idcodigo: c.idcodigo, codigo: c.codigo, precio: c.precio}))  }  
+                            callback={()=>{setChange(!change);}}
+                        />
+                        &nbsp;
+                        <Button size="small" disabled={(dataSource.filter(d=>d.checked)).length<1} type="primary" onClick={()=>{setPopupTagsOpen(true)}}>Editar Etiquetas</Button>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col span={24}>
+                        <Table 
+                        columns={columns} 
+                        dataSource={dataSource} 
+                        loading={loading}  scroll={{y:"300px"}} 
+                        rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'} />
+                    </Col>
+                </Row>
+            </Card>
             <Modal 
                 footer={null}
                 width={"80%"}

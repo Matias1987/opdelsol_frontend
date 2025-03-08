@@ -1,4 +1,4 @@
-import { Affix, Button, Col, Divider, Form, Input, InputNumber, Menu, Row, Table } from "antd";
+import { Affix, Button, Card, Col, Divider, Form, Input, InputNumber, Menu, Row, Table } from "antd";
 import LoadSelect from "../LoadSelect";
 import { useEffect, useState } from "react";
 import globals from "@/src/globals";
@@ -191,112 +191,118 @@ const EnvioForm = (props) => {
     
     return (
         <>
-            <Row>
-            <Col span={14} style={{padding:".5em", borderRadius:"14px", backgroundColor:"#C8DFE6"}}>
-            &nbsp;
-            <Form
-            style={{color: "white"}}
-            onFinish={onFinish}
-            onFinishFailed={onFinishFailed}
-            form={form}
-            >
-                {/* sucursal destino */}
-                <Form.Item label={"Sucursal Destino:"} name={"sucursal_idsucursal"} required={true}>
-                    <LoadSelect
-                            parsefnt = {
-                                (data) =>(
-                                    data.map((row)=>(
-                                        {
-                                            "value": row.idsucursal,
-                                            "label": row.nombre
-                                        }
-                                    ))
-                                )
-                            }
-                            fetchurl={urls.get.sucursales} 
-                            callback={(id)=>{setValue("sucursal", id)}}      
-                    />
-                </Form.Item>
-                <Divider />
-                    <Form.Item name={"items"} label={""}>
-                        <Table
-                        rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'}
-                        scroll={{y:"400px"}}
-                        size="small"
-                        pagination={false}
-                        loading={tableLoading}
-                        columns = {[
-                            {width:"200px", title:"", dataIndex: "ruta", render:(_,{ruta})=>(<span style={{ fontSize:".75em"}}><i>{ruta}</i></span>)  },
-                            {width:"200px", title:"codigo", dataIndex: "codigo", render: (codigo)=>(
-                                <span style={{color:"red"}}><b>{codigo}</b></span>
-                            ) },
-                            {width:"150px", title:"Precio", dataIndex: "precio", render:(_,{precio})=>(<span style={{ fontSize:".75em"}}><i>$&nbsp;{precio}</i></span>)  },
-                            {
-                                width:"150px",
-                                title:<>
-                                    <Button type="link" onClick={decrement_all} size="small">
-                                        <DownOutlined />
-                                    </Button>
-                                    &nbsp;Cantidad&nbsp;
-                                    <Button type="link" onClick={increment_all} size="small">
-                                        <UpOutlined />
-                                    </Button>
-                                </>, 
-                                dataIndex: "obj",  
-                                value: 1,
-                                render: (_,{obj, cantidad})=>(
-                                    <>
-                                    <Input type="number" style={{width:"50px"}} min={0} max={obj.max} defaultValue={0} value={cantidad} onChange={(e)=>{
-                                        
-                                        setTableData(talbeData=>{
-
-                                            const _data = tableData.map(p=>{if(p.key==obj.key){p.cantidad=e.target.value} return p;})
-                                            actualizarTotal(_data)
-                                            return _data;
-                                        }
-                                        )
-                                    }} />
-                                    <span style={{fontSize:".8em", color:"blue"}}>/{obj.max}</span>
-                                    </>
-                                )
-                            },
-                            {
-                                width:"50px",
-                                title:<><Button size="small" disabled={tableData.length<1} danger onClick={()=>{setTableData([])}}><CloseCircleFilled /></Button></>, 
-                                dataIndex: "ref_id",
-                                render: (_,{ref_id})=>(
-                                    <Button size="small"  danger onClick={()=>{remove_row(ref_id)}}>X</Button>)
-                                ,
-                            },
-                        ]}
-                        dataSource={tableData}
+            <Card
+                size="small"
+                title="Nuevo Envío"
+                headStyle={{backgroundColor:"#F07427", color:"white"}}
+                >
+                <Row>
+                <Col span={14}>
+                &nbsp;
+                <Form
+                style={{color: "white"}}
+                onFinish={onFinish}
+                onFinishFailed={onFinishFailed}
+                form={form}
+                >
+                    {/* sucursal destino */}
+                    <Form.Item label={"Sucursal Destino:"} name={"sucursal_idsucursal"} required={true}>
+                        <LoadSelect
+                                parsefnt = {
+                                    (data) =>(
+                                        data.map((row)=>(
+                                            {
+                                                "value": row.idsucursal,
+                                                "label": row.nombre
+                                            }
+                                        ))
+                                    )
+                                }
+                                fetchurl={urls.get.sucursales} 
+                                callback={(id)=>{setValue("sucursal", id)}}      
                         />
-                </Form.Item>
-                
-                <Form.Item>
-                    <Affix offsetBottom={bottom}>
-                        <div>
-                            <Input readOnly addonBefore="Total:" value={total} />
-                            <Divider />
-                            <Button disabled={tableLoading || tableData.length<1 || !generarEnvioBtnEnabled} block type="primary" htmlType="submit">Generar Env&iacute;o</Button>
-                        </div>
-                    </Affix>
-                </Form.Item>
-            </Form>
-            </Col>
-            <Col span={10} style={{padding:"8px"}}>
+                    </Form.Item>
+                    <Divider />
+                        <Form.Item name={"items"} label={""}>
+                            <Table
+                            rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'}
+                            scroll={{y:"400px"}}
+                            size="small"
+                            pagination={false}
+                            loading={tableLoading}
+                            columns = {[
+                                {width:"200px", title:"", dataIndex: "ruta", render:(_,{ruta})=>(<span style={{ fontSize:".75em"}}><i>{ruta}</i></span>)  },
+                                {width:"200px", title:"codigo", dataIndex: "codigo", render: (codigo)=>(
+                                    <span style={{color:"red"}}><b>{codigo}</b></span>
+                                ) },
+                                {width:"150px", title:"Precio", dataIndex: "precio", render:(_,{precio})=>(<span style={{ fontSize:".75em"}}><i>$&nbsp;{precio}</i></span>)  },
+                                {
+                                    width:"150px",
+                                    title:<>
+                                        <Button type="link" onClick={decrement_all} size="small">
+                                            <DownOutlined />
+                                        </Button>
+                                        &nbsp;Cantidad&nbsp;
+                                        <Button type="link" onClick={increment_all} size="small">
+                                            <UpOutlined />
+                                        </Button>
+                                    </>, 
+                                    dataIndex: "obj",  
+                                    value: 1,
+                                    render: (_,{obj, cantidad})=>(
+                                        <>
+                                        <Input type="number" style={{width:"50px"}} min={0} max={obj.max} defaultValue={0} value={cantidad} onChange={(e)=>{
+                                            
+                                            setTableData(talbeData=>{
 
-                <SearchStockEnvio 
-                    idSucursalDestino={sucursalDestId}
+                                                const _data = tableData.map(p=>{if(p.key==obj.key){p.cantidad=e.target.value} return p;})
+                                                actualizarTotal(_data)
+                                                return _data;
+                                            }
+                                            )
+                                        }} />
+                                        <span style={{fontSize:".8em", color:"blue"}}>/{obj.max}</span>
+                                        </>
+                                    )
+                                },
+                                {
+                                    width:"50px",
+                                    title:<><Button size="small" disabled={tableData.length<1} danger onClick={()=>{setTableData([])}}><CloseCircleFilled /></Button></>, 
+                                    dataIndex: "ref_id",
+                                    render: (_,{ref_id})=>(
+                                        <Button size="small"  danger onClick={()=>{remove_row(ref_id)}}>X</Button>)
+                                    ,
+                                },
+                            ]}
+                            dataSource={tableData}
+                            />
+                    </Form.Item>
                     
-                    callback={(arr)=>{
-                        //alert(JSON.stringify(arr))
-                        setRowsToAdd(arr)
-                    }} 
-                    />
-                
-            </Col>
-            </Row>
+                    <Form.Item>
+                        <Affix offsetBottom={bottom}>
+                            <div>
+                                <Input readOnly addonBefore="Total:" value={total} />
+                                <Divider />
+                                <Button disabled={tableLoading || tableData.length<1 || !generarEnvioBtnEnabled} block type="primary" htmlType="submit">Generar Env&iacute;o</Button>
+                            </div>
+                        </Affix>
+                    </Form.Item>
+                </Form>
+                </Col>
+                <Col span={10} style={{padding:"8px"}}>
+
+                    <SearchStockEnvio 
+                        idSucursalDestino={sucursalDestId}
+                        
+                        callback={(arr)=>{
+                            //alert(JSON.stringify(arr))
+                            setRowsToAdd(arr)
+                        }} 
+                        />
+                    
+                </Col>
+                </Row>
+            </Card>
         </>
         
     )

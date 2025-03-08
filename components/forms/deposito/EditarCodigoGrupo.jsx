@@ -63,7 +63,7 @@ const EditarCodigoGrupo = (props) => {
     }
 
     return <>
-    <Button danger type="primary" onClick={()=>{onOpen()}} disabled={typeof props.disabled === 'undefined' ? false : props.disabled }>Editar Lote</Button>
+    <Button size="small" danger type="primary" onClick={()=>{onOpen()}} disabled={typeof props.disabled === 'undefined' ? false : props.disabled }>Editar Lote</Button>
     <Modal width={"80%"} open={open} onCancel={()=>{setOpen(false)}} footer={null} title="Editar Codigos Lote" destroyOnClose>
         
         

@@ -62,10 +62,10 @@ const   FiltroCodigos = (props) => {
             </Row>
             <Row style={{borderBottomLeftRadius:"15px"}}>
                 <Col span={18}>
-                    <Input allowClear prefix="Codigo: " style={{backgroundColor:"#E5E8E7"}} value={filtros.codigo}  onChange={(e)=>{setApplyPending(true); onCodigoChange((e.target.value||""))}}/>
+                    <Input size="small" allowClear prefix="Codigo: " style={{backgroundColor:"#E5E8E7"}} value={filtros.codigo}  onChange={(e)=>{setApplyPending(true); onCodigoChange((e.target.value||""))}}/>
                 </Col>
-                <Col span={6} >
-                    <Button block disabled={!applyPending} type={"primary"}  onClick={()=>{
+                <Col style={{width:"80px"}}>
+                    <Button  block disabled={!applyPending} type={"primary"}  onClick={()=>{
                         setApplyPending(false)
                         props?.callback?.(filtros)
                     }}>Aplicar</Button>

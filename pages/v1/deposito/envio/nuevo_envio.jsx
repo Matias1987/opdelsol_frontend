@@ -9,7 +9,7 @@ export default function NuevoEnvio(){
 
     return (
         <>
-        <h3>Nuevo Env&iacute;o</h3>
+        
         <EnvioForm  action="NONE" />
         </>
     )

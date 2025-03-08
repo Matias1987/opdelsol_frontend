@@ -683,17 +683,15 @@ const CodeGrid = (props) => {
             
                 <Row>
                     <Col span={24}>
-                        <Button disabled={selectedCode==null} onClick={()=>{setPopupEditarStockOpen(true)}}>Editar Cantidad</Button>
+                        <Button size="small" type="link" disabled={selectedCode==null} onClick={()=>{setPopupEditarStockOpen(true)}}>Editar Cantidad</Button>
+                        <br />
+                        <br />
                     </Col>
                 </Row>
                 
                 </>:<></>
             }
-            <Row>
-                <Col span={24}>
-                    <Divider />
-                </Col>
-            </Row>
+            
             {/*<Row>
                 <Col span={24}>
                     <FacturaSelect2 
@@ -722,7 +720,9 @@ const CodeGrid = (props) => {
                 selectedCode!=null && codigosSeleccion.length<1 ?<>
                 <Row>
                     <Col span={24}>
-                        <Button onClick={()=>{setPopupStockIdeal(true)}}>Editar Cantidad</Button>
+                        <Button size="small" type="link" onClick={()=>{setPopupStockIdeal(true)}}>Editar Cantidad</Button>
+                        <br />
+                        <br />
                     </Col>
                 </Row>
                 <Modal footer={null} open={popupStockIdeal} onCancel={()=>{setPopupStockIdeal(false)}} >
@@ -744,12 +744,14 @@ const CodeGrid = (props) => {
         </Row>
         <Row>
             <Col span={24}>
-                <DatePicker.RangePicker size="large"  onChange={periodoDia}/>
+                <DatePicker.RangePicker size="small"  onChange={periodoDia}/>
             </Col>
         </Row>
         <Row>
             <Col span={24}>
-                <Button disabled={filtroPeriodo.desde==''&&filtroPeriodo.hasta==''} block onClick={()=>{setReload(!reload)}}>Aplicar</Button>
+                <Button disabled={filtroPeriodo.desde==''&&filtroPeriodo.hasta==''} size="small" onClick={()=>{setReload(!reload)}}>Aplicar</Button>
+                <br />
+                <br />
             </Col>
         </Row>
         
@@ -764,13 +766,39 @@ const CodeGrid = (props) => {
     <Row>
         <Col span={24}>
             Subgrupo: {subgrupo==null ? props.idsubgrupo : <><Tag color="geekblue">{subgrupo.nombre_largo}</Tag></>}
-            <Divider />
+            <br />
+            <br />
+        </Col>
+    </Row>
+    <Row>
+        <Col span={24}>
+           
+            
+        {
+                selectedCode!=null && codigosSeleccion.length<1? <>
+                <Row>
+                    <Col span={24}>
+                        Selecci&oacute;n: &nbsp;
+                        <Tag color="blue">{"ESF " +selectedCode.esf}</Tag>  
+                        <Tag color="green">{"CIL " +selectedCode.cil}</Tag>   
+                        <b>{selectedCode.codigo}</b> 
+                        &nbsp;&nbsp;Cantidad: <b>{tipoGrilla == 's' || tipoGrilla == 'p' ?  selectedCode.cantidad : tipoGrilla == 'i' ? selectedCode.stock_ideal : (parseInt(selectedCode.cantidad) - parseInt(selectedCode.stock_ideal))}</b> 
+
+                    </Col>
+                </Row>
+               
+                
+                </>:<></>
+            }
+        {
+            tipoGrilla=="s" ? stock_mode() : tipoGrilla == "i" ? ideal_mode() : tipoGrilla=="p" ? periodo_mode() : dif_mode()
+        }
         </Col>
     </Row>
     <Row>
         <Col span={24}>
             <Flex vertical gap="middle">
-                <Radio.Group onChange={onChange} defaultValue="s" value={tipoGrilla}>
+                <Radio.Group onChange={onChange} defaultValue="s" value={tipoGrilla} size="small">
                     <Radio.Button value="s">Actual</Radio.Button>
                     <Radio.Button value="i">Ideal</Radio.Button>
                     <Radio.Button value="d">Dif.</Radio.Button>
@@ -786,46 +814,14 @@ const CodeGrid = (props) => {
         </Col>
     </Row>
     <Row>
-        <Col span={8}>
-            <Row>
-                {/*<Button size="small" onClick={onPopupSeleccionOpen} disabled={codigosSeleccion.length<1}><BorderOuterOutlined /> Selecci&oacute;n</Button>*/}
-                <EditarCodigoGrupo
-                        disabled={codigosSeleccion.length<1} 
-                        codigos={ codigosSeleccion.map(c=>({idcodigo: c.idcodigo, codigo: c.codigo, precio: c.precio}))  }  
-                        callback={()=>{setReload(!reload)}}
-                    />
-                <Divider />
-            </Row>
-            
-        {
-                selectedCode!=null && codigosSeleccion.length<1? <>
-                <Row>
-                    <Col span={24}>
-                        C&oacute;digo Seleccionado: 
-                    </Col>
-                </Row>
-                <Row>
-                    <Col span={24}>
-                        <Tag color="blue">{"ESF " +selectedCode.esf}</Tag>  
-                        <Tag color="green">{"CIL " +selectedCode.cil}</Tag>  
-                    </Col>
-                </Row>
-                <Row>
-                    <Col span={24}>
-                        <b>{selectedCode.codigo}</b>  
-                    </Col>
-                </Row>
-                <Row>
-                    <Col span={24}>
-                        Cantidad: <b>{tipoGrilla == 's' || tipoGrilla == 'p' ?  selectedCode.cantidad : tipoGrilla == 'i' ? selectedCode.stock_ideal : (parseInt(selectedCode.cantidad) - parseInt(selectedCode.stock_ideal))}</b>  
-                    </Col>
-                </Row>
-                
-                </>:<></>
-            }
-        {
-            tipoGrilla=="s" ? stock_mode() : tipoGrilla == "i" ? ideal_mode() : tipoGrilla=="p" ? periodo_mode() : dif_mode()
-        }
+        <Col span={24}>
+            {/*<Button size="small" onClick={onPopupSeleccionOpen} disabled={codigosSeleccion.length<1}><BorderOuterOutlined /> Selecci&oacute;n</Button>*/}
+            <EditarCodigoGrupo
+                    disabled={codigosSeleccion.length<1} 
+                    codigos={ codigosSeleccion.map(c=>({idcodigo: c.idcodigo, codigo: c.codigo, precio: c.precio}))  }  
+                    callback={()=>{setReload(!reload)}}
+                />
+            <Divider />
         </Col>
     </Row>
     <Row>

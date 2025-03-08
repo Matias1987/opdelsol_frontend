@@ -21,12 +21,12 @@ export default function TestMenu(){
           
           <Menu.Item key="100"><Link href={get_url_to("deposito/")}><HomeOutlined />&nbsp;Inicio  </Link></Menu.Item>
           <Menu.Item style={{backgroundColor:"lightgoldenrodyellow"}} key="40"><Link href={get_url_to("deposito/envio/nuevo_envio")}><StarOutlined />&nbsp;Nuevo Envio  </Link></Menu.Item>
-          <Menu.Item key={"31"}><Link href={get_url_to("deposito/stock/listados/lista_stock")}>Lista Stock</Link></Menu.Item>
+          <Menu.Item key={"31"}><Link href={get_url_to("deposito/stock/listados/lista_stock")}>Stock Sucursal</Link></Menu.Item>
           <Menu.Item key="sub2_32" >
-              <Link href={get_url_to("deposito/stock/agregar_stock_lote")}>&nbsp;Agregar Stock</Link>
+              <Link href={get_url_to("deposito/stock/agregar_stock_lote")}>Agregar Productos</Link>
           </Menu.Item>
           <Menu.Item key="110" >
-                <Link href={get_url_to("deposito/stock/listados/lista_codigos")}>C&oacute;digos</Link>
+                <Link href={get_url_to("deposito/stock/listados/lista_codigos")}>Lista de Productos</Link>
           </Menu.Item>
           <SubMenu key={"submenu_tablas"} title={"Tablas"} style={{backgroundColor:"lightblue"}}>
               <Menu.Item key="subsub121" ><BarsOutlined /> 
@@ -57,14 +57,9 @@ export default function TestMenu(){
           <Menu.Item key="sub2_42" ><PartitionOutlined /> 
               <Link href={get_url_to("deposito/arbol_codigos")}>&nbsp;&Aacute;rbol de C&oacute;digos</Link>
             </Menu.Item>
-          <SubMenu key="sub4" title={<span><UserOutlined /><span>Proveedores</span></span>}>
-            <Menu.Item key="sub4_29"><FileTextOutlined />
-             <Link href={get_url_to("deposito/proveedores/lista_proveedores")}>Lista</Link>
-            </Menu.Item>
-            <Menu.Item key="sub4_28"><PlusCircleOutlined />
-             <Link href={get_url_to("deposito/proveedores/agregar_proveedor")}>Agregar Proveedor</Link>
-            </Menu.Item>
-          </SubMenu>
+          <Menu.Item key="sub4_29"><UserOutlined />
+            <Link href={get_url_to("deposito/proveedores/lista_proveedores")}>Proveedores</Link>
+          </Menu.Item>
           <SubMenu key="sub6" title={<span><FileTextOutlined /><span>Facturas</span></span>}>
             <Menu.Item key="sub6_30"><FileTextOutlined />
              <Link href={get_url_to("deposito/facturas/lista_facturas")}>Lista</Link>

@@ -41,6 +41,7 @@ const ListaPreciosV3 = (props) => {
             {ids:[globals.familiaIDs.CRISTALES, globals.familiaIDs.LIQUIDOS, globals.familiaIDs.LC]},
             (resp)=>{
                 //alert(JSON.stringify(resp))
+                
                 setSubfamilias(resp.data.map(sf=>({id:sf.idsubfamilia, nombre: sf.nombre_largo, familia: sf.familia})))
 
                 if(resp.data.length>0)
@@ -59,12 +60,13 @@ const ListaPreciosV3 = (props) => {
         fetch(get.optionsforsubfamilia + idsf)
         .then(r=>r.json())
         .then((response)=>{
+
+            const _data_fixed = response.data.filter(_r=>+_r.subgrupo_qtty>0)
             
             setFix(fix+1)
             
-          
+            format_colums(_data_fixed)
             
-            format_colums(response.data)
             setLoading(false)
         })
         .catch(e=>{console.log("error")})
@@ -79,6 +81,7 @@ const ListaPreciosV3 = (props) => {
             let minIdx=0, min=0
             min = weights[0]
             for( let i=1;i<ncols;i++ ) {
+                
                 if(min > weights[i])
                 {
                     minIdx=i

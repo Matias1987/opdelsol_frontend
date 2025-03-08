@@ -4,7 +4,7 @@ import PrinterWrapper from "@/components/PrinterWrapper";
 import CodigosDeBarraEnvio from "@/components/informes/CodigosDeBarra";
 import InformeEnvio from "@/components/informes/InformeEnvio";
 
-import { Table, Button, Tag, Row, Col } from "antd";
+import { Table, Button, Tag, Row, Col, Card } from "antd";
 import { useEffect, useState } from "react";
 const urls = require("../../../../src/urls")
 export default function  ListaEnvios(props){
@@ -84,45 +84,38 @@ export default function  ListaEnvios(props){
 
     return(
         <>
-        <Row>
-            <Col span={24}>
-            <h2 >Env&iacute;os</h2>
-            </Col>
-        </Row>
-        <Row>
-            <Col span={24}>
-                <ExportToCSV 
-                parseFnt={
-                    ()=>{
-                        let str = "Nro., Sucursal Origen, Sucursal Destino, Cantidad Total, Fecha, Estado,\r\n"
-                        data.forEach(r=>{
-                            str+=`${r.idenvio},${r.sucursal_origen},${r.sucursal_idsucursal},${r.cantidad_total},${r.fecha},${r.estado},\r\n`
-                        })
+        <Card
+            size="small"
+            title="Lista de envíos"
+            headStyle={{backgroundColor:"#F07427", color:"white"}}
+            >
+            <Row>
+                <Col span={24}>
+                    <ExportToCSV 
+                    parseFnt={
+                        ()=>{
+                            let str = "Nro., Sucursal Origen, Sucursal Destino, Cantidad Total, Fecha, Estado,\r\n"
+                            data.forEach(r=>{
+                                str+=`${r.idenvio},${r.sucursal_origen},${r.sucursal_idsucursal},${r.cantidad_total},${r.fecha},${r.estado},\r\n`
+                            })
 
-                        return str;
+                            return str;
+                        }
                     }
-                }
-                />
-            </Col>
-        </Row>
-        <Row>
-            <Col span={24}>
-            <Table
-            scroll={{y:"450px"}}
-            columns={columns}
-            dataSource={data}
-        />
-            </Col>
-        </Row>
-        <Row>
-            <Col span={24}>
-            </Col>
-        </Row>
-        <Row>
-            <Col span={24}>
-            </Col>
-        </Row>
-        
+                    />
+                </Col>
+            </Row>
+            <Row>
+                <Col span={24}>
+                <Table
+                scroll={{y:"450px"}}
+                columns={columns}
+                dataSource={data}
+                rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'} 
+            />
+                </Col>
+            </Row>
+        </Card>
 
         
         </>

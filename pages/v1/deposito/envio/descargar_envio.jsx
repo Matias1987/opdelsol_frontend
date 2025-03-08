@@ -5,7 +5,7 @@ import LayoutVentas from "@/components/layout/layout_ventas";
 
 export default function Importar(props){
     
-    return <><h3>Descargar Env&iacute;o</h3><br /><DescargarEnvio /></>
+    return <><DescargarEnvio /></>
 }
 
 Importar.PageLayout =  MyLayout;

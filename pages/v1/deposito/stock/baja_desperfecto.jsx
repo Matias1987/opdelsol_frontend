@@ -3,6 +3,7 @@ import globals from "@/src/globals";
 import { post_method } from "@/src/helpers/post_helper";
 import { post } from "@/src/urls";
 import { Button, Form, Input } from "antd";
+import Card from "antd/es/card/Card";
 
 export default function BajaDesperfecto(){
 
@@ -71,39 +72,43 @@ export default function BajaDesperfecto(){
     }
 
     return (<>
-        <h1>Baja por Desperfecto</h1>
         {/* select codigo first */}
-        <Form
-            onFinish={onFinish}
-        >
-            <Form.Item
-                name={"codigo"}
-                label={"Código"}
-                required={true}
+        <Card 
+        size="small"
+        title="Baja por Desperfecto"
+        headStyle={{backgroundColor:"#F07427", color:"white"}}>
+            <Form
+                onFinish={onFinish}
             >
-                <Input onInput={e => e.target.value = e.target.value.toUpperCase()}  placeholder="Ingrese Codigo"  />
+                <Form.Item
+                    name={"codigo"}
+                    label={"Código"}
+                    required={true}
+                >
+                    <Input onInput={e => e.target.value = e.target.value.toUpperCase()}  placeholder="Ingrese Codigo"  />
 
-            </Form.Item>
-            <Form.Item
-                name={"cantidad"}
-                label={"Cantidad"}
-                required={true}
-            >
-                <Input type="number" step={0} />
+                </Form.Item>
+                <Form.Item
+                    name={"cantidad"}
+                    label={"Cantidad"}
+                    required={true}
+                >
+                    <Input type="number" step={0} />
 
-            </Form.Item>
-            <Form.Item
-                name={"comentarios"}
-                label={"Comentarios"}
-                required={true}
-            >
-                <Input.TextArea onInput={e => e.target.value = e.target.value.toUpperCase()}  placeholder="Ingrese Motivo"   />
+                </Form.Item>
+                <Form.Item
+                    name={"comentarios"}
+                    label={"Comentarios"}
+                    required={true}
+                >
+                    <Input.TextArea onInput={e => e.target.value = e.target.value.toUpperCase()}  placeholder="Ingrese Motivo"   />
 
-            </Form.Item>
-            <Form.Item>
-                <Button danger htmlType="submit">Dar de Baja</Button>
-            </Form.Item>
-        </Form>
+                </Form.Item>
+                <Form.Item>
+                    <Button danger htmlType="submit">Dar de Baja</Button>
+                </Form.Item>
+            </Form>
+        </Card>
     </>)
 }
 

@@ -15,7 +15,7 @@ import globals from "@/src/globals";
 import { post_method } from "@/src/helpers/post_helper";
 import { post } from "@/src/urls";
 import { DownOutlined, EditOutlined, ExportOutlined, InfoOutlined, PlusOutlined, PrinterOutlined, SearchOutlined, TableOutlined, UserOutlined } from "@ant-design/icons";
-import { Button, Checkbox, Col,  Dropdown,  Form, Input, InputNumber, Modal, Row, Select, Space, Switch, Table, Tabs, Tag } from "antd";
+import { Button, Card, Checkbox, Col,  Dropdown,  Form, Input, InputNumber, Modal, Row, Select, Space, Switch, Table, Tabs, Tag } from "antd";
 import { useEffect,  useState } from "react";
 
 import EditarSubgrupo from "@/components/forms/deposito/EditarSubgrupo";
@@ -391,196 +391,199 @@ export default function ListaStock(){
 
     return(
         <>
-            
-
-        <Row>
-            <Col span={24}>
-            <h3>Stock</h3>
-            <Tabs
-            onChange={(v)=>{setActiveTab(v)}}
-            defaultActiveKey="1"
-            activeKey={activeTab}
-            type="card"
-            items={[
-                {
-                    label:'Búsqueda',
-                    key:"1",
-                    children: <div style={{backgroundColor:"rgba(173,216,230,.2)", border:"1px solid rgba(173,216,230,1)" }}>
-                        <Row style={{padding:"1em", }}>
-                            <Col span={24}>
-                                <Input style={{fontSize:"2.5em", backgroundColor:"#D8E3E6"}} prefix={<><Switch checked={codigoSearch} onChange={(c)=>{setCodigoSearch(!codigoSearch)}} checkedChildren="Código" unCheckedChildren="Grupo" /></>} onChange={e=>{
-                                    setQuickSearchValue(e.target.value)
-                                    }} addonAfter={<><Button type="text" onClick={(e)=>{onQuickSearchClick(e.target.value)}}><SearchOutlined /></Button></>} />
-                            </Col>
-                        </Row>
-                    </div>
-                },
-                {
-                    label: 'Búsqueda Av.',
-                    key: '2',
-                    children: <div style={{backgroundColor:"rgba(173,216,230,.2)", padding:".3em", border:"1px solid rgba(173,216,230,1)"}}>
-                    <Form {...{labelCol:{span:5}, wrapperCol:{span:18}}} onFinish={onFinishFiltro} form={form}>
-                        <Row >
-                            <Col span={8}>
-                                <Form.Item label={"Filtar Por"} name={"tipo_filtro"}>
-                                    <Select 
-                                        placeholder="Seleccione..."
-                                    options={[
-                                        {label: 'Codigo Contenga a', value: 'codigo_contenga_a'},
-                                        {label: 'Codigo Igual a ', value: 'codigo_igual_a'},
-                                        {label: 'Precio - Mayor a', value: 'precio_mayor_a'},
-                                        {label: 'Precio - Menor a', value: 'precio_menor_a'},
-                                        {label: 'Precio - Igual a', value: 'precio_igual_a'},
-                                        {label: 'Cantidad - Igual a', value: 'cantidad_igual_a'},
-                                        {label: 'Cantidad - Mayor a', value: 'cantidad_mayor_a'},
-                                        {label: 'Cantidad - Menor a', value: 'cantidad_menor_a'},
-                                        {label: 'Descripción', value: 'detalles'},
-                                        {label: 'SubGrupo', value: 'subgrupo'},
-                                        {label: 'Grupo', value: 'grupo'},
-                                        {label: 'SubFamilia', value: 'subfamilia'},
-                                        {label: 'Familia', value: 'familia'},
-                                        {label: 'Grupo Contenga a', value: 'grupo_contenga_a'},
-                                    ]} 
-                                    style={{width:"100%"}}
-                                    onChange={(value)=>{
-                                        setValue("tipo_filtro",value)
-                                        setTipoFitro(value)
-                                    }}
-                                    />
-                                </Form.Item>
-                            </Col>
-                            <Col span={6}>
-                                <Form.Item label={"Valor"} name={"valor"} key={valueChanged}>
-                                    {FiltroValor()}
-                                </Form.Item>
-                            </Col>
-                            <Col span={1}>
-                            <Form.Item>
-                                    <Button type="primary" htmlType="submit" size="small"><PlusOutlined /> Agregar</Button>
-                                </Form.Item>
-                            </Col>
-                        </Row>
-                        
-                        </Form>
-                        <Form form={form1} onFinish={onFinish}>
-                            <Row>
-                                <Col span={12} >
-                                    <Form.Item label={"Filtros:"} style={{backgroundColor:"#D8DFE6"}}>
-                                        {
-                                            tags.map(t=>(
-                                                (typeof tipos_filtro_dic[t.tipo] === 'undefined' || tipos_filtro_dic[t.tipo] === null) ? <></> :
-
-                                                <Tag color="red" closable  onClose={(e)=>{
-                                                    e.preventDefault();
-                                                    removeTag(t);
-                                                }}>{tipos_filtro_dic[t?.tipo]?.descripcion + ": " +t?.valor}</Tag>
-                                            ))
-                                        }
+        <Card
+        size="small"
+        title="Stock Sucursal"
+        headStyle={{backgroundColor:"#F07427", color:"white"}}
+        >
+            <Row>
+                <Col span={24}>
+                <Tabs
+                onChange={(v)=>{setActiveTab(v)}}
+                defaultActiveKey="1"
+                activeKey={activeTab}
+                type="card"
+                items={[
+                    {
+                        label:'Búsqueda',
+                        key:"1",
+                        children: <div style={{backgroundColor:"rgba(173,216,230,.2)", border:"1px solid rgba(173,216,230,1)" }}>
+                            <Row style={{padding:"1em", }}>
+                                <Col span={24}>
+                                    <Input style={{fontSize:"2.5em", backgroundColor:"#D8E3E6"}} prefix={<><Switch checked={codigoSearch} onChange={(c)=>{setCodigoSearch(!codigoSearch)}} checkedChildren="Código" unCheckedChildren="Grupo" /></>} onChange={e=>{
+                                        setQuickSearchValue(e.target.value)
+                                        }} addonAfter={<><Button type="text" onClick={(e)=>{onQuickSearchClick(e.target.value)}}><SearchOutlined /></Button></>} />
+                                </Col>
+                            </Row>
+                        </div>
+                    },
+                    {
+                        label: 'Búsqueda Av.',
+                        key: '2',
+                        children: <div style={{backgroundColor:"rgba(173,216,230,.2)", padding:".3em", border:"1px solid rgba(173,216,230,1)"}}>
+                        <Form {...{labelCol:{span:5}, wrapperCol:{span:18}}} onFinish={onFinishFiltro} form={form}>
+                            <Row >
+                                <Col span={8}>
+                                    <Form.Item label={"Filtar Por"} name={"tipo_filtro"}>
+                                        <Select 
+                                            placeholder="Seleccione..."
+                                        options={[
+                                            {label: 'Codigo Contenga a', value: 'codigo_contenga_a'},
+                                            {label: 'Codigo Igual a ', value: 'codigo_igual_a'},
+                                            {label: 'Precio - Mayor a', value: 'precio_mayor_a'},
+                                            {label: 'Precio - Menor a', value: 'precio_menor_a'},
+                                            {label: 'Precio - Igual a', value: 'precio_igual_a'},
+                                            {label: 'Cantidad - Igual a', value: 'cantidad_igual_a'},
+                                            {label: 'Cantidad - Mayor a', value: 'cantidad_mayor_a'},
+                                            {label: 'Cantidad - Menor a', value: 'cantidad_menor_a'},
+                                            {label: 'Descripción', value: 'detalles'},
+                                            {label: 'SubGrupo', value: 'subgrupo'},
+                                            {label: 'Grupo', value: 'grupo'},
+                                            {label: 'SubFamilia', value: 'subfamilia'},
+                                            {label: 'Familia', value: 'familia'},
+                                            {label: 'Grupo Contenga a', value: 'grupo_contenga_a'},
+                                        ]} 
+                                        style={{width:"100%"}}
+                                        onChange={(value)=>{
+                                            setValue("tipo_filtro",value)
+                                            setTipoFitro(value)
+                                        }}
+                                        />
                                     </Form.Item>
                                 </Col>
                                 <Col span={6}>
-                                <Form.Item label={<span style={{fontSize:".8em"}}>Orden</span>} name={"orden"}>
-                                    <Select options={[
-                                        {label: 'Alfabetico - Ascendiente', value: 'alf_asc'},
-                                        {label: 'Alfabetico - Descendiente', value: 'alf_desc'},
-                                        {label: 'Precio - Descendiente', value: 'precio_desc'},
-                                        {label: 'Precio - Ascendiente', value: 'precio_asc'},
-                                        {label: 'Cantidad - Ascendiente', value: 'cantidad_asc'},
-                                        {label: 'Cantidad - Descendiente', value: 'cantidad_desc'},
-                                    ]} 
-                                    style={{width:"150px"}}
-                                    onChange={(value)=>{
-                                        setValue1("orden",value)
-                                        setTipoOrden(value);
-                                    }}
-                                    />
-                                </Form.Item>
+                                    <Form.Item label={"Valor"} name={"valor"} key={valueChanged}>
+                                        {FiltroValor()}
+                                    </Form.Item>
                                 </Col>
-                                { globals.esUsuarioDeposito() ?
-                                <Col span={6}>
-                                    <Form.Item>
-                                        <SucursalSelect callback={(id)=>{setSelectedSucursal(id); setValueChanged(!valueChanged)}} />
-                                    </Form.Item>    
-                                </Col>
-                                :
-                                <></>
-                                }
-                            </Row>
-                            <Row>
-                                <Col span={12}>
-                                    <SelectTag callback={(v=>{
-                                        setEtiquetas(v)
-                                        })} />
-                                </Col>
-                                <Col span={6} style={{paddingLeft:"25px"}}>
-                                    <Form.Item>
-                                            <Button  type="primary" htmlType="submit" size="small" block>Aplicar Filtros</Button>
+                                <Col span={1}>
+                                <Form.Item>
+                                        <Button type="primary" htmlType="submit" size="small"><PlusOutlined /> Agregar</Button>
                                     </Form.Item>
                                 </Col>
                             </Row>
                             
-                        </Form>
-                        
-                    </div>
-                }
-            ]}
-            />            
-            </Col>
-        </Row>
-        <Row style={{backgroundColor:"#D3E1E6"}}>
-            {usuarioDep && (selectedSucursal==globals.obtenerSucursal() || selectedSucursal<-1) ?
-                    <Col span={4} style={{padding:".5em"}}>
-                        <Button size="small" onClick={()=>{setOpen(true)}} ><TableOutlined />  Grilla de C&oacute;digos</Button>
-                        <Modal 
-                            footer={null} 
-                            width={"1100px"} 
-                            open={open} 
-                            key={idsubgrupo} 
-                            destroyOnClose={true} 
-                            onCancel={()=>{setOpen(false); setValueChanged(!valueChanged)} }>
-                                <CodeGrid idsubgrupo={idsubgrupo} width={640} height={480} idsucursal={globals.obtenerSucursal()} />
-                        </Modal>
-                    </Col>:<></>}
-                    {usuarioDep  && (selectedSucursal==globals.obtenerSucursal() || selectedSucursal<-1)?<Col span={4} style={{padding:".5em"}}>{edit_popup()}</Col>:<></>}
-                    <Col span={4} style={{padding:".5em"}}>
-                        <ExportToCSV parseFnt={()=>{
-                            let str = "Familia, SubFamilia, Grupo, Subgrupo, Codigo, Descripcion, Cantidad, Precio, Tags,\r\n"
-                            data.forEach(r=>{
-                                str+=`${r.familia},${r.subfamilia},${r.grupo},${r.subgrupo},' ${r.codigo} ',${r.descripcion},${r.cantidad},${r.precio},${(r.etiquetas||"").replace(/,/g ," ; ")},\r\n`
-                            })
-                            return str
-                        }} 
-                        />
-                    </Col>
-                    <Col span={4} style={{padding:".5em"}}>
-                        <ImpresionCodigosPopup codigos={(data.filter(d=>d.checked)).map(c=>({codigo:c.codigo, idcodigo: c.idcodigo , cantidad:  c.cantidad}))} />
-                    </Col>
-                    <Col span={4} style={{padding:".5em"}}>
-                        <Button size="small" disabled={(data.filter(d=>d.checked)).length<1} type="primary" onClick={()=>{setPopupTagsOpen(true)}}>Editar Etiquetas</Button>
-                    </Col>  
-        </Row>
-        <Row>
-            <Col span={24}>
-                <Table 
-                rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'} 
-                columns={columns.filter(item=>!item.hidden)} 
-                dataSource={data} 
-                loading={loading} 
-                scroll={{y:400}}  
-                size="small"
-                />
-            </Col>
-        </Row>
-        <Row>
-            <Col span={24} style={{color:"blue", padding:"1em", fontWeight:"bold", fontSize:"1.3em"}}>
-                Cantidad Total: {total}
-            </Col>
-        </Row>
-        <Row>
-            <Col span={24} key={listId} >
-                <InformeStock data={data} />
-            </Col>
-        </Row>
+                            </Form>
+                            <Form form={form1} onFinish={onFinish}>
+                                <Row>
+                                    <Col span={12} >
+                                        <Form.Item label={"Filtros:"} style={{backgroundColor:"#D8DFE6"}}>
+                                            {
+                                                tags.map(t=>(
+                                                    (typeof tipos_filtro_dic[t.tipo] === 'undefined' || tipos_filtro_dic[t.tipo] === null) ? <></> :
+
+                                                    <Tag color="red" closable  onClose={(e)=>{
+                                                        e.preventDefault();
+                                                        removeTag(t);
+                                                    }}>{tipos_filtro_dic[t?.tipo]?.descripcion + ": " +t?.valor}</Tag>
+                                                ))
+                                            }
+                                        </Form.Item>
+                                    </Col>
+                                    <Col span={6}>
+                                    <Form.Item label={<span style={{fontSize:".8em"}}>Orden</span>} name={"orden"}>
+                                        <Select options={[
+                                            {label: 'Alfabetico - Ascendiente', value: 'alf_asc'},
+                                            {label: 'Alfabetico - Descendiente', value: 'alf_desc'},
+                                            {label: 'Precio - Descendiente', value: 'precio_desc'},
+                                            {label: 'Precio - Ascendiente', value: 'precio_asc'},
+                                            {label: 'Cantidad - Ascendiente', value: 'cantidad_asc'},
+                                            {label: 'Cantidad - Descendiente', value: 'cantidad_desc'},
+                                        ]} 
+                                        style={{width:"150px"}}
+                                        onChange={(value)=>{
+                                            setValue1("orden",value)
+                                            setTipoOrden(value);
+                                        }}
+                                        />
+                                    </Form.Item>
+                                    </Col>
+                                    { globals.esUsuarioDeposito() ?
+                                    <Col span={6}>
+                                        <Form.Item>
+                                            <SucursalSelect callback={(id)=>{setSelectedSucursal(id); setValueChanged(!valueChanged)}} />
+                                        </Form.Item>    
+                                    </Col>
+                                    :
+                                    <></>
+                                    }
+                                </Row>
+                                <Row>
+                                    <Col span={12}>
+                                        <SelectTag callback={(v=>{
+                                            setEtiquetas(v)
+                                            })} />
+                                    </Col>
+                                    <Col span={6} style={{paddingLeft:"25px"}}>
+                                        <Form.Item>
+                                                <Button  type="primary" htmlType="submit" size="small" block>Aplicar Filtros</Button>
+                                        </Form.Item>
+                                    </Col>
+                                </Row>
+                                
+                            </Form>
+                            
+                        </div>
+                    }
+                ]}
+                />            
+                </Col>
+            </Row>
+            <Row style={{backgroundColor:"#D3E1E6"}}>
+                {usuarioDep && (selectedSucursal==globals.obtenerSucursal() || selectedSucursal<-1) ?
+                        <Col span={4} style={{padding:".5em"}}>
+                            <Button size="small" onClick={()=>{setOpen(true)}} ><TableOutlined />  Grilla de C&oacute;digos</Button>
+                            <Modal 
+                                footer={null} 
+                                width={"1100px"} 
+                                open={open} 
+                                key={idsubgrupo} 
+                                destroyOnClose={true} 
+                                onCancel={()=>{setOpen(false); setValueChanged(!valueChanged)} }>
+                                    <CodeGrid idsubgrupo={idsubgrupo} width={640} height={480} idsucursal={globals.obtenerSucursal()} />
+                            </Modal>
+                        </Col>:<></>}
+                        {usuarioDep  && (selectedSucursal==globals.obtenerSucursal() || selectedSucursal<-1)?<Col span={4} style={{padding:".5em"}}>{edit_popup()}</Col>:<></>}
+                        <Col span={4} style={{padding:".5em"}}>
+                            <ExportToCSV parseFnt={()=>{
+                                let str = "Familia, SubFamilia, Grupo, Subgrupo, Codigo, Descripcion, Cantidad, Precio, Tags,\r\n"
+                                data.forEach(r=>{
+                                    str+=`${r.familia},${r.subfamilia},${r.grupo},${r.subgrupo},' ${r.codigo} ',${r.descripcion},${r.cantidad},${r.precio},${(r.etiquetas||"").replace(/,/g ," ; ")},\r\n`
+                                })
+                                return str
+                            }} 
+                            />
+                        </Col>
+                        <Col span={4} style={{padding:".5em"}}>
+                            <ImpresionCodigosPopup codigos={(data.filter(d=>d.checked)).map(c=>({codigo:c.codigo, idcodigo: c.idcodigo , cantidad:  c.cantidad}))} />
+                        </Col>
+                        <Col span={4} style={{padding:".5em"}}>
+                            <Button size="small" disabled={(data.filter(d=>d.checked)).length<1} type="primary" onClick={()=>{setPopupTagsOpen(true)}}>Editar Etiquetas</Button>
+                        </Col>  
+            </Row>
+            <Row>
+                <Col span={24}>
+                    <Table 
+                    rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'} 
+                    columns={columns.filter(item=>!item.hidden)} 
+                    dataSource={data} 
+                    loading={loading} 
+                    scroll={{y:400}}  
+                    size="small"
+                    />
+                </Col>
+            </Row>
+            <Row>
+                <Col span={24} style={{color:"blue", padding:"1em", fontWeight:"bold", fontSize:"1.3em"}}>
+                    Cantidad Total: {total}
+                </Col>
+            </Row>
+            <Row>
+                <Col span={24} key={listId} >
+                    <InformeStock data={data} />
+                </Col>
+            </Row>
+        </Card>
         <Modal 
             footer={null}
             width={"80%"}

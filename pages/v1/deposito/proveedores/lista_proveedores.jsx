@@ -1,9 +1,9 @@
 import FichaProveedor from "@/components/admin/proveedor/fichaProveedor";
 import ProveedorForm from "@/components/forms/ProveedorForm";
 import { get } from "@/src/urls"
-import { EditOutlined } from "@ant-design/icons";
+import { EditOutlined, PlusOutlined } from "@ant-design/icons";
 
-import { Table, Button, Modal } from "antd";
+import { Table, Button, Modal, Card } from "antd";
 import { useState, useEffect } from "react";
 
 const ListaProveedoresDep = (props) => {
@@ -66,13 +66,28 @@ useEffect(()=>{
 
     return (
         <>
-            <h1>Lista de Proveedores</h1>
-            <Button type="primary"  size="small"  onClick={openPopup}>Agregar Proveedor</Button>
+        <Card
+                size="small"
+                title={<>Lista de Proveedores <Button type="text"  size="small"  onClick={openPopup}> <PlusOutlined />Agregar Proveedor</Button></>}
+                headStyle={{backgroundColor:"#F07427", color:"white"}}
+                >
+         
+            <Table 
+                size="small"
+                columns={columns}
+                dataSource={tableData}
+                bordered
+                scroll={{y:"400px"}}
+                rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'}
+            />
+            </Card>
+
             <Modal
+                footer={null}
                 cancelButtonProps={{ style: { display: 'none' } }}
                 okButtonProps={{children:"CANCELAR"}}
                 
-                width={"80%"}
+                width={"400px"}
                 title={"Agregar Proveedor"}
                 open={open}
                 onOk={closePopup}
@@ -82,12 +97,6 @@ useEffect(()=>{
                 <ProveedorForm action="ADD" callback={onOk} 
                     />
             </Modal>
-            <Table 
-                columns={columns}
-                dataSource={tableData}
-            />
-
-
             {/** is this temporary? */}
             <Modal footer={null} width={"90%"} open={popupFichaOpen} onCancel={()=>{setPopupFichaOpen(false)}} destroyOnClose>
                 <FichaProveedor idproveedor={idproveedor} callback={()=>{}} />

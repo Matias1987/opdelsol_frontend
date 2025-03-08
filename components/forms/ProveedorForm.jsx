@@ -1,6 +1,6 @@
 import { post_method } from "@/src/helpers/post_helper";
 import { post } from "@/src/urls";
-import { Input, Form, Button } from "antd";
+import { Input, Form, Button, Row, Col } from "antd";
 
 const ProveedorForm = (props) => {
     const [form] = Form.useForm();
@@ -39,23 +39,39 @@ const ProveedorForm = (props) => {
             onFinishFailed={onFinishFailed}
 
             >
-                <Form.Item
-                name={"nombre"}
-                label={"Nombre"}
-                rules={[{required:true}]}
-                >
-                    <Input onInput={e => e.target.value = e.target.value.toUpperCase()} style={{width:300}}/>
-                </Form.Item>
-                <Form.Item
-                name={"cuit"}
-                label={"CUIT"}
-                rules={[{required:true}]}
-                >
-                    <Input style={{width:300}}/>
-                </Form.Item>
-                <Form.Item>
-                    <Button type="primary" htmlType="submit">Guardar</Button>
-                </Form.Item>
+                <Row>
+                    <Col span={24}>
+                        <Form.Item
+                        name={"nombre"}
+                        label={""}
+                        rules={[{required:true}]}
+                        >
+                            <Input prefix="Nombre" onInput={e => e.target.value = e.target.value.toUpperCase()}/>
+                        </Form.Item>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col span={24}>
+                        <Form.Item
+                        name={"cuit"}
+                        label={""}
+                        rules={[{required:true}]}
+                        >
+                            <Input prefix="CUIT" />
+                        </Form.Item>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col span={24}>
+                        <Form.Item>
+                            <Button block type="primary" htmlType="submit">Guardar</Button>
+                        </Form.Item>
+                    </Col>
+                </Row>
+                
+
+                
+                
             </Form>
         </>
     );

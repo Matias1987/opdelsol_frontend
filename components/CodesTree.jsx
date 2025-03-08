@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import GrillaCristales from "./informes/GrillaCristales";
 
 import { CarryOutOutlined,  EditFilled,  ReloadOutlined,  TableOutlined }  from "@ant-design/icons";
-import { Tree, Row, Col, Table, Divider, Button, Modal, Checkbox }  from "antd";
+import { Tree, Row, Col, Table, Divider, Button, Modal, Checkbox, Card }  from "antd";
 import EditarCodigo from "@/pages/v1/deposito/stock/editar_codigo";
 import EditarCodigoIndiv from "./forms/deposito/EditarCodigoIndiv";
 
@@ -21,7 +21,6 @@ const CodesTree = (props) => {
   const [seleccion,  setSeleccion] = useState(null)
   const [loading, setLoading] = useState(false)
   const [popupEditCodigoOpen, setPopupEditCodigoOpen] = useState(false)
-  const [codigoSeleccion, setCodigoSeleccion] = useState(-1)
   //const [gridPopupOpen, setGridPopupOpen] = useState(false)
   const [reload, setReload] = useState(false)
   useEffect(()=>{
@@ -111,64 +110,69 @@ const CodesTree = (props) => {
   
   return (
     <>
-    {<Row>
-      <Col span={2} style={{padding:"1em"}}>
-        <Button size="small" type="text" disabled={loading} onClick={()=>{setReload(!reload)}}><ReloadOutlined /> Recargar</Button>
-      </Col>
-      <Col span={6}>
-      {
-        seleccion==null?<></>:<div style={{padding:"1em"}}>
-          <i style={{color:"#555555", fontSize:".9em"}} >Tipo:&nbsp;<b>{seleccion.tipo.toUpperCase()}</b>&nbsp;&nbsp;&nbsp;ID:&nbsp;<b>{seleccion.id}</b></i> 
-  
-        </div>
-      }
-      </Col>
-      <Col span={12}>
-      </Col>
-    </Row>}
-    <Row>
-      <Col span={12} style={{overflowY: "scroll", height: "600px", padding:"1em"}}>
-        <Tree
-          key={reload}
-          style={{backgroundColor:"lightyellow", fontWeight:"bold", color:"#000D9D"}}
-          showLine={true}
-          showIcon={true}
-          defaultExpandedKeys={['2']}
-          onSelect={onSelect}
-          treeData={treeData}
-        />
-      </Col>
-      <Col span={12}>
-        <Table 
-        dataSource={dataSource}
-        columns={[
-          {dataIndex:'codigo', title:'Codigo', visible:true},
-          {dataIndex:'descripcion', title:'Descripción', visible:true},
-          {dataIndex:'precio', title:'Precio', visible:true},
-          {render:(_,{idcodigo})=><><EditarCodigoIndiv  buttonText={<><EditFilled /></>} idcodigo={idcodigo} callback={()=>{setPopupEditCodigoOpen(false)}} /></>, visible:true},
-          { title: <><Checkbox onChange={(e)=>{
-            const _items = dataSource.map(c=>({...c,checked:e.target.checked})) 
-            setDataSource(_items)
-            props?.onCodeSelect?.(_items.filter(c=>c.checked))
-
-          }}></Checkbox></>,
-            render:(_,{idcodigo, checked})=><Checkbox 
-            checked={checked}
-            onChange={(e)=>{ 
-              const _items = dataSource.map((c=>c.idcodigo==idcodigo?{...c,checked:e.target.checked} : c))
-              setDataSource(
-               _items 
-              )
-              props?.onCodeSelect?.(_items.filter(c=>c.checked))
-            }}></Checkbox>,
-            visible:true
-        }
-          
-        ].filter(r=>r.visible)}
-        />
-      </Col>
-    </Row>
+    <Card
+        size="small"
+        title="Arbol de Códigos"
+        headStyle={{backgroundColor:"#F07427", color:"white"}}
+        >
+      {<Row>
+        <Col span={2} style={{padding:"1em"}}>
+          <Button size="small" type="text" disabled={loading} onClick={()=>{setReload(!reload)}}><ReloadOutlined /> Recargar</Button>
+        </Col>
+        <Col span={6}>
+        {
+          seleccion==null?<></>:<div style={{padding:"1em"}}>
+            <i style={{color:"#555555", fontSize:".9em"}} >Tipo:&nbsp;<b>{seleccion.tipo.toUpperCase()}</b>&nbsp;&nbsp;&nbsp;ID:&nbsp;<b>{seleccion.id}</b></i> 
     
+          </div>
+        }
+        </Col>
+        <Col span={12}>
+        </Col>
+      </Row>}
+      <Row>
+        <Col span={12} style={{overflowY: "scroll", height: "600px", padding:"1em"}}>
+          <Tree
+            key={reload}
+            style={{backgroundColor:"lightyellow", fontWeight:"bold", color:"#000D9D"}}
+            showLine={true}
+            showIcon={true}
+            defaultExpandedKeys={['2']}
+            onSelect={onSelect}
+            treeData={treeData}
+          />
+        </Col>
+        <Col span={12}>
+          <Table 
+          dataSource={dataSource}
+          columns={[
+            {dataIndex:'codigo', title:'Codigo', visible:true},
+            {dataIndex:'descripcion', title:'Descripción', visible:true},
+            {dataIndex:'precio', title:'Precio', visible:true},
+            {render:(_,{idcodigo})=><><EditarCodigoIndiv  buttonText={<><EditFilled /></>} idcodigo={idcodigo} callback={()=>{setPopupEditCodigoOpen(false)}} /></>, visible:true},
+            { title: <><Checkbox onChange={(e)=>{
+              const _items = dataSource.map(c=>({...c,checked:e.target.checked})) 
+              setDataSource(_items)
+              props?.onCodeSelect?.(_items.filter(c=>c.checked))
+
+            }}></Checkbox></>,
+              render:(_,{idcodigo, checked})=><Checkbox 
+              checked={checked}
+              onChange={(e)=>{ 
+                const _items = dataSource.map((c=>c.idcodigo==idcodigo?{...c,checked:e.target.checked} : c))
+                setDataSource(
+                _items 
+                )
+                props?.onCodeSelect?.(_items.filter(c=>c.checked))
+              }}></Checkbox>,
+              visible:true
+          }
+            
+          ].filter(r=>r.visible)}
+          />
+        </Col>
+      </Row>
+    </Card>
     </>
   );
 };

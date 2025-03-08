@@ -2,7 +2,7 @@ import InformeEnvio from "@/components/informes/InformeEnvio"
 import globals from "@/src/globals"
 import { registrar_evento } from "@/src/helpers/evento_helper"
 import { post_method } from "@/src/helpers/post_helper"
-import { Button, Col, Divider, Row } from "antd"
+import { Button, Card, Col, Divider, Row } from "antd"
 import SelectEnvio from "./SelectEnvio"
 import { useState } from "react"
 import { post } from "@/src/urls"
@@ -22,29 +22,35 @@ const DescargarEnvio = (props) => {
     }
     return (
     <>
-   { <Row>
-        <Col>
-            <SelectEnvio callback={(idenvio)=>{
-                setIdEnvio(idenvio)
-            }} />
-        </Col>
-    </Row>}
-    <Row style={{overflowY:"scroll", height:"300px", backgroundColor:"lightblue"}}>
-        <Col span={24}>
-            <h5>Detalles:</h5>
-            
-    {
-        idEnvio<1? <span className="text_1">Seleccione Env&iacute;o</span> : <InformeEnvio idenvio={idEnvio} key={idEnvio}/>
-    }
-        </Col>
-    </Row>
-    {<Row>
-        <Col span={24}>
-            <Divider />
-            <Button disabled={idEnvio<0} type="dashed" danger onClick={importar_envio}>Importar Env&iacute;o</Button>
-            <Button disabled={idEnvio<0} type="dashed" danger onClick={()=>{setIdEnvio(-1)}}>Cancelar</Button>
-        </Col>
-    </Row>}
+    <Card
+        size="small"
+        title="Descargar Envío"
+        headStyle={{backgroundColor:"#F07427", color:"white"}}
+        >
+    { <Row>
+            <Col>
+                <SelectEnvio callback={(idenvio)=>{
+                    setIdEnvio(idenvio)
+                }} />
+            </Col>
+        </Row>}
+        <Row style={{overflowY:"scroll", height:"300px"}}>
+            <Col span={24}>
+                <h5>Detalles:</h5>
+                
+        {
+            idEnvio<1? <span className="text_1" style={{color:"blue"}}><i>Seleccione Env&iacute;o...</i></span> : <InformeEnvio idenvio={idEnvio} key={idEnvio}/>
+        }
+            </Col>
+        </Row>
+        {<Row>
+            <Col span={24}>
+                <Divider />
+                <Button disabled={idEnvio<0} type="dashed" danger onClick={importar_envio}>Importar Env&iacute;o</Button>
+                <Button disabled={idEnvio<0} type="dashed" danger onClick={()=>{setIdEnvio(-1)}}>Cancelar</Button>
+            </Col>
+        </Row>}
+    </Card>
     </>
     )
 }

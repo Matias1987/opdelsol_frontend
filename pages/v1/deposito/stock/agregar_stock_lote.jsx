@@ -512,7 +512,7 @@ export default function AgregarStockLote(props){
         bodyStyle={{backgroundColor:"#E7E7E7"}}
         headStyle={{backgroundColor:"#F07427", color:"white"}}
         bordered
-        title={<><span>Agregar Stock por Lote</span></>}
+        title={<><span>Agregar Productos</span></>}
         size="small"
         
         >

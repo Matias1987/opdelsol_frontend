@@ -94,53 +94,51 @@ export default function ImprimirCodigos(){
 
     return (
         <>
-            <h3>Imprimir C&oacute;digos de Barras</h3>
-            
-            
-            <Row >
-                
-                <Col span={8} style={{padding:"1em"}}>
-                    <Card size="small" title={<>Agregar C&oacute;digos</>}>
-                        <SearchCodigo callback={(idcodigo)=>{load_details_for_selected_id(idcodigo)}} />
-                    </Card>
-                </Col>
-                <Col span={16} style={{padding:"1em", fontWeight:"bold"}}> 
-                
-                    <Card
-                    size="small"
-                    title={<>Lista de c&oacute;digos a imprimir</>}
-                    >
-                        
-                        <Table
-                        rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'}
+            <Card
+            size="small"
+            title="Imprimir C&oacute;digos de Barras"
+            headStyle={{backgroundColor:"#F07427", color:"white"}}
+            >
+                <Row >
+                    
+                    <Col span={8} style={{padding:"1em"}}>
+                        <Card size="small" title={<>Agregar C&oacute;digos</>}>
+                            <SearchCodigo callback={(idcodigo)=>{load_details_for_selected_id(idcodigo)}} />
+                        </Card>
+                    </Col>
+                    <Col span={16} style={{padding:"1em", fontWeight:"bold"}}> 
+                    
+                        <Card
                         size="small"
-                        scroll={{y:"400px"}}
-                        pagination={false}
-                        loading={tableLoading}
-                        
-                        columns = {[
-                            {title:"codigo", dataIndex: "codigo", },
-                            {
-                                title:"Acciones", 
-                                dataIndex: "ref_id",
-                                render: (_,{ref_id})=>(
-                                    <Button  onClick={()=>{remove_row(ref_id)}} danger={true}><CloseCircleOutlined/></Button>)
-                                ,
-                            },
-                        ]}
-                        dataSource={tableData}
-                        summary={_=><Table.Summary fixed>
-                            {ImprimirDialog()}
-                        </Table.Summary>}
-                        />
-                    </Card>
-                </Col>
-            </Row>
-            <Row>
-                <Col span={24}>
-                
-                </Col>
-            </Row>
+                        title={<>Lista de c&oacute;digos a imprimir</>}
+                        >
+                            
+                            <Table
+                            rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'}
+                            size="small"
+                            scroll={{y:"400px"}}
+                            pagination={false}
+                            loading={tableLoading}
+                            
+                            columns = {[
+                                {title:"codigo", dataIndex: "codigo", },
+                                {
+                                    title:"Acciones", 
+                                    dataIndex: "ref_id",
+                                    render: (_,{ref_id})=>(
+                                        <Button  onClick={()=>{remove_row(ref_id)}} danger={true}><CloseCircleOutlined/></Button>)
+                                    ,
+                                },
+                            ]}
+                            dataSource={tableData}
+                            summary={_=><Table.Summary fixed>
+                                {ImprimirDialog()}
+                            </Table.Summary>}
+                            />
+                        </Card>
+                    </Col>
+                </Row>
+            </Card>
             <br />
         </>
     )
