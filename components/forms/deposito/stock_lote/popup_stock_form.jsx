@@ -167,8 +167,12 @@ useEffect(()=>{
         {props.edit ? <EditOutlined /> : <><PlusCircleOutlined />&nbsp;Agregar</>}
       </Button>
     <Modal
-    title=" "
-       footer={null}
+        onOpen={_=>{
+            setModoPrecio(1)
+        }}
+        destroyOnClose
+        title=" "
+        footer={null}
         okButtonProps={{children:"CERRAR"}}
         
         width={"80%"}
@@ -227,10 +231,12 @@ useEffect(()=>{
                             </Form.Item>
                         </Col>
                     </Row>
+                    {modoPrecio}
                     <Row>
                         <Col span={24}>
-                            <Form.Item label={"Modo Precio"} name={"modo_precio"}>
+                            <Form.Item label={"Modo Precio"} name={"modo_precio"} initialValue={1} key={modoPrecio}>
                                 <Radio.Group 
+
                                 value={modoPrecio}
                                 onChange={(e)=>{
                                         setModoPrecio(v=>{
@@ -253,7 +259,7 @@ useEffect(()=>{
                                         setValue("modo_precio",e.target.value)
                                     }}>
                                    { /*<Radio disabled value={0}>Multiplicador <b>({multiplicador})</b></Radio>*/}
-                                    <Radio value={1}>Precio Subgrupo <b>(${precioSubgrupo})</b></Radio>
+                                    <Radio value={1} defaultChecked>Precio Subgrupo <b>(${precioSubgrupo})</b></Radio>
                                     <Radio value={2}>Precio Individual</Radio>
                                 </Radio.Group>
                             </Form.Item>

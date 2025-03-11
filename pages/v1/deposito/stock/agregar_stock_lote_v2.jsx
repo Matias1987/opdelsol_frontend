@@ -1,6 +1,7 @@
 import AgregarFacturaV2 from "@/components/admin/factura/agregarFacturaV2";
 import FacturaSelect from "@/components/FacturaSelect";
 import PopUpAgregarStockLoteForm from "@/components/forms/deposito/stock_lote/popup_stock_form";
+import PopupStockFormV3 from "@/components/forms/deposito/stock_lote/popup_stock_form_v3";
 import FacturaForm from "@/components/forms/FacturaForm";
 import SubGrupoForm from "@/components/forms/SubGrupoForm";
 import MyLayout from "@/components/layout/layout";
@@ -16,7 +17,7 @@ import { Button, Table, Form, Tag, Modal, Card } from "antd";
 import { useState } from "react";
 
 
-export default function AgregarStockLote(props){
+export default function AgregarStockLoteV2(props){
     const [form] = Form.useForm();
     const [factura_popup_open, setFacturaPopupOpen] = useState(false)
     const [subgrupo_popup_open, setSubGrupoPopupOpen] = useState(false)
@@ -241,6 +242,10 @@ export default function AgregarStockLote(props){
         setTableData(
             tableData.filter((r)=>(r.codigo!=key))
         )
+    }
+
+    const onAgregarCodigosBtnClick = () => {
+
     }
 
     const columns = [
@@ -543,9 +548,7 @@ export default function AgregarStockLote(props){
                         <>
                         { idSubgrupo === -1 ? <p style={{color:"red", padding:".7em", backgroundColor:"lightcoral"}}><b>Seleccione Subgrupo</b></p> :
                         <>
-                        <PopUpAgregarStockLoteForm precioDefecto={precioDefecto} multiplicador={multiplier} title={"Agregar"} edit={false} values={null} callback={(_data)=>{
-                                    agregarRow(_data)
-                                }} />
+                        <Button onClick={onAgregarCodigosBtnClick}>Agregar C&oacure;digos</Button>
                      
                         <Table scroll={{y:"400px"}} dataSource={tableData} columns={columns} pagination={false} />
                         </>
@@ -558,9 +561,12 @@ export default function AgregarStockLote(props){
                     </Form.Item>
             </Form>
             </Card>
+            <Modal>
+                <PopupStockFormV3 />
+            </Modal>
         </>
     )
 }
 
 
-AgregarStockLote.PageLayout = MyLayout;
+AgregarStockLoteV2.PageLayout = MyLayout;
