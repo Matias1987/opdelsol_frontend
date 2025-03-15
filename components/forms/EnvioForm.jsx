@@ -206,8 +206,10 @@ const EnvioForm = (props) => {
                 form={form}
                 >
                     {/* sucursal destino */}
-                    <Form.Item label={"Sucursal Destino:"} name={"sucursal_idsucursal"} required={true}>
+                    <Form.Item label={""} name={"sucursal_idsucursal"} required={true}>
                         <LoadSelect
+                                width="440px"
+                                prefix={<span style={{color:"#0C5AA9"}}><i>Sucursal:</i>&nbsp;</span> }
                                 parsefnt = {
                                     (data) =>(
                                         data.map((row)=>(

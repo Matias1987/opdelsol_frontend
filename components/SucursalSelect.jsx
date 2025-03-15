@@ -30,18 +30,12 @@ const SucursalSelect = (props) => {
 
     return (
         <Row >
-            <Col span={3} style={
-                {
-                    paddingTop:".4em",
-                    paddingRight:"1em"
-                }
-                }>
-                Sucursal:
-            </Col>
+            
             <Col span={21}>
                 <Select 
+                    prefix={<span style={{color:"#0C5AA9"}}><i>Sucursal: </i></span>}
                     options={sucursalData}
-                    style={{width:"100%", minWidth:"80px", maxWidth:"160px"}}
+                    style={{width:"100%", minWidth:"80px", maxWidth:"200px"}}
                     value={selectedSucursal}
 
                     onChange={

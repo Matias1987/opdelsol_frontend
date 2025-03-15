@@ -14,14 +14,11 @@ const FacturaSelect = (props) =>{
 
     return (
         <>
-        <Row>
-            <Col style={{fontSize:".9em", color:"#000435"}} span={24}>
-                Proveedor:
-            </Col>
-        </Row>
+        
         <Row>
             <Col span={24}>
             <LoadSelect 
+                prefix="Proveedor: "
                 reload={_reload}
                 fetchurl = {get.lista_proveedores}
                 parsefnt = {
@@ -49,14 +46,11 @@ const FacturaSelect = (props) =>{
                 { idProveedor<0 ? <>...</> :
                     (
                         <>
-                        <Row>
-                            <Col style={{fontSize:".9em", color:"#000435"}} span={24}>
-                                Factura:
-                            </Col>
-                        </Row>
+                       
                         <Row>
                             <Col span={24}>
                                     <LoadSelect 
+                                    prefix="Factura: "
                                     key={idProveedor}
                                     reload={_reload}
                                     fetchurl = {get.lista_facturas  + idProveedor}

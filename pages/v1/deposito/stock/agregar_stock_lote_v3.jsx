@@ -510,21 +510,23 @@ export default function AgregarStockLoteV3(props){
                     
                     <Form.Item label={""} name={"codigos"}>
                         <>
-                        { idSubgrupo === -1 ? <p style={{color:"red", padding:".7em", backgroundColor:"lightcoral"}}><b>Seleccione Subgrupo</b></p> :
-                        <>
+                            <>
+                            { idSubgrupo === -1 ? <p style={{color:"red", padding:".7em", backgroundColor:"lightcoral"}}><b>Seleccione Subgrupo</b></p> :
+                            <>
+                            
                         
-                     
-                        <Table 
-                        
-                        title={_=><>C&oacute;digos a Generar&nbsp;<Button size="small" onClick={onAgregarCodigosBtnClick}><PlusOutlined /></Button></>} 
-                        scroll={{y:"400px"}} 
-                        dataSource={tableData} 
-                        columns={columns} 
-                        pagination={false} 
-                        size="small"
-                        />
-                        </>
-                        }
+                            <Table 
+                            
+                            title={_=><>C&oacute;digos a Generar&nbsp;<Button size="small" onClick={onAgregarCodigosBtnClick}><PlusOutlined /></Button></>} 
+                            scroll={{y:"400px"}} 
+                            dataSource={tableData} 
+                            columns={columns} 
+                            pagination={false} 
+                            size="small"
+                            />
+                            </>
+                            }
+                            </>
                         </>
                     </Form.Item>
 

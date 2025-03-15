@@ -83,13 +83,12 @@ const SubGroupSelect = (props) => {
             <Space wrap>
                 <Col span={6}>
                     <Select 
-                    prefix="Familia"
+                    prefix={<span style={{color:"#536872"}}>Familia: </span>}
                     size="small"
                     disabled={typeof props.disabled === 'undefined' ? false : props.disabled}
-                    
-                    bordered={idFamilia==-1}
+                   
                     style={{ width: "200px" }}
-                    value={idFamilia==-1 ? "Seleccione Familia" : idFamilia}
+                    value={idFamilia==-1 ? "Seleccione..." : idFamilia}
                     loading = {familiaLoading}
                     onChange={
                         (value)=>{
@@ -113,12 +112,12 @@ const SubGroupSelect = (props) => {
                             <Select 
                             size="small"
                             disabled={typeof props.disabled === 'undefined' ? false : props.disabled}
-                            bordered={idSubFamilia<0}
+                            prefix={<span style={{color:"#536872"}}>Subfamilia: </span>}
                             style={{ width: "200px" }}
                             loading = {subFamiliaLoading}
                             options = {subFamiliaOptions}
                             placeholder = {"Select"}
-                            value = {idSubFamilia<0? "Seleccione Sub Familia" : idSubFamilia}
+                            value = {idSubFamilia<0? "Seleccione: " : idSubFamilia}
                             onChange = {
                                 (value)=>{
                                     setIdSubFamilia(value);
@@ -142,12 +141,12 @@ const SubGroupSelect = (props) => {
                             <Select 
                             size="small"
                             disabled={typeof props.disabled === 'undefined' ? false : props.disabled}
-                             bordered={idGrupo<0}
+                            prefix={<span style={{color:"#536872"}}>Grupo: </span>}
                             style={{ width: "200px" }}
                             loading = {grupoLoading}
                             options = {grupoOptions}
                             placeholder = {"Select"}
-                            value = {idGrupo<0? "Seleccione Grupo" : idGrupo}
+                            value = {idGrupo<0? "Seleccione: " : idGrupo}
                             onChange = {
                                 (value)=>{
                                     setIdGrupo(value)
@@ -168,12 +167,12 @@ const SubGroupSelect = (props) => {
                             <Select 
                             size="small"
                             disabled={typeof props.disabled === 'undefined' ? false : props.disabled}
-                            bordered={idSubGrupo<0}
+                            prefix={<span style={{color:"#536872"}}>SubGrupo: </span>}
                             style={{ width: "200px" }}
                             loading = {subGrupoLoading}
                             options = {subGrupoOptions}
                             placeholder = {"Seleccione"}
-                            value = {idSubGrupo<0? "Seleccione Subgrupo" : idSubGrupo}
+                            value = {idSubGrupo<0? "Seleccione: " : idSubGrupo}
                             onChange = {
                                 (value)=>{
                                     setIdSubGrupo(value)

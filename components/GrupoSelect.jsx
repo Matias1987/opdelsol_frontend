@@ -70,9 +70,9 @@ const GrupoSelect = (props) => {
                 size="small"
                 disabled={typeof props.disabled === 'undefined' ? false : props.disabled}
                 style={{ width: 240 }}
-                
+                prefix={<span style={{color:"#536872"}}>Familia: </span>}
                 loading = {familiaLoading}
-                value={idFamilia<1?"Seleccione Familia":idFamilia}
+                value={idFamilia<1?"Seleccione...":idFamilia}
                 onChange={
                     (value)=>{
                         
@@ -94,8 +94,9 @@ const GrupoSelect = (props) => {
                         style={{ width: 240 }}
                         loading = {subFamiliaLoading}
                         options = {subFamiliaOptions}
-                        placeholder = {"Select"}
-                        value = {idSubFamilia<0? "Seleccione Sub Familia" : idSubFamilia}
+                        prefix={<span style={{color:"#536872"}}>SubFamilia: </span>}
+                        placeholder = {"Seleccione..."}
+                        value = {idSubFamilia<0? "Seleccione..." : idSubFamilia}
                         onChange = {
                             (value)=>{
                                 setIdSubFamilia(value);
@@ -117,8 +118,9 @@ const GrupoSelect = (props) => {
                         style={{ width: 240 }}
                         loading = {grupoLoading}
                         options = {grupoOptions}
-                        placeholder = {"Select"}
-                        value = {idGrupo<0? "Seleccione Grupo" : idGrupo}
+                        prefix={<span style={{color:"#536872"}}>Grupo: </span>}
+                        placeholder = {"Seleccione.."}
+                        value = {idGrupo<0? "Seleccione..." : idGrupo}
                         onChange = {
                             (value)=>{
                                 setIdGrupo(value)

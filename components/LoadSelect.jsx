@@ -49,8 +49,9 @@ const LoadSelect = (props) => {
                 : null
                 }
                 <Select 
-                style={{ width: 240 }}
-                value={ id < 0 ? "Seleccione" : id }
+                prefix={props.prefix||""}
+                style={{ width: props.width||"140px" }}
+                value={ id < 0 ? "Seleccione..." : id }
                 loading = {loading}
                 placeholder = {typeof props.placeholder !== 'undefined'? "Seleccione" : props.placeholder}
                 onChange={
