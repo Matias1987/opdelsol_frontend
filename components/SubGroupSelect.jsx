@@ -83,6 +83,7 @@ const SubGroupSelect = (props) => {
             <Space wrap>
                 <Col span={6}>
                     <Select 
+                    prefix="Familia"
                     size="small"
                     disabled={typeof props.disabled === 'undefined' ? false : props.disabled}
                     

@@ -48,30 +48,76 @@ const PopupStockFormV3 = (props) => {
         setStock(_s=>({..._s,[idx]:value}))
     }
 
-    const input_row = (label, idx, type='text') => {
-        <>
+    const input_row = (label, idx, type='text') => 
         <Row style={rows_style}>
-            <Col span={24} xs={{  flex: '100%',  }}  sm={{  flex: '50%',  }}  md={{  flex: '40%',  }}  lg={{  flex: '20%',  }}  xl={{  flex: '10%',  }}>
-                <Input prefix={label} value={stock[idx]} allowClear type={type} onChange={(e)=>{setValue(idx,e.target.value)}} />        
+            <Col span={24} xs={{  flex: '100%',  }}  sm={{  flex: '100%',  }}  md={{  flex: '50%',  }}  lg={{  flex: '50%',  }}  xl={{  flex: '20%',  }}>
+                    <Input prefix={label} value={stock[idx]} allowClear type={type} onChange={(e)=>{setValue(idx,e.target.value)}} />        
             </Col>
         </Row>
-        </>
-    }
+    
 
-    const row = (content) => {
-        <Row style={rows_style}>
-            <Col span={24} xs={{  flex: '100%',  }}  sm={{  flex: '50%',  }}  md={{  flex: '40%',  }}  lg={{  flex: '20%',  }}  xl={{  flex: '10%',  }}>
+    const row = (content) => <Row style={rows_style}>
+        <Col span={24} xs={{  flex: '100%',  }}  sm={{  flex: '100%',  }}  md={{  flex: '50%',  }}  lg={{  flex: '50%',  }}  xl={{  flex: '20%',  }}>
                 {content}
             </Col>
-        </Row>
+            </Row>
+    
+
+    const onCodigoChange = (e) => {
+        const str = e.target.value;
+    
+        if(str.length<8){
+            setPattern(0)
+            return
+        }
+    
+        if(pattern1.exec(str)!=null){
+            setPattern(1)
+        }
+        else{
+            if(pattern2.exec(str)!=null){
+                setPattern(2)
+            }
+            else{
+                setPattern(0)
+            }
+        }
+    
+    }
+
+    const descripcion_input = () => {
+        switch(pattern){
+            case 0: return <>
+                <Input value={part1} onChange={(e)=>{setPart1(e.target.value)}}/>
+            </>
+            case 1: return <><Space>
+            <Space.Compact size="large">
+                <Input addonAfter={"[...]"} placeholder="large size" value={part1} onChange={(e)=>{setPart1(e.target.value)}}/>
+                <Input value={part2} onChange={(e)=>{setPart2(e.target.value)}}/>
+            </Space.Compact>
+        </Space></>
+            case 2: return <>
+            <Space>
+                <Space.Compact size="large">
+                    <Input addonAfter={"[...]"} placeholder="large size" value={part1} onChange={(e)=>{setPart1(e.target.value)}}/>
+                    <Input addonAfter={"[...]"} placeholder="another input" value={part3} onChange={(e)=>{setPart3(e.target.value)}}/>
+                    <Input value={part2} onChange={(e)=>{setPart2(e.target.value)}}/>
+                </Space.Compact>
+            </Space>
+            </>
+        }
     }
     //#endregion
     
     return <>
-        {input_row(<>C&oacute;digo</>,'codigo')}
-        {input_row(<>Descripci&oacute;n</>,'descripcion')}
-        {input_row(<>Cantidad</>,'Cantidad', 'number')}
-        {input_row(<>Cantidad</>,'Costo', 'costo')}
+        <Row>
+            <Col span={24}>
+                {input_row(<>C&oacute;digo</>,'codigo')}
+                {input_row(<>Descripci&oacute;n</>,'descripcion')}
+                {input_row(<>Cantidad</>,'Cantidad', 'number')}
+                {input_row(<>Costo</>,'Costo', 'costo')}
+            </Col>
+        </Row>
         {
             row(
                 <>

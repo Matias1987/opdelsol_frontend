@@ -5,7 +5,7 @@ import { post } from "@/src/urls";
 import { EditOutlined, PlusCircleOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 
-import { Form, Card, Button, Modal, Input, Select, Space, Row, Col, Radio } from "antd"
+import { Form, Card, Button, Modal, Input, Select, Space, Row, Col, Radio, Checkbox } from "antd"
 
 const PopUpAgregarStockLoteForm = (props) => {
     const [form] = Form.useForm();
@@ -163,7 +163,7 @@ useEffect(()=>{
    //alert(JSON.stringify(props))
    return (
    <>
-    <Button type="primary"  size="small"  onClick={()=>{setOpen(true)}}>
+    {/*<Button type="primary"  size="small"  onClick={()=>{setOpen(true)}}>
         {props.edit ? <EditOutlined /> : <><PlusCircleOutlined />&nbsp;Agregar</>}
       </Button>
     <Modal
@@ -186,7 +186,9 @@ useEffect(()=>{
         }}
       
       >
-        <Card
+        
+        </Modal>*/}
+<Card
         bodyStyle={{backgroundColor:"#E7E7E7"}}
         headStyle={{backgroundColor:"#F07427", color:"white"}}
         bordered
@@ -216,7 +218,7 @@ useEffect(()=>{
                     <Row>
                         <Col span={24}>
                             <Form.Item rules={[{required:true}]} label={"Costo"} name={"costo"} style={{width: "200px"}}>
-                                <Input type="number" step={".01"} onChange={(e)=>{
+                                <Input type="number" step={".01"}  style={{width:"100px"}} onChange={(e)=>{
                                     if(modoPrecio==1){
                                         setValue('precio',parseFloat(form.getFieldValue('costo')) * multiplicador)
                                     }
@@ -227,7 +229,7 @@ useEffect(()=>{
                     <Row>
                         <Col span={24}>
                             <Form.Item label="Precio" name={"precio"}>
-                                <Input type="number" disabled={modoPrecio!=2}/>
+                                <Input type="number" disabled={modoPrecio!=2} style={{width:"100px"}}/>
                             </Form.Item>
                         </Col>
                     </Row>
@@ -296,7 +298,6 @@ useEffect(()=>{
             
         </Form>
         </Card>
-        </Modal>
     </>)
 }
 

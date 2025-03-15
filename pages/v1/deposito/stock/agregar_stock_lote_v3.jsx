@@ -1,6 +1,7 @@
 import AgregarFacturaV2 from "@/components/admin/factura/agregarFacturaV2";
 import FacturaSelect from "@/components/FacturaSelect";
 import PopUpAgregarStockLoteForm from "@/components/forms/deposito/stock_lote/popup_stock_form";
+import PopupStockFormV3 from "@/components/forms/deposito/stock_lote/popup_stock_form_v3";
 import FacturaForm from "@/components/forms/FacturaForm";
 import SubGrupoForm from "@/components/forms/SubGrupoForm";
 import MyLayout from "@/components/layout/layout";
@@ -8,7 +9,7 @@ import SubGroupSelect from "@/components/SubGroupSelect";
 import globals from "@/src/globals";
 import { post_method } from "@/src/helpers/post_helper";
 import { get, post, public_urls } from "@/src/urls";
-import { DeleteOutlined, EditOutlined, PlusCircleOutlined } from "@ant-design/icons";
+import { DeleteOutlined, EditOutlined, PlusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 
 
 
@@ -16,7 +17,7 @@ import { Button, Table, Form, Tag, Modal, Card } from "antd";
 import { useState } from "react";
 
 
-export default function AgregarStockLote(props){
+export default function AgregarStockLoteV3(props){
     const [form] = Form.useForm();
     const [factura_popup_open, setFacturaPopupOpen] = useState(false)
     const [subgrupo_popup_open, setSubGrupoPopupOpen] = useState(false)
@@ -30,6 +31,8 @@ export default function AgregarStockLote(props){
     const [precioDefecto, setPrecioDefecto] = useState(100);
 
     const [subgrupo, setSubgrupo] = useState(null)
+
+    const [popupAddOpen, setPopupAddOpen] = useState(false)
 
     const HOOK = `${globals.obtenerUID()}.${Date.now()}.${Math.floor(Math.random() * 100)}`
 
@@ -202,40 +205,6 @@ export default function AgregarStockLote(props){
         }
     }
 
-        
-            /*if(found) {
-                setTableData(
-                    tableData.map(x=>(
-                        x.codigo == cod.codigo ? {...x,
-                            cantidad: values.cantidad, 
-                            costo: values.costo,
-                            genero: values.genero, 
-                            edad: values.edad,
-                            descripcion: cod.descripcion,
-                            precio: Math.round((multiplier * values.costo) / 100) * 100,
-                        } : x
-                    ))
-                )
-    
-            }
-            else{
-                setTableData([...tableData,{
-                    codigo: cod.codigo,
-                    cantidad: values.cantidad,
-                    costo: values.costo, 
-                    descripcion: cod.descripcion,
-                    status: "PENDING",
-                    genero: values.genero,
-                    edad: values.edad,
-                    precio: Math.round((multiplier * values.costo) / 100) * 100, 
-                }])
-            }*/
-        
-
-        
-
-        
-    
 
     const remove_row = (key) => {
         setTableData(
@@ -243,9 +212,13 @@ export default function AgregarStockLote(props){
         )
     }
 
+    const onAgregarCodigosBtnClick = () => {
+        setPopupAddOpen(true)
+    }
+
     const columns = [
-        {width:"150px", title:"Codigo", dataIndex: "codigo"},
-        {width:"150px", title:"Descripcion", dataIndex: "descripcion", render:(_,details)=>(
+        { width:"150px", title:"Codigo", dataIndex: "codigo"},
+        { width:"150px", title:"Descripcion", dataIndex: "descripcion", render:(_,details)=>(
             <>
             {details.descripcion}&nbsp;
             <Tag color="blue">{details.genero}</Tag>
@@ -266,7 +239,7 @@ export default function AgregarStockLote(props){
             }
             return(
                 <>
-                    <PopUpAgregarStockLoteForm title={"Editar"} precioDefecto={precioDefecto} multiplicador={multiplier} edit={true} values={temp} callback={(_data)=>{agregarRow(_data)}} />
+                   
                     <Button onClick={()=>{remove_row(codigo)}}><DeleteOutlined /></Button>
                 </>
             )
@@ -357,7 +330,6 @@ export default function AgregarStockLote(props){
                 if(response.data.length>0){
                     
                     update_status_row("Ya Existe",curr.codigo)
-                    //alert("el codigo ya existe: " + response.data[0].idcodigo)
                     //el codigo ya existe
                     /*
                     ES POSIBLE QUE EL OBJETO STOCK NO EXISTA...
@@ -402,9 +374,8 @@ export default function AgregarStockLote(props){
                 }
                 else{
                     
-                    //alert("el codigo NO existe")
                     //start saving, first the code
-                    //alert(JSON.stringify(curr))
+     
                     post_method(post.insert.codigo,{...curr,hook:HOOK},(res)=>{
                         //THEN THE STOCK
                         if(res.status == "OK")
@@ -421,10 +392,8 @@ export default function AgregarStockLote(props){
                                 modo_precio: curr.modo_precio,
                                 precio: curr.precio,
                                 descripcion: curr.descripcion,*/
-                                
-                                //add: typeof curr.add === 'undefined' ? "" : curr.add,
+                              
                             }
-                            //alert("insert stock now! " + JSON.stringify(res))
                             //then stock object...
                             post_method(post.insert.stock,_data,(__res)=>{
                                 update_status_row("OK",curr.codigo)
@@ -539,15 +508,21 @@ export default function AgregarStockLote(props){
                         </>
                     </Form.Item>
                     
-                    <Form.Item label={"Codigos"} name={"codigos"}>
+                    <Form.Item label={""} name={"codigos"}>
                         <>
                         { idSubgrupo === -1 ? <p style={{color:"red", padding:".7em", backgroundColor:"lightcoral"}}><b>Seleccione Subgrupo</b></p> :
                         <>
-                        <PopUpAgregarStockLoteForm precioDefecto={precioDefecto} multiplicador={multiplier} title={"Agregar"} edit={false} values={null} callback={(_data)=>{
-                                    agregarRow(_data)
-                                }} />
+                        
                      
-                        <Table scroll={{y:"400px"}} dataSource={tableData} columns={columns} pagination={false} />
+                        <Table 
+                        
+                        title={_=><>C&oacute;digos a Generar&nbsp;<Button size="small" onClick={onAgregarCodigosBtnClick}><PlusOutlined /></Button></>} 
+                        scroll={{y:"400px"}} 
+                        dataSource={tableData} 
+                        columns={columns} 
+                        pagination={false} 
+                        size="small"
+                        />
                         </>
                         }
                         </>
@@ -558,9 +533,19 @@ export default function AgregarStockLote(props){
                     </Form.Item>
             </Form>
             </Card>
+            <Modal 
+                open={popupAddOpen}
+                width={"900px"}
+                destroyOnClose
+                onCancel={_=>{setPopupAddOpen(false)}}
+                title="Agregar Códigos"
+                footer={null}
+            >
+                <PopUpAgregarStockLoteForm callback={(_data)=>{ agregarRow(_data); setPopupAddOpen(false); }}/>
+            </Modal>
         </>
     )
 }
 
 
-AgregarStockLote.PageLayout = MyLayout;
+AgregarStockLoteV3.PageLayout = MyLayout;

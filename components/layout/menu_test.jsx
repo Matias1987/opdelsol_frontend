@@ -23,7 +23,7 @@ export default function TestMenu(){
           <Menu.Item style={{backgroundColor:"lightgoldenrodyellow"}} key="40"><Link href={get_url_to("deposito/envio/nuevo_envio")}><StarOutlined />&nbsp;Nuevo Envio  </Link></Menu.Item>
           <Menu.Item key={"31"}><Link href={get_url_to("deposito/stock/listados/lista_stock")}>Stock Sucursal</Link></Menu.Item>
           <Menu.Item key="sub2_32" >
-              <Link href={get_url_to("deposito/stock/agregar_stock_lote")}>Agregar Productos</Link>
+              <Link href={get_url_to("deposito/stock/agregar_stock_lote_v3")}>Agregar Productos</Link>
           </Menu.Item>
           <Menu.Item key="110" >
                 <Link href={get_url_to("deposito/stock/listados/lista_codigos")}>Lista de Productos</Link>
