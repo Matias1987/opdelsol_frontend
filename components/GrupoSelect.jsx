@@ -69,7 +69,7 @@ const GrupoSelect = (props) => {
                 <Select 
                 size="small"
                 disabled={typeof props.disabled === 'undefined' ? false : props.disabled}
-                style={{ width: 240 }}
+                style={{ width: 240, overflow:"hidden"  }}
                 prefix={<span style={{color:"#536872"}}>Familia: </span>}
                 loading = {familiaLoading}
                 value={idFamilia<1?"Seleccione...":idFamilia}
@@ -91,7 +91,7 @@ const GrupoSelect = (props) => {
                         <Select 
                         size="small"
                         disabled={typeof props.disabled === 'undefined' ? false : props.disabled}
-                        style={{ width: 240 }}
+                        style={{ width: 240, overflow:"hidden"  }}
                         loading = {subFamiliaLoading}
                         options = {subFamiliaOptions}
                         prefix={<span style={{color:"#536872"}}>SubFamilia: </span>}
@@ -115,7 +115,7 @@ const GrupoSelect = (props) => {
                         <Select 
                         size="small"
                         disabled={typeof props.disabled === 'undefined' ? false : props.disabled}
-                        style={{ width: 240 }}
+                        style={{ width: 240, overflow:"hidden"  }}
                         loading = {grupoLoading}
                         options = {grupoOptions}
                         prefix={<span style={{color:"#536872"}}>Grupo: </span>}

@@ -88,17 +88,18 @@ const FiltroVentas =(props) => {
       
         <Row style={{padding: "6px"}}>
             <Col span={24}>
-                Nro.:&nbsp;&nbsp;
-                <Input onChange={onIDChange} style={{width:"200px"}} />
+                <Input onChange={onIDChange} style={{width:"100%"}} prefix={<span style={{fontWeight:"bold"}}>Nro.: </span>} />
             </Col>
             
         </Row>
         <Row style={{padding:"6px"}}>
 
             
-            <Col span={22}>
-            Estado:&nbsp;&nbsp;
-                <Select style={{width:"300px"}} onChange={(v)=>{onChange("estado",v)}}
+            <Col span={24}>
+                <Select 
+                prefix={<span style={{fontWeight:"bold"}}>Estado: </span>}
+                style={{width:"100%"}} 
+                onChange={(v)=>{onChange("estado",v)}}
                 options={[
                     {label:"-", value:""},
                     {label:"INGRESADO", value:"INGRESADO"},
@@ -111,12 +112,12 @@ const FiltroVentas =(props) => {
             </Col>
         </Row>
         <Row style={{padding:"6px"}}>
-            <Col span={2}>
-            Tipo:&nbsp;&nbsp;
-            </Col>
-            
-            <Col span={22}>
-                <Select style={{width:"300px"}} onChange={(v)=>{onChange("tipo",v)}}
+
+            <Col span={24}>
+                <Select 
+                prefix={<span style={{fontWeight:"bold"}}>Tipo: </span>}
+                style={{width:"100%"}} 
+                onChange={(v)=>{onChange("tipo",v)}}
                 options={[
                     {label:"-", value:""},
                     {label:"Vta. Directa", value:globals.tiposVenta.DIRECTA},

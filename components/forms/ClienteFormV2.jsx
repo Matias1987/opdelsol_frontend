@@ -8,6 +8,7 @@ import SelectLocalidadV2 from "../SelectLocalidadV2";
 import Edad from "../Edad";
 import { validate_only_numbers_and_letters } from "@/src/helpers/string_helper";
 import { UserAddOutlined } from "@ant-design/icons";
+import SelectLocalidad from "../SelectLocalidad";
 
 
 export default function ClienteFormV2(props){
@@ -207,14 +208,14 @@ export default function ClienteFormV2(props){
     </Row>
     
     <Modal width={"70%"} title="Agregar Cliente" open={open} onCancel={()=>{setOpen(false)}} footer={false} destroyOnClose={true}>
-        <Row>
-            <Col style={{padding:".5em"}} span={24}>
+        <Row style={{padding:".5em"}}>
+            <Col  span={24}>
                 <Input  prefix={"QR"} onChange={onQRChange} value={qr} placeholder="  Escanee código QR..." />
             </Col>
         </Row>
 
-        <Row>
-            <Col style={{padding:".5em"}} span={24}>
+        <Row style={{padding:".5em"}}>
+            <Col span={24}>
                 <Input  
                 maxLength={10} 
                 style={{appearance:"textfield"}} 
@@ -234,8 +235,8 @@ export default function ClienteFormV2(props){
             </Col>
         </Row>
         
-        <Row>
-            <Col style={{padding:".5em"}} span={24}>
+        <Row style={{padding:".5em"}}>
+            <Col span={24}>
                 <Input 
                 style={{appearance:"textfield"}}  
                 maxLength={45} 
@@ -250,8 +251,8 @@ export default function ClienteFormV2(props){
             </Col>
         </Row>
 
-        <Row>
-            <Col style={{padding:".5em"}} span={24}>
+        <Row style={{padding:".5em"}}>
+            <Col span={24}>
                 <Input  
                 maxLength={45} 
                 prefix={"Nombres:"} 
@@ -264,12 +265,10 @@ export default function ClienteFormV2(props){
         </Row>
 
         
-        <Row>
-            <Col span={4}>
-                Fecha de Nacimiento
-            </Col>
-            <Col span={4}>
+        <Row style={{padding:".5em"}}>
+            <Col span={10}>
                 <DatePicker 
+                prefix={"Fecha de Nacimiento: "}
                 format={'DD-MM-YYYY'}
                 onChange={(day,daystr)=>{
        
@@ -307,36 +306,36 @@ export default function ClienteFormV2(props){
             
         </Row>
 
-        <Row>
-            <Col style={{padding:".5em"}} span={12}>
+        <Row style={{padding:".5em"}}>
+            <Col span={12}>
                 <Input  maxLength={45} prefix={"Domicilio:"} onChange={(e)=>{
                     //setClienteData(d=>({...d,domicilio:e.target.value}))
                     onChange(e.target.value,"domicilio")
                     }} value={clienteData.domicilio} />
             </Col>
-            <Col style={{padding:".5em"}} span={12}>
+            {/*<Col style={{padding:".5em"}} span={12}>
                 <SelectLocalidadV2 callback={(p)=>{
-                    //setClienteData(c=>({...c,idlocalidad:p.idlocalidad}))
+                    onChange(p.idlocalidad,"idlocalidad")
+                    }} />
+            </Col>*/}
+            <Col span={12}>
+                <SelectLocalidadV2 callback={(p)=>{
                     onChange(p.idlocalidad,"idlocalidad")
                     }} />
             </Col>
         </Row>
 
-        <Row>
-            <Col style={{padding:".5em"}} span={24}>
+        <Row style={{padding:".5em"}}>
+            <Col span={24}>
                 <Input  maxLength={20} prefix={"Teléfono:"} onChange={(e)=>{
                     //setClienteData(d=>({...d,telefono:e.target.value}))
                     onChange(e.target.value,"telefono")
                     }} value={clienteData.telefono} />
             </Col>
         </Row>
-        <Row>
-            <Col style={{padding:".5em"}} span={24}>
-                
-            </Col>
-        </Row>
-        <Row>
-            <Col style={{padding:".5em"}} span={24}>
+
+        <Row style={{padding:".5em"}}>
+            <Col span={24}>
                 <Button disabled={btnDisabled} block type="primary" onClick={onFinish}>Guardar</Button>
             </Col>
         </Row>

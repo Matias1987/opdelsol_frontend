@@ -321,3 +321,8 @@ just some testing
 .ant-table-cell{
   border-bottom: 1px solid rgb(183, 181, 181)!important;
 }
+
+.select-wrapper {
+  width: 250px;
+  overflow: hidden;
+}

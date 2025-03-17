@@ -36,22 +36,19 @@ const CategoriaSelect = (props) => {
         }
     }
 
-    return <div style={{paddingLeft:"0.2em"}}> 
-                <Row  style={{padding:"4px"}}>
-                    <Col span={3} style={{textAlign:"left", paddingTop:".5em", fontSize:"1em", color:"blue"}}>
-                        Seleccione Categor&iacute;a:&nbsp;&nbsp;
-                    </Col>
-                </Row>
+    return <div> 
+                
                 <Row style={{padding:"4px"}}>
                     <Col span={24}>
                         <div  style={!enabled?disabled_style:enabled_style}>
                         <Select 
+                        prefix={<span style={{fontWeight:"bold", color:"#0C5AA9"}}>Categor&iacute;a: </span>}
                         size="small"
                         
                         value={categoria}
-                        defaultValue={"Seleccione"}
+                        defaultValue={"Seleccione..."}
                         placeholder="Seleccione"
-                        style={{width:"100%"}}
+                        style={{width:"100%", overflow:"hidden"}}
                         onChange={(v)=>{
                             setCategoria(v)
                             if(v=='-1'){

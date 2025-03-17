@@ -424,8 +424,9 @@ export default function ListaStock(){
                         <Form {...{labelCol:{span:5}, wrapperCol:{span:18}}} onFinish={onFinishFiltro} form={form}>
                             <Row >
                                 <Col span={8}>
-                                    <Form.Item label={"Filtar Por"} name={"tipo_filtro"}>
+                                    <Form.Item label="" name={"tipo_filtro"}>
                                         <Select 
+                                            prefix={<span style={{fontWeight:"bold"}}>Filtro: </span>}
                                             placeholder="Seleccione..."
                                         options={[
                                             {label: 'Codigo Contenga a', value: 'codigo_contenga_a'},
@@ -481,8 +482,10 @@ export default function ListaStock(){
                                         </Form.Item>
                                     </Col>
                                     <Col span={6}>
-                                    <Form.Item label={<span style={{fontSize:".8em"}}>Orden</span>} name={"orden"}>
-                                        <Select options={[
+                                    <Form.Item label="" name={"orden"}>
+                                        <Select 
+                                        prefix={<span style={{fontWeight:"bold"}}>Orden: </span>}
+                                        options={[
                                             {label: 'Alfabetico - Ascendiente', value: 'alf_asc'},
                                             {label: 'Alfabetico - Descendiente', value: 'alf_desc'},
                                             {label: 'Precio - Descendiente', value: 'precio_desc'},
@@ -490,7 +493,7 @@ export default function ListaStock(){
                                             {label: 'Cantidad - Ascendiente', value: 'cantidad_asc'},
                                             {label: 'Cantidad - Descendiente', value: 'cantidad_desc'},
                                         ]} 
-                                        style={{width:"150px"}}
+                                        style={{width:"250px", overflow:"hidden"}}
                                         onChange={(value)=>{
                                             setValue1("orden",value)
                                             setTipoOrden(value);

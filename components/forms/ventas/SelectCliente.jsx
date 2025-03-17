@@ -149,7 +149,7 @@ const SelectCliente = (props) =>{
                         }}/>
             </Col>
             <Col span={12}>
-                <Button block style={{color:"red"}} onClick={()=>{setReload(!reload)}}><ReloadOutlined /> Recargar</Button>
+                <Button style={{color:"red"}} onClick={()=>{setReload(!reload)}}><ReloadOutlined /> Recargar</Button>
             </Col>
         </Row>
         <Row>

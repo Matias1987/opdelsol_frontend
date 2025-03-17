@@ -33,7 +33,7 @@ const FamiliaSelect = (props) => {
 
                 <Select 
                 disabled={typeof props.disabled==='undefined' ? false: props.disabled}
-                style={{ width: 240 }}
+                style={{ width: 240, overflow:"hidden"  }}
                 value={idFamilia<0 ? "Seleccione Familia" : idFamilia}
                 loading = {familiaLoading}
                 bordered={true}

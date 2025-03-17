@@ -35,7 +35,7 @@ const SucursalSelect = (props) => {
                 <Select 
                     prefix={<span style={{color:"#0C5AA9"}}><i>Sucursal: </i></span>}
                     options={sucursalData}
-                    style={{width:"100%", minWidth:"80px", maxWidth:"200px"}}
+                    style={{width:"100%", minWidth:"80px", maxWidth:"200px", overflow:"hidden"}}
                     value={selectedSucursal}
 
                     onChange={

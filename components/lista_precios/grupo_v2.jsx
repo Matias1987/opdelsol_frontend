@@ -11,21 +11,25 @@ const GrupoV2 = props => {
     const [selectedSubgrupoId, setSelectedSubgrupoId] = useState(-1)
 
     const columns = [
-        {title:"Producto", dataIndex:"producto", render:(_,{producto, idsubgrupo, idfamilia})=><>
-            <Button 
-            onClick={()=>{
-                setSelectedSubgrupoId(idsubgrupo)
-                //setMostrarPrecioPar(idfamilia == globals.familiaIDs.CRISTALES)
-                //setPopupDetalleOpen(true)
-                callback?.(idsubgrupo,idfamilia == globals.familiaIDs.CRISTALES)
-            }} 
-            type="link" 
-            size="small"
-            style={{color:"#03045E", fontWeight:"600", whiteSpace:"normal", textAlign:"left"}}
-            >
-                {producto}
-            </Button>
-        </>},
+        {
+            title:"Producto",   
+            dataIndex:"producto", 
+            render:(_,{producto, idsubgrupo, idfamilia})=><>
+                <Button 
+                onClick={()=>{
+                    setSelectedSubgrupoId(idsubgrupo)
+                    //setMostrarPrecioPar(idfamilia == globals.familiaIDs.CRISTALES)
+                    //setPopupDetalleOpen(true)
+                    callback?.(idsubgrupo,idfamilia == globals.familiaIDs.CRISTALES)
+                }} 
+                type="link" 
+                size="small"
+                style={{color:"#03045E", fontWeight:"600", whiteSpace:"normal", textAlign:"left"}}
+                >
+                    {producto.replaceAll("_"," ")}
+                </Button>
+        </>
+        },
         {title:"Precio", dataIndex:"precio", render:(_,{precio, precio_par, idfamilia})=><div style={{textAlign:"right", fontWeight:"bold", color:"#03045E", fontSize:"1.12em"}}>$&nbsp;{<><>{idfamilia==globals.familiaIDs.CRISTALES ? precio_par : precio}</></>}</div>},
        
     ]
@@ -45,7 +49,7 @@ const GrupoV2 = props => {
 
     return  loading ? <Spin /> :  <Col span={24} style={{padding:"6px"}}>
                         <Table 
-                       
+                        style={{width:"100%"}}
                         title={_=><div><span>{nombre}</span></div>}
                         rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'}
                         columns={columns} 

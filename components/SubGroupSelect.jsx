@@ -87,7 +87,7 @@ const SubGroupSelect = (props) => {
                     size="small"
                     disabled={typeof props.disabled === 'undefined' ? false : props.disabled}
                    
-                    style={{ width: "200px" }}
+                    style={{ width: "200px", overflow:"hidden"  }}
                     value={idFamilia==-1 ? "Seleccione..." : idFamilia}
                     loading = {familiaLoading}
                     onChange={
@@ -113,7 +113,7 @@ const SubGroupSelect = (props) => {
                             size="small"
                             disabled={typeof props.disabled === 'undefined' ? false : props.disabled}
                             prefix={<span style={{color:"#536872"}}>Subfamilia: </span>}
-                            style={{ width: "200px" }}
+                            style={{ width: "200px" , overflow:"hidden" }}
                             loading = {subFamiliaLoading}
                             options = {subFamiliaOptions}
                             placeholder = {"Select"}
@@ -141,7 +141,7 @@ const SubGroupSelect = (props) => {
                             <Select 
                             size="small"
                             disabled={typeof props.disabled === 'undefined' ? false : props.disabled}
-                            prefix={<span style={{color:"#536872"}}>Grupo: </span>}
+                            prefix={<span style={{color:"#536872", overflow:"hidden" }}>Grupo: </span>}
                             style={{ width: "200px" }}
                             loading = {grupoLoading}
                             options = {grupoOptions}
@@ -168,7 +168,7 @@ const SubGroupSelect = (props) => {
                             size="small"
                             disabled={typeof props.disabled === 'undefined' ? false : props.disabled}
                             prefix={<span style={{color:"#536872"}}>SubGrupo: </span>}
-                            style={{ width: "200px" }}
+                            style={{ width: "250px", overflow:"hidden" }}
                             loading = {subGrupoLoading}
                             options = {subGrupoOptions}
                             placeholder = {"Seleccione"}

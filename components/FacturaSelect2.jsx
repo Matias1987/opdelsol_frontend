@@ -84,14 +84,12 @@ const FacturaSelect2 = (props) =>{
                 <b>Factura</b>
                 </div>
                 <p></p>
-            <Row>
-                <Col style={{fontSize:".9em", color:"#000435"}} span={24}>
-                    Proveedor:
-                </Col>
-            </Row>
+            
             <Row>
                 <Col span={24}>
-                    <Select disabled={!enabled} options={proveedores} value={idProveedor} onChange={(v)=>{ 
+                    <Select 
+                    prefix={<span style={{fontWeight:"bold"}}>Proveedor: </span>}
+                    disabled={!enabled} options={proveedores} value={idProveedor} onChange={(v)=>{ 
                         if(v==-2)
                         {
                             setPopupProvOpen(true)
@@ -100,21 +98,22 @@ const FacturaSelect2 = (props) =>{
                         setIdFactura(-1); 
                         setIdProveedor(v);
                         props.callback(null)
-                        }} style={{width:"100%"}}/>
+                        }} style={{width:"100%", overflow:"hidden"}}/>
                 </Col>
             </Row>
             
                     { idProveedor<0 ? <>...</> :
                         (
                             <>
-                            <Row>
-                                <Col style={{fontSize:".9em", color:"#000435"}} span={24}>
-                                    Factura:
-                                </Col>
-                            </Row>
+               
                             <Row>
                                 <Col span={24}>
-                                    {idFactura<0? <Select disabled={!enabled} options={facturas} value={idFactura} onChange={(v)=>{
+                                    {idFactura<0? <Select
+                                    prefix={<span style={{fontWeight:"bold"}}>Factura: </span>}
+                                     disabled={!enabled}
+                                     options={facturas}
+                                     value={idFactura}
+                                     onChange={(v)=>{
 
                                         if(v==-2)
                                         {
@@ -132,7 +131,7 @@ const FacturaSelect2 = (props) =>{
 
                                         setNroFactura(__f.label)
 
-                                        }} style={{width:"100%"}} key={idProveedor}
+                                        }} style={{width:"100%", overflow:"hidden"}} key={idProveedor}
                                         /> : <>
                                         <Button type="primary" block  onClick={()=>{setPopupDetalleFacturaOpen(true)}} >{nroFactura}</Button></>}
                                 </Col>

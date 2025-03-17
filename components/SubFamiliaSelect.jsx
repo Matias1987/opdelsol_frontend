@@ -53,7 +53,7 @@ const SubFamiliaSelect = (props) => {
                 <Select 
                 prefix={<span style={{color:"#536872"}}>Familia: </span>}
                 disabled={typeof props.disabled === 'undefined' ? false : props.disabled}
-                style={{ width: 240 }}
+                style={{ width: 240 , overflow:"hidden" }}
                 size="small"
                 placeholder="Seleccione..."
                 loading = {familiaLoading}
@@ -75,7 +75,7 @@ const SubFamiliaSelect = (props) => {
                         size="small"
                         prefix={<span style={{color:"#536872"}}>SubFamilia: </span>}
                         disabled={typeof props.disabled === 'undefined' ? false : props.disabled}
-                        style={{ width: 240 }}
+                        style={{ width: 240 , overflow:"hidden" }}
                         loading = {subFamiliaLoading}
                         options = {subFamiliaOptions}
                         placeholder = {"Seleccione..."}
