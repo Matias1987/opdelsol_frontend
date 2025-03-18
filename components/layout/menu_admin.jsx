@@ -39,11 +39,8 @@ const items = [
   /*{
     label: (<Link href={public_urls.eventos_admin}>Eventos</Link>),
     key: '15',
-  },
-  {
-    label: (<Link href={public_urls.listausuarios}>Usuarios</Link>),
-    key: '17',
   },*/
+  
   {
     label: (<BuscarVenta textButton="Buscar Venta" />),
     key: '404',
@@ -53,7 +50,10 @@ const items = [
     key: 'SubMenu',
     icon: <MenuOutlined />,
     children: [
-     
+      {
+        label: (<Menu.Item><Link href={public_urls.listausuarios}>Usuarios</Link></Menu.Item>),
+        key: '170',
+      },
       {
         key: '100',
         label: (<Menu.Item><Link href={public_urls.admin_sucursales}>Sucursales</Link></Menu.Item>),
@@ -69,7 +69,8 @@ const items = [
       {
         key: '400',
         label: (<Menu.Item><Link href={public_urls.admin_tarjetas}>Tarjetas</Link></Menu.Item>),
-      }
+      },
+      
       
     ],
   },

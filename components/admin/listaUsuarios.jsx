@@ -3,7 +3,7 @@ import { Button, Card, Col, Modal, Row, Table, Tag } from "antd";
 import { useEffect, useState } from "react";
 import AgregarPrivilegiosUsuarios from "./agregarPrivilegiosUsuarios";
 import AgregarUsuarioForm from "./agregarUsuario";
-import { EditFilled } from "@ant-design/icons";
+import { EditFilled, PlusOutlined } from "@ant-design/icons";
 
 const ListaUsuarios = (props) => {
     const [usuarios, setUsuarios] = useState([])
@@ -13,12 +13,22 @@ const ListaUsuarios = (props) => {
     const [editarUsuario, setEditarUsuario] = useState(false)
     const [update, setUpdate] = useState(false)
     const columns = [
-        {title:"Nombre", dataIndex:"nombre"},
+        {title:"Nombre", 
+            dataIndex:"nombre", 
+            render:(_,obj)=><span>{obj.nombre}&nbsp;<Button 
+                                                    size="small" 
+                                                    type="link" 
+                                                    onClick={()=>{
+                                                        setEditarUsuario(true)
+                                                        setSelectedUsuario(id)
+                                                        setPopupAddEditOpen(true)
+                                                    }}><EditFilled />
+                                                    </Button></span>},
         {title:"Permisos",  render:(_,record)=>{
             const permisos = record.permisos || []
             return permisos.map(p=><>
-                <div style={{margin:"2em", padding:"1em", fontSize:".6em", border:"1px solid black"}}>
-                    <b>{p.sucursal}</b>
+                <div style={{margin:"2em", padding:"2px", fontSize:".6em"}}>
+                    <b>{p.sucursal}&nbsp;</b>
                     <Tag color={+p.ventas==1? "green-inverse" : "red-inverse"}>Vtas</Tag>
                     <Tag color={+p.caja1==1? "green-inverse" : "red-inverse"}>Caja1</Tag>
                     <Tag color={+p.caja2==1? "green-inverse" : "red-inverse"}>Caja2</Tag>
@@ -31,20 +41,14 @@ const ListaUsuarios = (props) => {
                 </div>
             </>)
         }},
-        {title:"Acciones", dataIndex:"idusuario", render:(_,{id})=>{
+        {title:"", dataIndex:"idusuario", render:(_,{id})=>{
             return <>
-                <Button onClick={()=>{
-                    setEditarUsuario(true)
-                    setSelectedUsuario(id)
-                    setPopupAddEditOpen(true)
-                }}><EditFilled /></Button>
-                <Button onClick={()=>{
+                
+                <Button size="small" type="link" onClick={()=>{
                     setSelectedUsuario(id)
                     setPopupPrivilegiosOpen(true)}
                     }>Modificar Permisos</Button>
-                <Button>
-                    Cerrar Sesi&oacute;n
-                </Button>
+                
                 
             </>
             
@@ -113,31 +117,23 @@ const ListaUsuarios = (props) => {
 
 
     return <>
-    <Row>
-        <Col span={24}>
+    <Card
 
-        </Col>
-    </Row>
-    <Row>
-        <Col span={24}>
-            <Table rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'} dataSource={usuarios} columns={columns} />
-        </Col>
-    </Row>
-    <Row>
-        <Col span={24}>
-
-        </Col>
-    </Row>
-    <Row>
-        <Col span={24}>
-
-        </Col>
-    </Row>
-    <Row>
-        <Col span={24}>
-            <Button onClick={()=>{ setEditarUsuario(false); setPopupAddEditOpen(true);}}>Agregar</Button>
-        </Col>
-    </Row>
+    title={<>Lista de Usuarios <Button type="link" onClick={()=>{ setEditarUsuario(false); setPopupAddEditOpen(true);}}><PlusOutlined />&nbsp;Agregar</Button></>}
+    
+    >
+        <Row>
+            <Col span={24}>
+                <Table
+                scroll={{y:"600px"}}
+                size="small"
+                rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'} 
+                dataSource={usuarios} 
+                columns={columns} />
+            </Col>
+        </Row>
+    </Card>
+    
     <Modal destroyOnClose footer={null} title="Editar" open={popupPrivilegiosOpen} onCancel={()=>{setPopupPrivilegiosOpen(false)}} key={selectedUsuario}>
         <AgregarPrivilegiosUsuarios idusuario={selectedUsuario}  key={selectedUsuario} callback={()=>{setUpdate(!update); setPopupPrivilegiosOpen(false);}} />
     </Modal>
