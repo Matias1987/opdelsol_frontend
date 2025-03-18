@@ -150,6 +150,12 @@ const AgregarUsuarioForm = (props) =>{
         //return
         //alert(post.insert.usuario)
         post_method(post.insert.usuario,_usr,(resp)=>{
+            if(resp.data.err)
+            {
+                alert("El usuario ya existe")
+                props?.callback?.()
+                return
+            }
             alert("OK")
             props?.callback?.()
         })

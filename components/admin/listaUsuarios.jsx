@@ -4,7 +4,19 @@ import { useEffect, useState } from "react";
 import AgregarPrivilegiosUsuarios from "./agregarPrivilegiosUsuarios";
 import AgregarUsuarioForm from "./agregarUsuario";
 import { EditFilled, PlusOutlined } from "@ant-design/icons";
+/*
 
+<Tag color={+p.ventas==1? "green-inverse" : "red-inverse"}>Vtas</Tag>
+                    <Tag color={+p.caja1==1? "green-inverse" : "red-inverse"}>Caja1</Tag>
+                    <Tag color={+p.caja2==1? "green-inverse" : "red-inverse"}>Caja2</Tag>
+                    <Tag color={+p.deposito_min==1? "green-inverse" : "red-inverse"}>DepMin</Tag>
+                    
+                    <Tag color={+p.deposito==1? "green-inverse" : "red-inverse"}>Dep</Tag>
+                    <Tag color={+p.laboratorio==1? "green-inverse" : "red-inverse"}>Lab</Tag>
+                    <Tag color={+p.admin1==1? "green-inverse" : "red-inverse"}>Adm1</Tag>
+                    <Tag color={+p.admin2==1? "green-inverse" : "red-inverse"}>Adm2</Tag>
+
+                    */
 const ListaUsuarios = (props) => {
     const [usuarios, setUsuarios] = useState([])
     const [popupAddEditOpen, setPopupAddEditOpen] = useState(false)
@@ -16,11 +28,12 @@ const ListaUsuarios = (props) => {
         {title:"Nombre", 
             dataIndex:"nombre", 
             render:(_,obj)=><span>{obj.nombre}&nbsp;<Button 
+                                                    disabled
                                                     size="small" 
                                                     type="link" 
                                                     onClick={()=>{
                                                         setEditarUsuario(true)
-                                                        setSelectedUsuario(id)
+                                                        setSelectedUsuario(obj.id)
                                                         setPopupAddEditOpen(true)
                                                     }}><EditFilled />
                                                     </Button></span>},
@@ -30,14 +43,13 @@ const ListaUsuarios = (props) => {
                 <div style={{margin:"2em", padding:"2px", fontSize:".6em"}}>
                     <b>{p.sucursal}&nbsp;</b>
                     <Tag color={+p.ventas==1? "green-inverse" : "red-inverse"}>Vtas</Tag>
-                    <Tag color={+p.caja1==1? "green-inverse" : "red-inverse"}>Caja1</Tag>
-                    <Tag color={+p.caja2==1? "green-inverse" : "red-inverse"}>Caja2</Tag>
+                    <Tag color={+p.caja1==1? "green-inverse" : "red-inverse"}>Caja</Tag>
                     <Tag color={+p.deposito_min==1? "green-inverse" : "red-inverse"}>DepMin</Tag>
                     
-                    <Tag color={+p.deposito==1? "green-inverse" : "red-inverse"}>Dep</Tag>
-                    <Tag color={+p.laboratorio==1? "green-inverse" : "red-inverse"}>Lab</Tag>
-                    <Tag color={+p.admin1==1? "green-inverse" : "red-inverse"}>Adm1</Tag>
-                    <Tag color={+p.admin2==1? "green-inverse" : "red-inverse"}>Adm2</Tag>
+                    <Tag color={+p.deposito==1? "green-inverse" : "red-inverse"}>Dep&oacute;sito</Tag>
+                    <Tag color={+p.laboratorio==1? "green-inverse" : "red-inverse"}>Taller</Tag>
+                    
+                    <Tag color={+p.admin2==1? "green-inverse" : "red-inverse"}>Admin</Tag>
                 </div>
             </>)
         }},
