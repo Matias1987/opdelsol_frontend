@@ -149,7 +149,7 @@ const CodesTree = (props) => {
             {dataIndex:'codigo', title:'Codigo', visible:true},
             {dataIndex:'descripcion', title:'Descripción', visible:true},
             {dataIndex:'precio', title:'Precio', visible:true},
-            {render:(_,{idcodigo})=><><EditarCodigoIndiv  buttonText={<><EditFilled /></>} idcodigo={idcodigo} callback={()=>{setPopupEditCodigoOpen(false)}} /></>, visible:true},
+            /*{render:(_,{idcodigo})=><><EditarCodigoIndiv  buttonText={<><EditFilled /></>} idcodigo={idcodigo} callback={()=>{setPopupEditCodigoOpen(false)}} /></>, visible:true},*/
             { title: <><Checkbox onChange={(e)=>{
               const _items = dataSource.map(c=>({...c,checked:e.target.checked})) 
               setDataSource(_items)
