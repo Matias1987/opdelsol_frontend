@@ -289,6 +289,7 @@ const CodeGrid = (props) => {
                     
                     switch(tipoGrilla)
                     {
+                        case 'c':ctx.fillText(dict[idx].idcodigo.toString(), x + 6,y + 14); break;
                         case 's': ctx.fillText(dict[idx].cantidad.toString(), x + 6,y + 14); break;
                         case 'p': ctx.fillText(dict[idx].cantidad.toString(), x + 6,y + 14); break;
                         case 'i': ctx.fillText(dict[idx].stock_ideal.toString(), x + 6,y + 14); break;
@@ -604,6 +605,7 @@ const CodeGrid = (props) => {
                     
                     switch(tipoGrilla)
                     {
+                        case 'c': text = dict[idx].idcodigo.toString(); break;
                         case 's': text = dict[idx].cantidad.toString(); break;
                         case 'p': text = dict[idx].cantidad.toString(); break;
                         case 'i': text = dict[idx].stock_ideal.toString(); break;
@@ -640,6 +642,7 @@ const CodeGrid = (props) => {
                     
                     switch(tipoGrilla)
                     {
+                        case 'c': text = dict[idx].idcodigo.toString(); break;
                         case 's': text = dict[idx].cantidad.toString(); break;
                         case 'p': text = dict[idx].cantidad.toString(); break;
                         case 'i': text = dict[idx].stock_ideal.toString(); break;
