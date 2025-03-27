@@ -155,9 +155,11 @@ const InformeVentasTotales = () => {
                 <Input type="number" prefix="Mes" min={1} max={12} onChange={(e)=>{setFiltros(f=>({...f,mes:parse_int_string(e.target.value)}))}} value={filtros.mes} />
             </Col>
             <Col span={8}>
-                Sucursal: <Select value={filtros.fksucursal} style={{width:"200px"}} options={sucursales} onChange={(v)=>{
+                <div style={{overflow:"hidden"}}>
+                 <Select prefix={<span style={{fontWeight:"bold", overflow:"hidden"}}>Sucursal:&nbsp;</span>}  value={filtros.fksucursal} style={{width:"200px"}} options={sucursales} onChange={(v)=>{
                     setFiltros(f=>({...f,fksucursal:v}))
                 }} />
+                </div>
             </Col>
         </Row>
         <Row>

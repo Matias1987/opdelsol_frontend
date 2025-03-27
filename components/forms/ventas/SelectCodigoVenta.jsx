@@ -5,6 +5,7 @@ import { get } from "@/src/urls";
 import globals from "@/src/globals";
 import { Button } from "antd";
 import { CloseCircleFilled } from "@ant-design/icons";
+import DefaultImageProduct from "@/components/etc/imagen/default_image_prod";
 
 /**
  * 
@@ -62,6 +63,6 @@ export default function SelectCodigoVenta(props){
             </>
             :
             <>
-            <span style={_codigo_style}>Codigo:&nbsp;<b>{dataCodigo.codigo.length>30 ? dataCodigo.codigo.substring(0,30)+"..." : dataCodigo.codigo}</b>{_button()}</span>
+            <DefaultImageProduct idproduct={dataCodigo.idcodigo} /> <span style={_codigo_style}>Codigo:&nbsp;<b>{dataCodigo.codigo.length>30 ? dataCodigo.codigo.substring(0,30)+"..." : dataCodigo.codigo}</b>{_button()}</span>
         </>
         )}

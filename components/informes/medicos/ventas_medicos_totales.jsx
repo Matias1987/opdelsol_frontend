@@ -97,11 +97,8 @@ const ListaVentasMedicosTotales = (props) => {
         <Col span={3}>
             <Input  value={nombre} onChange={(e)=>{setNombre(e.target.value)}} prefix="Nombre: " />
         </Col>
-        <Col span={2} style={{textAlign:"right", paddingTop:".2em"}}>
-            Sucursal:
-        </Col>
         <Col span={4}>
-            <Select style={{width:"200px"}} options={sucursales} placeholder="Seleccione sucursal" onChange={
+            <Select  prefix={<span style={{fontWeight:"bold", overflow:"hidden"}}>Sucursal:&nbsp;</span>}   style={{width:"230px", overflow:"hidden"}} options={sucursales} placeholder="Seleccione sucursal" onChange={
                 (v)=>{setIdSucursal(v)
                 let n=""
                 sucursales.forEach(s=>{

@@ -4,6 +4,7 @@ import { get, post } from "@/src/urls";
 import {Modal, Row, Col} from "antd"
 import { useEffect, useState } from "react"
 import StockCodigosSucursales from "../forms/deposito/StockCodigoSucursales";
+import ImagenesProducto from "../etc/imagen/imagen_producto";
 const PopupDetalleBusqueda = (props) => {
     const [detalleCodigo, setDetalleCodigo] = useState(null)
     useEffect(()=>{
@@ -69,6 +70,11 @@ const PopupDetalleBusqueda = (props) => {
             <Row style={{padding:".5em"}}>
                 <Col span={24}>
                     Precio:&nbsp;&nbsp;<b style={{fontSize:"1.3em"}}>{detalleCodigo.precio}</b>
+                </Col>
+            </Row>
+            <Row style={{padding:".5em"}}>
+                <Col span={24}>
+                    <ImagenesProducto readonly idproducto={detalleCodigo.idcodigo} key={detalleCodigo.idcodigo} />
                 </Col>
             </Row>
             <StockCodigosSucursales idcodigo={detalleCodigo.idcodigo} key={detalleCodigo.idcodigo}/>

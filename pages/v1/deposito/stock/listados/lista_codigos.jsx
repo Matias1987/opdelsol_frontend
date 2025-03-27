@@ -1,4 +1,5 @@
 import CustomModal from "@/components/CustomModal";
+import ImagenesProducto from "@/components/etc/imagen/imagen_producto";
 import TagsLote from "@/components/etiquetas/TagsLote";
 import DetalleCodigo from "@/components/forms/deposito/DetalleCodigo";
 import EditarCodigoGrupo from "@/components/forms/deposito/EditarCodigoGrupo";
@@ -9,7 +10,7 @@ import MyLayout from "@/components/layout/layout";
 import globals from "@/src/globals";
 import { post_method } from "@/src/helpers/post_helper";
 import { get, post } from "@/src/urls";
-import { DownOutlined, EditOutlined, InfoOutlined } from "@ant-design/icons";
+import { DownOutlined, EditOutlined, InfoOutlined, PictureOutlined } from "@ant-design/icons";
 import { Card, Button, Checkbox, Col, Dropdown, Input, Modal, Row, Space, Table, Tag } from "antd";
 
 import { useEffect, useState } from "react";
@@ -20,6 +21,7 @@ export default function ListaCodigos(){
     const [change, setChange] = useState(false)
     const [popupTagsOpen, setPopupTagsOpen] = useState(false)
     const [popupEditarCodigoIndvOpen, setPopupEditarCodigoIndvOpen] = useState(false)
+    const [popupImagenesOpen, setPopupImagenesOpen] = useState(false)
     const [selectedIdCodigo, setSelectedIdCodigo] = useState(-1)
     const [popupDetalleOpen, setPopupDetalleOpen] = useState(false)
     const [filtros, setFiltros] = useState({        
@@ -41,6 +43,12 @@ export default function ListaCodigos(){
           label: 'Editar',
           key: '2',
           icon: <EditOutlined />,
+          disabled: !(globals.esUsuarioDeposito() ),
+        },
+        {
+          label: 'Imágenes',
+          key: '3',
+          icon: <PictureOutlined />,
           disabled: !(globals.esUsuarioDeposito() ),
         },
        
@@ -127,6 +135,7 @@ export default function ListaCodigos(){
                                     {
                                         case 1: setSelectedIdCodigo(idcodigo); setPopupDetalleOpen(true); break;
                                         case 2: setSelectedIdCodigo(idcodigo); setPopupEditarCodigoIndvOpen(true); break;
+                                        case 3: setSelectedIdCodigo(idcodigo); setPopupImagenesOpen(true); break;
                                     }
                                 },
                             }
@@ -211,6 +220,16 @@ export default function ListaCodigos(){
                 onCancel={_=>{setPopupDetalleOpen(false)}}
                 >
                     <DetalleCodigo idcodigo={selectedIdCodigo} />
+            </Modal>
+            <Modal 
+                width={"80%"}
+                footer={null} 
+                destroyOnClose
+                open={popupImagenesOpen} 
+                onCancel={_=>{setPopupImagenesOpen(false)}}
+                title="Imágenes del producto"
+                >
+                    <ImagenesProducto idproducto={selectedIdCodigo} /> 
             </Modal>
         </>
 

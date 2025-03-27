@@ -177,6 +177,10 @@ const post = {
     sorteo_get: remote_base_url + "srt/srt/",
     sorteo_get_participantes: remote_base_url + "srt/get/p/dis/",
 
+    upload_image:  remote_base_url + "img/upload/",
+    register_image:  remote_base_url +"img/register/",
+    obtener_images:  remote_base_url +"img/",
+
     search:{
         filtro_stock: remote_base_url + "stock/filtro_stock/",
     },
@@ -435,6 +439,8 @@ const get = {
     listado_subgrupos_filtros: remote_base_url + "subgrupos/listado/subgrupos/fitros/",
 
     obtener_optica: remote_base_url + "op/",//:idoptica
+
+    default_product_image: remote_base_url + "img/def/",
 
     
 }

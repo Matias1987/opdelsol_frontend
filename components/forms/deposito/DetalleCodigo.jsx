@@ -4,6 +4,7 @@ import StockCodigosSucursales from "./StockCodigoSucursales"
 import EnviosCodigos from "./EnviosCodigo"
 import { get } from "@/src/urls"
 import Tags from "@/components/etiquetas/tagsCodigos"
+import ImagenesProducto from "@/components/etc/imagen/imagen_producto"
 
 
 
@@ -43,6 +44,11 @@ const DetalleCodigo = (props) => {
     <Row>
         <Col span={24}>
             <Tags idcodigo={codigo.idcodigo} readOnly={"1"} />
+        </Col>
+    </Row>
+    <Row>
+        <Col span={24}>
+            <ImagenesProducto idproducto={codigo.idcodigo} readonly />
         </Col>
     </Row>
     <Row>

@@ -77,11 +77,8 @@ const ListaVentasDia = (props) => {
         </Col>
     </Row>
     <Row>
-        <Col style={{padding:".3em", textAlign:"right", width:"70px"}}>
-            Vendedor: 
-        </Col>
         <Col style={{width:"300px"}}>
-            <Select onChange={(v)=>{onChange("idusuario", v)}} options={vendedores} placeholder="Seleccione vendedor" style={{width:"300px"}} />
+            <Select prefix={<span>Vendedor:&nbsp;</span>} onChange={(v)=>{onChange("idusuario", v)}} options={vendedores} placeholder="Seleccione vendedor" style={{width:"300px"}} />
         </Col>
    
         <Col span={2} style={{padding:".3em", textAlign:"right"}}>Fecha:</Col>
