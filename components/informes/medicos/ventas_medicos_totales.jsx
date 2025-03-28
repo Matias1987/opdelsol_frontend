@@ -85,18 +85,22 @@ const ListaVentasMedicosTotales = (props) => {
         </Col>
     </Row>
     <Row>
-        <Col span={1}>
+        <Col span={24}>
             <b>Filtros:</b>
         </Col>
-        <Col span={3}>
-            <Input type="number" min={1} max={12} value={mes} onChange={(e)=>{setMes(parse_int_string(e.target.value))}} prefix="Mes: " />
+    </Row>
+    <Row>
+        <Col span={24}>
+            <Input style={{width:"150px"}} type="number" min={1} max={12} value={mes} onChange={(e)=>{setMes(parse_int_string(e.target.value))}} prefix="Mes: " />
+        
+            <Input style={{width:"150px"}} type="number" min={2023} value={anio}  onChange={(e)=>{setAnio(parse_int_string(e.target.value))}} prefix="Año: " />
+        
+            <Input  style={{width:"200px"}} value={nombre} onChange={(e)=>{setNombre(e.target.value)}} prefix="Nombre: " />
         </Col>
-        <Col span={3}>
-            <Input type="number" min={2023} value={anio}  onChange={(e)=>{setAnio(parse_int_string(e.target.value))}} prefix="Año: " />
-        </Col>
-        <Col span={3}>
-            <Input  value={nombre} onChange={(e)=>{setNombre(e.target.value)}} prefix="Nombre: " />
-        </Col>
+        
+        
+    </Row>
+    <Row>
         <Col span={4}>
             <Select  prefix={<span style={{fontWeight:"bold", overflow:"hidden"}}>Sucursal:&nbsp;</span>}   style={{width:"230px", overflow:"hidden"}} options={sucursales} placeholder="Seleccione sucursal" onChange={
                 (v)=>{setIdSucursal(v)
@@ -109,8 +113,7 @@ const ListaVentasMedicosTotales = (props) => {
                 setNombreSucursal(n)
                 }
                 }/>
-        </Col>
-        <Col span={4}>
+       
             <Button onClick={init_totales} type="primary">Aplicar</Button>
         </Col>
     </Row>

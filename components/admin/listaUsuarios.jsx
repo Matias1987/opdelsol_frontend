@@ -4,19 +4,7 @@ import { useEffect, useState } from "react";
 import AgregarPrivilegiosUsuarios from "./agregarPrivilegiosUsuarios";
 import AgregarUsuarioForm from "./agregarUsuario";
 import { EditFilled, PlusOutlined } from "@ant-design/icons";
-/*
 
-<Tag color={+p.ventas==1? "green-inverse" : "red-inverse"}>Vtas</Tag>
-                    <Tag color={+p.caja1==1? "green-inverse" : "red-inverse"}>Caja1</Tag>
-                    <Tag color={+p.caja2==1? "green-inverse" : "red-inverse"}>Caja2</Tag>
-                    <Tag color={+p.deposito_min==1? "green-inverse" : "red-inverse"}>DepMin</Tag>
-                    
-                    <Tag color={+p.deposito==1? "green-inverse" : "red-inverse"}>Dep</Tag>
-                    <Tag color={+p.laboratorio==1? "green-inverse" : "red-inverse"}>Lab</Tag>
-                    <Tag color={+p.admin1==1? "green-inverse" : "red-inverse"}>Adm1</Tag>
-                    <Tag color={+p.admin2==1? "green-inverse" : "red-inverse"}>Adm2</Tag>
-
-                    */
 const ListaUsuarios = (props) => {
     const [usuarios, setUsuarios] = useState([])
     const [popupAddEditOpen, setPopupAddEditOpen] = useState(false)
@@ -68,7 +56,6 @@ const ListaUsuarios = (props) => {
     ]
 
     const load = () => {
-        //alert(get.obtener_usuarios_permisos)
         fetch(get.obtener_usuarios_permisos)
         .then(r=>r.json())
         .then(response=>{
@@ -112,8 +99,6 @@ const ListaUsuarios = (props) => {
                 
             });
 
-            //alert(JSON.stringify(data))
-
             setUsuarios(data)
 
         })
@@ -150,7 +135,7 @@ const ListaUsuarios = (props) => {
         <AgregarPrivilegiosUsuarios idusuario={selectedUsuario}  key={selectedUsuario} callback={()=>{setUpdate(!update); setPopupPrivilegiosOpen(false);}} />
     </Modal>
     <Modal destroyOnClose open={popupAddEditOpen} onCancel={()=>{setPopupAddEditOpen(false)}} footer={null} title={editarUsuario?"Editar":"Agregar Usuario"} >
-        <AgregarUsuarioForm idusuario={selectedUsuario}  key={selectedUsuario} edicion={editarUsuario} callback={()=>{setUpdate(!update)}} />
+        <AgregarUsuarioForm idusuario={selectedUsuario}  key={selectedUsuario} edicion={editarUsuario} callback={()=>{ setUpdate(!update); setPopupAddEditOpen(false);}} />
     </Modal>
     </>
 }
