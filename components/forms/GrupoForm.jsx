@@ -51,15 +51,11 @@ const GrupoForm = (props) => {
             <PlusCircleOutlined />&nbsp;Agregar Subfamilia
         </Button>
         <Modal
-            cancelButtonProps={{ style: { display: 'none' } }}
-            okButtonProps={{children:"CANCELAR"}}
-            
-            width={"80%"}
+            footer={null}
+            width={"500px"}
             title={"Agregar SubFamilia"}
             open={popup_open}
-            onOk={closePopup}
             onCancel={closePopup}
-            okText="CERRAR"
         >
             <SubFamiliaForm action="ADD" callback={onOkPopup} />
         </Modal>
@@ -108,7 +104,7 @@ const GrupoForm = (props) => {
                 </Form.Item>
                 
                 <Form.Item>
-                    <Button type="primary" htmlType="submit">Guardar</Button>
+                    <Button type="primary" htmlType="submit" block>Guardar</Button>
                 </Form.Item>
             </Form>
         </>

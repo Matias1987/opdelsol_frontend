@@ -46,13 +46,13 @@ const SubFamiliaForm = (props) =>{
 
       const closePopup = () => {
         setPopupOpen(false);
-        //location.reload();
+       
       }
   
       const onOkPopup = () => {
         setPopupOpen(false);
         setReload(!reload)
-        //location.reload();
+        
       }
   
       const agregarFamiliaFormPopup = _=>
@@ -61,15 +61,13 @@ const SubFamiliaForm = (props) =>{
               <PlusCircleOutlined />&nbsp;Agregar Familia
           </Button>
           <Modal
-              cancelButtonProps={{ style: { display: 'none' } }}
-              okButtonProps={{children:"CANCELAR"}}
-              
-              width={"80%"}
+              footer={null}
+             
+              width={"500px"}
               title={"Agregar Familia"}
               open={popup_open}
-              onOk={closePopup}
+             
               onCancel={closePopup}
-              okText="CERRAR"
           >
               <FamiliaForm action="ADD" callback={onOkPopup} />
           </Modal>
@@ -132,7 +130,7 @@ const SubFamiliaForm = (props) =>{
                 <Input onInput={e => e.target.value = e.target.value.toUpperCase()}/>
             </Form.Item>
             <Form.Item>
-                <Button type="primary" htmlType="submit">
+                <Button type="primary" htmlType="submit" block>
                     Guardar
                 </Button>
             </Form.Item>

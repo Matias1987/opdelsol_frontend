@@ -62,15 +62,15 @@ const SubGrupoForm = (props) => {
             <PlusCircleOutlined />&nbsp;Agregar
         </Button>
         <Modal
-            cancelButtonProps={{ style: { display: 'none' } }}
+            footer={null}
             okButtonProps={{children:"CANCELAR"}}
             
-            width={"80%"}
+            width={"500px"}
             title={"Agregar Grupo"}
             open={popup_open}
-            onOk={closePopup}
+          
             onCancel={closePopup}
-            okText="CERRAR"
+            
         >
             <GrupoForm action="ADD" callback={onOkPopup} />
         </Modal>
@@ -103,7 +103,7 @@ const SubGrupoForm = (props) => {
             label={"Nombre Corto"}
             name={"nombre_corto"}
             rules={[{required: true,}]}
-            style={{width:"500px"}}
+            style={{width:"100%"}}
             >
                 <Input onInput={e => e.target.value = e.target.value.toUpperCase()}/>
             </Form.Item>
@@ -111,7 +111,7 @@ const SubGrupoForm = (props) => {
             label={"Nombre Largo"}
             name={"nombre_largo"}
             rules={[{required: true,}]}
-            style={{width:"500px"}}
+            style={{width:"100%"}}
             >
                 <Input onInput={e => e.target.value = e.target.value.toUpperCase()}/>
             </Form.Item>
@@ -135,7 +135,7 @@ const SubGrupoForm = (props) => {
                 }}/>
             </Form.Item>
             <Form.Item>
-                <Button type="primary" htmlType="submit">Guardar</Button>
+                <Button type="primary" htmlType="submit" block>Guardar</Button>
             </Form.Item>
         </Form>    
     </>

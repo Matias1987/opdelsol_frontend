@@ -6,6 +6,7 @@ import FacturaForm from "@/components/forms/FacturaForm";
 import SubGrupoForm from "@/components/forms/SubGrupoForm";
 import MyLayout from "@/components/layout/layout";
 import SubGroupSelect from "@/components/SubGroupSelect";
+import SubGroupSelectV2 from "@/components/SubGrupoSelectV2";
 import globals from "@/src/globals";
 import { post_method } from "@/src/helpers/post_helper";
 import { get, post, public_urls } from "@/src/urls";
@@ -433,8 +434,8 @@ export default function AgregarStockLoteV3(props){
 
     const agregarSubgrupoPopup=_=>(
         <>
-    <Button type="primary"  size="small"  onClick={()=>{setSubGrupoPopupOpen(true)}}>
-        {props.edit ? <EditOutlined /> : <><PlusCircleOutlined />&nbsp;Agregar</>}
+    <Button type="link"  size="small"  onClick={()=>{setSubGrupoPopupOpen(true)}}>
+        {props.edit ? <EditOutlined /> : <><PlusCircleOutlined />&nbsp;Agregar Subgrupo</>}
       </Button>
     <Modal
         destroyOnClose
@@ -456,14 +457,14 @@ export default function AgregarStockLoteV3(props){
 
     const agregarFacturaPopup = _ =>
     <>
-    <Button type="primary"  size="small"  onClick={()=>{setFacturaPopupOpen(true)}}>
-        {props.edit ? <EditOutlined /> : <><PlusCircleOutlined />&nbsp;Agregar</>}
+    <Button type="link"  size="small"  onClick={()=>{setFacturaPopupOpen(true)}}>
+        {props.edit ? <EditOutlined /> : <><PlusOutlined />&nbsp;Agregar Factura</>}
       </Button>
     <Modal
         cancelButtonProps={{ style: { display: 'none' } }}
         okButtonProps={{children:"CANCELAR"}}
         
-        width={"80%"}
+        width={"900px"}
         title={"Agregar Factura"}
         open={factura_popup_open}
         onOk={closePopup}
@@ -478,8 +479,7 @@ export default function AgregarStockLoteV3(props){
     return(
         <>
         <Card
-        bodyStyle={{backgroundColor:"#E7E7E7"}}
-        headStyle={{backgroundColor:"#F07427", color:"white"}}
+      
         bordered
         title={<><span>Agregar Productos</span></>}
         size="small"
@@ -488,15 +488,15 @@ export default function AgregarStockLoteV3(props){
 
             <Form onFinish={onFinish} form={form} onFinishFailed={onFinishFailed}>
 
-                    <Form.Item style={{  padding:"3.5em", fontSize:".25em"}} label={"Subgrupo"} name={"subgrupo"} rules={[{required:true}]}>
+                    <Form.Item style={{  padding:"3.5em", fontSize:".25em"}} label={""} name={"subgrupo"} rules={[{required:true}]}>
                         <>
-                        <SubGroupSelect callback={(id)=>{setValue("subgrupo", id);getSubGrupoDetails(id) }} />
-                        {agregarSubgrupoPopup()}
-                        {subgrupo !=null ? <p style={{fontSize:".75em"}}><i>Subgrupo: {subgrupo.nombre_corto}  Multiplicador: {subgrupo.multiplicador} </i></p> : null}
+                        <SubGroupSelectV2 callback={(id)=>{setValue("subgrupo", id); setIdSubgrupo(id); getSubGrupoDetails(id) }} />
+                       
+                        {+idSubgrupo <0 ? <></> : <p style={{fontSize:"1.1em", fontWeight:"bold"}}><i>Subgrupo: {subgrupo.nombre_corto}  </i></p> }
                         </>
                     </Form.Item>
 
-                    <Form.Item label={"Factura"} name={"factura"}>
+                    <Form.Item label={"Factura"} name={"factura"} style={{  padding:"3.5em", fontSize:".25em"}}>
                         <>
                             <FacturaSelect reload={updateall} callback={(id)=>{ /*getSubGrupoDetails(id);*/ setValue("factura", id)}} />
                             <br />
@@ -511,13 +511,13 @@ export default function AgregarStockLoteV3(props){
                     <Form.Item label={""} name={"codigos"}>
                         <>
                             <>
-                            { idSubgrupo === -1 ? <p style={{color:"red", padding:".7em", backgroundColor:"lightcoral"}}><b>Seleccione Subgrupo</b></p> :
+                            { +idSubgrupo <0 ? <p style={{color:"red", padding:".7em", backgroundColor:"lightcoral"}}><b>Seleccione Subgrupo</b></p> :
                             <>
                             
                         
                             <Table 
                             
-                            title={_=><>C&oacute;digos a Generar&nbsp;<Button size="small" onClick={onAgregarCodigosBtnClick}><PlusOutlined /></Button></>} 
+                            title={_=><>C&oacute;digos a Generar&nbsp;<Button style={{color:"black"}} type="default" size="small" onClick={onAgregarCodigosBtnClick}><PlusOutlined size={"small"} /> &nbsp;Agregar</Button></>} 
                             scroll={{y:"400px"}} 
                             dataSource={tableData} 
                             columns={columns} 

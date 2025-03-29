@@ -193,7 +193,7 @@ useEffect(()=>{
         headStyle={{backgroundColor:"#F07427", color:"white"}}
         bordered
         size="small" 
-        title={<>Agregar Stock</>}
+        title={<></>}
     
         >
         <Form onFinish={onFinish} onFinishFailed={onFinishFailed} form={form}>
@@ -204,7 +204,7 @@ useEffect(()=>{
                         props.edit ? <><Input value={props.values.codigo} disabled /></> : <Input  onChange={onCodigoChange} />
                     }
                     </Form.Item>
-                    <Form.Item  label={"Descripcion"} name={"descripcion"} style={{width: "90%"}}  >
+                    <Form.Item  label={"Descripción"} name={"descripcion"} style={{width: "90%"}}  >
                         {descripcion_input()}
                     </Form.Item>
 
@@ -233,7 +233,7 @@ useEffect(()=>{
                             </Form.Item>
                         </Col>
                     </Row>
-                    {modoPrecio}
+                   
                     <Row>
                         <Col span={24}>
                             <Form.Item label={"Modo Precio"} name={"modo_precio"} initialValue={1} key={modoPrecio}>
@@ -291,7 +291,7 @@ useEffect(()=>{
             <Row>
                 <Col span={24}>
                     <Form.Item>
-                        <Button block size="small" type="primary" htmlType="submit">GUARDAR</Button>
+                        <Button block size="small" type="primary" htmlType="submit">AGREGAR</Button>
                     </Form.Item>
                 </Col>
             </Row>

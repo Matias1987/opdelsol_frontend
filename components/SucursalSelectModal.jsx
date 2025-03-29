@@ -24,6 +24,7 @@ const SucursalSelectModal = (props) => {
                         label: r.nombre,
                         value: r.idsucursal,
                         idoptica: r.fkoptica,
+                        //useTaller: r.set_env_op_taller,
                     }))
                 ]
             )
