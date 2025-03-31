@@ -492,7 +492,7 @@ export default function AgregarStockLoteV3(props){
                         <>
                         <SubGroupSelectV2 callback={(id)=>{setValue("subgrupo", id); setIdSubgrupo(id); getSubGrupoDetails(id) }} />
                        
-                        {+idSubgrupo <0 ? <></> : <p style={{fontSize:"1.1em", fontWeight:"bold"}}><i>Subgrupo: {subgrupo.nombre_corto}  </i></p> }
+                        {subgrupo==null || +idSubgrupo <0 ? <></> : <p style={{fontSize:"1.1em", fontWeight:"bold"}}><i>Subgrupo: {subgrupo.nombre_corto}  </i></p> }
                         </>
                     </Form.Item>
 

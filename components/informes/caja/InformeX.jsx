@@ -63,12 +63,14 @@ export default function InformeX(props){
                     break;
                     case "tarjeta": 
                         __temp.tarjeta_monto=r.monto;
+                        __temp.tarjeta_tarjeta=r.tarjeta;
                     break;
                     case "ctacte": 
                         __temp.ctacte_monto=r.monto;
                     break;
                     case "mutual": 
                         __temp.mutual_monto=r.monto;
+                        __temp.mutual_mutual=r.mutual;
                     break;
                     case "cheque": 
                         __temp.cheque_monto=r.monto;
@@ -168,10 +170,11 @@ export default function InformeX(props){
         return dataSucursal == null ? <Spin /> : <>{globals.obtenerSucursal()}</>
     }
 
-    const html_cheque_tarjeta = () => {
+    const html_cheque_tarjeta_mutual = () => {
         return modoPago == null ? <Spin /> : <>
             {modoPago.cheque_monto == 0 ? <></>: <p>Cheque: {modoPago.cheque_nro} Banco: {modoPago.banco_banco} &nbsp;Fecha: {modoPago.cheque_fecha}</p>}
-            {modoPago.tarjeta_monto == 0 ? <></> : <p>Tarjeta: {modoPago.tarjeta_tarjeta} Numero: {modoPago.tarjeta_nro} Cupon: {modoPago.tarjeta_cupon}</p>}
+            {modoPago.tarjeta_monto == 0 ? <></> : <p>Tarjeta: {modoPago.tarjeta_tarjeta} {/*Numero: {modoPago.tarjeta_nro} Cupon: {modoPago.tarjeta_cupon}*/}</p>}
+            {modoPago.mutual_monto == 0 ? <></> : <p>Obra Social: {modoPago.mutual_mutual} </p>}
         </>
     }
 
@@ -226,7 +229,7 @@ export default function InformeX(props){
                                             En concepto de: {dataPago.concepto_pago}<br />
                                             {/*"SALDO CTA CTE:  " + currency_format(dataPago.saldo_actual) */}</p>
                                             <hr />
-                                            {html_cheque_tarjeta()}
+                                            {html_cheque_tarjeta_mutual()}
                                         </td>
                                         <td>
                                             {tabla_modo_pago()}

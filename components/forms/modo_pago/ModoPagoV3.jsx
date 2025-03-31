@@ -317,7 +317,7 @@ export default function ModoPagoV3(props){
                     onClick={(e)=>{e.target.select()}} 
                     value={modoPago.efectivo_monto}  
                     /*prefix={<><Button type="link" onClick={()=>{ if(modoPago.saldo<0){return} onChange("efectivo_monto",modoPago.saldo)}}>Efectivo</Button></> }*/
-                    prefix={<b>Efectivo: </b>} 
+                    prefix={<b>Monto Efectivo: </b>} 
                     onChange={(e)=>{onChange("efectivo_monto", e.target.value.length<1 ? 0 : parseFloat(e.target.value))}}
                     />
                 </Col>
@@ -332,7 +332,7 @@ export default function ModoPagoV3(props){
                     onClick={(e)=>{e.target.select()}} 
                     value={modoPago.tarjeta_monto}  
                     /*prefix={<><Button type="link" onClick={()=>{ if(modoPago.saldo<0){return} onChange("tarjeta_monto",modoPago.saldo)}}>Tarjeta</Button></> }*/
-                    prefix={<b>Tarjeta: </b>} 
+                    prefix={<b>Monto Tarjeta: </b>} 
                     onChange={(e)=>{onChange("tarjeta_monto", e.target.value.length<1 ? 0 : parseFloat(e.target.value))}} 
                     />
                 </Col>
@@ -365,7 +365,7 @@ export default function ModoPagoV3(props){
                     onClick={(e)=>{e.target.select()}} 
                     value={modoPago.ctacte_monto} 
                     /*prefix={<><Button type="link" onClick={()=>{ if(modoPago.saldo<0){return} onChangeMontoCtaCte(modoPago.saldo)}}>Cta. Cte.: </Button></>} */
-                    prefix={<b>Cta. Cte.: </b>} 
+                    prefix={<b>Monto Cta. Cte.:</b>} 
                     onChange={(e)=>{onChangeMontoCtaCte(e.target.value)}} 
                     />
                 </Col>
@@ -420,7 +420,7 @@ export default function ModoPagoV3(props){
                     onClick={(e)=>{e.target.select()}} 
                     value={modoPago.cheque_monto} 
                     /*prefix={<><Button type="link" onClick={()=>{ if(modoPago.saldo<0){return} onChange("cheque_monto",modoPago.saldo)}}>Cheque</Button></> }*/
-                    prefix={<b>Cheque: </b>} 
+                    prefix={<b>Monto Cheque:</b>} 
                     onChange={(e)=>{onChange("cheque_monto", e.target.value.length<1 ? 0 : parseFloat(e.target.value))}}
                     />
                 </Col>
@@ -449,7 +449,7 @@ export default function ModoPagoV3(props){
                     onClick={(e)=>{e.target.select()}} 
                     value={modoPago.mutual_monto}  
                     /*prefix={<><Button type="link" onClick={()=>{ if(modoPago.saldo<0){return} onChange("mutual_monto",modoPago.saldo)}}>Mutual</Button></> }*/
-                    prefix={<b>Mutual: </b>} 
+                    prefix={<b>Monto Mutual: </b>} 
                     onChange={(e)=>{onChange("mutual_monto", e.target.value.length<1 ? 0 : parseFloat(e.target.value))}}
                     />
                     
@@ -459,7 +459,7 @@ export default function ModoPagoV3(props){
                 <Col span={9}>
                     <Input
                     type="number"
-                    prefix={<b>Mercado Pago: </b>} 
+                    prefix={<b>Monto M.P.: </b>} 
                     onChange={(e)=>{onChange("mercadopago_monto", e.target.value.length<1 ? 0 : parseFloat(e.target.value))}} 
                     value={modoPago.mercadopago_monto}  
                     onClick={(e)=>{e.target.select()}} 
@@ -470,7 +470,7 @@ export default function ModoPagoV3(props){
                 <Col span={9}>
                     <Input
                     type="number"
-                    prefix={<b>Transferencia: </b>} 
+                    prefix={<b>Monto Transf.: </b>} 
                     onChange={(e)=>{onChange("transferencia_monto", e.target.value.length<1 ? 0 : parseFloat(e.target.value))}} 
                     value={modoPago.transferencia_monto}  
                     onClick={(e)=>{e.target.select()}} 

@@ -15,7 +15,7 @@ import globals from "@/src/globals";
 import { post_method } from "@/src/helpers/post_helper";
 import { post } from "@/src/urls";
 import { DownOutlined, EditOutlined, ExportOutlined, InfoOutlined, PlusOutlined, PrinterOutlined, SearchOutlined, TableOutlined, UserOutlined } from "@ant-design/icons";
-import { Button, Card, Checkbox, Col,  Dropdown,  Form, Input, InputNumber, Modal, Row, Select, Space, Switch, Table, Tabs, Tag } from "antd";
+import { Button, Card, Checkbox, Col,  Divider,  Dropdown,  Form, Input, InputNumber, Modal, Row, Select, Space, Switch, Table, Tabs, Tag } from "antd";
 import { useEffect,  useState } from "react";
 
 import EditarSubgrupo from "@/components/forms/deposito/EditarSubgrupo";
@@ -420,10 +420,10 @@ export default function ListaStock(){
                     {
                         label: 'Búsqueda Av.',
                         key: '2',
-                        children: <div style={{backgroundColor:"rgba(173,216,230,.2)", padding:".3em", border:"1px solid rgba(173,216,230,1)"}}>
+                        children: <div>
                         <Form {...{labelCol:{span:5}, wrapperCol:{span:18}}} onFinish={onFinishFiltro} form={form}>
-                            <Row >
-                                <Col span={8}>
+                            <Row  style={{backgroundColor:"rgba(173,216,230,.2)", paddingTop:".3em", paddingLeft:".3em", paddingRight:".3em", border:"1px solid rgba(173,216,230,1)"}} >
+                            <Col span={12}>
                                     <Form.Item label="" name={"tipo_filtro"}>
                                         <Select 
                                             prefix={<span style={{fontWeight:"bold"}}>Filtro: </span>}
@@ -452,22 +452,19 @@ export default function ListaStock(){
                                         />
                                     </Form.Item>
                                 </Col>
-                                <Col span={6}>
+                                <Col span={12}>
                                     <Form.Item label={"Valor"} name={"valor"} key={valueChanged}>
                                         {FiltroValor()}
+                                        <Button type="link" danger htmlType="submit" size="small"><PlusOutlined size={"small"} /> Agregar Filtro</Button>
                                     </Form.Item>
                                 </Col>
-                                <Col span={1}>
-                                <Form.Item>
-                                        <Button type="primary" htmlType="submit" size="small"><PlusOutlined /> Agregar</Button>
-                                    </Form.Item>
-                                </Col>
+                                
                             </Row>
-                            
+                            <br />
                             </Form>
                             <Form form={form1} onFinish={onFinish}>
                                 <Row>
-                                    <Col span={12} >
+                                    <Col span={24} >
                                         <Form.Item label={"Filtros:"} style={{backgroundColor:"#D8DFE6"}}>
                                             {
                                                 tags.map(t=>(
@@ -481,6 +478,8 @@ export default function ListaStock(){
                                             }
                                         </Form.Item>
                                     </Col>
+                                </Row>
+                                <Row>
                                     <Col span={6}>
                                     <Form.Item label="" name={"orden"}>
                                         <Select 

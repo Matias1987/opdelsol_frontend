@@ -85,7 +85,7 @@ const SubGroupSelectV2 = (props) => {
 
     return (
         <> 
-            <Card title={<><span style={{color:"darkblue"}}>Seleccione Tipo de Producto</span> <Button size="small" type="link" onClick={onAgregarSubgrupoClick}><PlusOutlined size={"small"}/>&nbsp;Agregar</Button></>} size="small" style={{width:"400px"}}>
+            <Card title={<><span style={{color:"darkblue"}}>Seleccione Categor&iacute;a de Producto</span> <Button size="small" type="link" onClick={onAgregarSubgrupoClick}><i><PlusOutlined size={"small"}/>Agregar Cat.</i></Button></>} size="small" style={{width:"400px"}}>
             <Row>
                     <Col span={24}>
                         <Select 
