@@ -394,7 +394,7 @@ export default function ListaStock(){
         <Card
         size="small"
         title="Stock Sucursal"
-        headStyle={{backgroundColor:"#F07427", color:"white"}}
+       
         >
             <Row>
                 <Col span={24}>

@@ -64,24 +64,26 @@ export default function MyLayout(props){
     
     return (
             <Layout className='layout' >
-                <Sider width={"auto"} collapsed={collapsed} style={{backgroundColor:'#262626'}}>
+                
+                {/**<Sider width={"auto"} collapsed={collapsed} style={{backgroundColor:'#262626'}}>
                     {<div className="logo" style={{padding:".45em", textAlign:"center", height:"36px" }}>
                         <span style={{color:"rgba(255,255,255,1)"}}><b></b>&nbsp;&nbsp;</span>
                         
                     </div>}
-                    {uDeposito?<>
-                        <TestMenu />
-                    </>:
-                    uDepositoMin?<>
-                        <MenuV2 mode="vertical"/>
-                    </>:<></>
-                    }
-                </Sider>
+                    
+                </Sider>*/}
                 <Layout>
 
                     <HeaderSol tipoCuenta="DEPOSITO" displaymodechange={(c)=>{
                         props?.displaymodechange?.(c)
                     }}/>
+                    {uDeposito?<>
+                        <TestMenu />
+                    </>:
+                    uDepositoMin?<>
+                        <MenuV2/>
+                    </>:<></>
+                    }
 
                     <Content style={{ margin: '24px 16px', padding: 24, minHeight: "100hv"  }}>
                         {props.children}

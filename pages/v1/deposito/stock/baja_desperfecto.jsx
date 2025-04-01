@@ -75,7 +75,7 @@ export default function BajaDesperfecto(){
         <Card 
         size="small"
         title="Baja por Desperfecto"
-        headStyle={{backgroundColor:"#F07427", color:"white"}}>
+        >
             <Form
                 onFinish={onFinish}
             >

@@ -4,8 +4,8 @@ import { useEffect, useState } from "react";
 import globals from "@/src/globals";
 import SearchStockEnvio from "./deposito/SearchStockEnvio";
 import { CloseCircleFilled, DownOutlined, UpOutlined } from "@ant-design/icons";
-const urls = require("../../src/urls")
-const post_helper = require("../../src/helpers/post_helper")
+import { post_method } from "@/src/helpers/post_helper";
+import { get, post } from "@/src/urls";
 
 const EnvioForm = (props) => {
     const [tableData,setTableData] = useState([])
@@ -102,7 +102,7 @@ const EnvioForm = (props) => {
 
         __values.cantidad_total=__cantidad;
 
-        post_helper.post_method(urls.post.insert.envio,__values,(res)=>{
+        post_method(post.insert.envio,__values,(res)=>{
             if(res.status == "OK"){
                 alert("Datos Guardados")
                 window.location.replace(urls.informes.envio+res.data);
@@ -131,8 +131,8 @@ const EnvioForm = (props) => {
         if(found) {/*alert("Codigo ya cargado!");*/ callback(); return;}
         setTableLoading(true);
         /* get stock data for the column */
-        console.log(urls.get.detalle_stock+ sucursal_id + "/" + selectedCodigoId)
-        fetch(urls.get.detalle_stock+ sucursal_id + "/" + selectedCodigoId/*<-- TEMPORARY!! */)
+        console.log(get.detalle_stock+ sucursal_id + "/" + selectedCodigoId)
+        fetch(get.detalle_stock+ sucursal_id + "/" + selectedCodigoId/*<-- TEMPORARY!! */)
         .then(response=>response.json())
         .then((response)=>{
             add_new_row(response.data)
@@ -194,7 +194,7 @@ const EnvioForm = (props) => {
             <Card
                 size="small"
                 title="Nuevo Envío"
-                headStyle={{backgroundColor:"#F07427", color:"white"}}
+                
                 >
                 <Row>
                 <Col span={14}>
@@ -220,7 +220,7 @@ const EnvioForm = (props) => {
                                         ))
                                     )
                                 }
-                                fetchurl={urls.get.sucursales} 
+                                fetchurl={get.sucursales} 
                                 callback={(id)=>{setValue("sucursal", id)}}      
                         />
                     </Form.Item>

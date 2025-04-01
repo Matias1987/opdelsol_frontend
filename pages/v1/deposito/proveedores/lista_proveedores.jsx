@@ -68,8 +68,8 @@ useEffect(()=>{
         <>
         <Card
                 size="small"
-                title={<>Lista de Proveedores <Button type="text"  size="small"  onClick={openPopup}> <PlusOutlined />Agregar Proveedor</Button></>}
-                headStyle={{backgroundColor:"#F07427", color:"white"}}
+                title={<>Lista de Proveedores <Button type="text"  size="small"  onClick={openPopup}> <PlusOutlined  size={"small"} />Agregar Proveedor</Button></>}
+               
                 >
          
             <Table 

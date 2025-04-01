@@ -7,7 +7,7 @@ const AgregarFactura = () =>{
         <Card
         size="small"
         title="Agregar Factura"
-        headStyle={{backgroundColor:"#F07427", color:"white"}}>
+        >
             <AgregarFacturaV2 callback={()=>{}} />
         </Card>
         </>

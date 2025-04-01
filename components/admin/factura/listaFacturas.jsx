@@ -177,8 +177,7 @@ useEffect(()=>{
     return (
         <>
         <Card 
-        bodyStyle={{backgroundColor:"#E7E7E7"}}
-        headStyle={{backgroundColor:"#F07427", color:"white"}}
+       
         size="small"
         title={<>
             Lista de Facturas y/o Remitos&nbsp;&nbsp;{/*<Button disabled={readOnly} type="default"  style={{color:"blue"}}  size="small"  onClick={openPopup}><PlusOutlined />Agregar</Button>*/}

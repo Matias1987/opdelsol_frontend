@@ -140,7 +140,7 @@ const SearchStockEnvio = (props) => {
         <Card
         title={"Agregar Códigos"}
         size="small"
-        headStyle={{backgroundColor:"lightblue"}}
+        
         >
             <>
         <Row>
@@ -151,27 +151,19 @@ const SearchStockEnvio = (props) => {
                 <Checkbox checked={sinStockDestino} onChange={()=>{setSinStockDestino(!sinStockDestino)}}>Sin stock destino</Checkbox>
             </Col>
         </Row>
-        <Row>
-            <Col span={24}>
-                <i style={{color:"blue"}}>
-                    {tags.map(t=>`${t},`)}
-                    {categoria=="familia" ? <>Familia: {idCat}</>:<></>}
-                    {categoria=="subfamilia" ? <>SubFamilia: {idCat}</>:<></>}
-                    {categoria=="grupo" ? <>Grupo: {idCat}</>:<></>}
-                    {categoria=="subgrupo" ? <>SubGrupo: {idCat}</>:<></>}
-                </i>
-                
-            </Col>
-        </Row>
         
         <Row>
             <Col span={24}>
                 <Affix offsetTop={top}>
                     <Input.Search 
-                    
+                    size="small"
                     allowClear={false}
 
-                    prefix={<><Button style={{backgroundColor:"lightseagreen", fontWeight:"bold"}} 
+                    prefix={<>
+                    <Button 
+                    style={{backgroundColor:"lightseagreen", fontWeight:"bold"}} 
+                    type="link"
+                    size="small"
 
                     onClick={()=>{
                         if(idCat>-1)
@@ -186,7 +178,17 @@ const SearchStockEnvio = (props) => {
                         setModalOpen(true)
                         }}
 
-                        >{buttonText}</Button></>} 
+                        >{buttonText}</Button>
+
+                        <i style={{color:"blue"}}>
+                            {tags.map(t=>`${t},`)}
+                            {categoria=="familia" ? <>Familia: {idCat}</>:<></>}
+                            {categoria=="subfamilia" ? <>SubFamilia: {idCat}</>:<></>}
+                            {categoria=="grupo" ? <>Grupo: {idCat}</>:<></>}
+                            {categoria=="subgrupo" ? <>SubGrupo: {idCat}</>:<></>}
+                        </i>
+                        
+                        </>} 
                         width={"100%"} 
                         onSearch={onSearch} 
                         value={searchValue} 

@@ -97,7 +97,7 @@ export default function ImprimirCodigos(){
             <Card
             size="small"
             title="Imprimir C&oacute;digos de Barras"
-            headStyle={{backgroundColor:"#F07427", color:"white"}}
+            
             >
                 <Row >
                     
