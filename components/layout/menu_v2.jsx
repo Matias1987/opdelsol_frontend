@@ -116,8 +116,8 @@ export default function MenuV2(props){
       {
         type: 'divider',
       },
-     /**
-      * {
+     
+      {
         key: '102',
         label: (<Menu.Item style={{fontSize:".85em"}}><Link href={public_urls.ventas_pendientes}>Operaciones Pendientes En Sucursal</Link></Menu.Item>),
       },
@@ -137,7 +137,7 @@ export default function MenuV2(props){
         key: '108',
         label: (<Menu.Item style={{fontSize:".85em"}}><Link href={public_urls.ventas_anuladas}>Operaciones Anuladas</Link></Menu.Item>),
       },
-      */
+      
       
     ],
   }

@@ -5,11 +5,14 @@ import { post } from "@/src/urls";
 import globals from "@/src/globals";
 import FiltroVentas from "@/components/forms/ventas/filtroVentas";
 import CobroOperacion from "@/components/forms/caja/CobroForm";
-import { ReloadOutlined } from "@ant-design/icons";
+import { InfoCircleFilled, InfoOutlined, ReloadOutlined } from "@ant-design/icons";
 import VentaDetallePopup from "@/components/VentaDetalle";
 import { current_date_ymd } from "@/src/helpers/string_helper";
 import { registrarVentaAnulado, registrarVentaTerminado } from "@/src/helpers/evento_helper";
-import { Table, Button, Tag, Row, Col } from "antd"
+import { Table, Button, Tag, Row, Col, Modal, Card } from "antd"
+import CobroOperacionV2 from "@/components/forms/caja/CobroFormV2";
+import PrinterWrapper from "@/components/PrinterWrapper";
+import InformeVenta from "./Base";
 /**
  * 
  * @param estado INGRESADO, PENDIENTE, TERMINADO, ENTREGADO, ANULADO... 
@@ -28,34 +31,47 @@ import { Table, Button, Tag, Row, Col } from "antd"
  * @param estado_taller
  */
 const ListaVentas = (props) => {
+    const {estado} = props
     const [dataSource, setDataSource] = useState([])
     const [loading, setLoading] = useState(true)
     const [filtros, setFiltros] = useState({})
     const [reload, setReload] = useState(true)
+    const [popupCobroOpen, setPopupCobroOpen] = useState(false)
+    const [popupDetalleOpen, setPopupDetalleOpen] = useState(false)
+    const [selectedVenta, setSelectedVenta] = useState({
+        idventa:-1,
+        idcliente:-1,
+        idsucursal:-1,
+        tipo:null,
+    })
 
     const add = (obj,value,key) => typeof value === 'undefined' ? obj : {...obj, [key]:value}
 
     const buttons = (_idventa, _idcliente, _idsucursal, _tipo) => {
         return <>
-            <><VentaDetallePopup idventa={_idventa} />&nbsp;&nbsp;</>
+            <Button 
+            size="small"
+            type="link"
+            onClick={_=>{
+                setSelectedVenta(_=>({idventa:_idventa, idcliente:_idcliente, idsucursal:_idsucursal, tipo:_tipo})); 
+                setPopupDetalleOpen(true)
+            }}
+            >
+                <InfoCircleFilled />
+            </Button>
             {typeof props.imprimir !== 'undefined'  ?  <><ImprimirSobreVenta idventa={_idventa} />&nbsp;&nbsp;</>:<></>}
             {typeof props.cobrar !== 'undefined' ?  <>
-            <CobroOperacion 
-                buttonText={typeof props.buttonText !== 'undefined' ? props.buttonText : "Cobrar"}
-                tarjetaHidden={false}
-                ctacteHidden={false}
-                totalsHidden={false}
-                mustCancel={typeof props.mustCancel === 'undefined' ? false : props.mustCancel}
-                idventa={_idventa} 
-                idcliente={_idcliente} 
-                tipo={props.accion} 
-                callback={(data)=>{
-                    setReload(!reload)
-                }} />&nbsp;&nbsp;
+            <Button 
+            type="link"
+            size="small"
+            onClick={_=>{
+                setSelectedVenta(_=>({idventa:_idventa, idcliente:_idcliente, idsucursal:_idsucursal, tipo:_tipo})); 
+                setPopupCobroOpen(true);
+                }}>Cobrar</Button>&nbsp;
             </>:<></>}
             
             
-            {typeof props.marcarTerminado !== 'undefined' ?  <><Button size="small" type="primary" onClick={(e)=>{
+            {typeof props.marcarTerminado !== 'undefined' ?  <><Button size="small" type="link" onClick={(e)=>{
                 if(confirm("Marcar operación como disponible para entrega?"))
                 {
                     if(_idsucursal != globals.obtenerSucursal() && ((props.ignoreSucursalEntrega||"0")=="0"))
@@ -68,7 +84,7 @@ const ListaVentas = (props) => {
                 }
             }}>Terminado</Button>&nbsp;&nbsp;</>:<></>}
 
-            {(typeof props.enviarALaboratorio !== 'undefined'&& _tipo!=globals.tiposVenta.DIRECTA) ?  <Button size="small" danger onClick={(e)=>{
+            {(typeof props.enviarALaboratorio !== 'undefined'&& _tipo!=globals.tiposVenta.DIRECTA) ?  <Button size="small" danger type="link" onClick={(e)=>{
                 if(confirm("Enviar venta a taller?"))
                 {
                     if(_idsucursal != globals.obtenerSucursal())
@@ -201,14 +217,14 @@ const ListaVentas = (props) => {
     }
 
     const columns = [
-        {width:"100px", hidden: false, title: "Nro.", dataIndex:"idventa"},
-        {width:"150px", hidden: false, title: "Tipo", dataIndex: "tipo", render:(_,{tipo})=>(
+        {width:"60px", hidden: false, title: "Nro.", dataIndex:"idventa"},
+        {width:"100px", hidden: false, title: "Tipo", dataIndex: "tipo", render:(_,{tipo})=>(
             <span style={{fontSize:".75em", }}><b>{get_tipo(tipo)}</b></span>
         ) },
-        {width:"150px", hidden: false, title: "Fecha", dataIndex:"fecha"},
-        {width:"250px", hidden: false, title: "Cliente", dataIndex:"cliente"},
-        {width:"200px", hidden: false, title: "Vendedor", dataIndex:"vendedor"},
-        {width:"100px", hidden: (props.mostrarEstado||"1") == "0" , title: "Estado", dataIndex:"estado", render:(_,{estado})=>{
+        {width:"100px", hidden: false, title: "Fecha", dataIndex:"fecha"},
+        {width:"200px", hidden: false, title: "Cliente", dataIndex:"cliente"},
+        {width:"110px", hidden: false, title: "Vendedor", dataIndex:"vendedor"},
+        {width:"80px", hidden: (props.mostrarEstado||"1") == "0" , title: "Estado", dataIndex:"estado", render:(_,{estado})=>{
             switch(estado){
                 case "INGRESADO": return <Tag color="magenta">{estado}</Tag>
                 case "PENDIENTE": return <Tag color="geekblue">{estado}</Tag>
@@ -217,8 +233,8 @@ const ListaVentas = (props) => {
                 case "TERMINADO": return <Tag color="green">{estado}</Tag>
             }
         }},
-        {width:"150px", hidden: false, title:<div style={{textAlign:"right"}}>Monto</div> , dataIndex:"monto", render:(_,{monto})=><div style={{textAlign:"right"}}>$&nbsp;{parseFloat(monto)}</div>},
-        {width:"150px", hidden: false, title: "Sucursal", dataIndex:"sucursal"},
+        {width:"110px", hidden: false, title:<div style={{textAlign:"right"}}>Monto</div> , dataIndex:"monto", render:(_,{monto})=><div style={{textAlign:"right"}}>$&nbsp;{parseFloat(monto)}</div>},
+        {width:"110px", hidden: false, title: "Sucursal", dataIndex:"sucursal"},
         {width:"300px", hidden: false, title: "Acciones", dataIndex:"idventa", render: (_,{idventa,idcliente, idsucursal, tipo})=>{
             return <>
                 {buttons(idventa,idcliente, idsucursal, tipo)}
@@ -229,35 +245,65 @@ const ListaVentas = (props) => {
     const _row_style = {
         padding: '.2em',
     }
-
+//title={_=><><Button style={{color:"white"}} type="ghost" size="small" onClick={()=>{setReload(!reload)}}><ReloadOutlined size={"small"} /> Recargar</Button></>}
     return <>
+    <Card
+        size="small"
+        title={<>
+        {typeof props.titulo === 'undefined' ? "Lista de Ventas": props.titulo}
+        </>}
 
-    <Row>
-        <Col span={20} style={_row_style}> 
-            <h3>{typeof props.titulo === 'undefined' ? "Lista de Ventas": props.titulo}</h3>
-        </Col>
-        <Col span={4}>
-            <Button type="ghost" size="large" onClick={()=>{setReload(!reload)}}><ReloadOutlined /> Recargar</Button>
-        </Col>
-    </Row>
-    <Row>
-        <Col span={24} style={_row_style}>
-            {typeof props.ocultarFiltros === 'undefined' ? <></> : <FiltroVentas callback={f=>{setFiltros(_f=>f); setReload(!reload)}} /> }
-        </Col>
-    </Row>
-    <Row>
-        <Col span={24} style={_row_style}>
-            <Table 
-            size="small"
-            scroll={{y:"500px"}}
-            pagination={typeof props.pagination === 'undefined' ? true : props.pagination}
-            rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'}
-            dataSource={dataSource} 
-            columns={columns.filter(r=>!r.hidden)} 
-            loading={loading} 
-            />
-        </Col>
-    </Row>
+        extra={<Button type="link" size="small" onClick={()=>{setFiltros({}); setReload(!reload)}}><ReloadOutlined size={"small"} /> Recargar</Button>}
+    >
+
+        <Row>
+            <Col  style={{..._row_style,width:"700px"}}>
+                {typeof props.ocultarFiltros !== 'undefined' ? <></> : <FiltroVentas estado={estado} embedded callback={f=>{setFiltros(_f=>f); setReload(!reload)}} /> }
+            </Col>
+        </Row>
+        <Row>
+            <Col span={24} style={_row_style}>
+                <Table 
+                size="small"
+                scroll={{y:"500px"}}
+                pagination={typeof props.pagination === 'undefined' ? true : props.pagination}
+                rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'}
+                dataSource={dataSource} 
+                columns={columns.filter(r=>!r.hidden)} 
+                loading={loading} 
+                />
+            </Col>
+        </Row>
+    </Card>
+    <Modal
+        destroyOnClose
+        title="Cobro"
+        onCancel={_=>{setPopupCobroOpen(false)}}
+        width={"1000px"}
+        footer={null}
+        open={popupCobroOpen}
+    >
+        <CobroOperacionV2 
+        callback={_=>{setPopupCobroOpen(false)}}
+        tarjetaHidden={false}
+        ctacteHidden={false}
+        totalsHidden={false}
+        idventa={selectedVenta.idventa}
+        idcliente={selectedVenta.idcliente}
+        />
+    </Modal>
+    <Modal
+        destroyOnClose
+        title="Cobro"
+        onCancel={_=>{setPopupDetalleOpen(false)}}
+        width={"1000px"}
+        footer={null}
+        open={popupDetalleOpen}
+    >
+        <PrinterWrapper>
+            <InformeVenta idventa={selectedVenta.idventa} />
+        </PrinterWrapper>
+    </Modal>
     </>
 }
 

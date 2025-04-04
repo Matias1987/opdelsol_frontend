@@ -1,5 +1,5 @@
 import globals from "@/src/globals"
-import { Button, Col, DatePicker, Input, Modal, Row, Select } from "antd"
+import { Button, Card, Col, DatePicker, Input, Modal, Row, Select } from "antd"
 
 
 import { useState, useEffect } from "react"
@@ -8,11 +8,19 @@ import SelectMedico from "./SelectMedico"
 
 
 const FiltroVentas =(props) => {
-    const [filtros,setFiltros] = useState({})
+    const {embedded, estado,} = props
+    const [filtros,setFiltros] = useState({
+        estado:estado,
+        idcliente:-1,
+        idmedico:-1,
+        iddestinatario:-1,
+        id:null,
+        tipo:"",    
+    })
     const [open, setOpen] = useState(false);
 
     useEffect(()=>{
-        setFiltros({})
+        //setFiltros({estado: estado||""})
     },[])
 
 
@@ -61,8 +69,104 @@ const FiltroVentas =(props) => {
         setOpen(false);
       };
 
+    
+    const filtros_content = _=> <>
+        <Card title="Filtros" size="small" styles={{borderRadius:"16px", body:{backgroundColor:"rgba(209,241,243,0.25)"}}}>
+            <Row>
+                <Col span={12}>
+                    <Row style={{padding: "3px"}}>
+                        <Col span={24}>
+                            <Input size="small" onChange={onIDChange} style={{width:"150px"}} prefix={<span style={{fontWeight:"bold"}}>Nro.: </span>} />
+                        </Col>
+                        
+                    </Row>
+                    <Row style={{padding:"3px"}}>
+                        <Col span={12}>
+                            <Select 
+                            disabled={!(typeof estado==='undefined') }
+                            size="small"
+                            prefix={<span style={{fontWeight:"bold"}}>Estado: </span>}
+                            style={{width:"200px"}} 
+                            onChange={(v)=>{onChange("estado",v)}}
+                            value={filtros.estado}
+                            options={[
+                                {label:"-", value:""},
+                                {label:"INGRESADO", value:"INGRESADO"},
+                                {label:"PENDIENTE", value:"PENDIENTE"},
+                                {label:"TERMINADO", value:"TERMINADO"},
+                                {label:"ENTREGADO", value:"ENTREGADO"},
+                                {label:"ANULADO", value:"ANULADO"},
+                            ]}
+                            />
+                        </Col>
+                   </Row>
+                   <Row style={{padding: "3px"}}>
 
-    return <>
+                        <Col span={12}>
+                            <Select 
+                            size="small"
+                            prefix={<span style={{fontWeight:"bold"}}>Tipo: </span>}
+                            style={{width:"200px"}} 
+                            onChange={(v)=>{onChange("tipo",v)}}
+                            options={[
+                                {label:"-", value:""},
+                                {label:"Vta. Directa", value:globals.tiposVenta.DIRECTA},
+                                {label:"Recta Stock", value:globals.tiposVenta.RECSTOCK},
+                                {label:"LC Laboratorio", value:globals.tiposVenta.LCLAB},
+                                {label:"LC Stock", value:globals.tiposVenta.LCSTOCK},
+                                {label:"Monof Lab", value:globals.tiposVenta.MONOFLAB},
+                                {label:"Monof Stock", value:globals.tiposVenta.MONOFLAB},
+                            ]}
+                            />
+                        </Col>
+                    </Row>
+                </Col>
+                <Col span={12}>
+                    <Row style={{padding: "3px"}}>
+                        <Col span={24}>
+                            <span style={{color:"darkblue"}}><i>Cliente o Destinatario:</i></span>&nbsp;&nbsp;
+                            <SelectCliente callback={onSelectCliente} />
+                        </Col>
+                    </Row>
+                    <Row style={{padding: "3px"}}>
+                        <Col span={24}>
+                        <span style={{color:"darkblue"}}><i>M&eacute;dico:&nbsp;&nbsp;</i></span>
+                            <SelectMedico callback={onSelectMedico} />
+                        </Col>
+                    </Row>
+
+                    <Row style={{padding: "3px"}}>
+                      
+                        <Col span={22}>
+                        Fecha:&nbsp;&nbsp;
+                            <DatePicker 
+                            size="small"
+                            format={"DD/MM/YYYY"} onChange={
+                                (d,dstr)=>
+                                {
+                                    const parts  = dstr.split("/")
+                                    setFiltros(f=>{
+                                        const _f = {...f,["fecha"]:`${parts[2]}-${parts[1]}-${parts[0]}`}
+                                        return _f
+                                    })
+                                }
+                            }  />
+
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col span={24}>
+                            <Button type="primary" size="small" onClick={_=>{props?.callback?.(filtros)}}>Aplicar</Button>
+                        </Col>
+                    </Row>
+                </Col>
+            </Row>
+        </Card>
+    </>
+
+
+    return embedded ? filtros_content() :    
+    <>
     <Button type="link" ghost  size="small"  onClick={showModal}>
         {"Filtros"}
       </Button>
@@ -76,100 +180,13 @@ const FiltroVentas =(props) => {
         width={"620px"}
         title={"Filtros"}
         open={open}
-        onOk={()=>{ 
-          props?.callback?.(filtros)
-          setOpen(false)}
-        }
         onCancel={handleCancel}
         okText= {"Aplicar"}
         destroyOnClose={true}
       >
 
-      
-        <Row style={{padding: "6px"}}>
-            <Col span={24}>
-                <Input onChange={onIDChange} style={{width:"100%"}} prefix={<span style={{fontWeight:"bold"}}>Nro.: </span>} />
-            </Col>
-            
-        </Row>
-        <Row style={{padding:"6px"}}>
-
-            
-            <Col span={24}>
-                <Select 
-                prefix={<span style={{fontWeight:"bold"}}>Estado: </span>}
-                style={{width:"100%"}} 
-                onChange={(v)=>{onChange("estado",v)}}
-                options={[
-                    {label:"-", value:""},
-                    {label:"INGRESADO", value:"INGRESADO"},
-                    {label:"PENDIENTE", value:"PENDIENTE"},
-                    {label:"TERMINADO", value:"TERMINADO"},
-                    {label:"ENTREGADO", value:"ENTREGADO"},
-                    {label:"ANULADO", value:"ANULADO"},
-                ]}
-                />
-            </Col>
-        </Row>
-        <Row style={{padding:"6px"}}>
-
-            <Col span={24}>
-                <Select 
-                prefix={<span style={{fontWeight:"bold"}}>Tipo: </span>}
-                style={{width:"100%"}} 
-                onChange={(v)=>{onChange("tipo",v)}}
-                options={[
-                    {label:"-", value:""},
-                    {label:"Vta. Directa", value:globals.tiposVenta.DIRECTA},
-                    {label:"Recta Stock", value:globals.tiposVenta.RECSTOCK},
-                    {label:"LC Laboratorio", value:globals.tiposVenta.LCLAB},
-                    {label:"LC Stock", value:globals.tiposVenta.LCSTOCK},
-                    {label:"Monof Lab", value:globals.tiposVenta.MONOFLAB},
-                    {label:"Monof Stock", value:globals.tiposVenta.MONOFLAB},
-                ]}
-                />
-            </Col>
-        </Row>
-        <Row style={{padding: "6px"}}>
-            <Col span={24}>
-                Cliente o Destinatario:&nbsp;&nbsp;
-                <SelectCliente callback={onSelectCliente} />
-            </Col>
-        </Row>
-        <Row style={{padding: "6px"}}>
-            <Col span={24}>
-                M&eacute;dico:&nbsp;&nbsp;
-                <SelectMedico callback={onSelectMedico} />
-            </Col>
-        </Row>
-
-        <Row style={{padding: "6px"}}>
-            <Col span={2} style={{textAlign:'left'}}>
-            Fecha:&nbsp;&nbsp;
-            </Col>
-            <Col span={22}>
-                
-                <DatePicker format={"DD/MM/YYYY"} onChange={
-                    (d,dstr)=>
-                    {
-                        const parts  = dstr.split("/")
-                        setFiltros(f=>{
-                            const _f = {...f,["fecha"]:`${parts[2]}-${parts[1]}-${parts[0]}`}
-                            return _f
-                        })
-                    }
-                }  />
-
-            </Col>
-        </Row>
+      {filtros_content()}
         
-
-        {/*<Row style={{padding: ".65em"}}>
-            <Col span={24}>
-                Destinatario:&nbsp;&nbsp;
-                <SelectCliente callback={onSelectDestinatario} />
-            </Col>
-    </Row>*/}
         </Modal>
         
     </>

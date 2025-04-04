@@ -133,11 +133,15 @@ const SelectCliente = (props) =>{
     return (
         idCliente==-1 ? 
         <>
-        <CustomModal onOpen={onOpenPopup} openButtonText={ typeof props.openButtonText === 'undefined' ? (typeof props.destinatario !== 'undefined' ? 'Seleccionar Destinatario' : "Seleccione Cliente") : props.openButtonText } title="" >
+        <CustomModal 
+        size="small"
+        onOpen={onOpenPopup} 
+        openButtonText={ typeof props.openButtonText === 'undefined' ? (typeof props.destinatario !== 'undefined' ? 'Seleccionar Destinatario' : "Seleccione Cliente") : props.openButtonText } 
+        title="" >
         {typeof props.destinatario !== 'undefined' ? 'Buscar Destinatario' : "Buscar Cliente" }
         <Row>
             <Col span={24}>
-                <Input.Search onSearch={onSearch} />
+                <Input.Search size="small" onSearch={onSearch} />
             </Col>
         </Row>
         <Row>
@@ -149,12 +153,13 @@ const SelectCliente = (props) =>{
                         }}/>
             </Col>
             <Col span={12}>
-                <Button style={{color:"red"}} onClick={()=>{setReload(!reload)}}><ReloadOutlined /> Recargar</Button>
+                <Button size="small" style={{color:"red"}} onClick={()=>{setReload(!reload)}}><ReloadOutlined /> Recargar</Button>
             </Col>
         </Row>
         <Row>
             <Col span={24}>
                 <Table 
+                size="small"
                 scroll={{y:"500px"}}
                 loading={loading}
                 rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'}

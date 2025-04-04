@@ -89,11 +89,12 @@ export default function SelectMedico(props){
         <>
         <CustomModal openButtonText={ typeof props.openButtonText === 'undefined' ? "Seleccione Medico" : props.openButtonText} title="" >
             Medico
-            <Input.Search onSearch={onSearch} />
+            <Input.Search size="small" onSearch={onSearch} />
             {/*<CustomModal openButtonText="+ Agregar" title="Agregar" >
                 <MedicoForm callback={(id)=>{onMedicoSelected(id)}} />
             </CustomModal>*/}
             <Table 
+            size="small"
             scroll={{y:"500px"}}
             rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'}
             columns={columns} 

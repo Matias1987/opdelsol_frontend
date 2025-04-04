@@ -26,56 +26,83 @@ import { registrarVentaEntregada, registrarVentaPendiente, registrar_evento } fr
  * @param  ctacteHidden: callback...
  * @param buttonText
  */
-export default function CobroOperacion(props){
+const CobroOperacionV2 = props =>{
+    const {callback, idventa, idcliente} = props
     const [mp, setMP] = useState(null)
-    const [mustSave, setMustSave] = useState(false)
     const [entrega, setEntrega] = useState(false)
     const [dataVenta, setDataVenta] = useState(null)
-    
     const [dataCliente, setDataCliente] = useState(null)
     const [informeOpen, setInformeOpen] = useState(false)
-    const [open, setOpen] = useState(false)
     const [idCobro, setIdCobro] = useState(-1)
     const [cobrarDisabled, setCobrarDisabled] = useState(false)
 
     const [descuento, setDescuento] = useState(0)
+
+    useEffect(()=>{load()},[])
     
-
-    /**     2/9/2023
-     * I believe that only the callback function should be invoqed here, there are actions that shouldn't be done by this component, such as 
-     * changing the sales status, I have to change that in the near future...
-     */
-
-    /**
-     * this is mean to be executed twice: after the initial load and when idcobro changes (i.e. when the cobro is created...), I dunno if this is a good way 
-     */
-    useEffect(()=>{
-        if(idCobro>-1){
-            
-            /**
-             * If only the credit option is selected, the server returns 0. So when this happen,
-             * no inform is required to be shown. Anyway, a popup with the message 'nothing to show'
-             * appears, in part, with the objective of testing.
-             */
-            if(idCobro==0)
-            {
-                //alert("Nothing to show")
-                setOpen(false)
-                props.callback?.()
-                return;
-            }
-
-            setInformeOpen(true)
+    const load = _ => {
+        setCobrarDisabled(false)
+        setEntrega(false)
+        setMP(null)
+        if(idventa)
+        {
+            //get venta details
+            fetch(get.venta + props.idventa)
+            .then(response=>response.json())
+            .then((response)=>{
+                
+                setDescuento(response.data[0].descuento)
+                setDataVenta(d=>{
+                    return response.data[0]
+                }
+                )
+            })
         }
-       
-    },[idCobro])
+        if(idcliente)
+        {
+            //get cliente details
+            fetch(get.cliente_por_id + props.idcliente)
+            .then(response=>response.json())
+            .then((response)=>{
+                
+                setDataCliente(
+                    {
+                        nombre: response.data[0].nombre_completo,
+                    
+                        dni: response.data[0].dni,
 
+                        telefono1: response.data[0].telefono1,
 
-    const handleCancel = () => {
+                        direccion: response.data[0].direccion,
+                    }
+                )
+            })
+        }
+    }
+
+    const onCobroSaved=id=>{
+        if(id<1)
+        {
+            callback?.()
+            return
+        }
+        setIdCobro(id)
+        setInformeOpen(true)
+    }
+
+    const onClose=msg=>{
+        if(msg)
+        {
+            alert(msg)
+        }
+        callback?.()
+    }
+
+    const onCloseInformePopup = () => {
         
-        props.callback?.()
+        callback?.()
         setInformeOpen(false); 
-        setOpen(false)
+        
     }
 
     const onMPChange = (val) => {setMP(_mp=>val)}
@@ -139,17 +166,17 @@ export default function CobroOperacion(props){
             {
                 if(props.tipo=='entrega')
                 {
-                    post_method(post.cambiar_estado_venta,{tk: globals.getToken(),idventa: dataVenta.idventa, estado: 'ENTREGADO',fecha_retiro: current_date_ymd()},(resp)=>{alert("OK"); setOpen(false); props?.callback?.()})
+                    post_method(post.cambiar_estado_venta,{tk: globals.getToken(),idventa: dataVenta.idventa, estado: 'ENTREGADO',fecha_retiro: current_date_ymd()},(resp)=>{onClose(null)})
                     registrarVentaEntregada(dataVenta.idventa)
                 }
                 else{
                     if(entrega)
                     {
-                        post_method(post.cambiar_estado_venta,{tk: globals.getToken(),idventa: dataVenta.idventa, estado: 'ENTREGADO',fecha_retiro: current_date_ymd()},(resp)=>{alert("OK"); setOpen(false); props?.callback?.()})
+                        post_method(post.cambiar_estado_venta,{tk: globals.getToken(),idventa: dataVenta.idventa, estado: 'ENTREGADO',fecha_retiro: current_date_ymd()},(resp)=>{onClose(null)})
                         registrarVentaEntregada(dataVenta.idventa)
                     }
                     else{
-                        post_method(post.cambiar_estado_venta,{tk: globals.getToken(),idventa: dataVenta.idventa, estado: 'PENDIENTE'},(resp)=>{alert("OK"); setOpen(false); props?.callback?.()})
+                        post_method(post.cambiar_estado_venta,{tk: globals.getToken(),idventa: dataVenta.idventa, estado: 'PENDIENTE'},(resp)=>{onClose(null)})
                         registrarVentaPendiente(dataVenta.idventa)
                     
                     }
@@ -260,8 +287,6 @@ export default function CobroOperacion(props){
         
         params.tipo=__tipo;
 
-        //alert(__tipo)
-
         if(typeof props.tipo !== 'undefined'){
             switch(__tipo)
             {
@@ -312,16 +337,12 @@ export default function CobroOperacion(props){
                             },
                             (resp)=>{
 
-                                setIdCobro(0)
-                                props?.callback?.()
-                                setOpen(false)
+                                onCobroSaved(0)
                             })
                             registrar_evento("VENTA", "Cambio estado a "+ est,dataVenta.idventa)
                     }
                     else{
-                        setIdCobro(0)
-                        props?.callback?.()
-                        setOpen(false)
+                        onCobroSaved(0)
                     }
                 }
                 else
@@ -346,9 +367,9 @@ export default function CobroOperacion(props){
                                 fetch(get.actualizar_saldo_en_cobro + id.data)
                                 .then(___response=>___response.json())
                                 .then((___response)=>{
-                                    setIdCobro(id.data)
-                                    props?.callback?.()
-                                    //setOpen(false)
+
+                                    onCobroSaved(id.data)
+
                                 })
                         })
                         registrar_evento("VENTA", "Cambio estado a "+ est,dataVenta.idventa)
@@ -360,9 +381,7 @@ export default function CobroOperacion(props){
                         fetch(get.actualizar_saldo_en_cobro + id.data)
                         .then(___response=>___response.json())
                         .then((___response)=>{
-                            setIdCobro(id.data)
-                            props?.callback?.()
-                            //setOpen(false)
+                            onCobroSaved(id.data)
                         })
                     }   
 
@@ -372,7 +391,7 @@ export default function CobroOperacion(props){
         })
     }
     
-    const cliente_detalle = () => (
+    const cliente_detalle = _ => (
         dataCliente == null ? 
         <Spin /> :
         <>
@@ -407,55 +426,11 @@ export default function CobroOperacion(props){
     </Row> : 
     <></>
 
-
-    const onOpen = () => {
-        setCobrarDisabled(false)
-        setEntrega(false)
-        setMP(null)
-        if(typeof props.idventa !== 'undefined')
-            {
-                //get venta details
-                fetch(get.venta + props.idventa)
-                .then(response=>response.json())
-                .then((response)=>{
-                    
-                    setDescuento(response.data[0].descuento)
-                    setDataVenta(d=>{
-                        return response.data[0]
-                    }
-                    )
-                })
-            }
-        
-            if(typeof props.idcliente !== 'undefined')
-            {
-                //get cliente details
-                fetch(get.cliente_por_id + props.idcliente)
-                .then(response=>response.json())
-                .then((response)=>{
-                    
-                    setDataCliente(
-                        {
-                            nombre: response.data[0].nombre_completo,
-                        
-                            dni: response.data[0].dni,
-            
-                            telefono1: response.data[0].telefono1,
-            
-                            direccion: response.data[0].direccion,
-                        }
-                    )
-                })
-            }
-        
-        setOpen(true)
-    }
-
     /**
      * Para enviar a deposito sin cobrar
      */
 
-    const enviarADeposito = () =>{
+    const enviarADepositoClick = () =>{
         if(mp.total!=0)
         {
             alert("Monto a pagar distinto a 0")
@@ -467,23 +442,12 @@ export default function CobroOperacion(props){
         /**
          * Al marcarse como deposito sin cobrar, las filas de modo de pago deben ser eliminadas!!
          */
-        post_method(post.cambiar_estado_venta,{idventa: props.idventa, estado: 'PENDIENTE', removeMPRows:1},(resp)=>{ alert("OK"); setOpen(false); props?.callback?.()})
+        post_method(post.cambiar_estado_venta,{idventa: props.idventa, estado: 'PENDIENTE', removeMPRows:1},(resp)=>{ onClose(null)})
     }
 
     return (<>
-            <Button size="small" type="primary" onClick={onOpen}>{typeof props.buttonText === 'undefined' ? "Cargar Pago" : props.buttonText}</Button>
-            <Modal
-                width={"90%"}
-                title={"Cobro"}
-                open={open}
-                onCancel={()=>{ setOpen(false);}}
-                okText= {"OK"}
-                destroyOnClose={true}
-                footer={
-                    null
-                }
-            >
-                <h3>{(typeof props.title === 'undefined' ? 'Cobro' : props.title)}</h3>
+            <>
+            <h3>{(typeof props.title === 'undefined' ? 'Cobro' : props.title)}</h3>
                 <Row>
                     <Col span={24}>
                         {cliente_detalle()}
@@ -537,33 +501,24 @@ export default function CobroOperacion(props){
                         {   //intento de entrega pero con saldo distinto a 0
                             props.tipo=='entrega' && parseFloat(dataVenta.subtotal) - parseFloat(descuento) - parseFloat(dataVenta.haber||0) != 0  &&(parseFloat(dataVenta.subtotal) - parseFloat(descuento) - parseFloat(dataVenta.haber||0) -+mp.total )==0 ? <Button onClick={onCobrarClick} disabled={cobrarDisabled} danger>Entrega</Button> : <></>
                         }
-                        {  /* (+dataVenta?.saldo - +descuento)==0? <></> :
-                            <Button disabled={cobrarDisabled || (mp.total<1 )} danger onClick={onCobrarClick}>Cobrar {props.tipo == 'entrega' ? ' y/o marcar como entregado' : entrega? ' y Marcar como entregado':''}</Button>
-                        */}
-                    
                         {
-                            props.tipo == 'ingreso' && !entrega ? <>&nbsp;<Button disabled={mp.total>0 || cobrarDisabled}  type="primary" onClick={enviarADeposito}>Enviar a dep&oacute;sito </Button></> : <></>
+                            props.tipo == 'ingreso' && !entrega ? <>&nbsp;<Button disabled={mp.total>0 || cobrarDisabled}  type="primary" onClick={enviarADepositoClick}>Enviar a dep&oacute;sito </Button></> : <></>
                         }
 
-                        
-                       
                     </Col>
                 </Row>
                 </> 
                 }
-                </Modal>
+            </>
             {/* informe x */}
             <Modal
                 maskClosable={false}
-                cancelButtonProps={{ style: { display: 'none' } }}
-                okButtonProps={(typeof props.okButtonProps === 'undefined') ? {children:"CERRAR"} : props.okButtonProps}
-                width={"80%"}
+                width={"800px"}
                 title={"Recibo X"}
                 open={informeOpen}
                 onOk={()=>{ 
-                    setInformeOpen(false); setOpen(false)}}
-                onCancel={handleCancel}
-                okText= {"OK"}
+                    setInformeOpen(false);}}
+                onCancel={onCloseInformePopup}
                 destroyOnClose={true}
                 footer={null}
             >
@@ -573,3 +528,5 @@ export default function CobroOperacion(props){
             </Modal>
 
             </>)}
+
+export default CobroOperacionV2
