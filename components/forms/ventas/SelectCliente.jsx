@@ -7,6 +7,7 @@ import { get } from "@/src/urls";
 import ClienteFormV2 from "../ClienteFormV2";
 
 const SelectCliente = (props) =>{
+    const {minVersion, callback} = props
     const [idCliente, setIdCliente] = useState(-1);
     const [loadingDetalles, setLoadingDetalles] = useState(true);
     const [clientes, setClientes] = useState(null);
@@ -112,8 +113,11 @@ const SelectCliente = (props) =>{
         {   typeof props.destinatario === 'undefined' ? 
             <>
                 &nbsp;&nbsp;  DNI: <b>{clienteData.dni}</b>&nbsp;
-                Tel&eacute;fono: {clienteData.telefono1}&nbsp;
-                Direcci&oacute;n: {clienteData.direccion}&nbsp;
+                { typeof minVersion === 'undefined' ? <>
+                    Tel&eacute;fono: {clienteData.telefono1}&nbsp;
+                    Direcci&oacute;n: {clienteData.direccion}&nbsp;
+                    </> : <></>
+                }
             </>
             :
             <></>

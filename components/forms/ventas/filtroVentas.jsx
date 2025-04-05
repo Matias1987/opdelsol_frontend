@@ -76,7 +76,7 @@ const FiltroVentas =(props) => {
                 <Col span={12}>
                     <Row style={{padding: "3px"}}>
                         <Col span={24}>
-                            <Input size="small" onChange={onIDChange} style={{width:"150px"}} prefix={<span style={{fontWeight:"bold"}}>Nro.: </span>} />
+                            <Input allowClear  size="small" onChange={onIDChange} style={{width:"150px"}} prefix={<span style={{fontWeight:"bold"}}>Nro.: </span>} />
                         </Col>
                         
                     </Row>
@@ -125,7 +125,7 @@ const FiltroVentas =(props) => {
                     <Row style={{padding: "3px"}}>
                         <Col span={24}>
                             <span style={{color:"darkblue"}}><i>Cliente o Destinatario:</i></span>&nbsp;&nbsp;
-                            <SelectCliente callback={onSelectCliente} />
+                            <SelectCliente minVersion callback={onSelectCliente} />
                         </Col>
                     </Row>
                     <Row style={{padding: "3px"}}>
@@ -156,7 +156,18 @@ const FiltroVentas =(props) => {
                     </Row>
                     <Row>
                         <Col span={24}>
-                            <Button type="primary" size="small" onClick={_=>{props?.callback?.(filtros)}}>Aplicar</Button>
+                            <Button 
+                            type="primary" 
+                            size="small" 
+                            onClick={_=>{   
+                                if(!embedded)
+                                {
+                                    setOpen(false)
+                                }
+                                props?.callback?.(filtros)
+                            }
+                            }
+                            >Aplicar</Button>
                         </Col>
                     </Row>
                 </Col>
@@ -174,14 +185,14 @@ const FiltroVentas =(props) => {
         Borrar Filtros
       </Button>
       <Modal
-        cancelButtonProps={{ style: { display: 'none' } }}
-        okButtonProps={{children:"CERRAR"}}
+        footer={null}
         
-        width={"620px"}
+        
+        width={"1000px"}
         title={"Filtros"}
         open={open}
         onCancel={handleCancel}
-        okText= {"Aplicar"}
+       
         destroyOnClose={true}
       >
 

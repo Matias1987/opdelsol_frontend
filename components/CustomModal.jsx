@@ -44,6 +44,7 @@ export default function CustomModal(props){
         <span style={{fontSize:"1.10em", fontWeight:"500"}}>{props.openButtonText}</span>
       </Button>
       <Modal
+      
         footer={null}
         cancelButtonProps={{ style: { display: 'none' } }}
         okButtonProps={(typeof props.okButtonProps === 'undefined') ? {children:"CERRAR"} : props.okButtonProps}

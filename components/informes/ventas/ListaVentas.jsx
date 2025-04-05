@@ -168,10 +168,13 @@ const ListaVentas = (props) => {
         params = add(params, filtros.id, 'id')
         params = add(params, filtros.iddestinatario, 'iddestinatario')
         params = add(params, filtros.fecha, 'fecha')
+        params = add(params, filtros.tipo, 'tipo')
 
         const url = post.venta_estado_sucursal;
         //alert(JSON.stringify(params))
         post_method(url, params,(response)=>{
+
+            //alert(JSON.stringify(response))
             
             if(response==null)
             {
@@ -258,7 +261,7 @@ const ListaVentas = (props) => {
 
         <Row>
             <Col  style={{..._row_style,width:"700px"}}>
-                {typeof props.ocultarFiltros !== 'undefined' ? <></> : <FiltroVentas estado={estado} embedded callback={f=>{setFiltros(_f=>f); setReload(!reload)}} /> }
+                {typeof props.ocultarFiltros !== 'undefined' ? <></> : <FiltroVentas estado={estado} embedded callback={f=>{ setFiltros(_f=>f); setReload(!reload)}} /> }
             </Col>
         </Row>
         <Row>

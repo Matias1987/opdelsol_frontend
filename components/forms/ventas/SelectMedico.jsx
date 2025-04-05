@@ -76,14 +76,14 @@ export default function SelectMedico(props){
     const show_details = () => (
         dataMedico === null ? <Spin /> : <>
             Medico: <b>{dataMedico.nombre}</b> - <b>{dataMedico.matricula}</b> &nbsp;
-            <Button style={{color:"red"}} type="ghost" onClick={()=>{setIdMedico(-1); setDataMedico(null); props?.callback?.(null);}}><CloseOutlined /></Button>
+            <Button size="small" style={{color:"red"}} type="ghost" onClick={()=>{setIdMedico(-1); setDataMedico(null); props?.callback?.(null);}}><CloseOutlined size={"small"} /></Button>
         </>
     )
 
     const columns = [
         {dataIndex: "nombre", title: "Nombre"},
         {dataIndex: "matricula", title: "Matricula"},
-        {dataIndex: "idmedico", title: "", render: (_,{idmedico})=>(<><Button onClick={()=>{onMedicoSelected(idmedico)}}><CheckCircleOutlined /></Button></>)},
+        {dataIndex: "idmedico", title: "", render: (_,{idmedico})=>(<><Button onClick={()=>{onMedicoSelected(idmedico)}} size="small"><CheckCircleOutlined /></Button></>)},
     ]
     return (idMedico==-1 ? 
         <>
