@@ -63,25 +63,25 @@ export default function FichaCliente(props){
         //{dataIndex: 'tipo',  title: 'Tipo'},
         {dataIndex: 'detalle',  title: 'Detalle', render:(_,{detalle,id,tipo})=>{
             {switch(tipo){
-                    case 'VENTA': return <>{detalle}<VentaDetallePopup idventa={id} /></>; break;
+                    case 'VENTA': return <>{detalle}{/*<VentaDetallePopup idventa={id} />*/}</>; break;
                     case 'PAGO CUOTA': 
                     return <>
                         {detalle}
-                        <CustomModal openButtonText="Imprimir">
+                        {/*<CustomModal openButtonText="Imprimir">
                             <PrinterWrapper>
                                 <InformeX idcobro={id} />
                             </PrinterWrapper>
-                        </CustomModal>
+                        </CustomModal>*/}
                     </>
                     break;
                     case 'ENTREGA': 
                     return <>
                         {detalle}
-                        <CustomModal openButtonText="Imprimir">
+                        {/*<CustomModal openButtonText="Imprimir">
                             <PrinterWrapper>
                                 <InformeX idcobro={id} />
                             </PrinterWrapper>
-                        </CustomModal>
+                        </CustomModal>*/}
                     </>
                     break;
                     case 'CARGA MANUAL':
@@ -96,7 +96,7 @@ export default function FichaCliente(props){
         }},
         {dataIndex: 'debe',  title: 'Debe', align: 'right', render:(_,{debe})=>(<>{parseFloat(debe||0).toFixed(2)}</>)},
         {dataIndex: 'haber',  title: 'Haber', align: 'right', render:(_,{haber})=>(<>{parseFloat(haber||0).toFixed(2)}</>)},
-        { title: 'Saldo', align: 'right'},
+        { title: 'Saldo', align: 'right', dataIndex:'saldo', render:(_,{saldo})=>(<>{parseFloat(saldo||0).toFixed(2)}</>) },
     ]
 
     const detalles_cliente =_ => dataCliente === null ? <Spin /> : <>
@@ -130,7 +130,37 @@ export default function FichaCliente(props){
              idcliente: props.idcliente,
              idsucursal: _filtrarSucursal ? globals.obtenerSucursal() : -1
          },(response)=>{
-             setOperaciones(response.data)
+            //alert(JSON.stringify(response.data))
+            let saldo = 0
+            const _rows = []
+
+            response.data.forEach(row=>{
+                saldo+= +row.debe -(+row.haber)
+
+                _rows.push({...row,saldo: saldo})
+
+            }
+
+            
+                
+            )
+           //alert(JSON.stringify(_rows))
+
+             setOperaciones(
+                _rows.map(row=>({
+                id: row.id,
+                fecha: row.fecha,
+                fecha_f: row.fecha_f,
+                tipo: row.tipo,
+                detalle: row.detalle,
+                debe: row.debe,
+                haber: row.haber,
+                idsucursal: row.idsucursal,
+                saldo: row.saldo,
+             }))
+            );
+
+
              setScrollChange(true)
              setLoading(false)
          })

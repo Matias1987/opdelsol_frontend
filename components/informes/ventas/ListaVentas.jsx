@@ -281,23 +281,26 @@ const ListaVentas = (props) => {
     <Modal
         destroyOnClose
         title="Cobro"
-        onCancel={_=>{setPopupCobroOpen(false)}}
+        onCancel={_=>{setPopupCobroOpen(false); setReload(!reload)}}
         width={"1000px"}
         footer={null}
         open={popupCobroOpen}
     >
         <CobroOperacionV2 
-        callback={_=>{setPopupCobroOpen(false)}}
+        callback={_=>{setPopupCobroOpen(false); setReload(!reload)}}
         tarjetaHidden={false}
         ctacteHidden={false}
         totalsHidden={false}
         idventa={selectedVenta.idventa}
         idcliente={selectedVenta.idcliente}
+        tipo={props.accion}
+        mustCancel={typeof props.mustCancel === 'undefined' ? false : props.mustCancel}
+        
         />
     </Modal>
     <Modal
         destroyOnClose
-        title="Cobro"
+        title="Detalle"
         onCancel={_=>{setPopupDetalleOpen(false)}}
         width={"1000px"}
         footer={null}

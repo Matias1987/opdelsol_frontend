@@ -133,6 +133,7 @@ export default function FichaClienteV2(props){
              idcliente: props.idcliente,
              idsucursal: _filtrarSucursal ? globals.obtenerSucursal() : -1
          },(response)=>{
+            //alert(JSON.stringify(response.data))
              setOperaciones(response.data)
              setScrollChange(true)
              setLoading(false)

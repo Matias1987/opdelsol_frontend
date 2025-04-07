@@ -16,6 +16,7 @@ const FiltroVentas =(props) => {
         iddestinatario:-1,
         id:null,
         tipo:"",    
+        fecha:null,
     })
     const [open, setOpen] = useState(false);
 
@@ -145,6 +146,14 @@ const FiltroVentas =(props) => {
                                 (d,dstr)=>
                                 {
                                     const parts  = dstr.split("/")
+                                    if(typeof parts[0]==='undefined')
+                                    {
+                                        setFiltros(f=>{
+                                            const _f = {...f,["fecha"]:null}
+                                            return _f
+                                        })
+                                        return
+                                    }
                                     setFiltros(f=>{
                                         const _f = {...f,["fecha"]:`${parts[2]}-${parts[1]}-${parts[0]}`}
                                         return _f
@@ -164,6 +173,7 @@ const FiltroVentas =(props) => {
                                 {
                                     setOpen(false)
                                 }
+                                alert(JSON.stringify(filtros))
                                 props?.callback?.(filtros)
                             }
                             }

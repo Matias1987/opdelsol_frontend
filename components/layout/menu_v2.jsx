@@ -8,6 +8,7 @@ import { public_urls } from "@/src/urls";
 import globals from "@/src/globals";
 import CustomModal from "../CustomModal";
 import ListaPreciosV3 from "../lista_precios/listaPreciosV3";
+import BuscarVentaV2 from "../forms/ventas/BuscarVentasV2";
 
 
 
@@ -184,7 +185,7 @@ useEffect(()=>{
       icon: <UserOutlined />,
     },
     {
-      label: (<BuscarVenta />),
+      label: (<BuscarVentaV2 />),
      
     }
     )
