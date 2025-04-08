@@ -73,17 +73,17 @@ const RecStockCristal = (props) => {
             }</Button> :
         <>
             <Row>
-                <Col span={16}>
+                <Col span={17}>
                     <SelectCodigoVenta idfamilias={[globals.familiaIDs.CRISTALES]} buttonText={"Seleccionar Código Cristal"} callback={onchange_codigo} />
                 </Col>
                 {/*<Col span={1} style={_estilo_label}>
                     Eje:
                 </Col>*/}
                 <Col span={2}>
-                    <Input style={{backgroundColor:"rgba(131,137,150, 0.4)"}}  prefix="Eje:" disabled={cristal.codigo==null} size="small" value={cristal.eje} onChange={(e)=>{onchange_eje(e.target.value)}}/>
+                    <Input   prefix="Eje:" disabled={cristal.codigo==null} size="small" value={cristal.eje} onChange={(e)=>{onchange_eje(e.target.value)}}/>
                 </Col>
                 <Col span={4}>
-                    <Input disabled={cristal.codigo==null} type="number" value={cristal.precio} readOnly={false} onChange={(e)=>{onchange_precio({precio: parse_float_string(e.target.value)})}} size="small" style={{backgroundColor:"rgba(131,137,150, 0.4)"}} prefix="Precio: " />
+                    <Input disabled={cristal.codigo==null} type="number" value={cristal.precio} readOnly={false} onChange={(e)=>{onchange_precio({precio: parse_float_string(e.target.value)})}} size="small"  prefix="Precio: " />
                 </Col>
                 <Col span={1}>
                     <Button danger  size="small" onClick={()=>{onRemove()}}><DeleteOutlined/></Button>

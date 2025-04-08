@@ -75,8 +75,7 @@ const ListadoGrupos = ( props ) => {
     }
     return <>
     <Card 
-    bodyStyle={{backgroundColor:"#E7E7E7"}}
-    headStyle={{backgroundColor:"#F07427", color:"white"}}
+    
     bordered
     size="small" 
     title={<><span> Grupos</span> &nbsp;&nbsp;<Button size="small" style={{color:"blue"}} onClick={()=>{setPopupAddOpen(true)}}><PlusOutlined /> Agregar Grupo</Button></>}

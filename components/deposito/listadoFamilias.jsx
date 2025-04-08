@@ -14,8 +14,6 @@ const ListadoFamilias = ( props ) => {
     const [selectedFamilia, setSelectedFamilia] = useState(-1)
     return <>
     <Card 
-    bodyStyle={{backgroundColor:"#E7E7E7"}}
-    headStyle={{backgroundColor:"#F07427", color:"white"}}
     bordered
     size="small" 
     title={<><span>Familias</span> &nbsp;&nbsp;<Button size="small" style={{color:"blue"}} onClick={()=>{setOpen(true)}}><PlusOutlined /> Agregar Familia</Button></>}

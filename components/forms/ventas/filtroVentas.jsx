@@ -173,7 +173,7 @@ const FiltroVentas =(props) => {
                                 {
                                     setOpen(false)
                                 }
-                                alert(JSON.stringify(filtros))
+                                //alert(JSON.stringify(filtros))
                                 props?.callback?.(filtros)
                             }
                             }

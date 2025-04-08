@@ -556,9 +556,9 @@ export default function ListaStock(){
                             }} 
                             />
                         </Col>
-                        <Col span={4} style={{padding:".5em"}}>
+                        {/*<Col span={4} style={{padding:".5em"}}>
                             <ImpresionCodigosPopup codigos={(data.filter(d=>d.checked)).map(c=>({codigo:c.codigo, idcodigo: c.idcodigo , cantidad:  c.cantidad}))} />
-                        </Col>
+                        </Col>*/}
                         <Col span={4} style={{padding:".5em"}}>
                             <Button size="small" disabled={(data.filter(d=>d.checked)).length<1} type="primary" onClick={()=>{setPopupTagsOpen(true)}}>Editar Etiquetas</Button>
                         </Col>  

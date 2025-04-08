@@ -86,8 +86,7 @@ const ListadoSubGrupos = ( props ) => {
     return(
         <>
         <Card 
-        bodyStyle={{backgroundColor:"#E7E7E7"}}
-        headStyle={{backgroundColor:"#F07427", color:"white"}}
+       
         bordered
         title={<><span>SubGrupos</span>&nbsp;&nbsp;<Button size="small" style={{color:"blue"}} onClick={()=>{setPopupAddOpen(true)}}><PlusOutlined /> Agregar Subgrupo</Button></>}
         size="small" >

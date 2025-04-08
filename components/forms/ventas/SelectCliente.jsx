@@ -141,7 +141,7 @@ const SelectCliente = (props) =>{
         size="small"
         onOpen={onOpenPopup} 
         openButtonText={ typeof props.openButtonText === 'undefined' ? (typeof props.destinatario !== 'undefined' ? 'Seleccionar Destinatario' : "Seleccione Cliente") : props.openButtonText } 
-        title="" >
+        title="Seleccionar Cliente" >
         {typeof props.destinatario !== 'undefined' ? 'Buscar Destinatario' : "Buscar Cliente" }
         <Row>
             <Col span={24}>

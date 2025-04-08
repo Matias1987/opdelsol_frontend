@@ -14,6 +14,10 @@ export default function ListaClientes(props){
     const [clientes, setClientes] = useState(null);
     const [searchVal , setSearchVal] = useState("")
     const [loading, setLoading] = useState(false)
+    const [selectedCliente, setSelectedCliente] = useState(false)
+    const [modalFichaOpen, setModalFichaOpen] = useState(false)
+    const [modalDetalleOpen, setModalDetalleOpen] = useState(false)
+    const [modalPagareOpen, setModalPagareOpen] = useState(false)
     const onSearch = (value) => {
         if((value||"").trim().length<1)
         {
@@ -68,25 +72,22 @@ export default function ListaClientes(props){
     },[])
 
     const columns = [
-        { width:"200px", dataIndex: 'apellido', title: 'Apellido', key: 'apellido'},
-        { width:"200px", dataIndex: 'nombre', title: 'Nombre', key: 'nombre'},
-        { width:"200px", dataIndex: 'dni', title: 'DNI', key: 'dni'},
+        { width:"150px", dataIndex: 'apellido', title: 'Apellido', key: 'apellido'},
+        { width:"150px", dataIndex: 'nombre', title: 'Nombre', key: 'nombre'},
+        { width:"150px", dataIndex: 'dni', title: 'DNI', key: 'dni'},
         { width:"200px", dataIndex: 'direccion', title: 'Direccion', key: 'direccion'},
         { width:"200px", dataIndex: 'idcliente', title: '', key: 'acciones', render: (_,{idcliente})=>(
             <>
             {
                 typeof props.ficha !== 'undefined' ?
-                    <FichaCliente idcliente={idcliente} key={idcliente}/>
+                    <Button type="link" size="small" onClick={_=>{setSelectedCliente(idcliente); setModalFichaOpen(true);}}><b>Ficha</b></Button>
                     :
                 <></>
                 
             }
-            <CustomModal title="Detalle Cliente" openButtonText={"Detalle"}>
-                <DetalleCliente idcliente={idcliente} />
-            </CustomModal>
-            <CustomModal title="Pagares" openButtonText={"Pagares"}>
-                <ListaPagares idcliente={idcliente} />
-            </CustomModal>
+            <Button type="link" size="small" onClick={_=>{setSelectedCliente(idcliente); setModalPagareOpen(true);}}>Pagar&eacute;s</Button>
+            <Button type="link" size="small" onClick={_=>{setSelectedCliente(idcliente); setModalDetalleOpen(true);}}>Detalle</Button>
+            
             
             </>
         )},
@@ -129,9 +130,33 @@ export default function ListaClientes(props){
             dataSource={clientes} />
         </Col>
     </Row>
-    {/*<Modal width={"80%"} open={modalFichaOpen} footer={null}  onCancel={()=>{setModalFichaOpen(false)}}>
-        <FichaCliente idcliente={curCliente} open={modalFichaOpen} key={curCliente} />
-    </Modal>*/}
+    <Modal 
+    title="Ficha Cliente"
+    destroyOnClose 
+    width={"1200px"} 
+    open={modalFichaOpen} 
+    footer={null}  
+    onCancel={()=>{setModalFichaOpen(false)}}>
+        <FichaCliente idcliente={selectedCliente} open={modalFichaOpen} />
+    </Modal>
+    <Modal 
+    title="Pagarés"
+    destroyOnClose 
+    width={"1200px"} 
+    open={modalPagareOpen} 
+    footer={null}  
+    onCancel={()=>{setModalPagareOpen(false)}}>
+        <ListaPagares idcliente={selectedCliente} />
+    </Modal>
+    <Modal 
+    title="Detalle"
+    destroyOnClose
+     width={"1200px"} 
+    open={modalDetalleOpen} 
+    footer={null}  
+    onCancel={()=>{setModalDetalleOpen(false)}}>
+        <DetalleCliente idcliente={selectedCliente} />
+    </Modal>
     
 
     

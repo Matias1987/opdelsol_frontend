@@ -9,12 +9,11 @@ import { Form, Card, Button, Modal, Input, Select, Space, Row, Col, Radio, Check
 
 const PopUpAgregarStockLoteForm = (props) => {
     const [form] = Form.useForm();
-    const [open, setOpen] = useState(false);
     const [pattern, setPattern] = useState(0)
     const [part1, setPart1] = useState("")
     const [part2, setPart2] = useState("")
     const [part3, setPart3] = useState("")
-    const [modoPrecio, setModoPrecio] = useState(1)
+    const [modoPrecio, setModoPrecio] = useState(2)
     const [precioSubgrupo, setPrecioSubgrupo] = useState(0)
     const [multiplicador, setMultiplicador] = useState(0)
 
@@ -36,7 +35,7 @@ const PopUpAgregarStockLoteForm = (props) => {
         }
     if(typeof props.callback !== 'undefined'){
         props.callback({...values, p1: part1.toUpperCase(), p2: part2.toUpperCase(), p3: part3.toUpperCase(), tags: tagsToAdd});
-        setOpen(false)
+        
     }
    }
 
@@ -123,159 +122,125 @@ const onFinishFailed = (errorInfo) => {
   };
 
 useEffect(()=>{
-    if(open)
-    {
-        setModoPrecio(1)
-        //alert(JSON.stringify(props))
-        if(typeof props !== 'undefined'){
-            if(null !== props.values)
-            {
-                setValue("codigo",props.values.codigo);
-                setValue("cantidad",props.values.cantidad);
-                setValue("costo",props.values.costo);
-                setValue("descripcion",props.values.descripcion);
-                setValue("genero",props.values.genero);
-                setValue("edad",props.values.edad);
-            }
-            else{
-                setValue("costo",0);
-                setValue("cantidad",0);
-            }
-            //alert("setpreciodefecto " + props.precioDefecto)
-            setValue("precio",0);
-            setValue("modo_precio",0)
-            setPrecioSubgrupo(props.precioDefecto)
-            setMultiplicador(props.multiplicador)
-            /*alert(JSON.stringify(
-                {precioDefecto: props.precioDefecto, multiplicador: props.multiplicador}
 
-            ))*/
+    //setModoPrecio('1')
+    //alert(JSON.stringify(props))
+    if(typeof props !== 'undefined'){
+        if('undefined' !== typeof props.values)
+        {
+            setValue("codigo",props.values.codigo);
+            setValue("cantidad",props.values.cantidad);
+            setValue("costo",props.values.costo);
+            setValue("descripcion",props.values.descripcion);
+            setValue("genero",props.values.genero);
+            setValue("edad",props.values.edad);
         }
+        else{
+            setValue("costo",0);
+            setValue("cantidad",0);
+        }
+        
+        setValue("precio",0);
+        setValue("modo_precio",0)
+        setPrecioSubgrupo(props.precioDefecto)
+        setMultiplicador(props.multiplicador)
+
+    }
 
         loadTags()
-        
-    }
-   },[open])
+   },[])
 
-   const onChangeGenero = (value) =>{setValue("genero",value)}
-   const onChangeEdad = (value) =>{ setValue("edad",value)}
-
-   //alert(JSON.stringify(props))
+  
    return (
    <>
-    {/*<Button type="primary"  size="small"  onClick={()=>{setOpen(true)}}>
-        {props.edit ? <EditOutlined /> : <><PlusCircleOutlined />&nbsp;Agregar</>}
-      </Button>
-    <Modal
-        onOpen={_=>{
-            setModoPrecio(1)
-        }}
-        destroyOnClose
-        title=" "
-        footer={null}
-        okButtonProps={{children:"CERRAR"}}
-        
-        width={"80%"}
-        
-        open={open}
-        onOk={()=>{ 
-          setOpen(false)}
-        }
-        onCancel={()=>{
-            setOpen(false)
-        }}
-      
-      >
-        
-        </Modal>*/}
+
 <Card
-        bodyStyle={{backgroundColor:"#E7E7E7"}}
-        headStyle={{backgroundColor:"#F07427", color:"white"}}
-        bordered
-        size="small" 
-        title={<></>}
-    
-        >
-        <Form onFinish={onFinish} onFinishFailed={onFinishFailed} form={form}>
-            <Row>
-                <Col span={12}>
-                    <Form.Item  rules={[{required:true}]} label={"Codigo"} name={"codigo"} style={{width: "90%"}}>
-                    {
-                        props.edit ? <><Input value={props.values.codigo} disabled /></> : <Input  onChange={onCodigoChange} />
-                    }
-                    </Form.Item>
-                    <Form.Item  label={"Descripción"} name={"descripcion"} style={{width: "90%"}}  >
-                        {descripcion_input()}
-                    </Form.Item>
+        
+    bordered
+    size="small" 
+    title={<></>}
+    >
+    <Form onFinish={onFinish} onFinishFailed={onFinishFailed} form={form}>
+        <Row>
+            <Col span={12}>
+                <Form.Item  rules={[{required:true}]} label={"Codigo"} name={"codigo"} style={{width: "90%"}}>
+                {
+                    props.edit ? <><Input value={props.values.codigo} disabled /></> : <Input  onChange={onCodigoChange} />
+                }
+                </Form.Item>
+                <Form.Item  label={"Descripción"} name={"descripcion"} style={{width: "90%"}}  >
+                    {descripcion_input()}
+                </Form.Item>
 
-                    <Form.Item rules={[{required:true}]} label={"Cantidad"} name={"cantidad"} style={{width: "200px"}}>
-                        
-                        <Input type="number" />
-                    </Form.Item>
+                <Form.Item rules={[{required:true}]} label={"Cantidad"} name={"cantidad"} style={{width: "200px"}}>
                     
-                </Col>
-                <Col span={12}>
-                    <Row>
-                        <Col span={24}>
-                            <Form.Item rules={[{required:true}]} label={"Costo"} name={"costo"} style={{width: "200px"}}>
-                                <Input type="number" step={".01"}  style={{width:"100px"}} onChange={(e)=>{
-                                    if(modoPrecio==1){
-                                        setValue('precio',parseFloat(form.getFieldValue('costo')) * multiplicador)
-                                    }
-                                }} />
-                            </Form.Item>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col span={24}>
-                            <Form.Item label="Precio" name={"precio"}>
-                                <Input type="number" disabled={modoPrecio!=2} style={{width:"100px"}}/>
-                            </Form.Item>
-                        </Col>
-                    </Row>
-                   
-                    <Row>
-                        <Col span={24}>
-                            <Form.Item label={"Modo Precio"} name={"modo_precio"} initialValue={1} key={modoPrecio}>
-                                <Radio.Group 
+                    <Input type="number" />
+                </Form.Item>
+                
+            </Col>
+            <Col span={12}>
+                <Row>
+                    <Col span={24}>
+                        <Form.Item rules={[{required:true}]} label={"Costo"} name={"costo"} style={{width: "200px"}}>
+                            <Input type="number" step={".01"}  style={{width:"100px"}} onChange={(e)=>{
+                                if(modoPrecio==1){
+                                    setValue('precio',parseFloat(form.getFieldValue('costo')) * multiplicador)
+                                }
+                            }} />
+                        </Form.Item>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col span={24}>
+                        <Form.Item label="Precio" name={"precio"}>
+                            <Input type="number" disabled={modoPrecio!=2} style={{width:"100px"}}/>
+                        </Form.Item>
+                    </Col>
+                </Row>
+                
+                <Row>
+                    <Col span={24}>
+                        <Form.Item label={"Modo Precio"} name={"modo_precio"}>
+                            <Radio.Group 
 
-                                value={modoPrecio}
-                                onChange={(e)=>{
-                                        setModoPrecio(v=>{
-                                            switch(e.target.value)
-                                            {
-                                                case 0: 
-                                                setValue(
-                                                    'precio',
-                                                    parseFloat(form.getFieldValue('costo')) * multiplicador
-                                                ); 
-                                                break; 
-                                                case 1: 
-                                                setValue(
-                                                    'precio',
-                                                    parseFloat(precioSubgrupo)
-                                                    )
-                                                break;
-                                            }
-                                            return e.target.value})
-                                        setValue("modo_precio",e.target.value)
-                                    }}>
-                                   { /*<Radio disabled value={0}>Multiplicador <b>({multiplicador})</b></Radio>*/}
-                                    <Radio value={1} defaultChecked>Precio Subgrupo <b>(${precioSubgrupo})</b></Radio>
-                                    <Radio value={2}>Precio Individual</Radio>
-                                </Radio.Group>
-                            </Form.Item>
-                        </Col>
-                    </Row>
-                </Col>
-            </Row>
-
-            <Row>
-                <Col span={24}>
-                    <h3>Etiquetas</h3>
-                </Col>
-            </Row>
-            <Row style={{padding:"1em"}}>
+                            value={modoPrecio}
+                            onChange={(e)=>{
+                            setModoPrecio(v=>{
+                                //alert(e.target.value)
+                                switch(+e.target.value)
+                                {
+                                    case 0: 
+                                    setValue(
+                                        'precio',
+                                        parseFloat(form.getFieldValue('costo')) * multiplicador
+                                    ); 
+                                    break; 
+                                    case 1: 
+                                    setValue(
+                                        'precio',
+                                        parseFloat(precioSubgrupo)
+                                        )
+                                    break;
+                                }
+                                return e.target.value})
+                            setValue("modo_precio",e.target.value)
+                        }}
+                        >
+                                
+                                <Radio value={1}>Precio Subgrupo </Radio>
+                                <Radio value={2}>Precio Individual</Radio>
+                            </Radio.Group>
+                        </Form.Item>
+                    </Col>
+                </Row>
+            </Col>
+        </Row>
+        <Row>
+            <Col span={24}>
+                <h3>Etiquetas</h3>
+            </Col>
+        </Row>
+        <Row style={{padding:"1em"}}>
             <Col span={24}>
                 <Select 
                 style={{width:"100%"}}
@@ -287,17 +252,17 @@ useEffect(()=>{
                 }} 
                 /> 
             </Col>
-            </Row>
-            <Row>
-                <Col span={24}>
-                    <Form.Item>
-                        <Button block size="small" type="primary" htmlType="submit">AGREGAR</Button>
-                    </Form.Item>
-                </Col>
-            </Row>
-            
-        </Form>
-        </Card>
+        </Row>
+        <Row>
+            <Col span={24}>
+                <Form.Item>
+                    <Button block size="small" type="primary" htmlType="submit">AGREGAR</Button>
+                </Form.Item>
+            </Col>
+        </Row>
+        
+    </Form>
+    </Card>
     </>)
 }
 

@@ -192,6 +192,7 @@ const BuscarVentaV2 = (props)=>{
     <Row>
         <Col span={24}>
         <Table 
+        size="small"
         scroll={{
             y: 400,
           }}
@@ -208,8 +209,9 @@ const BuscarVentaV2 = (props)=>{
         rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'}
         dataSource={dataSource} 
         columns={[
-        {title:'Nro.:', dataIndex:'idventa'},
+        {title:'Nro.:', dataIndex:'idventa', width:"60px"},
         {
+            width:"200px",
             title:'Cliente', 
             dataIndex:'cliente', 
             render:(_,{cliente,idventa,estado,idsucursal})=>{
@@ -223,11 +225,11 @@ const BuscarVentaV2 = (props)=>{
                 </>
             }
         },
-        {title:'Fecha', dataIndex:'fecha'},
-        {hidden: false, title: "Tipo", dataIndex: "tipo", render:(_,{tipo})=>(
+        {title:'Fecha', dataIndex:'fecha', width:"80px"},
+        {hidden: false, width:"80px", title: "Tipo", dataIndex: "tipo", render:(_,{tipo})=>(
             <span style={{fontSize:".75em", }}><b>{get_tipo(tipo)}</b></span>
         ) },
-        { title: "Estado", dataIndex:"estado", render:(_,{estado})=>{
+        { title: "Estado", width:"80px", dataIndex:"estado", render:(_,{estado})=>{
             switch(estado){
                 case "INGRESADO": return <Tag color="red"><b>{estado}</b></Tag>
                 case "PENDIENTE": return <Tag color="geekblue">{estado}</Tag>
@@ -237,12 +239,13 @@ const BuscarVentaV2 = (props)=>{
             }
         }},
         {
-            title:"Sucursal", dataIndex: "sucursal", render:(_,{sucursal})=>{
+            title:"Sucursal", width:"80px", dataIndex: "sucursal", render:(_,{sucursal})=>{
                 return <>{sucursal}</>
             }
         },
         {
             title:'Acciones', 
+            width:"200px", 
             fixed: 'right',
             dataIndex:'idventa', 
             render:(_,{idventa, estado, en_laboratorio, idsucursal})=>{
@@ -250,7 +253,7 @@ const BuscarVentaV2 = (props)=>{
             
             { globals.esUsuarioCaja1() ? show_buttons(estado,idventa,en_laboratorio, idsucursal) : <></>}
 
-            <Button onClick={_=>{setSelectedVenta(_=>({estado: estado, id:idventa, en_deposito:en_laboratorio, idsucursal:idsucursal})); setModalImprimirOpen(true);}}><PrinterFilled /></Button>
+            <Button type="text" size="small" onClick={_=>{setSelectedVenta(_=>({estado: estado, id:idventa, en_deposito:en_laboratorio, idsucursal:idsucursal})); setModalImprimirOpen(true);}}><PrinterFilled size={"small"} /></Button>
             { (globals.esUsuarioAdmin() || globals.esUsuarioAdminMin()) && estado!='ANULADO' ?
             <AnularVentasCobradas idventa={idventa} callback={load}/>
             :

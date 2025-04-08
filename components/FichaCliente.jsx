@@ -1,17 +1,12 @@
 import { get, post } from "@/src/urls"
-import { Button, Checkbox, Col, Input, Row, Spin, Table, Tag, Modal } from "antd"
+import { Button, Checkbox, Col, Input, Row, Spin, Table, Tag } from "antd"
 import { useEffect, useRef, useState } from "react"
-import CustomModal from "./CustomModal"
 import CobroOperacion from "./forms/caja/CobroForm"
 import CargaManual from "./forms/caja/CargaManual"
-import { InfoCircleFilled, InfoCircleOutlined } from "@ant-design/icons"
 import PrinterWrapper from "./PrinterWrapper"
-import InformeX from "./informes/caja/InformeX"
-import VentaDetallePopup from "./VentaDetalle"
 import CargaBloqueo from "./forms/caja/CargaBloqueo"
 import globals from "@/src/globals"
 import { post_method } from "@/src/helpers/post_helper"
-import EditarCargaManualPopup from "./forms/caja/EditarCargaManualPopup"
 import Anotaciones from "./anotacion/anotaciones"
 
 
@@ -24,8 +19,8 @@ export default function FichaCliente(props){
     const [saldo, setSaldo] = useState(0)
     const [filtrarSucursal, setFiltrarSucursal] = useState(false)
     const [loading, setLoading] = useState(false)
-    const [open, setOpen] = useState(false)
     const [fix, setFix] = useState(0)
+    const [loadPending, setLoadPending] = useState(true)
     const dummyref = useRef(null)
 
     const bloquear = _ => {
@@ -60,34 +55,25 @@ export default function FichaCliente(props){
     const columns = [
         {dataIndex: 'id',  title: 'Nro.'},
         {dataIndex: 'fecha_f',  title: 'Fecha'},
-        //{dataIndex: 'tipo',  title: 'Tipo'},
+        
         {dataIndex: 'detalle',  title: 'Detalle', render:(_,{detalle,id,tipo})=>{
             {switch(tipo){
-                    case 'VENTA': return <>{detalle}{/*<VentaDetallePopup idventa={id} />*/}</>; break;
+                    case 'VENTA': return <>{detalle}</>; break;
                     case 'PAGO CUOTA': 
                     return <>
                         {detalle}
-                        {/*<CustomModal openButtonText="Imprimir">
-                            <PrinterWrapper>
-                                <InformeX idcobro={id} />
-                            </PrinterWrapper>
-                        </CustomModal>*/}
+                       
                     </>
                     break;
                     case 'ENTREGA': 
                     return <>
                         {detalle}
-                        {/*<CustomModal openButtonText="Imprimir">
-                            <PrinterWrapper>
-                                <InformeX idcobro={id} />
-                            </PrinterWrapper>
-                        </CustomModal>*/}
+                        
                     </>
                     break;
                     case 'CARGA MANUAL':
                         return <>
-                        {detalle} {/*&nbsp;<Button danger size="small" onClick={(e)=>{anular_carga_manual(id)}}>Anular</Button>
-                       &nbsp;<EditarCargaManualPopup idcargamanual={id} callback={()=>{load()}} />*/}
+                        {detalle} 
                         </>
                     default: return {detalle}
                 }
@@ -109,13 +95,18 @@ export default function FichaCliente(props){
         if(scrollChange){
             dummyref.current?.scrollIntoView({ behavior: "smooth" })
             setScrollChange(false)
-            //alert("scroll?")
         }
 
-    },[scrollChange, open])
+        if(loadPending)
+        {
+            setLoadPending(false)
+            load()
+        }
+
+    },[scrollChange])
 
     const load = (pFiltrarSucursal=-1) => {
-        setOpen([])
+    
          //detalles
          fetch(get.cliente_por_id + props.idcliente)
          .then(response=>response.json())
@@ -141,11 +132,8 @@ export default function FichaCliente(props){
 
             }
 
-            
-                
             )
-           //alert(JSON.stringify(_rows))
-
+          
              setOperaciones(
                 _rows.map(row=>({
                 id: row.id,
@@ -168,8 +156,8 @@ export default function FichaCliente(props){
     }
 
     return (<>
-    <Button onClick={()=>{setOpen(true); load();}}>Ficha</Button>
-    <Modal open={open} title={"Ficha Cliente"} onCancel={()=>{setOpen(false)}} footer={null} width={"80%"} destroyOnClose={true}>  
+    {/*<Button onClick={()=>{setOpen(true); load();}}>Ficha</Button>
+    <Modal open={open} title={"Ficha Cliente"} onCancel={()=>{setOpen(false)}} footer={null} width={"80%"} destroyOnClose={true}>  */}
     
     <Row>
         <Col span={4} >
@@ -280,7 +268,7 @@ export default function FichaCliente(props){
         </Col>
     </Row>
     
-   </Modal>
+   {/*</Modal>*/}
     
     </>)
 }

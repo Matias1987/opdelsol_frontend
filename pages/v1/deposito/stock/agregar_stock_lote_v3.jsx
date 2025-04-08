@@ -543,6 +543,7 @@ export default function AgregarStockLoteV3(props){
                 title="Agregar Códigos"
                 footer={null}
             >
+                {/*<PopUpAgregarStockLoteForm callback={(_data)=>{ agregarRow(_data); setPopupAddOpen(false); }}/>*/}
                 <PopUpAgregarStockLoteForm callback={(_data)=>{ agregarRow(_data); setPopupAddOpen(false); }}/>
             </Modal>
         </>
