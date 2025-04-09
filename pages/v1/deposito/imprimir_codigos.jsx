@@ -97,12 +97,12 @@ export default function ImprimirCodigos(){
             <Card
             size="small"
             title="Imprimir C&oacute;digos de Barras"
-            
+            style={{boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)"}}
             >
                 <Row >
                     
                     <Col span={8} style={{padding:"1em"}}>
-                        <Card size="small" title={<>Agregar C&oacute;digos</>}>
+                        <Card size="small" title={<>Agregar C&oacute;digos</>} style={{boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)"}}>
                             <SearchCodigo callback={(idcodigo)=>{load_details_for_selected_id(idcodigo)}} />
                         </Card>
                     </Col>
@@ -111,6 +111,7 @@ export default function ImprimirCodigos(){
                         <Card
                         size="small"
                         title={<>Lista de c&oacute;digos a imprimir</>}
+                        style={{boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)"}}
                         >
                             
                             <Table

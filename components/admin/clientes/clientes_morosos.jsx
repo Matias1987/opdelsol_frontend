@@ -57,7 +57,7 @@ const ClientesMorosos = (props) => {
         padding:"1em"
     }
     return <>
-    <Card title="Clientes Morosos Sin Bloquear (2 meses)">
+    <Card title="Clientes Morosos Sin Bloquear (2 meses)" style={{boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)"}}>
         <>
             <Row style={row_style}>
                 <Col span={12}>

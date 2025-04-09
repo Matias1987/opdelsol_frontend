@@ -194,12 +194,13 @@ const EnvioForm = (props) => {
             <Card
                 size="small"
                 title="Nuevo Envío"
-                
+                style={{boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)"}}
                 >
                 <Row>
                 <Col span={14}>
-                &nbsp;
+                <Card style={{boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)"}} title="Envío" size="small">
                 <Form
+                
                 style={{color: "white"}}
                 onFinish={onFinish}
                 onFinishFailed={onFinishFailed}
@@ -208,6 +209,7 @@ const EnvioForm = (props) => {
                     {/* sucursal destino */}
                     <Form.Item label={""} name={"sucursal_idsucursal"} required={true}>
                         <LoadSelect
+                                disabled = {(tableData||[]).length>0}
                                 width="440px"
                                 prefix={<span style={{color:"#0C5AA9"}}><i>Sucursal:</i>&nbsp;</span> }
                                 parsefnt = {
@@ -290,6 +292,7 @@ const EnvioForm = (props) => {
                         </Affix>
                     </Form.Item>
                 </Form>
+                </Card>
                 </Col>
                 <Col span={10} style={{padding:"8px"}}>
 
@@ -300,6 +303,7 @@ const EnvioForm = (props) => {
                             //alert(JSON.stringify(arr))
                             setRowsToAdd(arr)
                         }} 
+                        key={sucursalDestId}
                         />
                     
                 </Col>

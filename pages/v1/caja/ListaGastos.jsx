@@ -2,7 +2,7 @@ import GastoForm from "@/components/forms/caja/GastoForm";
 import LayoutCaja from "@/components/layout/layout_caja";
 import globals from "@/src/globals";
 import { get } from "@/src/urls";
-import { Button, Modal, Table } from "antd";
+import { Button, Card, Modal, Table } from "antd";
 import { useEffect, useState } from "react";
 
 export default function ListaGastos(){
@@ -30,10 +30,8 @@ export default function ListaGastos(){
     },[reload])
 
     return <>
-        <h2>Lista Gastos</h2>
-        <Button type="primary"   size="small"  onClick={()=>{setOpen(true)}}>
-        Cargar Gasto
-        </Button>
+       
+        
         <Modal 
         destroyOnClose
         open={open} 
@@ -47,6 +45,9 @@ export default function ListaGastos(){
         >
             <GastoForm callback={()=>{setReload(!reload); setOpen(false)}}/>
         </Modal>
+        <Card title={<>Lista de Gastos <Button type="primary"   size="small"  onClick={()=>{setOpen(true)}}>
+        Cargar Gasto
+        </Button></>} style={{boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)"}}>
         <Table 
         rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'}
         size="small"
@@ -61,6 +62,7 @@ export default function ListaGastos(){
                 {width:"250px", dataIndex: "concepto_gasto", title: "Concepto"},
             ]
         } />
+        </Card>
     </>
 }
 

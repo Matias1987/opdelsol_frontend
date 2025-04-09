@@ -14,6 +14,7 @@ export default function TestMenu(){
 
     return (
         <Menu
+        style={{backgroundColor:"#EBEBEB", boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)"}}
           onClick={()=>{}}
           
           mode="horizontal"
@@ -69,9 +70,7 @@ export default function TestMenu(){
               
           </SubMenu>
           <SubMenu key={"etc"} title={<span>...</span>} >
-            <Menu.Item key="sub2_42" ><PartitionOutlined /> 
-                <Link href={get_url_to("deposito/arbol_codigos")}>&nbsp;&Aacute;rbol de C&oacute;digos</Link>
-            </Menu.Item>
+            
             <SubMenu key={"baja_desp"} title={<span>Baja por Desperfecto</span>} >
               <Menu.Item key="sub2_41" >
                   <Link href={get_url_to("deposito/stock/baja_desperfecto")}>Nueva Baja</Link>
@@ -92,6 +91,9 @@ export default function TestMenu(){
               <Link href={get_url_to("deposito/facturas/agregar_factura")}>Agregar Factura</Link>
               </Menu.Item>
             </SubMenu>
+            <Menu.Item key="sub2_42" ><PartitionOutlined /> 
+                <Link href={get_url_to("deposito/arbol_codigos")}>&nbsp;&Aacute;rbol de C&oacute;digos</Link>
+            </Menu.Item>
           </SubMenu>
           {/*<SubMenu key="sub8" title={<span><FileTextOutlined /><span>Informes</span></span>}>
             <Menu.Item key="sub8_30"><FileTextOutlined />

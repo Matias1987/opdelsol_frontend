@@ -1,5 +1,5 @@
 import CustomModal from "@/components/CustomModal";
-import { Button, Col, Input, Modal, Row, Spin, Table } from "antd";
+import { Button, Card, Col, Input, Modal, Row, Spin, Table } from "antd";
 import { useEffect, useState } from "react";
 import { ReloadOutlined } from "@ant-design/icons";
 
@@ -98,38 +98,45 @@ export default function ListaClientes(props){
     }
 
     return <>
-    <h2>Lista de Clientes</h2>
-    <Row style={row_style}>
-        <Col span={24}>
-            <Input.Search prefix={<span style={{backgroundColor:"#DBE3E6"}}>Buscar por Nombre o DNI:&nbsp;&nbsp;&nbsp;</span>}   allowClear onSearch={onSearch} value={searchVal} onChange={(e)=>{setSearchVal(e.target.value)}} />
-        </Col>
+    <Card
+    size="small"
+    style={{boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)"}}
+    title={<div>Lista de Clientes&nbsp;&nbsp;</div>}
+    extra={<><ClienteFormV2 callback={(id)=>{refresh()}}/></>}
+    >
         
-    </Row>
-    <Row style={row_style}>
-        <Col span={12}>
-                <ClienteFormV2 callback={(id)=>{refresh()}}/>
-        </Col>
-        <Col span={12}>&nbsp;&nbsp;&nbsp;
-            <Button size="small" type="text" onClick={(e)=>{setSearchVal(s=>{
-            refresh()
-            return ""
-            })}}><ReloadOutlined />Recargar
-            </Button>
-        </Col>
-        
-    </Row>
-    <Row style={row_style}>
-        <Col span={24}>
-            <Table 
-            size="small"
-            bordered
-            scroll={{y:"350px"}}
-            loading={loading}
-            rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'}
-            columns={columns} 
-            dataSource={clientes} />
-        </Col>
-    </Row>
+        <Row style={row_style}>
+            <Col span={24}>
+                <Input.Search prefix={<span style={{backgroundColor:"#DBE3E6"}}>Buscar por Nombre o DNI:&nbsp;&nbsp;&nbsp;</span>}   allowClear onSearch={onSearch} value={searchVal} onChange={(e)=>{setSearchVal(e.target.value)}} />
+            </Col>
+            
+        </Row>
+        <Row style={row_style}>
+            <Col span={12}>
+                    
+            </Col>
+            <Col span={12}>&nbsp;&nbsp;&nbsp;
+                <Button size="small" type="text" onClick={(e)=>{setSearchVal(s=>{
+                refresh()
+                return ""
+                })}}><ReloadOutlined />Recargar
+                </Button>
+            </Col>
+            
+        </Row>
+        <Row style={row_style}>
+            <Col span={24}>
+                <Table 
+                size="small"
+                bordered
+                scroll={{y:"350px"}}
+                loading={loading}
+                rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'}
+                columns={columns} 
+                dataSource={clientes} />
+            </Col>
+        </Row>
+    </Card>
     <Modal 
     title="Ficha Cliente"
     destroyOnClose 

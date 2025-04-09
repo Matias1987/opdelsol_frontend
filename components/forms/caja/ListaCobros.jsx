@@ -1,7 +1,7 @@
 import CustomModal from "@/components/CustomModal";
 import PrinterWrapper from "@/components/PrinterWrapper";
 import InformeX from "@/components/informes/caja/InformeX";
-import { Button, Col, Row, Table, Tag } from "antd";
+import { Button, Card, Col, Row, Table, Tag } from "antd";
 import { useEffect, useState } from "react";
 import FiltroCobros from "./FiltroCobros";
 import globals from "@/src/globals";
@@ -67,12 +67,15 @@ const ListaCobros = (props) => {
     }
 
     return <>
+     <Card title="Lista de Cobros" size="small" style={{boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)"}}>
         {(props.readOnly||false) ? <></> :   
+       
         <Row>
             <Col span={24}>
                 <FiltroCobros callback={f=>{setFiltros(_f=>f); setReload(!reload)}} />
             </Col>
         </Row>
+        
         }
         <Row>
             <Col span={24}>
@@ -87,7 +90,7 @@ const ListaCobros = (props) => {
                 />
             </Col>
         </Row>
-        
+        </Card>
     </>
 }
 

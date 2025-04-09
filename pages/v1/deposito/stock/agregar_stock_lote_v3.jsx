@@ -482,7 +482,7 @@ export default function AgregarStockLoteV3(props){
     return(
         <>
         <Card
-      
+        style={{boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)"}}
         bordered
         title={<><span>Agregar Productos</span></>}
         size="small"

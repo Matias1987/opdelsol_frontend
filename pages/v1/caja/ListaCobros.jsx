@@ -4,7 +4,7 @@ import globals from "@/src/globals";
 
 export default function ListaCobrosSucursal(){
     return <>
-    <h2>Lista Cobros</h2>
+   
         <ListaCobros idsucursal={globals.obtenerSucursal()} />
     </>  
 }

@@ -60,6 +60,7 @@ export default function MenuVentasTop(){
     background: "rgb(34,193,195)",
     background: "linear-gradient(81deg, rgba(34,193,195,1) 0%, rgba(253,187,45,1) 100%)",
     color: "black",
+    boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)"
     //backgroundColor:"#6CA12B",
   }
   const onClick = (e) => {

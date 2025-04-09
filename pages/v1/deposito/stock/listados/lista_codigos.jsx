@@ -158,7 +158,7 @@ export default function ListaCodigos(){
             <Card
             size="small"
             title="Productos"
-           
+            style={{boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)"}}
             >
                
                 <Row style={{padding:"1em"}}>

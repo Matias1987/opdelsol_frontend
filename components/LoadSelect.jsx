@@ -49,6 +49,7 @@ const LoadSelect = (props) => {
                 : null
                 }
                 <Select 
+                disabled={typeof props.disabled==='undefined' ? false : props.disabled}
                 prefix={<span style={{fontWeight:"bold"}}>{props.prefix||""}</span>}
                 style={{ width: props.width||"250px", overflow:"hidden" }}
                 value={ id < 0 ? "Seleccione..." : id }

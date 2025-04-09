@@ -29,6 +29,12 @@ const PopUpAgregarStockLoteForm = (props) => {
 
     const onFinish = (values) => {
         //alert(JSON.stringify(values))
+        if(+(values.modo_precio||"0")<1)
+        {
+            alert("Seleccionar modo de precio")
+            return
+        }
+        //alert(values.codigo)
         if(regex_get_id_if_match(values.codigo.toUpperCase())>0){
             alert("Formato de Código no válido " + part1)
             return

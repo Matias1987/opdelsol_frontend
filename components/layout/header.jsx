@@ -2,7 +2,7 @@ import globals from "@/src/globals";
 import { Alert, Button, Col, Input, Layout, Row, Switch } from "antd";
 import SucursalLabel from "../sucursal_label";
 import useStorage from "@/useStorage";
-import { FilterOutlined, InfoCircleFilled, LogoutOutlined, MehFilled, SkinFilled, SkinOutlined } from "@ant-design/icons";
+import { FilterOutlined, InfoCircleFilled, LogoutOutlined, MehFilled, SkinFilled, SkinOutlined, UserOutlined } from "@ant-design/icons";
 import { get, public_urls } from "@/src/urls";
 import { useEffect, useState } from "react";
 import CustomModal from "../CustomModal";
@@ -25,7 +25,7 @@ const HeaderSol =(props)=> {
         setUName(globals.obtenerUserName())
     },[])
     return(    
-    <Header style={{ background: '#262626', color: "white", paddingLeft: '5em', lineHeight:'0', margin: '0', fontSize:'.70em', height:'36px' }}>
+    <Header style={{ background: '#262626', color: "white", paddingLeft: '5em', paddingTop:"4px", lineHeight:'0', margin: '0', fontSize:'.70em', height:'36px' }}>
         <Row>
             <Col span={24}>
                 <span style={{padding:'0'}}>
@@ -36,10 +36,11 @@ const HeaderSol =(props)=> {
                            { /* &nbsp;- Cuenta: <b>{props.tipoCuenta}</b>
                            &nbsp;&nbsp;&nbsp;  Usuario: <b>{uname}</b>
                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   |&nbsp;&nbsp;&nbsp;*/}
-                           {<CustomModal title={uname} width="50%" openButtonText={<><InfoCircleFilled />&nbsp;{uname}</>}><VentasVendedor /></CustomModal>}
+                           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                           {<CustomModal title={uname} width="50%" openButtonText={<><UserOutlined size={"small"} />&nbsp;{uname}</>}><VentasVendedor /></CustomModal>}
                     </i>
                 </span>
-                <Button type="link"  style={{color:"white", padding:".5em"}} onClick={()=>{
+                <Button size="small" type="link"  style={{color:"white", padding:".5em"}} onClick={()=>{
                     
                     const _token = getItem("token",'session')
 

@@ -251,6 +251,7 @@ const ListaVentas = (props) => {
 //title={_=><><Button style={{color:"white"}} type="ghost" size="small" onClick={()=>{setReload(!reload)}}><ReloadOutlined size={"small"} /> Recargar</Button></>}
     return <>
     <Card
+        style={{boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)"}}
         size="small"
         title={<>
         {typeof props.titulo === 'undefined' ? "Lista de Ventas": props.titulo}

@@ -268,7 +268,7 @@ const BuscarVentaV2 = (props)=>{
         <Modal width={"1000px"} destroyOnClose open={detalleOpen} footer={null} onCancel={()=>{setDetalleOpen(false)}}>
             <InformeVentaMinV3 idventa={idventaDetalle} key={idventaDetalle} />
         </Modal>
-        <Modal open={modalListaOpen} destroyOnClose footer={null} onCancel={_=>{setModalListaOpen(false)}} width="1200px" >
+        <Modal open={modalListaOpen} destroyOnClose footer={null} onCancel={_=>{setModalListaOpen(false); setReload(!reload)}} width="1200px" >
             {modal_content()}
         </Modal>
         <Modal

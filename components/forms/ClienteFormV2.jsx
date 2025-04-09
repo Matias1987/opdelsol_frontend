@@ -201,11 +201,7 @@ export default function ClienteFormV2(props){
     }
 
     return (<>
-    <Row>
-        <Col  span={24}>
-            <Button type="primary" size="middle" onClick={()=>{ props?.test?.(); onOpen();  }}> <UserAddOutlined /> Agregar Cliente</Button>
-        </Col>
-    </Row>
+    <Button type="link" size="small" onClick={()=>{ props?.test?.(); onOpen();  }}> <UserAddOutlined size={"small"} /> Agregar Cliente</Button>
     
     <Modal width={"70%"} title="Agregar Cliente" open={open} onCancel={()=>{setOpen(false)}} footer={false} destroyOnClose={true}>
         <Row style={{padding:".5em"}}>

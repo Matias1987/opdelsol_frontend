@@ -1,5 +1,5 @@
 import { Button, Table, Input, Row, Affix, Checkbox, Col, Modal, Divider, Card } from "antd";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { get, post } from "@/src/urls";
 import globals from "@/src/globals";
 import { PlusCircleFilled, PlusCircleOutlined, PlusOutlined } from "@ant-design/icons";
@@ -16,6 +16,7 @@ import { post_method } from "@/src/helpers/post_helper";
  * @param callback
  */
 const SearchStockEnvio = (props) => {
+    const {idSucursalDestino}=props
     const id_sucursal = globals.obtenerSucursal();
     const search_url = get.buscar_stock_envios + id_sucursal+ "/";
     const [top,setTop] = useState(10);
@@ -29,6 +30,8 @@ const SearchStockEnvio = (props) => {
     const [tags, setTags] = useState([])
     const [conStockOrigen, setConStockOrigen] = useState(true)
     const [sinStockDestino, setSinStockDestino] = useState(false)
+
+    useEffect(()=>{setDataSource([])},[idSucursalDestino])
    
 
     const doSearch_old = (value, id)=>{
@@ -140,7 +143,7 @@ const SearchStockEnvio = (props) => {
         <Card
         title={"Agregar Códigos"}
         size="small"
-        
+        style={{boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)"}}
         >
             <>
         <Row>
