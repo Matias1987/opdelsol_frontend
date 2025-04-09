@@ -30,7 +30,7 @@ export default function ListaGastos(){
     },[reload])
 
     return <>
-        <h2>Lista Cobros</h2>
+        <h2>Lista Gastos</h2>
         <Button type="primary"   size="small"  onClick={()=>{setOpen(true)}}>
         Cargar Gasto
         </Button>
@@ -48,6 +48,8 @@ export default function ListaGastos(){
             <GastoForm callback={()=>{setReload(!reload); setOpen(false)}}/>
         </Modal>
         <Table 
+        rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'}
+        size="small"
         scroll={{y:"450px"}}
         loading={loading}
         dataSource={gastos} 

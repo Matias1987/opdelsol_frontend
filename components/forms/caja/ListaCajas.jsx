@@ -24,21 +24,21 @@ export default function ListaCaja(props){
     },[])
     
     const columns = [
-        {width:"240px",dataIndex:'idcaja', title: 'ID'},
-        {width:"240px",dataIndex:'fecha_f', title: 'Fecha'},
-        {width:"240px",dataIndex:'monto_inicial', title: 'Monto'},
-        {width:"240px",dataIndex:'estado', title: 'Estado'},
-        {width:"240px",dataIndex: 'idcaja', title: 'Acciones', render: (_,{idcaja})=> <Button type="primary" onClick={()=>{setSelectedCaja(idcaja);setPopupOpen(true)}}>Ver</Button>}
+        {width:"80px",dataIndex:'idcaja', title: 'ID'},
+        {width:"200px",dataIndex:'fecha_f', title: 'Fecha'},
+        {width:"200px",dataIndex:'monto_inicial', title: 'Monto'},
+        {width:"200px",dataIndex:'estado', title: 'Estado'},
+        {width:"100px",dataIndex: 'idcaja', title: 'Acciones', render: (_,{idcaja})=> <Button size="small" type="primary" onClick={()=>{setSelectedCaja(idcaja);setPopupOpen(true)}}>Ver</Button>}
     ]
     
     return (<>
         <h3>Lista de caja diaria</h3>
         <Row>
             <Col span={24}>
-                <Table columns={columns} dataSource={dataSource} scroll={{y:"450px"}} />
+                <Table size="small" columns={columns} dataSource={dataSource} scroll={{y:"450px"}} />
             </Col>
         </Row>
-        <Modal width={"80%"} open={popupOpen} onCancel={()=>{setPopupOpen(false)}} footer={null} title="Informe de Caja" destroyOnClose>
+        <Modal width={"1300px"} open={popupOpen} onCancel={()=>{setPopupOpen(false)}} footer={null} title="Informe de Caja" destroyOnClose>
             <InformeCajaV3 idcaja={selectedCaja} idsucursal={props.idsucursal} />
         </Modal>
         

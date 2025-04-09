@@ -34,7 +34,13 @@ const PopUpAgregarStockLoteForm = (props) => {
             return
         }
     if(typeof props.callback !== 'undefined'){
-        props.callback({...values, p1: part1.toUpperCase(), p2: part2.toUpperCase(), p3: part3.toUpperCase(), tags: tagsToAdd});
+        props.callback({
+            ...values, 
+            p1: part1.toUpperCase(), 
+            p2: part2.toUpperCase(), 
+            p3: part3.toUpperCase(), 
+            tags: tagsToAdd
+        });
         
     }
    }
@@ -154,13 +160,8 @@ useEffect(()=>{
    return (
    <>
 
-<Card
-        
-    bordered
-    size="small" 
-    title={<></>}
-    >
-    <Form onFinish={onFinish} onFinishFailed={onFinishFailed} form={form}>
+    <br />
+    <Form onFinish={onFinish} onFinishFailed={onFinishFailed} form={form} title=" ">
         <Row>
             <Col span={12}>
                 <Form.Item  rules={[{required:true}]} label={"Codigo"} name={"codigo"} style={{width: "90%"}}>
@@ -262,7 +263,7 @@ useEffect(()=>{
         </Row>
         
     </Form>
-    </Card>
+
     </>)
 }
 

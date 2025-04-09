@@ -406,7 +406,7 @@ export default function InformeCajaV2(props){
     }
     return (
     <>
-        <Button onClick={()=>{onOpen()}}>Ver Informe</Button>
+        <Button size="small" type="primary" onClick={()=>{onOpen()}}>Ver Informe</Button>
         <Modal width={"90%"} open={open} footer={null} onCancel={()=>{setOpen(false)}} destroyOnClose>
             <PrinterWrapper>
             <>

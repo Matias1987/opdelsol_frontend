@@ -4,10 +4,12 @@ import InicioCaja from "@/components/forms/caja/InicioCaja";
 import ListaCaja from "@/components/forms/caja/ListaCajas";
 import InformeCaja from "@/components/informes/caja/InformeCaja";
 import InformeCajaV2 from "@/components/informes/caja/InformeCajaV2";
+
+import InformeCajaV3 from "@/components/informes/caja/InformeCajaV3";
 import LayoutCaja from "@/components/layout/layout_caja";
 import globals from "@/src/globals";
 import { get } from "@/src/urls";
-import { Button, Modal, Spin, Tag } from "antd";
+import { Button, Col, Modal, Row, Spin, Tag } from "antd";
 import { useEffect, useState } from "react";
 
 export default function panelCajaAdmin(){
@@ -45,10 +47,13 @@ export default function panelCajaAdmin(){
 
     const detalle_caja = _ => 
         caja == null ? <></> : <>
-            <div>
-                <p><Tag color="green-inverse">CAJA ABIERTA</Tag> Nro. Caja: 1 Fecha: <b>{caja.fecha_f}</b> Monto Inicial: <b>{caja.monto_inicial}</b></p>
-                <Button block onClick={cerrar_caja} danger>Cerrar Caja</Button>
-            </div>
+            <Row>
+                <Col span={24}>
+                    <Tag color="green-inverse">CAJA ABIERTA</Tag> Nro. Caja: 1 Fecha: <b>{caja.fecha_f}</b> &nbsp;&nbsp;<Button type="link" onClick={cerrar_caja} danger>Cerrar Caja</Button>
+                </Col>
+                
+                
+            </Row>
         </>
 
     const caja_cerrada = _ => <><InicioCaja callback={()=>{
@@ -58,18 +63,25 @@ export default function panelCajaAdmin(){
 
         return loading ? <Spin/> :<> 
         {caja == null ? caja_cerrada() : detalle_caja()} 
-        <br />
-        {caja==null? <></>: <InformeCajaV2 idcaja={caja.idcaja} />
-        /*<CustomModal openButtonText="Imprimir" block>
-            <PrinterWrapper>
-                
-            </PrinterWrapper>
-        </CustomModal>*/
+        <br/>
+        { caja==null ? <></> :
+        <Row style={{backgroundColor:"lightyellow"}}>
+            <Col span={24} style={{border:"1px solid black"}}>
+                <InformeCajaV3 idcaja={caja.idcaja} idsucursal={globals.obtenerSucursal()} />
+            </Col>
+        </Row>
         }
-        <br /> <br />
-        <CustomModal openButtonText="Lista" block>
+        <br />
+        
+        <Row>
+            <Col span={24}>
+                <Button type="primary" onClick={_=>{setListOpen(true)}}>Ver listado</Button>
+            </Col>
+        </Row>
+     
+        <Modal open={listOpen} onCancel={_=>{setListOpen(false)}} title="Listado" destroyOnClose width={"900px"} footer={null}>
             <ListaCaja idsucursal={globals.obtenerSucursal()}/>
-        </CustomModal>
+        </Modal>
         </>; 
     
 

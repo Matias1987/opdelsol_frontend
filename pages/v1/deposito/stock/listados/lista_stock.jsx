@@ -89,7 +89,7 @@ export default function ListaStock(){
         {
           label: 'Editar Código',
           key: '3',
-          icon: <PrinterOutlined />,
+          icon: <EditOutlined />,
           disabled: !(globals.esUsuarioDeposito() && (selectedSucursal==globals.obtenerSucursal() || selectedSucursal<-1)),
         },
        

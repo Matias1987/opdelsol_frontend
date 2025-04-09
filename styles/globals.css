@@ -179,10 +179,10 @@ a::before{
   background-color: #E9E9E9
 }*/
 .table-row-light {
-  background-color: #f9ffc2;/*#F9F9C5;*/
+  background-color: #FDFFEA;/*#f9ffc2;#F9F9C5;*/
 }
 .table-row-dark {
-  background-color: #daffcc;/*#e7f0fc;*/
+  background-color: #EAFEE3;/* #daffcc;#e7f0fc;*/
 }
 .error-row {
   background-color: #eb331a;

@@ -77,6 +77,7 @@ const ListaCobros = (props) => {
         <Row>
             <Col span={24}>
                 <Table 
+                size="small"
                 scroll={{y:"450px"}}
                 loading={loading} 
                 pagination={true} 

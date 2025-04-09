@@ -10,7 +10,7 @@ import SubGroupSelectV2 from "@/components/SubGrupoSelectV2";
 import globals from "@/src/globals";
 import { post_method } from "@/src/helpers/post_helper";
 import { get, post, public_urls } from "@/src/urls";
-import { DeleteOutlined, EditOutlined, PlusCircleOutlined, PlusOutlined } from "@ant-design/icons";
+import { CloseOutlined, DeleteOutlined, EditOutlined, PlusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 
 
 
@@ -68,6 +68,9 @@ export default function AgregarStockLoteV3(props){
                 multiplicador: response.data[0].multiplicador,
                 precio_defecto: response.data[0].precio_defecto,
                 idsubgrupo: response.data[0].idsubgrupo,
+                familia: response.data[0].familia,
+                subfamilia: response.data[0].subfamilia,
+                grupo: response.data[0].grupo,
 
             })
             setIdSubgrupo(id);
@@ -490,34 +493,37 @@ export default function AgregarStockLoteV3(props){
 
                     <Form.Item style={{  padding:"3.5em", fontSize:".25em"}} label={""} name={"subgrupo"} rules={[{required:true}]}>
                         <>
-                        <SubGroupSelectV2 callback={(id)=>{setValue("subgrupo", id); setIdSubgrupo(id); getSubGrupoDetails(id) }} />
+                        {subgrupo==null ? <SubGroupSelectV2 callback={(id)=>{setValue("subgrupo", id); setIdSubgrupo(id); getSubGrupoDetails(id) }} />:<></>}
+                        
                        
-                        {subgrupo==null || +idSubgrupo <0 ? <></> : <p style={{fontSize:"1.1em", fontWeight:"bold"}}><i>Subgrupo: {subgrupo.nombre_corto}  </i></p> }
+                        {subgrupo==null || +idSubgrupo <0 ? <></> : 
+                        <p >
+                            <div>Subgrupo: <span style={{fontSize:"0.9em", color:"blue"}}>{`${subgrupo.familia} / ${subgrupo.subfamilia} / ${subgrupo.grupo} / `}</span> <span style={{fontSize:"1.15em", fontWeight:"bold", color:"darkblue"}}>{subgrupo.nombre_corto}</span> <Button onClick={_=>{setSubgrupo(null)}} size="small" type="link" disabled={(tableData||[]).length>0}><CloseOutlined /></Button> </div>
+                        </p> }
                         </>
                     </Form.Item>
 
                     <Form.Item label={"Factura"} name={"factura"} style={{  padding:"3.5em", fontSize:".25em"}}>
                         <>
                             <FacturaSelect reload={updateall} callback={(id)=>{ /*getSubGrupoDetails(id);*/ setValue("factura", id)}} />
-                            <br />
+                
                             {/* agregar facturas */}
                             {agregarFacturaPopup()}
                             {/* FIN agregar facturas */}
-                            <br />
-                            <br />
+                         
                         </>
                     </Form.Item>
                     
                     <Form.Item label={""} name={"codigos"}>
                         <>
                             <>
-                            { +idSubgrupo <0 ? <p style={{color:"red", padding:".7em", backgroundColor:"lightcoral"}}><b>Seleccione Subgrupo</b></p> :
+                            { subgrupo==null ? <p style={{color:"red", padding:".7em", backgroundColor:"lightcoral"}}><b>Seleccione Subgrupo</b></p> :
                             <>
                             
                         
                             <Table 
                             
-                            title={_=><>C&oacute;digos a Generar&nbsp;<Button style={{color:"black"}} type="default" size="small" onClick={onAgregarCodigosBtnClick}><PlusOutlined size={"small"} /> &nbsp;Agregar</Button></>} 
+                            title={_=><>C&oacute;digos a Generar&nbsp;&nbsp;<Button style={{color:"white"}} type="link" size="small" onClick={onAgregarCodigosBtnClick}><PlusOutlined size={"small"} /> Agregar</Button></>} 
                             scroll={{y:"400px"}} 
                             dataSource={tableData} 
                             columns={columns} 
@@ -531,7 +537,7 @@ export default function AgregarStockLoteV3(props){
                     </Form.Item>
 
                     <Form.Item>
-                        <Button disabled={btnDisabled} type="primary" htmlType="submit">Confirmar</Button>
+                        <Button disabled={btnDisabled || (tableData||[]).length<1} type="primary" htmlType="submit">Confirmar</Button>
                     </Form.Item>
             </Form>
             </Card>
