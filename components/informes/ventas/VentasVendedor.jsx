@@ -1,8 +1,9 @@
+import FoodLoader from "@/components/etc/loader/foodLoader"
 import globals from "@/src/globals"
 import { post_method } from "@/src/helpers/post_helper"
 import { currency_format, parse_int_string } from "@/src/helpers/string_helper"
 import { get, post } from "@/src/urls"
-import { Col, Progress, Row, Space, Table } from "antd"
+import { Col, Divider, Progress, Row, Space, Table } from "antd"
 import { useEffect, useState } from "react"
 import { global } from "styled-jsx/css"
 
@@ -77,32 +78,7 @@ const VentasVendedor = (props) => {
                 setCantVentasDia(resp.length)
             }
             )
-        //post_method(post.totales_venta_vendedor,
-        //{
-        //    mes: d.getMonth() + 1,
-        //    anio: d.getFullYear(),
-        //    fkvendedor: globals.obtenerUID(),
-        //},
-        //(response)=>{
-        //    setVentasVendedor(
-        //        response.data.map(
-        //            r=>(
-        //                {
-        //                    usuario: r.usuario,
-        //                    idusuario: r.usuario_idusuario,
-        //                    efectivo: r.efectivo,
-        //                    tarjeta: r.tarjeta,
-        //                    cheque: r.cheque,
-        //                    ctacte: r.ctacte,
-        //                    mutual: r.mutual,
-        //                    total: r.total,
-        //                }
-        //            )
-        //        )
-        //    )
-        //}
-        //
-        //)
+        
     }
 
     const money_style = {
@@ -155,9 +131,10 @@ const VentasVendedor = (props) => {
             </Row>
         </Col>
     </Row>
+    <Divider />
     <Row>
         <Col span={24}>
-            {/*_ventas_vendedor()*/}
+            <FoodLoader />
         </Col>
     </Row>
     
