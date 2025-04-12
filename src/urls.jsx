@@ -181,6 +181,9 @@ const post = {
     register_image:  remote_base_url +"img/register/",
     obtener_images:  remote_base_url +"img/",
 
+    obtener_objetivo_sucursal: remote_base_url + "/list",
+    obtener_progreso_sucursal_objetivo: remote_base_url + "/get/progress",
+
     search:{
         filtro_stock: remote_base_url + "stock/filtro_stock/",
     },
@@ -229,6 +232,7 @@ const post = {
         tarea_: remote_base_url + "t/t/add/",
         registrar_cambio_venta_item: remote_base_url + "cb/add/cambio/item/",
         generar_sorteo: remote_base_url + "srt/gen/",
+        establecer_objetivo_sucursal: remote_base_url + "objs/",
     },
     update:{
         optica: remote_base_url + "op/mod/",
