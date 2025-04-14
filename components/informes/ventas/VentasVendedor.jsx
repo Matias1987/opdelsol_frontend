@@ -103,13 +103,15 @@ const VentasVendedor = (props) => {
 
     return <>
     <Row>
-        <Col span={8}>
+        <Col span={24}>
         {_datos_vendedor()}
         </Col>
-        <Col span={16}>
+        </Row>
+        <Row>
+        <Col span={24}>
             <Row>
                 <Col span={24}>
-                    Objetivo 2 millones
+                    <i>Objetivo 2 millones:</i>
                 </Col>
             </Row>
             <Row>
@@ -131,7 +133,6 @@ const VentasVendedor = (props) => {
             </Row>
         </Col>
     </Row>
-    <Divider />
     <Row>
         <Col span={24}>
             <FoodLoader />

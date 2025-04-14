@@ -181,8 +181,8 @@ const post = {
     register_image:  remote_base_url +"img/register/",
     obtener_images:  remote_base_url +"img/",
 
-    obtener_objetivo_sucursal: remote_base_url + "/list",
-    obtener_progreso_sucursal_objetivo: remote_base_url + "/get/progress",
+    obtener_objetivo_sucursal: remote_base_url + "objs/list",
+    obtener_progreso_sucursal_objetivo: remote_base_url + "objs/get/progress",
 
     search:{
         filtro_stock: remote_base_url + "stock/filtro_stock/",

@@ -101,6 +101,11 @@ const EditarSucursal = (props) => {
             <Input value={sucursalData.facebook} prefix="Facebook" onChange={(e)=>{onchange("facebook", e.target.value)}}/>
         </Col>
     </Row>
+    {/*<Row style={row_style}>
+        <Col span={24}>
+            <Input value={sucursalData.objetivo} prefix="Objetivo Mensual" onChange={(e)=>{onchange("objetivo", e.target.value)}}/>
+        </Col>
+    </Row>*/}
     <Row style={row_style}>
         <Col span={24}>
             <Button type="primary" block onClick={onSave}>Guardar</Button>

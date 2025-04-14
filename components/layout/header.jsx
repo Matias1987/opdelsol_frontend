@@ -37,7 +37,7 @@ const HeaderSol =(props)=> {
                            &nbsp;&nbsp;&nbsp;  Usuario: <b>{uname}</b>
                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   |&nbsp;&nbsp;&nbsp;*/}
                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                           {<CustomModal title={uname} width="50%" openButtonText={<><UserOutlined size={"small"} />&nbsp;{uname}</>}><VentasVendedor /></CustomModal>}
+                           {<CustomModal title={uname} width="500px" openButtonText={<><UserOutlined size={"small"} />&nbsp;{uname}</>}><VentasVendedor /></CustomModal>}
                     </i>
                 </span>
                 <Button size="small" type="link"  style={{color:"white", padding:".5em"}} onClick={()=>{
