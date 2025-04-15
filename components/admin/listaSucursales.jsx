@@ -92,7 +92,7 @@ const ListaSucursales = (props) => {
     <Modal destroyOnClose open={popupAddOpen} onCancel={onCancelPopupAddEdit} footer={null}>
         <AgregarSucursal idsucursal={-1} callback={onCancelPopupAddEdit} />
     </Modal>
-    <Modal destroyOnClose open={popupEditOpen} onCancel={onCancelPopupEdit} footer={null}>
+    <Modal width={"900px"} destroyOnClose open={popupEditOpen} onCancel={onCancelPopupEdit} footer={null} title="Edición">
         <EditarSucursal idsucursal={idsucursal} callback={onCancelPopupEdit} />
     </Modal>
  </>

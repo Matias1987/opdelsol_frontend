@@ -1,6 +1,7 @@
-const { default: globals } = require("../globals")
-const { post } = require("../urls")
-const { post_method } = require("./post_helper")
+import globals from "../globals"
+import { post }  from "../urls"
+import { post_method } from "./post_helper"
+
 
 const registrar_evento = (tipo, detalle, ref_id) => {
     const date = new Date()

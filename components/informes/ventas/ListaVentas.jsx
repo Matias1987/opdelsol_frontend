@@ -283,7 +283,7 @@ const ListaVentas = (props) => {
         destroyOnClose
         title="Cobro"
         onCancel={_=>{setPopupCobroOpen(false); setReload(!reload)}}
-        width={"1000px"}
+        width={"1200px"}
         footer={null}
         open={popupCobroOpen}
     >

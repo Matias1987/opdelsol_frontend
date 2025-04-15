@@ -1,8 +1,9 @@
 import { post_method } from "@/src/helpers/post_helper"
+import FoodLoader from "../etc/loader/foodLoader"
 
-const { get, post } = require("@/src/urls")
-const { Col, Row, Spin, Input, Button, Select } = require("antd")
-const { useState, useEffect } = require("react")
+import { get, post } from "@/src/urls"
+import { Col, Row, Spin, Input, Button, Select, Divider, Card } from "antd"
+import { useState, useEffect } from "react"
 
 const EditarSucursal = (props) => {
 
@@ -62,55 +63,62 @@ const EditarSucursal = (props) => {
 
     return sucursalData==null || opticasData==null? <Spin /> : <>
     <Row>
-        <Col span={24}>
-        <h3>Editar &Oacute;ptica</h3>
+        <Col span={16}>
+            <Card title="Editar Sucursal" size="small">
+                
+                <Row style={row_style}>
+                    <Col span={24}>
+                        <Input value={sucursalData.nombre} prefix="Nombre" onChange={(e)=>{onchange("nombre", e.target.value)}}/>
+                    </Col>
+                </Row>
+                <Row style={row_style}>
+                    <Col span={24}>
+                        &Oacute;ptica: <Select value={sucursalData.fkoptica} options={opticasData} onChange={v=>{onchange("fkoptica",v)}} style={{width:"100%"}} />
+                    </Col>
+                </Row>
+                <Row style={row_style}>
+                    <Col span={24}>
+                        <Input value={sucursalData.direccion} prefix="Dirección" onChange={(e)=>{onchange("direccion", e.target.value)}}/>
+                    </Col>
+                </Row>
+                <Row style={row_style}>
+                    <Col span={24}>
+                        <Input value={sucursalData.telefono} prefix="Teléfono" onChange={(e)=>{onchange("telefono", e.target.value)}}/>
+                    </Col>
+                </Row>
+                <Row style={row_style}>
+                    <Col span={24}>
+                        <Input value={sucursalData.whatsapp} prefix="Whatsapp" onChange={(e)=>{onchange("whatsapp", e.target.value)}}/>
+                    </Col>
+                </Row>
+                <Row style={row_style}>
+                    <Col span={24}>
+                        <Input value={sucursalData.instagram} prefix="Instagram" onChange={(e)=>{onchange("instagram", e.target.value)}}/>
+                    </Col>
+                </Row>
+                <Row style={row_style}>
+                    <Col span={24}>
+                        <Input value={sucursalData.facebook} prefix="Facebook" onChange={(e)=>{onchange("facebook", e.target.value)}}/>
+                    </Col>
+                </Row>
+                <Row style={row_style}>
+                    <Col span={24}>
+                        <Button type="primary" block onClick={onSave}>Guardar</Button>
+                    </Col>
+                </Row>
+            </Card>
         </Col>
+        <Col span={8}>
+            <Card title="Editar Objetivo Mes" size="small">
+                <FoodLoader showTarget editEnabled idsucursal={idsucursal} />
+            </Card>
+        </Col>
+    
+   
+    
     </Row>
-    <Row style={row_style}>
-        <Col span={24}>
-            <Input value={sucursalData.nombre} prefix="Nombre" onChange={(e)=>{onchange("nombre", e.target.value)}}/>
-        </Col>
-    </Row>
-    <Row style={row_style}>
-        <Col span={24}>
-            &Oacute;ptica: <Select value={sucursalData.fkoptica} options={opticasData} onChange={v=>{onchange("fkoptica",v)}} style={{width:"100%"}} />
-        </Col>
-    </Row>
-    <Row style={row_style}>
-        <Col span={24}>
-            <Input value={sucursalData.direccion} prefix="Dirección" onChange={(e)=>{onchange("direccion", e.target.value)}}/>
-        </Col>
-    </Row>
-    <Row style={row_style}>
-        <Col span={24}>
-            <Input value={sucursalData.telefono} prefix="Teléfono" onChange={(e)=>{onchange("telefono", e.target.value)}}/>
-        </Col>
-    </Row>
-    <Row style={row_style}>
-        <Col span={24}>
-            <Input value={sucursalData.whatsapp} prefix="Whatsapp" onChange={(e)=>{onchange("whatsapp", e.target.value)}}/>
-        </Col>
-    </Row>
-    <Row style={row_style}>
-        <Col span={24}>
-            <Input value={sucursalData.instagram} prefix="Instagram" onChange={(e)=>{onchange("instagram", e.target.value)}}/>
-        </Col>
-    </Row>
-    <Row style={row_style}>
-        <Col span={24}>
-            <Input value={sucursalData.facebook} prefix="Facebook" onChange={(e)=>{onchange("facebook", e.target.value)}}/>
-        </Col>
-    </Row>
-    {/*<Row style={row_style}>
-        <Col span={24}>
-            <Input value={sucursalData.objetivo} prefix="Objetivo Mensual" onChange={(e)=>{onchange("objetivo", e.target.value)}}/>
-        </Col>
-    </Row>*/}
-    <Row style={row_style}>
-        <Col span={24}>
-            <Button type="primary" block onClick={onSave}>Guardar</Button>
-        </Col>
-    </Row>
+
+    
    
     </>
 }

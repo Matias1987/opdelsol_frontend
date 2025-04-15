@@ -19,7 +19,7 @@ const OpticaForm = (props) => {
             post.insert.optica,
             {...optica, fkusuario:globals.obtenerUID()},
             (resp)=>{
-                alert(JSON.stringify(resp))
+                //alert(JSON.stringify(resp))
                 if((resp?.data?.message||"")=="ERR")
                 {
                     alert("Error. Ya existe.")

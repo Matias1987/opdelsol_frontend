@@ -1,11 +1,9 @@
 import FoodLoader from "@/components/etc/loader/foodLoader"
 import globals from "@/src/globals"
 import { post_method } from "@/src/helpers/post_helper"
-import { currency_format, parse_int_string } from "@/src/helpers/string_helper"
 import { get, post } from "@/src/urls"
-import { Col, Divider, Progress, Row, Space, Table } from "antd"
+import { Col,  Progress, Row} from "antd"
 import { useEffect, useState } from "react"
-import { global } from "styled-jsx/css"
 
 const VentasVendedor = (props) => {
 
@@ -111,7 +109,7 @@ const VentasVendedor = (props) => {
         <Col span={24}>
             <Row>
                 <Col span={24}>
-                    <i>Objetivo 2 millones:</i>
+                    <i>Objetivo d&iacute;a 2 millones:</i>
                 </Col>
             </Row>
             <Row>
@@ -131,6 +129,12 @@ const VentasVendedor = (props) => {
                     
                 </Col>
             </Row>
+        </Col>
+    </Row>
+    <Row>
+        <Col span={24}>
+        <br />
+            <b>Objetivo Mensual Sucursal</b>
         </Col>
     </Row>
     <Row>
