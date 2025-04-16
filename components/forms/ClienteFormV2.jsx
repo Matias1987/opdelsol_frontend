@@ -9,6 +9,7 @@ import Edad from "../Edad";
 import { validate_only_numbers_and_letters } from "@/src/helpers/string_helper";
 import { UserAddOutlined } from "@ant-design/icons";
 import SelectLocalidad from "../SelectLocalidad";
+import SelectLocalidadV3 from "../SelectLocalidadV3";
 
 
 export default function ClienteFormV2(props){
@@ -315,7 +316,11 @@ export default function ClienteFormV2(props){
                     }} />
             </Col>*/}
             <Col span={12}>
-                <SelectLocalidadV2 callback={(p)=>{
+                <SelectLocalidadV3 
+                fk_localidad={globals.obtenerOpticaLocalidad()}
+                fk_provincia={globals.obtenerOpticaProvincia()}
+                callback={(p)=>{
+                    alert(JSON.stringify(p))
                     onChange(p.idlocalidad,"idlocalidad")
                     }} />
             </Col>

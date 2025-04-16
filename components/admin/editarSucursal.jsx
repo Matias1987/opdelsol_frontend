@@ -4,6 +4,8 @@ import FoodLoader from "../etc/loader/foodLoader"
 import { get, post } from "@/src/urls"
 import { Col, Row, Spin, Input, Button, Select, Divider, Card } from "antd"
 import { useState, useEffect } from "react"
+import SelectLocalidadV2 from "../SelectLocalidadV2"
+import SelectLocalidadV3 from "../SelectLocalidadV3"
 
 const EditarSucursal = (props) => {
 
@@ -43,13 +45,13 @@ const EditarSucursal = (props) => {
 
     const onSave = () => {
 
-        //alert(JSON.stringify(sucursalData))
+      // alert(JSON.stringify(sucursalData))
 
         post_method(post.update.sucursal,sucursalData,(response)=>{
             //alert(JSON.stringify(response))
             if((response?.data?.message||"")=="ERR")
             {
-                alert("Error. Ya existe.")
+                //updated.....
             }
             callback?.()
         })
@@ -99,6 +101,21 @@ const EditarSucursal = (props) => {
                 <Row style={row_style}>
                     <Col span={24}>
                         <Input value={sucursalData.facebook} prefix="Facebook" onChange={(e)=>{onchange("facebook", e.target.value)}}/>
+                    </Col>
+                </Row>
+                <Row style={row_style}>
+                    <Col span={24}>
+                        <SelectLocalidadV3 
+                        fk_localidad={sucursalData.fk_localidad}
+                        fk_provincia={sucursalData.fk_provincia}
+                        callback={(obj)=>{
+                                //alert(JSON.stringify(obj))
+                                setSucursalData(_s=>({
+                                    ..._s,
+                                    fk_localidad: obj.idlocalidad,
+                                    fk_provincia: obj.idprovincia,
+                                }))
+                            }} />
                     </Col>
                 </Row>
                 <Row style={row_style}>

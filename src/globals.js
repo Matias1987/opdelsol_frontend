@@ -44,6 +44,22 @@ const globals =  {
     {
         const {setItem} = useStorage();
         setItem("idoptica",idoptica);
+        setItem("optica_localidad",idoptica);
+    },
+    establecerOptica2: (obj) =>
+    {
+        const {setItem} = useStorage();
+        setItem("idoptica",obj.idoptica);
+        setItem("optica_localidad",obj.fk_localidad);
+        setItem("optica_provincia",obj.fk_provincia);
+    },
+    obtenerOpticaLocalidad:() => {
+        const {getItem} = useStorage();
+        return getItem("optica_localidad");
+    },
+    obtenerOpticaProvincia:() => {
+        const {getItem} = useStorage();
+        return getItem("optica_provincia");
     },
     obtenerOptica: () =>
     {

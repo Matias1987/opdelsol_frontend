@@ -24,6 +24,8 @@ const SucursalSelectModal = (props) => {
                         label: r.nombre,
                         value: r.idsucursal,
                         idoptica: r.fkoptica,
+                        fk_localidad: r.fk_localidad,
+                        fk_provincia: r.fk_provincia,
                         //useTaller: r.set_env_op_taller,
                     }))
                 ]
@@ -54,15 +56,17 @@ const SucursalSelectModal = (props) => {
     },[])
 
     const on_sucursal_selected = (id) => {
+        
         const obj = sucursales.find(s=>s.value==id)
+
         if(typeof obj !== 'undefined')
         {
-            globals.establecerOptica(obj.idoptica)
+            globals.establecerOptica2(obj)
         }
+
         globals.establecerSucursal(id)
         
         setSelectedSucursal(id)
-        
     }
 
     const aplicar = () => {

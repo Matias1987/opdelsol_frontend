@@ -1,3 +1,5 @@
+import globals from "@/src/globals"
+
 const { get } = require("@/src/urls")
 const { Row, Col, Select } = require("antd")
 const { useState, useEffect } = require("react")
@@ -25,7 +27,10 @@ const SelectLocalidadV2 = (props) => {
     }
 
     useEffect(()=>{
-        
+        alert(JSON.stringify({
+            idlocalidad: globals.obtenerOpticaLocalidad(),
+            idprovincia: globals.obtenerOpticaProvincia(),
+        }))
         fetch(get.obtener_provincias)
         .then(e=>e.json())
         .then(response=>{
