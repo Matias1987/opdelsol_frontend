@@ -1,7 +1,7 @@
 import { Button, Col, Input, Row } from "antd";
 import SelectCodigoVenta from "./SelectCodigoVenta";
 import { useRef, useState } from "react";
-import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import { CloseOutlined, DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import globals from "@/src/globals";
 import { parse_float_string } from "@/src/helpers/string_helper";
 
@@ -68,11 +68,11 @@ const VentasArmazon = (props) => {
                     <SelectCodigoVenta idfamilias={[globals.familiaIDs.ARMAZON]} callback={on_codigo_change} />
                 </Col>
                 <Col span={4}>
-                    <Input disabled={armazon.codigo==null} type="number" prefix="Precio: " value={armazon.precio} readOnly={false} onChange={on_precio_change} size="small" />
+                    <Input style={{minWidth:"100px"}} disabled={armazon.codigo==null} type="number" prefix="Precio: " value={armazon.precio} readOnly={false} onChange={on_precio_change} size="small" />
                     {/*<span>Precio:&nbsp;<input readOnly onChange={on_precio_change}  ref={precioRef} style={{textAlign:"right", width:"100px", border: "1px solid #ccc", borderRadius:"6px", borderColor:"lightgray", padding:".4em", fontSize:"1.1em"}}  /></span>*/}
                 </Col>
                 <Col span={1}>
-                <Button size="small" danger onClick={()=>{on_remove()}}><DeleteOutlined/></Button>
+                <Button size="small" danger onClick={()=>{on_remove()}}><CloseOutlined/></Button>
                 </Col>
             </Row>
         </>

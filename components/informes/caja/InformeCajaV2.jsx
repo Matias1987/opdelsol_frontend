@@ -213,7 +213,7 @@ export default function InformeCajaV2(props){
         <Row>
             <Col span={6}>Total Ventas + Cuotas:&nbsp;{currency_format(totales.ventas + totales.cuotas)}&nbsp;</Col>
             <Col span={6}>Total Gastos:&nbsp;{currency_format(totales.gastos)}&nbsp;</Col>
-            <Col span={6}>Monto Transferido:&nbsp;{currency_format(totales.transferido)} &nbsp;Recibido:&nbsp;{totales.recibido}&nbsp;</Col>
+            {/*<Col span={6}>Monto Transferido:&nbsp;{currency_format(totales.transferido)} &nbsp;Recibido:&nbsp;{totales.recibido}&nbsp;</Col>*/}
             <Col span={6}>NETO CAJA:&nbsp;{currency_format(parseFloat(totales.ventas) + parseFloat(totales.cuotas) - parseFloat(totales.gastos) - parseFloat(totales.transferido) + parseFloat(totales.recibido))}</Col>
         </Row>
         </>
@@ -347,7 +347,8 @@ export default function InformeCajaV2(props){
 		</Col>
 		</Row>
         <Row>
-		{dataTransfEnviadas.length<1 ? <></>:
+		{/*
+        dataTransfEnviadas.length<1 ? <></>:
 		<Col span={12} style={{padding:"1em"}}>
 		<b>Monto Transferido</b>
         <table  className="tabla-informe-caja">
@@ -372,8 +373,8 @@ export default function InformeCajaV2(props){
             </tfoot>
         </table>
 		
-		</Col>}
-        {
+		</Col>*/}
+        {/*
             dataTransfRecibidas.length<1 ? <></> :
             <Col span={12} style={{padding:"1em"}}>
             <b>Monto Recibido</b>
@@ -400,7 +401,7 @@ export default function InformeCajaV2(props){
             </table>
             
         </Col>
-    }
+    */}
 </Row>
         </>
     }

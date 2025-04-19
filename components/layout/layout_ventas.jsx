@@ -6,6 +6,7 @@ import globals from "@/src/globals";
 import HeaderSol from "./header";
 import MenuV2 from "./menu_v2";
 import PopupResultadoBusqueda from "../precios/PopupResultadoBusqueda";
+import BarraResumenCaja from "../forms/caja/BarraResumenCaja";
 
 export default function LayoutVentas(props){
     const { Content } = Layout;
@@ -99,7 +100,7 @@ export default function LayoutVentas(props){
 
             }]}
             />
-            
+            {globals.esUsuarioCaja1() ? <BarraResumenCaja /> : <></>}
             <Content style={{ margin: '40px 100px', padding: 24,  borderRadius:"15px", minHeight: 580 }}>
             {
                 (alerta!="") ? <><Alert key={alerta} message={alerta} type="error" showIcon/></>:<></>

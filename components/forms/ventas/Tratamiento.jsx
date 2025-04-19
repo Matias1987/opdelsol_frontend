@@ -1,7 +1,7 @@
 import { Button, Col, Input, Row } from "antd";
 import SelectCodigoVenta from "./SelectCodigoVenta";
 import {useState } from "react";
-import { DeleteOutlined } from "@ant-design/icons";
+import { CloseOutlined, DeleteOutlined } from "@ant-design/icons";
 import globals from "@/src/globals";
 import { parse_float_string } from "@/src/helpers/string_helper";
 
@@ -51,10 +51,10 @@ const VentasTratamiento = (props) => {
                     <SelectCodigoVenta idfamilias={[globals.familiaIDs.TRATAMIENTO]} callback={on_codigo_change} />
                 </Col>
                 <Col span={4}>
-                    <Input disabled={tratamiento.codigo==null} prefix="Precio: " readOnly={false} min={0}   type="number" onChange={on_precio_change} size="small"  value={tratamiento.precio} />
+                    <Input style={{minWidth:"100px"}} disabled={tratamiento.codigo==null} prefix="Precio: " readOnly={false} min={0}   type="number" onChange={on_precio_change} size="small"  value={tratamiento.precio} />
                 </Col>
                 <Col span={1}>
-                <Button size="small" danger onClick={()=>{onRemove()}}><DeleteOutlined/></Button>
+                <Button size="small" danger onClick={()=>{onRemove()}}><CloseOutlined/></Button>
                 </Col>
             </Row>
         </>

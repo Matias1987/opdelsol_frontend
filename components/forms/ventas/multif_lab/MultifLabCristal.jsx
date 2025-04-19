@@ -2,7 +2,7 @@
 import { Button, Col, Form, Input, Row, Select } from "antd";
 import SelectCodigoVenta from "../SelectCodigoVenta";
 import { useEffect, useRef, useState } from "react";
-import { DeleteOutlined } from "@ant-design/icons";
+import { CloseOutlined, DeleteOutlined } from "@ant-design/icons";
 import globals from "@/src/globals";
 import { parse_float_string, validate_esf_cil_eje } from "@/src/helpers/string_helper";
 
@@ -126,21 +126,21 @@ const MultifLabCristal = (props) => {
             }</Button> :
         <>
             <Row>
-                <Col span={13}>
+                <Col span={10}>
                     <SelectCodigoVenta idfamilias={[globals.familiaIDs.CRISTALES]} buttonText={"Seleccionar Código"} callback={onchange_codigo} />
                 </Col>
                 {/*<Col span={1} style={_estilo_label}>
                 &nbsp;Esf:
                 </Col>*/}
-                <Col span={2}>
-                    <Input    prefix="Esf.:" size="small" disabled={cristal.codigo==null} value={cristal.esf} step={".25"} onChange={(e)=>{onchange_esf(e.target.value)}} />
+                <Col span={3}>
+                    <Input style={{minWidth:"100px"}}    prefix="Esf.:" size="small" disabled={cristal.codigo==null} value={cristal.esf} step={".25"} onChange={(e)=>{onchange_esf(e.target.value)}} />
                 </Col>
                 {/*<Col span={1} style={_estilo_label}>
                 &nbsp;Cil:
                 </Col>*/}
-                <Col span={2}>
+                <Col span={3}>
                     {/*<Select size="small" options={itemsCil} onChange={(v)=>{onchange_cil(v)}}/>*/}
-                    <Input   prefix="Cil.:" size="small" disabled={cristal.codigo==null} value={cristal.cil} step={"0.25"} onChange={(e)=>{onchange_cil(e.target.value)}}/>
+                    <Input style={{minWidth:"100px"}}   prefix="Cil.:" size="small" disabled={cristal.codigo==null} value={cristal.cil} step={"0.25"} onChange={(e)=>{onchange_cil(e.target.value)}}/>
                 </Col>
                 {/*<Col span={3}>
                     <Input addonBefore={"Eje:"} onChange={onchange_eje} />&nbsp;
@@ -148,18 +148,18 @@ const MultifLabCristal = (props) => {
                 <Col span={1} style={_estilo_label}>
                     Eje:
                 </Col>*/}
-                <Col span={2}>
-                    <Input  prefix="Eje:" size="small" disabled={cristal.codigo==null} value={cristal.eje} step={"0.25"} onChange={(e)=>{onchange_eje(e.target.value)}} />
+                <Col span={3}>
+                    <Input style={{minWidth:"100px"}}  prefix="Eje:" size="small" disabled={cristal.codigo==null} value={cristal.eje} step={"0.25"} onChange={(e)=>{onchange_eje(e.target.value)}} />
                     {/*<Select size="small" options={itemsEje} onChange={(v)=>{onchange_eje(v)}} />*/}
                 </Col>
                 
                 
                 <Col span={4}>
                     {/*<span>&nbsp;&nbsp;Precio: </span><input readOnly onChange={onchange_precio} ref={precioRef} style={{textAlign:"right", width:"100px", border: "1px solid #ccc", borderRadius:"6px", borderColor:"lightgray", padding:".4em", fontSize:"1.1em"}} />*/}
-                    <Input disabled={cristal.codigo==null} type="number" prefix="Precio:" value={cristal.precio} readOnly={false} onChange={onchange_precio} size="small" />
+                    <Input style={{minWidth:"100px"}} disabled={cristal.codigo==null} type="number" prefix="Precio:" value={cristal.precio} readOnly={false} onChange={onchange_precio} size="small" />
                 </Col>
                 <Col span={1}>
-                    <Button size="small" danger  onClick={()=>{onRemove()}}><DeleteOutlined/></Button>
+                    <Button size="small" danger  onClick={()=>{onRemove()}}><CloseOutlined/></Button>
                 </Col>
             </Row>
 

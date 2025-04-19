@@ -1,7 +1,7 @@
 import { Button, Col,  Input, Row } from "antd";
 import SelectCodigoVenta from "../SelectCodigoVenta";
 import { useState } from "react";
-import { DeleteOutlined } from "@ant-design/icons";
+import { CloseOutlined, DeleteOutlined } from "@ant-design/icons";
 import globals from "@/src/globals";
 import { parse_float_string, validate_esf_cil_eje, validate_only_numbers_and_letters } from "@/src/helpers/string_helper";
 
@@ -73,20 +73,20 @@ const RecStockCristal = (props) => {
             }</Button> :
         <>
             <Row>
-                <Col span={17}>
+                <Col span={15}>
                     <SelectCodigoVenta idfamilias={[globals.familiaIDs.CRISTALES]} buttonText={"Seleccionar Código Cristal"} callback={onchange_codigo} />
                 </Col>
                 {/*<Col span={1} style={_estilo_label}>
                     Eje:
                 </Col>*/}
-                <Col span={2}>
-                    <Input   prefix="Eje:" disabled={cristal.codigo==null} size="small" value={cristal.eje} onChange={(e)=>{onchange_eje(e.target.value)}}/>
+                <Col span={4}>
+                    <Input style={{minWidth:"100px"}}  prefix="Eje:" disabled={cristal.codigo==null} size="small" value={cristal.eje} onChange={(e)=>{onchange_eje(e.target.value)}}/>
                 </Col>
                 <Col span={4}>
-                    <Input disabled={cristal.codigo==null} type="number" value={cristal.precio} readOnly={false} onChange={(e)=>{onchange_precio({precio: parse_float_string(e.target.value)})}} size="small"  prefix="Precio: " />
+                    <Input style={{minWidth:"150px"}} disabled={cristal.codigo==null} type="number" value={cristal.precio} readOnly={false} onChange={(e)=>{onchange_precio({precio: parse_float_string(e.target.value)})}} size="small"  prefix="Precio: " />
                 </Col>
                 <Col span={1}>
-                    <Button danger  size="small" onClick={()=>{onRemove()}}><DeleteOutlined/></Button>
+                    <Button danger  size="small" onClick={()=>{onRemove()}}><CloseOutlined /></Button>
                 </Col>
             </Row>
 

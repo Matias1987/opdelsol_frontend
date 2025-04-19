@@ -2,7 +2,7 @@
 import { Button, Col, Form, Input, Row, Select } from "antd";
 import SelectCodigoVenta from "../SelectCodigoVenta";
 import { useEffect, useRef, useState } from "react";
-import { DeleteOutlined } from "@ant-design/icons";
+import { CloseOutlined, DeleteOutlined } from "@ant-design/icons";
 import globals from "@/src/globals";
 import { parse_float_string, validate_esf_cil_eje } from "@/src/helpers/string_helper";
 
@@ -134,27 +134,27 @@ const MonofLabCristal = (props) => {
                     Esf:
                 </Col>*/}
                 <Col span={3}>
-                    <Input  prefix="Esf.: " size="small"  disabled={cristal.codigo==null}  value={cristal.esf} onChange={(e)=>{onchange_esf(e.target.value)}} />
+                    <Input style={{minWidth:"100px"}}  prefix="Esf.: " size="small"  disabled={cristal.codigo==null}  value={cristal.esf} onChange={(e)=>{onchange_esf(e.target.value)}} />
                 </Col>
                 {/*<Col span={1} style={_estilo_label}>
                     Cil:
                 </Col>*/}
                 <Col span={3}>
-                    <Input  prefix="Cil.: " size="small"  disabled={cristal.codigo==null}   value={cristal.cil} onChange={(e)=>{onchange_cil(e.target.value)}}/>
+                    <Input style={{minWidth:"100px"}}  prefix="Cil.: " size="small"  disabled={cristal.codigo==null}   value={cristal.cil} onChange={(e)=>{onchange_cil(e.target.value)}}/>
                 </Col>
                 {/*<Col span={1} style={_estilo_label}>
                     Eje:
                 </Col>*/}
                 <Col span={3}>
-                    <Input  prefix="Eje.: "  size="small"  disabled={cristal.codigo==null}  value={cristal.eje} onChange={(e)=>{onchange_eje(e.target.value)}}/>
+                    <Input style={{minWidth:"100px"}}  prefix="Eje.: "  size="small"  disabled={cristal.codigo==null}  value={cristal.eje} onChange={(e)=>{onchange_eje(e.target.value)}}/>
                 </Col>
                 
                 
                 <Col span={4}>
-                    <Input disabled={cristal.codigo==null} type="number" readOnly={false} size="small"  prefix="Precio" value={cristal.precio} onChange={onchange_precio} />
+                    <Input style={{minWidth:"100px"}} disabled={cristal.codigo==null} type="number" readOnly={false} size="small"  prefix="Precio" value={cristal.precio} onChange={onchange_precio} />
                 </Col>
                 <Col span={1}>
-                    <Button danger size="small" onClick={()=>{onRemove()}}><DeleteOutlined/></Button>
+                    <Button danger size="small" onClick={()=>{onRemove()}}><CloseOutlined/></Button>
                 </Col>
             </Row>
 
