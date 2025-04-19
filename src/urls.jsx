@@ -446,6 +446,8 @@ const get = {
 
     default_product_image: remote_base_url + "img/def/",
 
+    resumen_caja: remote_base_url + "caja/resumen/caja/s/",
+
     
 }
 

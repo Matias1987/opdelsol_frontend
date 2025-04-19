@@ -1,5 +1,5 @@
 
-import { Button, Col, Modal, Row, Table } from "antd"
+import { Button, Card, Col, Modal, Row, Table } from "antd"
 import { useEffect, useState } from "react"
 import AnotacionForm from "./anotacion_form"
 import { get, post } from "@/src/urls"
@@ -16,9 +16,9 @@ const Anotaciones = (props) => {
     const [anotaciones, setAnotaciones] = useState([])
     
     const columns = [
-        {dataIndex: 'fecha_f' ,title:<span style={{fontSize:".65em", fontWeight:"bold", color:"#000680"}}>Fecha</span>},
-        {dataIndex: 'usuario',title:<span style={{fontSize:".65em", fontWeight:"bold", color:"#000680"}}>Autor</span>},
-        {dataIndex: 'nota',title:<span style={{fontSize:".65em", fontWeight:"bold", color:"#000680"}}>Mensaje</span>},
+        {width:"80px", dataIndex: 'fecha_f' ,title:<span style={{fontSize:".65em", fontWeight:"bold", color:"#000680"}}>Fecha</span>},
+        {width:"90px", dataIndex: 'usuario',title:<span style={{fontSize:".65em", fontWeight:"bold", color:"#000680"}}>Autor</span>},
+        {width:"300px", dataIndex: 'nota',title:<span style={{fontSize:".65em", fontWeight:"bold", color:"#000680"}}>Mensaje</span>},
     ]
 
     useEffect(()=>{load()},[update])
@@ -35,30 +35,34 @@ const Anotaciones = (props) => {
         )
     }
 
-    return <div style={{border:"1px solid #6E7F80"}}>
-
-       <div style={{marginTop:"-12px", backgroundColor:"white", padding:".13em", width:"fit-content", fontWeight:"bold", color:"blue"}}><i>Anotaciones</i></div>
-        <Row>
-            <Col span={22}>
-                <Table dataSource={anotaciones} columns={columns} scroll={{y:"200px"}} size="small" />
-            </Col>
-            <Col span={2}>
-                <Button onClick={()=>{setPopupAddOpen(true)}} type="primary" style={{width:"100%", height:"100%", maxWidth:"50px"}} block><PlusOutlined /></Button>
-            </Col>
-        </Row>
-        <Row>
-           
-        </Row>
+    return <>
+       {/*<div style={{marginTop:"-12px", backgroundColor:"white", padding:".13em", width:"fit-content", fontWeight:"bold", color:"blue"}}><i>Anotaciones</i></div>*/}
+       <Card
+       size="small"
+       title={<>Anotaciones&nbsp;<Button onClick={()=>{setPopupAddOpen(true)}} type="link" size="small"  ><PlusOutlined size={"small"} /></Button></>}
+       >
+            <Row>
+                <Col span={24}>
+                    <Table 
+                    dataSource={anotaciones} 
+                    columns={columns} 
+                    scroll={{y:"200px"}} 
+                    size="small" />
+                </Col>
+                
+            </Row>
+        </Card>
         <Modal 
-        title="Agregar Anotacion"
+        title="Agregar Anotación"
         open={popupAddOpen}
         onCancel={onPopupCancel}
         footer={null}
+        width={"450px"}
         >
             <AnotacionForm refId={props.idref} tipo={props?.tipo||""} callback={()=>{setPopupAddOpen(false); setUpdate(!update)}} />
         </Modal> 
     
-    </div>
+        </>
 }
 
 export default Anotaciones

@@ -9,9 +9,11 @@ const SelectLocalidadV3 = (props) => {
 
     const [localidades, setLocalidades] = useState([])
     const [provincias, setProvincias] = useState([])
-    const [firstLoad, setFirstLoad] = useState(true)
-    const _row_style = {}
-    const [selectedLocalidad, setSelectedLocalidad] =  useState({
+    
+    const [provinciasLoading, setProvinciasLoading] = useState(true)
+    const [localidadLoading, setLocalidadLoading] = useState(true)
+
+    const [selection, setSelection] =  useState({
         idlocalidad: fk_localidad,
         //iddepartamento: 162,
         idprovincia: fk_provincia,
@@ -20,37 +22,11 @@ const SelectLocalidadV3 = (props) => {
         provincia: ""
     })
 
-    const _select_style = {
-        width:"100%",
-        fontSize: "1.1em",
-        backgroundColor: "white",
-        color: "#181E21",
-        padding: ".32em",
-        borderColor: "#D9D9D9",
-    }
+
 
     useEffect(()=>{
 
-        setSelectedLocalidad(l=>({...l,idlocalidad:fk_localidad,idprovincia:fk_provincia}))
-       
-        setFirstLoad(true)
-        fetch(get.obtener_provincias)
-        .then(e=>e.json())
-        .then(response=>{
-            setProvincias(_=>
-                
-                [{idprovincia: -1, provincia:"", value:-1, label:""}].concat(response.data.map(r=>({
-                    idprovincia: r.idprovincia,
-                    provincia: r.provincia,
-                    value: r.idprovincia,
-                    label: r.provincia,
-                    
-                })))   
-            )
-            
-        
-        }
-        )
+        load_provincias()
         load_localidades()
         props?.callback?.({idlocalidad:fk_localidad, idprovincia: fk_provincia })
     },[])
@@ -59,7 +35,7 @@ const SelectLocalidadV3 = (props) => {
        
         const prov = provincias.find(p=>p.idprovincia==v)
         
-        setSelectedLocalidad(s=>{
+        setSelection(s=>{
             const _loc = {
                 ...s,
                 idprovincia: prov.idprovincia,
@@ -76,7 +52,8 @@ const SelectLocalidadV3 = (props) => {
     }
 
     const _on_localidad_change = (l)=>{
-        setSelectedLocalidad(v=>{
+        
+        setSelection(v=>{
          
             const loc = localidades.find(r=>r.idlocalidad==l)
    
@@ -88,12 +65,34 @@ const SelectLocalidadV3 = (props) => {
                 departamento: loc.departamento
             }
             
-            props?.callback?.({idlocalidad: loc.idlocalidad, idprovincia: selectedLocalidad.idprovincia })
+            props?.callback?.({idlocalidad: loc.idlocalidad, idprovincia: selection.idprovincia })
             return _localidad
         })
     }
 
+    const load_provincias = () => {
+        setProvinciasLoading(true)
+        fetch(get.obtener_provincias)
+        .then(e=>e.json())
+        .then(response=>{
+            setProvincias(_=>
+                
+                [{idprovincia: -1, provincia:"", value:-1, label:""}].concat(response.data.map(r=>({
+                    idprovincia: r.idprovincia,
+                    provincia: r.provincia,
+                    value: r.idprovincia,
+                    label: r.provincia,
+                    
+                })))   
+
+            )
+            setProvinciasLoading(false)
+        }
+        )
+    }
+
     const load_localidades = () => {
+        setLocalidadLoading(true)
         fetch(get.obtener_localidades_provincia +'-1')
         .then(resp=>resp.json())
         .then((response)=>{
@@ -112,39 +111,36 @@ const SelectLocalidadV3 = (props) => {
                         }))
                     )
                 )
-               
+            setLocalidadLoading(false)
                
         })
     }
 
-    return provincias == null ? <></> : <>
-        <Row>
-            
-            <Col span={11}>
-                <Select  
-                defaultValue={fk_provincia}
-                value={selectedLocalidad.idprovincia} 
-                onChange={_on_provincia_change} 
-                prefix={"Prov.: "} 
-                options={provincias} 
-                style={{width:"100%", overflow:"hidden"}} />
-            </Col>
-            <Col span={4} style={{textAlign:"right", paddingTop:".5em" }}>
-                &nbsp;Loc.:&nbsp;
-            </Col>
-            <Col span={9}>
-                {/*_localidades_()*/}
-                <Select 
-                defaultValue={fk_localidad}
-                options={localidades.filter(r=>+r.provincia_id==+selectedLocalidad.idprovincia)} 
-                value={selectedLocalidad.idlocalidad}  
-                style={{width:"100%", overflow:"hidden"}} 
-                onChange={_on_localidad_change}
-                />
-            </Col>
+    return   <Row>
+            { provinciasLoading ? <></> :
+                <Col span={11}>
+                    <Select  
+                    defaultValue={fk_provincia}
+                    value={selection.idprovincia} 
+                    onChange={_on_provincia_change} 
+                    prefix={"Prov.: "} 
+                    options={provincias} 
+                    style={{width:"100%", overflow:"hidden"}} />
+                </Col>
+            }
+            { localidadLoading || localidades.filter(r=>+r.provincia_id==+fk_provincia).length<1 ? <></>:
+                <Col span={11}>
+                    <Select 
+                    prefix={"Loc.: "}
+                    defaultValue={fk_localidad}
+                    options={localidades.filter(r=>+r.provincia_id==+fk_provincia)} 
+                    value={selection.idlocalidad}  
+                    style={{width:"100%", overflow:"hidden"}} 
+                    onChange={_on_localidad_change}
+                    />
+                </Col>
+            }
         </Row>
-        
-    </>
 }
 
 

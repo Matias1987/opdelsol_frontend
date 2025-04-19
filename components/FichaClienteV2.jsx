@@ -30,7 +30,7 @@ export default function FichaClienteV2(props){
     const [fix, setFix] = useState(0)
     const dummyref = useRef(null)
 
-    const bloquear = _ => {
+    /*const bloquear = _ => {
         if(!confirm("Bloquear Cuenta?"))
         {
             return
@@ -47,7 +47,7 @@ export default function FichaClienteV2(props){
         post_method(post.update.anular_carga_manual,{id:id},(response)=>{
             setReload(!reload)
         })
-    }
+    }*/
     const desBloquear = _ => {
         if(!confirm("Desbloquear Cuenta?"))
         {
@@ -133,7 +133,6 @@ export default function FichaClienteV2(props){
              idcliente: props.idcliente,
              idsucursal: _filtrarSucursal ? globals.obtenerSucursal() : -1
          },(response)=>{
-            //alert(JSON.stringify(response.data))
              setOperaciones(response.data)
              setScrollChange(true)
              setLoading(false)
@@ -245,9 +244,8 @@ export default function FichaClienteV2(props){
             
         </Col>
     </Row>
-    
     <Row>
-        <Col span={24} style={{padding:"2em", height:"180px", overflowY:"scroll"}}>
+        <Col span={24} >
             {dataCliente==null ? <></> :  <Anotaciones tipo="CLIENTE" idref={dataCliente.idcliente} key={fix} />}
         </Col>
     </Row>

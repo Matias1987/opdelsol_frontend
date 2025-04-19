@@ -225,7 +225,7 @@ const ListaVentas = (props) => {
             <span style={{fontSize:".75em", }}><b>{get_tipo(tipo)}</b></span>
         ) },
         {width:"100px", hidden: false, title: "Fecha", dataIndex:"fecha"},
-        {width:"200px", hidden: false, title: "Cliente", dataIndex:"cliente"},
+        {width:"180px", hidden: false, title: "Cliente", dataIndex:"cliente"},
         {width:"110px", hidden: false, title: "Vendedor", dataIndex:"vendedor"},
         {width:"80px", hidden: (props.mostrarEstado||"1") == "0" , title: "Estado", dataIndex:"estado", render:(_,{estado})=>{
             switch(estado){
@@ -238,7 +238,7 @@ const ListaVentas = (props) => {
         }},
         {width:"110px", hidden: false, title:<div style={{textAlign:"right"}}>Monto</div> , dataIndex:"monto", render:(_,{monto})=><div style={{textAlign:"right"}}>$&nbsp;{parseFloat(monto)}</div>},
         {width:"110px", hidden: false, title: "Sucursal", dataIndex:"sucursal"},
-        {width:"300px", hidden: false, title: "Acciones", dataIndex:"idventa", render: (_,{idventa,idcliente, idsucursal, tipo})=>{
+        {width:"200px", hidden: false, title: "Acciones", dataIndex:"idventa", render: (_,{idventa,idcliente, idsucursal, tipo})=>{
             return <>
                 {buttons(idventa,idcliente, idsucursal, tipo)}
             </>

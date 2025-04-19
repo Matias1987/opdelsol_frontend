@@ -1,5 +1,5 @@
 import { get, post } from "@/src/urls"
-import { Button, Checkbox, Col, Input, Row, Spin, Table, Tag } from "antd"
+import { Button, Checkbox, Col, Divider, Input, Row, Spin, Table, Tag } from "antd"
 import { useEffect, useRef, useState } from "react"
 import CobroOperacion from "./forms/caja/CobroForm"
 import CargaManual from "./forms/caja/CargaManual"
@@ -53,10 +53,10 @@ export default function FichaCliente(props){
     
 
     const columns = [
-        {dataIndex: 'id',  title: 'Nro.'},
-        {dataIndex: 'fecha_f',  title: 'Fecha'},
+        { width:"90px", dataIndex: 'id',  title: 'Nro.'},
+        { width:"90px", dataIndex: 'fecha_f',  title: 'Fecha'},
         
-        {dataIndex: 'detalle',  title: 'Detalle', render:(_,{detalle,id,tipo})=>{
+        { width:"300px", dataIndex: 'detalle',  title: 'Detalle', render:(_,{detalle,id,tipo})=>{
             {switch(tipo){
                     case 'VENTA': return <>{detalle}</>; break;
                     case 'PAGO CUOTA': 
@@ -80,9 +80,9 @@ export default function FichaCliente(props){
             }
           
         }},
-        {dataIndex: 'debe',  title: 'Debe', align: 'right', render:(_,{debe})=>(<>{parseFloat(debe||0).toFixed(2)}</>)},
-        {dataIndex: 'haber',  title: 'Haber', align: 'right', render:(_,{haber})=>(<>{parseFloat(haber||0).toFixed(2)}</>)},
-        { title: 'Saldo', align: 'right', dataIndex:'saldo', render:(_,{saldo})=>(<>{parseFloat(saldo||0).toFixed(2)}</>) },
+        { width:"120px", dataIndex: 'debe',  title: 'Debe', align: 'right', render:(_,{debe})=>(<>{parseFloat(debe||0).toFixed(2)}</>)},
+        { width:"120px", dataIndex: 'haber',  title: 'Haber', align: 'right', render:(_,{haber})=>(<>{parseFloat(haber||0).toFixed(2)}</>)},
+        { width:"120px",  title: 'Saldo', align: 'right', dataIndex:'saldo', render:(_,{saldo})=>(<>{parseFloat(saldo||0).toFixed(2)}</>) },
     ]
 
     const detalles_cliente =_ => dataCliente === null ? <Spin /> : <>
@@ -185,7 +185,7 @@ export default function FichaCliente(props){
         <Col span={24} className="scrollable-div" >
             
                 {<Table 
-                
+                size="small"
                 loading={loading}
                 columns={columns} 
                 dataSource={operaciones} 
@@ -261,9 +261,9 @@ export default function FichaCliente(props){
             
         </Col>
     </Row>
-    
+    <Divider />
     <Row>
-        <Col span={24} style={{padding:"2em", height:"180px", overflowY:"scroll"}}>
+        <Col span={24}>
             {dataCliente==null ? <></> :  <Anotaciones tipo="CLIENTE" idref={dataCliente.idcliente} key={fix} />}
         </Col>
     </Row>

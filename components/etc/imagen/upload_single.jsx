@@ -34,7 +34,7 @@ const UploadSingle = props => {
             const body = {fname: info.file.name, fk_ref: fkref, tipo:tipo}
             //alert(JSON.stringify(body))
             post_method(post.register_image, body, (response)=>{
-                alert("OK");
+                alert("Imagen Cargada.");
                 callback?.()
             })
             //message.success(`${info.file.name} file uploaded successfully`);

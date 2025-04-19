@@ -317,10 +317,10 @@ export default function ClienteFormV2(props){
             </Col>*/}
             <Col span={12}>
                 <SelectLocalidadV3 
-                fk_localidad={globals.obtenerOpticaLocalidad()}
-                fk_provincia={globals.obtenerOpticaProvincia()}
+                fk_localidad={+globals.obtenerOpticaLocalidad()}
+                fk_provincia={+globals.obtenerOpticaProvincia()}
                 callback={(p)=>{
-                    alert(JSON.stringify(p))
+                    //alert(JSON.stringify(p))
                     onChange(p.idlocalidad,"idlocalidad")
                     }} />
             </Col>
