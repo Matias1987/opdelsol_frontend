@@ -48,7 +48,7 @@ export default function VentaLCStock(){
 
     return (
         <>
-        <h2 style={{color:"#312EB4"}}>Venta de Lentes de Contacto Stock</h2>
+        <span className="ventas-titulo">Venta de Lentes de Contacto Stock</span>
         <VentaBase subTotal={subTotal} total={total} onfinish={onFinish} callback={callback_venta_modif}>
             <LCStockItems callback={onProductosChange} />
         </VentaBase>

@@ -56,7 +56,7 @@ export default function VentaMonofocalesLab(){
     }
 
     return (<>
-    <h2 style={{color:"#312EB4"}}>Venta de Monofocales Laboratorio</h2>
+    <span className="ventas-titulo">Venta de Monofocales Laboratorio</span>
     <VentaBase subTotal={subTotal} total={total} onfinish={onFinish} callback={callback_venta_modif}>
         <MonofLabItems callback={onProductosCallback}/>
     </VentaBase>

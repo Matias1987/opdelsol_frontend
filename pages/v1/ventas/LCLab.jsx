@@ -61,7 +61,7 @@ export default function VentaLCLab(){
 
     return (
     <>
-    <h2 style={{color:"#312EB4"}}>Venta de Lentes de Contacto Laboratorio</h2>
+    <span className="ventas-titulo">Venta de Lentes de Contacto Laboratorio</span>
     <VentaBase subTotal={subTotal} total={total} onfinish={onFinish} callback={callback_venta_modif}>
         <LCLabItems callback={products_callback} />
     </VentaBase>

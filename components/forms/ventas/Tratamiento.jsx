@@ -51,7 +51,7 @@ const VentasTratamiento = (props) => {
                     <SelectCodigoVenta idfamilias={[globals.familiaIDs.TRATAMIENTO]} callback={on_codigo_change} />
                 </Col>
                 <Col span={4}>
-                    <Input style={{minWidth:"100px"}} disabled={tratamiento.codigo==null} prefix="Precio: " readOnly={false} min={0}   type="number" onChange={on_precio_change} size="small"  value={tratamiento.precio} />
+                    <Input style={{minWidth:"100px", }} disabled={tratamiento.codigo==null} prefix="Precio: " readOnly={false} min={0}   type="number" onChange={on_precio_change} size="small"  value={tratamiento.precio} />
                 </Col>
                 <Col span={1}>
                 <Button size="small" danger onClick={()=>{onRemove()}}><CloseOutlined/></Button>

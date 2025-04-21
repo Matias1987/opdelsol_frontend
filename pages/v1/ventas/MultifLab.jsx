@@ -59,7 +59,7 @@ export default function VentaMultifocalesLab(){
     }
 
     return (<>
-    <h2 style={{color:"#312EB4"}}>Venta de Multifocales Laboratorio</h2>
+    <span className="ventas-titulo">Venta de Multifocales Laboratorio</span>
     <VentaBase subTotal={subTotal} total={total} onfinish={onFinish} callback={callback_venta_modif}>
         <MultifLabItems callback={onProductosCallback} />
     </VentaBase>

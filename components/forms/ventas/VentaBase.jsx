@@ -68,7 +68,7 @@ export default function VentaBase(props){
     const tabs_items = [
         {
             key: 'paso1',
-            label: <span style={{fontWeight:"bold"}}>Cliente y Medico</span>,
+            label: <span style={{fontWeight:"600"}}>Cliente y Medico</span>,
             children: 
             <>
             <Row className="table-row-dark"  style={{padding:".9em"}}>
@@ -97,7 +97,7 @@ export default function VentaBase(props){
         },
         {
             key: 'paso2',
-            label: <span style={{fontWeight:"bold"}}>Productos</span>,
+            label: <span style={{fontWeight:"600"}}>Productos</span>,
             children: 
             <Row>
                 <Col span={24}>
@@ -109,7 +109,7 @@ export default function VentaBase(props){
         },
         {
             key: 'paso3',
-            label: <span style={{fontWeight:"bold"}}>Modo de Pago</span>,
+            label: <span style={{fontWeight:"600"}}>Modo de Pago</span>,
             children: 
             <Row>
                 <Col span={24}>
@@ -135,7 +135,7 @@ export default function VentaBase(props){
         {
             /* fecha y hora de entrega opcional */
             key: 'paso4',
-            label: <span style={{fontWeight:"bold"}}>Finalizar Sobre</span>,
+            label: <span style={{fontWeight:"600"}}>Finalizar Sobre</span>,
             children: 
             <Row>
                 {

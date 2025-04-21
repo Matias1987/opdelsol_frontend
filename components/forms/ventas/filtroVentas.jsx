@@ -72,7 +72,7 @@ const FiltroVentas =(props) => {
 
     
     const filtros_content = _=> <>
-        <Card title="Filtros" size="small" styles={{borderRadius:"16px", body:{backgroundColor:"rgba(209,241,243,0.25)"}}}>
+        {/*<Card title="Filtros" size="small" styles={{borderRadius:"16px", body:{backgroundColor:"rgba(209,241,243,0.25)"}}}>*/}
             <Row>
                 <Col span={12}>
                     <Row style={{padding: "3px"}}>
@@ -86,7 +86,7 @@ const FiltroVentas =(props) => {
                             <Select 
                             disabled={!(typeof estado==='undefined') }
                             size="small"
-                            prefix={<span style={{fontWeight:"bold"}}>Estado: </span>}
+                            prefix={<span>Estado: </span>}
                             style={{width:"200px"}} 
                             onChange={(v)=>{onChange("estado",v)}}
                             value={filtros.estado}
@@ -106,7 +106,7 @@ const FiltroVentas =(props) => {
                         <Col span={12}>
                             <Select 
                             size="small"
-                            prefix={<span style={{fontWeight:"bold"}}>Tipo: </span>}
+                            prefix={<span>Tipo: </span>}
                             style={{width:"200px"}} 
                             onChange={(v)=>{onChange("tipo",v)}}
                             options={[
@@ -125,13 +125,13 @@ const FiltroVentas =(props) => {
                 <Col span={12}>
                     <Row style={{padding: "3px"}}>
                         <Col span={24}>
-                            <span style={{color:"darkblue"}}><i>Cliente o Destinatario:</i></span>&nbsp;&nbsp;
+                        Cliente o Destinatario:
                             <SelectCliente minVersion callback={onSelectCliente} />
                         </Col>
                     </Row>
                     <Row style={{padding: "3px"}}>
                         <Col span={24}>
-                        <span style={{color:"darkblue"}}><i>M&eacute;dico:&nbsp;&nbsp;</i></span>
+                        M&eacute;dico:&nbsp;&nbsp;
                             <SelectMedico callback={onSelectMedico} />
                         </Col>
                     </Row>
@@ -182,7 +182,7 @@ const FiltroVentas =(props) => {
                     </Row>
                 </Col>
             </Row>
-        </Card>
+        {/*</Card>*/}
     </>
 
 

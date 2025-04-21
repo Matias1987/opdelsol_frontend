@@ -25,7 +25,7 @@ export default function App({ Component, pageProps }) {
         //algorithm: theme.compactAlgorithm,
         token: {
           //// Seed Token
-          colorPrimary: "#312EB4",// "#FF9900",//"#0052C4",//"#00502F",//'#007745',//'#00b96b',
+          colorPrimary: "#1A214A", //"#312EB4",// "#FF9900",//"#0052C4",//"#00502F",//'#007745',//'#00b96b',
           borderRadius: 2,
   
           // Alias Token

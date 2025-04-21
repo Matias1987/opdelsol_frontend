@@ -167,7 +167,7 @@ const BuscarVentaV2 = (props)=>{
     width={"95%"} 
     onCancel={onCancel} 
     open={open} 
-    title={<>Buscar Venta &nbsp;&nbsp;<span style={{fontSize:".8em", color: "gray"}} ><i>(M&aacute;x. 200)</i> </span></>}> 
+    title={<>Buscar Venta</>}> 
     <Row>
         <Col span={4}>
             <FiltroVentas callback={f=>{ setFiltros(_f=>f); setReload(!reload)}} />

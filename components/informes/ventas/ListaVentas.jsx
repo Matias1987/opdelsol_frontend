@@ -9,7 +9,7 @@ import { InfoCircleFilled, InfoOutlined, ReloadOutlined } from "@ant-design/icon
 import VentaDetallePopup from "@/components/VentaDetalle";
 import { current_date_ymd } from "@/src/helpers/string_helper";
 import { registrarVentaAnulado, registrarVentaTerminado } from "@/src/helpers/evento_helper";
-import { Table, Button, Tag, Row, Col, Modal, Card } from "antd"
+import { Table, Button, Tag, Row, Col, Modal, Card, Collapse } from "antd"
 import CobroOperacionV2 from "@/components/forms/caja/CobroFormV2";
 import PrinterWrapper from "@/components/PrinterWrapper";
 import InformeVenta from "./Base";
@@ -248,6 +248,14 @@ const ListaVentas = (props) => {
     const _row_style = {
         padding: '.2em',
     }
+
+    const items = [
+        {
+          key: '1',
+          label: 'Búsqueda',
+          children: <FiltroVentas estado={estado} embedded callback={f=>{ setFiltros(_f=>f); setReload(!reload)}} />,
+        },
+    ]
 //title={_=><><Button style={{color:"white"}} type="ghost" size="small" onClick={()=>{setReload(!reload)}}><ReloadOutlined size={"small"} /> Recargar</Button></>}
     return <>
     <Card
@@ -262,7 +270,8 @@ const ListaVentas = (props) => {
 
         <Row>
             <Col  style={{..._row_style,width:"700px"}}>
-                {typeof props.ocultarFiltros !== 'undefined' ? <></> : <FiltroVentas estado={estado} embedded callback={f=>{ setFiltros(_f=>f); setReload(!reload)}} /> }
+                {typeof props.ocultarFiltros !== 'undefined' ? <></> : <Collapse defaultActiveKey={['-1']} items={items}></Collapse> }
+                {/* <FiltroVentas estado={estado} embedded callback={f=>{ setFiltros(_f=>f); setReload(!reload)}} />*/}
             </Col>
         </Row>
         <Row>

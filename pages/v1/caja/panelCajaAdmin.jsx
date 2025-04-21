@@ -64,12 +64,18 @@ export default function panelCajaAdmin(){
         return loading ? <Spin/> :<> 
         {caja == null ? caja_cerrada() : detalle_caja()} 
         <br/>
-        { caja==null ? <></> :
-        <Row style={{backgroundColor:"lightyellow"}}>
-            <Col span={24} style={{border:"1px solid black"}}>
-                <InformeCajaV3 idcaja={caja.idcaja} idsucursal={globals.obtenerSucursal()} />
+        { caja==null ? <></> :<>
+        <Row>
+            <Col span={24}><b>Informe de Caja</b></Col>
+        </Row>
+        <Row style={{backgroundColor:"white"}}>
+            <Col span={24}>
+                <div style={{width:"100%", overflow:"scroll", height:"450px", minWidth:"1100px"}}>
+                    <InformeCajaV3 idcaja={caja.idcaja} idsucursal={globals.obtenerSucursal()} />
+                </div>
             </Col>
         </Row>
+        </>
         }
         <br />
         

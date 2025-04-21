@@ -183,10 +183,10 @@ a::before{
   background-color: #E9E9E9
 }*/
 .table-row-light {
-  background-color: #FDFFEA;/*#f9ffc2;#F9F9C5;*/
+  background-color: #ffffff;/*#f9ffc2;#F9F9C5;*/
 }
 .table-row-dark {
-  background-color: #EAFEE3;/* #daffcc;#e7f0fc;*/
+  background-color: #e6e6e6;/* #daffcc;#e7f0fc;*/
 }
 .error-row {
   background-color: #eb331a;
@@ -205,7 +205,7 @@ a::before{
   color:#4696E7;
 }
 .ant-table-title {
-  background-color: #03045E!important;
+  background-color: #00306E!important;
   color:white!important;
   font-size: 1.2em;
 }
@@ -329,6 +329,12 @@ just some testing
 .select-wrapper {
   width: 250px;
   overflow: hidden;
+}
+
+.ventas-titulo{
+  color:#1A214A; 
+  font-weight:600; 
+  font-size:1.4em;
 }
 
 /**
