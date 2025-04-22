@@ -5,7 +5,7 @@ import globals from "@/src/globals";
 import SearchStockEnvio from "./deposito/SearchStockEnvio";
 import { CloseCircleFilled, DownOutlined, UpOutlined } from "@ant-design/icons";
 import { post_method } from "@/src/helpers/post_helper";
-import { get, post } from "@/src/urls";
+import { get, informes, post, public_urls } from "@/src/urls";
 
 const EnvioForm = (props) => {
     const [tableData,setTableData] = useState([])
@@ -105,7 +105,7 @@ const EnvioForm = (props) => {
         post_method(post.insert.envio,__values,(res)=>{
             if(res.status == "OK"){
                 alert("Datos Guardados")
-                window.location.replace(urls.informes.envio+res.data);
+                window.location.replace(informes.envio+res.data);
             }else{alert("Error.")}});
       };
       

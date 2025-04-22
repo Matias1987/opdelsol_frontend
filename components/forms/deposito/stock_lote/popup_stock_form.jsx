@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { Form, Card, Button, Modal, Input, Select, Space, Row, Col, Radio, Checkbox } from "antd"
 
 const PopUpAgregarStockLoteForm = (props) => {
+    const {idsubgrupo}=props
     const [form] = Form.useForm();
     const [pattern, setPattern] = useState(0)
     const [part1, setPart1] = useState("")
@@ -72,6 +73,7 @@ const PopUpAgregarStockLoteForm = (props) => {
             form.setFieldsValue({edad:val})
             break;
         case "precio":
+            //alert(val)
             form.setFieldsValue({precio:val})
             break;
         case "modo_precio":
@@ -154,7 +156,7 @@ useEffect(()=>{
         
         setValue("precio",0);
         setValue("modo_precio",0)
-        setPrecioSubgrupo(props.precioDefecto)
+        setPrecioSubgrupo(+props.precioDefecto)
         setMultiplicador(props.multiplicador)
 
     }
@@ -212,6 +214,7 @@ useEffect(()=>{
 
                             value={modoPrecio}
                             onChange={(e)=>{
+                                
                             setModoPrecio(v=>{
                                 //alert(e.target.value)
                                 switch(+e.target.value)
@@ -223,6 +226,7 @@ useEffect(()=>{
                                     ); 
                                     break; 
                                     case 1: 
+                                    //alert(precioSubgrupo)
                                     setValue(
                                         'precio',
                                         parseFloat(precioSubgrupo)

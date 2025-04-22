@@ -550,7 +550,7 @@ export default function AgregarStockLoteV3(props){
                 footer={null}
             >
                 {/*<PopUpAgregarStockLoteForm callback={(_data)=>{ agregarRow(_data); setPopupAddOpen(false); }}/>*/}
-                <PopUpAgregarStockLoteForm callback={(_data)=>{ agregarRow(_data); setPopupAddOpen(false); }}/>
+                <PopUpAgregarStockLoteForm idsubgrupo={idSubgrupo} precioDefecto={typeof subgrupo?.precio_defecto === 'undefined'? 0 : subgrupo?.precio_defecto} callback={(_data)=>{ agregarRow(_data); setPopupAddOpen(false); }}/>
             </Modal>
         </>
     )
