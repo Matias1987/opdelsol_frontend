@@ -88,7 +88,7 @@ const InformeVenta = (props) => {
 				<tbody>
 					<tr>
 						<td>
-							<table style={{height: '21px', width:'100%', border:'1', cellspacing:'0', cellpadding:'0',}}>
+						<table style={{height: '21px', width:'100%', border:'1px solid black', padding:"6px", borderRadius:"16px", cellspacing:'0', cellpadding:'0',}}>
 								<tbody>
 									<tr>
 										<td width='250px'>
@@ -143,7 +143,7 @@ const InformeVenta = (props) => {
 						</td></tr>
 					<tr>
 						<td>
-							<table style={{height: '21px', width:'100%'}} >
+						<table style={{height: '21px', width:'100%', border:'1px solid black', padding:"6px", borderRadius:"16px",}} >
 								<tbody>
 									<tr>
 										<td>
@@ -172,14 +172,13 @@ const InformeVenta = (props) => {
 						</td>
 					</tr>
 					<tr>
-						<td>
+						<td style={{border:'1px solid black', padding:"6px", borderRadius:"16px",}}>
 							{productos()}
-							<hr />
 						</td>
 					</tr>
 					<tr>
 						<td>
-							<table width='100%' border='0' cellspacing='0' cellpadding='0'>
+						<table width='100%' border='0' cellspacing='0' cellpadding='0' style={{border:'1px solid black', padding:"6px", borderRadius:"16px",}}>
 								<tbody>
 									<tr>
 										<td>

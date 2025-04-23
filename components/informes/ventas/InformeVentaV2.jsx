@@ -198,6 +198,7 @@ const InformeVentaV2 = (props) => {
                         <span>ANULADO<br /> </span>
                         </div>
                     }
+                    
 
                     <div  style={{width: '100%', paddingLeft: '12px', paddingRight: '12px', paddingTop: '20px'}}> 
                     <table style={{height: '78px', width:'96%', border:'0', cellspacing:'0', cellpadding:'0', fontSize:"16px", padding:"0"}}>
