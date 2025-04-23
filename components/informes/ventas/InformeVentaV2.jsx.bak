@@ -187,7 +187,7 @@ const InformeVentaV2 = (props) => {
 		{data === null ? <Spin /> :
         <>
         <ReactToPrint pageStyle={page_style} trigger={linkToPrint} content={() => componentRef.current} />
-               
+                <hr />
                 <br />
                 
                 <div ref={componentRef} >
@@ -200,11 +200,11 @@ const InformeVentaV2 = (props) => {
                     }
 
                     <div  style={{width: '100%', paddingLeft: '12px', paddingRight: '12px', paddingTop: '20px'}}> 
-                    <table style={{height: '78px', width:'96%', border:'0', cellspacing:'0', cellpadding:'0', fontSize:"16px", padding:"0"}}>
+                    <table style={{height: '78px', width:'96%', border:'1', cellspacing:'0', cellpadding:'0', fontSize:"16px", padding:"0"}}>
                         <tbody>
                             <tr>
                                 <td>
-                                    <table style={{height: '21px', width:'100%', border:'1px solid black', padding:"6px", borderRadius:"16px", cellspacing:'0', cellpadding:'0',}}>
+                                    <table style={{height: '21px', width:'100%', border:'1', cellspacing:'0', cellpadding:'0',}}>
                                         <tbody>
                                             <tr>
                                                 <td width='250px'>
@@ -259,7 +259,7 @@ const InformeVentaV2 = (props) => {
                                 </td></tr>
                             <tr>
                                 <td>
-                                    <table style={{height: '21px', width:'100%', border:'1px solid black', padding:"6px", borderRadius:"16px",}} >
+                                    <table style={{height: '21px', width:'100%'}} >
                                         <tbody>
                                             <tr>
                                                 <td>
@@ -288,14 +288,14 @@ const InformeVentaV2 = (props) => {
                                 </td>
                             </tr>
                             <tr>
-                                <td style={{border:'1px solid black', padding:"6px", borderRadius:"16px",}}>
+                                <td>
                                     {productos()}
-                                   
+                                    <hr />
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <table width='100%' border='0' cellspacing='0' cellpadding='0' style={{border:'1px solid black', padding:"6px", borderRadius:"16px",}}>
+                                    <table width='100%' border='0' cellspacing='0' cellpadding='0'>
                                         <tbody>
                                             <tr>
                                                 <td>
