@@ -76,7 +76,7 @@ const EdicionClientePopup = (props) => {
     }
     
     return <>
-    <Button onClick={onOpen} ><EditOutlined /></Button>
+    <Button onClick={onOpen} size="small" type="link" ><EditOutlined /> Editar</Button>
     <Modal open={open} title="Editar Cliente" onCancel={()=>{onClose()}} onOk={onPost}>
     <Row>
         <Col span={24}>

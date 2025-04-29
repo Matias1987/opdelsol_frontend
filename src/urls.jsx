@@ -185,6 +185,8 @@ const post = {
     obtener_progreso_sucursal_objetivo: remote_base_url + "objs/get/progress",
     get_settings:  remote_base_url + "stt/ls/",
 
+    get_ultima_graduacion: remote_base_url + "clientes/get/ultimas/graduaciones/cliente/",
+
     search:{
         filtro_stock: remote_base_url + "stock/filtro_stock/",
     },

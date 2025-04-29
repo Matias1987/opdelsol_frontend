@@ -7,6 +7,7 @@ import EdicionClientePopup from "./forms/EdicionCliente";
 import LlamadasCliente from "./LLamadasCliente";
 import Edad from "./Edad";
 import SaldoCtaCteOptica from "./SaldoCtaCteOptica";
+import UltimaGraduacion from "./cliente/ultima_graduacion";
 
 const DetalleCliente = (props) =>
 {
@@ -134,6 +135,15 @@ const DetalleCliente = (props) =>
     {
         data.bloqueado==1 ? <><Row><Col span={24}> <Tag color="red">BLOQUEADO</Tag> </Col></Row></>:<></>
     }
+   
+    
+    <Row style={{padding:"6px", paddingLeft:"24px", border:"1px solid #DAE4F9", borderRadius:"16px", margin:"6px"}}>
+        <Col span={24}>
+        <b>&Uacute;ltimas Graduaciones:</b>
+            <UltimaGraduacion idcliente={props.idcliente} />
+        </Col>
+    </Row>
+   
     <Row>
         <Col span={"12"}>
             <span style={{color:"blueviolet"}}><SaldoCtaCte idcliente={data.idcliente} /></span>
