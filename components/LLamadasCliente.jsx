@@ -1,5 +1,6 @@
 import { get } from "@/src/urls"
 import LlamadaClienteForm from "./forms/LlamadaClienteForm"
+import Card from "antd/es/card/Card"
 
 const { Col, Row, Button, Table } = require("antd")
 const { useState, useEffect } = require("react")
@@ -8,11 +9,10 @@ const LlamadasCliente = (props) => {
     const [llamadas, setLlamadas] = useState([])
     const [reload, setReload] = useState(false)
     const columns_llamadas = [
-        {dataIndex: "fecha", title:"fecha"},
-        {dataIndex: "comentarios", title:"Comentarios"},
-        
-        {dataIndex: "sucursal", title:"Sucursal"},
-        {dataIndex: "usuario", title: "Usuario"},
+        { width:"100px", dataIndex: "fecha", title:"Fecha"},
+        { width:"200px", dataIndex: "comentarios", title:"Comentarios"},
+        { width:"100px", dataIndex: "sucursal", title:"Sucursal"},
+        { width:"100px", dataIndex: "usuario", title: "Usuario"},
     ]
 
     useEffect(()=>{
@@ -30,20 +30,14 @@ const LlamadasCliente = (props) => {
 
     },[reload])
 
-    return <div style={{padding:"1em"}}>
-        <Row>
-            <b>Lista de llamadas</b>
-        </Row>
+    return <div>
+        <Card size="small" title={<>Lista de llamadas&nbsp;<LlamadaClienteForm idcliente={props.idcliente} callback={()=>{setReload(!reload)}}/></>}>
         <Row>
             <Col span={24}>
-                <LlamadaClienteForm idcliente={props.idcliente} callback={()=>{setReload(!reload)}}/>
+                <Table scroll={{y:"300px"}} columns={columns_llamadas} dataSource={llamadas} size="small" />
             </Col>
         </Row>
-        <Row>
-            <Col span={24}>
-                <Table scroll={{y:"500px"}} columns={columns_llamadas} dataSource={llamadas} />
-            </Col>
-        </Row>
+        </Card>
     </div>
 }
 

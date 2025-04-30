@@ -8,6 +8,7 @@ import LlamadasCliente from "./LLamadasCliente";
 import Edad from "./Edad";
 import SaldoCtaCteOptica from "./SaldoCtaCteOptica";
 import UltimaGraduacion from "./cliente/ultima_graduacion";
+import Card from "antd/es/card/Card";
 
 const DetalleCliente = (props) =>
 {
@@ -95,7 +96,7 @@ const DetalleCliente = (props) =>
     },[reload])
     return data == null ? <></>:
      <>
-     <Divider />
+    
      <Row>
         <Col span={12}>
             <Row>
@@ -137,7 +138,7 @@ const DetalleCliente = (props) =>
     }
    
     
-    <Row style={{padding:"6px", paddingLeft:"24px", border:"1px solid #DAE4F9", borderRadius:"16px", margin:"6px"}}>
+    <Row style={{padding:"6px", paddingLeft:"24px", border:"1px solid #DAE4F9", borderRadius:"16px", margin:"6px", backgroundColor:"#F6F7F9"}}>
         <Col span={24}>
         <b>&Uacute;ltimas Graduaciones:</b>
             <UltimaGraduacion idcliente={props.idcliente} />
@@ -154,9 +155,9 @@ const DetalleCliente = (props) =>
     </Row>
     <Row>
         <Col span={14}>
-            <hr />
-            <b>Ventas</b>
-            <Table scroll={{y:"500px"}} dataSource={ventas} columns={columns} />
+            <Card title={"Ventas"} size="small">
+            <Table scroll={{y:"300px"}} dataSource={ventas} columns={columns} size="small" rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'} />
+            </Card>
         </Col>
         <Col span={10}>
             <LlamadasCliente idcliente={data.idcliente} />

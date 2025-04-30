@@ -245,8 +245,8 @@ const BuscarVentaV2 = (props)=>{
         },
         {
             title:'Acciones', 
-            width:"200px", 
-            fixed: 'right',
+            width:"100px", 
+            /*fixed: 'right',*/
             dataIndex:'idventa', 
             render:(_,{idventa, estado, en_laboratorio, idsucursal})=>{
                 return <div onClick={(e)=>{e.stopPropagation()}}>

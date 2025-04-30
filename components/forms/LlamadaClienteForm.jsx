@@ -1,6 +1,7 @@
 import globals from "@/src/globals"
 import { post_method } from "@/src/helpers/post_helper"
 import { post } from "@/src/urls"
+import { PlusOutlined } from "@ant-design/icons"
 import { useState } from "react"
 
 const { Row, Col, Input, Button, Modal } = require("antd")
@@ -34,7 +35,7 @@ const LlamadaClienteForm = (props) => {
         })
     }
     return <>
-        <Button block type="primary" onClick={()=>{setOpen(true); setBtnEnabled(true)}}>Agregar</Button>
+        <Button type="link" onClick={()=>{setOpen(true); setBtnEnabled(true)}}><PlusOutlined /> Agregar</Button>
         <Modal open={open} onCancel={()=>{setOpen(false)}} footer={null} title={"Agregar Registro Llamada"}>
             <Row style={{padding:".5em"}}>
                 <Col span={24}>
