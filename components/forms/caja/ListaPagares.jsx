@@ -1,8 +1,9 @@
+import Pagare from "@/components/informes/caja/Pagare"
 import { get } from "@/src/urls"
+import { Table } from "antd"
+import { useEffect, useState } from "react"
 
-const { default: Pagare } = require("@/components/informes/caja/Pagare")
-const { Table } = require("antd")
-const { useEffect, useState } = require("react")
+
 /**
  * 
  * @param {*} icliente 

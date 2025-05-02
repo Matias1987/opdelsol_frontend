@@ -1,6 +1,6 @@
 import LayoutCaja from "@/components/layout/layout_caja";
+import ListaClientes from "@/components/ListaClientes";
 
-const { default: ListaClientes } = require("@/components/ListaClientes")
 
 export default function ListaClientesCaja(){
     return <ListaClientes ficha />

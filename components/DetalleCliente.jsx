@@ -1,4 +1,4 @@
-import { Col, Divider, Row, Table, Tag } from "antd";
+import { Card, Col, Divider, Row, Table, Tag } from "antd";
 import SaldoCtaCte from "./SaldoCtaCte";
 import { useEffect, useState } from "react";
 import { get } from "@/src/urls";
@@ -8,7 +8,6 @@ import LlamadasCliente from "./LLamadasCliente";
 import Edad from "./Edad";
 import SaldoCtaCteOptica from "./SaldoCtaCteOptica";
 import UltimaGraduacion from "./cliente/ultima_graduacion";
-import Card from "antd/es/card/Card";
 
 const DetalleCliente = (props) =>
 {
@@ -156,7 +155,7 @@ const DetalleCliente = (props) =>
     <Row>
         <Col span={14}>
             <Card title={"Ventas"} size="small">
-            <Table scroll={{y:"300px"}} dataSource={ventas} columns={columns} size="small" rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'} />
+                <Table scroll={{y:"300px"}} dataSource={ventas} columns={columns} size="small" rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'} />
             </Card>
         </Col>
         <Col span={10}>

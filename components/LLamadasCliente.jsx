@@ -1,9 +1,8 @@
 import { get } from "@/src/urls"
 import LlamadaClienteForm from "./forms/LlamadaClienteForm"
-import Card from "antd/es/card/Card"
+import { useEffect, useState } from "react"
+import { Card, Col, Row, Table } from "antd"
 
-const { Col, Row, Button, Table } = require("antd")
-const { useState, useEffect } = require("react")
 
 const LlamadasCliente = (props) => {
     const [llamadas, setLlamadas] = useState([])

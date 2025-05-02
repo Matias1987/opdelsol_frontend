@@ -1,4 +1,3 @@
-import BuscarVenta from "../forms/ventas/BuscarVenta";
 import { FloatButton, Menu } from "antd";
 import  { DollarOutlined, MenuOutlined, StarOutlined, UserOutlined } from "@ant-design/icons";
 

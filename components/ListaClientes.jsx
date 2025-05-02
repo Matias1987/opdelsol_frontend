@@ -1,5 +1,4 @@
-import CustomModal from "@/components/CustomModal";
-import { Button, Card, Col, Input, Modal, Row, Spin, Table } from "antd";
+import { Button, Card, Col, Input, Modal, Row,  Table } from "antd";
 import { useEffect, useState } from "react";
 import { ReloadOutlined } from "@ant-design/icons";
 
