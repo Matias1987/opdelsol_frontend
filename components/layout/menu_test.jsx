@@ -89,17 +89,18 @@ export default function TestMenu(){
               </Menu.Item>
               <Menu.Item key="sub6_31"><PlusCircleOutlined />
               <Link href={get_url_to("deposito/facturas/agregar_factura")}>Agregar Factura</Link>
-              </Menu.Item>
+              </Menu.Item> 
             </SubMenu>
             <Menu.Item key="sub2_42" ><PartitionOutlined /> 
                 <Link href={get_url_to("deposito/arbol_codigos")}>&nbsp;&Aacute;rbol de C&oacute;digos</Link>
             </Menu.Item>
+            {<SubMenu key="sub8" title={<span><FileTextOutlined /><span>Informes</span></span>}>
+              <Menu.Item key="sub8_30"><FileTextOutlined />
+              <Link href={get_url_to("deposito/stock/stock_venta_periodo")}>Stock Ventas</Link>
+              </Menu.Item>
+            </SubMenu>}
           </SubMenu>
-          {/*<SubMenu key="sub8" title={<span><FileTextOutlined /><span>Informes</span></span>}>
-            <Menu.Item key="sub8_30"><FileTextOutlined />
-             <Link href={get_url_to("deposito/stock/stock_venta_periodo")}>Stock Ventas</Link>
-            </Menu.Item>
-          </SubMenu>*/}
+         
           
         </Menu>
       );
