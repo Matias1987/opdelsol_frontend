@@ -137,7 +137,8 @@ const DetalleCliente = (props) =>
     }
    
     
-    <Row style={{padding:"6px", paddingLeft:"24px", border:"1px solid #DAE4F9", borderRadius:"16px", margin:"6px", backgroundColor:"#F6F7F9"}}>
+    {/*<Row style={{padding:"6px", paddingLeft:"24px", border:"1px solid #DAE4F9", borderRadius:"16px", margin:"6px", backgroundColor:"#F6F7F9"}}>*/}
+    <Row style={{padding:"12px" }}>
         <Col span={24}>
         <b>&Uacute;ltimas Graduaciones:</b>
             <UltimaGraduacion idcliente={props.idcliente} />

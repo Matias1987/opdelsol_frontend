@@ -26,6 +26,7 @@ const UltimaGraduacion = props =>{
                     diam: r.diametro,
                     idcodigo: r.stock_codigo_idcodigo,
                     tipo: r.tipo.replace(/\_/g,' '),
+                    tipo_venta: r.tipo_venta,
 
                 }
             )));
@@ -42,6 +43,7 @@ const UltimaGraduacion = props =>{
                     diam: r.diametro,
                     idcodigo: r.stock_codigo_idcodigo,
                     tipo: r.tipo.replace(/\_/g,' '),
+                    tipo_venta: r.tipo_venta,
 
                 }
             )))
@@ -49,27 +51,65 @@ const UltimaGraduacion = props =>{
         .catch(e=>{})
     }
 
+    const detalle_tipo = (obj) => {
+        switch (+obj.tipo_venta){
+            case 2: return <>
+                {item_value_html(obj.tipo,{color:"blue"})}&nbsp;&nbsp;
+                {item_value_html(obj.codigo)}&nbsp;&nbsp;
+                <span style={{fontWeight:"600", color:"gray"}}>Eje:</span>{item_value_html(obj.eje)}
+            </>
+            case 3: return <>
+                {item_value_html(obj.tipo,{color:"blue"})}&nbsp;&nbsp;
+                {item_value_html(obj.codigo)}
+            </>
+            case 4: return <>
+                {item_value_html(obj.tipo,{color:"blue"})}&nbsp;&nbsp;
+                {item_value_html(obj.codigo)}&nbsp;&nbsp;
+                <span style={{fontWeight:"600", color:"gray"}}>Esf:</span>{item_value_html(obj.esf)}&nbsp;&nbsp;
+                <span style={{fontWeight:"600", color:"gray"}}>Cil:</span>{item_value_html(obj.cil)}&nbsp;&nbsp;
+                <span style={{fontWeight:"600", color:"gray"}}>Eje:</span>{item_value_html(obj.eje)}
+            </>
+            case 5: return <>
+                {item_value_html(obj.tipo,{color:"blue"})}&nbsp;&nbsp;
+                {item_value_html(obj.codigo)}&nbsp;&nbsp;
+                <span style={{fontWeight:"600", color:"gray"}}>Esf:</span>{item_value_html(obj.esf)}&nbsp;&nbsp;
+                <span style={{fontWeight:"600", color:"gray"}}>Cil:</span>{item_value_html(obj.cil)}&nbsp;&nbsp;
+                <span style={{fontWeight:"600", color:"gray"}}>Eje:</span>{item_value_html(obj.eje)}
+            </>
+            case 6: return <>
+                {item_value_html(obj.tipo,{color:"blue"})}&nbsp;&nbsp;
+                {item_value_html(obj.codigo)}&nbsp;&nbsp;
+                <span style={{fontWeight:"600", color:"gray"}}>Esf:</span>{item_value_html(obj.esf)}&nbsp;&nbsp;
+                <span style={{fontWeight:"600", color:"gray"}}>Cil:</span>{item_value_html(obj.cil)}&nbsp;&nbsp;
+                <span style={{fontWeight:"600", color:"gray"}}>Eje:</span>{item_value_html(obj.eje)}&nbsp;&nbsp;
+                <span style={{fontWeight:"600", color:"gray"}}>CB:</span>{item_value_html(obj.cb)}&nbsp;&nbsp;
+                <span style={{fontWeight:"600", color:"gray"}}>Diam:</span>{item_value_html(obj.diam)}&nbsp;&nbsp;
+            </>
+        }
+    }
+
     
     const item_value_html = (v, cstyle) => <span style={{...cstyle, fontWeight:"600"}}>{v}</span>
+    
     const items = [
         {
           key: '1',
-          label: 'Cristales',
+          label: <span style={{fontWeight:"400",  color:"blue"}}>Cristales</span>,
           children: <>
                     {
                         dataCristales.map(r=><>
-                        <Col span={24}>{item_value_html(r.tipo,{color:"blue"})}&nbsp;&nbsp;{item_value_html(r.codigo)}&nbsp;&nbsp;Esf:{item_value_html(r.esf)}&nbsp;&nbsp;Cil:{item_value_html(r.cil)}&nbsp;&nbsp;Eje:{item_value_html(r.eje)}</Col>
+                        <Col span={24}>{detalle_tipo(r)}</Col>
                         </>)
                     }
                     </>,
         },
         {
           key: '2',
-          label: 'L.C.',
+          label: <span style={{fontWeight:"400",  color:"blue"}}>L.C.</span>,
           children: <>
                     {
                         dataLC.map(r=><>
-                        <Col span={24}>{item_value_html(r.tipo)}&nbsp;{item_value_html(r.codigo)}&nbsp;Esf:{item_value_html(r.esf)}&nbsp;Cil:{item_value_html(r.cil)}&nbsp;Eje:{item_value_html(r.eje)}</Col>
+                        <Col span={24}>{detalle_tipo(r)}</Col>
                         </>)
                     }
           </>,
@@ -78,7 +118,7 @@ const UltimaGraduacion = props =>{
 
     useEffect(()=>{load()},[])
 
-    return dataCristales.length<1 && dataLC.length<1 ? <>&nbsp;Sin datos</> : <Tabs defaultActiveKey="1" items={items} size="small" tabPosition="left" /> 
+    return dataCristales.length<1 && dataLC.length<1 ? <>&nbsp;Sin datos</> : <Tabs defaultActiveKey="1" items={items} size="small" tabPosition="left"  /> 
 }
 
 export default UltimaGraduacion

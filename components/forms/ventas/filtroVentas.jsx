@@ -116,7 +116,7 @@ const FiltroVentas =(props) => {
                                 {label:"LC Laboratorio", value:globals.tiposVenta.LCLAB},
                                 {label:"LC Stock", value:globals.tiposVenta.LCSTOCK},
                                 {label:"Monof Lab", value:globals.tiposVenta.MONOFLAB},
-                                {label:"Monof Stock", value:globals.tiposVenta.MONOFLAB},
+                                {label:"Multif Lab", value:globals.tiposVenta.MULTILAB},
                             ]}
                             />
                         </Col>
