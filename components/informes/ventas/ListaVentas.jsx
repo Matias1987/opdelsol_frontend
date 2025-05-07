@@ -4,9 +4,7 @@ import { useEffect, useState } from "react";
 import { post } from "@/src/urls";
 import globals from "@/src/globals";
 import FiltroVentas from "@/components/forms/ventas/filtroVentas";
-import CobroOperacion from "@/components/forms/caja/CobroForm";
-import { InfoCircleFilled, InfoOutlined, ReloadOutlined } from "@ant-design/icons";
-import VentaDetallePopup from "@/components/VentaDetalle";
+import { InfoCircleFilled, ReloadOutlined } from "@ant-design/icons";
 import { current_date_ymd } from "@/src/helpers/string_helper";
 import { registrarVentaAnulado, registrarVentaTerminado } from "@/src/helpers/evento_helper";
 import { Table, Button, Tag, Row, Col, Modal, Card, Collapse } from "antd"

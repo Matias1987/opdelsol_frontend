@@ -82,6 +82,7 @@ export default function CobroOperacion(props){
 
 
     const onCobrarClick = (e) => {
+        e.stopImmediatePropagation();
         setCobrarDisabled(true)
 //#region  validations
         if(mp==null)

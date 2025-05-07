@@ -107,27 +107,62 @@ const CobroOperacionV2 = props =>{
 
     const onMPChange = (val) => {setMP(_mp=>val)}
 
-
-    const onCobrarClick = (e) => {
-        setCobrarDisabled(true)
-//#region  validations
+    const _validar_campos = _=>{
         if(mp==null)
         {
-            setCobrarDisabled(false)
-            return
+            return false
         }
-     
+        
         if(typeof props.tipo === 'undefined'){
             alert("tipo undefined")
-            setCobrarDisabled(false)
-            return
+            return false
         }
 
-        
-        //<!> props.mustCancel is obsolete, therefore, _mc is must be removed...
-        const _mc = typeof props.mustCancel !== 'undefined' ? props.mustCancel : false;
-        
+        if(mp.ctacte_monto!=0)
+        {
+            if(mp.ctacte_cuotas <1)
+            {
+                //invalid number for installments
+                alert("Seleccione cantidad de cuotas")
+                return false
+            }
 
+        }
+
+        if(mp.transferencia_monto != 0)
+        {
+            if(mp.fk_banco_transferencia == null)
+                {
+                    //invalid bank
+                    alert("Seleccione Banco")
+                    return false
+                }
+        }
+
+        if(mp.cheque_monto != 0  )
+        {
+            if(mp.fk_banco == null)
+            {
+                //invalid bank
+                alert("Seleccione Banco")
+                return false
+            }
+        }
+
+        if(mp.tarjeta_monto!= 0)
+        {
+            if(mp.fk_tarjeta==null)
+            {
+                //invalid credit card
+                alert("Seleccione Tarjeta")
+                return false
+            }
+        }
+
+        return true
+    }
+
+    const _validar_variables = _=>{
         if(typeof props.tipo!= 'undefined')
         {
             if(props.tipo == 'cuota')
@@ -135,8 +170,7 @@ const CobroOperacionV2 = props =>{
                 if(+mp.total==0)
                 {
                     alert("Monto igual a 0")
-                    setCobrarDisabled(false)
-                    return
+                    return false
                 }
             }
             if(props.tipo=='resfuerzo')
@@ -144,25 +178,42 @@ const CobroOperacionV2 = props =>{
                 if((parseFloat(dataVenta.subtotal) - parseFloat(descuento) - parseFloat(dataVenta.haber||0)) <= 0 )
                 {
                     alert("Saldo igual a 0")
-                    setCobrarDisabled(false)
-                    return
+                    return false
                 }
                 if(+mp.total==0)
                 {
                     alert("Monto igual a 0")
-                    setCobrarDisabled(false)
-                    return
+                    return false
                 }
             }
         }
+        if(dataVenta!=null){
 
-       
-        /**
-         * si hay venta pero es de monto 0
-         */
-        if(dataVenta!=null && +mp.total==0&&dataVenta.saldo==0)
-        {
-            if(typeof props.tipo !== 'undefined')
+            const _sdo =  (parseFloat(dataVenta.subtotal) - parseFloat(descuento) - parseFloat(dataVenta.haber||0)) - parseFloat( mp.total)
+
+            const _mc = typeof props.mustCancel !== 'undefined' ? props.mustCancel : false;
+
+            if(+mp.total == 0 && _sdo != 0) { 
+                alert("Monto igual a 0")
+                return false
+            }
+
+            if( (entrega || _mc) && _sdo!=0){
+                
+                alert("Saldo distinto a 0")
+                return false
+            }
+            if(_sdo<0){
+                alert("Saldo menor a cero")
+                return  false
+            }
+        }
+        return true;
+    }
+
+
+    const _on_venta_monto_zero=_=>{
+        if(typeof props.tipo !== 'undefined')
             {
                 if(props.tipo=='entrega')
                 {
@@ -182,83 +233,26 @@ const CobroOperacionV2 = props =>{
                     }
                 }
             }
+    }
 
+    const onCobrarClick = (e) => {
+        e.stopImmediatePropagation();
+        setCobrarDisabled(true)
+
+        
+        if(!_validar_campos() || !_validar_variables())
+        {
+            setCobrarDisabled(false)
             return
         }
 
-     
-        
-        if(dataVenta!=null){
-
-            const _sdo =  (parseFloat(dataVenta.subtotal) - parseFloat(descuento) - parseFloat(dataVenta.haber||0)) - parseFloat( mp.total)
-
-            if(+mp.total == 0 && _sdo != 0) { 
-                alert("Monto igual a 0")
-                setCobrarDisabled(false)
-                return;
-            }
-
-            if( (entrega || _mc) && _sdo!=0){
-                
-                alert("Saldo distinto a 0")
-                setCobrarDisabled(false)
-                return
-            }
-            if(_sdo<0){
-                alert("Saldo menor a cero")
-                setCobrarDisabled(false)
-                return 
-            }
-        }
-        /*
-        some other validations for secondary fields which 
-        depends wether the amount field has a value other than 0
-        */
-        if(mp.ctacte_monto!=0)
+        /** si hay venta pero es de monto 0*/
+        if(dataVenta!=null && +mp.total==0&&dataVenta.saldo==0)
         {
-            if(mp.ctacte_cuotas <1)
-            {
-                //invalid number for installments
-                alert("Seleccione cantidad de cuotas")
-                setCobrarDisabled(false)
-                return
-            }
-
+            _on_venta_monto_zero()
+            return
         }
 
-        if(mp.transferencia_monto != 0)
-        {
-            if(mp.fk_banco_transferencia == null)
-                {
-                    //invalid bank
-                    alert("Seleccione Banco")
-                    setCobrarDisabled(false)
-                    return
-                }
-        }
-        
-        if(mp.cheque_monto != 0  )
-        {
-            if(mp.fk_banco == null)
-            {
-                //invalid bank
-                alert("Seleccione Banco")
-                setCobrarDisabled(false)
-                return
-            }
-        }
-
-        if(mp.tarjeta_monto!= 0)
-        {
-            if(mp.fk_tarjeta==null)
-            {
-                //invalid credit card
-                alert("Seleccione Tarjeta")
-                setCobrarDisabled(false)
-                return
-            }
-        }
-//#endregion
 
         var params = {
             mp: mp,
@@ -275,14 +269,7 @@ const CobroOperacionV2 = props =>{
         params = typeof props.idventa === 'undefined' ? params : {...params,idventa:props.idventa} 
         params = typeof props.idcliente === 'undefined' ? params : {...params,idcliente:props.idcliente} 
 
-        /**
-         * if parametric action is 'entrega' but balance is higher than 0, then change status to 'resfuerzo'.. the status of the operation will remain as 'terminado'
-         * get 'saldo'
-        
-        * the following two lines were modified * 
-        */
         const _sdo = typeof props.idventa === 'undefined' ? 0 : (parseFloat(dataVenta.subtotal) - parseFloat(descuento) - parseFloat(dataVenta.haber||0)) - parseFloat( mp.total)
-
         const __tipo = props.tipo!=='undefined' ? props.tipo == 'entrega' && _sdo > 0 ? 'resfuerzo' : props.tipo : '';
         
         params.tipo=__tipo;
@@ -317,78 +304,72 @@ const CobroOperacionV2 = props =>{
                 return;
             }
 
-            setCobrarDisabled(true)
-
             params.caja_idcaja=response.idcaja;
+
+            on_get_caja(params)
             
-            post_method(post.insert.cobro,params,(id)=>{
-                if(id.data==0){
-                    if(dataVenta!=null && __tipo!='resfuerzo')
-                    {   let est = (__tipo=='entrega' ? 'ENTREGADO' : (entrega ? "ENTREGADO" : "PENDIENTE"))
-                        
-                        post_method(
-                            post.cambiar_estado_venta,
-                            {
-                                idventa: dataVenta.idventa, 
-                                /*estado at this point could be entrega or ingreso  */
-                                estado: est,
+        })
+    }
 
-                                fecha_retiro: current_date_ymd()
-                            },
-                            (resp)=>{
 
-                                onCobroSaved(0)
-                            })
-                            registrar_evento("VENTA", "Cambio estado a "+ est,dataVenta.idventa)
-                    }
-                    else{
-                        onCobroSaved(0)
-                    }
-                }
-                else
-                {
-                    if(dataVenta!=null && __tipo!='resfuerzo')
-                    {
-                        //entrega
-                        let est = (__tipo=='entrega' ? 'ENTREGADO' : (entrega ? "ENTREGADO" : "PENDIENTE"))
-                       
-                        post_method(
-                            post.cambiar_estado_venta,
-                            {
-                                idventa: dataVenta.idventa, 
-                                /*estado at this point could be entrega or ingreso  */
-                                estado: est,
+    const on_get_caja = (params) => {
 
-                                fecha_retiro: current_date_ymd()
-                            },
-                            (resp)=>{
+        post_method(post.insert.cobro,params,(id)=>{
+            if(id.data==0){
+                if(dataVenta!=null && __tipo!='resfuerzo')
+                {   
+                    let est = (__tipo=='entrega' ? 'ENTREGADO' : (entrega ? "ENTREGADO" : "PENDIENTE"))
+                    
+                    post_method(
+                        post.cambiar_estado_venta,
+                        {
+                            idventa: dataVenta.idventa, 
+                            
+                            estado: est,/*estado at this point could be entrega or ingreso  */
 
-                                /** actualizar balance de cta cte en recibo x */
-                                fetch(get.actualizar_saldo_en_cobro + id.data)
-                                .then(___response=>___response.json())
-                                .then((___response)=>{
-
-                                    onCobroSaved(id.data)
-
-                                })
+                            fecha_retiro: current_date_ymd()
+                        },
+                        (resp)=>{
+                            onCobroSaved(0)
                         })
                         registrar_evento("VENTA", "Cambio estado a "+ est,dataVenta.idventa)
-                    }
-                    else{
-                        /**
-                         * actualizar balance de cta cte en recibo x 
-                         */
-                        fetch(get.actualizar_saldo_en_cobro + id.data)
-                        .then(___response=>___response.json())
-                        .then((___response)=>{
-                            onCobroSaved(id.data)
-                        })
-                    }   
-
-                    registrar_evento("COBRO", "Registro Cobro $"+mp.total.toString(), id.data)
                 }
-            })
-        })
+                else{
+                    onCobroSaved(0)
+                }
+            }
+            else
+            {
+                if(dataVenta!=null && __tipo!='resfuerzo')
+                {
+                    //entrega
+                    let est = (__tipo=='entrega' ? 'ENTREGADO' : (entrega ? "ENTREGADO" : "PENDIENTE"))
+                   
+                    post_method(
+                        post.cambiar_estado_venta,
+                        {
+                            idventa: dataVenta.idventa, 
+                            estado: est,
+                            fecha_retiro: current_date_ymd()
+                        },
+                        (resp)=>{
+                            /** actualizar balance de cta cte en recibo x */
+                            fetch(get.actualizar_saldo_en_cobro + id.data)
+                            .then(___response=>___response.json())
+                            .then((___response)=>{ onCobroSaved(id.data) })
+                    })
+                    registrar_evento("VENTA", "Cambio estado a "+ est,dataVenta.idventa)
+                }
+                else{
+                    /**actualizar balance de cta cte en recibo x */
+                    fetch(get.actualizar_saldo_en_cobro + id.data)
+                    .then(_r=>_r.json())
+                    .then(___response=>{ onCobroSaved(id.data) })
+                }   
+
+                registrar_evento("COBRO", "Registro Cobro $"+mp.total.toString(), id.data)
+            }
+        })  
     }
     
     const cliente_detalle = _ => (
