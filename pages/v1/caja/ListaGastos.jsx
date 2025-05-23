@@ -56,10 +56,10 @@ export default function ListaGastos(){
         dataSource={gastos} 
         columns={
             [
-                {width:"250px", dataIndex: "idgasto", title: "Nro."},
-                {width:"250px", dataIndex: "fecha_f", title: "Fecha"},
-                {width:"250px", dataIndex: "monto", title: "Monto"},
-                {width:"250px", dataIndex: "concepto_gasto", title: "Concepto"},
+                {width:"100px", dataIndex: "idgasto", title: "Nro."},
+                {width:"100px", dataIndex: "fecha_f", title: "Fecha"},
+                {width:"100px", dataIndex: "monto", title: "Monto"},
+                {width:"100px", dataIndex: "concepto_gasto", title: "Concepto"},
             ]
         } />
         </Card>

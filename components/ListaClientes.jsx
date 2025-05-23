@@ -71,11 +71,11 @@ export default function ListaClientes(props){
     },[])
 
     const columns = [
-        { width:"150px", dataIndex: 'apellido', title: 'Apellido', key: 'apellido'},
-        { width:"150px", dataIndex: 'nombre', title: 'Nombre', key: 'nombre'},
-        { width:"150px", dataIndex: 'dni', title: 'DNI', key: 'dni'},
-        { width:"200px", dataIndex: 'direccion', title: 'Direccion', key: 'direccion'},
-        { width:"200px", dataIndex: 'idcliente', title: '', key: 'acciones', render: (_,{idcliente})=>(
+        { width:"100px", dataIndex: 'apellido', title: 'Apellido', key: 'apellido'},
+        { width:"100px", dataIndex: 'nombre', title: 'Nombre', key: 'nombre'},
+        { width:"100px", dataIndex: 'dni', title: 'DNI', key: 'dni'},
+        { width:"150px", dataIndex: 'direccion', title: 'Direccion', key: 'direccion'},
+        { width:"80px", dataIndex: 'idcliente', title: '', key: 'acciones', render: (_,{idcliente})=>(
             <>
             {
                 typeof props.ficha !== 'undefined' ?

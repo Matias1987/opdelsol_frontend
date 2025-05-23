@@ -18,13 +18,13 @@ const ListaCobros = (props) => {
     const [filtros, setFiltros] = useState({})
     const [reload, setReload] = useState(true)
     const columns = [
-        {width:"250px", title: "Nro.", dataIndex: "idcobro", render:(_,{anulado,idcobro})=>(<>{anulado==1?<Tag color="red">Anulado</Tag>:<></>}{idcobro}</>)},
-        {width:"250px", title: "Fecha", dataIndex: "fecha_formated"},
-        {width:"250px", title: "Cliente", dataIndex: "cliente_nombre"},
-        {width:"250px", title: "Tipo", dataIndex: "tipo"},
-        {width:"250px", title: "Monto", dataIndex: "monto"},
-        {width:"250px", title: "Sucursal", dataIndex: "sucursal"},
-        {width:"250px", title: "Acciones", dataIndex: "idcobro", hidden:false, render: (_,{idcobro})=>{
+        {width:"90px", title: "Nro.", dataIndex: "idcobro", render:(_,{anulado,idcobro})=>(<>{anulado==1?<Tag color="red">Anulado</Tag>:<></>}{idcobro}</>)},
+        {width:"100px", title: "Fecha", dataIndex: "fecha_formated"},
+        {width:"150px", title: "Cliente", dataIndex: "cliente_nombre"},
+        {width:"150px", title: "Tipo", dataIndex: "tipo"},
+        {width:"150px", title: "Monto", dataIndex: "monto"},
+        {width:"100px", title: "Sucursal", dataIndex: "sucursal"},
+        {width:"100px", title: "Acciones", dataIndex: "idcobro", hidden:false, render: (_,{idcobro})=>{
             return <>
             <CustomModal openButtonText="Imprimir">
                 <PrinterWrapper>
