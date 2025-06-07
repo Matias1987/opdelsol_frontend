@@ -112,7 +112,7 @@ const ListaPreciosV3 = (props) => {
         <Col span={18}>
         <Row>
                 <Col span={24} style={{padding:"1em", fontWeight:"bold", backgroundColor:"#033E8A", color:"white", borderRadius:"6px", textAlign:"center"}}>
-                    {selectedSubFamilia.nombre}
+                    {selectedSubFamilia.nombre /*+ " " + selectedSubFamilia.id*/}
                 </Col>
             </Row>
             <Row key={fix}>

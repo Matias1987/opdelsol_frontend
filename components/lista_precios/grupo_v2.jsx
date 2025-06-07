@@ -26,7 +26,7 @@ const GrupoV2 = props => {
                 size="small"
                 style={{color:"#03045E", fontWeight:"600", whiteSpace:"normal", textAlign:"left"}}
                 >
-                    {producto.replaceAll("_"," ")}
+                    {producto.replaceAll("_"," ") /*+ " " + idsubgrupo*/}
                 </Button>
         </>
         },
@@ -50,7 +50,7 @@ const GrupoV2 = props => {
     return  loading ? <Spin /> :  <Col span={24} style={{padding:"6px"}}>
                         <Table 
                         style={{width:"100%"}}
-                        title={_=><div><span>{nombre}</span></div>}
+                        title={_=><div><span>{nombre /*+ props.idgrupo*/}</span></div>}
                         rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'}
                         columns={columns} 
                         dataSource={subgrupos} 

@@ -1,4 +1,4 @@
-import { Button, Checkbox, Col, Divider, Input, Row, Select, Spin } from "antd";
+import { Button, Checkbox, Col, Divider, Flex, Input, Row, Select, Spin } from "antd";
 import { useEffect, useState } from "react";
 import { RightCircleFilled } from "@ant-design/icons";
 import { get } from "@/src/urls";
@@ -519,18 +519,25 @@ export default function ModoPagoV3(props){
                     }
                 }}><RedoOutlined /></Button></Col>
             </Row>*/}
+             
 
             {
-                props.totalsHidden ?  <></> :
+                props.totalsHidden ?  <Row>
+              <Col span={24}>
+              <Flex align="flex-start" justify="end">
+                <Input variant="borderless" style={{color:"red", fontSize:"1.5em", fontWeight:"600", width:"300px"}} readOnly size="large" prefix="Total: $" value={parseFloat(modoPago.total||"0").toLocaleString(2)} />
+              </Flex>
+              </Col>
+            </Row> :
             <Row>
                 <Col span={6}>
-                    <Input readOnly prefix="Total a Pagar"  bordered={false} style={{color:"red"}} value={props.total} />
+                    <Input readOnly prefix="Total a Pagar" style={{color:"red", fontSize:"1.1em", fontWeight:"600"}} value={props.total} />
                 </Col>
                 <Col span={9}>
-                    <Input readOnly prefix="Pago Total"  bordered={false} style={{color:"red"}} value={modoPago.total} />
+                    <Input readOnly prefix="Pago Total"  style={{color:"red", fontSize:"1.1em", fontWeight:"600"}} value={modoPago.total} />
                 </Col>
                 <Col span={9}>
-                    <Input readOnly prefix="Saldo"  bordered={false} style={{color:"red", fontWeight:'bold', backgroundColor:'rgba(255, 99, 71, 0.2)'}} value={  (typeof props.total === 'undefined' ? 0 : props.total)-modoPago.total} />
+                    <Input readOnly prefix="Saldo"  style={{color:"red", fontWeight:'bold', backgroundColor:'rgba(255, 99, 71, 0.2)'}} value={  (typeof props.total === 'undefined' ? 0 : props.total)-modoPago.total} />
                 </Col>
             </Row>
             }
