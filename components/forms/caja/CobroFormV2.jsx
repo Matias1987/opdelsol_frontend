@@ -260,6 +260,7 @@ const CobroOperacionV2 = (props) => {
 
     /** si hay venta pero es de monto 0*/
     if (dataVenta != null && +mp.total == 0 && dataVenta.saldo == 0) {
+      //alert("On venta monto 0")
       _on_venta_monto_zero();
       return;
     }
@@ -339,13 +340,29 @@ const CobroOperacionV2 = (props) => {
   };
 
   const on_get_caja = (params) => {
+    let _sdo = 0;
+
+    if (dataVenta != null) {
+      _sdo =
+        parseFloat(dataVenta.subtotal) -
+        parseFloat(descuento) -
+        parseFloat(dataVenta.haber || 0) -
+        parseFloat(mp.total);
+    }
+
     const __tipo =
       props.tipo !== "undefined"
         ? props.tipo == "entrega" && _sdo > 0
           ? "resfuerzo"
           : props.tipo
         : "";
+      //alert(__tipo);
+      //alert(JSON.stringify(params));
+
     post_method(post.insert.cobro, params, (id) => {
+
+      //alert(JSON.stringify(id))
+
       if (id.data == 0) {
         if (dataVenta != null && __tipo != "resfuerzo") {
           let est =
@@ -396,11 +413,21 @@ const CobroOperacionV2 = (props) => {
             },
             (resp) => {
               /** actualizar balance de cta cte en recibo x */
-              fetch(get.actualizar_saldo_en_cobro + id.data)
+
+              if(+(id.data||"0")>0)
+              {
+                fetch(get.actualizar_saldo_en_cobro + id.data)
                 .then((___response) => ___response.json())
                 .then((___response) => {
                   onCobroSaved(id.data);
                 });
+              }
+              else{
+                onCobroSaved(0);
+              }
+              
+
+
             }
           );
           registrar_evento(
@@ -410,11 +437,19 @@ const CobroOperacionV2 = (props) => {
           );
         } else {
           /**actualizar balance de cta cte en recibo x */
-          fetch(get.actualizar_saldo_en_cobro + id.data)
-            .then((_r) => _r.json())
-            .then((___response) => {
-              onCobroSaved(id.data);
-            });
+
+            if(+(id.data||"0")>0)
+            {
+            fetch(get.actualizar_saldo_en_cobro + id.data)
+              .then((_r) => _r.json())
+              .then((___response) => {
+                onCobroSaved(id.data);
+              });
+            }
+            else{
+              onCobroSaved(0);
+            }
+
         }
 
         registrar_evento(

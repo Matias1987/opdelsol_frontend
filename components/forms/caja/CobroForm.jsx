@@ -344,27 +344,42 @@ export default function CobroOperacion(props){
                             (resp)=>{
 
                                 /** actualizar balance de cta cte en recibo x */
-                                fetch(get.actualizar_saldo_en_cobro + id.data)
-                                .then(___response=>___response.json())
-                                .then((___response)=>{
-                                    setIdCobro(id.data)
+                                if(+(id.data||"0")>0)
+                                {
+                                    fetch(get.actualizar_saldo_en_cobro + id.data)
+                                    .then(___response=>___response.json())
+                                    .then((___response)=>{
+                                        setIdCobro(id.data)
+                                        props?.callback?.()
+                                        //setOpen(false)
+                                    })
+                                }
+                                else{
                                     props?.callback?.()
-                                    //setOpen(false)
-                                })
+                                }
+                                
                         })
                         registrar_evento("VENTA", "Cambio estado a "+ est,dataVenta.idventa)
                     }
                     else{
+                        //alert(JSON.stringify(id))
                         /**
                          * actualizar balance de cta cte en recibo x 
                          */
-                        fetch(get.actualizar_saldo_en_cobro + id.data)
-                        .then(___response=>___response.json())
-                        .then((___response)=>{
-                            setIdCobro(id.data)
+                        if(+(id.data||"0")>0)
+                        {
+                            fetch(get.actualizar_saldo_en_cobro + id.data)
+                            .then(___response=>___response.json())
+                            .then((___response)=>{
+                                setIdCobro(id.data)
+                                props?.callback?.()
+                                //setOpen(false)
+                            })
+                        }
+                        else{
                             props?.callback?.()
-                            //setOpen(false)
-                        })
+                        }
+                        
                     }   
 
                     registrar_evento("COBRO", "Registro Cobro $"+mp.total.toString(), id.data)
