@@ -193,6 +193,7 @@ export default function ClienteFormV2(props){
     }
 
     const onOpen = () => {
+        
         setFechaNac({ 
             dia:"",
             mes:"",
@@ -316,11 +317,11 @@ export default function ClienteFormV2(props){
                     }} />
             </Col>*/}
             <Col span={12}>
-                <SelectLocalidadV3 
+                <SelectLocalidadV2 
                 fk_localidad={+globals.obtenerOpticaLocalidad()}
                 fk_provincia={+globals.obtenerOpticaProvincia()}
                 callback={(p)=>{
-                    //alert(JSON.stringify(p))
+                   //n alert(JSON.stringify(p))
                     onChange(p.idlocalidad,"idlocalidad")
                     }} />
             </Col>

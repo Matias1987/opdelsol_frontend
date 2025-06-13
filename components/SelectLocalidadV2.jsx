@@ -27,10 +27,10 @@ const SelectLocalidadV2 = (props) => {
     }
 
     useEffect(()=>{
-        alert(JSON.stringify({
+        /*alert(JSON.stringify({
             idlocalidad: globals.obtenerOpticaLocalidad(),
             idprovincia: globals.obtenerOpticaProvincia(),
-        }))
+        }))*/
         fetch(get.obtener_provincias)
         .then(e=>e.json())
         .then(response=>{
