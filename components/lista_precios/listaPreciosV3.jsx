@@ -38,7 +38,7 @@ const ListaPreciosV3 = (props) => {
         setEsUDeposito(globals.esUsuarioDeposito())
 
         post_method(post.obtener_subfamilias_de_familias,
-            {ids:[globals.familiaIDs.CRISTALES, globals.familiaIDs.LIQUIDOS, globals.familiaIDs.LC]},
+            {ids:[globals.familiaIDs.CRISTALES, globals.familiaIDs.LIQUIDOS, globals.familiaIDs.LC], soloVisibleLP:1},
             (resp)=>{
                 //alert(JSON.stringify(resp))
                 
@@ -57,7 +57,7 @@ const ListaPreciosV3 = (props) => {
         setLoading(true)
         setSelectedSubFamilia(_=>({nombre:nombre, id:idsf}))
         
-        fetch(get.optionsforsubfamilia + idsf)
+        fetch(get.optionsforsubfamilia + idsf + "/1")
         .then(r=>r.json())
         .then((response)=>{
 

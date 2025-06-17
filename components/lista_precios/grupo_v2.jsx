@@ -26,7 +26,7 @@ const GrupoV2 = props => {
                 size="small"
                 style={{color:"#03045E", fontWeight:"600", whiteSpace:"normal", textAlign:"left"}}
                 >
-                    {producto.replaceAll("_"," ") /*+ " " + idsubgrupo*/}
+                    {producto.replaceAll("_"," ")/* + " " + idsubgrupo*/}
                 </Button>
         </>
         },
