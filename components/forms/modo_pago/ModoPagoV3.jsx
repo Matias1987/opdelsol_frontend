@@ -310,6 +310,7 @@ export default function ModoPagoV3(props){
             <Row style={{display: efectivoChecked ? "flex" : "none", backgroundColor:"rgba(244,232,179,0.5)", padding:"2px"}}>
                 <Col span={8} >
                     <Input 
+                    onWheel={(e)=>{e.target.blur()}}
                     type="number" 
                     min={0} 
                     step={0.01} 
@@ -325,6 +326,7 @@ export default function ModoPagoV3(props){
             <Row style={{display: tarjetaChecked ? "flex" : "none", backgroundColor:"rgba(240,191,161,0.5)", padding:"2px"}}>
                 <Col span={6}>
                     <Input 
+                    onWheel={(e)=>{e.target.blur()}}
                     type="number" 
                     min={0} 
                     step={0.01}  
@@ -360,6 +362,7 @@ export default function ModoPagoV3(props){
             <Row style={{display: ctacteChecked ? "flex" : "none", backgroundColor:"rgba(235,177,172,0.5)", padding:"2px"}}>
                 <Col span={11}>
                     <Input 
+                    onWheel={(e)=>{e.target.blur()}}
                     type="number" 
                     onClick={(e)=>{e.target.select()}} 
                     value={modoPago.ctacte_monto} 
@@ -410,11 +413,12 @@ export default function ModoPagoV3(props){
                         }
                         } />
                 </Col>
-                <Col span={8}><Input  type="number" readOnly={false} onClick={(e)=>{e.target.select()}} value={modoPago.ctacte_monto_cuotas}  prefix="Valor Cuota: " onChange={(e)=>{onChange("ctacte_monto_cuotas", parseFloat(e.target.value))}}></Input></Col>
+                <Col span={8}><Input onWheel={(e)=>{e.target.blur()}} type="number" readOnly={false} onClick={(e)=>{e.target.select()}} value={modoPago.ctacte_monto_cuotas}  prefix="Valor Cuota: " onChange={(e)=>{onChange("ctacte_monto_cuotas", parseFloat(e.target.value))}}></Input></Col>
             </Row>
             <Row style={{display:  chequeChecked ? "flex" : "none", backgroundColor:"rgba(204,182,192,0.5) ", padding:"2px"}}>
                 <Col span={9}>
                     <Input 
+                    onWheel={(e)=>{e.target.blur()}}
                     type="number" 
                     onClick={(e)=>{e.target.select()}} 
                     value={modoPago.cheque_monto} 
@@ -444,6 +448,7 @@ export default function ModoPagoV3(props){
             <Row  style={{display: mutualChecked ? "flex": "none", backgroundColor:"rgba(207,186,235,0.5) ", padding:"2px"}}>
                 <Col span={9}>
                     <Input 
+                    onWheel={(e)=>{e.target.blur()}}
                     type="number" 
                     onClick={(e)=>{e.target.select()}} 
                     value={modoPago.mutual_monto}  
@@ -457,6 +462,7 @@ export default function ModoPagoV3(props){
             <Row style={{display: mercadopagoChecked? "flex" : "none", backgroundColor:"rgba(161,196,231,0.5)", padding:"2px"}}>
                 <Col span={9}>
                     <Input
+                    onWheel={(e)=>{e.target.blur()}}
                     type="number"
                     prefix={<span style={{fontWeight:"600"}}>Monto M.P.: </span>} 
                     onChange={(e)=>{onChange("mercadopago_monto", e.target.value.length<1 ? 0 : parseFloat(e.target.value))}} 
@@ -468,6 +474,7 @@ export default function ModoPagoV3(props){
             <Row style={{display:  transferenciaChecked ? "flex" : "none", backgroundColor:"rgba(141,163,153,0.5) ", padding:"2px"}}>
                 <Col span={9}>
                     <Input
+                    onWheel={(e)=>{e.target.blur()}}
                     type="number"
                     prefix={<span style={{fontWeight:"600"}}>Monto Transf.: </span>} 
                     onChange={(e)=>{onChange("transferencia_monto", e.target.value.length<1 ? 0 : parseFloat(e.target.value))}} 

@@ -151,7 +151,7 @@ const MonofLabCristal = (props) => {
                 
                 
                 <Col span={4}>
-                    <Input style={{minWidth:"100px"}} disabled={cristal.codigo==null} type="number" readOnly={false} size="small"  prefix="Precio" value={cristal.precio} onChange={onchange_precio} />
+                    <Input onWheel={(e)=>{e.target.blur()}} style={{minWidth:"100px"}} disabled={cristal.codigo==null} type="number" readOnly={false} size="small"  prefix="Precio" value={cristal.precio} onChange={onchange_precio} />
                 </Col>
                 <Col span={1}>
                     <Button danger size="small" onClick={()=>{onRemove()}}><CloseOutlined/></Button>

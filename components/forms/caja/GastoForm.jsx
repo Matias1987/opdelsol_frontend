@@ -122,7 +122,7 @@ const GastoForm = (props) => {
         </Row>
         <Row style={row_style}>
             <Col span={24}>
-                <Input value={gasto.monto}  onClick={(e)=>{e.target.select()}} type="number" onChange={(e)=>{onChange(parse_float_string(e.target.value),'monto')}} />
+                <Input onWheel={(e)=>{e.target.blur()}} value={gasto.monto}  onClick={(e)=>{e.target.select()}} type="number" onChange={(e)=>{onChange(parse_float_string(e.target.value),'monto')}} />
             </Col>
         </Row>
         <Row>

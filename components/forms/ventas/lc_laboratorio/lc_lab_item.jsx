@@ -82,7 +82,7 @@ const LCLabItem = (props) =>{
                     <Input style={{minWidth:"100px"}}  disabled={LC.codigo==null} size="small" prefix="Diám." type="text" value={LC.diametro} onChange={(e=>{on_change(e.target.value,"diametro")})} />
                 </Col>
                 <Col span={3}>
-                    <Input style={{minWidth:"100px"}} disabled={LC.codigo==null} size="small" readOnly={false} type="number" prefix={"Precio: "} value={LC.precio} onChange={(v)=>{on_precio_change(v.target.value)}} />
+                    <Input onWheel={(e)=>{e.target.blur()}} style={{minWidth:"100px"}} disabled={LC.codigo==null} size="small" readOnly={false} type="number" prefix={"Precio: "} value={LC.precio} onChange={(v)=>{on_precio_change(v.target.value)}} />
                 </Col>
                 <Col span={1}>
                     <Button size="small" danger onClick={()=>{onRemove()}}><CloseOutlined/></Button>
