@@ -68,7 +68,7 @@ export default function VentaBase(props){
     const tabs_items = [
         {
             key: 'paso1',
-            label: <span style={{fontWeight:"600"}}>Cliente y Medico</span>,
+            label: <span style={{fontWeight:"600"}}>Cliente y M&eacute;dico</span>,
             children: 
             <>
             <Row className="table-row-dark"  style={{padding:".9em"}}>
@@ -173,7 +173,7 @@ export default function VentaBase(props){
     <>
     <Form  onFinish={onFinish} onFinishFailed={onFinishFailed}>
 	
-        <Tabs defaultActiveKey="paso1" items={tabs_items} size="large"/>
+        <Tabs defaultActiveKey="paso1" items={tabs_items} size="large" type="line" tabPosition="right" />
 
     </Form>
     </>

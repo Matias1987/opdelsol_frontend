@@ -6,6 +6,7 @@ import { public_urls } from "@/src/urls";
 import globals from "@/src/globals";
 import { submit_venta } from "@/src/helpers/ventas_helper";
 import InformeVentaV2 from "@/components/informes/ventas/InformeVentaV2";
+import { Divider } from "antd";
 
 export default function VentaLCLab(){
     const [productos, setProductos] = useState(null);
@@ -62,6 +63,7 @@ export default function VentaLCLab(){
     return (
     <>
     <span className="ventas-titulo">Venta de Lentes de Contacto Laboratorio</span>
+    <Divider />
     <VentaBase subTotal={subTotal} total={total} onfinish={onFinish} callback={callback_venta_modif}>
         <LCLabItems callback={products_callback} />
     </VentaBase>

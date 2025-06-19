@@ -206,10 +206,11 @@ useEffect(()=>{
         color: "black",
       }*/
       const _style_ = {
-        background: "#CEDBEB",//rgb(34,193,195)",
-        background: "linear-gradient(81deg, rgba(231,231,231,1)  0%, rgba(237,237,237,1) 100%)",
+        //background: "#CEDBEB",//rgb(34,193,195)",
+        //background: "linear-gradient(81deg, rgba(231,231,231,1)  0%, rgba(237,237,237,1) 100%)",
         color: "black",
-        boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)"
+        //boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)"
+        background:"rgba(0,0,0,0)",
          
       }
 

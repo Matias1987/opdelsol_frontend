@@ -1,5 +1,7 @@
 import globals from "@/src/globals"
 import { get } from "@/src/urls"
+import { EyeFilled } from "@ant-design/icons"
+import { Button } from "antd"
 import { useEffect, useState } from "react"
 
 const BarraResumenCaja = props => {
@@ -49,13 +51,24 @@ const BarraResumenCaja = props => {
         return () => clearTimeout(timeoutId);
       }, [update]);
 
-    return data ? <div style={{width:"100%", height:"20px", fontSize:"11px", paddingTop:"2px", paddingLeft:"34px" ,backgroundColor:"#FFFFB8", color:"#00306E"}}>
+    return data ? <div style={{
+        width:"100%", 
+        height:"20px", 
+        fontSize:"11px", 
+        paddingTop:"2px", 
+        paddingLeft:"34px" ,
+        //backgroundColor:"#FFFFB8", 
+        background: "#FFFFB8", 
+        background: "linear-gradient(39deg, rgba(255, 255, 184, 1) 62%, rgba(128, 164, 230, 1) 95%)",
+        color:"#00306E"
+        }}>
         {
             data.map(_row=><span style={{paddingLeft:"200px"}}>
                                 <span>{_row.detalle||""}:&nbsp;&nbsp;</span>
                                 <span style={{fontWeight:"bold"}}>{parseFloat(_row.valor||"0").toLocaleString(2)}</span>
                             </span>)
         }
+       
        
     </div>: <></>
 }

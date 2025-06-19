@@ -6,6 +6,7 @@ import { public_urls } from "@/src/urls";
 import globals from "@/src/globals";
 import { submit_venta } from "@/src/helpers/ventas_helper";
 import InformeVentaV2 from "@/components/informes/ventas/InformeVentaV2";
+import { Divider } from "antd";
 
 export default function VentaLCStock(){
     const [total, setTotal] = useState(0);
@@ -49,6 +50,7 @@ export default function VentaLCStock(){
     return (
         <>
         <span className="ventas-titulo">Venta de Lentes de Contacto Stock</span>
+        <Divider />
         <VentaBase subTotal={subTotal} total={total} onfinish={onFinish} callback={callback_venta_modif}>
             <LCStockItems callback={onProductosChange} />
         </VentaBase>

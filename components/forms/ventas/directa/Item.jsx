@@ -85,7 +85,7 @@ const VDItem = (props) => {
     </Modal>
 
     <Table 
-
+    pagination={false}
     rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'}
     
     columns={[

@@ -255,16 +255,25 @@ const EnvioForm = (props) => {
                                     value: 1,
                                     render: (_,{obj, cantidad})=>(
                                         <>
-                                        <Input type="number" style={{width:"50px"}} min={0} max={obj.max} defaultValue={0} value={cantidad} onChange={(e)=>{
-                                            
-                                            setTableData(talbeData=>{
+                                        <Input 
+                                            onWheel={(e)=>{e.target.blur()}} 
+                                            type="number" 
+                                            style={{width:"50px"}} 
+                                            min={0} 
+                                            max={obj.max} 
+                                            defaultValue={0} 
+                                            value={cantidad} 
+                                            onChange={(e)=>{
+                                                
+                                                setTableData(talbeData=>{
 
-                                                const _data = tableData.map(p=>{if(p.key==obj.key){p.cantidad=e.target.value} return p;})
-                                                actualizarTotal(_data)
-                                                return _data;
-                                            }
-                                            )
-                                        }} />
+                                                    const _data = tableData.map(p=>{if(p.key==obj.key){p.cantidad=e.target.value} return p;})
+                                                    actualizarTotal(_data)
+                                                    return _data;
+                                                }
+                                                )
+                                            }} 
+                                        />
                                         <span style={{fontSize:".8em", color:"blue"}}>/{obj.max}</span>
                                         </>
                                     )

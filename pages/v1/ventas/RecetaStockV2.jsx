@@ -6,6 +6,7 @@ import { public_urls } from "@/src/urls";
 import globals from "@/src/globals";
 import { submit_venta } from "@/src/helpers/ventas_helper";
 import InformeVentaV2 from "@/components/informes/ventas/InformeVentaV2";
+import { Divider } from "antd";
 
 
 export default function VentaRecetaStock(){
@@ -48,6 +49,9 @@ export default function VentaRecetaStock(){
     return (
     <>
         <span className="ventas-titulo">Venta de Receta Stock</span>
+        
+        <Divider />
+
         <VentaBase 
         total={total}
         subTotal={subTotal}

@@ -4,7 +4,7 @@ import { useState } from "react";
 import { get } from "@/src/urls";
 import globals from "@/src/globals";
 import { Button } from "antd";
-import { CloseCircleFilled } from "@ant-design/icons";
+import { CloseCircleFilled, EditOutlined } from "@ant-design/icons";
 import DefaultImageProduct from "@/components/etc/imagen/default_image_prod";
 
 /**
@@ -55,7 +55,7 @@ export default function SelectCodigoVenta(props){
         dataCodigo === null ?
         <>
             <CustomModal 
-            openButtonText= { typeof props.buttonText === 'undefined' ? 'Seleccionar Código' : props.buttonText }
+            openButtonText= { <i> <EditOutlined /> { typeof props.buttonText === 'undefined' ? 'Seleccionar Código' : props.buttonText } </i>}
             title="Buscar"
             >
                 <SearchStockVentas idfamilias={typeof props.idfamilias === 'undefined' ? [] : props.idfamilias} callback={onCodigoSelected} />

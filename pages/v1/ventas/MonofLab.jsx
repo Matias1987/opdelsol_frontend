@@ -6,6 +6,7 @@ import { public_urls } from "@/src/urls";
 import globals from "@/src/globals";
 import { submit_venta } from "@/src/helpers/ventas_helper";
 import InformeVentaV2 from "@/components/informes/ventas/InformeVentaV2";
+import { Divider } from "antd";
 
 export default function VentaMonofocalesLab(){
     const [productos, setProductos] = useState(null);
@@ -57,6 +58,7 @@ export default function VentaMonofocalesLab(){
 
     return (<>
     <span className="ventas-titulo">Venta de Monofocales Laboratorio</span>
+    <Divider />
     <VentaBase subTotal={subTotal} total={total} onfinish={onFinish} callback={callback_venta_modif}>
         <MonofLabItems callback={onProductosCallback}/>
     </VentaBase>

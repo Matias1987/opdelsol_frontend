@@ -6,6 +6,7 @@ import { useState } from "react";
 import globals from "@/src/globals";
 import { submit_venta } from "@/src/helpers/ventas_helper";
 import InformeVentaV2 from "@/components/informes/ventas/InformeVentaV2";
+import { Divider } from "antd";
 
 export default function VentaDirecta(){
     const [venta, setVenta] = useState(null)
@@ -31,6 +32,7 @@ export default function VentaDirecta(){
     return (
     <>
         <span className="ventas-titulo">Venta Directa</span>
+        <Divider />
         <VentaBase 
         
         subTotal={subTotal}

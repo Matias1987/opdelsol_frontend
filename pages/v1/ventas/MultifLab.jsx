@@ -6,6 +6,7 @@ import { public_urls } from "@/src/urls";
 import globals from "@/src/globals";
 import { submit_venta } from "@/src/helpers/ventas_helper";
 import InformeVentaV2 from "@/components/informes/ventas/InformeVentaV2";
+import { Divider } from "antd";
 
 export default function VentaMultifocalesLab(){
     const [total, setTotal] = useState(0)
@@ -60,6 +61,7 @@ export default function VentaMultifocalesLab(){
 
     return (<>
     <span className="ventas-titulo">Venta de Multifocales Laboratorio</span>
+    <Divider />
     <VentaBase subTotal={subTotal} total={total} onfinish={onFinish} callback={callback_venta_modif}>
         <MultifLabItems callback={onProductosCallback} />
     </VentaBase>
