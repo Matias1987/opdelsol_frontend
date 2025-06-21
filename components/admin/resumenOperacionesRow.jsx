@@ -104,8 +104,8 @@ const ResumenOperacionesRow = (props) => {
     },[count]);
 
     return <>
-    <Row style={{backgroundColor:color, borderRadius:"16px"}} gutter={24} onClick={()=>{setOpen(true)}} key={count}>
-        {data===null ?<span style={{padding:"6px", color:"red"}}> { message} </span> : <>
+    <Row style={{ borderTop: "1px solid darkgrey"}} gutter={24} onClick={()=>{setOpen(true)}} key={count}>
+        {data===null ?<span style={{padding:"6px", color:"#242E32"}}> <i>{ message}</i> </span> : <>
         <Col  span={3}>
         <Card bordered={false} style={{backgroundColor:"rgba(0,0,0,0)"}} size="small">
             <Statistic

@@ -1,5 +1,10 @@
 
+import ChartTotalesUltimoAnio from "@/components/admin/graficos/totales_ultimo_anio";
 import ResumenOperacionesRow from "@/components/admin/resumenOperacionesRow";
+import TotalesGastos from "@/components/admin/totales/totales_cobros";
+import TotalesCobros from "@/components/admin/totales/totales_gastos";
+import TotalesVentas from "@/components/admin/totales/totales_ventas";
+import TotalesVenta from "@/components/forms/ventas/TotalVenta";
 import LayoutAdmin from "@/components/layout/layout_admin";
 import { get } from "@/src/urls";
 import { Col, Divider, Modal, Row } from "antd";
@@ -27,6 +32,29 @@ export default function dashboard_admin(){
         })
     },[])
     return <>
+    <Row gutter={24}>
+        <Col span={12}>
+            <TotalesCobros />
+        </Col>
+        <Col span={12}>
+            <TotalesGastos />
+        </Col>
+    </Row>
+    <Row>
+        <Col span={24}>
+            <TotalesVentas />
+        </Col>
+    </Row>
+    <Row>
+        <Col span={24}>
+            <span style={{fontWeight:"600"}}>Cantidad Ventas Ultimo A&ntilde;o</span>
+        </Col>
+    </Row>
+    <Row>
+        <Col span={24}>
+            <ChartTotalesUltimoAnio />
+        </Col>
+    </Row>
     <Row>
         <Col span={24}>
             <h2>Totales por Sucursal</h2>

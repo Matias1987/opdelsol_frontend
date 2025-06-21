@@ -69,7 +69,7 @@ const EditarCodigoGrupo = (props) => {
         
         <Row>
             <Col span={24}>
-                <Input.TextArea rows={12} disabled value={((props.codigos||[]).map(c=>c.codigo + "\r\n")).toString()} readOnly style={{backgroundColor:"lightyellow", color:"darkblue"}}></Input.TextArea>
+                <Input.TextArea rows={2} disabled value={((props.codigos||[]).map(c=>c.codigo + "\r\n")).toString()} readOnly style={{backgroundColor:"lightyellow", color:"darkblue"}}></Input.TextArea>
             </Col>
         </Row>
         
@@ -139,6 +139,7 @@ const EditarCodigoGrupo = (props) => {
                     
             </Col>
         </Row>
+        
         <Row style={{padding:"1em"}}>
             <Col span={24}>
                 <Button type="primary" disabled={modificarPrecio} block onClick={onSave}>Aplicar</Button>

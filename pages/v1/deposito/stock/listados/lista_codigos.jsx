@@ -1,4 +1,3 @@
-import CustomModal from "@/components/CustomModal";
 import ImagenesProducto from "@/components/etc/imagen/imagen_producto";
 import TagsLote from "@/components/etiquetas/TagsLote";
 import DetalleCodigo from "@/components/forms/deposito/DetalleCodigo";
@@ -10,7 +9,7 @@ import MyLayout from "@/components/layout/layout";
 import globals from "@/src/globals";
 import { post_method } from "@/src/helpers/post_helper";
 import { get, post } from "@/src/urls";
-import { DownOutlined, EditOutlined, InfoOutlined, PictureOutlined } from "@ant-design/icons";
+import { CheckOutlined, CloseOutlined, DownOutlined, EditOutlined, InfoOutlined, PictureOutlined } from "@ant-design/icons";
 import { Card, Button, Checkbox, Col, Dropdown, Input, Modal, Row, Space, Table, Tag } from "antd";
 
 import { useEffect, useState } from "react";
@@ -77,6 +76,7 @@ export default function ListaCodigos(){
                         ruta: `${row.familia} / ${row.subfamilia} / ${row.grupo} / `,
                         idsubgrupo: row.subgrupo_idsubgrupo,
                         subgrupo: row.subgrupo,
+                        activo: row.activo,
                         //estado: "ACTIVO"
                     }))
                 )
@@ -91,6 +91,17 @@ export default function ListaCodigos(){
         setFiltros(filtros)
         setChange(!change)
 
+    }
+
+    const cambiar_estados_codigos = (activo) => {
+        
+        
+        post_method(get.cambiar_estado_codigo_activo,
+            {activo:activo, codigos: (dataSource.filter(d=>d.checked)).map(c=>c.idcodigo)},
+            response=>{
+                setChange(!change)
+            }
+        )
     }
 
     const columns = [
@@ -150,6 +161,9 @@ export default function ListaCodigos(){
                         </Dropdown>                        
                     
         },
+        {
+            render:(_,obj)=><>{+obj.activo==1 ? <CheckOutlined /> : <CloseOutlined /> }</>, title:"Activo", width:"50px"
+        }
         
     ]
 
@@ -174,16 +188,41 @@ export default function ListaCodigos(){
                             callback={()=>{setChange(!change);}}
                         />
                         &nbsp;
-                        <Button size="small" disabled={(dataSource.filter(d=>d.checked)).length<1} type="primary" onClick={()=>{setPopupTagsOpen(true)}}>Editar Etiquetas</Button>
+                        <Button size="small" disabled={(dataSource.filter(d=>d.checked)).length<1} type="primary" onClick={()=>{setPopupTagsOpen(true)}}>Editar Etiquetas</Button>&nbsp;
+                        <Button 
+                        disabled={(dataSource.filter(d=>d.checked)).length<1}
+                        size="small" 
+                       
+                        onClick={_=>{
+                            if(!confirm("Establecer códigos como activos?"))
+                            {
+                                return;
+                            }
+                            cambiar_estados_codigos(1)
+                        }}
+                        >Activar C&oacute;digos</Button>&nbsp;
+                        <Button 
+                        disabled={(dataSource.filter(d=>d.checked)).length<1}
+                        size="small" 
+                        danger
+                        onClick={_=>{
+                            if(!confirm("Establecer códigos como inactivos?"))
+                            {
+                                return;
+                            }
+                            cambiar_estados_codigos(0)
+                        }}
+                        >Desctivar C&oacute;digos</Button>
                     </Col>
                 </Row>
                 <Row>
                     <Col span={24}>
                         <Table 
+                        size="small"
                         columns={columns} 
                         dataSource={dataSource} 
                         loading={loading}  scroll={{y:"300px"}} 
-                        rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'} />
+                        rowClassName={(record, index) => +record.activo==0 ? 'error-row' : (index % 2 === 0 ? 'table-row-light' :  'table-row-dark')} />
                     </Col>
                 </Row>
             </Card>

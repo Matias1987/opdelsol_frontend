@@ -452,6 +452,7 @@ const get = {
 
     resumen_caja: remote_base_url + "caja/resumen/caja/s/",
 
+    cambiar_estado_codigo_activo: remote_base_url + "codigos/cambiar/estado/codigo/",
     
 }
 

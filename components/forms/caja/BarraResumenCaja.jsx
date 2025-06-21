@@ -51,7 +51,7 @@ const BarraResumenCaja = props => {
         return () => clearTimeout(timeoutId);
       }, [update]);
 
-    return data ? <div style={{
+      const style = {
         width:"100%", 
         height:"20px", 
         fontSize:"11px", 
@@ -59,9 +59,11 @@ const BarraResumenCaja = props => {
         paddingLeft:"34px" ,
         //backgroundColor:"#FFFFB8", 
         background: "#FFFFB8", 
-        background: "linear-gradient(39deg, rgba(255, 255, 184, 1) 62%, rgba(128, 164, 230, 1) 95%)",
+        //background: "linear-gradient(39deg, rgba(255, 255, 184, 1) 62%, rgba(128, 164, 230, 1) 95%)",
         color:"#00306E"
-        }}>
+        }
+
+    return data ? <div style={style}>
         {
             data.map(_row=><span style={{paddingLeft:"200px"}}>
                                 <span>{_row.detalle||""}:&nbsp;&nbsp;</span>
