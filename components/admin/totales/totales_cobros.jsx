@@ -14,7 +14,7 @@ const TotalesGastos = (props) => {
           <Card variant="borderless">
             <Statistic
               title="Total Día"
-              value={11.28}
+              value={0}
               precision={2}
               valueStyle={{ color: "#cf1322" }}
               prefix={<DollarOutlined />}
@@ -25,7 +25,7 @@ const TotalesGastos = (props) => {
           <Card variant="borderless">
             <Statistic
               title="Total Mes"
-              value={9.3}
+              value={0}
               precision={2}
               valueStyle={{ color: "#cf1322" }}
               prefix={<DollarOutlined />}

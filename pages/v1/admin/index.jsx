@@ -40,7 +40,7 @@ export default function dashboard_admin(){
             <TotalesGastos />
         </Col>
     </Row>
-    <Row>
+    {/*<Row>
         <Col span={24}>
             <TotalesVentas />
         </Col>
@@ -54,7 +54,7 @@ export default function dashboard_admin(){
         <Col span={24}>
             <ChartTotalesUltimoAnio />
         </Col>
-    </Row>
+    </Row>*/}
     <Row>
         <Col span={24}>
             <h2>Totales por Sucursal</h2>

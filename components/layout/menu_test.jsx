@@ -22,9 +22,9 @@ export default function TestMenu(){
         >
           
           <Menu.Item key="100"><Link href={get_url_to("deposito/")}><HomeOutlined />&nbsp;Inicio  </Link></Menu.Item>
-          <SubMenu key="sub20" title={<span><BoxPlotFilled /><span>Productos</span></span>}>
+          <SubMenu key="sub20" title={<span><BoxPlotFilled /><span>Stock</span></span>}>
             <Menu.Item key="110" >
-                  <Link href={get_url_to("deposito/stock/listados/lista_codigos")}>Listado</Link>
+                  <Link  href={get_url_to("deposito/stock/listados/lista_stock")}>Listado</Link>
             </Menu.Item>
               <Menu.Item key="sub2_32" >
                   <Link href={get_url_to("deposito/stock/agregar_stock_lote_v3")}>Agregar Productos</Link>
@@ -39,7 +39,7 @@ export default function TestMenu(){
             </Menu.Item>
           </SubMenu>
           {/*<Menu.Item style={{backgroundColor:"lightgoldenrodyellow"}} key="40"><Link href={get_url_to("deposito/envio/nuevo_envio")}><StarOutlined />&nbsp;Nuevo Envio  </Link></Menu.Item>*/}
-          <Menu.Item key={"31"}><Link href={get_url_to("deposito/stock/listados/lista_stock")}>Stock</Link></Menu.Item>
+          {/*<Menu.Item key={"31"}><Link href={get_url_to("deposito/stock/listados/lista_stock")}>Stock</Link></Menu.Item>*/}
           {/**/}
           
           

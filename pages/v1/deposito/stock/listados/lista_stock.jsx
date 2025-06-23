@@ -13,8 +13,8 @@ import MyLayout from "@/components/layout/layout";
 import InformeStock from "@/pages/v1/informes/informe_stock";
 import globals from "@/src/globals";
 import { post_method } from "@/src/helpers/post_helper";
-import { post } from "@/src/urls";
-import { DownOutlined, EditOutlined, ExportOutlined, InfoOutlined, PlusOutlined, PrinterOutlined, SearchOutlined, TableOutlined, UserOutlined } from "@ant-design/icons";
+import { get, post } from "@/src/urls";
+import { CheckOutlined, CloseOutlined, DownOutlined, EditOutlined, ExportOutlined, InfoOutlined, PlusOutlined, PrinterOutlined, SearchOutlined, TableOutlined, UserOutlined } from "@ant-design/icons";
 import { Button, Card, Checkbox, Col,  Divider,  Dropdown,  Form, Input, InputNumber, Modal, Row, Select, Space, Switch, Table, Tabs, Tag } from "antd";
 import { useEffect,  useState } from "react";
 
@@ -94,6 +94,17 @@ export default function ListaStock(){
         },
        
       ];
+
+    const cambiar_estados_codigos = (activo) => {
+        
+        
+        post_method(get.cambiar_estado_codigo_activo,
+            {activo:activo, codigos: (data.filter(d=>d.checked)).map(c=>c.idcodigo)},
+            response=>{
+                setValueChanged(!valueChanged)
+            }
+        )
+    }
      
       
     const edit_popup = () => <>
@@ -165,6 +176,7 @@ export default function ListaStock(){
                         modo_precio: row.modo_precio,
                         idsubgrupo: row.idsubgrupo,
                         etiquetas: row.etiquetas,
+                        activo: row.activo,
 
                     }
                 )
@@ -241,6 +253,9 @@ export default function ListaStock(){
                     }} />
                 </>
             )
+        },
+        {
+            render:(_,obj)=><>{+obj.activo==1 ? <CheckOutlined   /> : <CloseOutlined /> }</>, title:"Activo", width:"50px"
         }
     ]
 
@@ -340,7 +355,6 @@ export default function ListaStock(){
     }
 
     const removeTag = (tag) =>{
-       
         setTags(tags.filter(t1=>tag.tipo !== t1.tipo))
     }
 
@@ -393,7 +407,7 @@ export default function ListaStock(){
         <>
         <Card
         size="small"
-        title="Stock Sucursal"
+        title="Stock"
         style={{boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)"}}
         >
             <Row>
@@ -429,20 +443,21 @@ export default function ListaStock(){
                                             prefix={<span style={{fontWeight:"bold"}}>Filtro: </span>}
                                             placeholder="Seleccione..."
                                         options={[
+                                            {label: 'SubGrupo', value: 'subgrupo'},
+                                            {label: 'Grupo', value: 'grupo'},
+                                            {label: 'SubFamilia', value: 'subfamilia'},
+                                            {label: 'Familia', value: 'familia'},
+                                            {label: 'Grupo Contenga a', value: 'grupo_contenga_a'},
                                             {label: 'Codigo Contenga a', value: 'codigo_contenga_a'},
-                                            {label: 'Codigo Igual a ', value: 'codigo_igual_a'},
+                                            //{label: 'Codigo Igual a ', value: 'codigo_igual_a'},
                                             {label: 'Precio - Mayor a', value: 'precio_mayor_a'},
                                             {label: 'Precio - Menor a', value: 'precio_menor_a'},
                                             {label: 'Precio - Igual a', value: 'precio_igual_a'},
                                             {label: 'Cantidad - Igual a', value: 'cantidad_igual_a'},
                                             {label: 'Cantidad - Mayor a', value: 'cantidad_mayor_a'},
                                             {label: 'Cantidad - Menor a', value: 'cantidad_menor_a'},
-                                            {label: 'Descripción', value: 'detalles'},
-                                            {label: 'SubGrupo', value: 'subgrupo'},
-                                            {label: 'Grupo', value: 'grupo'},
-                                            {label: 'SubFamilia', value: 'subfamilia'},
-                                            {label: 'Familia', value: 'familia'},
-                                            {label: 'Grupo Contenga a', value: 'grupo_contenga_a'},
+                                            //{label: 'Descripción', value: 'detalles'},
+                                            
                                         ]} 
                                         style={{width:"100%"}}
                                         onChange={(value)=>{
@@ -531,42 +546,65 @@ export default function ListaStock(){
                 />            
                 </Col>
             </Row>
-            <Row style={{backgroundColor:"#D3E1E6"}}>
+            <Row style={{backgroundColor:"#D3E1E6"}} gutter={"16"} >
+                <Col>
                 {usuarioDep && (selectedSucursal==globals.obtenerSucursal() || selectedSucursal<-1) ?
-                        <Col span={4} style={{padding:".5em"}}>
-                            <Button size="small" onClick={()=>{setOpen(true)}} ><TableOutlined />  Grilla de C&oacute;digos</Button>
-                            <Modal 
-                                footer={null} 
-                                width={"1100px"} 
-                                open={open} 
-                                key={idsubgrupo} 
-                                destroyOnClose={true} 
-                                onCancel={()=>{setOpen(false); setValueChanged(!valueChanged)} }>
-                                    <CodeGrid idsubgrupo={idsubgrupo} width={640} height={480} idsucursal={globals.obtenerSucursal()} />
-                            </Modal>
-                        </Col>:<></>}
-                        {usuarioDep  && (selectedSucursal==globals.obtenerSucursal() || selectedSucursal<-1)?<Col span={4} style={{padding:".5em"}}>{edit_popup()}</Col>:<></>}
-                        <Col span={4} style={{padding:".5em"}}>
-                            <ExportToCSV parseFnt={()=>{
-                                let str = "Familia, SubFamilia, Grupo, Subgrupo, Codigo, Descripcion, Cantidad, Precio, Tags,\r\n"
-                                data.forEach(r=>{
-                                    str+=`${r.familia},${r.subfamilia},${r.grupo},${r.subgrupo},' ${r.codigo} ',${r.descripcion},${r.cantidad},${r.precio},${(r.etiquetas||"").replace(/,/g ," ; ")},\r\n`
-                                })
-                                return str
-                            }} 
-                            />
-                        </Col>
+                           <Button size="small" onClick={()=>{setOpen(true)}} ><TableOutlined />  Grilla de C&oacute;digos</Button>:<></>}
+                </Col>
+                <Col>
+                {/*usuarioDep  && (selectedSucursal==globals.obtenerSucursal() || selectedSucursal<-1)?<>{edit_popup()}</>:<></>*/}
+                
+                    <ExportToCSV parseFnt={()=>{
+                        let str = "Familia, SubFamilia, Grupo, Subgrupo, Codigo, Descripcion, Cantidad, Precio, Tags,\r\n"
+                        data.forEach(r=>{
+                            str+=`${r.familia},${r.subfamilia},${r.grupo},${r.subgrupo},' ${r.codigo} ',${r.descripcion},${r.cantidad},${r.precio},${(r.etiquetas||"").replace(/,/g ," ; ")},\r\n`
+                        })
+                        return str
+                    }} 
+                    />
+                </Col>
+                <Col>
                         {/*<Col span={4} style={{padding:".5em"}}>
                             <ImpresionCodigosPopup codigos={(data.filter(d=>d.checked)).map(c=>({codigo:c.codigo, idcodigo: c.idcodigo , cantidad:  c.cantidad}))} />
                         </Col>*/}
-                        <Col span={4} style={{padding:".5em"}}>
-                            <Button size="small" disabled={(data.filter(d=>d.checked)).length<1} type="primary" onClick={()=>{setPopupTagsOpen(true)}}>Editar Etiquetas</Button>
+              
+                            <Button size="small" disabled={(data.filter(d=>d.checked)).length<1}  onClick={()=>{setPopupTagsOpen(true)}}>Editar Etiquetas</Button>
+                </Col>
+                <Col>
+                            <Button 
+                                disabled={(data.filter(d=>d.checked)).length<1}
+                                size="small" 
+                            
+                                onClick={_=>{
+                                    if(!confirm("Establecer códigos como activos?"))
+                                    {
+                                        return;
+                                    }
+                                    cambiar_estados_codigos(1)
+                                }}
+                                >Activar C&oacute;digos
+                            </Button>
+                </Col>
+                <Col>
+                            <Button 
+                                disabled={(data.filter(d=>d.checked)).length<1}
+                                size="small" 
+                                danger
+                                onClick={_=>{
+                                    if(!confirm("Establecer códigos como inactivos?"))
+                                    {
+                                        return;
+                                    }
+                                    cambiar_estados_codigos(0)
+                                }}
+                                >Desctivar C&oacute;digos
+                            </Button>
                         </Col>  
             </Row>
             <Row>
                 <Col span={24}>
                     <Table 
-                    rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'} 
+                    rowClassName={(record, index) => +record.activo==0 ? 'error-row' : (index % 2 === 0 ? 'table-row-light' :  'table-row-dark')} 
                     columns={columns.filter(item=>!item.hidden)} 
                     dataSource={data} 
                     loading={loading} 
@@ -640,6 +678,15 @@ export default function ListaStock(){
         onCancel={_=>{setPopupEditarCodigoIndvOpen(false)}}
         >
             <EditarCodigoIndiv  idcodigo={selectedIdCodigo} buttonText={<>Editar C&oacute;digo</>} callback={()=>{setValueChanged(!valueChanged); setPopupEditarCodigoIndvOpen(false);}} />
+        </Modal>
+        <Modal 
+            footer={null} 
+            width={"1100px"} 
+            open={open} 
+            key={idsubgrupo} 
+            destroyOnClose={true} 
+            onCancel={()=>{setOpen(false); setValueChanged(!valueChanged)} }>
+                <CodeGrid idsubgrupo={idsubgrupo} width={640} height={480} idsucursal={globals.obtenerSucursal()} />
         </Modal>
         </>
     )
