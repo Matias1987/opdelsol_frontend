@@ -162,7 +162,7 @@ export default function VentaBase(props){
                 </Col>
                 <Col span={24}>
                     <Form.Item>
-                        <Button style={{borderRadius:"0"}} disabled={!btnEnabled} type="primary" block onClick={finalizar_venta}>Imprimir Sobre</Button>
+                        <Button style={{borderRadius:"16px"}} size="large" disabled={!btnEnabled} type="primary" block onClick={finalizar_venta}>Imprimir Sobre</Button>
                     </Form.Item>
                 </Col>
             </Row>

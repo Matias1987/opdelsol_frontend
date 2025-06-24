@@ -15,6 +15,7 @@ import DefaultImageProduct from "@/components/etc/imagen/default_image_prod";
  * @param filtros
  */
 export default function SelectCodigoVenta(props){
+    const {hideExtOpt} = props;
     const [dataCodigo, setDataCodigo] = useState(null);
     const query_detalles = get.obtener_stock_detalles_venta + globals.obtenerSucursal() + "/";
     
@@ -55,10 +56,11 @@ export default function SelectCodigoVenta(props){
         dataCodigo === null ?
         <>
             <CustomModal 
+            width="900px"
             openButtonText= { <i> <EditOutlined /> { typeof props.buttonText === 'undefined' ? 'Seleccionar Código' : props.buttonText } </i>}
             title="Buscar"
             >
-                <SearchStockVentas idfamilias={typeof props.idfamilias === 'undefined' ? [] : props.idfamilias} callback={onCodigoSelected} />
+                <SearchStockVentas idfamilias={typeof props.idfamilias === 'undefined' ? [] : props.idfamilias} callback={onCodigoSelected} hideExtOpt={hideExtOpt||"0"} />
             </CustomModal>
             </>
             :

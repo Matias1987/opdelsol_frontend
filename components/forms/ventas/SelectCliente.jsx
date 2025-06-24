@@ -142,27 +142,25 @@ const SelectCliente = (props) =>{
         onOpen={onOpenPopup} 
         openButtonText={ typeof props.openButtonText === 'undefined' ? (typeof props.destinatario !== 'undefined' ? 'Seleccionar Destinatario' : "Seleccione Cliente") : props.openButtonText } 
         title="Seleccionar Cliente" >
-        {typeof props.destinatario !== 'undefined' ? 'Buscar Destinatario' : "Buscar Cliente" }
+        
         <Row>
-            <Col span={24}>
-                <Input.Search size="small" onSearch={onSearch} />
-            </Col>
-        </Row>
-        <Row>
-            <Col span={12}>
+            <Col span={24} >
+                <Table 
+                title={_=><Row gutter={"16"}><Col><span style={{fontWeight:"bold"}}>Clientes</span> </Col>
+                <Col>
                 <ClienteFormV2 destinatario={props.destinatario} callback={(id)=>{
                         //alert(id); 
                         setReload(!reload)
                         upload_cliente_details(id) 
                         }}/>
-            </Col>
-            <Col span={12}>
-                <Button size="small" style={{color:"red"}} onClick={()=>{setReload(!reload)}}><ReloadOutlined /> Recargar</Button>
-            </Col>
-        </Row>
-        <Row>
-            <Col span={24}>
-                <Table 
+                </Col>
+                <Col>
+                        <Input.Search size="small" prefix="Buscar: "  style={{width:"400px"}} onSearch={onSearch} />
+                </Col>
+                <Col>
+                    <Button size="small" style={{color:"white"}} onClick={()=>{setReload(!reload)}}type="text"><ReloadOutlined /></Button>
+                </Col>
+                </Row>}
                 size="small"
                 scroll={{y:"500px"}}
                 loading={loading}

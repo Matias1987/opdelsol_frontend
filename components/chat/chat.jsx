@@ -81,8 +81,9 @@ const Chat = (props) =>{
     }
 
     return <>
-        <FloatButton icon={<MessageOutlined />} badge onClick={()=>{setOpen(true)}} />
+        <FloatButton icon={<MessageOutlined />} badge onClick={()=>{setOpen(true)}} style={{ insetInlineEnd: 94 }}/>
         <Modal 
+        destroyOnClose
         width={"450px"}
         onCancel={()=>{setOpen(false)}}
         footer={<>

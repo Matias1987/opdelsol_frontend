@@ -65,7 +65,7 @@ const VentasArmazon = (props) => {
         <>
             <Row>
                 <Col span={19}>
-                    <SelectCodigoVenta idfamilias={[globals.familiaIDs.ARMAZON]} callback={on_codigo_change} />
+                    <SelectCodigoVenta idfamilias={[globals.familiaIDs.ARMAZON]} callback={on_codigo_change} hideExtOpt="1"/>
                 </Col>
                 <Col span={4}>
                     <Input onWheel={(e)=>{e.target.blur()}} style={{minWidth:"100px"}} disabled={armazon.codigo==null} type="number" prefix="Precio: " value={armazon.precio} readOnly={false} onChange={on_precio_change} size="small" />

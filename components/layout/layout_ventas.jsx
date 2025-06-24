@@ -8,6 +8,7 @@ import MenuV2 from "./menu_v2";
 import PopupResultadoBusqueda from "../precios/PopupResultadoBusqueda";
 import BarraResumenCaja from "../forms/caja/BarraResumenCaja";
 import { SearchOutlined } from "@ant-design/icons";
+import Chat from "../chat/chat";
 
 
 export default function LayoutVentas(props) {
@@ -163,6 +164,7 @@ export default function LayoutVentas(props) {
             }}
           />
         </Content>
+        <Chat />
       </Card>
       {/*
             <Menu items={[{

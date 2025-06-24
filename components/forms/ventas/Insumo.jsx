@@ -48,7 +48,7 @@ const VentasInsumo = (props) => {
         <>
             <Row>
                 <Col span={19}>
-                    <SelectCodigoVenta buttonText="Seleccione Código Insumo" idfamilias={[globals.familiaIDs.INSUMO,globals.familiaIDs.LIQUIDOS]} callback={on_codigo_change} />
+                    <SelectCodigoVenta hideExtOpt="1" buttonText="Seleccione Código Insumo" idfamilias={[globals.familiaIDs.INSUMO,globals.familiaIDs.LIQUIDOS]} callback={on_codigo_change} />
                 </Col>
                 <Col span={4}>
                     <Input onWheel={(e)=>{e.target.blur()}} style={{minWidth:"100px"}} disabled={insumo.codigo==null} type="number" min={0} prefix={"Precio: "} readOnly={false} value={insumo.precio} onChange={on_precio_change} size="small" />

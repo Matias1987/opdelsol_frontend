@@ -659,7 +659,7 @@ export default function ListaStock(){
         open={popupEditarStockIndvOpen} 
         footer={null} 
         onCancel={()=>{setPopupEditarStockIndvOpen(false); setValueChanged(!valueChanged)}}  
-        width={"80%"}
+        width={"900px"}
         >
             <EditarStockIndiv 
             idcodigo={selectedIdCodigo} 

@@ -74,7 +74,7 @@ const RecStockCristal = (props) => {
         <>
             <Row>
                 <Col span={15}>
-                    <SelectCodigoVenta idfamilias={[globals.familiaIDs.CRISTALES]} buttonText={"Seleccionar Código Cristal"} callback={onchange_codigo} />
+                    <SelectCodigoVenta hideExtOpt={"0"} idfamilias={[globals.familiaIDs.CRISTALES]} buttonText={"Seleccionar Código Cristal"} callback={onchange_codigo} />
                 </Col>
                 {/*<Col span={1} style={_estilo_label}>
                     Eje:
