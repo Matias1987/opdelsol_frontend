@@ -6,7 +6,7 @@ import { Button, Divider, Row, Col, Input, Card } from "antd";
 export default function Index(){
     return (<>
 
-    <ChatV2 />
+    
         
         <Divider />
 

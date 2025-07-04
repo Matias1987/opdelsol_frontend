@@ -173,7 +173,7 @@ export default function VentaBase(props){
     <>
     <Form  onFinish={onFinish} onFinishFailed={onFinishFailed}>
 	
-        <Tabs defaultActiveKey="paso1" items={tabs_items} size="large" type="line" tabPosition="right" />
+        <Tabs defaultActiveKey="paso1" items={tabs_items} size="large" type="line" tabPosition="top" />
 
     </Form>
     </>

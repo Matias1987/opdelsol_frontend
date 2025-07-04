@@ -164,7 +164,7 @@ export default function LayoutVentas(props) {
             }}
           />
         </Content>
-        <Chat />
+        
       </Card>
       {/*
             <Menu items={[{
