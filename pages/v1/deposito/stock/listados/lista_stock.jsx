@@ -255,7 +255,7 @@ export default function ListaStock(){
             )
         },
         {
-            render:(_,obj)=><>{+obj.activo==1 ? <CheckOutlined   /> : <CloseOutlined /> }</>, title:"Activo", width:"50px"
+            render:(_,obj)=><>{+obj.activo==1 ? <CheckOutlined   /> : <CloseOutlined /> }</>, title:"Activo", width:"80px"
         }
     ]
 
