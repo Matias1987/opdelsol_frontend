@@ -1,7 +1,7 @@
 
 import { get } from "@/src/urls";
 
-import { Space, Select, Spin, Col }  from "antd";
+import { Space, Select, Spin, Col, Row }  from "antd";
 import { useState, useEffect }  from "react";
 
 const SubGroupSelect = (props) => {
@@ -80,8 +80,8 @@ const SubGroupSelect = (props) => {
 
     return (
         <>
-            <Space wrap>
-                <Col span={6}>
+            <Row gutter={2}>
+                <Col>
                     <Select 
                     prefix={<span style={{color:"#536872"}}>Familia: </span>}
                     size="small"
@@ -106,9 +106,9 @@ const SubGroupSelect = (props) => {
                     />
                 </Col>
                 {
-                    idFamilia==-1 ? <Spin /> :
+                    idFamilia==-1 ? <></> :
                     (
-                        <Col span={6}>
+                        <Col>
                             <Select 
                             size="small"
                             disabled={typeof props.disabled === 'undefined' ? false : props.disabled}
@@ -135,9 +135,9 @@ const SubGroupSelect = (props) => {
                     )
                 }
                 {
-                    idSubFamilia == -1 ? <Spin /> :
+                    idSubFamilia == -1 ? <></> :
                     (   
-                        <Col span={6}>
+                        <Col>
                             <Select 
                             size="small"
                             disabled={typeof props.disabled === 'undefined' ? false : props.disabled}
@@ -161,9 +161,9 @@ const SubGroupSelect = (props) => {
                     )
                 }
                 {
-                    idGrupo == -1 ? <Spin /> :
+                    idGrupo == -1 ? <></> :
                     (
-                        <Col span={6}>
+                        <Col>
                             <Select 
                             size="small"
                             disabled={typeof props.disabled === 'undefined' ? false : props.disabled}
@@ -186,7 +186,7 @@ const SubGroupSelect = (props) => {
                     )
                 }
 
-            </Space>
+            </Row>
         
         </>
 

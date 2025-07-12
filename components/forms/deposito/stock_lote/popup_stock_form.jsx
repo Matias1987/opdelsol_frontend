@@ -83,6 +83,7 @@ const PopUpAgregarStockLoteForm = (props) => {
 }
 
 const onCodigoChange = (e) => {
+
     const str = e.target.value;
 
     if(str.length<8){
@@ -111,20 +112,20 @@ const onCodigoChange = (e) => {
     const descripcion_input = () => {
         switch(pattern){
             case 0: return <>
-                <Input value={part1} onChange={(e)=>{setPart1(e.target.value)}}/>
+                <Input value={part1} onChange={(e)=>{setPart1(e.target.value)}} allowClear />
             </>
             case 1: return <><Space>
             <Space.Compact size="large">
-                <Input addonAfter={"[...]"} placeholder="large size" value={part1} onChange={(e)=>{setPart1(e.target.value)}}/>
-                <Input value={part2} onChange={(e)=>{setPart2(e.target.value)}}/>
+                <Input addonAfter={"[...]"} placeholder="large size" value={part1} onChange={(e)=>{setPart1(e.target.value)}}  />
+                <Input value={part2} onChange={(e)=>{setPart2(e.target.value)}}  />
             </Space.Compact>
         </Space></>
             case 2: return <>
             <Space>
                 <Space.Compact size="large">
-                    <Input addonAfter={"[...]"} placeholder="large size" value={part1} onChange={(e)=>{setPart1(e.target.value)}}/>
-                    <Input addonAfter={"[...]"} placeholder="another input" value={part3} onChange={(e)=>{setPart3(e.target.value)}}/>
-                    <Input value={part2} onChange={(e)=>{setPart2(e.target.value)}}/>
+                    <Input addonAfter={"[...]"} placeholder="large size" value={part1} onChange={(e)=>{setPart1(e.target.value)}} />
+                    <Input addonAfter={"[...]"} placeholder="another input" value={part3} onChange={(e)=>{setPart3(e.target.value)}} />
+                    <Input value={part2} onChange={(e)=>{setPart2(e.target.value)}}  />
                 </Space.Compact>
             </Space>
             </>
@@ -174,7 +175,7 @@ useEffect(()=>{
             <Col span={12}>
                 <Form.Item  rules={[{required:true}]} label={"Codigo"} name={"codigo"} style={{width: "90%"}}>
                 {
-                    props.edit ? <><Input value={props.values.codigo} disabled /></> : <Input  onChange={onCodigoChange} />
+                    props.edit ? <><Input value={props.values.codigo} disabled /></> : <Input  onChange={onCodigoChange} allowClear />
                 }
                 </Form.Item>
                 <Form.Item  label={"Descripción"} name={"descripcion"} style={{width: "90%"}}  >

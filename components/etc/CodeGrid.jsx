@@ -488,7 +488,7 @@ const CodeGrid = (props) => {
             }
         })
 
-        window.addEventListener('keyup', (e) => {
+        /*window.addEventListener('keyup', (e) => {
             
             if (e.key.toUpperCase() == "S")
             {
@@ -507,7 +507,7 @@ const CodeGrid = (props) => {
                     setCodigosSeleccion([])
                 }
             } 
-        })
+        })*/
 
         canvas.addEventListener("mousedown",(e)=>{
             mouse_down=true

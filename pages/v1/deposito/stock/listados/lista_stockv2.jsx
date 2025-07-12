@@ -26,7 +26,7 @@ import TagsLote from "@/components/etiquetas/TagsLote";
 import SucursalSelect from "@/components/SucursalSelect";
 import DetalleStock from "@/components/forms/deposito/detalle/DetalleStock";
 
-export default function ListaStock(){
+export default function ListaStockV2(){
     const [usuarioDep, setUsuarioDep] = useState(false)
     const [popupOpen, setPopupOpen] = useState(false)
     const [tipoOrden, setTipoOrden] = useState("");
@@ -41,6 +41,7 @@ export default function ListaStock(){
     const [listId, setListId] = useState(0);
     const [idsubgrupo, setIdSubgrupo] = useState(-1)
     const [activeTab, setActiveTab] = useState("1")
+    const [activeTab1, setActiveTab1] = useState("1")
     const [quickSearchValue, setQuickSearchValue] = useState("")
     const [codigoSearch, setCodigoSearch] = useState(true)
     const [etiquetas, setEtiquetas] = useState([])
@@ -435,8 +436,8 @@ export default function ListaStock(){
                         key: '2',
                         children: <div>
                         <Form {...{labelCol:{span:5}, wrapperCol:{span:18}}} onFinish={onFinishFiltro} form={form}>
-                            <Row gutter={16} style={{backgroundColor:"rgba(173,216,230,.2)", paddingTop:".3em", paddingLeft:".3em", paddingRight:".3em", border:"1px solid rgba(173,216,230,1)"}} >
-                                <Col >
+                            <Row  style={{backgroundColor:"rgba(173,216,230,.2)", paddingTop:".3em", paddingLeft:".3em", paddingRight:".3em", border:"1px solid rgba(173,216,230,1)"}} >
+                            <Col span={12}>
                                     <Form.Item label="" name={"tipo_filtro"}>
                                         <Select 
                                             prefix={<span style={{fontWeight:"bold"}}>Filtro: </span>}
@@ -458,7 +459,7 @@ export default function ListaStock(){
                                             //{label: 'Descripción', value: 'detalles'},
                                             
                                         ]} 
-                                        style={{width:"250px"}}
+                                        style={{width:"100%"}}
                                         onChange={(value)=>{
                                             setValue("tipo_filtro",value)
                                             setTipoFitro(value)
@@ -469,14 +470,12 @@ export default function ListaStock(){
                                 <Col span={12}>
                                     <Form.Item label={"Valor"} name={"valor"} key={valueChanged}>
                                         {FiltroValor()}
-                                        
+                                        <Button type="link" danger htmlType="submit" size="small"><PlusOutlined size={"small"} /> Agregar Filtro</Button>
                                     </Form.Item>
-                                </Col>
-                                <Col>
-                                    <Button type="link" danger htmlType="submit" size="small"><PlusOutlined size={"small"} /> Agregar Filtro...</Button>
                                 </Col>
                                 
                             </Row>
+                            <br />
                             </Form>
                             <Form form={form1} onFinish={onFinish}>
                                 <Row>
@@ -547,68 +546,87 @@ export default function ListaStock(){
                 />            
                 </Col>
             </Row>
+
+            <Tabs
+                onChange={(v)=>{setActiveTab1(v)}}
+                defaultActiveKey="10"
+                activeKey={activeTab1}
+                type="card"
+                items={[
+                    {
+                        label:'Lista',
+                        key:"10",
+                        children: <>
+                                    <Row style={{backgroundColor:"#D3E1E6"}} gutter={"16"} >
+                                        <Col>
+                                            <ExportToCSV parseFnt={()=>{
+                                                let str = "Familia, SubFamilia, Grupo, Subgrupo, Codigo, Descripcion, Cantidad, Precio, Tags,\r\n"
+                                                data.forEach(r=>{
+                                                    str+=`${r.familia},${r.subfamilia},${r.grupo},${r.subgrupo},' ${r.codigo} ',${r.descripcion},${r.cantidad},${r.precio},${(r.etiquetas||"").replace(/,/g ," ; ")},\r\n`
+                                                })
+                                                return str
+                                            }} 
+                                            />
+                                        </Col>
+                                        <Col>
+                                                    <Button size="small" disabled={(data.filter(d=>d.checked)).length<1}  onClick={()=>{setPopupTagsOpen(true)}}>Editar Etiquetas</Button>
+                                        </Col>
+                                        <Col>
+                                            <Button 
+                                                disabled={(data.filter(d=>d.checked)).length<1}
+                                                size="small" 
+                                            
+                                                onClick={_=>{
+                                                    if(!confirm("Establecer códigos como activos?"))
+                                                    {
+                                                        return;
+                                                    }
+                                                    cambiar_estados_codigos(1)
+                                                }}
+                                                >Activar C&oacute;digos
+                                            </Button>
+                                        </Col>
+                                        <Col>
+                                            <Button 
+                                                disabled={(data.filter(d=>d.checked)).length<1}
+                                                size="small" 
+                                                danger
+                                                onClick={_=>{
+                                                    if(!confirm("Establecer códigos como inactivos?"))
+                                                    {
+                                                        return;
+                                                    }
+                                                    cambiar_estados_codigos(0)
+                                                }}
+                                                >Desctivar C&oacute;digos
+                                            </Button>
+                                        </Col>  
+                                    </Row>
+                                    <Row>
+                                        <Col span={24}>
+                                            <Table 
+                                            rowClassName={(record, index) => +record.activo==0 ? 'error-row' : (index % 2 === 0 ? 'table-row-light' :  'table-row-dark')} 
+                                            columns={columns.filter(item=>!item.hidden)} 
+                                            dataSource={data} 
+                                            loading={loading} 
+                                            scroll={{y:400}}  
+                                            size="small"
+                                            />
+                                        </Col>
+                                    </Row>
+                            </>
+                    },
+                    {
+                        label:'Grilla',
+                        key:"11",
+                        children: <>
+                        <CodeGrid idsubgrupo={idsubgrupo||"-1"} width={640} height={480} idsucursal={globals.obtenerSucursal()} key={idsubgrupo} />
+                        </>
+                    },
+                ]} 
+            />
             
-            <Row style={{backgroundColor:"#D3E1E6"}} gutter={"16"} >
-                <Col>
-                {usuarioDep && (selectedSucursal==globals.obtenerSucursal() || selectedSucursal<-1) ?
-                           <Button size="small" onClick={()=>{setOpen(true)}} ><TableOutlined />  Grilla de C&oacute;digos</Button>:<></>}
-                </Col>
-                <Col>
-                    <ExportToCSV parseFnt={()=>{
-                        let str = "Familia, SubFamilia, Grupo, Subgrupo, Codigo, Descripcion, Cantidad, Precio, Tags,\r\n"
-                        data.forEach(r=>{
-                            str+=`${r.familia},${r.subfamilia},${r.grupo},${r.subgrupo},' ${r.codigo} ',${r.descripcion},${r.cantidad},${r.precio},${(r.etiquetas||"").replace(/,/g ," ; ")},\r\n`
-                        })
-                        return str
-                    }} 
-                    />
-                </Col>
-                <Col>
-                            <Button size="small" disabled={(data.filter(d=>d.checked)).length<1}  onClick={()=>{setPopupTagsOpen(true)}}>Editar Etiquetas</Button>
-                </Col>
-                <Col>
-                            <Button 
-                                disabled={(data.filter(d=>d.checked)).length<1}
-                                size="small" 
-                            
-                                onClick={_=>{
-                                    if(!confirm("Establecer códigos como activos?"))
-                                    {
-                                        return;
-                                    }
-                                    cambiar_estados_codigos(1)
-                                }}
-                                >Activar C&oacute;digos
-                            </Button>
-                </Col>
-                <Col>
-                            <Button 
-                                disabled={(data.filter(d=>d.checked)).length<1}
-                                size="small" 
-                                danger
-                                onClick={_=>{
-                                    if(!confirm("Establecer códigos como inactivos?"))
-                                    {
-                                        return;
-                                    }
-                                    cambiar_estados_codigos(0)
-                                }}
-                                >Desctivar C&oacute;digos
-                            </Button>
-                        </Col>  
-            </Row>
-            <Row>
-                <Col span={24}>
-                    <Table 
-                    rowClassName={(record, index) => +record.activo==0 ? 'error-row' : (index % 2 === 0 ? 'table-row-light' :  'table-row-dark')} 
-                    columns={columns.filter(item=>!item.hidden)} 
-                    dataSource={data} 
-                    loading={loading} 
-                    scroll={{y:400}}  
-                    size="small"
-                    />
-                </Col>
-            </Row>
+            
             <Row>
                 <Col span={24} style={{color:"blue", padding:"1em", fontWeight:"bold", fontSize:"1.3em"}}>
                     Cantidad Total: {total}
@@ -688,5 +706,5 @@ export default function ListaStock(){
     )
 }
 
-ListaStock.PageLayout = globals.esUsuarioDepositoMin() ? LayoutVentas : MyLayout;
+ListaStockV2.PageLayout = globals.esUsuarioDepositoMin() ? LayoutVentas : MyLayout;
 

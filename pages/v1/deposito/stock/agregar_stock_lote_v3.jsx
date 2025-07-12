@@ -544,7 +544,7 @@ export default function AgregarStockLoteV3(props){
             <Modal 
                 open={popupAddOpen}
                 width={"900px"}
-                destroyOnClose
+                
                 onCancel={_=>{setPopupAddOpen(false)}}
                 title="Agregar Códigos"
                 footer={null}
