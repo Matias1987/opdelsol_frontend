@@ -183,6 +183,9 @@ const post = {
 
     obtener_objetivo_sucursal: remote_base_url + "objs/list",
     obtener_progreso_sucursal_objetivo: remote_base_url + "objs/get/progress",
+    get_settings:  remote_base_url + "stt/ls/",
+
+    get_ultima_graduacion: remote_base_url + "clientes/get/ultimas/graduaciones/cliente/",
 
     search:{
         filtro_stock: remote_base_url + "stock/filtro_stock/",
@@ -233,6 +236,7 @@ const post = {
         registrar_cambio_venta_item: remote_base_url + "cb/add/cambio/item/",
         generar_sorteo: remote_base_url + "srt/gen/",
         establecer_objetivo_sucursal: remote_base_url + "objs/",
+        settings: remote_base_url + "stt/",
     },
     update:{
         optica: remote_base_url + "op/mod/",
@@ -448,6 +452,7 @@ const get = {
 
     resumen_caja: remote_base_url + "caja/resumen/caja/s/",
 
+    cambiar_estado_codigo_activo: remote_base_url + "codigos/cambiar/estado/codigo/",
     
 }
 

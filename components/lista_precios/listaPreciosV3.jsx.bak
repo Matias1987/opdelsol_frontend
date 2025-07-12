@@ -5,7 +5,6 @@ import globals from "@/src/globals"
 import { get, post } from "@/src/urls"
 import GrupoV2 from "./grupo_v2"
 import SubGrupoFormV3 from "../forms/deposito/SubgrupoFormV3"
-import CodeExample from "../etc/codeExample"
 
 const ListaPreciosV3 = (props) => {
     const [subfamilias, setSubfamilias] = useState([])
@@ -138,11 +137,8 @@ const ListaPreciosV3 = (props) => {
         </Col>
     </Row>
     
-    <Modal destroyOnClose open={popupDetalleOpen} onCancel={()=>{setPopupDetalleOpen(false)}} footer={null} title="Detalle " width={"750px"}>
-        <div>
+    <Modal destroyOnClose open={popupDetalleOpen} onCancel={()=>{setPopupDetalleOpen(false)}} footer={null} title="Detalle " width={"600px"}>
             <SubGrupoFormV3 mostrarPrecioMayorista={ esAdmin } mostrarPrecioPar={mostrarPrecioPar} callback={()=>{setPopupDetalleOpen(false); setReload(!reload)}} readOnly={ !(esAdmin || esUDeposito) } idsubgrupo={selectedSubgrupoId} title="Detalle Subgrupo" />
-            <CodeExample idsubgrupo={selectedSubgrupoId} />
-        </div>
     </Modal>
     </div>
 }
