@@ -1,12 +1,15 @@
 import { Button, Col, Input, InputNumber, Row } from "antd";
 import SelectCodigoVenta from "../SelectCodigoVenta";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { DeleteOutlined } from "@ant-design/icons";
 import globals from "@/src/globals";
 import { parse_float_string, parse_int_string, round_float } from "@/src/helpers/string_helper";
+import { bloquear_precios_lc_stock } from "@/src/config";
 
 const LCItem = (props) => {
     const [visible, setVisible] = useState(false);
+
+
 
     const [lc, setLC] = useState({
         idcodigo: -1,
@@ -65,7 +68,7 @@ const LCItem = (props) => {
                 </Col>
                 
                 <Col span={4}>
-                    <Input onWheel={(e)=>{e.target.blur()}} disabled={lc.codigo==null} size="small" type="number" addonBefore="Precio: " readOnly={false} value={lc.precio} onChange={(v)=>{onPrecioChange(parse_float_string(v.target.value))}}/>
+                    <Input onWheel={(e)=>{e.target.blur()}} disabled={lc.codigo==null || +bloquear_precios_lc_stock==1} size="small" type="number" addonBefore="Precio: " readOnly={false} value={lc.precio} onChange={(v)=>{onPrecioChange(parse_float_string(v.target.value))}}/>
                 </Col>
                 <Col span={4}>
                     <Input style={{width:"200px"}} type="number"  disabled={lc.codigo==null} size="small" addonBefore="Cant.:" addonAfter={"/"+(typeof lc.max === 'undefined' ? 0 : lc.max)} max={typeof lc.max === 'undefined' ? 0 : lc.max } value={lc.cantidad} onChange={(e)=>{onCantidadChange(parse_int_string(e.target.value))}} />

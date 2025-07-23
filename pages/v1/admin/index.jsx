@@ -32,7 +32,7 @@ export default function dashboard_admin(){
         })
     },[])
     return <>
-    <Row gutter={24}>
+    {/*<Row gutter={24}>
         <Col span={12}>
             <TotalesCobros />
         </Col>
@@ -40,7 +40,7 @@ export default function dashboard_admin(){
             <TotalesGastos />
         </Col>
     </Row>
-    {/*<Row>
+    <Row>
         <Col span={24}>
             <TotalesVentas />
         </Col>

@@ -593,7 +593,7 @@ export default function ListaStock(){
                                     }
                                     cambiar_estados_codigos(0)
                                 }}
-                                >Desctivar C&oacute;digos
+                                >Desactivar C&oacute;digos
                             </Button>
                         </Col>  
             </Row>

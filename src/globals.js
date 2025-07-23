@@ -7,6 +7,16 @@ import { parse_DMY_date } from "./helpers/string_helper";
 import { get, public_urls } from "./urls";*/
 const globals =  {
 
+    setSettings:(index,value)=>{
+        const {setItem} = useStorage()
+        setItem(index, value)
+    },
+
+    getSetting:(key)=>{
+        const {getItem} = useStorage()
+        return getItem(key)
+    },
+
     /**printers */
     setPrinters: (val) => {
         const {setItem} = useStorage()

@@ -150,9 +150,9 @@ const VentasTotalesSucursales = (props) => {
                 <Col span={24} style={{border:"1px solid #A9A9A9", padding:"12px", borderRadius:"6px"}}>
                     <Table 
                     title={()=><><ExportToCSV parseFnt={()=>{
-                        let str = "sucursal,codigo,cantidad\r\n"
+                        let str = "sucursal,codigo,descripcion,cantidad\r\n"
                         dataSource.forEach(d=>{
-                            str+=`${d.sucursal},"' ${d.codigo} '",${d.cantidad}\r\n`
+                            str+=`${d.sucursal},"' ${d.codigo} '","' ${d.descripcion} '",${d.cantidad}\r\n`
                         })
                         return str
                     }
