@@ -1,4 +1,4 @@
-import { Button, Col, Flex, FloatButton, Modal, Row, Table } from "antd"
+import { Button, Card, Col, Flex, FloatButton, Input, Modal, Row, Table } from "antd"
 import { useEffect, useState } from "react"
 import { post_method } from "@/src/helpers/post_helper"
 import globals from "@/src/globals"
@@ -6,6 +6,7 @@ import { get, post } from "@/src/urls"
 import GrupoV2 from "./grupo_v2"
 import SubGrupoFormV3 from "../forms/deposito/SubgrupoFormV3"
 import CodeExample from "../etc/codeExample"
+import { headers } from "@/next.config"
 
 const ListaPreciosV3 = (props) => {
     const [subfamilias, setSubfamilias] = useState([])
@@ -29,6 +30,10 @@ const ListaPreciosV3 = (props) => {
     const [selectedSubgrupoId, setSelectedSubgrupoId] = useState(-1)
 
     const [mostrarPrecioPar, setMostrarPrecioPar] = useState(false)
+
+    const [mostrarPrecioCaja, setMostrarPrecioCaja] = useState(false)
+
+    const [filterStr, setFilterStr] = useState("");
 
     const [reload, setReload] = useState(false)
 
@@ -111,16 +116,42 @@ const ListaPreciosV3 = (props) => {
     return <div style={{backgroundColor:"#E8EAF0"}}> 
     <Row >
         <Col span={18}>
-        <Row>
-                <Col span={24} style={{padding:"1em", fontWeight:"bold", backgroundColor:"#033E8A", color:"white", borderRadius:"6px", textAlign:"center"}}>
-                    {selectedSubFamilia.nombre /*+ " " + selectedSubFamilia.id*/}
-                </Col>
-            </Row>
+        <Card 
+        title={selectedSubFamilia.nombre} 
+        size="small" 
+        
+        styles={{ header:{backgroundColor:"#f14848ff", color:"white"}}} 
+        extra={
+            <div>
+            <Input
+            allowClear
+            placeholder="Buscar..."
+            style={{width:"300px", backgroundColor:"rgba(255, 255, 255, 1)", padding:"6px", borderRadius:"16px", color:"red", borderColor:"red"}}
+            onChange={(e)=>{
+                setFilterStr(e.target.value)
+            }}
+            />
+            </div>  
+        }
+        >
+       
             <Row key={fix}>
             {
-                columns.map(_col=><Col span={12}>{_col.map(_row=><GrupoV2 reload={reload} callback={(id,mostrarPar)=>{setSelectedSubgrupoId(id); setMostrarPrecioPar(mostrarPar); setPopupDetalleOpen(true) }} nombre={_row.label} idgrupo={_row.value} />)}</Col>)
+                columns.map(_col=><Col span={12}>
+                    {_col.map(_row=><GrupoV2 
+                    filterStr={filterStr}
+                    mostrarPrecioPar={mostrarPrecioPar} 
+                    mostrarPrecioCaja={mostrarPrecioCaja} 
+                    reload={reload} 
+                    callback={(id,mostrarPar, mostrarCaja)=>{
+                        setSelectedSubgrupoId(id); 
+                        setMostrarPrecioPar(mostrarPar); 
+                        setMostrarPrecioCaja(mostrarCaja);
+                        setPopupDetalleOpen(true) 
+                    }} nombre={_row.label} idgrupo={_row.value} />)}</Col>)
             }
             </Row>
+            </Card>
         </Col>
         <Col span={6}>
             <Table 
@@ -140,7 +171,7 @@ const ListaPreciosV3 = (props) => {
     
     <Modal destroyOnClose open={popupDetalleOpen} onCancel={()=>{setPopupDetalleOpen(false)}} footer={null} title="Detalle " width={"750px"}>
         <div>
-            <SubGrupoFormV3 mostrarPrecioMayorista={ esAdmin } mostrarPrecioPar={mostrarPrecioPar} callback={()=>{setPopupDetalleOpen(false); setReload(!reload)}} readOnly={ !(esAdmin || esUDeposito) } idsubgrupo={selectedSubgrupoId} title="Detalle Subgrupo" />
+            <SubGrupoFormV3 mostrarPrecioMayorista={ esAdmin } mostrarPrecioPar={mostrarPrecioPar} mostrarPrecioCaja={mostrarPrecioCaja} callback={()=>{setPopupDetalleOpen(false); setReload(!reload)}} readOnly={ !(esAdmin || esUDeposito) } idsubgrupo={selectedSubgrupoId} title="Detalle Subgrupo" />
             <CodeExample idsubgrupo={selectedSubgrupoId} />
         </div>
     </Modal>
