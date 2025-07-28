@@ -42,7 +42,7 @@ const GrupoV2 = (props) => {
       ),
     },
     {
-      title: "Precio Indvidual",
+      title: <div style={{ textAlign: "right" }}>Precio</div>,
       dataIndex: "precio",
       render: (_, { precio, precio_par, idfamilia }) => (
         <div
@@ -118,10 +118,9 @@ const handleRowClick = (record, index) => {
       });
   }, [reload]);
 
-  return loading ? (
-    <Spin />
-  ) : (
-    <Col span={24} style={{ padding: "6px" }}>
+
+  const get_table = (rows) => 
+    rows.length<1 ? <></> : <Col span={24} style={{ padding: "6px" }}>
       <Table
         style={{ width: "100%" }}
         title={(_) => (
@@ -133,10 +132,7 @@ const handleRowClick = (record, index) => {
           index % 2 === 0 ? "table-row-light" : "table-row-dark"
         }
         columns={columns}
-        dataSource={subgrupos.filter((item) => {
-          if (!filterStr) return true;
-          return item.producto.toLowerCase().includes(filterStr.toLowerCase());
-        })  }
+        dataSource={rows}
         pagination={false}
         loading={loading}
         onRow={(record, index) => {
@@ -148,7 +144,16 @@ const handleRowClick = (record, index) => {
       }}
       />
     </Col>
-  );
+  
+
+  return loading ? (
+    <Spin />
+  ) : get_table(subgrupos.filter((item) => {
+          if (!filterStr) return true;
+          return item.producto.toLowerCase().includes(filterStr.toLowerCase());
+        })  )
+    
+  
 };
 
 export default GrupoV2;
