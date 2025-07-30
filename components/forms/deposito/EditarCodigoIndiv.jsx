@@ -28,6 +28,7 @@ const EditarCodigoIndiv = (props) =>{
                 precio: response.data[0].precio,
                 descripcion: response.data[0].descripcion,
                 modo_precio: response.data[0].modo_precio,
+                codigo_orig: response.data[0].codigo,
             })
             setModoPrecio(response.data[0].modo_precio)
             setPrecioSubgrupo(response.data[0].precio_defecto)
@@ -71,7 +72,7 @@ const EditarCodigoIndiv = (props) =>{
         </Row>
             <Row>
                 <Col span={24}>
-                    <Input style={{backgroundColor:"lightyellow"}} readOnly prefix="Código: " value={codigo.codigo}/>
+                    <Input style={{backgroundColor:"lightyellow", color: codigo.codigo_orig === codigo.codigo ? "black" : "red"}} prefix="Código: " value={(codigo.codigo||"").toUpperCase()} onChange={(e)=>{onChange("codigo",(e.target.value||"").toUpperCase())}}/>
                 </Col>
             </Row>
             <Row>
