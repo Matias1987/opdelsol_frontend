@@ -5,6 +5,7 @@ import Link from "next/link"
 import { public_urls } from "@/src/urls";
 import BuscarVenta from "../forms/ventas/BuscarVenta";
 import ListaPrecios from "../informes/lista_precios/lista_precios";
+import { lista_precios_visible } from "@/src/config";
 
 const items = [
  
@@ -49,11 +50,16 @@ const items = [
     key: '11',
     
   },
-  {
+ 
+];
+
+if(lista_precios_visible==1){
+  items.push( {
     label: (<ListaPrecios />),
     key: '601',
-  }
-];
+  })
+}
+
 export default function MenuVentasTop(){
   const [current, setCurrent] = useState('mail');
   const _style_ = {

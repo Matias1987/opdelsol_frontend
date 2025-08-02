@@ -8,6 +8,7 @@ import globals from "@/src/globals";
 import CustomModal from "../CustomModal";
 import ListaPreciosV3 from "../lista_precios/listaPreciosV3";
 import BuscarVentaV2 from "../forms/ventas/BuscarVentasV2";
+import { lista_precios_visible } from "@/src/config";
 
 
 
@@ -189,13 +190,15 @@ useEffect(()=>{
     }
     )
    }
-    
-   items.push( 
-      {
-        label: (<CustomModal width="100%" openButtonText={<><DollarOutlined /> Lista de Precios</> } type="text"><ListaPreciosV3  /></CustomModal>),
-        key: '1001'
-      }
-    )
+    if(lista_precios_visible!=0){
+      items.push( 
+            {
+              label: (<CustomModal width="100%" openButtonText={<><DollarOutlined /> Lista de Precios</> } type="text"><ListaPreciosV3  /></CustomModal>),
+              key: '1001'
+            }
+          )
+    }
+  
 
    setItemsMenu(items)
   },[])
