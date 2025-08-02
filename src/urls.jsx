@@ -455,6 +455,8 @@ const get = {
     cambiar_estado_codigo_activo: remote_base_url + "codigos/cambiar/estado/codigo/",
 
     ejemplo_codigo: "codigos/ej/cod/",
+
+    listado_caja_sucursales_pendientes: remote_base_url + "caja/listado_caja_sucursales_pendientes/",
     
 }
 

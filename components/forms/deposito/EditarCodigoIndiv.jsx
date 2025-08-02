@@ -55,7 +55,13 @@ const EditarCodigoIndiv = (props) =>{
                 ...codigo, modo_precio: modoPrecio
             },
             (response)=>{
-                alert("OK")
+                if(response.data.msg){
+                    alert(response.data.msg)
+                }
+                else{
+                    alert("Cambios guardados correctamente")
+                }
+                
                 props?.callback?.(codigo.idcodigo)
                 setOpen(false)
             }
