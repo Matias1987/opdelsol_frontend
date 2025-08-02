@@ -7,6 +7,7 @@ import BuscarVenta from "../forms/ventas/BuscarVenta";
 import CustomModal from "../CustomModal";
 import ListaPrecios from "../lista_precios/listaPrecios";
 import ListaPreciosV3 from "../lista_precios/listaPreciosV3";
+import { lista_precios_visible } from "@/src/config";
 
 const items = [
   
@@ -74,12 +75,21 @@ const items = [
       
     ],
   },
-  {
+  /*{
     label: (<CustomModal openButtonText="Lista de Precios" type="primary"><ListaPreciosV3 /></CustomModal>),
     key: '1001'
-  }
+  }*/
   
 ];
+
+if(lista_precios_visible!=0){
+      items.push( 
+            {
+              label: (<CustomModal width="100%" openButtonText={<>Lista de Precios</> } type="text"><ListaPreciosV3  /></CustomModal>),
+              key: '1001'
+            }
+          )
+    }
 export default function MenuAdminTop(){
   const [current, setCurrent] = useState('12');
   const onClick = (e) => {
