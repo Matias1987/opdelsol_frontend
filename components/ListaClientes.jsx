@@ -100,8 +100,8 @@ export default function ListaClientes(props){
     <Card
     size="small"
     style={{boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)"}}
-    title={<div>Lista de Clientes&nbsp;&nbsp;</div>}
-    extra={<><ClienteFormV2 callback={(id)=>{refresh()}}/></>}
+    title={<div><span style={{fontSize:"1.2em"}}>Lista de Clientes</span>&nbsp;&nbsp;&nbsp;<ClienteFormV2 callback={(id)=>{refresh()}}/></div>}
+    extra={<></>}
     >
         
         <Row style={row_style}>
