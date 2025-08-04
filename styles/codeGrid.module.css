@@ -1,0 +1,67 @@
+table .main-table{
+  table-layout: fixed;
+}
+table .main-table,
+table .main-table >thead> th,
+table .main-table >tbody> td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  padding: 2px;
+}
+
+.tdlala{
+  border: 1px solid black;
+  border-collapse: collapse;
+  padding: 12px;  
+}
+
+table .main-table >tbody> td {
+  width: 64px;
+  position: relative;
+}
+
+.cell-content {
+  aspect-ratio: 1 / 1;
+  display: flex; /* For centering content within the square */
+  justify-content: center;
+  align-items: center;
+}
+
+.main-cell-content {
+  aspect-ratio: 1 / 1;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0);
+  border: 0;
+}
+
+.cell-title {
+  font-weight: 700;
+  color: blue;
+}
+
+.main-table thead {
+  position: sticky; /* Make the header sticky */
+  top: 0; /* Stick to the top of the scrollable area */
+  z-index: 1; /* Ensure the header stays above scrolling content */
+  background: white;
+}
+
+.main-table > thead td:first-child {
+  position: sticky;
+  left: 0;
+  background: white;
+  z-index: 2;
+}
+.main-table tbody td:first-child {
+  position: sticky;
+  left: 0;
+  background: white;
+  z-index: 1;
+}
+
+#content {
+  width: 700px;
+  height: 700px;
+  overflow-y: scroll;
+  overflow-x: scroll;
+}
