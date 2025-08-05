@@ -1,108 +1,110 @@
 import "@/styles/codeGrid.module.css";
 import { useEffect, useState } from "react";
 
-const base_table_style = {
-  tableLayout: "fixed",
-};
-
-const base_border_style = {
-  border: "1px solid black",
-  borderCollapse: "collapse",
-  padding: "2px",
-};
-
-const td_style = {
-  width: "64px",
-  position: "relative",
-};
-
-const title_cell = {
-  fontWeight: "700",
-  color: "blue",
-};
-
-const cell_content = {
-  aspectRatio: "1 / 1",
-  display: "flex" /* For centering content within the square */,
-  justifyContent: "center",
-  alignItems: "center",
-};
-
-const cell_button_style = {
-  aspectRatio: "1 / 1",
-  width: "100%",
-  backgroundColor: "rgba(0, 0, 0, 0)",
-  border: "0",
-};
-
-const sticky_head = {
-  position: "sticky" /* Make the header sticky */,
-  top: "0" /* Stick to the top of the scrollable area */,
-  zIndex: "1" /* Ensure the header stays above scrolling content */,
-  background: "white",
-};
-
-const sticky_first_row_td = {
-  position: "sticky",
-  left: "0",
-  background: "white",
-  zIndex: "2",
-};
-
-const sticky_column = {
-  position: "sticky",
-  left: "0",
-  background: "white",
-  zIndex: "1",
-};
-
-const container = {
-  width: "700px",
-  height: "700px",
-  overflowY: "scroll",
-  overflowX: "scroll",
-};
-
 //old javascript...
 
 const CodeGridHTML = (props) => {
-  const [data, setData] = useState(<></>);
+  const [data, setData] = useState([]);
+
+  //#region STYLE
+  const base_table_style = {
+    tableLayout: "fixed",
+  };
+
+  const base_border_style = {
+    border: "1px solid black",
+    borderCollapse: "collapse",
+    padding: "2px",
+  };
+
+  const td_style = {
+    width: "64px",
+    position: "relative",
+  };
+
+  const title_cell = {
+    fontWeight: "700",
+    color: "blue",
+  };
+
+  const cell_content = {
+    aspectRatio: "1 / 1",
+    display: "flex" /* For centering content within the square */,
+    justifyContent: "center",
+    alignItems: "center",
+  };
+
+  const cell_button_style = {
+    aspectRatio: "1 / 1",
+    width: "100%",
+    backgroundColor: "rgba(0, 0, 0, 0)",
+    border: "0",
+  };
+
+  const sticky_head = {
+    position: "sticky" /* Make the header sticky */,
+    top: "0" /* Stick to the top of the scrollable area */,
+    zIndex: "1" /* Ensure the header stays above scrolling content */,
+    background: "white",
+  };
+
+  const sticky_first_row_td = {
+    position: "sticky",
+    left: "0",
+    background: "white",
+    zIndex: "2",
+  };
+
+  const sticky_column = {
+    position: "sticky",
+    left: "0",
+    background: "white",
+    zIndex: "1",
+  };
+
+  const container = {
+    width: "700px",
+    height: "700px",
+    overflowY: "scroll",
+    overflowX: "scroll",
+  };
+
+  //#endregion
 
   const draw_table = (max_esf, max_cil, sign_esf, sign_cil) => {
-
-    const rowdata = []
+    const rowdata = [];
 
     for (let i = 0; i <= max_esf; i += 0.25) {
-      if (i == 0.0) {
-       const row=[]
+      /*if (i == 0.0) {
+        const row = [];
         for (let j = 0; j <= max_cil; j += 0.25) {
           if (j == 0) {
-           row.push(j.toFixed(2))
+            row.push("");
           }
-          
+          row.push(j.toFixed(2));
         }
-      rowdata.push(row) 
-      }
-      const row=[]
+        rowdata.push(row);
+      }*/
+      const row = [];
       for (let j = 0; j <= max_cil; j += 0.25) {
-        if (j == 0) {
-          row.push(i.toFixed(2))
-        }
-        row.push(0)
+        /*if (j == 0) {
+          row.push(i.toFixed(2));
+        }*/
+        row.push(0);
       }
-      rowdata.push(row) 
-      
+      rowdata.push(row);
     }
+    
+    setData(rowdata);
+    alert(JSON.stringify(rowdata))
+    /**00000000000000000000000000000000000 */
 
-    rowdata.map(row=><tr>{
-        row.map(cell=>{
-
-        })}
-    </tr>)
+    {
+      /*
     let str_table =<> 
     <table className='main-table'>
         {
-    /*
+   
     
     for (let i = 0; i <= max_esf; i += 0.25) {
       if (i == 0.0) {
@@ -129,11 +131,11 @@ const CodeGridHTML = (props) => {
       }
       str_table += "</tr>";
     }
-    */
+    
 }
 </table>
-    </>
-   
+    </>*/
+    }
   };
   /*
  const table = draw_table(6, 4, "+", "-");
@@ -149,11 +151,50 @@ const CodeGridHTML = (props) => {
 */
 
   useEffect(() => {
-    const table = draw_table(6, 4, "+", "-");
-    setData(table);
+    draw_table(6, 4, "+", "-");
   }, []);
 
-  return <div dangerouslySetInnerHTML={{ __html: data }} />;
+  return (
+    <table>
+      <thead>
+        <tr>
+        {data[0].map((cell, idx) => (
+          <>
+          {idx != 0 ? <></> : <td> </td>}
+          <th>header</th>
+          </>
+        ))}
+        </tr>
+      </thead>
+      <tbody>
+        {data.map((row, idx1) => (
+
+            <tr>
+              {row.map((cell, idx) => (
+                <>
+                  {idx != 0 ? <></> : <td>{0.00}</td>}
+                  <td>{0}</td>
+                </>
+              ))}
+            </tr>
+        
+        ))}
+      </tbody>
+    </table>
+  );
 };
 
 export default CodeGridHTML;
+/***
+ * 
+ * {idx1 != 0 ? (
+            <></>
+          ) : (
+            <thead>
+              {row.map((cell) => (
+                <></>
+              ))}
+            </thead>
+          )}
+
+ */
