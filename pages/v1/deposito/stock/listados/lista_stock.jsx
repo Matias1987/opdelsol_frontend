@@ -199,7 +199,7 @@ export default function ListaStock(){
             <>
             <div style={{fontSize:".85em", whiteSpace:"nowrap", overflowX:"scroll", width:"100%"}}><b>{codigo}</b></div>
             </>},
-        {width:"200px", title: 'Descripción',dataIndex: 'descripcion',key: 'descripcion', width:"20%", render:(_,{descripcion})=><div  style={{width:"100%", overflowX:"scroll", whiteSpace:"nowrap" }}>{descripcion}</div>},
+        {width:"200px", title: 'Desc.',dataIndex: 'descripcion',key: 'descripcion', render:(_,{descripcion})=><div  style={{width:"100%", overflowX:"scroll", whiteSpace:"nowrap" }}>{descripcion}</div>},
         
         {width:"200px", title: 'Edad',dataIndex: 'edad',key: 'edad', hidden: true},
         {width:"200px", title: 'Género',dataIndex: 'genero',key: 'genero', hidden: true},

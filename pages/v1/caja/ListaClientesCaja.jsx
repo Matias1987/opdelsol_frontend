@@ -5,8 +5,8 @@ import ListaClientes from "@/components/ListaClientes";
 export default function ListaClientesCaja() {
   return (
     <>
-      {/*<ListaClientes ficha />*/}
-      <CodeGridHTML />
+      <ListaClientes ficha />
+      {/*<CodeGridHTML />*/}
     </>
   );
 }
