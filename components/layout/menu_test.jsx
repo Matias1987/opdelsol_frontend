@@ -1,6 +1,6 @@
 
 import { local_base_url } from "@/src/config";
-import { ArrowDownOutlined, BarsOutlined, BoxPlotFilled, DownOutlined, FileTextOutlined, HomeOutlined, PartitionOutlined, PlusCircleOutlined, PrinterOutlined, RocketOutlined, SnippetsOutlined, StarOutlined, TableOutlined, UserOutlined, WarningFilled } from "@ant-design/icons";
+import { ArrowDownOutlined, BarsOutlined, BoxPlotFilled, DownOutlined, FileTextOutlined, HomeOutlined, InfoOutlined, PartitionOutlined, PlusCircleOutlined, PrinterOutlined, RocketOutlined, SnippetsOutlined, StarOutlined, TableOutlined, UserOutlined, WarningFilled } from "@ant-design/icons";
 
 import { Menu } from "antd";
 import Link from "next/link"
@@ -67,8 +67,17 @@ export default function TestMenu(){
               <Menu.Item key="subsub124" ><BarsOutlined /> 
                 <Link href={get_url_to("deposito/stock/listados/lista_subgrupos")}>Sub Grupos</Link>
               </Menu.Item>
-              
           </SubMenu>
+
+            <SubMenu key={"inf_title"} title={<span><InfoOutlined /><span>Informes</span></span>} >
+              <Menu.Item key="sub8_30"><FileTextOutlined />
+                <Link href={get_url_to("deposito/stock/stock_venta_periodo")}>Stock Ventas</Link>
+              </Menu.Item>
+              <Menu.Item key="inf_1_" ><BarsOutlined /> 
+                <Link href={get_url_to("deposito/stock/listados/lista_familia")}>Totales por Sucursal</Link>
+              </Menu.Item>
+          </SubMenu>
+
           <SubMenu key={"etc"} title={<span>...</span>} >
             
             <SubMenu key={"baja_desp"} title={<span>Baja por Desperfecto</span>} >
@@ -94,11 +103,7 @@ export default function TestMenu(){
             <Menu.Item key="sub2_42" ><PartitionOutlined /> 
                 <Link href={get_url_to("deposito/arbol_codigos")}>&nbsp;&Aacute;rbol de C&oacute;digos</Link>
             </Menu.Item>
-            {<SubMenu key="sub8" title={<span><FileTextOutlined /><span>Informes</span></span>}>
-              <Menu.Item key="sub8_30"><FileTextOutlined />
-              <Link href={get_url_to("deposito/stock/stock_venta_periodo")}>Stock Ventas</Link>
-              </Menu.Item>
-            </SubMenu>}
+
           </SubMenu>
          
           

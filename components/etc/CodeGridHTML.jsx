@@ -1,8 +1,8 @@
 import { post_method } from "@/src/helpers/post_helper";
 import { post } from "@/src/urls";
 import "@/styles/codeGrid.module.css";
-import { DownCircleFilled, DownOutlined, DownSquareFilled, EditOutlined, EyeOutlined, ToolFilled, ToolTwoTone } from "@ant-design/icons";
-import { Button, Col, Dropdown, Row, Space } from "antd";
+import {  DownOutlined } from "@ant-design/icons";
+import { Button, Col, Collapse, Dropdown, Row, Space } from "antd";
 import { useEffect, useState } from "react";
 
 //old javascript...
@@ -15,7 +15,7 @@ import { useEffect, useState } from "react";
  * 
  */
 const CodeGridHTML = (props) => {
-  const { idsubgrupo, idsucursal, onCellClick } = props;
+  const { idsubgrupo, idsucursal, onCellClick, reload } = props;
   const [dataPositive, setDataPositive] = useState([]);
   const [dataNegative, setDataNegative] = useState([]);
   const [codesDict, setCodesDict] = useState({});
@@ -60,10 +60,10 @@ const CodeGridHTML = (props) => {
         //alert(JSON.stringify(qtties))
         setCodesDict(qtties);
         setDataPositive(
-          prepare(Math.abs(_min_esf), Math.abs(_min_cil), "+", "-")
+          prepare(1,  Math.abs(_min_esf), Math.abs(_min_cil), "+", "-")
         );
         setDataNegative(
-          prepare(Math.abs(_max_esf), Math.abs(_min_cil), "-", "-")
+          prepare(0, Math.abs(_max_esf), Math.abs(_min_cil), "-", "-")
         );
       }
     );
@@ -75,7 +75,7 @@ const CodeGridHTML = (props) => {
   };
 
   const base_border_style = {
-    border: "1px solid blue",
+    border: "1px solid #C1D4E7",
     borderCollapse: "collapse",
     padding: "2px",
   };
@@ -136,9 +136,9 @@ const CodeGridHTML = (props) => {
 
   //#endregion
 
-  const prepare = (max_esf, max_cil, sign_esf, sign_cil) => {
+  const prepare = (start_from, max_esf, max_cil, sign_esf, sign_cil) => {
     const rowdata = [];
-    for (let i = 0; i <= max_esf; i += 0.25) {
+    for (let i = start_from; i <= max_esf; i += 0.25) {
       const row = [];
       for (let j = 0; j <= max_cil; j += 0.25) {
         row.push({
@@ -211,22 +211,16 @@ const CodeGridHTML = (props) => {
                     )}
                     <td
                       style={{ ...base_border_style, ...td_style }}
-                      onClick={(_) => {
-                        const key = `${parseFloat(cell.esf) * 100}${parseFloat(cell.cil) * 100}`
-                        if (codesDict[key]) {
-                          //alert(JSON.stringify(codesDict[key]));
-                          
-                        }
-                      }}
                     >
                       <div style={cell_content}>
                         
-                        {codesDict[
-                          `${parseFloat(cell.esf) * 100}${
-                            parseFloat(cell.cil) * 100
-                          }`
-                        ]?.cantidad || "-"}
-
+                        {
+                          codesDict[
+                            `${parseFloat(cell.esf) * 100}${
+                              parseFloat(cell.cil) * 100
+                            }`
+                          ]?.cantidad || "-"
+                        }
                         {'undefined' === typeof codesDict[
                           `${parseFloat(cell.esf) * 100}${
                             parseFloat(cell.cil) * 100
@@ -249,14 +243,11 @@ const CodeGridHTML = (props) => {
                         }}>
                           <Button type="link" size="small">
                             <Space>
-                              <DownCircleFilled />
+                              <DownOutlined />
                             </Space>
                           </Button>
                         </Dropdown>
-
                         }
-                        
-                        
                       </div>
                     </td>
                   </>
@@ -269,39 +260,40 @@ const CodeGridHTML = (props) => {
     );
 
   useEffect(() => {
-    //alert(idsubgrupo)
     if(idsubgrupo<1)
     {
       return;
     }
     load();
-  }, [idsubgrupo, idsucursal]);
+  }, [idsubgrupo, idsucursal, reload]);
+
+  const onChange = key => {
+    console.log(key);
+  };
 
   return (
     <>
-      <Row>
-        <Col span={24}>
-          <Row>
-            <Col span={24}>
-              <h3>Negativos</h3>
-            </Col>
-          </Row>
-          <Row>
-            <Col span={24}>{display_grid(dataNegative)}</Col>
-          </Row>
-        </Col>
-
-        <Col span={24}>
-          <Row>
-            <Col span={24}>
-              <h3>Positivos</h3>
-            </Col>
-          </Row>
-          <Row>
-            <Col span={24}>{display_grid(dataPositive)}</Col>
-          </Row>
-        </Col>
-      </Row>
+    <Collapse 
+    style={{backgroundColor:"#C1D4E7"}}
+      defaultActiveKey={['1']} 
+      onChange={onChange} 
+      items={
+        [
+          {
+            key: '1',
+            label: <span style={{fontWeight:"700"}}>Negativos</span>,
+            children: <>{display_grid(dataNegative)}</>,
+          },
+          {
+            key: '2',
+            label: <span style={{fontWeight:"700"}}>Positivos</span>,
+            children: <>{display_grid(dataPositive)}</>,
+          },
+        ]
+        }
+    />
+      
+      
     </>
   );
 };

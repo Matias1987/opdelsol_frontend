@@ -435,7 +435,7 @@ export default function ListaStock(){
                         label: 'Búsqueda Av.',
                         key: '2',
                         children: <div>
-                        <Form {...{labelCol:{span:5}, wrapperCol:{span:18}}} onFinish={onFinishFiltro} form={form}>
+ <Form {...{labelCol:{span:5}, wrapperCol:{span:18}}} onFinish={onFinishFiltro} form={form}>
                             <Row gutter={16} style={{backgroundColor:"rgba(173,216,230,.2)", paddingTop:".3em", paddingLeft:".3em", paddingRight:".3em", border:"1px solid rgba(173,216,230,1)"}} >
                                 <Col >
                                     <Form.Item label="" name={"tipo_filtro"}>
@@ -517,15 +517,6 @@ export default function ListaStock(){
                                         />
                                     </Form.Item>
                                     </Col>
-                                    { globals.esUsuarioDeposito() ?
-                                    <Col span={6}>
-                                        <Form.Item>
-                                            <SucursalSelect callback={(id)=>{setSelectedSucursal(id); setValueChanged(!valueChanged)}} />
-                                        </Form.Item>    
-                                    </Col>
-                                    :
-                                    <></>
-                                    }
                                 </Row>
                                 <Row>
                                     <Col span={12}>
@@ -550,10 +541,7 @@ export default function ListaStock(){
             </Row>
             
             <Row style={{backgroundColor:"#D3E1E6"}} gutter={"16"} >
-                {/*<Col>
-                {usuarioDep && (selectedSucursal==globals.obtenerSucursal() || selectedSucursal<-1) ?
-                           <Button size="small" onClick={()=>{setOpen(true)}} ><TableOutlined />  Grilla de C&oacute;digos</Button>:<></>}
-                </Col>*/}
+
                 <Col>
                     <ExportToCSV parseFnt={()=>{
                         let str = "Familia, SubFamilia, Grupo, Subgrupo, Codigo, Descripcion, Cantidad, Precio, Tags,\r\n"
@@ -618,34 +606,49 @@ export default function ListaStock(){
                         key:"2",
                         label:"Grilla",
                         children:<>
-                                    <CodeGridHTML 
-                                        idsubgrupo={idsubgrupo} 
-                                        idsucursal={idsucursal} 
-                                        onCellClick={(key,idcodigo)=>{
-                                           
-                                            switch(+key)
-                                            {
-                                                case 1: setSelectedIdCodigo(idcodigo); setPopupDetalleOpen(true); break;
-                                                case 2: setSelectedIdCodigo(idcodigo); setPopupEditarStockIndvOpen(true); break;
+                                    <Row>
+                                        <Col span={24}>
+                                            <Select
+                                            disabled
+                                            size="large"
+                                            defaultValue={"1"}
+                                            style={{width:"400px"}}
+                                            options={
+                                               [ 
+                                                {label:"Cantidad", value:"1"},
+                                                {label:"Ideal", value:"2"},
+                                                {label:"Dif.", value:"3"},
+                                            ]
                                             }
-                                        }} 
-                                    />
+                                            />
+                                            <Divider />
+                                        </Col>
+                                    </Row>
+                                    <Row>
+                                        <Col span={24}>
+                                            <CodeGridHTML 
+                                            reload={valueChanged}
+                                            idsubgrupo={idsubgrupo} 
+                                            idsucursal={idsucursal} 
+                                            onCellClick={(key,idcodigo)=>{
+                                            
+                                                switch(+key)
+                                                {
+                                                    case 1: setSelectedIdCodigo(idcodigo); setPopupDetalleOpen(true); break;
+                                                    case 2: setSelectedIdCodigo(idcodigo); setPopupEditarStockIndvOpen(true); break;
+                                                }
+                                            }} 
+                                            />
+                                        </Col>
+                                    </Row>
+                                    
                                 </>},
                 ]}
                 />
                     
                 </Col>
             </Row>
-            <Row>
-                <Col span={24} style={{color:"blue", padding:"1em", fontWeight:"bold", fontSize:"1.3em"}}>
-                    Cantidad Total: {total}
-                </Col>
-            </Row>
-            <Row>
-                <Col span={24} key={listId} >
-                    <InformeStock data={data} />
-                </Col>
-            </Row>
+
         </Card>
         {/** region modales */}
         <Modal 

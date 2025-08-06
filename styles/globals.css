@@ -375,3 +375,22 @@ just some testing
   mix-blend-mode: difference;
 }*/
 
+.login-body {
+  height: 100vh;
+  margin: 0;
+  background: linear-gradient(135deg, #e0e4fa, #086bff, #feffc1, #ff0101, #e0e4fa );
+  background-size: 400% 400%;
+  animation: gradientShift 20s ease infinite;
+}
+
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
