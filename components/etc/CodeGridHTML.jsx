@@ -1,23 +1,33 @@
 import { post_method } from "@/src/helpers/post_helper";
 import { post } from "@/src/urls";
 import "@/styles/codeGrid.module.css";
-import { Col, Row } from "antd";
+import { DownCircleFilled, DownOutlined, DownSquareFilled, EditOutlined, EyeOutlined, ToolFilled, ToolTwoTone } from "@ant-design/icons";
+import { Button, Col, Dropdown, Row, Space } from "antd";
 import { useEffect, useState } from "react";
 
 //old javascript...
-
+/**
+ * 
+ * @param idsubgrupo
+ * @param idsucursal
+ * @param onCellClick
+ *  
+ * 
+ */
 const CodeGridHTML = (props) => {
   const { idsubgrupo, idsucursal, onCellClick } = props;
   const [dataPositive, setDataPositive] = useState([]);
   const [dataNegative, setDataNegative] = useState([]);
   const [codesDict, setCodesDict] = useState({});
 
+  
+
   const load = (callback) => {
     post_method(
       post.obtener_grilla_stock,
-      { idsubgrupo: 66668, idsucursal: 6, eje: "-1" },
+      { idsubgrupo: idsubgrupo, idsucursal: idsucursal, eje: "-1" },
       (response) => {
-        alert(JSON.stringify(response));
+        //alert(JSON.stringify(response));
         let t_ejes = {};
         let _ejes = [];
         let _min_esf = 9999;
@@ -42,6 +52,10 @@ const CodeGridHTML = (props) => {
             idcodigo: c.idcodigo,
           };
         });
+        if(_min_esf>1000 || _max_esf<-1000)
+          return
+        if(_min_cil>1000 || _max_cil<-1000)
+          return
 
         //alert(JSON.stringify(qtties))
         setCodesDict(qtties);
@@ -200,17 +214,49 @@ const CodeGridHTML = (props) => {
                       onClick={(_) => {
                         const key = `${parseFloat(cell.esf) * 100}${parseFloat(cell.cil) * 100}`
                         if (codesDict[key]) {
-                          alert(JSON.stringify(codesDict[key]));
-                          onCellClick?.();
+                          //alert(JSON.stringify(codesDict[key]));
+                          
                         }
                       }}
                     >
                       <div style={cell_content}>
+                        
                         {codesDict[
                           `${parseFloat(cell.esf) * 100}${
                             parseFloat(cell.cil) * 100
                           }`
                         ]?.cantidad || "-"}
+
+                        {'undefined' === typeof codesDict[
+                          `${parseFloat(cell.esf) * 100}${
+                            parseFloat(cell.cil) * 100
+                          }`
+                        ] ? <></>: <Dropdown menu={{
+                          items: [
+                                    {
+                                      key: '1',
+                                      label: 'Detalle',
+                                    },
+                                    {
+                                      key: '2',
+                                      label: 'Editar Stock',
+                                    },
+                                ],
+                          onClick: ({key})=>{
+                           
+                            onCellClick( key, codesDict[`${parseFloat(cell.esf) * 100}${parseFloat(cell.cil) * 100}`]?.idcodigo)
+                          }
+                        }}>
+                          <Button type="link" size="small">
+                            <Space>
+                              <DownCircleFilled />
+                            </Space>
+                          </Button>
+                        </Dropdown>
+
+                        }
+                        
+                        
                       </div>
                     </td>
                   </>
@@ -223,13 +269,18 @@ const CodeGridHTML = (props) => {
     );
 
   useEffect(() => {
+    //alert(idsubgrupo)
+    if(idsubgrupo<1)
+    {
+      return;
+    }
     load();
   }, [idsubgrupo, idsucursal]);
 
   return (
     <>
       <Row>
-        <Col span={12}>
+        <Col span={24}>
           <Row>
             <Col span={24}>
               <h3>Negativos</h3>
@@ -240,7 +291,7 @@ const CodeGridHTML = (props) => {
           </Row>
         </Col>
 
-        <Col span={12}>
+        <Col span={24}>
           <Row>
             <Col span={24}>
               <h3>Positivos</h3>

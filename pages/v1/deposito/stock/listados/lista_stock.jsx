@@ -25,6 +25,7 @@ import SelectTag from "@/components/etiquetas/selectTag";
 import TagsLote from "@/components/etiquetas/TagsLote";
 import SucursalSelect from "@/components/SucursalSelect";
 import DetalleStock from "@/components/forms/deposito/detalle/DetalleStock";
+import CodeGridHTML from "@/components/etc/CodeGridHTML";
 
 export default function ListaStock(){
     const [usuarioDep, setUsuarioDep] = useState(false)
@@ -549,10 +550,10 @@ export default function ListaStock(){
             </Row>
             
             <Row style={{backgroundColor:"#D3E1E6"}} gutter={"16"} >
-                <Col>
+                {/*<Col>
                 {usuarioDep && (selectedSucursal==globals.obtenerSucursal() || selectedSucursal<-1) ?
                            <Button size="small" onClick={()=>{setOpen(true)}} ><TableOutlined />  Grilla de C&oacute;digos</Button>:<></>}
-                </Col>
+                </Col>*/}
                 <Col>
                     <ExportToCSV parseFnt={()=>{
                         let str = "Familia, SubFamilia, Grupo, Subgrupo, Codigo, Descripcion, Cantidad, Precio, Tags,\r\n"
@@ -599,14 +600,40 @@ export default function ListaStock(){
             </Row>
             <Row>
                 <Col span={24}>
-                    <Table 
-                    rowClassName={(record, index) => +record.activo==0 ? 'error-row' : (index % 2 === 0 ? 'table-row-light' :  'table-row-dark')} 
-                    columns={columns.filter(item=>!item.hidden)} 
-                    dataSource={data} 
-                    loading={loading} 
-                    scroll={{y:400}}  
-                    size="small"
-                    />
+                <Tabs 
+                defaultActiveKey="1"
+                onChange={key=>{console.log(key)}}
+                items={[
+                    {key:"1",label:"Tabla",children:<>
+                        <Table 
+                        rowClassName={(record, index) => +record.activo==0 ? 'error-row' : (index % 2 === 0 ? 'table-row-light' :  'table-row-dark')} 
+                        columns={columns.filter(item=>!item.hidden)} 
+                        dataSource={data} 
+                        loading={loading} 
+                        scroll={{y:400}}  
+                        size="small"
+                        />
+                    </>},
+                    {
+                        key:"2",
+                        label:"Grilla",
+                        children:<>
+                                    <CodeGridHTML 
+                                        idsubgrupo={idsubgrupo} 
+                                        idsucursal={idsucursal} 
+                                        onCellClick={(key,idcodigo)=>{
+                                           
+                                            switch(+key)
+                                            {
+                                                case 1: setSelectedIdCodigo(idcodigo); setPopupDetalleOpen(true); break;
+                                                case 2: setSelectedIdCodigo(idcodigo); setPopupEditarStockIndvOpen(true); break;
+                                            }
+                                        }} 
+                                    />
+                                </>},
+                ]}
+                />
+                    
                 </Col>
             </Row>
             <Row>
@@ -620,6 +647,7 @@ export default function ListaStock(){
                 </Col>
             </Row>
         </Card>
+        {/** region modales */}
         <Modal 
             footer={null}
             width={"80%"}
