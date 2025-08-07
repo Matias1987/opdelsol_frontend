@@ -109,6 +109,8 @@ const public_urls = {
     adm_prov_remitos: local_base_url + "admin/prov/remitos",
     clientes_morosos: local_base_url + "caja/clientes_morosos",
 
+    informe_stock_sucursal: local_base_url + "informes/stock/stock_sucursal",
+
 }
 
 

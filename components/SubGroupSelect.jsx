@@ -165,6 +165,7 @@ const SubGroupSelect = (props) => {
                     (
                         <Col>
                             <Select 
+                            labelInValue
                             size="small"
                             disabled={typeof props.disabled === 'undefined' ? false : props.disabled}
                             prefix={<span style={{color:"#536872"}}>SubGrupo: </span>}
@@ -175,8 +176,8 @@ const SubGroupSelect = (props) => {
                             value = {idSubGrupo<0? "Seleccione: " : idSubGrupo}
                             onChange = {
                                 (value)=>{
-                                    setIdSubGrupo(value)
-                                    props.callback(value)
+                                    setIdSubGrupo(value.key)
+                                    props.callback(value.key,value.label)
                                 }
                             }
                             

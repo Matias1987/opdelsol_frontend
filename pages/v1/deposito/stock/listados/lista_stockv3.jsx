@@ -22,6 +22,7 @@ export default function ListaStockV3() {
   const [loading, setLoading] = useState(true);
   const [valueChanged, setValueChanged] = useState(false);
   const idsucursal = globals.obtenerSucursal(); 
+  const [idsubgrupo, setIdSubgrupo] = useState(-1);
   const [listId, setListId] = useState(0);
   const [quickSearchValue, setQuickSearchValue] = useState("");
   const [codigoSearch, setCodigoSearch] = useState(true);
@@ -33,7 +34,7 @@ export default function ListaStockV3() {
   const [selectedSucursal, setSelectedSucursal] = useState(-2);
   const [selectedIdCodigo, setSelectedIdCodigo] = useState(-1);
   const [open, setOpen] = useState(false);
-
+  const [menuFolded, setMenuFolded] = useState(false)
 
   const items = [
     {
@@ -344,10 +345,18 @@ export default function ListaStockV3() {
         style={{ boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)" }}
       >
         <Row>
-          <Col span={6}>
-          <SideMenuListaStock />
+          <Col style={{padding:"16px", width: menuFolded? "100px" : "25%"}}>
+            <SideMenuListaStock 
+            onMenuUnfoldedClick={_=>{
+              setMenuFolded(false)
+            }}
+            onMenuFoldedClick={_=>{
+              setMenuFolded(true)
+            }}
+            folded={menuFolded}
+            />
           </Col>
-          <Col span={18}>
+          <Col style={{width: menuFolded? "100%" : "75%", padding:"6px"}}>
             <Tabs
               defaultActiveKey="1"
               onChange={(key) => {
@@ -378,7 +387,7 @@ export default function ListaStockV3() {
                 },
                 {
                   key: "2",
-                  label: "Grilla",
+                  label: "Grilla Cristales",
                   children: (
                     <>
                       <Row>

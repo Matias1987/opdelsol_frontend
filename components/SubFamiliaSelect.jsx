@@ -72,6 +72,7 @@ const SubFamiliaSelect = (props) => {
                     idFamilia==-1 ? <></> :
                     (
                         <Select 
+                        labelInValue
                         size="small"
                         prefix={<span style={{color:"#536872"}}>SubFamilia: </span>}
                         disabled={typeof props.disabled === 'undefined' ? false : props.disabled}
@@ -84,7 +85,7 @@ const SubFamiliaSelect = (props) => {
                             (value)=>{
                                 
                                 setIdSubFamilia(value);
-                                props.callback(value);
+                                props.callback(value.key, value.label);
 
                             }
 

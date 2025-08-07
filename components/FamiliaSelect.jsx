@@ -32,11 +32,12 @@ const FamiliaSelect = (props) => {
 
 
                 <Select 
+                labelInValue
                 disabled={typeof props.disabled==='undefined' ? false: props.disabled}
                 style={{ width: 240, overflow:"hidden"  }}
                 value={idFamilia<0 ? "Seleccione Familia" : idFamilia}
                 loading = {familiaLoading}
-                bordered={true}
+             
                 size="small"
                 onChange={
                     (value)=>{
@@ -49,7 +50,7 @@ const FamiliaSelect = (props) => {
                         }                        
                         setIdFamilia(value);
                        
-                        props.callback(value)
+                        props.callback(value.key, value.label)
                     }
                 }
                 options = {familiaOptions}

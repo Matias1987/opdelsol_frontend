@@ -113,6 +113,7 @@ const GrupoSelect = (props) => {
                     idSubFamilia == -1 ? <></> :
                     (
                         <Select 
+                        labelInValue 
                         size="small"
                         disabled={typeof props.disabled === 'undefined' ? false : props.disabled}
                         style={{ width: 240, overflow:"hidden"  }}
@@ -124,9 +125,7 @@ const GrupoSelect = (props) => {
                         onChange = {
                             (value)=>{
                                 setIdGrupo(value)
-
-
-                                props.callback(value)
+                                props.callback(value.key, value.label)
                             }
                         }
                         />

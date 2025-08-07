@@ -21,7 +21,7 @@ const SelectTag = (props) => {
     return <>
             <Row>
                 
-                <Col span={21}>
+                <Col span={24}>
                     
                     <Select 
                         prefix={<span style={{fontWeight:"bold"}}>Etiquetas: </span>}

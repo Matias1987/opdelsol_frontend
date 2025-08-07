@@ -74,7 +74,7 @@ export default function TestMenu(){
                 <Link href={get_url_to("deposito/stock/stock_venta_periodo")}>Stock Ventas</Link>
               </Menu.Item>
               <Menu.Item key="inf_1_" ><BarsOutlined /> 
-                <Link href={get_url_to("deposito/stock/listados/lista_familia")}>Totales por Sucursal</Link>
+                <Link href={get_url_to("informes/stock/stock_sucursal")}>Totales por Sucursal</Link>
               </Menu.Item>
           </SubMenu>
 

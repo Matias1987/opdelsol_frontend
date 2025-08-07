@@ -1,5 +1,19 @@
-import { PlusOutlined } from "@ant-design/icons";
-import { Button, Col, Input, InputNumber, Row, Select, Tag } from "antd";
+import {
+  MenuFoldOutlined,
+  MenuUnfoldOutlined,
+  PlusOutlined,
+} from "@ant-design/icons";
+import {
+  Button,
+  Card,
+  Col,
+  Divider,
+  Input,
+  InputNumber,
+  Row,
+  Select,
+  Tag,
+} from "antd";
 import SelectTag from "../etiquetas/selectTag";
 import SubGroupSelect from "../SubGroupSelect";
 import GrupoSelect from "../GrupoSelect";
@@ -8,115 +22,27 @@ import FamiliaSelect from "../FamiliaSelect";
 import { useState } from "react";
 
 const SideMenuListaStock = (props) => {
-  const [tipoOrden, setTipoOrden] = useState("");
-  const [tipoFiltro, setTipoFitro] = useState(-1);
-  
-  const [idsubgrupo, setIdSubgrupo] = useState(-1);
-  const [tags, setTags] = useState([]);
-  const procesar_tags = (values) => {
-    var _tags = {};
+  const { folded, onMenuFoldedClick, onMenuUnfoldedClick } = props;
+  const [orden, setOrden] = useState("");
+  const [tipoFiltro, setTipoFiltro] = useState("");
+  const [valorFiltro, setValorFiltro] = useState(null);
+  const [tags, setTags] = useState(null);
+  const [filtros, setFiltros] = useState([]);
 
-    tags.forEach((t) => {
-      _tags[t.tipo] = t.valor;
-    });
+  const agregar_filtro = () => {
+    setFiltros((f) => [
+      ...f,
+      ...[
+        {
+          tipo: tipoFiltro,
+          valor: valorFiltro.valor,
+          descripcion: valorFiltro.descripcion,
+        },
+      ],
+    ]);
 
-    let _sucursal =
-      selectedSucursal < -1 ? globals.obtenerSucursal() : selectedSucursal;
-
-    return {
-      sucursal: _sucursal,
-      codigo_contenga_a:
-        typeof _tags["codigo_contenga_a"] === "undefined"
-          ? ""
-          : _tags["codigo_contenga_a"],
-      grupo_contenga_a:
-        typeof _tags["grupo_contenga_a"] === "undefined"
-          ? ""
-          : _tags["grupo_contenga_a"],
-      codigo_igual_a:
-        typeof _tags["codigo_igual_a"] === "undefined"
-          ? ""
-          : _tags["codigo_igual_a"],
-      precio_mayor_a:
-        typeof _tags["precio_mayor_a"] === "undefined"
-          ? ""
-          : _tags["precio_mayor_a"],
-      precio_menor_a:
-        typeof _tags["precio_menor_a"] === "undefined"
-          ? ""
-          : _tags["precio_menor_a"],
-      precio_igual_a:
-        typeof _tags["precio_igual_a"] === "undefined"
-          ? ""
-          : _tags["precio_igual_a"],
-      cantidad_igual_a:
-        typeof _tags["cantidad_igual_a"] === "undefined"
-          ? ""
-          : _tags["cantidad_igual_a"],
-      cantidad_mayor_a:
-        typeof _tags["cantidad_mayor_a"] === "undefined"
-          ? ""
-          : _tags["cantidad_mayor_a"],
-      cantidad_menor_a:
-        typeof _tags["cantidad_menor_a"] === "undefined"
-          ? ""
-          : _tags["cantidad_menor_a"],
-      sexo: typeof _tags["sexo"] === "undefined" ? "" : _tags["sexo"],
-      edad: typeof _tags["edad"] === "undefined" ? "" : _tags["edad"],
-      descripcion:
-        typeof _tags["detalles"] === "undefined" ? "" : _tags["detalles"],
-
-      subgrupo:
-        typeof _tags["subgrupo"] === "undefined" ? "" : _tags["subgrupo"],
-      grupo: typeof _tags["grupo"] === "undefined" ? "" : _tags["grupo"],
-      subfamilia:
-        typeof _tags["subfamilia"] === "undefined" ? "" : _tags["subfamilia"],
-      familia: typeof _tags["familia"] === "undefined" ? "" : _tags["familia"],
-      order: tipoOrden,
-      etiquetas: etiquetas,
-    };
-  };
-
-  const onFinishFiltro = (values) => {
-    if (typeof values === "undefined") {
-      return;
-    }
-    if (values === null) {
-      return;
-    }
-
-    if (typeof values.valor === "undefined") {
-      return;
-    }
-
-    if (values.valor === null) {
-      return;
-    }
-
-    var found = null;
-    try {
-      found = tags.find(
-        (i) =>
-          tipos_filtro_dic[i.tipo].tipo ==
-          tipos_filtro_dic[values.tipo_filtro].tipo
-      );
-    } catch (e) {
-      console.log("error adding tag");
-    }
-
-    if (typeof found === "undefined") {
-      setTags((tags) => [
-        ...tags,
-        { tipo: values.tipo_filtro, valor: values.valor },
-      ]);
-    } else {
-      alert("Tipo de Filtro ya Cargado");
-    }
-
-    setValue("valor", null);
-    setValue("tipo_filtro", null);
-
-    setTipoFitro(null);
+    setTipoFiltro("");
+    setValorFiltro(null);
   };
 
   const tipos_filtro_dic = {
@@ -139,26 +65,12 @@ const SideMenuListaStock = (props) => {
     sucursal: { tipo: "sucursal", descripcion: "Sucursal" },
   };
 
-  const setValue = (idx, value) => {
-    switch (idx) {
-      case "tipo_filtro":
-        //form.setFieldsValue({ tipo_filtro: value });
-        break;
-      case "valor":
-        //form.setFieldsValue({ valor: value });
-        break;
-    }
-  };
-
-  const setValue1 = (idx, value) => {
-    switch (idx) {
-      case "orden":
-        //form1.setFieldsValue({ orden: value });
-        break;
-      case "valor":
-        //form1.setFieldsValue({ valor: value });
-        break;
-    }
+  const setValue = (tipo, val, descripcion = "") => {
+    setValorFiltro((_) => ({
+      tipo: tipo,
+      valor: val,
+      descripcion: descripcion,
+    }));
   };
 
   const FiltroValor = () => {
@@ -238,32 +150,6 @@ const SideMenuListaStock = (props) => {
             }}
           />
         );
-      case "sexo":
-        return (
-          <Select
-            options={[
-              { label: "Masculino", value: "masculino" },
-              { label: "Femenino", value: "femenino" },
-              { label: "Unisex", value: "unisex" },
-            ]}
-            onChange={(val) => {
-              setValue("valor", val);
-            }}
-          />
-        );
-      case "edad":
-        return (
-          <Select
-            options={[
-              { label: "Adulto", value: "adulto" },
-              { label: "Niños", value: "niño" },
-              { label: "Joven", value: "joven" },
-            ]}
-            onChange={(val) => {
-              setValue("valor", val);
-            }}
-          />
-        );
       case "detalles":
         return (
           <Input
@@ -276,25 +162,24 @@ const SideMenuListaStock = (props) => {
       case "subgrupo":
         return (
           <SubGroupSelect
-            callback={(id) => {
-              setValue("valor", id);
-              setIdSubgrupo(id);
+            callback={(id, desc) => {
+              setValue("valor", id, desc);
             }}
           />
         );
       case "grupo":
         return (
           <GrupoSelect
-            callback={(id) => {
-              setValue("valor", id);
+            callback={(id, desc) => {
+              setValue("valor", id, desc);
             }}
           />
         );
       case "subfamilia":
         return (
           <SubFamiliaSelect
-            callback={(id) => {
-              setValue("valor", id);
+            callback={(id, desc) => {
+              setValue("valor", id, desc);
             }}
           />
         );
@@ -302,8 +187,8 @@ const SideMenuListaStock = (props) => {
         return (
           <>
             <FamiliaSelect
-              callback={(id) => {
-                setValue("valor", id);
+              callback={(id, desc) => {
+                setValue("valor", id, desc);
               }}
             />
           </>
@@ -313,108 +198,173 @@ const SideMenuListaStock = (props) => {
     }
   };
 
-  return (
-    <>
-      <Row
-        gutter={16}
-        style={{
-          backgroundColor: "rgba(173,216,230,.2)",
-          paddingTop: ".3em",
-          paddingLeft: ".3em",
-          paddingRight: ".3em",
-          border: "1px solid rgba(173,216,230,1)",
-        }}
-      >
-        <Col>
-          <Select
-            prefix={<span style={{ fontWeight: "bold" }}>Filtro: </span>}
-            placeholder="Seleccione..."
-            options={[
-              { label: "SubGrupo", value: "subgrupo" },
-              { label: "Grupo", value: "grupo" },
-              { label: "SubFamilia", value: "subfamilia" },
-              { label: "Familia", value: "familia" },
-              { label: "Grupo Contenga a", value: "grupo_contenga_a" },
-              //{ label: "Codigo Contenga a", value: "codigo_contenga_a" },
-              //{label: 'Codigo Igual a ', value: 'codigo_igual_a'},
-              { label: "Precio - Mayor a", value: "precio_mayor_a" },
-              { label: "Precio - Menor a", value: "precio_menor_a" },
-              { label: "Precio - Igual a", value: "precio_igual_a" },
-              { label: "Cantidad - Igual a", value: "cantidad_igual_a" },
-              { label: "Cantidad - Mayor a", value: "cantidad_mayor_a" },
-              { label: "Cantidad - Menor a", value: "cantidad_menor_a" },
-              //{label: 'Descripción', value: 'detalles'},
-            ]}
-            style={{ width: "250px" }}
-            onChange={(value) => {
-              setValue("tipo_filtro", value);
-              setTipoFitro(value);
-            }}
-          />
-        </Col>
-        <Col span={12}>{FiltroValor()}</Col>
-        <Col>
-          <Button type="link" danger htmlType="submit" size="small">
-            <PlusOutlined size={"small"} /> Agregar Filtro...
-          </Button>
-        </Col>
-      </Row>
+  const row_style = {
+    padding: "6px",
+  };
 
-      <Row>
-        <Col span={24}>
-          {tags.map((t) =>
-            typeof tipos_filtro_dic[t.tipo] === "undefined" ||
-            tipos_filtro_dic[t.tipo] === null ? (
-              <></>
-            ) : (
-              <Tag
-                color="red"
-                closable
-                onClose={(e) => {
-                  e.preventDefault();
-                  removeTag(t);
-                }}
-              >
-                {tipos_filtro_dic[t?.tipo]?.descripcion + ": " + t?.valor}
-              </Tag>
-            )
-          )}
-        </Col>
-      </Row>
-      <Row>
-        <Col span={6}>
-          <Select
-            prefix={<span style={{ fontWeight: "bold" }}>Orden: </span>}
-            options={[
-              { label: "Alfabetico - Ascendiente", value: "alf_asc" },
-              { label: "Alfabetico - Descendiente", value: "alf_desc" },
-              { label: "Precio - Descendiente", value: "precio_desc" },
-              { label: "Precio - Ascendiente", value: "precio_asc" },
-              { label: "Cantidad - Ascendiente", value: "cantidad_asc" },
-              { label: "Cantidad - Descendiente", value: "cantidad_desc" },
-            ]}
-            style={{ width: "250px", overflow: "hidden" }}
-            onChange={(value) => {
-              setValue1("orden", value);
-              setTipoOrden(value);
-            }}
-          />
-        </Col>
-      </Row>
-      <Row>
-        <Col span={12}>
-          <SelectTag
-            callback={(v) => {
-              setEtiquetas(v);
-            }}
-          />
-        </Col>
-        <Col span={6} style={{ paddingLeft: "25px" }}>
-          <Button type="primary" htmlType="submit" size="small" block>
-            Aplicar Filtros
-          </Button>
-        </Col>
-      </Row>
+  const on_finish = (_) => {
+    const data  = {
+      tags,
+      filtros,
+    }
+    alert(JSON.stringify(data))
+  };
+
+  return folded ? (
+    <Button
+      onClick={(_) => {
+        onMenuUnfoldedClick();
+      }}
+    >
+      <MenuUnfoldOutlined /> Filtros
+    </Button>
+  ) : (
+    <>
+      <Card
+        style={{ backgroundColor: "#ECECED", borderRadius: "16px" }}
+        title="Filtros"
+        size="small"
+        extra={
+          <>
+            <Button
+              style={{ borderRadius: "12px" }}
+              onClick={(_) => {
+                onMenuFoldedClick();
+              }}
+            >
+              <MenuFoldOutlined />
+            </Button>
+          </>
+        }
+      >
+        <Row
+          style={{
+            ...row_style,
+            ...{
+              borderRadius: "8px",
+              border: "1px solid #C0C0C1",
+              padding: "6px",
+            },
+          }}
+        >
+          <Col span={24}>
+            <Select
+              prefix={<span style={{ fontWeight: "bold" }}>Filtro: </span>}
+              placeholder="Seleccione..."
+              options={[
+                { label: "Codigo", value: "codigo_contenga_a" },
+                { label: "SubGrupo", value: "subgrupo" },
+                { label: "Grupo", value: "grupo" },
+                { label: "SubFamilia", value: "subfamilia" },
+                { label: "Familia", value: "familia" },
+                { label: "Grupo Contenga a", value: "grupo_contenga_a" },
+
+                //{label: 'Codigo Igual a ', value: 'codigo_igual_a'},
+                { label: "Precio - Mayor a", value: "precio_mayor_a" },
+                { label: "Precio - Menor a", value: "precio_menor_a" },
+                { label: "Precio - Igual a", value: "precio_igual_a" },
+                { label: "Cantidad - Igual a", value: "cantidad_igual_a" },
+                { label: "Cantidad - Mayor a", value: "cantidad_mayor_a" },
+                { label: "Cantidad - Menor a", value: "cantidad_menor_a" },
+                //{label: 'Descripción', value: 'detalles'},
+              ]}
+              style={{ width: "100%" }}
+              onChange={(value) => {
+                setTipoFiltro(value);
+              }}
+            />
+          </Col>
+
+          <Col span={24} style={{ paddingTop: "6px" }}>
+            {FiltroValor()}
+          </Col>
+        </Row>
+        <Row style={row_style}>
+          <Col>
+            <Button
+              onClick={agregar_filtro}
+              type="link"
+              danger
+              htmlType="submit"
+              size="small"
+              style={{ width: "100%" }}
+            >
+              <PlusOutlined size={"small"} /> Agregar Filtro...
+            </Button>
+          </Col>
+        </Row>
+
+        <Row style={row_style}>
+          <Col span={24}>
+            {filtros.map((t) =>
+              typeof tipos_filtro_dic[t.tipo] === "undefined" ||
+              tipos_filtro_dic[t.tipo] === null ? (
+                <></>
+              ) : (
+                <Tag
+                  color="red"
+                  closable
+                  onClose={(e) => {
+                    e.preventDefault();
+                    setFiltros((ff) => ff.filter((f) => f.tipo != t.tipo));
+                  }}
+                >
+                  {tipos_filtro_dic[t?.tipo]?.descripcion +
+                    ": " +
+                    t?.valor +
+                    " " +
+                    t?.descripcion}
+                </Tag>
+              )
+            )}
+          </Col>
+        </Row>
+        <Row style={row_style}>
+          <Col span={24}>
+            <Select
+              placeholder="Por defecto..."
+              prefix={<span style={{ fontWeight: "bold" }}>Orden: </span>}
+              options={[
+                { label: "Alfabetico - Ascendiente", value: "alf_asc" },
+                { label: "Alfabetico - Descendiente", value: "alf_desc" },
+                { label: "Precio - Descendiente", value: "precio_desc" },
+                { label: "Precio - Ascendiente", value: "precio_asc" },
+                { label: "Cantidad - Ascendiente", value: "cantidad_asc" },
+                { label: "Cantidad - Descendiente", value: "cantidad_desc" },
+              ]}
+              allowClear
+              style={{ width: "100%", overflow: "hidden" }}
+              onChange={(value) => {
+                setOrden(value);
+              }}
+            />
+          </Col>
+        </Row>
+        <Row style={row_style}>
+          <Col span={24}>
+            <SelectTag
+              callback={(v) => {
+                setTags(v)
+              }}
+            />
+          </Col>
+        </Row>
+        <Row style={row_style}>
+          <Col span={24}>
+            <Divider />
+            <Button
+              type="primary"
+              htmlType="submit"
+              size="small"
+              block
+              style={{ borderRadius: "6px" }}
+              onClick={on_finish}
+            >
+              Aplicar Filtros
+            </Button>
+          </Col>
+        </Row>
+      </Card>
     </>
   );
 };
