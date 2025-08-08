@@ -14,19 +14,16 @@ import TagsLote from "@/components/etiquetas/TagsLote";
 import DetalleStock from "@/components/forms/deposito/detalle/DetalleStock";
 import CodeGridHTML from "@/components/etc/CodeGridHTML";
 import SideMenuListaStock from "@/components/deposito/lista_stock_sidemenu";
+import ExportToCSV from "@/components/ExportToCSV";
 
 export default function ListaStockV3() {
   const [usuarioDep, setUsuarioDep] = useState(false);
-  const [popupOpen, setPopupOpen] = useState(false);
   const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [valueChanged, setValueChanged] = useState(false);
   const idsucursal = globals.obtenerSucursal(); 
   const [idsubgrupo, setIdSubgrupo] = useState(-1);
   const [listId, setListId] = useState(0);
-  const [quickSearchValue, setQuickSearchValue] = useState("");
-  const [codigoSearch, setCodigoSearch] = useState(true);
-  const [etiquetas, setEtiquetas] = useState([]);
   const [popupTagsOpen, setPopupTagsOpen] = useState(false);
   const [popupDetalleOpen, setPopupDetalleOpen] = useState(false);
   const [popupEditarStockIndvOpen, setPopupEditarStockIndvOpen] = useState(false);
@@ -69,43 +66,46 @@ export default function ListaStockV3() {
       (response) => {
         setValueChanged(!valueChanged);
       }
-    );
+    ); 
   };
 
-  //THIS IS NEW
+  const procesar_tags =(data)=>{
+
+          var __filtros = {};
+  
+          data.filtros.forEach(t=>{
+              __filtros[t.tipo] = t.valor
+              if(t.tipo=='subgrupo')
+              {
+                setIdSubgrupo(t.valor)
+              }
+          })
+  
+          let _sucursal = globals.obtenerSucursal(); 
+
+          return {
+              sucursal: _sucursal,
+              codigo_contenga_a: typeof __filtros["codigo_contenga_a"] === 'undefined' ? "" : __filtros["codigo_contenga_a"],
+              grupo_contenga_a: typeof __filtros["grupo_contenga_a"] === 'undefined' ? "" : __filtros["grupo_contenga_a"],
+              codigo_igual_a: typeof __filtros["codigo_igual_a"] === 'undefined' ? "" : __filtros["codigo_igual_a"],
+              precio_mayor_a: typeof __filtros["precio_mayor_a"] === 'undefined' ? "" : __filtros["precio_mayor_a"],
+              precio_menor_a: typeof __filtros["precio_menor_a"] === 'undefined' ? "" : __filtros["precio_menor_a"],
+              precio_igual_a: typeof __filtros["precio_igual_a"] === 'undefined' ? "" : __filtros["precio_igual_a"],
+              cantidad_igual_a: typeof __filtros["cantidad_igual_a"] === 'undefined' ? "" : __filtros["cantidad_igual_a"],
+              cantidad_mayor_a: typeof __filtros["cantidad_mayor_a"] === 'undefined' ? "" : __filtros["cantidad_mayor_a"],
+              cantidad_menor_a: typeof __filtros["cantidad_menor_a"] === 'undefined' ? "" : __filtros["cantidad_menor_a"],
+              descripcion: typeof __filtros["detalles"] === 'undefined' ? "" : __filtros["detalles"],
+              subgrupo: typeof __filtros["subgrupo"] === 'undefined' ? "" : __filtros["subgrupo"],
+              grupo: typeof __filtros["grupo"] === 'undefined' ? "" : __filtros["grupo"],
+              subfamilia: typeof __filtros["subfamilia"] === 'undefined' ? "" : __filtros["subfamilia"],
+              familia: typeof __filtros["familia"] === 'undefined' ? "" : __filtros["familia"],
+              order: "",
+              etiquetas: data.tags||"",
+          }
+      }
+
   useEffect(() => {
     setUsuarioDep(globals.esUsuarioDeposito());
-    /*
-    setLoading(true);
-
-    const data = procesar_tags();
-    post_method(post.search.filtro_stock, data, (response) => {
-      setData(
-        response.data.map((row) => ({
-          key: row.idcodigo,
-          codigo: row.codigo,
-          ruta: row.ruta,
-          cantidad: row.cantidad,
-          idcodigo: row.idcodigo,
-          precio: row.precio,
-          sexo: row.sexo,
-          genero: row.genero,
-          edad: row.edad,
-          descripcion: row.descripcion,
-          checked: false,
-          familia: row.familia,
-          subfamilia: row.subfamilia,
-          grupo: row.grupo,
-          subgrupo: row.subgrupo,
-          modo_precio: row.modo_precio,
-          idsubgrupo: row.idsubgrupo,
-          etiquetas: row.etiquetas,
-          activo: row.activo,
-        }))
-      );
-      setLoading(false);
-      setListId(listId + 1);
-    });*/
   }, [valueChanged]);
 
   const columns = [
@@ -320,22 +320,109 @@ export default function ListaStockV3() {
   ];
 
 
-/*
-  const removeTag = (tag) => {
-    setTags(tags.filter((t1) => tag.tipo !== t1.tipo));
-  };
-
-
-  const onQuickSearchClick = () => {
-    if (codigoSearch) {
-      setTags([{ tipo: "codigo_contenga_a", valor: quickSearchValue }]);
-    } else {
-      setTags([{ tipo: "grupo_contenga_a", valor: quickSearchValue }]);
+  const load = (filtro_data) =>{
+    if(!filtro_data)
+    {
+      return;
     }
+    if((filtro_data?.filtros||[]).length<1)
+    {
+      return;
+    }
+    setLoading(true);
+    const data = procesar_tags(filtro_data);
+    post_method(post.search.filtro_stock, data, (response) => {
+      setData(
+        response.data.map((row) => ({
+          key: row.idcodigo,
+          codigo: row.codigo,
+          ruta: row.ruta,
+          cantidad: row.cantidad,
+          idcodigo: row.idcodigo,
+          precio: row.precio,
+          descripcion: row.descripcion,
+          checked: false,
+          familia: row.familia,
+          subfamilia: row.subfamilia,
+          grupo: row.grupo,
+          subgrupo: row.subgrupo,
+          modo_precio: row.modo_precio,
+          idsubgrupo: row.idsubgrupo,
+          etiquetas: row.etiquetas,
+          activo: row.activo,
+        }))
+      );
+      setLoading(false);
+      setListId(listId + 1);
+    });
+  }
 
-    setValueChanged(!valueChanged);
-  };
-*/
+  const header = _ => <>
+  <Row style={{ backgroundColor: "rgba(255, 255, 255,0)", borderRadius:"16px" }} gutter={"16"}>
+  <Col>
+	<ExportToCSV
+	  parseFnt={() => {
+		let str =
+		  "Familia, SubFamilia, Grupo, Subgrupo, Codigo, Descripcion, Cantidad, Precio, Tags,\r\n";
+		data.forEach((r) => {
+		  str += `${r.familia},${r.subfamilia},${r.grupo},${
+			r.subgrupo
+		  },' ${r.codigo} ',${r.descripcion},${r.cantidad},${
+			r.precio
+		  },${(r.etiquetas || "").replace(/,/g, " ; ")},\r\n`;
+		});
+		return str;
+	  }}
+	/>
+  </Col>
+  <Col>
+	<Button
+	  size="small"
+    type="primary"
+    style={{color:"white"}}
+	  disabled={data.filter((d) => d.checked).length < 1}
+	  onClick={() => {
+		setPopupTagsOpen(true);
+	  }}
+	>
+	  Editar Etiquetas
+	</Button>
+  </Col>
+  <Col>
+	<Button
+	  disabled={data.filter((d) => d.checked).length < 1}
+	  size="small"
+    type="primary"
+    style={{color:"white"}}
+	  onClick={(_) => {
+		if (!confirm("Establecer códigos como activos?")) {
+		  return;
+		}
+		cambiar_estados_codigos(1);
+	  }}
+	>
+	  Activar C&oacute;digos
+	</Button>
+  </Col>
+  <Col>
+	<Button
+	  disabled={data.filter((d) => d.checked).length < 1}
+	  size="small"
+    type="primary"
+    style={{color:"white"}}
+	  danger
+	  onClick={(_) => {
+		if (!confirm("Establecer códigos como inactivos?")) {
+		  return;
+		}
+		cambiar_estados_codigos(0);
+	  }}
+	>
+	  Desactivar C&oacute;digos
+	</Button>
+  </Col>
+</Row>
+  </>
   
   return (
     <>
@@ -353,6 +440,12 @@ export default function ListaStockV3() {
             onMenuFoldedClick={_=>{
               setMenuFolded(true)
             }}
+            callback={
+              filtros=>{
+                //alert(JSON.stringify(filtros))
+                load(filtros);
+              }
+            }
             folded={menuFolded}
             />
           </Col>
@@ -369,6 +462,7 @@ export default function ListaStockV3() {
                   children: (
                     <>
                       <Table
+                        title={header}
                         rowClassName={(record, index) =>
                           +record.activo == 0
                             ? "error-row"

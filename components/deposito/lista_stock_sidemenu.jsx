@@ -22,11 +22,11 @@ import FamiliaSelect from "../FamiliaSelect";
 import { useState } from "react";
 
 const SideMenuListaStock = (props) => {
-  const { folded, onMenuFoldedClick, onMenuUnfoldedClick } = props;
+  const { folded, onMenuFoldedClick, onMenuUnfoldedClick, callback } = props;
   const [orden, setOrden] = useState("");
   const [tipoFiltro, setTipoFiltro] = useState("");
   const [valorFiltro, setValorFiltro] = useState(null);
-  const [tags, setTags] = useState(null);
+  const [tags, setTags] = useState([]);
   const [filtros, setFiltros] = useState([]);
 
   const agregar_filtro = () => {
@@ -78,6 +78,8 @@ const SideMenuListaStock = (props) => {
       case "grupo_contenga_a":
         return (
           <Input
+            prefix="Valor: "
+            size="small"
             type="text"
             onChange={(e) => {
               setValue("valor", e.target.value);
@@ -87,6 +89,8 @@ const SideMenuListaStock = (props) => {
       case "codigo_contenga_a":
         return (
           <Input
+            prefix="Valor: "
+            size="small"
             type="text"
             onChange={(e) => {
               setValue("valor", e.target.value);
@@ -96,6 +100,8 @@ const SideMenuListaStock = (props) => {
       case "codigo_igual_a":
         return (
           <Input
+            prefix="Valor: "
+            size="small"
             type="text"
             onChange={(e) => {
               setValue("valor", e.target.value);
@@ -104,7 +110,9 @@ const SideMenuListaStock = (props) => {
         );
       case "precio_mayor_a":
         return (
-          <InputNumber
+          <Input
+            type="number"
+            prefix="Valor: "
             onChange={(val) => {
               setValue("valor", val);
             }}
@@ -112,7 +120,9 @@ const SideMenuListaStock = (props) => {
         );
       case "precio_menor_a":
         return (
-          <InputNumber
+          <Input
+            type="number"
+            prefix="Valor: "
             onChange={(val) => {
               setValue("valor", val);
             }}
@@ -120,7 +130,9 @@ const SideMenuListaStock = (props) => {
         );
       case "precio_igual_a":
         return (
-          <InputNumber
+          <Input
+            type="number"
+            prefix="Valor: "
             onChange={(val) => {
               setValue("valor", val);
             }}
@@ -128,7 +140,9 @@ const SideMenuListaStock = (props) => {
         );
       case "cantidad_igual_a":
         return (
-          <InputNumber
+          <Input
+            type="number"
+            prefix="Valor: "
             onChange={(val) => {
               setValue("valor", val);
             }}
@@ -136,7 +150,9 @@ const SideMenuListaStock = (props) => {
         );
       case "cantidad_mayor_a":
         return (
-          <InputNumber
+          <Input
+            type="number"
+            prefix="Valor: "
             onChange={(val) => {
               setValue("valor", val);
             }}
@@ -144,7 +160,9 @@ const SideMenuListaStock = (props) => {
         );
       case "cantidad_menor_a":
         return (
-          <InputNumber
+          <Input
+            type="number"
+            prefix="Valor: "
             onChange={(val) => {
               setValue("valor", val);
             }}
@@ -153,6 +171,8 @@ const SideMenuListaStock = (props) => {
       case "detalles":
         return (
           <Input
+            prefix="Valor: "
+            size="small"
             type="text"
             onChange={(e) => {
               setValue("valor", e.target.value);
@@ -194,7 +214,7 @@ const SideMenuListaStock = (props) => {
           </>
         );
       default:
-        return <b>Seleccione tipo filtro...</b>;
+        return <>{/*<span style={{color:"gray"}}><i>Seleccione tipo filtro...</i></span>*/}</> ;
     }
   };
 
@@ -202,12 +222,14 @@ const SideMenuListaStock = (props) => {
     padding: "6px",
   };
 
-  const on_finish = (_) => {
+  const on_finish = () => {
     const data  = {
       tags,
       filtros,
     }
-    alert(JSON.stringify(data))
+    
+
+    callback?.(data)
   };
 
   return folded ? (
@@ -249,8 +271,9 @@ const SideMenuListaStock = (props) => {
         >
           <Col span={24}>
             <Select
+              value={tipoFiltro}
               prefix={<span style={{ fontWeight: "bold" }}>Filtro: </span>}
-              placeholder="Seleccione..."
+              placeholder="Seleccione Tipo de Filtro..."
               options={[
                 { label: "Codigo", value: "codigo_contenga_a" },
                 { label: "SubGrupo", value: "subgrupo" },
@@ -266,22 +289,24 @@ const SideMenuListaStock = (props) => {
                 { label: "Cantidad - Igual a", value: "cantidad_igual_a" },
                 { label: "Cantidad - Mayor a", value: "cantidad_mayor_a" },
                 { label: "Cantidad - Menor a", value: "cantidad_menor_a" },
-                //{label: 'Descripción', value: 'detalles'},
+                {label: 'Descripción', value: 'detalles'},
               ]}
               style={{ width: "100%" }}
               onChange={(value) => {
                 setTipoFiltro(value);
               }}
             />
+           
           </Col>
 
-          <Col span={24} style={{ paddingTop: "6px" }}>
+          <Col span={24} style={{ paddingTop: "16px" }}>
             {FiltroValor()}
           </Col>
         </Row>
         <Row style={row_style}>
           <Col>
             <Button
+              disabled={valorFiltro==null}
               onClick={agregar_filtro}
               type="link"
               danger
@@ -294,7 +319,7 @@ const SideMenuListaStock = (props) => {
           </Col>
         </Row>
 
-        <Row style={row_style}>
+        <Row style={{...row_style,...{backgroundColor:"lightyellow", borderRadius:"8px", padding:"6px"}}}>
           <Col span={24}>
             {filtros.map((t) =>
               typeof tipos_filtro_dic[t.tipo] === "undefined" ||
@@ -353,6 +378,7 @@ const SideMenuListaStock = (props) => {
           <Col span={24}>
             <Divider />
             <Button
+              disabled={filtros.length<1&&tags.length<1}
               type="primary"
               htmlType="submit"
               size="small"
