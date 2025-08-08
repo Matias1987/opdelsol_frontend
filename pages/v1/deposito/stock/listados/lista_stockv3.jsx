@@ -28,10 +28,11 @@ export default function ListaStockV3() {
   const [popupDetalleOpen, setPopupDetalleOpen] = useState(false);
   const [popupEditarStockIndvOpen, setPopupEditarStockIndvOpen] = useState(false);
   const [popupEditarCodigoIndvOpen, setPopupEditarCodigoIndvOpen] = useState(false);
-  const [selectedSucursal, setSelectedSucursal] = useState(-2);
   const [selectedIdCodigo, setSelectedIdCodigo] = useState(-1);
   const [open, setOpen] = useState(false);
   const [menuFolded, setMenuFolded] = useState(false)
+
+  const [filtros, setFiltros] = useState(null);
 
   const items = [
     {
@@ -50,8 +51,7 @@ export default function ListaStockV3() {
       key: "3",
       icon: <EditOutlined />,
       disabled: !(
-        globals.esUsuarioDeposito() &&
-        (selectedSucursal == globals.obtenerSucursal() || selectedSucursal < -1)
+        globals.esUsuarioDeposito() 
       ),
     },
   ];
@@ -69,7 +69,7 @@ export default function ListaStockV3() {
     ); 
   };
 
-  const procesar_tags =(data)=>{
+  const procesar_filtros =(data)=>{
 
           var __filtros = {};
   
@@ -106,6 +106,7 @@ export default function ListaStockV3() {
 
   useEffect(() => {
     setUsuarioDep(globals.esUsuarioDeposito());
+    load(filtros)
   }, [valueChanged]);
 
   const columns = [
@@ -330,7 +331,7 @@ export default function ListaStockV3() {
       return;
     }
     setLoading(true);
-    const data = procesar_tags(filtro_data);
+    const data = procesar_filtros(filtro_data);
     post_method(post.search.filtro_stock, data, (response) => {
       setData(
         response.data.map((row) => ({
@@ -434,6 +435,7 @@ export default function ListaStockV3() {
         <Row>
           <Col style={{padding:"16px", width: menuFolded? "100px" : "25%"}}>
             <SideMenuListaStock 
+            loading={loading}
             onMenuUnfoldedClick={_=>{
               setMenuFolded(false)
             }}
@@ -442,8 +444,8 @@ export default function ListaStockV3() {
             }}
             callback={
               filtros=>{
-                //alert(JSON.stringify(filtros))
-                load(filtros);
+                setFiltros(filtros)
+                setValueChanged(!valueChanged)
               }
             }
             folded={menuFolded}
@@ -482,6 +484,7 @@ export default function ListaStockV3() {
                 {
                   key: "2",
                   label: "Grilla Cristales",
+                  disabled: (idsubgrupo===null),
                   children: (
                     <>
                       <Row>
@@ -562,7 +565,7 @@ export default function ListaStockV3() {
       >
         <DetalleStock
           idcodigo={selectedIdCodigo}
-          idsucursal={selectedSucursal < 0 ? idsucursal : selectedSucursal}
+          idsucursal={idsucursal}
           callback={() => {
             setPopupDetalleOpen(false);
             setValueChanged(!valueChanged);

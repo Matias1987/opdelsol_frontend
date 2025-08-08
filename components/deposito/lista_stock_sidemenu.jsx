@@ -22,7 +22,7 @@ import FamiliaSelect from "../FamiliaSelect";
 import { useState } from "react";
 
 const SideMenuListaStock = (props) => {
-  const { folded, onMenuFoldedClick, onMenuUnfoldedClick, callback } = props;
+  const { folded, onMenuFoldedClick, onMenuUnfoldedClick, callback, loading } = props;
   const [orden, setOrden] = useState("");
   const [tipoFiltro, setTipoFiltro] = useState("");
   const [valorFiltro, setValorFiltro] = useState(null);
@@ -378,7 +378,7 @@ const SideMenuListaStock = (props) => {
           <Col span={24}>
             <Divider />
             <Button
-              disabled={filtros.length<1&&tags.length<1}
+              disabled={(filtros.length<1&&tags.length<1)||(typeof loading==='undefined' ? false : loading)}
               type="primary"
               htmlType="submit"
               size="small"
