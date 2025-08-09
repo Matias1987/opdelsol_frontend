@@ -14,7 +14,7 @@ export default function TestMenu(){
 
     return (
         <Menu
-        style={{backgroundColor:"#EBEBEB", boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)"}}
+        style={{backgroundColor:"#94D0AE", boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)", fontWeight:"600", color:"#437e5bff"}}
           onClick={()=>{}}
           
           mode="horizontal"
@@ -22,15 +22,15 @@ export default function TestMenu(){
         >
           
           <Menu.Item key="100"><Link href={get_url_to("deposito/")}><HomeOutlined />&nbsp;Inicio  </Link></Menu.Item>
-          <SubMenu key="sub20" title={<span><BoxPlotFilled /><span>Stock</span></span>}>
+          <SubMenu key="sub20" title={<span><BoxPlotFilled /> Stock</span>}>
             <Menu.Item key="110" >
-                  <Link  href={get_url_to("deposito/stock/listados/lista_stock")}>Listado</Link>
+                  <Link  href={get_url_to("deposito/stock/listados/lista_stockv3")}>Listado</Link>
             </Menu.Item>
               <Menu.Item key="sub2_32" >
                   <Link href={get_url_to("deposito/stock/agregar_stock_lote_v3")}>Agregar Productos</Link>
               </Menu.Item>
           </SubMenu>
-          <SubMenu key="sub1" title={<span><RocketOutlined /><span>Envios</span></span>}>
+          <SubMenu key="sub1" title={<span><RocketOutlined /> Envios</span>}>
             <Menu.Item key="sub1_1"><Link href={get_url_to("deposito/envio/nuevo_envio")}><SnippetsOutlined />&nbsp;Nuevo Envio  </Link></Menu.Item>
             <Menu.Item key="sub1_3"><Link href={get_url_to("deposito/envio/lista_envios")}><BarsOutlined />&nbsp;Lista de Envios  </Link></Menu.Item>
             <Menu.Divider></Menu.Divider>
@@ -45,16 +45,9 @@ export default function TestMenu(){
           
 
           {/*<Menu.Item key="107"><Link href={public_urls.editar_precios}><StarOutlined />&nbsp; Editar Precios de SubGrupos</Link></Menu.Item>*/}
-          <Menu.Item key="13"><Link href={get_url_to("deposito/imprimir_codigos")}><PrinterOutlined />&nbsp; Imprimir C&oacute;digos</Link></Menu.Item>
-          
-          
-          
-          
-          
+          <Menu.Item key="13"><Link href={get_url_to("deposito/imprimir_codigos")}><PrinterOutlined />&nbsp;Imprimir C&oacute;digos</Link></Menu.Item>
 
-          
-          
-            <SubMenu key={"submenu_tablas"} title={<span><TableOutlined /><span>Tablas</span></span>} >
+            <SubMenu key={"submenu_tablas"} title={<span><TableOutlined /> Tablas</span>} >
               <Menu.Item key="subsub121" ><BarsOutlined /> 
                 <Link href={get_url_to("deposito/stock/listados/lista_familia")}>Familias</Link>
               </Menu.Item>
@@ -69,7 +62,7 @@ export default function TestMenu(){
               </Menu.Item>
           </SubMenu>
 
-            <SubMenu key={"inf_title"} title={<span><InfoOutlined /><span>Informes</span></span>} >
+            <SubMenu key={"inf_title"} title={<span><InfoOutlined /> Informes</span>} >
               <Menu.Item key="sub8_30"><FileTextOutlined />
                 <Link href={get_url_to("deposito/stock/stock_venta_periodo")}>Stock Ventas</Link>
               </Menu.Item>

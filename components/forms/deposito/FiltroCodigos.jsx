@@ -67,6 +67,7 @@ const   FiltroCodigos = (props) => {
                 <Col style={{width:"80px"}}>
                     <Button  block disabled={!applyPending} type={"primary"}  onClick={()=>{
                         setApplyPending(false)
+             
                         props?.callback?.(filtros)
                     }}>Aplicar</Button>
                 </Col>
