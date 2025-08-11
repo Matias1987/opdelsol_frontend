@@ -459,7 +459,9 @@ const get = {
     ejemplo_codigo: "codigos/ej/cod/",
 
     listado_caja_sucursales_pendientes: remote_base_url + "caja/listado_caja_sucursales_pendientes/",
-    
+
+    cm_listado_caja_sucursales: remote_base_url + "caja/listado_caja_sucursales/",
+
 }
 
 module.exports = {

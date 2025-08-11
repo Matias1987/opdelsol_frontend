@@ -74,7 +74,7 @@ export default function Login(){
     return (
         <Row align={"center"}>
             <Col span={12}>
-                <Card title="Log In" style={{backgroundColor:"rgba(255,255,255,.25)", borderColor:"rgba(255,255,255,.25)"}}>
+                <Card title="Log In" style={{backgroundColor:"rgba(255,255,255,.25)", borderColor:"rgba(255,255,255,.25)", borderRadius:"6px"}}>
                     <Form
                     onFinish={onFinish}
                     onFinishFailed={onFinishFailed}
@@ -94,7 +94,6 @@ export default function Login(){
                     </Form>
                 </Card>
             </Col>
-
         </Row>
         
     )

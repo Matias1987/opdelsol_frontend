@@ -1,13 +1,16 @@
+import { Col, Row } from "antd"
+import { useEffect, useState } from "react"
+
 const ListadoCajaSucursales = props =>{
 
-    const [data, setData] = React.useState([])
-    const [loading, setLoading] = React.useState(true)
+    const [data, setData] = useState([])
+    const [loading, setLoading] = useState(true)
 
-    React.useEffect(() => {
+    useEffect(() => {
         const fetchData = async () => {
             setLoading(true)
             try {
-                const response = await fetch('/api/caja_sucursales')
+                const response = await fetch("")
                 const result = await response.json()
                 setData(result)
             } catch (error) {
@@ -25,14 +28,24 @@ const ListadoCajaSucursales = props =>{
     }
 
     return (
-        <div>
-            <h1>Listado de Caja por Sucursales</h1>
-            <ul>
-                {data.map(item => (
-                    <li key={item.id}>{item.name}</li>
-                ))}
-            </ul>
-        </div>
+        <>
+        <Row>
+            <Col span={24}>
+            </Col>
+        </Row>
+        <Row>
+            <Col span={24}>
+            </Col>
+        </Row>
+        <Row>
+            <Col span={24}>
+            </Col>
+        </Row>
+        <Row>
+            <Col span={24}>
+            </Col>
+        </Row>
+        </>
     )
 }
 

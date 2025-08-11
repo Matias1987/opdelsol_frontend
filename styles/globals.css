@@ -378,9 +378,9 @@ just some testing
 .login-body {
   height: 100vh;
   margin: 0;
-  background: linear-gradient(135deg, #e0e4fa, #086bff, #feffc1, #ff0101, #e0e4fa );
+  background: linear-gradient(135deg, #e0e4fa, #4489f0, #0252ca, #4489f0, #e0e4fa );
   background-size: 400% 400%;
-  animation: gradientShift 20s ease infinite;
+  animation: gradientShift 30s ease infinite;
 }
 
 @keyframes gradientShift {
@@ -394,3 +394,5 @@ just some testing
     background-position: 0% 50%;
   }
 }
+
+

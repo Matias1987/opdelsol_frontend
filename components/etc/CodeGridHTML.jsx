@@ -57,13 +57,13 @@ const CodeGridHTML = (props) => {
         if(_min_cil>1000 || _max_cil<-1000)
           return
 
-        //alert(JSON.stringify(qtties))
+        //alert(JSON.stringify({_min_esf, _max_esf, _min_cil, _max_cil}));
         setCodesDict(qtties);
         setDataPositive(
-          prepare(1,  Math.abs(_min_esf), Math.abs(_min_cil), "+", "-")
+          prepare(Math.abs(0),  Math.abs(_min_esf), Math.abs(_min_cil), "+", "-")
         );
         setDataNegative(
-          prepare(0, Math.abs(_max_esf), Math.abs(_min_cil), "-", "-")
+          prepare(Math.abs(0), Math.abs(_max_esf), Math.abs(_min_cil), "-", "-")
         );
       }
     );
@@ -212,14 +212,26 @@ const CodeGridHTML = (props) => {
                     <td
                       style={{ ...base_border_style, ...td_style }}
                     >
-                      <div style={cell_content}>
+                      <div 
+                      style={
+                        +(codesDict[
+                            `${parseFloat(cell.esf) * 100}${
+                              parseFloat(cell.cil) * 100
+                            }`
+                          ]?.cantidad >0||"0") ? 
+                          {...cell_content, backgroundColor: "#ffe4bbff", fontWeight:"600", color:"black"} :
+                          {...cell_content, backgroundColor: "#F5F5F5", color:"#567effff"}
+                        
+                        
+                        }
+                        >
                         
                         {
                           codesDict[
                             `${parseFloat(cell.esf) * 100}${
                               parseFloat(cell.cil) * 100
                             }`
-                          ]?.cantidad || "-"
+                          ]?.cantidad 
                         }
                         {'undefined' === typeof codesDict[
                           `${parseFloat(cell.esf) * 100}${
