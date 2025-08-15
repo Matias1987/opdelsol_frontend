@@ -6,8 +6,9 @@ import RemoteCodeImporter from "@/components/remoto/deposito/code_importer";
 export default function ListaClientesCaja() {
   return (
     <>
-      {/*<ListaClientes ficha />*/}
-      <RemoteCodeImporter />
+      {/*<RemoteCodeImporter />*/}
+      
+      <ListaClientes ficha />
      
     </>
   );

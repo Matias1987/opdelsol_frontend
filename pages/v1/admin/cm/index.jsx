@@ -1,5 +1,8 @@
+import Egreso from "@/components/caja_master/egreso";
+import Ingreso from "@/components/caja_master/ingreso";
 import Transferencia from "@/components/caja_master/transferencia";
 import LayoutAdmin from "@/components/layout/layout_admin";
+import { headers } from "@/next.config";
 import { ArrowDownOutlined, ArrowUpOutlined, HomeOutlined, InfoOutlined, OrderedListOutlined } from "@ant-design/icons";
 import { Button, Card, Col, Menu, Modal, Row, Statistic, Table, Tabs } from "antd";
 import { useState } from "react";
@@ -10,7 +13,7 @@ import { useState } from "react";
  */
 export default function CMIndex() {
   const [transferenciaFondoFOpen, setTransferenciaFondoFOpen] = useState(false);
-  const [controlCajasOpen, setControlCajasOpen] = useState(false);
+  const [egresoCajaOpen, setEgresoCajaOpen] = useState(false);
   const [ingresoPlataOpen, setIngresoPlataOpen] = useState(false);
   /*
   const menuStyle = {
@@ -82,14 +85,23 @@ const selectedStyle = {
                 </Row>
                 <Row>
             <Col span={24}>
-            <Table
-              size="small"
-              title={_ => <>Ultimas Operaciones
-              <Button size="small" style={buttonStyle} onClick={() => setIngresoPlataOpen(true)}>Nuevo Egreso</Button>
-              <Button size="small" style={buttonStyle} onClick={() => setIngresoPlataOpen(true)}>Nuevo Ingreso</Button>
-              </>}
-              dataSource={[]} columns={[]} pagination={false}
-            />
+            <Card
+            styles={{ header: { backgroundColor: '#d2d1ffff' } }}
+            size="small"
+            title="Ultimas Operaciones"
+            extra={<>
+                <Button size="small" style={buttonStyle} onClick={() => setIngresoPlataOpen(true)}>Nuevo Egreso</Button>
+                <Button size="small" style={buttonStyle} onClick={() => setIngresoPlataOpen(true)}>Nuevo Ingreso</Button>
+                <Button size="small" style={buttonStyle} onClick={() => setTransferenciaFondoFOpen(true)}>Nueva Transferencia a Fondo Fijo</Button>
+            </>}
+            >
+              <Table
+                size="small"
+                
+                dataSource={[]} columns={[]} pagination={false}
+              />
+            </Card>
+            
           </Col>
           </Row>
               </>,
@@ -107,30 +119,7 @@ const selectedStyle = {
                 >
                   <Row>
                     <Col span={24}>
-                      { /*<Menu
-              style={{
-                background: "transparent",
-                border: "none",
-                padding: "16px",
-              }}
-              
-              onClick={(e) => {
-                if (e.key === "1") {
-                  setTransferenciaFondoFOpen(true);
-                } else if (e.key === "2") {
-                  setControlCajasOpen(true);
-                } else if (e.key === "3") {
-                  setIngresoPlataOpen(true);
-                }
-              }}
-              theme="light"
-              mode="horizontal"
-              items={[
-                { label: "Transferencia a Fondos Fijos", key: "1" },
-                { label: "Control de Cajas de Sucursales", key: "2" },
-                { label: "Ingreso de Plata", key: "3" },
-              ]}
-            />*/}
+   
 
                     </Col>
                     <Col span={24}>
@@ -174,20 +163,33 @@ const selectedStyle = {
         } onChange={_ => { }} 
       />
     </Card>
+    <Modal>
+      
+    </Modal>
       <Modal
+      title="Nueva Transferencia"
+      footer={null}
         onCancel={() => setTransferenciaFondoFOpen(false)}
         open={transferenciaFondoFOpen}
       >
         <Transferencia />
       </Modal>
       <Modal
-        onCancel={() => setControlCajasOpen(false)}
-        open={controlCajasOpen}
-      ></Modal>
+        title="Nuevo Egreso"
+        footer={null}
+        onCancel={() => {}}
+        open={egresoCajaOpen}
+      >
+        <Egreso />
+      </Modal>
       <Modal
+        title="Nuevo Ingreso"
+        footer={null}
         onCancel={() => setIngresoPlataOpen(false)}
         open={ingresoPlataOpen}
-      ></Modal>
+      >
+        <Ingreso />
+      </Modal>
     </>
   );
 }
