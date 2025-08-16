@@ -80,6 +80,24 @@ export default function LayoutVentas(props) {
     }
     validate_user();
   }, []);
+
+    const card_style2 = {
+      header: {
+        background: "#E7E9EB",
+        //background: "#94D0AE", 
+        borderTop:"2px solid #663F4C",
+      },  
+      body:{
+        backgroundColor:"#ffffffff", 
+        padding:"0"
+      }
+  } 
+
+  const card_style = {
+        header:{background: "#ADD8E6", background: "linear-gradient(39deg, rgba(173, 216, 230, 1) 62%, rgba(128, 164, 230, 1) 95%)", borderTop:"3px solid #4589A0"},  
+        body:{backgroundColor:"#FAFBFF", padding:"0"}
+      }
+  
   return (
     <Layout style={{ padding: 0 }} className="layout">
       <HeaderSol
@@ -92,12 +110,11 @@ export default function LayoutVentas(props) {
       
       {/*<MenuVentasTop />*/}
       <Card
-      styles={{
-        header:{background: "#ADD8E6", background: "linear-gradient(39deg, rgba(173, 216, 230, 1) 62%, rgba(128, 164, 230, 1) 95%)", borderTop:"3px solid #4589A0"},  body:{backgroundColor:"#FAFBFF", padding:"0"}}}
+      styles={card_style2}
         extra={
           <div>
             <Input 
-            style={{borderRadius:"16px", backgroundColor:"rgb(255, 255, 255)", border:"1px solid black"}} 
+            style={{borderRadius:"16px", backgroundColor:"rgb(255, 255, 255)", }} 
             suffix={<><Button type="link" onClick={onSearch}><SearchOutlined /></Button></>} 
             prefix={<span style={{fontWeight:"600"}}>Buscar Código:</span>} 
             value={busqueda} 

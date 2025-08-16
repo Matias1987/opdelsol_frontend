@@ -14,6 +14,10 @@
   --n-image-w: 200px;
   --n-image-h: 149px;
   --n-percent: 40%;
+  /*--bar-bg-color: #94D0AE;*/
+  --bar-bg-color: #E7E9EB;
+  
+  --n-text-color: #663F4C;
 }
 /*:root {
   --max-width: 1100px;
@@ -205,9 +209,9 @@ a::before{
   color:#4696E7;
 }
 .ant-table-title {
-  background-color: #00306E!important;
-  color:white!important;
-  font-size: 1.2em;
+  background-color: var(--bar-bg-color)!important;
+  color:var(--n-text-color)!important;
+  font-size: 1em;
 }
 
 .box-overlay span{
@@ -395,4 +399,44 @@ just some testing
   }
 }
 
+
+/* Ant Design Menu Customization */
+.ant-menu {
+  background-color:var(--bar-bg-color)!important;
+  border-right: none;
+  
+}
+
+.ant-menu-item,
+.ant-menu-submenu-title {
+  color:var(--n-text-color)!important;
+  transition: background-color 0.3s ease;
+  font-weight: 600!important;
+}
+
+.ant-menu-item:hover,
+.ant-menu-submenu-title:hover {
+  background-color: var(--bar-bg-color)!important; /* Slightly darker green for hover */
+  text-decoration: none !important;     /* Removes underline */
+  color:  oklch(from var(--n-text-color) calc(l * 0.1) c h)!important; /* Darkens by 20% */ 
+}
+
+.ant-menu-item-selected {
+  background-color: var(--bar-bg-color) !important;
+  font-weight: bold;
+  color: oklch(from var(--n-text-color) calc(l * 0.5) c h) !important;
+}
+
+.ant-menu-item-selected::after,
+.ant-menu-item:hover::after {
+  border-bottom: none !important;
+  border-bottom: 2px solid var(--bar-bg-color) !important;
+}
+
+
+
+&& .ant-menu-item:hover::after{
+    border-bottom: 2px solid var(--bar-bg-color) !important;
+    
+  }
 

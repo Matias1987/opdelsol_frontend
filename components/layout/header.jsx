@@ -37,10 +37,11 @@ const HeaderSol =(props)=> {
                            &nbsp;&nbsp;&nbsp;  Usuario: <b>{uname}</b>
                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   |&nbsp;&nbsp;&nbsp;*/}
                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                           {<CustomModal title={<h2 style={{color:"darkred"}}>{uname}</h2>} width="500px" openButtonText={<><UserOutlined size={"small"} />&nbsp;{uname}</>}><VentasVendedor /></CustomModal>}
+                           {<CustomModal title={<h2 style={{color:"darkred"}}>{uname}</h2>} width="500px" type="text" openButtonText={<><span style={{color:"white"}}><UserOutlined size={"small"} />&nbsp;{uname}</span></>}><VentasVendedor /></CustomModal>}
                     </i>
                 </span>
-                <Button size="small" type="link"  style={{color:"white", padding:".5em"}} onClick={()=>{
+                &nbsp;&nbsp;&nbsp;
+                <Button size="small" type="text"  style={{color:"white"}} onClick={()=>{
                     
                     const _token = getItem("token",'session')
 
@@ -52,8 +53,8 @@ const HeaderSol =(props)=> {
                     })
                     .catch(err=>{console.log("error")})
                 }}>
-
-                <LogoutOutlined />Salir     
+                
+                Salir     
                 </Button>
                 &nbsp;&nbsp;
                 {

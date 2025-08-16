@@ -58,9 +58,10 @@ const BarraResumenCaja = props => {
         paddingTop:"2px", 
         paddingLeft:"34px" ,
         //backgroundColor:"#FFFFB8", 
-        background: "#FFFFB8", 
+        background: "#f8f8eaff", 
         //background: "linear-gradient(39deg, rgba(255, 255, 184, 1) 62%, rgba(128, 164, 230, 1) 95%)",
-        color:"#00306E"
+        //color:"#00306E"
+        color: "#663F4C"
         }
 
     return data ? <div style={style}>

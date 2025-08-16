@@ -20,10 +20,21 @@ export default function LayoutVentas(props) {
 
     const card_style = {
       header: {
-        background: "#ADD8E6", 
+        background: "#ffffff80", 
         //background: "linear-gradient(39deg, rgba(173, 216, 230, 1) 62%, rgba(128, 164, 230, 1) 95%)", 
         //borderTop:"3px solid #4589A0",
         borderTop:"3px solid rgb(214, 104, 0)",
+      },  
+      body:{
+        backgroundColor:"#FAFBFF", 
+        padding:"0"
+      }
+  } 
+    const card_style2 = {
+      header: {
+        //background: "#94D0AE", 
+        background: "#E7E9EB",
+        borderTop:"2px solid #663F4C",
       },  
       body:{
         backgroundColor:"#FAFBFF", 
@@ -108,7 +119,7 @@ export default function LayoutVentas(props) {
       
       {/*<MenuVentasTop />*/}
       <Card
-      styles={card_style}
+      styles={card_style2}
         extra={
           <div>
             <Input 
@@ -116,7 +127,7 @@ export default function LayoutVentas(props) {
               {
                 borderRadius:"16px", 
                 backgroundColor:"rgb(255, 255, 255)", 
-                //border:"1px solid black"
+               //border:"1px solid #663F4C"
               }
             } 
             suffix={<><Button type="link" onClick={onSearch}><SearchOutlined /></Button></>} 

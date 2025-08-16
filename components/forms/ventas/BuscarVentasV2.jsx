@@ -15,7 +15,7 @@ import InformeVenta from "@/components/informes/ventas/Base";
 import PrinterWrapper from "@/components/PrinterWrapper";
 
 const BuscarVentaV2 = (props)=>{
-    const [open, setOpen] = useState(false)
+   
     const [dataSource, setDataSource] = useState([])
     const [filtros, setFiltros] = useState({})
     const [reload, setReload] = useState(true)
@@ -158,16 +158,7 @@ const BuscarVentaV2 = (props)=>{
     
     }
     return <>
-    <Button 
-    type="text" onClick={()=>{onOpen()}}><SearchOutlined /> {typeof props.textButton==='undefined' ? 'Buscar Venta' : props.textButton }
-    </Button>
-    <Modal 
-    footer={null}
-    destroyOnClose={true} 
-    width={"95%"} 
-    onCancel={onCancel} 
-    open={open} 
-    title={<>Buscar Venta</>}> 
+ 
     <Row>
         <Col span={4}>
             <FiltroVentas callback={f=>{ setFiltros(_f=>f); setReload(!reload)}} />
@@ -289,7 +280,7 @@ const BuscarVentaV2 = (props)=>{
             <InformeVenta idventa={selectedVenta.id} />
         </PrinterWrapper>
     </Modal>
-    </Modal>
+
     </>
 }
 

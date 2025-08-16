@@ -120,7 +120,7 @@ const ListaPreciosV3 = (props) => {
         title={selectedSubFamilia.nombre} 
         size="small" 
         
-        styles={{ header:{backgroundColor:"#f14848ff", color:"white"}}} 
+        styles={{ header:{backgroundColor:"#663F4C", color:"white"}}} 
         extra={
             <div>
             <Input
