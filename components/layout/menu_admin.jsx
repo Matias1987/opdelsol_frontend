@@ -71,6 +71,10 @@ const items = [
         key: '400',
         label: (<Menu.Item><Link href={public_urls.admin_tarjetas}>Tarjetas</Link></Menu.Item>),
       },
+      {
+        key: '500',
+        label: (<Menu.Item><Link href={public_urls.lista_conceptos_gastos}>Conceptos Gastos</Link></Menu.Item>),
+      },
       
       
     ],

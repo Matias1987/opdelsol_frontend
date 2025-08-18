@@ -69,13 +69,11 @@ const ListaMedicos = (props) => {
     return <>
     <Card
     size="small"
-    title={<>M&eacute;dicos&nbsp;<Button type="text" onClick={()=>{setModoEditar(false); setOpen(true)}}><PlusOutlined /> Agregar</Button></>}
-    headStyle={{backgroundColor:"#F07427", color:"white"}}
-    >
- 
-        <Row>
-            <Col span={24}>
-                <Input prefix="Buscar: " onChange={(e)=>{setFiltro(e.target.value.toUpperCase())}} allowClear/>
+    title={<>M&eacute;dicos&nbsp;<Button type="link" onClick={()=>{setModoEditar(false); setOpen(true)}}><PlusOutlined /> Agregar</Button></>}
+  >
+    <Row>
+        <Col span={24}>
+            <Input prefix="Buscar: " onChange={(e)=>{setFiltro(e.target.value.toUpperCase())}} allowClear/>
             </Col>
         </Row>
         <Row>
@@ -99,7 +97,7 @@ const ListaMedicos = (props) => {
         </Row>
     </Card>
     <Modal open={open} onCancel={()=>{  setOpen(false)}} footer={null} destroyOnClose>
-        <AgregarMedicoForm editar={modoEditar} idmedico={idmedico} callback={()=>{setOpen(false); setReload(!reload)}} />
+        <AgregarMedicoForm editar={modoEditar} idmedico={idmedico} callback={()=>{ setReload(!reload); setOpen(false);}} />
     </Modal>
     </>
 

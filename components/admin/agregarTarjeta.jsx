@@ -16,7 +16,7 @@ const AgregarTarjetaForm = (props) => {
         <Input prefix="Nombre: " 
         value={tarjeta.nombre}
         onChange={(e)=>{
-            setTarjeta(t=>({...t,nombre:e.target.value}))
+            setTarjeta(t=>({...t,nombre:(e.target.value||"").toLocaleUpperCase()}))
         }} />
         </Col>
     </Row>

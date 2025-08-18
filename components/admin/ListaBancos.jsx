@@ -50,8 +50,8 @@ const ListaBancos = (props) =>{
     return <>
     <Card
     size="small"
-    title={<>Lista de Bancos <Button size="small" type="text" onClick={()=>{setOpen(true)}}><PlusOutlined />&nbsp;Agregar</Button></>}
-    headStyle={{backgroundColor:"#F07427", color:"white"}}
+    title={<>Lista de Bancos <Button size="small" type="link" onClick={()=>{setOpen(true)}}><PlusOutlined />&nbsp;Agregar</Button></>}
+   
     >
         <Row>
             <Col span={24}>

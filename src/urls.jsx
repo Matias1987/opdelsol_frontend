@@ -110,6 +110,7 @@ const public_urls = {
     clientes_morosos: local_base_url + "caja/clientes_morosos",
 
     informe_stock_sucursal: local_base_url + "informes/stock/stock_sucursal",
+    lista_conceptos_gastos: local_base_url + "admin/lista_conceptos_gastos",
 
 }
 
@@ -239,6 +240,7 @@ const post = {
         generar_sorteo: remote_base_url + "srt/gen/",
         establecer_objetivo_sucursal: remote_base_url + "objs/",
         settings: remote_base_url + "stt/",
+        concepto_gasto: remote_base_url + "conceptogastos/",
     },
     update:{
         optica: remote_base_url + "op/mod/",
@@ -461,6 +463,10 @@ const get = {
     listado_caja_sucursales_pendientes: remote_base_url + "caja/listado_caja_sucursales_pendientes/",
 
     cm_listado_caja_sucursales: remote_base_url + "caja/listado_caja_sucursales/",
+
+    cajas_ls: remote_base_url + "ccmm/cajas/",
+
+    conceptos_gasto: remote_base_url + "conceptogastos/",
 
 }
 

@@ -76,7 +76,7 @@ const AgregarMedicoForm = (props) => {
     </Row>
     <Row>
         <Col span={24}>
-            <Input disabled={loading} value={medico.nombre} prefix="Nombre" onChange={(e)=>{setVal("nombre", e.target.value)}} />
+            <Input disabled={loading} value={medico.nombre} prefix="Nombre" onChange={(e)=>{setVal("nombre", (e.target.value||"").toLocaleUpperCase())}} />
         </Col>
     </Row>
     <Row>

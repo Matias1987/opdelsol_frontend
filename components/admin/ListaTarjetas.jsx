@@ -44,9 +44,9 @@ const ListaTarjetas = (props) => {
     },[reload])
     return <>
     <Card
-    headStyle={{backgroundColor:"#F07427", color:"white"}}
+   
     size="small"
-    title={<>Lista de Tarjetas <Button type="text" size="small" onClick={()=>{setOpen(true)}}><PlusOutlined /> Agregar</Button></>}
+    title={<>Lista de Tarjetas <Button type="link" size="small" onClick={()=>{setOpen(true)}}><PlusOutlined /> Agregar</Button></>}
     >
         <Row>
             <Col span={24}>

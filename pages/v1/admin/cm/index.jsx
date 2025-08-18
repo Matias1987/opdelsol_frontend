@@ -1,5 +1,6 @@
 import Egreso from "@/components/caja_master/egreso";
 import Ingreso from "@/components/caja_master/ingreso";
+import NuevaCaja from "@/components/caja_master/nueva_caja";
 import Transferencia from "@/components/caja_master/transferencia";
 import LayoutAdmin from "@/components/layout/layout_admin";
 import { headers } from "@/next.config";
@@ -15,6 +16,7 @@ export default function CMIndex() {
   const [transferenciaFondoFOpen, setTransferenciaFondoFOpen] = useState(false);
   const [egresoCajaOpen, setEgresoCajaOpen] = useState(false);
   const [ingresoPlataOpen, setIngresoPlataOpen] = useState(false);
+  const [nuevoFondoOpen, setNuevoFondoOpen] = useState(false);
   /*
   const menuStyle = {
   background: 'linear-gradient(to right, #e6f0ff, #f9fbff)',
@@ -130,7 +132,7 @@ const selectedStyle = {
                     <Col span={24}>
                       <Table
                         size="small"
-                        title={_ => <>Lista&nbsp;<Button size="small" style={buttonStyle} onClick={() => setIngresoPlataOpen(true)}>Nueva Caja</Button></>}
+                        title={_ => <>Lista&nbsp;</>}
                         dataSource={[]} columns={[
                           { title: "Sucursal" },
                           { title: "Estado" },
@@ -152,7 +154,7 @@ const selectedStyle = {
                   <Col span={24}>
                     <Table
                       size="small"
-                      title={_ => <>Fondos Fijos&nbsp;<Button size="small" style={buttonStyle} onClick={() => setIngresoPlataOpen(true)}>Nuevo Fondo Fijo</Button></>}
+                      title={_ => <>Fondos Fijos&nbsp;<Button size="small" style={buttonStyle} onClick={() => setNuevoFondoOpen(true)}>Nuevo Fondo Fijo</Button></>}
                       dataSource={[]} columns={[]} pagination={false}
                     />
                   </Col>
@@ -189,6 +191,14 @@ const selectedStyle = {
         open={ingresoPlataOpen}
       >
         <Ingreso />
+      </Modal>
+      <Modal
+        title="Nuevo Fondo Fijo"
+        footer={null}
+        onCancel={() => setNuevoFondoOpen(false)}
+        open={nuevoFondoOpen}
+      >
+        <NuevaCaja />
       </Modal>
     </>
   );

@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 
 const Transferencia = (props) => {
     const { idCajaOrigen } = props;
+    const [data, setData] = useState([]);
     const [transferencia, setTransferencia] = useState({
         idCajaOrigen,
         idCajaDestino: null,
@@ -21,16 +22,24 @@ const Transferencia = (props) => {
     // Fetch initial data or perform setup
     }, []);
 
+    const load = _ =>{
+        
+    }
+
     return (
     <>
 
     <Row style={row_style}>
         <Col span={24}>
-            <Select prefix="Destino:" style={{ width: '100%' }}>
-                <Select.Option value="1">Opción 1</Select.Option>
-                <Select.Option value="2">Opción 2</Select.Option>
-                <Select.Option value="3">Opción 3</Select.Option>
-            </Select>
+            <Select prefix="Destino:" style={{ width: '100%' }} options={data} />
+        </Col>
+    </Row>
+    <Row style={row_style}>
+        <Col span={24}>
+        Comentarios:
+        </Col>
+        <Col span={24}>
+            <Input.TextArea prefix="Comentarios: " placeholder="Comentarios sobre la transferencia" type="text" />
         </Col>
     </Row>
     <Row style={row_style}>
@@ -39,7 +48,7 @@ const Transferencia = (props) => {
         </Col>
     </Row>
     <Row style={row_style}>
-        <Col span={24}>
+        <Col span={24} style={{display: 'flex', justifyContent: 'flex-end'}}>
             <Button type="primary" onClick={onSave}>Realizar Transferencia</Button>
         </Col>
     </Row>
