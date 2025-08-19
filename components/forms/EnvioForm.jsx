@@ -128,7 +128,18 @@ const EnvioForm = (props) => {
     const load_details_for_selected_id = (selectedCodigoId, callback=null) => {
         
         const found = tableData.find(e=>e.key == selectedCodigoId)
-        if(found) {/*alert("Codigo ya cargado!");*/ callback(); return;}
+        if(found) {
+            if(confirm("Código ya agregado, incrementar cantidad?"))
+            {
+                setTableData(td=>td.map(r=>r.key ==selectedCodigoId ? ({...r,cantidad:r.cantidad+1}):r));
+                callback?.();
+            }
+            else
+            {
+                callback?.(); 
+            }
+         
+            return;}
         setTableLoading(true);
         /* get stock data for the column */
         console.log(get.detalle_stock+ sucursal_id + "/" + selectedCodigoId)
@@ -138,7 +149,7 @@ const EnvioForm = (props) => {
             add_new_row(response.data)
             if(callback!=null)
             {
-                callback()
+                callback?.()
             }
         })
         .catch((error)=>{
@@ -155,7 +166,7 @@ const EnvioForm = (props) => {
            obj: {key: data[0].idcodigo, max: data[0].cantidad},
            ref_id: data[0].codigo,
            max_cantidad: data[0].cantidad,
-           cantidad: 0,
+           cantidad: 1,
            precio: data[0].precio,
         }
         
