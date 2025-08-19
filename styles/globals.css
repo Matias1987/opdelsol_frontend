@@ -440,3 +440,22 @@ just some testing
     
   }
 
+.wrap-for-dotted-separated{
+  display: flex!important;
+}
+
+.l-span-dotted-line{
+ flex: 1;
+  display: flex;
+}
+.r-span-dotted-line{
+
+  font-weight: bold;
+}
+
+.l-span-dotted-line::after {
+  content: '';
+  border-bottom: 1px dotted;
+  flex: 1;
+  margin: 0 0.5em;
+}

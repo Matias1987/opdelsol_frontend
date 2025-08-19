@@ -30,6 +30,7 @@ export default function InformeX(props){
         cheque_fecha: "",
         mercadopago_monto:0,
         transferencia_monto:0,
+        tarjeta_tarjeta1: 0,
     })
 
     useEffect(()=>{
@@ -42,6 +43,7 @@ export default function InformeX(props){
                 efectivo_monto: 0,
                 tarjeta_monto: 0,
                 tarjeta_tarjeta: 0,
+                tarjeta_tarjeta1: 0,
                 ctacte_monto: 0,
                 ctacte_cuotas: 0,
                 ctacte_monto_cuotas: 0,
@@ -62,8 +64,13 @@ export default function InformeX(props){
                         __temp.efectivo_monto=r.monto;
                     break;
                     case "tarjeta": 
-                        __temp.tarjeta_monto=r.monto;
-                        __temp.tarjeta_tarjeta=r.tarjeta;
+                        __temp.tarjeta_monto+=+r.monto;
+                        if(__temp.tarjeta_tarjeta == 0){
+                            __temp.tarjeta_tarjeta=r.tarjeta;
+                        }
+                        else{
+                            __temp.tarjeta_tarjeta1=r.tarjeta;
+                        }
                     break;
                     case "ctacte": 
                         __temp.ctacte_monto=r.monto;
@@ -125,6 +132,98 @@ export default function InformeX(props){
     <table style={{width: '100%'}}>
         <tbody>
             <tr>
+                <td>
+                    <div className="wrap-for-dotted-separated">
+                        <span className="l-span-dotted-line">
+                            Efectivo:
+                        </span>
+                        <span className="r-span-dotted-line">
+                            $&nbsp;{currency_format(modoPago.efectivo_monto)}
+                        </span>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div className="wrap-for-dotted-separated">
+                        <span className="l-span-dotted-line">
+                            Cheque:
+                        </span>
+                        <span className="r-span-dotted-line">
+                            $&nbsp;{currency_format(modoPago.cheque_monto)}
+                        </span>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div className="wrap-for-dotted-separated">
+                        <span className="l-span-dotted-line">
+                            Tarjeta:
+                        </span>
+                        <span className="r-span-dotted-line">
+                            $&nbsp;{currency_format(modoPago.tarjeta_monto)}
+                        </span>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div className="wrap-for-dotted-separated">
+                        <span className="l-span-dotted-line">
+                            Mutual:
+                        </span>
+                        <span className="r-span-dotted-line">
+                            $&nbsp;{currency_format(modoPago.mutual_monto)}
+                        </span>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div className="wrap-for-dotted-separated">
+                        <span className="l-span-dotted-line">
+                            Mercado Pago:
+                        </span>
+                        <span className="r-span-dotted-line">
+                            $&nbsp;{currency_format(modoPago.mercadopago_monto)}
+                        </span>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div className="wrap-for-dotted-separated">
+                        <span className="l-span-dotted-line">
+                            Transferencia:
+                        </span>
+                        <span className="r-span-dotted-line">
+                            $&nbsp;{currency_format(modoPago.transferencia_monto)}
+                        </span>
+                    </div>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <div className="wrap-for-dotted-separated">
+                        <span className="l-span-dotted-line">
+                            TOTAL:
+                        </span>
+                        <span className="r-span-dotted-line">
+                            $&nbsp;{currency_format(dataPago.monto)}
+                        </span>
+                    </div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    </>
+    /*const tabla_modo_pago = _ => modoPago == null ? <Spin /> : <>
+    <table style={{width: '100%'}}>
+        <tbody>
+            <tr>
                 <td>Efectivo:</td>
                 <td style={{textAlign:"right"}}>$&nbsp;{currency_format(modoPago.efectivo_monto)}</td>
             </tr>
@@ -154,7 +253,7 @@ export default function InformeX(props){
             </tr>
         </tbody>
     </table>
-    </>
+    </>*/
 
     const data_cliente = () => {
         //el campo condicion iva no tiene sentido....
@@ -174,6 +273,7 @@ export default function InformeX(props){
         return modoPago == null ? <Spin /> : <>
             {modoPago.cheque_monto == 0 ? <></>: <p>Cheque: {modoPago.cheque_nro} Banco: {modoPago.banco_banco} &nbsp;Fecha: {modoPago.cheque_fecha}</p>}
             {modoPago.tarjeta_monto == 0 ? <></> : <p>Tarjeta: {modoPago.tarjeta_tarjeta} {/*Numero: {modoPago.tarjeta_nro} Cupon: {modoPago.tarjeta_cupon}*/}</p>}
+            {modoPago.tarjeta_tarjeta1 != 0 ?  <p>Tarjeta 2: {modoPago.tarjeta_tarjeta1} </p> : <></>}
             {modoPago.mutual_monto == 0 ? <></> : <p>Obra Social: {modoPago.mutual_mutual} </p>}
         </>
     }

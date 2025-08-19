@@ -9,6 +9,7 @@ import esES from "antd/locale/es_ES"
 import { useState } from "react";
 //import ModoPagoV2 from "../modo_pago/ModoPagoV2";
 import ModoPagoV3 from "../modo_pago/ModoPagoV3";
+import ModoPagoV4 from "../modo_pago/ModoPagoV4";
 
 /* leer: https://refine.dev/blog/common-usestate-mistakes-and-how-to-avoid/ */
 /**
@@ -119,7 +120,7 @@ export default function VentaBase(props){
                         total={ typeof props !== 'undefined' ? props.total : "0"} 
                         callback={(value)=>{onChange("descuento", value)}} 
                         />
-                        {<ModoPagoV3  
+                        {<ModoPagoV4  
                         total={ typeof props !== 'undefined' ? props.total : "0"} 
                         callback={(value)=>{onChange("mp", value)}}
                         tarjetaHidden={false}

@@ -131,7 +131,7 @@ const EnvioForm = (props) => {
         if(found) {
             if(confirm("Código ya agregado, incrementar cantidad?"))
             {
-                setTableData(td=>td.map(r=>r.key ==selectedCodigoId ? ({...r,cantidad:r.cantidad+1}):r));
+                setTableData(td=>td.map(r=>r.key ==selectedCodigoId ? ({...r,cantidad:  r.cantidad < r.max_cantidad ? r.cantidad+1 : r.cantidad}):r));
                 callback?.();
             }
             else

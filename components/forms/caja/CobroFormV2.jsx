@@ -15,6 +15,7 @@ import {
   registrarVentaPendiente,
   registrar_evento,
 } from "@/src/helpers/evento_helper";
+import ModoPagoV4 from "../modo_pago/ModoPagoV4";
 
 /**
  *
@@ -569,7 +570,7 @@ const CobroOperacionV2 = (props) => {
         </Row>
         <Row>
           <Col span={24}>
-            <ModoPagoV3
+            <ModoPagoV4
               idventa={
                 typeof props.idventa === "undefined" ? -1 : props.idventa
               }

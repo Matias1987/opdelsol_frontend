@@ -1,6 +1,6 @@
 import { Button, Checkbox, Col, Divider, Flex, Input, Row, Select, Spin } from "antd";
 import { useEffect, useState } from "react";
-import { RightCircleFilled } from "@ant-design/icons";
+import { CloseOutlined, PlusOutlined, RightCircleFilled } from "@ant-design/icons";
 import { get } from "@/src/urls";
 import { round_float } from "@/src/helpers/string_helper";
 
@@ -10,9 +10,10 @@ import { round_float } from "@/src/helpers/string_helper";
  * @param ctacteHidden  
  * @param tarjetaHidden  
  */
-export default function ModoPagoV3(props){
+export default function ModoPagoV4(props){
     const [efectivoChecked, setEfectivoChecked] = useState(false)
     const [tarjetaChecked, setTarjetaChecked] = useState(false)
+    const [tarjeta1Checked, setTarjeta1Checked] = useState(false)
     const [ctacteChecked, setCtaCteChecked] = useState(false)
     const [chequeChecked, setChequeChecked] = useState(false)
     const [mutualChecked, setMutualChecked] = useState(false)
@@ -52,6 +53,7 @@ export default function ModoPagoV3(props){
 
         setEfectivoChecked(false)
         setTarjetaChecked(false)
+        setTarjeta1Checked(false)
         setCtaCteChecked(false)
         setChequeChecked(false)
         setMutualChecked(false)
@@ -103,7 +105,7 @@ export default function ModoPagoV3(props){
                             .then(response=>response.json())
                             .then((response)=>{
 
-                              
+                                //alert(JSON.stringify(response))
                                 setMPLoaded(true)
                                 
                                 var _temp = JSON.parse(JSON.stringify(modoPago));
@@ -131,6 +133,10 @@ export default function ModoPagoV3(props){
                                             _temp = {..._temp,tarjeta_monto: r.monto, fk_tarjeta: r.fk_tarjeta, tarjeta_nro: r.tarjeta_nro, tarjeta_tarjeta: r.cant_cuotas}
                                             setTarjetaChecked(true)
                                             break;
+                                        case 'tarjeta1':
+                                            _temp = {..._temp,tarjeta1_monto: r.monto, fk_tarjeta1: r.fk_tarjeta, tarjeta1_nro: r.tarjeta_nro, tarjeta1_tarjeta: r.cant_cuotas}
+                                            setTarjeta1Checked(true)
+                                            break;
                                         case 'mercadopago':
                                             _temp = {..._temp,mercadopago_monto: r.monto}
                                             setMercadoPagoChecked(true)
@@ -146,6 +152,7 @@ export default function ModoPagoV3(props){
                                     _temp.total =   parseFloat(_temp.cheque_monto||0)+
                                                     parseFloat(_temp.ctacte_monto||0)+
                                                     parseFloat(_temp.tarjeta_monto||0)+
+                                                    parseFloat(_temp.tarjeta1_monto||0)+
                                                     parseFloat(_temp.mutual_monto||0)+
                                                     parseFloat(_temp.efectivo_monto||0)+
                                                     parseFloat(_temp.mercadopago_monto||0)+
@@ -197,6 +204,7 @@ export default function ModoPagoV3(props){
             _mp.total = parseFloat(_mp.cheque_monto||0)+
                         parseFloat(_mp.ctacte_monto||0)+
                         parseFloat(_mp.tarjeta_monto||0)+
+                        parseFloat(_mp.tarjeta1_monto||0)+
                         parseFloat(_mp.mutual_monto||0)+
                         parseFloat(_mp.efectivo_monto||0)+
                         parseFloat(_mp.mercadopago_monto||0)+
@@ -217,6 +225,7 @@ export default function ModoPagoV3(props){
                 let _total = parseFloat(modoPago.cheque_monto||0)+
                 parseFloat(value||0)+
                 parseFloat(modoPago.tarjeta_monto||0)+
+                parseFloat(modoPago.tarjeta1_monto||0)+
                 parseFloat(modoPago.mutual_monto||0)+
                 parseFloat(modoPago.efectivo_monto||0)+
                 parseFloat(modoPago.mercadopago_monto||0)
@@ -264,6 +273,9 @@ export default function ModoPagoV3(props){
                     setTarjetaChecked(!tarjetaChecked)
                     if(false==e.target.checked){
                         onChange("tarjeta_monto", 0)
+                        onChange("tarjeta1_monto", 0)
+                        setTarjeta1Checked(false)
+
                     }
                 }}>Tarjeta</Checkbox>
                 <Checkbox disabled={props.ctacteHidden} checked={ctacteChecked} onChange={(e)=>{
@@ -327,9 +339,10 @@ export default function ModoPagoV3(props){
                 </Col>
             </Row>
 
-            <Row style={{display: tarjetaChecked ? "flex" : "none", backgroundColor:"rgba(240,191,161,0.5)", padding:"2px"}}>
-                <Col span={6}>
+            <Row gutter={6} style={{display: tarjetaChecked ? "flex" : "none", backgroundColor:"rgba(240,191,161,0.5)", padding:"2px"}}>
+                <Col>
                     <Input 
+                    style={{width:"350px"}}
                     onWheel={(e)=>{e.target.blur()}}
                     type="number" 
                     min={0} 
@@ -341,14 +354,15 @@ export default function ModoPagoV3(props){
                     onChange={(e)=>{onChange("tarjeta_monto", e.target.value.length<1 ? 0 : parseFloat(e.target.value))}} 
                     />
                 </Col>
-                <Col span={9}> 
+                <Col> 
                     
                     <Select 
+                    prefix="Tarjeta"
                     showSearch
                     placeholder="Seleccione Tarjeta" 
                     value={modoPago.fk_tarjeta} 
                     options={tarjetas} 
-                    style={{width:'100%'}} 
+                    style={{width:'250px'}} 
                     onChange={(value)=>{onChange("fk_tarjeta", value)}} 
                     optionFilterProp="children"
                     filterOption={(input, option) => (option?.label.toUpperCase() ?? '').includes(input.toUpperCase())}
@@ -359,8 +373,48 @@ export default function ModoPagoV3(props){
                 </Col>
 
                 
-                <Col span={4}><Input value={modoPago.tarjeta_tarjeta}  onClick={(e)=>{e.target.select()}}  prefix="C. Cuotas: " onChange={(e)=>{onChange("tarjeta_tarjeta", parseFloat(e.target.value))}}></Input></Col>
-                
+                <Col><Input value={modoPago.tarjeta_tarjeta}  onClick={(e)=>{e.target.select()}}  prefix="C. Cuotas: " onChange={(e)=>{onChange("tarjeta_tarjeta", parseFloat(e.target.value))}}></Input></Col>
+                <Col>
+                    {tarjeta1Checked ? <></> : <Button danger onClick={_=>{setTarjeta1Checked(true)}}><PlusOutlined /></Button>}
+                </Col>
+            </Row>
+            <Row gutter={6} style={{display: tarjeta1Checked ? "flex" : "none", backgroundColor:"rgba(233, 151, 99, 0.5)", padding:"2px"}}>
+                <Col>
+                    <Input 
+                    style={{width:"350px"}}
+                    onWheel={(e)=>{e.target.blur()}}
+                    type="number" 
+                    min={0} 
+                    step={0.01}  
+                    onClick={(e)=>{e.target.select()}} 
+                    value={modoPago.tarjeta1_monto}  
+                    prefix={<span style={{fontWeight:"600"}}>Monto Tarjeta 2: </span>} 
+                    onChange={(e)=>{onChange("tarjeta1_monto", e.target.value.length<1 ? 0 : parseFloat(e.target.value))}} 
+                    />
+                </Col>
+                <Col> 
+                    
+                    <Select 
+                    prefix="Tarjeta"
+                    showSearch
+                    placeholder="Seleccione Tarjeta" 
+                    value={modoPago.fk_tarjeta1} 
+                    options={tarjetas} 
+                    style={{width:'250px'}} 
+                    onChange={(value)=>{onChange("fk_tarjeta1", value)}} 
+                    optionFilterProp="children"
+                    filterOption={(input, option) => (option?.label.toUpperCase() ?? '').includes(input.toUpperCase())}
+                    filterSort={(optionA, optionB) =>
+                    (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
+                    }
+                    />
+                </Col>
+
+
+                <Col><Input value={modoPago.tarjeta1_tarjeta}  onClick={(e)=>{e.target.select()}}  prefix="C. Cuotas: " onChange={(e)=>{onChange("tarjeta1_tarjeta", parseFloat(e.target.value))}}></Input></Col>
+                <Col>
+                    {(!tarjeta1Checked) ? <></> : <Button danger onClick={_=>{onChange("tarjeta1_monto", 0);setTarjeta1Checked(false);}}><CloseOutlined /></Button>}
+                </Col>
             </Row>
             
             <Row style={{display: ctacteChecked ? "flex" : "none", backgroundColor:"rgba(235,177,172,0.5)", padding:"2px"}}>
@@ -370,7 +424,6 @@ export default function ModoPagoV3(props){
                     type="number" 
                     onClick={(e)=>{e.target.select()}} 
                     value={modoPago.ctacte_monto} 
-                    /*prefix={<><Button type="link" onClick={()=>{ if(modoPago.saldo<0){return} onChangeMontoCtaCte(modoPago.saldo)}}>Cta. Cte.: </Button></>} */
                     prefix={<span style={{fontWeight:"600"}}>Monto Cta. Cte.:</span>} 
                     onChange={(e)=>{onChangeMontoCtaCte(e.target.value)}} 
                     />
@@ -395,6 +448,7 @@ export default function ModoPagoV3(props){
                                 let _total = parseFloat(modoPago.cheque_monto||0)+
                                 parseFloat(modoPago.ctacte_monto||0)+
                                 parseFloat(modoPago.tarjeta_monto||0)+
+                                parseFloat(modoPago.tarjeta1_monto||0)+
                                 parseFloat(modoPago.mutual_monto||0)+
                                 parseFloat(modoPago.efectivo_monto||0)+
                                 parseFloat(modoPago.mercadopago_monto||0)
@@ -503,34 +557,6 @@ export default function ModoPagoV3(props){
                     />
                 </Col>
             </Row>
-
-            {/*<Row>
-                <Col span={24}><Button size="small" danger type="link" onClick={(e)=>{
-                    if(confirm("Limpiar Campos?")){
-                        setModoPago(__mp => {
-                            const ___mp = {
-                                efectivo_monto: 0,
-                                tarjeta_monto: 0,
-                                tarjeta_tarjeta: 0,
-                                fk_tarjeta: null,
-                                fk_banco: null,
-                                ctacte_monto: 0,
-                                ctacte_cuotas: 0,
-                                ctacte_monto_cuotas: 0,
-                                cheque_monto: 0,
-                                mutual_monto: 0,
-                                mutual_mutual: 0,
-                                total: 0,
-                                tarjeta_nro:0,
-                                mercadopago_monto:0,
-                            }
-                            props?.callback?.(___mp)
-                            return ___mp
-                        })
-                    }
-                }}><RedoOutlined /></Button></Col>
-            </Row>*/}
-             
 
             {
                 props.totalsHidden ?  <Row>

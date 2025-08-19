@@ -33,6 +33,7 @@ export default function ListaGastos(){
        
         
         <Modal 
+        title="Cargar Gasto"
         destroyOnClose
         open={open} 
         footer={null}

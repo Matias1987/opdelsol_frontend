@@ -11,6 +11,7 @@ import VentaDetallePopup from "@/components/VentaDetalle";
 import { current_date_ymd } from "@/src/helpers/string_helper";
 import ModoPagoV3 from "../modo_pago/ModoPagoV3";
 import { registrarVentaEntregada, registrarVentaPendiente, registrar_evento } from "@/src/helpers/evento_helper";
+import ModoPagoV4 from "../modo_pago/ModoPagoV4";
 
 /**
  * 
@@ -512,7 +513,7 @@ export default function CobroOperacion(props){
                 </Row>
                 <Row>
                     <Col span={24}>
-                        <ModoPagoV3
+                        <ModoPagoV4
                         idventa={typeof props.idventa === 'undefined' ? -1 : props.idventa}
                         mostrarSoloCtaCte={props.tipo!='ingreso'}
                         totalsHidden={typeof props.totalsHidden === 'undefined' ? true : props.totalsHidden} 
