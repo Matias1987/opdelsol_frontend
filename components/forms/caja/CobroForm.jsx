@@ -233,6 +233,17 @@ export default function CobroOperacion(props){
                 return
             }
         }
+
+        if(mp.tarjeta1_monto!= 0)
+        {
+            if(mp.fk_tarjeta1==null)
+            {
+                //invalid credit card
+                alert("Seleccione Tarjeta 2")
+                setCobrarDisabled(false)
+                return
+            }
+        }
 //#endregion
 
         var params = {

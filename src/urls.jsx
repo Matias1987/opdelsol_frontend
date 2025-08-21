@@ -468,6 +468,8 @@ const get = {
 
     conceptos_gasto: remote_base_url + "conceptogastos/",
 
+    lista_ff: remote_base_url + "ff/",
+
 }
 
 module.exports = {

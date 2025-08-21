@@ -1,5 +1,6 @@
 import Egreso from "@/components/caja_master/egreso";
 import Ingreso from "@/components/caja_master/ingreso";
+import ListadoCajaSucursales from "@/components/caja_master/listado_caja_sucursales";
 import NuevaCaja from "@/components/caja_master/nueva_caja";
 import Transferencia from "@/components/caja_master/transferencia";
 import LayoutAdmin from "@/components/layout/layout_admin";
@@ -130,17 +131,8 @@ const selectedStyle = {
                   </Row>
                   <Row>
                     <Col span={24}>
-                      <Table
-                        size="small"
-                        title={_ => <>Lista&nbsp;</>}
-                        dataSource={[]} columns={[
-                          { title: "Sucursal" },
-                          { title: "Estado" },
-                          { title: "Acciones" },
-                        ]} pagination={false}
-                      />
+                      <ListadoCajaSucursales />
                     </Col>
-
                   </Row>
                 </Card>
 
@@ -169,12 +161,13 @@ const selectedStyle = {
       
     </Modal>
       <Modal
+      destroyOnClose
       title="Nueva Transferencia"
       footer={null}
         onCancel={() => setTransferenciaFondoFOpen(false)}
         open={transferenciaFondoFOpen}
       >
-        <Transferencia />
+        <Transferencia aFondoFijo={true} />
       </Modal>
       <Modal
         title="Nuevo Egreso"

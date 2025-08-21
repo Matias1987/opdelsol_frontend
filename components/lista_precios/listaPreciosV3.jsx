@@ -7,6 +7,7 @@ import GrupoV2 from "./grupo_v2"
 import SubGrupoFormV3 from "../forms/deposito/SubgrupoFormV3"
 import CodeExample from "../etc/codeExample"
 import { headers } from "@/next.config"
+import { SearchOutlined } from "@ant-design/icons"
 
 const ListaPreciosV3 = (props) => {
     const [subfamilias, setSubfamilias] = useState([])
@@ -117,16 +118,17 @@ const ListaPreciosV3 = (props) => {
     <Row >
         <Col span={18}>
         <Card 
-        title={selectedSubFamilia.nombre} 
+        title={<><div style={{fontWeight:"500", display:"flex", alignContent:"center", justifyContent:"center", color:"#6E0A18"}}><i>{selectedSubFamilia.nombre}</i></div></>} 
         size="small" 
         
-        styles={{ header:{backgroundColor:"#663F4C", color:"white"}}} 
+        styles={{ header:{backgroundColor:"#E6E6E6", color:"white", borderRadius:"8px"} }} 
         extra={
             <div>
             <Input
+            prefix={<><SearchOutlined />&nbsp;B&uacute;squeda: </>}
+            size="small"
             allowClear
-            placeholder="Buscar..."
-            style={{width:"300px", backgroundColor:"rgba(255, 255, 255, 1)", padding:"6px", borderRadius:"16px", color:"red", borderColor:"red"}}
+            style={{width:"300px",  padding:"0px", borderRadius:"8px", color:"black", borderColor:"red"}}
             onChange={(e)=>{
                 setFilterStr(e.target.value)
             }}

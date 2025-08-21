@@ -205,8 +205,8 @@ a::before{
 }
 
 .table-selected-row {
-  background-color: #F4CA16;
-  color:#4696E7;
+  background-color: #fceeb3;
+  color:#001868;
 }
 .ant-table-title {
   background-color: var(--bar-bg-color)!important;

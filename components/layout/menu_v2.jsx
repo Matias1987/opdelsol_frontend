@@ -337,7 +337,7 @@ export default function MenuV2(props) {
         width={"100%"}
         open={lpOpen}
         onCancel={() => setLPOpen(false)}
-        title="Lista de Precios"
+       
         footer={null}
       >
         <ListaPreciosV3 />

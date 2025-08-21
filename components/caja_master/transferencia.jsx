@@ -1,8 +1,9 @@
+import { get } from "@/src/urls";
 import { Button, Col, Input, Row, Select } from "antd";
 import { useEffect, useState } from "react";
 
 const Transferencia = (props) => {
-    const { idCajaOrigen } = props;
+    const { idCajaOrigen, aFondoFijo } = props;
     const [data, setData] = useState([]);
     const [transferencia, setTransferencia] = useState({
         idCajaOrigen,
@@ -20,10 +21,18 @@ const Transferencia = (props) => {
 
     useEffect(() => {
     // Fetch initial data or perform setup
+        load();
     }, []);
 
     const load = _ =>{
-        
+        const url = aFondoFijo ? get.lista_ff : get.lista_cajas;
+        //alert(url)
+        fetch(url)
+        .then(response => response.json())
+        .then((response) => {
+            //alert(JSON.stringify(response));
+            setData(response || []);
+        });
     }
 
     return (
@@ -31,7 +40,7 @@ const Transferencia = (props) => {
 
     <Row style={row_style}>
         <Col span={24}>
-            <Select prefix="Destino:" style={{ width: '100%' }} options={data} />
+            <Select prefix="Destino:" style={{ width: '100%' }} options={data.map(item => ({ label: item.sucursal, value: item.idcaja }))} />
         </Col>
     </Row>
     <Row style={row_style}>
