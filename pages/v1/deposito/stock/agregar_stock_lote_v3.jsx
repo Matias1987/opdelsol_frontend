@@ -523,7 +523,7 @@ export default function AgregarStockLoteV3(props){
                         
                             <Table 
                             
-                            title={_=><>C&oacute;digos a Generar&nbsp;&nbsp;<Button style={{color:"white"}} type="link" size="small" onClick={onAgregarCodigosBtnClick}><PlusOutlined size={"small"} /> Agregar</Button></>} 
+                            title={_=><>C&oacute;digos a Generar&nbsp;&nbsp;<Button  type="primary" size="small" onClick={onAgregarCodigosBtnClick}><PlusOutlined size={"small"} /> Agregar</Button></>} 
                             scroll={{y:"400px"}} 
                             dataSource={tableData} 
                             columns={columns} 

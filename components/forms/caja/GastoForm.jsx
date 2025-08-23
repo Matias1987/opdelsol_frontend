@@ -114,7 +114,7 @@ const GastoForm = (props) => {
           />
         </Col>
       </Row>
-      <Row style={row_style}>
+      {/*<Row style={row_style}>
         <Col span={24}>
           <b>Modo de Pago</b>
         </Col>
@@ -128,7 +128,7 @@ const GastoForm = (props) => {
             ]}
           />
         </Col>
-      </Row>
+      </Row>*/}
      
       <Row style={row_style}>
         <Col span={24}>

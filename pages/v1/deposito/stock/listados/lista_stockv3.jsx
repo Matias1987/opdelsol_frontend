@@ -5,8 +5,28 @@ import MyLayout from "@/components/layout/layout";
 import globals from "@/src/globals";
 import { post_method } from "@/src/helpers/post_helper";
 import { get, post } from "@/src/urls";
-import {  CheckOutlined,  CloseOutlined,  DownOutlined,  EditOutlined,  InfoOutlined,} from "@ant-design/icons";
-import {  Button,  Card,  Checkbox,  Col,  Divider,  Dropdown,  Modal,  Row,  Select,  Space,  Table,  Tabs,  Tag,} from "antd";
+import {
+  CheckOutlined,
+  CloseOutlined,
+  DownOutlined,
+  EditOutlined,
+  InfoOutlined,
+} from "@ant-design/icons";
+import {
+  Button,
+  Card,
+  Checkbox,
+  Col,
+  Divider,
+  Dropdown,
+  Modal,
+  Row,
+  Select,
+  Space,
+  Table,
+  Tabs,
+  Tag,
+} from "antd";
 import { useEffect, useState } from "react";
 import EditarSubgrupo from "@/components/forms/deposito/EditarSubgrupo";
 import LayoutVentas from "@/components/layout/layout_ventas";
@@ -21,19 +41,24 @@ export default function ListaStockV3() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [valueChanged, setValueChanged] = useState(false);
-  const idsucursal = globals.obtenerSucursal(); 
+  const idsucursal = globals.obtenerSucursal();
   const [idsubgrupo, setIdSubgrupo] = useState(-1);
   const [listId, setListId] = useState(0);
   const [popupTagsOpen, setPopupTagsOpen] = useState(false);
   const [popupDetalleOpen, setPopupDetalleOpen] = useState(false);
-  const [popupEditarStockIndvOpen, setPopupEditarStockIndvOpen] = useState(false);
-  const [popupEditarCodigoIndvOpen, setPopupEditarCodigoIndvOpen] = useState(false);
+  const [popupEditarStockIndvOpen, setPopupEditarStockIndvOpen] =
+    useState(false);
+  const [popupEditarCodigoIndvOpen, setPopupEditarCodigoIndvOpen] =
+    useState(false);
   const [selectedIdCodigo, setSelectedIdCodigo] = useState(-1);
   const [open, setOpen] = useState(false);
-  const [menuFolded, setMenuFolded] = useState(false)
+  const [menuFolded, setMenuFolded] = useState(false);
 
   const [filtros, setFiltros] = useState(null);
 
+  const regexp_bif = /^([A-Z_]+)(_)(\-|\+[0-9\.]+)(_)(L|R)(_ADD_)([0-9\.]+)/;
+  const regexp_monof = /^([A-Z_0-9\.]+)(_)([0-9\.]+)($)/;
+  const regexp_terminados = /AA/;
   const items = [
     {
       label: "Detalle",
@@ -50,11 +75,36 @@ export default function ListaStockV3() {
       label: "Editar Código",
       key: "3",
       icon: <EditOutlined />,
-      disabled: !(
-        globals.esUsuarioDeposito() 
-      ),
+      disabled: !globals.esUsuarioDeposito(),
     },
   ];
+
+  const get_grid = (_data) => {
+    alert(JSON.stringify(_data[0]))
+    if (_data.length < 1) {
+      alert("no code")
+      return;
+    }
+
+    const demo_code = _data[0].codigo;
+
+    if (regexp_terminados.test(demo_code)) {
+      alert("es terminado")
+     // return <></>;
+    }
+
+    if (regexp_bif.test(demo_code)) {
+      alert("bifocales")
+     // return <></>;
+    }
+
+    if (regexp_monof.test(demo_code)) {
+      alert("monofocales")
+     // return <></>;
+    }
+    alert("none")
+   // return <></>
+  };
 
   const cambiar_estados_codigos = (activo) => {
     post_method(
@@ -66,47 +116,83 @@ export default function ListaStockV3() {
       (response) => {
         setValueChanged(!valueChanged);
       }
-    ); 
+    );
   };
 
-  const procesar_filtros =(data)=>{
+  const procesar_filtros = (data) => {
+    var __filtros = {};
 
-          var __filtros = {};
-  
-          data.filtros.forEach(t=>{
-              __filtros[t.tipo] = t.valor
-              if(t.tipo=='subgrupo')
-              {
-                setIdSubgrupo(t.valor)
-              }
-          })
-  
-          let _sucursal = globals.obtenerSucursal(); 
-
-          return {
-              sucursal: _sucursal,
-              codigo_contenga_a: typeof __filtros["codigo_contenga_a"] === 'undefined' ? "" : __filtros["codigo_contenga_a"],
-              grupo_contenga_a: typeof __filtros["grupo_contenga_a"] === 'undefined' ? "" : __filtros["grupo_contenga_a"],
-              codigo_igual_a: typeof __filtros["codigo_igual_a"] === 'undefined' ? "" : __filtros["codigo_igual_a"],
-              precio_mayor_a: typeof __filtros["precio_mayor_a"] === 'undefined' ? "" : __filtros["precio_mayor_a"],
-              precio_menor_a: typeof __filtros["precio_menor_a"] === 'undefined' ? "" : __filtros["precio_menor_a"],
-              precio_igual_a: typeof __filtros["precio_igual_a"] === 'undefined' ? "" : __filtros["precio_igual_a"],
-              cantidad_igual_a: typeof __filtros["cantidad_igual_a"] === 'undefined' ? "" : __filtros["cantidad_igual_a"],
-              cantidad_mayor_a: typeof __filtros["cantidad_mayor_a"] === 'undefined' ? "" : __filtros["cantidad_mayor_a"],
-              cantidad_menor_a: typeof __filtros["cantidad_menor_a"] === 'undefined' ? "" : __filtros["cantidad_menor_a"],
-              descripcion: typeof __filtros["detalles"] === 'undefined' ? "" : __filtros["detalles"],
-              subgrupo: typeof __filtros["subgrupo"] === 'undefined' ? "" : __filtros["subgrupo"],
-              grupo: typeof __filtros["grupo"] === 'undefined' ? "" : __filtros["grupo"],
-              subfamilia: typeof __filtros["subfamilia"] === 'undefined' ? "" : __filtros["subfamilia"],
-              familia: typeof __filtros["familia"] === 'undefined' ? "" : __filtros["familia"],
-              order: "",
-              etiquetas: data.tags||"",
-          }
+    data.filtros.forEach((t) => {
+      __filtros[t.tipo] = t.valor;
+      if (t.tipo == "subgrupo") {
+        setIdSubgrupo(t.valor);
       }
+    });
+
+    let _sucursal = globals.obtenerSucursal();
+
+    return {
+      sucursal: _sucursal,
+      codigo_contenga_a:
+        typeof __filtros["codigo_contenga_a"] === "undefined"
+          ? ""
+          : __filtros["codigo_contenga_a"],
+      grupo_contenga_a:
+        typeof __filtros["grupo_contenga_a"] === "undefined"
+          ? ""
+          : __filtros["grupo_contenga_a"],
+      codigo_igual_a:
+        typeof __filtros["codigo_igual_a"] === "undefined"
+          ? ""
+          : __filtros["codigo_igual_a"],
+      precio_mayor_a:
+        typeof __filtros["precio_mayor_a"] === "undefined"
+          ? ""
+          : __filtros["precio_mayor_a"],
+      precio_menor_a:
+        typeof __filtros["precio_menor_a"] === "undefined"
+          ? ""
+          : __filtros["precio_menor_a"],
+      precio_igual_a:
+        typeof __filtros["precio_igual_a"] === "undefined"
+          ? ""
+          : __filtros["precio_igual_a"],
+      cantidad_igual_a:
+        typeof __filtros["cantidad_igual_a"] === "undefined"
+          ? ""
+          : __filtros["cantidad_igual_a"],
+      cantidad_mayor_a:
+        typeof __filtros["cantidad_mayor_a"] === "undefined"
+          ? ""
+          : __filtros["cantidad_mayor_a"],
+      cantidad_menor_a:
+        typeof __filtros["cantidad_menor_a"] === "undefined"
+          ? ""
+          : __filtros["cantidad_menor_a"],
+      descripcion:
+        typeof __filtros["detalles"] === "undefined"
+          ? ""
+          : __filtros["detalles"],
+      subgrupo:
+        typeof __filtros["subgrupo"] === "undefined"
+          ? ""
+          : __filtros["subgrupo"],
+      grupo:
+        typeof __filtros["grupo"] === "undefined" ? "" : __filtros["grupo"],
+      subfamilia:
+        typeof __filtros["subfamilia"] === "undefined"
+          ? ""
+          : __filtros["subfamilia"],
+      familia:
+        typeof __filtros["familia"] === "undefined" ? "" : __filtros["familia"],
+      order: "",
+      etiquetas: data.tags || "",
+    };
+  };
 
   useEffect(() => {
     setUsuarioDep(globals.esUsuarioDeposito());
-    load(filtros)
+    load(filtros);
   }, [valueChanged]);
 
   const columns = [
@@ -320,14 +406,11 @@ export default function ListaStockV3() {
     },
   ];
 
-
-  const load = (filtro_data) =>{
-    if(!filtro_data)
-    {
+  const load = (filtro_data) => {
+    if (!filtro_data) {
       return;
     }
-    if((filtro_data?.filtros||[]).length<1)
-    {
+    if ((filtro_data?.filtros || []).length < 1) {
       return;
     }
     setLoading(true);
@@ -355,76 +438,86 @@ export default function ListaStockV3() {
       );
       setLoading(false);
       setListId(listId + 1);
+      
+      get_grid(response.data);
     });
-  }
+  };
 
-  const header = _ => <>
-  <Row style={{ backgroundColor: "rgba(255, 255, 255,0)", borderRadius:"16px" }} gutter={"16"}>
-  <Col>
-	<ExportToCSV
-	  parseFnt={() => {
-		let str =
-		  "Familia, SubFamilia, Grupo, Subgrupo, Codigo, Descripcion, Cantidad, Precio, Tags,\r\n";
-		data.forEach((r) => {
-		  str += `${r.familia},${r.subfamilia},${r.grupo},${
-			r.subgrupo
-		  },' ${r.codigo} ',${r.descripcion},${r.cantidad},${
-			r.precio
-		  },${(r.etiquetas || "").replace(/,/g, " ; ")},\r\n`;
-		});
-		return str;
-	  }}
-	/>
-  </Col>
-  <Col>
-	<Button
-	  size="small"
-    type="primary"
-    style={{color:"white"}}
-	  disabled={data.filter((d) => d.checked).length < 1}
-	  onClick={() => {
-		setPopupTagsOpen(true);
-	  }}
-	>
-	  Editar Etiquetas
-	</Button>
-  </Col>
-  <Col>
-	<Button
-	  disabled={data.filter((d) => d.checked).length < 1}
-	  size="small"
-    type="primary"
-    style={{color:"white"}}
-	  onClick={(_) => {
-		if (!confirm("Establecer códigos como activos?")) {
-		  return;
-		}
-		cambiar_estados_codigos(1);
-	  }}
-	>
-	  Activar C&oacute;digos
-	</Button>
-  </Col>
-  <Col>
-	<Button
-	  disabled={data.filter((d) => d.checked).length < 1}
-	  size="small"
-    type="primary"
-    style={{color:"white"}}
-	  danger
-	  onClick={(_) => {
-		if (!confirm("Establecer códigos como inactivos?")) {
-		  return;
-		}
-		cambiar_estados_codigos(0);
-	  }}
-	>
-	  Desactivar C&oacute;digos
-	</Button>
-  </Col>
-</Row>
-  </>
-  
+  const header = (_) => (
+    <>
+      <Row
+        style={{
+          backgroundColor: "rgba(255, 255, 255,0)",
+          borderRadius: "16px",
+        }}
+        gutter={"16"}
+      >
+        <Col>
+          <ExportToCSV
+            parseFnt={() => {
+              let str =
+                "Familia, SubFamilia, Grupo, Subgrupo, Codigo, Descripcion, Cantidad, Precio, Tags,\r\n";
+              data.forEach((r) => {
+                str += `${r.familia},${r.subfamilia},${r.grupo},${
+                  r.subgrupo
+                },' ${r.codigo} ',${r.descripcion},${r.cantidad},${r.precio},${(
+                  r.etiquetas || ""
+                ).replace(/,/g, " ; ")},\r\n`;
+              });
+              return str;
+            }}
+          />
+        </Col>
+        <Col>
+          <Button
+            size="small"
+            type="primary"
+            style={{ color: "white" }}
+            disabled={data.filter((d) => d.checked).length < 1}
+            onClick={() => {
+              setPopupTagsOpen(true);
+            }}
+          >
+            Editar Etiquetas
+          </Button>
+        </Col>
+        <Col>
+          <Button
+            disabled={data.filter((d) => d.checked).length < 1}
+            size="small"
+            type="primary"
+            style={{ color: "white" }}
+            onClick={(_) => {
+              if (!confirm("Establecer códigos como activos?")) {
+                return;
+              }
+              cambiar_estados_codigos(1);
+            }}
+          >
+            Activar C&oacute;digos
+          </Button>
+        </Col>
+        <Col>
+          <Button
+            disabled={data.filter((d) => d.checked).length < 1}
+            size="small"
+            type="primary"
+            style={{ color: "white" }}
+            danger
+            onClick={(_) => {
+              if (!confirm("Establecer códigos como inactivos?")) {
+                return;
+              }
+              cambiar_estados_codigos(0);
+            }}
+          >
+            Desactivar C&oacute;digos
+          </Button>
+        </Col>
+      </Row>
+    </>
+  );
+
   return (
     <>
       <Card
@@ -433,25 +526,23 @@ export default function ListaStockV3() {
         style={{ boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)" }}
       >
         <Row>
-          <Col style={{padding:"16px", width: menuFolded? "100px" : "25%"}}>
-            <SideMenuListaStock 
-            loading={loading}
-            onMenuUnfoldedClick={_=>{
-              setMenuFolded(false)
-            }}
-            onMenuFoldedClick={_=>{
-              setMenuFolded(true)
-            }}
-            callback={
-              filtros=>{
-                setFiltros(filtros)
-                setValueChanged(!valueChanged)
-              }
-            }
-            folded={menuFolded}
+          <Col style={{ padding: "16px", width: menuFolded ? "100px" : "25%" }}>
+            <SideMenuListaStock
+              loading={loading}
+              onMenuUnfoldedClick={(_) => {
+                setMenuFolded(false);
+              }}
+              onMenuFoldedClick={(_) => {
+                setMenuFolded(true);
+              }}
+              callback={(filtros) => {
+                setFiltros(filtros);
+                setValueChanged(!valueChanged);
+              }}
+              folded={menuFolded}
             />
           </Col>
-          <Col style={{width: menuFolded? "100%" : "75%", padding:"6px"}}>
+          <Col style={{ width: menuFolded ? "100%" : "75%", padding: "6px" }}>
             <Tabs
               defaultActiveKey="1"
               onChange={(key) => {
@@ -484,7 +575,7 @@ export default function ListaStockV3() {
                 {
                   key: "2",
                   label: "Grilla Cristales",
-                  disabled: (idsubgrupo===null),
+                  disabled: idsubgrupo === null,
                   children: (
                     <>
                       <Row>
@@ -531,6 +622,7 @@ export default function ListaStockV3() {
             />
           </Col>
         </Row>
+ 
       </Card>
       {/** region modales */}
       <Modal
