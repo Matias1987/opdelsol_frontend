@@ -7,7 +7,43 @@ const GridBifocales = (props) => {
 
   const [codigos, setCodigos] = useState([]);
 
+  const tableStyles = {
+  container: {
+    width: '100%',
+    overflowX: 'auto',
+    background: 'linear-gradient(to right, #e3f2fd, #ffffff)',
+    borderRadius: '12px',
+    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+    padding: '1rem',
+  },
+  table: {
+    width: '100%',
+    borderCollapse: 'collapse',
+    fontFamily: 'Segoe UI, sans-serif',
+    fontSize: '0.95rem',
+    color: '#333',
+  },
+  th: {
+    backgroundColor: '#bbdefb',
+    color: '#0d47a1',
+    padding: '12px 16px',
+    textAlign: 'left',
+    borderBottom: '2px solid #90caf9',
+    transition: 'background-color 0.3s ease',
+  },
+  td: {
+    padding: '12px 16px',
+    border: '1px solid #e0e0e0',
+    transition: 'background-color 0.3s ease',
+  },
+  rowHover: {
+    backgroundColor: '#f1f8ff',
+  },
+};
+
+
   const process = () => {
+    alert(JSON.stringify(codigosSrc));
     const _codigos = [];
     codigosSrc.forEach((code) => {
       //console.log(`Processing code: ${code}`);
@@ -34,6 +70,7 @@ const GridBifocales = (props) => {
       if (prev_base != _codigos[i].base) {
         //new row
         codes_arr.push([]);
+        console.log(`New row added for add: ${prev_base} new: ${_codigos[i].add}`);
       }
 
       codes_arr[codes_arr.length - 1].push({
@@ -46,55 +83,62 @@ const GridBifocales = (props) => {
       prev_base = _codigos[i].base;
     }
 
+    alert(JSON.stringify(codes_arr));
+
     setCodigos(codes_arr);
   };
 
   const header = (_) => <>
     <tr>
-        <th colSpan={codigos.length *2 +1}>
+        <th colSpan={codigos[0].length *2 +1} style={tableStyles.th}>
             GRILLA
         </th>
     </tr>
+    <tr>
+      <th style={tableStyles.th}></th>
+      {
+        codigos[0].map(() => (
+            <th style={tableStyles.th} colSpan={2}>00</th>
+
+        ))
+      }
+    </tr>
+    <tr>
+      <th style={tableStyles.th}></th>
     {
-      codigos.map((codigo, index) => (
-        <tr key={index}>
-          {index === 0 ? <th></th> : <></>}
-          <th colSpan={2}></th>
-        </tr>
+      codigos[0].map(() => (
+          <><th style={tableStyles.th}>L</th><th style={tableStyles.th}>R</th></>
       ))
     }
-    {
-      codigos.map((codigo, index) => (
-        <tr key={index}>
-          {index === 0 ? <th></th> : <></>}
-          <th>L</th><th>R</th>
-        </tr>
-      ))
-    }
+    </tr>
   </>;
   const body = (_) => (
     <>
-      {codigos.map((codigo) => (
-        <tr>
-            {index === 0 ? <td>{codigo.base}</td>:<></>}
-            <td>{0}</td><td>{0}</td>
+      {codigos.map((row) => (
+        <tr><td style={tableStyles.td}>000</td>
+        {
+          row.map((cell,index) => (
+            <><td style={tableStyles.td}>{0}</td><td style={tableStyles.td}>{0}</td></>
+          ))
+        }
         </tr>
       ))}
     </>
   );
   const get_grid = (_) => (
-    <>
-      <table>
+    <div style={tableStyles.container}>
+      <table style={tableStyles.table}>
         <thead>{header()}</thead>
         <tbody>{body()}</tbody>
       </table>
-    </>
+    </div>
   );
+
   useEffect(() => {
     process();
   }, []);
 
-  return get_grid()
+  return codigos.length<1 ? <></> : get_grid()
   
 };
 

@@ -35,6 +35,9 @@ import DetalleStock from "@/components/forms/deposito/detalle/DetalleStock";
 import CodeGridHTML from "@/components/etc/CodeGridHTML";
 import SideMenuListaStock from "@/components/deposito/lista_stock_sidemenu";
 import ExportToCSV from "@/components/ExportToCSV";
+import GridBifocales from "@/components/etc/GridBifocales";
+import GridMonof from "@/components/etc/GridMonof";
+import StockTable from "@/components/deposito/lista_stock_table";
 
 export default function ListaStockV3() {
   const [usuarioDep, setUsuarioDep] = useState(false);
@@ -56,54 +59,79 @@ export default function ListaStockV3() {
 
   const [filtros, setFiltros] = useState(null);
 
+
   const regexp_bif = /^([A-Z_]+)(_)(\-|\+[0-9\.]+)(_)(L|R)(_ADD_)([0-9\.]+)/;
   const regexp_monof = /^([A-Z_0-9\.]+)(_)([0-9\.]+)($)/;
-  const regexp_terminados = /AA/;
-  const items = [
-    {
-      label: "Detalle",
-      key: "1",
-      icon: <InfoOutlined />,
-    },
-    {
-      label: "Editar Stock",
-      key: "2",
-      icon: <EditOutlined />,
-      disabled: !globals.esUsuarioDeposito(),
-    },
-    {
-      label: "Editar Código",
-      key: "3",
-      icon: <EditOutlined />,
-      disabled: !globals.esUsuarioDeposito(),
-    },
-  ];
+  const regexp_terminados = /ESF(\-|\+)([0-9\.]+)CIL(\-|\+)([0-9\.]+).*$/;
+  
 
-  const get_grid = (_data) => {
-    alert(JSON.stringify(_data[0]))
-    if (_data.length < 1) {
-      alert("no code")
+
+  const get_grid = () => {
+    
+    if (data.length < 1) {
       return;
     }
 
-    const demo_code = _data[0].codigo;
+    const demo_code = data[0].codigo;
 
     if (regexp_terminados.test(demo_code)) {
-      alert("es terminado")
-     // return <></>;
+      return <CodeGridHTML
+        reload={valueChanged}
+        idsubgrupo={idsubgrupo}
+        idsucursal={idsucursal}
+        onCellClick={(key, idcodigo) => {
+          switch (+key) {
+            case 1:
+              setSelectedIdCodigo(idcodigo);
+              setPopupDetalleOpen(true);
+              break;
+            case 2:
+              setSelectedIdCodigo(idcodigo);
+              setPopupEditarStockIndvOpen(true);
+              break;
+          }
+        }}
+      />;
     }
 
     if (regexp_bif.test(demo_code)) {
-      alert("bifocales")
-     // return <></>;
+
+      return <GridBifocales codigosSrc={data.map(d=>d.codigo)} />;
     }
 
     if (regexp_monof.test(demo_code)) {
-      alert("monofocales")
-     // return <></>;
+
+      return <GridMonof codigosSrc={data.map(d=>d.codigo)} />;
     }
-    alert("none")
-   // return <></>
+
+     return <StockTable data={data} loading={loading} onMenuOptionSelected={onMenuOptionSelected} onItemCBChecked={onItemCBChecked} />;
+  };
+
+  const onMenuOptionSelected = (key, idcodigo) => {
+    switch (+key) {
+      case 1:
+        setSelectedIdCodigo(idcodigo);
+        setPopupDetalleOpen(true);
+        break;
+      case 2:
+        setSelectedIdCodigo(idcodigo);
+        setPopupEditarStockIndvOpen(true);
+        break;
+      case 3:
+        setSelectedIdCodigo(idcodigo);
+        setPopupEditarCodigoIndvOpen(true);
+        break;
+    }
+  };
+
+  const onItemCBChecked = (e, idcodigo) => {
+    setData((_data) =>
+      _data.map((d) =>
+        d.idcodigo == idcodigo
+          ? { ...d, checked: e.target.checked }
+          : d
+      )
+    );
   };
 
   const cambiar_estados_codigos = (activo) => {
@@ -114,6 +142,7 @@ export default function ListaStockV3() {
         codigos: data.filter((d) => d.checked).map((c) => c.idcodigo),
       },
       (response) => {
+        alert("disparado desde cambiar_estados_codigos")
         setValueChanged(!valueChanged);
       }
     );
@@ -195,216 +224,6 @@ export default function ListaStockV3() {
     load(filtros);
   }, [valueChanged]);
 
-  const columns = [
-    {
-      width: "200px",
-      title: "Ruta",
-      dataIndex: "idcodigo",
-      key: "ruta",
-      render: (_, { familia, subfamilia, grupo, subgrupo, idsubgrupo }) => (
-        <Space size={[0, "small"]} wrap>
-          <span style={{ fontSize: "1em" }}>
-            <Tag
-              color="success"
-              style={{ fontSize: ".65em", margin: "0", padding: "1px" }}
-            >
-              {familia}
-            </Tag>
-            <Tag
-              color="processing"
-              style={{ fontSize: ".65em", margin: "0", padding: "1px" }}
-            >
-              {subfamilia}
-            </Tag>
-            <Tag
-              color="error"
-              style={{ fontSize: ".65em", margin: "0", padding: "1px" }}
-            >
-              <b>{grupo}</b>
-            </Tag>
-            <EditarSubgrupo
-              idsubgrupo={idsubgrupo}
-              buttonText={subgrupo}
-              callback={() => {
-                setValueChanged(!valueChanged);
-              }}
-            />
-          </span>
-        </Space>
-      ),
-    },
-    {
-      width: "200px",
-      title: "Codigo",
-      dataIndex: "codigo",
-      key: "codigo",
-      render: (_, { codigo }) => (
-        <>
-          <div
-            style={{
-              fontSize: ".85em",
-              whiteSpace: "nowrap",
-              overflowX: "scroll",
-              width: "100%",
-            }}
-          >
-            <b>{codigo}</b>
-          </div>
-        </>
-      ),
-    },
-    {
-      width: "200px",
-      title: "Desc.",
-      dataIndex: "descripcion",
-      key: "descripcion",
-      render: (_, { descripcion }) => (
-        <div
-          style={{ width: "100%", overflowX: "scroll", whiteSpace: "nowrap" }}
-        >
-          {descripcion}
-        </div>
-      ),
-    },
-
-    {
-      width: "200px",
-      title: "Edad",
-      dataIndex: "edad",
-      key: "edad",
-      hidden: true,
-    },
-    {
-      width: "200px",
-      title: "Género",
-      dataIndex: "genero",
-      key: "genero",
-      hidden: true,
-    },
-    {
-      width: "200px",
-      title: "Precio",
-      dataIndex: "idcodigo",
-      key: "precio",
-      render: (_, { precio, modo_precio }) => {
-        switch (modo_precio) {
-          case 0:
-            return (
-              <div style={{ width: "100%", textAlign: "right" }}>
-                $&nbsp;{precio}&nbsp;&nbsp;<Tag color="blue">M</Tag>
-              </div>
-            );
-          case 1:
-            return (
-              <div style={{ width: "100%", textAlign: "right" }}>
-                $&nbsp;{precio}&nbsp;&nbsp;<Tag color="orange">SG</Tag>
-              </div>
-            );
-          case 2:
-            return (
-              <div style={{ width: "100%", textAlign: "right" }}>
-                $&nbsp;{precio}&nbsp;&nbsp;<Tag color="red">P</Tag>
-              </div>
-            );
-        }
-      },
-    },
-    {
-      width: "200px",
-      title: "Cantidad",
-      dataIndex: "cantidad",
-      key: "cantidad",
-      width: "90px",
-      render: (_, { cantidad }) => (
-        <div style={{ width: "90%", textAlign: "right" }}>{cantidad}</div>
-      ),
-    },
-    {
-      width: "200px",
-      title: "Etiquetas",
-      render: (_, { etiquetas }) => (
-        <span style={{ fontWeight: "bold", color: "darkgreen" }}>
-          {etiquetas}
-        </span>
-      ),
-    },
-    {
-      width: "200px",
-      title: "Acciones",
-      dataIndex: "idstock",
-      key: "idstock",
-      width: "120px",
-      render: (_, { idcodigo }) => (
-        <>
-          <Dropdown
-            menu={{
-              items,
-              onClick: ({ key }) => {
-                switch (+key) {
-                  case 1:
-                    setSelectedIdCodigo(idcodigo);
-                    setPopupDetalleOpen(true);
-                    break;
-                  case 2:
-                    setSelectedIdCodigo(idcodigo);
-                    setPopupEditarStockIndvOpen(true);
-                    break;
-                  case 3:
-                    setSelectedIdCodigo(idcodigo);
-                    setPopupEditarCodigoIndvOpen(true);
-                    break;
-                }
-              },
-            }}
-          >
-            <Button type="primary" size="small">
-              <Space>
-                Acciones
-                <DownOutlined />
-              </Space>
-            </Button>
-          </Dropdown>
-        </>
-      ),
-    },
-    {
-      title: (
-        <>
-          <Checkbox
-            onChange={(e) => {
-              setData((_data) =>
-                _data.map((d) => ({ ...d, checked: e.target.checked }))
-              );
-            }}
-          />
-        </>
-      ),
-      width: "50px",
-      render: (_, { checked, idcodigo }) => (
-        <>
-          <Checkbox
-            checked={checked}
-            onChange={(e) => {
-              setData((_data) =>
-                _data.map((d) =>
-                  d.idcodigo == idcodigo
-                    ? { ...d, checked: e.target.checked }
-                    : d
-                )
-              );
-            }}
-          />
-        </>
-      ),
-    },
-    {
-      render: (_, obj) => (
-        <>{+obj.activo == 1 ? <CheckOutlined /> : <CloseOutlined />}</>
-      ),
-      title: "Activo",
-      width: "80px",
-    },
-  ];
 
   const load = (filtro_data) => {
     if (!filtro_data) {
@@ -438,8 +257,6 @@ export default function ListaStockV3() {
       );
       setLoading(false);
       setListId(listId + 1);
-      
-      get_grid(response.data);
     });
   };
 
@@ -537,92 +354,16 @@ export default function ListaStockV3() {
               }}
               callback={(filtros) => {
                 setFiltros(filtros);
+                alert("disparado desde el boton de la barra del costado")
                 setValueChanged(!valueChanged);
               }}
               folded={menuFolded}
             />
           </Col>
-          <Col style={{ width: menuFolded ? "100%" : "75%", padding: "6px" }}>
-            <Tabs
-              defaultActiveKey="1"
-              onChange={(key) => {
-                console.log(key);
-              }}
-              items={[
-                {
-                  key: "1",
-                  label: "Tabla",
-                  children: (
-                    <>
-                      <Table
-                        title={header}
-                        rowClassName={(record, index) =>
-                          +record.activo == 0
-                            ? "error-row"
-                            : index % 2 === 0
-                            ? "table-row-light"
-                            : "table-row-dark"
-                        }
-                        columns={columns.filter((item) => !item.hidden)}
-                        dataSource={data}
-                        loading={loading}
-                        scroll={{ y: 400 }}
-                        size="small"
-                      />
-                    </>
-                  ),
-                },
-                {
-                  key: "2",
-                  label: "Grilla Cristales",
-                  disabled: idsubgrupo === null,
-                  children: (
-                    <>
-                      <Row>
-                        <Col span={24}>
-                          <Select
-                            disabled
-                            size="large"
-                            defaultValue={"1"}
-                            style={{ width: "400px" }}
-                            options={[
-                              { label: "Cantidad", value: "1" },
-                              { label: "Ideal", value: "2" },
-                              { label: "Dif.", value: "3" },
-                            ]}
-                          />
-                          <Divider />
-                        </Col>
-                      </Row>
-                      <Row>
-                        <Col span={24}>
-                          <CodeGridHTML
-                            reload={valueChanged}
-                            idsubgrupo={idsubgrupo}
-                            idsucursal={idsucursal}
-                            onCellClick={(key, idcodigo) => {
-                              switch (+key) {
-                                case 1:
-                                  setSelectedIdCodigo(idcodigo);
-                                  setPopupDetalleOpen(true);
-                                  break;
-                                case 2:
-                                  setSelectedIdCodigo(idcodigo);
-                                  setPopupEditarStockIndvOpen(true);
-                                  break;
-                              }
-                            }}
-                          />
-                        </Col>
-                      </Row>
-                    </>
-                  ),
-                },
-              ]}
-            />
+          <Col style={{ width: menuFolded ? "100%" : "75%", padding: "6px" }} key={data}>
+            {get_grid()}
           </Col>
         </Row>
- 
       </Card>
       {/** region modales */}
       <Modal
@@ -641,6 +382,7 @@ export default function ListaStockV3() {
             .map((c) => ({ codigo: c.codigo, idcodigo: c.idcodigo }))}
           callback={() => {
             setPopupTagsOpen(false);
+            alert("disparado desde popup")
             setValueChanged(!valueChanged);
           }}
         />
@@ -660,6 +402,7 @@ export default function ListaStockV3() {
           idsucursal={idsucursal}
           callback={() => {
             setPopupDetalleOpen(false);
+            alert("disparado desde popup")
             setValueChanged(!valueChanged);
           }}
         />
@@ -671,6 +414,7 @@ export default function ListaStockV3() {
         footer={null}
         onCancel={() => {
           setPopupEditarStockIndvOpen(false);
+          alert("disparado desde popup")
           setValueChanged(!valueChanged);
         }}
         width={"900px"}
@@ -680,6 +424,7 @@ export default function ListaStockV3() {
           idsucursal={globals.obtenerSucursal()}
           callback={() => {
             setPopupEditarStockIndvOpen(false);
+            alert("disparado desde popup")
             setValueChanged(!valueChanged);
           }}
         />
@@ -697,6 +442,7 @@ export default function ListaStockV3() {
           idcodigo={selectedIdCodigo}
           buttonText={<>Editar C&oacute;digo</>}
           callback={() => {
+            alert("disparado desde popup")
             setValueChanged(!valueChanged);
             setPopupEditarCodigoIndvOpen(false);
           }}
@@ -710,6 +456,7 @@ export default function ListaStockV3() {
         destroyOnClose={true}
         onCancel={() => {
           setOpen(false);
+          alert("disparado desde popup")
           setValueChanged(!valueChanged);
         }}
       >
