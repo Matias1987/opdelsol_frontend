@@ -115,10 +115,10 @@ const GridBifocales = (props) => {
   const body = (_) => (
     <>
       {codigos.map((row) => (
-        <tr><td style={tableStyles.td}>000</td>
+        <tr><td style={tableStyles.td}>{row[0].base}</td>
         {
           row.map((cell,index) => (
-            <><td style={tableStyles.td}>{0}</td><td style={tableStyles.td}>{0}</td></>
+            <><td style={tableStyles.td}>{cell.left}</td><td style={tableStyles.td}>{cell.right}</td></>
           ))
         }
         </tr>
