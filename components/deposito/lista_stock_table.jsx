@@ -58,7 +58,8 @@ const StockTable = props =>{
             style={{ color: "white" }}
             disabled={data.filter((d) => d.checked).length < 1}
             onClick={() => {
-              setPopupTagsOpen(true);
+              //setPopupTagsOpen(true);
+              onEditarEtiquetasClick?.()
             }}
           >
             Editar Etiquetas
@@ -71,10 +72,13 @@ const StockTable = props =>{
             type="primary"
             style={{ color: "white" }}
             onClick={(_) => {
+              onActivarCodigosClick?.()
+              /*
               if (!confirm("Establecer códigos como activos?")) {
                 return;
               }
               cambiar_estados_codigos(1);
+              */
             }}
           >
             Activar C&oacute;digos
@@ -88,18 +92,21 @@ const StockTable = props =>{
             style={{ color: "white" }}
             danger
             onClick={(_) => {
-              if (!confirm("Establecer códigos como inactivos?")) {
+             onDesactivarCodigosClick?.()
+             /**
+              *  if (!confirm("Establecer códigos como inactivos?")) {
                 return;
               }
               cambiar_estados_codigos(0);
+              */
             }}
           >
             Desactivar C&oacute;digos
           </Button>
         </Col>
-        <Col>
+        {/*<Col>
         <Input />
-        </Col>
+        </Col>*/}
       </Row>
     </>
   );
@@ -277,6 +284,7 @@ const StockTable = props =>{
       ),
     },
     {
+      hidden:true,
       title: (
         <>
           <Checkbox
@@ -322,7 +330,7 @@ const StockTable = props =>{
 
 
   return <Table
-                        title={header}
+                        
                         rowClassName={(record, index) =>
                           +record.activo == 0
                             ? "error-row"

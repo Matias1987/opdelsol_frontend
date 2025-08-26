@@ -4,9 +4,8 @@ import ListadoCajaSucursales from "@/components/caja_master/listado_caja_sucursa
 import NuevaCaja from "@/components/caja_master/nueva_caja";
 import Transferencia from "@/components/caja_master/transferencia";
 import LayoutAdmin from "@/components/layout/layout_admin";
-import { headers } from "@/next.config";
 import { ArrowDownOutlined, ArrowUpOutlined, HomeOutlined, InfoOutlined, OrderedListOutlined } from "@ant-design/icons";
-import { Button, Card, Col, Menu, Modal, Row, Statistic, Table, Tabs } from "antd";
+import { Button, Card, Col,  Modal, Row, Statistic, Table, Tabs } from "antd";
 import { useState } from "react";
 /**
  * CMIndex Page: Admin Control Management muestra totales de la caja master, y tareas posibles, como transferencia a fondos fijos,

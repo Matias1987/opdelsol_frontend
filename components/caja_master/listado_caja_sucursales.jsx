@@ -1,5 +1,4 @@
-import { Button, Col, Input, Row, Table } from "antd";
-import Modal from "antd/es/modal/Modal";
+import { Button, Col, Input, Modal, Row, Table } from "antd";
 import { useEffect, useState } from "react";
 
 const ListadoCajaSucursales = (props) => {

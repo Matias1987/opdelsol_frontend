@@ -348,7 +348,7 @@ export default function AgregarStockLoteV3(props){
                             }
                             else{
                                 alert("done")
-                                document.location.href = public_urls.lista_stock;
+                                document.location.href = public_urls.agregar_stock;
                             }
                         }
                         else{
@@ -369,7 +369,7 @@ export default function AgregarStockLoteV3(props){
                                 }
                                 else{
                                     alert("Hecho")
-                                    document.location.href = public_urls.lista_stock;
+                                    document.location.href = public_urls.agregar_stock;
                                 }
                             })
                         }
@@ -406,7 +406,7 @@ export default function AgregarStockLoteV3(props){
                                 }
                                 else{
                                     alert("Hecho")
-                                    document.location.href = public_urls.lista_stock;
+                                    document.location.href = public_urls.agregar_stock;
                                 }
                             })
                         }

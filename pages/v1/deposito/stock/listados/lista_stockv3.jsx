@@ -6,13 +6,6 @@ import globals from "@/src/globals";
 import { post_method } from "@/src/helpers/post_helper";
 import { get, post } from "@/src/urls";
 import {
-  CheckOutlined,
-  CloseOutlined,
-  DownOutlined,
-  EditOutlined,
-  InfoOutlined,
-} from "@ant-design/icons";
-import {
   Button,
   Card,
   Checkbox,
@@ -71,7 +64,7 @@ export default function ListaStockV3() {
     if (data.length < 1) {
       return;
     }
-
+/*
     const demo_code = data[0].codigo;
 
     if (regexp_terminados.test(demo_code)) {
@@ -103,7 +96,7 @@ export default function ListaStockV3() {
 
       return <GridMonof codigosSrc={data.map(d=>d.codigo)} />;
     }
-
+*/
      return <StockTable data={data} loading={loading} onMenuOptionSelected={onMenuOptionSelected} onItemCBChecked={onItemCBChecked} />;
   };
 
@@ -142,7 +135,7 @@ export default function ListaStockV3() {
         codigos: data.filter((d) => d.checked).map((c) => c.idcodigo),
       },
       (response) => {
-        alert("disparado desde cambiar_estados_codigos")
+        //alert("disparado desde cambiar_estados_codigos")
         setValueChanged(!valueChanged);
       }
     );
@@ -281,7 +274,7 @@ export default function ListaStockV3() {
               }}
               callback={(filtros) => {
                 setFiltros(filtros);
-                alert("disparado desde el boton de la barra del costado")
+                //alert("disparado desde el boton de la barra del costado")
                 setValueChanged(!valueChanged);
               }}
               folded={menuFolded}
@@ -309,7 +302,7 @@ export default function ListaStockV3() {
             .map((c) => ({ codigo: c.codigo, idcodigo: c.idcodigo }))}
           callback={() => {
             setPopupTagsOpen(false);
-            alert("disparado desde popup")
+            //alert("disparado desde popup")
             setValueChanged(!valueChanged);
           }}
         />
@@ -329,7 +322,7 @@ export default function ListaStockV3() {
           idsucursal={idsucursal}
           callback={() => {
             setPopupDetalleOpen(false);
-            alert("disparado desde popup")
+            //alert("disparado desde popup")
             setValueChanged(!valueChanged);
           }}
         />
@@ -341,7 +334,7 @@ export default function ListaStockV3() {
         footer={null}
         onCancel={() => {
           setPopupEditarStockIndvOpen(false);
-          alert("disparado desde popup")
+          //alert("disparado desde popup")
           setValueChanged(!valueChanged);
         }}
         width={"900px"}
@@ -351,7 +344,7 @@ export default function ListaStockV3() {
           idsucursal={globals.obtenerSucursal()}
           callback={() => {
             setPopupEditarStockIndvOpen(false);
-            alert("disparado desde popup")
+            //alert("disparado desde popup")
             setValueChanged(!valueChanged);
           }}
         />
@@ -369,7 +362,7 @@ export default function ListaStockV3() {
           idcodigo={selectedIdCodigo}
           buttonText={<>Editar C&oacute;digo</>}
           callback={() => {
-            alert("disparado desde popup")
+            //alert("disparado desde popup")
             setValueChanged(!valueChanged);
             setPopupEditarCodigoIndvOpen(false);
           }}
@@ -383,7 +376,7 @@ export default function ListaStockV3() {
         destroyOnClose={true}
         onCancel={() => {
           setOpen(false);
-          alert("disparado desde popup")
+          //alert("disparado desde popup")
           setValueChanged(!valueChanged);
         }}
       >
