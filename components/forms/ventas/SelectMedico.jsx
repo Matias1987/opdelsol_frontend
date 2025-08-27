@@ -83,12 +83,12 @@ export default function SelectMedico(props){
 
     const columns = [
         {dataIndex: "nombre", title: "Nombre"},
-        {dataIndex: "matricula", title: "Matricula"},
-        {dataIndex: "idmedico", title: "", render: (_,{idmedico})=>(<><Button onClick={()=>{onMedicoSelected(idmedico)}} size="small"><CheckCircleOutlined /></Button></>)},
+         /*{dataIndex: "matricula", title: "Matricula"},
+       {dataIndex: "idmedico", title: "", render: (_,{idmedico})=>(<><Button onClick={()=>{onMedicoSelected(idmedico)}} size="small"><CheckCircleOutlined /></Button></>)},*/
     ]
     return (idMedico==-1 ? 
         <>
-        <CustomModal width="900px" openButtonText={ typeof props.openButtonText === 'undefined' ? "Seleccione Médico" : props.openButtonText} title="Seleccionar Médico" >
+        <CustomModal width="700px" openButtonText={ typeof props.openButtonText === 'undefined' ? "Seleccione Médico" : props.openButtonText} title="Seleccionar Médico" >
            
             <Input.Search prefix="Buscar: " size="small" onSearch={onSearch} />
             &nbsp;<br />
@@ -96,6 +96,11 @@ export default function SelectMedico(props){
                 <MedicoForm callback={(id)=>{onMedicoSelected(id)}} />
             </CustomModal>*/}
             <Table 
+            onRow={(record, index) => ({
+                onClick: (e) => {
+                    onMedicoSelected(record.idmedico);
+                },
+            })}
             title={_=><>Lista de M&eacute;dicos&nbsp;&nbsp;<Button size="small" onClick={_=>{setPopupAddOpen(true)}}><PlusOutlined /> Agregar</Button></>}
             size="small"
             scroll={{y:"500px"}}

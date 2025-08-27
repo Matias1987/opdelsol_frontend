@@ -87,7 +87,6 @@ export default function  ListaEnvios(props){
         <Card
             size="small"
             title="Lista de envíos"
-            headStyle={{backgroundColor:"#F07427", color:"white"}}
             >
             <Row>
                 <Col span={24}>
@@ -108,6 +107,7 @@ export default function  ListaEnvios(props){
             <Row>
                 <Col span={24}>
                 <Table
+                size="small"
                 scroll={{y:"450px"}}
                 columns={columns}
                 dataSource={data}

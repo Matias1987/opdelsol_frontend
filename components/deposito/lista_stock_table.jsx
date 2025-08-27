@@ -4,7 +4,7 @@ import {Button, Checkbox, Col, Dropdown, Input, Row, Space, Table, Tag} from "an
 import ExportToCSV from "../ExportToCSV";
 
 const StockTable = props =>{
-  const {data, loading, onMenuOptionSelected, onItemCBChecked} = props
+  const {data, loading, onMenuOptionSelected, onItemCBChecked} = props;
 
     const items = [
     {
@@ -256,20 +256,6 @@ const StockTable = props =>{
               items,
               onClick: ({ key }) => {
                 onMenuOptionSelected?.(key, idcodigo)
-                /*switch (+key) {
-                  case 1:
-                    setSelectedIdCodigo(idcodigo);
-                    setPopupDetalleOpen(true);
-                    break;
-                  case 2:
-                    setSelectedIdCodigo(idcodigo);
-                    setPopupEditarStockIndvOpen(true);
-                    break;
-                  case 3:
-                    setSelectedIdCodigo(idcodigo);
-                    setPopupEditarCodigoIndvOpen(true);
-                    break;
-                }*/
               },
             }}
           >

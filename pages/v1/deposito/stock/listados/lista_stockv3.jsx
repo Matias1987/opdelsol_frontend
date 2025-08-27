@@ -5,21 +5,7 @@ import MyLayout from "@/components/layout/layout";
 import globals from "@/src/globals";
 import { post_method } from "@/src/helpers/post_helper";
 import { get, post } from "@/src/urls";
-import {
-  Button,
-  Card,
-  Checkbox,
-  Col,
-  Divider,
-  Dropdown,
-  Modal,
-  Row,
-  Select,
-  Space,
-  Table,
-  Tabs,
-  Tag,
-} from "antd";
+import { Card, Col, Modal, Row } from "antd";
 import { useEffect, useState } from "react";
 import EditarSubgrupo from "@/components/forms/deposito/EditarSubgrupo";
 import LayoutVentas from "@/components/layout/layout_ventas";
@@ -52,52 +38,67 @@ export default function ListaStockV3() {
 
   const [filtros, setFiltros] = useState(null);
 
+  const [gridEnabled, setGridEnabled] = useState(false);
+
+  const [codesChanged, setCodesChanged] = useState(false);
 
   const regexp_bif = /^([A-Z_]+)(_)(\-|\+[0-9\.]+)(_)(L|R)(_ADD_)([0-9\.]+)/;
   const regexp_monof = /^([A-Z_0-9\.]+)(_)([0-9\.]+)($)/;
   const regexp_terminados = /ESF(\-|\+)([0-9\.]+)CIL(\-|\+)([0-9\.]+).*$/;
-  
-
 
   const get_grid = () => {
-    
     if (data.length < 1) {
-      return;
-    }
-/*
-    const demo_code = data[0].codigo;
-
-    if (regexp_terminados.test(demo_code)) {
-      return <CodeGridHTML
-        reload={valueChanged}
-        idsubgrupo={idsubgrupo}
-        idsucursal={idsucursal}
-        onCellClick={(key, idcodigo) => {
-          switch (+key) {
-            case 1:
-              setSelectedIdCodigo(idcodigo);
-              setPopupDetalleOpen(true);
-              break;
-            case 2:
-              setSelectedIdCodigo(idcodigo);
-              setPopupEditarStockIndvOpen(true);
-              break;
-          }
-        }}
-      />;
+      return (
+        <span
+          style={{ fontWeight: "500", fontSize: "0.9em", color: "darkgray" }}
+        >
+          <i>Seleccione Filtros...</i>
+        </span>
+      );
     }
 
-    if (regexp_bif.test(demo_code)) {
+    if (gridEnabled) {
+      const demo_code = data[0].codigo;
 
-      return <GridBifocales codigosSrc={data.map(d=>d.codigo)} />;
+      if (regexp_terminados.test(demo_code)) {
+        return (
+          <CodeGridHTML
+            reload={valueChanged}
+            idsubgrupo={idsubgrupo}
+            idsucursal={idsucursal}
+            onCellClick={(key, idcodigo) => {
+              switch (+key) {
+                case 1:
+                  setSelectedIdCodigo(idcodigo);
+                  setPopupDetalleOpen(true);
+                  break;
+                case 2:
+                  setSelectedIdCodigo(idcodigo);
+                  setPopupEditarStockIndvOpen(true);
+                  break;
+              }
+            }}
+          />
+        );
+      }
+
+      if (regexp_bif.test(demo_code)) {
+        return <GridBifocales codigosSrc={data} onMenuOptionSelected={onMenuOptionSelected} key={codesChanged} />;
+      }
+
+      if (regexp_monof.test(demo_code)) {
+        return <GridMonof codigosSrc={data} onMenuOptionSelected={onMenuOptionSelected} key={codesChanged} />;
+      }
     }
 
-    if (regexp_monof.test(demo_code)) {
-
-      return <GridMonof codigosSrc={data.map(d=>d.codigo)} />;
-    }
-*/
-     return <StockTable data={data} loading={loading} onMenuOptionSelected={onMenuOptionSelected} onItemCBChecked={onItemCBChecked} />;
+    return (
+      <StockTable
+        data={data}
+        loading={loading}
+        onMenuOptionSelected={onMenuOptionSelected}
+        onItemCBChecked={onItemCBChecked}
+      />
+    );
   };
 
   const onMenuOptionSelected = (key, idcodigo) => {
@@ -120,9 +121,7 @@ export default function ListaStockV3() {
   const onItemCBChecked = (e, idcodigo) => {
     setData((_data) =>
       _data.map((d) =>
-        d.idcodigo == idcodigo
-          ? { ...d, checked: e.target.checked }
-          : d
+        d.idcodigo == idcodigo ? { ...d, checked: e.target.checked } : d
       )
     );
   };
@@ -217,7 +216,6 @@ export default function ListaStockV3() {
     load(filtros);
   }, [valueChanged]);
 
-
   const load = (filtro_data) => {
     if (!filtro_data) {
       return;
@@ -228,6 +226,7 @@ export default function ListaStockV3() {
     setLoading(true);
     const data = procesar_filtros(filtro_data);
     post_method(post.search.filtro_stock, data, (response) => {
+      //alert(JSON.stringify(response));
       setData(
         response.data.map((row) => ({
           key: row.idcodigo,
@@ -250,10 +249,9 @@ export default function ListaStockV3() {
       );
       setLoading(false);
       setListId(listId + 1);
+      setCodesChanged(!codesChanged);
     });
   };
-
-
 
   return (
     <>
@@ -272,15 +270,30 @@ export default function ListaStockV3() {
               onMenuFoldedClick={(_) => {
                 setMenuFolded(true);
               }}
-              callback={(filtros) => {
-                setFiltros(filtros);
+              callback={(data) => {
+
+                //alert(JSON.stringify(data));
+                if(data.filtros.length>0)
+                {
+                  setGridEnabled(false);
+                  if(data.filtros[0].tipo=='subgrupo')
+                  {
+                    
+                    setGridEnabled(true);
+                  }
+                }
+                
+                setFiltros(data);
                 //alert("disparado desde el boton de la barra del costado")
                 setValueChanged(!valueChanged);
               }}
               folded={menuFolded}
             />
           </Col>
-          <Col style={{ width: menuFolded ? "100%" : "75%", padding: "6px" }} key={data}>
+          <Col
+            style={{ width: menuFolded ? "100%" : "75%", padding: "6px" }}
+            key={data}
+          >
             {get_grid()}
           </Col>
         </Row>

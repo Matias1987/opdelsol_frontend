@@ -193,7 +193,9 @@ a::before{
   background-color: #e6e6e6;/* #daffcc;#e7f0fc;*/
 }
 .error-row {
-  background-color: #f89e9e;
+  background-color: #f8d3d3;
+  color: red;
+  font-size: .9em;
 }
 .ok-row {
   background-color: #47dd53;
@@ -458,4 +460,22 @@ just some testing
   border-bottom: 1px dotted;
   flex: 1;
   margin: 0 0.5em;
+}
+
+.ant-table-tbody > tr.ant-table-row:hover > td {
+  background-color: #BFFF00 !important; /* Replace with your desired color */
+  color: black !important;
+  font-weight: 600 !important;
+  font-size: 1.1em;
+}
+.ant-table-tbody > tr.error-row:hover > td {
+  background-color: #BFFF00 !important; /* Replace with your desired color */
+  color: red !important;
+  font-weight: 600 !important;
+}
+
+.gid-table-td:hover {
+  background-color: #BFFF00 !important; /* Replace with your desired color */
+  font-weight: 600 !important;
+  font-size: 1.1em;
 }

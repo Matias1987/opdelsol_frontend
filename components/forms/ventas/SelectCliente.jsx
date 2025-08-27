@@ -16,7 +16,9 @@ const SelectCliente = (props) =>{
     const [loading, setLoading] = useState(false)
 
     const onSearch = (value) => {
-        
+
+        if((value||"").trim().length < 3) return;
+
         const params = encodeURIComponent(value);
         //alert(value)
         setLoading(true)
@@ -99,11 +101,11 @@ const SelectCliente = (props) =>{
         {dataIndex: 'nombre', title: 'Nombre', key: 'nombre'},
         {dataIndex: 'dni', title: 'DNI', key: 'dni'},
         {dataIndex: 'direccion', title: 'Direccion', key: 'direccion'},
-        {dataIndex: 'idcliente', title: '', key: 'acciones', render: (_,{idcliente, bloqueado})=>(
+/*        {dataIndex: 'idcliente', title: '', key: 'acciones', render: (_,{idcliente, bloqueado})=>(
             <>
                 <Button disabled={bloqueado==1} onClick={()=>{upload_cliente_details(idcliente)}}>{bloqueado?<span style={{color:"red"}}><CloseOutlined />Bloqueado</span>:<><CheckCircleFilled />&nbsp;&nbsp;Seleccionar</>}</Button>
             </>
-        )},
+        )},*/
     ]
     const show_details = _ => (
         loadingDetalles ? <Spin /> :
@@ -146,6 +148,17 @@ const SelectCliente = (props) =>{
         <Row>
             <Col span={24} >
                 <Table 
+                onRow={(record, index) => ({
+                    onClick: (e) => {
+                        if(+record.bloqueado==1) {
+                            alert("Cliente bloqueado");
+                            return
+                        };
+
+                        upload_cliente_details(record.idcliente);
+                        setClienteData(record);
+                    },
+                })}
                 title={_=><Row gutter={"16"}><Col><span style={{fontWeight:"bold"}}>Clientes</span> </Col>
                 <Col>
                 <ClienteFormV2 destinatario={props.destinatario} callback={(id)=>{
@@ -155,16 +168,16 @@ const SelectCliente = (props) =>{
                         }}/>
                 </Col>
                 <Col>
-                        <Input.Search size="small" prefix="Buscar: "  style={{width:"400px"}} onSearch={onSearch} />
+                        <Input.Search allowClear size="small" prefix="Buscar: "  style={{width:"400px"}} onSearch={onSearch} />
                 </Col>
                 <Col>
-                    <Button size="small" style={{color:"white"}} onClick={()=>{setReload(!reload)}}type="text"><ReloadOutlined /></Button>
+                    <Button size="small" style={{color:"red"}} onClick={()=>{setReload(!reload)}}type="text"><ReloadOutlined /></Button>
                 </Col>
                 </Row>}
                 size="small"
                 scroll={{y:"500px"}}
                 loading={loading}
-                rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'}
+                rowClassName={(record, index) =>  record.bloqueado ?  'error-row' : index % 2 === 0 ? 'table-row-light' :  'table-row-dark'}
                 columns={columns} 
                 dataSource={clientes}  />
             </Col>

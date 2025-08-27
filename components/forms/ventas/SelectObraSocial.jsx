@@ -12,11 +12,11 @@ const SelectObraSocial = (props) => {
     const [loading, setLoading] = useState(false)
     const columns = [
         {title: 'Nombre', dataIndex: 'nombre'},
-        {title: '', dataIndex: 'idmutual', render: (_,{idmutual})=>(
+       /* {title: '', dataIndex: 'idmutual', render: (_,{idmutual})=>(
         <>
             <Button onClick={()=>{onOSSelected(idmutual)}}><CheckCircleOutlined /></Button>
         </>
-        )}
+        )}*/
     ]
 
     useEffect(()=>{
@@ -87,13 +87,19 @@ const SelectObraSocial = (props) => {
     return (
         idOS === -1 ?
         <>
-        <CustomModal openButtonText="Seleccione Obra Social" title="" >
+        <CustomModal openButtonText="Seleccione Obra Social" title="" width="700px">
             Obra Social
-            <Input.Search onSearch={onSearch} />
+            <Input.Search onSearch={onSearch} size="large" />
             <CustomModal openButtonText="+ Agregar" title="Agregar" >
                 <ObraSocialForm callback={onOSSelected} />
             </CustomModal>
             <Table 
+            onRow={(record, index) => ({
+                onClick: (e) => {
+                 
+                    onOSSelected(record.idmutual);
+                },
+            })}
             scroll={{y:"500px"}}
             rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'}
             columns={columns} 
