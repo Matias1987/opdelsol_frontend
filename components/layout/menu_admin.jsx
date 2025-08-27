@@ -10,7 +10,7 @@ import ListaPreciosV3 from "../lista_precios/listaPreciosV3";
 import { lista_precios_visible } from "@/src/config";
 
 const items = [
-  
+  /*
  {
   label: <Link style={{fontWeight:"600", fontSize:"1.1em", color:"#102C3E"}} href={public_urls.dashboard_admin}><HomeFilled /> Inicio</Link>,
   key: '12',
@@ -36,16 +36,16 @@ const items = [
 
     label: (<Link style={{fontWeight:"600", fontSize:"1.1em", color:"#102C3E"}} href={public_urls.stock_admin}><BoxPlotOutlined /> Stock</Link>),
     key: '16',
-  },
+  },*/
   /*{
     label: (<Link href={public_urls.eventos_admin}>Eventos</Link>),
     key: '15',
   },*/
-  
+  /*
   {
     label: (<BuscarVenta textButton="Buscar Venta" />),
     key: '404',
-  },
+  },*/
   {
     label: 'Tablas',
     key: 'SubMenu',
@@ -85,7 +85,7 @@ const items = [
   }*/
   
 ];
-
+/*
 if(lista_precios_visible!=0){
       items.push( 
             {
@@ -93,7 +93,7 @@ if(lista_precios_visible!=0){
               key: '1001'
             }
           )
-    }
+    }*/
 export default function MenuAdminTop(){
   const [current, setCurrent] = useState('12');
   const onClick = (e) => {
