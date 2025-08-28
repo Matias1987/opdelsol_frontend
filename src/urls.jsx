@@ -242,6 +242,10 @@ const post = {
         establecer_objetivo_sucursal: remote_base_url + "objs/",
         settings: remote_base_url + "stt/",
         concepto_gasto: remote_base_url + "conceptogastos/",
+        fondo_fijo: remote_base_url + "ff/",
+        egreso: remote_base_url + "",
+        ingreso: remote_base_url + "",
+        modificacion_ingreso_caja: remote_base_url + "",
     },
     update:{
         optica: remote_base_url + "op/mod/",

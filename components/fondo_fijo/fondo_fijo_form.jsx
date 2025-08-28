@@ -1,7 +1,12 @@
 import { Button, Col, Input, Row, Select } from "antd";
 import SucursalSelect from "../SucursalSelect";
+import { useState } from "react";
+import { post_method } from "@/src/helpers/post_helper";
+import { post } from "@/src/urls";
 
-const FondoFijoForm = () => {
+const FondoFijoForm = props => {
+    const {callback} = props;
+
     const [ff, setFF] = useState({
         idsucursal: null,
         monto: null
@@ -16,15 +21,16 @@ const FondoFijoForm = () => {
 
     const onSubmit = () => {
         console.log("Formulario enviado con los siguientes datos:", ff);
+        alert(JSON.stringify(ff));
+        post_method(post.insert.fondo_fijo, ff,(response)=>{
+            alert("Datos Guardados");
+            callback?.();
+        })
     };
 
     return (
     <>
-    <Row>
-        <Col span={24}>
-            <h1>Formulario de Fondo Fijo</h1>
-        </Col>
-    </Row>
+
     <Row>
         <Col span={24}>
             <SucursalSelect callback={(idsucursal) => {

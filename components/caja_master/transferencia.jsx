@@ -1,9 +1,10 @@
-import { get } from "@/src/urls";
+import { post_method } from "@/src/helpers/post_helper";
+import { get, post } from "@/src/urls";
 import { Button, Col, Input, Row, Select } from "antd";
 import { useEffect, useState } from "react";
 
 const Transferencia = (props) => {
-    const { idCajaOrigen, aFondoFijo } = props;
+    const { idCajaOrigen, aFondoFijo, callback } = props;
     const [data, setData] = useState([]);
     const [transferencia, setTransferencia] = useState({
         idCajaOrigen,
@@ -12,7 +13,12 @@ const Transferencia = (props) => {
     });
 
     const onSave = () => {
+        alert(JSON.stringify(transferencia));
         // Handle save logic here
+        post_method(post.insert.transferencia, transferencia,response=>{
+            alert("Datos Guardados");
+            callback?.()
+        })
     };
 
     const row_style={
@@ -40,7 +46,7 @@ const Transferencia = (props) => {
 
     <Row style={row_style}>
         <Col span={24}>
-            <Select prefix="Destino:" style={{ width: '100%' }} options={data.map(item => ({ label: item.sucursal, value: item.idcaja }))} />
+            <Select onChange={(value) => setTransferencia({ ...transferencia, idCajaDestino: value })} prefix="Destino:" style={{ width: '100%' }} options={data.map(item => ({ label: item.sucursal, value: item.idcaja }))} />
         </Col>
     </Row>
     <Row style={row_style}>

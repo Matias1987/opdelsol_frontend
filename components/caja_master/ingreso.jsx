@@ -1,10 +1,27 @@
+import { post_method } from "@/src/helpers/post_helper";
+import { post } from "@/src/urls";
 import { Button, Col, Input, Row, Select } from "antd";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const Ingreso = (props) => {
+  const {callback} = props;
+  const [ingreso, setIngreso] = useState({
+    fuente: "",
+    monto: 0,
+  });
+
   const row_style = {
     padding: "6px",
   };
+
+  const onSave = _ =>{
+    alert(JSON.stringify(ingreso))
+
+    post_method(post.insert.ingreso, ingreso, response=>{
+      alert("Datos Guardados");
+      callback?.();
+    })
+  }
 
   useEffect(() => {
     // Fetch initial data or perform setup
@@ -14,25 +31,17 @@ const Ingreso = (props) => {
     <>
       <Row style={row_style}>
         <Col span={24}>
-          <Select
-            style={{ width: "100%" }}
-            prefix="Motivo:"
-            options={[
-              { label: "Caja 1", value: "1" },
-              { label: "Caja 2", value: "2" },
-              { label: "Caja 3", value: "3" },
-            ]}
-          />
+          <Input value={ingreso.fuente} onChange={(e) => setIngreso({ ...ingreso, fuente: e.target.value })} prefix="Fuente: " placeholder="Ingrese Fuente de Ingreso.." type="text" />
         </Col>
       </Row>
       <Row style={row_style}>
         <Col span={24}>
-          <Input prefix="Monto: " placeholder="Ingrese Monto.." type="number" />
+          <Input value={ingreso.monto} onChange={(e) => setIngreso({ ...ingreso, monto: e.target.value })} prefix="Monto: " placeholder="Ingrese Monto.." type="number" />
         </Col>
       </Row>
       <Row style={row_style}>
         <Col span={24}>
-          <Button type="primary">Agregar Ingreso</Button>
+          <Button type="primary" onClick={onSave}>Agregar Ingreso</Button>
         </Col>
       </Row>
     </>

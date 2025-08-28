@@ -1,26 +1,25 @@
 import { post_method } from "@/src/helpers/post_helper";
 import { post } from "@/src/urls";
 import "@/styles/codeGrid.module.css";
-import {  DownOutlined } from "@ant-design/icons";
+import { DownOutlined } from "@ant-design/icons";
 import { Button, Col, Collapse, Dropdown, Row, Space } from "antd";
 import { useEffect, useState } from "react";
+import DetalleSubgrupo from "../DetalleSubgrupo";
 
 //old javascript...
 /**
- * 
+ *
  * @param idsubgrupo
  * @param idsucursal
  * @param onCellClick
- *  
- * 
+ *
+ *
  */
 const CodeGridHTML = (props) => {
   const { idsubgrupo, idsucursal, onCellClick, reload } = props;
   const [dataPositive, setDataPositive] = useState([]);
   const [dataNegative, setDataNegative] = useState([]);
   const [codesDict, setCodesDict] = useState({});
-
-  
 
   const load = (callback) => {
     post_method(
@@ -52,15 +51,13 @@ const CodeGridHTML = (props) => {
             idcodigo: c.idcodigo,
           };
         });
-        if(_min_esf>1000 || _max_esf<-1000)
-          return
-        if(_min_cil>1000 || _max_cil<-1000)
-          return
+        if (_min_esf > 1000 || _max_esf < -1000) return;
+        if (_min_cil > 1000 || _max_cil < -1000) return;
 
         //alert(JSON.stringify({_min_esf, _max_esf, _min_cil, _max_cil}));
         setCodesDict(qtties);
         setDataPositive(
-          prepare(Math.abs(0),  Math.abs(_min_esf), Math.abs(_min_cil), "+", "-")
+          prepare(Math.abs(0), Math.abs(_min_esf), Math.abs(_min_cil), "+", "-")
         );
         setDataNegative(
           prepare(Math.abs(0), Math.abs(_max_esf), Math.abs(_min_cil), "-", "-")
@@ -209,57 +206,75 @@ const CodeGridHTML = (props) => {
                         <div style={cell_content}>{cell.esf}</div>
                       </td>
                     )}
-                    <td
-                      style={{ ...base_border_style, ...td_style }}
-                    >
-                      <div 
-                      style={
-                        +(codesDict[
-                            `${parseFloat(cell.esf) * 100}${
-                              parseFloat(cell.cil) * 100
-                            }`
-                          ]?.cantidad >0||"0") ? 
-                          {...cell_content, backgroundColor: "#ffe4bbff", fontWeight:"600", color:"black"} :
-                          {...cell_content, backgroundColor: "#F5F5F5", color:"#567effff"}
-                        
-                        
+                    <td style={{ ...base_border_style, ...td_style }}>
+                      <div
+                        style={
+                          +(
+                            codesDict[
+                              `${parseFloat(cell.esf) * 100}${
+                                parseFloat(cell.cil) * 100
+                              }`
+                            ]?.cantidad > 0 || "0"
+                          )
+                            ? {
+                                ...cell_content,
+                                backgroundColor: "#ffe4bbff",
+                                fontWeight: "600",
+                                color: "black",
+                              }
+                            : {
+                                ...cell_content,
+                                backgroundColor: "#F5F5F5",
+                                color: "#567effff",
+                              }
                         }
-                        >
-                        
+                      >
                         {
                           codesDict[
                             `${parseFloat(cell.esf) * 100}${
                               parseFloat(cell.cil) * 100
                             }`
-                          ]?.cantidad 
+                          ]?.cantidad
                         }
-                        {'undefined' === typeof codesDict[
+                        {"undefined" ===
+                        typeof codesDict[
                           `${parseFloat(cell.esf) * 100}${
                             parseFloat(cell.cil) * 100
                           }`
-                        ] ? <></>: <Dropdown menu={{
-                          items: [
-                                    {
-                                      key: '1',
-                                      label: 'Detalle',
-                                    },
-                                    {
-                                      key: '2',
-                                      label: 'Editar Stock',
-                                    },
-                                ],
-                          onClick: ({key})=>{
-                           
-                            onCellClick( key, codesDict[`${parseFloat(cell.esf) * 100}${parseFloat(cell.cil) * 100}`]?.idcodigo)
-                          }
-                        }}>
-                          <Button type="link" size="small">
-                            <Space>
-                              <DownOutlined />
-                            </Space>
-                          </Button>
-                        </Dropdown>
-                        }
+                        ] ? (
+                          <></>
+                        ) : (
+                          <Dropdown
+                            menu={{
+                              items: [
+                                {
+                                  key: "1",
+                                  label: "Detalle",
+                                },
+                                {
+                                  key: "2",
+                                  label: "Editar Stock",
+                                },
+                              ],
+                              onClick: ({ key }) => {
+                                onCellClick(
+                                  key,
+                                  codesDict[
+                                    `${parseFloat(cell.esf) * 100}${
+                                      parseFloat(cell.cil) * 100
+                                    }`
+                                  ]?.idcodigo
+                                );
+                              },
+                            }}
+                          >
+                            <Button type="link" size="small">
+                              <Space>
+                                <DownOutlined />
+                              </Space>
+                            </Button>
+                          </Dropdown>
+                        )}
                       </div>
                     </td>
                   </>
@@ -272,40 +287,44 @@ const CodeGridHTML = (props) => {
     );
 
   useEffect(() => {
-    if(idsubgrupo<1)
-    {
+    if (idsubgrupo < 1) {
       return;
     }
     load();
   }, [idsubgrupo, idsucursal, reload]);
 
-  const onChange = key => {
+  const onChange = (key) => {
     console.log(key);
   };
 
   return (
     <>
-    <Collapse 
-    style={{backgroundColor:"#C1D4E7"}}
-      defaultActiveKey={['1']} 
-      onChange={onChange} 
-      items={
-        [
-          {
-            key: '1',
-            label: <span style={{fontWeight:"700"}}>Negativos</span>,
-            children: <>{display_grid(dataNegative)}</>,
-          },
-          {
-            key: '2',
-            label: <span style={{fontWeight:"700"}}>Positivos</span>,
-            children: <>{display_grid(dataPositive)}</>,
-          },
-        ]
-        }
-    />
-      
-      
+      <Row style={{padding:"16px"}}>
+        <Col span={24}>
+          <DetalleSubgrupo idsubgrupo={idsubgrupo} />
+        </Col>
+      </Row>
+      <Row>
+        <Col span={24}>
+          <Collapse
+            style={{ backgroundColor: "#C1D4E7" }}
+            defaultActiveKey={["1"]}
+            onChange={onChange}
+            items={[
+              {
+                key: "1",
+                label: <span style={{ fontWeight: "700" }}>Negativos</span>,
+                children: <>{display_grid(dataNegative)}</>,
+              },
+              {
+                key: "2",
+                label: <span style={{ fontWeight: "700" }}>Positivos</span>,
+                children: <>{display_grid(dataPositive)}</>,
+              },
+            ]}
+          />
+        </Col>
+      </Row>
     </>
   );
 };

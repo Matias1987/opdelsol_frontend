@@ -52,7 +52,7 @@ export default function ListaStockV3() {
         <span
           style={{ fontWeight: "500", fontSize: "0.9em", color: "darkgray" }}
         >
-          <i>Seleccione Filtros...</i>
+          <i>Sin registros</i>
         </span>
       );
     }
@@ -83,11 +83,23 @@ export default function ListaStockV3() {
       }
 
       if (regexp_bif.test(demo_code)) {
-        return <GridBifocales codigosSrc={data} onMenuOptionSelected={onMenuOptionSelected} key={codesChanged} />;
+        return (
+          <GridBifocales
+            codigosSrc={data}
+            onMenuOptionSelected={onMenuOptionSelected}
+            key={codesChanged}
+          />
+        );
       }
 
       if (regexp_monof.test(demo_code)) {
-        return <GridMonof codigosSrc={data} onMenuOptionSelected={onMenuOptionSelected} key={codesChanged} />;
+        return (
+          <GridMonof
+            codigosSrc={data}
+            onMenuOptionSelected={onMenuOptionSelected}
+            key={codesChanged}
+          />
+        );
       }
     }
 
@@ -227,26 +239,31 @@ export default function ListaStockV3() {
     const data = procesar_filtros(filtro_data);
     post_method(post.search.filtro_stock, data, (response) => {
       //alert(JSON.stringify(response));
-      setData(
-        response.data.map((row) => ({
-          key: row.idcodigo,
-          codigo: row.codigo,
-          ruta: row.ruta,
-          cantidad: row.cantidad,
-          idcodigo: row.idcodigo,
-          precio: row.precio,
-          descripcion: row.descripcion,
-          checked: false,
-          familia: row.familia,
-          subfamilia: row.subfamilia,
-          grupo: row.grupo,
-          subgrupo: row.subgrupo,
-          modo_precio: row.modo_precio,
-          idsubgrupo: row.idsubgrupo,
-          etiquetas: row.etiquetas,
-          activo: row.activo,
-        }))
-      );
+      if (response.data.length < 1) {
+        alert("No se encontraron codigos con los filtros seleccionados.");
+      } else {
+        setData(
+          response.data.map((row) => ({
+            key: row.idcodigo,
+            codigo: row.codigo,
+            ruta: row.ruta,
+            cantidad: row.cantidad,
+            idcodigo: row.idcodigo,
+            precio: row.precio,
+            descripcion: row.descripcion,
+            checked: false,
+            familia: row.familia,
+            subfamilia: row.subfamilia,
+            grupo: row.grupo,
+            subgrupo: row.subgrupo,
+            modo_precio: row.modo_precio,
+            idsubgrupo: row.idsubgrupo,
+            etiquetas: row.etiquetas,
+            activo: row.activo,
+          }))
+        );
+      }
+
       setLoading(false);
       setListId(listId + 1);
       setCodesChanged(!codesChanged);
@@ -271,18 +288,14 @@ export default function ListaStockV3() {
                 setMenuFolded(true);
               }}
               callback={(data) => {
-
                 //alert(JSON.stringify(data));
-                if(data.filtros.length>0)
-                {
+                if (data.filtros.length > 0) {
                   setGridEnabled(false);
-                  if(data.filtros[0].tipo=='subgrupo')
-                  {
-                    
+                  if (data.filtros[0].tipo == "subgrupo") {
                     setGridEnabled(true);
                   }
                 }
-                
+
                 setFiltros(data);
                 //alert("disparado desde el boton de la barra del costado")
                 setValueChanged(!valueChanged);

@@ -1,0 +1,38 @@
+import Egreso from "@/components/caja_master/egreso";
+import Ingreso from "@/components/caja_master/ingreso";
+import ListadoCajaSucursales from "@/components/caja_master/listado_caja_sucursales";
+import ModifIngresoCaja from "@/components/caja_master/modificacion_ingreso_caja";
+import Transferencia from "@/components/caja_master/transferencia";
+import FondoFijoForm from "@/components/fondo_fijo/fondo_fijo_form";
+import LayoutAdmin from "@/components/layout/layout_admin";
+import { Divider } from "antd";
+
+export default function test() {
+  return <div>Test 02
+    <Divider />
+  Fondo Fijo
+    <FondoFijoForm />
+
+    <Divider />
+    Transferencia
+    <Transferencia aFondoFijo={true} idCajaOrigen={3252} />
+
+    <Divider />
+      Egreso
+    <Egreso />
+    <Divider />
+      Ingreso
+    <Ingreso />
+
+    <Divider />
+    <ListadoCajaSucursales />
+
+    <Divider />
+    Diferencia
+    <ModifIngresoCaja />
+
+  </div>;
+
+}
+
+test.PageLayout = LayoutAdmin;
