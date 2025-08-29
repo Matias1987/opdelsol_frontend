@@ -7,14 +7,23 @@ const Transferencia = (props) => {
     const { idCajaOrigen, aFondoFijo, callback } = props;
     const [data, setData] = useState([]);
     const [transferencia, setTransferencia] = useState({
-        idCajaOrigen,
+        idCajaOrigen: idCajaOrigen||"3252",
         idCajaDestino: null,
         monto: 0,
+        comentarios:"",
     });
 
     const onSave = () => {
         alert(JSON.stringify(transferencia));
         // Handle save logic here
+        /**
+         * {
+                "id_caja_origen":"1",
+                "id_caja_destino":"2",
+                "monto":"1000",
+                "comentarios":"nothing..."
+            }
+         */
         post_method(post.insert.transferencia, transferencia,response=>{
             alert("Datos Guardados");
             callback?.()
@@ -54,14 +63,15 @@ const Transferencia = (props) => {
         Comentarios:
         </Col>
         <Col span={24}>
-            <Input.TextArea prefix="Comentarios: " placeholder="Comentarios sobre la transferencia" type="text" />
+            <Input.TextArea prefix="Comentarios: " placeholder="Comentarios sobre la transferencia" type="text" value={transferencia.comentarios} onChange={(e) => setTransferencia({ ...transferencia, comentarios: e.target.value })} />
         </Col>
     </Row>
     <Row style={row_style}>
         <Col span={24}>
-            <Input prefix="Monto: " placeholder="Monto a Transferir" type="number" />
+            <Input prefix="Monto: " placeholder="Monto a Transferir" type="number" value={transferencia.monto} onChange={(e) => setTransferencia({ ...transferencia, monto: e.target.value })} />
         </Col>
     </Row>
+   
     <Row style={row_style}>
         <Col span={24} style={{display: 'flex', justifyContent: 'flex-end'}}>
             <Button type="primary" onClick={onSave}>Realizar Transferencia</Button>

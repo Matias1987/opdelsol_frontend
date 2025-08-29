@@ -243,8 +243,8 @@ const post = {
         settings: remote_base_url + "stt/",
         concepto_gasto: remote_base_url + "conceptogastos/",
         fondo_fijo: remote_base_url + "ff/",
-        egreso: remote_base_url + "",
-        ingreso: remote_base_url + "",
+        egreso: remote_base_url + "egresos/",
+        ingreso: remote_base_url + "ingresos",
         modificacion_ingreso_caja: remote_base_url + "",
     },
     update:{

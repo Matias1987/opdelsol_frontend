@@ -8,8 +8,9 @@ const Egreso = (props) => {
   const [motivos, setMotivos] = useState([]);
 
   const [egreso, setEgreso] = useState({
-    motivo: -1,
+    idMotivo: -1,
     monto: 0,
+    idcaja: 3252,
   });
 
   const load = (_) => {
@@ -54,7 +55,7 @@ const Egreso = (props) => {
             style={{ width: "100%" }}
             options={motivos}
             placeholder="Seleccione Motivo"
-            onChange={(value) => setEgreso({ ...egreso, motivo: value })}
+            onChange={(value) => setEgreso({ ...egreso, idMotivo: value })}
           />
         </Col>
       </Row>

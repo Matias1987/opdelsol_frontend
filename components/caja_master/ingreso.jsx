@@ -8,6 +8,7 @@ const Ingreso = (props) => {
   const [ingreso, setIngreso] = useState({
     fuente: "",
     monto: 0,
+    idcaja: 3252
   });
 
   const row_style = {

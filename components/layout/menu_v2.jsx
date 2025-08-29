@@ -15,6 +15,7 @@ import CustomModal from "../CustomModal";
 import ListaPreciosV3 from "../lista_precios/listaPreciosV3";
 import BuscarVentaV2 from "../forms/ventas/BuscarVentasV2";
 import { lista_precios_visible } from "@/src/config";
+import BuscarVentaV3 from "../forms/ventas/BuscarVentasV3";
 
 export default function MenuV2(props) {
   const [current, setCurrent] = useState(null);
@@ -349,7 +350,7 @@ export default function MenuV2(props) {
         title="Buscar Venta"
         footer={null}
       >
-        <BuscarVentaV2 />
+        <BuscarVentaV3 />
       </Modal>
     </>
   );

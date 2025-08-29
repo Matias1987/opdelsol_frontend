@@ -1,5 +1,6 @@
 import { Button, Col, Input, Modal, Row, Table } from "antd";
 import { useEffect, useState } from "react";
+import ModifIngresoCaja from "./modificacion_ingreso_caja";
 
 const ListadoCajaSucursales = (props) => {
   const [data, setData] = useState([]);
@@ -40,21 +41,7 @@ const ListadoCajaSucursales = (props) => {
         </Col>
       </Row>
       <Modal open={popupModifMontoOpen} title="Modificar Monto" footer={null}>
-        <Row>
-            <Col span={24}>
-                <Input value={0} prefix="Monto" />
-            </Col>
-        </Row>
-        <Row>
-            <Col span={24}>
-                <Input prefix="Comentarios" />
-            </Col>
-        </Row>
-        <Row>
-            <Col span={24} style={{display:"flex", alignContent:"center", justifyContent:"end"}}>
-                <Button type="primary">Guardar</Button>
-            </Col>
-        </Row>
+        <ModifIngresoCaja  callback={_=>{setPopupModifMontoOpen(false)}} />
       </Modal>
     </>
   );

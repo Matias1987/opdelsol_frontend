@@ -285,8 +285,8 @@ const globals =  {
         RECSTOCK: "2",
 
     },
-    estdosVenta:{
-        INGREDADO: 'INGRESADO',
+    estadosVenta:{
+        INGRESADO: 'INGRESADO',
         PENDIENTE: 'PENDIENTE',
         ANULADO: 'ANULADO',
         TERMINADO: 'TERMINADO',
