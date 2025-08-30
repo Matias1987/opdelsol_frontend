@@ -34,38 +34,40 @@ const OpcionesVenta = (props) => {
 //#region items
   const items_ingresada = [
     {
-      label: "Detalle",
-      key: menuOptions.DETALLE,
-      icon: <InfoOutlined />,
-    },
-    {
-      label: "Cobrar",
+      label: <span style={{ color: "#1890ff" , fontWeight:"600"}}>Cobrar</span>,
       key: menuOptions.COBRAR,
       icon: <DollarOutlined />,
     },
     {
-      label: "Anular",
-      key: menuOptions.ANULAR,
-      icon: <CloseOutlined />,
+      label: "Detalle",
+      key: menuOptions.DETALLE,
+      icon: <InfoOutlined />,
     },
     {
       label: "Imprimir",
       key: menuOptions.IMPRIMIR,
       icon: <PrinterOutlined />,
     },
+    {
+      label: <span style={{ color: "#ff1818ff"}}>Anular</span>,
+      key: menuOptions.ANULAR,
+      icon: <CloseOutlined />,
+    },
+    
   ];
 
   const items_pendientes_taller = [
+    {
+      label: <span style={{ color: "#1890ff" , fontWeight:"600"}}>Cobrar</span>,
+      key: menuOptions.COBRAR,
+      icon: <DollarOutlined />,
+    },
     {
       label: "Detalle",
       key: menuOptions.DETALLE,
       icon: <InfoOutlined />,
     },
-    {
-      label: "Cobrar",
-      key: menuOptions.COBRAR,
-      icon: <DollarOutlined />,
-    },
+    
     {
       label: "Imprimir",
       key: menuOptions.IMPRIMIR,
@@ -75,10 +77,16 @@ const OpcionesVenta = (props) => {
 
   const items_terminadas = [
     {
+      label: <span style={{ color: "#1890ff" , fontWeight:"600"}}>Cobrar</span>,
+      key: menuOptions.COBRAR,
+      icon: <DollarOutlined />,
+    },
+    {
       label: "Detalle",
       key: menuOptions.DETALLE,
       icon: <InfoOutlined />,
     },
+    
     {
       label: "Imprimir",
       key: menuOptions.IMPRIMIR,
@@ -88,20 +96,22 @@ const OpcionesVenta = (props) => {
 
   const items_taller_sucursal = [
     {
-      label: "Detalle",
-      key: menuOptions.DETALLE,
-      icon: <InfoOutlined />,
-    },
-    {
-      label: "Cobrar",
+      label: <span style={{ color: "#1890ff" , fontWeight:"600"}}>Cobrar</span>,
       key: menuOptions.COBRAR,
       icon: <DollarOutlined />,
     },
     {
-      label: "Marcar Como Terminado",
+      label: <span style={{ color: "#4f992aff" , fontWeight:"600"}}>Marcar Como Terminado</span>,
       key: menuOptions.MARCAR_TERMINADO,
       icon: <CheckOutlined />,
     },
+    {
+      label: "Detalle",
+      key: menuOptions.DETALLE,
+      icon: <InfoOutlined />,
+    },
+    
+    
     {
       label: "Imprimir",
       key: menuOptions.IMPRIMIR,
@@ -140,11 +150,9 @@ const OpcionesVenta = (props) => {
       case globals.estadosVenta.INGRESADO:
         return items_ingresada;
       case globals.estadosVenta.PENDIENTE:
-        return items_pendientes_taller;
+        return venta.en_laboratorio ? items_pendientes_taller : items_taller_sucursal;
       case globals.estadosVenta.TERMINADO:
         return items_terminadas;
-      case globals.estadosVenta.TALLER_SUCURSAL:
-        return items_taller_sucursal;
       case globals.estadosVenta.ENTREGADO:
         return items_entregadas;
       case globals.estadosVenta.ANULADO:
@@ -180,6 +188,7 @@ const OpcionesVenta = (props) => {
       menu={{
         items: get_items(),
         onClick: ({ key }) => {
+          //alert(JSON.stringify(venta) )
           onMenuOptionSelected(key);
         },
       }}

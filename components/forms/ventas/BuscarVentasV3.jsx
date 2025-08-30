@@ -27,6 +27,7 @@ import {
   registrarVentaTerminado,
 } from "@/src/helpers/evento_helper";
 import CobroOperacionV2 from "../caja/CobroFormV2";
+import { current_date_ymd } from "@/src/helpers/string_helper";
 
 const BuscarVentaV3 = (props) => {
   const [dataSource, setDataSource] = useState([]);
@@ -139,7 +140,7 @@ const BuscarVentaV3 = (props) => {
           setReload(!reload);
         }
       );
-      registrarVentaTerminado(_idventa);
+      registrarVentaTerminado(_venta.idventa);
     }
   };
 
