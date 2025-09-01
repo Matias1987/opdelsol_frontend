@@ -1,3 +1,4 @@
+import CajaMaster from "@/components/caja_master/caja_master";
 import Egreso from "@/components/caja_master/egreso";
 import Ingreso from "@/components/caja_master/ingreso";
 import ListadoCajaSucursales from "@/components/caja_master/listado_caja_sucursales";
@@ -17,19 +18,15 @@ export default function test() {
     Transferencia
     <Transferencia aFondoFijo={true} idCajaOrigen={3252} />
 
-    <Divider />
-      Egreso
-    <Egreso />
-    <Divider />
-      Ingreso
-    <Ingreso />
+   
+  {/*    Ingreso
+    <Ingreso />*/}
 
     <Divider />
     <ListadoCajaSucursales />
 
     <Divider />
-    Diferencia
-    <ModifIngresoCaja />
+    <CajaMaster />
 
   </div>;
 

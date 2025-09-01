@@ -1,14 +1,16 @@
 import { post_method } from "@/src/helpers/post_helper";
 import { post } from "@/src/urls";
 import { Button, Col, Divider, Input, Row } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const ModifIngresoCaja = props =>{
-    const {callback} = props;
+    const {callback, selectedRow, idCajaOrigen} = props;
     const [modifIngreso, setModifIngreso] = useState({
-        comentarios: "",
-        montoSist: 0,
-        montoFisico: 0,
+        comentarios: "Transferencia de caja",
+        montoSist: selectedRow.monto_efectivo,
+        montoFisico: selectedRow.monto_efectivo,
+        idCajaOrigen: idCajaOrigen||"3252",
+        idCajaDestino: null,
     });
 
     const onSave = _ =>{    
@@ -33,10 +35,14 @@ const ModifIngresoCaja = props =>{
         padding: "6px"
     };
 
+    useEffect(()=>{
+      //  alert(JSON.stringify(selectedRow))
+    },[])
+
     return <>
     <Row style={row_style}>
         <Col span={24}>
-            <Input value={modifIngreso.montoSist} prefix="Monto en Sistema: " placeholder="Monto registrado en el sistema" type="number" onChange={e => onChange("montoSist", e.target.value)} />    
+            <Input readOnly value={modifIngreso.montoSist} prefix="Monto en Sistema: " placeholder="Monto registrado en el sistema" onChange={e => onChange("montoSist", e.target.value)} />    
         </Col>
     </Row>
     <Row style={row_style}>
@@ -52,7 +58,7 @@ const ModifIngresoCaja = props =>{
     <Divider />
     <Row style={row_style}>
         <Col span={24}>
-            <Button type="primary" onClick={onSave}>Guardar Modificación e Ingresar</Button>
+            <Button type="primary" onClick={onSave}>Guardar</Button>
         </Col>
     </Row>
     </>

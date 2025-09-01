@@ -245,7 +245,7 @@ const post = {
         fondo_fijo: remote_base_url + "ff/",
         egreso: remote_base_url + "egresos/",
         ingreso: remote_base_url + "ingresos",
-        modificacion_ingreso_caja: remote_base_url + "",
+        modificacion_ingreso_caja: remote_base_url + "ccmm/transferencia/a/master",
     },
     update:{
         optica: remote_base_url + "op/mod/",
@@ -470,6 +470,8 @@ const get = {
     cm_listado_caja_sucursales: remote_base_url + "caja/listado_caja_sucursales/",
 
     cajas_ls: remote_base_url + "ccmm/cajas/",
+
+    caja_m_balance: remote_base_url + "ccmm/",
 
     conceptos_gasto: remote_base_url + "conceptogastos/",
 
