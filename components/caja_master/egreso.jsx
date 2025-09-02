@@ -4,7 +4,7 @@ import { Button, Col, Input, Row, Select } from "antd";
 import { useEffect, useState } from "react";
 
 const Egreso = (props) => {
-  const {callback} = props;
+  const {callback, aCajaMaster} = props;
   const [motivos, setMotivos] = useState([]);
 
   const [egreso, setEgreso] = useState({
@@ -14,6 +14,7 @@ const Egreso = (props) => {
   });
 
   const load = (_) => {
+     
     fetch(get.conceptos_gasto)
       .then((response) => response.json())
       .then((response) => {
@@ -36,10 +37,11 @@ const Egreso = (props) => {
   };
 
   const onGuardar = () => {
-    alert(JSON.stringify(egreso))
+    //alert(JSON.stringify(egreso))
     // Aquí se implementaría la lógica para guardar el egreso
     console.log("Egreso guardado:", egreso);
-    post_method(post.insert.egreso, egreso, response=>{
+    const url = aCajaMaster ? post.insert.egreso_cm : post.insert.egreso;
+    post_method(url, egreso, response=>{
         alert("Datos Guardados");
         callback?.();
 

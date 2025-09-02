@@ -4,11 +4,11 @@ import { Button, Col, Input, Row, Select } from "antd";
 import { useEffect, useState } from "react";
 
 const Transferencia = (props) => {
-    const { idCajaOrigen, aFondoFijo, callback } = props;
+    const { idCajaOrigen, idCajaDestino, aFondoFijo, callback } = props;
     const [data, setData] = useState([]);
     const [transferencia, setTransferencia] = useState({
-        idCajaOrigen: idCajaOrigen||"3252",
-        idCajaDestino: null,
+        idCajaOrigen: idCajaOrigen||null,
+        idCajaDestino: idCajaDestino||null,
         monto: 0,
         comentarios:"",
     });
@@ -24,7 +24,8 @@ const Transferencia = (props) => {
                 "comentarios":"nothing..."
             }
          */
-        post_method(post.insert.transferencia, transferencia,response=>{
+        const url = aFondoFijo ? post.transferencia_a_ff : post.insert.transferencia;
+        post_method(url, transferencia,response=>{
             alert("Datos Guardados");
             callback?.()
         })

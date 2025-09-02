@@ -118,7 +118,7 @@ const CajaMaster = (props) => {
         footer={null}
         title="Agregar Egreso"
       >
-        <Egreso />
+        <Egreso aCajaMaster={true} />
       </Modal>
     </>
   );

@@ -57,7 +57,7 @@ export default function LayoutAdmin({children}){
                 }}/>
                 <MenuAdminTop />
   
-            <Content style={{ margin: '40px 100px', padding: 24, overflowY:'scroll' }}>
+            <Content style={{ margin: '40px 100px', padding: 24}}>
                 {children}
             </Content>
         </Layout>

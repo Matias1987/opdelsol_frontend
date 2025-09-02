@@ -244,8 +244,10 @@ const post = {
         concepto_gasto: remote_base_url + "conceptogastos/",
         fondo_fijo: remote_base_url + "ff/",
         egreso: remote_base_url + "egresos/",
-        ingreso: remote_base_url + "ingresos",
-        modificacion_ingreso_caja: remote_base_url + "ccmm/transferencia/a/master",
+        ingreso: remote_base_url + "ingresos/",
+        modificacion_ingreso_caja: remote_base_url + "ccmm/transferencia/a/master/",
+        transferencia_a_ff: remote_base_url + "ccmm/transferencia/a/ff/",
+        egreso_cm: remote_base_url + "ccmm/agregar_egreso/",
     },
     update:{
         optica: remote_base_url + "op/mod/",
@@ -477,6 +479,7 @@ const get = {
 
     lista_ff: remote_base_url + "ff/",
 
+    get_id_ccmm: remote_base_url + "ccmm/",
 }
 
 module.exports = {

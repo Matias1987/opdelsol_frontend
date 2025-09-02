@@ -9,7 +9,7 @@ const ModifIngresoCaja = props =>{
         comentarios: "Transferencia de caja",
         montoSist: selectedRow.monto_efectivo,
         montoFisico: selectedRow.monto_efectivo,
-        idCajaOrigen: idCajaOrigen||"3252",
+        idCajaOrigen: selectedRow.idcaja,
         idCajaDestino: null,
     });
 
