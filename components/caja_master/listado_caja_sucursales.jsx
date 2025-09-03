@@ -9,24 +9,24 @@ const ListadoCajaSucursales = (props) => {
   const [popupModifMontoOpen, setPopupModifMontoOpen] = useState(false)
   const [popupDetalleOpen, setPopupDetalleOpen] = useState(false)
   const [selectedRow, setSelectedRow] = useState(null);
-  useEffect(() => {
 
+
+  const load = ()=>{
+    setLoading(true);
     fetch(get.cajas_ls)
-    .then((response) => response.json())
-    .then((response) => {
-      setData(response);
-      setLoading(false);
-    })
-    .catch((error) => {
-      console.error("Error fetching data:", error);
-      setLoading(false);
-    });
+      .then((response) => response.json())
+      .then((response) => {
+        setData(response);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+        setLoading(false);
+      });
+  }
 
-    //const fetchData = async () => {
-    //  setLoading(true);
-    //};
-//
-    //fetchData();
+  useEffect(() => {
+    load();
   }, []);
 
   if (loading) {
@@ -40,7 +40,7 @@ const ListadoCajaSucursales = (props) => {
           <Table
             scroll={{ y: "300px" }}
             size="small"
-            title={(_) => <>Lista&nbsp;</>}
+            title={(_) => <>Pendientes&nbsp;</>}
             dataSource={data}
             columns={[
               { dataIndex:"sucursal", title: "Sucursal" },

@@ -8,6 +8,7 @@ import Transferencia from "@/components/caja_master/transferencia";
 import FondoFijoForm from "@/components/fondo_fijo/fondo_fijo_form";
 import LayoutAdmin from "@/components/layout/layout_admin";
 import { Divider } from "antd";
+import DetalleFondoFijo from "../../../components/caja_master/detalle_ff";
 
 export default function test() {
   return <div>Test 02
@@ -28,6 +29,8 @@ export default function test() {
 
     <Divider />
     <CajaMaster />
+
+
 
   </div>;
 

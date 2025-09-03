@@ -191,6 +191,8 @@ const post = {
 
     get_ultima_graduacion: remote_base_url + "clientes/get/ultimas/graduaciones/cliente/",
 
+    get_operaciones_fondo_fijo: remote_base_url + "ff/operaciones/",
+
     search:{
         filtro_stock: remote_base_url + "stock/filtro_stock/",
     },

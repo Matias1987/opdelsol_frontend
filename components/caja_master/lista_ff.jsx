@@ -2,6 +2,7 @@ import { get } from "@/src/urls";
 import { Button, Card, Modal, Table } from "antd";
 import { use, useEffect, useState } from "react";
 import Transferencia from "./transferencia";
+import DetalleFondoFijo from "./detalle_ff";
 
 const ListaFondoFijos = (props) => {
   const [data, setData] = useState([]);
@@ -67,16 +68,13 @@ const ListaFondoFijos = (props) => {
         <Transferencia idCajaOrigen={selectedFF?.idcaja} aFondoFijo={true} callback={load} />
       </Modal>
       <Modal
-        title="Detalle Fondo Fijo"
+        width={"800px"}
+        title=" "
         open={popupDetalleOpen}
         onCancel={() => setPopupDetalleOpen(false)}
-        footer={[
-          <Button key="cancel" onClick={() => setPopupDetalleOpen(false)}>
-            Cancelar
-          </Button>,
-        ]}
+        footer={null}
       >
-        <p>Contenido del modal</p>
+        <DetalleFondoFijo idcaja={selectedFF?.idcaja} nombre={selectedFF?.sucursal} />
       </Modal>
     </>
   );
