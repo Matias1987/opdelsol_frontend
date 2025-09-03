@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev -p 3000",
     "build": "next build",
-    "start": "next start -p 3000", 
+    "start": "next start -p 3000",
     "lint": "next lint"
   },
   "dependencies": {
@@ -13,6 +13,7 @@
     "@yudiel/react-qr-scanner": "^1.2.10",
     "antd": "5.22.0",
     "dayjs": "^1.11.9",
+    "exceljs": "^4.4.0",
     "jsonwebtoken": "^9.0.0",
     "jsprintmanager": "^7.0.1",
     "localforage": "^1.10.0",
