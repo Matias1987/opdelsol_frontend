@@ -51,6 +51,10 @@ const CajaMaster = (props) => {
     fetch(get.caja_m_balance)
       .then((res) => res.json())
       .then((data) => {
+        if(data.error)
+        {
+          return;
+        }
         //alert(JSON.stringify(data));
         setData(data);
       });
@@ -118,7 +122,10 @@ const CajaMaster = (props) => {
         footer={null}
         title="Agregar Egreso"
       >
-        <Egreso aCajaMaster={true} />
+        <Egreso aCajaMaster={true} callback={_=>{
+          setPopupAddOpen(false);
+          load();
+        }}/>
       </Modal>
     </>
   );
