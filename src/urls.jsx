@@ -193,6 +193,8 @@ const post = {
 
     get_operaciones_fondo_fijo: remote_base_url + "ff/operaciones/",
 
+    total_tarjetas_periodo: remote_base_url + "admin/obtener/totales/tarjetas/periodo/",
+
     search:{
         filtro_stock: remote_base_url + "stock/filtro_stock/",
     },
