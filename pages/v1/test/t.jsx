@@ -9,9 +9,13 @@ import FondoFijoForm from "@/components/fondo_fijo/fondo_fijo_form";
 import LayoutAdmin from "@/components/layout/layout_admin";
 import { Divider } from "antd";
 import DetalleFondoFijo from "../../../components/caja_master/detalle_ff";
+import InformeTarjetas from "@/components/informes/cobros/informeTarjetas";
 
 export default function test() {
   return <div>Test 02
+
+    <InformeTarjetas />  
+
     <Divider />
   Fondos 
     <ListaFondoFijos/>
