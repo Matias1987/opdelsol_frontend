@@ -57,7 +57,7 @@ export default function dashboard_admin(){
     </Row>*/}
     <Row>
         <Col span={24}>
-            <h2>Totales por Sucursal</h2>
+            <h2>Totales Actuales Por Sucursal</h2>
         </Col>
     </Row>
     <Row>

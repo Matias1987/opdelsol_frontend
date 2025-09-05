@@ -21,7 +21,7 @@ const InformeTarjetas = (props) => {
     {
       title: <div style={{ textAlign: "right" }}>Monto</div>,
       render: (text, record) => (
-        <div style={{ textAlign: "right" }}>{record.monto}</div>
+        <div style={{ textAlign: "right" }}>$ {record.monto.toLocaleString('pt-BR')}</div>
       ),
     },
   ];
@@ -38,28 +38,34 @@ const InformeTarjetas = (props) => {
   const load = () => {
     let _desde = filtros.fecha_desde;
     let _hasta = filtros.fecha_hasta;
-    
-    if (!filtroFechaDisabled && (filtros.fecha_desde == "" || filtros.fecha_hasta == "")) {
+
+    if (
+      !filtroFechaDisabled &&
+      (filtros.fecha_desde == "" || filtros.fecha_hasta == "")
+    ) {
       alert("Por favor, complete las fechas.");
       return;
     }
-    if(filtroFechaDisabled)
-    {
-       _desde = "";
-       _hasta = "";
+    if (filtroFechaDisabled) {
+      _desde = "";
+      _hasta = "";
     }
     //alert(JSON.stringify(filtros));
 
     //alert(post.total_tarjetas_periodo)
-    post_method(post.total_tarjetas_periodo, {...filtros, fecha_desde: _desde, fecha_hasta: _hasta}, (response) => {
-      //alert(JSON.stringify(response.data));
-      setData(response.data);
-    });
+    post_method(
+      post.total_tarjetas_periodo,
+      { ...filtros, fecha_desde: _desde, fecha_hasta: _hasta },
+      (response) => {
+        //alert(JSON.stringify(response.data));
+        setData(response.data);
+      }
+    );
   };
 
   const periodoMes = (val, dateString) => {
     if (val == null) {
-      _limpiar_fechas()
+      _limpiar_fechas();
       return;
     }
 
@@ -83,7 +89,6 @@ const InformeTarjetas = (props) => {
     }));
   };
 
- 
   return (
     <>
       <Card title="Informe de Tarjetas" size="small">
@@ -91,7 +96,9 @@ const InformeTarjetas = (props) => {
           <Col style={{ paddingTop: "5px" }}>
             <Checkbox
               checked={!filtroFechaDisabled}
-              onChange={(e) => {setFiltroFechaDisabled(!e.target.checked)}}
+              onChange={(e) => {
+                setFiltroFechaDisabled(!e.target.checked);
+              }}
             >
               Filtrar por Fecha
             </Checkbox>
@@ -114,7 +121,7 @@ const InformeTarjetas = (props) => {
             />
           </Col>
           <Col>
-          <Button type="primary" onClick={load}>
+            <Button type="primary" onClick={load}>
               Aplicar Filtros
             </Button>
           </Col>
@@ -156,12 +163,16 @@ const InformeTarjetas = (props) => {
                   total += item.monto;
                 });
                 return (
-                  <Table.Summary.Row>
-                    <Table.Summary.Cell index={0}>Total</Table.Summary.Cell>
-                    <Table.Summary.Cell index={1} align="right">
-                      {total.toFixed(2)}
-                    </Table.Summary.Cell>
-                  </Table.Summary.Row>
+                  <Table.Summary fixed>
+                    <Table.Summary.Row>
+                      <Table.Summary.Cell index={0}>
+                        <b>Total</b>
+                      </Table.Summary.Cell>
+                      <Table.Summary.Cell index={1} align="right">
+                        <b>$ {  total.toLocaleString('pt-BR')}</b>
+                      </Table.Summary.Cell>
+                    </Table.Summary.Row>
+                  </Table.Summary>
                 );
               }}
             />

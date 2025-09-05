@@ -91,8 +91,7 @@ useEffect(()=>{
     return (
         <>
         <Card
-        bodyStyle={{backgroundColor:"#E7E7E7"}}
-        headStyle={{backgroundColor:"#F07427", color:"white"}}
+        
         size="small"
         title={<>
         Lista de Proveedores&nbsp;&nbsp;&nbsp;<Button type="default" style={{color:"blue"}}  size="small"  onClick={openPopup}><PlusOutlined /> Agregar</Button>

@@ -110,7 +110,7 @@ const ResumenOperacionesRow = (props) => {
         <Card bordered={false} style={{backgroundColor:"rgba(0,0,0,0)"}} size="small">
             <Statistic
             title="Sucursal"
-            value={nombre_sucursal.length>7 ? nombre_sucursal.substr(0,6) : nombre_sucursal}
+            value={nombre_sucursal.length>100 ? nombre_sucursal.substr(0,6) : nombre_sucursal}
             precision={0}
             valueStyle={{
                 fontWeight: "bold",
@@ -122,12 +122,13 @@ const ResumenOperacionesRow = (props) => {
         <Col  span={3}>
         <Card bordered={false}  style={{backgroundColor:"rgba(0,0,0,0)"}} size="small">
             <Statistic
-            title="Efvo."
+            title={<div style={{textAlign:"right"}}>Efvo.</div>}
             value={`$ ${data.efectivo}`}
             precision={0}
             valueStyle={{
                 color: styles.valueColor,
                 fontWeight:"bold",
+                textAlign:"right"
             }}
             
             suffix=""
@@ -137,12 +138,13 @@ const ResumenOperacionesRow = (props) => {
         <Col  span={3}>
         <Card bordered={false}  style={{backgroundColor:"rgba(0,0,0,0)"}} size="small">
             <Statistic
-            title="Tarjetas"
+            title={<div style={{textAlign:"right"}}>Tarjetas</div>}
             value={`$ ${data.tarjeta}`}
             precision={0}
             valueStyle={{
                 color: styles.valueColor,
                 fontWeight:"bold",
+                textAlign:"right"
             }}
             
             suffix=""
@@ -152,12 +154,13 @@ const ResumenOperacionesRow = (props) => {
         <Col  span={3}>
         <Card bordered={false}  style={{backgroundColor:"rgba(0,0,0,0)"}} size="small">
             <Statistic
-            title="Mutual"
+            title={<div style={{textAlign:"right"}}>Mutual</div>}
             value={`$ ${data.mutual}`}
             precision={0}
             valueStyle={{
                 color: styles.valueColor,
                 fontWeight:"bold",
+                textAlign:"right"
             }}
             
             suffix=""
@@ -167,12 +170,13 @@ const ResumenOperacionesRow = (props) => {
         <Col  span={3}>
         <Card bordered={false}  style={{backgroundColor:"rgba(0,0,0,0)"}} size="small">
             <Statistic
-            title="Cheque"
+            title={<div style={{textAlign:"right"}}>Cheque</div>}
             value={`$ ${data.cheque}`}
             precision={0}
             valueStyle={{
                 color: styles.valueColor,
                 fontWeight:"bold",
+                textAlign:"right"
             
             }}
             
@@ -183,12 +187,13 @@ const ResumenOperacionesRow = (props) => {
         <Col  span={3}>
         <Card bordered={false}  style={{backgroundColor:"rgba(0,0,0,0)"}} size="small">
             <Statistic
-            title="Cuotas"
+            title={<div style={{textAlign:"right"}}>Cuotas</div>}
             value={`$ ${data.cuotas}`}
             precision={0}
             valueStyle={{
                 color: styles.valueColor,
                 fontWeight:"bold",
+                textAlign:"right"
             }}
            
             suffix=""
@@ -198,12 +203,13 @@ const ResumenOperacionesRow = (props) => {
         <Col  span={3}>
         <Card bordered={false}  style={{backgroundColor:"rgba(0,0,0,0)"}} size="small">
             <Statistic
-            title="M.P."
+            title={<div style={{textAlign:"right"}}>M.P.</div>}
             value={`$ ${data.mercadopago}`}
             precision={0}
             valueStyle={{
                 color: styles.valueColor,
                 fontWeight:"bold",
+                textAlign:"right"
             }}
            
             suffix=""
@@ -213,12 +219,13 @@ const ResumenOperacionesRow = (props) => {
         <Col  span={3}>
         <Card bordered={false}  style={{backgroundColor:"rgba(0,0,0,0)"}} size="small">
             <Statistic
-            title="Total Efvo."
+            title={<div style={{textAlign:"right"}}>Total Efvo.</div>}
             value={`$ ${parseFloat(data.efectivo) + parseFloat(data.cuotas)}`}
             precision={0}
             valueStyle={{
                 color: 'black',
                 fontWeight:"bold",
+                textAlign:"right"
             }}
            
             suffix=""

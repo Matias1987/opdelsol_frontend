@@ -154,8 +154,8 @@ useEffect(()=>{
                 &nbsp;&nbsp;
                 {selectedProvIds.length>0 ? <><div style={{backgroundColor:"lightyellow", display:"inline-block", fontSize:".85em", maxWidth:"400px", maxHeight:"6em", overflow:"hidden"}}><Button danger size="small" type="link" onClick={()=>{setSelectedProvIds([])}}><CloseOutlined /></Button>{selectedProvIds.map(p=>`${p.nombre}, `)}</div>... </>: <Button type="primary" onClick={()=>{setPopupProvOpen(true)}}>Filtrar por Proveedores</Button>}
                 &nbsp;&nbsp;
-                <Checkbox checked={verFacturasChecked} onChange={(e)=>{setVerFacturasChecked(!verFacturasChecked)}}><span style={{color:"white"}}>Facturas</span></Checkbox>
-                <Checkbox checked={verRemitosChecked} onChange={(e)=>{setVerRemitosChecked(!verRemitosChecked)}}><span style={{color:"white"}}>Remitos</span></Checkbox>
+                <Checkbox checked={verFacturasChecked} onChange={(e)=>{setVerFacturasChecked(!verFacturasChecked)}}><span>Facturas</span></Checkbox>
+                <Checkbox checked={verRemitosChecked} onChange={(e)=>{setVerRemitosChecked(!verRemitosChecked)}}><span>Remitos</span></Checkbox>
                 &nbsp;&nbsp;
                 &nbsp;&nbsp;
                 <Button type="primary" onClick={()=>{setChange(!change)}}>Aplicar Filtros</Button>
