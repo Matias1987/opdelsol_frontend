@@ -113,6 +113,8 @@ const public_urls = {
     informe_stock_sucursal: local_base_url + "informes/stock/stock_sucursal",
     lista_conceptos_gastos: local_base_url + "admin/lista_conceptos_gastos",
 
+    informe_cobros_tarjetas: local_base_url + "admin/ict",
+
 }
 
 

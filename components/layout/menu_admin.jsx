@@ -1,4 +1,4 @@
-import {AreaChartOutlined, BoxPlotOutlined, HomeFilled, MenuOutlined } from "@ant-design/icons";
+import {AreaChartOutlined, BoxPlotOutlined, CarOutlined, CreditCardOutlined, HomeFilled, MenuOutlined } from "@ant-design/icons";
 import { Menu } from "antd";
 import { useState } from "react";
 import Link from "next/link"
@@ -14,6 +14,11 @@ const items = [
  {
   label: <Link style={{fontWeight:"600", fontSize:"1.1em", color:"#102C3E"}} href={public_urls.dashboard_admin}><HomeFilled /> Inicio</Link>,
   key: '12',
+
+ },
+ {
+  label: <Link style={{fontWeight:"600", fontSize:"1.1em", color:"#102C3E"}} href={public_urls.informe_cobros_tarjetas}><CreditCardOutlined /> Monto Tarjetas</Link>,
+  key: '501',
 
  },
   {

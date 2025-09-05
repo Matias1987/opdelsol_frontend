@@ -13,7 +13,7 @@ const InformeTarjetas = (props) => {
   const [filtros, setFiltros] = useState({
     fecha_desde: "",
     fecha_hasta: "",
-    sucursal: 0,
+    sucursal: -1,
   });
 
   const columns = [
@@ -26,17 +26,40 @@ const InformeTarjetas = (props) => {
     },
   ];
 
+  const _parse = (str) => ({
+    dia: str.substring(9, 11),
+    mes: str.substring(6, 8),
+    anio: str.substring(1, 5),
+  });
+  const _limpiar_fechas = (_) => {
+    setFiltros((_f) => ({ ..._f, fecha_desde: "", fecha_hasta: "" }));
+  };
+
   const load = () => {
+    let _desde = filtros.fecha_desde;
+    let _hasta = filtros.fecha_hasta;
+    
+    if (!filtroFechaDisabled && (filtros.fecha_desde == "" || filtros.fecha_hasta == "")) {
+      alert("Por favor, complete las fechas.");
+      return;
+    }
+    if(filtroFechaDisabled)
+    {
+       _desde = "";
+       _hasta = "";
+    }
+    //alert(JSON.stringify(filtros));
+
     //alert(post.total_tarjetas_periodo)
-    post_method(post.total_tarjetas_periodo, filtros, (response) => {
-      alert(JSON.stringify(response.data));
+    post_method(post.total_tarjetas_periodo, {...filtros, fecha_desde: _desde, fecha_hasta: _hasta}, (response) => {
+      //alert(JSON.stringify(response.data));
       setData(response.data);
     });
   };
 
   const periodoMes = (val, dateString) => {
     if (val == null) {
-      //_limpiar_fechas()
+      _limpiar_fechas()
       return;
     }
 
@@ -60,18 +83,15 @@ const InformeTarjetas = (props) => {
     }));
   };
 
-  useEffect(() => {
-    load();
-  }, []);
-
+ 
   return (
     <>
       <Card title="Informe de Tarjetas" size="small">
         <Row gutter={16} style={{ paddingBottom: "10px" }}>
-          <Col style={{ paddingTop: "8px" }}>
+          <Col style={{ paddingTop: "5px" }}>
             <Checkbox
               checked={!filtroFechaDisabled}
-              onChange={(e) => setFiltroFechaDisabled(!e.target.checked)}
+              onChange={(e) => {setFiltroFechaDisabled(!e.target.checked)}}
             >
               Filtrar por Fecha
             </Checkbox>
@@ -80,14 +100,23 @@ const InformeTarjetas = (props) => {
             <RangePicker
               format="MM/YYYY"
               disabledTime={true}
-              size="large"
+              size="middle"
               disabled={filtroFechaDisabled}
               picker="month"
               onChange={periodoMes}
             />
           </Col>
           <Col>
-            <SucursalSelect callback={(s) => {}} />
+            <SucursalSelect
+              callback={(s) => {
+                setFiltros((prev) => ({ ...prev, sucursal: s }));
+              }}
+            />
+          </Col>
+          <Col>
+          <Button type="primary" onClick={load}>
+              Aplicar Filtros
+            </Button>
           </Col>
           <Col>
             <ExportToExcel
@@ -108,7 +137,9 @@ const InformeTarjetas = (props) => {
                   width: 20,
                 },
               ]}
-              fileName={"Informe_Tarjetas_" + (new Date()).toISOString().slice(0, 10)}
+              fileName={
+                "Informe_Tarjetas_" + new Date().toISOString().slice(0, 10)
+              }
             />
           </Col>
         </Row>
