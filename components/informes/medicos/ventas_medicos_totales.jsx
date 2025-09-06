@@ -2,11 +2,11 @@ import PrinterWrapper from "@/components/PrinterWrapper";
 import { post_method } from "@/src/helpers/post_helper";
 import { parse_int_string } from "@/src/helpers/string_helper";
 import { get, post } from "@/src/urls";
-import { Button, Card, Col, Divider, Input, Row, Select, Table } from "antd";
+import { Button, Card, Col, Divider, Input, Row, Select, Table, Modal } from "antd";
 import { useEffect, useState } from "react";
 import VentasMedicos from "./ventas_medicos";
 import ExportToCSV from "@/components/ExportToCSV";
-import Modal from "antd/es/modal/Modal";
+
 
 const ListaVentasMedicosTotales = (props) => {
   const [dataSource, setDataSource] = useState([]);
