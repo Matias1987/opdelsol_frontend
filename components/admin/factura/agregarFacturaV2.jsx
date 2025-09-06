@@ -348,8 +348,18 @@ const AgregarFacturaV2 = (props) => {
             prefix="Fecha: "
             format={"DD-MM-YYYY"}
             onChange={(value) => {
-              onChange("fecha", value.format("YYYY-MM-DD"));
+              const _fecha = value ? value.format("YYYY-MM-DD") : "";
+              onChange("fecha", _fecha);
             }}
+          />
+        </Col>
+        <Col>
+          <Input
+            prefix="Nro.:"
+            onChange={(e) => {
+              onNroChange(e.target.value);
+            }}
+            value={factura.nro}
           />
         </Col>
         {esRemito ? (
@@ -373,15 +383,7 @@ const AgregarFacturaV2 = (props) => {
                 value={factura.tipo}
               />
             </Col>
-            <Col>
-              <Input
-                prefix="Nro.:"
-                onChange={(e) => {
-                  onNroChange(e.target.value);
-                }}
-                value={factura.nro}
-              />
-            </Col>
+
             <Col>
               <Input
                 maxLength={12}
@@ -425,7 +427,7 @@ const AgregarFacturaV2 = (props) => {
                 allowClear
               />
             </Col>
-         
+
             <Col>
               <Input
                 style={{ width: "300px" }}
@@ -443,7 +445,7 @@ const AgregarFacturaV2 = (props) => {
       )}
 
       <Row style={_rows_style} gutter={[24, 18]}>
-        <Col >
+        <Col>
           <Input
             style={{ width: "300px" }}
             prefix="Monto Total: "
@@ -457,8 +459,8 @@ const AgregarFacturaV2 = (props) => {
             }}
           />
         </Col>
-     
-        <Col >
+
+        <Col>
           <Input
             style={{ width: "300px" }}
             prefix="Cant. Productos: "
@@ -473,8 +475,8 @@ const AgregarFacturaV2 = (props) => {
         </Col>
       </Row>
       <Divider />
-      <Row style={{display:"flex", justifyContent:"end"}}>
-        <Col >
+      <Row style={{ display: "flex", justifyContent: "end" }}>
+        <Col>
           <Button
             size="large"
             block

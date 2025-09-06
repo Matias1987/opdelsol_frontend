@@ -41,7 +41,7 @@ const SucursalSelect = (props) => {
                     onChange={
                         (value)=>{
                             setSelectedSucursal(value)
-                            props.callback(value)
+                            props.callback(value, sucursalData.find(s=>s.value==value)?.label || "-")
                         }
                     }
                 />

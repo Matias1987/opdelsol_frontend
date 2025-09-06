@@ -1,3 +1,4 @@
+import ExportToExcel from "@/components/etc/ExportToExcel";
 import FiltroCodigos from "@/components/forms/deposito/FiltroCodigos";
 import SucursalSelect from "@/components/SucursalSelect";
 import { post_method } from "@/src/helpers/post_helper";
@@ -14,6 +15,8 @@ const StockSucursal = _ =>{
     const [dataSource, setDataSource] = useState([])
     
     const [idsucursal, setIdSucursal] = useState(-1)
+
+    const [sucursalLabel, setSucursalLabel] = useState("-")
 
     const [total, setTotal] = useState(0)
 
@@ -46,6 +49,7 @@ const StockSucursal = _ =>{
               subfamilia: typeof __filtros["subfamilia"] === 'undefined' ? "" : __filtros["subfamilia"],
               familia: typeof __filtros["familia"] === 'undefined' ? "" : __filtros["familia"],
               etiquetas: typeof __filtros["etiquetas"] === 'undefined' ? "" : __filtros["etiquetas"],
+              order: "cantidad_desc",
           }
       }
 
@@ -80,6 +84,11 @@ const StockSucursal = _ =>{
 
     const callback_filtros = (f) =>{
 
+        if(+idsucursal==-1){
+            alert("Seleccione una sucursal")
+            return
+        }
+
         let data =[]
         
         const _check = (o,f1,f2) => +o[f1]!=-1 ? {tipo:f2, valor:o[f1]}:null
@@ -99,7 +108,13 @@ const StockSucursal = _ =>{
 
     }
 
-    const callback_sucursal = s =>{setIdSucursal(s)}
+    const callback_sucursal = (s, label) => {
+        setIdSucursal(s);
+        setSucursalLabel(label);
+        setDataSource([]);
+        setTotal(0);
+        setOcultar0(true);
+    }
 
     return <>
     <Card title="Cantidades Totales por Sucursal" size="small">
@@ -110,7 +125,7 @@ const StockSucursal = _ =>{
         </Row>
         <Row>
             <Col span={24}>
-                <FiltroCodigos callback={callback_filtros}  />
+                <FiltroCodigos callback={callback_filtros} key={idsucursal}  />
             </Col>
         </Row>
        
@@ -124,10 +139,16 @@ const StockSucursal = _ =>{
                 columns={columns} 
                 dataSource={ocultar0 ? dataSource.filter(d=>+d.cantidad>0) : dataSource}
                 title={()=><>
-                <div style={{display: "flex", justifyContent: "space-between", alignItems: "center", color:"white" }}>
-                    <span style={{margin: 0,  color:"white", fontWeight:"600"}}>Listado</span>
+                <div style={{display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                    <span style={{margin: 0,   fontWeight:"600"}}>Listado</span>
                     <div>
-                        <Checkbox style={{color:"white"}} checked={ocultar0} onChange={e=>setOcultar0(e.target.checked)}>Ocultar Cantidad 0</Checkbox>
+                        <Checkbox checked={ocultar0} onChange={e=>setOcultar0(e.target.checked)}>Ocultar Cantidad 0</Checkbox>
+                        &nbsp;&nbsp;
+                        <ExportToExcel data={dataSource.filter(d=>+d.cantidad>0).map(d=>({...d,sucursal:""}))} columns={[
+                            {header:"Sucursal: " + sucursalLabel, key:"sucursal", width:30},
+                            {header:"Código", key:"codigo", width:30},
+                            {header:"Cantidad", key:"cantidad", width:15},
+                        ]} fileName={"Stock_Sucursal_" + sucursalLabel} />
                     </div>
                 </div>
                 </>}

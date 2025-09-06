@@ -83,7 +83,7 @@ useEffect(()=>{
     const header = () => <>
         <Row>
             <Col span={24}>
-               <Input placeholder="Buscar por Nombre..." onChange={(e)=>{setSearchValue(e.target.value)}} />
+               <Input placeholder="Buscar por Nombre..." onChange={(e)=>{setSearchValue(e.target.value)}} allowClear />
             </Col>
         </Row>
     </>
