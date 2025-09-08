@@ -486,6 +486,8 @@ const get = {
     lista_ff: remote_base_url + "ff/",
 
     get_id_ccmm: remote_base_url + "ccmm/",
+
+    get_vendedores: remote_base_url + "usuarios/l/vendedores/",
 }
 
 module.exports = {
