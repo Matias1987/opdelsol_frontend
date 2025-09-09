@@ -133,7 +133,10 @@ export default function LayoutVentas(props) {
             suffix={<><Button type="link" onClick={onSearch}><SearchOutlined /></Button></>} 
             prefix={<span style={{fontWeight:"600"}}>Buscar Código:</span>} 
             value={busqueda} 
-            onChange={(e)=>{setBusqueda(e.target.value)}}
+            onChange={(e)=>{
+              setBusqueda(e.target.value);
+            }}
+            onPressEnter={onSearch}
             />
           </div>
         }

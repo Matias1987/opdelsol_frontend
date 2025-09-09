@@ -90,7 +90,7 @@ const items = [
   }*/
   
 ];
-/*
+
 if(lista_precios_visible!=0){
       items.push( 
             {
@@ -98,7 +98,7 @@ if(lista_precios_visible!=0){
               key: '1001'
             }
           )
-    }*/
+    }
 export default function MenuAdminTop(){
   const [current, setCurrent] = useState('12');
   const onClick = (e) => {

@@ -462,9 +462,7 @@ const BuscarVentaV3 = (props) => {
           idventa={selectedVenta.idventa}
           idcliente={selectedVenta.idcliente}
           tipo={ selectedVenta.estado === 'INGRESADO' ? 'ingreso' : selectedVenta.estado === 'PENDIENTE' ? 'resfuerzo' : 'entrega'}
-          mustCancel={
-            selectedVenta.estado === "TERMINADO"
-          }
+          
         /> : <></>}
       </Modal>
     </>
