@@ -17,6 +17,7 @@ import ExportToCSV from "@/components/ExportToCSV";
 import GridBifocales from "@/components/etc/GridBifocales";
 import GridMonof from "@/components/etc/GridMonof";
 import StockTable from "@/components/deposito/lista_stock_table";
+import FacturaSelect2 from "@/components/FacturaSelect2";
 
 export default function ListaStockV3() {
   const [usuarioDep, setUsuarioDep] = useState(false);
@@ -41,6 +42,8 @@ export default function ListaStockV3() {
   const [gridEnabled, setGridEnabled] = useState(false);
 
   const [codesChanged, setCodesChanged] = useState(false);
+
+  const [factura, setFactura] = useState(-1);
 
   const regexp_bif = /^([A-Z_]+)(_)(\-|\+[0-9\.]+)(_)(L|R)(_ADD_)([0-9\.]+)/;
   const regexp_monof = /^([A-Z_0-9\.]+)(_)([0-9\.]+)($)/;
@@ -305,9 +308,20 @@ export default function ListaStockV3() {
           </Col>
           <Col
             style={{ width: menuFolded ? "100%" : "75%", padding: "6px" }}
-            key={data}
+            
           >
-            {get_grid()}
+            <Row gutter={16}>
+              <Col span={24}>
+              <FacturaSelect2 callback={(_factura)=>{
+                //alert(JSON.stringify(_factura))
+                  setFactura(_factura);
+              }}/>
+              </Col>
+
+            </Row>
+            <Row key={data}>
+              {get_grid()}
+            </Row>
           </Col>
         </Row>
       </Card>
@@ -366,6 +380,7 @@ export default function ListaStockV3() {
         width={"900px"}
       >
         <EditarStockIndiv
+          factura={factura}
           idcodigo={selectedIdCodigo}
           idsucursal={globals.obtenerSucursal()}
           callback={() => {

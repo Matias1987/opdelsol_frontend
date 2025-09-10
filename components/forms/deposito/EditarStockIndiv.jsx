@@ -1,4 +1,5 @@
 import FacturaSelect from "@/components/FacturaSelect";
+import FacturaSelect2 from "@/components/FacturaSelect2";
 import { post_method } from "@/src/helpers/post_helper";
 import { parse_int_string } from "@/src/helpers/string_helper";
 import { get, post } from "@/src/urls";
@@ -21,10 +22,11 @@ const EditarStockIndiv = (props) => {
     const [costo, setCosto] = useState(0)
     
     const onOpen = () => {
+        alert(JSON.stringify(props.factura))
        setCantInput(0)
         setOpen(true)
         setEditarCosto(false)
-        setIdFactura(typeof props.idfactura==='undefined' ? -1 : props.idfactura)
+        setIdFactura(typeof props.factura==='undefined' || props.factura===null ? -1 : props.factura.idfactura)
         fetch(get.obtener_stock_sucursal + `${props.idsucursal}/${props.idcodigo}`)
         .then(r=>r.json())
         .then((response)=>{
@@ -50,11 +52,8 @@ const EditarStockIndiv = (props) => {
 
 
     const guardarCambios = () => {
-        let _idfactura = idfactura
-        if(props.factura!=null)
-        {
-            _idfactura=props.factura.idfactura
-        }
+        let _idfactura = props.factura!=null ? props.factura.idfactura : idfactura
+
         post_method(post.update.modificar_cantidad_stock,{
             idfactura: _idfactura,
             cantidad:stock.cantidad,
@@ -92,7 +91,7 @@ const EditarStockIndiv = (props) => {
         <Row style={{padding:"1em"}}>
             <Col span={24}>
                 Factura: (Opcional)&nbsp;
-                <FacturaSelect callback={(id)=>{
+                <FacturaSelect2 callback={(id)=>{
                     setIdFactura(id)
                 }}/>
             </Col>
