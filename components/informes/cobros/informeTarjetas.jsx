@@ -10,6 +10,7 @@ var Excel = require("exceljs");
 const InformeTarjetas = (props) => {
   const [data, setData] = useState([]);
   const [filtroFechaDisabled, setFiltroFechaDisabled] = useState(false);
+  const [btnAplicarDisabled, setBtnAplicarDisabled] = useState(true);
   const [filtros, setFiltros] = useState({
     fecha_desde: "",
     fecha_hasta: "",
@@ -36,6 +37,7 @@ const InformeTarjetas = (props) => {
   };
 
   const load = () => {
+    setBtnAplicarDisabled(true)
     let _desde = filtros.fecha_desde;
     let _hasta = filtros.fecha_hasta;
 
@@ -62,6 +64,28 @@ const InformeTarjetas = (props) => {
       }
     );
   };
+
+  const periodoDia = (val, dateString) => {
+    //alert(dateString)
+        if(val==null)
+        {
+            _limpiar_fechas()
+            return
+        }
+
+        let from = _parse(JSON.stringify(val[0]))
+        let to = _parse(JSON.stringify(val[1]))
+
+        //alert(JSON.stringify({from,to}))
+        setFiltros((_f) => ({
+            ..._f,
+            fecha_desde: `${from.anio}-${from.mes}-${from.dia}`,
+            fecha_hasta: `${to.anio}-${to.mes}-${to.dia}`,
+            }));
+
+        setBtnAplicarDisabled(false)
+    
+    }
 
   const periodoMes = (val, dateString) => {
     if (val == null) {
@@ -105,23 +129,24 @@ const InformeTarjetas = (props) => {
           </Col>
           <Col>
             <RangePicker
-              format="MM/YYYY"
+              format="DD/MM/YYYY"
               disabledTime={true}
               size="middle"
               disabled={filtroFechaDisabled}
-              picker="month"
-              onChange={periodoMes}
+           
+              onChange={periodoDia}
             />
           </Col>
           <Col>
             <SucursalSelect
               callback={(s) => {
                 setFiltros((prev) => ({ ...prev, sucursal: s }));
+                setBtnAplicarDisabled(false)
               }}
             />
           </Col>
           <Col>
-            <Button type="primary" onClick={load}>
+            <Button disabled={btnAplicarDisabled} type="primary" onClick={load}>
               Aplicar Filtros
             </Button>
           </Col>
