@@ -60,7 +60,7 @@ const GrupoV2 = (props) => {
                     minimumFractionDigits: 2,
                   })}` }
                 { mostrarPrecioPar ? <><br /><span style={{color:"red"}}> Par: {precio_par.toLocaleString("es-AR", {minimumFractionDigits: 2,})}</span></> : <></>}
-                { mostrarPrecioCaja ? <><br /><span style={{color:"green"}}> Caja: {(precio * 6 - precio * 6 * 0.1).toLocaleString("es-AR", {minimumFractionDigits: 2,})}</span></> : <></> }
+                {/* mostrarPrecioCaja ? <><br /><span style={{color:"green"}}> Caja: {(precio * 6 - precio * 6 * 0.1).toLocaleString("es-AR", {minimumFractionDigits: 2,})}</span></> : <></>*/ }
                 </>
               </>
           }
