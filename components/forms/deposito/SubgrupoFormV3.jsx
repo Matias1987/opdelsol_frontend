@@ -89,7 +89,7 @@ const SubGrupoFormV3 = (props) =>{
                 </Row>
             }
 
-            { mostrar_lc_precio_caja && mostrarPrecioCaja ?  <>
+            {/* mostrar_lc_precio_caja && mostrarPrecioCaja ?  <>
                 <br />
                 <Row>
                     <Col span={24}>
@@ -97,7 +97,7 @@ const SubGrupoFormV3 = (props) =>{
                     </Col>
                 </Row>
                 </>: <></>
-            }
+            */}
             
             {
                 !mostrarPrecioMayorista ? <></> : 

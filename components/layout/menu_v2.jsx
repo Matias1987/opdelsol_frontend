@@ -60,6 +60,15 @@ export default function MenuV2(props) {
           </Menu.Item>
         ),
       },
+      {
+        key: "205",
+        label: (
+          <Menu.Item>
+            <Link href={public_urls.informe_stock_sucursal}>Stock por Sucursal</Link>
+          </Menu.Item>
+        ),
+      },
+
     ],
   };
 
