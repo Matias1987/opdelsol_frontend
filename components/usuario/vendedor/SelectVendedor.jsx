@@ -33,6 +33,7 @@ const SelectVendedor = ({ onChange }) => {
       const __id = +globals.obtenerUID();
       setSelectedVendedor(__id);
       onChange?.(__id);
+      setIdInput(__id);
       //alert(JSON.stringify(__data));
     })
     .catch(error => {
@@ -41,7 +42,7 @@ const SelectVendedor = ({ onChange }) => {
   }
 
   return (
-    <div style={{fontSize:".9em", padding:"8px", color:"blue", backgroundColor:"#E7E9EB", borderRadius:"16px"}}>
+    <div style={{fontSize:".9em", padding:"8px", color:"blue", backgroundColor:"rgba(0,0,0,0)", borderRadius:"16px"}}>
       <Space size={"small"}>
         <Space.Compact>
         
@@ -52,7 +53,7 @@ const SelectVendedor = ({ onChange }) => {
             onChange={handleChange}
             value={selectedVendedor}
             style={{ width: "300px", fontSize:".9em" }}
-          />
+          />&nbsp;
           <Input
             prefix="Nro.:"
             defaultValue={+globals.obtenerUID()}

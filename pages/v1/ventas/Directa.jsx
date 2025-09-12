@@ -31,9 +31,9 @@ export default function VentaDirecta(){
     }
     return (
     <>
-        <span className="ventas-titulo">Venta Directa</span>
-        <Divider />
+        
         <VentaBase 
+        title={"Venta Directa"}
         
         subTotal={subTotal}
         total={total}

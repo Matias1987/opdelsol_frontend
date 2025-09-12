@@ -4,8 +4,10 @@ import SelectMedico from "@/components/forms/ventas/SelectMedico";
 import SelectObraSocial from "@/components/forms/ventas/SelectObraSocial";
 import TotalesVenta from "@/components/forms/ventas/TotalVenta";
 import globals from "@/src/globals";
+import {cambiar_vendedor} from "@/src/config"
 import {
   Button,
+  Card,
   Col,
   DatePicker,
   Form,
@@ -20,6 +22,7 @@ import { useState } from "react";
 import ModoPagoV3 from "../modo_pago/ModoPagoV3";
 import ModoPagoV4 from "../modo_pago/ModoPagoV4";
 import SelectVendedor from "@/components/usuario/vendedor/SelectVendedor";
+import { public_urls } from "@/src/urls";
 
 /* leer: https://refine.dev/blog/common-usestate-mistakes-and-how-to-avoid/ */
 /**
@@ -235,26 +238,60 @@ export default function VentaBase(props) {
 
   return (
     <>
-      {<Row>
-        <Col span={24}>
-          <SelectVendedor onChange={(value) => {
-                setVenta(_v=>({..._v,fkusuario:value}))
-          }} />
-        </Col>
-      </Row>}
-      <Row>
-        <Col span={24}>
-          <Form onFinish={onFinish} onFinishFailed={onFinishFailed}>
-            <Tabs
-              defaultActiveKey="paso1"
-              items={tabs_items}
-              size="large"
-              type="line"
-              tabPosition="top"
-            />
-          </Form>
-        </Col>
-      </Row>
+      <Card
+        title={<>{props.title || "Venta"}</>}
+        extra={
+          cambiar_vendedor==0  ? <> </>:
+          <SelectVendedor
+            onChange={(value) => {
+              setVenta((_v) => ({ ..._v, fkusuario: value }));
+            }}
+          />
+
+        }
+        size="small"
+        style={{
+          boxShadow: "0 2px 8px rgba(0, 0, 0, 0.3)",
+          borderRadius: "16px",
+        }}
+        styles={{
+          header: {
+            backgroundColor: "##ffffed",
+            background: "linear-gradient(281deg,rgba(255, 255, 237, 1) 62%, rgba(209, 225, 255, 1) 95%)",
+            borderBottom: "1px solid #eee",
+            borderTopLeftRadius: "16px",
+            borderTopRightRadius: "16px",
+          },
+        }}
+      >
+        {
+          <Row>
+            <Col span={24}></Col>
+          </Row>
+        }
+        <Row>
+          <Col span={24}>
+            <Form onFinish={onFinish} onFinishFailed={onFinishFailed}>
+              <Tabs
+                defaultActiveKey="paso1"
+                items={tabs_items}
+                size="large"
+                type="line"
+                tabPosition="top"
+              />
+            </Form>
+          </Col>
+        </Row>
+        <Row>
+          <Col span={24} style={{display:"flex", justifyContent:"flex-end"}}>
+          <Button danger onClick={_=>{
+            if(confirm("Cancelar?")){
+              window.location.replace(public_urls.dashboard_venta)
+            }
+          }}>Cancelar</Button>
+          </Col>
+        </Row>
+      </Card>
     </>
   );
 }

@@ -12,7 +12,7 @@ import Chat from "../chat/chat";
 import MenuVentasTop from "./menu_ventas_top";
 
 
-export default function LayoutVentas(props) {
+export default function LayoutVentasOnly(props) {
   const { Content } = Layout;
   const [alerta, setAlerta] = useState("");
   const { getItem } = useStorage();
@@ -143,8 +143,8 @@ export default function LayoutVentas(props) {
         }
         title={
           <>
-            {<MenuV2 />}
-            {/*<MenuVentasTop />*/}
+            {/*<MenuV2 />*/}
+            {<MenuVentasTop />}
            
           </>
         }

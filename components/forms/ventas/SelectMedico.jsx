@@ -4,6 +4,7 @@ import CustomModal from "@/components/CustomModal"
 import { Button, Input, Spin, Table, Modal } from "antd"
 import { CheckCircleOutlined, CloseCircleOutlined, CloseOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons"
 import { get } from "@/src/urls"
+import { agregar_medico_ventas } from "@/src/config"
 
 export default function SelectMedico(props){
     const [idMedico, setIdMedico] = useState(-1)
@@ -101,7 +102,7 @@ export default function SelectMedico(props){
                     onMedicoSelected(record.idmedico);
                 },
             })}
-            title={_=><>Lista de M&eacute;dicos&nbsp;&nbsp;<Button size="small" onClick={_=>{setPopupAddOpen(true)}}><PlusOutlined /> Agregar</Button></>}
+            title={_=><>Lista de M&eacute;dicos&nbsp;&nbsp;<Button size="small" disabled={agregar_medico_ventas == 0} onClick={_=>{setPopupAddOpen(true)}}><PlusOutlined /> Agregar</Button></>}
             size="small"
             scroll={{y:"500px"}}
             rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'}

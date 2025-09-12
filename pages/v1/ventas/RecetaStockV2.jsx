@@ -48,18 +48,14 @@ export default function VentaRecetaStock(){
 
     return (
     <>
-        <span className="ventas-titulo">Venta de Receta Stock</span>
-        
-        <Divider />
-
-        <VentaBase 
-        total={total}
-        subTotal={subTotal}
-        callback={(venta)=>{
-           
-            setVenta((v)=>{
-                var dto = venta.descuento 
-                setTotal((_total)=>(subTotal - dto));
+        <VentaBase
+          title={"Venta de Receta Stock"}
+          total={total}
+          subTotal={subTotal}
+          callback={(venta) => {
+            setVenta((v) => {
+                var dto = venta.descuento
+                setTotal((_total) => (subTotal - dto));
                 return venta;
             })
         }}
