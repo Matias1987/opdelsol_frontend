@@ -235,14 +235,13 @@ export default function VentaBase(props) {
 
   return (
     <>
-      {/*<Row>
+      {<Row>
         <Col span={24}>
           <SelectVendedor onChange={(value) => {
-            //todo
-           // onChange("fkusuario", value);
+                setVenta(_v=>({..._v,fkusuario:value}))
           }} />
         </Col>
-      </Row>*/}
+      </Row>}
       <Row>
         <Col span={24}>
           <Form onFinish={onFinish} onFinishFailed={onFinishFailed}>

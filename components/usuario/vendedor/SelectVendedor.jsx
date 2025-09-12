@@ -5,11 +5,13 @@ import { useEffect, useState } from "react";
 
 const SelectVendedor = ({ onChange }) => {
   const [selectedVendedor, setSelectedVendedor] = useState(-1);
+  const [idInput, setIdInput] = useState(-1)
   const [data, setData] = useState([]);
 
   const handleChange = (value) => {
-    alert(value);
+    //alert(value);
     setSelectedVendedor(value);
+    setIdInput(value)
     if (onChange) {
       onChange(value);
     }
@@ -24,9 +26,14 @@ const SelectVendedor = ({ onChange }) => {
     fetch(get.get_vendedores)
     .then(response => response.json())
     .then(response => {
-        alert(JSON.stringify(response));
+        
       console.log(response);
-      setData(response.data.map(item => ({ ...item, ...{ value: item.idusuario, label: item.nombre } })));
+      const __data = response.data.map(item => ({ ...item, ...{ value: item.idusuario, label: item.nombre } }))
+      setData(__data);
+      const __id = +globals.obtenerUID();
+      setSelectedVendedor(__id);
+      onChange?.(__id);
+      //alert(JSON.stringify(__data));
     })
     .catch(error => {
       console.error('Error fetching data:', error);
@@ -34,24 +41,41 @@ const SelectVendedor = ({ onChange }) => {
   }
 
   return (
-    <div style={{padding:"6px", backgroundColor:"#feffd6ff", borderRadius:"16px"}}>
-      <Space>
+    <div style={{fontSize:".9em", padding:"8px", color:"blue", backgroundColor:"#E7E9EB", borderRadius:"16px"}}>
+      <Space size={"small"}>
         <Space.Compact>
-          <span style={{ padding: "6px" }}>Vendedor:</span>
-          <Input
-            prefix="Nro.:"
-            defaultValue={1}
-            value={selectedVendedor}
-            style={{ width: "170px" }}
-            size="small"
-          />
+        
           <Select
-            defaultValue={1}
+            prefix="Vendedor: "
+            defaultValue={+globals.obtenerUID()}
             options={data}
             onChange={handleChange}
             value={selectedVendedor}
-            style={{ width: "300px" }}
+            style={{ width: "300px", fontSize:".9em" }}
           />
+          <Input
+            prefix="Nro.:"
+            defaultValue={+globals.obtenerUID()}
+            value={idInput}
+            style={{ width: "100px", fontSize:".9em" }}
+            size="small"
+            onChange={e=>{
+              setIdInput(parseInt(e.target.value||"0"))
+            }}
+            onPressEnter={(e)=>{
+              const id = parseInt(idInput)
+              if(typeof data.find(r=>r.value==id)!== 'undefined')
+              {
+                setSelectedVendedor(id)
+              }
+              else{
+                alert("Vendedor no encontrado")
+                setIdInput(selectedVendedor)
+              }
+              
+            }}
+          />
+          
         </Space.Compact>
       </Space>
     </div>
