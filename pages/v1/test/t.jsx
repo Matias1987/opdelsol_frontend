@@ -10,15 +10,27 @@ import LayoutAdmin from "@/components/layout/layout_admin";
 import { Divider } from "antd";
 import DetalleFondoFijo from "../../../components/caja_master/detalle_ff";
 import InformeTarjetas from "@/components/informes/cobros/informeTarjetas";
+import ListadoCajasAdmin from "@/components/admin/caja/ListadoCajasAdmin";
 
 export default function test() {
   return <div>Test 02
 
+    <ListadoCajasAdmin />
+{/*
     <InformeTarjetas />  
 
     <Divider />
   Fondos 
     <ListaFondoFijos/>
+
+
+    <Divider />
+    <ListadoCajaSucursales />
+
+    <Divider />
+    <CajaMaster />
+
+*/}
   {/*   
     <Divider />
     Transferencia
@@ -27,15 +39,6 @@ export default function test() {
    
    Ingreso
     <Ingreso />*/}
-
-    <Divider />
-    <ListadoCajaSucursales />
-
-    <Divider />
-    <CajaMaster />
-
-
-
   </div>;
 
 }
