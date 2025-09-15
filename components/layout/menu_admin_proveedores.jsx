@@ -9,13 +9,34 @@ const items = [
   label: <Link href={public_urls.dashboard_adm_prov}>Inicio</Link>,
   key: '12',
  },
-  {
-    label: (<Link href={public_urls.adm_prov_lista_prov}>Proveedores</Link>),
-    key: '10',
-  },
+  
   {
     label: (<Link href={public_urls.adm_prov_facturas}>Facturas y Remitos</Link>),
     key: '13',
+  },
+  {
+    label: (<>Contactos</>),
+    key: '14',
+    children: [
+      {
+        label: (<Link href={public_urls.adm_prov_lista_prov}>Proveedores</Link>),
+        key: "170",
+      },
+      
+      {
+        label: (<Link href={public_urls.adm_prov_lista_prov}>Obras Sociales</Link>),
+        key: "171",
+      },
+      {
+        label: (<Link href={public_urls.adm_prov_lista_prov}>Publicidad</Link>),
+        key: "172",
+      },
+      {
+        label: (<Link href={public_urls.adm_prov_lista_prov}>Sueldos</Link>),
+        key: "173",
+      },
+      
+    ]
   },
 ];
 export default function MenuAdminProveedores(){

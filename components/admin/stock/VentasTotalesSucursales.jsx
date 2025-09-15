@@ -22,6 +22,7 @@ const VentasTotalesSucursales = (props) => {
         {title:"Sucursal", dataIndex: "sucursal"},
 
         {title:"Codigo", dataIndex: "codigo"},
+        {title:"Descripcion", dataIndex: "descripcion"},
         
         {title:"Cantidad", dataIndex: "cantidad"},
     ]

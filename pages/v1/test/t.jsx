@@ -16,7 +16,7 @@ export default function test() {
   return <div>Test 02
 
     <ListadoCajasAdmin />
-{/*
+
     <InformeTarjetas />  
 
     <Divider />
@@ -30,7 +30,7 @@ export default function test() {
     <Divider />
     <CajaMaster />
 
-*/}
+
   {/*   
     <Divider />
     Transferencia
