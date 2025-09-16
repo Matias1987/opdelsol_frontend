@@ -22,7 +22,7 @@ const EditarStockIndiv = (props) => {
     const [costo, setCosto] = useState(0)
     
     const onOpen = () => {
-        alert(JSON.stringify(props.factura))
+        //alert(JSON.stringify(props.factura))
        setCantInput(0)
         setOpen(true)
         setEditarCosto(false)

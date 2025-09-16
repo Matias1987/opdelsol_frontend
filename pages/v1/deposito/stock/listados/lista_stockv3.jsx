@@ -277,7 +277,7 @@ export default function ListaStockV3() {
     <>
       <Card
         size="small"
-        title="Stock"
+        title="Editar Stock"
         style={{ boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)" }}
       >
         <Row>
@@ -305,6 +305,10 @@ export default function ListaStockV3() {
               }}
               folded={menuFolded}
             />
+            <FacturaSelect2 callback={(_factura)=>{
+                //alert(JSON.stringify(_factura))
+                  setFactura(_factura);
+              }}/>
           </Col>
           <Col
             style={{ width: menuFolded ? "100%" : "75%", padding: "6px" }}
@@ -312,10 +316,7 @@ export default function ListaStockV3() {
           >
             <Row gutter={16}>
               <Col span={24}>
-              <FacturaSelect2 callback={(_factura)=>{
-                //alert(JSON.stringify(_factura))
-                  setFactura(_factura);
-              }}/>
+              
               </Col>
 
             </Row>

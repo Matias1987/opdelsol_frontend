@@ -68,7 +68,7 @@ const FacturaSelect2 = (props) => {
     <div
       style={{
         padding: "12px",
-        border: "1px solid #828282",
+        border: "1px solid #ffffffff",
         borderRadius: "8px",
         backgroundColor: "#E4E4E4",
       }}

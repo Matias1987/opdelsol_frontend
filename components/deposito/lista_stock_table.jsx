@@ -2,6 +2,7 @@ import globals from "@/src/globals";
 import { CheckOutlined, CloseOutlined, DownOutlined, EditOutlined, InfoOutlined } from "@ant-design/icons";
 import {Button, Checkbox, Col, Dropdown, Input, Row, Space, Table, Tag} from "antd"
 import ExportToCSV from "../ExportToCSV";
+import ExportToExcel from "../etc/ExportToExcel";
 
 const StockTable = props =>{
   const {data, loading, onMenuOptionSelected, onItemCBChecked} = props;
@@ -50,6 +51,9 @@ const StockTable = props =>{
               return str;
             }}
           />
+        </Col>
+        <Col>
+        <ExportToExcel buttonSize={"small"} />
         </Col>
         <Col>
           <Button
@@ -270,7 +274,7 @@ const StockTable = props =>{
       ),
     },
     {
-      hidden:true,
+      hidden:false,
       title: (
         <>
           <Checkbox
@@ -316,7 +320,7 @@ const StockTable = props =>{
 
 
   return <Table
-                        
+                        title={header}
                         rowClassName={(record, index) =>
                           +record.activo == 0
                             ? "error-row"
