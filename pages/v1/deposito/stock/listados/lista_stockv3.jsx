@@ -305,10 +305,12 @@ export default function ListaStockV3() {
               }}
               folded={menuFolded}
             />
+            {menuFolded ? <></>:
             <FacturaSelect2 callback={(_factura)=>{
-                //alert(JSON.stringify(_factura))
+               
                   setFactura(_factura);
               }}/>
+            }
           </Col>
           <Col
             style={{ width: menuFolded ? "100%" : "75%", padding: "6px" }}

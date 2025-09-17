@@ -29,7 +29,7 @@ const StockTable = props =>{
 
     const header = (_) => (
     <>
-      <Row
+      {/*<Row
         style={{
           backgroundColor: "rgba(255, 255, 255,0)",
           borderRadius: "16px",
@@ -77,12 +77,12 @@ const StockTable = props =>{
             style={{ color: "white" }}
             onClick={(_) => {
               onActivarCodigosClick?.()
-              /*
+              
               if (!confirm("Establecer códigos como activos?")) {
                 return;
               }
               cambiar_estados_codigos(1);
-              */
+              
             }}
           >
             Activar C&oacute;digos
@@ -97,21 +97,18 @@ const StockTable = props =>{
             danger
             onClick={(_) => {
              onDesactivarCodigosClick?.()
-             /**
-              *  if (!confirm("Establecer códigos como inactivos?")) {
+             
+               if (!confirm("Establecer códigos como inactivos?")) {
                 return;
               }
               cambiar_estados_codigos(0);
-              */
+              
             }}
           >
             Desactivar C&oacute;digos
           </Button>
         </Col>
-        {/*<Col>
-        <Input />
-        </Col>*/}
-      </Row>
+      </Row>*/}
     </>
   );
 

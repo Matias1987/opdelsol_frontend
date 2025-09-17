@@ -149,20 +149,12 @@ export default function ModoPagoV4(props){
 
                                 setModoPago(t=>
                                 {
-                                    _temp.total =   parseFloat(_temp.cheque_monto||0)+
-                                                    parseFloat(_temp.ctacte_monto||0)+
-                                                    parseFloat(_temp.tarjeta_monto||0)+
-                                                    parseFloat(_temp.tarjeta1_monto||0)+
-                                                    parseFloat(_temp.mutual_monto||0)+
-                                                    parseFloat(_temp.efectivo_monto||0)+
-                                                    parseFloat(_temp.mercadopago_monto||0)+
-                                                    parseFloat(_temp.transferencia_monto||0)
-                                    ;
+                                    _temp.total =  calc_total(_temp); 
 
-                                    _temp.saldo = (props?.total||0) - _temp.total
-                                    props?.callback?.(_temp)
+                                    _temp.saldo = (props?.total||0) - _temp.total;
+                                    props?.callback?.(_temp);
 
-                                    return _temp
+                                    return _temp;
                                 })
                             })
                 }
@@ -201,16 +193,8 @@ export default function ModoPagoV4(props){
         
         setModoPago( (modoPago) => { 
             const _mp = {...modoPago,[index]:value};
-            _mp.total = parseFloat(_mp.cheque_monto||0)+
-                        parseFloat(_mp.ctacte_monto||0)+
-                        parseFloat(_mp.tarjeta_monto||0)+
-                        parseFloat(_mp.tarjeta1_monto||0)+
-                        parseFloat(_mp.mutual_monto||0)+
-                        parseFloat(_mp.efectivo_monto||0)+
-                        parseFloat(_mp.mercadopago_monto||0)+
-                        parseFloat(_mp.transferencia_monto||0)
-                        
-                        ;
+
+            _mp.total = calc_total(_mp);
             
             _mp.saldo = total - _mp.total
 
@@ -222,14 +206,8 @@ export default function ModoPagoV4(props){
     const onChangeMontoCtaCte = (value) => {
         setModoPago( modoPago =>
             {
-                let _total = parseFloat(modoPago.cheque_monto||0)+
-                parseFloat(value||0)+
-                parseFloat(modoPago.tarjeta_monto||0)+
-                parseFloat(modoPago.tarjeta1_monto||0)+
-                parseFloat(modoPago.mutual_monto||0)+
-                parseFloat(modoPago.efectivo_monto||0)+
-                parseFloat(modoPago.mercadopago_monto||0)
-                ;
+                let _total = calc_total({...modoPago, ctacte_monto:parseFloat(value||0), ctacte_cuotas:0, ctacte_monto_cuotas:0  })
+                
                 const _mp = {
                     ...modoPago,
                     ["ctacte_monto"]: value.length<1 ? 0 : parseFloat(value),
@@ -244,19 +222,21 @@ export default function ModoPagoV4(props){
             })
     }
 
+    const calc_total = __mp => parseFloat(__mp.cheque_monto||0)+
+							parseFloat(__mp.ctacte_monto||0)+//parseFloat(__mp.ctacte_cuotas||0) * parseFloat(__mp.ctacte_monto_cuotas||0)+
+							parseFloat(__mp.tarjeta_monto||0)+
+							parseFloat(__mp.tarjeta1_monto||0)+
+							parseFloat(__mp.mutual_monto||0)+
+							parseFloat(__mp.efectivo_monto||0)+
+							parseFloat(__mp.mercadopago_monto||0)+
+							parseFloat(__mp.transferencia_monto||0)
+							;
 
-    const button_mp_row = (index) => <>
-        <Col span={1}><Button size="small"><RightCircleFilled /></Button></Col>
-    </>
+
 
     return (
         (tarjetas == null || bancos == null) ? <Spin  /> :
     <>
-    <Row>
-        <Col span={24}>
-            <Divider />
-        </Col>
-    </Row>
         <Row style={{paddingLeft:"1.3em"}}>
             <Col span={24} style={{paddingTop:".2em"}}>
                 <span style={{fontWeight:"600"}}>Seleccione Modo de Pago:</span>&nbsp;&nbsp;&nbsp;
@@ -445,20 +425,15 @@ export default function ModoPagoV4(props){
                            
                            setModoPago( modoPago =>
                             {
-                                let _total = parseFloat(modoPago.cheque_monto||0)+
-                                parseFloat(modoPago.ctacte_monto||0)+
-                                parseFloat(modoPago.tarjeta_monto||0)+
-                                parseFloat(modoPago.tarjeta1_monto||0)+
-                                parseFloat(modoPago.mutual_monto||0)+
-                                parseFloat(modoPago.efectivo_monto||0)+
-                                parseFloat(modoPago.mercadopago_monto||0)
-                                ;
+                                const _monto_cuotas = (round_float(parseFloat(_i.interes) * (parseFloat(modoPago.ctacte_monto)/parseFloat(v))));
+                                
+                                let _total = calc_total({...modoPago, ctacte_monto_cuotas: _monto_cuotas, ctacte_cuotas: v});
 
                                 const _mp = {
                                     ...modoPago,
                                     ["ctacte_interes"]: _i.interes,
                                     ["ctacte_cuotas"]:v,
-                                    ["ctacte_monto_cuotas"]:  (round_float(parseFloat(_i.interes) * (parseFloat(modoPago.ctacte_monto)/parseFloat(v)))).toFixed(2),
+                                    ["ctacte_monto_cuotas"]:  _monto_cuotas.toFixed(2),
                                     ["total"]:  _total,
                                     ["saldo"]:  total - _total,
                                     };

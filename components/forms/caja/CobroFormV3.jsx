@@ -9,7 +9,6 @@ import CustomModal from "@/components/CustomModal";
 import ListaCobros from "./ListaCobros";
 import VentaDetallePopup from "@/components/VentaDetalle";
 import { current_date_ymd } from "@/src/helpers/string_helper";
-import ModoPagoV3 from "../modo_pago/ModoPagoV3";
 import {
   registrarVentaEntregada,
   registrarVentaPendiente,

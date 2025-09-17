@@ -10,6 +10,7 @@ import {
   Card,
   Col,
   DatePicker,
+  Divider,
   Form,
   Input,
   Row,
@@ -18,11 +19,10 @@ import {
 } from "antd";
 import esES from "antd/locale/es_ES";
 import { useState } from "react";
-//import ModoPagoV2 from "../modo_pago/ModoPagoV2";
-import ModoPagoV3 from "../modo_pago/ModoPagoV3";
 import ModoPagoV4 from "../modo_pago/ModoPagoV4";
 import SelectVendedor from "@/components/usuario/vendedor/SelectVendedor";
 import { public_urls } from "@/src/urls";
+import { CloseOutlined } from "@ant-design/icons";
 
 /* leer: https://refine.dev/blog/common-usestate-mistakes-and-how-to-avoid/ */
 /**
@@ -282,15 +282,16 @@ export default function VentaBase(props) {
             </Form>
           </Col>
         </Row>
-        <Row>
+        <Divider />
+        {<Row>
           <Col span={24} style={{display:"flex", justifyContent:"flex-end"}}>
-          <Button danger onClick={_=>{
-            if(confirm("Cancelar?")){
+          <Button type="link" danger onClick={_=>{
+            if(confirm("Cancelar Operación?")){
               window.location.replace(public_urls.dashboard_venta)
             }
-          }}>Cancelar</Button>
+          }}><CloseOutlined /> Cancelar</Button>
           </Col>
-        </Row>
+        </Row>}
       </Card>
     </>
   );

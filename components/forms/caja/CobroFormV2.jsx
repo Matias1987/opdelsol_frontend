@@ -9,7 +9,6 @@ import CustomModal from "@/components/CustomModal";
 import ListaCobros from "./ListaCobros";
 import VentaDetallePopup from "@/components/VentaDetalle";
 import { current_date_ymd } from "@/src/helpers/string_helper";
-import ModoPagoV3 from "../modo_pago/ModoPagoV3";
 import {
   registrarVentaEntregada,
   registrarVentaPendiente,
@@ -250,6 +249,29 @@ const CobroOperacionV2 = (props) => {
     }
   };
 
+  const check_valid_ctacte = () =>{
+    if(!mp)
+    {
+      return;
+    }
+    
+    if(!dataVenta)
+    {
+      return;
+    }
+
+    const {ctacte_monto} = mp;
+
+    if(ctacte_monto==0)
+    {
+      return
+    }
+
+    const saldo = parseFloat(dataVenta.subtotal) - parseFloat(descuento) - parseFloat(dataVenta.haber || 0)
+
+
+
+  }
   const onCobrarClick = (e) => {
     //e.stopImmediatePropagation();
     setCobrarDisabled(true);

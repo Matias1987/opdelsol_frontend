@@ -58,6 +58,7 @@ export default function InformeX(props){
                 mercadopago_monto:0,
                 transferencia_monto:0,
             }
+            
             response.data.forEach(r=>{
                 switch(r.modo_pago){
                     case "efectivo": 
@@ -81,6 +82,7 @@ export default function InformeX(props){
                     break;
                     case "cheque": 
                         __temp.cheque_monto=r.monto;
+                        __temp.banco=r.banco;
                     break;
                     case "mercadopago": 
                         __temp.mercadopago_monto=r.monto;
@@ -271,7 +273,7 @@ export default function InformeX(props){
 
     const html_cheque_tarjeta_mutual = () => {
         return modoPago == null ? <Spin /> : <>
-            {modoPago.cheque_monto == 0 ? <></>: <p>Cheque: {modoPago.cheque_nro} Banco: {modoPago.banco_banco} &nbsp;Fecha: {modoPago.cheque_fecha}</p>}
+            {modoPago.cheque_monto == 0 ? <></>: <p>Cheque: {modoPago.cheque_nro} Banco: {modoPago.banco} &nbsp;</p>}
             {modoPago.tarjeta_monto == 0 ? <></> : <p>Tarjeta: {modoPago.tarjeta_tarjeta} {/*Numero: {modoPago.tarjeta_nro} Cupon: {modoPago.tarjeta_cupon}*/}</p>}
             {modoPago.tarjeta_tarjeta1 != 0 ?  <p>Tarjeta 2: {modoPago.tarjeta_tarjeta1} </p> : <></>}
             {modoPago.mutual_monto == 0 ? <></> : <p>Obra Social: {modoPago.mutual_mutual} </p>}
