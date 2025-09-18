@@ -37,7 +37,7 @@ export default function VentaBase(props) {
     fkdestinatario: null,
     fkmedico: null,
     fkos: null,
-    fkusuario: globals.obtenerUID(),
+    fkusuario: -1,
     mp: null,
     subtotal: 0,
     descuento: 0,
@@ -61,6 +61,11 @@ export default function VentaBase(props) {
   };
 
   const finalizar_venta = (e) => {
+    if(venta.fkusuario<1)
+    {
+      alert("Seleccione Vendedor");
+      return;
+    }
     setBtnEnabled(false);
     setVenta((venta) => {
       props?.onfinish?.(venta, (_) => {
@@ -257,7 +262,7 @@ export default function VentaBase(props) {
         styles={{
           header: {
             backgroundColor: "##ffffed",
-            background: "linear-gradient(281deg,rgba(255, 255, 237, 1) 62%, rgba(209, 225, 255, 1) 95%)",
+            background: "linear-gradient(281deg,rgba(248,248,234, 1) 32%, rgba(231,233,235, 1) 75%)",
             borderBottom: "1px solid #eee",
             borderTopLeftRadius: "16px",
             borderTopRightRadius: "16px",

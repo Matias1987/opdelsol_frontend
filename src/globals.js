@@ -99,6 +99,11 @@ const globals =  {
         return getItem("caja")?.idcaja||0
     },
 
+    multInstances: () => {
+        const {getItem} = useStorage();
+        return getItem("multInstances");
+    },
+
     clearCajaLocal: () => {
         const {setItem} = useStorage();
         setItem("caja", 0);

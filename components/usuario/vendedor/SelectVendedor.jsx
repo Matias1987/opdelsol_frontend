@@ -28,9 +28,16 @@ const SelectVendedor = ({ onChange }) => {
     .then(response => {
         
       console.log(response);
-      const __data = response.data.map(item => ({ ...item, ...{ value: item.idusuario, label: item.nombre } }))
+      const __data = [ ...[{value: -1, label: "Seleccione..."}],
+                        ...response.data.map(item => ({ ...item, ...{ value: item.idusuario, label: item.nombre } }))
+                      ]
       setData(__data);
-      const __id = +globals.obtenerUID();
+
+      const multiple_instances = +globals.multInstances()==1;
+
+      const __id = multiple_instances ? -1 : +globals.obtenerUID();
+
+
       setSelectedVendedor(__id);
       onChange?.(__id);
       setIdInput(__id);
@@ -48,7 +55,7 @@ const SelectVendedor = ({ onChange }) => {
         
           <Select
             prefix="Vendedor: "
-            defaultValue={+globals.obtenerUID()}
+            defaultValue={-1}
             options={data}
             onChange={handleChange}
             value={selectedVendedor}

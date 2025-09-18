@@ -152,8 +152,8 @@ export default function LayoutVentas(props) {
          {globals.esUsuarioCaja1() ? <BarraResumenCaja /> : <></>}  
         <Content
           style={{
-            margin: "0px 100px",
-            padding: 24,
+            margin: "0px 50px",
+            padding: 6,
             borderRadius: "15px",
             minHeight: 580,
           }}

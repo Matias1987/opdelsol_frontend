@@ -7,40 +7,42 @@ import ModifIngresoCaja from "@/components/caja_master/modificacion_ingreso_caja
 import Transferencia from "@/components/caja_master/transferencia";
 import FondoFijoForm from "@/components/fondo_fijo/fondo_fijo_form";
 import LayoutAdmin from "@/components/layout/layout_admin";
-import { Divider } from "antd";
+import { Col, Divider, Row } from "antd";
 import DetalleFondoFijo from "../../../components/caja_master/detalle_ff";
 import InformeTarjetas from "@/components/informes/cobros/informeTarjetas";
 import ListadoCajasAdmin from "@/components/admin/caja/ListadoCajasAdmin";
-
+import VentasTipoGraph from "@/components/charts/ventasTipoGraph";
+import CobrosTipoGraph from "@/components/charts/cobrosTipoGraph";
 export default function test() {
-  return <div>Test 02
-
-    <ListadoCajasAdmin />
+  return (
+    <div>
+      Test 02
+      {/*<ListadoCajasAdmin />
 
     <InformeTarjetas />  
 
-    <Divider />
-  Fondos 
-    <ListaFondoFijos/>
-
-
-    <Divider />
-    <ListadoCajaSucursales />
-
-    <Divider />
-    <CajaMaster />
-
-
-  {/*   
-    <Divider />
-    Transferencia
-    <Transferencia aFondoFijo={false}/>
-
-   
-   Ingreso
-    <Ingreso />*/}
-  </div>;
-
+    <Divider />*/}
+      <Row gutter={16}>
+        <Col span={12}>
+          <VentasTipoGraph />
+        </Col>
+        <Col span={12}>
+          <CobrosTipoGraph />
+        </Col>
+      </Row>
+      Fondos
+      <ListaFondoFijos />
+      <Divider />
+      <ListadoCajaSucursales />
+      <Divider />
+      <CajaMaster />
+      <Divider />
+      Transferencia
+      <Transferencia aFondoFijo={false} />
+      Ingreso
+      <Ingreso />
+    </div>
+  );
 }
 
 test.PageLayout = LayoutAdmin;

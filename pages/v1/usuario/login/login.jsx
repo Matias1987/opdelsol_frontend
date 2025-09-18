@@ -51,6 +51,8 @@ export default function Login(){
                 setItem("admin2", res.data.udata.admin2)
                 setItem("admin_prov", res.data.udata.admin_prov)
                 setItem("laboratorio", res.data.udata.laboratorio)
+                setItem("multInstances", res.data.udata.multInstances)
+                
                 globals.setUserLogedIn(1)
 
                 registrar_evento("USER_LOGIN", "Inicio de sesion",res.data.uid )
