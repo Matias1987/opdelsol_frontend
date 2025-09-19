@@ -31,7 +31,7 @@ const EditarStockIndiv = (props) => {
         .then(r=>r.json())
         .then((response)=>{
             
-            setStock({...response.data[0], cant_ant:response.data[0].cantidad})
+            setStock({...response.data[0], cant_ant:response.data[0].cantidad, cant_modif:0})
         })
 
 
@@ -60,6 +60,7 @@ const EditarStockIndiv = (props) => {
             fksucursal:props.idsucursal,
             idcodigo:props.idcodigo,
             costo: editarCosto ? costo : -1,
+            cant_modif: stock.cant_modif,
         },
         (response)=>{
             alert("OK")
@@ -72,7 +73,7 @@ const EditarStockIndiv = (props) => {
     const actualizar_cantidad = (v, inc) => {
         setStock(
             s=>(
-                {...s,"cantidad":(inc ? parseInt( stock.cant_ant ) : 0) +parse_int_string(((v.toString())||"").toString())}))
+                {...s, "cant_modif": +parse_int_string(((v.toString())||"").toString()), "cantidad":(inc ? parseInt( stock.cant_ant ) : 0) +parse_int_string(((v.toString())||"").toString())}))
     }
 
     useEffect(()=>{onOpen()},[])

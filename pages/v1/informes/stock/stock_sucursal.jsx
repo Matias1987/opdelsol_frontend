@@ -84,10 +84,10 @@ const StockSucursal = _ =>{
 
     const callback_filtros = (f) =>{
 
-        if(+idsucursal==-1){
+        /*if(+idsucursal==-1){
             alert("Seleccione una sucursal")
             return
-        }
+        }*/
 
         let data =[]
         

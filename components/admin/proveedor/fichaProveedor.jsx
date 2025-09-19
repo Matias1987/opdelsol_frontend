@@ -57,6 +57,7 @@ const FichaProveedor = (props) => {
             return (
               <>
                 <Tag
+                  style={{cursor:"pointer"}}
                   onClick={() => {
                     setSelectedFactura(id);
                     setPopupDetalleFacturaOpen(true);
@@ -593,7 +594,7 @@ const FichaProveedor = (props) => {
         footer={null}
         title=" "
         destroyOnClose
-        width={"700px"}
+        width={"900px"}
       >
         <DetalleFactura idFactura={selectedFactura} />
       </Modal>

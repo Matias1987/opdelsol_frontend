@@ -97,7 +97,7 @@ const DetalleFactura = (props) => {
                     <Col span={24}>Cantidad Total: <span style={{fontWeight:"bold", color:"darkblue"}}>{dataFactura[0].cantidad_total}</span></Col>
                 </Row>
                 <Row>
-                    <Col span={24}>Monto Total: <span style={{fontWeight:"bold", color:"darkblue"}}>{dataFactura[0].monto_total}</span></Col>
+                    <Col span={24}>Monto Total: <span style={{fontWeight:"bold", color:"darkblue"}}>$ {parseFloat(dataFactura[0].monto_total).toLocaleString("es-AR")}</span></Col>
                 </Row>
             </Col>
         </Row>
@@ -117,9 +117,9 @@ const DetalleFactura = (props) => {
         dataSource={dataElementos}
         loading={elementosLoading}
         columns={[
-            {title: 'Codigo', dataIndex: 'codigo', key: 'codigo'},
-            {title: 'Cantidad', dataIndex: 'cantidad', key: 'cantidad'},
-            {title: 'Precio', dataIndex: 'precio', key: 'precio'},
+            {title: 'Código', dataIndex: 'codigo', key: 'codigo'},
+            {title: <div style={{textAlign:"right"}}>Cantidad</div>, dataIndex: 'cantidad', key: 'cantidad', render:(_,{cantidad})=><div style={{textAlign:"right"}}>{cantidad}</div>},
+            {title: <div style={{textAlign:"right"}}>Precio</div>, dataIndex: 'precio', key: 'precio', render:(_,{precio})=><div style={{textAlign:"right"}}>{precio}</div>},
         ]}
         />
         </>

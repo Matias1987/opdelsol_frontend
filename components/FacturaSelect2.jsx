@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import FacturaForm from "./forms/FacturaForm";
 import ProveedorForm from "./forms/ProveedorForm";
 import DetalleFactura from "./forms/deposito/DetalleFactura";
+import AgregarFacturaV2 from "./admin/factura/agregarFacturaV2";
 
 const FacturaSelect2 = (props) => {
   const [idProveedor, setIdProveedor] = useState(-1);
@@ -171,7 +172,7 @@ const FacturaSelect2 = (props) => {
       
 
       <Modal
-        width={"70%"}
+        width={"900px"}
         destroyOnClose
         open={popupDetalleFacturaOpen}
         onCancel={() => {
@@ -182,6 +183,7 @@ const FacturaSelect2 = (props) => {
         <DetalleFactura idFactura={idFactura} />
       </Modal>
       <Modal
+        width={"800px"}
         open={popupFacturaOpen}
         onCancel={() => {
           setPopupFacturaOpen(false);
@@ -190,8 +192,8 @@ const FacturaSelect2 = (props) => {
         footer={null}
         destroyOnClose
       >
-        <FacturaForm
-          action="ADD"
+        <AgregarFacturaV2
+          idproveedor={idProveedor}
           callback={() => {
             setPopupFacturaOpen(false);
             setReload(!reload);
