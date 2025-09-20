@@ -112,6 +112,21 @@ export default function ListaStockV3() {
         loading={loading}
         onMenuOptionSelected={onMenuOptionSelected}
         onItemCBChecked={onItemCBChecked}
+        onActivarCodigosClick={(_) => {
+          if (!confirm("Establecer códigos como activos?")) {
+            return;
+          }
+          cambiar_estados_codigos(1);
+        }}
+        onDesactivarCodigosClick={(_) => {
+          if (!confirm("Establecer códigos como inactivos?")) {
+            return;
+          }
+          cambiar_estados_codigos(0);
+        }}
+        onEditarEtiquetasClick={(_) => {
+          setPopupTagsOpen(true);
+        }}
       />
     );
   };
@@ -305,26 +320,21 @@ export default function ListaStockV3() {
               }}
               folded={menuFolded}
             />
-            {menuFolded ? <></>:
-            <FacturaSelect2 callback={(_factura)=>{
-               
+            {menuFolded ? (
+              <></>
+            ) : (
+              <FacturaSelect2
+                callback={(_factura) => {
                   setFactura(_factura);
-              }}/>
-            }
+                }}
+              />
+            )}
           </Col>
-          <Col
-            style={{ width: menuFolded ? "100%" : "75%", padding: "6px" }}
-            
-          >
+          <Col style={{ width: menuFolded ? "100%" : "75%", padding: "6px" }}>
             <Row gutter={16}>
-              <Col span={24}>
-              
-              </Col>
-
+              <Col span={24}></Col>
             </Row>
-            <Row key={data}>
-              {get_grid()}
-            </Row>
+            <Row key={data}>{get_grid()}</Row>
           </Col>
         </Row>
       </Card>

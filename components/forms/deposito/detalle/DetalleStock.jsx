@@ -62,7 +62,7 @@ const DetalleStock = (props) => {
     
 
     const Detalle = _ => (
-        loadingDetalles ? <Spin /> : 
+        loadingDetalles || dataDetalles==null ? <Spin /> : 
         <>
             <table border={"0"} style={{width:"100%"}} >
                 <tbody>

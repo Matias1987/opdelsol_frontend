@@ -197,6 +197,8 @@ const post = {
 
     total_tarjetas_periodo: remote_base_url + "admin/obtener/totales/tarjetas/periodo/",
 
+    informe_stock_totales: remote_base_url + "infstck/inf/t/st/",
+
     search:{
         filtro_stock: remote_base_url + "stock/filtro_stock/",
     },

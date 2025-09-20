@@ -1,13 +1,37 @@
 import globals from "@/src/globals";
-import { CheckOutlined, CloseOutlined, DownOutlined, EditOutlined, InfoOutlined } from "@ant-design/icons";
-import {Button, Checkbox, Col, Dropdown, Input, Row, Space, Table, Tag} from "antd"
+import {
+  CheckOutlined,
+  CloseOutlined,
+  DownOutlined,
+  EditOutlined,
+  InfoOutlined,
+} from "@ant-design/icons";
+import {
+  Button,
+  Checkbox,
+  Col,
+  Dropdown,
+  Input,
+  Row,
+  Space,
+  Table,
+  Tag,
+} from "antd";
 import ExportToCSV from "../ExportToCSV";
 import ExportToExcel from "../etc/ExportToExcel";
 
-const StockTable = props =>{
-  const {data, loading, onMenuOptionSelected, onItemCBChecked} = props;
+const StockTable = (props) => {
+  const {
+    data,
+    loading,
+    onMenuOptionSelected,
+    onItemCBChecked,
+    onActivarCodigosClick,
+    onDesactivarCodigosClick,
+    onEditarEtiquetasClick,
+  } = props;
 
-    const items = [
+  const items = [
     {
       label: "Detalle",
       key: "1",
@@ -27,88 +51,98 @@ const StockTable = props =>{
     },
   ];
 
-    const header = (_) => (
+  const header = (_) => (
     <>
-      {/*<Row
-        style={{
-          backgroundColor: "rgba(255, 255, 255,0)",
-          borderRadius: "16px",
-        }}
-        gutter={"16"}
-      >
-        <Col>
-          <ExportToCSV
-            parseFnt={() => {
-              let str =
-                "Familia, SubFamilia, Grupo, Subgrupo, Codigo, Descripcion, Cantidad, Precio, Tags,\r\n";
-              data.forEach((r) => {
-                str += `${r.familia},${r.subfamilia},${r.grupo},${
-                  r.subgrupo
-                },' ${r.codigo} ',${r.descripcion},${r.cantidad},${r.precio},${(
-                  r.etiquetas || ""
-                ).replace(/,/g, " ; ")},\r\n`;
-              });
-              return str;
-            }}
-          />
-        </Col>
-        <Col>
-        <ExportToExcel buttonSize={"small"} />
-        </Col>
-        <Col>
-          <Button
-            size="small"
-            type="primary"
-            style={{ color: "white" }}
-            disabled={data.filter((d) => d.checked).length < 1}
-            onClick={() => {
-              //setPopupTagsOpen(true);
-              onEditarEtiquetasClick?.()
-            }}
-          >
-            Editar Etiquetas
-          </Button>
-        </Col>
-        <Col>
-          <Button
-            disabled={data.filter((d) => d.checked).length < 1}
-            size="small"
-            type="primary"
-            style={{ color: "white" }}
-            onClick={(_) => {
-              onActivarCodigosClick?.()
-              
-              if (!confirm("Establecer códigos como activos?")) {
-                return;
-              }
-              cambiar_estados_codigos(1);
-              
-            }}
-          >
-            Activar C&oacute;digos
-          </Button>
-        </Col>
-        <Col>
-          <Button
-            disabled={data.filter((d) => d.checked).length < 1}
-            size="small"
-            type="primary"
-            style={{ color: "white" }}
-            danger
-            onClick={(_) => {
-             onDesactivarCodigosClick?.()
-             
-               if (!confirm("Establecer códigos como inactivos?")) {
-                return;
-              }
-              cambiar_estados_codigos(0);
-              
-            }}
-          >
-            Desactivar C&oacute;digos
-          </Button>
-        </Col>
-      </Row>*/}
+      {
+        <Row
+          style={{
+            backgroundColor: "rgba(255, 255, 255,0)",
+            borderRadius: "16px",
+          }}
+          gutter={"16"}
+        >
+          <Col>
+            <ExportToCSV
+              parseFnt={() => {
+                let str =
+                  "Familia, SubFamilia, Grupo, Subgrupo, Codigo, Descripcion, Cantidad, Precio, Tags,\r\n";
+                data.forEach((r) => {
+                  str += `${r.familia},${r.subfamilia},${r.grupo},${
+                    r.subgrupo
+                  },' ${r.codigo} ',${r.descripcion},${r.cantidad},${
+                    r.precio
+                  },${(r.etiquetas || "").replace(/,/g, " ; ")},\r\n`;
+                });
+                return str;
+              }}
+            />
+          </Col>
+          <Col>
+            <ExportToExcel
+              fileName={`ls_${(new Date()).getTime()}`}
+              columns={[
+                { width:15, key: "familia", header: "Familia" },
+                { width:15, key: "subfamilia", header: "SubFamilia" },
+                { width:15, key: "grupo", header: "Grupo" },
+                { width:15, key: "subgrupo", header: "SubGrupo" },
+                { width:35, key: "codigo", header: "Codigo" },
+                { width:45, key: "descripcion", header: "Descripcion" },
+                { width:15, key: "cantidad", header: "Cantidad" },
+              ]}
+              data={data.map((r) => ({
+                familia: r.familia,
+                subfamilia: r.subfamilia,
+                grupo: r.grupo,
+                subgrupo: r.subgrupo,
+                codigo: r.codigo,
+                descripcion: r.descripcion,
+                cantidad: r.cantidad,
+              }))}
+              buttonSize={"small"}
+            />
+          </Col>
+          <Col>
+            <Button
+              size="small"
+              type="primary"
+              style={{ color: "white" }}
+              disabled={data.filter((d) => d.checked).length < 1}
+              onClick={() => {
+                onEditarEtiquetasClick?.();
+              }}
+            >
+              Editar Etiquetas
+            </Button>
+          </Col>
+          <Col>
+            <Button
+              disabled={data.filter((d) => d.checked).length < 1}
+              size="small"
+              type="primary"
+              style={{ color: "white" }}
+              onClick={(_) => {
+                onActivarCodigosClick?.();
+              }}
+            >
+              Activar C&oacute;digos
+            </Button>
+          </Col>
+          <Col>
+            <Button
+              disabled={data.filter((d) => d.checked).length < 1}
+              size="small"
+              type="primary"
+              style={{ color: "white" }}
+              danger
+              onClick={(_) => {
+                onDesactivarCodigosClick?.();
+              }}
+            >
+              Desactivar C&oacute;digos
+            </Button>
+          </Col>
+        </Row>
+      }
     </>
   );
 
@@ -256,7 +290,7 @@ const StockTable = props =>{
             menu={{
               items,
               onClick: ({ key }) => {
-                onMenuOptionSelected?.(key, idcodigo)
+                onMenuOptionSelected?.(key, idcodigo);
               },
             }}
           >
@@ -271,18 +305,17 @@ const StockTable = props =>{
       ),
     },
     {
-      hidden:false,
+      hidden: false,
       title: (
         <>
           <Checkbox
             onChange={(e) => {
-                //onItemCBChecked?.(e)
-                /*
+              //onItemCBChecked?.(e)
+              /*
               setData((_data) =>
                 _data.map((d) => ({ ...d, checked: e.target.checked }))
               );*/
-            }
-        }
+            }}
           />
         </>
       ),
@@ -292,8 +325,8 @@ const StockTable = props =>{
           <Checkbox
             checked={checked}
             onChange={(e) => {
-                onItemCBChecked?.(e, idcodigo)
-                /*
+              onItemCBChecked?.(e, idcodigo);
+              /*
               setData((_data) =>
                 _data.map((d) =>
                   d.idcodigo == idcodigo
@@ -315,22 +348,23 @@ const StockTable = props =>{
     },
   ];
 
-
-  return <Table
-                        title={header}
-                        rowClassName={(record, index) =>
-                          +record.activo == 0
-                            ? "error-row"
-                            : index % 2 === 0
-                            ? "table-row-light"
-                            : "table-row-dark"
-                        }
-                        columns={columns.filter((item) => !item.hidden)}
-                        dataSource={data}
-                        loading={loading||false}
-                        scroll={{ y: 400 }}
-                        size="small"
-                      />
-}
+  return (
+    <Table
+      title={header}
+      rowClassName={(record, index) =>
+        +record.activo == 0
+          ? "error-row"
+          : index % 2 === 0
+          ? "table-row-light"
+          : "table-row-dark"
+      }
+      columns={columns.filter((item) => !item.hidden)}
+      dataSource={data}
+      loading={loading || false}
+      scroll={{ y: 400 }}
+      size="small"
+    />
+  );
+};
 
 export default StockTable;
