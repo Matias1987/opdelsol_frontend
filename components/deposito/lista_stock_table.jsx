@@ -19,6 +19,8 @@ import {
 } from "antd";
 import ExportToCSV from "../ExportToCSV";
 import ExportToExcel from "../etc/ExportToExcel";
+import { useState } from "react";
+import Card from "antd/es/card/Card";
 
 const StockTable = (props) => {
   const {
@@ -29,8 +31,9 @@ const StockTable = (props) => {
     onActivarCodigosClick,
     onDesactivarCodigosClick,
     onEditarEtiquetasClick,
+    onEditarSeleccionClick,
   } = props;
-
+  const [searchStr, setSearchStr] = useState("");
   const items = [
     {
       label: "Detalle",
@@ -140,6 +143,22 @@ const StockTable = (props) => {
             >
               Desactivar C&oacute;digos
             </Button>
+          </Col>
+          <Col>
+              <Button 
+              style={{backgroundColor:"#1288E5"}}
+              disabled={data.filter((d) => d.checked).length < 1}
+              size="small"
+              type="primary"
+              
+              onClick={_=>{
+                onEditarSeleccionClick?.()
+              }}>
+                <EditOutlined /> Editar Selecci&oacute;n
+              </Button>
+          </Col>
+          <Col>
+          <Input allowClear style={{width:"200px"}} prefix="Código: " value={searchStr} onChange={e=>{setSearchStr((e.target.value||"").trim())}} />
           </Col>
         </Row>
       }
@@ -349,6 +368,7 @@ const StockTable = (props) => {
   ];
 
   return (
+    <Card title="Lista de Códigos" size="small">
     <Table
       title={header}
       rowClassName={(record, index) =>
@@ -359,11 +379,12 @@ const StockTable = (props) => {
           : "table-row-dark"
       }
       columns={columns.filter((item) => !item.hidden)}
-      dataSource={data}
+      dataSource={(searchStr.trim()).length>0 ? data.filter(c=>c.codigo.toUpperCase().includes(searchStr.toUpperCase())) : data }
       loading={loading || false}
       scroll={{ y: 400 }}
       size="small"
     />
+    </Card>
   );
 };
 

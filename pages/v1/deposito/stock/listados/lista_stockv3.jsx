@@ -18,6 +18,7 @@ import GridBifocales from "@/components/etc/GridBifocales";
 import GridMonof from "@/components/etc/GridMonof";
 import StockTable from "@/components/deposito/lista_stock_table";
 import FacturaSelect2 from "@/components/FacturaSelect2";
+import EditarCodigoGrupo from "@/components/forms/deposito/EditarCodigoGrupo";
 
 export default function ListaStockV3() {
   const [usuarioDep, setUsuarioDep] = useState(false);
@@ -31,6 +32,7 @@ export default function ListaStockV3() {
   const [popupDetalleOpen, setPopupDetalleOpen] = useState(false);
   const [popupEditarStockIndvOpen, setPopupEditarStockIndvOpen] =
     useState(false);
+  const [popupEditarCodigoLoteOpen, setPopupEditarCodigoLoteOpen] = useState(false);
   const [popupEditarCodigoIndvOpen, setPopupEditarCodigoIndvOpen] =
     useState(false);
   const [selectedIdCodigo, setSelectedIdCodigo] = useState(-1);
@@ -53,7 +55,7 @@ export default function ListaStockV3() {
     if (data.length < 1) {
       return (
         <span
-          style={{ fontWeight: "500", fontSize: "0.9em", color: "darkgray" }}
+          style={{ padding:"16px", fontWeight: "500", fontSize: "1.1em", color: "#1215E5" }}
         >
           <i>Sin registros</i>
         </span>
@@ -127,6 +129,11 @@ export default function ListaStockV3() {
         onEditarEtiquetasClick={(_) => {
           setPopupTagsOpen(true);
         }}
+        onEditarSeleccionClick={
+          _=>{
+            setPopupEditarCodigoLoteOpen(true);
+          }
+        }
       />
     );
   };
@@ -259,6 +266,7 @@ export default function ListaStockV3() {
       //alert(JSON.stringify(response));
       if (response.data.length < 1) {
         alert("No se encontraron codigos con los filtros seleccionados.");
+        setData([])
       } else {
         setData(
           response.data.map((row) => ({
@@ -440,6 +448,25 @@ export default function ListaStockV3() {
           height={480}
           idsucursal={globals.obtenerSucursal()}
         />
+      </Modal>
+      <Modal 
+      open={popupEditarCodigoLoteOpen}
+      footer={null}
+      title=""
+      onCancel={_=>setPopupEditarCodigoLoteOpen(false)}
+      destroyOnClose
+      width={"800px"}
+      >
+        <EditarCodigoGrupo 
+        callback={_=>{
+          setPopupEditarCodigoLoteOpen(false);
+          setValueChanged(!valueChanged);
+        }}
+        codigos={data
+            .filter((d) => d.checked)
+            .map((c) => ({ codigo: c.codigo, idcodigo: c.idcodigo }))}
+
+            />
       </Modal>
     </>
   );

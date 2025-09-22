@@ -87,7 +87,7 @@ const SubGroupSelectV2 = (props) => {
         <> 
             <Card 
             title={<><span style={{color:"darkblue"}}>Seleccione Categor&iacute;a de Producto</span> <Button size="small" type="link" onClick={onAgregarSubgrupoClick}><i><PlusOutlined size={"small"}/>Agregar Cat.</i></Button></>} size="small" 
-            style={{width:"400px", boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)"}}>
+            style={{width:"400px", boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)", borderRadius:"16px"}}>
             <Row>
                     <Col span={24}>
                         <Select 
