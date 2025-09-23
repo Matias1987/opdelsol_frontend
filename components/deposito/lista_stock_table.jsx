@@ -16,11 +16,12 @@ import {
   Space,
   Table,
   Tag,
+  Card,
 } from "antd";
 import ExportToCSV from "../ExportToCSV";
 import ExportToExcel from "../etc/ExportToExcel";
 import { useState } from "react";
-import Card from "antd/es/card/Card";
+
 
 const StockTable = (props) => {
   const {
