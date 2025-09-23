@@ -21,7 +21,7 @@ export default function VentaDirectaItems(props){
 
 
     return data == null ? <Spin /> : <>
-    <table style={{width:"80%", fontSize:".95em", padding:"0",  marginLeft:"auto", marginRight:"auto",}}>
+    <table style={{width:"95%", fontSize:".95em", padding:"0",  marginLeft:"auto", marginRight:"auto",}}>
         <thead>
             <tr>
                 <th style={{padding:"0", textAlign:"left"}}>C&oacute;digo</th>

@@ -13,6 +13,7 @@ import InformeTarjetas from "@/components/informes/cobros/informeTarjetas";
 import ListadoCajasAdmin from "@/components/admin/caja/ListadoCajasAdmin";
 import VentasTipoGraph from "@/components/charts/ventasTipoGraph";
 import CobrosTipoGraph from "@/components/charts/cobrosTipoGraph";
+import Proveedores from "@/components/admin/dashboard_components/proveedores";
 export default function test() {
   return (
     <div>
@@ -22,8 +23,14 @@ export default function test() {
     <InformeTarjetas />  
 
     <Divider />*/}
+    <Row>
+      <Col span={12}>
+        <Proveedores />
+      </Col>
+    </Row>
+    <br />
       <Row gutter={16}>
-        <Col span={12}>
+        <Col span={8}>
           <VentasTipoGraph />
         </Col>
         <Col span={12}>

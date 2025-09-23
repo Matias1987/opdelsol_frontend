@@ -21,7 +21,7 @@ export default function RecStockItems(props){
 
 
     return data == null ? <Spin /> : <div style={{width:"100%"}}>
-    <table style={{width:"70%", fontSize:".95em", padding:"0", marginLeft:"auto", marginRight:"auto"}}>
+    <table style={{width:"95%", fontSize:"1.0em", padding:"0", marginLeft:"auto", marginRight:"auto"}}>
         <thead>
             <tr>
                 <th style={{width:'10%'}}></th>
@@ -36,7 +36,7 @@ export default function RecStockItems(props){
                 data.map(r=>(
                     <tr >
                         <td style={{borderBottom:"1px dotted"}}>{r.tipo}</td>
-                        <td style={{borderBottom:"1px dotted", padding:".2em",textAlign:"left"}}><b>{r.codigo}</b></td>
+                        <td style={{borderBottom:"1px dotted", padding:".2em",textAlign:"left"}}><span style={{fontWeight:"600"}}>{r.codigo}</span></td>
                         <td style={{borderBottom:"1px dotted", padding:".2em",textAlign:"left"}}><b>{r.eje}</b></td>
                         {/*<td style={{padding:"0",textAlign:"left"}}>{r.descripcion}</td>*/}
                         <td style={{borderBottom:"1px dotted", padding:".2em",textAlign:"right"}}>{currency_format(r.precio)}</td>

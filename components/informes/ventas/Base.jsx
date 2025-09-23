@@ -3,19 +3,20 @@ import { ScissorOutlined } from "@ant-design/icons"
 import { Spin, Tag } from "antd"
 import Barcode from "react-barcode"
 
-const { useState, useEffect } = require("react")
-const { default: VentaDirectaItems } = require("./VentaDirectaItems")
-const { default: RecStockItems } = require("./RecStockItems")
-const { default: LCLabItems } = require("./LCLabItems")
-const { default: LCStockItems } = require("./LCStockItems")
-const { default: MultifLabItems } = require("./MultifLabItems")
-const { default: MonofLabItems } = require("./MonofLabItems")
-const { default: FechaEntregaInf } = require("./common/FechaRetiroInf")
-const { default: MontosTotalesInf } = require("./common/MontosTotales")
-const { default: ModoPagoInf } = require("./common/ModoPago")
-const { default: DestinatarioInf } = require("./common/Destinatario")
-const { default: ResponsableInf } = require("./common/Responsable")
-const { default: DataSucursalInf } = require("./common/DataSucursalInf")
+import { useState, useEffect } from "react";
+import VentaDirectaItems from "./VentaDirectaItems";
+import RecStockItems from "./RecStockItems";
+import LCLabItems from "./LCLabItems";
+import LCStockItems from "./LCStockItems";
+import MultifLabItems from "./MultifLabItems";
+import MonofLabItems from "./MonofLabItems";
+import FechaEntregaInf from "./common/FechaRetiroInf";
+import MontosTotalesInf from "./common/MontosTotales";
+import ModoPagoInf from "./common/ModoPago";
+import ResponsableInf from "./common/Responsable";
+import DestinatarioInf from "./common/Destinatario";
+import DataSucursalInf from "./common/DataSucursalInf";
+
 
 const InformeVenta = (props) => {
 
@@ -46,8 +47,6 @@ const InformeVenta = (props) => {
 						total_haber += parseFloat(r.monto)
 					}
 				})
-
-				//alert("data venta: " + JSON.stringify(response))
 
 				setData({...response.data[0], total_haber: total_haber})
 				
@@ -119,7 +118,7 @@ const InformeVenta = (props) => {
 											}
 											<br />
 											{
-												//<Barcode value={data.idventa}  displayValue={false} width={2} height={6}/>
+												<Barcode value={data.idventa}  displayValue={false} width={2} height={12}/>
 											}
 										</td>
 										<td width='250px'>
@@ -143,23 +142,26 @@ const InformeVenta = (props) => {
 						</td></tr>
 					<tr>
 						<td>
-						<table style={{height: '21px', width:'100%', border:'1px solid black', padding:"6px", borderRadius:"16px",}} >
+						<table style={{height: '21px', width:'100%', border:'1px solid black', padding:"2px", borderRadius:"16px",}} >
 								<tbody>
 									<tr>
 										<td>
 											Vendedor: <b>{data.usuario_nombre}</b>
 											<ResponsableInf id={data.cliente_idcliente}/>
 											<DestinatarioInf id={data.fk_destinatario} />
-											<hr />
-           									 {data.obra_social!="" ? "Obra Social: "+data.obra_social : ""}<br /> <b>{data.medico!="" ? "Medico: " + data.medico + "" : ""}</b> <br />Fecha de Entrega: <b>{data.fecha_entrega_formated + "  " + (data.hora_retiro == "null" ? "-" : data.hora_retiro)}</b>
+           									 {data.obra_social!="" ? "Obra Social: "+data.obra_social : ""}<b>{data.medico!="" ? "Medico: " + data.medico + "" : ""}</b> <br />Fecha de Entrega: <b>{data.fecha_entrega_formated + "  " + (data.hora_retiro == "null" ? "-" : data.hora_retiro)}</b>
 										</td>
 										<td width='180px'>
-											<div style={{marginTop:"-3em"}}>
-												<DataSucursalInf idsucursal={data.sucursal_idsucursal} />
+											<div>
+												
+												<DataSucursalInf idsucursal={data.sucursal_idsucursal} hideContactData={true} />
 												<FechaEntregaInf data={data} />
+												<Barcode value={data.idventa}  displayValue={false} width={2} height={14}/>
 											</div>
+											
 										</td>
 									</tr>
+						
 								</tbody>
 							</table>
 						</td>

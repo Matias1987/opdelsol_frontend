@@ -21,7 +21,7 @@ export default function MultifLabItems(props){
 
 
     return data == null ? <Spin /> : <>
-    <table style={{width:"70%", fontSize:".95em", padding:"0", marginLeft:"auto", marginRight:"auto"}}>
+    <table style={{width:"95%", fontSize:".95em", padding:"0", marginLeft:"auto", marginRight:"auto"}}>
         <thead>
             <tr>
                 <th></th>
