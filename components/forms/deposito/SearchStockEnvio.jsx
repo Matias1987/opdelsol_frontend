@@ -141,16 +141,16 @@ const SearchStockEnvio = (props) => {
     return (
         <>
         <Card
-        title={"Agregar Códigos a Envio"}
+        title={<div style={{fontStyle:"italic", color:"#313131ff", textAlign:"center", fontSize:".9em"}}>Agregar C&oacute;digos al Env&iacute;o</div>}
         size="small"
-        style={{boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)"}}
+        style={{boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)", borderRadius:"16px", borderColor:"rgba(208, 216, 243, 0.9)"}}
         >
             <>
-        <Row>
-            <Col span={12}>
+        <Row gutter={16}>
+            <Col>
                 <Checkbox checked={conStockOrigen} onChange={()=>{setConStockOrigen(!conStockOrigen)}}>Con stock origen</Checkbox>
             </Col>
-            <Col span={12}>
+            <Col>
                 <Checkbox checked={sinStockDestino} onChange={()=>{setSinStockDestino(!sinStockDestino)}}>Sin stock destino</Checkbox>
             </Col>
         </Row>
@@ -213,11 +213,11 @@ const SearchStockEnvio = (props) => {
                     dataSource={dataSource} 
                     columns={
                         [
-                            {width:"200px", title:"Codigo", dataIndex: "codigo" },
-                            {width:"100px", title:"Loc.", dataIndex: "cantidad", render: (_,{cantidad})=>(<span style={{color:"#00972D"}}>{cantidad}</span>)},
-                            {width:"100px", title:"Dest.", dataIndex: "cantidad_destino", render: (_,{cantidad_destino})=>(<span style={{color:"red"}}>{cantidad_destino}</span>)},
+                            {width:"150px", title:"Codigo", dataIndex: "codigo" },
+                            {width:"80px", title:"Loc.", dataIndex: "cantidad", render: (_,{cantidad})=>(<span style={{color:"#00972D"}}>{cantidad}</span>)},
+                            {width:"80px", title:"Dest.", dataIndex: "cantidad_destino", render: (_,{cantidad_destino})=>(<span style={{color:"red"}}>{cantidad_destino}</span>)},
                             {
-                                width:"80px", 
+                                width:"50px", 
                                 title:<>
                                     <Button 
                                     type="primary"

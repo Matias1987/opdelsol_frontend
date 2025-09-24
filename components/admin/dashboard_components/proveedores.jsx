@@ -1,3 +1,5 @@
+import { post_method } from "@/src/helpers/post_helper";
+import { post } from "@/src/urls";
 import { ReloadOutlined, UserOutlined } from "@ant-design/icons";
 import { Badge, Card, Avatar, Divider, List, Skeleton, Button } from "antd";
 import { useEffect, useState } from "react";
@@ -15,6 +17,13 @@ const Proveedores = (_) => {
     "#A3B98B", // 🟩 Minimal Alert – gentle olive green
     "#7FAF9D", // ✅ OK Status – calm teal green
   ];
+
+  const load = _=>{
+    post_method(post.pagos_atrasados_proveedores,{},(response)=>{
+        alert(JSON.stringify(response))
+    })
+
+  }
 
   const loadMoreData = () => {
     if (loading) {
@@ -37,7 +46,8 @@ const Proveedores = (_) => {
   };
 
   useEffect(() => {
-    loadMoreData();
+    load();
+    //loadMoreData();
   }, []);
 
   return (
@@ -63,14 +73,14 @@ const Proveedores = (_) => {
             border: "1px solid rgba(140, 140, 140, 0)",
           }}
         >
-          <InfiniteScroll
+          {/*<InfiniteScroll
             dataLength={data.length}
             next={loadMoreData}
             hasMore={data.length < 50}
             loader={<Skeleton avatar paragraph={{ rows: 1 }} active />}
             endMessage={<Divider plain>It is all, nothing more 🤐</Divider>}
             scrollableTarget="scrollableDiv"
-          >
+          >*/}
             <List
               size="small"
               dataSource={data}
@@ -120,7 +130,7 @@ const Proveedores = (_) => {
                 </List.Item>
               )}
             />
-          </InfiniteScroll>
+          {/*</InfiniteScroll>*/}
         </div>
       </Card>
     </>

@@ -134,7 +134,7 @@ const EnvioForm = (props) => {
               ? {
                   ...r,
                   cantidad:
-                    r.cantidad < r.max_cantidad ? r.cantidad + 1 : r.cantidad,
+                    parseInt(r.cantidad) < parseInt(r.max_cantidad) ? parseInt(r.cantidad) + 1 : parseInt(r.cantidad),
                 }
               : r
           )
@@ -218,14 +218,25 @@ const EnvioForm = (props) => {
       <Card
         size="small"
         title="Nuevo Envío"
-        style={{ boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)", minWidth:"600px"}}
+        style={{ boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)"}}
       >
         <Row gutter={16}>
+          
+          <Col style={{ padding: "14px", paddingTop:"32px", minWidth:"200px", width:"500px" }}>
+            <SearchStockEnvio
+              idSucursalDestino={sucursalDestId}
+              callback={(arr) => {
+                //alert(JSON.stringify(arr))
+                setRowsToAdd(arr);
+              }}
+              key={sucursalDestId}
+            />
+          </Col>
           <Col>
             <Card
-              style={{ boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)"  , minWidth:"400px",  width:"700px"}}
+              styles={{header:{backgroundColor:"#fbfcf2ff", color:"#663f4c", fontSize:"1.3em"}}}
+              style={{ boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)"  , minWidth:"400px",  width:"750px"}}
               title="Envío"
-              size="small"
             >
               <Form
                 style={{ color: "white" }}
@@ -410,16 +421,6 @@ const EnvioForm = (props) => {
                 </Form.Item>
               </Form>
             </Card>
-          </Col>
-          <Col style={{ padding: "8px", minWidth:"200px", width:"600px" }}>
-            <SearchStockEnvio
-              idSucursalDestino={sucursalDestId}
-              callback={(arr) => {
-                //alert(JSON.stringify(arr))
-                setRowsToAdd(arr);
-              }}
-              key={sucursalDestId}
-            />
           </Col>
         </Row>
       </Card>

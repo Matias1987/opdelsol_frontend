@@ -199,6 +199,8 @@ const post = {
 
     informe_stock_totales: remote_base_url + "infstck/inf/t/st/",
 
+    pagos_atrasados_proveedores: remote_base_url + "proveedores/pagos_atrasados_proveedores/",
+
     search:{
         filtro_stock: remote_base_url + "stock/filtro_stock/",
     },
