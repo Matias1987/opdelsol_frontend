@@ -18,7 +18,7 @@ const DetalleFactura = (props) => {
     const fetchUrlElementos = get.elementos_factura;
 
     
-    const open = _ => {
+    const load = _ => {
         if(typeof props.idFactura === 'undefined'){
             alert("couldn't find id factura")
             return;
@@ -74,7 +74,7 @@ const DetalleFactura = (props) => {
     useEffect(()=>{
         if(props.idFactura>0)
         {
-            open()
+            load()
         }
     },[props.idFactura]);
 

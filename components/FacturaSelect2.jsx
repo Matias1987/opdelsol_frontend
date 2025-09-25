@@ -1,5 +1,9 @@
 import { get } from "@/src/urls";
-import { CloseOutlined, DeleteFilled } from "@ant-design/icons";
+import {
+  CloseCircleFilled,
+  CloseOutlined,
+  DeleteFilled,
+} from "@ant-design/icons";
 import { Button, Col, Modal, Row, Select } from "antd";
 import { useEffect, useState } from "react";
 import FacturaForm from "./forms/FacturaForm";
@@ -20,18 +24,15 @@ const FacturaSelect2 = (props) => {
   const [nroFactura, setNroFactura] = useState("");
 
   useEffect(() => {
-    
+    if (props.hasOwnProperty("factura") && props.factura !== null) {
+      setIdFactura(props.factura.idfactura);
+      setNroFactura(props.factura.nro);
+    }
+
     if (proveedores.length < 1) {
       load_proveedores();
     }
-/*
-    if (typeof props.factura !== "undefined") {
-      if (props.factura !== null) {
-        setIdFactura(props.factura.idfactura);
-        setNroFactura(props.factura.nro);
-      }
-    }
-*/
+
     load_facturas();
   }, [idProveedor, reload]);
 
@@ -65,8 +66,35 @@ const FacturaSelect2 = (props) => {
       });
   };
 
-  return (
-    <div
+  const _body = idFactura > 0 ? 
+    <Row gutter={2}>
+      <Col>
+        <Button
+          type="default"
+          size="large"
+          onClick={() => {
+             setPopupDetalleFacturaOpen(true);
+          }}
+          style={{ color: "blue" }}
+        >
+          Factura Nro.: {nroFactura}
+        </Button>
+      </Col>
+      <Col>
+        <Button
+          danger
+          type="default"
+          size="large"
+          onClick={(_) => {
+            setIdFactura(-1);
+            props.callback(null);
+          }}
+        >
+          <CloseCircleFilled />
+        </Button>
+      </Col>
+    </Row>
+   : <div
       style={{
         padding: "12px",
         border: "1px solid #ffffffff",
@@ -74,103 +102,70 @@ const FacturaSelect2 = (props) => {
         backgroundColor: "#E4E4E4",
       }}
     >
-
-       <Row gutter={16}>
+      <Row gutter={16}>
         <Col>
-        <b>Factura:</b> 
+          <b>Factura:</b>
         </Col>
-          <Col>
-            <Select
-              size="small"
-              prefix={<span style={{ fontWeight: "bold" }}>Proveedor: </span>}
-              disabled={!enabled}
-              options={proveedores}
-              value={idProveedor}
-              onChange={(v) => {
-                if (v == -2) {
-                  setPopupProvOpen(true);
-                  return;
-                }
-                setIdFactura(-1);
-                setIdProveedor(v);
-                props.callback(null);
-              }}
-              style={{ width: "100%", overflow: "hidden" }}
-            />
-          </Col>
+        <Col>
+          <Select
+            size="small"
+            prefix={<span style={{ fontWeight: "bold" }}>Proveedor: </span>}
+            
+            options={proveedores}
+            value={idProveedor}
+            onChange={(v) => {
+              if (v == -2) {
+                setPopupProvOpen(true);
+                return;
+              }
+              setIdFactura(-1);
+              setIdProveedor(v);
+              props.callback(null);
+            }}
+            style={{ width: "100%", overflow: "hidden" }}
+          />
+        </Col>
 
-          {idProveedor < 0 ? (
-            <>...</>
-          ) : (
-            <>
-              <Col>
-                {idFactura < 0 ? (
-                  <Select
-                    size="small"
-                    prefix={
-                      <span style={{ fontWeight: "bold" }}>Factura: </span>
-                    }
-                    disabled={!enabled}
-                    options={facturas}
-                    value={idFactura}
-                    onChange={(v) => {
-                      if (v == -2) {
-                        setPopupFacturaOpen(true);
-                        return;
-                      }
+        {idProveedor < 0 ? (
+          <>...</>
+        ) : (
+          <>
+            <Col>
+              <Select
+                size="small"
+                prefix={<span style={{ fontWeight: "bold" }}>Factura: </span>}
+                
+                options={facturas}
+                value={idFactura}
+                onChange={(v) => {
+                  if (v == -2) {
+                    setPopupFacturaOpen(true);
+                    return;
+                  }
 
-                      let __f = facturas.filter((_f) => +_f.value == +v)[0];
-                      setIdFactura(v);
-                      
-                      props.callback({
-                        idfactura: __f.value,
-                        nro: __f.label,
-                      });
+                  let __f = facturas.filter((_f) => +_f.value == +v)[0];
+                  setIdFactura(v);
 
-                      setEnabled(false);
+                  props.callback({
+                    idfactura: __f.value,
+                    nro: __f.label,
+                  });
 
-                      setNroFactura(__f.label);
-                    }}
-                    style={{ width: "100%", overflow: "hidden" }}
-                    key={idProveedor}
-                  />
-                ) : (
-                  <>
-                    <Button
-                      type="default"
-                      size="small"
-                      block
-                      onClick={() => {
-                        setPopupDetalleFacturaOpen(true);
-                      }}
-                      style={{ color: "blue" }}
-                    >
-                      Factura Nro.: {nroFactura}
-                    </Button>
-                  </>
-                )}
-              </Col>
+                  setEnabled(false);
 
-              <Col>
-                <Button
-                  block
-                  size="small"
-                  danger
-                  onClick={() => {
-                    setEnabled(true);
-                    setIdProveedor(-1);
-                    setIdFactura(-1);
-                    props.callback(null);
-                  }}
-                >
-                  <CloseOutlined />
-                </Button>
-              </Col>
-            </>
-          )}
-        </Row>
-      
+                  setNroFactura(__f.label);
+                }}
+                style={{ width: "100%", overflow: "hidden" }}
+                key={idProveedor}
+              />
+            </Col>
+          </>
+        )}
+      </Row>
+</div>
 
+  return <>
+      {_body}
       <Modal
         width={"900px"}
         destroyOnClose
@@ -218,8 +213,8 @@ const FacturaSelect2 = (props) => {
           }}
         />
       </Modal>
-    </div>
-  );
+      </>
+    
 };
 
 export default FacturaSelect2;

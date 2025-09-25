@@ -33,7 +33,7 @@ const public_urls = {
     nuevo_envio: local_base_url + "deposito/envio/nuevo_envio",
     lista_stock: local_base_url + "deposito/stock/listados/lista_stockv3",
     agregar_stock: local_base_url + "deposito/stock/agregar_stock_lote_v3",
-    lista_stock_taller: local_base_url + "laboratorio/stock_taller",
+    lista_stock_taller: local_base_url + "laboratorio/stock_tallerv2",
     modo: local_base_url + "Modo",
     //ventas: 
     venta_directa: local_base_url + "ventas/Directa",

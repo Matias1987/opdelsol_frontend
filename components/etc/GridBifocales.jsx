@@ -20,7 +20,7 @@ const GridBifocales = (props) => {
       label: "Editar Stock",
       key: "2",
       icon: <EditOutlined />,
-      disabled: !globals.esUsuarioDeposito(),
+      disabled: !globals.esUsuarioDeposito() && !globals.esUsuarioLaboratorio(),
     },
   ];
 

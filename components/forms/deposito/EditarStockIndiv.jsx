@@ -15,7 +15,7 @@ const EditarStockIndiv = (props) => {
     const [stock ,setStock] = useState(null)
     const [open, setOpen] = useState(false)
     const [codigo, setCodigo] = useState(null)
-    const [idfactura, setIdFactura] = useState(-1)
+    const [selFactura, setSelFactura] = useState(null)
     const [editarCosto, setEditarCosto] = useState(false)
     const [incrementarCantidad, setIncrementarCantidad] = useState(false)
     const [cantInput, setCantInput] = useState(0)
@@ -26,7 +26,7 @@ const EditarStockIndiv = (props) => {
        setCantInput(0)
         setOpen(true)
         setEditarCosto(false)
-        setIdFactura(typeof props.factura==='undefined' || props.factura===null ? -1 : props.factura.idfactura)
+        setSelFactura(typeof props.factura==='undefined' || props.factura===null ? -1 : props.factura)
         fetch(get.obtener_stock_sucursal + `${props.idsucursal}/${props.idcodigo}`)
         .then(r=>r.json())
         .then((response)=>{
@@ -52,7 +52,8 @@ const EditarStockIndiv = (props) => {
 
 
     const guardarCambios = () => {
-        let _idfactura = props.factura!=null ? props.factura.idfactura : idfactura
+                
+        let _idfactura = props.factura!=null ? props.factura.idfactura :  (selFactura == null ? -1 : selFactura.idfactura);
 
         post_method(post.update.modificar_cantidad_stock,{
             idfactura: _idfactura,
@@ -63,7 +64,7 @@ const EditarStockIndiv = (props) => {
             cant_modif: stock.cant_modif,
         },
         (response)=>{
-            alert("OK")
+            alert("Cambios guardados")
             props?.callback?.()
             setOpen(false)
         }
@@ -92,8 +93,8 @@ const EditarStockIndiv = (props) => {
         <Row style={{padding:"1em"}}>
             <Col span={24}>
                 Factura: (Opcional)&nbsp;
-                <FacturaSelect2 callback={(id)=>{
-                    setIdFactura(id)
+                <FacturaSelect2 callback={(_factura)=>{
+                    setSelFactura(_factura)
                 }}/>
             </Col>
         </Row>
