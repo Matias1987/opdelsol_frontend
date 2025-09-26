@@ -22,6 +22,7 @@ import RetencionesForm from "./retencionesForm";
 import IVAForm from "./ivaForm";
 import { get, post } from "@/src/urls";
 import { post_method } from "@/src/helpers/post_helper";
+import AgregarProductoFactura from "./agregarProductoFactura";
 
 const AgregarFacturaV2 = (props) => {
   const [factura, setFactura] = useState({
@@ -475,6 +476,12 @@ const AgregarFacturaV2 = (props) => {
         </Col>
       </Row>
       <Divider />
+      <Row>
+        <Col span={24} style={{ fontSize: ".7em", color: "gray" }}>
+          {/*<AgregarProductoFactura /> */}
+        </Col>
+      </Row>
+      <Divider />
       <Row style={{ display: "flex", justifyContent: "end" }}>
         <Col>
           <Button
@@ -488,6 +495,7 @@ const AgregarFacturaV2 = (props) => {
           </Button>
         </Col>
       </Row>
+      
       <Modal
         destroyOnClose
         width={"400px"}

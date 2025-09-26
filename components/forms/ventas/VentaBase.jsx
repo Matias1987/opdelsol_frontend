@@ -61,17 +61,20 @@ export default function VentaBase(props) {
   };
 
   const finalizar_venta = (e) => {
-    if(venta.fkusuario<1)
+
+    const idvendedor = cambiar_vendedor == 0 ? +globals.obtenerUID() : venta.fkusuario;
+
+    if(idvendedor<1)
     {
       alert("Seleccione Vendedor");
       return;
     }
     setBtnEnabled(false);
     setVenta((venta) => {
-      props?.onfinish?.(venta, (_) => {
+      props?.onfinish?.({...venta, fkusuario:idvendedor}, (_) => {
         setBtnEnabled(true);
       });
-      return venta;
+      return {...venta, fkusuario:idvendedor};
     });
   };
 

@@ -3,14 +3,16 @@ import ExportToCSV from "@/components/ExportToCSV";
 import PrinterWrapper from "@/components/PrinterWrapper";
 import CodigosDeBarraEnvio from "@/components/informes/CodigosDeBarra";
 import InformeEnvio from "@/components/informes/InformeEnvio";
+import { get } from "@/src/urls";
 
-import { Table, Button, Tag, Row, Col, Card } from "antd";
+import { Table, Button, Tag, Row, Col, Card, Input } from "antd";
+
 import { useEffect, useState } from "react";
-const urls = require("../../../../src/urls")
+
 export default function  ListaEnvios(props){
     const [data,setData] = useState([])
     const [update, setUpdate] = useState(false)
-
+    const [filtro, setFiltro] = useState("")
     const columns = [
         {width:"100px",title: 'Nro.', dataIndex: 'idenvio', key: 'idenvio'},
         {width:"100px",title: 'Fecha', dataIndex: 'fecha', key: 'fecha'},
@@ -56,7 +58,7 @@ export default function  ListaEnvios(props){
         {
             return
         }
-        fetch(urls.get.anular_envio + idvenvio)
+        fetch(get.anular_envio + idvenvio)
         .then(r=>r.json())
         .then((response)=>{
             setUpdate(!update)
@@ -65,7 +67,7 @@ export default function  ListaEnvios(props){
     }
 
     useEffect(()=>{
-        fetch(urls.get.lista_envios)
+        fetch(get.lista_envios)
         .then(response=>response.json())
         .then((response)=>{
             //parse
@@ -87,6 +89,7 @@ export default function  ListaEnvios(props){
         <Card
             size="small"
             title="Lista de envíos"
+            extra={<><Input allowClear prefix={"Nro.: "} value={filtro} onChange={e=>{setFiltro((e.target.value||"").toUpperCase())}} /></>}
             >
             <Row>
                 <Col span={24}>
@@ -110,7 +113,7 @@ export default function  ListaEnvios(props){
                 size="small"
                 scroll={{y:"450px"}}
                 columns={columns}
-                dataSource={data}
+                dataSource={filtro != "" ? data.filter(item => item.idenvio.toString().includes(filtro)) : data}
                 rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'} 
             />
                 </Col>

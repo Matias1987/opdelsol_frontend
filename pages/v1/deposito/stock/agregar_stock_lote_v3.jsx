@@ -465,14 +465,13 @@ export default function AgregarStockLoteV3(props){
       </Button>
     <Modal
         cancelButtonProps={{ style: { display: 'none' } }}
-        okButtonProps={{children:"CANCELAR"}}
         
         width={"900px"}
         title={"Agregar Factura"}
         open={factura_popup_open}
         onOk={closePopup}
         onCancel={closePopup}
-        okText="CERRAR"
+        footer={null}
     >
         {/*<FacturaForm action="ADD" callback={onOk} />*/}
         <AgregarFacturaV2 callback={()=>{onOk()}} />
