@@ -6,21 +6,58 @@ import {
 import { Button, Card, Col, Input, Modal, Row, Table } from "antd";
 import { useState } from "react";
 import BuscarCodigoFactura from "./buscarCodigoFactura";
+import { get } from "@/src/urls";
 
-const AgregarProductoFactura = () => {
+const AgregarProductoFactura = ({ onchange }) => {
   const [inputStr, setInputStr] = useState("");
   const [data, setData] = useState([]);
-  const [localId, setLocalId] = useState(0);
   const [popupSelectCodigoOpen, setPopupSelectCodigoOpen] = useState(false);
   const columns = [
-    { width:"230px", title: "Código", render: (_, record) => <>{record.codigo}</> },
-    { width:"80px",
+    {
+      width: "200px",
+      title: "Código",
+      render: (_, record) => <>{record.codigo}</>,
+    },
+    {
+      width: "80px",
       title: <div style={{ textAlign: "right" }}>Cant.</div>,
       render: (_, record) => (
-        <div style={{ textAlign: "right" }}>{record.cantidad}</div>
+        <>
+          <Input
+            type="number"
+            min={1}
+            value={record.cantidad}
+            onChange={(e) => {
+              const v = parseInt(e.target.value || "1");
+              onSetData(record.idcodigo, "cantidad", v < 1 ? 1 : v);
+            }}
+          />
+        </>
       ),
     },
-    { width:"300px", title: "Descripción", render: (_, record) => <>{record.descripcion}</> },
+    {
+      width: "200px",
+      title: "Descripción",
+      render: (_, record) => <>{record.descripcion}</>,
+    },
+    {
+      width: "120px",
+      title: "Precio",
+      render: (_, record) => (
+        <>
+          <Input
+            value={record.precio}
+            step={0.01}
+            type="number"
+            min={0}
+            prefix={"$"}
+            onChange={(e) =>
+              onSetData(record.idcodigo, "precio", e.target.value)
+            }
+          />
+        </>
+      ),
+    },
     {
       title: "",
       render: (_, record) => (
@@ -29,9 +66,7 @@ const AgregarProductoFactura = () => {
             danger
             size="large"
             onClick={(_) => {
-              setData((_data) =>
-                _data.filter((r) => r.idcodigo !== record.idcodigo)
-              );
+              onRemoveData(record.idcodigo);
             }}
           >
             <CloseOutlined />
@@ -41,33 +76,73 @@ const AgregarProductoFactura = () => {
     },
   ];
 
-  const onAddNewRow = (row) => {
-    const code = data.find((r) => r.idcodigo == row.dicodigo);
+  const onRemoveData = (idcodigo) => {
+    setData((_data) => {
+      const _new_data = _data.filter((r) => r.idcodigo !== idcodigo);
+      onchange?.(_new_data);
+      return _new_data;
+    });
+  };
+
+  const onSetData = (idcodigo, index, value) => {
+    setData((_data) => {
+      const _new_data = _data.map((r) =>
+        r.idcodigo == idcodigo ? { ...r, [index]: value } : r
+      );
+      onchange?.(_new_data);
+      return _new_data;
+    });
+  };
+
+  const onAddData = (newData) => {
+    setData((_data) => {
+      const _new_data = [..._data, ...[newData]];
+      onchange?.(_new_data);
+      return _new_data;
+    });
+  };
+
+  const addOrUpdateRow = (row) => {
+    const code = data.find((r) => +r.idcodigo == +row.idcodigo);
 
     if (code) {
       //update quantity
-      setData((_data) =>
-        _data.map((_r) =>
-          r.idcodigo == _r.idcodigo ? { ...r, cantidad: _r.cantidad + 1 } : _r
-        )
-      );
+      onSetData(code.idcodigo, "cantidad", code.cantidad + 1);
       return;
     }
-
-    setData((_data) => [..._data, ...[row]]);
+    //add new row
+    onAddData(row);
   };
 
   const onPressEnter = (_) => {
-    if (inputStr.trim().length < 1) {
+    const _inputstr = inputStr.trim();
+    setInputStr("");
+    if (_inputstr.length < 1) {
       return;
     }
-    onAddNewRow({
-      codigo: `CODIGO-${localId}`,
-      descripcion: "",
-      cantiad: 1,
-      idcodigo: localId,
-    });
-    setLocalId((li) => li + 1);
+    if (!/^[0-9]+$/.test(_inputstr)) {
+      alert("Invalid ID");
+      return;
+    }
+    fetch(get.detalle_codigo + _inputstr)
+      .then((r) => r.json())
+      .then((response) => {
+        if (!response) {
+          return;
+        }
+
+        if ((response?.data || []).length < 1) {
+          return;
+        }
+        const _the_code = response.data[0];
+        addOrUpdateRow({
+          idcodigo: _the_code.idcodigo,
+          codigo: _the_code.codigo,
+          descripcion: _the_code.descripcion,
+          cantidad: 1,
+          precio: _the_code.costo,
+        });
+      });
   };
 
   const onChange = (e) => {
@@ -118,6 +193,7 @@ const AgregarProductoFactura = () => {
             }
           >
             <Table
+              size="small"
               dataSource={data}
               columns={columns}
               pagination={false}
@@ -136,25 +212,24 @@ const AgregarProductoFactura = () => {
         destroyOnClose
         width={"800px"}
       >
-        <BuscarCodigoFactura hideExtOpt={"1"} callback={(record) => {
-
-            if(!record)
-            {
-                return;
+        <BuscarCodigoFactura
+          hideExtOpt={"1"}
+          callback={(record) => {
+            if (!record) {
+              return;
             }
-            
+
             setPopupSelectCodigoOpen(false);
 
-            if(data.find(r=>r.idcodigo==record.idcodigo))
-            {
-                setData(_data=>_data.map(row=>row.idcodigo==record.idcodigo?{...row,cantidad:row.cantidad+1} : row))
-                return;
-            }
-            
-            setData(_data=>[..._data,...[{idcodigo: record.idcodigo, cantidad:1 , descripcion: record.descripcion, codigo: record.codigo}]]);
-            
-            
-        }} />
+            addOrUpdateRow({
+              idcodigo: record.idcodigo,
+              cantidad: 1,
+              descripcion: record.descripcion,
+              codigo: record.codigo,
+              precio: record.costo,
+            });
+          }}
+        />
       </Modal>
     </>
   );

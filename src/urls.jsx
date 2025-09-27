@@ -115,6 +115,9 @@ const public_urls = {
 
     informe_cobros_tarjetas: local_base_url + "admin/ict",
 
+    laboratorio_agregar_factura: local_base_url + "laboratorio/agregar_factura",
+    laboratorio_lista_facturas: local_base_url + "laboratorio/facturas",
+
 }
 
 

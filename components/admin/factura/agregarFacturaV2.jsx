@@ -39,6 +39,7 @@ const AgregarFacturaV2 = (props) => {
     tipo: "A",
     puntoVenta: "",
     cant_productos: 0,
+    productos: [],
   });
   const [loading, setLoading] = useState(false);
   const [reload, setReload] = useState(false);
@@ -478,7 +479,7 @@ const AgregarFacturaV2 = (props) => {
       <Divider />
       <Row>
         <Col span={24} style={{ fontSize: ".7em", color: "gray" }}>
-          {/*<AgregarProductoFactura /> */}
+          {<AgregarProductoFactura onchange={(data) => setFactura((f) => ({ ...f, productos: data }))} /> }
         </Col>
       </Row>
       <Divider />
