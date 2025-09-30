@@ -53,6 +53,12 @@ const StockTable = (props) => {
       icon: <EditOutlined />,
       disabled: !globals.esUsuarioDeposito(),
     },
+    {
+      label: "Modificar Precio Subgrupo",
+      key: "4",
+      icon: <EditOutlined />,
+      disabled: !globals.esUsuarioDeposito(),
+    },
   ];
 
   const header = (_) => (
@@ -304,13 +310,37 @@ const StockTable = (props) => {
       dataIndex: "idstock",
       key: "idstock",
       width: "120px",
-      render: (_, { idcodigo }) => (
+      render: (_, record) => (
         <>
           <Dropdown
             menu={{
-              items,
+              items: [
+                {
+                  label: "Detalle",
+                  key: "1",
+                  icon: <InfoOutlined />,
+                },
+                {
+                  label: "Editar Stock",
+                  key: "2",
+                  icon: <EditOutlined />,
+                  disabled: !globals.esUsuarioDeposito(),
+                },
+                {
+                  label: "Editar Código",
+                  key: "3",
+                  icon: <EditOutlined />,
+                  disabled: !globals.esUsuarioDeposito(),
+                },
+                {
+                  label: "Modificar Precio Subgrupo",
+                  key: "4",
+                  icon: <EditOutlined />,
+                  disabled: !globals.esUsuarioDeposito() || +record.modo_precio != 1,
+                },
+              ],
               onClick: ({ key }) => {
-                onMenuOptionSelected?.(key, idcodigo);
+                onMenuOptionSelected?.(key, record.idcodigo);
               },
             }}
           >

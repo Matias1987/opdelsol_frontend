@@ -1,15 +1,12 @@
 import {
   CloseCircleTwoTone,
-  PlusCircleFilled,
   PlusOutlined,
-  SaveFilled,
 } from "@ant-design/icons";
 import {
   Button,
   Col,
   DatePicker,
   Divider,
-  FloatButton,
   Input,
   Modal,
   Row,
@@ -23,6 +20,7 @@ import IVAForm from "./ivaForm";
 import { get, post } from "@/src/urls";
 import { post_method } from "@/src/helpers/post_helper";
 import AgregarProductoFactura from "./agregarProductoFactura";
+import globals from "@/src/globals";
 
 const AgregarFacturaV2 = (props) => {
   const [factura, setFactura] = useState({
@@ -41,7 +39,6 @@ const AgregarFacturaV2 = (props) => {
     cant_productos: 0,
     productos: [],
   });
-  const [loading, setLoading] = useState(false);
   const [reload, setReload] = useState(false);
 
   const [ivaRows, setIvaRows] = useState([]);
@@ -213,6 +210,7 @@ const AgregarFacturaV2 = (props) => {
       percepciones: percepcionRows,
       retenciones: retencionRows,
       esremito: esRemito ? 1 : 0,
+      idsucursal: globals.obtenerSucursal(),
     };
     //console.log(JSON.stringify(data))
     //alert(JSON.stringify(data))

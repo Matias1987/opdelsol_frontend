@@ -15,6 +15,7 @@ import GridMonof from "@/components/etc/GridMonof";
 import StockTable from "@/components/deposito/lista_stock_table";
 import FacturaSelect2 from "@/components/FacturaSelect2";
 import EditarCodigoGrupo from "@/components/forms/deposito/EditarCodigoGrupo";
+import EditarPreciosSubgruposForm from "../forms/deposito/EditarPreciosSubgruposForm";
 
 const  ModificarStock = props => {
   const [usuarioDep, setUsuarioDep] = useState(false);
@@ -42,6 +43,8 @@ const  ModificarStock = props => {
   const [codesChanged, setCodesChanged] = useState(false);
 
   const [factura, setFactura] = useState(null);
+
+  const [popupEditarPreciosOpen, setEditarPopupPreciosOpen] = useState(false);
 
   const regexp_bif = /^([A-Z_]+)(_)(\-|\+[0-9\.]+)(_)(L|R)(_ADD_)([0-9\.]+)/;
   const regexp_monof = /^([A-Z_0-9\.]+)(_)([0-9\.]+)($)/;
@@ -147,6 +150,10 @@ const  ModificarStock = props => {
       case 3:
         setSelectedIdCodigo(idcodigo);
         setPopupEditarCodigoIndvOpen(true);
+        break;
+      case 4:
+        setSelectedIdCodigo(idcodigo);
+        setEditarPopupPreciosOpen(true);
         break;
     }
   };
@@ -324,7 +331,7 @@ const  ModificarStock = props => {
               }}
               folded={menuFolded}
             />
-            {menuFolded ? (
+            {/*menuFolded ? (
               <></>
             ) : (
               <FacturaSelect2
@@ -333,7 +340,7 @@ const  ModificarStock = props => {
                   setFactura(_factura);
                 }}
               />
-            )}
+            )*/}
           </Col>
           <Col style={{ width: menuFolded ? "100%" : "75%", padding: "6px" }}>
             <Row gutter={16}>
@@ -464,6 +471,42 @@ const  ModificarStock = props => {
             .map((c) => ({ codigo: c.codigo, idcodigo: c.idcodigo }))}
 
             />
+      </Modal>
+      <Modal
+        width={"60%"}
+        title={
+          <i style={{ color: "#555555", fontSize: ".9em" }}>
+            Editar Precios Tipo:&nbsp;<b>{"Subgrupo"}</b>
+            &nbsp;&nbsp;&nbsp;ID:&nbsp;<b>{idsubgrupo || "0"}</b>
+          </i>
+        }
+        open={popupEditarPreciosOpen}
+        onCancel={() => {
+          setEditarPopupPreciosOpen(false);
+        }}
+        footer={null}
+        destroyOnClose
+      >
+        <Row>
+          <Col span={24}>
+            <Row>
+              <Col span={24}>
+                <span style={{ fontSize: ".8em" }}>
+                  Modifica C&oacute;digos cuyos precios son por SUBGRUPO
+                </span>
+              </Col>
+            </Row>
+            <br />
+            <EditarPreciosSubgruposForm
+              fkcategoria={idsubgrupo || "0"}
+              categoria={"subgrupo"}
+              callback={() => {
+                setEditarPopupPreciosOpen(false);
+                setValueChanged(!valueChanged);
+              }}
+            />
+          </Col>
+        </Row>
       </Modal>
     </>
   );

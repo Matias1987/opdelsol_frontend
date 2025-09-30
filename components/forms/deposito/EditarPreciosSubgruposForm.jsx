@@ -93,7 +93,7 @@ const EditarPreciosSubgruposForm = (props) => {
     </Row>
     <Row  style={row_style}>
         <Col span={24}>
-                <Radio.Group value={values.tipo} onChange={(e)=>{  setValues(__v=>({...__v,tipo:e.target.value}))}}>
+                <Radio.Group disabled value={values.tipo} onChange={(e)=>{  setValues(__v=>({...__v,tipo:e.target.value}))}}>
                     <Radio value={1}>Minorista</Radio>
                     <Radio value={2}>Mayorista</Radio>
                 </Radio.Group>
