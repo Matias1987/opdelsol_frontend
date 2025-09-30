@@ -1,14 +1,27 @@
 import { post_method } from "@/src/helpers/post_helper";
 import { post } from "@/src/urls";
 import { ReloadOutlined, UserOutlined } from "@ant-design/icons";
-import { Badge, Card, Avatar, Divider, List, Skeleton, Button } from "antd";
+import {
+  Badge,
+  Card,
+  Avatar,
+  Divider,
+  List,
+  Skeleton,
+  Button,
+  Modal,
+  Checkbox,
+} from "antd";
 import { useEffect, useState } from "react";
-import InfiniteScroll from "react-infinite-scroll-component";
+import FichaProveedor from "../proveedor/fichaProveedor";
 
 const Proveedores = (_) => {
   const [loading, setLoading] = useState(false);
+  const [selectedProveedor, setSelectedProveedor] = useState(null);
+  const [popupFichaOpen, setPopupFichaOpen] = useState(false);
   const [data, setData] = useState([]);
   const [page, setPage] = useState(1);
+  const [reload, setReload] = useState(false);
   const alertColors = [
     "#8B4C4C", // 🔴 Extreme Alert – muted crimson
     "#A66A5E", // 🟥 High Alert – dusty red
@@ -18,12 +31,18 @@ const Proveedores = (_) => {
     "#7FAF9D", // ✅ OK Status – calm teal green
   ];
 
-  const load = _=>{
-    post_method(post.pagos_atrasados_proveedores,{},(response)=>{
-        alert(JSON.stringify(response))
-    })
-
-  }
+  const load = (_) => {
+    post_method(post.pagos_atrasados_proveedores, {}, (response) => {
+      //alert(JSON.stringify(response))
+      setData(
+        response.data.map((prov) => ({
+          idproveedor: prov.idproveedor,
+          nombre: prov.nombre,
+          ultimo_pago: prov.ultimo_pago,
+        }))
+      );
+    });
+  };
 
   const loadMoreData = () => {
     if (loading) {
@@ -48,16 +67,34 @@ const Proveedores = (_) => {
   useEffect(() => {
     load();
     //loadMoreData();
-  }, []);
+  }, [reload]);
 
   return (
     <>
       <Card
-        extra={<><Button type="link"><ReloadOutlined /></Button></>}
-        style={{width:"500px"}}
+        extra={
+          <>
+            <Button type="link">
+              <ReloadOutlined />
+            </Button>
+          </>
+        }
+        style={{ width: "500px" }}
+        styles={{ header: { backgroundColor: "#ffffed", background: "linear-gradient(281deg,rgba(255, 255, 154, 1) 62%, rgba(208, 255, 0, 1) 95%)" } }}
         title={
           <>
             <UserOutlined /> Proveedores
+            <Checkbox
+              checked={false}
+              style={{ marginLeft: "16px" }}
+              onChange={(e) => {
+                if (e.target.checked) {
+                  load();
+                }
+              }}
+            >
+              Solo con pagos atrasados
+            </Checkbox>
           </>
         }
         size="small"
@@ -73,43 +110,37 @@ const Proveedores = (_) => {
             border: "1px solid rgba(140, 140, 140, 0)",
           }}
         >
-          {/*<InfiniteScroll
-            dataLength={data.length}
-            next={loadMoreData}
-            hasMore={data.length < 50}
-            loader={<Skeleton avatar paragraph={{ rows: 1 }} active />}
-            endMessage={<Divider plain>It is all, nothing more 🤐</Divider>}
-            scrollableTarget="scrollableDiv"
-          >*/}
-            <List
-              size="small"
-              dataSource={data}
-              renderItem={(item, index) => (
-                <List.Item
-                  key={item.email}
-                  style={{
-                    border: `4px solid ${alertColors[index % alertColors.length]}`,
-                    borderRadius: "16px",
-                    paddingLeft: "16px",
-                    paddingRight: "16px",
-                  }}
-                >
-                  <List.Item.Meta
-                    avatar={
-                      <>
-                        <UserOutlined />
-                      </>
-                    }
-                    title={
-                      <>
-                        <span
-                          style={{ fontSize: "1.2em" }}
-                          href="https://ant.design"
-                        >
-                          {item.name}
-                        </span>
-                        &nbsp;&nbsp;&nbsp;
-                        <i
+          <List
+            size="small"
+            dataSource={data}
+            renderItem={(item, index) => (
+              <List.Item
+                key={item.idproveedor}
+                style={{
+                  border: `4px solid ${
+                    alertColors[index % alertColors.length]
+                  }`,
+                  borderRadius: "16px",
+                  paddingLeft: "16px",
+                  paddingRight: "16px",
+                }}
+              >
+                <List.Item.Meta
+                  avatar={
+                    <>
+                      <UserOutlined />
+                    </>
+                  }
+                  title={
+                    <>
+                      <span
+                        style={{ fontSize: "1.2em" }}
+                        href="https://ant.design"
+                      >
+                        {item.nombre}
+                      </span>
+                      &nbsp;&nbsp;&nbsp;
+                      {/*<i
                           style={{
                             color: "black",
                             fontWeight: "400",
@@ -118,21 +149,45 @@ const Proveedores = (_) => {
                           }}
                         >
                           Ultimo pago: 00/00/0000
-                        </i>
-                      </>
-                    }
-                  />
-                  <div>
-                    <Button type="text" size="large" style={{ color: "black" }}>
-                      Ver Ficha
-                    </Button>
-                  </div>
-                </List.Item>
-              )}
-            />
-          {/*</InfiniteScroll>*/}
+                        </i>*/}
+                    </>
+                  }
+                />
+                <div>
+                  <Button
+                    onClick={(_) => {
+                      setSelectedProveedor(item.idproveedor);
+                      setPopupFichaOpen(true);
+                    }}
+                    type="text"
+                    size="large"
+                    style={{ color: "black" }}
+                  >
+                    Ver Ficha
+                  </Button>
+                </div>
+              </List.Item>
+            )}
+          />
         </div>
       </Card>
+      <Modal
+        open={popupFichaOpen}
+        footer={null}
+        onCancel={(_) => {
+          setReload(!reload);
+          setPopupFichaOpen(false);
+        }}
+        width={"1050px"}
+      >
+        <FichaProveedor
+          idproveedor={selectedProveedor}
+          callback={(_) => {
+            setReload(!reload);
+            setPopupFichaOpen(false);
+          }}
+        />
+      </Modal>
     </>
   );
 };

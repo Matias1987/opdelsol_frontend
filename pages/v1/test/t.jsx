@@ -17,7 +17,7 @@ import Proveedores from "@/components/admin/dashboard_components/proveedores";
 export default function test() {
   return (
     <div>
-      Test 02
+    
       {/*<ListadoCajasAdmin />
 
     <InformeTarjetas />  
