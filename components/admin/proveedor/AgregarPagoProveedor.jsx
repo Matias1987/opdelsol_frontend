@@ -108,17 +108,14 @@ const AgregarPagoProveedor = (props) => {
         </Row>
         <Row style={{padding:"1em"}}>
             <Col span={24}>
-            <DatePicker locale={esES} format={"DD-MM-YYYY"} onChange={(value)=>{setPago(_p=>({..._p,fecha:value.format("DD-MM-YYYY")}))}} />
-            </Col>
-        </Row>
-        <Row>
-            <Col span={24}>
-            Monto
-            </Col>
-        </Row>
-        <Row style={{padding:"1em"}}>
-            <Col span={24}>
-                <Input readOnly value={parseFloat(pago.monto||"0")}  />
+            <DatePicker locale={esES} format={"DD-MM-YYYY"} onChange={(value)=>{ 
+                if(value===null)
+                {
+                    setPago(_p=>({..._p,fecha:""}))
+                    return
+                }
+                setPago(_p=>({..._p,fecha:value.format("DD-MM-YYYY")}))
+            }} />
             </Col>
         </Row>
         <Row style={{padding:"6px", border:"1px solid black", borderRadius:"6px"}}>
@@ -208,6 +205,17 @@ const AgregarPagoProveedor = (props) => {
             :
             <></>
         }
+        <Row>
+            <Col span={24}>
+            Monto Total
+            </Col>
+        </Row>
+        <Row style={{padding:"1em"}}>
+            <Col span={24}>
+                <Input readOnly value={parseFloat(pago.monto||"0")}  />
+            </Col>
+        </Row>
+        
         <Row style={{padding:"1em"}}>
             <Col span={24}>
                 <Divider />

@@ -22,14 +22,22 @@ const Proveedores = (_) => {
   const [data, setData] = useState([]);
   const [page, setPage] = useState(1);
   const [reload, setReload] = useState(false);
+  const [soloDeudas, setSoloDeudas] = useState(true);
   const alertColors = [
-    "#8B4C4C", // 🔴 Extreme Alert – muted crimson
+    "#eb0000ff", // 🔴 Extreme Alert – muted crimson
     "#A66A5E", // 🟥 High Alert – dusty red
     "#C49A6C", // 🟧 Moderate Alert – soft amber
     "#D6C27A", // 🟨 Low Alert – pale mustard
     "#A3B98B", // 🟩 Minimal Alert – gentle olive green
     "#7FAF9D", // ✅ OK Status – calm teal green
   ];
+
+  const get_color = (atraso) =>
+    atraso > 100
+      ? alertColors[0]
+      : alertColors[
+          Math.trunc(((100 - atraso) / 100) * (alertColors.length - 1))
+        ];
 
   const load = (_) => {
     post_method(post.pagos_atrasados_proveedores, {}, (response) => {
@@ -39,6 +47,7 @@ const Proveedores = (_) => {
           idproveedor: prov.idproveedor,
           nombre: prov.nombre,
           ultimo_pago: prov.ultimo_pago,
+          atraso: prov.atraso,
         }))
       );
     });
@@ -79,25 +88,38 @@ const Proveedores = (_) => {
             </Button>
           </>
         }
-        style={{ width: "500px" }}
-        styles={{ header: { backgroundColor: "#ffffed", background: "linear-gradient(281deg,rgba(255, 255, 154, 1) 62%, rgba(208, 255, 0, 1) 95%)" } }}
+        style={{
+          width: "500px",
+          borderRadius: "16px",
+          boxShadow: "0 4px 8px 0 rgba(0,0,0,0.2)",
+        }}
+        styles={{
+          header: {
+            backgroundColor: "#ffffed",
+            background:
+              "linear-gradient(281deg,rgba(255, 255, 255, 1) 62%, rgba(233, 233, 233, 1) 95%)",
+
+            borderRadius: "16px 16px 0 0",
+          },
+        }}
         title={
           <>
             <UserOutlined /> Proveedores
-            <Checkbox
-              checked={false}
+            {/*<Checkbox
+              checked={soloDeudas}
               style={{ marginLeft: "16px" }}
               onChange={(e) => {
+                setSoloDeudas(!soloDeudas);
                 if (e.target.checked) {
                   load();
                 }
               }}
             >
               Solo con pagos atrasados
-            </Checkbox>
+            </Checkbox>*/}
           </>
         }
-        size="small"
+        size="default"
       >
         <div
           id="scrollableDiv"
@@ -117,9 +139,7 @@ const Proveedores = (_) => {
               <List.Item
                 key={item.idproveedor}
                 style={{
-                  border: `4px solid ${
-                    alertColors[index % alertColors.length]
-                  }`,
+                  border: `4px solid ${get_color(+item.atraso)}`,
                   borderRadius: "16px",
                   paddingLeft: "16px",
                   paddingRight: "16px",
@@ -140,16 +160,21 @@ const Proveedores = (_) => {
                         {item.nombre}
                       </span>
                       &nbsp;&nbsp;&nbsp;
-                      {/*<i
+                      {
+                        <i
                           style={{
                             color: "black",
                             fontWeight: "400",
                             fontSize: "0.9em",
-                           
                           }}
                         >
-                          Ultimo pago: 00/00/0000
-                        </i>*/}
+                          Ultimo pago: &nbsp;
+                          {item.ultimo_pago.length < 1 ||
+                          item.ultimo_pago.includes("1970")
+                            ? "N/A"
+                            : item.ultimo_pago}
+                        </i>
+                      }
                     </>
                   }
                 />
@@ -172,6 +197,7 @@ const Proveedores = (_) => {
         </div>
       </Card>
       <Modal
+        destroyOnClose={true}
         open={popupFichaOpen}
         footer={null}
         onCancel={(_) => {
