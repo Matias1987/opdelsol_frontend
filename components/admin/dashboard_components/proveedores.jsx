@@ -2,15 +2,10 @@ import { post_method } from "@/src/helpers/post_helper";
 import { post } from "@/src/urls";
 import { ReloadOutlined, UserOutlined } from "@ant-design/icons";
 import {
-  Badge,
   Card,
-  Avatar,
-  Divider,
   List,
-  Skeleton,
   Button,
   Modal,
-  Checkbox,
 } from "antd";
 import { useEffect, useState } from "react";
 import FichaProveedor from "../proveedor/fichaProveedor";
@@ -22,7 +17,6 @@ const Proveedores = (_) => {
   const [data, setData] = useState([]);
   const [page, setPage] = useState(1);
   const [reload, setReload] = useState(false);
-  const [soloDeudas, setSoloDeudas] = useState(true);
   const alertColors = [
     "#eb0000ff", // 🔴 Extreme Alert – muted crimson
     "#A66A5E", // 🟥 High Alert – dusty red
@@ -41,7 +35,6 @@ const Proveedores = (_) => {
 
   const load = (_) => {
     post_method(post.pagos_atrasados_proveedores, {}, (response) => {
-      //alert(JSON.stringify(response))
       setData(
         response.data.map((prov) => ({
           idproveedor: prov.idproveedor,
@@ -89,7 +82,7 @@ const Proveedores = (_) => {
           </>
         }
         style={{
-          width: "500px",
+         
           borderRadius: "16px",
           boxShadow: "0 4px 8px 0 rgba(0,0,0,0.2)",
         }}
@@ -165,7 +158,7 @@ const Proveedores = (_) => {
                           style={{
                             color: "black",
                             fontWeight: "400",
-                            fontSize: "0.9em",
+                            fontSize: "0.95em",
                           }}
                         >
                           Ultimo pago: &nbsp;
