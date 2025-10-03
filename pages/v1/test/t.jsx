@@ -14,6 +14,7 @@ import ListadoCajasAdmin from "@/components/admin/caja/ListadoCajasAdmin";
 import VentasTipoGraph from "@/components/charts/ventasTipoGraph";
 import CobrosTipoGraph from "@/components/charts/cobrosTipoGraph";
 import Proveedores from "@/components/admin/dashboard_components/proveedores";
+import DataCard from "@/components/etc/DataCard";
 export default function test() {
   return (
     <div>
@@ -23,6 +24,7 @@ export default function test() {
     <InformeTarjetas />  
 
     <Divider />*/}
+    <DataCard title="Total Sales" value="$25,000" icon="💰" />
     <Row>
       <Col span={12}>
         <Proveedores />

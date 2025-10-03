@@ -1,12 +1,7 @@
 import { post_method } from "@/src/helpers/post_helper";
 import { post } from "@/src/urls";
 import { ReloadOutlined, UserOutlined } from "@ant-design/icons";
-import {
-  Card,
-  List,
-  Button,
-  Modal,
-} from "antd";
+import { Card, List, Button, Modal } from "antd";
 import { useEffect, useState } from "react";
 import FichaProveedor from "../proveedor/fichaProveedor";
 
@@ -24,6 +19,34 @@ const Proveedores = (_) => {
     "#D6C27A", // 🟨 Low Alert – pale mustard
     "#A3B98B", // 🟩 Minimal Alert – gentle olive green
     "#7FAF9D", // ✅ OK Status – calm teal green
+  ];
+
+  const alertColors2 = [
+    { level: "low", background: "#e0f7fa", border: "#80deea", text: "#006064" },
+    {
+      level: "medium",
+      background: "#fff3e0",
+      border: "#ffb74d",
+      text: "#e65100",
+    },
+    {
+      level: "high",
+      background: "#ffebee",
+      border: "#ef5350",
+      text: "#b71c1c",
+    },
+    {
+      level: "pending",
+      background: "#ede7f6",
+      border: "#9575cd",
+      text: "#4527a0",
+    },
+    {
+      level: "inactive",
+      background: "#eceff1",
+      border: "#b0bec5",
+      text: "#37474f",
+    },
   ];
 
   const get_color = (atraso) =>
@@ -73,6 +96,22 @@ const Proveedores = (_) => {
 
   return (
     <>
+      <div
+        style={{
+          width: "500px",
+          textAlign: "center",
+          height: "100px",
+          fontSize: "1.5em",
+          fontWeight: "600",
+          backgroundColor: alertColors2[3].background,
+          borderColor: alertColors2[3].border,
+          color: alertColors2[3].text,
+          borderRadius: "16px",
+        }}
+      >
+        llalalallalalalal
+
+      </div>
       <Card
         extra={
           <>
@@ -82,7 +121,6 @@ const Proveedores = (_) => {
           </>
         }
         style={{
-         
           borderRadius: "16px",
           boxShadow: "0 4px 8px 0 rgba(0,0,0,0.2)",
         }}
@@ -132,7 +170,8 @@ const Proveedores = (_) => {
               <List.Item
                 key={item.idproveedor}
                 style={{
-                  border: `4px solid ${get_color(+item.atraso)}`,
+                  border: `2px solid ${get_color(+item.atraso)}`,
+                  backgroundColor: "white",
                   borderRadius: "16px",
                   paddingLeft: "16px",
                   paddingRight: "16px",
