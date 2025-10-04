@@ -10,11 +10,10 @@ import { validate_only_numbers_and_letters } from "@/src/helpers/string_helper";
 import { PlusOutlined, UserAddOutlined } from "@ant-design/icons";
 import SelectLocalidad from "../SelectLocalidad";
 import SelectLocalidadV3 from "../SelectLocalidadV3";
+import { cliente_id_obl } from "@/src/config";
 
 
 export default function ClienteFormV2(props){
-    
-    const [open, setOpen] = useState(false)
     const [form] = Form.useForm();
     const [qr, setQR] = useState("")
     const [btnDisabled, setBtnDisabled] = useState(false)
@@ -45,6 +44,8 @@ export default function ClienteFormV2(props){
     },[])*/
 
     const onFinish = () => {
+
+        
         
         const validateStr = (field, message) => {
             var _val = true;
@@ -66,23 +67,34 @@ export default function ClienteFormV2(props){
             return _val;
 
         }
-        if(!/^[0-9]+$/.test(clienteData.dni.trim())){
-            alert("Campo DNI no válido")
-            return
+        if(cliente_id_obl)
+        {
+            clienteData.fechaNac = `${fechaNac.anio}-${fechaNac.mes}-${fechaNac.dia}`
+
+            if(!/^[0-9]+$/.test(clienteData.dni.trim())){
+                alert("Campo DNI no válido")
+                return
+            }
+            if(!validateStr(clienteData.dni, "DNI Vacío")){return}
+            if(fechaNac.anio==""||fechaNac.mes==""||fechaNac.dia==""){
+                alert("Campo fecha de nacimiento vacío")
+                return
+            }
+            if(!validateStr(clienteData.domicilio, "Domicilio Vacío")){return}
+
+            if(!validateStr(clienteData.telefono, "Teléfono Vacío")){return}
+
         }
-        if(!validateStr(clienteData.dni, "DNI Vacío")){return}
+        else{
+            clienteData.dni = "_d_" + globals.obtenerSucursal() + "_" + Date.now();
+        }
+        
         if(!validateStr(clienteData.nombres, "Nombres Vacío")){return}
         if(!validateStr(clienteData.apellidos, "Apellidos Vacío")){return}
-        if(!validateStr(clienteData.domicilio, "Domicilio Vacío")){return}
-        if(fechaNac.anio==""||fechaNac.mes==""||fechaNac.dia==""){
-            alert("Campo fecha de nacimiento vacío")
-            return
-        }
-
-        if(!validateStr(clienteData.telefono, "Teléfono Vacío")){return}
+        
         //if(!validateStr(clienteData.nacimiento, "Fecha de Nacimiento Vacío")){return}
 
-        clienteData.fechaNac = `${fechaNac.anio}-${fechaNac.mes}-${fechaNac.dia}`
+        
         
         //alert(JSON.stringify(clienteData))
 
@@ -132,7 +144,6 @@ export default function ClienteFormV2(props){
                     if(typeof props.callback !== 'undefined'){
                         props.callback(res.data);
                     }
-                    setOpen(false)
                 })
             }
         })
@@ -198,14 +209,10 @@ export default function ClienteFormV2(props){
             dia:"",
             mes:"",
             anio:""})
-
-            setOpen(true)
     }
 
     return (<>
-    <Button size="small" type="primary" style={{color:"white"}} onClick={()=>{ props?.test?.(); onOpen();  }}><PlusOutlined /> Agregar</Button>
-    
-    <Modal width={"70%"} title="Agregar Cliente" open={open} onCancel={()=>{setOpen(false)}} footer={false} destroyOnClose={true}>
+
         <Row style={{padding:".5em"}}>
             <Col  span={24}>
                 <Input  prefix={"QR"} onChange={onQRChange} value={qr} placeholder="  Escanee código QR..." />
@@ -215,6 +222,7 @@ export default function ClienteFormV2(props){
         <Row style={{padding:".5em"}}>
             <Col span={24}>
                 <Input  
+                allowClear
                 maxLength={10} 
                 style={{appearance:"textfield"}} 
                 prefix={"D.N.I.: "} 
@@ -236,9 +244,10 @@ export default function ClienteFormV2(props){
         <Row style={{padding:".5em"}}>
             <Col span={24}>
                 <Input 
+                allowClear
                 style={{appearance:"textfield"}}  
                 maxLength={45} 
-                prefix={"Apellido:"} 
+                prefix={<span style={{fontWeight:"600"}}>Apellido:</span>} 
                 value={clienteData.apellidos} 
                 onChange={(e)=>{
                     //setClienteData(v=>({...v,apellidos:e.target.value}))
@@ -252,8 +261,9 @@ export default function ClienteFormV2(props){
         <Row style={{padding:".5em"}}>
             <Col span={24}>
                 <Input  
+                allowClear
                 maxLength={45} 
-                prefix={"Nombres:"} 
+                prefix={<span style={{fontWeight:"600"}}>Nombres:</span>} 
                 value={clienteData.nombres} 
                 onChange={(e)=>{
                     //setClienteData(v=>({...v,nombres:e.target.value}))
@@ -341,6 +351,6 @@ export default function ClienteFormV2(props){
                 <Button disabled={btnDisabled} block type="primary" onClick={onFinish}>Guardar</Button>
             </Col>
         </Row>
-    </Modal>
+
 
 </>)}

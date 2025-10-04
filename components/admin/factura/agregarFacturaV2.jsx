@@ -195,6 +195,11 @@ const AgregarFacturaV2 = (props) => {
   };
 
   const onSave = () => {
+
+    if (factura.fkproveedor == "-1") {
+      alert("Proveedor no seleccionado");
+      return;
+    }
     if (factura.fecha == "") {
       alert("Fecha no seleccionada");
       return;

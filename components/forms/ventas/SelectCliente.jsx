@@ -1,7 +1,7 @@
 import CustomModal from "@/components/CustomModal";
-import { Button, Col, Input, Row, Spin, Table } from "antd";
+import { Button, Col, Input, Modal, Row, Spin, Table } from "antd";
 import { useEffect, useState } from "react";
-import { AlertOutlined, CheckCircleFilled, CloseOutlined, EditOutlined, ReloadOutlined } from "@ant-design/icons";
+import { AlertOutlined, CheckCircleFilled, CloseOutlined, EditOutlined, PlusOutlined, ReloadOutlined } from "@ant-design/icons";
 import ClienteForm from "../ClienteForm";
 import { get } from "@/src/urls";
 import ClienteFormV2 from "../ClienteFormV2";
@@ -14,7 +14,7 @@ const SelectCliente = (props) =>{
     const [clienteData, setClienteData] = useState(null);
     const [reload, setReload] = useState(false)
     const [loading, setLoading] = useState(false)
-
+    const [popupAddOpen, setPopupAddOpen] = useState(false)
     const onSearch = (value) => {
 
         if((value||"").trim().length < 3) return;
@@ -161,11 +161,7 @@ const SelectCliente = (props) =>{
                 })}
                 title={_=><Row gutter={"16"}><Col><span style={{fontWeight:"bold"}}>Clientes</span> </Col>
                 <Col>
-                <ClienteFormV2 destinatario={props.destinatario} callback={(id)=>{
-                        //alert(id); 
-                        setReload(!reload)
-                        upload_cliente_details(id) 
-                        }}/>
+                    <Button onClick={_=>{setPopupAddOpen(true)}}><PlusOutlined /> Agregar</Button>
                 </Col>
                 <Col>
                         <Input.Search allowClear size="small" prefix="Buscar: "  style={{width:"400px"}} onSearch={onSearch} />
@@ -183,6 +179,19 @@ const SelectCliente = (props) =>{
             </Col>
         </Row>
         </CustomModal>
+        <Modal
+        open={popupAddOpen}
+        onCancel={_=>{setPopupAddOpen(false)}}
+        title="Agregar Cliente"
+        destroyOnClose
+        width={"900px"}
+        footer={null}
+        >
+            <ClienteFormV2 callback={(id)=>{
+                setReload(!reload)
+                upload_cliente_details(id) 
+            }} />
+        </Modal>
         
         </>
         : show_details() )

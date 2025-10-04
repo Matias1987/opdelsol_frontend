@@ -531,7 +531,7 @@ const FichaProveedor = (props) => {
       {/* agregar carga manual */}
       <Modal
         destroyOnClose
-        width={"90%"}
+        width={"700px"}
         title="Carga Manual"
         footer={null}
         open={popupCMOpen}

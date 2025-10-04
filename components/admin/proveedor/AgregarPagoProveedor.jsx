@@ -31,6 +31,11 @@ const AgregarPagoProveedor = (props) => {
 
     const guardar_click = () =>
     {
+        if(pago.monto<=0)
+        {
+            alert("Monto debe ser mayor a 0")
+            return
+        }
         if(pago.fecha=="")
         {
             alert("Seleccionar Fecha")
@@ -60,7 +65,7 @@ const AgregarPagoProveedor = (props) => {
 
         setEnabled(false)
         post_method(post.insert.pago_proveedor,_data,(resp)=>{
-            alert("OK")
+            alert("Datos Guardados")
             props?.callback?.()
         })
     }
