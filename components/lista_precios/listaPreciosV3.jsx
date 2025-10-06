@@ -1,4 +1,4 @@
-import { Button, Card, Col, Flex, FloatButton, Input, Modal, Row, Table } from "antd"
+import { Button, Card, Col, Divider, Flex, FloatButton, Input, Modal, Row, Table } from "antd"
 import { useEffect, useState } from "react"
 import { post_method } from "@/src/helpers/post_helper"
 import globals from "@/src/globals"
@@ -174,6 +174,7 @@ const ListaPreciosV3 = (props) => {
     <Modal destroyOnClose open={popupDetalleOpen} onCancel={()=>{setPopupDetalleOpen(false)}} footer={null} title="Detalle " width={"750px"}>
         <div>
             <SubGrupoFormV3 mostrarPrecioMayorista={ esAdmin } mostrarPrecioPar={mostrarPrecioPar} mostrarPrecioCaja={mostrarPrecioCaja} callback={()=>{setPopupDetalleOpen(false); setReload(!reload)}} readOnly={ !(esAdmin || esUDeposito) } idsubgrupo={selectedSubgrupoId} title="Detalle Subgrupo" />
+            <Divider />
             <CodeExample idsubgrupo={selectedSubgrupoId} />
         </div>
     </Modal>

@@ -178,28 +178,12 @@ export default function TestMenu() {
             Proveedores
           </Link>
         </Menu.Item>
-        <SubMenu
-          key="sub6"
-          title={
-            <span>
-              <FileTextOutlined />
-              <span>Facturas</span>
-            </span>
-          }
-        >
-          <Menu.Item key="sub6_30">
-            <FileTextOutlined />
-            <Link href={get_url_to("deposito/facturas/lista_facturas")}>
-              Lista
-            </Link>
-          </Menu.Item>
-          <Menu.Item key="sub6_31">
-            <PlusCircleOutlined />
-            <Link href={get_url_to("deposito/facturas/agregar_factura")}>
-              Agregar Factura
-            </Link>
-          </Menu.Item>
-        </SubMenu>
+        <Menu.Item key="sub6_30">
+          <FileTextOutlined />
+          <Link href={get_url_to("deposito/facturas/lista_facturas")}>
+            Facturas
+          </Link>
+        </Menu.Item>
         <Menu.Item key="sub2_42">
           <PartitionOutlined />
           <Link href={get_url_to("deposito/arbol_codigos")}>

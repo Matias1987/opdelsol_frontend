@@ -13,11 +13,10 @@ import SideMenuListaStock from "@/components/deposito/lista_stock_sidemenu";
 import GridBifocales from "@/components/etc/GridBifocales";
 import GridMonof from "@/components/etc/GridMonof";
 import StockTable from "@/components/deposito/lista_stock_table";
-import FacturaSelect2 from "@/components/FacturaSelect2";
 import EditarCodigoGrupo from "@/components/forms/deposito/EditarCodigoGrupo";
 import EditarPreciosSubgruposForm from "../forms/deposito/EditarPreciosSubgruposForm";
 
-const  ModificarStock = props => {
+const ModificarStock = (props) => {
   const [usuarioDep, setUsuarioDep] = useState(false);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -29,7 +28,8 @@ const  ModificarStock = props => {
   const [popupDetalleOpen, setPopupDetalleOpen] = useState(false);
   const [popupEditarStockIndvOpen, setPopupEditarStockIndvOpen] =
     useState(false);
-  const [popupEditarCodigoLoteOpen, setPopupEditarCodigoLoteOpen] = useState(false);
+  const [popupEditarCodigoLoteOpen, setPopupEditarCodigoLoteOpen] =
+    useState(false);
   const [popupEditarCodigoIndvOpen, setPopupEditarCodigoIndvOpen] =
     useState(false);
   const [selectedIdCodigo, setSelectedIdCodigo] = useState(-1);
@@ -54,7 +54,12 @@ const  ModificarStock = props => {
     if (data.length < 1) {
       return (
         <span
-          style={{ padding:"16px", fontWeight: "500", fontSize: "1.1em", color: "#1215E5" }}
+          style={{
+            padding: "16px",
+            fontWeight: "500",
+            fontSize: "1.1em",
+            color: "#1215E5",
+          }}
         >
           <i>Sin registros</i>
         </span>
@@ -128,11 +133,9 @@ const  ModificarStock = props => {
         onEditarEtiquetasClick={(_) => {
           setPopupTagsOpen(true);
         }}
-        onEditarSeleccionClick={
-          _=>{
-            setPopupEditarCodigoLoteOpen(true);
-          }
-        }
+        onEditarSeleccionClick={(_) => {
+          setPopupEditarCodigoLoteOpen(true);
+        }}
       />
     );
   };
@@ -269,7 +272,7 @@ const  ModificarStock = props => {
       //alert(JSON.stringify(response));
       if (response.data.length < 1) {
         alert("No se encontraron codigos con los filtros seleccionados.");
-        setData([])
+        setData([]);
       } else {
         setData(
           response.data.map((row) => ({
@@ -343,10 +346,9 @@ const  ModificarStock = props => {
             )*/}
           </Col>
           <Col style={{ width: menuFolded ? "100%" : "75%", padding: "6px" }}>
-            <Row gutter={16}>
-              <Col span={24}></Col>
+            <Row key={data}>
+              <Col span={24}>{get_grid()}</Col>
             </Row>
-            <Row key={data}>{get_grid()}</Row>
           </Col>
         </Row>
       </Card>
@@ -453,24 +455,23 @@ const  ModificarStock = props => {
           idsucursal={globals.obtenerSucursal()}
         />
       </Modal>
-      <Modal 
-      open={popupEditarCodigoLoteOpen}
-      footer={null}
-      title=""
-      onCancel={_=>setPopupEditarCodigoLoteOpen(false)}
-      destroyOnClose
-      width={"800px"}
+      <Modal
+        open={popupEditarCodigoLoteOpen}
+        footer={null}
+        title=""
+        onCancel={(_) => setPopupEditarCodigoLoteOpen(false)}
+        destroyOnClose
+        width={"800px"}
       >
-        <EditarCodigoGrupo 
-        callback={_=>{
-          setPopupEditarCodigoLoteOpen(false);
-          setValueChanged(!valueChanged);
-        }}
-        codigos={data
+        <EditarCodigoGrupo
+          callback={(_) => {
+            setPopupEditarCodigoLoteOpen(false);
+            setValueChanged(!valueChanged);
+          }}
+          codigos={data
             .filter((d) => d.checked)
             .map((c) => ({ codigo: c.codigo, idcodigo: c.idcodigo }))}
-
-            />
+        />
       </Modal>
       <Modal
         width={"60%"}
@@ -510,6 +511,6 @@ const  ModificarStock = props => {
       </Modal>
     </>
   );
-}
+};
 
 export default ModificarStock;

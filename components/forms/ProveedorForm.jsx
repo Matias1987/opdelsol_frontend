@@ -19,7 +19,7 @@ const ProveedorForm = (props) => {
                 else{
                     alert("Proveedor Agregado")
                 }
-                props?.callback?.()
+                props?.callback?.(res.data)
             }
         })
 

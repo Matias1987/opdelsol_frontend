@@ -165,7 +165,7 @@ const StockTable = (props) => {
               </Button>
           </Col>
           <Col>
-          <Input allowClear style={{width:"200px"}} prefix="Código: " value={searchStr} onChange={e=>{setSearchStr((e.target.value||"").trim())}} />
+          <Input size="small" allowClear style={{width:"200px"}} prefix="Código: " value={searchStr} onChange={e=>{setSearchStr((e.target.value||"").trim())}} />
           </Col>
         </Row>
       }
@@ -244,21 +244,7 @@ const StockTable = (props) => {
     },
 
     {
-      width: "200px",
-      title: "Edad",
-      dataIndex: "edad",
-      key: "edad",
-      hidden: true,
-    },
-    {
-      width: "200px",
-      title: "Género",
-      dataIndex: "genero",
-      key: "genero",
-      hidden: true,
-    },
-    {
-      width: "200px",
+      width: "100px",
       title: "Precio",
       dataIndex: "idcodigo",
       key: "precio",
@@ -286,7 +272,7 @@ const StockTable = (props) => {
       },
     },
     {
-      width: "200px",
+      width: "90px",
       title: "Cantidad",
       dataIndex: "cantidad",
       key: "cantidad",

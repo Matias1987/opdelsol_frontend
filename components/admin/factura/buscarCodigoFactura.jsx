@@ -42,6 +42,7 @@ const BuscarCodigoFactura = (props) => {
     setLoading(true);
 
     const filters = {
+      wouth_qtty: true,
       filtroCod: _srchval,
       idSucursal: id_sucursal,
       filtroFamilias:

@@ -1,7 +1,4 @@
-import {
-  CloseCircleTwoTone,
-  PlusOutlined,
-} from "@ant-design/icons";
+import { CloseCircleTwoTone, PlusOutlined } from "@ant-design/icons";
 import {
   Button,
   Col,
@@ -21,6 +18,7 @@ import { get, post } from "@/src/urls";
 import { post_method } from "@/src/helpers/post_helper";
 import AgregarProductoFactura from "./agregarProductoFactura";
 import globals from "@/src/globals";
+import ProveedorForm from "@/components/forms/ProveedorForm";
 
 const AgregarFacturaV2 = (props) => {
   const [factura, setFactura] = useState({
@@ -38,6 +36,7 @@ const AgregarFacturaV2 = (props) => {
     puntoVenta: "",
     cant_productos: 0,
     productos: [],
+    descuento: 0,
   });
   const [reload, setReload] = useState(false);
 
@@ -52,6 +51,7 @@ const AgregarFacturaV2 = (props) => {
   const [proveedores, setProveedores] = useState([]);
   const [proveedorSelectEnabled, setProveedorSelectEnabled] = useState(true);
   const [esRemito, setEsRemito] = useState(false);
+  const [agregarProveedorOpen, setAgregarProveedorOpen] = useState(false);
 
   const columnsIVA = [
     { title: "Tipo", dataIndex: "tipo" },
@@ -149,6 +149,10 @@ const AgregarFacturaV2 = (props) => {
       setEsRemito(props.esremito);
     }
 
+    load_proveedores();
+  }, [reload]);
+
+  const load_proveedores = (and_then) => {
     fetch(get.lista_proveedores)
       .then((r) => r.json())
       .then((response) => {
@@ -159,8 +163,9 @@ const AgregarFacturaV2 = (props) => {
             label: r.nombre,
           })),
         ]);
+        and_then?.();
       });
-  }, [reload]);
+  };
 
   const onProveedorChange = (v) => {
     setFactura((f) => ({ ...f, fkproveedor: v }));
@@ -181,6 +186,13 @@ const AgregarFacturaV2 = (props) => {
 
     setFactura((f) => ({ ...f, impuestosInternos: v, total: total }));
   };
+  const onDescuentoChange = (v) => {
+    let temp = { ...factura, descuento: v };
+
+    let total = calcularTotal(temp, ivaRows, percepcionRows, retencionRows);
+
+    setFactura((f) => ({ ...f, descuento: v, total: total }));
+  };
 
   const onNroChange = (v) => {
     setFactura((f) => ({ ...f, nro: v }));
@@ -195,7 +207,6 @@ const AgregarFacturaV2 = (props) => {
   };
 
   const onSave = () => {
-
     if (factura.fkproveedor == "-1") {
       alert("Proveedor no seleccionado");
       return;
@@ -254,7 +265,8 @@ const AgregarFacturaV2 = (props) => {
       parseFloat(_factura.impuestosInternos) +
       parseFloat(totalIVA) +
       parseFloat(totalPercepciones) +
-      parseFloat(totalRetenciones)
+      parseFloat(totalRetenciones) -
+      parseFloat(_factura.descuento || "0")
     );
   };
 
@@ -334,7 +346,7 @@ const AgregarFacturaV2 = (props) => {
   return (
     <>
       {/*<FloatButton shape="square" icon={<SaveFilled />} onClick={onSave}/>*/}
-      <Row style={_rows_style} gutter={[24, 18]}>
+      <Row style={_rows_style} gutter={[16, 18]}>
         <Col>
           <Select
             prefix="Proveedor:  "
@@ -346,7 +358,17 @@ const AgregarFacturaV2 = (props) => {
             }}
             value={factura.fkproveedor}
           />
+          <Button
+            size="small"
+            type="link"
+            danger
+            onClick={() => setAgregarProveedorOpen(true)}
+          >
+            <PlusOutlined />
+            Agregar
+          </Button>
         </Col>
+        <Col></Col>
 
         <Col>
           <DatePicker
@@ -445,6 +467,18 @@ const AgregarFacturaV2 = (props) => {
                 allowClear
               />
             </Col>
+            <Col>
+              <Input
+                allowClear
+                type="number"
+                value={parseFloat(factura.descuento || "0")}
+                onChange={(e) => {
+                  onDescuentoChange(e.target.value || "0");
+                }}
+                style={{ width: "300px" }}
+                prefix="Descuento: "
+              />
+            </Col>
           </Row>
         </>
       )}
@@ -465,7 +499,7 @@ const AgregarFacturaV2 = (props) => {
           />
         </Col>
 
-        <Col>
+        {/*<Col>
           <Input
             style={{ width: "300px" }}
             prefix="Cant. Productos: "
@@ -477,12 +511,18 @@ const AgregarFacturaV2 = (props) => {
               }))
             }
           />
-        </Col>
+        </Col>*/}
       </Row>
       <Divider />
       <Row>
         <Col span={24} style={{ fontSize: ".7em", color: "gray" }}>
-          {<AgregarProductoFactura onchange={(data) => setFactura((f) => ({ ...f, productos: data }))} /> }
+          {
+            <AgregarProductoFactura
+              onchange={(data) =>
+                setFactura((f) => ({ ...f, productos: data }))
+              }
+            />
+          }
         </Col>
       </Row>
       <Divider />
@@ -499,7 +539,7 @@ const AgregarFacturaV2 = (props) => {
           </Button>
         </Col>
       </Row>
-      
+
       <Modal
         destroyOnClose
         width={"400px"}
@@ -574,6 +614,24 @@ const AgregarFacturaV2 = (props) => {
             setLocalIdx(localIdx + 1);
             setPopupIVAOpen(false);
             setReload(!reload);
+          }}
+        />
+      </Modal>
+      <Modal
+        open={agregarProveedorOpen}
+        title="Agregar Proveedor"
+        footer={null}
+        onCancel={() => setAgregarProveedorOpen(false)}
+        destroyOnClose
+      >
+        <ProveedorForm
+          callback={(data) => {
+            alert(data);
+            load_proveedores(() => {
+              setAgregarProveedorOpen(false);
+              setProveedorSelectEnabled(false);
+              setFactura((f) => ({ ...f, fkproveedor: data }));
+            });
           }}
         />
       </Modal>
