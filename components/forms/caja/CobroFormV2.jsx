@@ -519,9 +519,9 @@ const CobroOperacionV2 = (props) => {
           <span style={{ backgroundColor: "lightyellow", color: "red" }}>
             Saldo:{" "}
             <b>
-              {parseFloat(dataVenta.subtotal) -
+              {(parseFloat(dataVenta.subtotal) -
                 parseFloat(descuento) -
-                parseFloat(dataVenta.haber || 0)}
+                parseFloat(dataVenta.haber || 0)).toFixed(2)}
             </b>
           </span>
           &nbsp;&nbsp;

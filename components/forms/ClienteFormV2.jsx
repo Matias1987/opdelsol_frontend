@@ -86,7 +86,7 @@ export default function ClienteFormV2(props){
 
         }
         else{
-            clienteData.dni = "_d_" + globals.obtenerSucursal() + "_" + Date.now();
+            clienteData.dni = clienteData.dni.trim().length>0? clienteData.dni.trim() : "_d_" + globals.obtenerSucursal() + "_" + Date.now();
         }
         
         if(!validateStr(clienteData.nombres, "Nombres Vacío")){return}
