@@ -204,6 +204,8 @@ const post = {
 
     pagos_atrasados_proveedores: remote_base_url + "proveedores/pagos_atrasados_proveedores/",
 
+    cobros_tarjeta_dia: remote_base_url + "tarjetas/cobros/t/",
+
     search:{
         filtro_stock: remote_base_url + "stock/filtro_stock/",
     },

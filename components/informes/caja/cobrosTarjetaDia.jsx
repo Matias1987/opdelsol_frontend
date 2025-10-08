@@ -1,4 +1,4 @@
-import { get } from "@/src/urls";
+import { get, post } from "@/src/urls";
 import {
   Calendar,
   Card,
@@ -12,28 +12,25 @@ import {
 import { useEffect, useState } from "react";
 import esES from "antd/locale/es_ES";
 import ExportToExcel from "@/components/etc/ExportToExcel";
+import { post_method } from "@/src/helpers/post_helper";
 const CobrosTarjetaDia = (props) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
+  const [filtros, setFiltros] = useState({fecha:""})
   const columns = [
-    { title: "Nro Venta", dataIndex: "idventa", key: "idventa", width: "20%" },
-    { title: "Importe", dataIndex: "importe", key: "importe", width: "30%" },
+    { title: "Cobro", dataIndex: "idcobro", key: "idcobro", width: "20%" },
+    { title: "Monto", dataIndex: "monto", key: "monto", width: "30%" },
     { title: "Tarjeta", dataIndex: "tarjeta", key: "tarjeta", width: "30%" },
-    { title: "Cuotas", dataIndex: "cuotas", key: "cuotas", width: "20%" },
+    { title: "Cuotas", dataIndex: "cant_cuotas", key: "cant_cuotas", width: "20%" },
   ];
   const load = () => {
     setLoading(true);
-    fetch(get.cobros_tarjeta_dia)
-      .then((response) => response.json())
-      .then((response) => {
-        setData(response.data);
-        setLoading(false);
-      })
-      .catch((error) => {
-        setError(true);
-        setLoading(false);
-      });
+    post_method(post.cobros_tarjeta_dia,filtros,(response)=>{
+      alert(JSON.stringify(response))
+      setData(response.data)
+      setLoading(false);
+    })
   };
 
   const header = (_) => {
@@ -45,10 +42,8 @@ const CobrosTarjetaDia = (props) => {
   };
 
   useEffect(() => {
-    //load()
-  }, []);
-  if (loading) return <></>;
-  if (error) return <></>;
+    load()
+  }, [filtros]);
   return (
     <>
       <Card
@@ -59,6 +54,10 @@ const CobrosTarjetaDia = (props) => {
         <Row gutter={16}>
           <Col style={{ width: "30%" }}>
             <Calendar
+              onSelect={(value) => {
+                //alert(value.format("YYYY-MM-DD"));
+                setFiltros(f=>({...f,fecha:value.format("YYYY-MM-DD")}))
+              }}
               style={{ backgroundColor:"#f3f2f2ff" , padding:"10px", borderRadius:"8px" }}
               fullscreen={false}
               headerRender={({ value, type, onChange, onTypeChange }) => {
@@ -110,10 +109,11 @@ const CobrosTarjetaDia = (props) => {
           </Col>
           <Col style={{ width: "70%" }}>
             <Table
+              loading={loading}
               title={header}
               size="small"
               columns={columns}
-              data={data}
+              dataSource={data}
               scroll={{ y: "600px" }}
               pagination={false}
             />
