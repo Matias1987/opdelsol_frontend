@@ -20,6 +20,7 @@ const CobrosTarjetaDia = (props) => {
   const [filtros, setFiltros] = useState({fecha:""})
   const columns = [
     { title: "Cobro", dataIndex: "idcobro", key: "idcobro", width: "20%" },
+    { title: "Cliente", dataIndex: "cliente", key: "cliente", width: "20%" },
     { title: "Monto", dataIndex: "monto", key: "monto", width: "30%" },
     { title: "Tarjeta", dataIndex: "tarjeta", key: "tarjeta", width: "30%" },
     { title: "Cuotas", dataIndex: "cant_cuotas", key: "cant_cuotas", width: "20%" },
@@ -27,7 +28,7 @@ const CobrosTarjetaDia = (props) => {
   const load = () => {
     setLoading(true);
     post_method(post.cobros_tarjeta_dia,filtros,(response)=>{
-      alert(JSON.stringify(response))
+      //alert(JSON.stringify(response))
       setData(response.data)
       setLoading(false);
     })
