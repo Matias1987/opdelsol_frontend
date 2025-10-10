@@ -6,6 +6,7 @@ import {
   HomeFilled,
   MenuOutlined,
   SearchOutlined,
+  UserOutlined,
 } from "@ant-design/icons";
 import { Menu } from "antd";
 import { useState } from "react";
@@ -41,6 +42,17 @@ const items = [
       </Link>
     ),
     key: "501",
+  },
+  {
+    label: (
+      <Link
+        style={{ fontWeight: "600", fontSize: "1.1em", color: "#102C3E" }}
+        href={public_urls.informe_cobros_tarjetas}
+      >
+        <UserOutlined /> Proveedores
+      </Link>
+    ),
+    key: "505",
   },
   {
     label: (

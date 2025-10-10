@@ -1,7 +1,7 @@
 import CustomModal from "@/components/CustomModal";
 import PrinterWrapper from "@/components/PrinterWrapper";
 import InformeX from "@/components/informes/caja/InformeX";
-import { Button, Card, Col, Row, Table, Tag } from "antd";
+import { Button, Card, Col, Modal, Row, Table, Tag } from "antd";
 import { useEffect, useState } from "react";
 import FiltroCobros from "./FiltroCobros";
 import globals from "@/src/globals";
@@ -17,6 +17,8 @@ const ListaCobros = (props) => {
     const [loading, setLoading] = useState(true)
     const [filtros, setFiltros] = useState({})
     const [reload, setReload] = useState(true)
+    const [modalVisible, setModalVisible] = useState(false)
+    const [selectedCobro, setSelectedCobro] = useState(null)
     const columns = [
         {width:"90px", title: "Nro.", dataIndex: "idcobro", render:(_,{anulado,idcobro})=>(<>{anulado==1?<Tag color="red">Anulado</Tag>:<></>}{idcobro}</>)},
         {width:"100px", title: "Fecha", dataIndex: "fecha_formated"},
@@ -26,11 +28,10 @@ const ListaCobros = (props) => {
         {width:"100px", title: "Sucursal", dataIndex: "sucursal"},
         {width:"100px", title: "Acciones", dataIndex: "idcobro", hidden:false, render: (_,{idcobro})=>{
             return <>
-            <CustomModal openButtonText="Imprimir">
-                <PrinterWrapper>
-                    <InformeX idcobro={idcobro} />
-                </PrinterWrapper>
-            </CustomModal>
+                <Button size="small" onClick={_=>{
+                    setModalVisible(true)
+                    setSelectedCobro(idcobro)
+                }}>Imprimir</Button>
             {
                 typeof props?.anular!=='undefined' ? <Button danger>Anular</Button> : <></>
             }
@@ -91,6 +92,11 @@ const ListaCobros = (props) => {
             </Col>
         </Row>
         </Card>
+        <Modal title="Imprimir Cobro" open={modalVisible} onCancel={_=>setModalVisible(false)} footer={false} width={"1000px"} destroyOnClose>
+            <PrinterWrapper>
+                <InformeX idcobro={selectedCobro} />
+            </PrinterWrapper>
+        </Modal>
     </>
 }
 

@@ -22,7 +22,9 @@ const InformeTarjetas = (props) => {
     {
       title: <div style={{ textAlign: "right" }}>Monto</div>,
       render: (text, record) => (
-        <div style={{ textAlign: "right" }}>$ {record.monto.toLocaleString('pt-BR')}</div>
+        <div style={{ textAlign: "right" }}>
+          $ {record.monto.toLocaleString("pt-BR")}
+        </div>
       ),
     },
   ];
@@ -37,7 +39,7 @@ const InformeTarjetas = (props) => {
   };
 
   const load = () => {
-    setBtnAplicarDisabled(true)
+    setBtnAplicarDisabled(true);
     let _desde = filtros.fecha_desde;
     let _hasta = filtros.fecha_hasta;
 
@@ -67,25 +69,23 @@ const InformeTarjetas = (props) => {
 
   const periodoDia = (val, dateString) => {
     //alert(dateString)
-        if(val==null)
-        {
-            _limpiar_fechas()
-            return
-        }
-
-        let from = _parse(JSON.stringify(val[0]))
-        let to = _parse(JSON.stringify(val[1]))
-
-        //alert(JSON.stringify({from,to}))
-        setFiltros((_f) => ({
-            ..._f,
-            fecha_desde: `${from.anio}-${from.mes}-${from.dia}`,
-            fecha_hasta: `${to.anio}-${to.mes}-${to.dia}`,
-            }));
-
-        setBtnAplicarDisabled(false)
-    
+    if (val == null) {
+      _limpiar_fechas();
+      return;
     }
+
+    let from = _parse(JSON.stringify(val[0]));
+    let to = _parse(JSON.stringify(val[1]));
+
+    //alert(JSON.stringify({from,to}))
+    setFiltros((_f) => ({
+      ..._f,
+      fecha_desde: `${from.anio}-${from.mes}-${from.dia}`,
+      fecha_hasta: `${to.anio}-${to.mes}-${to.dia}`,
+    }));
+
+    setBtnAplicarDisabled(false);
+  };
 
   const periodoMes = (val, dateString) => {
     if (val == null) {
@@ -115,7 +115,20 @@ const InformeTarjetas = (props) => {
 
   return (
     <>
-      <Card title="Informe de Tarjetas" size="small">
+      <Card
+        title="Totales Tarjetas"
+        size="small"
+        style={{ marginBottom: "20px", borderRadius: "16px 16px 0 0" }}
+        styles={{
+          header: {
+            backgroundColor: "#ffffed",
+            background:
+              "linear-gradient(281deg,rgba(255, 255, 255, 1) 62%, rgba(233, 233, 233, 1) 95%)",
+
+            borderRadius: "16px 16px 0 0",
+          },
+        }}
+      >
         <Row gutter={16} style={{ paddingBottom: "10px" }}>
           <Col style={{ paddingTop: "5px" }}>
             <Checkbox
@@ -133,7 +146,6 @@ const InformeTarjetas = (props) => {
               disabledTime={true}
               size="middle"
               disabled={filtroFechaDisabled}
-           
               onChange={periodoDia}
             />
           </Col>
@@ -141,7 +153,7 @@ const InformeTarjetas = (props) => {
             <SucursalSelect
               callback={(s) => {
                 setFiltros((prev) => ({ ...prev, sucursal: s }));
-                setBtnAplicarDisabled(false)
+                setBtnAplicarDisabled(false);
               }}
             />
           </Col>
@@ -194,7 +206,7 @@ const InformeTarjetas = (props) => {
                         <b>Total</b>
                       </Table.Summary.Cell>
                       <Table.Summary.Cell index={1} align="right">
-                        <b>$ {  total.toLocaleString('pt-BR')}</b>
+                        <b>$ {total.toLocaleString("pt-BR")}</b>
                       </Table.Summary.Cell>
                     </Table.Summary.Row>
                   </Table.Summary>

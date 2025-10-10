@@ -96,7 +96,7 @@ const Proveedores = (_) => {
 
   return (
     <>
-      <div
+{/*      <div
         style={{
           width: "500px",
           textAlign: "center",
@@ -111,7 +111,7 @@ const Proveedores = (_) => {
       >
         llalalallalalalal
 
-      </div>
+      </div>*/}
       <Card
         extra={
           <>
@@ -150,12 +150,12 @@ const Proveedores = (_) => {
             </Checkbox>*/}
           </>
         }
-        size="default"
+        size="small"
       >
         <div
           id="scrollableDiv"
           style={{
-            borderRadius: "16px",
+            
             height: 400,
             overflow: "auto",
             padding: "0",
@@ -172,7 +172,7 @@ const Proveedores = (_) => {
                 style={{
                   border: `2px solid ${get_color(+item.atraso)}`,
                   backgroundColor: "white",
-                  borderRadius: "16px",
+                 
                   paddingLeft: "16px",
                   paddingRight: "16px",
                 }}

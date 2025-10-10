@@ -31,6 +31,8 @@ export default function InformeX(props){
         mercadopago_monto:0,
         transferencia_monto:0,
         tarjeta_tarjeta1: 0,
+        cant_cuotas1:0,
+        cant_cuotas2:0,
     })
 
     useEffect(()=>{
@@ -68,9 +70,11 @@ export default function InformeX(props){
                         __temp.tarjeta_monto+=+r.monto;
                         if(__temp.tarjeta_tarjeta == 0){
                             __temp.tarjeta_tarjeta=r.tarjeta;
+                            __temp.cant_cuotas1=r.cant_cuotas;
                         }
                         else{
                             __temp.tarjeta_tarjeta1=r.tarjeta;
+                            __temp.cant_cuotas2=r.cant_cuotas;
                         }
                     break;
                     case "ctacte": 
@@ -274,7 +278,7 @@ export default function InformeX(props){
     const html_cheque_tarjeta_mutual = () => {
         return modoPago == null ? <Spin /> : <>
             {modoPago.cheque_monto == 0 ? <></>: <p>Cheque: {modoPago.cheque_nro} Banco: {modoPago.banco} &nbsp;</p>}
-            {modoPago.tarjeta_monto == 0 ? <></> : <p>Tarjeta: {modoPago.tarjeta_tarjeta} {/*Numero: {modoPago.tarjeta_nro} Cupon: {modoPago.tarjeta_cupon}*/}</p>}
+            {modoPago.tarjeta_monto == 0 ? <></> : <p>Tarjeta: {modoPago.tarjeta_tarjeta} Cuotas: { modoPago.cant_cuotas1 /*Numero: {modoPago.tarjeta_nro} Cupon: {modoPago.tarjeta_cupon}*/}</p>}
             {modoPago.tarjeta_tarjeta1 != 0 ?  <p>Tarjeta 2: {modoPago.tarjeta_tarjeta1} </p> : <></>}
             {modoPago.mutual_monto == 0 ? <></> : <p>Obra Social: {modoPago.mutual_mutual} </p>}
         </>

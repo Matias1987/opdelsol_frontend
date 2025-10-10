@@ -17,7 +17,8 @@ import ExportToExcel from "@/components/etc/ExportToExcel";
 import { post_method } from "@/src/helpers/post_helper";
 import PrinterWrapper from "@/components/PrinterWrapper";
 import InformeX from "./InformeX";
-const CobrosTarjetaDia = (props) => {
+
+const CuotasPendientesTarjetas = (props) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
@@ -26,10 +27,11 @@ const CobrosTarjetaDia = (props) => {
   const [selectedCobro, setSelectedCobro] = useState(null);
   const columns = [
     {
-      title: "Cobro",
+      title: "Operación",
       width: "20%",
       render: (_, record) => (
         <Button
+          type="link"
           size="small"
           onClick={() => {
             setModalVisible(true);
@@ -40,19 +42,30 @@ const CobrosTarjetaDia = (props) => {
         </Button>
       ),
     },
-    { title: "Cliente", dataIndex: "cliente", key: "cliente", width: "20%" },
-    { title: "Monto", dataIndex: "monto", key: "monto", width: "30%" },
+    { title: "Fecha", dataIndex: "fecha_f", key: "fecha_f", width: "20%" },
+    {
+      title: "Cliente",
+      dataIndex: "cliente",
+      key: "cliente",
+      width: "20%",
+      hidden: true,
+    },
     { title: "Tarjeta", dataIndex: "tarjeta", key: "tarjeta", width: "30%" },
     {
       title: "Cuotas",
-      dataIndex: "cant_cuotas",
-      key: "cant_cuotas",
       width: "20%",
+      render: (_, record) => (
+        <>
+          <div style={{ textAlign: "left" }}>
+            {record.diff2}/{record.cant_cuotas}
+          </div>
+        </>
+      ),
     },
   ];
   const load = () => {
     setLoading(true);
-    post_method(post.cobros_tarjeta_dia, filtros, (response) => {
+    post_method(post.cuotas_pendientes_tarjetas, filtros, (response) => {
       //alert(JSON.stringify(response))
       setData(response.data);
       setLoading(false);
@@ -62,7 +75,7 @@ const CobrosTarjetaDia = (props) => {
   const header = (_) => {
     return (
       <div style={{ textAlign: "right" }}>
-        <ExportToExcel />
+        {/*<ExportToExcel />*/}
       </div>
     );
   };
@@ -74,7 +87,7 @@ const CobrosTarjetaDia = (props) => {
     <>
       <Card
         size="small"
-        title={"Cobros con Tarjeta del Día"}
+        title={"Cuotas de Tarjeta por Día"}
         style={{ marginBottom: "20px", borderRadius: "16px 16px 0 0" }}
         styles={{
           header: {
@@ -87,7 +100,7 @@ const CobrosTarjetaDia = (props) => {
         }}
       >
         <Row gutter={16}>
-          <Col style={{ width: "30%" }}>
+          <Col style={{ width: "25%", minWidth: "300px" }}>
             <Calendar
               onSelect={(value) => {
                 //alert(value.format("YYYY-MM-DD"));
@@ -149,8 +162,11 @@ const CobrosTarjetaDia = (props) => {
               locale={esES}
             />
           </Col>
-          <Col style={{ width: "70%" }}>
+          <Col style={{ width: "70%", minWidth: "600px" }}>
             <Table
+              rowClassName={(record, index) =>
+                index % 2 === 0 ? "table-row-light" : "table-row-dark"
+              }
               loading={loading}
              
               size="small"
@@ -178,4 +194,4 @@ const CobrosTarjetaDia = (props) => {
   );
 };
 
-export default CobrosTarjetaDia;
+export default CuotasPendientesTarjetas;

@@ -206,6 +206,8 @@ const post = {
 
     cobros_tarjeta_dia: remote_base_url + "tarjetas/cobros/t/",
 
+    cuotas_pendientes_tarjetas: remote_base_url + "tarjetas/ctas_p/t/",
+
     search:{
         filtro_stock: remote_base_url + "stock/filtro_stock/",
     },

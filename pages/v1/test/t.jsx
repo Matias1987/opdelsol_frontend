@@ -16,6 +16,7 @@ import CobrosTipoGraph from "@/components/charts/cobrosTipoGraph";
 import Proveedores from "@/components/admin/dashboard_components/proveedores";
 import DataCard from "@/components/etc/DataCard";
 import CobrosTarjetaDia from "@/components/informes/caja/cobrosTarjetaDia";
+import CuotasPendientesTarjetas from "@/components/informes/caja/cuotasPendientesTarjetas";
 export default function test() {
   return (
     <div>
@@ -24,9 +25,10 @@ export default function test() {
 
     <InformeTarjetas />  
 
-    <Divider />*/}
+    <Divider />
     <CobrosTarjetaDia />
-    <DataCard title="Total Sales" value="$25,000" icon="💰" />
+    */}
+    <CuotasPendientesTarjetas />
     <Row>
       <Col span={12}>
         <Proveedores />
