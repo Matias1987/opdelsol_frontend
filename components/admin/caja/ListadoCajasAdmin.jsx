@@ -1,3 +1,7 @@
+import CustomCalendar from "@/components/etc/CustomCalendar"
+import InformeCajaV2 from "@/components/informes/caja/InformeCajaV3"
+import { post_method } from "@/src/helpers/post_helper"
+import { post } from "@/src/urls"
 import { EditOutlined, InfoOutlined } from "@ant-design/icons"
 import { Button, Col, Row, Table, Card, Modal, Select } from "antd"
 import { useEffect, useState } from "react"
@@ -6,13 +10,18 @@ const ListadoCajasAdmin = props => {
     const [reload, setReload] = useState(false)
     const [popupOpen, setPopupOpen] = useState(false)
     const [selectedCaja, setSelectedCaja] = useState(null)
+    const [selectedDate, setSelectedDate] = useState(null)
+    const [detalleCajaOpen, setDetalleCajaOpen] = useState(false)
     const columns = [
         { title: "Sucursal", dataIndex:"sucursal" },
-        { title: "Fecha", dataIndex:"fecha" },
+        
         { title: "Estado", dataIndex: "estado" },
         {
             title: "Acciones", render: (_, record) => <>
-                <Button type="link"><InfoOutlined /> Detalle</Button>
+                <Button type="link" onClick={_ => {
+                    setSelectedCaja(record);
+                    setDetalleCajaOpen(true);
+                }}><InfoOutlined /> Detalle</Button>
                 <Button type="link" onClick={_=>setPopupOpen(true)}><EditOutlined /> Cambiar Estado</Button>
             </>
         }
@@ -20,11 +29,14 @@ const ListadoCajasAdmin = props => {
     const [cajas, setCajas] = useState([{sucursal:"ALBERDI", fecha: "hoy", estado:"ABIERTA"}])
 
     const load = () => {
-
+        post_method(post.obtener_cajas_fecha, { fecha: selectedDate }, response => {
+            if(response.data.status == "error") return
+            setCajas(response.data||[]);
+        })
     }
 
     useEffect(() => {
-        load()
+        load();
     }, [reload])
 
     return <>
@@ -32,13 +44,15 @@ const ListadoCajasAdmin = props => {
             title="Listado de Caja"
         >
             <Row>
-                <Col span={24}>
-                    <Table dataSource={cajas} columns={columns} scroll={{ y: "500px" }} pagination={false} />
+                <Col style={{width:"30%", minWidth:"300px"}}>
+                    <CustomCalendar onSelect={date => {
+                        //alert(date.format("YYYY-MM-DD")) ;
+                        setSelectedDate(date.format("YYYY-MM-DD"));
+                        setReload(!reload);
+                    }} />
                 </Col>
-            </Row>
-            <Row>
-                <Col span={24}>
-
+                <Col style={{width:"70%", minWidth:"700px"}}>
+                    <Table dataSource={cajas} columns={columns} scroll={{ y: "500px" }} pagination={false} />
                 </Col>
             </Row>
         </Card>
@@ -63,6 +77,9 @@ const ListadoCajasAdmin = props => {
                     </Col>
                 </Row>
             </>
+        </Modal>
+        <Modal destroyOnClose open={detalleCajaOpen} title="Detalle de Caja" footer={null} onCancel={_ => { setDetalleCajaOpen(false) }} width={"100%"}>
+            <InformeCajaV2 idcaja={selectedCaja?.idcaja} />
         </Modal>
     </>
 }

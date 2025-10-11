@@ -3,6 +3,7 @@ import {
   BoxPlotOutlined,
   CarOutlined,
   CreditCardOutlined,
+  DollarOutlined,
   HomeFilled,
   MenuOutlined,
   SearchOutlined,
@@ -32,6 +33,19 @@ const items = [
     ),
     key: "12",
   },
+  
+  {
+    label: (
+      <Link
+        style={{ fontWeight: "600", fontSize: "1.1em", color: "#102C3E" }}
+        href={public_urls.lista_cajas_admin}
+      >
+        <DollarOutlined /> Cajas
+      </Link>
+    ),
+    key: "cajas",
+  },
+  
   {
     label: (
       <Link

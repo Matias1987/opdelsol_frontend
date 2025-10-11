@@ -118,6 +118,8 @@ const public_urls = {
     laboratorio_agregar_factura: local_base_url + "laboratorio/agregar_factura",
     laboratorio_lista_facturas: local_base_url + "laboratorio/facturas",
 
+    lista_cajas_admin: local_base_url + "admin/lista_cajas",
+
 }
 
 
@@ -207,6 +209,8 @@ const post = {
     cobros_tarjeta_dia: remote_base_url + "tarjetas/cobros/t/",
 
     cuotas_pendientes_tarjetas: remote_base_url + "tarjetas/ctas_p/t/",
+
+    obtener_cajas_fecha: remote_base_url + "caja/caja/fecha/",
 
     search:{
         filtro_stock: remote_base_url + "stock/filtro_stock/",
