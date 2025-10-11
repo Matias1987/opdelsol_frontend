@@ -211,6 +211,8 @@ const post = {
     cuotas_pendientes_tarjetas: remote_base_url + "tarjetas/ctas_p/t/",
 
     obtener_cajas_fecha: remote_base_url + "caja/caja/fecha/",
+    
+    cambiar_estado_caja: remote_base_url + "caja/c/estado/",
 
     search:{
         filtro_stock: remote_base_url + "stock/filtro_stock/",
