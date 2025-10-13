@@ -144,6 +144,24 @@ const CobroOperacionV2 = (props) => {
         alert("Seleccione Tarjeta");
         return false;
       }
+      if(+mp.tarjeta_tarjeta<1)
+      {
+        alert("Seleccione Cuotas Tarjeta 1");
+        return false;
+      }
+      
+    }
+    if (mp.tarjeta1_monto != 0) {
+      if (mp.fk_tarjeta1 == null) {
+        //invalid credit card
+        alert("Seleccione Tarjeta");
+        return false;
+      }
+      if(+mp.tarjeta1_tarjeta<1)
+      {
+        alert("Seleccione Cuotas Tarjeta 2");
+        return false;
+      }
     }
 
     return true;

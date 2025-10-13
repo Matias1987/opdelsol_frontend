@@ -279,7 +279,7 @@ export default function InformeX(props){
         return modoPago == null ? <Spin /> : <>
             {modoPago.cheque_monto == 0 ? <></>: <p>Cheque: {modoPago.cheque_nro} Banco: {modoPago.banco} &nbsp;</p>}
             {modoPago.tarjeta_monto == 0 ? <></> : <p>Tarjeta: {modoPago.tarjeta_tarjeta} Cuotas: { modoPago.cant_cuotas1 /*Numero: {modoPago.tarjeta_nro} Cupon: {modoPago.tarjeta_cupon}*/}</p>}
-            {modoPago.tarjeta_tarjeta1 != 0 ?  <p>Tarjeta 2: {modoPago.tarjeta_tarjeta1} </p> : <></>}
+            {modoPago.tarjeta_tarjeta1 != 0 ?  <p>Tarjeta 2: {modoPago.tarjeta_tarjeta1 } Cuotas: { modoPago.cant_cuotas2 }</p> : <></>}
             {modoPago.mutual_monto == 0 ? <></> : <p>Obra Social: {modoPago.mutual_mutual} </p>}
         </>
     }
