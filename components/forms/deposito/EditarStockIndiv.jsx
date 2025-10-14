@@ -5,6 +5,8 @@ import { parse_int_string } from "@/src/helpers/string_helper";
 import { get, post } from "@/src/urls";
 import { Button, Checkbox, Col, Input, Modal, Row, Spin, Tag } from "antd";
 import { useEffect, useState } from "react";
+import EditarCodigoIndiv from "./EditarCodigoIndiv";
+import { EditOutlined } from "@ant-design/icons";
 /**
  *
  * @param nrofactura
@@ -20,6 +22,7 @@ const EditarStockIndiv = (props) => {
   const [incrementarCantidad, setIncrementarCantidad] = useState(false);
   const [cantInput, setCantInput] = useState(0);
   const [costo, setCosto] = useState(0);
+  const [modalEditarCodigoOpen, setModalEditarCodigoOpen] = useState(false);
 
   const onOpen = () => {
     //alert(JSON.stringify(props.factura))
@@ -84,7 +87,7 @@ const EditarStockIndiv = (props) => {
         cantidad: stock.cantidad,
         fksucursal: props.idsucursal,
         idcodigo: props.idcodigo,
-        costo: editarCosto ? costo : -1,
+        costo: editarCosto ? (isNaN(costo) ? 0 : parseFloat(costo)) : -1,
         cant_modif: stock.cant_modif,
       },
       (response) => {
@@ -122,6 +125,7 @@ const EditarStockIndiv = (props) => {
                 readOnly
                 prefix="Código: "
                 value={codigo.codigo}
+                suffix={<><span style={{fontWeight:"bold", color:"red", fontSize:"1.5em"}}><EditOutlined onClick={() => setModalEditarCodigoOpen(true)} /></span></>}
               />
             </Col>
           </Row>
@@ -164,7 +168,7 @@ const EditarStockIndiv = (props) => {
                 disabled={!editarCosto}
                 value={costo}
                 onChange={(e) => {
-                  setCosto(parseInt(e.target.value));
+                  setCosto(e.target.value);
                 }}
               />
             </Col>
@@ -232,6 +236,24 @@ const EditarStockIndiv = (props) => {
           </Row>
         </>
       )}
+      <Modal
+        width={"900px"}
+        destroyOnClose
+        onCancel={(_) => setModalEditarCodigoOpen(false)}
+        footer={null}
+        open={modalEditarCodigoOpen}
+        title="Editar C&oacute;digo"
+      >
+        <EditarCodigoIndiv
+          idcodigo={props.idcodigo}
+          buttonText="Editar C&oacute;digo"
+          callback={() => {
+            setModalEditarCodigoOpen(false);
+            onOpen();
+          }}
+        />
+      </Modal>
+
     </>
   );
 };

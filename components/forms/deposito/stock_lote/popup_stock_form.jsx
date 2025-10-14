@@ -194,7 +194,7 @@ useEffect(()=>{
                         <Form.Item rules={[{required:true}]} label={"Costo"} name={"costo"} style={{width: "200px"}}>
                             <Input type="number" step={".01"}  style={{width:"100px"}} onChange={(e)=>{
                                 if(modoPrecio==1){
-                                    setValue('precio',parseFloat(form.getFieldValue('costo')) * multiplicador)
+                                    setValue('precio', isNaN(form.getFieldValue('costo')) ? 0 : parseFloat(form.getFieldValue('costo')) * multiplicador)
                                 }
                             }} />
                         </Form.Item>
@@ -238,7 +238,6 @@ useEffect(()=>{
                             setValue("modo_precio",e.target.value)
                         }}
                         >
-                                
                                 <Radio value={1}>Precio Subgrupo </Radio>
                                 <Radio value={2}>Precio Individual</Radio>
                             </Radio.Group>
