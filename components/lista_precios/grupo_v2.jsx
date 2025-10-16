@@ -36,7 +36,10 @@ const GrupoV2 = (props) => {
               textAlign: "left",
             }}
           >
-            {producto.replaceAll("_", " ") /* + " " + idsubgrupo*/}
+            {/*producto.replaceAll("_", " ")  + " " + idsubgrupo*/}
+            <div dangerouslySetInnerHTML={{
+                __html: producto.replace(/\n/g, "<br />"),
+              }}></div>
           </Button>
         </>
       ),
@@ -135,6 +138,7 @@ const handleRowClick = (record, index) => {
         dataSource={rows}
         pagination={false}
         loading={loading}
+        showHeader={false}
         onRow={(record, index) => {
         return {
           onClick: event => {

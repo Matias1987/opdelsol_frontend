@@ -1,3 +1,4 @@
+import Wysiwyg from "@/components/etc/wysiwyg";
 import { mostrar_lc_precio_caja } from "@/src/config";
 import globals from "@/src/globals";
 import { post_method } from "@/src/helpers/post_helper";
@@ -54,6 +55,7 @@ const SubGrupoFormV3 = (props) => {
         precio_defecto: precio,
         comentarios: comentarios,
         precio_defecto_mayorista: precioMayorista,
+        nombre_largo: nombreLargo,
       },
       (resp) => {
         alert("Datos actualizados correctamente");
@@ -71,18 +73,38 @@ const SubGrupoFormV3 = (props) => {
                 </Col>
             </Row>*/}
       <Row>
-        <Col span={24}>
-          <Input
+        <Col span={24}> </Col>
+      </Row>
+      {(props.readOnly || "0") == "0" ? (
+        <Row>
+          <Col span={24}>
+            {/*<Input
             readOnly
             prefix="Nombre: "
             value={nombreLargo}
             style={{ backgroundColor: "#E8EAF0" }}
-          />
-        </Col>
-      </Row>
-      <br />
-      <Row>
+          />*/}
+            <Wysiwyg
+              defaultValue={nombreLargo}
+              callback={(v) => {
+                setNombreLargo(v);
+              }}
+            />
+          </Col>
+        </Row>
+      ) : (
         <Col span={24}>
+          <div
+            style={{ padding: "6px", backgroundColor: "#f3f3f3ff" }}
+            dangerouslySetInnerHTML={{
+              __html: nombreLargo.replace(/\n/g, "<br />"),
+            }}
+          ></div>
+        </Col>
+      )}
+      <br />
+      <Row gutter={16}>
+        <Col>
           <Input
             style={{ fontWeight: "bold", backgroundColor: "#E8EAF0" }}
             readOnly={(props.readOnly || "0") == "0" ? false : true}
@@ -97,14 +119,12 @@ const SubGrupoFormV3 = (props) => {
             }}
           />
         </Col>
-      </Row>
+      
       {!mostrarPrecioPar ? (
         <></>
       ) : (
-        <Row>
-          <Col span={24}>
+          <Col>
             <Input
-              size="large"
               style={{
                 fontWeight: "bold",
                 color: "red",
@@ -115,16 +135,17 @@ const SubGrupoFormV3 = (props) => {
               prefix="Precio Par: $"
             />
           </Col>
-        </Row>
+        
       )}
+      </Row>
 
-      {!mostrarPrecioMayorista ? (
+      {!mostrarPrecioMayorista || true ? (
         <></>
       ) : (
         <>
           <br />
-          <Row>
-            <Col span={24}>
+          <Row gutter={16}>
+            <Col>
               <Input
                 style={{ backgroundColor: "#E8EAF0" }}
                 readOnly={props.readOnly}
@@ -140,9 +161,7 @@ const SubGrupoFormV3 = (props) => {
                 }}
               />
             </Col>
-          </Row>
-          <Row>
-            <Col span={24}>
+            <Col>
               <Input
                 style={{ backgroundColor: "#E8EAF0" }}
                 readOnly
@@ -154,13 +173,13 @@ const SubGrupoFormV3 = (props) => {
         </>
       )}
 
-      <Row style={{ marginTop: "10px" }}>
-        <Col span={24}>Comentarios:</Col>
+      <Row style={{ marginTop: "20px" }}>
+        <Col span={24} style={{fontWeight:"bold"}}>Comentarios:</Col>
       </Row>
       {(props.readOnly || "0") == "0" ? (
         <Row>
           <Col span={24}>
-            <Input.TextArea
+            {/*<Input.TextArea
               style={{ fontWeight: props.readOnly ? "bold" : "inherit" }}
               readOnly={(props.readOnly || "0") == "0" ? false : true}
               prefix="Comentarios"
@@ -169,11 +188,17 @@ const SubGrupoFormV3 = (props) => {
               onChange={(e) => {
                 setComentarios(e.target.value);
               }}
+            />*/}
+            <Wysiwyg
+              defaultValue={comentarios}
+              callback={(v) => {
+                setComentarios(v);
+              }}
             />
           </Col>
         </Row>
       ) : (
-        <Row  style={{paddingBottom:"12px"}}>
+        <Row style={{ paddingBottom: "12px" }}>
           <Col span={24}>
             <div
               style={{ padding: "6px", backgroundColor: "#f3f3f3ff" }}

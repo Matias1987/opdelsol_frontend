@@ -214,6 +214,8 @@ const post = {
     
     cambiar_estado_caja: remote_base_url + "caja/c/estado/",
 
+    saldo_proveedores_lista: remote_base_url + "infp/info/l/sdo/",
+
     search:{
         filtro_stock: remote_base_url + "stock/filtro_stock/",
     },

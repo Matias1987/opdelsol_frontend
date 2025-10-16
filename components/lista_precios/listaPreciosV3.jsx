@@ -171,7 +171,7 @@ const ListaPreciosV3 = (props) => {
         </Col>
     </Row>
     
-    <Modal destroyOnClose open={popupDetalleOpen} onCancel={()=>{setPopupDetalleOpen(false)}} footer={null} title="Detalle " width={"750px"}>
+    <Modal destroyOnClose open={popupDetalleOpen} onCancel={()=>{setPopupDetalleOpen(false)}} footer={null} title="  " width={"950px"}>
         <div>
             <SubGrupoFormV3 mostrarPrecioMayorista={ esAdmin } mostrarPrecioPar={mostrarPrecioPar} mostrarPrecioCaja={mostrarPrecioCaja} callback={()=>{setPopupDetalleOpen(false); setReload(!reload)}} readOnly={ !(esAdmin || esUDeposito) } idsubgrupo={selectedSubgrupoId} title="Detalle Subgrupo" />
             <Divider />

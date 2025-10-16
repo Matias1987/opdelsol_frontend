@@ -6,15 +6,22 @@ import { useState } from "react";
 const AgregarCMProveedor = (props) => {
     const [enabled, setEnabled] = useState(true)
     const [cargaManual, setCargaManual] = useState({
-        monto:0,
+        monto:"",
         comentarios:"",
         fecha:"",
     })
 
     const guardar = _ => {
         //alert(JSON.stringify({...cargaManual, modo:props.modo, fk_proveedor: props.idproveedor }))
-        if(cargaManual.monto<=0){
-            alert("El monto debe ser mayor a 0")
+
+        if(isNaN(cargaManual.monto))
+        {
+            alert("Ingrese un monto válido")
+            return
+        }
+
+        if(cargaManual.monto==0){
+            alert("El monto debe ser distino a 0")
             return
         }
         if(cargaManual.fecha==""){
@@ -45,7 +52,7 @@ const AgregarCMProveedor = (props) => {
     </Row>
     <Row style={{padding:"1em"}}>
         <Col span={24}>
-            <Input prefix="Monto: " value={cargaManual.monto} onChange={(e)=>{setCargaManual(cm=>({...cm,monto:parseFloat(e.target.value)}))}} />
+            <Input prefix="Monto: " value={cargaManual.monto} onChange={(e)=>{setCargaManual(cm=>({...cm,monto: e.target.value}))}} />
         </Col>
     </Row>
     <Row style={{padding:"1em"}}>
