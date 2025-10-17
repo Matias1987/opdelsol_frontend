@@ -5,6 +5,9 @@ import { useEffect } from "react";
 import globals from "@/src/globals";
 import HeaderSol from "./header";
 import MenuAdminTop from "./menu_admin";
+import { idf_optica } from "@/src/config";
+import MenuAdminSolParana from "./opts/sol_parana/menu_admin";
+import MenuAdminCOExp from "./opts/coexp/menu_admin";
 
 export default function LayoutAdmin({children}){
     const { Content } = Layout;
@@ -50,12 +53,22 @@ export default function LayoutAdmin({children}){
     
     validate_user()
   },[])
+
+  const menu = _ =>{
+    switch(idf_optica)
+    {
+        case 1: return <MenuAdminTop />;
+        case 2: return <MenuAdminSolParana />
+        case 3: return <MenuAdminCOExp /> 
+    }
+  }
+
     return (
         <Layout style={{minHeight: 1200}}>
                 <HeaderSol tipoCuenta="ADMIN" displaymodechange={()=>{
                     props?.displaymodechange?.()
                 }}/>
-                <MenuAdminTop />
+            {menu()}
   
             <Content style={{ margin: '40px 100px', padding: 24}}>
                 {children}

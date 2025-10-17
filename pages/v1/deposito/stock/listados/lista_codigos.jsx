@@ -1,3 +1,4 @@
+import EditarLoteGrupo from "@/components/deposito/editarLoteGrupo";
 import ImagenesProducto from "@/components/etc/imagen/imagen_producto";
 import TagsLote from "@/components/etiquetas/TagsLote";
 import DetalleCodigo from "@/components/forms/deposito/DetalleCodigo";
@@ -23,6 +24,7 @@ export default function ListaCodigos(){
     const [popupImagenesOpen, setPopupImagenesOpen] = useState(false)
     const [selectedIdCodigo, setSelectedIdCodigo] = useState(-1)
     const [popupDetalleOpen, setPopupDetalleOpen] = useState(false)
+    const [popupEditarLoteOpen, setPopupEditarLoteOpen] = useState(false)
     const [filtros, setFiltros] = useState({        
         idfamilia:"-1",
         idsubfamilia:"-1",
@@ -182,11 +184,12 @@ export default function ListaCodigos(){
                 </Row>
                 <Row style={{padding:"1em"}}>
                     <Col span={24}>
-                        <EditarCodigoGrupo
-                            disabled={(dataSource.filter(d=>d.checked)).length<1} 
-                            codigos={ (dataSource.filter(d=>d.checked)).map(c=>({idcodigo: c.idcodigo, codigo: c.codigo, precio: c.precio}))  }  
-                            callback={()=>{setChange(!change);}}
-                        />
+                        <Button 
+                        disabled={(dataSource.filter(d=>d.checked)).length<1} 
+                        onClick={_=>{setPopupEditarLoteOpen(true)}}>
+                            Editar
+                        </Button>
+                        
                         &nbsp;
                         <Button size="small" disabled={(dataSource.filter(d=>d.checked)).length<1} type="primary" onClick={()=>{setPopupTagsOpen(true)}}>Editar Etiquetas</Button>&nbsp;
                         <Button 
@@ -269,6 +272,17 @@ export default function ListaCodigos(){
                 title="Imágenes del producto"
                 >
                     <ImagenesProducto idproducto={selectedIdCodigo} /> 
+            </Modal>
+            <Modal 
+            open={popupEditarLoteOpen} 
+            onCancel={_=>setPopupEditarLoteOpen(false)} 
+            destroyOnClose width={"900px"} title=" "
+            footer={null}
+            >
+                <EditarCodigoGrupo
+                            codigos={ (dataSource.filter(d=>d.checked)).map(c=>({idcodigo: c.idcodigo, codigo: c.codigo, precio: c.precio}))  }  
+                            callback={()=>{setChange(!change); setPopupEditarLoteOpen(false); }}
+                        />
             </Modal>
         </>
 

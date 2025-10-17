@@ -1,22 +1,20 @@
 import {
   AreaChartOutlined,
   BoxPlotOutlined,
-  CarOutlined,
   CreditCardOutlined,
   DollarOutlined,
   HomeFilled,
   MenuOutlined,
-  SearchOutlined,
   UserOutlined,
 } from "@ant-design/icons";
 import { Menu } from "antd";
 import { useState } from "react";
 import Link from "next/link";
 import { public_urls } from "@/src/urls";
-import BuscarVenta from "../forms/ventas/BuscarVenta";
-import CustomModal from "../CustomModal";
-import ListaPreciosV3 from "../lista_precios/listaPreciosV3";
 import { lista_precios_visible } from "@/src/config";
+import CustomModal from "@/components/CustomModal";
+import ListaPreciosV3 from "@/components/lista_precios/listaPreciosV3";
+import BuscarVenta from "@/components/forms/ventas/BuscarVenta";
 
 const items = [
   {
@@ -58,51 +56,6 @@ const items = [
     label: (
       <Link
         style={{ fontWeight: "600", fontSize: "1.1em", color: "#102C3E" }}
-        href={public_urls.informe_cobros_tarjetas}
-      >
-        <UserOutlined /> Proveedores
-      </Link>
-    ),
-    key: "505",
-  },
-  {
-    label: (
-      <Link
-        style={{ fontWeight: "600", fontSize: "1.1em", color: "#102C3E" }}
-        href={public_urls.totales_venta_vendedores}
-      >
-        <AreaChartOutlined /> Totales Venta Mes
-      </Link>
-    ),
-    key: "10",
-  },
-  {
-    label: (
-      <Link
-        style={{ fontWeight: "600", fontSize: "1.1em", color: "#102C3E" }}
-        href={public_urls.ventas_medicos}
-      >
-        <AreaChartOutlined /> Ventas M&eacute;dicos
-      </Link>
-    ),
-    key: "11",
-  },
-  {
-    label: (
-      <Link
-        style={{ fontWeight: "600", fontSize: "1.1em", color: "#102C3E" }}
-        href={public_urls.lista_ventas_dia_vendedor}
-      >
-        <AreaChartOutlined /> Ventas D&iacute;a
-      </Link>
-    ),
-    key: "14",
-  },
-
-  {
-    label: (
-      <Link
-        style={{ fontWeight: "600", fontSize: "1.1em", color: "#102C3E" }}
         href={public_urls.stock_admin}
       >
         <BoxPlotOutlined /> Stock
@@ -110,15 +63,6 @@ const items = [
     ),
     key: "16",
   },
-  /*{
-    label: (<Link href={public_urls.eventos_admin}>Eventos</Link>),
-    key: '15',
-  },*/
-  /*
-  {
-    label: (<BuscarVenta textButton="Buscar Venta" />),
-    key: '404',
-  },*/
   {
     label: "Tablas",
     key: "SubMenu",
@@ -182,28 +126,11 @@ const items = [
     label: <BuscarVenta />,
     key: "buscar_venta",
   },
-  
-  /*{
-    label: (<CustomModal openButtonText="Lista de Precios" type="primary"><ListaPreciosV3 /></CustomModal>),
-    key: '1001'
-  }*/
+
 ];
 
-if (lista_precios_visible != 0) {
-  items.push({
-    label: (
-      <CustomModal
-        width="100%"
-        openButtonText={<>Lista de Precios</>}
-        type="text"
-      >
-        <ListaPreciosV3 />
-      </CustomModal>
-    ),
-    key: "1001",
-  });
-}
-export default function MenuAdminTop() {
+
+export default function MenuAdminCOExp() {
   const [current, setCurrent] = useState("12");
   const onClick = (e) => {
     console.log("click ", e);

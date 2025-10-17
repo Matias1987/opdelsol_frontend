@@ -216,6 +216,8 @@ const post = {
 
     saldo_proveedores_lista: remote_base_url + "infp/info/l/sdo/",
 
+    informe_monto_ventas_periodo: remote_base_url + "infvtas/inf/vtas/mes/",
+
     search:{
         filtro_stock: remote_base_url + "stock/filtro_stock/",
     },

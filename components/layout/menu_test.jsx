@@ -108,6 +108,12 @@ export default function TestMenu() {
           </span>
         }
       >
+        <Menu.Item key="subsub125">
+          <BarsOutlined />
+          <Link href={get_url_to("deposito/stock/listados/lista_codigos")}>
+            C&oacute;digos
+          </Link>
+        </Menu.Item>
         <Menu.Item key="subsub121">
           <BarsOutlined />
           <Link href={get_url_to("deposito/stock/listados/lista_familia")}>
