@@ -7,10 +7,11 @@ import Editor from 'react-simple-wysiwyg';
  * @param defaultValue
  */
 const Wysiwyg = ({callback, defaultValue}) => {
-    const [html, setHtml] = useState(defaultValue || 'lalala');
+    const [html, setHtml] = useState(defaultValue || '');
 
     useEffect(()=>{
         setHtml(defaultValue || '');
+        //alert(defaultValue)
     }, []);
 
   function onChange(e) {

@@ -38,7 +38,7 @@ const GrupoV2 = (props) => {
           >
             {/*producto.replaceAll("_", " ")  + " " + idsubgrupo*/}
             <div dangerouslySetInnerHTML={{
-                __html: producto.replace(/\n/g, "<br />"),
+                __html: (producto.replace('_',' ')).replace(/\n/g, "<br />"),
               }}></div>
           </Button>
         </>

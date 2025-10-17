@@ -27,20 +27,24 @@ const SubGrupoFormV3 = (props) => {
   const [comentarios, setComentarios] = useState("");
   const [nombreCorto, setNombreCorto] = useState("");
   const [nombreLargo, setNombreLargo] = useState("");
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     load();
   }, []);
 
   const load = () => {
+    setLoading(true)
     fetch(get.obtener_detalle_subgrupo + idsubgrupo)
       .then((r) => r.json())
       .then((response) => {
+        //alert(JSON.stringify(response))
         setPrecio(response.data[0].precio_defecto);
         setPrecioMayorista(response.data[0].precio_defecto_mayorista);
         setComentarios(response.data[0].comentarios);
         setNombreCorto(response.data[0].nombre_corto);
         setNombreLargo(response.data[0].nombre_largo);
+        setLoading(false)
       })
       .catch((e) => {
         console.log("error");
@@ -64,6 +68,8 @@ const SubGrupoFormV3 = (props) => {
       }
     );
   };
+
+  if(loading) return <></>
 
   return (
     <>
