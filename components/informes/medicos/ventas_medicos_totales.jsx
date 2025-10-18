@@ -2,11 +2,23 @@ import PrinterWrapper from "@/components/PrinterWrapper";
 import { post_method } from "@/src/helpers/post_helper";
 import { parse_int_string } from "@/src/helpers/string_helper";
 import { get, post } from "@/src/urls";
-import { Button, Card, Col, Divider, Input, Row, Select, Table, Modal } from "antd";
+import {
+  Button,
+  Card,
+  Col,
+  Divider,
+  Input,
+  Row,
+  Select,
+  Table,
+  Modal,
+  Checkbox,
+} from "antd";
 import { useEffect, useState } from "react";
 import VentasMedicos from "./ventas_medicos";
 import ExportToCSV from "@/components/ExportToCSV";
-
+import ExportToExcel2 from "@/components/etc/ExportToExcel2";
+import { InfoOutlined } from "@ant-design/icons";
 
 const ListaVentasMedicosTotales = (props) => {
   const [dataSource, setDataSource] = useState([]);
@@ -20,8 +32,32 @@ const ListaVentasMedicosTotales = (props) => {
   const [selectedMedico, setSelectedMedico] = useState(null);
   const [popupVentasMedicoOpen, setPopupVentasMedicoOpen] = useState(false);
   const [searchValue, setSearchValue] = useState("");
+  const [dataForExcelLoaded, setDataForExcelLoaded] = useState(false);
+  const [dataForExcel, setDataForExcel] = useState(null);
   const title_style_money = { fontWeight: "bold", textAlign: "right" };
   const columns = [
+    {
+      title: <><Checkbox onChange={e=>{
+        setDataSource(_ds=>_ds.map(r=>({...r,checked: e.target.checked})))
+      }} /></>,
+      render: (_, record) => (
+        <>
+          <Checkbox
+            checked={record.checked}
+            onChange={(_) =>
+              setDataSource((_ds) =>
+                _ds.map((r) =>
+                  r.idmedico == record.idmedico
+                    ? { ...r, checked: !record.checked }
+                    : r
+                )
+              )
+            }
+          />
+        </>
+      ),
+      width: "50px",
+    },
     { width: "120px", dataIndex: "medico", title: "medico", fixed: "left" },
     {
       width: "100px",
@@ -93,6 +129,22 @@ const ListaVentasMedicosTotales = (props) => {
         </div>
       ),
     },
+    {
+      width: "50px",
+      render: (_, record) => (
+        <Button
+          type="primary"
+          size="small"
+          style={{ borderRadius: "16px" }}
+          onClick={(_) => {
+            setSelectedMedico(record);
+            setPopupVentasMedicoOpen(true);
+          }}
+        >
+          <InfoOutlined />
+        </Button>
+      ),
+    },
   ];
 
   useEffect(() => {
@@ -139,9 +191,23 @@ const ListaVentasMedicosTotales = (props) => {
               mutual: r.mutual,
               mercadopago: r.mercadopago,
               transferencia: r.transferencia,
+              checked: false,
             }))
           );
         }
+      }
+    );
+    setDataForExcelLoaded(false);
+    post_method(
+      post.informe_monto_medicos_periodo,
+      {
+        mes: mes,
+        anio: anio,
+      },
+      (response) => {
+        alert(JSON.stringify(response));
+        setDataForExcelLoaded(true);
+        setDataForExcel(response.data);
       }
     );
   };
@@ -247,6 +313,65 @@ const ListaVentasMedicosTotales = (props) => {
             <Row>
               <Col span={24}>
                 <Table
+                  title={(_) =>
+                    dataForExcel == null || (dataSource.filter(_r=>_r.checked)).length<1 ? (
+                      <></>
+                    ) : (
+                      <>
+                        <ExportToExcel2
+                          buttonSize="small"
+                          fileName={`Medicos ${mes}-${anio}`}
+                          sheets={dataSource
+                            .filter((_m) => _m.checked)
+                            .map((ds) => ({
+                              sheet_name: ds.idmedico + " " + ds.medico,
+                              header: `Medico: ${ds.medico} Periodo: ${mes}-${anio}`,
+                              footer: "",
+                              columns: [
+                                {
+                                  header: `${mes}/${anio}`,
+                                  key:"p",
+                                  width:10,
+                                },
+                                {
+                                  header: `${ds.medico}`,
+                                  key:"r",
+                                  width:20,
+                                },
+                                {
+                                  header: "Nro",
+                                  key: "nro",
+                                  width: 10,
+                                },
+                                {
+                                  header: "Fecha Retiro",
+                                  key: "fecha_retiro",
+                                  width: 20,
+                                },
+                                {
+                                  header: "Cliente",
+                                  key: "cliente",
+                                  width: 20,
+                                },
+                                {
+                                  header: "Monto",
+                                  key: "monto",
+                                  width: 20,
+                                },
+                              ],
+                              data: dataForExcel
+                                .filter((m0) => m0.idmedico == ds.idmedico)
+                                .map((m) => ({
+                                  nro: m.idventa,
+                                  fecha_retiro: m.fecha_f,
+                                  cliente: m.cliente,
+                                  monto: parseFloat(m.monto),
+                                })),
+                            }))}
+                        />
+                      </>
+                    )
+                  }
                   size="small"
                   scroll={{ y: "450px" }}
                   columns={columns}
@@ -256,8 +381,8 @@ const ListaVentasMedicosTotales = (props) => {
                   pagination={false}
                   onRow={(record, index) => ({
                     onClick: (event) => {
-                      setSelectedMedico(record);
-                      setPopupVentasMedicoOpen(true);
+                      //setSelectedMedico(record);
+                      //setPopupVentasMedicoOpen(true);
                     },
                   })}
                 />
@@ -266,7 +391,7 @@ const ListaVentasMedicosTotales = (props) => {
 
             <Row>
               <Col span={24}>
-                <ExportToCSV
+                {/*<ExportToCSV
                   fileName={`ventas_medicos_${mes}-${anio}`}
                   parseFnt={() => {
                     let str = "";
@@ -279,7 +404,7 @@ const ListaVentasMedicosTotales = (props) => {
                     });
                     return str;
                   }}
-                />
+                />*/}
               </Col>
             </Row>
           </Card>

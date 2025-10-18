@@ -1,4 +1,5 @@
 import CustomModal from "@/components/CustomModal";
+import ExportToExcel2 from "@/components/etc/ExportToExcel2";
 import ExportToCSV from "@/components/ExportToCSV";
 import PrinterWrapper from "@/components/PrinterWrapper";
 import VentaDetallePopup from "@/components/VentaDetalle";
@@ -28,12 +29,13 @@ const VentasMedicos = (props) => {
   const columns = [
     { width:"100px", dataIndex: "idventa", title: "Nro. Op." },
     { width:"100px", dataIndex: "fecha_retiro", title: "Fecha Retiro" },
-    { width:"100px", dataIndex: "sucursal", title: "Sucursal" },
-    { width:"100px", dataIndex: "cliente", title: "Cliente" },
+    { width:"150px", dataIndex: "sucursal", title: "Sucursal" },
+    { width:"200px", dataIndex: "cliente", title: "Cliente" },
     { width:"100px", dataIndex: "dni", title: "DNI" },
     {
       dataIndex: "tipo",
       title: "Detalle",
+      width:"100px",
       render: (_, { tipo }) => {
         switch (tipo.toString()) {
           case globals.tiposVenta.DIRECTA:
@@ -53,7 +55,7 @@ const VentasMedicos = (props) => {
         }
       },
     },
-    { dataIndex: "monto", title: "Monto" },
+    { dataIndex: "monto", title: "Monto", width:"100px", render:(_,{monto})=><div style={{textAlign:"right"}}>$  {monto}</div> },
     {
       title: "",
       render: (_, { idventa }) => (
@@ -125,7 +127,7 @@ const VentasMedicos = (props) => {
     <>
       <Row>
         <Col span={24}>
-          <ExportToCSV
+          {/*<ExportToCSV
             fileName={`ventas_${props?.nombre_medico}__${props.mes}-${props.anio}`}
             parseFnt={() => {
               let str = "";
@@ -138,7 +140,7 @@ const VentasMedicos = (props) => {
               });
               return str;
             }}
-          />
+          />*/}
         </Col>
       </Row>
       <Row>
@@ -148,6 +150,7 @@ const VentasMedicos = (props) => {
               Lista de Ventas del M&eacute;dico: {props?.nombre_medico || ""}
             </b>
             <Table
+              size="small"
               pagination={false}
               columns={columns}
               dataSource={dataSource}
