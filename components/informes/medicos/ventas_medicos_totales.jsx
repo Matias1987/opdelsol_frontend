@@ -205,7 +205,7 @@ const ListaVentasMedicosTotales = (props) => {
         anio: anio,
       },
       (response) => {
-        alert(JSON.stringify(response));
+        //alert(JSON.stringify(response));
         setDataForExcelLoaded(true);
         setDataForExcel(response.data);
       }

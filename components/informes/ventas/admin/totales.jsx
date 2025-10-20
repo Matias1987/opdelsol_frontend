@@ -1,6 +1,7 @@
 import ExportToCSV from "@/components/ExportToCSV"
 import PrinterWrapper from "@/components/PrinterWrapper"
 import ListaVentasSucursalPeriodo from "@/components/admin/ListaVentasSucursalPeriodo"
+import ExportToExcel2 from "@/components/etc/ExportToExcel2"
 import { post_method } from "@/src/helpers/post_helper"
 import { currency_format, parse_int_string } from "@/src/helpers/string_helper"
 import { get, post } from "@/src/urls"
@@ -175,9 +176,40 @@ const InformeVentasTotales = () => {
         
         <Row>
             <Col span={24}>
-                <PrinterWrapper>
+
                     <b>{`Ventas vendedores del período ${filtros.mes}/${filtros.anio}`} </b>
                     <Table
+                    title={_=><>
+                    <ExportToExcel2 sheets={dataSource.map(row=>({
+                        sheet_name: `Ventas`,
+                        header: "",
+                        footer: "",
+                        columns: [
+                            {header:'usuario', key:'usuario', width:"20"},
+                            {header:'efectivo', key:'efectivo', width:"20"},
+                            {header:'tarjeta', key:'tarjeta', width:"20"},
+                            {header:'cheque', key:'cheque', width:"20"},
+                            {header:'ctacte', key:'ctacte', width:"20"},
+                            {header:'mutual', key:'mutual', width:"20"},
+                            {header:'mp', key:'mp', width:"20"},
+                            {header:'total', key:'total', width:"20"},
+                        ]
+                        ,
+                        data: dataSource.map(row=>(
+                            {
+                                usuario: row.usuario,
+                                efectivo: row.efectivo,
+                                tarjeta: row.tarjeta,
+                                cheque: row.cheque,
+                                ctacte: row.ctacte,
+                                mutual: row.mutual,
+                                mp: row.mp,
+                                total: row.total,
+                            }
+                    )   )
+                    }))}
+                    />
+                    </>}
                     rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'}
                     scroll={{y:"400px"}}
                     style={{width:"100%"}}
@@ -218,7 +250,7 @@ const InformeVentasTotales = () => {
                         </>
                     }}
                     />
-                </PrinterWrapper>
+
             </Col>
         </Row>
         <Row>
@@ -245,7 +277,7 @@ const InformeVentasTotales = () => {
         <Row>
             <Col span={24}>
                 <b>Ventas por Sucursal</b>
-                <PrinterWrapper>
+               
                     <b>{`Ventas por sucursal del período ${filtros.mes}/${filtros.anio}`} </b>
                     <Table
                     rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'}
@@ -288,7 +320,7 @@ const InformeVentasTotales = () => {
                         </>
                     }}
                     />
-                </PrinterWrapper>
+               
             </Col>
         </Row>
         <Modal 
