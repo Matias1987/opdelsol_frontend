@@ -49,7 +49,7 @@ const ListaProveedores = (props) => {
       dataIndex: "idproveedor",
       key: "acciones",
       render: (idproveedor) => {
-        return !globals.esUsuarioAdminProv() ? (
+        return (!globals.esUsuarioAdminProv()&&!globals.esUsuarioAdmin()) ? (
           <></>
         ) : (
           <>

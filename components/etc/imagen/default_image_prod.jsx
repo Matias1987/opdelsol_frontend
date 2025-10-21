@@ -1,15 +1,15 @@
 import { uploads_url } from "@/src/config"
 
-const { get } = require("@/src/urls")
-const { Image } = require("antd")
-const { useEffect, useState } = require("react")
+import { get } from "@/src/urls"
+import { Image } from "antd"
+import { useEffect, useState } from "react"
 
 /**
  * 
  * @param idproduct 
  */
 const DefaultImageProduct = props => {
-    const {idproduct} = props
+    const {idproduct, width} = props
     const [img, setImg] = useState(null)
 
     useEffect(()=>{
@@ -40,7 +40,7 @@ const DefaultImageProduct = props => {
         })
     }
 
-    return img == null ? <></> : <><Image src={img.src} width={"70px"} /></>
+    return img == null ? <></> : <><Image src={img.src} width={width||"70px"} /></>
 }
 
 export default DefaultImageProduct;

@@ -6,7 +6,7 @@ import { useEffect, useState } from "react"
 import TagForm from "./tagForm"
 
 
-const Tags = (props) => {
+const TagsSmall = (props) => {
     const [codigo_tags, setCodigoTags] = useState([])
     const [tags, setTags] = useState([])
     const [modalAddOpen, setModalAddOpen] = useState(false)
@@ -55,15 +55,9 @@ const Tags = (props) => {
     }
 
 
-    return loading ? <Spin /> : <div style={{backgroundColor:"rgba(236, 252, 236, 1)", padding:".75em", borderRadius:"8px"}}>
-        <Row>
-            <Col>
-                <span>Etiquetas: </span>
-                {codigo_tags.map(t=><Tag color="green-inverse" style={{fontSize:"1.2em"}}>{t.nombre}</Tag>)}
+    return loading ? <Spin /> : <>
+                {codigo_tags.map(t=><Tag color="green-inverse">{t.nombre}</Tag>)}
                 {"1" === (props.readOnly||"1") ? <></> : <Button onClick={()=>{setModalAddOpen(true)}}><PlusOutlined /></Button>  }
-                
-            </Col>
-        </Row>
         <Modal open={modalAddOpen} onCancel={()=>{setModalAddOpen(false)}} footer={null} title="Agregar Etiqueta" destroyOnClose>
             <Row >
                 <Col span={20}>
@@ -89,7 +83,7 @@ const Tags = (props) => {
         <Modal footer={null} open={modalAddTagOpen} title="Agregar Etiqueta" onCancel={()=>{setModalAddTagOpen(false)}}>
             <TagForm callback={()=>{setModalAddTagOpen(false); setReload(!reload); setModalAddOpen(true)}}/>
         </Modal>
-    </div >
+    </>
 }
 
-export default Tags
+export default TagsSmall

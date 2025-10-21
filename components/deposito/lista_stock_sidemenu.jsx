@@ -30,6 +30,20 @@ const SideMenuListaStock = (props) => {
   const [filtros, setFiltros] = useState([]);
 
   const agregar_filtro = () => {
+    const val = (valorFiltro.valor||"").toString();
+    if(!/^[_A-ZÑ0-9\s\.\-]+$/.test(val.toUpperCase()))
+    {
+      alert("El valor solo puede contener letras, números, espacio, punto y guión.")
+      return
+    }
+
+    if(valorFiltro.tipo=="number")
+    {
+      if(isNaN(parseFloat(valorFiltro.valor)))
+      {
+        return;
+      }
+    }
     setFiltros((f) => [
       ...f,
       ...[
@@ -66,6 +80,10 @@ const SideMenuListaStock = (props) => {
   };
 
   const setValue = (tipo, val, descripcion = "") => {
+    if(((val||"").trim()).length<1)
+    {
+      return;
+    }
     setValorFiltro((_) => ({
       tipo: tipo,
       valor: val,
@@ -113,8 +131,8 @@ const SideMenuListaStock = (props) => {
           <Input
             type="number"
             prefix="Valor: "
-            onChange={(val) => {
-              setValue("valor", val);
+            onChange={(e) => {
+              setValue("valor", e.target.value);
             }}
           />
         );
@@ -123,8 +141,8 @@ const SideMenuListaStock = (props) => {
           <Input
             type="number"
             prefix="Valor: "
-            onChange={(val) => {
-              setValue("valor", val);
+            onChange={(e) => {
+              setValue("valor", e.target.value);
             }}
           />
         );
@@ -133,8 +151,8 @@ const SideMenuListaStock = (props) => {
           <Input
             type="number"
             prefix="Valor: "
-            onChange={(val) => {
-              setValue("valor", val);
+            onChange={(e) => {
+              setValue("valor", e.target.value);
             }}
           />
         );
@@ -143,8 +161,8 @@ const SideMenuListaStock = (props) => {
           <Input
             type="number"
             prefix="Valor: "
-            onChange={(val) => {
-              setValue("valor", val);
+            onChange={(e) => {
+              setValue("valor", e.target.value);
             }}
           />
         );
@@ -153,8 +171,8 @@ const SideMenuListaStock = (props) => {
           <Input
             type="number"
             prefix="Valor: "
-            onChange={(val) => {
-              setValue("valor", val);
+            onChange={(e) => {
+              setValue("valor", e.target.value);
             }}
           />
         );
@@ -163,8 +181,8 @@ const SideMenuListaStock = (props) => {
           <Input
             type="number"
             prefix="Valor: "
-            onChange={(val) => {
-              setValue("valor", val);
+            onChange={(e) => {
+              setValue("valor", e.target.value);
             }}
           />
         );

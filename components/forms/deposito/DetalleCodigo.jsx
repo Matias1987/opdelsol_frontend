@@ -1,68 +1,39 @@
-import { Row, Col, Input, Spin }  from "antd"
-import { useEffect, useState } from "react"
-import StockCodigosSucursales from "./StockCodigoSucursales"
-import EnviosCodigos from "./EnviosCodigo"
-import { get } from "@/src/urls"
-import Tags from "@/components/etiquetas/tagsCodigos"
-import ImagenesProducto from "@/components/etc/imagen/imagen_producto"
-
-
+import { Row, Col, Input, Spin } from "antd";
+import { useEffect, useState } from "react";
+import StockCodigosSucursales from "./StockCodigoSucursales";
+import EnviosCodigos from "./EnviosCodigo";
+import { get } from "@/src/urls";
+import Tags from "@/components/etiquetas/tagsCodigos";
+import ImagenesProducto from "@/components/etc/imagen/imagen_producto";
+import TagsSmall from "@/components/etiquetas/tagsSmall";
+import DefaultImageProduct from "@/components/etc/imagen/default_image_prod";
+import DetalleCodigoHeader from "../DetalleCodigoHeader";
 
 const DetalleCodigo = (props) => {
-    const [codigo, setCodigo] = useState(null)
-    const {idcodigo} = props
+  const { idcodigo } = props;
 
-    useEffect(()=>{
-        fetch(get.detalle_codigo + idcodigo)
-        .then(r=>r.json())
-        .then((response)=>{
-            setCodigo(response.data[0])
-        })
-    },[])
-
-    return codigo==null ? <Spin /> : <>
-    <Row>
+  return <>
+      <Row>
         <Col span={24}>
-            <h2>Detalle</h2>
+        <DetalleCodigoHeader idcodigo={idcodigo} />
         </Col>
-    </Row>
-    <Row>
+      </Row>
+      <Row>
         <Col span={24}>
-            <Input style={{backgroundColor:"lightblue"}} prefix={"Código"} readOnly value={codigo.codigo} />
+          <ImagenesProducto idproducto={idcodigo} readonly />
         </Col>
-    </Row>
-    <Row>
+      </Row>
+      <Row>
         <Col span={24}>
-            <Input style={{backgroundColor:"lightblue"}} prefix={"Descripción"} readOnly value={codigo.descripcion} />
+          <StockCodigosSucursales idcodigo={idcodigo} />
         </Col>
-    </Row>
-    <Row>
+      </Row>
+      <Row>
         <Col span={24}>
-            <Input style={{backgroundColor:"lightblue"}} prefix={"Precio: $"} readOnly value={codigo.precio.toLocaleString()} />
+          <EnviosCodigos idcodigo={idcodigo} />
         </Col>
-    </Row>
-    <Row>
-        <Col span={24}>
-            <Tags idcodigo={codigo.idcodigo} readOnly={"1"} />
-        </Col>
-    </Row>
-    <Row>
-        <Col span={24}>
-            <ImagenesProducto idproducto={codigo.idcodigo} readonly />
-        </Col>
-    </Row>
-    <Row>
-        <Col span={24}>
-            <StockCodigosSucursales idcodigo={idcodigo} />
-        </Col>
-    </Row>
-    <Row>
-        <Col span={24}>
-            <EnviosCodigos idcodigo={idcodigo} />
-        </Col>
-    </Row>
-    
+      </Row>
     </>
-}
+};
 
-export default DetalleCodigo
+export default DetalleCodigo;
