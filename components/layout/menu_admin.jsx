@@ -58,7 +58,7 @@ const items = [
     label: (
       <Link
         style={{ fontWeight: "600", fontSize: "1.1em", color: "#102C3E" }}
-        href={public_urls.informe_cobros_tarjetas}
+         href={public_urls.panel_proveedores}
       >
         <UserOutlined /> Proveedores
       </Link>

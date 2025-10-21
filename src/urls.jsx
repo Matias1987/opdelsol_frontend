@@ -120,6 +120,12 @@ const public_urls = {
 
     lista_cajas_admin: local_base_url + "admin/lista_cajas",
 
+    custom:{
+        copex:{
+            monto_ventas_mes: local_base_url + "admin/custm/oexp/monto_ventas_mes",
+        }
+    }
+
 }
 
 

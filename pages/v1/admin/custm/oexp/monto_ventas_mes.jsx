@@ -1,34 +1,40 @@
 import LayoutAdmin from "@/components/layout/layout_admin";
 import { post_method } from "@/src/helpers/post_helper";
-import { Col, Input, Row, Select, Table } from "antd";
+import { post } from "@/src/urls";
+import { Button, Col, Input, Row, Select, Table } from "antd";
 import { useEffect, useState } from "react";
 
 export default function monto_ventas_mes(){
-    const [anio, setAnio] = useState(2025)
-    const [mes, setMes] = useState(10)
+    const currentDate = new Date();
+    const [anio, setAnio] = useState(currentDate.getFullYear())
+    const [mes, setMes] = useState(currentDate.getMonth())
     const [dataSource, setDataSource] = useState([])
+    
     const columns = [
-        {width:"150px", title:"Optica"},
-        {width:"150px", title:<div style={{textAlign:"right"}}>Efectivo</div>, render:(_,record)=><div style={{textAlign:"right"}}>{record.monto}</div>},
-        {width:"150px", title:<div style={{textAlign:"right"}}>Tarjeta</div>, render:(_,record)=><div style={{textAlign:"right"}}>{record.monto}</div>},
-        {width:"150px", title:<div style={{textAlign:"right"}}>Mercado Pago</div>, render:(_,record)=><div style={{textAlign:"right"}}>{record.monto}</div>},
-        {width:"150px", title:<div style={{textAlign:"right"}}>Transferencia</div>, render:(_,record)=><div style={{textAlign:"right"}}>{record.monto}</div>},
-        {width:"150px", title:<div style={{textAlign:"right"}}>Cheque</div>, render:(_,record)=><div style={{textAlign:"right"}}>{record.monto}</div>},
-        {width:"150px", title:<div style={{textAlign:"right"}}>Mutual</div>, render:(_,record)=><div style={{textAlign:"right"}}>{record.monto}</div>},
-        {width:"150px", title:"Acciones"},
+        {width:"150px", title:"Optica", render:(_,record)=><>{record.sucursal}</>},
+        {width:"150px", title:<div style={{textAlign:"right"}}>Efectivo</div>, render:(_,record)=><div style={{textAlign:"right"}}>{(parseFloat(record.efectivo)).toLocaleString()}</div>},
+        {width:"150px", title:<div style={{textAlign:"right"}}>Tarjeta</div>, render:(_,record)=><div style={{textAlign:"right"}}>{(parseFloat(record.tarjeta)).toLocaleString()}</div>},
+        {width:"150px", title:<div style={{textAlign:"right"}}>Mercado Pago</div>, render:(_,record)=><div style={{textAlign:"right"}}>{(parseFloat(record.mercadopago)).toLocaleString()}</div>},
+        {width:"150px", title:<div style={{textAlign:"right"}}>Transferencia</div>, render:(_,record)=><div style={{textAlign:"right"}}>{(parseFloat(record.transferencia)).toLocaleString()}</div>},
+        {width:"150px", title:<div style={{textAlign:"right"}}>Cheque</div>, render:(_,record)=><div style={{textAlign:"right"}}>{(parseFloat(record.cheque)).toLocaleString()}</div>},
+        {width:"150px", title:<div style={{textAlign:"right"}}>Mutual</div>, render:(_,record)=><div style={{textAlign:"right"}}>{(parseFloat(record.mutual)).toLocaleString()}</div>},
+        {width:"150px", title:"Acciones", hidden:true},
     ]
 
     const load = ()=>{
-        post_method("", {mes,anio},response=>{
-            setDataSource(response.data.map(r=>({
-
-            })))
+        post_method(post.informe_monto_ventas_periodo, {mes: +mes+1,anio},response=>{
+           // alert(JSON.stringify(response))
+            setDataSource(response.data)
         })
     }
 
     useEffect(_=>{
-        load();
+        
     },[])
+
+    const onAplicarClick=_=>{
+        load()
+    }
 
     const meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre"]
     return <>
@@ -39,10 +45,13 @@ export default function monto_ventas_mes(){
     </Row>
     <Row gutter={16}>
         <Col>
-            <Select options={meses.map((m, index)=>({value: index, label:m}))} onChange={v=>{setMes(v)}} />
+            <Select value={mes} style={{width:"300px"}} options={meses.map((m, index)=>({value: index, label:m}))} onChange={v=>{setMes(+v)}} />
         </Col>
         <Col>
             <Input value={anio} type="number" onChange={(e)=>{setAnio(parseInt(e.target.value||"2025"))}} />
+        </Col>
+        <Col>
+            <Button type="primary" size="small" onClick={onAplicarClick}>Aplicar</Button>
         </Col>
     </Row>
     <Row>

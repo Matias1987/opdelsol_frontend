@@ -50,7 +50,18 @@ const items = [
         <CreditCardOutlined /> Monto Tarjetas
       </Link>
     ),
-    key: "501",
+    key: "mtj",
+  },
+  {
+    label: (
+      <Link
+        style={{ fontWeight: "601", fontSize: "1.1em", color: "#102C3E" }}
+        href={public_urls.custom.copex.monto_ventas_mes}
+      >
+        <CreditCardOutlined /> Montos Ventas Mes
+      </Link>
+    ),
+    key: "mvm",
   },
   {
     label: (
