@@ -10,7 +10,7 @@ const Egreso = (props) => {
   const [egreso, setEgreso] = useState({
     idMotivo: -1,
     monto: 0,
-    idcaja: 3252,
+    idcaja: null,
   });
 
   const load = (_) => {

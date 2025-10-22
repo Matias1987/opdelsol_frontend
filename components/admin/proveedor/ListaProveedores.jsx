@@ -198,7 +198,9 @@ const ListaProveedores = (props) => {
         <FichaProveedor
           idproveedor={idproveedor}
           callback={() => {
+            setChange(!change)
             setPopupFichaOpen(false);
+
           }}
         />
       </Modal>

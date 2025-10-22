@@ -28,7 +28,7 @@ export default function test() {
     <Divider />
     <CobrosTarjetaDia />
     */}
-    <CuotasPendientesTarjetas />
+    {/*<CuotasPendientesTarjetas />
     <Row>
       <Col span={12}>
         <Proveedores />
@@ -42,7 +42,7 @@ export default function test() {
         <Col span={12}>
           <CobrosTipoGraph />
         </Col>
-      </Row>
+      </Row>*/}
       Fondos
       <ListaFondoFijos />
       <Divider />
@@ -50,10 +50,10 @@ export default function test() {
       <Divider />
       <CajaMaster />
       <Divider />
-      Transferencia
+      {/*Transferencia
       <Transferencia aFondoFijo={false} />
       Ingreso
-      <Ingreso />
+      <Ingreso />*/}
     </div>
   );
 }

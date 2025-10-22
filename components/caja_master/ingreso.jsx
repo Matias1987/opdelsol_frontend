@@ -4,11 +4,12 @@ import { Button, Col, Input, Row, Select } from "antd";
 import { useEffect, useState } from "react";
 
 const Ingreso = (props) => {
-  const {callback} = props;
+  const {callback, cm} = props;
   const [ingreso, setIngreso] = useState({
     fuente: "",
     monto: 0,
-    idcaja: 3252
+    idcaja: null,
+    cm: cm ? cm : 0
   });
 
   const row_style = {
@@ -16,23 +17,18 @@ const Ingreso = (props) => {
   };
 
   const onSave = _ =>{
-    alert(JSON.stringify(ingreso))
-
+    
     post_method(post.insert.ingreso, ingreso, response=>{
       alert("Datos Guardados");
       callback?.();
     })
   }
 
-  useEffect(() => {
-    // Fetch initial data or perform setup
-  }, []);
-
   return (
     <>
       <Row style={row_style}>
         <Col span={24}>
-          <Input value={ingreso.fuente} onChange={(e) => setIngreso({ ...ingreso, fuente: e.target.value })} prefix="Fuente: " placeholder="Ingrese Fuente de Ingreso.." type="text" />
+          <Input value={ingreso.fuente} onChange={(e) => setIngreso({ ...ingreso, fuente: e.target.value })} prefix="Detalle: " placeholder="Ingrese Detalle..." type="text" />
         </Col>
       </Row>
       <Row style={row_style}>

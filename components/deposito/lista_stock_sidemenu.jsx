@@ -30,6 +30,10 @@ const SideMenuListaStock = (props) => {
   const [filtros, setFiltros] = useState([]);
 
   const agregar_filtro = () => {
+    if(!valorFiltro)
+    {
+      return
+    }
     const val = (valorFiltro.valor||"").toString();
     if(!/^[_A-ZÑ0-9\s\.\-]+$/.test(val.toUpperCase()))
     {
@@ -80,7 +84,11 @@ const SideMenuListaStock = (props) => {
   };
 
   const setValue = (tipo, val, descripcion = "") => {
-    if(((val||"").trim()).length<1)
+    if(!val)
+    {
+      return
+    }
+    if(((val.toString()||"").trim()).length<1)
     {
       return;
     }
