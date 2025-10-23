@@ -11,7 +11,7 @@ import globals from "@/src/globals";
  * @param filterStr: Filtro de búsqueda
  */
 const GrupoV2 = (props) => {
-  const { nombre, callback, reload, filterStr } =
+  const { nombre, callback, reload, filterStr, readOnly } =
     props;
   const [loading, setLoading] = useState(false);
   const [subgrupos, setSubgrupos] = useState([]);
@@ -85,7 +85,7 @@ const handleRowClick = (record, index) => {
 
   useEffect(() => {
     setLoading(false);
-    fetch(get.optionsforgrupo + props.idgrupo)
+    fetch(get.optionsforgrupo + props.idgrupo + (readOnly ? `/1`:`/0`))
       .then((r) => r.json())
       .then((response) => {
         setLoading(false);
@@ -113,6 +113,7 @@ const handleRowClick = (record, index) => {
             precio: sg.precio_defecto,
             idsubgrupo: sg.value,
             precio_mayorista: sg.precio_defecto_mayorista,
+            visible_lp: sg.visible_lp,
           }))
         );
       })
@@ -132,7 +133,7 @@ const handleRowClick = (record, index) => {
           </div>
         )}
         rowClassName={(record, index) =>
-          index % 2 === 0 ? "table-row-light" : "table-row-dark"
+          +record.visible_lp == 1 ? (index % 2 === 0 ? "table-row-light" : "table-row-dark") : "error-row"
         }
         columns={columns}
         dataSource={rows}

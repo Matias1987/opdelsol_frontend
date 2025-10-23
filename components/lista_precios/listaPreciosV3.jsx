@@ -39,7 +39,7 @@ const ListaPreciosV3 = (props) => {
     const [reload, setReload] = useState(false)
 
     useEffect(()=>{
-        
+       
         setEsAdmin(globals.esUsuarioAdmin())
 
         setEsUDeposito(globals.esUsuarioDeposito())
@@ -141,6 +141,7 @@ const ListaPreciosV3 = (props) => {
             {
                 columns.map(_col=><Col span={12}>
                     {_col.map(_row=><GrupoV2 
+                    readOnly={!esAdmin}
                     filterStr={filterStr}
                     mostrarPrecioPar={mostrarPrecioPar} 
                     mostrarPrecioCaja={mostrarPrecioCaja} 

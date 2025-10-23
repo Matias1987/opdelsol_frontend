@@ -3,7 +3,7 @@ import { mostrar_lc_precio_caja } from "@/src/config";
 import globals from "@/src/globals";
 import { post_method } from "@/src/helpers/post_helper";
 import { get, post } from "@/src/urls";
-import { Row, Col, Input, Button, Modal, Divider } from "antd";
+import { Row, Col, Input, Button, Modal, Divider, Checkbox } from "antd";
 import { useEffect, useState } from "react";
 /**
  *
@@ -27,14 +27,15 @@ const SubGrupoFormV3 = (props) => {
   const [comentarios, setComentarios] = useState("");
   const [nombreCorto, setNombreCorto] = useState("");
   const [nombreLargo, setNombreLargo] = useState("");
-  const [loading, setLoading] = useState(false)
+  const [visibleLP, setVisibleLP] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     load();
   }, []);
 
   const load = () => {
-    setLoading(true)
+    setLoading(true);
     fetch(get.obtener_detalle_subgrupo + idsubgrupo)
       .then((r) => r.json())
       .then((response) => {
@@ -44,7 +45,8 @@ const SubGrupoFormV3 = (props) => {
         setComentarios(response.data[0].comentarios);
         setNombreCorto(response.data[0].nombre_corto);
         setNombreLargo(response.data[0].nombre_largo);
-        setLoading(false)
+        setVisibleLP(response.data[0].visible_lp);
+        setLoading(false);
       })
       .catch((e) => {
         console.log("error");
@@ -60,6 +62,7 @@ const SubGrupoFormV3 = (props) => {
         comentarios: comentarios,
         precio_defecto_mayorista: precioMayorista,
         nombre_largo: nombreLargo,
+        visible_lp: visibleLP ? 1 : 0,
       },
       (resp) => {
         alert("Datos actualizados correctamente");
@@ -69,7 +72,7 @@ const SubGrupoFormV3 = (props) => {
     );
   };
 
-  if(loading) return <></>
+  if (loading) return <></>;
 
   return (
     <>
@@ -125,10 +128,10 @@ const SubGrupoFormV3 = (props) => {
             }}
           />
         </Col>
-      
-      {!mostrarPrecioPar ? (
-        <></>
-      ) : (
+
+        {!mostrarPrecioPar ? (
+          <></>
+        ) : (
           <Col>
             <Input
               style={{
@@ -141,8 +144,7 @@ const SubGrupoFormV3 = (props) => {
               prefix="Precio Par: $"
             />
           </Col>
-        
-      )}
+        )}
       </Row>
 
       {!mostrarPrecioMayorista || true ? (
@@ -180,7 +182,9 @@ const SubGrupoFormV3 = (props) => {
       )}
 
       <Row style={{ marginTop: "20px" }}>
-        <Col span={24} style={{fontWeight:"bold"}}>Comentarios:</Col>
+        <Col span={24} style={{ fontWeight: "bold" }}>
+          Comentarios:
+        </Col>
       </Row>
       {(props.readOnly || "0") == "0" ? (
         <Row>
@@ -215,9 +219,30 @@ const SubGrupoFormV3 = (props) => {
           </Col>
         </Row>
       )}
+
+      {(props.readOnly || "0") == "0" ? (
+        <>
+          <Row style={{ marginTop: "20px" }}>
+            <Col span={24}>
+              <Checkbox
+                checked={visibleLP}
+                onChange={(e) => {
+                  setVisibleLP(!visibleLP);
+                }}
+              >
+                Visible En <b>Lista de Precios</b>
+              </Checkbox>
+            </Col>
+          </Row>
+        </>
+      ) : (
+        <></>
+      )}
+
       {(props.readOnly || "0") == "0" ? (
         <Row style={{ padding: "1em" }}>
           <Col span={24}>
+          <Divider />
             <Button type="primary" block onClick={actualizar}>
               Aplicar
             </Button>

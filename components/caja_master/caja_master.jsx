@@ -40,8 +40,9 @@ const CajaMaster = (props) => {
       dataIndex: "monto",
       render: (_, obj) => (
         <>
-          {obj.tipo === "INGRESO" ? (
-            <div style={{ color: "green", textAlign: "right" }}>
+          {
+          obj.tipo != "EGRESO" ? (
+            <div style={{ color: obj.tipo == "SALDO" ? "blue" : "green", textAlign: "right" }}>
               $&nbsp;{obj.monto}
             </div>
           ) : (

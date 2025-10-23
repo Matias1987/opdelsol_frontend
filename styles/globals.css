@@ -196,9 +196,8 @@ a::before{
   background-color: #e6e6e6; /* #daffcc;#e7f0fc;*/
 }
 .error-row {
-  background-color: #f8d3d3;
+  background-color: #fcafaf;
   color: red;
-  font-size: 0.9em;
 }
 .ok-row {
   background-color: #47dd53;
@@ -468,7 +467,7 @@ just some testing
   /*background-color: #bfff00 !important;  Replace with your desired color */
   color: rgb(1, 2, 87) !important;
   font-weight: 600 !important;
-  font-size: 1.1em;
+  /*font-size: 1.1em;*/
   cursor: pointer;
 }
 .ant-table-tbody > tr.error-row:hover > td {
@@ -480,7 +479,7 @@ just some testing
 .gid-table-td:hover {
    background-color: #bfff00 !important;
   font-weight: 600 !important;
-  font-size: 1.1em;
+  /*font-size: 1.1em;*/
 }
 
 /* analog time picker */

@@ -67,6 +67,17 @@ const items = [
     label: (
       <Link
         style={{ fontWeight: "600", fontSize: "1.1em", color: "#102C3E" }}
+        href={public_urls.lista_ventas_dia_vendedor}
+      >
+        <AreaChartOutlined /> Ventas D&iacute;a
+      </Link>
+    ),
+    key: "vdv",
+  },
+  {
+    label: (
+      <Link
+        style={{ fontWeight: "600", fontSize: "1.1em", color: "#102C3E" }}
         href={public_urls.stock_admin}
       >
         <BoxPlotOutlined /> Stock

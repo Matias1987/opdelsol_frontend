@@ -41,7 +41,7 @@ const ListaPreciosGrupoV3 = (props) => {
         setEsAdmin(globals.esUsuarioAdmin())
         setEsUDeposito(globals.esUsuarioDeposito())
         setLoading(false)
-        fetch(get.optionsforgrupo + props.idgrupo)
+        fetch(get.optionsforgrupo + props.idgrupo + `/1`)
         .then(r=>r.json())
         .then((response)=>{
             setLoading(false)

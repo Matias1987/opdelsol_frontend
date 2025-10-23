@@ -31,7 +31,7 @@ const ListaVentasDia = (props) => {
     { dataIndex: "idventa", title: "Nro." },
     { dataIndex: "cliente", title: "Cliente" },
     { dataIndex: "estado", title: "Estado" },
-    { dataIndex: "monto", title: "Monto" },
+    { dataIndex: "monto", title: "Monto", render:(_,{monto})=><div style={{textAlign:"right"}}>{parseFloat(monto).toLocaleString(2)}</div> },
     { dataIndex: "sucursal", title: "Sucursal" },
     {
       dataIndex: "idventa",
