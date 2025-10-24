@@ -125,7 +125,11 @@ const public_urls = {
     custom:{
         copex:{
             monto_ventas_mes: local_base_url + "admin/custm/oexp/monto_ventas_mes",
+        },
+        delsol:{
+            cajas: local_base_url + "admin/custm/dsolch/panel_admin_caja",
         }
+
     }
 
 }
@@ -508,9 +512,9 @@ const get = {
 
     cm_listado_caja_sucursales: remote_base_url + "caja/listado_caja_sucursales/",
 
-    cajas_ls: remote_base_url + "ccmm/cajas/",
+    cajas_ls: remote_base_url + "ccmm/cajas/p/s",
 
-    caja_m_balance: remote_base_url + "ccmm/",
+    caja_m_balance: remote_base_url + "ccmm/blc/",
 
     conceptos_gasto: remote_base_url + "conceptogastos/",
 

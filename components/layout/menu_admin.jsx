@@ -35,7 +35,7 @@ const items = [
     label: (
       <Link
         style={{ fontWeight: "600", fontSize: "1.1em", color: "#102C3E" }}
-        href={public_urls.lista_cajas_admin}
+        href={public_urls.custom.delsol.cajas}
       >
         <DollarOutlined /> Cajas
       </Link>

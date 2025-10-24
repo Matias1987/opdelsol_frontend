@@ -83,6 +83,7 @@ const ListadoCajasAdmin = (props) => {
           <Col style={{ width: "30%", minWidth: "300px" }}>
             <CustomCalendar
               onSelect={(date) => {
+                setCajas([])
                 setSelectedDate(date.format("YYYY-MM-DD"));
                 setReload(!reload);
               }}

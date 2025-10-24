@@ -81,9 +81,7 @@ const SubGrupoFormV3 = (props) => {
                     <Input readOnly prefix="Nombre Corto: " value={nombreCorto}/>
                 </Col>
             </Row>*/}
-      <Row>
-        <Col span={24}> </Col>
-      </Row>
+
       {(props.readOnly || "0") == "0" ? (
         <Row>
           <Col span={24}>
@@ -104,7 +102,7 @@ const SubGrupoFormV3 = (props) => {
       ) : (
         <Col span={24}>
           <div
-            style={{ padding: "6px", backgroundColor: "#f3f3f3ff" }}
+            style={{   backgroundColor: "#f3f3f3ff", fontWeight:"600", fontSize:"1.1em" }}
             dangerouslySetInnerHTML={{
               __html: nombreLargo.replace(/\n/g, "<br />"),
             }}
@@ -115,7 +113,7 @@ const SubGrupoFormV3 = (props) => {
       <Row gutter={16}>
         <Col>
           <Input
-            style={{ fontWeight: "bold", backgroundColor: "#E8EAF0" }}
+            style={{ fontWeight: "bold", backgroundColor: "#fcfcfcff" }}
             readOnly={(props.readOnly || "0") == "0" ? false : true}
             prefix="Precio (indvidual):  $"
             value={
@@ -211,7 +209,7 @@ const SubGrupoFormV3 = (props) => {
         <Row style={{ paddingBottom: "12px" }}>
           <Col span={24}>
             <div
-              style={{ padding: "6px", backgroundColor: "#f3f3f3ff" }}
+              style={{ padding: "6px", backgroundColor: "#f1f1f1ff" }}
               dangerouslySetInnerHTML={{
                 __html: comentarios.replace(/\n/g, "<br />"),
               }}

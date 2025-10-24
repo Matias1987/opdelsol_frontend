@@ -1,9 +1,9 @@
 import { get } from "@/src/urls";
-import { Button, Card, Col, Row, Table, Modal } from "antd";
+import { Button, Card, Col, Row, Table, Modal, Checkbox } from "antd";
 import { useEffect, useState } from "react";
 import Egreso from "./egreso";
 import InformeCajaV2 from "@/components/informes/caja/InformeCajaV3";
-import { InfoCircleTwoTone, InfoOutlined } from "@ant-design/icons";
+import { InfoCircleTwoTone, InfoOutlined, ReloadOutlined } from "@ant-design/icons";
 import Ingreso from "./ingreso";
 
 const CajaMaster = (props) => {
@@ -12,6 +12,8 @@ const CajaMaster = (props) => {
   const [popupAddIngresoOpen, setPopupAddIngresoOpen] = useState(false)
   const [detalleCajaOpen, setDetalleCajaOpen] = useState(false);
   const [selectedRow, setSelectedRow] = useState(null);
+  const [verTodo, setVerTodo] = useState(false)
+  const [reload, setReload] = useState(false)
   const columns = [
     { width: "30px", title: "Nro.", dataIndex: "id", key: "id" },
     { width: "60px", title: "Fecha", dataIndex: "fecha_f", key: "fecha" },
@@ -57,8 +59,10 @@ const CajaMaster = (props) => {
   ];
 
   const load = () => {
+    const q = get.caja_m_balance + (verTodo ? '1':'0')
+    //alert(q)
     //llamar api
-    fetch(get.caja_m_balance)
+    fetch(q)
       .then((res) => res.json())
       .then((data) => {
         if (data.error) {
@@ -71,7 +75,7 @@ const CajaMaster = (props) => {
 
   useEffect(() => {
     load();
-  }, []);
+  }, [reload]);
 
   const handleAddEgreso = () => {
     setPopupAddOpen(true);
@@ -90,6 +94,8 @@ const CajaMaster = (props) => {
             title={<b>Lista de operaciones</b>}
             extra={
               <>
+                <Checkbox onChange={_=>{setVerTodo(!verTodo); setReload(!reload)} } checked={verTodo}>Ver Todo</Checkbox>
+                &nbsp;&nbsp;
                 <Button type="primary" onClick={handleAddEgreso} size="small">
                   Agregar Egreso
                 </Button>
@@ -100,6 +106,10 @@ const CajaMaster = (props) => {
                   size="small"
                 >
                   Agregar Ingreso
+                </Button>
+                &nbsp;&nbsp;
+                <Button onClick={_=>{load()}} size="small" type="primary">
+                  <ReloadOutlined size={"small"} />
                 </Button>
               </>
             }

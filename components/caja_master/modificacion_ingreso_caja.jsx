@@ -14,7 +14,7 @@ const ModifIngresoCaja = props =>{
     });
 
     const onSave = _ =>{    
-        alert(JSON.stringify(modifIngreso))
+        //alert(JSON.stringify(modifIngreso))
 
         post_method(post.insert.modificacion_ingreso_caja, modifIngreso, response=>{
             alert("Datos Guardados");

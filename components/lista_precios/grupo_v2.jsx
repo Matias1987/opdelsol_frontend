@@ -126,6 +126,7 @@ const handleRowClick = (record, index) => {
   const get_table = (rows) => 
     rows.length<1 ? <></> : <Col span={24} style={{ padding: "6px" }}>
       <Table
+        size="small"
         style={{ width: "100%" }}
         title={(_) => (
           <div>
