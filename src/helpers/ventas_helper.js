@@ -125,7 +125,7 @@ const validar_items_venta = (venta) => {
  * @param {*} options array: [ignore_fecha_retiro]
  * @returns void
  */
-const submit_venta = (v, productos,total,subTotal, tipo_vta, validate_items, callbackOnComplete, options, callbackOnFailValidation) => {
+const submit_venta = (v, productos,total,subTotal, tipo_vta, validate_items, callbackOnComplete, options, callbackOnFailValidation, medicoRequired) => {
 
     const ignore_fecha_retiro = options?.ignore_fecha_retiro||null
 
@@ -153,7 +153,7 @@ const submit_venta = (v, productos,total,subTotal, tipo_vta, validate_items, cal
         return false;
     }
 
-    if(v.fkmedico==null){
+    if(medicoRequired && v.fkmedico==null){
         alert("Medico no seleccionado")
         callbackOnFailValidation?.()
         return false

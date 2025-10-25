@@ -50,6 +50,7 @@ export default function VentaRecetaStock(){
     <>
         <VentaBase
           title={"Venta de Receta Stock"}
+          medicoRequired={true}
           total={total}
           subTotal={subTotal}
           callback={(venta) => {
@@ -67,7 +68,10 @@ export default function VentaRecetaStock(){
                 setPrintOpen(true)
             },
             {},
-            _=>{onFailValidation()})
+            _=>{onFailValidation()}
+        
+            ,true //medico required
+            )
                 
             }}>
             <RecetaStockItems callback={callback} />

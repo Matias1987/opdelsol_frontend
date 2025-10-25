@@ -43,7 +43,8 @@ export default function VentaLCStock() {
       {},
       (_) => {
         onFailValidation();
-      }
+      },
+      true //medico required
     );
   };
 
@@ -63,6 +64,7 @@ export default function VentaLCStock() {
     <>
       <VentaBase
         title={"Venta de Lentes de Contacto Stock"}
+        medicoRequired={true}
         subTotal={subTotal}
         total={total}
         onfinish={onFinish}

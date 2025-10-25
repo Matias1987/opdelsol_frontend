@@ -57,7 +57,8 @@ export default function VentaLCLab() {
       {},
       () => {
         onFailValidation();
-      }
+      },
+      true //medico required
     );
   };
 
@@ -70,6 +71,7 @@ export default function VentaLCLab() {
     <>
       <VentaBase
         title={"Venta de Lentes de Contacto Laboratorio"}
+        medicoRequired={true}
         subTotal={subTotal}
         total={total}
         onfinish={onFinish}

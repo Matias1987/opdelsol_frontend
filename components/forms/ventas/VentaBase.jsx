@@ -116,8 +116,8 @@ export default function VentaBase(props) {
             <Col span={24}>
               <SelectMedico
                 openButtonText={
-                  <span style={{ color: "#3300CC" }}>
-                    &nbsp;*Seleccione M&eacute;dico
+                  <span style={{ color: props.medicoRequired ? "#3300CC" : "inherit" }}>
+                    &nbsp;{props.medicoRequired ? "*" : ""}Seleccione M&eacute;dico
                   </span>
                 }
                 callback={(value) => {

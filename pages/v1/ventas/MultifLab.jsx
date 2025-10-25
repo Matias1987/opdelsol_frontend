@@ -59,7 +59,8 @@ export default function VentaMultifocalesLab() {
       {},
       (_) => {
         onFailValidation();
-      }
+      },
+      true //medico required
     );
   };
 
@@ -72,6 +73,7 @@ export default function VentaMultifocalesLab() {
     <>
       <VentaBase
         title={"Venta de Multifocales Laboratorio"}
+        medicoRequired={true}
         subTotal={subTotal}
         total={total}
         onfinish={onFinish}

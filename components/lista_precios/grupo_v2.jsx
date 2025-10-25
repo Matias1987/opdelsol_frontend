@@ -30,7 +30,7 @@ const GrupoV2 = (props) => {
             type="link"
             size="small"
             style={{
-              color: "#03045E",
+              color: "#000127ff",
               fontWeight: "600",
               whiteSpace: "normal",
               textAlign: "left",
@@ -51,18 +51,18 @@ const GrupoV2 = (props) => {
         <div
           style={{
             textAlign: "right",
-            fontWeight: "bold",
-            color: "#03045E",
+            fontWeight: "500",
+            color: "#000122ff",
             fontSize: "1.12em",
           }}
         >
           {
             <>
               <>
-                {`Indv.: ${precio.toLocaleString("es-AR", {
+                {`Indv.: $ ${precio.toLocaleString("es-AR", {
                     minimumFractionDigits: 2,
                   })}` }
-                { mostrarPrecioPar ? <><br /><span style={{color:"red"}}> Par: {precio_par.toLocaleString("es-AR", {minimumFractionDigits: 2,})}</span></> : <></>}
+                { mostrarPrecioPar ? <><br /><span style={{color:"red"}}> Par: $&nbsp;{precio_par.toLocaleString("es-AR", {minimumFractionDigits: 2,})}</span></> : <></>}
                 {/* mostrarPrecioCaja ? <><br /><span style={{color:"green"}}> Caja: {(precio * 6 - precio * 6 * 0.1).toLocaleString("es-AR", {minimumFractionDigits: 2,})}</span></> : <></>*/ }
                 </>
               </>
