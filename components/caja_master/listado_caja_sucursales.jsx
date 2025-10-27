@@ -57,8 +57,9 @@ const ListadoCajaSucursales = (props) => {
               
               dataSource={data}
               columns={[
+                { dataIndex: "fecha", title: "Fecha" },
                 { dataIndex: "sucursal", title: "Sucursal" },
-                { dataIndex: "monto_efectivo", title: <div style={{textAlign:"right"}}>Monto</div>, render:(_,{monto_efectivo})=><div style={{textAlign:"right"}}>$&nbsp;{monto_efectivo}</div> },
+                { dataIndex: "monto_efectivo", title: <div style={{textAlign:"right"}}>Monto</div>, render:(_,{s})=><div style={{textAlign:"right"}}>$&nbsp;{s}</div> },
                 {
                   title: "Acciones",
                   render: (_, row) => (

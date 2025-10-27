@@ -7,8 +7,8 @@ const ModifIngresoCaja = props =>{
     const {callback, selectedRow, idCajaOrigen} = props;
     const [modifIngreso, setModifIngreso] = useState({
         comentarios: `Transferencia de caja ${selectedRow.sucursal} del día: ${selectedRow.fecha}`,
-        montoSist: selectedRow.monto_efectivo,
-        montoFisico: selectedRow.monto_efectivo,
+        montoSist: selectedRow.s,
+        montoFisico: selectedRow.s,
         idCajaOrigen: selectedRow.idcaja,
         idCajaDestino: null,
     });
