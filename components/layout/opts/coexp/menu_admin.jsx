@@ -58,7 +58,7 @@ const items = [
         style={{ fontWeight: "601", fontSize: "1.1em", color: "#102C3E" }}
         href={public_urls.custom.copex.monto_ventas_mes}
       >
-        <CreditCardOutlined /> Montos Ventas Mes
+        <CreditCardOutlined /> Montos Mes
       </Link>
     ),
     key: "mvm",

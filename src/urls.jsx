@@ -232,6 +232,10 @@ const post = {
     
     informe_monto_medicos_periodo: remote_base_url + "infvtas/inf/vtas/med/",
 
+    informe_cobro_cuotas_mes: remote_base_url + "infcaja/ls/total/cc/m/",
+    
+    informe_gastos_mes: remote_base_url + "infcaja/ls/total/g/m/",
+
     search:{
         filtro_stock: remote_base_url + "stock/filtro_stock/",
     },

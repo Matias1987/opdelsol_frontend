@@ -431,7 +431,7 @@ const BuscarVentaV3 = (props) => {
         onCancel={(_) => {
           setModalImprimirOpen(false);
         }}
-        width={"1000px"}
+        width={"100%"}
         footer={null}
         open={modalImprimirOpen}
       >

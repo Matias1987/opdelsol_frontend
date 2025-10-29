@@ -155,7 +155,7 @@ const InformeVenta = (props) => {
 													VENDEDOR: <b>{data.usuario_nombre}</b>
 													<ResponsableInf id={data.cliente_idcliente} />
 													<DestinatarioInf id={data.fk_destinatario} />
-													{data.obra_social != "" ? "OBRA SOCIAL: " + data.obra_social : ""}<b>{data.medico != "" ? "MÉDICO: " + data.medico + "" : ""}</b> <br />FECHA DE ENTREGA: <b>{data.fecha_entrega_formated + "  " + (data.hora_retiro == "null" ? "-" : data.hora_retiro)}</b>
+													{data.obra_social != "" ? <>OBRA SOCIAL: <span style={{fontWeight:"bolder"}}>{data.obra_social}</span></> : ""}{data.medico != "" ? <>M&eacute;dico:  <span style={{fontWeight:"bolder"}}>{data.medico}</span> </> : <></>} <br />FECHA DE ENTREGA: <b>{data.fecha_entrega_formated + "  " + (data.hora_retiro == "null" ? "-" : data.hora_retiro)}</b>
 												</td>
 												<td width='180px'>
 													<div>

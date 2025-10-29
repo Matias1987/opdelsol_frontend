@@ -15,10 +15,10 @@ const ResponsableInf = (props) => {
     return data == null ? <Spin /> :<>
     <p>
         <span style={{fontWeight: 'bold', fontSize:".80em"}}>RESPONSABLE:</span><br /> 
-        <span style={{whiteSpace:"nowrap"}}>Ap. y Nombre: <b>{data.nombre_completo}</b>&nbsp;</span><br />
-        <span style={{whiteSpace:"nowrap"}}>Nro. Cliente: <b>{props.id}</b>&nbsp;&nbsp;DNI:<span style={{fontWeight: 'bold'}}><b>{data.dni}</b>&nbsp;&nbsp;</span>Tel.:<b>{data.telefono1}</b></span><br /> 
-        <span style={{whiteSpace:"nowrap"}}>Fecha de Nac: <b>{data.fecha_nacimiento_f}</b></span><br />
-        <span style={{whiteSpace:"nowrap"}}>Domicilio: <b>{data.direccion  + " - " + data.localidad}</b></span>
+        <span style={{whiteSpace:"nowrap"}}>Ap. y Nombre: <span style={{fontWeight:"bolder"}}>{data.nombre_completo}</span>&nbsp;</span><br />
+        <span style={{whiteSpace:"nowrap"}}>Nro. Cliente: <span style={{fontWeight:"bolder"}}>{props.id}</span>&nbsp;&nbsp;DNI:<span style={{fontWeight: 'bolder'}}>{data.dni}&nbsp;&nbsp;</span>Tel.:<span style={{fontWeight: 'bolder'}}>{data.telefono1}</span></span><br /> 
+        <span style={{whiteSpace:"nowrap"}}>Fecha de Nac: <span style={{fontWeight:"bolder"}}>{data.fecha_nacimiento_f}</span></span><br />
+        <span style={{whiteSpace:"nowrap"}}>Domicilio: <span style={{fontWeight:"bolder"}}>{data.direccion  + " - " + data.localidad}</span></span>
         </p>
     </>
 }

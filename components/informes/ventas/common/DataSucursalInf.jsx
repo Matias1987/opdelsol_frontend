@@ -14,7 +14,7 @@ const DataSucursalInf = ({callback, idsucursal, hideContactData}) => {
         })
     },[])
     return data == null ? <Spin /> : <>
-    Sucursal: <span style={{fontWeight:'bold',}}>{data.denominacion}</span>
+    Sucursal: <span style={{fontWeight:'bolder',}}>{data.denominacion}</span>
     <br /> 
     {data.direccion} &nbsp;&nbsp;&nbsp;    <br />{data.telefono}
 
