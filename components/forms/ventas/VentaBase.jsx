@@ -23,6 +23,7 @@ import ModoPagoV4 from "../modo_pago/ModoPagoV4";
 import SelectVendedor from "@/components/usuario/vendedor/SelectVendedor";
 import { public_urls } from "@/src/urls";
 import { CloseOutlined } from "@ant-design/icons";
+import dayjs from "dayjs";
 
 /* leer: https://refine.dev/blog/common-usestate-mistakes-and-how-to-avoid/ */
 /**
@@ -31,6 +32,7 @@ import { CloseOutlined } from "@ant-design/icons";
  * @returns
  */
 export default function VentaBase(props) {
+  const date = new Date();
   const [btnEnabled, setBtnEnabled] = useState(true);
   const [venta, setVenta] = useState({
     fkcliente: null,
@@ -42,7 +44,7 @@ export default function VentaBase(props) {
     subtotal: 0,
     descuento: 0,
     total: 0,
-    fechaRetiro: null,
+    fechaRetiro: props.ignore_fecha_retiro ? date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear() : null,
     horaRetiro: null,
     comentarios: "",
     productos: null,
@@ -115,6 +117,7 @@ export default function VentaBase(props) {
           <Row className="table-row-dark" style={{ padding: ".9em" }}>
             <Col span={24}>
               <SelectMedico
+                medicoRequired={props.medicoRequired}
                 openButtonText={
                   <span style={{ color: props.medicoRequired ? "#3300CC" : "inherit" }}>
                     &nbsp;{props.medicoRequired ? "*" : ""}Seleccione M&eacute;dico
@@ -195,6 +198,7 @@ export default function VentaBase(props) {
               <Col span="12">
                 <Form.Item label={"Fecha de Retiro"}>
                   <DatePicker
+                    defaultValue={props.ignore_fecha_retiro ? dayjs() : null }
                     locale={esES}
                     format={"DD-MM-YYYY"}
                     onChange={(value) => {

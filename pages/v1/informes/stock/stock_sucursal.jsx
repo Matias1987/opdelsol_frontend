@@ -18,6 +18,8 @@ const StockSucursal = (_) => {
     { render: (_, obj) => <div style={{fontStyle:"italic", fontSize:".9em", color:"darkblue"}}>{obj.subgrupo}</div>, width: "150px", title: "SubGrupo" },
     { render: (_, obj) => <>{obj.codigo}</>, width: "250px", title: "Código" },
     { render: (_, obj) => <>{obj.descripcion}</>, width: "250px", title: "Descripción" },
+    { render: (_, obj) => <>{obj.tags}</>, width: "250px", title: "Etiquetas" },
+    { render: (_, obj) => <div style={{textAlign:"right"}}>$&nbsp;{ (parseFloat(obj.precio_codigo).toLocaleString(2))}</div>, width: "250px", title: <div style={{textAlign:"right"}}>Precio</div> },
     {
       render: (_, obj) => (
         <div style={{ textAlign: "right" }}>{obj.cantidad}</div>
@@ -89,6 +91,8 @@ const StockSucursal = (_) => {
           subfamilia: row.subfamilia,
           grupo: row.grupo,
           subgrupo: row.subgrupo,
+          precio_codigo: parseFloat(row.precio_codigo).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}),
+          tags: row.tags,
         }))
       );
       let _total = 0;
@@ -203,8 +207,10 @@ const StockSucursal = (_) => {
                           { header: "Grupo", key: "grupo", width: 30 },
                           { header: "Subgrupo", key: "subgrupo", width: 30 },
                           { header: "Código", key: "codigo", width: 30 },
-                          { header: "Descripción", key: "descripcion", width: 15 },
+                          { header: "Descripción", key: "descripcion", width: 40 },
+                          { header: "Etiquetas", key: "tags", width: 30 },
                           { header: "Cantidad", key: "cantidad", width: 15 },
+                          { header: "Precio", key: "precio_codigo", width: 15 },
                         ]}
                         fileName={"Stock_Sucursal_" + sucursalLabel}
                       />

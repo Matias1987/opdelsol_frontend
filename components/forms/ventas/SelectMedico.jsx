@@ -4,9 +4,10 @@ import CustomModal from "@/components/CustomModal"
 import { Button, Input, Spin, Table, Modal } from "antd"
 import { CheckCircleOutlined, CloseCircleOutlined, CloseOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons"
 import { get } from "@/src/urls"
-import { agregar_medico_ventas } from "@/src/config"
+import { agregar_medico_ventas, id_sinreceta } from "@/src/config"
 
 export default function SelectMedico(props){
+    const {medicoRequired} = props
     const [idMedico, setIdMedico] = useState(-1)
     const [medicos, setMedicos] = useState([])
     const [dataMedico, setDataMedico] = useState(null)
@@ -14,6 +15,12 @@ export default function SelectMedico(props){
     const [reload, setReload] = useState(false)
     const [popupAddOpen, setPopupAddOpen] = useState(false)
     useEffect(()=>{
+
+        if('undefined'!==typeof medicoRequired && medicoRequired==false){
+           setIdMedico(id_sinreceta);
+           onMedicoSelected(id_sinreceta);
+        }
+
         setLoading(true)
         const url = get.lista_medicos;
         fetch(url)

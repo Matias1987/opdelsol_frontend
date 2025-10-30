@@ -20,12 +20,12 @@ const ListaCobros = (props) => {
     const [modalVisible, setModalVisible] = useState(false)
     const [selectedCobro, setSelectedCobro] = useState(null)
     const columns = [
-        {width:"90px", title: "Nro.", dataIndex: "idcobro", render:(_,{anulado,idcobro})=>(<>{anulado==1?<Tag color="red">Anulado</Tag>:<></>}{idcobro}</>)},
-        {width:"100px", title: "Fecha", dataIndex: "fecha_formated"},
-        {width:"150px", title: "Cliente", dataIndex: "cliente_nombre"},
-        {width:"150px", title: "Tipo", dataIndex: "tipo"},
-        {width:"150px", title: "Monto", dataIndex: "monto"},
-        {width:"100px", title: "Sucursal", dataIndex: "sucursal"},
+        {width:"90px", title: "Nro.", dataIndex: "idcobro", render:(_,{anulado,idcobro})=>(<>{anulado==1?<Tag color="red">Anulado</Tag>:<></>}{idcobro}</>), sorter: (a, b) => a.idcobro - b.idcobro,},
+        {width:"100px", title: "Fecha", dataIndex: "fecha_formated", sorter: (a, b) => new Date(a.fecha) - new Date(b.fecha),},
+        {width:"150px", title: "Cliente", dataIndex: "cliente_nombre", sorter: (a, b) => a.cliente_nombre.localeCompare(b.cliente_nombre),},
+        {width:"150px", title: "Tipo", dataIndex: "tipo", sorter: (a, b) => a.tipo.localeCompare(b.tipo),},
+        {width:"150px", title: "Monto", dataIndex: "monto", sorter: (a, b) => a.monto - b.monto,},
+        {width:"100px", title: "Sucursal", dataIndex: "sucursal", sorter: (a, b) => a.sucursal.localeCompare(b.sucursal),},
         {width:"100px", title: "Acciones", dataIndex: "idcobro", hidden:false, render: (_,{idcobro})=>{
             return <>
                 <Button size="small" onClick={_=>{
@@ -51,7 +51,7 @@ const ListaCobros = (props) => {
     },[reload])
 
     const load=_=>{
-        var params = {};//{idsucursal: globals.obtenerSucursal()}
+        var params = {idsucursal: globals.obtenerSucursal()}
         params = add(params, filtros.idcliente, 'idcliente')
         params = add(params, filtros.iddestinatario, 'iddestinatario')
         params = add(params, props?.idventa, 'idventa')

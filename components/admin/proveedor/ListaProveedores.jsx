@@ -40,16 +40,26 @@ const ListaProveedores = (props) => {
         />
       ),
     },
-    { title: "Nro.", dataIndex: "idproveedor", key: "idproveedor" },
-    { title: "Nombre", dataIndex: "nombre", key: "nombre" },
-    { title: "C.U.I.T.", dataIndex: "cuit", key: "cuit" },
-    { title: <div style={{textAlign:"right"}}>Saldo</div>, dataIndex: "saldo", key: "saldo", render:(_,record)=><div style={{textAlign:"right"}}>{parseFloat(record.saldo).toLocaleString()}</div> },
+    { title: "Nro.", dataIndex: "idproveedor", key: "idproveedor", sorter: (a, b) => a.idproveedor - b.idproveedor },
+    { title: "Nombre", dataIndex: "nombre", key: "nombre", sorter: (a, b) => a.nombre.localeCompare(b.nombre) },
+    { title: "C.U.I.T.", dataIndex: "cuit", key: "cuit", sorter: (a, b) => a.cuit.localeCompare(b.cuit) },
+    {
+      sorter: (a, b) => a.saldo - b.saldo,
+      title: <div style={{ textAlign: "right" }}>Saldo</div>,
+      dataIndex: "saldo",
+      key: "saldo",
+      render: (_, record) => (
+        <div style={{ textAlign: "right" }}>
+          {parseFloat(record.saldo).toLocaleString()}
+        </div>
+      ),
+    },
     {
       title: "Acciones",
       dataIndex: "idproveedor",
       key: "acciones",
       render: (idproveedor) => {
-        return (!globals.esUsuarioAdminProv()&&!globals.esUsuarioAdmin()) ? (
+        return !globals.esUsuarioAdminProv() && !globals.esUsuarioAdmin() ? (
           <></>
         ) : (
           <>
@@ -86,7 +96,7 @@ const ListaProveedores = (props) => {
 
     })*/
     post_method(url_for_proveedores, {}, (response) => {
-        //alert(JSON.stringify(response))
+      //alert(JSON.stringify(response))
       setTableData(
         response.data.map((r) => ({
           idproveedor: r.idproveedor,
@@ -198,9 +208,8 @@ const ListaProveedores = (props) => {
         <FichaProveedor
           idproveedor={idproveedor}
           callback={() => {
-            setChange(!change)
+            setChange(!change);
             setPopupFichaOpen(false);
-
           }}
         />
       </Modal>

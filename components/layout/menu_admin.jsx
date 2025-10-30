@@ -124,14 +124,14 @@ const items = [
     key: "SubMenu",
     icon: <MenuOutlined />,
     children: [
-      {
+      /*{
         label: (
           <Menu.Item>
             <Link href={public_urls.listausuarios}>Usuarios</Link>
           </Menu.Item>
         ),
         key: "170",
-      },
+      },*/
       {
         key: "100",
         label: (

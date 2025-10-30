@@ -42,12 +42,13 @@ const ListaFacturas = (props) => {
   const [popupAddFacturaOpen, setPopupAddFacturaOpen] = useState(false);
   const [popupAddRemitoOpen, setPopupAddRemitoOpen] = useState(false);
   const columns = [
-    { title: "Nro.", dataIndex: "numero", key: "numero" },
-    { title: "Fecha", dataIndex: "fecha", key: "fecha" },
-    { title: "Proveedor", dataIndex: "proveedor", key: "proveedor" },
-    { title: "Cantidad", dataIndex: "cantidad", key: "cantidad" },
+    { title: <div style={{ textAlign: "center" }}>Nro.</div>, dataIndex: "numero", key: "numero", sorter: (a, b) => a.numero - b.numero },
+    { title: "Fecha", dataIndex: "fecha", key: "fecha", sorter: (a, b) => new Date(a.fecha) - new Date(b.fecha) },
+    { title: "Proveedor", dataIndex: "proveedor", key: "proveedor", sorter: (a, b) => a.proveedor.localeCompare(b.proveedor) },
+    { title: "Cantidad", dataIndex: "cantidad", key: "cantidad", sorter: (a, b) => a.cantidad - b.cantidad, hidden:true },
     {
-      title: "Monto",
+      sorter: (a, b) => a.monto - b.monto,
+      title: <div style={{ textAlign: "right" }}>Monto</div>,
       dataIndex: "monto",
       key: "monto",
       render: (_, { monto }) => (

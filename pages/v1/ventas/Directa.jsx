@@ -34,9 +34,10 @@ export default function VentaDirecta(){
         
         <VentaBase 
         title={"Venta Directa"}
-        
+        medicoRequired={false}
         subTotal={subTotal}
         total={total}
+        ignore_fecha_retiro={true}
 
         callback={callback_venta_modif}
         onfinish={
