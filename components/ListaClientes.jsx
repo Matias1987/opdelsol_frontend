@@ -77,14 +77,22 @@ export default function ListaClientes(props) {
       dataIndex: "apellido",
       title: "Apellido",
       key: "apellido",
+      sorter: (a, b) => a.apellido.localeCompare(b.apellido)
     },
-    { width: "100px", dataIndex: "nombre", title: "Nombre", key: "nombre" },
-    { width: "100px", dataIndex: "dni", title: "DNI", key: "dni" },
+    {
+      width: "100px",
+      dataIndex: "nombre",
+      title: "Nombre",
+      key: "nombre", 
+      sorter: (a, b) => a.nombre.localeCompare(b.nombre)
+    },
+    { width: "100px", dataIndex: "dni", title: "DNI", key: "dni", sorter: (a, b) => a.dni.localeCompare(b.dni) },
     {
       width: "150px",
       dataIndex: "direccion",
       title: "Direccion",
       key: "direccion",
+      sorter: (a, b) => a.direccion.localeCompare(b.direccion)
     },
     {
       width: "80px",
