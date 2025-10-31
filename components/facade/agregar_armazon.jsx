@@ -1,103 +1,167 @@
-import { Button, Col, Input, Row } from "antd";
+import { Button, Card, Col, Input, Row, Select, Table, Modal } from "antd";
 import SelectArmazonMarca from "./select_marca";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import SubFamiliaSelect from "../SubFamiliaSelect";
+import GrupoSelect from "../GrupoSelect";
+import { PlusOutlined } from "@ant-design/icons";
+import EditableTable from "../etc/editableTable";
 
-const AgregarArmazon = props => {
 
-    const [disabled, setDisabled] = useState(true)
+const AgregarArmazon = (props) => {
+  /********************************************************************************************************* */
+  const [modalAgregarCodigoOpen, setModalAgregarCodigoOpen] = useState(false);
 
-    const [armazon, setArmazon] = useState({
-        codigo:"",
-        descripcion:"",
-        fksubgrupo:-1,
-        precio:0,
-        cantidad:0,
-    })
+    const [tipoArmazonData, setTipoArmazonData] = useState(null);
+    const [marcaData, setMarcaData] = useState(null);
+    const [subCategoriaData, setSubCategoriaData] = useState(null);
 
-    const onValueChange = (idx, value) => {
-        setArmazon(_arm=>({
-            ..._arm,
-            [idx]:value
-        }))
-    } 
+    const [selectedTipoArmazon, setSelectedTipoArmazon] = useState(null);
+    const [selectedMarca, setSelectedMarca] = useState(null);
+    const [selectedSubCategoria, setSelectedSubCategoria] = useState(null);
 
-    const onMarcaSelected = (v) => {
-        if(+v<1)
-        {
-            setDisabled(true)
-        }
+    const loadTipoArmazonData = () => {}
+
+    const loadMarcaData = (idTipoArmazon) => {}
+
+    const loadSubCategoriaData = (idMarca) => {}
+
+    const onTipoArmazonChange = (value) => {
+        setSelectedTipoArmazon(value);
+        setMarcaData(null);
+        setSubCategoriaData(null);
+        loadMarcaData(value);
     }
 
-    const input_style = {
-        width:"300px"
+    const onMarcaChange = (value) => {
+        setSelectedMarca(value);
+        setSubCategoriaData(null);
+        loadSubCategoriaData(value);
     }
 
-    const row_style = {
-        padding:"4px"
+    const onSubCategoriaChange = (value) => {
+        setSelectedSubCategoria(value);
     }
 
-    return <>
-    <Row>
-        <Col span={24}>
-            Tipo y Marca:
+    useEffect(()=>{
+        loadTipoArmazonData();
+    },[]);
+
+  const defaultColumns = [
+    {
+      editable: true,
+      title: <>C&oacute;digo</>,
+      dataIndex: "codigo",
+    },
+    {
+      editable: true,
+      title: <>Descripci&oacute;n</>,
+      dataIndex: "descripcion",
+    },
+    {
+      editable: true,
+      title: <>Precio</>,
+      dataIndex: "precio",
+    },
+  ];
+
+  const get_new_row_obj = (_) => ({
+    codigo: "Ingresar Codigo...",
+    descripcion: "Ingresar Descripcion...",
+    precio: 0,
+  });
+
+  const on_add_new_row = (_) => {};
+
+  const col_label_style = { fontWeight: "500", fontSize: "16px", paddingTop: "5px" }; 
+
+  const row_style = { marginBottom: "10px" };
+
+  return (
+    <>
+    <Card title={<span style={{fontWeight:"bold", fontSize:"1.4em"}}>Agregar Armaz&oacute;n</span>}>
+
+      <Row gutter={16} style={row_style}>
+        <Col style={col_label_style}>Tipo de Armaz&oacute;n:&nbsp;</Col>
+        <Col>
+          <Select onChange={onTipoArmazonChange} style={{width:"300px"}} options={tipoArmazonData} />
         </Col>
-    </Row>
-    <Row>
-        <Col span={24}>
-            <SelectArmazonMarca callback={onMarcaSelected} />
+      </Row>
+      <Row gutter={16} style={row_style}>
+        <Col style={col_label_style}>Marca:&nbsp;</Col>
+        <Col>
+          <Select onChange={onMarcaChange} style={{width:"300px"}} options={marcaData} />
         </Col>
-    </Row>
-    <Row style={row_style}>
-        <Col span={24}>
-            <Input 
-            prefix={<>C&oacute;digo</>} 
-            value={armazon.codigo} 
-            style={input_style} 
-            onChange={e=>{onValueChange("codigo", e.target.value)}} 
-            allowClear />
+        <Col>
+          <Button>
+            <PlusOutlined /> Agregar Marca
+          </Button>
         </Col>
-    </Row>
-    <Row style={row_style}>
-        <Col span={24}>
-            <Input 
-            prefix={<>C&oacute;digo</>} 
-            value={armazon.descripcion} 
-            style={input_style} 
-            onChange={e=>{onValueChange("descripcion", e.target.value)}} 
-            allowClear />
+      </Row>
+      <Row gutter={16} style={row_style}>
+        <Col style={col_label_style}>Sub-Categor&iacute;a:&nbsp;</Col>
+        <Col>
+          <Select onChange={onSubCategoriaChange} style={{width:"300px"}} options={subCategoriaData} />
         </Col>
-    </Row>
-    <Row style={row_style}>
-        <Col span={24}>
-            <Input 
-            type="number" 
-            min={0} 
-            step={0.01} 
-            prefix={<>Precio</>} 
-            value={armazon.precio||"0"} 
-            style={input_style} 
-            onChange={e=>{onValueChange("precio", parseFloat(e.target.value||"0"))}} 
-            allowClear />
+        <Col>
+          <Button>
+            <PlusOutlined /> Agregar
+          </Button>
         </Col>
-    </Row>
-    <Row style={row_style}>
+      </Row>
+      <Row gutter={16} style={row_style}>
         <Col span={24}>
-            <Input 
-            type="number" 
-            min={0} 
-            prefix={<>Cantidad</>} 
-            value={armazon.cantidad||"0"} 
-            style={input_style} 
-            onChange={e=>{onValueChange("cantidad", parseInt(e.target.value||"0"))}} 
-            allowClear />
+          <Card
+            size="small"
+
+          >
+            <Row>
+              <Col span={24}>
+                <Table
+                  pagination={false}
+                  columns={defaultColumns}
+                  dataSource={[]}
+                  footer={() => (
+                    <Button type="primary" onClick={() => setModalAgregarCodigoOpen(true)}>
+                      <PlusOutlined /> Agregar Armaz&oacute;n
+                    </Button>
+                  )}
+                />
+              </Col>
+            </Row>
+          </Card>
         </Col>
-    </Row>
-    <Row style={row_style}>
-        <Col span={24}>
-            <Button disabled={disabled} type="primary" block>Guardar</Button>
-        </Col>
-    </Row>
+      </Row>
+      </Card>
+      <Modal
+        title="Agregar Armazón"
+        open={modalAgregarCodigoOpen}
+        onCancel={() => setModalAgregarCodigoOpen(false)}
+        destroyOnClose={true}
+        footer={null}
+        width={"1200px"}
+      >
+        <Row gutter={16}>
+          <Col >
+            <Input prefix="Código: " allowClear />
+          </Col>
+       
+          <Col >
+            <Input prefix="Descripción: " style={{width:"400px"}} allowClear />
+          </Col>
+        </Row>
+        <Row gutter={16}>
+          <Col >
+            <Input prefix="Precio: " />
+          </Col>
+        </Row>
+        <Row>
+            <Col>
+                  <Button>Agregar</Button>
+            </Col>
+        </Row>
+      </Modal>
     </>
-}
+  );
+};
 
 export default AgregarArmazon;

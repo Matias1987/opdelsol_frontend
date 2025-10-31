@@ -17,6 +17,7 @@ import Proveedores from "@/components/admin/dashboard_components/proveedores";
 import DataCard from "@/components/etc/DataCard";
 import CobrosTarjetaDia from "@/components/informes/caja/cobrosTarjetaDia";
 import CuotasPendientesTarjetas from "@/components/informes/caja/cuotasPendientesTarjetas";
+import AgregarArmazon from "@/components/facade/agregar_armazon";
 export default function test() {
   return (
     <div>
@@ -42,18 +43,19 @@ export default function test() {
         <Col span={12}>
           <CobrosTipoGraph />
         </Col>
-      </Row>*/}
+      </Row>
       Fondos
       <ListaFondoFijos />
       <Divider />
       <ListadoCajaSucursales />
       <Divider />
       <CajaMaster />
-      <Divider />
+      <Divider />*/}
       {/*Transferencia
       <Transferencia aFondoFijo={false} />
       Ingreso
       <Ingreso />*/}
+      <AgregarArmazon />
     </div>
   );
 }
