@@ -29,10 +29,10 @@ const VDItem = (props) => {
 
     const onAddNewCode = (idcodigo) => {
         const found = items.find(r=>r.idcodigo == idcodigo)
-        if(found){
-            alert("Codigo ya cargado")
-            return
-        }
+        //if(found){
+        //    alert("Codigo ya cargado")
+        //    return
+        //}
         //get details
         fetch(get.detalle_stock + globals.obtenerSucursal() + "/" + idcodigo)
         .then(response=>response.json())
