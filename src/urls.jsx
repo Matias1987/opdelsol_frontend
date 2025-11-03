@@ -236,6 +236,7 @@ const post = {
     
     informe_gastos_mes: remote_base_url + "infcaja/ls/total/g/m/",
 
+
     search:{
         filtro_stock: remote_base_url + "stock/filtro_stock/",
     },
@@ -293,6 +294,7 @@ const post = {
         modificacion_ingreso_caja: remote_base_url + "ccmm/transferencia/a/master/",
         transferencia_a_ff: remote_base_url + "ccmm/transferencia/a/ff/",
         egreso_cm: remote_base_url + "ccmm/agregar_egreso/",
+        insertar_codigos: remote_base_url + "codigos_ext/insertar_codigos/",
     },
     update:{
         optica: remote_base_url + "op/mod/",

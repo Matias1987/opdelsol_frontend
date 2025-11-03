@@ -15,7 +15,7 @@ import SubFamiliaSelect from "../SubFamiliaSelect";
 import GrupoSelect from "../GrupoSelect";
 import { PlusOutlined } from "@ant-design/icons";
 import EditableTable from "../etc/editableTable";
-import { get } from "@/src/urls";
+import { get, post } from "@/src/urls";
 import { post_method } from "@/src/helpers/post_helper";
 
 const AgregarArmazon = (props) => {
@@ -198,9 +198,9 @@ const AgregarArmazon = (props) => {
       cantidad_inicial: cantidadInicial,
     }
 
-    alert(JSON.stringify(dataToSave));
+    //alert(JSON.stringify(dataToSave));
 
-    const url = ""; //? toDo, url doesn't exist yet
+    const url = post.insert.insertar_codigos; //? toDo, url doesn't exist yet
 
     post_method(url, dataToSave,(response)=>{
       alert("Armazones guardados correctamente");
@@ -208,6 +208,8 @@ const AgregarArmazon = (props) => {
       setSelectedTipoArmazon(null);
       setSelectedMarca(null);
       setSelectedSubCategoria(null);
+      setMarcaData(null);
+      setSubCategoriaData(null);
       setCantidadInicial(0);
       setCodigosData([]);
     })
