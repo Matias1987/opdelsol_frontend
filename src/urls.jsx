@@ -122,6 +122,8 @@ const public_urls = {
 
     panel_proveedores: local_base_url + "admin/panel_proveedores",
 
+    panel_ventas: local_base_url + "admin/ventas",
+
     custom:{
         copex:{
             monto_ventas_mes: local_base_url + "admin/custm/oexp/monto_ventas_mes",

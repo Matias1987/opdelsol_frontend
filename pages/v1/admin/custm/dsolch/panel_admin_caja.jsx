@@ -28,7 +28,7 @@ export default function PanelAdminCaja() {
 
   return (
     <>
-      <Tabs defaultActiveKey="1" items={items} onChange={onChange} />
+      <Tabs defaultActiveKey="1" items={items} onChange={onChange} size="large" type="card" />
     </>
   );
 }

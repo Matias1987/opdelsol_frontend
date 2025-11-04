@@ -4,16 +4,23 @@ import { currency_format } from "@/src/helpers/string_helper";
 import { get, post } from "@/src/urls";
 import { InfoCircleOutlined } from "@ant-design/icons";
 
-import { Table, Button, Modal } from "antd";
+import { Table, Button, Modal, Card } from "antd";
 import { useEffect, useState } from "react";
+import FiltrosInforme from "./FiltrosInforme";
 
 const VentasSucursales = (props) => {
+  const [filtros, setFiltros] = useState({
+    mes: 1,
+    anio: 2023,
+    fkcliente: "-1",
+    fksucursal: "-1",
+  });
+  const [actualizar, setActualizar] = useState(false);
   const [popupDetalleOpen, setPopupDetalleOpen] = useState(false);
   const [filtrosListaVtas, setFiltrosListaVtas] = useState({
     fksucursal: -1,
     fkvendedor: -1,
   });
-  const { filtros, actualizar } = props;
 
   const onDetalleLisaVentasClick = (fksucursal, fkvendedor) => {
     setFiltrosListaVtas((f) => ({
@@ -134,71 +141,68 @@ const VentasSucursales = (props) => {
 
   return (
     <>
+    
+      <Card title={`Ventas por sucursal del período ${filtros.mes}/${filtros.anio}`}>
+        <FiltrosInforme callback={(newFilters) => { setFiltros(newFilters); setActualizar(!actualizar); }} />
 
-          <b>Ventas por Sucursal</b>
+        <Table
+          rowClassName={(record, index) =>
+            index % 2 === 0 ? "table-row-light" : "table-row-dark"
+          }
+          scroll={{ y: "400px" }}
+          style={{ width: "100%" }}
+          pagination={false}
+          columns={columns_s}
+          dataSource={dataSourceSucursal}
+          summary={(data) => {
+            var totalEfvo = 0;
+            var total = 0;
+            var totalCheques = 0;
+            var totalTarjetas = 0;
+            var totalMutual = 0;
+            var totalCtaCte = 0;
+            var totalMP = 0;
+            data.forEach((r) => {
+              totalEfvo += parseFloat(r.efectivo);
+              totalCheques += parseFloat(r.cheque);
+              totalTarjetas += parseFloat(r.tarjeta);
+              totalMutual += parseFloat(r.mutual);
+              totalCtaCte += parseFloat(r.ctacte);
+              totalMP += parseFloat(r.mp);
+              total += parseFloat(r.total);
+            });
 
-          <b>
-            {`Ventas por sucursal del período ${filtros.mes}/${filtros.anio}`}{" "}
-          </b>
-          <Table
-            rowClassName={(record, index) =>
-              index % 2 === 0 ? "table-row-light" : "table-row-dark"
-            }
-            scroll={{ y: "400px" }}
-            style={{ width: "100%" }}
-            pagination={false}
-            columns={columns_s}
-            dataSource={dataSourceSucursal}
-            summary={(data) => {
-              var totalEfvo = 0;
-              var total = 0;
-              var totalCheques = 0;
-              var totalTarjetas = 0;
-              var totalMutual = 0;
-              var totalCtaCte = 0;
-              var totalMP = 0;
-              data.forEach((r) => {
-                totalEfvo += parseFloat(r.efectivo);
-                totalCheques += parseFloat(r.cheque);
-                totalTarjetas += parseFloat(r.tarjeta);
-                totalMutual += parseFloat(r.mutual);
-                totalCtaCte += parseFloat(r.ctacte);
-                totalMP += parseFloat(r.mp);
-                total += parseFloat(r.total);
-              });
-
-              return (
-                <>
-                  <Table.Summary.Row>
-                    <Table.Summary.Cell colSpan={2}>
-                      TOTALES:
-                    </Table.Summary.Cell>
-                    <Table.Summary.Cell align={"right"}>
-                      <b>{currency_format(totalEfvo)}</b>
-                    </Table.Summary.Cell>
-                    <Table.Summary.Cell align={"right"}>
-                      <b>{currency_format(totalTarjetas)}</b>
-                    </Table.Summary.Cell>
-                    <Table.Summary.Cell align={"right"}>
-                      <b>{currency_format(totalCheques)}</b>
-                    </Table.Summary.Cell>
-                    <Table.Summary.Cell align={"right"}>
-                      <b>{currency_format(totalCtaCte)}</b>
-                    </Table.Summary.Cell>
-                    <Table.Summary.Cell align={"right"}>
-                      <b>{currency_format(totalMutual)}</b>
-                    </Table.Summary.Cell>
-                    <Table.Summary.Cell align={"right"}>
-                      <b>{currency_format(totalMP)}</b>
-                    </Table.Summary.Cell>
-                    <Table.Summary.Cell align={"right"}>
-                      <b>{currency_format(total)}</b>
-                    </Table.Summary.Cell>
-                  </Table.Summary.Row>
-                </>
-              );
-            }}
-          />
+            return (
+              <>
+                <Table.Summary.Row>
+                  <Table.Summary.Cell colSpan={2}>TOTALES:</Table.Summary.Cell>
+                  <Table.Summary.Cell align={"right"}>
+                    <b>{currency_format(totalEfvo)}</b>
+                  </Table.Summary.Cell>
+                  <Table.Summary.Cell align={"right"}>
+                    <b>{currency_format(totalTarjetas)}</b>
+                  </Table.Summary.Cell>
+                  <Table.Summary.Cell align={"right"}>
+                    <b>{currency_format(totalCheques)}</b>
+                  </Table.Summary.Cell>
+                  <Table.Summary.Cell align={"right"}>
+                    <b>{currency_format(totalCtaCte)}</b>
+                  </Table.Summary.Cell>
+                  <Table.Summary.Cell align={"right"}>
+                    <b>{currency_format(totalMutual)}</b>
+                  </Table.Summary.Cell>
+                  <Table.Summary.Cell align={"right"}>
+                    <b>{currency_format(totalMP)}</b>
+                  </Table.Summary.Cell>
+                  <Table.Summary.Cell align={"right"}>
+                    <b>{currency_format(total)}</b>
+                  </Table.Summary.Cell>
+                </Table.Summary.Row>
+              </>
+            );
+          }}
+        />
+      </Card>
 
       <Modal
         width={"95%"}

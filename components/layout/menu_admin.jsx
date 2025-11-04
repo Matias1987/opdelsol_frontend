@@ -42,6 +42,17 @@ const items = [
     ),
     key: "cajas",
   },
+  {
+    label: (
+      <Link
+        style={{ fontWeight: "600", fontSize: "1.1em", color: "#102C3E" }}
+        href={public_urls.panel_ventas}
+      >
+        <AreaChartOutlined /> Ventas
+      </Link>
+    ),
+    key: "ventas",
+  },
   
   {
     label: (
@@ -49,7 +60,7 @@ const items = [
         style={{ fontWeight: "600", fontSize: "1.1em", color: "#102C3E" }}
         href={public_urls.informe_cobros_tarjetas}
       >
-        <CreditCardOutlined /> Monto Tarjetas
+        <CreditCardOutlined /> Tarjetas
       </Link>
     ),
     key: "501",
@@ -65,39 +76,7 @@ const items = [
     ),
     key: "505",
   },
-  {
-    label: (
-      <Link
-        style={{ fontWeight: "600", fontSize: "1.1em", color: "#102C3E" }}
-        href={public_urls.totales_venta_vendedores}
-      >
-        <AreaChartOutlined /> Totales Venta Mes
-      </Link>
-    ),
-    key: "10",
-  },
-  {
-    label: (
-      <Link
-        style={{ fontWeight: "600", fontSize: "1.1em", color: "#102C3E" }}
-        href={public_urls.ventas_medicos}
-      >
-        <AreaChartOutlined /> Ventas M&eacute;dicos
-      </Link>
-    ),
-    key: "11",
-  },
-  {
-    label: (
-      <Link
-        style={{ fontWeight: "600", fontSize: "1.1em", color: "#102C3E" }}
-        href={public_urls.lista_ventas_dia_vendedor}
-      >
-        <AreaChartOutlined /> Ventas D&iacute;a
-      </Link>
-    ),
-    key: "14",
-  },
+  
 
   {
     label: (

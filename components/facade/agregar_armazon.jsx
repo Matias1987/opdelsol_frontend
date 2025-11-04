@@ -20,6 +20,7 @@ import { post_method } from "@/src/helpers/post_helper";
 
 const AgregarArmazon = (props) => {
   /********************************************************************************************************* */
+  const [reload, setReload] = useState(false);
   const [modalAgregarCodigoOpen, setModalAgregarCodigoOpen] = useState(false);
 
   const [tipoArmazonData, setTipoArmazonData] = useState(null);
@@ -32,22 +33,18 @@ const AgregarArmazon = (props) => {
   const [cantidadInicial, setCantidadInicial] = useState(0);
   const [codigosData, setCodigosData] = useState([]);
   const [agregarMarcaModalOpen, setAgregarMarcaModalOpen] = useState(false);
-  const [agregarSubCategoriaModalOpen, setAgregarSubCategoriaModalOpen] = useState(false);
+  const [agregarSubCategoriaModalOpen, setAgregarSubCategoriaModalOpen] =
+    useState(false);
   const [marcaToAdd, setMarcaToAdd] = useState("");
   const [subCategoriaToAdd, setSubCategoriaToAdd] = useState("");
-  const [codeToAdd, setCodeToAdd] = useState({
-    codigo: "",
-    descripcion: "",
-    precio: 0,
-  });
+  const [codeToAdd, setCodeToAdd] = useState("");
 
   const loadSucursales = () => {
     fetch(get.sucursales)
       .then((r) => r.json())
       .then((r) => {
-      //  alert(JSON.stringify(r.data));
+        //  alert(JSON.stringify(r.data));
         setSucursales(
-          
           r.data.map((s) => ({
             ...s,
             checked: true,
@@ -100,10 +97,64 @@ const AgregarArmazon = (props) => {
     setSelectedSubCategoria(value);
   };
 
+  const onAddMarca = () => {
+    
+    if (marcaToAdd.trim() === "") {
+      alert("La marca no puede estar vacía");
+      return;
+    }
+
+    if(!/^[A-Za-z0-9_\s]+$/.test(marcaToAdd)) {
+      alert("La marca solo puede contener letras, espacios, números y guiones bajos");
+      return;
+    }
+
+    const dataToSave = {
+      nombre_corto: marcaToAdd.toUpperCase(),
+      nombre_largo: marcaToAdd.toUpperCase(),
+      subfamilia_idsubfamilia: selectedTipoArmazon,
+    };
+
+    post_method(post.insert.grupo, dataToSave, (res) => {
+      setReload(!reload);
+      setAgregarMarcaModalOpen(false);
+    });
+  };
+
+  const onAddSubCategoria = () => {
+    
+    if (subCategoriaToAdd.trim() === "") {
+      alert("La sub-categoría no puede estar vacía");
+      return;
+    }
+
+    if(!/^[A-Za-z0-9_\s]+$/.test(subCategoriaToAdd)) {
+      alert("La sub-categoría solo puede contener letras, espacios, números y guiones bajos");
+      return;
+    }
+    const dataToSave = {
+      nombre_corto: subCategoriaToAdd.toUpperCase(),
+      nombre_largo: subCategoriaToAdd.toUpperCase(),
+      grupo_idgrupo: selectedMarca,
+    };
+
+    post_method(post.insert.subgrupo, dataToSave, (res) => {
+      setReload(!reload);
+      setAgregarSubCategoriaModalOpen(false);
+    });
+  };
+
   useEffect(() => {
+    setSelectedTipoArmazon(null);
+    setSelectedMarca(null);
+    setSelectedSubCategoria(null);
+    setMarcaData(null);
+    setSubCategoriaData(null);
+    setCantidadInicial(0);
+    setCodigosData([]);
     loadSucursales();
     loadTipoArmazonData();
-  }, []);
+  }, [reload]);
 
   const defaultColumns = [
     {
@@ -121,11 +172,20 @@ const AgregarArmazon = (props) => {
     {
       title: <>Acciones</>,
       render: (_, record) => (
-        <><Button danger onClick={() => {
-          setCodigosData((oldData) => oldData.filter((d) => d.codigo !== record.codigo));
-        }}>Eliminar</Button></>
+        <>
+          <Button
+            danger
+            onClick={() => {
+              setCodigosData((oldData) =>
+                oldData.filter((d) => d.codigo !== record.codigo)
+              );
+            }}
+          >
+            Eliminar
+          </Button>
+        </>
       ),
-    }
+    },
   ];
   const columnsSucursales = [
     {
@@ -151,11 +211,11 @@ const AgregarArmazon = (props) => {
   ];
 
   const on_add_new_row = (_) => {
-    if(codeToAdd.codigo.trim()===""){
+    if (codeToAdd.codigo.trim() === "") {
       alert("El c&oacute;digo no puede estar vacío");
       return;
     }
-    if(codeToAdd.descripcion.trim()===""){
+    if (codeToAdd.descripcion.trim() === "") {
       alert("La descripción no puede estar vacía");
       return;
     }
@@ -176,33 +236,34 @@ const AgregarArmazon = (props) => {
 
   const row_style = { marginBottom: "10px" };
 
-  const onSave = () =>{
-    
-    if(selectedSubCategoria===null){
+  const onSave = () => {
+    if (selectedSubCategoria === null) {
       alert("Debe seleccionar una sub-categoría");
       return;
     }
 
-    if(codigosData.length===0){
+    if (codigosData.length === 0) {
       alert("Debe agregar al menos un código de armazón");
       return;
     }
-    
-    if(!confirm("¿Está seguro de guardar los armazones agregados?")){
+
+    if (!confirm("¿Está seguro de guardar los armazones agregados?")) {
       return;
     }
     const dataToSave = {
       idsubgrupo: selectedSubCategoria,
       codigos: codigosData,
-      idsucursales: sucursales.filter(s=>s.checked).map(s=>s.idsucursal),
+      idsucursales: sucursales
+        .filter((s) => s.checked)
+        .map((s) => s.idsucursal),
       cantidad_inicial: cantidadInicial,
-    }
+    };
 
     //alert(JSON.stringify(dataToSave));
 
     const url = post.insert.insertar_codigos; //? toDo, url doesn't exist yet
 
-    post_method(url, dataToSave,(response)=>{
+    post_method(url, dataToSave, (response) => {
       alert("Armazones guardados correctamente");
       //reset form
       setSelectedTipoArmazon(null);
@@ -212,8 +273,9 @@ const AgregarArmazon = (props) => {
       setSubCategoriaData(null);
       setCantidadInicial(0);
       setCodigosData([]);
-    })
-  }
+      setReload(!reload);
+    });
+  };
 
   return (
     <>
@@ -228,6 +290,7 @@ const AgregarArmazon = (props) => {
           <Col style={col_label_style}>Tipo de Armaz&oacute;n:&nbsp;</Col>
           <Col>
             <Select
+              value={selectedTipoArmazon}
               onChange={onTipoArmazonChange}
               style={{ width: "300px" }}
               options={tipoArmazonData}
@@ -241,6 +304,7 @@ const AgregarArmazon = (props) => {
           <Col style={col_label_style}>Marca:&nbsp;</Col>
           <Col>
             <Select
+              value={selectedMarca}
               onChange={onMarcaChange}
               style={{ width: "300px" }}
               options={marcaData}
@@ -248,7 +312,11 @@ const AgregarArmazon = (props) => {
             />
           </Col>
           <Col>
-            <Button type="primary" onClick={()=>setAgregarMarcaModalOpen(true)}>
+            <Button
+              disabled={selectedTipoArmazon === null}
+              type="primary"
+              onClick={() => setAgregarMarcaModalOpen(true)}
+            >
               <PlusOutlined /> Agregar Marca
             </Button>
           </Col>
@@ -257,6 +325,7 @@ const AgregarArmazon = (props) => {
           <Col style={col_label_style}>Sub-Categor&iacute;a:&nbsp;</Col>
           <Col>
             <Select
+              value={selectedSubCategoria}
               onChange={onSubCategoriaChange}
               style={{ width: "300px" }}
               options={subCategoriaData}
@@ -266,7 +335,11 @@ const AgregarArmazon = (props) => {
             />
           </Col>
           <Col>
-            <Button type="primary" onClick={() => setAgregarSubCategoriaModalOpen(true)}>
+            <Button
+              disabled={selectedMarca === null}
+              type="primary"
+              onClick={() => setAgregarSubCategoriaModalOpen(true)}
+            >
               <PlusOutlined /> Agregar
             </Button>
           </Col>
@@ -282,6 +355,7 @@ const AgregarArmazon = (props) => {
                     dataSource={codigosData}
                     footer={() => (
                       <Button
+                        size="large"
                         type="primary"
                         onClick={() => setModalAgregarCodigoOpen(true)}
                       >
@@ -300,13 +374,26 @@ const AgregarArmazon = (props) => {
                   >
                     <Row>
                       <Col span={24}>
-                        <Input type="number" prefix="Cantidad Inicial: " placeholder="Cantidad Inicial" value={cantidadInicial} onChange={e=>{setCantidadInicial(e.target.value)}}/>
+                        <Input
+                          type="number"
+                          prefix="Cantidad Inicial: "
+                          placeholder="Cantidad Inicial"
+                          value={cantidadInicial}
+                          onChange={(e) => {
+                            setCantidadInicial(e.target.value);
+                          }}
+                        />
                       </Col>
                     </Row>
                     <Row>
                       <Col span={24}>
                         <Table
-                          title={_=><>Sucursales en la que el C&oacute;digo estar&aacute; disponible</>}
+                          title={(_) => (
+                            <>
+                              Sucursales en la que el C&oacute;digo
+                              estar&aacute; disponible
+                            </>
+                          )}
                           size="small"
                           pagination={false}
                           columns={columnsSucursales}
@@ -319,8 +406,13 @@ const AgregarArmazon = (props) => {
                 </Col>
               </Row>
               <Row>
-                <Col span={24} style={{ marginTop: "10px", textAlign: "right" }}>
-                  <Button onClick={onSave} size="large" type="primary">Guardar Armazones</Button>
+                <Col
+                  span={24}
+                  style={{ marginTop: "10px", textAlign: "right" }}
+                >
+                  <Button onClick={onSave} size="large" type="primary">
+                    Guardar Armazones
+                  </Button>
                 </Col>
               </Row>
             </Card>
@@ -335,9 +427,16 @@ const AgregarArmazon = (props) => {
         footer={null}
         width={"450px"}
       >
-        <Row gutter={16} style={{paddingTop:"10px"}}>
+        <Row gutter={16} style={{ paddingTop: "10px" }}>
           <Col>
-            <Input prefix="Código: " allowClear value={codeToAdd.codigo} onChange={e => setCodeToAdd({ ...codeToAdd, codigo: e.target.value })} />
+            <Input
+              prefix="Código: "
+              allowClear
+              value={codeToAdd.codigo}
+              onChange={(e) =>
+                setCodeToAdd({ ...codeToAdd, codigo: e.target.value })
+              }
+            />
           </Col>
 
           <Col>
@@ -346,61 +445,86 @@ const AgregarArmazon = (props) => {
               style={{ width: "400px" }}
               allowClear
               value={codeToAdd.descripcion}
-              onChange={e => setCodeToAdd({ ...codeToAdd, descripcion: e.target.value })}
+              onChange={(e) =>
+                setCodeToAdd({ ...codeToAdd, descripcion: e.target.value })
+              }
             />
           </Col>
         </Row>
-        <Row gutter={16} style={{paddingTop:"10px"}}>
+        <Row gutter={16} style={{ paddingTop: "10px" }}>
           <Col>
-            <Input prefix="Precio: " type="number" value={codeToAdd.precio} onChange={e => setCodeToAdd({ ...codeToAdd, precio: e.target.value })} />
+            <Input
+              prefix="Precio: "
+              type="number"
+              value={codeToAdd.precio}
+              onChange={(e) =>
+                setCodeToAdd({ ...codeToAdd, precio: e.target.value })
+              }
+            />
           </Col>
         </Row>
 
         <Row>
           <Col span={24} style={{ marginTop: "30px", textAlign: "right" }}>
-            <Button block type="primary" onClick={on_add_new_row}>Agregar</Button>
+            <Button block type="primary" onClick={on_add_new_row}>
+              Agregar
+            </Button>
           </Col>
         </Row>
       </Modal>
-      <Modal 
-      title="Agregar Marca de Armazón"
-      open={agregarMarcaModalOpen}
-      onCancel={()=>setAgregarMarcaModalOpen(false)}
-      footer={null}
-      width={"450px"}
-    >
-      <Row gutter={16} style={{paddingTop:"10px"}}>
-        <Col>
-          <Input prefix="Marca: " allowClear value={marcaToAdd} onChange={e => setMarcaToAdd(e.target.value)} />
-        </Col>
-      </Row>
+      <Modal
+        title="Agregar Marca de Armazón"
+        open={agregarMarcaModalOpen}
+        onCancel={() => setAgregarMarcaModalOpen(false)}
+        footer={null}
+        width={"450px"}
+      >
+        <Row gutter={16} style={{ paddingTop: "10px" }}>
+          <Col>
+            <Input
+              prefix="Marca: "
+              allowClear
+              value={marcaToAdd}
+              onChange={(e) => setMarcaToAdd(e.target.value)}
+            />
+          </Col>
+        </Row>
 
-      <Row>
-        <Col span={24} style={{ marginTop: "30px", textAlign: "right" }}>
-          <Button block type="primary" onClick={on_add_new_row}>Agregar</Button>
-        </Col>
-      </Row>
-    </Modal>
-    <Modal
-      title="Agregar Subcategoría de Armazón"
-      open={agregarSubCategoriaModalOpen}
-      onCancel={() => setAgregarSubCategoriaModalOpen(false)}
-      footer={null}
-      width={"450px"}
-    >
-      <Row gutter={16} style={{ paddingTop: "10px" }}>
-        <Col>
-          <Input prefix="Subcategoría: " allowClear value={subCategoriaToAdd} onChange={e => setSubCategoriaToAdd(e.target.value)} />
-        </Col>
-      </Row>
+        <Row>
+          <Col span={24} style={{ marginTop: "30px", textAlign: "right" }}>
+            <Button block type="primary" onClick={onAddMarca}>
+              Agregar
+            </Button>
+          </Col>
+        </Row>
+      </Modal>
+      <Modal
+        title="Agregar Subcategoría de Armazón"
+        open={agregarSubCategoriaModalOpen}
+        onCancel={() => setAgregarSubCategoriaModalOpen(false)}
+        footer={null}
+        width={"450px"}
+      >
+        <Row gutter={16} style={{ paddingTop: "10px" }}>
+          <Col>
+            <Input
+              prefix="Subcategoría: "
+              allowClear
+              value={subCategoriaToAdd}
+              onChange={(e) => setSubCategoriaToAdd(e.target.value)}
+            />
+          </Col>
+        </Row>
 
-      <Row>
-        <Col span={24} style={{ marginTop: "30px", textAlign: "right" }}>
-          <Button block type="primary" onClick={on_add_new_row}>Agregar</Button>
-        </Col>
-      </Row>
-    </Modal>
-  </>
+        <Row>
+          <Col span={24} style={{ marginTop: "30px", textAlign: "right" }}>
+            <Button block type="primary" onClick={onAddSubCategoria}>
+              Agregar
+            </Button>
+          </Col>
+        </Row>
+      </Modal>
+    </>
   );
 };
 

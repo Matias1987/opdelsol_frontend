@@ -4,12 +4,20 @@ import { post_method } from "@/src/helpers/post_helper";
 import { currency_format } from "@/src/helpers/string_helper";
 import { get, post } from "@/src/urls";
 import { InfoCircleOutlined } from "@ant-design/icons";
-import { Table, Button } from "antd";
+import { Table, Button, Card } from "antd";
 import { useEffect, useState } from "react";
+import FiltrosInforme from "./FiltrosInforme";
 
 const VentasVendedor = (props) => {
-  const { filtros, actualizar } = props;
+ // const { filtros, actualizar } = props;
   const [dataSource, setDatasource] = useState([]);
+    const [filtros, setFiltros] = useState({
+    mes: 1,
+    anio: 2023,
+    fkcliente: "-1",
+    fksucursal: "-1",
+  });
+  const [actualizar, setActualizar] = useState(false);
 
   const columns = [
     {
@@ -121,11 +129,13 @@ const VentasVendedor = (props) => {
 
   return (
     <>
-      <b>{`Ventas vendedores del período ${filtros.mes}/${filtros.anio}`} </b>
+      <Card title={`Ventas vendedores del período ${filtros.mes}/${filtros.anio}`}>
+      <>
+      <FiltrosInforme callback={_filtros => {setFiltros(_filtros); setActualizar(!actualizar);}} />
       <Table
         title={(_) => (
           <>
-            <ExportToExcel2
+            {/*<ExportToExcel2
               sheets={dataSource.map((row) => ({
                 sheet_name: `Ventas`,
                 header: "",
@@ -151,7 +161,7 @@ const VentasVendedor = (props) => {
                   total: row.total,
                 })),
               }))}
-            />
+            />*/}
           </>
         )}
         rowClassName={(record, index) =>
@@ -226,6 +236,8 @@ const VentasVendedor = (props) => {
           return str;
         }}
       />
+      </>
+    </Card>
     </>
   );
 };

@@ -28,7 +28,7 @@ const InformeCobrosTarjetas = () => {
 
   const onChange = (key) => {}
 
-  return <Tabs defaultActiveKey="1" items={items} onChange={onChange} />;
+  return <Tabs defaultActiveKey="1" items={items} onChange={onChange} type="card" size="large" />;
 };
 
 export default InformeCobrosTarjetas;

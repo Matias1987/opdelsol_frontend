@@ -4,7 +4,7 @@ import EditarStockIndiv from "@/components/forms/deposito/EditarStockIndiv";
 import globals from "@/src/globals";
 import { post_method } from "@/src/helpers/post_helper";
 import { get, post } from "@/src/urls";
-import { Card, Col, Modal, Row } from "antd";
+import { Card, Col, Modal, Row, Tag } from "antd";
 import { useEffect, useState } from "react";
 import TagsLote from "@/components/etiquetas/TagsLote";
 import DetalleStock from "@/components/forms/deposito/detalle/DetalleStock";
@@ -15,13 +15,15 @@ import GridMonof from "@/components/etc/GridMonof";
 import StockTable from "@/components/deposito/lista_stock_table";
 import EditarCodigoGrupo from "@/components/forms/deposito/EditarCodigoGrupo";
 import EditarPreciosSubgruposForm from "../forms/deposito/EditarPreciosSubgruposForm";
+import SucursalSelect from "../SucursalSelect";
 
 const ModificarStock = (props) => {
   const [usuarioDep, setUsuarioDep] = useState(false);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [valueChanged, setValueChanged] = useState(false);
-  const idsucursal = globals.obtenerSucursal();
+  const [idsucursal, setIdSucursal] = useState(globals.obtenerSucursal());
+  const [nombreSucursal, setNombreSucursal] = useState("");
   const [idsubgrupo, setIdSubgrupo] = useState(-1);
   const [listId, setListId] = useState(0);
   const [popupTagsOpen, setPopupTagsOpen] = useState(false);
@@ -61,7 +63,7 @@ const ModificarStock = (props) => {
             color: "#1215E5",
           }}
         >
-          <i>Sin registros</i>
+          <i></i>
         </span>
       );
     }
@@ -193,10 +195,8 @@ const ModificarStock = (props) => {
       }
     });
 
-    let _sucursal = globals.obtenerSucursal();
-
     return {
-      sucursal: _sucursal,
+      sucursal: idsucursal,
       codigo_contenga_a:
         typeof __filtros["codigo_contenga_a"] === "undefined"
           ? ""
@@ -334,18 +334,48 @@ const ModificarStock = (props) => {
               }}
               folded={menuFolded}
             />
-            {/*menuFolded ? (
-              <></>
-            ) : (
-              <FacturaSelect2
-                factura={factura}
-                callback={(_factura) => {
-                  setFactura(_factura);
-                }}
-              />
-            )*/}
           </Col>
           <Col style={{ width: menuFolded ? "100%" : "75%", padding: "6px" }}>
+            <Row>
+              <Col span={24}>
+                {menuFolded ? (
+                  <div style={{ padding: "8px" }}>
+                    <span
+                      style={{
+                        fontWeight: "600",
+                        fontSize: "1.3em",
+                        color: "#070063ff",
+                      }}
+                    >
+                      {nombreSucursal}
+                    </span>
+                  </div>
+                ) : (
+                  <div
+                    style={{
+                      paddingLeft: "18px",
+                      paddingTop: "6px",
+                      paddingBottom: "6px",
+                      backgroundColor: "#89b8ffff",
+                      borderRadius: "6px",
+                      marginTop: "12px",
+                      borderRadius: "16px",
+                    }}
+                  >
+                    <SucursalSelect
+                      addNullOption={false}
+                      size="medium"
+                      idsucursal={idsucursal}
+                      callback={(_idsucursal, _sucursal_nombre) => {
+                        setIdSucursal(_idsucursal);
+                        setData([]);
+                        setNombreSucursal(_sucursal_nombre);
+                      }}
+                    />
+                  </div>
+                )}
+              </Col>
+            </Row>
             <Row key={data}>
               <Col span={24}>{get_grid()}</Col>
             </Row>
@@ -409,7 +439,7 @@ const ModificarStock = (props) => {
         <EditarStockIndiv
           factura={factura}
           idcodigo={selectedIdCodigo}
-          idsucursal={globals.obtenerSucursal()}
+          idsucursal={idsucursal}
           callback={() => {
             setPopupEditarStockIndvOpen(false);
             //alert("disparado desde popup")
@@ -452,7 +482,7 @@ const ModificarStock = (props) => {
           idsubgrupo={idsubgrupo}
           width={640}
           height={480}
-          idsucursal={globals.obtenerSucursal()}
+          idsucursal={idsucursal}
         />
       </Modal>
       <Modal
