@@ -345,6 +345,7 @@ const post = {
         mover_grupos: remote_base_url + "grupos/mover/",
         cl_a_f_l:remote_base_url+"cl/a/f/l/",
         sorteo_set_ganador: remote_base_url + "srt/set/wn/",
+        editar_medico: remote_base_url + "medicos/ed/it/m/",
     },
 }
 

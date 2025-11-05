@@ -17,11 +17,11 @@ const ListaMedicos = (props) => {
         {dataIndex: "nombre", title:"Nombre"},
         {dataIndex: "direccion", title:"Direccion"},
         {dataIndex: "telefono", title:"Telefono"},
-        {render:(_,{idmedico})=><><Button  onClick={()=>{
+        /*{render:(_,{idmedico})=><><Button  onClick={()=>{
             setIdMedico(idmedico)
             setModoEditar(true)
             setOpen(true)
-        }}><EditFilled /></Button></>},
+        }}><EditFilled /></Button></>},*/
         {
             title:"Activo", 
             render:(_,{idmedico, activo})=><>
