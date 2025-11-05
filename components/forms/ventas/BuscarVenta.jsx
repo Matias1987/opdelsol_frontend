@@ -8,9 +8,10 @@ import globals from "@/src/globals";
 import CustomModal from "@/components/CustomModal";
 import { HomeFilled, PrinterFilled, ReloadOutlined, SearchOutlined } from "@ant-design/icons";
 import InformeVentaMinV3 from "@/components/informes/ventas/InformeVentasMinV3";
-import InformeVentaV2 from "@/components/informes/ventas/InformeVentaV2";
 import CambiarResponsableDestinatario from "./edicion/CambiarResponsableDestinatario";
 import AnularVentasCobradas from "@/components/admin/anularVentasCobradas";
+import PrinterWrapper from "@/components/PrinterWrapper";
+import InformeVenta from "@/components/informes/ventas/Base";
 
 const BuscarVenta = (props)=>{
     const [open, setOpen] = useState(false)
@@ -20,6 +21,7 @@ const BuscarVenta = (props)=>{
 
     const [detalleOpen, setDetalleOpen] = useState(false)
     const [idventaDetalle, setIdVentaDetalle] = useState(-1)
+    const [printOpen, setPrintOpen] = useState(false)
 
     const [verSoloSucursal, setVerSoloSucursal] = useState(true)
 
@@ -84,6 +86,8 @@ const BuscarVenta = (props)=>{
 
 
     const onPopupClosed = () => {setFiltros({}); setReload(!reload)}
+
+    const onClosePrintPopup = () =>{setPrintOpen(false)}
 
     useEffect(()=>{load()},[reload])
 
@@ -239,7 +243,8 @@ const BuscarVenta = (props)=>{
             { globals.esUsuarioCaja1() ? show_buttons(estado,idventa,en_laboratorio, idsucursal) : <></>}
             {/*<VentaDetallePopup idventa={idventa} key={idventa} />&nbsp;*/}
             {/*<ImprimirSobreVenta  idventa={idventa}  key={idventa}/>*/}
-            <InformeVentaV2 hidebutton={false} idventa={idventa} key={idventa} />
+            {/*<InformeVentaV2 hidebutton={false} idventa={idventa} key={idventa} />*/}
+            <Button onClick={_=>{setIdVentaDetalle(idventa);  setPrintOpen(true);}}><PrinterFilled /></Button>
             { (globals.esUsuarioAdmin() || globals.esUsuarioAdminMin()) && estado!='ANULADO' ?
             <AnularVentasCobradas idventa={idventa} callback={load}/>
             :
@@ -251,10 +256,16 @@ const BuscarVenta = (props)=>{
         </Col>
     </Row>
         
+    
+    
+    </Modal>
     <Modal width={"1000px"} destroyOnClose open={detalleOpen} footer={null} onCancel={()=>{setDetalleOpen(false)}}>
         <InformeVentaMinV3 idventa={idventaDetalle} key={idventaDetalle} />
     </Modal>
-    
+    <Modal destroyOnClose width={"80%"} open={printOpen} onOk={()=>{onClosePrintPopup()}} onCancel={()=>{onClosePrintPopup()}} footer={null} >
+        <PrinterWrapper>
+            {<InformeVenta idventa={idventaDetalle} />}
+        </PrinterWrapper>
     </Modal>
     </div>
 }

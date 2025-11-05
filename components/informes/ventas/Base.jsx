@@ -26,6 +26,10 @@ const InformeVenta = (props) => {
 	const [haber, setHaber] = useState(null)
 
 	useEffect(() => {
+		if(!props.idventa)
+		{
+			return;
+		}
 		const url = get.venta;
 		const url_mp = get.get_venta_mp;
 		//alert(url_mp + props.idventa)
@@ -104,7 +108,7 @@ const InformeVenta = (props) => {
 									60 d&iacute;as a partir de la fecha, no se aceptar&aacute;n reclamos.<br />
 								</div>
 
-								VENDEDOR: <b>{data.usuario_nombre}</b>
+								VENDEDOR: <b>{data.usuario_nombre.toUpperCase()}</b>
 							</td>
 							<td style={{ textAlign: 'center' }}>
 								{
@@ -152,7 +156,7 @@ const InformeVenta = (props) => {
 											<tr>
 												<td>
 													{ mostrar_talon_cliente ? <></> : <><b>{tipo_venta(data.tipo) }</b> <br /> </>}
-													VENDEDOR: <b>{data.usuario_nombre}</b>
+													VENDEDOR: <b>{(data.usuario_nombre||"").toUpperCase()}</b>
 													<ResponsableInf id={data.cliente_idcliente} />
 													<DestinatarioInf id={data.fk_destinatario} />
 													{data.obra_social != "" ? <>OBRA SOCIAL: <span style={{fontWeight:"bolder"}}>{data.obra_social}</span></> : ""}{data.medico != "" ? <>M&eacute;dico:  <span style={{fontWeight:"bolder"}}>{data.medico}</span> </> : <></>} <br />FECHA DE ENTREGA: <b>{data.fecha_entrega_formated + "  " + (data.hora_retiro == "null" ? "-" : data.hora_retiro)}</b>

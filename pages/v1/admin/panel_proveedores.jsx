@@ -18,7 +18,7 @@ export default function panel_proveedores(){
   ];
   return (
     <div>
-      <Tabs defaultActiveKey="2" items={items} type="card" size="large" />
+      <Tabs defaultActiveKey="1" items={items} type="card" size="large" />
     </div>
   );
     

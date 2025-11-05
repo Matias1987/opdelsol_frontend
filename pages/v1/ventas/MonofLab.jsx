@@ -5,8 +5,9 @@ import { useState } from "react";
 import { public_urls } from "@/src/urls";
 import globals from "@/src/globals";
 import { submit_venta } from "@/src/helpers/ventas_helper";
-import InformeVentaV2 from "@/components/informes/ventas/InformeVentaV2";
-import { Divider } from "antd";
+import { Divider, Modal } from "antd";
+import PrinterWrapper from "@/components/PrinterWrapper";
+import InformeVenta from "@/components/informes/ventas/Base";
 
 export default function VentaMonofocalesLab() {
   const [productos, setProductos] = useState(null);
@@ -76,18 +77,18 @@ export default function VentaMonofocalesLab() {
       >
         <MonofLabItems callback={onProductosCallback} />
       </VentaBase>
-      {/*<Modal width={"80%"} open={idVenta!=-1 && printOpen} onOk={()=>{onClosePrintPopup()}} onCancel={()=>{onClosePrintPopup()}} footer={null} >
+      {<Modal width={"80%"} open={idVenta!=-1 && printOpen} onOk={()=>{onClosePrintPopup()}} onCancel={()=>{onClosePrintPopup()}} footer={null} >
         <PrinterWrapper>
             <InformeVenta idventa={idVenta} />
         </PrinterWrapper>
-    </Modal>*/}
-      <InformeVentaV2
+    </Modal>}
+      {/*<InformeVentaV2
         idventa={idVenta}
         open={idVenta != -1 && printOpen}
         hidebutton={true}
         key={idVenta}
         onclose={onClosePrintPopup}
-      />
+      />*/}
     </>
   );
 }

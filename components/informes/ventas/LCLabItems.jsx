@@ -35,7 +35,7 @@ export default function LCLabItems(props){
             {
                 data.map(r=>(
                     <tr >
-                        <td style={{borderBottom:"1px dotted"}}><i><b>{r.tipo}</b></i>&nbsp;&nbsp;</td>
+                        <td style={{borderBottom:"1px dotted"}}><i><b>{((r.tipo||"").toUpperCase()).replace(/_/g," ")}</b></i>&nbsp;&nbsp;</td>
                         {/*<td style={{padding:"0",textAlign:"left"}}><b>{r.codigo}</b></td>*/}
                         <td style={{padding:"0",textAlign:"left", borderBottom:"1px dotted"}}>{r.tipo=='od' || r.tipo=='oi' ? <>
                         <b>{r.codigo}</b>&nbsp;&nbsp;&nbsp;ESF:&nbsp;{r.esf} &nbsp;&nbsp;CIL:&nbsp;{r.cil} &nbsp;&nbsp;EJE:&nbsp;{r.eje} &nbsp;&nbsp;CB:&nbsp;{r.curva_base} &nbsp;&nbsp;DIAM:&nbsp;{r.diametro} 

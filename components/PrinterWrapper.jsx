@@ -1,6 +1,6 @@
 import { PrinterFilled } from "@ant-design/icons";
 import { Button, Col, FloatButton, Row } from "antd";
-import React, { useRef } from "react";
+import { useRef } from "react";
 import ReactToPrint from "react-to-print";
 
 export default function PrinterWrapper({ children }) {

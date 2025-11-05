@@ -35,7 +35,7 @@ export default function RecStockItems(props){
             {
                 data.map(r=>(
                     <tr >
-                        <td style={{borderBottom:"1px dotted"}}>{r.tipo}</td>
+                        <td style={{borderBottom:"1px dotted"}}>{((r.tipo||"").toUpperCase()).replace(/_/g," ")}</td>
                         <td style={{borderBottom:"1px dotted", padding:".2em",textAlign:"left"}}><span style={{fontWeight:"600"}}>{r.codigo}</span></td>
                         <td style={{borderBottom:"1px dotted", padding:".2em",textAlign:"left"}}><b>{r.eje}</b></td>
                         {/*<td style={{padding:"0",textAlign:"left"}}>{r.descripcion}</td>*/}

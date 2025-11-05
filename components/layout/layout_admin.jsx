@@ -68,7 +68,7 @@ export default function LayoutAdmin({children}){
                 <HeaderSol tipoCuenta="ADMIN" displaymodechange={()=>{
                     props?.displaymodechange?.()
                 }}/>
-            {menu()}
+          <MenuAdminSolParana />
   
             <Content style={{ margin: '40px 100px', padding: 24}}>
                 {children}

@@ -36,7 +36,7 @@ export default function LCStockItems(props){
             {
                 data.map(r=>(
                     <tr >
-                        <td style={{borderBottom:"1px dotted"}}>{r.tipo}</td>
+                        <td style={{borderBottom:"1px dotted"}}>{((r.tipo||"").toUpperCase()).replace(/_/g," ")}</td>
                         {/*<td style={{padding:"0",textAlign:"left"}}><b>{r.codigo}</b></td>*/}
                         <td style={{borderBottom:"1px dotted" ,padding:"0",textAlign:"left"}}>{r.descripcion}</td>
                         <td style={{borderBottom:"1px dotted" ,padding:"0",textAlign:"right"}}>{currency_format(r.precio)}</td>

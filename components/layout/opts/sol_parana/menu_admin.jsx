@@ -11,11 +11,14 @@ import { Menu } from "antd";
 import { useState } from "react";
 import Link from "next/link";
 import { public_urls } from "@/src/urls";
-import { lista_precios_visible } from "@/src/config";
-import CustomModal from "@/components/CustomModal";
-import ListaPreciosV3 from "@/components/lista_precios/listaPreciosV3";
+
 import BuscarVenta from "@/components/forms/ventas/BuscarVenta";
 
+
+export default function MenuAdminSolParana() {
+  const [current, setCurrent] = useState("12");
+
+  
 const items = [
   {
     label: (
@@ -39,39 +42,7 @@ const items = [
     ),
     key: "ventas",
   },
-    /*{
-    label: (
-      <Link
-        style={{ fontWeight: "600", fontSize: "1.1em", color: "#102C3E" }}
-        href={public_urls.lista_ventas_dia_vendedor}
-      >
-        <AreaChartOutlined /> Ventas D&iacute;a
-      </Link>
-    ),
-    key: "14",
-  },
-    {
-    label: (
-      <Link
-        style={{ fontWeight: "600", fontSize: "1.1em", color: "#102C3E" }}
-        href={public_urls.totales_venta_vendedores}
-      >
-        <AreaChartOutlined /> Totales Venta Mes
-      </Link>
-    ),
-    key: "10",
-  },
-  {
-    label: (
-      <Link
-        style={{ fontWeight: "600", fontSize: "1.1em", color: "#102C3E" }}
-        href={public_urls.ventas_medicos}
-      >
-        <AreaChartOutlined /> Ventas M&eacute;dicos
-      </Link>
-    ),
-    key: "11",
-  },*/
+
   {
     label: (
       <Link
@@ -172,22 +143,6 @@ const items = [
 
 ];
 
-if (lista_precios_visible != 0) {
-  items.push({
-    label: (
-      <CustomModal
-        width="100%"
-        openButtonText={<>Lista de Precios</>}
-        type="text"
-      >
-        <ListaPreciosV3 />
-      </CustomModal>
-    ),
-    key: "1001",
-  });
-}
-export default function MenuAdminSolParana() {
-  const [current, setCurrent] = useState("12");
   const onClick = (e) => {
     console.log("click ", e);
     setCurrent(e.key);
