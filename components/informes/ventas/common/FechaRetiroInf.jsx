@@ -1,9 +1,23 @@
+import { use_owner_id } from "@/src/config";
+
 const FechaEntregaInf = (props) => (
 	<table width='100%'>
 		<tbody>
+		
+		{
+				use_owner_id  ? <><tr>
+				<td style={{padding:"0", fontSize:".85em"}}>NRO.:</td>
+				<td style={{padding:"0", fontSize:".85em", fontWeight:"bolder"}}>{props.data.uid}</td>
+				</tr> 
+				<tr>
+					<td colSpan={2}><hr /></td>
+				</tr>
+				</>: <></>
+		}
 		<tr>
-			<td style={{padding:"0", fontSize:".85em"}}>NRO.:</td>
-			<td style={{padding:"0", fontSize:".85em", fontWeight:"bolder"}}>{props.data.idventa}</td>
+			<td style={{padding:"0", fontSize: use_owner_id ? ".75em" : ".85em"}}>{use_owner_id ? "ID SIST." : "NRO."}</td>
+			<td style={{padding:"0", fontSize: use_owner_id ? ".75em" : ".85em", fontWeight:"bolder"}}>{props.data.idventa}</td>
+			
 		</tr>
 		<tr>
 			<td style={{padding:"0", fontSize:".85em"}}>FECHA:</td>

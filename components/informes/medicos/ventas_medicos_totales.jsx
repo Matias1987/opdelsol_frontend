@@ -344,6 +344,11 @@ const ListaVentasMedicosTotales = (props) => {
                                   width: 10,
                                 },
                                 {
+                                  header: "Sucursal",
+                                  key: "sucursal",
+                                  width: 10,
+                                },
+                                {
                                   header: "Fecha Retiro",
                                   key: "fecha_retiro",
                                   width: 20,
@@ -363,6 +368,7 @@ const ListaVentasMedicosTotales = (props) => {
                                 .filter((m0) => m0.idmedico == ds.idmedico)
                                 .map((m) => ({
                                   nro: m.idventa,
+                                  sucursal:m.sucursal,
                                   fecha_retiro: m.fecha_f,
                                   cliente: m.cliente,
                                   monto: parseFloat(m.monto),

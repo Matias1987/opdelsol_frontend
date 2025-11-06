@@ -46,7 +46,7 @@ export default function MonofLabItems(props){
                         
                         {/*<td style={{padding:"0",textAlign:"left"}}>{r.descripcion}</td>*/}
                         
-                        <td style={{borderBottom:"1px dotted", padding:"0",textAlign:"right"}}>{currency_format(r.precio)}</td>
+                        <td style={{borderBottom:"1px dotted", padding:"0",textAlign:"right"}}>$&nbsp;{currency_format(r.precio)}</td>
                     </tr>
                 ))
             }

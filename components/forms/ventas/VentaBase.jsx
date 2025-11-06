@@ -4,7 +4,7 @@ import SelectMedico from "@/components/forms/ventas/SelectMedico";
 import SelectObraSocial from "@/components/forms/ventas/SelectObraSocial";
 import TotalesVenta from "@/components/forms/ventas/TotalVenta";
 import globals from "@/src/globals";
-import {cambiar_vendedor} from "@/src/config"
+import { cambiar_vendedor, use_owner_id } from "@/src/config";
 import {
   Button,
   Card,
@@ -44,7 +44,9 @@ export default function VentaBase(props) {
     subtotal: 0,
     descuento: 0,
     total: 0,
-    fechaRetiro: props.ignore_fecha_retiro ? date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear() : null,
+    fechaRetiro: props.ignore_fecha_retiro
+      ? date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear()
+      : null,
     horaRetiro: null,
     comentarios: "",
     productos: null,
@@ -52,6 +54,7 @@ export default function VentaBase(props) {
     fkcaja: globals.obtenerCajaID(),
     json_items: "",
     tk: globals.getToken(),
+    uid:"",
   });
 
   const onChange = (field, value) => {
@@ -63,20 +66,19 @@ export default function VentaBase(props) {
   };
 
   const finalizar_venta = (e) => {
+    const idvendedor =
+      cambiar_vendedor == 0 ? +globals.obtenerUID() : venta.fkusuario;
 
-    const idvendedor = cambiar_vendedor == 0 ? +globals.obtenerUID() : venta.fkusuario;
-
-    if(idvendedor<1)
-    {
+    if (idvendedor < 1) {
       alert("Seleccione Vendedor");
       return;
     }
     setBtnEnabled(false);
     setVenta((venta) => {
-      props?.onfinish?.({...venta, fkusuario:idvendedor}, (_) => {
+      props?.onfinish?.({ ...venta, fkusuario: idvendedor }, (_) => {
         setBtnEnabled(true);
       });
-      return {...venta, fkusuario:idvendedor};
+      return { ...venta, fkusuario: idvendedor };
     });
   };
 
@@ -119,8 +121,13 @@ export default function VentaBase(props) {
               <SelectMedico
                 medicoRequired={props.medicoRequired}
                 openButtonText={
-                  <span style={{ color: props.medicoRequired ? "#3300CC" : "inherit" }}>
-                    &nbsp;{props.medicoRequired ? "*" : ""}Seleccione M&eacute;dico
+                  <span
+                    style={{
+                      color: props.medicoRequired ? "#3300CC" : "inherit",
+                    }}
+                  >
+                    &nbsp;{props.medicoRequired ? "*" : ""}Seleccione
+                    M&eacute;dico
                   </span>
                 }
                 callback={(value) => {
@@ -190,15 +197,16 @@ export default function VentaBase(props) {
       key: "paso4",
       label: <span style={{ fontWeight: "600" }}>Finalizar Sobre</span>,
       children: (
-        <Row>
+        <>
+        <Row gutter={24}>
           {props.ocultarFechaRetiro ? (
             <></>
           ) : (
             <>
-              <Col span="12">
+              <Col>
                 <Form.Item label={"Fecha de Retiro"}>
                   <DatePicker
-                    defaultValue={props.ignore_fecha_retiro ? dayjs() : null }
+                    defaultValue={props.ignore_fecha_retiro ? dayjs() : null}
                     locale={esES}
                     format={"DD-MM-YYYY"}
                     onChange={(value) => {
@@ -207,7 +215,7 @@ export default function VentaBase(props) {
                   />
                 </Form.Item>
               </Col>
-              <Col span="12">
+              <Col>
                 <Form.Item label={"Hora de Retiro"}>
                   <TimePicker
                     format={"HH:mm"}
@@ -219,31 +227,48 @@ export default function VentaBase(props) {
               </Col>
             </>
           )}
-          <Col span="24">
-            <Form.Item label={"Comentarios"}>
-              <Input.TextArea
-                rows={2}
-                onChange={(e) => {
-                  onChange("comentarios", e.target.value);
-                }}
-              />
-            </Form.Item>
-          </Col>
-          <Col span={24}>
-            <Form.Item>
-              <Button
-                style={{ borderRadius: "16px" }}
-                size="large"
-                disabled={!btnEnabled}
-                type="primary"
-                block
-                onClick={finalizar_venta}
-              >
-                Imprimir Sobre
-              </Button>
-            </Form.Item>
-          </Col>
-        </Row>
+          </Row>
+
+          {!use_owner_id  ? <></>:
+          <Row style={{paddingTop:"6px", paddingBottom:"6px"}}>
+            <Col span="24">
+              <Input prefix="Nro. Sobre:" style={{maxWidth:"350px"}} allowClear onChange={e=>{
+                onChange("uid",e.target.value)
+              }} />
+            </Col>
+          </Row>
+          }
+
+          <Row>
+            <Col span="24">
+              <Form.Item label={"Comentarios"}>
+                <Input.TextArea
+                  rows={2}
+                  onChange={(e) => {
+                    onChange("comentarios", e.target.value);
+                  }}
+                />
+              </Form.Item>
+            </Col>
+          </Row>
+          <Divider />
+          <Row>
+            <Col span={24}>
+              <Form.Item>
+                <Button
+                  style={{ borderRadius: "16px" }}
+                  size="large"
+                  disabled={!btnEnabled}
+                  type="primary"
+                  block
+                  onClick={finalizar_venta}
+                >
+                  Imprimir Sobre
+                </Button>
+              </Form.Item>
+            </Col>
+          </Row>
+        </>
       ),
     },
   ];
@@ -253,13 +278,15 @@ export default function VentaBase(props) {
       <Card
         title={<>{props.title || "Venta"}</>}
         extra={
-          cambiar_vendedor==0  ? <> </>:
-          <SelectVendedor
-            onChange={(value) => {
-              setVenta((_v) => ({ ..._v, fkusuario: value }));
-            }}
-          />
-
+          cambiar_vendedor == 0 ? (
+            <> </>
+          ) : (
+            <SelectVendedor
+              onChange={(value) => {
+                setVenta((_v) => ({ ..._v, fkusuario: value }));
+              }}
+            />
+          )
         }
         size="small"
         style={{
@@ -269,7 +296,8 @@ export default function VentaBase(props) {
         styles={{
           header: {
             backgroundColor: "##ffffed",
-            background: "linear-gradient(281deg,rgba(248,248,234, 1) 32%, rgba(231,233,235, 1) 75%)",
+            background:
+              "linear-gradient(281deg,rgba(248,248,234, 1) 32%, rgba(231,233,235, 1) 75%)",
             borderBottom: "1px solid #eee",
             borderTopLeftRadius: "16px",
             borderTopRightRadius: "16px",
@@ -295,15 +323,26 @@ export default function VentaBase(props) {
           </Col>
         </Row>
         <Divider />
-        {<Row>
-          <Col span={24} style={{display:"flex", justifyContent:"flex-end"}}>
-          <Button type="link" danger onClick={_=>{
-            if(confirm("Cancelar Operación?")){
-              window.location.replace(public_urls.dashboard_venta)
-            }
-          }}><CloseOutlined /> Cancelar</Button>
-          </Col>
-        </Row>}
+        {
+          <Row>
+            <Col
+              span={24}
+              style={{ display: "flex", justifyContent: "flex-end" }}
+            >
+              <Button
+                type="link"
+                danger
+                onClick={(_) => {
+                  if (confirm("Cancelar Operación?")) {
+                    window.location.replace(public_urls.dashboard_venta);
+                  }
+                }}
+              >
+                <CloseOutlined /> Cancelar
+              </Button>
+            </Col>
+          </Row>
+        }
       </Card>
     </>
   );
