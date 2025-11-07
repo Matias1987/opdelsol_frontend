@@ -3,6 +3,7 @@ import { get, post } from "@/src/urls";
 import {
   Button,
   Card,
+  Checkbox,
   Col,
   Divider,
   Input,
@@ -14,6 +15,7 @@ import {
 import { useEffect, useState } from "react";
 import VentaDetallePopup from "../VentaDetalle";
 import InformeUsuarioGraphVentas from "./InformeUsuarioGraphVentas";
+import SucursalSelect from "../SucursalSelect";
 
 const ListaVentasDia = (props) => {
   const [ventas, setVentas] = useState([]);
@@ -26,8 +28,10 @@ const ListaVentasDia = (props) => {
     mes: 0,
     anio: 0,
     idusuario: -1,
+    idsucursal: -1,
   });
   const columns = [
+    {render:()=><><Checkbox/></>, width:"30px"},
     { dataIndex: "idventa", title: "Nro." },
     { dataIndex: "cliente", title: "Cliente" },
     { dataIndex: "estado", title: "Estado" },
@@ -72,6 +76,7 @@ const ListaVentasDia = (props) => {
       {
         idusuario: filtros.idusuario,
         fecha: `${filtros.anio}-${filtros.mes}-${filtros.dia}`,
+        idsucursal: +filtros.idsucursal <0 ? "" : filtros.idsucursal,
       },
       (response) => {
         const resp = response?.data || [];
@@ -157,6 +162,11 @@ const ListaVentasDia = (props) => {
           </Space>
         </Col>
         <Col>
+        <SucursalSelect callback={(idsucursal)=>{
+            onChange("idsucursal", idsucursal);
+        }} />
+        </Col>
+        <Col>
           <Button type="primary" onClick={aplicarFiltros} disabled={!buttonEnabled}>
             Aplicar Filtros
           </Button>
@@ -187,7 +197,7 @@ const ListaVentasDia = (props) => {
         <Row>
           <Col span={24}>
             <Input value={ventas.length} readOnly prefix="Cantidad:   " />
-            <Input value={total} readOnly prefix="Total: $  " />
+            <Input value={(total||"0").toLocaleString(2)} readOnly prefix="Total: $  " />
           </Col>
         </Row>
       </Card>

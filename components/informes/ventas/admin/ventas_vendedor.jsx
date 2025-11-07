@@ -4,18 +4,20 @@ import { post_method } from "@/src/helpers/post_helper";
 import { currency_format } from "@/src/helpers/string_helper";
 import { get, post } from "@/src/urls";
 import { InfoCircleOutlined } from "@ant-design/icons";
-import { Table, Button, Card } from "antd";
+import { Table, Button, Card, Select, Row, Col } from "antd";
 import { useEffect, useState } from "react";
 import FiltrosInforme from "./FiltrosInforme";
 
 const VentasVendedor = (props) => {
  // const { filtros, actualizar } = props;
   const [dataSource, setDatasource] = useState([]);
+  const [usuarios, setUsuarios] = useState([]);
     const [filtros, setFiltros] = useState({
     mes: 1,
     anio: 2023,
     fkcliente: "-1",
     fksucursal: "-1",
+    fkusuario: "-1",
   });
   const [actualizar, setActualizar] = useState(false);
 
@@ -110,6 +112,12 @@ const VentasVendedor = (props) => {
   }, [actualizar]);
 
   const load = (_) => {
+    fetch(get.lista_usuarios)
+      .then((r) => r.json())
+      .then((response) => {
+        const resp = response?.data || [];
+        setUsuarios(resp.map((r) => ({ label: r.nombre, value: r.idusuario })));
+      });
     post_method(post.totales_venta_vendedor, filtros, (response) => {
       setDatasource(
         response.data.map((r) => ({
@@ -131,7 +139,17 @@ const VentasVendedor = (props) => {
     <>
       <Card title={`Ventas vendedores del período ${filtros.mes}/${filtros.anio}`}>
       <>
-      <FiltrosInforme callback={_filtros => {setFiltros(_filtros); setActualizar(!actualizar);}} />
+      <Row gutter={16}>
+        <Col>
+          <Select style={{width:"300px"}} options={usuarios} prefix="Usuario:" onChange={v=>setFiltros()} />
+        </Col>
+        <Col>
+          <FiltrosInforme callback={_filtros => {setFiltros(_filtros); setActualizar(!actualizar);}} />
+        </Col>
+        
+      </Row>
+      
+        
       <Table
         title={(_) => (
           <>

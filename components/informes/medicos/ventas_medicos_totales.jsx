@@ -19,6 +19,7 @@ import VentasMedicos from "./ventas_medicos";
 import ExportToCSV from "@/components/ExportToCSV";
 import ExportToExcel2 from "@/components/etc/ExportToExcel2";
 import { InfoOutlined } from "@ant-design/icons";
+import SelectMedico from "@/components/forms/ventas/SelectMedico";
 
 const ListaVentasMedicosTotales = (props) => {
   const [dataSource, setDataSource] = useState([]);
@@ -34,6 +35,8 @@ const ListaVentasMedicosTotales = (props) => {
   const [searchValue, setSearchValue] = useState("");
   const [dataForExcelLoaded, setDataForExcelLoaded] = useState(false);
   const [dataForExcel, setDataForExcel] = useState(null);
+  const [medicos, setMedicos] = useState([])
+  const [medicoFiltro, setMedicoFiltro] = useState(-1)
   const title_style_money = { fontWeight: "bold", textAlign: "right" };
   const columns = [
     {
@@ -147,6 +150,15 @@ const ListaVentasMedicosTotales = (props) => {
     },
   ];
 
+  const loadMedicos = () => {
+    fetch(get.lista_medicos)
+    .then(r=>r.json())
+    .then(response => {
+      const resp = response?.data || [];
+      setMedicos(resp.map((r) => ({ label: r.nombre, value: r.idmedico })));
+    });
+  };
+
   useEffect(() => {
     const d = new Date();
     setMes(d.getMonth() + 1);
@@ -165,6 +177,7 @@ const ListaVentasMedicosTotales = (props) => {
       .catch((ex) => {
         console.log(ex);
       });
+      loadMedicos();
   }, []);
 
   const init_totales = () => {
@@ -176,6 +189,7 @@ const ListaVentasMedicosTotales = (props) => {
         anio: anio,
         nombre: nombre,
         idsucursal: idsucursal,
+        idmedico: +medicoFiltro < 0 ? "" : medicoFiltro,
       },
       (response) => {
         //alert(JSON.stringify(response))
@@ -251,13 +265,21 @@ const ListaVentasMedicosTotales = (props) => {
           />
         </Col>
         <Col>
-          <Input
+         {/* <Input
             style={{ width: "200px" }}
             value={nombre}
             onChange={(e) => {
               setNombre(e.target.value);
             }}
             prefix="Nombre: "
+          />*/}
+          <Select
+            prefix="Médico: "
+            style={{ width: "200px" }}
+            options={medicos}
+            onChange={v => {
+              setMedicoFiltro(v);
+            }}
           />
         </Col>
         <Col>
