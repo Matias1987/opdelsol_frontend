@@ -48,6 +48,8 @@ const ModificarStock = (props) => {
 
   const [popupEditarPreciosOpen, setEditarPopupPreciosOpen] = useState(false);
 
+  const [sucuralSelectEnabled, setSucursalSelectEnabled] = useState(false);
+
   const regexp_bif = /^([A-Z_]+)(_)(\-|\+[0-9\.]+)(_)(L|R)(_ADD_)([0-9\.]+)/;
   const regexp_monof = /^([A-Z_0-9\.]+)(_)([0-9\.]+)($)/;
   const regexp_terminados = /ESF(\-|\+)([0-9\.]+)CIL(\-|\+)([0-9\.]+).*$/;
@@ -255,6 +257,8 @@ const ModificarStock = (props) => {
   };
 
   useEffect(() => {
+    //alert(globals.esUsuarioDeposito())
+    setSucursalSelectEnabled(globals.esUsuarioDeposito());
     setUsuarioDep(globals.esUsuarioDeposito());
     load(filtros);
   }, [valueChanged]);
@@ -310,7 +314,66 @@ const ModificarStock = (props) => {
         style={{ boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)" }}
       >
         <Row>
-          <Col style={{ padding: "16px", width: menuFolded ? "100px" : "25%" }}>
+          <Col span={24}>
+            <Row>
+              <Col span={24}>
+                {menuFolded ? (
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "row-reverse",
+                      paddingRight: "18px",
+                      paddingTop: "3px",
+                      paddingBottom: "3px",
+                      backgroundColor: "#f1f6ffff",
+                      marginTop: "12px",
+                    }}
+                  >
+                    <span
+                      style={{
+                        fontWeight: "600",
+                        fontSize: "1.3em",
+                        color: "#070063ff",
+                      }}
+                    >
+                      {nombreSucursal}
+                    </span>
+                  </div>
+                ) : (
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "row-reverse",
+                      paddingRight: "18px",
+                      paddingTop: "3px",
+                      paddingBottom: "3px",
+                      backgroundColor: "#f1f6ffff",
+                      marginTop: "12px",
+                    }}
+                  >
+                    <SucursalSelect
+                      disabled={!sucuralSelectEnabled}
+                      addNullOption={false}
+                      size="large"
+                      idsucursal={idsucursal}
+                      callback={(_idsucursal, _sucursal_nombre) => {
+                        //alert("Sucursal cambiada a: " + _sucursal_nombre);
+                        setIdSucursal(_idsucursal);
+                        if (idsucursal != _idsucursal) {
+                          setData([]);
+                        }
+
+                        setNombreSucursal(_sucursal_nombre);
+                      }}
+                    />
+                  </div>
+                )}
+              </Col>
+            </Row>
+          </Col>
+        </Row>
+        <Row>
+          <Col style={{ padding: "16px", width: menuFolded ? "100px" : "30%" }}>
             <SideMenuListaStock
               loading={loading}
               onMenuUnfoldedClick={(_) => {
@@ -335,47 +398,7 @@ const ModificarStock = (props) => {
               folded={menuFolded}
             />
           </Col>
-          <Col style={{ width: menuFolded ? "100%" : "75%", padding: "6px" }}>
-            <Row>
-              <Col span={24}>
-                {menuFolded ? (
-                  <div style={{ padding: "8px" }}>
-                    <span
-                      style={{
-                        fontWeight: "600",
-                        fontSize: "1.3em",
-                        color: "#070063ff",
-                      }}
-                    >
-                      {nombreSucursal}
-                    </span>
-                  </div>
-                ) : (
-                  <div
-                    style={{
-                      paddingLeft: "18px",
-                      paddingTop: "6px",
-                      paddingBottom: "6px",
-                      backgroundColor: "#89b8ffff",
-                      borderRadius: "6px",
-                      marginTop: "12px",
-                      borderRadius: "16px",
-                    }}
-                  >
-                    <SucursalSelect
-                      addNullOption={false}
-                      size="medium"
-                      idsucursal={idsucursal}
-                      callback={(_idsucursal, _sucursal_nombre) => {
-                        setIdSucursal(_idsucursal);
-                        setData([]);
-                        setNombreSucursal(_sucursal_nombre);
-                      }}
-                    />
-                  </div>
-                )}
-              </Col>
-            </Row>
+          <Col style={{ width: menuFolded ? "100%" : "70%", padding: "6px" }}>
             <Row key={data}>
               <Col span={24}>{get_grid()}</Col>
             </Row>

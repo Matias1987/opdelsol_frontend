@@ -20,7 +20,7 @@ import {
 } from "antd";
 import ExportToCSV from "../ExportToCSV";
 import ExportToExcel from "../etc/ExportToExcel";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 
 const StockTable = (props) => {
@@ -34,33 +34,9 @@ const StockTable = (props) => {
     onEditarEtiquetasClick,
     onEditarSeleccionClick,
   } = props;
+  
   const [searchStr, setSearchStr] = useState("");
-  const items = [
-    {
-      label: "Detalle",
-      key: "1",
-      icon: <InfoOutlined />,
-    },
-    {
-      label: "Editar Stock",
-      key: "2",
-      icon: <EditOutlined />,
-      disabled: !globals.esUsuarioDeposito(),
-    },
-    {
-      label: "Editar Código",
-      key: "3",
-      icon: <EditOutlined />,
-      disabled: !globals.esUsuarioDeposito(),
-    },
-    {
-      label: "Modificar Precio Subgrupo",
-      key: "4",
-      icon: <EditOutlined />,
-      disabled: !globals.esUsuarioDeposito(),
-    },
-  ];
-
+  
   const header = (_) => (
     <>
       {
@@ -174,6 +150,27 @@ const StockTable = (props) => {
 
   const columns = [
     {
+      fixed: "left",
+      width: "200px",
+      title: "Codigo",
+      dataIndex: "codigo",
+      key: "codigo",
+      render: (_, { codigo }) => (
+        <>
+          <div
+            style={{
+              fontSize: ".85em",
+              whiteSpace: "nowrap",
+              overflowX: "scroll",
+              width: "100%",
+            }}
+          >
+            <b>{codigo}</b>
+          </div>
+        </>
+      ),
+    },
+    {
       width: "200px",
       title: "Ruta",
       dataIndex: "idcodigo",
@@ -209,26 +206,7 @@ const StockTable = (props) => {
         </Space>
       ),
     },
-    {
-      width: "200px",
-      title: "Codigo",
-      dataIndex: "codigo",
-      key: "codigo",
-      render: (_, { codigo }) => (
-        <>
-          <div
-            style={{
-              fontSize: ".85em",
-              whiteSpace: "nowrap",
-              overflowX: "scroll",
-              width: "100%",
-            }}
-          >
-            <b>{codigo}</b>
-          </div>
-        </>
-      ),
-    },
+    
     {
       width: "200px",
       title: "Desc.",
@@ -271,16 +249,7 @@ const StockTable = (props) => {
         }
       },
     },
-    {
-      width: "90px",
-      title: "Cantidad",
-      dataIndex: "cantidad",
-      key: "cantidad",
-      width: "90px",
-      render: (_, { cantidad }) => (
-        <div style={{ width: "90%", textAlign: "right" }}>{cantidad}</div>
-      ),
-    },
+    
     {
       width: "200px",
       title: "Etiquetas",
@@ -291,6 +260,18 @@ const StockTable = (props) => {
       ),
     },
     {
+      fixed: "right",
+      width: "90px",
+      title: "Cantidad",
+      dataIndex: "cantidad",
+      key: "cantidad",
+      width: "90px",
+      render: (_, { cantidad }) => (
+        <div style={{ width: "90%", textAlign: "right" }}>{cantidad}</div>
+      ),
+    },
+    {
+      fixed: "right",    
       width: "200px",
       title: "Acciones",
       dataIndex: "idstock",
@@ -310,7 +291,7 @@ const StockTable = (props) => {
                   label: "Editar Stock",
                   key: "2",
                   icon: <EditOutlined />,
-                  disabled: !globals.esUsuarioDeposito(),
+                  disabled: !(globals.esUsuarioDeposito() || globals.esUsuarioLaboratorio() || globals.esUsuarioDepositoMin()),
                 },
                 {
                   label: "Editar Código",
@@ -341,6 +322,7 @@ const StockTable = (props) => {
       ),
     },
     {
+      fixed: "right",
       hidden: false,
       title: (
         <>
@@ -375,13 +357,13 @@ const StockTable = (props) => {
         </>
       ),
     },
-    {
+    /*{
       render: (_, obj) => (
         <>{+obj.activo == 1 ? <CheckOutlined /> : <CloseOutlined />}</>
       ),
       title: "Activo",
       width: "80px",
-    },
+    },*/
   ];
 
   return (

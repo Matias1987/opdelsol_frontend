@@ -123,9 +123,23 @@ export default function ListaCodigos() {
 
   const columns = [
     {
+      width: "200px",
+      title: "Codigo",
+      dataIndex: "codigo",
+      fixed: "left",
+      sorter: (a,b)=> a.codigo.localeCompare(b),
+      render: (_, { codigo }) => (
+        <span style={{ fontWeight: "bolder" }}>{codigo}</span>
+      ),
+    },
+    {
       width: "70px",
       render: (_, record) => (
-        <DefaultImageProduct idproduct={record.idcodigo} width="70px" key={change} />
+        <DefaultImageProduct
+          idproduct={record.idcodigo}
+          width="70px"
+          key={change.toString() + record.idcodigo.toString()}
+        />
       ),
     },
     {
@@ -176,7 +190,7 @@ export default function ListaCodigos() {
         </span>
       ),
     },
-    { width: "250px", title: "Codigo", dataIndex: "codigo" },
+
     { width: "250px", title: "Descripcion", dataIndex: "descripcion" },
     {
       width: "150px",
@@ -202,7 +216,7 @@ export default function ListaCodigos() {
         );
       },
     },
-    { width: "100px", title: "Precio", dataIndex: "precio" },
+    { width: "100px", title: "Precio", dataIndex: "precio", sorter:(a,b)=>+a.precio-+b.precio },
     /*{
             title: 'Estado',
             dataIndex: 'estado', 
@@ -210,6 +224,7 @@ export default function ListaCodigos() {
             render: (_,{estado})=>(<span style={{color: (estado=='ACTIVO' ? "green" : "red")}} >{estado}</span>)
         },*/
     {
+      fixed: "right",
       width: "100px",
       title: "",
       render: (_, { idcodigo }) => (
@@ -243,13 +258,13 @@ export default function ListaCodigos() {
         </Dropdown>
       ),
     },
-    {
+    /*{
       render: (_, obj) => (
         <>{+obj.activo == 1 ? <CheckOutlined /> : <CloseOutlined />}</>
       ),
       title: "Activo",
       width: "50px",
-    },
+    },*/
   ];
 
   return (
@@ -389,7 +404,7 @@ export default function ListaCodigos() {
         open={popupImagenesOpen}
         onCancel={(_) => {
           setPopupImagenesOpen(false);
-          setChange(!change)
+          setChange(!change);
         }}
         title="Imágenes del producto"
       >

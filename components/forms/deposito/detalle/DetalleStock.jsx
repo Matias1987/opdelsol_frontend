@@ -7,7 +7,7 @@ import Tags from "@/components/etiquetas/tagsCodigos";
 
 
 const DetalleStock = (props) => {
-    
+    const {idsucursal} = props;
     const [loadingDetalles, setLoadingDetalles] = useState(true)
     
     const [dataDetalles, setDataDetalles] = useState(null)
@@ -16,7 +16,7 @@ const DetalleStock = (props) => {
     
     const url_detalle_stock = get.detalle_stock;//:idsucursal/:idcodigo
     
-    const idsucursal = globals.obtenerSucursal();
+    //const idsucursal = globals.obtenerSucursal();
     const [reload,setReload] = useState(false);
 
 
@@ -29,7 +29,7 @@ const DetalleStock = (props) => {
         }
         setLoadingDetalles(true)
         //get detalles
-        fetch(url_detalle_stock + idsucursal + "/" + props.idcodigo)
+        fetch(url_detalle_stock + (idsucursal ? idsucursal : globals.obtenerSucursal()) + "/" + props.idcodigo)
         .then(response=>response.json())
         .then((response)=>{
             setDataDetalles(

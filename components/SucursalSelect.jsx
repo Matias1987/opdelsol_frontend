@@ -10,7 +10,7 @@ import { useState, useEffect } from "react";
  * @returns
  */
 const SucursalSelect = (props) => {
-  const { idsucursal, callback, addNullOption } = props;
+  const { idsucursal, callback, addNullOption, disabled } = props;
   const [sucursalData, setSucursalData] = useState([]);
   const sucursalUrl = get.sucursales;
   const [selectedSucursal, setSelectedSucursal] = useState("-1");
@@ -61,6 +61,7 @@ const SucursalSelect = (props) => {
     <Row>
       <Col span={21}>
         <Select
+          disabled={typeof disabled === "undefined" ? false : disabled}
           size={props.size || "middle"}
           prefix={
             <span style={{ color: "#0C5AA9" }}>
