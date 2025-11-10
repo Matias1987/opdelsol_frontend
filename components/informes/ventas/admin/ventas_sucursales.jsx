@@ -118,6 +118,7 @@ const VentasSucursales = (props) => {
   ];
 
   const load = (_) => {
+   
     post_method(post.totales_venta_sucursal, filtros, (response) => {
       setDatasourceSucursal(
         response.data.map((r) => ({

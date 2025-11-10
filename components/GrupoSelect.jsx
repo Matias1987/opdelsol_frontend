@@ -81,6 +81,7 @@ const GrupoSelect = (props) => {
                         setIdGrupo(-1);
 
                         loadSubFamilia(value);
+                        props.callback(-1,"")
                     }
                 }
                 options = {familiaOptions}
@@ -103,6 +104,7 @@ const GrupoSelect = (props) => {
                                 setIdGrupo(-1);
 
                                 loadGrupo(value);
+                                props.callback(-1,"")
                             }
 
                         }

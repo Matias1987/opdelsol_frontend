@@ -51,12 +51,17 @@ export default function TestMenu() {
       >
         <Menu.Item key="110">
           <Link href={get_url_to("deposito/stock/listados/lista_stockv3")}>
-            Listado
+            Editar Cantidades
           </Link>
         </Menu.Item>
         <Menu.Item key="sub2_32">
           <Link href={get_url_to("deposito/stock/agregar_stock_lote_v3")}>
             Agregar Productos
+          </Link>
+        </Menu.Item>
+        <Menu.Item key="sub2_32">
+          <Link href={get_url_to("deposito/stock/modif_cant_cat")}>
+            Modificar Cant. Categor&iacute;a
           </Link>
         </Menu.Item>
       </SubMenu>

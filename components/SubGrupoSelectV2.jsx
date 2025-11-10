@@ -197,7 +197,14 @@ const SubGroupSelectV2 = (props) => {
                 onCancel={_=>{setSubGrupoPopupOpen(false)}}
                 
             >
-                <SubGrupoForm action="ADD" callback={_=>{setSubGrupoPopupOpen(false); setReload(!reload)}} />
+                <SubGrupoForm action="ADD" callback={res=>{
+                    setSubGrupoPopupOpen(false); 
+                    setReload(!reload);
+                    if(typeof props.getOnAdd !== 'undefined' )
+                    {
+                        props.callback(res)
+                    }
+                    }} />
             </Modal>
         </>
 

@@ -9,15 +9,15 @@ import { useEffect, useState } from "react";
 import FiltrosInforme from "./FiltrosInforme";
 
 const VentasVendedor = (props) => {
- // const { filtros, actualizar } = props;
+  // const { filtros, actualizar } = props;
   const [dataSource, setDatasource] = useState([]);
   const [usuarios, setUsuarios] = useState([]);
-    const [filtros, setFiltros] = useState({
+  const [filtros, setFiltros] = useState({
     mes: 1,
     anio: 2023,
     fkcliente: "-1",
     fksucursal: "-1",
-    fkusuario: "-1",
+    fkvendedor: "-1",
   });
   const [actualizar, setActualizar] = useState(false);
 
@@ -118,6 +118,7 @@ const VentasVendedor = (props) => {
         const resp = response?.data || [];
         setUsuarios(resp.map((r) => ({ label: r.nombre, value: r.idusuario })));
       });
+    //alert(JSON.stringify(filtros));
     post_method(post.totales_venta_vendedor, filtros, (response) => {
       setDatasource(
         response.data.map((r) => ({
@@ -137,23 +138,35 @@ const VentasVendedor = (props) => {
 
   return (
     <>
-      <Card title={`Ventas vendedores del período ${filtros.mes}/${filtros.anio}`}>
-      <>
-      <Row gutter={16}>
-        <Col>
-          <Select style={{width:"300px"}} options={usuarios} prefix="Usuario:" onChange={v=>setFiltros()} />
-        </Col>
-        <Col>
-          <FiltrosInforme callback={_filtros => {setFiltros(_filtros); setActualizar(!actualizar);}} />
-        </Col>
-        
-      </Row>
-      
-        
-      <Table
-        title={(_) => (
-          <>
-            {/*<ExportToExcel2
+      <Card
+        title={`Ventas vendedores del período ${filtros.mes}/${filtros.anio}`}
+      >
+        <>
+          <Row gutter={16}>
+            <Col>
+              <Select
+                style={{ width: "300px" }}
+                options={usuarios}
+                prefix="Vendedor:"
+                onChange={(v) =>
+                  setFiltros((_fl) => ({ ..._fl, fkvendedor: v }))
+                }
+              />
+            </Col>
+            <Col>
+              <FiltrosInforme
+                callback={(_filtros) => {
+                  setFiltros(_f=>({..._f,..._filtros}));
+                  setActualizar(!actualizar);
+                }}
+              />
+            </Col>
+          </Row>
+
+          <Table
+            title={(_) => (
+              <>
+                {/*<ExportToExcel2
               sheets={dataSource.map((row) => ({
                 sheet_name: `Ventas`,
                 header: "",
@@ -180,82 +193,84 @@ const VentasVendedor = (props) => {
                 })),
               }))}
             />*/}
-          </>
-        )}
-        rowClassName={(record, index) =>
-          index % 2 === 0 ? "table-row-light" : "table-row-dark"
-        }
-        scroll={{ y: "400px" }}
-        style={{ width: "100%" }}
-        pagination={false}
-        columns={columns}
-        dataSource={dataSource}
-        summary={(data) => {
-          var totalEfvo = 0;
-          var total = 0;
-          var totalCheques = 0;
-          var totalTarjetas = 0;
-          var totalMutual = 0;
-          var totalCtaCte = 0;
-          var totalMP = 0;
-          data.forEach((r) => {
-            totalEfvo += parseFloat(r.efectivo);
-            totalCheques += parseFloat(r.cheque);
-            totalTarjetas += parseFloat(r.tarjeta);
-            totalMutual += parseFloat(r.mutual);
-            totalCtaCte += parseFloat(r.ctacte);
-            totalMP += parseFloat(r.mp);
-            total += parseFloat(r.total);
-          });
+              </>
+            )}
+            rowClassName={(record, index) =>
+              index % 2 === 0 ? "table-row-light" : "table-row-dark"
+            }
+            scroll={{ y: "400px" }}
+            style={{ width: "100%" }}
+            pagination={false}
+            columns={columns}
+            dataSource={dataSource}
+            summary={(data) => {
+              var totalEfvo = 0;
+              var total = 0;
+              var totalCheques = 0;
+              var totalTarjetas = 0;
+              var totalMutual = 0;
+              var totalCtaCte = 0;
+              var totalMP = 0;
+              data.forEach((r) => {
+                totalEfvo += parseFloat(r.efectivo);
+                totalCheques += parseFloat(r.cheque);
+                totalTarjetas += parseFloat(r.tarjeta);
+                totalMutual += parseFloat(r.mutual);
+                totalCtaCte += parseFloat(r.ctacte);
+                totalMP += parseFloat(r.mp);
+                total += parseFloat(r.total);
+              });
 
-          return (
-            <>
-              <Table.Summary.Row>
-                <Table.Summary.Cell colSpan={2}>TOTALES:</Table.Summary.Cell>
-                <Table.Summary.Cell align={"right"}>
-                  <b>{currency_format(totalEfvo)}</b>
-                </Table.Summary.Cell>
-                <Table.Summary.Cell align={"right"}>
-                  <b>{currency_format(totalTarjetas)}</b>
-                </Table.Summary.Cell>
-                <Table.Summary.Cell align={"right"}>
-                  <b>{currency_format(totalCheques)}</b>
-                </Table.Summary.Cell>
-                <Table.Summary.Cell align={"right"}>
-                  <b>{currency_format(totalCtaCte)}</b>
-                </Table.Summary.Cell>
-                <Table.Summary.Cell align={"right"}>
-                  <b>{currency_format(totalMutual)}</b>
-                </Table.Summary.Cell>
-                <Table.Summary.Cell align={"right"}>
-                  <b>{currency_format(totalMP)}</b>
-                </Table.Summary.Cell>
-                <Table.Summary.Cell align={"right"}>
-                  <b>{currency_format(total)}</b>
-                </Table.Summary.Cell>
-              </Table.Summary.Row>
-            </>
-          );
-        }}
-      />
+              return (
+                <>
+                  <Table.Summary.Row>
+                    <Table.Summary.Cell colSpan={2}>
+                      TOTALES:
+                    </Table.Summary.Cell>
+                    <Table.Summary.Cell align={"right"}>
+                      <b>{currency_format(totalEfvo)}</b>
+                    </Table.Summary.Cell>
+                    <Table.Summary.Cell align={"right"}>
+                      <b>{currency_format(totalTarjetas)}</b>
+                    </Table.Summary.Cell>
+                    <Table.Summary.Cell align={"right"}>
+                      <b>{currency_format(totalCheques)}</b>
+                    </Table.Summary.Cell>
+                    <Table.Summary.Cell align={"right"}>
+                      <b>{currency_format(totalCtaCte)}</b>
+                    </Table.Summary.Cell>
+                    <Table.Summary.Cell align={"right"}>
+                      <b>{currency_format(totalMutual)}</b>
+                    </Table.Summary.Cell>
+                    <Table.Summary.Cell align={"right"}>
+                      <b>{currency_format(totalMP)}</b>
+                    </Table.Summary.Cell>
+                    <Table.Summary.Cell align={"right"}>
+                      <b>{currency_format(total)}</b>
+                    </Table.Summary.Cell>
+                  </Table.Summary.Row>
+                </>
+              );
+            }}
+          />
 
-      <ExportToCSV
-        fileName={`ventas_vendedores__${filtros.mes}-${filtros.anio}`}
-        parseFnt={() => {
-          let s = sucursales.find((s) => s.value == filtros.fksucursal);
-          let str = "";
-          str += `MES:,${filtros.mes}, ANIO:,${filtros.anio}, ,,,\r\n`;
-          str += `SUCURSAL:,${s?.label || ""},,,,,,\r\n`;
-          str +=
-            "usuario, efectivo, tarjeta,  cheque, ctacte, mutual, mp , total\r\n";
-          dataSource.forEach((r) => {
-            str += `${r.usuario},${r.efectivo},${r.tarjeta},${r.cheque},${r.ctacte},${r.mutual},${r.mp},${r.total}\r\n`;
-          });
-          return str;
-        }}
-      />
-      </>
-    </Card>
+          <ExportToCSV
+            fileName={`ventas_vendedores__${filtros.mes}-${filtros.anio}`}
+            parseFnt={() => {
+              let s = sucursales.find((s) => s.value == filtros.fksucursal);
+              let str = "";
+              str += `MES:,${filtros.mes}, ANIO:,${filtros.anio}, ,,,\r\n`;
+              str += `SUCURSAL:,${s?.label || ""},,,,,,\r\n`;
+              str +=
+                "usuario, efectivo, tarjeta,  cheque, ctacte, mutual, mp , total\r\n";
+              dataSource.forEach((r) => {
+                str += `${r.usuario},${r.efectivo},${r.tarjeta},${r.cheque},${r.ctacte},${r.mutual},${r.mp},${r.total}\r\n`;
+              });
+              return str;
+            }}
+          />
+        </>
+      </Card>
     </>
   );
 };

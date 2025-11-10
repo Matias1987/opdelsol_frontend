@@ -343,8 +343,8 @@ const ModificarStock = (props) => {
                   <div
                     style={{
                       display: "flex",
-                      flexDirection: "row-reverse",
-                      paddingRight: "18px",
+                      flexDirection: "row",
+                      paddingLeft: "18px",
                       paddingTop: "3px",
                       paddingBottom: "3px",
                       backgroundColor: "#f1f6ffff",

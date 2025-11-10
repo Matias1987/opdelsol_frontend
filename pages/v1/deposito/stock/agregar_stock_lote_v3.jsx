@@ -430,7 +430,10 @@ export default function AgregarStockLoteV3(props){
         setSubGrupoPopupOpen(false)
     }
 
-    const onOkSubGrupo = () => {
+    const onOkSubGrupo = (id) => {
+        setValue("subgrupo", id); 
+        setIdSubgrupo(id); 
+        getSubGrupoDetails(id)
         setSubGrupoPopupOpen(false)
         setUpdateAll(!updateall)
     }
@@ -492,7 +495,12 @@ export default function AgregarStockLoteV3(props){
 
                     <Form.Item style={{  padding:"3.5em", fontSize:".25em"}} label={""} name={"subgrupo"} rules={[{required:true}]}>
                         <>
-                        {subgrupo==null ? <SubGroupSelectV2 callback={(id)=>{setValue("subgrupo", id); setIdSubgrupo(id); getSubGrupoDetails(id) }} />:<></>}
+                        {subgrupo==null ? <SubGroupSelectV2 getOnAdd callback={(id)=>{
+                           
+                            setValue("subgrupo", id); 
+                            setIdSubgrupo(id); 
+                            getSubGrupoDetails(id) 
+                            }} />:<></>}
                         
                        
                         {subgrupo==null || +idSubgrupo <0 ? <></> : 

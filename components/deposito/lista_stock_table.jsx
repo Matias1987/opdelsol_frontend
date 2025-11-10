@@ -159,9 +159,9 @@ const StockTable = (props) => {
         <>
           <div
             style={{
-              fontSize: ".85em",
-              whiteSpace: "nowrap",
-              overflowX: "scroll",
+              fontSize: "1em",
+              //whiteSpace: "nowrap",
+              //overflowX: "scroll",
               width: "100%",
             }}
           >
@@ -180,25 +180,25 @@ const StockTable = (props) => {
           <span style={{ fontSize: "1em" }}>
             <Tag
               color="success"
-              style={{ fontSize: ".65em", margin: "0", padding: "1px" }}
+              style={{ fontSize: "1em", margin: "0", padding: "1px" }}
             >
               {familia}
             </Tag>
             <Tag
               color="processing"
-              style={{ fontSize: ".65em", margin: "0", padding: "1px" }}
+              style={{ fontSize: "1em", margin: "0", padding: "1px" }}
             >
               {subfamilia}
             </Tag>
             <Tag
-              color="error"
-              style={{ fontSize: ".65em", margin: "0", padding: "1px" }}
+              color="#F40800"
+              style={{ fontSize: "1em", margin: "0", padding: "1px" }}
             >
               <b>{grupo}</b>
             </Tag>
             <Tag
-              color="error"
-              style={{ fontSize: ".65em", margin: "0", padding: "1px" }}
+              color="#4900F4"
+              style={{ fontSize: "1em", margin: "0", padding: "1px" }}
             >
               <b>{subgrupo}</b>
             </Tag>
@@ -214,7 +214,7 @@ const StockTable = (props) => {
       key: "descripcion",
       render: (_, { descripcion }) => (
         <div
-          style={{ width: "100%", overflowX: "scroll", whiteSpace: "nowrap" }}
+          style={{ width: "100%", /*overflowX: "scroll", whiteSpace: "nowrap" */}}
         >
           {descripcion}
         </div>

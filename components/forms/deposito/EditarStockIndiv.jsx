@@ -183,9 +183,10 @@ const EditarStockIndiv = (props) => {
               />
             </Col>
           </Row>
-          <Row style={{ padding: "1em" }} gutter={16}>
+          <Row style={{ padding: "1em", color:"darkblue" }} gutter={16}>
             <Col>
               <Input
+              size="large"
                 style={{ backgroundColor: "#ffffff" }}
                 prefix={
                   <>
@@ -198,7 +199,7 @@ const EditarStockIndiv = (props) => {
                     >
                       Sumar
                     </Checkbox>
-                    <b>Cantidad: </b>
+                    <span style={{fontWeight:"bolder", fontSize:"1.2em", color:"#2e0affff"}}>Cantidad: </span>
                   </>
                 }
                 value={cantInput}
@@ -217,7 +218,7 @@ const EditarStockIndiv = (props) => {
               />
             </Col>
           </Row>
-          <Row style={{ padding: "1em" }}>
+          <Row style={{ padding: "1em"}}>
             <Col span={24}>
               <Input
                 style={{ backgroundColor: "#f1f1f1ff" }}

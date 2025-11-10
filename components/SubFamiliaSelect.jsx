@@ -64,6 +64,8 @@ const SubFamiliaSelect = (props) => {
                         setIdSubFamilia(-1);
                        
                         loadSubFamilia(value);
+
+                        props.callback(-1, "");
                     }
                 }
                 options = {familiaOptions}

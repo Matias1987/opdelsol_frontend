@@ -18,8 +18,8 @@ const SubGrupoForm = (props) => {
         switch(props.action){
             case 'ADD': post_method(post.insert.subgrupo,values,(res)=>{
               if(res.status == "OK"){
-                alert("Datos Guardados");
-                props?.callback?.();
+                alert("Datos Guardados ");
+                props?.callback?.(res.data);
 
               }else{alert("Error: " + res.data)}});
               break;
