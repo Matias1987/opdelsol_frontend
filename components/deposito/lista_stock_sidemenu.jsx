@@ -34,6 +34,12 @@ const SideMenuListaStock = (props) => {
     {
       return
     }
+    ///alert(JSON.stringify(tipoFiltro))
+    if(filtros.find(f=>f.tipo==tipoFiltro))
+    {
+      alert("Ya se encuentra el tipo de filtro")
+      return
+    }
     const val = (valorFiltro.valor||"").toString();
     if(!/^[_A-ZÑ0-9\s\.\-]+$/.test(val.toUpperCase()))
     {
@@ -295,10 +301,11 @@ const SideMenuListaStock = (props) => {
             },
           }}
         >
-          <Col span={24}>
+          <Col style={{fontWeight:"600", paddingTop:"4px"}}>Filtro a Agregar:&nbsp;&nbsp; </Col>
+          <Col>
             <Select
               value={tipoFiltro}
-              prefix={<span style={{ fontWeight: "bold" }}>Filtro: </span>}
+              
               placeholder="Seleccione Tipo de Filtro..."
               options={[
                 { label: "Codigo", value: "codigo_contenga_a" },
@@ -317,7 +324,7 @@ const SideMenuListaStock = (props) => {
                 { label: "Cantidad - Menor a", value: "cantidad_menor_a" },
                 {label: 'Descripción', value: 'detalles'},
               ]}
-              style={{ width: "100%" }}
+              style={{ width: "200px" }}
               onChange={(value) => {
                 setTipoFiltro(value);
               }}

@@ -22,7 +22,6 @@ import ExportToCSV from "../ExportToCSV";
 import ExportToExcel from "../etc/ExportToExcel";
 import { useEffect, useState } from "react";
 
-
 const StockTable = (props) => {
   const {
     data,
@@ -33,47 +32,92 @@ const StockTable = (props) => {
     onDesactivarCodigosClick,
     onEditarEtiquetasClick,
     onEditarSeleccionClick,
+    verRutaCol,
+    verTagsCol,
+    verPrecioCol,
   } = props;
-  
+
   const [searchStr, setSearchStr] = useState("");
-  
+
   const header = (_) => (
     <>
-      {
-        <Row
-          style={{
-            backgroundColor: "rgba(255, 255, 255,0)",
-            borderRadius: "16px",
-          }}
-          gutter={"16"}
-        >
-          <Col>
-            <ExportToCSV
-              parseFnt={() => {
-                let str =
-                  "Familia, SubFamilia, Grupo, Subgrupo, Codigo, Descripcion, Cantidad, Precio, Tags,\r\n";
-                data.forEach((r) => {
-                  str += `${r.familia},${r.subfamilia},${r.grupo},${
-                    r.subgrupo
-                  },' ${r.codigo} ',${r.descripcion},${r.cantidad},${
-                    r.precio
-                  },${(r.etiquetas || "").replace(/,/g, " ; ")},\r\n`;
-                });
-                return str;
-              }}
-            />
-          </Col>
-          <Col>
+      <Row >
+        <Col span={24} style={{textAlign:"center", fontWeight:"500"}}>Listado de C&oacute;digos</Col>
+      </Row>
+      <Row
+        style={{
+          backgroundColor: "rgba(255, 255, 255,0)",
+          borderRadius: "16px",
+        }}
+        gutter={"16"}
+      >
+        <Col>
+          <Button
+            size="small"
+            type="link"
+            disabled={data.filter((d) => d.checked).length < 1}
+            onClick={() => {
+              onEditarEtiquetasClick?.();
+            }}
+          >
+            Editar Etiquetas
+          </Button>
+        </Col>
+        <Col>
+          <Button
+            disabled={data.filter((d) => d.checked).length < 1}
+            size="small"
+            type="link"
+            onClick={(_) => {
+              onActivarCodigosClick?.();
+            }}
+          >
+            Activar C&oacute;digos
+          </Button>
+        </Col>
+        <Col>
+          <Button
+            disabled={data.filter((d) => d.checked).length < 1}
+            size="small"
+            type="link"
+            danger
+            onClick={(_) => {
+              onDesactivarCodigosClick?.();
+            }}
+          >
+            Desactivar C&oacute;digos
+          </Button>
+        </Col>
+        <Col>
+          <Button
+            disabled={data.filter((d) => d.checked).length < 1}
+            size="small"
+            type="link"
+            onClick={(_) => {
+              onEditarSeleccionClick?.();
+            }}
+          >
+            <EditOutlined /> Editar Selecci&oacute;n
+          </Button>
+        </Col>
+        {/*<Col>
+          <Input size="small" allowClear style={{width:"200px"}} prefix="Código: " value={searchStr} onChange={e=>{setSearchStr((e.target.value||"").trim())}} />
+          </Col>*/}
+        <Col>
+          {data.filter((d) => d.checked).length < 1 ? (
+            <></>
+          ) : (
             <ExportToExcel
-              fileName={`ls_${(new Date()).getTime()}`}
+              buttonType="link"
+              fileName={`ls_${new Date().getTime()}`}
               columns={[
-                { width:15, key: "familia", header: "Familia" },
-                { width:15, key: "subfamilia", header: "SubFamilia" },
-                { width:15, key: "grupo", header: "Grupo" },
-                { width:15, key: "subgrupo", header: "SubGrupo" },
-                { width:35, key: "codigo", header: "Codigo" },
-                { width:45, key: "descripcion", header: "Descripcion" },
-                { width:15, key: "cantidad", header: "Cantidad" },
+                { width: 15, key: "familia", header: "Familia" },
+                { width: 15, key: "subfamilia", header: "SubFamilia" },
+                { width: 15, key: "grupo", header: "Grupo" },
+                { width: 15, key: "subgrupo", header: "SubGrupo" },
+                { width: 35, key: "codigo", header: "Codigo" },
+                { width: 45, key: "descripcion", header: "Descripcion" },
+                { width: 15, key: "cantidad", header: "Cantidad" },
               ]}
               data={data.map((r) => ({
                 familia: r.familia,
@@ -86,69 +130,56 @@ const StockTable = (props) => {
               }))}
               buttonSize={"small"}
             />
-          </Col>
-          <Col>
-            <Button
-              size="small"
-              type="primary"
-              style={{ color: "white" }}
-              disabled={data.filter((d) => d.checked).length < 1}
-              onClick={() => {
-                onEditarEtiquetasClick?.();
-              }}
-            >
-              Editar Etiquetas
-            </Button>
-          </Col>
-          <Col>
-            <Button
-              disabled={data.filter((d) => d.checked).length < 1}
-              size="small"
-              type="primary"
-              style={{ color: "white" }}
-              onClick={(_) => {
-                onActivarCodigosClick?.();
-              }}
-            >
-              Activar C&oacute;digos
-            </Button>
-          </Col>
-          <Col>
-            <Button
-              disabled={data.filter((d) => d.checked).length < 1}
-              size="small"
-              type="primary"
-              style={{ color: "white" }}
-              danger
-              onClick={(_) => {
-                onDesactivarCodigosClick?.();
-              }}
-            >
-              Desactivar C&oacute;digos
-            </Button>
-          </Col>
-          <Col>
-              <Button 
-              style={{backgroundColor:"#1288E5"}}
-              disabled={data.filter((d) => d.checked).length < 1}
-              size="small"
-              type="primary"
-              
-              onClick={_=>{
-                onEditarSeleccionClick?.()
-              }}>
-                <EditOutlined /> Editar Selecci&oacute;n
-              </Button>
-          </Col>
-          <Col>
-          <Input size="small" allowClear style={{width:"200px"}} prefix="Código: " value={searchStr} onChange={e=>{setSearchStr((e.target.value||"").trim())}} />
-          </Col>
-        </Row>
-      }
+          )}
+        </Col>
+      </Row>
+      <Row gutter={8}>
+        <Col style={{ fontWeight: "500" }}>Columnas: </Col>
+        <Col>
+          <Checkbox
+            defaultChecked={typeof verRutaCol === 'undefined' ? false : verRutaCol}
+            onChange={(v) => {
+              setColumns((cc) =>
+                cc.map((col) =>
+                  col.key === "ruta" ? { ...col, hidden: !v.target.checked } : col
+                )
+              );
+            }}
+          >
+            Ruta
+          </Checkbox>
+        </Col>
+        <Col>
+          <Checkbox
+            onChange={(v) => {
+              setColumns((cc) =>
+                cc.map((col) =>
+                  col.key === "tags" ? { ...col, hidden: !col.hidden } : col
+                )
+              );
+            }}
+          >
+            Etiquetas
+          </Checkbox>
+        </Col>
+        <Col>
+          <Checkbox
+            onChange={(v) => {
+              setColumns((cc) =>
+                cc.map((col) =>
+                  col.key === "precio" ? { ...col, hidden: !col.hidden } : col
+                )
+              );
+            }}
+          >
+            Precio
+          </Checkbox>
+        </Col>
+      </Row>
     </>
   );
 
-  const columns = [
+  const [columns, setColumns] = useState([
     {
       fixed: "left",
       width: "200px",
@@ -171,6 +202,7 @@ const StockTable = (props) => {
       ),
     },
     {
+      hidden: true,
       width: "200px",
       title: "Ruta",
       dataIndex: "idcodigo",
@@ -206,7 +238,7 @@ const StockTable = (props) => {
         </Space>
       ),
     },
-    
+
     {
       width: "200px",
       title: "Desc.",
@@ -214,7 +246,9 @@ const StockTable = (props) => {
       key: "descripcion",
       render: (_, { descripcion }) => (
         <div
-          style={{ width: "100%", /*overflowX: "scroll", whiteSpace: "nowrap" */}}
+          style={{
+            width: "100%" /*overflowX: "scroll", whiteSpace: "nowrap" */,
+          }}
         >
           {descripcion}
         </div>
@@ -222,6 +256,7 @@ const StockTable = (props) => {
     },
 
     {
+      hidden: true,
       width: "100px",
       title: "Precio",
       dataIndex: "idcodigo",
@@ -249,10 +284,12 @@ const StockTable = (props) => {
         }
       },
     },
-    
+
     {
+      hidden: true,
       width: "200px",
       title: "Etiquetas",
+      key: "tags",
       render: (_, { etiquetas }) => (
         <span style={{ fontWeight: "bold", color: "darkgreen" }}>
           {etiquetas}
@@ -266,17 +303,19 @@ const StockTable = (props) => {
       dataIndex: "cantidad",
       key: "cantidad",
       width: "90px",
+      hidden: false,
       render: (_, { cantidad }) => (
         <div style={{ width: "90%", textAlign: "right" }}>{cantidad}</div>
       ),
     },
     {
-      fixed: "right",    
+      fixed: "right",
       width: "200px",
       title: "Acciones",
       dataIndex: "idstock",
       key: "idstock",
       width: "120px",
+      hidden: false,
       render: (_, record) => (
         <>
           <Dropdown
@@ -291,7 +330,11 @@ const StockTable = (props) => {
                   label: "Editar Stock",
                   key: "2",
                   icon: <EditOutlined />,
-                  disabled: !(globals.esUsuarioDeposito() || globals.esUsuarioLaboratorio() || globals.esUsuarioDepositoMin()),
+                  disabled: !(
+                    globals.esUsuarioDeposito() ||
+                    globals.esUsuarioLaboratorio() ||
+                    globals.esUsuarioDepositoMin()
+                  ),
                 },
                 {
                   label: "Editar Código",
@@ -303,7 +346,8 @@ const StockTable = (props) => {
                   label: "Modificar Precio Subgrupo",
                   key: "4",
                   icon: <EditOutlined />,
-                  disabled: !globals.esUsuarioDeposito() || +record.modo_precio != 1,
+                  disabled:
+                    !globals.esUsuarioDeposito() || +record.modo_precio != 1,
                 },
               ],
               onClick: ({ key }) => {
@@ -364,25 +408,39 @@ const StockTable = (props) => {
       title: "Activo",
       width: "80px",
     },*/
-  ];
+  ]);
+
+  useEffect(()=>{
+    setColumns(_cols=>
+     _cols.map(c=> 
+      c.key=='precio' ? {...c, hidden: typeof verPrecioCol !== 'undefined' ? verPrecioCol: true} :
+      c.key=='ruta' ? {...c, hidden: typeof verRutaCol !== 'undefined' ? verRutaCol: true} :
+      c.key=='tags' ? {...c, hidden: typeof verTagsCol !== 'undefined' ? verTagsCol : true} : 
+      c
+    )
+  );
+
+  },[])
 
   return (
-    <Card title="Lista de Códigos" size="small">
-    <Table
-      title={header}
-      rowClassName={(record, index) =>
-        +record.activo == 0
-          ? "error-row"
-          : index % 2 === 0
-          ? "table-row-light"
-          : "table-row-dark"
-      }
-      columns={columns.filter((item) => !item.hidden)}
-      dataSource={(searchStr.trim()).length>0 ? data.filter(c=>c.codigo.toUpperCase().includes(searchStr.toUpperCase())) : data }
-      loading={loading || false}
-      scroll={{ y: 400 }}
-      size="small"
-    />
+    <Card size="small">
+      <Table
+        title={header}
+        rowClassName={(record, index) =>
+          +record.activo == 0 ? "error-row" : "table-row-light"
+        }
+        columns={columns.filter((item) => !item.hidden)}
+        dataSource={
+          searchStr.trim().length > 0
+            ? data.filter((c) =>
+                c.codigo.toUpperCase().includes(searchStr.toUpperCase())
+              )
+            : data
+        }
+        loading={loading || false}
+        scroll={{ y: 400 }}
+        size="small"
+      />
     </Card>
   );
 };

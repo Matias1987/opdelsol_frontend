@@ -124,7 +124,7 @@ const CajaMaster = (props) => {
                   columns={columns}
                   summary={(pageData) => {
                     const total = pageData.reduce(
-                      (sum, item) => sum + item.monto,
+                      (sum, item) => sum += item.tipo != "EGRESO" ? item.monto : -item.monto,
                       0
                     );
                     return (

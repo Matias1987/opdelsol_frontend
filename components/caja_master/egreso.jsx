@@ -18,7 +18,6 @@ const Egreso = (props) => {
     fetch(get.conceptos_gasto)
       .then((response) => response.json())
       .then((response) => {
-        //alert(JSON.stringify(response))
         setMotivos(
           response.data.map((r) => ({
             value: r.idconcepto_gasto,

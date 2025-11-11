@@ -77,6 +77,7 @@ const ListaVentasDia = (props) => {
         idusuario: filtros.idusuario,
         fecha: `${filtros.anio}-${filtros.mes}-${filtros.dia}`,
         idsucursal: +filtros.idsucursal <0 ? "" : filtros.idsucursal,
+        incIngresadas: false,
       },
       (response) => {
         const resp = response?.data || [];

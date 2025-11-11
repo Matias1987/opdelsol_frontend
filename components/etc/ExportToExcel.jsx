@@ -4,7 +4,7 @@ import { saveAs } from "file-saver";
 import { Button } from "antd";
 import { ExportOutlined, FileExcelOutlined } from "@ant-design/icons";
 
-const ExportToExcel = ({ data, columns, fileName, buttonSize, sheetName }) => {
+const ExportToExcel = ({ data, columns, fileName, buttonSize, sheetName, buttonType }) => {
   const exportExcel = async () => {
     const workbook = new ExcelJS.Workbook();
     const worksheet = workbook.addWorksheet(sheetName || "Página 1");
@@ -25,8 +25,8 @@ const ExportToExcel = ({ data, columns, fileName, buttonSize, sheetName }) => {
   return (
     <Button
       size={buttonSize || "middle"}
-      style={{ backgroundColor: "#217346" }}
-      type="primary"
+      style={{ backgroundColor: "#217346", color:"white" }}
+      type={buttonType ? buttonType : "primary"}
       onClick={exportExcel}
     >
       <FileExcelOutlined /> Exportar a Excel

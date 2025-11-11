@@ -18,9 +18,12 @@ import DataCard from "@/components/etc/DataCard";
 import CobrosTarjetaDia from "@/components/informes/caja/cobrosTarjetaDia";
 import CuotasPendientesTarjetas from "@/components/informes/caja/cuotasPendientesTarjetas";
 import AgregarArmazon from "@/components/facade/agregar_armazon";
+import ListaDeudas from "@/components/caja_master/lista_deudas";
 export default function test() {
   return (
     <div>
+
+      <ListaDeudas />
     
       {/*<ListadoCajasAdmin />
 
