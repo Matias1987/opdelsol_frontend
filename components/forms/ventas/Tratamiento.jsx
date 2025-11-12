@@ -26,7 +26,7 @@ const VentasTratamiento = (props) => {
     
     const on_precio_change = (e) => {
         setTratamiento((_tratamiento_)=>{
-            const p = parse_float_string(e.target.value)
+            const p = (e.target.value.length<1? "0":e.target.value)
             const _tratamiento = {..._tratamiento_,precio: p}
             props?.callback(_tratamiento)
             return _tratamiento

@@ -101,7 +101,7 @@ const MonofLabCristal = (props) => {
     const onchange_precio = (e) => {
         
         setCristal((_cristal)=>{
-            const __cristal = {..._cristal,precio:parse_float_string(e.target.value)}
+            const __cristal = {..._cristal,precio:(e.target.value.length<1? "0" : e.target.value)}
             props?.callback(__cristal)
             return __cristal
         })

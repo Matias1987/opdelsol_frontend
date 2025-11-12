@@ -26,9 +26,9 @@ const IVAForm = (props) => {
             <Input 
             type="number"
             style={{width:"100%"}}
-            value={parseFloat(iva.monto||"0")}
+            value={(iva.monto)}
             prefix="Monto: "  
-            onChange={(e)=>{setIva(i=>({...i,monto:parseFloat(e.target.value)}))}}/>
+            onChange={(e)=>{setIva(i=>({...i,monto:(e.target.value.length<1? "0":e.target.value)}))}}/>
         </Col>
     </Row>
     <Row style={{padding:"1em"}}>

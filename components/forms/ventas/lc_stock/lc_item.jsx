@@ -33,7 +33,7 @@ const LCItem = (props) => {
 
     const onCantidadChange = (value) => {
         setLC((lc)=>{
-            const _lc = {...lc,cantidad:value, total: round_float(lc.precio * value)};
+            const _lc = {...lc,cantidad:value, total: parseFloat(lc.precio * value)};
             props?.callback?.(_lc);
             return _lc;
         });
@@ -41,7 +41,7 @@ const LCItem = (props) => {
 
     const onPrecioChange = (value) => {
         setLC((lc)=>{
-            const _lc = {...lc,precio:value, total: round_float(lc.cantidad * value)};
+            const _lc = {...lc,precio:value, total: parseFloat(lc.cantidad * value)};
             props?.callback?.(_lc);
             return _lc;
         });
@@ -68,7 +68,7 @@ const LCItem = (props) => {
                 </Col>
                 
                 <Col span={4}>
-                    <Input onWheel={(e)=>{e.target.blur()}} disabled={lc.codigo==null || +bloquear_precios_lc_stock==1} size="small" type="number" addonBefore="Precio: " readOnly={false} value={lc.precio} onChange={(v)=>{onPrecioChange(parse_float_string(v.target.value))}}/>
+                    <Input onWheel={(e)=>{e.target.blur()}} disabled={lc.codigo==null || +bloquear_precios_lc_stock==1} size="small" type="number" addonBefore="Precio: " readOnly={false} value={lc.precio} onChange={(v)=>{onPrecioChange((v.target.value.length<1?"0":v.target.value))}}/>
                 </Col>
                 <Col span={4}>
                     <Input style={{width:"220px"}} type="number"  disabled={lc.codigo==null} size="small" addonBefore="Cant.:" addonAfter={"/"+(typeof lc.max === 'undefined' ? 0 : lc.max)} max={typeof lc.max === 'undefined' ? 0 : lc.max } value={lc.cantidad} onChange={(e)=>{onCantidadChange(parse_int_string(e.target.value))}} />

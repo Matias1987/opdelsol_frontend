@@ -155,7 +155,11 @@ const ListaVentasMedicosTotales = (props) => {
     .then(r=>r.json())
     .then(response => {
       const resp = response?.data || [];
-      setMedicos(resp.map((r) => ({ label: r.nombre, value: r.idmedico })));
+      setMedicos(
+        [ ...[{label: "Todos", value:-1}],
+          ...resp.map((r) => ({ label: r.nombre, value: r.idmedico }))
+        ]
+      );
     });
   };
 
@@ -274,9 +278,15 @@ const ListaVentasMedicosTotales = (props) => {
             prefix="Nombre: "
           />*/}
           <Select
+            showSearch
+            optionFilterProp="children"
+            filterOption={(input,option) =>
+              (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
+            }
             prefix="Médico: "
             style={{ width: "200px" }}
             options={medicos}
+            value={medicoFiltro}
             onChange={v => {
               setMedicoFiltro(v);
             }}

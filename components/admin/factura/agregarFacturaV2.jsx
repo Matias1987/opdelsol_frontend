@@ -442,14 +442,26 @@ const AgregarFacturaV2 = (props) => {
             </Col>
           </Row>
           <Row style={_rows_style} gutter={[24, 18]}>
+            {/*<Col>
+              <Input
+                style={{ width: "320px" }}
+                type="number"
+                prefix="Conceptos Gravados: "
+                value={(factura.conceptosNoGravados)}
+                onChange={(e) => {
+                  onConceptosNoGravadosChange(e.target.value);
+                }}
+                allowClear
+              />
+            </Col>*/}
             <Col>
               <Input
                 style={{ width: "320px" }}
                 type="number"
                 prefix="Conceptos no Gravados: "
-                value={parseFloat(factura.conceptosNoGravados || "0")}
+                value={(factura.conceptosNoGravados )}
                 onChange={(e) => {
-                  onConceptosNoGravadosChange(e.target.value || "0");
+                  onConceptosNoGravadosChange(e.target.value.length<1? "0":e.target.value);
                 }}
                 allowClear
               />
@@ -460,9 +472,9 @@ const AgregarFacturaV2 = (props) => {
                 style={{ width: "300px" }}
                 type="number"
                 prefix="Impuestos Internos: "
-                value={parseFloat(factura.impuestosInternos || "0")}
+                value={(factura.impuestosInternos)}
                 onChange={(e) => {
-                  onImpuestosInternosChange(e.target.value || "0");
+                  onImpuestosInternosChange(e.target.value.length<1? "0":e.target.value);
                 }}
                 allowClear
               />
@@ -471,9 +483,9 @@ const AgregarFacturaV2 = (props) => {
               <Input
                 allowClear
                 type="number"
-                value={parseFloat(factura.descuento || "0")}
+                value={(factura.descuento )}
                 onChange={(e) => {
-                  onDescuentoChange(e.target.value || "0");
+                  onDescuentoChange(e.target.value.length<1? "0":e.target.value );
                 }}
                 style={{ width: "300px" }}
                 prefix="Descuento: "
@@ -486,14 +498,15 @@ const AgregarFacturaV2 = (props) => {
       <Row style={_rows_style} gutter={[24, 18]}>
         <Col>
           <Input
+            type="number"
             style={{ width: "300px" }}
             prefix="Monto Total: "
             readOnly={!esRemito}
-            value={parseFloat(factura.total || "0")}
+            value={(factura.total )}
             onChange={(e) => {
               setFactura((f) => ({
                 ...f,
-                total: parseFloat(e.target.value || "0"),
+                total: (e.target.value.length<1? "0":e.target.value ),
               }));
             }}
           />

@@ -118,7 +118,7 @@ const CargaManual = (props) => {
             <Col span={24}>
                 <Form onFinish={onFinish} onFinishFailed={onFinishFailed}>
                     <Form.Item label={"Monto"}>
-                        <Input onWheel={(e)=>{e.target.blur()}} type="number"  onClick={(e)=>{e.target.select()}}  onChange={(e)=>{onChange( parseFloat(e.target.value), "monto")}}/>
+                        <Input onWheel={(e)=>{e.target.blur()}} type="number"  onClick={(e)=>{e.target.select()}}  onChange={(e)=>{onChange( (e.target.value.length<1?"0":e.target.value), "monto")}}/>
                     </Form.Item>
                     <Form.Item label={"Motivo"}>
                         <Input  onClick={(e)=>{e.target.select()}}  onChange={(e)=>{onChange(e.target.value.toUpperCase(), "concepto")}}/>

@@ -26,7 +26,7 @@ const VentasInsumo = (props) => {
     const on_precio_change = (e) => {
         
         setInsumo((_insumo_)=>{
-            const __insumo = {..._insumo_, precio: parse_float_string(e.target.value)};
+            const __insumo = {..._insumo_, precio: (e.target.value.length<1? "0":e.target.value)};
             props?.callback?.(__insumo);
             return __insumo;    
         })

@@ -1,4 +1,3 @@
-import ModoPago from "@/components/forms/ModoPago";
 import SelectCliente from "@/components/forms/ventas/SelectCliente";
 import SelectMedico from "@/components/forms/ventas/SelectMedico";
 import SelectObraSocial from "@/components/forms/ventas/SelectObraSocial";

@@ -49,6 +49,7 @@ const VDItem = (props) => {
                     precio: response.data[0].precio,
                     total: response.data[0].precio,
                     descripcion: response.data[0].descripcion,
+                    precio_str: response.data[0].precio,
                     }
                 ];
                 props?.callback?.(_items);
@@ -99,10 +100,10 @@ const VDItem = (props) => {
                 }} />
             </>
         )},
-        {title:"Precio", dataIndex:"precio", width:"160px", render:(_,{precio,codigo})=><Input onWheel={(e)=>{e.target.blur()}} type="number" value={precio} onChange={(e)=>{
+        {title:"Precio", dataIndex:"precio", width:"160px", render:(_,{precio,codigo, precio_str})=><Input onWheel={(e)=>{e.target.blur()}} type="number" value={precio_str} onChange={(e)=>{
             setItems(__items=>
                 {
-                    const _items_ = __items.map((i)=>(i.codigo==codigo ? { ...i,precio:parse_float_string(e.target.value), total: parse_float_string(e.target.value) * parse_float_string(i.cantidad)}:i))
+                    const _items_ = __items.map((i)=>(i.codigo==codigo ? { ...i,precio_str: e.target.value, precio:parse_float_string(e.target.value), total: parse_float_string(e.target.value) * parse_float_string(i.cantidad)}:i))
                     props?.callback?.(_items_)
                     return _items_
                 }   

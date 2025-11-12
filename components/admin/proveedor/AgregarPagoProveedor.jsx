@@ -81,9 +81,9 @@ const AgregarPagoProveedor = (props) => {
         setMpCheque(cheque)
         setMpTransferencia(transf)
 
-        total += efv.checked ? efv.monto : 0
-        total += cheque.checked ? cheque.monto : 0
-        total += transf.checked ? transf.monto : 0
+        total += efv.checked ? parseFloat(efv.monto) : 0
+        total += cheque.checked ? parseFloat(cheque.monto) : 0
+        total += transf.checked ? parseFloat(transf.monto) : 0
 
         setPago(p=>({...p,monto:total}))
 
@@ -140,7 +140,7 @@ const AgregarPagoProveedor = (props) => {
             </Row>
             <Row style={{padding:"1em"}}>
                 <Col span={24}>
-                    <Input allowClear type="number" onChange={(e)=>{updateMP({...mpEfectivo,monto:parseFloat(e.target.value||"0")});}} value={parseFloat(mpEfectivo.monto||"0")} prefix="Monto: " />
+                    <Input allowClear type="number" onChange={(e)=>{updateMP({...mpEfectivo,monto:(e.target.value.length<1?"0":e.target.value)});}} value={(mpEfectivo.monto)} prefix="Monto: " />
                 </Col>
             </Row>
             </>
@@ -159,7 +159,7 @@ const AgregarPagoProveedor = (props) => {
                 <Col span={24}>
                     <Row style={{padding:"1em"}}>
                         <Col span={24}>
-                            <Input allowClear type="number" onChange={(e)=>{updateMP(null,{...mpCheque,monto:parseFloat(e.target.value||"0")});}} value={parseFloat(mpCheque.monto||"0")} prefix="Monto: " />
+                            <Input allowClear type="number" onChange={(e)=>{updateMP(null,{...mpCheque,monto:(e.target.value.length<1?"0":e.target.value)});}} value={(mpCheque.monto)} prefix="Monto: " />
                         </Col>
                     </Row>
                     <Row >
@@ -191,7 +191,7 @@ const AgregarPagoProveedor = (props) => {
                 <Col span={24}>
                     <Row style={{padding:"1em"}}>
                         <Col span={24}>
-                            <Input allowClear type="number" onChange={(e)=>{updateMP(null,null,{...mpTransferencia,monto:parseFloat(e.target.value||"0")});}} value={parseFloat(mpTransferencia.monto||"0")} prefix="Monto: " />
+                            <Input allowClear type="number" onChange={(e)=>{updateMP(null,null,{...mpTransferencia,monto:(e.target.value.length<1?"0":e.target.value)});}} value={(mpTransferencia.monto)} prefix="Monto: " />
                         </Col>
                     </Row>
                     <Row >
@@ -217,7 +217,7 @@ const AgregarPagoProveedor = (props) => {
         </Row>
         <Row style={{padding:"1em"}}>
             <Col span={24}>
-                <Input readOnly value={parseFloat(pago.monto||"0")}  />
+                <Input readOnly value={parseFloat(pago.monto||"0").toLocaleString(2)}  />
             </Col>
         </Row>
         

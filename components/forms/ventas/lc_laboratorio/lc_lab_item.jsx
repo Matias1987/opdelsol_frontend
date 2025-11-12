@@ -11,6 +11,7 @@ const LCLabItem = (props) =>{
         idcodigo: -1,
         codigo: null,
         precio: 0,
+        precio_str: "0",
         cantidad:1,
         esf: "",
         cil: "",
@@ -21,7 +22,7 @@ const LCLabItem = (props) =>{
     const on_codigo_change = (val) => {
         
         setLC((_LC)=>{
-            const __LC ={..._LC,codigo:val.codigo, precio: val.precio, idcodigo: val.idcodigo};
+            const __LC ={..._LC,codigo:val.codigo, precio: val.precio, precio_str: val.precio, idcodigo: val.idcodigo};
             props?.callback?.(__LC);
             return __LC;
         })
@@ -42,7 +43,8 @@ const LCLabItem = (props) =>{
     const on_precio_change = (v) => {
         
         setLC((_LC)=>{
-            const __LC = {..._LC, precio: parse_float_string(v)};
+            const p=parseFloat( v.lentgh<1 ? "0": v);
+            const __LC = {..._LC, precio: isNaN(p) ? "0" : p , precio_str: v};
             props?.callback?.(__LC);
             return __LC;    
         })
@@ -82,7 +84,7 @@ const LCLabItem = (props) =>{
                     <Input style={{minWidth:"90px"}}  disabled={LC.codigo==null} size="small" prefix="Diám." type="text" value={LC.diametro} onChange={(e=>{on_change(e.target.value,"diametro")})} />
                 </Col>
                 <Col span={3}>
-                    <Input onWheel={(e)=>{e.target.blur()}} style={{minWidth:"100px"}} disabled={LC.codigo==null} size="small" readOnly={false} type="number" prefix={"Precio: "} value={LC.precio} onChange={(v)=>{on_precio_change(v.target.value)}} />
+                    <Input onWheel={(e)=>{e.target.blur()}} style={{minWidth:"100px"}} disabled={LC.codigo==null} size="small" readOnly={false} type="number" prefix={"Precio: "} value={LC.precio_str} onChange={(v)=>{on_precio_change(v.target.value)}} />
                 </Col>
                 <Col span={1}>
                     <Button size="small" danger onClick={()=>{onRemove()}}><CloseOutlined/></Button>

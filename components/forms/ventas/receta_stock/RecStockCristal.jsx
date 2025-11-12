@@ -83,7 +83,7 @@ const RecStockCristal = (props) => {
                     <Input style={{minWidth:"100px"}}  prefix="Eje:" disabled={cristal.codigo==null} size="small" value={cristal.eje} onChange={(e)=>{onchange_eje(e.target.value)}}/>
                 </Col>
                 <Col span={4}>
-                    <Input onWheel={(e)=>{e.target.blur()}} style={{minWidth:"150px"}} disabled={cristal.codigo==null} type="number" value={cristal.precio} readOnly={false} onChange={(e)=>{onchange_precio({precio: parse_float_string(e.target.value)})}} size="small"  prefix="Precio: " />
+                    <Input onWheel={(e)=>{e.target.blur()}} style={{minWidth:"150px"}} disabled={cristal.codigo==null} type="number" value={cristal.precio} readOnly={false} onChange={(e)=>{onchange_precio({precio: (e.target.value.length<1? "0" : e.target.value)})}} size="small"  prefix="Precio: " />
                 </Col>
                 <Col span={1}>
                     <Button danger  size="small" onClick={()=>{onRemove()}}><CloseOutlined /></Button>

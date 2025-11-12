@@ -23,7 +23,7 @@ export default function test() {
   return (
     <div>
 
-      <ListaDeudas />
+      {/*<ListaDeudas />*/}
     
       {/*<ListadoCajasAdmin />
 

@@ -525,11 +525,12 @@ const CobroOperacionV2 = (props) => {
         <p>
           Monto: <b>{dataVenta.subtotal}</b> &nbsp;&nbsp;
           <Input
+            type="number"
             prefix={"Descuento:"}
             value={descuento}
             onChange={(e) => {
               setDescuento(
-                parseFloat(e.target.value.length < 1 ? "0" : e.target.value)
+                (e.target.value.length < 1 ? "0" : e.target.value)
               );
             }}
           />

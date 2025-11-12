@@ -19,7 +19,7 @@ const VentasArmazon = (props) => {
         setArmazon(
             (__armazon) => 
             { 
-                const _armazon = {...__armazon,precio: parse_float_string(e.target.value)};
+                const _armazon = {...__armazon,precio: (e.target.value.length<1? "0":e.target.value)};
                 props.callback(_armazon); 
                 return _armazon; 
             })
