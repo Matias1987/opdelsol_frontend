@@ -19,11 +19,12 @@ import CobrosTarjetaDia from "@/components/informes/caja/cobrosTarjetaDia";
 import CuotasPendientesTarjetas from "@/components/informes/caja/cuotasPendientesTarjetas";
 import AgregarArmazon from "@/components/facade/agregar_armazon";
 import ListaDeudas from "@/components/caja_master/lista_deudas";
+import DeudaDetalle from "@/components/caja_master/deuda";
 export default function test() {
   return (
     <div>
-
-      {/*<ListaDeudas />*/}
+      <DeudaDetalle />
+      {<ListaDeudas />}
     
       {/*<ListadoCajasAdmin />
 
@@ -58,7 +59,7 @@ export default function test() {
       <Transferencia aFondoFijo={false} />
       Ingreso
       <Ingreso />*/}
-      <AgregarArmazon />
+      {/*<AgregarArmazon />*/}
     </div>
   );
 }
