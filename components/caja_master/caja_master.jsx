@@ -45,11 +45,11 @@ const CajaMaster = (props) => {
           {
           obj.tipo != "EGRESO" ? (
             <div style={{ color: obj.tipo == "SALDO" ? "blue" : "green", textAlign: "right" }}>
-              $&nbsp;{obj.monto}
+              $&nbsp;{parseFloat(obj.monto).toLocaleString(2)}
             </div>
           ) : (
             <div style={{ color: "red", textAlign: "right" }}>
-              $&nbsp;-{obj.monto}
+              $&nbsp;-{parseFloat(obj.monto).toLocaleString(2)}
             </div>
           )}
         </>
@@ -124,7 +124,7 @@ const CajaMaster = (props) => {
                   columns={columns}
                   summary={(pageData) => {
                     const total = pageData.reduce(
-                      (sum, item) => sum += item.tipo != "EGRESO" ? item.monto : -item.monto,
+                      (sum, item) => sum += item.tipo != "EGRESO" ? parseFloat(item.monto) : -parseFloat(item.monto),
                       0
                     );
                     return (
@@ -140,7 +140,7 @@ const CajaMaster = (props) => {
                                 fontWeight: "bold",
                               }}
                             >
-                              $&nbsp;{total}
+                              $&nbsp;{parseFloat(total).toLocaleString(2)}
                             </span>
                           </Table.Summary.Cell>
                         </Table.Summary.Row>
