@@ -11,7 +11,19 @@ const InformeVentasFiltros = props =>{
      * monto igual a 
      */
     const filtros = _=><>
-        <DatePicker.RangePicker />
+    <Row>
+        
+        <Col>
+            Periodo
+        </Col>
+        <Col>
+            <DatePicker.RangePicker />
+        </Col>
+        <Col>
+            
+        </Col>
+    </Row>
+        
     </>
 
     return <>
