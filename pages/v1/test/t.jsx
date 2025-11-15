@@ -20,11 +20,14 @@ import CuotasPendientesTarjetas from "@/components/informes/caja/cuotasPendiente
 import AgregarArmazon from "@/components/facade/agregar_armazon";
 import ListaDeudas from "@/components/caja_master/lista_deudas";
 import DeudaDetalle from "@/components/caja_master/deuda";
+import InformeVentasFiltros from "@/components/admin/InformeVentasFiltros";
 export default function test() {
   return (
     <div>
       <DeudaDetalle />
       {<ListaDeudas />}
+      <Divider />
+      <InformeVentasFiltros />
     
       {/*<ListadoCajasAdmin />
 
