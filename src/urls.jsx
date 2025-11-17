@@ -238,6 +238,7 @@ const post = {
     
     informe_gastos_mes: remote_base_url + "infcaja/ls/total/g/m/",
 
+    informe_ventas_filtros: remote_base_url + "infvtas/inf/vtas/ff/",
 
     search:{
         filtro_stock: remote_base_url + "stock/filtro_stock/",

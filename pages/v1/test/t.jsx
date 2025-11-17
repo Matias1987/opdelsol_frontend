@@ -24,8 +24,8 @@ import InformeVentasFiltros from "@/components/admin/InformeVentasFiltros";
 export default function test() {
   return (
     <div>
-      <DeudaDetalle />
-      {<ListaDeudas />}
+      {/*<DeudaDetalle />
+      <ListaDeudas />*/}
       <Divider />
       <InformeVentasFiltros />
     
