@@ -18,6 +18,7 @@ const VentasVendedor = (props) => {
     fkcliente: "-1",
     fksucursal: "-1",
     fkvendedor: "-1",
+    nombreSucursal: "",
   });
   const [actualizar, setActualizar] = useState(false);
 
@@ -257,10 +258,10 @@ const VentasVendedor = (props) => {
           <ExportToCSV
             fileName={`ventas_vendedores__${filtros.mes}-${filtros.anio}`}
             parseFnt={() => {
-              let s = sucursales.find((s) => s.value == filtros.fksucursal);
+              let s = filtros.nombreSucursal;
               let str = "";
               str += `MES:,${filtros.mes}, ANIO:,${filtros.anio}, ,,,\r\n`;
-              str += `SUCURSAL:,${s?.label || ""},,,,,,\r\n`;
+              str += `SUCURSAL:,${s || ""},,,,,,\r\n`;
               str +=
                 "usuario, efectivo, tarjeta,  cheque, ctacte, mutual, mp , total\r\n";
               dataSource.forEach((r) => {

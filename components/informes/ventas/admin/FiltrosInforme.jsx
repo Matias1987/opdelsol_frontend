@@ -11,6 +11,7 @@ const FiltrosInforme = (props) => {
     anio: 2023,
     fkcliente: "-1",
     fksucursal: "-1",
+    nombreSucursal: "",
   });
 
   useEffect(() => {
@@ -21,6 +22,7 @@ const FiltrosInforme = (props) => {
       anio: d.getFullYear(),
       fkcliente: "-1",
       fksucursal: "-1",
+      nombreSucursal:"",
     });
 
     fetch(get.sucursales)
@@ -83,7 +85,8 @@ const FiltrosInforme = (props) => {
               style={{ width: "300px" }}
               options={sucursales}
               onChange={(v) => {
-                setFiltros((f) => ({ ...f, fksucursal: v }));
+                const ss=(sucursales.find(_s=>+_s.value==+v)).label
+                setFiltros((f) => ({ ...f, fksucursal: v, nombreSucursal:  ss}));
               }}
             />
           </div>

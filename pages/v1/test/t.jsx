@@ -21,13 +21,18 @@ import AgregarArmazon from "@/components/facade/agregar_armazon";
 import ListaDeudas from "@/components/caja_master/lista_deudas";
 import DeudaDetalle from "@/components/caja_master/deuda";
 import InformeVentasFiltros from "@/components/admin/InformeVentasFiltros";
+import CodeGridV3 from "@/components/etc/CodeGridVer3";
+import AgregarFacturaV3 from "@/components/admin/factura/agregarFacturaV3";
 export default function test() {
   return (
     <div>
+      <AgregarFacturaV3 />
+
+      <CodeGridV3 />
       {/*<DeudaDetalle />
-      <ListaDeudas />*/}
+      <ListaDeudas />
       <Divider />
-      <InformeVentasFiltros />
+      <InformeVentasFiltros />*/}
     
       {/*<ListadoCajasAdmin />
 
