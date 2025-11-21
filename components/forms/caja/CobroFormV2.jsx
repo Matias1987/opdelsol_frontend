@@ -291,7 +291,7 @@ const CobroOperacionV2 = (props) => {
 
   }
   const onCobrarClick = (e) => {
-    //e.stopImmediatePropagation();
+
     setCobrarDisabled(true);
 
     if (!_validar_campos() || !_validar_variables()) {
