@@ -53,17 +53,19 @@ const SearchStockVentas = (props) => {
         )
     }
 
-
+/**
+ * suffix={<>
+                        <Switch 
+                            checkedChildren="Nro."
+                            unCheckedChildren="Descripción" 
+                        /></>}
+ */
     return (
         <>
             <Row>
                 <Col span={24} style={{ padding: "4px" }}>
                     <Input
-                        suffix={<>
-                        <Switch 
-                            checkedChildren="Nro."
-                            unCheckedChildren="Descripción" 
-                        /></>}
+                        
                         allowClear
                         size="large"
                         value={filtros.mainval}

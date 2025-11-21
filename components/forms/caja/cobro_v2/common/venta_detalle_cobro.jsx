@@ -1,5 +1,10 @@
-const VentaDetalleCobro = ({dataVenta}) => {
+import CustomModal from "@/components/CustomModal";
+import VentaDetallePopup from "@/components/VentaDetalle";
+import { Input } from "antd";
+import { useState } from "react";
 
+const VentaDetalleCobro = ({dataVenta}) => {
+    const [descuento, setDescuento] = useState(0)
     return dataVenta == null ? (
       <></>
     ) : (

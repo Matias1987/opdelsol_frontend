@@ -28,12 +28,14 @@ import {
 } from "@/src/helpers/evento_helper";
 import CobroOperacionV2 from "../caja/CobroFormV2";
 import { current_date_ymd } from "@/src/helpers/string_helper";
+import Resfuerzo from "../caja/cobro_v2/resfuerzo";
 
 const BuscarVentaV3 = (props) => {
   const [dataSource, setDataSource] = useState([]);
   const [filtros, setFiltros] = useState({});
   const [reload, setReload] = useState(true);
-  const [popupCobroOpen, setPopupCobroOpen] = useState(false)
+  const [popupCobroOpen, setPopupCobroOpen] = useState(false);
+  const [popupCobroResfuerzoOpen, setPopupCobroResfuerzoOpen] = useState(false);
   const [detalleOpen, setDetalleOpen] = useState(false);
   const [selectedVenta, setSelectedVenta] = useState(null);
   const [modalImprimirOpen, setModalImprimirOpen] = useState(false);
@@ -117,6 +119,11 @@ const BuscarVentaV3 = (props) => {
   const onCobrarClick = (_venta) => {
     setSelectedVenta(_venta);
     setPopupCobroOpen(true);
+  };
+
+  const onResfuerzoClick = (_venta) => {
+    setSelectedVenta(_venta);
+    setPopupCobroResfuerzoOpen(true);
   };
 
   const onMarcarTerminadoClick = (_venta) => {
@@ -282,7 +289,7 @@ const BuscarVentaV3 = (props) => {
                   onClick: (event) => {
                     event.stopPropagation();
                     setSelectedVenta(record);
-                    
+
                     setDetalleOpen(true);
                   }, // click row
                 };
@@ -386,6 +393,7 @@ const BuscarVentaV3 = (props) => {
                               onEnviarALaboratorioClick
                             }
                             onAnularClick={onAnularClick}
+                            onResfuerzoClick={onResfuerzoClick}
                           />
                         ) : (
                           <></>
@@ -420,9 +428,12 @@ const BuscarVentaV3 = (props) => {
           setDetalleOpen(false);
         }}
       >
-        {
-          selectedVenta ? <InformeVentaMinV3 idventa={selectedVenta.idventa} key={selectedVenta.idventa} /> : null
-        }
+        {selectedVenta ? (
+          <InformeVentaMinV3
+            idventa={selectedVenta.idventa}
+            key={selectedVenta.idventa}
+          />
+        ) : null}
       </Modal>
 
       <Modal
@@ -436,7 +447,9 @@ const BuscarVentaV3 = (props) => {
         open={modalImprimirOpen}
       >
         <PrinterWrapper>
-          {selectedVenta ? <InformeVenta idventa={selectedVenta.idventa} /> : null}
+          {selectedVenta ? (
+            <InformeVenta idventa={selectedVenta.idventa} />
+          ) : null}
         </PrinterWrapper>
       </Modal>
       <Modal
@@ -450,20 +463,48 @@ const BuscarVentaV3 = (props) => {
         footer={null}
         open={popupCobroOpen}
       >
-        { selectedVenta ?
-        <CobroOperacionV2
+        {selectedVenta ? (
+          <CobroOperacionV2
+            callback={(_) => {
+              setPopupCobroOpen(false);
+              setReload(!reload);
+            }}
+            tarjetaHidden={false}
+            ctacteHidden={false}
+            totalsHidden={false}
+            idventa={selectedVenta.idventa}
+            idcliente={selectedVenta.idcliente}
+            tipo={
+              selectedVenta.estado === "INGRESADO"
+                ? "ingreso"
+                : selectedVenta.estado === "PENDIENTE"
+                ? "resfuerzo"
+                : "entrega"
+            }
+          />
+        ) : (
+          <></>
+        )}
+      </Modal>
+      <Modal
+        open={popupCobroResfuerzoOpen}
+        onCancel={(_) => {
+          setPopupCobroResfuerzoOpen(false);
+        }}
+        width={"1200px"}
+        footer={null}
+        destroyOnClose
+        title=""
+      >
+        <Resfuerzo
           callback={(_) => {
-            setPopupCobroOpen(false);
+            setPopupCobroResfuerzoOpen(false);
             setReload(!reload);
           }}
-          tarjetaHidden={false}
-          ctacteHidden={false}
-          totalsHidden={false}
-          idventa={selectedVenta.idventa}
-          idcliente={selectedVenta.idcliente}
-          tipo={ selectedVenta.estado === 'INGRESADO' ? 'ingreso' : selectedVenta.estado === 'PENDIENTE' ? 'resfuerzo' : 'entrega'}
-          
-        /> : <></>}
+          title="Resfuerzo"
+          idventa={selectedVenta?.idventa}
+          idcliente={selectedVenta?.idcliente}
+        />
       </Modal>
     </>
   );

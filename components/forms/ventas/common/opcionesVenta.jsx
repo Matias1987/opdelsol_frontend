@@ -19,6 +19,7 @@ const OpcionesVenta = (props) => {
     onMarcarTerminadoClick,
     onEnviarALaboratorioClick,
     onAnularClick,
+    onResfuerzoClick,
   } = props;
 
   const menuOptions = {
@@ -28,6 +29,7 @@ const OpcionesVenta = (props) => {
     IMPRIMIR: "4",
     MARCAR_TERMINADO: "5",
     ENVIAR_A_LABORATORIO: "6",
+    RESFUERZO: "7",
   }
 
 
@@ -77,7 +79,7 @@ const OpcionesVenta = (props) => {
 
   const items_terminadas = [
     {
-      label: <span style={{ color: "#1890ff" , fontWeight:"600"}}>Cobrar</span>,
+      label: <span style={{ color: "#1890ff" , fontWeight:"600"}}>Entrega</span>,
       key: menuOptions.COBRAR,
       icon: <DollarOutlined />,
     },
@@ -91,6 +93,11 @@ const OpcionesVenta = (props) => {
       label: "Imprimir",
       key: menuOptions.IMPRIMIR,
       icon: <PrinterOutlined />,
+    },
+    {
+      label: "Resfuerzo",
+      key: menuOptions.RESFUERZO,
+      icon: <DollarOutlined />,
     },
   ];
 
@@ -180,6 +187,8 @@ const OpcionesVenta = (props) => {
       case menuOptions.ENVIAR_A_LABORATORIO:
         onEnviarALaboratorioClick?.(venta);
         break;
+      case menuOptions.RESFUERZO:
+        onResfuerzoClick?.(venta)
     }
   };
 
@@ -188,7 +197,6 @@ const OpcionesVenta = (props) => {
       menu={{
         items: get_items(),
         onClick: ({ key }) => {
-          //alert(JSON.stringify(venta) )
           onMenuOptionSelected(key);
         },
       }}

@@ -1,4 +1,4 @@
-const { Spin } = require("antd")
+import { Spin }  from "antd"
 
 const ClienteDetalleCobro = ({dataCliente}) =>{
 

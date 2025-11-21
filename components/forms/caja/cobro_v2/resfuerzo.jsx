@@ -1,13 +1,19 @@
 import { Button, Col, Divider, Input, Modal, Row, Spin, Switch } from "antd";
 import ClienteDetalleCobro from "./common/cliente_detalle";
-import VentaDetalleCobro from "./common/venta_detalle_cobro";
 import ModoPagoV4 from "../../modo_pago/ModoPagoV4";
 import PrinterWrapper from "@/components/PrinterWrapper";
 import InformeX from "@/components/informes/caja/InformeX";
 import { useEffect, useState } from "react";
 import globals from "@/src/globals";
 import { current_date_ymd } from "@/src/helpers/string_helper";
-
+import { get, post } from "@/src/urls";
+import VentaDetallePopup from "@/components/VentaDetalle";
+import CustomModal from "@/components/CustomModal";
+import ListaCobros from "../ListaCobros";
+import { post_method } from "@/src/helpers/post_helper";
+import {
+  registrar_evento,
+} from "@/src/helpers/evento_helper";
 const Resfuerzo = (props) => {
   const { callback, idventa, idcliente, title } = props;
   const [mp, setMP] = useState(null);
@@ -16,6 +22,21 @@ const Resfuerzo = (props) => {
   const [dataCliente, setDataCliente] = useState(null);
   const [idCobro, setIdCobro] = useState(-1);
   const [descuento, setDescuento] = useState(0);
+  const [informeOpen, setInformeOpen] = useState(false);
+
+  const onCobroSaved = (id) => {
+    if (id < 1) {
+      callback?.();
+      return;
+    }
+    setIdCobro(id);
+    setInformeOpen(true);
+  };
+
+  const onCloseInformePopup = () => {
+    callback?.();
+    setInformeOpen(false);
+  };
 
   const load = (_) => {
     setCobrarDisabled(false);
@@ -51,10 +72,10 @@ const Resfuerzo = (props) => {
       return false;
     }
 
-    if (typeof props.tipo === "undefined") {
-      alert("tipo undefined");
-      return false;
-    }
+    //if (typeof props.tipo === "undefined") {
+    //  alert("tipo undefined");
+    //  return false;
+    //}
 
     if (mp.transferencia_monto != 0) {
       if (mp.fk_banco_transferencia == null) {
@@ -119,18 +140,12 @@ const Resfuerzo = (props) => {
         parseFloat(dataVenta.haber || 0) -
         parseFloat(mp.total);
 
-      const _mc =
-        typeof props.mustCancel !== "undefined" ? props.mustCancel : false;
 
       if (+mp.total == 0 && _sdo != 0) {
         alert("Monto igual a 0");
         return false;
       }
 
-      if ((entrega || _mc) && _sdo != 0) {
-        alert("Saldo distinto a 0");
-        return false;
-      }
       if (_sdo < 0) {
         alert("Saldo menor a cero");
         return false;
@@ -140,7 +155,6 @@ const Resfuerzo = (props) => {
   };
 
   const onCobrarClick = (e) => {
-
     setCobrarDisabled(true);
 
     if (!_validar_campos() || !_validar_variables()) {
@@ -158,16 +172,11 @@ const Resfuerzo = (props) => {
       fecha: current_date_ymd(),
       tk: globals.getToken(),
       idventa: idventa,
-      idcliente: idcliente,  
+      idcliente: idcliente,
       tipo: "resfuerzo",
-      accion: "resfuerzo", 
-      removeCtaCteRow: 1
+      accion: "resfuerzo",
+      removeCtaCteRow: 1,
     };
-
-    const _sdo = parseFloat(dataVenta.subtotal) -
-        parseFloat(descuento) -
-        parseFloat(dataVenta.haber || 0) -
-        parseFloat(mp.total);
 
     globals.obtenerCajaAsync((response) => {
       if (response == null) {
@@ -185,16 +194,78 @@ const Resfuerzo = (props) => {
 
       on_get_caja(params);
     });
-
-  }
+  };
 
   const onMPChange = (val) => {
     setMP((_mp) => val);
   };
 
+  const venta_detalle = () =>
+    dataVenta == null ? (
+      <></>
+    ) : (
+      <>
+        <p>
+          Nro. Venta: {dataVenta.idventa} &nbsp;&nbsp;&nbsp; Fecha:{" "}
+          {dataVenta.fecha_formated}
+        </p>
+        <p>
+          Monto: <b>{dataVenta.subtotal}</b> &nbsp;&nbsp;
+          <Input
+            type="number"
+            prefix={"Descuento:"}
+            value={descuento}
+            onChange={(e) => {
+              setDescuento(
+                (e.target.value.length < 1 ? "0" : e.target.value)
+              );
+            }}
+          />
+          Haber: <b>{dataVenta.haber}</b> &nbsp;&nbsp;
+          <span style={{ backgroundColor: "lightyellow", color: "red" }}>
+            Saldo:{" "}
+            <b>
+              {(parseFloat(dataVenta.subtotal) -
+                parseFloat(descuento) -
+                parseFloat(dataVenta.haber || 0)).toFixed(2)}
+            </b>
+          </span>
+          &nbsp;&nbsp;
+          <VentaDetallePopup idventa={dataVenta.idventa} />
+        </p>
+        &nbsp;&nbsp;
+        <CustomModal
+          title={"Cobros Venta Nro.: " + dataVenta.idventa}
+          openButtonText="Ver Cobros"
+        >
+          <ListaCobros idventa={dataVenta.idventa} readOnly={true} />
+        </CustomModal>
+      </>
+    );
+
   useEffect(() => {
     load();
   }, []);
+
+  const on_get_caja = (params) => {
+    post_method(post.insert.cobro, params, (id) => {
+      if (+(id.data || "0") > 0) {
+        fetch(get.actualizar_saldo_en_cobro + id.data)
+          .then((_r) => _r.json())
+          .then((___response) => {
+            onCobroSaved(id.data);
+          });
+
+        registrar_evento(
+          "COBRO",
+          "Registro Cobro $" + mp.total.toString(),
+          id.data
+        );
+      } else {
+        onCobroSaved(0);
+      }
+    });
+  };
 
   return (
     <>
@@ -202,12 +273,14 @@ const Resfuerzo = (props) => {
         <h3>{typeof title === "undefined" ? "Cobro" : title}</h3>
         <Row>
           <Col span={24}>
-            <ClienteDetalleCobro dataCliente={null} />{" "}
+            <ClienteDetalleCobro dataCliente={dataCliente} />
+            &nbsp;
           </Col>
         </Row>
         <Row>
           <Col span={24}>
-            <VentaDetalleCobro dataVenta={null} />{" "}
+            {venta_detalle()}
+            &nbsp;
           </Col>
         </Row>
         <Row>
