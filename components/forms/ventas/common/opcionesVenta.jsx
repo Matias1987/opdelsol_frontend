@@ -60,7 +60,7 @@ const OpcionesVenta = (props) => {
 
   const items_pendientes_taller = [
     {
-      label: <span style={{ color: "#1890ff" , fontWeight:"600"}}>Cobrar</span>,
+      label: <span style={{ color: "#1890ff" , fontWeight:"600"}}>Cobrar Resfuerzo</span>,
       key: menuOptions.COBRAR,
       icon: <DollarOutlined />,
     },
@@ -103,7 +103,7 @@ const OpcionesVenta = (props) => {
 
   const items_taller_sucursal = [
     {
-      label: <span style={{ color: "#1890ff" , fontWeight:"600"}}>Cobrar</span>,
+      label: <span style={{ color: "#1890ff" , fontWeight:"600"}}>Cobrar Resfuerzo</span>,
       key: menuOptions.COBRAR,
       icon: <DollarOutlined />,
     },

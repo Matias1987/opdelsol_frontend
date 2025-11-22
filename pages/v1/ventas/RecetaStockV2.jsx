@@ -8,6 +8,7 @@ import { submit_venta } from "@/src/helpers/ventas_helper";
 import { Divider, Modal } from "antd";
 import PrinterWrapper from "@/components/PrinterWrapper";
 import InformeVenta from "@/components/informes/ventas/Base";
+import RecetaStockItemsB from "@/components/forms/ventas/receta_stock/items_b";
 
 
 export default function VentaRecetaStock(){
@@ -75,7 +76,7 @@ export default function VentaRecetaStock(){
             )
                 
             }}>
-            <RecetaStockItems callback={callback} />
+            <RecetaStockItemsB callback={callback} />
         </VentaBase>
         {<Modal width={"80%"} open={idVenta!=-1 && printOpen} onOk={()=>{onClosePrintPopup()}} onCancel={()=>{onClosePrintPopup()}} footer={null} >
             <PrinterWrapper>

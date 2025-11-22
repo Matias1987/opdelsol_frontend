@@ -1,4 +1,4 @@
-import { Button, Table, Input, Row, Col, Flex, Space, Switch } from "antd";
+import { Button, Table, Input, Row, Col, Flex, Space, Switch, Divider } from "antd";
 import { useEffect, useState } from "react";
 import { post } from "@/src/urls";
 import globals from "@/src/globals";
@@ -22,14 +22,20 @@ const SearchStockVentas = (props) => {
         mainval: "", esf: "", cil: "", add: ""
     })
 
-    const onSearch = (e) => {
-        const id = regex_get_id_if_match(e?.target?.value?.toUpperCase() || "")
+    const onSearch = () => {
+        const _sval = filtros.mainval;
+        let id = regex_get_id_if_match(_sval.toUpperCase() || "")
 
-        var fil = id > 0 ? "" : filtros.mainval
-        if (id > 0) {
-            setFiltros(f => ({ ...f, mainval: "" }))
+        if(!Number.isNaN(parseInt(_sval)) && +id<0)
+        {
+            id = parseInt(_sval)
         }
-        const _srchval = `${fil}${filtros.esf == "" ? "" : " ESF" + filtros.esf}${filtros.cil == "" ? "" : " CIL" + filtros.cil}${filtros.add == "" ? "" : " ADD" + filtros.add}`
+
+        var fil = _sval;// id > 0 ? "" : filtros.mainval
+        /*if (id > 0) {
+            setFiltros(f => ({ ...f, mainval: "" }))
+        }*/
+        const _srchval = `${fil}` //${filtros.esf == "" ? "" : " ESF" + filtros.esf}${filtros.cil == "" ? "" : " CIL" + filtros.cil}${filtros.add == "" ? "" : " ADD" + filtros.add}
         setLoading(true)
 
         const filters = { filtroCod: _srchval, idSucursal: id_sucursal, filtroFamilias: typeof props.idfamilias === 'undefined' ? [] : props.idfamilias, idcodigo: id }
@@ -80,7 +86,7 @@ const SearchStockVentas = (props) => {
                         onKeyUp={(e) => {
                             if (e.key === 'Enter') {
 
-                                onSearch(e)
+                                onSearch()
                             }
                         }}
 
@@ -114,12 +120,15 @@ const SearchStockVentas = (props) => {
 
             <Row style={{ padding: "1em" }}>
                 <Col span={24}>
-                    <Button type="primary" size="small" style={{ borderRadius: "16px" }} onClick={onSearch} block><SearchOutlined /> Buscar</Button>
+                    <Button type="primary" size="middle" style={{ borderRadius: "16px" }} onClick={onSearch} block><SearchOutlined /> Buscar</Button>
                 </Col>
             </Row>
+            <Divider />
             <Row>
                 <Col span={24}>
                     <Table
+                        showHeader={false}
+                        
                         scroll={{ y: "300px" }}
                         rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' : 'table-row-dark'}
                         pagination={false}
@@ -127,8 +136,8 @@ const SearchStockVentas = (props) => {
                         dataSource={dataSource}
                         columns={
                             [
-                                { title: "Codigo", dataIndex: "codigo", },
-                                { title: "Descripcion", dataIndex: "descripcion", },
+                                { title: <>C&oacute;digo</>, dataIndex: "codigo", render:(_,{codigo})=><span style={{fontWeight:"bolder"}}>{codigo}</span> },
+                                { title: <>Descripci&oacute;n</>, dataIndex: "descripcion", },
                                 {
                                     title: "",
                                     dataIndex: "idcodigo",
