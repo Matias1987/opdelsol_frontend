@@ -19,6 +19,7 @@ import ExportToCSV from "@/components/ExportToCSV";
 import ListaProveedores from "../proveedor/ListaProveedores";
 import { post_method } from "@/src/helpers/post_helper";
 import AgregarFacturaV2 from "./agregarFacturaV2";
+import AgregarFacturaV3 from "./agregarFacturaV3";
 /**
  *
  * @param readOnly
@@ -366,7 +367,7 @@ const ListaFacturas = (props) => {
           setPopupAddFacturaOpen(false);
         }}
       >
-        <AgregarFacturaV2
+        <AgregarFacturaV3
           callback={() => {
             setChange(!change);
             setPopupAddFacturaOpen(false);
@@ -383,7 +384,7 @@ const ListaFacturas = (props) => {
           setPopupAddRemitoOpen(false);
         }}
       >
-        <AgregarFacturaV2
+        <AgregarFacturaV3
           esremito={true}
           callback={() => {
             setChange(!change);

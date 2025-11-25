@@ -10,6 +10,7 @@ const PercepcionesForm = (props) => {
     <Row>
         <Col span={24}>
             <Input 
+            onClick={(e)=>{e.target.select()}} 
             type="number"
             value={(percepcion.monto)}
             prefix="Monto Percepción" 

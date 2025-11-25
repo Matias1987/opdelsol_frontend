@@ -24,6 +24,7 @@ const IVAForm = (props) => {
     <Row style={{padding:"1em"}}>
         <Col span={24}>
             <Input 
+            onClick={(e)=>{e.target.select()}} 
             type="number"
             style={{width:"100%"}}
             value={(iva.monto)}

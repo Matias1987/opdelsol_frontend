@@ -533,6 +533,8 @@ const get = {
     get_id_ccmm: remote_base_url + "ccmm/",
 
     get_vendedores: remote_base_url + "usuarios/l/vendedores/",
+
+    montos_adic_factura: remote_base_url + "facturas/mont/adic/fact/",
 }
 
 module.exports = {

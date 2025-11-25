@@ -19,6 +19,7 @@ import AgregarFacturaV2 from "../factura/agregarFacturaV2";
 import { ArrowDownOutlined, CloseOutlined } from "@ant-design/icons";
 import DetalleFactura from "@/components/forms/deposito/DetalleFactura";
 import ExportToCSV from "@/components/ExportToCSV";
+import AgregarFacturaV3 from "../factura/agregarFacturaV3";
 const { TabPane } = Tabs;
 const FichaProveedor = (props) => {
   const [reload, setReload] = useState(false);
@@ -559,7 +560,7 @@ const FichaProveedor = (props) => {
           setPopupAddFacturaOpen(false);
         }}
       >
-        <AgregarFacturaV2
+        <AgregarFacturaV3
           idproveedor={props.idproveedor}
           callback={() => {
             setReload(!reload);
@@ -577,7 +578,7 @@ const FichaProveedor = (props) => {
           setPopupAddRemitoOpen(false);
         }}
       >
-        <AgregarFacturaV2
+        <AgregarFacturaV3
           idproveedor={props.idproveedor}
           esremito={true}
           callback={() => {

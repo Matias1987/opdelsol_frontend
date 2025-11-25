@@ -16,7 +16,7 @@ import ModoPagoInf from "./common/ModoPago";
 import ResponsableInf from "./common/Responsable";
 import DestinatarioInf from "./common/Destinatario";
 import DataSucursalInf from "./common/DataSucursalInf";
-import { mostrar_talon_cliente } from "@/src/config";
+import { mostrar_talon_cliente, usar_correcciones_recstock } from "@/src/config";
 import RecStockItemsB from "./RecStockItemsB";
 
 
@@ -62,10 +62,10 @@ const InformeVenta = (props) => {
 
 
 	const productos = () => {
-		//alert(data.tipo)
+	
 		switch (+data.tipo) {
 			case 1: return <VentaDirectaItems idventa={data.idventa} />;
-			case 2: return <RecStockItemsB idventa={data.idventa} />;
+			case 2: return usar_correcciones_recstock ? <RecStockItemsB idventa={data.idventa} />:<RecStockItems idventa={data.idventa} />;
 			case 6: return <LCLabItems idventa={data.idventa} />;
 			case 3: return <LCStockItems idventa={data.idventa} />;
 			case 5: return <MultifLabItems idventa={data.idventa} />;

@@ -12,6 +12,7 @@ const RetencionesForm = (props) => {
             <Col span={24}>
                 <Input 
                 type="number"
+                onClick={(e)=>{e.target.select()}} 
                 value={(retencion.monto)}
                 prefix="Monto Retención: " 
                 onChange={(e)=>{

@@ -9,6 +9,7 @@ import { Divider, Modal } from "antd";
 import PrinterWrapper from "@/components/PrinterWrapper";
 import InformeVenta from "@/components/informes/ventas/Base";
 import RecetaStockItemsB from "@/components/forms/ventas/receta_stock/items_b";
+import { usar_correcciones_recstock } from "@/src/config";
 
 
 export default function VentaRecetaStock(){
@@ -76,7 +77,11 @@ export default function VentaRecetaStock(){
             )
                 
             }}>
-            <RecetaStockItemsB callback={callback} />
+        {
+            usar_correcciones_recstock ? 
+            <RecetaStockItemsB callback={callback} />:
+            <RecetaStockItems callback={callback} />
+        }    
         </VentaBase>
         {<Modal width={"80%"} open={idVenta!=-1 && printOpen} onOk={()=>{onClosePrintPopup()}} onCancel={()=>{onClosePrintPopup()}} footer={null} >
             <PrinterWrapper>

@@ -5,6 +5,7 @@ import { Divider } from "antd";
 import AgregarCodigo from "./agregar_codigo";
 import MyLayout from "@/components/layout/layout";
 import AgregarFacturaV2 from "@/components/admin/factura/agregarFacturaV2";
+import AgregarFacturaV3 from "@/components/admin/factura/agregarFacturaV3";
 
 export default function AgregarStock(){
     return (
@@ -19,7 +20,7 @@ export default function AgregarStock(){
         onOk={()=>{}}
         >
             {/*<FacturaForm action="ADD" />*/}
-            <AgregarFacturaV2 callback={()=>{}} />
+            <AgregarFacturaV3 callback={()=>{}} />
         </CustomModal>
         &nbsp;&nbsp;
         <CustomModal 

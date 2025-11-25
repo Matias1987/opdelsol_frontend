@@ -10,6 +10,7 @@ import FacturaForm from "./forms/FacturaForm";
 import ProveedorForm from "./forms/ProveedorForm";
 import DetalleFactura from "./forms/deposito/DetalleFactura";
 import AgregarFacturaV2 from "./admin/factura/agregarFacturaV2";
+import AgregarFacturaV3 from "./admin/factura/agregarFacturaV3";
 
 const FacturaSelect2 = (props) => {
   const [idProveedor, setIdProveedor] = useState(-1);
@@ -187,7 +188,7 @@ const FacturaSelect2 = (props) => {
         footer={null}
         destroyOnClose
       >
-        <AgregarFacturaV2
+        <AgregarFacturaV3
           idproveedor={idProveedor}
           callback={() => {
             setPopupFacturaOpen(false);

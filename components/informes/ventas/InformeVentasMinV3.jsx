@@ -15,6 +15,8 @@ import MontosTotalesInf from "./common/MontosTotales"
 import ResponsableInf from "./common/Responsable"
 import DestinatarioInf from "./common/Destinatario"
 import ModoPagoInf from "./common/ModoPago"
+import { usar_correcciones_recstock } from "@/src/config"
+import RecStockItemsB from "./RecStockItemsB"
 
 
 const InformeVentaMinV3 = (props) => {
@@ -60,7 +62,7 @@ const InformeVentaMinV3 = (props) => {
         switch(+data.tipo)
         {
             case 1: return <VentaDirectaItems idventa={data.idventa} /> ;
-            case 2: return <RecStockItems idventa={data.idventa} /> ;
+            case 2: return usar_correcciones_recstock ? <RecStockItemsB idventa={data.idventa} />:<RecStockItems idventa={data.idventa} />; ;
             case 6: return <LCLabItems idventa={data.idventa} /> ;
             case 3: return  <LCStockItems idventa={data.idventa} />;
             case 5: return  <MultifLabItems idventa={data.idventa} />;

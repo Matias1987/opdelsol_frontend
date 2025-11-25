@@ -37,6 +37,8 @@ const AgregarFacturaV3 = (props) => {
     cant_productos: 0,
     productos: [],
     descuento: 0,
+    netoGravado: 0,
+    netoNoGravado: 0,
   });
   const [reload, setReload] = useState(false);
 
@@ -171,12 +173,20 @@ const AgregarFacturaV3 = (props) => {
     setFactura((f) => ({ ...f, fkproveedor: v }));
   };
 
-  const onConceptosNoGravadosChange = (v) => {
-    let temp = { ...factura, conceptosNoGravados: v };
+  const onNetoNoGravadoChange = (v) => {
+    let temp = { ...factura, netoNoGravado: v };
 
     let total = calcularTotal(temp, ivaRows, percepcionRows, retencionRows);
 
-    setFactura((f) => ({ ...f, conceptosNoGravados: v, total: total }));
+    setFactura((f) => ({ ...f, netoNoGravado: v, total: total }));
+  };
+
+  const onNetoGravadoChange = (v) => {
+    let temp = { ...factura, netoGravado: v };
+
+    let total = calcularTotal(temp, ivaRows, percepcionRows, retencionRows);
+
+    setFactura((f) => ({ ...f, netoGravado: v, total: total }));
   };
 
   const onImpuestosInternosChange = (v) => {
@@ -229,7 +239,7 @@ const AgregarFacturaV3 = (props) => {
       idsucursal: globals.obtenerSucursal(),
     };
     //console.log(JSON.stringify(data))
-    //alert(JSON.stringify(data))
+   // alert(JSON.stringify(data))
     post_method(post.insert.factura, data, (resp) => {
       alert("Hecho.");
       props?.callback?.();
@@ -261,7 +271,8 @@ const AgregarFacturaV3 = (props) => {
     });
 
     return (
-      parseFloat(_factura.conceptosNoGravados) +
+      parseFloat(_factura.netoNoGravado) +
+      parseFloat(_factura.netoGravado) +
       parseFloat(_factura.impuestosInternos) +
       parseFloat(totalIVA) +
       parseFloat(totalPercepciones) +
@@ -383,6 +394,7 @@ const AgregarFacturaV3 = (props) => {
         <Col>
           <Input
             prefix="Nro.:"
+            onClick={(e)=>{e.target.select()}} 
             onChange={(e) => {
               onNroChange(e.target.value);
             }}
@@ -415,6 +427,7 @@ const AgregarFacturaV3 = (props) => {
               <Input
                 maxLength={12}
                 prefix="Punto de Venta:  "
+                onClick={(e)=>{e.target.select()}} 
                 value={factura.puntoVenta}
                 onChange={(e) => {
                   onPuntoVentaChange(e.target.value);
@@ -442,26 +455,28 @@ const AgregarFacturaV3 = (props) => {
             </Col>
           </Row>
           <Row style={_rows_style} gutter={[24, 18]}>
-            {/*<Col>
+            {<Col>
               <Input
                 style={{ width: "320px" }}
+                onClick={(e)=>{e.target.select()}} 
                 type="number"
-                prefix="Conceptos Gravados: "
-                value={(factura.conceptosNoGravados)}
+                prefix="Neto Gravado: "
+                value={(factura.netoGravado)}
                 onChange={(e) => {
-                  onConceptosNoGravadosChange(e.target.value);
+                  onNetoGravadoChange(e.target.value);
                 }}
                 allowClear
               />
-            </Col>*/}
+            </Col>}
             <Col>
               <Input
                 style={{ width: "320px" }}
+                onClick={(e)=>{e.target.select()}} 
                 type="number"
-                prefix="Conceptos no Gravados: "
-                value={(factura.conceptosNoGravados )}
+                prefix="Neto no Gravado: "
+                value={(factura.netoNoGravado)} 
                 onChange={(e) => {
-                  onConceptosNoGravadosChange(e.target.value.length<1? "0":e.target.value);
+                  onNetoNoGravadoChange(e.target.value.length<1? "0":e.target.value);
                 }}
                 allowClear
               />
@@ -470,6 +485,7 @@ const AgregarFacturaV3 = (props) => {
             <Col>
               <Input
                 style={{ width: "300px" }}
+                onClick={(e)=>{e.target.select()}} 
                 type="number"
                 prefix="Impuestos Internos: "
                 value={(factura.impuestosInternos)}
@@ -482,6 +498,7 @@ const AgregarFacturaV3 = (props) => {
             <Col>
               <Input
                 allowClear
+                onClick={(e)=>{e.target.select()}}
                 type="number"
                 value={(factura.descuento )}
                 onChange={(e) => {
@@ -499,6 +516,7 @@ const AgregarFacturaV3 = (props) => {
         <Col>
           <Input
             type="number"
+            onClick={(e)=>{e.target.select()}} 
             style={{ width: "300px" }}
             prefix="Monto Total: "
             readOnly={!esRemito}
@@ -589,6 +607,7 @@ const AgregarFacturaV3 = (props) => {
       >
         <RetencionesForm
           callback={(n) => {
+            //alert(JSON.stringify(n))
             let _rows = [...retencionRows, { ...n, id: localIdx }];
 
             let total = calcularTotal(factura, ivaRows, percepcionRows, _rows);
@@ -639,7 +658,6 @@ const AgregarFacturaV3 = (props) => {
       >
         <ProveedorForm
           callback={(data) => {
-            alert(data);
             load_proveedores(() => {
               setAgregarProveedorOpen(false);
               setProveedorSelectEnabled(false);
