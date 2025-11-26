@@ -40,7 +40,7 @@ const BuscarVentaV3 = (props) => {
   const [selectedVenta, setSelectedVenta] = useState(null);
   const [modalImprimirOpen, setModalImprimirOpen] = useState(false);
   const [verSoloSucursal, setVerSoloSucursal] = useState(true);
-
+  const [loading, setLoading] = useState(false);
   const add = (obj, value, key) =>
     typeof value === "undefined" ? obj : { ...obj, [key]: value };
 
@@ -77,8 +77,9 @@ const BuscarVentaV3 = (props) => {
       verSoloSucursal ? globals.obtenerSucursal() : "",
       "idsucursal"
     );
-
+    setLoading(true);
     post_method(url, params, (response) => {
+      setLoading(false);
       if (response == null) {
         return;
       }
@@ -280,6 +281,7 @@ const BuscarVentaV3 = (props) => {
         <Row>
           <Col span={24}>
             <Table
+              loading={loading}
               size="small"
               scroll={{
                 y: 400,

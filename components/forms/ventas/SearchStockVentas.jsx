@@ -5,6 +5,7 @@ import globals from "@/src/globals";
 import { CheckCircleFilled, CloseCircleFilled, CloseOutlined, SearchOutlined } from "@ant-design/icons";
 import { post_method } from "@/src/helpers/post_helper";
 import { regex_get_id_if_match } from "@/src/helpers/barcode_helper";
+import { idf_optica } from "@/src/config";
 
 /**
  * 
@@ -35,11 +36,11 @@ const SearchStockVentas = (props) => {
         /*if (id > 0) {
             setFiltros(f => ({ ...f, mainval: "" }))
         }*/
-        const _srchval = `${fil}` //${filtros.esf == "" ? "" : " ESF" + filtros.esf}${filtros.cil == "" ? "" : " CIL" + filtros.cil}${filtros.add == "" ? "" : " ADD" + filtros.add}
+        const _srchval = `${fil} ${filtros.esf == "" ? "" : " ESF" + filtros.esf}${filtros.cil == "" ? "" : " CIL" + filtros.cil}${filtros.add == "" ? "" : " ADD" + filtros.add}`
         setLoading(true)
 
         const filters = { filtroCod: _srchval, idSucursal: id_sucursal, filtroFamilias: typeof props.idfamilias === 'undefined' ? [] : props.idfamilias, idcodigo: id }
-
+        //alert(JSON.stringify(filters))
         post_method(search_url, filters,
             (_response) => {
                 var response = typeof props.onParseResponse !== 'undefined' ? props.onParseResponse(_response) : _response;
@@ -94,7 +95,7 @@ const SearchStockVentas = (props) => {
                 </Col>
             </Row>
 
-            {(( "1") === "1") ? <></> : <Space direction="vertical" size="middle">
+            {idf_optica ==3 ? <></> : <Space direction="vertical" size="middle">
                 <Space.Compact size="middle">
                     <Input step={.25} min={-20} max={20} prefix="Esf.:" value={filtros.esf} onKeyUp={(e) => {
                         if (e.key === 'Enter') {

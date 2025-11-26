@@ -63,6 +63,7 @@ const public_urls = {
     lista_clientes_caja: local_base_url + "caja/ListaClientesCaja",
 
     lista_clientes_ventas: local_base_url + "ventas/listados/ListaClientesVentas",
+    informe_ventas_dia_min: local_base_url + "ventas/informes/ventas_dias_min",
     //laboratorio
     lista_operaciones_laboratorio: local_base_url + "laboratorio/lista_operaciones_laboratorio",
     lista_operaciones_calibrado: local_base_url + "laboratorio/lista_operaciones_calibrado",

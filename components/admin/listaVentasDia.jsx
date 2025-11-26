@@ -17,7 +17,7 @@ import VentaDetallePopup from "../VentaDetalle";
 import InformeUsuarioGraphVentas from "./InformeUsuarioGraphVentas";
 import SucursalSelect from "../SucursalSelect";
 
-const ListaVentasDia = (props) => {
+const ListaVentasDia = ({dia,mes,anio, dateReadOnly, sucursal, sucursalReadOnly}) => {
   const [ventas, setVentas] = useState([]);
   const [idusuarioGraph, setIdUsuarioGraph] = useState(-1);
   const [total, setTotal] = useState(0);
@@ -28,7 +28,7 @@ const ListaVentasDia = (props) => {
     mes: 0,
     anio: 0,
     idusuario: -1,
-    idsucursal: -1,
+    idsucursal: sucursal ? sucursal : -1,
   });
   const columns = [
     {render:()=><><Checkbox/></>, width:"30px"},
@@ -54,9 +54,9 @@ const ListaVentasDia = (props) => {
     const today = new Date();
     setFiltros((_f) => ({
       ..._f,
-      dia: today.getDate(),
-      mes: today.getMonth() + 1,
-      anio: today.getFullYear(),
+      dia: dia ? dia : today.getDate(),
+      mes: mes ? mes : today.getMonth() + 1,
+      anio: anio ? anio : today.getFullYear(),
     }));
     //get lista vendedores
     fetch(get.lista_usuarios)
@@ -131,6 +131,7 @@ const ListaVentasDia = (props) => {
           <Space direction="vertical" size="middle">
             <Space.Compact size="middle">
               <Input
+                disabled={dateReadOnly ? true : false}
                 value={filtros.dia}
                 min={1}
                 max={31}
@@ -141,6 +142,7 @@ const ListaVentasDia = (props) => {
                 type="number"
               />
               <Input
+                disabled={dateReadOnly ? true : false}
                 value={filtros.mes}
                 min={1}
                 max={12}
@@ -151,6 +153,7 @@ const ListaVentasDia = (props) => {
                 type="number"
               />
               <Input
+                disabled={dateReadOnly ? true : false}
                 value={filtros.anio}
                 min={2013}
                 addonBefore={"Año"}
@@ -163,7 +166,10 @@ const ListaVentasDia = (props) => {
           </Space>
         </Col>
         <Col>
-        <SucursalSelect callback={(idsucursal)=>{
+        <SucursalSelect 
+        disabled={sucursalReadOnly ? true : false}
+        idsucursal={sucursal ? sucursal : null}
+        callback={(idsucursal)=>{
             onChange("idsucursal", idsucursal);
         }} />
         </Col>

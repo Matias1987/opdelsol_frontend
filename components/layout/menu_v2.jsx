@@ -14,7 +14,7 @@ import globals from "@/src/globals";
 import CustomModal from "../CustomModal";
 import ListaPreciosV3 from "../lista_precios/listaPreciosV3";
 import BuscarVentaV2 from "../forms/ventas/BuscarVentasV2";
-import { lista_precios_visible } from "@/src/config";
+import { idf_optica, lista_precios_visible } from "@/src/config";
 import BuscarVentaV3 from "../forms/ventas/BuscarVentasV3";
 
 export default function MenuV2(props) {
@@ -64,11 +64,12 @@ export default function MenuV2(props) {
         key: "205",
         label: (
           <Menu.Item>
-            <Link href={public_urls.informe_stock_sucursal}>Stock por Sucursal</Link>
+            <Link href={public_urls.informe_stock_sucursal}>
+              Stock por Sucursal
+            </Link>
           </Menu.Item>
         ),
       },
-
     ],
   };
 
@@ -212,16 +213,7 @@ export default function MenuV2(props) {
           </Menu.Item>
         ),
       },
-      {
-        key: "113",
-        label: (
-          <Menu.Item style={{ fontSize: ".85em" }}>
-            <Link href={public_urls.ventas_pendientes_lab}>
-              Operaciones Pendientes En Taller
-            </Link>
-          </Menu.Item>
-        ),
-      },
+
       {
         key: "103",
         label: (
@@ -270,9 +262,37 @@ export default function MenuV2(props) {
    ]*/
 
     if (globals.esUsuarioCaja1()) {
+      if (idf_optica == 2) {
+        //optica del sol parana
+        menu_caja.children.push({
+          key: "113",
+          label: (
+            <Menu.Item style={{ fontSize: ".85em" }}>
+              <Link href={public_urls.ventas_pendientes_lab}>
+                Operaciones Pendientes En Taller
+              </Link>
+            </Menu.Item>
+          ),
+        });
+      }
       items.push(menu_caja);
     }
     if (globals.esUsuarioVentas()) {
+      if (idf_optica == 2) {
+        //optica del sol parana
+        menu_ventas.children.push({
+          key: "110",
+          label: (
+            <Menu.SubMenu key="sub20" title={<span>Informes</span>}>
+              <Menu.Item style={{ fontSize: ".85em" }}>
+                <Link href={public_urls.informe_ventas_dia_min}>
+                  Informe Ventas Dia
+                </Link>
+              </Menu.Item>
+            </Menu.SubMenu>
+          ),
+        });
+      }
       items.push(menu_ventas);
     }
 
@@ -341,18 +361,18 @@ export default function MenuV2(props) {
         selectedKeys={[current]}
         mode={typeof props.mode === "undefined" ? "horizontal" : props.mode}
         items={itemsMenu}
-        
       />
       <Modal
+        destroyOnClose
         width={"100%"}
         open={lpOpen}
         onCancel={() => setLPOpen(false)}
-       
         footer={null}
       >
         <ListaPreciosV3 />
       </Modal>
       <Modal
+        destroyOnClose
         width={"100%"}
         open={buscarVentaOpen}
         onCancel={() => setBuscarVentaOpen(false)}
