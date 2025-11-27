@@ -8,8 +8,12 @@ const MenuLaboratorioTop = (props)=>{
     const items = [
         
         {
-          label: (<Link href={public_urls.lista_operaciones_laboratorio}>Lista de Operaciones</Link>),
+          label: (<Link href={public_urls.lista_operaciones_total}>Lista de Operaciones</Link>),
           key: '10',
+        },
+        {
+          label: (<Link href={public_urls.lista_operaciones_laboratorio}>Lista de Operaciones en Laboratorio</Link>),
+          key: '16',
         },
         {
           label: (<Link href={public_urls.lista_operaciones_pedidos}>Lista de Pedidos</Link>),

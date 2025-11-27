@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { post } from "@/src/urls";
 import globals from "@/src/globals";
 import FiltroVentas from "@/components/forms/ventas/filtroVentas";
-import { InfoCircleFilled, ReloadOutlined } from "@ant-design/icons";
+import { EditFilled, InfoCircleFilled, ReloadOutlined } from "@ant-design/icons";
 import { current_date_ymd } from "@/src/helpers/string_helper";
 import {
   registrarVentaAnulado,
@@ -213,13 +213,15 @@ const ListaVentas = (props) => {
         {typeof props.laboratorio_modificar !== "undefined" ? (
           <>
             <Button
+              type="link"
               onClick={() => {
                 props?.onEditLaboratorioClick?.(_idventa);
               }}
               danger
             >
-              {" "}
-              Insumos{" "}
+              <EditFilled />
+              &nbsp;
+              Modificar
             </Button>
           </>
         ) : (

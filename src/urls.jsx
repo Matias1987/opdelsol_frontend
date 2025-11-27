@@ -66,6 +66,7 @@ const public_urls = {
     informe_ventas_dia_min: local_base_url + "ventas/informes/ventas_dias_min",
     //laboratorio
     lista_operaciones_laboratorio: local_base_url + "laboratorio/lista_operaciones_laboratorio",
+    lista_operaciones_total: local_base_url + "laboratorio/lista_operaciones_total",
     lista_operaciones_calibrado: local_base_url + "laboratorio/lista_operaciones_calibrado",
     lista_operaciones_pedidos: local_base_url + "laboratorio/lista_operaciones_pedidos",
     lista_operaciones_terminadas_taller: local_base_url + "laboratorio/lista_operaciones_terminadas_taller",
@@ -342,6 +343,7 @@ const post = {
 
         marcar_como_calibrando: remote_base_url + "tl/c/est/dep/cal/",
         marcar_como_terminado: remote_base_url + "tl/c/est/dep/ter/",
+        marcar_como_laboratorio: remote_base_url + "tl/c/est/dep/lab/",
         editar_cantidad_ideal: remote_base_url + "codigos/cod/editar/stock/ideal/",
         mover_subgrupos:remote_base_url + "subgrupos/m/v/sg/",
         mover_grupos: remote_base_url + "grupos/mover/",

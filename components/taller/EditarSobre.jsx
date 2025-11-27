@@ -191,11 +191,6 @@ const EditarSobre = (props) => {
         setBtnSaveEnabled(false)
 
         post_method(post.insert.pedido,{items: _data_pedidos, fkventa: props.idventa, fksucursalpedido: globals.obtenerSucursal()},(response)=>{
-            //alert("Datos guardados")
-            //setFirstLoad(true)
-            //setBtnCambiarEstadoEnabled(true)
-            //setBtnSaveEnabled(true)
-            //setReload(!reload)
 
             post_method(post.insert.item_adicional,{fkventa: props.idventa, fksucursal: globals.obtenerSucursal() , items: _data_items_adicionales},(response)=>{
                 //alert("Datos guardados")
@@ -269,6 +264,7 @@ const EditarSobre = (props) => {
             setLoading(false)
         })
     }
+
 
 
 
@@ -424,6 +420,108 @@ const EditarSobre = (props) => {
     </Row>
     </>
 
+    const on_marcar_laboratorio_click = _=>{
+        var _data_items_adicionales = [];
+        var _data_pedidos = [];
+
+        usedRows.forEach(row=>{
+        
+            _data_items_adicionales = [..._data_items_adicionales,...row.items.filter(it=>it.userAdded)]
+
+            _data_pedidos = [..._data_pedidos, ...row.pedidos.filter(p=>p.userAdded)]
+        })
+
+        if(_data_items_adicionales.length>0){
+            alert("Hay elementos adicionales cargados")
+            return
+        }
+
+        if(!confirm("Confirmar")){
+            return
+        }
+        setBtnCambiarEstadoEnabled(false)
+        setBtnSaveEnabled(false)
+        post_method(post.update.marcar_como_laboratorio,{idventa:props.idventa},(resp)=>{
+            alert("OK")
+            props?.callback?.()
+        })
+    }
+
+    const on_marcar_calibrado_click = _=>{
+        var _data_items_adicionales = [];
+        var _data_pedidos = [];
+
+        usedRows.forEach(row=>{
+        
+            _data_items_adicionales = [..._data_items_adicionales,...row.items.filter(it=>it.userAdded)]
+
+            _data_pedidos = [..._data_pedidos, ...row.pedidos.filter(p=>p.userAdded)]
+        })
+
+        if(_data_items_adicionales.length>0){
+            alert("Hay elementos adicionales cargados")
+            return
+        }
+
+        if(!confirm("Confirmar")){
+            return
+        }
+
+        setBtnCambiarEstadoEnabled(false)
+        setBtnSaveEnabled(false)
+        post_method(post.update.marcar_como_calibrando,{idventa:props.idventa},(resp)=>{
+            alert("OK")
+            props?.callback?.()
+        })
+    }
+
+    const on_marcar_como_terminado_click = _ =>{
+    var _data_items_adicionales = [];
+    var _data_pedidos = [];
+
+    usedRows.forEach(row=>{
+
+        _data_items_adicionales = [..._data_items_adicionales,...row.items.filter(it=>it.userAdded)]
+
+        _data_pedidos = [..._data_pedidos, ...row.pedidos.filter(p=>p.userAdded)]
+    })
+
+    if(_data_pedidos.length>0){
+        alert("Hay pedidos cargados")
+        return
+    }
+
+    //if(!validate())
+    //    {
+    //        if(!confirm("Todos los campos con código, No estan cargados. Continuar?"))
+    //        {
+    //            return
+    //        }
+    //        else{
+    //            if(!confirm("Confirmar")){
+    //                return
+    //            }
+    //        }
+    //    }
+
+    if(!validate())
+    {
+        alert("Todos los campos con códigos no estan cargados.")
+        return
+    }
+
+    setBtnCambiarEstadoEnabled(false)
+    setBtnSaveEnabled(false)
+    //post_method(post.update.cambiar_venta_sucursal_deposito,{idventa:props.idventa, en_laboratorio: 0},(resp)=>{
+    //    alert("OK")
+    //    props?.callback?.()
+    //})
+    post_method(post.update.marcar_como_terminado,{idventa:props.idventa},(resp)=>{
+        alert("OK")
+        props?.callback?.()
+    })
+    }
+
 
     return <>
     {detalle_venta()}
@@ -444,108 +542,43 @@ const EditarSobre = (props) => {
             />
         </Col>
     </Row>
-    <Row>
-        <Col style={{padding:".5em"}} span={10}>
-            <Button block type="primary" onClick={save} disabled={!btnSaveEnabled||props.readonly}>Aplicar Cambios</Button>
+    <Row gutter={16} style={{display:"flex", justifyContent:"space-between"}}>
+        
+        <Col style={{padding:".5em"}}>
+            <Row gutter={16}>
+                <Col>
+                <Button  danger disabled={!btnCambiarEstadoEnabled||props.readonly||venta?.estado_taller=='CALIBRADO'} size="small"  onClick={on_marcar_calibrado_click}>Marcar Como Calibrado</Button>
+            </Col>
+            <Col>
+                <Button  danger disabled={!btnCambiarEstadoEnabled||props.readonly||venta?.estado_taller=='LAB'}  size="small"  onClick={on_marcar_como_terminado_click}>Marcar Como Terminado</Button>
+            </Col>
+            <Col>
+                <Button danger disabled={!btnCambiarEstadoEnabled||props.readonly||venta?.estado_taller=='LAB'||venta?.estado_taller=='PEDIDO'}   size="small" onClick={on_marcar_laboratorio_click}>
+                    Laboratorio
+                </Button>
+            </Col>
+            </Row>
         </Col>
-        <Col style={{padding:".5em"}} span={6}>
-            <Button type="primary" onClick={()=>{props?.callback?.()}} block>
-                Cerrar
-            </Button>
-        </Col>
-        <Col style={{padding:".5em"}} span={4}>
-            <Button block danger disabled={!btnCambiarEstadoEnabled||props.readonly} size="small"  onClick={()=>{
 
-                var _data_items_adicionales = [];
-                var _data_pedidos = [];
-
-                usedRows.forEach(row=>{
-                
-                    _data_items_adicionales = [..._data_items_adicionales,...row.items.filter(it=>it.userAdded)]
-
-                    _data_pedidos = [..._data_pedidos, ...row.pedidos.filter(p=>p.userAdded)]
-                })
-
-                if(_data_items_adicionales.length>0){
-                    alert("Hay elementos adicionales cargados")
-                    return
-                }
-
-                if(!confirm("Confirmar")){
-                    return
-                }
-
-                setBtnCambiarEstadoEnabled(false)
-                setBtnSaveEnabled(false)
-                //post_method(post.update.cambiar_venta_sucursal_deposito,{idventa:props.idventa, en_laboratorio: 0},(resp)=>{
-                //    alert("OK")
-                //    props?.callback?.()
-                //})
-                post_method(post.update.marcar_como_calibrando,{idventa:props.idventa},(resp)=>{
-                    alert("OK")
-                    props?.callback?.()
-                })
-            }}>Marcar Como Calibrado</Button>
-        </Col>
-        <Col style={{padding:".5em"}} span={4}>
-            <Button block danger disabled={!btnCambiarEstadoEnabled||props.readonly}  size="small"  onClick={()=>{
-
-                var _data_items_adicionales = [];
-                var _data_pedidos = [];
-
-                usedRows.forEach(row=>{
-
-                    _data_items_adicionales = [..._data_items_adicionales,...row.items.filter(it=>it.userAdded)]
-
-                    _data_pedidos = [..._data_pedidos, ...row.pedidos.filter(p=>p.userAdded)]
-                })
-
-                if(_data_pedidos.length>0){
-                    alert("Hay pedidos cargados")
-                    return
-                }
-
-                //if(!validate())
-                //    {
-                //        if(!confirm("Todos los campos con código, No estan cargados. Continuar?"))
-                //        {
-                //            return
-                //        }
-                //        else{
-                //            if(!confirm("Confirmar")){
-                //                return
-                //            }
-                //        }
-                //    }
-
-                if(!validate())
-                {
-                    alert("Todos los campos con códigos no estan cargados.")
-                    return
-                }
-
-                setBtnCambiarEstadoEnabled(false)
-                setBtnSaveEnabled(false)
-                //post_method(post.update.cambiar_venta_sucursal_deposito,{idventa:props.idventa, en_laboratorio: 0},(resp)=>{
-                //    alert("OK")
-                //    props?.callback?.()
-                //})
-                post_method(post.update.marcar_como_terminado,{idventa:props.idventa},(resp)=>{
-                    alert("OK")
-                    props?.callback?.()
-                })
-            }}>Marcar Como Terminado</Button>
+        <Col style={{padding:".5em"}}>
+                <Row gutter={16}>
+                    <Col>
+                        <Button  type="primary" onClick={save} disabled={!btnSaveEnabled||props.readonly}>
+                            Aplicar Cambios
+                        </Button>
+                    </Col>
+                    <Col>
+                        <Button type="primary" onClick={()=>{props?.callback?.()}} >
+                            Cerrar
+                        </Button>
+                    </Col>
+            </Row>
         </Col>
     </Row>
+
+
+
     <Modal width={"80%"} open={open} onCancel={()=>{setOpen(false); setLoading(false);}} title="Agregar Código" footer={null} >
-        {/*<SearchStock 
-            callback={(resp)=>{
-                onCodigoSelected(resp)
-                setOpen(false)
-            }
-            }
-            
-        />*/}
         <SearchCodigo
         suggestions={usedRows.map(r=>r.codigo)}
         callback={(resp)=>{

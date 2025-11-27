@@ -6,7 +6,7 @@ import { SearchOutlined } from "@ant-design/icons";
 import { Button, Col, Input, Modal, Row } from "antd";
 import { useEffect, useState } from "react";
 
-export default function  ListaOperacionesLab(){
+export default function  ListaOperacionesTotal(){
     const [idventa, setIdVenta] = useState(-1)
     const [busqueda, setBusqueda] = useState("")
     const [idBusqueda, setIdBusqueda] = useState(-1)
@@ -46,16 +46,16 @@ export default function  ListaOperacionesLab(){
         <ListaVentas 
             idsucursal={idSucursal}
             marcarTerminado
-            titulo="Laboratorio"
-            estado_taller="LAB" 
+            titulo="Pendientes"
+            estado_taller="PENDIENTE" 
             id={idBusqueda} 
             mostrarEstado="0" 
             ignoreSucursal 
             laboratorio_modificar 
             enviar_a_sucursal 
             en_laboratorio={1} 
-            ignoreSucursalEntrega
-            estado={"PENDIENTE"}   
+            ignoreSucursalEntrega  
+            estado={"PENDIENTE"} 
             onEditLaboratorioClick={(id)=>{setIdVenta(id), setOpen(true)}} 
             key={reload} 
         />
@@ -73,10 +73,10 @@ export default function  ListaOperacionesLab(){
 
         </Col>
     </Row>
-        <Modal open={open} footer={null} onCancel={()=>{setOpen(false)}} key={idventa} width={"100%"} destroyOnClose>
+        <Modal destroyOnClose open={open} footer={null} onCancel={()=>{setOpen(false)}} key={idventa} width={"100%"}>
             <EditarSobre readonly={false} idventa={idventa} callback={()=>{setReload(!reload), setOpen(false)}} />
         </Modal>
     </>
 }
 
-ListaOperacionesLab.PageLayout = LayoutLaboratorio;
+ListaOperacionesTotal.PageLayout = LayoutLaboratorio;
