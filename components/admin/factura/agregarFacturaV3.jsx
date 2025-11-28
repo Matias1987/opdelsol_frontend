@@ -5,6 +5,7 @@ import {
   DatePicker,
   Divider,
   Input,
+  InputNumber,
   Modal,
   Row,
   Select,
@@ -456,7 +457,7 @@ const AgregarFacturaV3 = (props) => {
           </Row>
           <Row style={_rows_style} gutter={[24, 18]}>
             {<Col>
-              <Input
+              {/*<Input
                 style={{ width: "320px" }}
                 onClick={(e)=>{e.target.select()}} 
                 type="number"
@@ -466,46 +467,81 @@ const AgregarFacturaV3 = (props) => {
                   onNetoGravadoChange(e.target.value);
                 }}
                 allowClear
+              />*/}
+              <InputNumber decimalSeparator="." 
+              prefix="Neto Gravado: "
+                style={{ width: "320px" }}
+                value={factura.netoGravado}
+                onChange={(value) => {
+                  onNetoGravadoChange((value||"").toString().length<1? "0":value.toString());
+                }}
               />
             </Col>}
             <Col>
-              <Input
+              {/*<Input
                 style={{ width: "320px" }}
                 onClick={(e)=>{e.target.select()}} 
                 type="number"
                 prefix="Neto no Gravado: "
                 value={(factura.netoNoGravado)} 
                 onChange={(e) => {
-                  onNetoNoGravadoChange(e.target.value.length<1? "0":e.target.value);
+                  onNetoNoGravadoChange(e.target.value);
                 }}
                 allowClear
+              />*/}
+              <InputNumber decimalSeparator="." 
+              prefix="Neto no Gravado: "
+                style={{ width: "320px" }}
+                value={factura.netoNoGravado}
+                onChange={(value) => {
+                  onNetoNoGravadoChange((value||"").toString().length<1? "0":value.toString());
+                }}
               />
             </Col>
 
             <Col>
-              <Input
+              {/*<Input
                 style={{ width: "300px" }}
                 onClick={(e)=>{e.target.select()}} 
                 type="number"
                 prefix="Impuestos Internos: "
                 value={(factura.impuestosInternos)}
                 onChange={(e) => {
-                  onImpuestosInternosChange(e.target.value.length<1? "0":e.target.value);
+                  onImpuestosInternosChange(e.target.value);
                 }}
                 allowClear
+              />*/}
+              <InputNumber decimalSeparator="." 
+              prefix="Impuestos Internos: "
+                style={{ width: "300px" }}
+                value={factura.impuestosInternos}
+                onChange={(value) => {
+                  onImpuestosInternosChange((value||"").toString().length<1? "0":value.toString());
+                }}
+                
               />
             </Col>
             <Col>
-              <Input
+              {/*<Input
                 allowClear
                 onClick={(e)=>{e.target.select()}}
                 type="number"
                 value={(factura.descuento )}
                 onChange={(e) => {
-                  onDescuentoChange(e.target.value.length<1? "0":e.target.value );
+                  onDescuentoChange(e.target.value);
                 }}
                 style={{ width: "300px" }}
                 prefix="Descuento: "
+              />*/}
+              <InputNumber 
+              
+              decimalSeparator="." 
+              prefix="Descuento: "
+                style={{ width: "300px" }}
+                value={factura.descuento}
+                onChange={(value) => {
+                  onDescuentoChange((value||"").toString().length<1? "0":value.toString());
+                }}
               />
             </Col>
           </Row>
@@ -514,7 +550,7 @@ const AgregarFacturaV3 = (props) => {
 
       <Row style={_rows_style} gutter={[24, 18]}>
         <Col>
-          <Input
+          {/*<Input
             type="number"
             onClick={(e)=>{e.target.select()}} 
             style={{ width: "300px" }}
@@ -524,9 +560,21 @@ const AgregarFacturaV3 = (props) => {
             onChange={(e) => {
               setFactura((f) => ({
                 ...f,
-                total: (e.target.value.length<1? "0":e.target.value ),
+                total: e.target.value,
               }));
             }}
+          />*/}
+          <InputNumber decimalSeparator="." 
+          prefix="Monto Total: "
+            style={{ width: "300px" }}
+            value={factura.total}
+            onChange={(value) => {
+              setFactura((f) => ({
+                ...f,
+                total: (value||"").toString().length<1? "0":value.toString(),
+              }));
+            }}
+            readOnly={!esRemito}
           />
         </Col>
 

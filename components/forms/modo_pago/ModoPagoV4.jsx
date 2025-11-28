@@ -1,4 +1,4 @@
-import { Button, Checkbox, Col, Divider, Flex, Input, Row, Select, Spin } from "antd";
+import { Button, Checkbox, Col, Divider, Flex, Input, InputNumber, Row, Select, Spin } from "antd";
 import { useEffect, useState } from "react";
 import { CloseOutlined, PlusOutlined, RightCircleFilled } from "@ant-design/icons";
 import { get } from "@/src/urls";
@@ -305,23 +305,30 @@ export default function ModoPagoV4(props){
         <>
             <Row style={{display: efectivoChecked ? "flex" : "none", backgroundColor:"rgba(244,232,179,0.5)", padding:"2px"}}>
                 <Col span={8} >
-                    <Input 
+                    {/*<Input 
                     onWheel={(e)=>{e.target.blur()}}
                     type="number" 
                     min={0} 
                     step={0.01} 
                     onClick={(e)=>{e.target.select()}} 
                     value={modoPago.efectivo_monto}  
-                    /*prefix={<><Button type="link" onClick={()=>{ if(modoPago.saldo<0){return} onChange("efectivo_monto",modoPago.saldo)}}>Efectivo</Button></> }*/
                     prefix={<span style={{fontWeight:"600"}}>Monto Efectivo: </span>} 
                     onChange={(e)=>{onChange("efectivo_monto", e.target.value.length<1 ? 0 : (e.target.value))}}
+                    />*/}
+                    <InputNumber 
+                    style={{width:"250px"}}
+                    decimalSeparator="."
+                    onClick={e=>{e.target.select()}} 
+                    value={modoPago.efectivo_monto} 
+                    prefix={<span style={{fontWeight:"600"}}>Monto Efectivo: </span>} 
+                    onChange={(value)=>{onChange("efectivo_monto", (value||"").toString().length<1? "0":value.toString())}}
                     />
                 </Col>
             </Row>
 
             <Row gutter={6} style={{display: tarjetaChecked ? "flex" : "none", backgroundColor:"rgba(240,191,161,0.5)", padding:"2px"}}>
                 <Col>
-                    <Input 
+                    {/*<Input 
                     style={{width:"350px"}}
                     onWheel={(e)=>{e.target.blur()}}
                     type="number" 
@@ -329,9 +336,16 @@ export default function ModoPagoV4(props){
                     step={0.01}  
                     onClick={(e)=>{e.target.select()}} 
                     value={modoPago.tarjeta_monto}  
-                    /*prefix={<><Button type="link" onClick={()=>{ if(modoPago.saldo<0){return} onChange("tarjeta_monto",modoPago.saldo)}}>Tarjeta</Button></> }*/
                     prefix={<span style={{fontWeight:"600"}}>Monto Tarjeta: </span>} 
                     onChange={(e)=>{onChange("tarjeta_monto", e.target.value.length<1 ? 0 : (e.target.value))}} 
+                    />*/}
+                    <InputNumber 
+                    style={{width:"250px"}}
+                    decimalSeparator="."
+                    onClick={e=>{e.target.select()}} 
+                    value={modoPago.tarjeta_monto} 
+                    prefix={<span style={{fontWeight:"600"}}>Monto Tarjeta: </span>} 
+                    onChange={(value)=>{onChange("tarjeta_monto", (value||"").toString().length<1? "0":value.toString())}}
                     />
                 </Col>
                 <Col> 
@@ -399,18 +413,27 @@ export default function ModoPagoV4(props){
             
             <Row style={{display: ctacteChecked ? "flex" : "none", backgroundColor:"rgba(235,177,172,0.5)", padding:"2px"}}>
                 <Col span={11}>
-                    <Input 
+                    {/*<Input 
                     onWheel={(e)=>{e.target.blur()}}
                     type="number" 
                     onClick={(e)=>{e.target.select()}} 
                     value={modoPago.ctacte_monto} 
                     prefix={<span style={{fontWeight:"600"}}>Monto Cta. Cte.:</span>} 
                     onChange={(e)=>{onChangeMontoCtaCte(e.target.value)}} 
+                    />*/}
+                    <InputNumber
+                    style={{width:"250px"}}
+                    decimalSeparator="."
+                    onClick={e=>{e.target.select()}} 
+                    value={modoPago.ctacte_monto} 
+                    prefix={<span style={{fontWeight:"600"}}>Monto Cta. Cte.:</span>} 
+                    onChange={(value)=>{onChangeMontoCtaCte((value||"").toString().length<1? "0":value.toString())}}
                     />
                 </Col>
-                <Col span={1}>Cuotas</Col>
+                
                 <Col span={3}>
                     <Select 
+                    prefix="Cuotas"
                     showSearch
                     optionFilterProp="children"
                     filterOption={(input, option) => (option.label.toString() == input.toString())}
@@ -425,7 +448,7 @@ export default function ModoPagoV4(props){
                            
                            setModoPago( modoPago =>
                             {
-                                const _monto_cuotas = (round_float(parseFloat(_i.interes) * (parseFloat(modoPago.ctacte_monto)/parseFloat(v))));
+                                const _monto_cuotas = parseFloat((parseFloat(_i.interes) * (parseFloat(modoPago.ctacte_monto)/parseFloat(v))).toFixed(2));
                                 
                                 let _total = calc_total({...modoPago, ctacte_monto_cuotas: _monto_cuotas, ctacte_cuotas: v});
 
@@ -433,7 +456,7 @@ export default function ModoPagoV4(props){
                                     ...modoPago,
                                     ["ctacte_interes"]: _i.interes,
                                     ["ctacte_cuotas"]:v,
-                                    ["ctacte_monto_cuotas"]:  _monto_cuotas.toFixed(2),
+                                    ["ctacte_monto_cuotas"]:  _monto_cuotas.toFixed(4),
                                     ["total"]:  _total,
                                     ["saldo"]:  total - _total,
                                     };
@@ -446,18 +469,35 @@ export default function ModoPagoV4(props){
                         }
                         } />
                 </Col>
-                <Col span={8}><Input onWheel={(e)=>{e.target.blur()}} type="number" readOnly={false} onClick={(e)=>{e.target.select()}} value={modoPago.ctacte_monto_cuotas}  prefix="Valor Cuota: " onChange={(e)=>{onChange("ctacte_monto_cuotas", (e.target.value))}}></Input></Col>
+                <Col span={8}>
+                {/*<Input onWheel={(e)=>{e.target.blur()}} type="number" readOnly={false} onClick={(e)=>{e.target.select()}} value={modoPago.ctacte_monto_cuotas}  prefix="Valor Cuota: " onChange={(e)=>{onChange("ctacte_monto_cuotas", (e.target.value))}}></Input>*/}
+                <InputNumber 
+                style={{width:"300px"}}
+                decimalSeparator="." 
+                prefix="Valor Cuota: "
+                    onWheel={(e)=>{e.target.blur()}}
+                    value={modoPago.ctacte_monto_cuotas}
+                    onChange={(value)=>{onChange("ctacte_monto_cuotas", (value||"").toString().length<1? "0":value.toString())}}
+                />
+                </Col>
             </Row>
             <Row style={{display:  chequeChecked ? "flex" : "none", backgroundColor:"rgba(204,182,192,0.5) ", padding:"2px"}}>
                 <Col span={9}>
-                    <Input 
+                    {/*<Input 
                     onWheel={(e)=>{e.target.blur()}}
                     type="number" 
                     onClick={(e)=>{e.target.select()}} 
                     value={modoPago.cheque_monto} 
-                    /*prefix={<><Button type="link" onClick={()=>{ if(modoPago.saldo<0){return} onChange("cheque_monto",modoPago.saldo)}}>Cheque</Button></> }*/
                     prefix={<span style={{fontWeight:"600"}}>Monto Cheque:</span>} 
                     onChange={(e)=>{onChange("cheque_monto", e.target.value.length<1 ? 0 : (e.target.value))}}
+                    />*/}
+                    <InputNumber 
+                    style={{width:"250px"}}
+                    decimalSeparator="."
+                    onClick={e=>{e.target.select()}} 
+                    value={modoPago.cheque_monto} 
+                    prefix={<span style={{fontWeight:"600"}}>Monto Cheque:</span>} 
+                    onChange={(value)=>{onChange("cheque_monto", (value||"").toString().length<1? "0":value.toString())}}
                     />
                 </Col>
                 <Col span={14}>
@@ -480,39 +520,62 @@ export default function ModoPagoV4(props){
 
             <Row  style={{display: mutualChecked ? "flex": "none", backgroundColor:"rgba(207,186,235,0.5) ", padding:"2px"}}>
                 <Col span={9}>
-                    <Input 
+                    {/*<Input 
                     onWheel={(e)=>{e.target.blur()}}
                     type="number" 
                     onClick={(e)=>{e.target.select()}} 
                     value={modoPago.mutual_monto}  
-                    /*prefix={<><Button type="link" onClick={()=>{ if(modoPago.saldo<0){return} onChange("mutual_monto",modoPago.saldo)}}>Mutual</Button></> }*/
                     prefix={<span style={{fontWeight:"600"}}>Monto Mutual: </span>} 
                     onChange={(e)=>{onChange("mutual_monto", e.target.value.length<1 ? 0 : (e.target.value))}}
+                    />*/}
+                    <InputNumber 
+                    style={{width:"250px"}}
+                    decimalSeparator="."
+                    onClick={e=>{e.target.select()}} 
+                    value={modoPago.mutual_monto} 
+                    prefix={<span style={{fontWeight:"600"}}>Monto Mutual: </span>} 
+                    onChange={(value)=>{onChange("mutual_monto", (value||"").toString().length<1? "0":value.toString())}}
                     />
                     
                 </Col>
             </Row>
             <Row style={{display: mercadopagoChecked? "flex" : "none", backgroundColor:"rgba(161,196,231,0.5)", padding:"2px"}}>
                 <Col span={9}>
-                    <Input
+                    {/*<Input
                     onWheel={(e)=>{e.target.blur()}}
                     type="number"
                     prefix={<span style={{fontWeight:"600"}}>Monto M.P.: </span>} 
                     onChange={(e)=>{onChange("mercadopago_monto", e.target.value.length<1 ? 0 : (e.target.value))}} 
                     value={modoPago.mercadopago_monto}  
                     onClick={(e)=>{e.target.select()}} 
+                    />*/}
+                    <InputNumber 
+                    style={{width:"250px"}}
+                    decimalSeparator="."
+                    onClick={e=>{e.target.select()}} 
+                    value={modoPago.mercadopago_monto} 
+                    prefix={<span style={{fontWeight:"600"}}>Monto M.P.: </span>} 
+                    onChange={(value)=>{onChange("mercadopago_monto", (value||"").toString().length<1? "0":value.toString())}}
                     />
                 </Col>
             </Row>
             <Row style={{display:  transferenciaChecked ? "flex" : "none", backgroundColor:"rgba(141,163,153,0.5) ", padding:"2px"}}>
                 <Col span={9}>
-                    <Input
+                    {/*<Input
                     onWheel={(e)=>{e.target.blur()}}
                     type="number"
                     prefix={<span style={{fontWeight:"600"}}>Monto Transf.: </span>} 
                     onChange={(e)=>{onChange("transferencia_monto", e.target.value.length<1 ? 0 : (e.target.value))}} 
                     value={modoPago.transferencia_monto}  
                     onClick={(e)=>{e.target.select()}} 
+                    />*/}
+                    <InputNumber 
+                    style={{width:"250px"}}
+                    decimalSeparator="."
+                    onClick={e=>{e.target.select()}} 
+                    value={modoPago.transferencia_monto} 
+                    prefix={<span style={{fontWeight:"600"}}>Monto Transf.: </span>} 
+                    onChange={(value)=>{onChange("transferencia_monto", (value||"").toString().length<1? "0":value.toString())}}
                     />
                 </Col>
                 <Col span={9}>

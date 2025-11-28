@@ -140,7 +140,13 @@ const AgregarPagoProveedor = (props) => {
             </Row>
             <Row style={{padding:"1em"}}>
                 <Col span={24}>
-                    <Input allowClear type="number" onChange={(e)=>{updateMP({...mpEfectivo,monto:(e.target.value.length<1?"0":e.target.value)});}} value={(mpEfectivo.monto)} prefix="Monto: " />
+                    {/*<Input allowClear type="number" onChange={(e)=>{updateMP({...mpEfectivo,monto:(e.target.value.length<1?"0":e.target.value)});}} value={(mpEfectivo.monto)} prefix="Monto: " />*/}
+                    <InputNumber 
+                    prefix="Monto: "
+                    onClick={(e)=>{e.target.select()}}
+                    onChange={(value)=>{updateMP({...mpEfectivo,monto:(value||"").toString().length<1?"0":value.toString()});}} 
+                    value={(mpEfectivo.monto)} 
+                    />
                 </Col>
             </Row>
             </>
@@ -159,7 +165,13 @@ const AgregarPagoProveedor = (props) => {
                 <Col span={24}>
                     <Row style={{padding:"1em"}}>
                         <Col span={24}>
-                            <Input allowClear type="number" onChange={(e)=>{updateMP(null,{...mpCheque,monto:(e.target.value.length<1?"0":e.target.value)});}} value={(mpCheque.monto)} prefix="Monto: " />
+                            {/*<Input allowClear type="number" onChange={(e)=>{updateMP(null,{...mpCheque,monto:(e.target.value.length<1?"0":e.target.value)});}} value={(mpCheque.monto)} prefix="Monto: " />*/}
+                            <InputNumber 
+                            prefix="Monto: "
+                            onClick={(e)=>{e.target.select()}}
+                            onChange={(value)=>{updateMP(null,{...mpCheque,monto:(value||"").toString().length<1?"0":value.toString()});}} 
+                            value={(mpCheque.monto)} 
+                            />
                         </Col>
                     </Row>
                     <Row >
@@ -191,7 +203,13 @@ const AgregarPagoProveedor = (props) => {
                 <Col span={24}>
                     <Row style={{padding:"1em"}}>
                         <Col span={24}>
-                            <Input allowClear type="number" onChange={(e)=>{updateMP(null,null,{...mpTransferencia,monto:(e.target.value.length<1?"0":e.target.value)});}} value={(mpTransferencia.monto)} prefix="Monto: " />
+                            {/*<Input allowClear type="number" onChange={(e)=>{updateMP(null,null,{...mpTransferencia,monto:(e.target.value.length<1?"0":e.target.value)});}} value={(mpTransferencia.monto)} prefix="Monto: " />*/}
+                            <InputNumber 
+                            prefix="Monto: "
+                            onClick={(e)=>{e.target.select()}} 
+                            onChange={(value)=>{updateMP(null,null,{...mpTransferencia,monto:(value||"").toString().length<1?"0":value.toString()});}} 
+                            value={(mpTransferencia.monto)} 
+                            />
                         </Col>
                     </Row>
                     <Row >

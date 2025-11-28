@@ -1,4 +1,4 @@
-import { Button, Col, Input, Radio, Row, Select } from "antd";
+import { Button, Col, Input, InputNumber, Radio, Row, Select } from "antd";
 import { useState } from "react";
 
 const IVAForm = (props) => {
@@ -23,13 +23,20 @@ const IVAForm = (props) => {
     </Row>
     <Row style={{padding:"1em"}}>
         <Col span={24}>
-            <Input 
+            {/*<Input 
             onClick={(e)=>{e.target.select()}} 
             type="number"
             style={{width:"100%"}}
             value={(iva.monto)}
             prefix="Monto: "  
-            onChange={(e)=>{setIva(i=>({...i,monto:(e.target.value.length<1? "0":e.target.value)}))}}/>
+            onChange={(e)=>{setIva(i=>({...i,monto:(e.target.value.length<1? "0":e.target.value)}))}}/>*/}
+            <InputNumber 
+            prefix="Monto: "
+            decimalSeparator="." 
+            onClick={(e)=>{e.target.select()}}
+            style={{width:"100%"}}
+            value={iva.monto}
+            onChange={(value)=>{setIva(i=>({...i,monto:(value||"").toString().length<1? "0":value.toString()}))}}/>
         </Col>
     </Row>
     <Row style={{padding:"1em"}}>
