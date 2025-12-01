@@ -242,6 +242,9 @@ const post = {
 
     informe_ventas_filtros: remote_base_url + "infvtas/inf/vtas/ff/",
 
+    informe_taller_cantidades_periodo: remote_base_url + "tl/inf/cons/per/",
+    detalle_consumo_codigo: remote_base_url + "tl/det/cons/cod/",
+
     search:{
         filtro_stock: remote_base_url + "stock/filtro_stock/",
     },

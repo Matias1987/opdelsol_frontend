@@ -23,13 +23,16 @@ import DeudaDetalle from "@/components/caja_master/deuda";
 import InformeVentasFiltros from "@/components/admin/InformeVentasFiltros";
 import CodeGridV3 from "@/components/etc/CodeGridVer3";
 import AgregarFacturaV3 from "@/components/admin/factura/agregarFacturaV3";
+import InformeCantidadesPeriodo from "@/components/informes/taller/cantidades_periodo";
 export default function test() {
   return (
     <div>
+      <InformeCantidadesPeriodo />
+{/*
       <AgregarFacturaV3 />
 
       <CodeGridV3 />
-      {/*<DeudaDetalle />
+      <DeudaDetalle />
       <ListaDeudas />
       <Divider />
       <InformeVentasFiltros />*/}
