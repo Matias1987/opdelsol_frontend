@@ -1,16 +1,47 @@
 import { post_method } from "@/src/helpers/post_helper";
 import { post } from "@/src/urls";
-import { CheckOutlined } from "@ant-design/icons";
-import { Button, Card, Checkbox, Col, DatePicker, Input, Row, Table } from "antd";
+import { CheckOutlined, EditFilled, InfoCircleTwoTone } from "@ant-design/icons";
+import {
+  Button,
+  Card,
+  Checkbox,
+  Col,
+  DatePicker,
+  Input,
+  Row,
+  Table,
+  Modal,
+} from "antd";
 import { useEffect, useState } from "react";
+import DetalleConsumoCodigo from "./detalle_consumo_codigo";
 
 const InformeCantidadesPeriodo = () => {
   const [data, setData] = useState([]);
   const [stringFilter, setStringFilter] = useState("");
   const [loading, setLoading] = useState(false);
+  const [selectedCode, setSelectedCode] = useState({
+    idcodigo: -1,
+    codigo: "",
+  });
+  const [popupDetalleOpen, setPopupDetalleOpen] = useState(false);
   const columns = [
     { title: "Codigo", dataIndex: "codigo", key: "codigo" },
-    { title: "Cantidad", dataIndex: "cantidad", key: "cantidad" },
+    { title: "Cantidad", dataIndex: "cantidad", key: "cantidad", sorter: (a, b) => a.cantidad - b.cantidad },
+    {
+      title: "Acciones",
+      render: (_, { fk_codigo, codigo }) => (
+        <>
+          <Button
+            onClick={(_) => {
+              setSelectedCode((_) => ({ idcodigo: fk_codigo, codigo: codigo }));
+              setPopupDetalleOpen(true);
+            }}
+          >
+            <InfoCircleTwoTone />
+          </Button>
+        </>
+      ),
+    },
   ];
   const [filtros, setFiltros] = useState({
     fecha_desde: null,
@@ -19,6 +50,7 @@ const InformeCantidadesPeriodo = () => {
   const load = () => {
     setLoading(true);
     post_method(post.informe_taller_cantidades_periodo, filtros, (response) => {
+      //alert(JSON.stringify(response.data));
       setData(response.data);
       setLoading(false);
     });
@@ -61,71 +93,99 @@ const InformeCantidadesPeriodo = () => {
 
   return (
     <>
-    <Card title={<>Informe de Cantidades utilizadas por peri&oacute;do</>}>
-      <Row gutter={16}>
-        <Col>
-          <DatePicker.RangePicker
-            prefix="Periodo:    "
-            format="MM/YYYY"
-            disabledTime={true}
-            size="large"
-            picker="month"
-            onChange={periodoMes}
-          />
-        </Col>
-        <Col style={{ paddingTop: "2px" }}>
-          <Button
-            type="primary"
-            onClick={load}
-            disabled={loading || !filtros.fecha_desde || !filtros.fecha_hasta}
-          >
-            <CheckOutlined />
-            Aplicar
-          </Button>
-        </Col>
-      </Row>
-      <Row>
-        <Col>
-          <Table
-            size="small"
-            title={(_) => (
-              <>
-                
-                <Row style={{display:"flex", justifyContent:"space-between"}}>
-                  <Col>
-                  <Row><Col style={{fontWeight:"600"}}>Resultado</Col></Row>
-                  <Row><Col span={24}>{(!filtros.fecha_desde || !filtros.fecha_hasta) || data.length === 0 ? "" : `Cantidad de cantidades utilizada desde ${filtros.fecha_desde} hasta ${filtros.fecha_hasta}`}</Col></Row>
-                    
-                  </Col>
-                  <Col>
-                    <Input
-                      prefix="Filtro: "
-                      style={{ width: "300px" }}
-                      allowClear
-                      value={stringFilter}
-                      onChange={(e) => setStringFilter(e.target.value)}
-                    />
-                  </Col>
-                </Row>
-              </>
-            )}
-            dataSource={
-              stringFilter
-                ? data.filter((item) =>
-                    item.codigo
-                      .toUpperCase()
-                      .includes(stringFilter.toUpperCase())
-                  )
-                : data
-            }
-            columns={columns}
-            loading={loading}
-            pagination={false}
-            scroll={{ y: "400px" }}
-          />
-        </Col>
-      </Row>
+      <Card title={<>Informe de Cantidades utilizadas por peri&oacute;do</>}>
+        <Row gutter={16}>
+          <Col>
+            <DatePicker.RangePicker
+              prefix="Periodo:    "
+              format="MM/YYYY"
+              disabledTime={true}
+              size="large"
+              picker="month"
+              onChange={periodoMes}
+            />
+          </Col>
+          <Col style={{ paddingTop: "2px" }}>
+            <Button
+              type="primary"
+              onClick={load}
+              disabled={loading || !filtros.fecha_desde || !filtros.fecha_hasta}
+            >
+              <CheckOutlined />
+              Aplicar
+            </Button>
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <Table
+              
+              size="small"
+              title={(_) => (
+                <>
+                  <Row
+                    style={{ display: "flex", justifyContent: "space-between" }}
+                  >
+                    <Col>
+                      <Row>
+                        <Col style={{ fontWeight: "600" }}>Resultado</Col>
+                      </Row>
+                      <Row>
+                        <Col span={24}>
+                          {!filtros.fecha_desde ||
+                          !filtros.fecha_hasta ||
+                          data.length === 0
+                            ? ""
+                            : `Cantidad de cantidades utilizada desde ${filtros.fecha_desde} hasta ${filtros.fecha_hasta}`}
+                        </Col>
+                      </Row>
+                    </Col>
+                    <Col>
+                      <Input
+                        prefix="Filtro: "
+                        style={{ width: "300px" }}
+                        allowClear
+                        value={stringFilter}
+                        onChange={(e) => setStringFilter(e.target.value)}
+                      />
+                    </Col>
+                  </Row>
+                </>
+              )}
+              dataSource={
+                stringFilter
+                  ? data.filter((item) =>
+                      item.codigo
+                        .toUpperCase()
+                        .includes(stringFilter.toUpperCase())
+                    )
+                  : data
+              }
+              columns={columns}
+              loading={loading}
+              pagination={false}
+              scroll={{ y: "400px" }}
+            />
+          </Col>
+        </Row>
       </Card>
+      <Modal
+        footer={null}
+        open={popupDetalleOpen}
+        title="Detalle"
+        destroyOnClose
+        onCancel={(_) => {
+          setPopupDetalleOpen(false);
+        }}
+        width={"800px"}
+      >
+        <DetalleConsumoCodigo
+          idcodigo={selectedCode.idcodigo}
+          codigo={selectedCode.codigo}
+          fecha_desde={filtros.fecha_desde}
+          fecha_hasta={filtros.fecha_hasta}
+        />
+      </Modal>
     </>
   );
 };

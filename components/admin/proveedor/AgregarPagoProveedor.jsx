@@ -1,6 +1,6 @@
 import { post_method } from "@/src/helpers/post_helper";
 import { get, post } from "@/src/urls";
-import { Button, Checkbox, Col, DatePicker, Divider, Input, Row, Select } from "antd";
+import { Button, Checkbox, Col, DatePicker, Divider, Input, InputNumber, Row, Select } from "antd";
 import { useEffect, useState } from "react";
 import esES from "antd/locale/es_ES"
 //onChange={(e)=>{ setPago(  p=>({ ...p, monto: parseFloat(e.target.value.trim()||"0")    })  )  }}
@@ -138,10 +138,11 @@ const AgregarPagoProveedor = (props) => {
                     <span style={{fontWeight:"bold"}}>Efectivo</span>
                 </Col>
             </Row>
-            <Row style={{padding:"1em"}}>
-                <Col span={24}>
+            <Row style={{paddingLeft:"16px"}}>
+                <Col span={24} style={{padding:"1em"}}>
                     {/*<Input allowClear type="number" onChange={(e)=>{updateMP({...mpEfectivo,monto:(e.target.value.length<1?"0":e.target.value)});}} value={(mpEfectivo.monto)} prefix="Monto: " />*/}
                     <InputNumber 
+                    style={{width:"300px"}}
                     prefix="Monto: "
                     onClick={(e)=>{e.target.select()}}
                     onChange={(value)=>{updateMP({...mpEfectivo,monto:(value||"").toString().length<1?"0":value.toString()});}} 
@@ -167,6 +168,7 @@ const AgregarPagoProveedor = (props) => {
                         <Col span={24}>
                             {/*<Input allowClear type="number" onChange={(e)=>{updateMP(null,{...mpCheque,monto:(e.target.value.length<1?"0":e.target.value)});}} value={(mpCheque.monto)} prefix="Monto: " />*/}
                             <InputNumber 
+                            style={{width:"300px"}}
                             prefix="Monto: "
                             onClick={(e)=>{e.target.select()}}
                             onChange={(value)=>{updateMP(null,{...mpCheque,monto:(value||"").toString().length<1?"0":value.toString()});}} 
@@ -205,6 +207,7 @@ const AgregarPagoProveedor = (props) => {
                         <Col span={24}>
                             {/*<Input allowClear type="number" onChange={(e)=>{updateMP(null,null,{...mpTransferencia,monto:(e.target.value.length<1?"0":e.target.value)});}} value={(mpTransferencia.monto)} prefix="Monto: " />*/}
                             <InputNumber 
+                            style={{width:"300px"}}
                             prefix="Monto: "
                             onClick={(e)=>{e.target.select()}} 
                             onChange={(value)=>{updateMP(null,null,{...mpTransferencia,monto:(value||"").toString().length<1?"0":value.toString()});}} 

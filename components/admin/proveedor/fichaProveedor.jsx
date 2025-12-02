@@ -341,7 +341,7 @@ const FichaProveedor = (props) => {
                       {(
                         parseFloat(totalesFactura.debe) -
                         parseFloat(totalesFactura.haber)
-                      ).toFixed(2)}
+                      ).toLocaleString(2)}
                     </div>
                   </Table.Summary.Cell>
                 </Table.Summary.Row>

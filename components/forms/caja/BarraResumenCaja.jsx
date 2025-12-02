@@ -1,3 +1,4 @@
+import ContadoresEstadoTaller from "@/components/taller/totales"
 import globals from "@/src/globals"
 import { get } from "@/src/urls"
 import { EyeFilled } from "@ant-design/icons"
@@ -66,12 +67,13 @@ const BarraResumenCaja = props => {
 
     return data ? <div style={style}>
         {
-            data.map(_row=><span style={{paddingLeft:"200px"}}>
+            data.map(_row=><span style={{paddingLeft:"50px"}}>
                                 <span>{_row.detalle||""}:&nbsp;&nbsp;</span>
                                 <span style={{fontWeight:"bold"}}>{parseFloat(_row.valor||"0").toLocaleString(2)}</span>
                             </span>)
         }
-       
+        
+       {/*<span style={{paddingLeft:"100px"}}><ContadoresEstadoTaller /></span>*/}
        
     </div>: <></>
 }
