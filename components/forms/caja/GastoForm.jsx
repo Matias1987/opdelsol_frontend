@@ -8,8 +8,8 @@ import {
 } from "@/src/helpers/string_helper";
 import { get, post } from "@/src/urls";
 
-const { Form, Input, Select, Button, Row, Col } = require("antd");
-const { useState, useEffect } = require("react");
+import { Form, Input, Select, Button, Row, Col }  from "antd";
+import { useState, useEffect } from "react";
 
 const GastoForm = (props) => {
   const [options, setOptions] = useState([]);

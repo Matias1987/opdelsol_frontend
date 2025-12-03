@@ -7,7 +7,7 @@ const CodeExample = (props) => {
     const {idsubgrupo, idgrupo} = props;
     const [ejemplo, setEjemplo] = useState("")
     useEffect(()=>{
-        
+        alert(remote_base_url + get.ejemplo_codigo + `${idsubgrupo||"0"}/${idgrupo||"0"}`)  
         fetch(remote_base_url + get.ejemplo_codigo + `${idsubgrupo||"0"}/${idgrupo||"0"}`)
         .then(r=>r.json())
         .then(response=>{

@@ -14,7 +14,6 @@ import AgregarPagoProveedor from "./AgregarPagoProveedor";
 import AgregarCMProveedor from "./AregarCMProveedor";
 import { get, post } from "@/src/urls";
 import { post_method } from "@/src/helpers/post_helper";
-import AgregarFacturaV2 from "../factura/agregarFacturaV2";
 
 import { ArrowDownOutlined, CloseOutlined } from "@ant-design/icons";
 import DetalleFactura from "@/components/forms/deposito/DetalleFactura";
@@ -120,6 +119,7 @@ const FichaProveedor = (props) => {
         console.log("error");
       });
 
+      
     post_method(
       post.ficha_proveedor,
       { idproveedor: props.idproveedor, modo: 1 },
