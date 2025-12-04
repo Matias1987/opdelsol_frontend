@@ -6,7 +6,7 @@ import { SearchOutlined } from "@ant-design/icons";
 import { Button, Col, Input, Modal, Row } from "antd";
 import { useEffect, useState } from "react";
 
-export default function LisaOperacionesCalibrado(){
+export default function LisaOperacionesPedidos(){
     const [idventa, setIdVenta] = useState(-1)
     const [busqueda, setBusqueda] = useState("")
     const [idBusqueda, setIdBusqueda] = useState(-1)
@@ -15,7 +15,7 @@ export default function LisaOperacionesCalibrado(){
     const [reload, setReload] = useState(false)
     useEffect(()=>{},[])
     return <>
-    <Row>
+{/*    <Row>
         <Col span={6}>
             <SucursalSelect callback={(v)=>{setIdSucursal(v)}} />
         </Col>
@@ -40,15 +40,14 @@ export default function LisaOperacionesCalibrado(){
                     }}><SearchOutlined />
             </Button>
         </Col>
-    </Row>
+    </Row>*/}
     <Row>
         <Col span={24}>
         <ListaVentas 
-        idsucursal={idSucursal}
-        marcarTerminado
-            titulo="Calibrado"
+            idsucursal={idSucursal}
+            titulo="Pedidos"
             id={idBusqueda} 
-            estado_taller="CALIBRADO" 
+            estado_taller="PEDIDO" 
             mostrarEstado="0"  
             ignoreSucursal 
             laboratorio_modificar 
@@ -63,21 +62,9 @@ export default function LisaOperacionesCalibrado(){
         
         </Col>
     </Row>
-    <Row>
-        <Col span={24}>
-
-        </Col>
-    </Row>
-    <Row>
-        <Col span={24}>
-
-        </Col>
-    </Row>
         <Modal destroyOnClose open={open} footer={null} onCancel={()=>{setOpen(false)}} key={idventa} width={"100%"}>
             <EditarSobre readonly={false} idventa={idventa} callback={()=>{setReload(!reload), setOpen(false)}} />
         </Modal>
     </>
 }
 
-
-LisaOperacionesCalibrado.PageLayout = LayoutLaboratorio;

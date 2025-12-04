@@ -78,6 +78,7 @@ const ListaVentasDia = ({dia,mes,anio, dateReadOnly, sucursal, sucursalReadOnly}
         fecha: `${filtros.anio}-${filtros.mes}-${filtros.dia}`,
         idsucursal: +filtros.idsucursal <0 ? "" : filtros.idsucursal,
         incIngresadas: false,
+        incAnuladas: false,
       },
       (response) => {
         const resp = response?.data || [];

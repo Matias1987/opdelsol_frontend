@@ -66,7 +66,7 @@ const public_urls = {
     informe_ventas_dia_min: local_base_url + "ventas/informes/ventas_dias_min",
     //laboratorio
     lista_operaciones_laboratorio: local_base_url + "laboratorio/lista_operaciones_laboratorio",
-    lista_operaciones_total: local_base_url + "laboratorio/lista_operaciones_total",
+    lista_operaciones_total: local_base_url + "laboratorio",
     lista_operaciones_calibrado: local_base_url + "laboratorio/lista_operaciones_calibrado",
     lista_operaciones_pedidos: local_base_url + "laboratorio/lista_operaciones_pedidos",
     lista_operaciones_terminadas_taller: local_base_url + "laboratorio/lista_operaciones_terminadas_taller",

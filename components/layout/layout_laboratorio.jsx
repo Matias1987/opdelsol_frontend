@@ -57,7 +57,7 @@ export default function LayoutLaboratorio(props){
                 props?.displaymodechange?.(__c)
             }}/>
             <MenuLaboratorioTop />
-            <Content style={{ margin: '40px 100px', padding: 24, minHeight: 280 }}>
+            <Content style={{ margin: '20px 10px', padding: 10, minHeight: 280 }}>
                 {props.children}
             </Content>
         </Layout>

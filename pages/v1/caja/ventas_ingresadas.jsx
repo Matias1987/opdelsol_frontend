@@ -3,7 +3,7 @@ import LayoutCaja from "@/components/layout/layout_caja";
 
 export default function VentasIngresadas(){
     return (<>
-    <ListaVentas pagination={false} imprimir anular cobrar accion="ingreso" titulo="Ventas Ingresadas" estado="INGRESADO" buttonText="Dar Ingreso"/>
+    <ListaVentas hideEstadoDeposito pagination={false} imprimir anular cobrar accion="ingreso" titulo="Ventas Ingresadas" estado="INGRESADO" buttonText="Dar Ingreso"/>
     </>)
 }
 

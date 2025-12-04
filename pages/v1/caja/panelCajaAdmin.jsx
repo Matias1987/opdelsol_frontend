@@ -70,7 +70,7 @@ export default function panelCajaAdmin(){
         </Row>
         <Row style={{backgroundColor:"white"}}>
             <Col span={24}>
-                <div style={{width:"100%", overflow:"scroll", height:"450px", minWidth:"1100px"}}>
+                <div style={{width:"1000px", overflow:"scroll", height:"450px"}}>
                     <InformeCajaV3 idcaja={caja.idcaja} idsucursal={globals.obtenerSucursal()} />
                 </div>
             </Col>

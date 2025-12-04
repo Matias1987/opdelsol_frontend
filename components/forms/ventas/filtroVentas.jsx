@@ -8,7 +8,7 @@ import SelectMedico from "./SelectMedico"
 
 
 const FiltroVentas =(props) => {
-    const {embedded, estado,} = props
+    const {embedded, estado, reload} = props
     const [filtros,setFiltros] = useState({
         estado:estado,
         idcliente:-1,
@@ -18,11 +18,25 @@ const FiltroVentas =(props) => {
         tipo:"",    
         fecha:null,
     })
+
+    const clearFilters = () => {
+        setFiltros({
+            estado:estado,
+            idcliente:-1,
+            idmedico:-1,
+            iddestinatario:-1,
+            id:null,
+            tipo:"",    
+            fecha:null,
+        })
+    }
+
     const [open, setOpen] = useState(false);
 
     useEffect(()=>{
         //setFiltros({estado: estado||""})
-    },[])
+        clearFilters();
+    },[reload])
 
 
     const showModal = () => {
@@ -77,7 +91,7 @@ const FiltroVentas =(props) => {
                 <Col span={12}>
                     <Row style={{padding: "3px"}}>
                         <Col span={24}>
-                            <Input allowClear  size="small" onChange={onIDChange} style={{width:"150px"}} prefix={<span style={{fontWeight:"bold"}}>Nro.: </span>} />
+                            <Input value={filtros.id||""} allowClear  size="small" onChange={onIDChange} style={{width:"150px"}} prefix={<span style={{fontWeight:"600"}}>Nro.: </span>} />
                         </Col>
                         
                     </Row>
@@ -163,9 +177,10 @@ const FiltroVentas =(props) => {
 
                         </Col>
                     </Row>
-                    <Row>
-                        <Col span={24}>
+                    <Row >
+                        <Col span={24} style={{display:"flex", justifyContent:"flex-end"}}>
                             <Button 
+                            style={{borderRadius:"16px"}}
                             type="primary" 
                             size="small" 
                             onClick={_=>{   
@@ -177,7 +192,7 @@ const FiltroVentas =(props) => {
                                 props?.callback?.(filtros)
                             }
                             }
-                            >Aplicar</Button>
+                            >Aplicar Filtros</Button>
                         </Col>
                     </Row>
                 </Col>

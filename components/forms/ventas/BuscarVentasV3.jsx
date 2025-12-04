@@ -227,6 +227,7 @@ const BuscarVentaV3 = (props) => {
         extra={
           <>
             <Input
+              disabled={loading}
               value={filtros.id}
               allowClear
               type="number"
@@ -345,7 +346,7 @@ const BuscarVentaV3 = (props) => {
                   title: "Estado",
                   width: "80px",
                   dataIndex: "estado",
-                  render: (_, { estado }) => {
+                  render: (_, { estado, en_laboratorio }) => {
                     switch (estado) {
                       case "INGRESADO":
                         return (
@@ -354,7 +355,7 @@ const BuscarVentaV3 = (props) => {
                           </Tag>
                         );
                       case "PENDIENTE":
-                        return <Tag color="geekblue">{estado}</Tag>;
+                        return <Tag color="geekblue">{`${estado} ${en_laboratorio ? '(Lab)' : ''}`}</Tag>;
                       case "ENTREGADO":
                         return <Tag color="volcano">{estado}</Tag>;
                       case "ANULADO":

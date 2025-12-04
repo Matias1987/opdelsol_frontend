@@ -3,7 +3,7 @@ import LayoutCaja from "@/components/layout/layout_caja";
 
 export default function VentasEntregadas(){
     return (<>
-    <ListaVentas titulo="Ventas Entregadas" estado={"ENTREGADO"} />
+    <ListaVentas titulo="Ventas Entregadas" estado={"ENTREGADO"} hideEstadoDeposito />
     </>)
 }
 

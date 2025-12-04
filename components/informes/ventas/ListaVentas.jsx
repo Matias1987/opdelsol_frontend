@@ -4,7 +4,11 @@ import { useEffect, useState } from "react";
 import { post } from "@/src/urls";
 import globals from "@/src/globals";
 import FiltroVentas from "@/components/forms/ventas/filtroVentas";
-import { EditFilled, InfoCircleFilled, ReloadOutlined } from "@ant-design/icons";
+import {
+  EditFilled,
+  InfoCircleFilled,
+  ReloadOutlined,
+} from "@ant-design/icons";
 import { current_date_ymd } from "@/src/helpers/string_helper";
 import {
   registrarVentaAnulado,
@@ -14,6 +18,7 @@ import { Table, Button, Tag, Row, Col, Modal, Card, Collapse } from "antd";
 import CobroOperacionV2 from "@/components/forms/caja/CobroFormV2";
 import PrinterWrapper from "@/components/PrinterWrapper";
 import InformeVenta from "./Base";
+import Resfuerzo from "@/components/forms/caja/cobro_v2/resfuerzo";
 /**
  *
  * @param estado INGRESADO, PENDIENTE, TERMINADO, ENTREGADO, ANULADO...
@@ -32,7 +37,7 @@ import InformeVenta from "./Base";
  * @param estado_taller
  */
 const ListaVentas = (props) => {
-  const { estado } = props;
+  const { estado, hideReloadBtn, hideEstadoDeposito } = props;
   const [dataSource, setDataSource] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filtros, setFiltros] = useState({});
@@ -46,27 +51,16 @@ const ListaVentas = (props) => {
     tipo: null,
   });
 
+  const [popupCobroResfuerzoOpen, setPopupCobroResfuerzoOpen] = useState(false);
+
+
   const add = (obj, value, key) =>
     typeof value === "undefined" ? obj : { ...obj, [key]: value };
 
   const buttons = (_idventa, _idcliente, _idsucursal, _tipo) => {
     return (
       <>
-        <Button
-          size="small"
-          type="link"
-          onClick={(_) => {
-            setSelectedVenta((_) => ({
-              idventa: _idventa,
-              idcliente: _idcliente,
-              idsucursal: _idsucursal,
-              tipo: _tipo,
-            }));
-            setPopupDetalleOpen(true);
-          }}
-        >
-          <InfoCircleFilled />
-        </Button>
+
         {typeof props.imprimir !== "undefined" ? (
           <>
             <ImprimirSobreVenta idventa={_idventa} />
@@ -90,7 +84,7 @@ const ListaVentas = (props) => {
                 setPopupCobroOpen(true);
               }}
             >
-              Cobrar
+              {props.buttonText ? props.buttonText : "Cobrar"}
             </Button>
             &nbsp;
           </>
@@ -203,6 +197,16 @@ const ListaVentas = (props) => {
           <></>
         )}
 
+        {
+          typeof props.resfuerzo !== 'undefined' ? <><Button size="small" type="link" onClick={(e)=>{
+            setSelectedVenta((_)=>({
+              idventa: _idventa,
+              idcliente: _idcliente,
+            }));
+            setPopupCobroResfuerzoOpen(true);
+            }}>Resfuerzo</Button></>:<></>
+        }
+
         {/*typeof props.enviar_a_sucursal !== 'undefined' ?<><Button size="small" danger onClick={(e)=>{
                 if(confirm("Confirmar")){
                     post_method(post.update.cambiar_venta_sucursal_deposito,{idventa: _idventa, en_laboratorio: "0"},(resp)=>{alert("OK"); setReload(!reload)})
@@ -220,8 +224,7 @@ const ListaVentas = (props) => {
               danger
             >
               <EditFilled />
-              &nbsp;
-              Modificar
+              &nbsp; Modificar
             </Button>
           </>
         ) : (
@@ -290,6 +293,7 @@ const ListaVentas = (props) => {
           tipo: v.tipo,
           sucursal: v.sucursal,
           idsucursal: v.sucursal_idsucursal,
+          estado_taller: v.estado_taller,
         }))
       );
       setLoading(false);
@@ -315,6 +319,25 @@ const ListaVentas = (props) => {
 
   const columns = [
     {
+      render: (_,{idventa, idcliente, idsucursal, tipo}) => <>        <Button
+          size="small"
+          type="link"
+          onClick={(_) => {
+            setSelectedVenta((_) => ({
+              idventa: idventa,
+              idcliente: idcliente,
+              idsucursal: idsucursal,
+              tipo: tipo,
+            }));
+            setPopupDetalleOpen(true);
+          }}
+        >
+          <InfoCircleFilled />
+        </Button></>,
+      width: "30px",
+      hidden: false,
+    },
+    {
       fixed: "left",
       width: "60px",
       hidden: false,
@@ -329,6 +352,30 @@ const ListaVentas = (props) => {
       title: "Cliente",
       dataIndex: "cliente",
       sorter: (a, b) => a.cliente.localeCompare(b.cliente),
+    },
+    {
+      fixed: "left",
+      width: "180px",
+      hidden: hideEstadoDeposito ? true : false,
+      title: "Estado",
+      render: (_, { estado_taller }) => (
+        <>
+          <Tag
+            color={
+              estado_taller == "LABORATORIO"
+                ? "purple"
+                : estado_taller == "CALIBRADO"
+                ? "green"
+                : estado_taller == "PEDIDO"
+                ? "orange"
+                : "default"
+            }
+          >
+            {estado_taller}
+          </Tag>{" "}
+        </>
+      ),
+      sorter: (a, b) => a.estado_taller.localeCompare(b.estado_taller),
     },
     {
       width: "100px",
@@ -356,12 +403,12 @@ const ListaVentas = (props) => {
       hidden: (props.mostrarEstado || "1") == "0",
       title: "Estado",
       dataIndex: "estado",
-      render: (_, { estado }) => {
+      render: (_, { estado, en_laboratorio }) => {
         switch (estado) {
           case "INGRESADO":
             return <Tag color="magenta">{estado}</Tag>;
           case "PENDIENTE":
-            return <Tag color="geekblue">{estado}</Tag>;
+            return <Tag color="geekblue">{`${estado} ${en_laboratorio ? "(Lab)" : ""}`}</Tag>;
           case "ENTREGADO":
             return <Tag color="volcano">{estado}</Tag>;
           case "ANULADO":
@@ -404,6 +451,7 @@ const ListaVentas = (props) => {
       label: "Búsqueda",
       children: (
         <FiltroVentas
+          reload={reload}
           estado={estado}
           embedded
           callback={(f) => {
@@ -419,7 +467,7 @@ const ListaVentas = (props) => {
     <>
       <Card
         style={{ boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)" }}
-        size="small"
+        size="large"
         title={
           <>
             {typeof props.titulo === "undefined"
@@ -427,7 +475,7 @@ const ListaVentas = (props) => {
               : props.titulo}
           </>
         }
-        extra={
+        extra={ hideReloadBtn ? <></> : 
           <Button
             type="link"
             size="small"
@@ -445,7 +493,7 @@ const ListaVentas = (props) => {
             {typeof props.ocultarFiltros !== "undefined" ? (
               <></>
             ) : (
-              <Collapse defaultActiveKey={["-1"]} items={items}></Collapse>
+              <Collapse size="small" defaultActiveKey={["1"]} items={items} ></Collapse>
             )}
             {/* <FiltroVentas estado={estado} embedded callback={f=>{ setFiltros(_f=>f); setReload(!reload)}} />*/}
           </Col>
@@ -460,7 +508,7 @@ const ListaVentas = (props) => {
                   ? true
                   : props.pagination
               }
-             /* rowClassName={(record, index) =>
+              /* rowClassName={(record, index) =>
                 index % 2 === 0 ? "table-row-light" : "table-row-dark"
               }*/
               dataSource={dataSource}
@@ -510,6 +558,26 @@ const ListaVentas = (props) => {
         <PrinterWrapper>
           <InformeVenta idventa={selectedVenta.idventa} />
         </PrinterWrapper>
+      </Modal>
+      <Modal
+        open={popupCobroResfuerzoOpen}
+        onCancel={(_) => {
+          setPopupCobroResfuerzoOpen(false);
+        }}
+        width={"1200px"}
+        footer={null}
+        destroyOnClose
+        title=""
+      >
+        <Resfuerzo
+          callback={(_) => {
+            setPopupCobroResfuerzoOpen(false);
+            setReload(!reload);
+          }}
+          title="Resfuerzo"
+          idventa={selectedVenta?.idventa}
+          idcliente={selectedVenta?.idcliente}
+        />
       </Modal>
     </>
   );

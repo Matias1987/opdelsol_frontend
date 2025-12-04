@@ -15,39 +15,38 @@ export default function  ListaOperacionesTotal(){
     const [reload, setReload] = useState(false)
     useEffect(()=>{},[])
     return <>
-    <Row>
-        <Col span={6}>
+    {<Row>
+        {/*<Col span={6}>
             <SucursalSelect callback={(v)=>{setIdSucursal(v)}} />
         </Col>
         <Col span={10}>
             <Input 
             allowClear 
-            style={{width:"100%", padding:"1em"}} 
+            style={{width:"100%"}} 
             prefix="Buscar por Nro. de Venta" 
             
             onChange={(e)=>{
                 setBusqueda(e.target.value)
             }} 
-            value={busqueda} />
-        </Col>
-        <Col span={4} style={{padding:".5em"}}>
-            <Button 
+            value={busqueda} 
+            suffix={<><Button 
                 
                 onClick={()=>
                     {
                         setIdBusqueda((busqueda||"").length<1 ? "-1" : busqueda);
                         setReload(!reload)
                     }}><SearchOutlined />
-            </Button>
-        </Col>
-    </Row>
+            </Button></>}
+            />
+        </Col>*/}
+
+    </Row>}
     <Row>
         <Col span={24}>
         <ListaVentas 
+            hideReloadBtn={false}
             idsucursal={idSucursal}
-            marcarTerminado
-            titulo="Pendientes"
-            estado_taller="PENDIENTE" 
+            titulo="Todas las Operaciones"
             id={idBusqueda} 
             mostrarEstado="0" 
             ignoreSucursal 
@@ -63,20 +62,9 @@ export default function  ListaOperacionesTotal(){
         
         </Col>
     </Row>
-    <Row>
-        <Col span={24}>
 
-        </Col>
-    </Row>
-    <Row>
-        <Col span={24}>
-
-        </Col>
-    </Row>
         <Modal destroyOnClose open={open} footer={null} onCancel={()=>{setOpen(false)}} key={idventa} width={"100%"}>
             <EditarSobre readonly={false} idventa={idventa} callback={()=>{setReload(!reload), setOpen(false)}} />
         </Modal>
     </>
 }
-
-ListaOperacionesTotal.PageLayout = LayoutLaboratorio;

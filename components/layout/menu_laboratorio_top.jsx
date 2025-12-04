@@ -8,9 +8,10 @@ const MenuLaboratorioTop = (props)=>{
     const items = [
         
         {
-          label: (<Link href={public_urls.lista_operaciones_total}>Lista de Operaciones</Link>),
+          label: (<Link href={public_urls.lista_operaciones_total}>Operaciones</Link>),
           key: '10',
         },
+/*
         {
           label: (<Link href={public_urls.lista_operaciones_laboratorio}>Lista de Operaciones en Laboratorio</Link>),
           key: '16',
@@ -27,6 +28,7 @@ const MenuLaboratorioTop = (props)=>{
           label: (<Link href={public_urls.lista_operaciones_terminadas_taller}>Lista de Operaciones Terminadas</Link>),
           key: '13',
         },
+*/
         {
           label: (<Link href={public_urls.lista_stock_taller}>Stock</Link>),
           key: '14',
@@ -40,8 +42,8 @@ const MenuLaboratorioTop = (props)=>{
       ];
 
       const _style_ = {
-        background: "rgb(238,174,202)",
-        background: "radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%)",
+        background: "rgba(255, 255, 255, 1)",
+        background: "radial-gradient(circle, rgba(255, 230, 121, 1) 0%, hsla(41, 100%, 80%, 1.00) 100%)",
         /*backgroundColor:"#FFEF85" */
       }
 

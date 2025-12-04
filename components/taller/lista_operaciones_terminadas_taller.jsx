@@ -6,7 +6,7 @@ import { SearchOutlined } from "@ant-design/icons";
 import { Button, Col, Input, Modal, Row } from "antd";
 import { useEffect, useState } from "react";
 
-export default function LisaOperacionesPedidos(){
+export default function ListaOperacionesTerminadasTaller(){
     const [idventa, setIdVenta] = useState(-1)
     const [busqueda, setBusqueda] = useState("")
     const [idBusqueda, setIdBusqueda] = useState(-1)
@@ -15,7 +15,7 @@ export default function LisaOperacionesPedidos(){
     const [reload, setReload] = useState(false)
     useEffect(()=>{},[])
     return <>
-    <Row>
+{/*    <Row>
         <Col span={6}>
             <SucursalSelect callback={(v)=>{setIdSucursal(v)}} />
         </Col>
@@ -40,22 +40,19 @@ export default function LisaOperacionesPedidos(){
                     }}><SearchOutlined />
             </Button>
         </Col>
-    </Row>
+    </Row>*/}
     <Row>
         <Col span={24}>
         <ListaVentas 
             idsucursal={idSucursal}
-            marcarTerminado
-            titulo="Pedidos"
+            titulo="Terminados"
             id={idBusqueda} 
-            estado_taller="PEDIDO" 
-            mostrarEstado="0"  
+            estado_taller="TERMINADO" 
+            laboratorio_modificar
             ignoreSucursal 
-            laboratorio_modificar 
-            enviar_a_sucursal 
-            en_laboratorio={1} 
+            mostrarEstado="0" 
+             
             ignoreSucursalEntrega  
-            estado={"PENDIENTE"} 
             onEditLaboratorioClick={(id)=>{setIdVenta(id), setOpen(true)}} 
             key={reload} 
         />
@@ -63,21 +60,9 @@ export default function LisaOperacionesPedidos(){
         
         </Col>
     </Row>
-    <Row>
-        <Col span={24}>
-
-        </Col>
-    </Row>
-    <Row>
-        <Col span={24}>
-
-        </Col>
-    </Row>
         <Modal destroyOnClose open={open} footer={null} onCancel={()=>{setOpen(false)}} key={idventa} width={"100%"}>
-            <EditarSobre readonly={false} idventa={idventa} callback={()=>{setReload(!reload), setOpen(false)}} />
+            <EditarSobre readonly={true} idventa={idventa} callback={()=>{setReload(!reload), setOpen(false)}} />
         </Modal>
     </>
 }
 
-
-LisaOperacionesPedidos.PageLayout = LayoutLaboratorio;
