@@ -192,6 +192,22 @@ const BuscarVentaV3 = (props) => {
     }
   };
 
+  const onDevolucionClick = (_venta) => {
+    // TO-DO: Implementar Devolucion
+    if (confirm("Enviar venta a depósito?")) {
+      post_method(
+        post.update.cambiar_venta_sucursal_deposito,
+        { idventa: _venta.idventa, en_laboratorio: "1" },
+        (resp) => {
+          alert("OK");
+          setReload(!reload);
+        }
+      );
+    }
+
+
+  }
+
   /*
   const onPopupClosed = () => {
     setFiltros({});
@@ -397,6 +413,7 @@ const BuscarVentaV3 = (props) => {
                             }
                             onAnularClick={onAnularClick}
                             onResfuerzoClick={onResfuerzoClick}
+                            onDevolucionClick={onDevolucionClick}
                           />
                         ) : (
                           <></>

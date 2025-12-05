@@ -248,6 +248,8 @@ const post = {
 
     contadores_estado_taller: remote_base_url + "tl/cont/est/tal/",
 
+    anuar_gasto: remote_base_url + "gastos/anular/",
+
     search:{
         filtro_stock: remote_base_url + "stock/filtro_stock/",
     },

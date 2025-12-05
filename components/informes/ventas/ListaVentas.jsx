@@ -137,7 +137,7 @@ const ListaVentas = (props) => {
             danger
             type="link"
             onClick={(e) => {
-              if (confirm("Enviar venta a taller?")) {
+              if (confirm("Enviar venta a depósito?")) {
                 if (_idsucursal != globals.obtenerSucursal()) {
                   alert("<!> Venta de Otra Sucursal");
                   return;
@@ -153,7 +153,7 @@ const ListaVentas = (props) => {
               }
             }}
           >
-            Devoluci&oacute;n
+            Enviar a Dep&oacute;sito
           </Button>
         ) : (
           <></>
@@ -357,7 +357,7 @@ const ListaVentas = (props) => {
       fixed: "left",
       width: "180px",
       hidden: hideEstadoDeposito ? true : false,
-      title: "Estado",
+      title: "Estado Dep.",
       render: (_, { estado_taller }) => (
         <>
           <Tag
@@ -372,7 +372,7 @@ const ListaVentas = (props) => {
             }
           >
             {estado_taller}
-          </Tag>{" "}
+          </Tag>
         </>
       ),
       sorter: (a, b) => a.estado_taller.localeCompare(b.estado_taller),

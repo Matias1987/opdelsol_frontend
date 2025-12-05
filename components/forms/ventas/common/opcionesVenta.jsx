@@ -1,5 +1,6 @@
 import globals from "@/src/globals";
 import {
+  BackwardOutlined,
   CheckOutlined,
   CloseOutlined,
   DollarOutlined,
@@ -20,6 +21,7 @@ const OpcionesVenta = (props) => {
     onEnviarALaboratorioClick,
     onAnularClick,
     onResfuerzoClick,
+    onDevolucionClick,
   } = props;
 
   const menuOptions = {
@@ -30,13 +32,15 @@ const OpcionesVenta = (props) => {
     MARCAR_TERMINADO: "5",
     ENVIAR_A_LABORATORIO: "6",
     RESFUERZO: "7",
-  }
+    DEVOLUCION: "8",
+  };
 
-
-//#region items
+  //#region items
   const items_ingresada = [
     {
-      label: <span style={{ color: "#1890ff" , fontWeight:"600"}}>Cobrar</span>,
+      label: (
+        <span style={{ color: "#1890ff", fontWeight: "600" }}>Cobrar</span>
+      ),
       key: menuOptions.COBRAR,
       icon: <DollarOutlined />,
     },
@@ -51,16 +55,19 @@ const OpcionesVenta = (props) => {
       icon: <PrinterOutlined />,
     },
     {
-      label: <span style={{ color: "#ff1818ff"}}>Anular</span>,
+      label: <span style={{ color: "#ff1818ff" }}>Anular</span>,
       key: menuOptions.ANULAR,
       icon: <CloseOutlined />,
     },
-    
   ];
 
   const items_pendientes_taller = [
     {
-      label: <span style={{ color: "#1890ff" , fontWeight:"600"}}>Cobrar Resfuerzo</span>,
+      label: (
+        <span style={{ color: "#1890ff", fontWeight: "600" }}>
+          Cobrar Resfuerzo
+        </span>
+      ),
       key: menuOptions.COBRAR,
       icon: <DollarOutlined />,
     },
@@ -69,7 +76,7 @@ const OpcionesVenta = (props) => {
       key: menuOptions.DETALLE,
       icon: <InfoOutlined />,
     },
-    
+
     {
       label: "Imprimir",
       key: menuOptions.IMPRIMIR,
@@ -79,7 +86,9 @@ const OpcionesVenta = (props) => {
 
   const items_terminadas = [
     {
-      label: <span style={{ color: "#1890ff" , fontWeight:"600"}}>Entrega</span>,
+      label: (
+        <span style={{ color: "#1890ff", fontWeight: "600" }}>Entrega</span>
+      ),
       key: menuOptions.COBRAR,
       icon: <DollarOutlined />,
     },
@@ -88,7 +97,7 @@ const OpcionesVenta = (props) => {
       key: menuOptions.DETALLE,
       icon: <InfoOutlined />,
     },
-    
+
     {
       label: "Imprimir",
       key: menuOptions.IMPRIMIR,
@@ -99,16 +108,29 @@ const OpcionesVenta = (props) => {
       key: menuOptions.RESFUERZO,
       icon: <DollarOutlined />,
     },
+    {
+      label: "Enviar a Depósito",
+      key: menuOptions.DEVOLUCION,
+      icon: <BackwardOutlined />,
+    },
   ];
 
   const items_taller_sucursal = [
     {
-      label: <span style={{ color: "#1890ff" , fontWeight:"600"}}>Cobrar Resfuerzo</span>,
+      label: (
+        <span style={{ color: "#1890ff", fontWeight: "600" }}>
+          Cobrar Resfuerzo
+        </span>
+      ),
       key: menuOptions.COBRAR,
       icon: <DollarOutlined />,
     },
     {
-      label: <span style={{ color: "#4f992aff" , fontWeight:"600"}}>Marcar Como Terminado</span>,
+      label: (
+        <span style={{ color: "#4f992aff", fontWeight: "600" }}>
+          Marcar Como Terminado
+        </span>
+      ),
       key: menuOptions.MARCAR_TERMINADO,
       icon: <CheckOutlined />,
     },
@@ -117,12 +139,16 @@ const OpcionesVenta = (props) => {
       key: menuOptions.DETALLE,
       icon: <InfoOutlined />,
     },
-    
-    
+
     {
       label: "Imprimir",
       key: menuOptions.IMPRIMIR,
       icon: <PrinterOutlined />,
+    },
+    {
+      label: "Enviar a Depósito",
+      key: menuOptions.DEVOLUCION,
+      icon: <BackwardOutlined />,
     },
   ];
 
@@ -151,13 +177,15 @@ const OpcionesVenta = (props) => {
       icon: <PrinterOutlined />,
     },
   ];
-//#endregion
+  //#endregion
   const get_items = (_) => {
     switch (venta.estado) {
       case globals.estadosVenta.INGRESADO:
         return items_ingresada;
       case globals.estadosVenta.PENDIENTE:
-        return venta.en_laboratorio ? items_pendientes_taller : items_taller_sucursal;
+        return venta.en_laboratorio
+          ? items_pendientes_taller
+          : items_taller_sucursal;
       case globals.estadosVenta.TERMINADO:
         return items_terminadas;
       case globals.estadosVenta.ENTREGADO:
@@ -188,7 +216,11 @@ const OpcionesVenta = (props) => {
         onEnviarALaboratorioClick?.(venta);
         break;
       case menuOptions.RESFUERZO:
-        onResfuerzoClick?.(venta)
+        onResfuerzoClick?.(venta);
+        break;
+      case menuOptions.DEVOLUCION:
+        onDevolucionClick?.(venta);
+        break;
     }
   };
 
@@ -209,7 +241,6 @@ const OpcionesVenta = (props) => {
       </Button>
     </Dropdown>
   );
-
 };
 
 export default OpcionesVenta;

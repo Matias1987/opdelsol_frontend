@@ -262,6 +262,19 @@ export default function MenuV2(props) {
    ]*/
 
     if (globals.esUsuarioCaja1()) {
+      if (idf_optica == 1) {
+        menu_caja.children.push({
+          key: "108",
+          label: (
+            <Menu.Item style={{ fontSize: ".85em" }}>
+              <Link href={public_urls.ventas_pendientes_lab}>
+                Operaciones Pendientes en Dep&oacute;sito
+              </Link>
+            </Menu.Item>
+          ),
+        });
+      }
+
       if (idf_optica == 2) {
         //optica del sol parana
         menu_caja.children.push({

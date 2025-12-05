@@ -3,7 +3,7 @@ import LayoutCaja from "@/components/layout/layout_caja";
 
 export default function VentasTerminadas(){
     return (<>
-    <ListaVentas resfuerzo hideEstadoDeposito cobrar accion="entrega" titulo="Ventas Terminadas" estado="TERMINADO" buttonText="Entrega" />
+    <ListaVentas resfuerzo hideEstadoDeposito enviarALaboratorio cobrar accion="entrega" titulo="Ventas Terminadas" estado="TERMINADO" buttonText="Entrega" />
     </>)
 }
 
