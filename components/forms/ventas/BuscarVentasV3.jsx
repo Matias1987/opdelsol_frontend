@@ -227,7 +227,7 @@ const BuscarVentaV3 = (props) => {
         extra={
           <>
             <Input
-              disabled={loading}
+              
               value={filtros.id}
               allowClear
               type="number"

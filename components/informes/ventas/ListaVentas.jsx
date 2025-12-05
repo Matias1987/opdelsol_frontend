@@ -493,7 +493,7 @@ const ListaVentas = (props) => {
             {typeof props.ocultarFiltros !== "undefined" ? (
               <></>
             ) : (
-              <Collapse size="small" defaultActiveKey={["1"]} items={items} ></Collapse>
+              <Collapse size="small" defaultActiveKey={["-1"]} items={items} ></Collapse>
             )}
             {/* <FiltroVentas estado={estado} embedded callback={f=>{ setFiltros(_f=>f); setReload(!reload)}} />*/}
           </Col>
