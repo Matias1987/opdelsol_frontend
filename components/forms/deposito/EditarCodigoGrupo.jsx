@@ -23,7 +23,7 @@ const EditarCodigoGrupo = ({ codigos, callback }) => {
   const [precio, setPrecio] = useState(0);
   const [porcentaje, setPorcentaje] = useState(0);
   const [vistaPreviaOpen, setVistaPreviaOpen] = useState(false);
-  const [redondeo, setRedondeo] = useState(100);
+  const [redondeo, setRedondeo] = useState(1);
 
   useEffect(() => {
     setEditarModoPrecio(false);
@@ -32,13 +32,13 @@ const EditarCodigoGrupo = ({ codigos, callback }) => {
 
   const onSave = (_) => {
     const params = {
-      //precio: modificarPrecio ? precio : -1,
+      precio: modificarPrecio ? precio : -1,
       idsubgrupo: editarSubgrupo ? idsubgrupo : -1,
       modoPrecio: !editarModoPrecio ? -1 : modoPrecio,
       idcodigos: (codigos || []).map((c) => c.idcodigo),
-      //porcentaje: modificarPrecio ? porcentaje : -1,
-      //redondeo: modificarPrecio ? redondeo : -1,
-      //modificarPrecio: modificarPrecio ? 1 : 0,
+      porcentaje: modificarPrecio ? porcentaje : -1,
+      redondeo: modificarPrecio ? redondeo : -1,
+      modificarPrecio: modificarPrecio ? 1 : 0,
     };
 
     if (!confirm("Confirmar cambios")) {
@@ -128,7 +128,8 @@ const EditarCodigoGrupo = ({ codigos, callback }) => {
               </Row>
             </Col>
           </Row>
-          {/*<Row style={{ padding: "1em" }}>
+          {/*** */}
+          {<Row style={{ padding: "1em" }}>
             <Col span={4}>
               <Checkbox
                 onChange={() => {
@@ -185,19 +186,20 @@ const EditarCodigoGrupo = ({ codigos, callback }) => {
                 value={parseFloat(redondeo || "0")}
               />
             </Col>
-          </Row>*/}
-
+          </Row>}
+{/*** */}
           <Row style={{ padding: "1em" }}>
             <Col span={24}>
-              <Button
+              {<Button
+                
                 type="primary"
-                disabled={modificarPrecio&&false}
+                disabled={modificarPrecio || (!editarSubgrupo && !editarModoPrecio)}
                 block
                 onClick={onSave}
               >
                 Aplicar
-              </Button>
-              {/*<Button
+              </Button>}
+              {<Button
                 type="primary"
                 disabled={!modificarPrecio}
                 block
@@ -206,7 +208,7 @@ const EditarCodigoGrupo = ({ codigos, callback }) => {
                 }}
               >
                 Vista Previa
-              </Button>*/}
+              </Button>}
             </Col>
           </Row>
         </>
@@ -244,13 +246,13 @@ const EditarCodigoGrupo = ({ codigos, callback }) => {
               />
             </Col>
           </Row>
-          <Row>
+          {<Row>
             <Col span={24}>
               <Button type="primary" block onClick={onSave}>
                 Aplicar
               </Button>
             </Col>
-          </Row>
+          </Row>}
         </>
       </Modal>
     </>

@@ -304,7 +304,7 @@ export default function ModoPagoV4(props){
         
         <>
             <Row style={{display: efectivoChecked ? "flex" : "none", backgroundColor:"rgba(244,232,179,0.5)", padding:"2px"}}>
-                <Col span={8} >
+                <Col>
                     {/*<Input 
                     onWheel={(e)=>{e.target.blur()}}
                     type="number" 
@@ -316,6 +316,7 @@ export default function ModoPagoV4(props){
                     onChange={(e)=>{onChange("efectivo_monto", e.target.value.length<1 ? 0 : (e.target.value))}}
                     />*/}
                     <InputNumber 
+                    size="large"
                     style={{width:"250px"}}
                     decimalSeparator="."
                     onClick={e=>{e.target.select()}} 
@@ -340,6 +341,7 @@ export default function ModoPagoV4(props){
                     onChange={(e)=>{onChange("tarjeta_monto", e.target.value.length<1 ? 0 : (e.target.value))}} 
                     />*/}
                     <InputNumber 
+                    size="large"
                     style={{width:"250px"}}
                     decimalSeparator="."
                     onClick={e=>{e.target.select()}} 
@@ -351,6 +353,7 @@ export default function ModoPagoV4(props){
                 <Col> 
                     
                     <Select 
+                    size="large"
                     prefix="Tarjeta"
                     showSearch
                     placeholder="Seleccione Tarjeta" 
@@ -374,7 +377,7 @@ export default function ModoPagoV4(props){
             </Row>
             <Row gutter={6} style={{display: tarjeta1Checked ? "flex" : "none", backgroundColor:"rgba(233, 151, 99, 0.5)", padding:"2px"}}>
                 <Col>
-                    <Input 
+                    {/*<Input 
                     style={{width:"350px"}}
                     onWheel={(e)=>{e.target.blur()}}
                     type="number" 
@@ -384,11 +387,20 @@ export default function ModoPagoV4(props){
                     value={modoPago.tarjeta1_monto}  
                     prefix={<span style={{fontWeight:"600"}}>Monto Tarjeta 2: </span>} 
                     onChange={(e)=>{onChange("tarjeta1_monto", e.target.value.length<1 ? 0 : (e.target.value))}} 
+                    />*/}
+                    <InputNumber 
+                    size="large"
+                    style={{width:"250px"}}
+                    decimalSeparator="."
+                    onClick={e=>{e.target.select()}} 
+                    value={modoPago.tarjeta1_monto}
+                    onChange={(value)=>{onChange("tarjeta1_monto", (value||"").toString().length<1 ? 0 : (value))}} 
                     />
                 </Col>
                 <Col> 
                     
                     <Select 
+                    size="large"
                     prefix="Tarjeta"
                     showSearch
                     placeholder="Seleccione Tarjeta" 
@@ -422,6 +434,7 @@ export default function ModoPagoV4(props){
                     onChange={(e)=>{onChangeMontoCtaCte(e.target.value)}} 
                     />*/}
                     <InputNumber
+                    size="large"
                     style={{width:"250px"}}
                     decimalSeparator="."
                     onClick={e=>{e.target.select()}} 
@@ -433,6 +446,7 @@ export default function ModoPagoV4(props){
                 
                 <Col span={3}>
                     <Select 
+                    size="large"
                     prefix="Cuotas"
                     showSearch
                     optionFilterProp="children"
@@ -472,6 +486,7 @@ export default function ModoPagoV4(props){
                 <Col span={8}>
                 {/*<Input onWheel={(e)=>{e.target.blur()}} type="number" readOnly={false} onClick={(e)=>{e.target.select()}} value={modoPago.ctacte_monto_cuotas}  prefix="Valor Cuota: " onChange={(e)=>{onChange("ctacte_monto_cuotas", (e.target.value))}}></Input>*/}
                 <InputNumber 
+                size="large"
                 style={{width:"300px"}}
                 decimalSeparator="." 
                 prefix="Valor Cuota: "
@@ -492,6 +507,7 @@ export default function ModoPagoV4(props){
                     onChange={(e)=>{onChange("cheque_monto", e.target.value.length<1 ? 0 : (e.target.value))}}
                     />*/}
                     <InputNumber 
+                    size="large"
                     style={{width:"250px"}}
                     decimalSeparator="."
                     onClick={e=>{e.target.select()}} 
@@ -500,9 +516,10 @@ export default function ModoPagoV4(props){
                     onChange={(value)=>{onChange("cheque_monto", (value||"").toString().length<1? "0":value.toString())}}
                     />
                 </Col>
-                <Col span={14}>
-                    &nbsp;Banco:&nbsp;
+                <Col>
                     <Select 
+                    prefix={<span style={{fontWeight:"600"}}>Banco:</span>}
+                    size="large"
                     showSearch 
                     value={modoPago.fk_banco} 
                     placeholder="Seleccione Banco" 
@@ -529,6 +546,7 @@ export default function ModoPagoV4(props){
                     onChange={(e)=>{onChange("mutual_monto", e.target.value.length<1 ? 0 : (e.target.value))}}
                     />*/}
                     <InputNumber 
+                    size="large"
                     style={{width:"250px"}}
                     decimalSeparator="."
                     onClick={e=>{e.target.select()}} 
@@ -550,6 +568,7 @@ export default function ModoPagoV4(props){
                     onClick={(e)=>{e.target.select()}} 
                     />*/}
                     <InputNumber 
+                    size="large"
                     style={{width:"250px"}}
                     decimalSeparator="."
                     onClick={e=>{e.target.select()}} 
@@ -570,6 +589,7 @@ export default function ModoPagoV4(props){
                     onClick={(e)=>{e.target.select()}} 
                     />*/}
                     <InputNumber 
+                    size="large"
                     style={{width:"250px"}}
                     decimalSeparator="."
                     onClick={e=>{e.target.select()}} 
@@ -578,9 +598,10 @@ export default function ModoPagoV4(props){
                     onChange={(value)=>{onChange("transferencia_monto", (value||"").toString().length<1? "0":value.toString())}}
                     />
                 </Col>
-                <Col span={9}>
-                &nbsp;Banco:&nbsp;
+                <Col>
                     <Select 
+                    prefix={<span style={{fontWeight:"600"}}>Banco:</span>}
+                    size="large"
                     showSearch 
                     value={modoPago.fk_banco_transferencia} 
                     placeholder="Seleccione Banco" 

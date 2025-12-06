@@ -358,6 +358,7 @@ const post = {
         cl_a_f_l:remote_base_url+"cl/a/f/l/",
         sorteo_set_ganador: remote_base_url + "srt/set/wn/",
         editar_medico: remote_base_url + "medicos/ed/it/m/",
+        modificar_precio_indv_codigos: remote_base_url + "codigos_ext/modificar/precios/indv/cat/",
     },
 }
 
