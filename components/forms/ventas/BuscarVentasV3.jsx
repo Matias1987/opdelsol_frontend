@@ -41,6 +41,7 @@ const BuscarVentaV3 = (props) => {
   const [modalImprimirOpen, setModalImprimirOpen] = useState(false);
   const [verSoloSucursal, setVerSoloSucursal] = useState(true);
   const [loading, setLoading] = useState(false);
+  const [filtroIdLocal, setFiltroIdLocal] = useState("");
   const add = (obj, value, key) =>
     typeof value === "undefined" ? obj : { ...obj, [key]: value };
 
@@ -243,15 +244,16 @@ const BuscarVentaV3 = (props) => {
         extra={
           <>
             <Input
-              
-              value={filtros.id}
+              disabled={loading}
+              value={filtroIdLocal}
               allowClear
               type="number"
               onChange={(e) => {
-                let _id = isNaN(e.target.value) ? 0 : parseInt(e.target.value);
+              //let _id = isNaN(e.target.value) ? _id : e.target.value;
 
-                setFiltros((_f) => ({ ..._f, id: _id }));
-                setReload(!reload);
+                //setFiltros((_f) => ({ ..._f, id: _id }));
+                setFiltroIdLocal(e.target.value);
+                //setReload(!reload);
               }}
               placeholder="Nro. Venta"
             />
@@ -316,7 +318,7 @@ const BuscarVentaV3 = (props) => {
               rowClassName={(record, index) =>
                 index % 2 === 0 ? "table-row-light" : "table-row-dark"
               }
-              dataSource={dataSource}
+              dataSource={filtroIdLocal.trim() == "" ? dataSource : dataSource.filter(d=>(d.idventa.toString()).includes(filtroIdLocal.trim()))}
               columns={[
                 { title: "Nro.:", dataIndex: "idventa", width: "60px" },
                 {
@@ -457,6 +459,7 @@ const BuscarVentaV3 = (props) => {
       </Modal>
 
       <Modal
+        key={selectedVenta?.idventa}
         destroyOnClose
         title="Detalle"
         onCancel={(_) => {

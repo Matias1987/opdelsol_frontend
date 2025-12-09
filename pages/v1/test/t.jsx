@@ -24,11 +24,15 @@ import InformeVentasFiltros from "@/components/admin/InformeVentasFiltros";
 import CodeGridV3 from "@/components/etc/CodeGridVer3";
 import AgregarFacturaV3 from "@/components/admin/factura/agregarFacturaV3";
 import InformeCantidadesPeriodo from "@/components/informes/taller/cantidades_periodo";
+import VentasFiltrosAdmin from "@/components/admin/VentasFiltrosAdmin";
+import CodeGridHTML from "@/components/etc/CodeGridHTML";
 export default function test() {
   return (
     <div>
-      <InformeCantidadesPeriodo />
+      <CodeGridHTML idsubgrupo={1386} idsucursal={6} />
+      <VentasFiltrosAdmin />
 {/*
+<InformeCantidadesPeriodo />
       <AgregarFacturaV3 />
 
       <CodeGridV3 />
