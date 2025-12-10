@@ -1,4 +1,4 @@
-import { Button, Col, Divider, Input, Modal, Row, Spin, Switch } from "antd";
+import { Button, Col, Divider, Input, InputNumber, Modal, Row, Spin, Switch } from "antd";
 import { useEffect, useState } from "react";
 import { get, post } from "@/src/urls";
 import { post_method } from "@/src/helpers/post_helper";
@@ -15,6 +15,8 @@ import {
   registrar_evento,
 } from "@/src/helpers/evento_helper";
 import ModoPagoV4 from "../modo_pago/ModoPagoV4";
+import { formatFloat } from "@/src/helpers/formatters";
+import { decimal_separator } from "@/src/config";
 
 /**
  *
@@ -523,24 +525,25 @@ const CobroOperacionV2 = (props) => {
           {dataVenta.fecha_formated}
         </p>
         <p>
-          Monto: <b>{dataVenta.subtotal}</b> &nbsp;&nbsp;
-          <Input
-            type="number"
+          Monto: <b>{formatFloat(dataVenta.subtotal)}</b> &nbsp;&nbsp;
+          <InputNumber
+            style={{ width: "300px" }}
+            decimalSeparator={decimal_separator}
             prefix={"Descuento:"}
             value={descuento}
-            onChange={(e) => {
-              setDescuento(
-                (e.target.value.length < 1 ? "0" : e.target.value)
-              );
-            }}
+            onChange={(value) => {
+                setDescuento(
+                  (value || "").toString().length < 1 ? "0" : value.toString()
+                );
+              }}
           />
-          Haber: <b>{dataVenta.haber}</b> &nbsp;&nbsp;
+          Haber: <b>{formatFloat(dataVenta.haber)}</b> &nbsp;&nbsp;
           <span style={{ backgroundColor: "lightyellow", color: "red" }}>
             Saldo:{" "}
             <b>
-              {(parseFloat(dataVenta.subtotal) -
+              {formatFloat(parseFloat(dataVenta.subtotal) -
                 parseFloat(descuento) -
-                parseFloat(dataVenta.haber || 0)).toFixed(2)}
+                parseFloat(dataVenta.haber || 0))}
             </b>
           </span>
           &nbsp;&nbsp;

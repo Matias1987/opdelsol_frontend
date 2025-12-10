@@ -20,6 +20,7 @@ import ExportToCSV from "@/components/ExportToCSV";
 import ExportToExcel2 from "@/components/etc/ExportToExcel2";
 import { InfoOutlined } from "@ant-design/icons";
 import SelectMedico from "@/components/forms/ventas/SelectMedico";
+import { formatFloat } from "@/src/helpers/formatters";
 
 const ListaVentasMedicosTotales = (props) => {
   const [dataSource, setDataSource] = useState([]);
@@ -68,7 +69,7 @@ const ListaVentasMedicosTotales = (props) => {
       title: <div style={title_style_money}>efectivo</div>,
       render: (_, obj) => (
         <div style={{ textAlign: "right" }}>
-          {parseFloat(obj.efectivo).toLocaleString(2)}
+          {formatFloat(obj.efectivo)}
         </div>
       ),
     },
@@ -78,7 +79,7 @@ const ListaVentasMedicosTotales = (props) => {
       title: <div style={title_style_money}>tarjeta</div>,
       render: (_, obj) => (
         <div style={{ textAlign: "right" }}>
-          {parseFloat(obj.tarjeta).toLocaleString(2)}
+          {formatFloat(obj.tarjeta)}
         </div>
       ),
     },
@@ -88,7 +89,7 @@ const ListaVentasMedicosTotales = (props) => {
       title: <div style={title_style_money}>cheque</div>,
       render: (_, obj) => (
         <div style={{ textAlign: "right" }}>
-          {parseFloat(obj.cheque).toLocaleString(2)}
+          {formatFloat(obj.cheque)}
         </div>
       ),
     },
@@ -98,7 +99,7 @@ const ListaVentasMedicosTotales = (props) => {
       title: <div style={title_style_money}>ctacte</div>,
       render: (_, obj) => (
         <div style={{ textAlign: "right" }}>
-          {parseFloat(obj.ctacte).toLocaleString(2)}
+          {formatFloat(obj.ctacte)}
         </div>
       ),
     },
@@ -108,7 +109,7 @@ const ListaVentasMedicosTotales = (props) => {
       title: <div style={title_style_money}>mutual</div>,
       render: (_, obj) => (
         <div style={{ textAlign: "right" }}>
-          {parseFloat(obj.mutual).toLocaleString(2)}
+          {formatFloat(obj.mutual)}
         </div>
       ),
     },
@@ -118,7 +119,7 @@ const ListaVentasMedicosTotales = (props) => {
       title: <div style={title_style_money}>mercadopago</div>,
       render: (_, obj) => (
         <div style={{ textAlign: "right" }}>
-          {parseFloat(obj.mercadopago).toLocaleString(2)}
+          {formatFloat(obj.mercadopago)}
         </div>
       ),
     },
@@ -128,7 +129,7 @@ const ListaVentasMedicosTotales = (props) => {
       title: <div style={title_style_money}>transferencia</div>,
       render: (_, obj) => (
         <div style={{ textAlign: "right" }}>
-          {parseFloat(obj.transferencia).toLocaleString(2)}
+          {formatFloat(obj.transferencia)}
         </div>
       ),
     },

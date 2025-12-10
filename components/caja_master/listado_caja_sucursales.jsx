@@ -4,6 +4,7 @@ import ModifIngresoCaja from "./modificacion_ingreso_caja";
 import { get } from "@/src/urls";
 import { ReloadOutlined } from "@ant-design/icons";
 import InformeCajaV2 from "../informes/caja/InformeCajaV3";
+import { formatFloat } from "@/src/helpers/formatters";
 
 const ListadoCajaSucursales = (props) => {
   const [data, setData] = useState([]);
@@ -59,7 +60,7 @@ const ListadoCajaSucursales = (props) => {
               columns={[
                 { dataIndex: "fecha", title: "Fecha" },
                 { dataIndex: "sucursal", title: "Sucursal" },
-                { dataIndex: "monto_efectivo", title: <div style={{textAlign:"right"}}>Monto</div>, render:(_,{s})=><div style={{textAlign:"right"}}>$&nbsp;{s}</div> },
+                { dataIndex: "monto_efectivo", title: <div style={{textAlign:"right"}}>Monto</div>, render:(_,{s})=><div style={{textAlign:"right"}}>$&nbsp;{formatFloat(s)}</div> },
                 {
                   title: "Acciones",
                   render: (_, row) => (

@@ -19,6 +19,7 @@ import { ArrowDownOutlined, CloseOutlined } from "@ant-design/icons";
 import DetalleFactura from "@/components/forms/deposito/DetalleFactura";
 import ExportToCSV from "@/components/ExportToCSV";
 import AgregarFacturaV3 from "../factura/agregarFacturaV3";
+import { formatFloat } from "@/src/helpers/formatters";
 const { TabPane } = Tabs;
 const FichaProveedor = (props) => {
   const [reload, setReload] = useState(false);
@@ -78,7 +79,7 @@ const FichaProveedor = (props) => {
       title: <div style={{ textAlign: "right" }}>Debe</div>,
       render: (_, { debe }) => (
         <div style={{ color: "darkblue", textAlign: "right" }}>
-          $&nbsp;{parseFloat(debe).toFixed(2).toLocaleString()}
+          $&nbsp;{formatFloat(debe)}
         </div>
       ),
     },
@@ -86,7 +87,7 @@ const FichaProveedor = (props) => {
       title: <div style={{ textAlign: "right" }}>Haber</div>,
       render: (_, { haber }) => (
         <div style={{ color: "darkblue", textAlign: "right" }}>
-          $&nbsp;{parseFloat(haber).toFixed(2).toLocaleString()}
+          $&nbsp;{formatFloat(haber)}
         </div>
       ),
     },
@@ -214,7 +215,7 @@ const FichaProveedor = (props) => {
                         fontSize: "1.1em",
                       }}
                     >
-                      $&nbsp;{parseFloat(totalesRemito.debe).toLocaleString()}
+                      $&nbsp;{formatFloat(totalesRemito.debe)}
                     </div>
                   </Table.Summary.Cell>
                   <Table.Summary.Cell>
@@ -226,7 +227,7 @@ const FichaProveedor = (props) => {
                         fontSize: "1.1em",
                       }}
                     >
-                      $&nbsp;{parseFloat(totalesRemito.haber).toLocaleString()}
+                      $&nbsp;{formatFloat(totalesRemito.haber)}
                     </div>
                   </Table.Summary.Cell>
                 </Table.Summary.Row>
@@ -240,10 +241,10 @@ const FichaProveedor = (props) => {
                       }}
                     >
                       Saldo: ${" "}
-                      {(
+                      {formatFloat(
                         parseFloat(totalesRemito.debe) -
                         parseFloat(totalesRemito.haber)
-                      ).toLocaleString()}
+                      )}
                     </div>
                   </Table.Summary.Cell>
                 </Table.Summary.Row>
@@ -312,7 +313,7 @@ const FichaProveedor = (props) => {
                         fontSize: "1.1em",
                       }}
                     >
-                      $&nbsp;{parseFloat(totalesFactura.debe).toLocaleString()}
+                      $&nbsp;{formatFloat(totalesFactura.debe)}
                     </div>
                   </Table.Summary.Cell>
                   <Table.Summary.Cell>
@@ -324,7 +325,7 @@ const FichaProveedor = (props) => {
                         fontSize: "1.1em",
                       }}
                     >
-                      $&nbsp;{parseFloat(totalesFactura.haber).toLocaleString()}
+                      $&nbsp;{formatFloat(totalesFactura.haber)}
                     </div>
                   </Table.Summary.Cell>
                 </Table.Summary.Row>
@@ -338,10 +339,10 @@ const FichaProveedor = (props) => {
                       }}
                     >
                       Saldo: ${" "}
-                      {(
+                      {formatFloat(
                         parseFloat(totalesFactura.debe) -
                         parseFloat(totalesFactura.haber)
-                      ).toLocaleString(2)}
+                      )}
                     </div>
                   </Table.Summary.Cell>
                 </Table.Summary.Row>
@@ -410,7 +411,7 @@ const FichaProveedor = (props) => {
                         fontSize: "1.1em",
                       }}
                     >
-                      $&nbsp;{parseFloat(totales.debe).toLocaleString()}
+                      $&nbsp;{formatFloat(totales.debe)}
                     </div>
                   </Table.Summary.Cell>
                   <Table.Summary.Cell>
@@ -422,7 +423,7 @@ const FichaProveedor = (props) => {
                         fontSize: "1.1em",
                       }}
                     >
-                      $&nbsp;{parseFloat(totales.haber).toLocaleString()}
+                      $&nbsp;{formatFloat(totales.haber)}
                     </div>
                   </Table.Summary.Cell>
                 </Table.Summary.Row>
@@ -436,9 +437,9 @@ const FichaProveedor = (props) => {
                       }}
                     >
                       Saldo: ${" "}
-                      {(
+                      {formatFloat(
                         parseFloat(totales.debe) - parseFloat(totales.haber)
-                      ).toLocaleString()}
+                      )}
                     </div>
                   </Table.Summary.Cell>
                 </Table.Summary.Row>

@@ -1,3 +1,4 @@
+import { formatFloat } from "@/src/helpers/formatters";
 import { currency_format } from "@/src/helpers/string_helper";
 import { get } from "@/src/urls";
 import { Spin } from "antd";
@@ -40,7 +41,7 @@ export default function LCLabItems(props){
                         <td style={{padding:"0",textAlign:"left", borderBottom:"1px dotted"}}>{r.tipo=='od' || r.tipo=='oi' ? <>
                         <b>{r.codigo}</b>&nbsp;&nbsp;&nbsp;ESF:&nbsp;{r.esf} &nbsp;&nbsp;CIL:&nbsp;{r.cil} &nbsp;&nbsp;EJE:&nbsp;{r.eje} &nbsp;&nbsp;CB:&nbsp;{r.curva_base} &nbsp;&nbsp;DIAM:&nbsp;{r.diametro} 
                         </> : <>{r.codigo}</> }</td>
-                        <td style={{padding:"0",textAlign:"right", borderBottom:"1px dotted"}}>{currency_format(r.precio)}</td>
+                        <td style={{padding:"0",textAlign:"right", borderBottom:"1px dotted"}}>{formatFloat(r.precio)}</td>
                     </tr>
                 ))
             }

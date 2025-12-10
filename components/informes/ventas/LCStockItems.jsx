@@ -1,3 +1,4 @@
+import { formatFloat } from "@/src/helpers/formatters";
 import { currency_format } from "@/src/helpers/string_helper";
 import { get } from "@/src/urls";
 import { Spin } from "antd";
@@ -39,9 +40,9 @@ export default function LCStockItems(props){
                         <td style={{borderBottom:"1px dotted"}}>{((r.tipo||"").toUpperCase()).replace(/_/g," ")}</td>
                         {/*<td style={{padding:"0",textAlign:"left"}}><b>{r.codigo}</b></td>*/}
                         <td style={{borderBottom:"1px dotted" ,padding:"0",textAlign:"left"}}>{r.descripcion}</td>
-                        <td style={{borderBottom:"1px dotted" ,padding:"0",textAlign:"right"}}>{currency_format(r.precio)}</td>
+                        <td style={{borderBottom:"1px dotted" ,padding:"0",textAlign:"right"}}>{formatFloat(r.precio)}</td>
                         <td style={{borderBottom:"1px dotted" ,padding:"0",textAlign:"right"}}>{r.cantidad}</td>
-                        <td style={{borderBottom:"1px dotted" ,padding:"0",textAlign:"right"}}>{currency_format(r.total)}</td>
+                        <td style={{borderBottom:"1px dotted" ,padding:"0",textAlign:"right"}}>{formatFloat(r.total)}</td>
                     </tr>
                 ))
             }

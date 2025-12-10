@@ -9,6 +9,7 @@ import DetalleSubgrupo from "../DetalleSubgrupo";
 //old javascript...
 /**
  *
+ * @param gridType stock | ideal | pedido | critico | uso
  * @param idsubgrupo
  * @param idsucursal
  * @param onCellClick
@@ -16,15 +17,18 @@ import DetalleSubgrupo from "../DetalleSubgrupo";
  *
  */
 const CodeGridHTML = (props) => {
-  const { idsubgrupo, idsucursal, onCellClick, reload } = props;
+  const { idsubgrupo, idsucursal, onCellClick, reload, gridType, mes, anio } = props;
   const [dataPositive, setDataPositive] = useState([]);
   const [dataNegative, setDataNegative] = useState([]);
   const [codesDict, setCodesDict] = useState({});
 
   const load = (callback) => {
+
+    let endpoint = gridType === 'uso' ? post.obtener_grilla_uso : post.obtener_grilla_stock;
+    
     post_method(
-      post.obtener_grilla_stock,
-      { idsubgrupo: idsubgrupo, idsucursal: idsucursal, eje: "-1" },
+      endpoint,
+      { idsubgrupo: idsubgrupo, idsucursal: idsucursal, eje: "-1", mes: mes||"-1", anio: anio||"-1" },
       (response) => {
         //alert(JSON.stringify(response));
         let t_ejes = {};
@@ -46,7 +50,7 @@ const CodeGridHTML = (props) => {
             parseFloat(c.cil) > _max_cil ? parseFloat(c.cil) : _max_cil;
 
           qtties[`${parseFloat(c.esf) * 100}${parseFloat(c.cil) * 100}`] = {
-            cantidad: c.cantidad,
+            cantidad: gridType === "ideal" ? c.stock_ideal : gridType === "critico" ? c.stock_critico : c.cantidad,
             codigo: c.codigo,
             idcodigo: c.idcodigo,
           };

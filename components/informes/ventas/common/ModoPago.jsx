@@ -1,3 +1,4 @@
+import { formatFloat } from "@/src/helpers/formatters"
 import { currency_format } from "@/src/helpers/string_helper"
 import { get } from "@/src/urls"
 import { Spin } from "antd"
@@ -27,14 +28,14 @@ export default function ModoPagoInf(props){
 
     const get_mp = (r)=>{
         switch(r.modo_pago){
-            case "efectivo": return  <tr><td><div className="wrap-for-dotted-separated"><span className="l-span-dotted-line">EFECTIVO:</span><span className="r-span-dotted-line"> ${currency_format(r.monto)}</span><hr /></div></td></tr>
-            case "tarjeta": return  <tr><td><div className="wrap-for-dotted-separated"><span className="l-span-dotted-line">TARJETA:</span><span className="r-span-dotted-line"> ${currency_format(r.monto)}&nbsp;&nbsp;Tarjeta:&nbsp;{ r.nombre_tarjeta}</span><hr /></div></td></tr>
-            case "tarjeta1": return  <tr><td><div className="wrap-for-dotted-separated"><span className="l-span-dotted-line">TARJETA:</span><span className="r-span-dotted-line"> ${currency_format(r.monto)}&nbsp;&nbsp;Tarjeta:&nbsp;{ r.nombre_tarjeta}</span><hr /></div></td></tr>
-            case "ctacte": return   <tr><td><div className="wrap-for-dotted-separated"><span className="l-span-dotted-line">CTA. CTE.:</span><span className="r-span-dotted-line"> ${currency_format(r.monto)}&nbsp;&nbsp;Cant. Cuotas:&nbsp;{r.cant_cuotas}&nbsp;&nbsp;Monto Cuota:&nbsp;${r.monto_cuota}</span><hr /></div></td></tr>
-            case "cheque": return   <tr><td><div className="wrap-for-dotted-separated"><span className="l-span-dotted-line">CHEQUE:</span><span className="r-span-dotted-line"> ${currency_format(r.monto)}&nbsp;&nbsp;Banco: &nbsp;{r.nombre_banco}</span><hr /></div></td></tr>
-            case "mutual": return   <tr><td><div className="wrap-for-dotted-separated"><span className="l-span-dotted-line">MUTUAL:</span><span className="r-span-dotted-line"> ${currency_format(r.monto)}</span><hr /></div></td></tr>
-            case "mercadopago": return   <tr><td><div className="wrap-for-dotted-separated"><span className="l-span-dotted-line">{"MERCADO PAGO"}:</span><span className="r-span-dotted-line"> ${currency_format(r.monto)}</span><hr /></div></td></tr>
-            case "transferencia": return   <tr><td><div className="wrap-for-dotted-separated"><span className="l-span-dotted-line">{"TRANSFERENCIA"}:</span><span className="r-span-dotted-line"> ${currency_format(r.monto)}&nbsp;&nbsp;Banco: &nbsp;{r.nombre_banco}</span><hr /></div></td></tr>
+            case "efectivo": return  <tr><td><div className="wrap-for-dotted-separated"><span className="l-span-dotted-line">EFECTIVO:</span><span className="r-span-dotted-line"> ${formatFloat(r.monto)}</span><hr /></div></td></tr>
+            case "tarjeta": return  <tr><td><div className="wrap-for-dotted-separated"><span className="l-span-dotted-line">TARJETA:</span><span className="r-span-dotted-line"> ${formatFloat(r.monto)}&nbsp;&nbsp;Tarjeta:&nbsp;{ r.nombre_tarjeta}</span><hr /></div></td></tr>
+            case "tarjeta1": return  <tr><td><div className="wrap-for-dotted-separated"><span className="l-span-dotted-line">TARJETA:</span><span className="r-span-dotted-line"> ${formatFloat(r.monto)}&nbsp;&nbsp;Tarjeta:&nbsp;{ r.nombre_tarjeta}</span><hr /></div></td></tr>
+            case "ctacte": return   <tr><td><div className="wrap-for-dotted-separated"><span className="l-span-dotted-line">CTA. CTE.:</span><span className="r-span-dotted-line"> ${formatFloat(r.monto)}&nbsp;&nbsp;Cant. Cuotas:&nbsp;{r.cant_cuotas}&nbsp;&nbsp;Monto Cuota:&nbsp;${r.monto_cuota}</span><hr /></div></td></tr>
+            case "cheque": return   <tr><td><div className="wrap-for-dotted-separated"><span className="l-span-dotted-line">CHEQUE:</span><span className="r-span-dotted-line"> ${formatFloat(r.monto)}&nbsp;&nbsp;Banco: &nbsp;{r.nombre_banco}</span><hr /></div></td></tr>
+            case "mutual": return   <tr><td><div className="wrap-for-dotted-separated"><span className="l-span-dotted-line">MUTUAL:</span><span className="r-span-dotted-line"> ${formatFloat(r.monto)}</span><hr /></div></td></tr>
+            case "mercadopago": return   <tr><td><div className="wrap-for-dotted-separated"><span className="l-span-dotted-line">{"MERCADO PAGO"}:</span><span className="r-span-dotted-line"> ${formatFloat(r.monto)}</span><hr /></div></td></tr>
+            case "transferencia": return   <tr><td><div className="wrap-for-dotted-separated"><span className="l-span-dotted-line">{"TRANSFERENCIA"}:</span><span className="r-span-dotted-line"> ${formatFloat(r.monto)}&nbsp;&nbsp;Banco: &nbsp;{r.nombre_banco}</span><hr /></div></td></tr>
            }
     }
 /*

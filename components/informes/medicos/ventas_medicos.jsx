@@ -4,6 +4,7 @@ import ExportToCSV from "@/components/ExportToCSV";
 import PrinterWrapper from "@/components/PrinterWrapper";
 import VentaDetallePopup from "@/components/VentaDetalle";
 import globals from "@/src/globals";
+import { formatFloat } from "@/src/helpers/formatters";
 import { post_method } from "@/src/helpers/post_helper";
 import { post } from "@/src/urls";
 import { InfoCircleFilled } from "@ant-design/icons";
@@ -55,7 +56,7 @@ const VentasMedicos = (props) => {
         }
       },
     },
-    { dataIndex: "monto", title: "Monto", width:"100px", render:(_,{monto})=><div style={{textAlign:"right"}}>$  {monto}</div> },
+    { dataIndex: "monto", title: "Monto", width:"100px", render:(_,{monto})=><div style={{textAlign:"right"}}>$  {formatFloat(monto)}</div> },
     {
       title: "",
       render: (_, { idventa }) => (

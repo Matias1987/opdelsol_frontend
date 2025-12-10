@@ -1,5 +1,6 @@
 import ContadoresEstadoTaller from "@/components/taller/totales"
 import globals from "@/src/globals"
+import { formatFloat } from "@/src/helpers/formatters"
 import { get } from "@/src/urls"
 import { EyeFilled } from "@ant-design/icons"
 import { Button } from "antd"
@@ -69,7 +70,7 @@ const BarraResumenCaja = props => {
         {
             data.map(_row=><span style={{paddingLeft:"50px"}}>
                                 <span>{_row.detalle||""}:&nbsp;&nbsp;</span>
-                                <span style={{fontWeight:"bold"}}>{parseFloat(_row.valor||"0").toLocaleString(2)}</span>
+                                <span style={{fontWeight:"bold"}}>{formatFloat( parseFloat(_row.valor||"0"))}</span>
                             </span>)
         }
         

@@ -19,6 +19,8 @@ import CobroOperacionV2 from "@/components/forms/caja/CobroFormV2";
 import PrinterWrapper from "@/components/PrinterWrapper";
 import InformeVenta from "./Base";
 import Resfuerzo from "@/components/forms/caja/cobro_v2/resfuerzo";
+import { formatFloat } from "@/src/helpers/formatters";
+import { idf_optica } from "@/src/config";
 /**
  *
  * @param estado INGRESADO, PENDIENTE, TERMINADO, ENTREGADO, ANULADO...
@@ -131,7 +133,7 @@ const ListaVentas = (props) => {
         )}
 
         {typeof props.enviarALaboratorio !== "undefined" &&
-        _tipo != globals.tiposVenta.DIRECTA ? (
+        _tipo != globals.tiposVenta.DIRECTA && idf_optica==1 ? (
           <Button
             size="small"
             danger
@@ -425,7 +427,7 @@ const ListaVentas = (props) => {
       title: <div style={{ textAlign: "right" }}>Monto</div>,
       dataIndex: "monto",
       render: (_, { monto }) => (
-        <div style={{ textAlign: "right" }}>$&nbsp;{parseFloat(monto)}</div>
+        <div style={{ textAlign: "right" }}>$&nbsp;{formatFloat(parseFloat(monto))}</div>
       ),
     },
     { width: "110px", hidden: false, title: "Sucursal", dataIndex: "sucursal" },

@@ -5,6 +5,7 @@ import Egreso from "./egreso";
 import InformeCajaV2 from "@/components/informes/caja/InformeCajaV3";
 import { InfoCircleTwoTone, InfoOutlined, ReloadOutlined } from "@ant-design/icons";
 import Ingreso from "./ingreso";
+import { formatFloat } from "@/src/helpers/formatters";
 
 const CajaMaster = (props) => {
   const [data, setData] = useState([]);
@@ -45,11 +46,11 @@ const CajaMaster = (props) => {
           {
           obj.tipo != "EGRESO" ? (
             <div style={{ color: obj.tipo == "SALDO" ? "blue" : "green", textAlign: "right" }}>
-              $&nbsp;{parseFloat(obj.monto||"0").toLocaleString(2)}
+              $&nbsp;{formatFloat(parseFloat(obj.monto||"0"))}
             </div>
           ) : (
             <div style={{ color: "red", textAlign: "right" }}>
-              $&nbsp;-{parseFloat(obj.monto||"0").toLocaleString(2)}
+              $&nbsp;-{formatFloat(parseFloat(obj.monto||"0"))}
             </div>
           )}
         </>
@@ -140,7 +141,7 @@ const CajaMaster = (props) => {
                                 fontWeight: "bold",
                               }}
                             >
-                              $&nbsp;{parseFloat(total).toLocaleString(2)}
+                              $&nbsp;{formatFloat(parseFloat(total))}
                             </span>
                           </Table.Summary.Cell>
                         </Table.Summary.Row>

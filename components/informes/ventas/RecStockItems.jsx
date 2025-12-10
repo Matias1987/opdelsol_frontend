@@ -1,3 +1,4 @@
+import { formatFloat } from "@/src/helpers/formatters";
 import { currency_format } from "@/src/helpers/string_helper";
 import { get } from "@/src/urls";
 import { Spin } from "antd";
@@ -39,7 +40,7 @@ export default function RecStockItems(props){
                         <td style={{borderBottom:"1px dotted", padding:".2em",textAlign:"left"}}><span style={{fontWeight:"600"}}>{r.codigo}</span></td>
                         <td style={{borderBottom:"1px dotted", padding:".2em",textAlign:"left"}}><b>{r.eje}</b></td>
                         {/*<td style={{padding:"0",textAlign:"left"}}>{r.descripcion}</td>*/}
-                        <td style={{borderBottom:"1px dotted", padding:".2em",textAlign:"right"}}>$&nbsp;{currency_format(r.precio)}</td>
+                        <td style={{borderBottom:"1px dotted", padding:".2em",textAlign:"right"}}>$&nbsp;{formatFloat(r.precio)}</td>
                     </tr>
                 ))
             }

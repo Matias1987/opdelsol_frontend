@@ -165,7 +165,11 @@ const post = {
     obtener_ventas_dia_vendedor: remote_base_url + "admin/obtener_ventas_dia_vendedor/",
     gr_ventas_dia_totales: remote_base_url + "admin/gr/ventas_dia_totales/",
     eventos: remote_base_url + "evt/get/",
+
     obtener_grilla_stock: remote_base_url + "stock/obtener_grilla_stock/",
+    obtener_grilla_pedido: remote_base_url + "stock/obtener_grilla_pedido/",
+    obtener_grilla_uso: remote_base_url + "mod_sob/consumo-subgrupo-mes/",
+
     totales_stock_ventas_periodo: remote_base_url + "admin/inf/stock/ventas/periodo/",
     obtener_ventas_taller: remote_base_url + "tl/",
     obtener_items_ventas_taller: remote_base_url + "tl/items/op/",

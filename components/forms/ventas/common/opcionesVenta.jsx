@@ -1,3 +1,4 @@
+import { idf_optica } from "@/src/config";
 import globals from "@/src/globals";
 import {
   BackwardOutlined,
@@ -109,6 +110,7 @@ const OpcionesVenta = (props) => {
       icon: <DollarOutlined />,
     },
     {
+      disabled: idf_optica!=1,
       label: "Enviar a Depósito",
       key: menuOptions.DEVOLUCION,
       icon: <BackwardOutlined />,
@@ -146,6 +148,7 @@ const OpcionesVenta = (props) => {
       icon: <PrinterOutlined />,
     },
     {
+      disabled: idf_optica!=1,
       label: "Enviar a Depósito",
       key: menuOptions.DEVOLUCION,
       icon: <BackwardOutlined />,

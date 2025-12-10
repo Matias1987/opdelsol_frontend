@@ -627,6 +627,7 @@ export default function ListaStock(){
                                     <Row>
                                         <Col span={24}>
                                             <CodeGridHTML 
+                                            gridType={"stock"}
                                             reload={valueChanged}
                                             idsubgrupo={idsubgrupo} 
                                             idsucursal={idsucursal} 

@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import { CloseOutlined, PlusOutlined, RightCircleFilled } from "@ant-design/icons";
 import { get } from "@/src/urls";
 import { round_float } from "@/src/helpers/string_helper";
+import { decimal_separator } from "@/src/config";
+import { formatFloat } from "@/src/helpers/formatters";
 
 /**
  * 
@@ -318,7 +320,7 @@ export default function ModoPagoV4(props){
                     <InputNumber 
                     size="large"
                     style={{width:"250px"}}
-                    decimalSeparator="."
+                    decimalSeparator={decimal_separator}
                     onClick={e=>{e.target.select()}} 
                     value={modoPago.efectivo_monto} 
                     prefix={<span style={{fontWeight:"600"}}>Monto Efectivo: </span>} 
@@ -343,7 +345,7 @@ export default function ModoPagoV4(props){
                     <InputNumber 
                     size="large"
                     style={{width:"250px"}}
-                    decimalSeparator="."
+                    decimalSeparator={decimal_separator}
                     onClick={e=>{e.target.select()}} 
                     value={modoPago.tarjeta_monto} 
                     prefix={<span style={{fontWeight:"600"}}>Monto Tarjeta: </span>} 
@@ -391,7 +393,7 @@ export default function ModoPagoV4(props){
                     <InputNumber 
                     size="large"
                     style={{width:"250px"}}
-                    decimalSeparator="."
+                    decimalSeparator={decimal_separator}
                     onClick={e=>{e.target.select()}} 
                     value={modoPago.tarjeta1_monto}
                     onChange={(value)=>{onChange("tarjeta1_monto", (value||"").toString().length<1 ? 0 : (value))}} 
@@ -436,7 +438,7 @@ export default function ModoPagoV4(props){
                     <InputNumber
                     size="large"
                     style={{width:"250px"}}
-                    decimalSeparator="."
+                    decimalSeparator={decimal_separator}
                     onClick={e=>{e.target.select()}} 
                     value={modoPago.ctacte_monto} 
                     prefix={<span style={{fontWeight:"600"}}>Monto Cta. Cte.:</span>} 
@@ -488,7 +490,7 @@ export default function ModoPagoV4(props){
                 <InputNumber 
                 size="large"
                 style={{width:"300px"}}
-                decimalSeparator="." 
+                decimalSeparator={decimal_separator}
                 prefix="Valor Cuota: "
                     onWheel={(e)=>{e.target.blur()}}
                     value={modoPago.ctacte_monto_cuotas}
@@ -509,7 +511,7 @@ export default function ModoPagoV4(props){
                     <InputNumber 
                     size="large"
                     style={{width:"250px"}}
-                    decimalSeparator="."
+                    decimalSeparator={decimal_separator}
                     onClick={e=>{e.target.select()}} 
                     value={modoPago.cheque_monto} 
                     prefix={<span style={{fontWeight:"600"}}>Monto Cheque:</span>} 
@@ -548,7 +550,7 @@ export default function ModoPagoV4(props){
                     <InputNumber 
                     size="large"
                     style={{width:"250px"}}
-                    decimalSeparator="."
+                    decimalSeparator={decimal_separator}
                     onClick={e=>{e.target.select()}} 
                     value={modoPago.mutual_monto} 
                     prefix={<span style={{fontWeight:"600"}}>Monto Mutual: </span>} 
@@ -570,7 +572,7 @@ export default function ModoPagoV4(props){
                     <InputNumber 
                     size="large"
                     style={{width:"250px"}}
-                    decimalSeparator="."
+                    decimalSeparator={decimal_separator}
                     onClick={e=>{e.target.select()}} 
                     value={modoPago.mercadopago_monto} 
                     prefix={<span style={{fontWeight:"600"}}>Monto M.P.: </span>} 
@@ -591,7 +593,7 @@ export default function ModoPagoV4(props){
                     <InputNumber 
                     size="large"
                     style={{width:"250px"}}
-                    decimalSeparator="."
+                    decimalSeparator={decimal_separator}
                     onClick={e=>{e.target.select()}} 
                     value={modoPago.transferencia_monto} 
                     prefix={<span style={{fontWeight:"600"}}>Monto Transf.: </span>} 
@@ -621,19 +623,19 @@ export default function ModoPagoV4(props){
                 props.totalsHidden ?  <Row>
               <Col span={24}>
               <Flex align="flex-start" justify="end">
-                <Input variant="borderless" style={{color:"red", fontSize:"1.5em", fontWeight:"600", width:"300px"}} readOnly size="large" prefix="Total: $" value={parseFloat(modoPago.total||"0").toLocaleString(2)} />
+                <Input variant="borderless" style={{color:"red", fontSize:"1.5em", fontWeight:"600", width:"300px"}} readOnly size="large" prefix="Total: $" value={formatFloat(parseFloat(modoPago.total||"0"))} />
               </Flex>
               </Col>
             </Row> :
             <Row>
                 <Col span={6}>
-                    <Input readOnly prefix="Total a Pagar" style={{color:"red", fontSize:"1.1em", fontWeight:"600"}} value={props.total} />
+                    <Input readOnly prefix="Total a Pagar" style={{color:"red", fontSize:"1.1em", fontWeight:"600"}} value={formatFloat(props.total)} />
                 </Col>
                 <Col span={9}>
-                    <Input readOnly prefix="Pago Total"  style={{color:"red", fontSize:"1.1em", fontWeight:"600"}} value={modoPago.total} />
+                    <Input readOnly prefix="Pago Total"  style={{color:"red", fontSize:"1.1em", fontWeight:"600"}} value={formatFloat(modoPago.total)} />
                 </Col>
                 <Col span={9}>
-                    <Input readOnly prefix="Saldo"  style={{color:"red", fontWeight:'bold', backgroundColor:'rgba(255, 99, 71, 0.2)'}} value={  (typeof props.total === 'undefined' ? 0 : props.total)-modoPago.total} />
+                    <Input readOnly prefix="Saldo"  style={{color:"red", fontWeight:'bold', backgroundColor:'rgba(255, 99, 71, 0.2)'}} value={  formatFloat((typeof props.total === 'undefined' ? 0 : props.total)-modoPago.total)} />
                 </Col>
             </Row>
             }

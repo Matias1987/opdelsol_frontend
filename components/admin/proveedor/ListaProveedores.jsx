@@ -8,6 +8,7 @@ import { useState, useEffect } from "react";
 import ListaFacturas from "../factura/listaFacturas";
 import globals from "@/src/globals";
 import { post_method } from "@/src/helpers/post_helper";
+import { formatFloat } from "@/src/helpers/formatters";
 
 const ListaProveedores = (props) => {
   const [change, setChange] = useState(false);
@@ -50,7 +51,7 @@ const ListaProveedores = (props) => {
       key: "saldo",
       render: (_, record) => (
         <div style={{ textAlign: "right" }}>
-          {parseFloat(record.saldo).toLocaleString()}
+          {formatFloat(record.saldo)}
         </div>
       ),
     },

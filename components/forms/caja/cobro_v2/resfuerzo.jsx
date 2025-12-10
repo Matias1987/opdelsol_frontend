@@ -1,4 +1,14 @@
-import { Button, Col, Divider, Input, Modal, Row, Spin, Switch } from "antd";
+import {
+  Button,
+  Col,
+  Divider,
+  Input,
+  InputNumber,
+  Modal,
+  Row,
+  Spin,
+  Switch,
+} from "antd";
 import ClienteDetalleCobro from "./common/cliente_detalle";
 import ModoPagoV4 from "../../modo_pago/ModoPagoV4";
 import PrinterWrapper from "@/components/PrinterWrapper";
@@ -11,9 +21,9 @@ import VentaDetallePopup from "@/components/VentaDetalle";
 import CustomModal from "@/components/CustomModal";
 import ListaCobros from "../ListaCobros";
 import { post_method } from "@/src/helpers/post_helper";
-import {
-  registrar_evento,
-} from "@/src/helpers/evento_helper";
+import { registrar_evento } from "@/src/helpers/evento_helper";
+import { decimal_separator } from "@/src/config";
+import { formatFloat } from "@/src/helpers/formatters";
 const Resfuerzo = (props) => {
   const { callback, idventa, idcliente, title } = props;
   const [mp, setMP] = useState(null);
@@ -140,7 +150,6 @@ const Resfuerzo = (props) => {
         parseFloat(dataVenta.haber || 0) -
         parseFloat(mp.total);
 
-
       if (+mp.total == 0 && _sdo != 0) {
         alert("Monto igual a 0");
         return false;
@@ -200,40 +209,61 @@ const Resfuerzo = (props) => {
     setMP((_mp) => val);
   };
 
+  const row_style = {paddingTop: "5px", paddingBottom: "5px"};
+
   const venta_detalle = () =>
     dataVenta == null ? (
       <></>
     ) : (
       <>
-        <p>
-          Nro. Venta: {dataVenta.idventa} &nbsp;&nbsp;&nbsp; Fecha:{" "}
-          {dataVenta.fecha_formated}
-        </p>
-        <p>
-          Monto: <b>{dataVenta.subtotal}</b> &nbsp;&nbsp;
-          <Input
-            type="number"
-            prefix={"Descuento:"}
-            value={descuento}
-            onChange={(e) => {
-              setDescuento(
-                (e.target.value.length < 1 ? "0" : e.target.value)
-              );
-            }}
-          />
-          Haber: <b>{dataVenta.haber}</b> &nbsp;&nbsp;
-          <span style={{ backgroundColor: "lightyellow", color: "red" }}>
-            Saldo:{" "}
-            <b>
-              {(parseFloat(dataVenta.subtotal) -
-                parseFloat(descuento) -
-                parseFloat(dataVenta.haber || 0)).toFixed(2)}
-            </b>
-          </span>
-          &nbsp;&nbsp;
-          <VentaDetallePopup idventa={dataVenta.idventa} />
-        </p>
-        &nbsp;&nbsp;
+        <Row style={row_style} gutter={16}>
+          <Col>
+            Nro. Venta: {dataVenta.idventa}{" "}
+            <VentaDetallePopup idventa={dataVenta.idventa} /> &nbsp;&nbsp;&nbsp;
+            Fecha: {dataVenta.fecha_formated}
+          </Col>
+        </Row>
+        <Row style={row_style} gutter={16}>
+          <Col>
+            Monto: <b>{formatFloat(dataVenta.subtotal)}</b> &nbsp;&nbsp;
+          </Col>
+        </Row>
+        <Row style={row_style} gutter={16}>
+          <Col>
+            <InputNumber
+              onClick={(e) => {
+                e.target.select();
+              }}
+              style={{ width: "300px" }}
+              decimalSeparator={decimal_separator}
+              prefix={"Descuento:"}
+              value={descuento}
+              onChange={(value) => {
+                setDescuento(
+                  (value || "").toString().length < 1 ? "0" : value.toString()
+                );
+              }}
+            />
+          </Col>
+        </Row>
+        <Row style={row_style} gutter={16}>
+          <Col>
+            Haber: <b>{formatFloat(dataVenta.haber)}</b> &nbsp;&nbsp;
+          </Col>
+          <Col>
+            <span style={{ backgroundColor: "lightyellow", color: "red" }}>
+              Saldo:{" "}
+              <b>
+                {formatFloat(
+                  parseFloat(dataVenta.subtotal) -
+                    parseFloat(descuento) -
+                    parseFloat(dataVenta.haber || 0)
+                )}
+              </b>
+            </span>
+          </Col>
+        </Row>
+
         <CustomModal
           title={"Cobros Venta Nro.: " + dataVenta.idventa}
           openButtonText="Ver Cobros"

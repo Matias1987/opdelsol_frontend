@@ -1,3 +1,4 @@
+import { formatFloat } from "@/src/helpers/formatters";
 import { currency_format } from "@/src/helpers/string_helper";
 import { Spin } from "antd"
 import { useEffect, useState } from "react"
@@ -16,23 +17,23 @@ const MontosTotalesInf = (props) => {
 				<tbody>
 					<tr>
 						<td style={{fontSize:".96em"}}>IMPORTE</td>
-						<td style={{textAlign:"right", fontSize:".96em"}}><b>${currency_format(props.data.subtotal)}</b></td>
+						<td style={{textAlign:"right", fontSize:".96em"}}><b>${formatFloat(props.data.subtotal)}</b></td>
 					</tr>
 					<tr>
 						<td style={{fontSize:".96em"}}>DESCUENTO</td>
-						<td style={{textAlign:"right", fontSize:".96em"}}><b>${currency_format(props.data.descuento)}</b></td>
+						<td style={{textAlign:"right", fontSize:".96em"}}><b>${formatFloat(props.data.descuento)}</b></td>
 					</tr>
 					<tr>
 						<td style={{fontSize:".96em"}}>SUBTOTAL</td>
-						<td style={{textAlign:"right", fontSize:".96em"}}><b>${currency_format(parseFloat(props.data.subtotal) - parseFloat(props.data.descuento))}</b></td>
+						<td style={{textAlign:"right", fontSize:".96em"}}><b>${formatFloat(parseFloat(props.data.subtotal) - parseFloat(props.data.descuento))}</b></td>
 					</tr>
 					<tr>
 						<td style={{fontSize:".96em"}}>SE&Ntilde;A</td>
-						<td style={{textAlign:"right", fontSize:".96em"}}><b>${currency_format(props.data.total_haber)}</b></td>
+						<td style={{textAlign:"right", fontSize:".96em"}}><b>${formatFloat(props.data.total_haber)}</b></td>
 					</tr>
 					<tr>
 						<td style={{fontSize:".96em"}}>SALDO</td>
-						<td style={{textAlign:"right", fontSize:".96em"}}><b>${currency_format(parseFloat(props.data.subtotal) - parseFloat(props.data.descuento) - parseFloat(props.data.total_haber))}</b></td>
+						<td style={{textAlign:"right", fontSize:".96em"}}><b>${formatFloat(parseFloat(props.data.subtotal) - parseFloat(props.data.descuento) - parseFloat(props.data.total_haber))}</b></td>
 					</tr>
 				</tbody>
             </table>
