@@ -17,10 +17,57 @@ import DetalleSubgrupo from "../DetalleSubgrupo";
  *
  */
 const CodeGridHTML = (props) => {
-  const { idsubgrupo, idsucursal, onCellClick, reload, gridType, mes, anio } = props;
+  const { idsubgrupo, idsucursal, onCellClick, reload, gridType, mes, anio, editarDisabled } = props;
   const [dataPositive, setDataPositive] = useState([]);
   const [dataNegative, setDataNegative] = useState([]);
   const [codesDict, setCodesDict] = useState({});
+
+const alertColors = [
+  "#DC2626", // 16 - Red (Danger)
+  "#DF2730", // 15
+  "#E7352F", // 14
+  "#EF4444", // 13 - Orange-Red
+  "#F34121", // 12
+  "#F65A1B", // 11
+  "#F97316", // 10 - Orange
+  "#F59E1E", // 9
+  "#F7B51A", // 8
+  "#FACC15", // 7 - Yellow
+  "#E6E12A", // 6
+  "#C9E92A", // 5
+  "#A3E635", // 4 - Yellow-Green
+  "#7DE262", // 3
+  "#55D86A", // 2
+  "#2ECC71"  // 1 - Green (OK)
+];
+
+
+
+const get_color = (qtty, safeZone=50, dangerZone=0) => {
+  if(qtty<=dangerZone)
+  {
+    return alertColors[0];
+  }
+  if(qtty>=safeZone)
+  {
+    return alertColors[alertColors.length-1];
+  }
+
+  const idx = parseInt( qtty / parseInt((safeZone - dangerZone)/(alertColors.length))) ;
+  if(qtty==48)
+  {
+    //console.log(idx)
+    console.log(parseInt((safeZone - dangerZone)/(alertColors.length-1)))
+  }
+  
+
+  return alertColors[idx]
+
+
+
+
+
+}
 
   const load = (callback) => {
 
@@ -213,25 +260,13 @@ const CodeGridHTML = (props) => {
                     <td style={{ ...base_border_style, ...td_style }}>
                       <div
                         style={
-                          +(
-                            codesDict[
-                              `${parseFloat(cell.esf) * 100}${
-                                parseFloat(cell.cil) * 100
-                              }`
-                            ]?.cantidad > 0 || "0"
-                          )
-                            ? {
-                                ...cell_content,
-                                backgroundColor: "#ffe4bbff",
-                                fontWeight: "600",
-                                color: "black",
+                                {
+                                  ...cell_content,
+                                  backgroundColor: get_color(codesDict[`${parseFloat(cell.esf) * 100}${parseFloat(cell.cil) * 100}`]?.cantidad ),
+                                  fontWeight: "600",
+                                  color: "black",
+                                }
                               }
-                            : {
-                                ...cell_content,
-                                backgroundColor: "#F5F5F5",
-                                color: "#567effff",
-                              }
-                        }
                       >
                         {
                           codesDict[
@@ -257,7 +292,8 @@ const CodeGridHTML = (props) => {
                                 },
                                 {
                                   key: "2",
-                                  label: "Editar Stock",
+                                  label: "Editar",
+                                  disabled: editarDisabled ?? false
                                 },
                               ],
                               onClick: ({ key }) => {

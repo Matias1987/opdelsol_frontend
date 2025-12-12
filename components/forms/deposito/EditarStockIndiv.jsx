@@ -11,6 +11,8 @@ import { EditOutlined } from "@ant-design/icons";
  *
  * @param nrofactura
  * @param idfactura
+ * @param idsucursal
+ * @param idcodigo
  *
  */
 const EditarStockIndiv = (props) => {

@@ -6,9 +6,10 @@ import DefaultImageProduct from "@/components/etc/imagen/default_image_prod";
 
 const DetalleCodigoHeader = (props) => {
   const [codigo, setCodigo] = useState(null);
-  const { idcodigo } = props;
+  const { idcodigo, size, hideImage } = props;
 
   useEffect(() => {
+  
     fetch(get.detalle_codigo + idcodigo)
       .then((r) => r.json())
       .then((response) => {
@@ -20,24 +21,25 @@ const DetalleCodigoHeader = (props) => {
     <Spin />
   ) : (
     <>
-      <div style={{ padding: "8px", borderRadius: "16px" }}>
-        <Row gutter={8} style={{ backgroundColor:"#f1f1f1ff", borderRadius:"16px", padding:"6px", maxWidth:"900px"}}>
+      <div>
+        <Row gutter={8} style={{ backgroundColor:"#f1f1f1ff", borderRadius:size == 'small' ? '6px' : '16px', padding:"6px", maxWidth:"900px"}}>
+          { hideImage ? <> </> :
           <Col style={{ width: "232px", paddingLeft:"16px", border:"1px solid #a3a3a3ff", margin:"4px", backgroundColor:"white", borderRadius:"8px" }}>
             <DefaultImageProduct idproduct={idcodigo} width="200px"/>
           </Col>
-
-          <Col style={{ width: "60%", padding:"16px", }}>
+          }
+          <Col style={{ width: "60%", padding:size == 'small' ? '6px' : '16px' }}>
             <Row gutter={16}>
               <Col span={24}>
                 <div>
-                  <span style={{ fontWeight: "600", fontSize: "1.2em" }}>
+                  <span style={{ fontWeight: "600", fontSize: size == 'small' ? '.7em' : '1.2em' }}>
                     C&oacute;digo:
                   </span>
                   &nbsp;&nbsp;
                   <span
                     style={{
                       fontWeight: "600",
-                      fontSize: "2em",
+                      fontSize: size == 'small' ? '.9em' : '2em',
                       color: "#000000ff",
                     }}
                   >
@@ -47,16 +49,16 @@ const DetalleCodigoHeader = (props) => {
                 </div>
               </Col>
 
-              <Col span={24} style={{paddingTop:"16px"}}>
+              <Col span={24} style={{paddingTop: size=="small" ? "8px" : "16px"}}>
                 <div>
-                  <span style={{ fontWeight: "600", fontSize: "1.1em" }}>
+                  <span style={{ fontWeight: "600", fontSize: size == 'small' ? '.8em' : '1.1em' }}>
                     Descripci&oacute;n:
                   </span>
                   &nbsp;&nbsp;
                   <span
                     style={{
                       fontWeight: "600",
-                      fontSize: "1.3em",
+                      fontSize: size == 'small' ? '.85em' : '1.3em',
                       color: "#02005e",
                     }}
                   >
@@ -65,17 +67,17 @@ const DetalleCodigoHeader = (props) => {
                 </div>
               </Col>
             </Row>
-            <Row style={{paddingTop:"16px"}}>
+            <Row style={{paddingTop:size=="small" ? "8px" : "16px"}}>
               <Col span={24}>
                 <div>
-                  <span style={{ fontWeight: "600", fontSize: "1.1em" }}>
+                  <span style={{ fontWeight: "600", fontSize: size == 'small' ? '.8em' : '1.1em'  }}>
                     Precio:
                   </span>
                   &nbsp;&nbsp;
                   <span
                     style={{
                       fontWeight: "600",
-                      fontSize: "1.3em",
+                      fontSize: size == 'small' ? '.8em' : '1.3em' ,
                       color: "#02005e",
                     }}
                   >
