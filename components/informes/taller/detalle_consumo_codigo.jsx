@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { InfoCircleTwoTone } from "@ant-design/icons";
 import InformeVentaV2 from "../ventas/InformeVentaV2";
 import InformeVenta from "../ventas/Base";
+import DetalleCodigoHeader from "@/components/forms/DetalleCodigoHeader";
 
 const DetalleConsumoCodigo = ({
   idcodigo,
@@ -43,6 +44,11 @@ const DetalleConsumoCodigo = ({
 
   return (
     <>
+      <Row>
+        <Col span={24}>
+          <DetalleCodigoHeader idcodigo={idcodigo} size={"small"} hideImage hidePrice />
+        </Col>
+      </Row>
       <Row>
         <Col span={24}>
           <Table

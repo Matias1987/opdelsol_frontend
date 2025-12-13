@@ -7,13 +7,12 @@ import DetalleCodigoHeader from "../DetalleCodigoHeader";
 const EditarCantidadCritica = (props) => {
   const [codigo, setCodigo] = useState({
     idcodigo: props.idcodigo,
-    stock_ideal: 0,
+    cantidad: 0,
   });
 
   const onSave = () => {
-    alert("...to do")
-    return;
-    post_method(post.update.editar_cantidad_ideal, codigo, (resp) => {
+ 
+    post_method(post.update.modificar_cantidad_critica, codigo, (resp) => {
       alert("OK");
       props?.callback?.();
     });
@@ -48,7 +47,7 @@ const EditarCantidadCritica = (props) => {
             onChange={(e) => {
               setCodigo((c) => ({
                 ...c,
-                stock_ideal: parseInt(e.target.value),
+                cantidad: parseInt(e.target.value),
               }));
             }}
           />

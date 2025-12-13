@@ -142,20 +142,7 @@ const CodeGridHTMLTipos = (props) => {
         </>
       ),
     },
-    {
-      key: "3",
-      label: "Pedido",
-      children: (
-        <>
-          <CodeGridHTML
-            reload={reload}
-            {...props}
-            gridType="pedido"
-            onCellClick={onCellClickPedido}
-          />
-        </>
-      ),
-    },
+    
     {
       key: "4",
       label: "Critico",
@@ -166,6 +153,20 @@ const CodeGridHTMLTipos = (props) => {
             {...props}
             gridType="critico"
             onCellClick={onCellClickCritico}
+          />
+        </>
+      ),
+    },
+    {
+      key: "3",
+      label: "Pedido",
+      children: (
+        <>
+          <CodeGridHTML
+            reload={reload}
+            {...props}
+            gridType="pedido"
+            onCellClick={onCellClickPedido}
           />
         </>
       ),

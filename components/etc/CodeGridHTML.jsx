@@ -43,29 +43,39 @@ const alertColors = [
 
 
 
-const get_color = (qtty, safeZone=50, dangerZone=0) => {
-  if(qtty<=dangerZone)
+const get_color = ({cantidad, stock_ideal, stock_critico}) => {
+  
+  /*if(qtty<=dangerZone)
   {
     return alertColors[0];
+  }*/
+  const qtty = gridType === "ideal" ? +stock_ideal : gridType === "critico" ? +stock_critico : +cantidad;
+
+  if(gridType=="critico" || gridType=="ideal")
+  {
+    return qtty > 0 ? "#57aeffff" : "#ffffff";
   }
-  if(qtty>=safeZone)
+
+  let _stock_ideal = 20;
+
+  let _stock_critico = 0;
+
+  if(gridType=="stock")
+  {
+    _stock_ideal = stock_ideal <=stock_critico ? stock_critico+alertColors.length : stock_ideal;
+
+  }
+  
+  const idx = parseInt( qtty / ((_stock_ideal - _stock_critico)/(alertColors.length))) ;
+
+  //console.log(JSON.stringify({qtty, _stock_ideal, _stock_critico, idx}))
+
+  if(idx>alertColors.length-1)
   {
     return alertColors[alertColors.length-1];
   }
 
-  const idx = parseInt( qtty / parseInt((safeZone - dangerZone)/(alertColors.length))) ;
-  if(qtty==48)
-  {
-    //console.log(idx)
-    console.log(parseInt((safeZone - dangerZone)/(alertColors.length-1)))
-  }
-  
-
   return alertColors[idx]
-
-
-
-
 
 }
 
@@ -100,6 +110,8 @@ const get_color = (qtty, safeZone=50, dangerZone=0) => {
             cantidad: gridType === "ideal" ? c.stock_ideal : gridType === "critico" ? c.stock_critico : c.cantidad,
             codigo: c.codigo,
             idcodigo: c.idcodigo,
+            stock_ideal: +c.stock_ideal,
+            stock_critico: +c.stock_critico,
           };
         });
         if (_min_esf > 1000 || _max_esf < -1000) return;
@@ -262,7 +274,9 @@ const get_color = (qtty, safeZone=50, dangerZone=0) => {
                         style={
                                 {
                                   ...cell_content,
-                                  backgroundColor: get_color(codesDict[`${parseFloat(cell.esf) * 100}${parseFloat(cell.cil) * 100}`]?.cantidad ),
+                                  backgroundColor: get_color(
+                                    codesDict[`${parseFloat(cell.esf) * 100}${parseFloat(cell.cil) * 100}`]
+                                  ),
                                   fontWeight: "600",
                                   color: "black",
                                 }
@@ -314,6 +328,7 @@ const get_color = (qtty, safeZone=50, dangerZone=0) => {
                               </Space>
                             </Button>
                           </Dropdown>
+                        
                         )}
                       </div>
                     </td>

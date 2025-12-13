@@ -4,9 +4,8 @@ import { get } from "@/src/urls";
 import TagsSmall from "@/components/etiquetas/tagsSmall";
 import DefaultImageProduct from "@/components/etc/imagen/default_image_prod";
 
-const DetalleCodigoHeader = (props) => {
+const DetalleCodigoHeader = ({ idcodigo, size, hideImage, hidePrice }) => {
   const [codigo, setCodigo] = useState(null);
-  const { idcodigo, size, hideImage } = props;
 
   useEffect(() => {
   
@@ -67,7 +66,9 @@ const DetalleCodigoHeader = (props) => {
                 </div>
               </Col>
             </Row>
-            <Row style={{paddingTop:size=="small" ? "8px" : "16px"}}>
+
+            { hidePrice ? <></> :
+              <Row style={{paddingTop:size=="small" ? "8px" : "16px"}}>
               <Col span={24}>
                 <div>
                   <span style={{ fontWeight: "600", fontSize: size == 'small' ? '.8em' : '1.1em'  }}>
@@ -85,7 +86,8 @@ const DetalleCodigoHeader = (props) => {
                   </span>{" "}
                 </div>
               </Col>
-            </Row>
+            </Row>}
+
           </Col>
         </Row>
       </div>
