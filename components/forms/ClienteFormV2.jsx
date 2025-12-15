@@ -7,9 +7,6 @@ import { useEffect, useState } from "react";
 import SelectLocalidadV2 from "../SelectLocalidadV2";
 import Edad from "../Edad";
 import { validate_only_numbers_and_letters } from "@/src/helpers/string_helper";
-import { PlusOutlined, UserAddOutlined } from "@ant-design/icons";
-import SelectLocalidad from "../SelectLocalidad";
-import SelectLocalidadV3 from "../SelectLocalidadV3";
 import { cliente_id_obl } from "@/src/config";
 
 
@@ -36,12 +33,6 @@ export default function ClienteFormV2(props){
 
     const url = post.insert.cliente;
 
-    /*useEffect(()=>{
-        if(typeof props.destinatario !== 'undefined' && props.destinatario){
-            setClienteData(cd=>({...cd,dni:("_d_" + globals.obtenerSucursal() + "_" + Date.now()), destinatario:'1'}))
-            
-        }
-    },[])*/
 
     const onFinish = () => {
 
@@ -228,7 +219,6 @@ export default function ClienteFormV2(props){
                 prefix={"D.N.I.: "} 
                 value={clienteData.dni} 
                 onChange={(e)=>{
-                    //setClienteData(v=>({...v,dni:e.target.value}))
                     onChange(e.target.value,"dni")
                 }
                 } 

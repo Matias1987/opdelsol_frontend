@@ -100,7 +100,7 @@ const VDItem = (props) => {
                 }} />
             </>
         )},
-        {title:"Precio", dataIndex:"precio", width:"160px", render:(_,{precio,codigo, precio_str})=><Input onWheel={(e)=>{e.target.blur()}} type="number" value={precio_str} onChange={(e)=>{
+        {title:"Precio", dataIndex:"precio", width:"160px", render:(_,{precio,codigo, precio_str})=><Input onClick={e=>{e.target.select()}} onWheel={(e)=>{e.target.blur()}} type="number" value={precio_str} onChange={(e)=>{
             setItems(__items=>
                 {
                     const _items_ = __items.map((i)=>(i.codigo==codigo ? { ...i,precio_str: e.target.value, precio:parse_float_string(e.target.value), total: parse_float_string(e.target.value) * parse_float_string(i.cantidad)}:i))

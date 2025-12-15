@@ -134,24 +134,24 @@ const MonofLabCristal = (props) => {
                     Esf:
                 </Col>*/}
                 <Col span={3}>
-                    <Input style={{minWidth:"100px"}}  prefix="Esf.: " size="small"  disabled={cristal.codigo==null}  value={cristal.esf} onChange={(e)=>{onchange_esf(e.target.value)}} />
+                    <Input onClick={e=>{e.target.select()}} style={{minWidth:"100px"}}  prefix="Esf.: " size="small"  disabled={cristal.codigo==null}  value={cristal.esf} onChange={(e)=>{onchange_esf(e.target.value)}} />
                 </Col>
                 {/*<Col span={1} style={_estilo_label}>
                     Cil:
                 </Col>*/}
                 <Col span={3}>
-                    <Input style={{minWidth:"100px"}}  prefix="Cil.: " size="small"  disabled={cristal.codigo==null}   value={cristal.cil} onChange={(e)=>{onchange_cil(e.target.value)}}/>
+                    <Input onClick={e=>{e.target.select()}} style={{minWidth:"100px"}}  prefix="Cil.: " size="small"  disabled={cristal.codigo==null}   value={cristal.cil} onChange={(e)=>{onchange_cil(e.target.value)}}/>
                 </Col>
                 {/*<Col span={1} style={_estilo_label}>
                     Eje:
                 </Col>*/}
                 <Col span={3}>
-                    <Input style={{minWidth:"100px"}}  prefix="Eje.: "  size="small"  disabled={cristal.codigo==null}  value={cristal.eje} onChange={(e)=>{onchange_eje(e.target.value)}}/>
+                    <Input onClick={e=>{e.target.select()}} style={{minWidth:"100px"}}  prefix="Eje.: "  size="small"  disabled={cristal.codigo==null}  value={cristal.eje} onChange={(e)=>{onchange_eje(e.target.value)}}/>
                 </Col>
                 
                 
                 <Col span={4}>
-                    <Input onWheel={(e)=>{e.target.blur()}} style={{minWidth:"100px"}} disabled={cristal.codigo==null} type="number" readOnly={false} size="small"  prefix="Precio" value={cristal.precio} onChange={onchange_precio} />
+                    <Input onClick={e=>{e.target.select()}} onWheel={(e)=>{e.target.blur()}} style={{minWidth:"100px"}} disabled={cristal.codigo==null} type="number" readOnly={false} size="small"  prefix="Precio" value={cristal.precio} onChange={onchange_precio} />
                 </Col>
                 <Col span={1}>
                     <Button danger size="small" onClick={()=>{onRemove()}}><CloseOutlined/></Button>

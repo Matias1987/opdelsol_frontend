@@ -68,10 +68,10 @@ const LCItem = (props) => {
                 </Col>
                 
                 <Col span={4}>
-                    <Input onWheel={(e)=>{e.target.blur()}} disabled={lc.codigo==null || +bloquear_precios_lc_stock==1} size="small" type="number" addonBefore="Precio: " readOnly={false} value={lc.precio} onChange={(v)=>{onPrecioChange((v.target.value.length<1?"0":v.target.value))}}/>
+                    <Input onClick={e=>{e.target.select()}} onWheel={(e)=>{e.target.blur()}} disabled={lc.codigo==null || +bloquear_precios_lc_stock==1} size="small" type="number" addonBefore="Precio: " readOnly={false} value={lc.precio} onChange={(v)=>{onPrecioChange((v.target.value.length<1?"0":v.target.value))}}/>
                 </Col>
                 <Col span={4}>
-                    <Input style={{width:"220px"}} type="number"  disabled={lc.codigo==null} size="small" addonBefore="Cant.:" addonAfter={"/"+(typeof lc.max === 'undefined' ? 0 : lc.max)} max={typeof lc.max === 'undefined' ? 0 : lc.max } value={lc.cantidad} onChange={(e)=>{onCantidadChange(parse_int_string(e.target.value))}} />
+                    <Input onClick={e=>{e.target.select()}} style={{width:"220px"}} type="number"  disabled={lc.codigo==null} size="small" addonBefore="Cant.:" addonAfter={"/"+(typeof lc.max === 'undefined' ? 0 : lc.max)} max={typeof lc.max === 'undefined' ? 0 : lc.max } value={lc.cantidad} onChange={(e)=>{onCantidadChange(parse_int_string(e.target.value))}} />
                 </Col>
                 <Col span={4}>
                     <Input size="small" readOnly prefix={"Total:"} value={lc.total} />   

@@ -133,14 +133,14 @@ const MultifLabCristal = (props) => {
                 &nbsp;Esf:
                 </Col>*/}
                 <Col span={3}>
-                    <Input style={{minWidth:"100px"}}    prefix="Esf.:" size="small" disabled={cristal.codigo==null} value={cristal.esf} step={".25"} onChange={(e)=>{onchange_esf(e.target.value)}} />
+                    <Input onClick={e=>{e.target.select()}} style={{minWidth:"100px"}}    prefix="Esf.:" size="small" disabled={cristal.codigo==null} value={cristal.esf} step={".25"} onChange={(e)=>{onchange_esf(e.target.value)}} />
                 </Col>
                 {/*<Col span={1} style={_estilo_label}>
                 &nbsp;Cil:
                 </Col>*/}
                 <Col span={3}>
                     {/*<Select size="small" options={itemsCil} onChange={(v)=>{onchange_cil(v)}}/>*/}
-                    <Input style={{minWidth:"100px"}}   prefix="Cil.:" size="small" disabled={cristal.codigo==null} value={cristal.cil} step={"0.25"} onChange={(e)=>{onchange_cil(e.target.value)}}/>
+                    <Input onClick={e=>{e.target.select()}} style={{minWidth:"100px"}}   prefix="Cil.:" size="small" disabled={cristal.codigo==null} value={cristal.cil} step={"0.25"} onChange={(e)=>{onchange_cil(e.target.value)}}/>
                 </Col>
                 {/*<Col span={3}>
                     <Input addonBefore={"Eje:"} onChange={onchange_eje} />&nbsp;
@@ -149,14 +149,14 @@ const MultifLabCristal = (props) => {
                     Eje:
                 </Col>*/}
                 <Col span={3}>
-                    <Input style={{minWidth:"100px"}}  prefix="Eje:" size="small" disabled={cristal.codigo==null} value={cristal.eje} step={"0.25"} onChange={(e)=>{onchange_eje(e.target.value)}} />
+                    <Input onClick={e=>{e.target.select()}} style={{minWidth:"100px"}}  prefix="Eje:" size="small" disabled={cristal.codigo==null} value={cristal.eje} step={"0.25"} onChange={(e)=>{onchange_eje(e.target.value)}} />
                     {/*<Select size="small" options={itemsEje} onChange={(v)=>{onchange_eje(v)}} />*/}
                 </Col>
                 
                 
                 <Col span={4}>
                     {/*<span>&nbsp;&nbsp;Precio: </span><input readOnly onChange={onchange_precio} ref={precioRef} style={{textAlign:"right", width:"100px", border: "1px solid #ccc", borderRadius:"6px", borderColor:"lightgray", padding:".4em", fontSize:"1.1em"}} />*/}
-                    <Input onWheel={(e)=>{e.target.blur()}} style={{minWidth:"100px"}} disabled={cristal.codigo==null} type="number" prefix="Precio:" value={cristal.precio} readOnly={false} onChange={onchange_precio} size="small" />
+                    <Input onClick={e=>{e.target.select()}} onWheel={(e)=>{e.target.blur()}} style={{minWidth:"100px"}} disabled={cristal.codigo==null} type="number" prefix="Precio:" value={cristal.precio} readOnly={false} onChange={onchange_precio} size="small" />
                 </Col>
                 <Col span={1}>
                     <Button size="small" danger  onClick={()=>{onRemove()}}><CloseOutlined/></Button>

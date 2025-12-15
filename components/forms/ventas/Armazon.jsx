@@ -68,7 +68,7 @@ const VentasArmazon = (props) => {
                     <SelectCodigoVenta idfamilias={[globals.familiaIDs.ARMAZON]} callback={on_codigo_change} hideExtOpt="1"/>
                 </Col>
                 <Col span={4}>
-                    <Input onWheel={(e)=>{e.target.blur()}} style={{minWidth:"100px"}} disabled={armazon.codigo==null} type="number" prefix="Precio: " value={armazon.precio} readOnly={false} onChange={on_precio_change} size="small" />
+                    <Input onClick={e=>{e.target.select()}} onWheel={(e)=>{e.target.blur()}} style={{minWidth:"100px"}} disabled={armazon.codigo==null} type="number" prefix="Precio: " value={armazon.precio} readOnly={false} onChange={on_precio_change} size="small" />
                     {/*<span>Precio:&nbsp;<input readOnly onChange={on_precio_change}  ref={precioRef} style={{textAlign:"right", width:"100px", border: "1px solid #ccc", borderRadius:"6px", borderColor:"lightgray", padding:".4em", fontSize:"1.1em"}}  /></span>*/}
                 </Col>
                 <Col span={1}>

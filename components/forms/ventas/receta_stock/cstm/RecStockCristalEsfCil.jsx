@@ -117,6 +117,7 @@ const RecStockCristalEsfCil = (props) => {
 
         <Col>
           <Input
+            onClick={e=>{e.target.select()}}
             style={{ width: "100px" }}
             prefix="Esf.:"
             size="small"
@@ -130,6 +131,7 @@ const RecStockCristalEsfCil = (props) => {
         </Col>
         <Col>
           <Input
+            onClick={e=>{e.target.select()}}
             style={{ width: "100px" }}
             prefix="Cil.:"
             size="small"
@@ -143,6 +145,7 @@ const RecStockCristalEsfCil = (props) => {
         </Col>
         <Col>
           <Input
+            onClick={e=>{e.target.select()}}
             style={{ width: "100px" }}
             prefix="Eje:"
             disabled={cristal.codigo == null}
@@ -155,6 +158,7 @@ const RecStockCristalEsfCil = (props) => {
         </Col>
         <Col>
           <Input
+            onClick={e=>{e.target.select()}}
             onWheel={(e) => {
               e.target.blur();
             }}

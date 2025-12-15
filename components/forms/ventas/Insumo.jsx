@@ -51,7 +51,7 @@ const VentasInsumo = (props) => {
                     <SelectCodigoVenta hideExtOpt="1" buttonText="Seleccione Código Insumo" idfamilias={[globals.familiaIDs.INSUMO,globals.familiaIDs.LIQUIDOS]} callback={on_codigo_change} />
                 </Col>
                 <Col span={4}>
-                    <Input onWheel={(e)=>{e.target.blur()}} style={{minWidth:"100px"}} disabled={insumo.codigo==null} type="number" min={0} prefix={"Precio: "} readOnly={false} value={insumo.precio} onChange={on_precio_change} size="small" />
+                    <Input onClick={e=>{e.target.select()}} onWheel={(e)=>{e.target.blur()}} style={{minWidth:"100px"}} disabled={insumo.codigo==null} type="number" min={0} prefix={"Precio: "} readOnly={false} value={insumo.precio} onChange={on_precio_change} size="small" />
                 </Col>
                 <Col span={1}>
                 <Button danger size="small" onClick={()=>{onRemove()}}><CloseOutlined/></Button>
