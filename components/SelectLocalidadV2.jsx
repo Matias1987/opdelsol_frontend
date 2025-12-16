@@ -42,7 +42,7 @@ const SelectLocalidadV2 = (props) => {
                 label: r.provincia,
             })))
         })
-        load_localidades(3)
+        load_localidades(globals.obtenerOpticaProvincia())
         props?.callback?.(selectedLocalidad)
     },[])
 
@@ -53,9 +53,9 @@ const SelectLocalidadV2 = (props) => {
         setSelectedLocalidad(s=>{
             const _loc = {
                 ...s,
-                idprovincia: prov.idprovincia,
+                idprovincia: e.target.value,
                 provincia: prov.nombre,
-                idlocalidad: -1,
+                idlocalidad: globals.obtenerOpticaLocalidad(),
                 localidad:"",
             }
             props?.callback?.(_loc)
@@ -111,6 +111,11 @@ const SelectLocalidadV2 = (props) => {
                 departamento: r.departamento,
                 localidad: r.localidad,
             })))
+            
+            setSelectedLocalidad({
+                idlocalidad: globals.obtenerOpticaLocalidad(),
+                
+            })
             //props?.callback?.(selectedLocalidad)
         })
     }
@@ -119,7 +124,7 @@ const SelectLocalidadV2 = (props) => {
         <Row>
             <Col span={3} style={{textAlign:"right", paddingTop:".5em" }}>Prov.:&nbsp;&nbsp;</Col>
             <Col span={8}>
-                <select defaultValue={selectedLocalidad.idprovincia} style={_select_style} onChange={_on_provincia_change}>
+                <select defaultValue={globals.obtenerOpticaProvincia()} style={_select_style} onChange={_on_provincia_change}>
                     {
                         provincias.map((p)=><option value={p.idprovincia}>{p.provincia}</option>)
                     }

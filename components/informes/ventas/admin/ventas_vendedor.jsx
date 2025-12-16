@@ -7,6 +7,7 @@ import { InfoCircleOutlined } from "@ant-design/icons";
 import { Table, Button, Card, Select, Row, Col } from "antd";
 import { useEffect, useState } from "react";
 import FiltrosInforme from "./FiltrosInforme";
+import { formatFloat } from "@/src/helpers/formatters";
 
 const VentasVendedor = (props) => {
   // const { filtros, actualizar } = props;
@@ -42,13 +43,13 @@ const VentasVendedor = (props) => {
         );
       },
     },
-    { width: "100px", dataIndex: "usuario", title: "usuario" },
+    { width: "100px", dataIndex: "usuario", title: "usuario", sorter: (a, b) => a.usuario.localeCompare(b.usuario), },
     {
       width: "100px",
       dataIndex: "efectivo",
       title: <div style={{ textAlign: "right" }}>efectivo</div>,
       render: (_, { efectivo }) => (
-        <div style={money_style}>{currency_format(efectivo)}</div>
+        <div style={money_style}>{formatFloat(efectivo)}</div>
       ),
     },
     {
@@ -56,7 +57,7 @@ const VentasVendedor = (props) => {
       dataIndex: "tarjeta",
       title: <div style={{ textAlign: "right" }}>tarjeta</div>,
       render: (_, { tarjeta }) => (
-        <div style={money_style}>{currency_format(tarjeta)}</div>
+        <div style={money_style}>{formatFloat(tarjeta)}</div>
       ),
     },
     {
@@ -64,7 +65,7 @@ const VentasVendedor = (props) => {
       dataIndex: "cheque",
       title: <div style={{ textAlign: "right" }}>cheque</div>,
       render: (_, { cheque }) => (
-        <div style={money_style}>{currency_format(cheque)}</div>
+        <div style={money_style}>{formatFloat(cheque)}</div>
       ),
     },
     {
@@ -72,7 +73,7 @@ const VentasVendedor = (props) => {
       dataIndex: "ctacte",
       title: <div style={{ textAlign: "right" }}>ctacte</div>,
       render: (_, { ctacte }) => (
-        <div style={money_style}>{currency_format(ctacte)}</div>
+        <div style={money_style}>{formatFloat(ctacte)}</div>
       ),
     },
     {
@@ -80,7 +81,7 @@ const VentasVendedor = (props) => {
       dataIndex: "mutual",
       title: <div style={{ textAlign: "right" }}>mutual</div>,
       render: (_, { mutual }) => (
-        <div style={money_style}>{currency_format(mutual)}</div>
+        <div style={money_style}>{formatFloat(mutual)}</div>
       ),
     },
     {
@@ -88,7 +89,7 @@ const VentasVendedor = (props) => {
       dataIndex: "mp",
       title: <div style={{ textAlign: "right" }}>mp</div>,
       render: (_, { mp }) => (
-        <div style={money_style}>{currency_format(mp)}</div>
+        <div style={money_style}>{formatFloat(mp)}</div>
       ),
     },
     {
@@ -98,7 +99,7 @@ const VentasVendedor = (props) => {
       title: <div style={{ textAlign: "right" }}>total</div>,
       render: (_, { total }) => (
         <div style={{ ...money_style, fontWeight: "bold" }}>
-          {currency_format(total)}
+          {formatFloat  (total)}
         </div>
       ),
     },
@@ -229,25 +230,25 @@ const VentasVendedor = (props) => {
                       TOTALES:
                     </Table.Summary.Cell>
                     <Table.Summary.Cell align={"right"}>
-                      <b>{currency_format(totalEfvo)}</b>
+                      <b>{formatFloat(totalEfvo)}</b>
                     </Table.Summary.Cell>
                     <Table.Summary.Cell align={"right"}>
-                      <b>{currency_format(totalTarjetas)}</b>
+                      <b>{formatFloat(totalTarjetas)}</b>
                     </Table.Summary.Cell>
                     <Table.Summary.Cell align={"right"}>
-                      <b>{currency_format(totalCheques)}</b>
+                      <b>{formatFloat(totalCheques)}</b>
                     </Table.Summary.Cell>
                     <Table.Summary.Cell align={"right"}>
-                      <b>{currency_format(totalCtaCte)}</b>
+                      <b>{formatFloat(totalCtaCte)}</b>
                     </Table.Summary.Cell>
                     <Table.Summary.Cell align={"right"}>
-                      <b>{currency_format(totalMutual)}</b>
+                      <b>{formatFloat(totalMutual)}</b>
                     </Table.Summary.Cell>
                     <Table.Summary.Cell align={"right"}>
-                      <b>{currency_format(totalMP)}</b>
+                      <b>{formatFloat(totalMP)}</b>
                     </Table.Summary.Cell>
                     <Table.Summary.Cell align={"right"}>
-                      <b>{currency_format(total)}</b>
+                      <b>{formatFloat(total)}</b>
                     </Table.Summary.Cell>
                   </Table.Summary.Row>
                 </>

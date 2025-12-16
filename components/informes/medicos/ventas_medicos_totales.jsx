@@ -62,7 +62,7 @@ const ListaVentasMedicosTotales = (props) => {
       ),
       width: "50px",
     },
-    { width: "120px", dataIndex: "medico", title: "medico", fixed: "left" },
+    { width: "120px", dataIndex: "medico", title: "medico", fixed: "left", sorter: (a, b) => a.medico.localeCompare(b.medico), },
     {
       width: "100px",
       dataIndex: "efectivo",

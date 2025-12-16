@@ -28,11 +28,11 @@ const VentasMedicos = (props) => {
     anio: 0,
   });
   const columns = [
-    { width:"100px", dataIndex: "idventa", title: "Nro. Op." },
-    { width:"100px", dataIndex: "fecha_retiro", title: "Fecha Retiro" },
-    { width:"150px", dataIndex: "sucursal", title: "Sucursal" },
-    { width:"200px", dataIndex: "cliente", title: "Cliente" },
-    { width:"100px", dataIndex: "dni", title: "DNI" },
+    { width:"100px", dataIndex: "idventa", title: "Nro. Op.", sorter: (a, b) => +a.idventa-+b.idventa },
+    { width:"100px", dataIndex: "fecha_retiro", title: "Fecha Retiro", sorter: (a, b) => new Date(a.fecha_retiro1) - new Date(b.fecha_retiro1) },
+    { width:"150px", dataIndex: "sucursal", title: "Sucursal", sorter: (a, b) => a.sucursal.localeCompare(b.sucursal) },
+    { width:"200px", dataIndex: "cliente", title: "Cliente", sorter: (a, b) => a.cliente.localeCompare(b.cliente) },
+    { width:"100px", dataIndex: "dni", title: "DNI", sorter: (a, b) => a.dni.localeCompare(b.dni) },
     {
       dataIndex: "tipo",
       title: "Detalle",
@@ -56,7 +56,7 @@ const VentasMedicos = (props) => {
         }
       },
     },
-    { dataIndex: "monto", title: "Monto", width:"100px", render:(_,{monto})=><div style={{textAlign:"right"}}>$  {formatFloat(monto)}</div> },
+    { dataIndex: "monto", title: "Monto", width:"100px", sorter: (a, b) => parseFloat(a.monto)-parseFloat(b.monto) , render:(_,{monto})=><div style={{textAlign:"right"}}>$  {formatFloat(monto)}</div> },
     {
       title: "",
       render: (_, { idventa }) => (
@@ -101,6 +101,7 @@ const VentasMedicos = (props) => {
             monto: r.monto_total,
             sucursal: r.sucursal,
             fecha_retiro: r.fecha_retiro_f,
+            fecha_retiro1: r.fecha_retiro_f1,
           }))
         );
       }
