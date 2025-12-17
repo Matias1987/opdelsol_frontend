@@ -27,7 +27,7 @@ export default function ClienteFormV2(props){
         domicilio: "",
         telefono: "",
         destinatario: '0',
-        idlocalidad:-1,
+        idlocalidad: globals.obtenerOpticaLocalidad(),
         
     })
 
@@ -115,6 +115,7 @@ export default function ClienteFormV2(props){
                     domicilio: clienteData.domicilio.toUpperCase(),
                     tk: globals.getToken(),
                 }
+
                 
                 post_method(url,_data,(res)=>{
                     //alert("Cliente Agregado")
@@ -129,7 +130,7 @@ export default function ClienteFormV2(props){
                         domicilio: "",
                         telefono: "",
                         destinatario: '0',
-                        idlocalidad:-1
+                        idlocalidad:globals.obtenerOpticaLocalidad()
                     })
 
                     if(typeof props.callback !== 'undefined'){
@@ -321,7 +322,7 @@ export default function ClienteFormV2(props){
                 fk_localidad={+globals.obtenerOpticaLocalidad()}
                 fk_provincia={+globals.obtenerOpticaProvincia()}
                 callback={(p)=>{
-                   //n alert(JSON.stringify(p))
+                   // alert(JSON.stringify(p))
                     onChange(p.idlocalidad,"idlocalidad")
                     }} />
             </Col>

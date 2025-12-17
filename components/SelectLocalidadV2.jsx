@@ -9,10 +9,10 @@ const SelectLocalidadV2 = (props) => {
     const [provincias, setProvincias] = useState(null)
     const _row_style = {}
     const [selectedLocalidad, setSelectedLocalidad] =  useState({
-        idlocalidad: 1279,
+        idlocalidad: globals.obtenerOpticaLocalidad(),
         iddepartamento: 162,
-        idprovincia: 3,
-        localidad: "RESISTENCIA",
+        idprovincia: globals.obtenerOpticaProvincia(),
+        localidad: "",
         departamento: "",
         provincia: "PROVINCIA"
     })
@@ -43,7 +43,14 @@ const SelectLocalidadV2 = (props) => {
             })))
         })
         load_localidades(globals.obtenerOpticaProvincia())
-        props?.callback?.(selectedLocalidad)
+        props?.callback?.({
+        idlocalidad: globals.obtenerOpticaLocalidad(),
+        iddepartamento: 0,
+        idprovincia: globals.obtenerOpticaProvincia(),
+        localidad: "",
+        departamento: "",
+        provincia: "PROVINCIA"
+    })
     },[])
 
     const _on_provincia_change = (e)=>{
