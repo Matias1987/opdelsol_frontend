@@ -79,7 +79,7 @@ export default function test() {
       <Ingreso />*/}
       {/*<AgregarArmazon />*/}
     </div>
-  );
+  )
 }
 
 test.PageLayout = LayoutAdmin;

@@ -36,7 +36,7 @@ const ListaPreciosV4 = (props) => {
         fetch(get.optionsforsubfamilia + idsf)
         .then(r=>r.json())
         .then((response)=>{
-            console.log(JSON.stringify(response))
+            //console.log(JSON.stringify(response))
             setFix(fix+1)
             setGrupos(response.data.map(g=>({id:g.value, nombre:g.label})))
             setLoading(false)

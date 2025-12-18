@@ -254,6 +254,8 @@ const post = {
 
     anuar_gasto: remote_base_url + "gastos/anular/",
 
+    agregar_stock_quick: remote_base_url + "stock_ext/quick_add/",
+
     search:{
         filtro_stock: remote_base_url + "stock/filtro_stock/",
     },

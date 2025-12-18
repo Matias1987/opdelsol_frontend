@@ -6,7 +6,7 @@ import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 import SelectLocalidadV2 from "../SelectLocalidadV2";
 import Edad from "../Edad";
-import { validate_only_numbers_and_letters } from "@/src/helpers/string_helper";
+import { convertInputToUpper, validate_only_numbers_and_letters } from "@/src/helpers/string_helper";
 import { cliente_id_obl } from "@/src/config";
 
 
@@ -214,6 +214,7 @@ export default function ClienteFormV2(props){
         <Row style={{padding:".5em"}}>
             <Col span={24}>
                 <Input  
+                onInput={convertInputToUpper}
                 allowClear
                 maxLength={10} 
                 style={{appearance:"textfield"}} 
@@ -235,6 +236,7 @@ export default function ClienteFormV2(props){
         <Row style={{padding:".5em"}}>
             <Col span={24}>
                 <Input 
+                onInput={convertInputToUpper}
                 allowClear
                 style={{appearance:"textfield"}}  
                 maxLength={45} 
@@ -252,6 +254,7 @@ export default function ClienteFormV2(props){
         <Row style={{padding:".5em"}}>
             <Col span={24}>
                 <Input  
+                onInput={convertInputToUpper}
                 allowClear
                 maxLength={45} 
                 prefix={<span style={{fontWeight:"600"}}>Nombres:</span>} 
@@ -307,7 +310,11 @@ export default function ClienteFormV2(props){
 
         <Row style={{padding:".5em"}}>
             <Col span={12}>
-                <Input  maxLength={45} prefix={"Domicilio:"} onChange={(e)=>{
+                <Input  
+                onInput={convertInputToUpper}
+                maxLength={45} 
+                prefix={"Domicilio:"} 
+                onChange={(e)=>{
                     //setClienteData(d=>({...d,domicilio:e.target.value}))
                     onChange(e.target.value,"domicilio")
                     }} value={clienteData.domicilio} />

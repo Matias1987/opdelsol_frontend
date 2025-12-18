@@ -2,7 +2,7 @@ import { post_method } from "@/src/helpers/post_helper";
 import { post } from "@/src/urls";
 import "@/styles/codeGrid.module.css";
 import { DownOutlined } from "@ant-design/icons";
-import { Button, Col, Collapse, Dropdown, Row, Space } from "antd";
+import { Button, Checkbox, Col, Collapse, Dropdown, Row, Space } from "antd";
 import { useEffect, useState } from "react";
 import DetalleSubgrupo from "../DetalleSubgrupo";
 
@@ -17,75 +17,94 @@ import DetalleSubgrupo from "../DetalleSubgrupo";
  *
  */
 const CodeGridHTML = (props) => {
-  const { idsubgrupo, idsucursal, onCellClick, reload, gridType, mes, anio, editarDisabled } = props;
+  const {
+    idsubgrupo,
+    idsucursal,
+    onCellClick,
+    reload,
+    gridType,
+    mes,
+    anio,
+    editarDisabled,
+  } = props;
   const [dataPositive, setDataPositive] = useState([]);
   const [dataNegative, setDataNegative] = useState([]);
+  const [modoSeleccionMultiple, setModoSeleccionMultiple] = useState(false);
   const [codesDict, setCodesDict] = useState({});
 
-const alertColors = [
-  "#DC2626", // 16 - Red (Danger)
-  "#DF2730", // 15
-  "#E7352F", // 14
-  "#EF4444", // 13 - Orange-Red
-  "#F34121", // 12
-  "#F65A1B", // 11
-  "#F97316", // 10 - Orange
-  "#F59E1E", // 9
-  "#F7B51A", // 8
-  "#FACC15", // 7 - Yellow
-  "#E6E12A", // 6
-  "#C9E92A", // 5
-  "#A3E635", // 4 - Yellow-Green
-  "#7DE262", // 3
-  "#55D86A", // 2
-  "#2ECC71"  // 1 - Green (OK)
-];
+  const alertColors = [
+    "#DC2626", // 16 - Red (Danger)
+    "#DF2730", // 15
+    "#E7352F", // 14
+    "#EF4444", // 13 - Orange-Red
+    "#F34121", // 12
+    "#F65A1B", // 11
+    "#F97316", // 10 - Orange
+    "#F59E1E", // 9
+    "#F7B51A", // 8
+    "#FACC15", // 7 - Yellow
+    "#E6E12A", // 6
+    "#C9E92A", // 5
+    "#A3E635", // 4 - Yellow-Green
+    "#7DE262", // 3
+    "#55D86A", // 2
+    "#2ECC71", // 1 - Green (OK)
+  ];
 
-
-
-const get_color = ({cantidad, stock_ideal, stock_critico}) => {
-  
-  /*if(qtty<=dangerZone)
+  const get_color = ({ cantidad, stock_ideal, stock_critico }) => {
+    /*if(qtty<=dangerZone)
   {
     return alertColors[0];
   }*/
-  const qtty = gridType === "ideal" ? +stock_ideal : gridType === "critico" ? +stock_critico : +cantidad;
+    const qtty =
+      gridType === "ideal"
+        ? +stock_ideal
+        : gridType === "critico"
+        ? +stock_critico
+        : +cantidad;
 
-  if(gridType=="critico" || gridType=="ideal")
-  {
-    return qtty > 0 ? "#57aeffff" : "#ffffff";
-  }
+    if (gridType == "critico" || gridType == "ideal") {
+      return qtty > 0 ? "#57aeffff" : "#ffffff";
+    }
 
-  let _stock_ideal = 20;
+    let _stock_ideal = 20;
 
-  let _stock_critico = 0;
+    let _stock_critico = 0;
 
-  if(gridType=="stock")
-  {
-    _stock_ideal = stock_ideal <=stock_critico ? stock_critico+alertColors.length : stock_ideal;
+    if (gridType == "stock") {
+      _stock_ideal =
+        stock_ideal <= stock_critico
+          ? stock_critico + alertColors.length
+          : stock_ideal;
+    }
 
-  }
-  
-  const idx = parseInt( qtty / ((_stock_ideal - _stock_critico)/(alertColors.length))) ;
+    const idx = parseInt(
+      qtty / ((_stock_ideal - _stock_critico) / alertColors.length)
+    );
 
-  //console.log(JSON.stringify({qtty, _stock_ideal, _stock_critico, idx}))
+    //console.log(JSON.stringify({qtty, _stock_ideal, _stock_critico, idx}))
 
-  if(idx>alertColors.length-1)
-  {
-    return alertColors[alertColors.length-1];
-  }
+    if (idx > alertColors.length - 1) {
+      return alertColors[alertColors.length - 1];
+    }
 
-  return alertColors[idx]
-
-}
+    return alertColors[idx];
+  };
 
   const load = (callback) => {
-
-    let endpoint = gridType === 'uso' ? post.obtener_grilla_uso : post.obtener_grilla_stock;
-    
+    let endpoint =
+      gridType === "uso" ? post.obtener_grilla_uso : post.obtener_grilla_stock;
+    //alert(endpoint)
+    //alert(JSON.stringify({ idsubgrupo: idsubgrupo, idsucursal: idsucursal, eje: "-1", mes: mes||"-1", anio: anio||"-1" }))
     post_method(
       endpoint,
-      { idsubgrupo: idsubgrupo, idsucursal: idsucursal, eje: "-1", mes: mes||"-1", anio: anio||"-1" },
+      {
+        idsubgrupo: idsubgrupo,
+        idsucursal: idsucursal,
+        eje: "-1",
+        mes: mes || "-1",
+        anio: anio || "-1",
+      },
       (response) => {
         //alert(JSON.stringify(response));
         let t_ejes = {};
@@ -107,11 +126,17 @@ const get_color = ({cantidad, stock_ideal, stock_critico}) => {
             parseFloat(c.cil) > _max_cil ? parseFloat(c.cil) : _max_cil;
 
           qtties[`${parseFloat(c.esf) * 100}${parseFloat(c.cil) * 100}`] = {
-            cantidad: gridType === "ideal" ? c.stock_ideal : gridType === "critico" ? c.stock_critico : c.cantidad,
+            cantidad:
+              gridType === "ideal"
+                ? c.stock_ideal
+                : gridType === "critico"
+                ? c.stock_critico
+                : c.cantidad,
             codigo: c.codigo,
             idcodigo: c.idcodigo,
             stock_ideal: +c.stock_ideal,
             stock_critico: +c.stock_critico,
+            checked: false,
           };
         });
         if (_min_esf > 1000 || _max_esf < -1000) return;
@@ -233,7 +258,7 @@ const get_color = ({cantidad, stock_ideal, stock_critico}) => {
                         ...base_border_style,
                       }}
                     >
-                      <div style={cell_content}></div>
+                      <div style={cell_content}>ESF\CIL</div>
                     </th>
                   )}
                   <th
@@ -271,24 +296,19 @@ const get_color = ({cantidad, stock_ideal, stock_critico}) => {
                     )}
                     <td style={{ ...base_border_style, ...td_style }}>
                       <div
-                        style={
-                                {
-                                  ...cell_content,
-                                  backgroundColor: get_color(
-                                    codesDict[`${parseFloat(cell.esf) * 100}${parseFloat(cell.cil) * 100}`]
-                                  ),
-                                  fontWeight: "600",
-                                  color: "black",
-                                }
-                              }
+                        style={{
+                          ...cell_content,
+                          backgroundColor: get_color(
+                            codesDict[
+                              `${parseFloat(cell.esf) * 100}${
+                                parseFloat(cell.cil) * 100
+                              }`
+                            ]
+                          ),
+                          fontWeight: "600",
+                          color: "black",
+                        }}
                       >
-                        {
-                          codesDict[
-                            `${parseFloat(cell.esf) * 100}${
-                              parseFloat(cell.cil) * 100
-                            }`
-                          ]?.cantidad
-                        }
                         {"undefined" ===
                         typeof codesDict[
                           `${parseFloat(cell.esf) * 100}${
@@ -296,39 +316,65 @@ const get_color = ({cantidad, stock_ideal, stock_critico}) => {
                           }`
                         ] ? (
                           <></>
-                        ) : (
-                          <Dropdown
-                            menu={{
-                              items: [
-                                {
-                                  key: "1",
-                                  label: "Detalle",
-                                },
-                                {
-                                  key: "2",
-                                  label: "Editar",
-                                  disabled: editarDisabled ?? false
-                                },
-                              ],
-                              onClick: ({ key }) => {
-                                onCellClick(
-                                  key,
-                                  codesDict[
-                                    `${parseFloat(cell.esf) * 100}${
-                                      parseFloat(cell.cil) * 100
-                                    }`
-                                  ]?.idcodigo
-                                );
-                              },
+                        ) : modoSeleccionMultiple ? (
+                          <>
+                            <Checkbox
+                            onChange={e=>{
+                              const __idx = `${parseFloat(cell.esf) * 100}${parseFloat(cell.cil) * 100}`;
+                              const o1 = {...codesDict[__idx], checked: e.target.checked};
+                              setCodesDict(_cd=>({..._cd,[__idx]:o1}));
                             }}
-                          >
-                            <Button type="link" size="small">
-                              <Space>
-                                <DownOutlined />
-                              </Space>
-                            </Button>
-                          </Dropdown>
-                        
+                            >
+                              {
+                                codesDict[
+                                  `${parseFloat(cell.esf) * 100}${
+                                    parseFloat(cell.cil) * 100
+                                  }`
+                                ]?.cantidad
+                              }
+                            </Checkbox>
+                          </>
+                        ) : (
+                          <>
+                            {
+                              codesDict[
+                                `${parseFloat(cell.esf) * 100}${
+                                  parseFloat(cell.cil) * 100
+                                }`
+                              ]?.cantidad
+                            }
+                            <Dropdown
+                              menu={{
+                                items: [
+                                  {
+                                    key: "1",
+                                    label: "Detalle",
+                                  },
+                                  {
+                                    key: "2",
+                                    label: "Editar",
+                                    disabled: editarDisabled ?? false,
+                                  },
+                                ],
+                                onClick: ({ key }) => {
+                                  onCellClick(
+                                    key,
+                                    codesDict[
+                                      `${parseFloat(cell.esf) * 100}${
+                                        parseFloat(cell.cil) * 100
+                                      }`
+                                    ]?.idcodigo
+                                  );
+                                },
+                              }}
+                            >
+                              <Button type="link" size="small">
+                                <Space>
+                                  <DownOutlined />
+                                </Space>
+                              </Button>
+                            </Dropdown>
+                          </>
                         )}
                       </div>
                     </td>
@@ -353,15 +399,19 @@ const get_color = ({cantidad, stock_ideal, stock_critico}) => {
   };
 
   return (
-    <>
-      <Row style={{padding:"16px"}}>
-        <Col span={24}>
+    <div style={{border:"1px solid #c0c0c0ff", borderRadius:"8px", padding:"4px", backgroundColor:"#e2e2e2ff"}}>
+      <Row style={{ padding: "16px" }} gutter={16}>
+        <Col>
           <DetalleSubgrupo idsubgrupo={idsubgrupo} />
+        </Col>
+        <Col>
+          <Checkbox disabled onChange={_=>{setModoSeleccionMultiple(!modoSeleccionMultiple)}} value={modoSeleccionMultiple}>Modo Selecci&oacute;n</Checkbox>
         </Col>
       </Row>
       <Row>
         <Col span={24}>
           <Collapse
+            size="small"
             style={{ backgroundColor: "#C1D4E7" }}
             defaultActiveKey={["1"]}
             onChange={onChange}
@@ -380,7 +430,7 @@ const get_color = ({cantidad, stock_ideal, stock_critico}) => {
           />
         </Col>
       </Row>
-    </>
+    </div>
   );
 };
 

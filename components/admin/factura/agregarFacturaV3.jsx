@@ -240,7 +240,7 @@ const AgregarFacturaV3 = (props) => {
       idsucursal: globals.obtenerSucursal(),
     };
     //console.log(JSON.stringify(data))
-   // alert(JSON.stringify(data))
+    // alert(JSON.stringify(data))
     post_method(post.insert.factura, data, (resp) => {
       alert("Hecho.");
       props?.callback?.();
@@ -395,7 +395,9 @@ const AgregarFacturaV3 = (props) => {
         <Col>
           <Input
             prefix="Nro.:"
-            onClick={(e)=>{e.target.select()}} 
+            onClick={(e) => {
+              e.target.select();
+            }}
             onChange={(e) => {
               onNroChange(e.target.value);
             }}
@@ -428,7 +430,9 @@ const AgregarFacturaV3 = (props) => {
               <Input
                 maxLength={12}
                 prefix="Punto de Venta:  "
-                onClick={(e)=>{e.target.select()}} 
+                onClick={(e) => {
+                  e.target.select();
+                }}
                 value={factura.puntoVenta}
                 onChange={(e) => {
                   onPuntoVentaChange(e.target.value);
@@ -456,8 +460,9 @@ const AgregarFacturaV3 = (props) => {
             </Col>
           </Row>
           <Row style={_rows_style} gutter={[24, 18]}>
-            {<Col>
-              {/*<Input
+            {
+              <Col>
+                {/*<Input
                 style={{ width: "320px" }}
                 onClick={(e)=>{e.target.select()}} 
                 type="number"
@@ -468,15 +473,21 @@ const AgregarFacturaV3 = (props) => {
                 }}
                 allowClear
               />*/}
-              <InputNumber decimalSeparator="." 
-              prefix="Neto Gravado: "
-                style={{ width: "320px" }}
-                value={factura.netoGravado}
-                onChange={(value) => {
-                  onNetoGravadoChange((value||"").toString().length<1? "0":value.toString());
-                }}
-              />
-            </Col>}
+                <InputNumber
+                  decimalSeparator="."
+                  prefix="Neto Gravado: "
+                  style={{ width: "320px" }}
+                  value={factura.netoGravado}
+                  onChange={(value) => {
+                    onNetoGravadoChange(
+                      (value || "").toString().length < 1
+                        ? "0"
+                        : value.toString()
+                    );
+                  }}
+                />
+              </Col>
+            }
             <Col>
               {/*<Input
                 style={{ width: "320px" }}
@@ -489,12 +500,15 @@ const AgregarFacturaV3 = (props) => {
                 }}
                 allowClear
               />*/}
-              <InputNumber decimalSeparator="." 
-              prefix="Neto no Gravado: "
+              <InputNumber
+                decimalSeparator="."
+                prefix="Neto no Gravado: "
                 style={{ width: "320px" }}
                 value={factura.netoNoGravado}
                 onChange={(value) => {
-                  onNetoNoGravadoChange((value||"").toString().length<1? "0":value.toString());
+                  onNetoNoGravadoChange(
+                    (value || "").toString().length < 1 ? "0" : value.toString()
+                  );
                 }}
               />
             </Col>
@@ -511,14 +525,16 @@ const AgregarFacturaV3 = (props) => {
                 }}
                 allowClear
               />*/}
-              <InputNumber decimalSeparator="." 
-              prefix="Impuestos Internos: "
+              <InputNumber
+                decimalSeparator="."
+                prefix="Impuestos Internos: "
                 style={{ width: "300px" }}
                 value={factura.impuestosInternos}
                 onChange={(value) => {
-                  onImpuestosInternosChange((value||"").toString().length<1? "0":value.toString());
+                  onImpuestosInternosChange(
+                    (value || "").toString().length < 1 ? "0" : value.toString()
+                  );
                 }}
-                
               />
             </Col>
             <Col>
@@ -533,14 +549,15 @@ const AgregarFacturaV3 = (props) => {
                 style={{ width: "300px" }}
                 prefix="Descuento: "
               />*/}
-              <InputNumber 
-              
-              decimalSeparator="." 
-              prefix="Descuento: "
+              <InputNumber
+                decimalSeparator="."
+                prefix="Descuento: "
                 style={{ width: "300px" }}
                 value={factura.descuento}
                 onChange={(value) => {
-                  onDescuentoChange((value||"").toString().length<1? "0":value.toString());
+                  onDescuentoChange(
+                    (value || "").toString().length < 1 ? "0" : value.toString()
+                  );
                 }}
               />
             </Col>
@@ -564,14 +581,16 @@ const AgregarFacturaV3 = (props) => {
               }));
             }}
           />*/}
-          <InputNumber decimalSeparator="." 
-          prefix="Monto Total: "
+          <InputNumber
+            decimalSeparator="."
+            prefix="Monto Total: "
             style={{ width: "300px" }}
             value={factura.total}
             onChange={(value) => {
               setFactura((f) => ({
                 ...f,
-                total: (value||"").toString().length<1? "0":value.toString(),
+                total:
+                  (value || "").toString().length < 1 ? "0" : value.toString(),
               }));
             }}
             readOnly={!esRemito}

@@ -103,6 +103,7 @@ const CodeGridHTMLTipos = (props) => {
           <Row>
             <Col span={24}>
               <DatePicker
+                prefix="Periodo: "
                 defaultValue={dayjs()}
                 picker="month"
                 format="MM/YYYY"
@@ -110,7 +111,7 @@ const CodeGridHTMLTipos = (props) => {
               />
             </Col>
           </Row>
-          <Row>
+          <Row style={{paddingTop:"16px"}}>
             <Col span={24}>
               <CodeGridHTML
                 reload={reload}
@@ -186,7 +187,7 @@ const CodeGridHTMLTipos = (props) => {
 
   return (
     <>
-      <Tabs defaultActiveKey="1" items={items} onChange={onChange} />;
+      <Tabs defaultActiveKey="1" items={items} onChange={onChange} tabPosition="right" />;
       <Modal
         open={modalEditarCriticoOpen}
         width={modal_width}

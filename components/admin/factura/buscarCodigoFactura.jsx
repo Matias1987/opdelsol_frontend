@@ -215,7 +215,7 @@ const BuscarCodigoFactura = (props) => {
       children: (
         <>
           <AddStockQuick callback={data=>{
-            props.callback({})
+            props.callback(data)
           }} />
         </>
       ),

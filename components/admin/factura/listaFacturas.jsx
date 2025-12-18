@@ -8,7 +8,6 @@ import {
   Modal,
   Row,
   Col,
-  Select,
   Card,
   DatePicker,
   Checkbox,
@@ -18,8 +17,8 @@ import { CloseOutlined, InfoOutlined, PlusOutlined } from "@ant-design/icons";
 import ExportToCSV from "@/components/ExportToCSV";
 import ListaProveedores from "../proveedor/ListaProveedores";
 import { post_method } from "@/src/helpers/post_helper";
-import AgregarFacturaV2 from "./agregarFacturaV2";
 import AgregarFacturaV3 from "./agregarFacturaV3";
+import { formatFloat } from "@/src/helpers/formatters";
 /**
  *
  * @param readOnly
@@ -53,7 +52,7 @@ const ListaFacturas = (props) => {
       dataIndex: "monto",
       key: "monto",
       render: (_, { monto }) => (
-        <div style={{ textAlign: "right", width: "100%" }}>$&nbsp;{monto}</div>
+        <div style={{ textAlign: "right", width: "100%" }}>$&nbsp;{ formatFloat(monto)}</div>
       ),
     },
     {

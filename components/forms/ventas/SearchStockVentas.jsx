@@ -6,6 +6,7 @@ import { CheckCircleFilled, CloseCircleFilled, CloseOutlined, SearchOutlined } f
 import { post_method } from "@/src/helpers/post_helper";
 import { regex_get_id_if_match } from "@/src/helpers/barcode_helper";
 import { idf_optica } from "@/src/config";
+import { convertInputToUpper } from "@/src/helpers/string_helper";
 
 /**
  * 
@@ -72,7 +73,7 @@ const SearchStockVentas = (props) => {
             <Row>
                 <Col span={24} style={{ padding: "4px" }}>
                     <Input
-                        
+                        onInput={convertInputToUpper}
                         allowClear
                         size="large"
                         value={filtros.mainval}

@@ -255,6 +255,16 @@ const convertToWords = (value, centavos=true) => {
 	
 }
 
+  const convertInputToUpper = (event) => {
+    const { target } = event;
+    if (!(target instanceof HTMLInputElement)) {
+      return;
+    }
+    // Preserve the cursor position
+    const { selectionStart, selectionEnd } = target;
+    target.value = target.value.toUpperCase();
+    target.setSelectionRange(selectionStart, selectionEnd);
+  };
 
 
 
@@ -271,6 +281,7 @@ module.exports={
     currency_format,
     validate_signed_number,
     validate_only_numbers_and_letters,
+    convertInputToUpper,
     reg_only_letters_s,
     reg_only_numbers_and_letters_s,
     reg_only_numbers_dec,

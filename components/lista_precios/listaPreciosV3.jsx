@@ -20,6 +20,7 @@ import SubGrupoFormV3 from "../forms/deposito/SubgrupoFormV3";
 import CodeExample from "../etc/codeExample";
 import { headers } from "@/next.config";
 import { SearchOutlined } from "@ant-design/icons";
+import { convertInputToUpper } from "@/src/helpers/string_helper";
 
 const ListaPreciosV3 = (props) => {
   const [subfamilias, setSubfamilias] = useState([]);
@@ -188,6 +189,7 @@ const ListaPreciosV3 = (props) => {
                     color: "black",
                     borderColor: "red",
                   }}
+                  onInput={convertInputToUpper}
                   onChange={(e) => {
                     setFilterStr(e.target.value);
                   }}
