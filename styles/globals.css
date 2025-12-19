@@ -466,8 +466,8 @@ just some testing
 .ant-table-tbody > tr.ant-table-row:hover > td {
   /*background-color: #bfff00 !important;  Replace with your desired color */
   color: rgb(1, 2, 87) !important;
-  font-weight: 600 !important;
-  /*font-size: 1.1em;*/
+  /*font-weight: 600 !important;
+  font-size: 1.1em;*/
   cursor: pointer;
 }
 .ant-table-tbody > tr.error-row:hover > td {

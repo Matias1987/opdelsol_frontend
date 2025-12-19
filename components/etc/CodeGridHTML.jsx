@@ -5,6 +5,7 @@ import { DownOutlined } from "@ant-design/icons";
 import { Button, Checkbox, Col, Collapse, Dropdown, Row, Space } from "antd";
 import { useEffect, useState } from "react";
 import DetalleSubgrupo from "../DetalleSubgrupo";
+import ExportToExcel2 from "./ExportToExcel2";
 
 //old javascript...
 /**
@@ -398,6 +399,25 @@ const CodeGridHTML = (props) => {
     console.log(key);
   };
 
+
+  const prepareCSV = () =>{
+    const data = [];
+    const row0 = []
+    src[0].forEach(_=>{row0.push()});
+    data.push(row0);
+
+    src.forEach(row=>{
+      const row1 = [];
+      //push esf
+      row1.push();
+      row.forEach( cell => { 
+        //push
+        row1.push();
+      });
+      data.push(row1);
+    });
+  }
+
   return (
     <div style={{border:"1px solid #c0c0c0ff", borderRadius:"8px", padding:"4px", backgroundColor:"#e2e2e2ff"}}>
       <Row style={{ padding: "16px" }} gutter={16}>
@@ -406,6 +426,9 @@ const CodeGridHTML = (props) => {
         </Col>
         <Col>
           <Checkbox disabled onChange={_=>{setModoSeleccionMultiple(!modoSeleccionMultiple)}} value={modoSeleccionMultiple}>Modo Selecci&oacute;n</Checkbox>
+        </Col>
+        <Col>
+          <ExportToExcel2 buttonSize={"small"} buttonType="link" buttonStyle={{color:"#008132ff", fontWeight:"bolder"}} />
         </Col>
       </Row>
       <Row>
@@ -431,7 +454,7 @@ const CodeGridHTML = (props) => {
         </Col>
       </Row>
     </div>
-  );
-};
+  )
+}
 
 export default CodeGridHTML;

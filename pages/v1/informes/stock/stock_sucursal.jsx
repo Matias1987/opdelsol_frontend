@@ -194,7 +194,7 @@ const StockSucursal = (_) => {
                       &nbsp;&nbsp;
                       <ExportToExcel
                         data={dataSource
-                          .filter((d) => +d.cantidad > 0)
+                          .filter((d) => ocultar0 ? +d.cantidad > 0 : true)
                           .map((d) => ({ ...d, sucursal: "" }))}
                         columns={[
                           {

@@ -32,11 +32,11 @@ const ListaVentasDia = ({dia,mes,anio, dateReadOnly, sucursal, sucursalReadOnly}
   });
   const columns = [
     {render:()=><><Checkbox/></>, width:"30px"},
-    { dataIndex: "idventa", title: "Nro." },
-    { dataIndex: "cliente", title: "Cliente" },
-    { dataIndex: "estado", title: "Estado" },
-    { dataIndex: "monto", title: "Monto", render:(_,{monto})=><div style={{textAlign:"right"}}>{parseFloat(monto).toLocaleString(2)}</div> },
-    { dataIndex: "sucursal", title: "Sucursal" },
+    { dataIndex: "idventa", title: "Nro.", sorter:(a,b)=> +a.idventa-+b.idventa },
+    { dataIndex: "cliente", title: "Cliente", sorter:(a,b)=> (a.cliente||"").localeCompare(b.cliente) },
+    { dataIndex: "estado", title: "Estado", sorter:(a,b)=> (a.estado||"").localeCompare(b.estado) },
+    { dataIndex: "monto", title: "Monto", sorter:(a,b) => +a.monto-+b.monto, render:(_,{monto})=><div style={{textAlign:"right"}}>{parseFloat(monto).toLocaleString(2)}</div> },
+    { dataIndex: "sucursal", title: "Sucursal", sorter:(a,b)=> (a.sucursal||"").localeCompare(b.sucursal) },
     {
       dataIndex: "idventa",
       title: "",

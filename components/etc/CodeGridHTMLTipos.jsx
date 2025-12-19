@@ -187,7 +187,7 @@ const CodeGridHTMLTipos = (props) => {
 
   return (
     <>
-      <Tabs defaultActiveKey="1" items={items} onChange={onChange} tabPosition="right" />;
+      <Tabs defaultActiveKey="1" items={items} onChange={onChange} tabPosition="right" />
       <Modal
         open={modalEditarCriticoOpen}
         width={modal_width}

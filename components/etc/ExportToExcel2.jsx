@@ -11,7 +11,7 @@ import { ExportOutlined, FileExcelOutlined } from "@ant-design/icons";
  * 
  *  
  */
-const ExportToExcel2 = ({ sheets, buttonSize, fileName }) => {
+const ExportToExcel2 = ({ sheets, buttonSize, fileName, buttonStyle, buttonType }) => {
     /**
      * sheets must have the following structure:
      * sheets: [
@@ -22,6 +22,7 @@ const ExportToExcel2 = ({ sheets, buttonSize, fileName }) => {
      *  }
      * ]
      */
+    const default_style = {backgroundColor: "#217346"}
   const exportExcel = async () => {
     const workbook = new ExcelJS.Workbook();
 
@@ -46,8 +47,8 @@ const ExportToExcel2 = ({ sheets, buttonSize, fileName }) => {
   return (
     <Button
       size={buttonSize || "middle"}
-      style={{ backgroundColor: "#217346" }}
-      type="primary"
+      style={buttonStyle ?? default_style}
+      type={buttonType ?? "primary"}
       onClick={exportExcel}
     >
       <FileExcelOutlined /> Exportar a Excel

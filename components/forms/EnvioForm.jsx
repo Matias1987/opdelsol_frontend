@@ -8,12 +8,13 @@ import {
   Input,
   Row,
   Table,
+  Modal,
 } from "antd";
 import LoadSelect from "../LoadSelect";
 import { useEffect, useState } from "react";
 import globals from "@/src/globals";
 import SearchStockEnvio from "./deposito/SearchStockEnvio";
-import { CloseCircleFilled, DownOutlined, UpOutlined } from "@ant-design/icons";
+import { CloseCircleFilled, DownOutlined, PlusCircleFilled, UpOutlined } from "@ant-design/icons";
 import { post_method } from "@/src/helpers/post_helper";
 import { get, informes, post, public_urls } from "@/src/urls";
 
@@ -27,7 +28,7 @@ const EnvioForm = (props) => {
   const [total, setTotal] = useState(0);
   const [generarEnvioBtnEnabled, setGenerarEnvioBtnEnabled] = useState(true);
   const [rows_to_add, setRowsToAdd] = useState([]);
-
+  const [popupAddOpen, setPopupAddOpen] = useState(false)
   useEffect(() => {
     if (rows_to_add.length > 0) {
       load_details_for_selected_id(rows_to_add[0], (_) => {
@@ -215,28 +216,16 @@ const EnvioForm = (props) => {
 
   return (
     <>
-      <Card
-        size="small"
-        title="Nuevo Envío"
-        style={{ boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)"}}
-      >
+
         <Row gutter={16}>
           
-          <Col style={{ padding: "14px", paddingTop:"32px", minWidth:"200px", width:"500px" }}>
-            <SearchStockEnvio
-              idSucursalDestino={sucursalDestId}
-              callback={(arr) => {
-                //alert(JSON.stringify(arr))
-                setRowsToAdd(arr);
-              }}
-              key={sucursalDestId}
-            />
-          </Col>
+
           <Col>
             <Card
               styles={{header:{backgroundColor:"#fbfcf2ff", color:"#663f4c", fontSize:"1.3em"}}}
-              style={{ boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)"  , minWidth:"400px",  width:"750px"}}
+              style={{ boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)" }}
               title="Envío"
+              size="small"
             >
               <Form
                 style={{ color: "white" }}
@@ -252,10 +241,10 @@ const EnvioForm = (props) => {
                 >
                   <LoadSelect
                     disabled={(tableData || []).length > 0}
-                    width="440px"
+                    width="500px"
                     prefix={
-                      <span style={{ color: "#0C5AA9" }}>
-                        <i>Sucursal:</i>&nbsp;
+                      <span style={{ color: "#0C5AA9", whiteSpace:"nowrap" }}>
+                        Sucursal Dest.:&nbsp;
                       </span>
                     }
                     parsefnt={(data) =>
@@ -270,9 +259,13 @@ const EnvioForm = (props) => {
                     }}
                   />
                 </Form.Item>
-                <Divider />
+                
                 <Form.Item name={"items"} label={""}>
                   <Table
+                    title={_=><div style={{display:"flex", justifyContent:"space-between"}}>
+                      <div style={{fontWeight:"600", paddingTop:"8px", fontWeight:"bold"}}>Productos</div>
+                      <div><Button size="large" style={{fontWeight:"bold"}} disabled={+sucursalDestId<0} type="link" onClick={_=>{setPopupAddOpen(true)}} ><PlusCircleFilled /> Agregar Productos</Button></div>
+                    </div>}
                     rowClassName={(record, index) =>
                       index % 2 === 0 ? "table-row-light" : "table-row-dark"
                     }
@@ -423,7 +416,22 @@ const EnvioForm = (props) => {
             </Card>
           </Col>
         </Row>
-      </Card>
+ 
+      <Modal footer={null} onCancel={_=>{setPopupAddOpen(!popupAddOpen)}} open={popupAddOpen} width={"1200px"} title="">
+          <Row>
+          <Col style={{ padding: "14px", paddingTop:"32px", minWidth:"200px"}}>
+            <SearchStockEnvio
+              idSucursalDestino={sucursalDestId}
+              callback={(arr) => {
+                //alert(JSON.stringify(arr))
+                setRowsToAdd(arr);
+              }}
+              key={sucursalDestId}
+            />
+          </Col>
+
+          </Row>
+      </Modal>
     </>
   );
 };

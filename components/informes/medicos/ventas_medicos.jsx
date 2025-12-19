@@ -27,6 +27,7 @@ const VentasMedicos = (props) => {
     mes: 0,
     anio: 0,
   });
+  const [loading, setLoading] = useState(false);
   const columns = [
     { width:"100px", dataIndex: "idventa", title: "Nro. Op.", sorter: (a, b) => +a.idventa-+b.idventa },
     { width:"100px", dataIndex: "fecha_retiro", title: "Fecha Retiro", sorter: (a, b) => new Date(a.fecha_retiro1) - new Date(b.fecha_retiro1) },
@@ -56,7 +57,7 @@ const VentasMedicos = (props) => {
         }
       },
     },
-    { dataIndex: "monto", title: "Monto", width:"100px", sorter: (a, b) => parseFloat(a.monto)-parseFloat(b.monto) , render:(_,{monto})=><div style={{textAlign:"right"}}>$  {formatFloat(monto)}</div> },
+    { dataIndex: "monto", title: "Monto", width:"150px", sorter: (a, b) => parseFloat(a.monto)-parseFloat(b.monto) , render:(_,{monto})=><div style={{textAlign:"right"}}>$  {formatFloat(monto)}</div> },
     {
       title: "",
       render: (_, { idventa }) => (
@@ -77,6 +78,7 @@ const VentasMedicos = (props) => {
       mes: props.mes,
       anio: props.anio,
     });
+    setLoading(true);
     post_method(
       post.lista_ventas_medico,
       {
@@ -104,6 +106,7 @@ const VentasMedicos = (props) => {
             fecha_retiro1: r.fecha_retiro_f1,
           }))
         );
+        setLoading(false);
       }
     );
   };
@@ -152,15 +155,16 @@ const VentasMedicos = (props) => {
               Lista de Ventas del M&eacute;dico: {props?.nombre_medico || ""}
             </b>
             <Table
+              loading={loading}
               size="small"
-              pagination={false}
+              pagination={true}
               columns={columns}
               dataSource={dataSource}
               scroll={{ y: "400px" }}
             />
             <Divider />
             <b>
-              Cant. Total: {dataSource.length} | Monto Total: $ {total}
+              Cant. Total: {dataSource.length} | Monto Total: $ {formatFloat(total)}
             </b>
           </PrinterWrapper>
         </Col>

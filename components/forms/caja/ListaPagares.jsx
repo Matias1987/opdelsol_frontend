@@ -1,4 +1,5 @@
 import Pagare from "@/components/informes/caja/Pagare"
+import { formatFloat } from "@/src/helpers/formatters"
 import { get } from "@/src/urls"
 import { Table } from "antd"
 import { useEffect, useState } from "react"
@@ -41,7 +42,7 @@ const ListaPagares = (props) => {
                     title:"fecha", dataIndex: 'fecha'
                 },
                 {
-                    title:"monto", dataIndex: 'monto'
+                    title:"monto", dataIndex: 'monto', render:(_,{monto})=><>$&nbsp;{formatFloat(monto)}</>
                 },
                 {
                     title:"Acciones", dataIndex: 'idVenta', 

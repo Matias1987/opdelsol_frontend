@@ -67,7 +67,16 @@ const SearchStockEnvio = (props) => {
     }
 
     const doSearch = (value, id)=>{
-        let _searchvalue = value.trim().length<1 ?"-1": value.trim();
+        let _searchvalue = value.trim().length<1 ?"": value.trim();
+       
+        if(
+            +idCat<1 && _searchvalue.length<1
+        )
+        {
+            setLoading(false)
+            return;
+        }
+        
         const params = {
             tags:tags,
             sucursal_destino: props.idSucursalDestino,
@@ -159,7 +168,7 @@ const SearchStockEnvio = (props) => {
             <Col span={24}>
                 <Affix offsetTop={top}>
                     <Input.Search 
-                    size="small"
+                    size="large"
                     allowClear={false}
 
                     prefix={<>
@@ -208,12 +217,13 @@ const SearchStockEnvio = (props) => {
                     rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'}
                     size="small"
                     scroll={{y:"400px"}}
-                    pagination={false}
+                    pagination={true}
                     loading={loading}
                     dataSource={dataSource} 
                     columns={
                         [
                             {width:"150px", title:"Codigo", dataIndex: "codigo" },
+                            {width:"150px", title:"Desc.", dataIndex: "descripcion" },
                             {width:"80px", title:"Loc.", dataIndex: "cantidad", render: (_,{cantidad})=>(<span style={{color:"#00972D"}}>{cantidad}</span>)},
                             {width:"80px", title:"Dest.", dataIndex: "cantidad_destino", render: (_,{cantidad_destino})=>(<span style={{color:"red"}}>{cantidad_destino}</span>)},
                             {
@@ -226,7 +236,7 @@ const SearchStockEnvio = (props) => {
                                         (e)=>{
                                             props.callback((dataSource.filter(r=>r.checked)).map(e=>e.idcodigo))
                                         }
-                                    }><PlusOutlined /></Button>
+                                    }><PlusOutlined /> Agregar</Button>
                                 </>, 
                                 dataIndex: "habilitado",
                                 render: 
@@ -235,7 +245,7 @@ const SearchStockEnvio = (props) => {
                                         <>
                                             {
                                                 habilitado.val?
-                                                <Button size="small" onClick={()=>{props.callback([habilitado.idcodigo])}}><PlusOutlined /></Button>
+                                                <Button size="small" onClick={()=>{props.callback([habilitado.idcodigo])}}><PlusOutlined /> Agregar</Button>
                                                 :
                                                 <span>Ya seleccionado</span>
                                             }
