@@ -53,10 +53,13 @@ const CodeGridHTML = (props) => {
   ];
 
   const get_color = ({ cantidad, stock_ideal, stock_critico }) => {
-    /*if(qtty<=dangerZone)
-  {
-    return alertColors[0];
-  }*/
+    if (gridType == "pedido") {
+      return cantidad > 0
+        ? "#ff5c33ff"
+        : cantidad < 0
+        ? "#ffffffff"
+        : "#fcd3d3ff";
+    }
     const qtty =
       gridType === "ideal"
         ? +stock_ideal
@@ -68,9 +71,9 @@ const CodeGridHTML = (props) => {
       return qtty > 0 ? "#57aeffff" : "#ffffff";
     }
 
-    let _stock_ideal = 20;
+    let _stock_ideal = stock_ideal;
 
-    let _stock_critico = 0;
+    let _stock_critico = stock_critico;
 
     if (gridType == "stock") {
       _stock_ideal =
@@ -79,11 +82,16 @@ const CodeGridHTML = (props) => {
           : stock_ideal;
     }
 
-    const idx = parseInt(
-      qtty / ((_stock_ideal - _stock_critico) / alertColors.length)
-    );
+    const q1 =
+      qtty - _stock_critico > _stock_ideal - _stock_critico
+        ? _stock_ideal - _stock_critico
+        : qtty - _stock_critico < 1
+        ? 0
+        : qtty - _stock_critico;
 
-    //console.log(JSON.stringify({qtty, _stock_ideal, _stock_critico, idx}))
+    const idx = parseInt(
+      q1 * (alertColors.length / (_stock_ideal - _stock_critico))
+    );
 
     if (idx > alertColors.length - 1) {
       return alertColors[alertColors.length - 1];
@@ -132,6 +140,8 @@ const CodeGridHTML = (props) => {
                 ? c.stock_ideal
                 : gridType === "critico"
                 ? c.stock_critico
+                : gridType === "pedido"
+                ? +c.stock_ideal - +c.cantidad
                 : c.cantidad,
             codigo: c.codigo,
             idcodigo: c.idcodigo,
@@ -163,7 +173,7 @@ const CodeGridHTML = (props) => {
   const base_border_style = {
     border: "1px solid #C1D4E7",
     borderCollapse: "collapse",
-    padding: "2px",
+    padding: "0px",
   };
 
   const td_style = {
@@ -320,11 +330,19 @@ const CodeGridHTML = (props) => {
                         ) : modoSeleccionMultiple ? (
                           <>
                             <Checkbox
-                            onChange={e=>{
-                              const __idx = `${parseFloat(cell.esf) * 100}${parseFloat(cell.cil) * 100}`;
-                              const o1 = {...codesDict[__idx], checked: e.target.checked};
-                              setCodesDict(_cd=>({..._cd,[__idx]:o1}));
-                            }}
+                              onChange={(e) => {
+                                const __idx = `${parseFloat(cell.esf) * 100}${
+                                  parseFloat(cell.cil) * 100
+                                }`;
+                                const o1 = {
+                                  ...codesDict[__idx],
+                                  checked: e.target.checked,
+                                };
+                                setCodesDict((_cd) => ({
+                                  ..._cd,
+                                  [__idx]: o1,
+                                }));
+                              }}
                             >
                               {
                                 codesDict[
@@ -399,36 +417,56 @@ const CodeGridHTML = (props) => {
     console.log(key);
   };
 
-
-  const prepareCSV = () =>{
+  const prepareCSV = () => {
     const data = [];
-    const row0 = []
-    src[0].forEach(_=>{row0.push()});
+    const row0 = [];
+    src[0].forEach((_) => {
+      row0.push();
+    });
     data.push(row0);
 
-    src.forEach(row=>{
+    src.forEach((row) => {
       const row1 = [];
       //push esf
       row1.push();
-      row.forEach( cell => { 
+      row.forEach((cell) => {
         //push
         row1.push();
       });
       data.push(row1);
     });
-  }
+  };
 
   return (
-    <div style={{border:"1px solid #c0c0c0ff", borderRadius:"8px", padding:"4px", backgroundColor:"#e2e2e2ff"}}>
+    <div
+      style={{
+        border: "1px solid #c0c0c0ff",
+        borderRadius: "8px",
+        padding: "4px",
+        backgroundColor: "#e2e2e2ff",
+      }}
+    >
       <Row style={{ padding: "16px" }} gutter={16}>
         <Col>
           <DetalleSubgrupo idsubgrupo={idsubgrupo} />
         </Col>
         <Col>
-          <Checkbox disabled onChange={_=>{setModoSeleccionMultiple(!modoSeleccionMultiple)}} value={modoSeleccionMultiple}>Modo Selecci&oacute;n</Checkbox>
+          <Checkbox
+            disabled
+            onChange={(_) => {
+              setModoSeleccionMultiple(!modoSeleccionMultiple);
+            }}
+            value={modoSeleccionMultiple}
+          >
+            Modo Selecci&oacute;n
+          </Checkbox>
         </Col>
         <Col>
-          <ExportToExcel2 buttonSize={"small"} buttonType="link" buttonStyle={{color:"#008132ff", fontWeight:"bolder"}} />
+          <ExportToExcel2
+            buttonSize={"small"}
+            buttonType="link"
+            buttonStyle={{ color: "#008132ff", fontWeight: "bolder" }}
+          />
         </Col>
       </Row>
       <Row>
@@ -454,7 +492,7 @@ const CodeGridHTML = (props) => {
         </Col>
       </Row>
     </div>
-  )
-}
+  );
+};
 
 export default CodeGridHTML;
