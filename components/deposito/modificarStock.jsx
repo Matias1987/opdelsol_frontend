@@ -16,6 +16,7 @@ import StockTable from "@/components/deposito/lista_stock_table";
 import EditarCodigoGrupo from "@/components/forms/deposito/EditarCodigoGrupo";
 import EditarPreciosSubgruposForm from "../forms/deposito/EditarPreciosSubgruposForm";
 import SucursalSelect from "../SucursalSelect";
+import CodeGridHTMLTipos from "../etc/CodeGridHTMLTipos";
 
 const ModificarStock = (props) => {
   const [usuarioDep, setUsuarioDep] = useState(false);
@@ -75,22 +76,11 @@ const ModificarStock = (props) => {
 
       if (regexp_terminados.test(demo_code)) {
         return (
-          <CodeGridHTML
+          <CodeGridHTMLTipos
             reload={valueChanged}
             idsubgrupo={idsubgrupo}
             idsucursal={idsucursal}
-            onCellClick={(key, idcodigo) => {
-              switch (+key) {
-                case 1:
-                  setSelectedIdCodigo(idcodigo);
-                  setPopupDetalleOpen(true);
-                  break;
-                case 2:
-                  setSelectedIdCodigo(idcodigo);
-                  setPopupEditarStockIndvOpen(true);
-                  break;
-              }
-            }}
+            
           />
         );
       }

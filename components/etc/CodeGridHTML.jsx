@@ -52,7 +52,21 @@ const CodeGridHTML = (props) => {
     "#2ECC71", // 1 - Green (OK)
   ];
 
-  const get_color = ({ cantidad, stock_ideal, stock_critico }) => {
+  const get_color = (data) => {
+   
+    if(!data)
+    {
+      return;
+    }
+
+    if(typeof data.cantidad === 'undefined')
+    {
+      //alert(JSON.stringify(data))
+      return;
+    }
+
+    const { cantidad, stock_ideal, stock_critico } = data;
+
     if (gridType == "pedido") {
       return cantidad > 0
         ? "#ff5c33ff"
@@ -118,21 +132,44 @@ const CodeGridHTML = (props) => {
         //alert(JSON.stringify(response));
         let t_ejes = {};
         let _ejes = [];
-        let _min_esf = 9999;
-        let _max_esf = -99999;
-        let _min_cil = 99999;
-        let _max_cil = -99999;
+
+        let _min_esf_neg = 9999;
+        let _max_esf_neg = -99999;
+        let _min_esf_pos = 9999;
+        let _max_esf_pos = -99999;
+
+        let _min_cil_neg = 99999;
+        let _max_cil_neg = -99999;
+        let _min_cil_pos = 99999;
+        let _max_cil_pos = -99999;
+
         let qtties = {};
         response.data.forEach((c) => {
-          _max_esf =
-            parseFloat(c.esf) > _max_esf ? parseFloat(c.esf) : _max_esf;
-          _min_esf =
-            parseFloat(c.esf) < _min_esf ? parseFloat(c.esf) : _min_esf;
+          if(c.esf<0)
+            {
+              _max_esf_neg =
+                parseFloat(c.esf) > _max_esf_neg ? parseFloat(c.esf) : _max_esf_neg;
+              _min_esf_neg =
+                parseFloat(c.esf) < _min_esf_neg ? parseFloat(c.esf) : _min_esf_neg;
 
-          _min_cil =
-            parseFloat(c.cil) < _min_cil ? parseFloat(c.cil) : _min_cil;
-          _max_cil =
-            parseFloat(c.cil) > _max_cil ? parseFloat(c.cil) : _max_cil;
+              _min_cil_neg =
+                parseFloat(c.cil) < _min_cil_neg ? parseFloat(c.cil) : _min_cil_neg;
+              _max_cil_neg =
+                parseFloat(c.cil) > _max_cil_neg ? parseFloat(c.cil) : _max_cil_neg;
+            } 
+          else{
+              _max_esf_pos =
+              parseFloat(c.esf) > _max_esf_pos ? parseFloat(c.esf) : _max_esf_pos;
+              _min_esf_pos =
+              parseFloat(c.esf) < _min_esf_pos ? parseFloat(c.esf) : _min_esf_pos;
+
+              _min_cil_pos =
+              parseFloat(c.cil) < _min_cil_pos ? parseFloat(c.cil) : _min_cil_pos;
+              _max_cil_pos =
+              parseFloat(c.cil) > _max_cil_pos ? parseFloat(c.cil) : _max_cil_pos;
+          }
+
+            
 
           qtties[`${parseFloat(c.esf) * 100}${parseFloat(c.cil) * 100}`] = {
             cantidad:
@@ -150,16 +187,17 @@ const CodeGridHTML = (props) => {
             checked: false,
           };
         });
-        if (_min_esf > 1000 || _max_esf < -1000) return;
-        if (_min_cil > 1000 || _max_cil < -1000) return;
+        if (_min_esf_neg > 1000 || _max_esf_neg < -1000) return;
+        if (_min_cil_neg > 1000 || _max_cil_neg < -1000) return;
 
-        //alert(JSON.stringify({_min_esf, _max_esf, _min_cil, _max_cil}));
+       // alert(JSON.stringify({_min_esf: _min_esf_neg, _max_esf: _max_esf_neg, _min_cil: _min_cil_neg, _max_cil: _max_cil_neg}));
         setCodesDict(qtties);
         setDataPositive(
-          prepare(Math.abs(0), Math.abs(_min_esf), Math.abs(_min_cil), "+", "-")
+          prepare(Math.abs(_min_esf_pos), Math.abs(_max_esf_pos),  Math.abs(_max_cil_pos) ,Math.abs(_min_cil_pos), "+", "-")
         );
+
         setDataNegative(
-          prepare(Math.abs(0), Math.abs(_max_esf), Math.abs(_min_cil), "-", "-")
+          prepare(Math.abs(_max_esf_neg), Math.abs(_min_esf_neg),  Math.abs(_max_cil_neg) ,Math.abs(_min_cil_neg), "-", "-")
         );
       }
     );
@@ -232,11 +270,11 @@ const CodeGridHTML = (props) => {
 
   //#endregion
 
-  const prepare = (start_from, max_esf, max_cil, sign_esf, sign_cil) => {
+  const prepare = (start_from_esf, max_esf, start_from_cil ,max_cil, sign_esf, sign_cil) => {
     const rowdata = [];
-    for (let i = start_from; i <= max_esf; i += 0.25) {
+    for (let i = start_from_esf; i <= max_esf; i += 0.25) {
       const row = [];
-      for (let j = 0; j <= max_cil; j += 0.25) {
+      for (let j = start_from_cil; j <= max_cil; j += 0.25) {
         row.push({
           esf: `${sign_esf}${i.toFixed(2)}`,
           cil: `${sign_cil}${j.toFixed(2)}`,
@@ -463,6 +501,7 @@ const CodeGridHTML = (props) => {
         </Col>
         <Col>
           <ExportToExcel2
+            disabled
             buttonSize={"small"}
             buttonType="link"
             buttonStyle={{ color: "#008132ff", fontWeight: "bolder" }}

@@ -103,6 +103,7 @@ const CodeGridHTMLTipos = (props) => {
           <Row>
             <Col span={24}>
               <DatePicker
+               key={reload}
                 prefix="Periodo: "
                 defaultValue={dayjs()}
                 picker="month"
@@ -135,6 +136,7 @@ const CodeGridHTMLTipos = (props) => {
       children: (
         <>
           <CodeGridHTML
+            key={reload}
             reload={reload}
             {...props}
             gridType="ideal"
@@ -150,6 +152,7 @@ const CodeGridHTMLTipos = (props) => {
       children: (
         <>
           <CodeGridHTML
+            key={reload}
             reload={reload}
             {...props}
             gridType="critico"
@@ -160,10 +163,11 @@ const CodeGridHTMLTipos = (props) => {
     },
     {
       key: "3",
-      label: "Pedido",
+      label: "Dif.",
       children: (
         <>
           <CodeGridHTML
+            key={reload}
             reload={reload}
             {...props}
             gridType="pedido"
@@ -187,7 +191,7 @@ const CodeGridHTMLTipos = (props) => {
 
   return (
     <>
-      <Tabs defaultActiveKey="1" items={items} onChange={onChange} tabPosition="right" />
+      <Tabs defaultActiveKey="1" items={items} onChange={onChange} tabPosition="top" />
       <Modal
         open={modalEditarCriticoOpen}
         width={modal_width}

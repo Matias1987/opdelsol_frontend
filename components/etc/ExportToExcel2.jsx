@@ -11,7 +11,7 @@ import { ExportOutlined, FileExcelOutlined } from "@ant-design/icons";
  * 
  *  
  */
-const ExportToExcel2 = ({ sheets, buttonSize, fileName, buttonStyle, buttonType }) => {
+const ExportToExcel2 = ({ sheets, buttonSize, fileName, buttonStyle, buttonType, disabled }) => {
     /**
      * sheets must have the following structure:
      * sheets: [
@@ -46,8 +46,9 @@ const ExportToExcel2 = ({ sheets, buttonSize, fileName, buttonStyle, buttonType 
 
   return (
     <Button
+      disabled={disabled}
       size={buttonSize || "middle"}
-      style={buttonStyle ?? default_style}
+      style={disabled ? {color:"#bdbdbdff"} : buttonStyle ?? default_style}
       type={buttonType ?? "primary"}
       onClick={exportExcel}
     >
