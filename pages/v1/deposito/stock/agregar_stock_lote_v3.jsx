@@ -1,43 +1,32 @@
-import AgregarFacturaV2 from "@/components/admin/factura/agregarFacturaV2";
 import AgregarFacturaV3 from "@/components/admin/factura/agregarFacturaV3";
+import SelectSucursalStock from "@/components/etc/SelectSucursalStock";
 import FacturaSelect from "@/components/FacturaSelect";
 import PopUpAgregarStockLoteForm from "@/components/forms/deposito/stock_lote/popup_stock_form";
-import PopupStockFormV3 from "@/components/forms/deposito/stock_lote/popup_stock_form_v3";
-import FacturaForm from "@/components/forms/FacturaForm";
-import SubGrupoForm from "@/components/forms/SubGrupoForm";
 import MyLayout from "@/components/layout/layout";
-import SubGroupSelect from "@/components/SubGroupSelect";
 import SubGroupSelectV2 from "@/components/SubGrupoSelectV2";
 import globals from "@/src/globals";
 import { post_method } from "@/src/helpers/post_helper";
 import { get, post, public_urls } from "@/src/urls";
-import { CloseOutlined, DeleteOutlined, EditOutlined, PlusCircleOutlined, PlusOutlined } from "@ant-design/icons";
-
-
-
+import { CloseOutlined, DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
 import { Button, Table, Form, Tag, Modal, Card } from "antd";
 import { useState } from "react";
-
 
 export default function AgregarStockLoteV3(props){
     const [form] = Form.useForm();
     const [factura_popup_open, setFacturaPopupOpen] = useState(false)
-    const [subgrupo_popup_open, setSubGrupoPopupOpen] = useState(false)
     const [tableData, setTableData] = useState([]);
     const [idSubgrupo, setIdSubgrupo] = useState(-1)
     const [btnDisabled,  setBtnDisabled] = useState(false)
     //testing
     const [updateall, setUpdateAll] = useState(false);
-
-    const [multiplier, setMultiplier] = useState(1);
-    const [precioDefecto, setPrecioDefecto] = useState(100);
-
+    //const [multiplier, setMultiplier] = useState(1);     //const [precioDefecto, setPrecioDefecto] = useState(100);
     const [subgrupo, setSubgrupo] = useState(null)
-
     const [popupAddOpen, setPopupAddOpen] = useState(false)
-
+    const [sucursalesStock, setSucursalesStock] = useState({
+        idsubgrupo: -1,
+        sucursales: [],
+    })
     const HOOK = `${globals.obtenerUID()}.${Date.now()}.${Math.floor(Math.random() * 100)}`
-
 
     const subgrupoDetailsURL = get.obtener_detalle_subgrupo;
 
@@ -56,13 +45,10 @@ export default function AgregarStockLoteV3(props){
         if(id<0){
             return;
         }
-        //alert(subgrupoDetailsURL + id)
         fetch(subgrupoDetailsURL + id)
         .then(response => response.json())
         .then((response)=>{
-            //alert("SUBGRUPO :  " + JSON.stringify(response.data))
-            setMultiplier(parseFloat(response.data[0].multiplicador));
-            setPrecioDefecto(parseFloat(response.data[0].precio_defecto))
+            //setMultiplier(parseFloat(response.data[0].multiplicador)); //setPrecioDefecto(parseFloat(response.data[0].precio_defecto))
             setSubgrupo({
                 nombre_corto: response.data[0].nombre_corto,
                 nombre_largo: response.data[0].nombre_largo,
@@ -137,13 +123,11 @@ export default function AgregarStockLoteV3(props){
                 return null
             }
         }
-        //alert(JSON.stringify(codigos))
         return codigos;
     }
     
     const agregarRow = (_values) => 
     {
-        //alert(JSON.stringify(_values))
         let values = {..._values, codigo: _values.codigo.toUpperCase()}
         var codigos = procesar_codigos(values)
 
@@ -225,9 +209,7 @@ export default function AgregarStockLoteV3(props){
         { width:"150px", title:"Codigo", dataIndex: "codigo"},
         { width:"150px", title:"Descripcion", dataIndex: "descripcion", render:(_,details)=>(
             <>
-            {details.descripcion}&nbsp;
-            <Tag color="blue">{details.genero}</Tag>
-            <Tag color="green">{details.edad}</Tag>
+            {details.descripcion}
             </>
         )},
         {width:"150px", title:"Cantidad", dataIndex: "cantidad"},
@@ -362,7 +344,6 @@ export default function AgregarStockLoteV3(props){
                                 costo: curr.costo,
                                 tk: globals.getToken(),
                             }
-                            //alert("insert stock now! " + JSON.stringify(res))
                             post_method(post.insert.stock,_data,(__res)=>{
                                 update_status_row("OK",curr.codigo)
                                 if(values.length>0){
@@ -391,12 +372,6 @@ export default function AgregarStockLoteV3(props){
                                 cantidad: curr.cantidad,
                                 factura_idfactura: curr.factura,
                                 tk: globals.getToken(),
-                                /*genero: curr.genero,
-                                edad: curr.edad,
-                                costo: curr.costo,
-                                modo_precio: curr.modo_precio,
-                                precio: curr.precio,
-                                descripcion: curr.descripcion,*/
                               
                             }
                             //then stock object...
@@ -426,42 +401,6 @@ export default function AgregarStockLoteV3(props){
         setUpdateAll(!updateall)
     }
 
-
-    const closeSubgrupoPopup = () => {
-        setSubGrupoPopupOpen(false)
-    }
-
-    const onOkSubGrupo = (id) => {
-        setValue("subgrupo", id); 
-        setIdSubgrupo(id); 
-        getSubGrupoDetails(id)
-        setSubGrupoPopupOpen(false)
-        setUpdateAll(!updateall)
-    }
-
-    const agregarSubgrupoPopup=_=>(
-        <>
-    <Button type="link"  size="small"  onClick={()=>{setSubGrupoPopupOpen(true)}}>
-        {props.edit ? <EditOutlined /> : <><PlusCircleOutlined />&nbsp;Agregar Subgrupo</>}
-      </Button>
-    <Modal
-        destroyOnClose
-        cancelButtonProps={{ style: { display: 'none' } }}
-        okButtonProps={{children:"CANCELAR"}}
-        
-        width={"80%"}
-        title={"Agregar SubGrupo"}
-        open={subgrupo_popup_open}
-        onOk={closeSubgrupoPopup}
-        onCancel={closeSubgrupoPopup}
-        okText="CERRAR"
-    >
-        <SubGrupoForm action="ADD" callback={onOkSubGrupo} />
-    </Modal>
-    </>
-    )
-   
-
     const agregarFacturaPopup = _ =>
     <>
     <Button type="link"  size="small"  onClick={()=>{setFacturaPopupOpen(true)}}>
@@ -477,7 +416,6 @@ export default function AgregarStockLoteV3(props){
         onCancel={closePopup}
         footer={null}
     >
-        {/*<FacturaForm action="ADD" callback={onOk} />*/}
         <AgregarFacturaV3 callback={()=>{onOk()}} />
     </Modal>
     </>
@@ -489,7 +427,6 @@ export default function AgregarStockLoteV3(props){
         bordered
         title={<><span>Agregar Productos</span></>}
         size="small"
-        
         >
 
             <Form onFinish={onFinish} form={form} onFinishFailed={onFinishFailed}>
@@ -497,7 +434,7 @@ export default function AgregarStockLoteV3(props){
                     <Form.Item style={{  padding:"3.5em", fontSize:".25em"}} label={""} name={"subgrupo"} rules={[{required:true}]}>
                         <>
                         {subgrupo==null ? <SubGroupSelectV2 getOnAdd callback={(id)=>{
-                           
+                            setSucursalesStock(ss=>({...ss,idsubgrupo:id}))
                             setValue("subgrupo", id); 
                             setIdSubgrupo(id); 
                             getSubGrupoDetails(id) 
@@ -513,24 +450,17 @@ export default function AgregarStockLoteV3(props){
 
                     <Form.Item label={"Factura"} name={"factura"} style={{  padding:"3.5em", fontSize:".25em"}}>
                         <>
-                            <FacturaSelect reload={updateall} callback={(id)=>{ /*getSubGrupoDetails(id);*/ setValue("factura", id)}} />
-                
-                            {/* agregar facturas */}
+                            <FacturaSelect reload={updateall} callback={(id)=>{ setValue("factura", id)}} />
                             {agregarFacturaPopup()}
-                            {/* FIN agregar facturas */}
                          
                         </>
                     </Form.Item>
-                    
                     <Form.Item label={""} name={"codigos"}>
                         <>
                             <>
                             { subgrupo==null ? <p style={{color:"red", padding:".7em", backgroundColor:"lightcoral"}}><b>Seleccione Subgrupo</b></p> :
                             <>
-                            
-                        
                             <Table 
-                            
                             title={_=><>C&oacute;digos a Generar&nbsp;&nbsp;<Button  type="primary" size="small" onClick={onAgregarCodigosBtnClick}><PlusOutlined size={"small"} /> Agregar</Button></>} 
                             scroll={{y:"400px"}} 
                             dataSource={tableData} 
@@ -543,7 +473,11 @@ export default function AgregarStockLoteV3(props){
                             </>
                         </>
                     </Form.Item>
-
+                    {/*<Form.Item>
+                        <SelectSucursalStock onSucursalSelect={arr=>{
+                            setSucursalesStock(ss=>({...ss, sucursales:arr}))
+                        }} />
+                    </Form.Item>*/}
                     <Form.Item>
                         <Button disabled={btnDisabled || (tableData||[]).length<1} type="primary" htmlType="submit">Confirmar</Button>
                     </Form.Item>
@@ -557,7 +491,6 @@ export default function AgregarStockLoteV3(props){
                 title="Agregar Códigos"
                 footer={null}
             >
-                {/*<PopUpAgregarStockLoteForm callback={(_data)=>{ agregarRow(_data); setPopupAddOpen(false); }}/>*/}
                 <PopUpAgregarStockLoteForm idsubgrupo={idSubgrupo} precioDefecto={typeof subgrupo?.precio_defecto === 'undefined'? 0 : subgrupo?.precio_defecto} callback={(_data)=>{ agregarRow(_data); setPopupAddOpen(false); }}/>
             </Modal>
         </>

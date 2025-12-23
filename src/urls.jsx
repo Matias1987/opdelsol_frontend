@@ -256,6 +256,8 @@ const post = {
 
     agregar_stock_quick: remote_base_url + "stock_ext/quick_add/",
 
+    dist_stock: remote_base_url + "stock_ext/dist/stock/",
+
     search:{
         filtro_stock: remote_base_url + "stock/filtro_stock/",
     },

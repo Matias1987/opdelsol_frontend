@@ -6,11 +6,13 @@ import AgregarCodigo from "./agregar_codigo";
 import MyLayout from "@/components/layout/layout";
 import AgregarFacturaV2 from "@/components/admin/factura/agregarFacturaV2";
 import AgregarFacturaV3 from "@/components/admin/factura/agregarFacturaV3";
+import AddStockQuick from "@/components/deposito/addStockQuick";
 
 export default function AgregarStock(){
     return (
         <>
-        <h1>Agregar Stock</h1>
+        <AddStockQuick callback={_=>{alert("Datos Agregados")}} />
+        {/*<h1>Agregar Stock</h1>
         <StockForm  action="ADD" />
         <Divider />
         <h4>Otras Acciones</h4>
@@ -19,7 +21,7 @@ export default function AgregarStock(){
         title="Agregar Factura"
         onOk={()=>{}}
         >
-            {/*<FacturaForm action="ADD" />*/}
+            <FacturaForm action="ADD" />
             <AgregarFacturaV3 callback={()=>{}} />
         </CustomModal>
         &nbsp;&nbsp;
@@ -29,7 +31,7 @@ export default function AgregarStock(){
         onOk={()=>{}}
         >
             <AgregarCodigo />
-        </CustomModal>
+        </CustomModal>*/}
 
 
         

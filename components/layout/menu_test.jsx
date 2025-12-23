@@ -1,4 +1,4 @@
-import { local_base_url } from "@/src/config";
+import { idf_optica, local_base_url } from "@/src/config";
 import {
   ArrowDownOutlined,
   BarsOutlined,
@@ -51,7 +51,7 @@ export default function TestMenu() {
       >
         <Menu.Item key="110">
           <Link href={get_url_to("deposito/stock/listados/lista_stockv3")}>
-            Editar Cantidades
+            Ver o Editar Cantidades
           </Link>
         </Menu.Item>
         <Menu.Item key="sub2_32">
@@ -60,7 +60,7 @@ export default function TestMenu() {
           </Link>
         </Menu.Item>
         <Menu.Item key="sub2_33">
-          <Link href={get_url_to("deposito/stock/agregar_stock_lote_v3")}>
+          <Link href={ idf_optica === 1  ? get_url_to("deposito/stock/agregar_stock_lote_v3") : get_url_to("deposito/stock/agregar_stock") }>
             Agregar Productos...
           </Link>
         </Menu.Item>
