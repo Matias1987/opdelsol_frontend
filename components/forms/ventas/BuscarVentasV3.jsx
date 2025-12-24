@@ -238,7 +238,7 @@ const BuscarVentaV3 = (props) => {
   return (
     <>
       <Card
-        styles={{header:{backgroundColor:"#fbfcf2ff", color:"#663f4c", fontSize:"1.3em"}}}
+        styles={{header:{ color:"#663f4c", fontSize:"1.3em"}}}
         size="small"
         extra={
           <Row gutter={16}>

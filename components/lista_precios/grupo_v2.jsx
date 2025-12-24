@@ -3,6 +3,7 @@ import { Button, Col, Modal, Row, Spin, Table } from "antd";
 import { useEffect, useState } from "react";
 import SubGrupoFormV3 from "../forms/deposito/SubgrupoFormV3";
 import globals from "@/src/globals";
+import { formatFloat } from "@/src/helpers/formatters";
 /**
  *
  * @param nombre: Nombre del grupo
@@ -59,10 +60,8 @@ const GrupoV2 = (props) => {
           {
             <>
               <>
-                {`Indv.: $ ${precio.toLocaleString("es-AR", {
-                    minimumFractionDigits: 2,
-                  })}` }
-                { mostrarPrecioPar ? <><br /><span style={{color:"red"}}> Par: $&nbsp;{precio_par.toLocaleString("es-AR", {minimumFractionDigits: 2,})}</span></> : <></>}
+                {`Indv.: $ ${formatFloat(precio)}` }
+                { mostrarPrecioPar ? <><br /><span style={{color:"red"}}> Par: $&nbsp;{ formatFloat(precio_par) }</span></> : <></>}
                 {/* mostrarPrecioCaja ? <><br /><span style={{color:"green"}}> Caja: {(precio * 6 - precio * 6 * 0.1).toLocaleString("es-AR", {minimumFractionDigits: 2,})}</span></> : <></>*/ }
                 </>
               </>
