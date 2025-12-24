@@ -4,7 +4,6 @@ import FoodLoader from "../etc/loader/foodLoader"
 import { get, post } from "@/src/urls"
 import { Col, Row, Spin, Input, Button, Select, Divider, Card } from "antd"
 import { useState, useEffect } from "react"
-import SelectLocalidadV2 from "../SelectLocalidadV2"
 import SelectLocalidadV3 from "../SelectLocalidadV3"
 
 const EditarSucursal = (props) => {

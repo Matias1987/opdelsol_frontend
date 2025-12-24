@@ -149,7 +149,7 @@ const EnvioForm = (props) => {
     }
     setTableLoading(true);
     /* get stock data for the column */
-    console.log(get.detalle_stock + sucursal_id + "/" + selectedCodigoId);
+    //console.log(get.detalle_stock + sucursal_id + "/" + selectedCodigoId);
     fetch(
       get.detalle_stock +
         sucursal_id +

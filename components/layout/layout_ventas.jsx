@@ -1,6 +1,6 @@
 import { get, public_urls } from "@/src/urls";
 import useStorage from "@/useStorage";
-import { Alert, Layout, Row, Col, Input, Menu, Card, Button } from "antd";
+import { Alert, Layout, Row, Col, Input, Card, Button } from "antd";
 import { useEffect, useState } from "react";
 import globals from "@/src/globals";
 import HeaderSol from "./header";
@@ -8,9 +8,6 @@ import MenuV2 from "./menu_v2";
 import PopupResultadoBusqueda from "../precios/PopupResultadoBusqueda";
 import BarraResumenCaja from "../forms/caja/BarraResumenCaja";
 import { SearchOutlined } from "@ant-design/icons";
-import Chat from "../chat/chat";
-import MenuVentasTop from "./menu_ventas_top";
-
 
 export default function LayoutVentas(props) {
   const { Content } = Layout;

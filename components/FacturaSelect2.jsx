@@ -1,15 +1,11 @@
 import { get } from "@/src/urls";
 import {
   CloseCircleFilled,
-  CloseOutlined,
-  DeleteFilled,
 } from "@ant-design/icons";
 import { Button, Col, Modal, Row, Select } from "antd";
 import { useEffect, useState } from "react";
-import FacturaForm from "./forms/FacturaForm";
 import ProveedorForm from "./forms/ProveedorForm";
 import DetalleFactura from "./forms/deposito/DetalleFactura";
-import AgregarFacturaV2 from "./admin/factura/agregarFacturaV2";
 import AgregarFacturaV3 from "./admin/factura/agregarFacturaV3";
 
 const FacturaSelect2 = (props) => {

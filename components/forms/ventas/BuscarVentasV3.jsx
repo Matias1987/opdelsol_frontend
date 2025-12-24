@@ -1,4 +1,3 @@
-import ListaVentas from "@/components/informes/ventas/ListaVentas";
 import {
   Button,
   Card,
@@ -15,7 +14,7 @@ import FiltroVentas from "./filtroVentas";
 import { post } from "@/src/urls";
 import { post_method } from "@/src/helpers/post_helper";
 import globals from "@/src/globals";
-import { HomeFilled, PrinterFilled, ReloadOutlined } from "@ant-design/icons";
+import { HomeFilled, ReloadOutlined } from "@ant-design/icons";
 import InformeVentaMinV3 from "@/components/informes/ventas/InformeVentasMinV3";
 import CambiarResponsableDestinatario from "./edicion/CambiarResponsableDestinatario";
 import AnularVentasCobradas from "@/components/admin/anularVentasCobradas";
@@ -73,6 +72,7 @@ const BuscarVentaV3 = (props) => {
     params = add(params, filtros.fecha, "fecha");
     params = add(params, filtros.estado, "estado");
     params = add(params, filtros.tipo, "tipo");
+    params = add(params, 300, "limit");
     params = add(
       params,
       verSoloSucursal ? globals.obtenerSucursal() : "",
@@ -205,9 +205,7 @@ const BuscarVentaV3 = (props) => {
         }
       );
     }
-
-
-  }
+  };
 
   /*
   const onPopupClosed = () => {
@@ -240,24 +238,42 @@ const BuscarVentaV3 = (props) => {
   return (
     <>
       <Card
+        styles={{header:{backgroundColor:"#fbfcf2ff", color:"#663f4c", fontSize:"1.3em"}}}
         size="small"
         extra={
-          <>
-            <Input
-              disabled={loading}
-              value={filtroIdLocal}
-              allowClear
-              type="number"
-              onChange={(e) => {
-              //let _id = isNaN(e.target.value) ? _id : e.target.value;
+          <Row gutter={16}>
+            <Col>
+              <Input
+                style={{width:"300px"}}
+                prefix="Nro.:"
+                disabled={loading}
+                value={filtros.id}
+                allowClear
+                type="number"
+                onChange={(e) => {
+                  let _id = isNaN(e.target.value) ? _id : e.target.value;
 
-                //setFiltros((_f) => ({ ..._f, id: _id }));
-                setFiltroIdLocal(e.target.value);
-                //setReload(!reload);
-              }}
-              placeholder="Nro. Venta"
-            />
-          </>
+                  setFiltros((_f) => ({ ..._f, id: _id }));
+                  //setFiltroIdLocal(e.target.value);
+                }}
+                onPressEnter={(_) => {
+                  setReload(!reload);
+                }}
+                placeholder="Ingrese y presione Enter..."
+              />
+            </Col>
+            <Col>
+              <Button
+                type="primary"
+                onClick={(e) => {
+                  setFiltros((_f) => ({id:""}));
+                  setReload(!reload);
+                }}
+              >
+                <ReloadOutlined /> Recargar
+              </Button>
+            </Col>
+          </Row>
         }
         title={
           <>
@@ -270,17 +286,7 @@ const BuscarVentaV3 = (props) => {
                   }}
                 />
               </Col>
-              <Col>
-                <Button
-                  type="link"
-                  onClick={(e) => {
-                    setFiltros((_f) => ({}));
-                    setReload(!reload);
-                  }}
-                >
-                  <ReloadOutlined /> Recargar
-                </Button>
-              </Col>
+
               <Col>
                 <Checkbox
                   checked={verSoloSucursal}
@@ -318,7 +324,13 @@ const BuscarVentaV3 = (props) => {
               rowClassName={(record, index) =>
                 index % 2 === 0 ? "table-row-light" : "table-row-dark"
               }
-              dataSource={filtroIdLocal.trim() == "" ? dataSource : dataSource.filter(d=>(d.idventa.toString()).includes(filtroIdLocal.trim()))}
+              dataSource={
+                filtroIdLocal.trim() == ""
+                  ? dataSource
+                  : dataSource.filter((d) =>
+                      d.idventa.toString().includes(filtroIdLocal.trim())
+                    )
+              }
               columns={[
                 { title: "Nro.:", dataIndex: "idventa", width: "60px" },
                 {
@@ -373,7 +385,11 @@ const BuscarVentaV3 = (props) => {
                           </Tag>
                         );
                       case "PENDIENTE":
-                        return <Tag color="geekblue">{`${estado} ${en_laboratorio ? '(Lab)' : ''}`}</Tag>;
+                        return (
+                          <Tag color="geekblue">{`${estado} ${
+                            en_laboratorio ? "(Lab)" : ""
+                          }`}</Tag>
+                        );
                       case "ENTREGADO":
                         return <Tag color="volcano">{estado}</Tag>;
                       case "ANULADO":

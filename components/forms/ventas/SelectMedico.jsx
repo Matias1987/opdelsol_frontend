@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import MedicoForm from "./MedicoForm"
 import CustomModal from "@/components/CustomModal"
 import { Button, Input, Spin, Table, Modal } from "antd"
-import { CheckCircleOutlined, CloseCircleOutlined, CloseOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons"
+import { CloseOutlined, PlusOutlined } from "@ant-design/icons"
 import { get } from "@/src/urls"
 import { agregar_medico_ventas, id_sinreceta } from "@/src/config"
 

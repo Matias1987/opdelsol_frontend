@@ -1,11 +1,4 @@
-import CustomModal from "@/components/CustomModal";
-import FacturaForm from "@/components/forms/FacturaForm";
-import StockForm from "@/components/forms/StockForm";
-import { Divider } from "antd";
-import AgregarCodigo from "./agregar_codigo";
 import MyLayout from "@/components/layout/layout";
-import AgregarFacturaV2 from "@/components/admin/factura/agregarFacturaV2";
-import AgregarFacturaV3 from "@/components/admin/factura/agregarFacturaV3";
 import AddStockQuick from "@/components/deposito/addStockQuick";
 
 export default function AgregarStock(){

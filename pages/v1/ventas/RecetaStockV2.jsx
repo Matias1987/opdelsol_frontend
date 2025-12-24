@@ -5,7 +5,7 @@ import LayoutVentas from "@/components/layout/layout_ventas";
 import { public_urls } from "@/src/urls";
 import globals from "@/src/globals";
 import { submit_venta } from "@/src/helpers/ventas_helper";
-import { Divider, Modal } from "antd";
+import { Modal } from "antd";
 import PrinterWrapper from "@/components/PrinterWrapper";
 import InformeVenta from "@/components/informes/ventas/Base";
 import RecetaStockItemsB from "@/components/forms/ventas/receta_stock/items_b";

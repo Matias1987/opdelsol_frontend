@@ -1,4 +1,4 @@
-import FichaClienteV2 from "@/components/FichaClienteV2";
+import FichaCliente from "@/components/FichaCliente";
 import SelectTarea from "@/components/tarea/selectTarea";
 import { post_method } from "@/src/helpers/post_helper";
 import { post } from "@/src/urls";
@@ -89,7 +89,7 @@ const ClientesMorosos = (props) => {
         </>
         </Card>
         <Modal width={"1200px"} open={popupFichaOpen} onCancel={()=>{setPopupFichaOpen(false)}} footer={null} destroyOnClose key={selectedCliente}>
-            <FichaClienteV2 idcliente={selectedCliente} />
+            <FichaCliente idcliente={selectedCliente} />
         </Modal>
     </>
 }

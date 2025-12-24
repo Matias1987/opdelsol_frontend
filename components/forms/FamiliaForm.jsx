@@ -1,7 +1,7 @@
 import React from "react";
 import { Form, Divider, Button, Select, Input } from "antd";
-const urls = require("../../src/urls")
-const post_helper = require("../../src/helpers/post_helper")
+import urls  from "../../src/urls";
+import post_helper  from "../../src/helpers/post_helper";
 
 const FamiliaForm = (props) => {
 

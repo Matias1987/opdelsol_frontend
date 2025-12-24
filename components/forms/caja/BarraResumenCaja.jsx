@@ -1,9 +1,6 @@
-import ContadoresEstadoTaller from "@/components/taller/totales"
 import globals from "@/src/globals"
 import { formatFloat } from "@/src/helpers/formatters"
 import { get } from "@/src/urls"
-import { EyeFilled } from "@ant-design/icons"
-import { Button } from "antd"
 import { useEffect, useState } from "react"
 
 const BarraResumenCaja = props => {

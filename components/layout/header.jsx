@@ -1,8 +1,8 @@
 import globals from "@/src/globals";
-import { Alert, Button, Col, Input, Layout, Row, Switch } from "antd";
+import { Button, Col, Layout, Row } from "antd";
 import SucursalLabel from "../sucursal_label";
 import useStorage from "@/useStorage";
-import { FilterOutlined, InfoCircleFilled, LogoutOutlined, MehFilled, SkinFilled, SkinOutlined, UserOutlined } from "@ant-design/icons";
+import { UserOutlined } from "@ant-design/icons";
 import { get, public_urls } from "@/src/urls";
 import { useEffect, useState } from "react";
 import CustomModal from "../CustomModal";

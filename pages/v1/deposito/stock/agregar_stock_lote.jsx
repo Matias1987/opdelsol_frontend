@@ -1,4 +1,3 @@
-import AgregarFacturaV2 from "@/components/admin/factura/agregarFacturaV2";
 import AgregarFacturaV3 from "@/components/admin/factura/agregarFacturaV3";
 import FacturaSelect from "@/components/FacturaSelect";
 import PopUpAgregarStockLoteForm from "@/components/forms/deposito/stock_lote/popup_stock_form";

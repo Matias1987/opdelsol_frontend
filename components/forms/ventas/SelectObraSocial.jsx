@@ -1,5 +1,5 @@
 import CustomModal from "@/components/CustomModal";
-import { CheckCircleOutlined, CloseCircleOutlined, CloseOutlined } from "@ant-design/icons";
+import { CloseOutlined } from "@ant-design/icons";
 import { Button, Input, Spin, Table } from "antd";
 import { useEffect, useState } from "react";
 import ObraSocialForm from "../ObraSocialForm";

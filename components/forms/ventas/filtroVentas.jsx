@@ -188,8 +188,9 @@ const FiltroVentas =(props) => {
                                 {
                                     setOpen(false)
                                 }
-                                //alert(JSON.stringify(filtros))
-                                props?.callback?.(filtros)
+
+                                props?.callback?.(filtros);
+                                clearFilters();
                             }
                             }
                             >Aplicar Filtros</Button>
@@ -204,11 +205,11 @@ const FiltroVentas =(props) => {
     return embedded ? filtros_content() :    
     <>
     <Button type="link" ghost  size="small"  onClick={showModal}>
-        {"Filtros"}
+        <b>{"+ Filtros"}</b>
       </Button>
-      <Button danger type="link" size="small" onClick={(e)=>{setFiltros(f=>{props?.callback?.({}); return {}}); }}>
+      {/*<Button danger type="link" size="small" onClick={(e)=>{setFiltros(f=>{props?.callback?.({}); return {}}); }}>
         Borrar Filtros
-      </Button>
+      </Button>*/}
       <Modal
         footer={null}
         

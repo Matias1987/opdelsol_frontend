@@ -1,8 +1,6 @@
-import globals from "@/src/globals"
-
-const { get } = require("@/src/urls")
-const { Row, Col, Select } = require("antd")
-const { useState, useEffect } = require("react")
+import { get } from "@/src/urls";
+import { Row, Col, Select } from "antd";
+import { useState, useEffect } from "react";
 
 const SelectLocalidadV3 = (props) => {
     const {fk_localidad,fk_provincia} = props
