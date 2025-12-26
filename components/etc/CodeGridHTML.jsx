@@ -115,6 +115,7 @@ const CodeGridHTML = (props) => {
   };
 
   const load = (callback) => {
+    //alert(gridType);
     let endpoint =
       gridType === "uso" ? post.obtener_grilla_uso : post.obtener_grilla_stock;
     //alert(endpoint)
@@ -168,8 +169,9 @@ const CodeGridHTML = (props) => {
               _max_cil_pos =
               parseFloat(c.cil) > _max_cil_pos ? parseFloat(c.cil) : _max_cil_pos;
           }
-
-            
+          if(gridType=='stock'){
+          console.log(`ESF: ${c.esf} CIL: ${c.cil}, cantidad: ${c.cantidad}`);}
+          
 
           qtties[`${parseFloat(c.esf) * 100}${parseFloat(c.cil) * 100}`] = {
             cantidad:

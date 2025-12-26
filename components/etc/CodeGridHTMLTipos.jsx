@@ -231,7 +231,7 @@ const CodeGridHTMLTipos = (props) => {
         title="Editar Stock"
         onCancel={_=>{setModalEditarStockOpen(false)}}
       >
-        <EditarStockIndiv idcodigo={recordId} idsucursal={6} callback={_=>{setReload(!reload); setModalEditarStockOpen(false);}} />
+        <EditarStockIndiv idcodigo={recordId} idsucursal={props.idsucursal} callback={_=>{setReload(!reload); setModalEditarStockOpen(false);}} />
       </Modal>
       <Modal
         open={modalDetalleOpen}
