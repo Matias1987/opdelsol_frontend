@@ -368,6 +368,7 @@ const post = {
         editar_medico: remote_base_url + "medicos/ed/it/m/",
         modificar_precio_indv_codigos: remote_base_url + "codigos_ext/modificar/precios/indv/cat/",
         modificar_cantidad_critica: remote_base_url + "codigos_ext/modificar/cant/critica/",
+        pin_medico: remote_base_url + "medicos/pin/",
     },
 }
 

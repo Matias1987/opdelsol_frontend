@@ -37,6 +37,29 @@ const ListaMedicos = (props) => {
                 }} 
                 /></>
         },
+        {
+              fixed: "right",
+              width: "70px",
+              title: <div style={{fontWeight:"bold"}}>Tiene <span style={{whiteSpace:"nowrap"}}>Comisi&oacute;n</span></div>,
+              render: (_, record) => (
+                <>
+                  <Checkbox
+                    checked={record.tiene_premio}
+                    onChange={(e) => {
+                      setLoading(true);
+                      post_method(
+                        post.update.pin_medico,
+                        { idmedico: record.idmedico, pin: record.tiene_premio ? 0 : 1 },
+                        (_) => {
+                            setReload((r) => !r);
+                        }
+                      );
+                      //setMedicos(mm=>mm.map(m=>m.idmedico == record.idmedico ? m : {...m, tiene_premio: !m.tiene_premio}))}
+                    }}
+                  ></Checkbox>
+                </>
+              ),
+            },
 
     ]
     
@@ -55,7 +78,7 @@ const ListaMedicos = (props) => {
              * },
 
             */
-           setData(d=>response.data.map(m=>({...m,activo:+m.enabled==1})))
+           setData(d=>response.data.map(m=>({...m,activo:+m.enabled==1,tiene_premio: +m.pinned == 1,})))
            setLoading(false)
         })
         .catch(e=>{console.log("Error of some kind...")})
@@ -79,6 +102,7 @@ const ListaMedicos = (props) => {
         <Row>
             <Col span={24}>
                 <Table 
+                loading={loading}
                 size="small"
                 columns={columns} 
                 dataSource={data.filter(r=>filtro.trim().length>0 ? r.nombre.includes(filtro) : true  )} 

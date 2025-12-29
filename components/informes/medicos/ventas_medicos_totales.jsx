@@ -36,14 +36,33 @@ const ListaVentasMedicosTotales = (props) => {
   const [searchValue, setSearchValue] = useState("");
   const [dataForExcelLoaded, setDataForExcelLoaded] = useState(false);
   const [dataForExcel, setDataForExcel] = useState(null);
-  const [medicos, setMedicos] = useState([])
-  const [medicoFiltro, setMedicoFiltro] = useState(-1)
+  const [medicos, setMedicos] = useState([]);
+  const [medicoFiltro, setMedicoFiltro] = useState(-1);
+  const [reload, setReload] = useState(false);
+  const [loading, setLoading] = useState(false);
   const title_style_money = { fontWeight: "bold", textAlign: "right" };
+  const [verSoloConPremios, setVerSoloConPremios] = useState(false);
   const columns = [
     {
-      title: <><Checkbox onChange={e=>{
-        setDataSource(_ds=>_ds.map(r=>({...r,checked: e.target.checked})))
-      }} /></>,
+      fixed: "left",
+      title: (
+        <>
+          <Checkbox
+            onChange={(e) => {
+              setDataSource((_ds) =>
+                _ds.map((r) => ({
+                  ...r,
+                  checked:
+                    (!verSoloConPremios || r.tiene_premio) &&
+                    r.medico.toLowerCase().includes(searchValue.toLowerCase())
+                      ? e.target.checked
+                      : false,
+                }))
+              );
+            }}
+          />
+        </>
+      ),
       render: (_, record) => (
         <>
           <Checkbox
@@ -62,71 +81,65 @@ const ListaVentasMedicosTotales = (props) => {
       ),
       width: "50px",
     },
-    { width: "120px", dataIndex: "medico", title: "medico", fixed: "left", sorter: (a, b) => a.medico.localeCompare(b.medico), },
+    {
+      width: "120px",
+      dataIndex: "medico",
+      title: <>M&eacute;dico</>,
+      fixed: "left",
+      sorter: (a, b) => a.medico.localeCompare(b.medico),
+    },
     {
       width: "100px",
       dataIndex: "efectivo",
-      title: <div style={title_style_money}>efectivo</div>,
+      title: <div style={title_style_money}>Efectivo</div>,
       render: (_, obj) => (
-        <div style={{ textAlign: "right" }}>
-          {formatFloat(obj.efectivo)}
-        </div>
+        <div style={{ textAlign: "right" }}>{formatFloat(obj.efectivo)}</div>
       ),
     },
     {
       width: "100px",
       dataIndex: "tarjeta",
-      title: <div style={title_style_money}>tarjeta</div>,
+      title: <div style={title_style_money}>Tarjeta</div>,
       render: (_, obj) => (
-        <div style={{ textAlign: "right" }}>
-          {formatFloat(obj.tarjeta)}
-        </div>
+        <div style={{ textAlign: "right" }}>{formatFloat(obj.tarjeta)}</div>
       ),
     },
     {
       width: "100px",
       dataIndex: "cheque",
-      title: <div style={title_style_money}>cheque</div>,
+      title: <div style={title_style_money}>Cheque</div>,
       render: (_, obj) => (
-        <div style={{ textAlign: "right" }}>
-          {formatFloat(obj.cheque)}
-        </div>
+        <div style={{ textAlign: "right" }}>{formatFloat(obj.cheque)}</div>
       ),
     },
     {
       width: "100px",
       dataIndex: "ctacte",
-      title: <div style={title_style_money}>ctacte</div>,
+      title: <div style={title_style_money}>Cta.Cte</div>,
       render: (_, obj) => (
-        <div style={{ textAlign: "right" }}>
-          {formatFloat(obj.ctacte)}
-        </div>
+        <div style={{ textAlign: "right" }}>{formatFloat(obj.ctacte)}</div>
       ),
     },
     {
       width: "100px",
       dataIndex: "mutual",
-      title: <div style={title_style_money}>mutual</div>,
+      title: <div style={title_style_money}>Mutual</div>,
       render: (_, obj) => (
-        <div style={{ textAlign: "right" }}>
-          {formatFloat(obj.mutual)}
-        </div>
+        <div style={{ textAlign: "right" }}>{formatFloat(obj.mutual)}</div>
       ),
     },
     {
       width: "100px",
       dataIndex: "mercadopago",
-      title: <div style={title_style_money}>mercadopago</div>,
+      title: <div style={title_style_money}>Mercado Pago</div>,
       render: (_, obj) => (
-        <div style={{ textAlign: "right" }}>
-          {formatFloat(obj.mercadopago)}
-        </div>
+        <div style={{ textAlign: "right" }}>{formatFloat(obj.mercadopago)}</div>
       ),
     },
     {
       width: "100px",
       dataIndex: "transferencia",
-      title: <div style={title_style_money}>transferencia</div>,
+      title: <div style={title_style_money}>Transferencia</div>,
       render: (_, obj) => (
         <div style={{ textAlign: "right" }}>
           {formatFloat(obj.transferencia)}
@@ -149,19 +162,42 @@ const ListaVentasMedicosTotales = (props) => {
         </Button>
       ),
     },
+    {
+      fixed: "right",
+      width: "70px",
+      title: <div style={{fontWeight:"bold"}}>Tiene <span style={{whiteSpace:"nowrap"}}>Comisi&oacute;n</span></div>,
+      render: (_, record) => (
+        <>
+          <Checkbox
+            checked={record.tiene_premio}
+            onChange={(e) => {
+              setLoading(true);
+              post_method(
+                post.update.pin_medico,
+                { idmedico: record.idmedico, pin: record.tiene_premio ? 0 : 1 },
+                (_) => {
+                  //alert("klkl")
+                  init_totales();
+                }
+              );
+              //setMedicos(mm=>mm.map(m=>m.idmedico == record.idmedico ? m : {...m, tiene_premio: !m.tiene_premio}))}
+            }}
+          ></Checkbox>
+        </>
+      ),
+    },
   ];
 
   const loadMedicos = () => {
     fetch(get.lista_medicos)
-    .then(r=>r.json())
-    .then(response => {
-      const resp = response?.data || [];
-      setMedicos(
-        [ ...[{label: "Todos", value:-1}],
-          ...resp.map((r) => ({ label: r.nombre, value: r.idmedico }))
-        ]
-      );
-    });
+      .then((r) => r.json())
+      .then((response) => {
+        const resp = response?.data || [];
+        setMedicos([
+          ...[{ label: "Todos", value: -1 }],
+          ...resp.map((r) => ({ label: r.nombre, value: r.idmedico })),
+        ]);
+      });
   };
 
   useEffect(() => {
@@ -182,10 +218,11 @@ const ListaVentasMedicosTotales = (props) => {
       .catch((ex) => {
         console.log(ex);
       });
-      loadMedicos();
-  }, []);
+    loadMedicos();
+  }, [reload]);
 
   const init_totales = () => {
+    setLoading(true);
     //alert(post.totales_ventas_medicos)
     post_method(
       post.totales_ventas_medicos,
@@ -198,6 +235,7 @@ const ListaVentasMedicosTotales = (props) => {
       },
       (response) => {
         //alert(JSON.stringify(response))
+        setLoading(false);
         if (response != null) {
           setDataSource(
             response.data.map((r) => ({
@@ -211,6 +249,7 @@ const ListaVentasMedicosTotales = (props) => {
               mercadopago: r.mercadopago,
               transferencia: r.transferencia,
               checked: false,
+              tiene_premio: +r.pinned == 1,
             }))
           );
         }
@@ -270,7 +309,7 @@ const ListaVentasMedicosTotales = (props) => {
           />
         </Col>
         <Col>
-         {/* <Input
+          {/* <Input
             style={{ width: "200px" }}
             value={nombre}
             onChange={(e) => {
@@ -281,14 +320,14 @@ const ListaVentasMedicosTotales = (props) => {
           <Select
             showSearch
             optionFilterProp="children"
-            filterOption={(input,option) =>
-              (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
+            filterOption={(input, option) =>
+              (option?.label ?? "").toLowerCase().includes(input.toLowerCase())
             }
             prefix="Médico: "
             style={{ width: "200px" }}
             options={medicos}
             value={medicoFiltro}
-            onChange={v => {
+            onChange={(v) => {
               setMedicoFiltro(v);
             }}
           />
@@ -333,21 +372,50 @@ const ListaVentasMedicosTotales = (props) => {
               </>
             }
             extra={
-              <>
-                <Input
-                  allowClear
-                  value={searchValue}
-                  onChange={(e) => setSearchValue(e.target.value)}
-                  placeholder="Buscar médico"
-                />
-              </>
+              <Row gutter={16}>
+                <Col>
+                  <Input
+                    allowClear
+                    value={searchValue}
+                    onChange={(e) => setSearchValue(e.target.value)}
+                    placeholder="Buscar médico"
+                  />
+                </Col>
+                <Col style={{ paddingTop: "6px" }}>
+                  <Checkbox
+                    checked={verSoloConPremios}
+                    onChange={(e) => setVerSoloConPremios(!verSoloConPremios)}
+                  >
+                    Ver s&oacute;lo con comisi&oacute;n{" "}
+                  </Checkbox>
+                </Col>
+              </Row>
             }
           >
             <Row>
               <Col span={24}>
                 <Table
+                  loading={loading}
+                  size="small"
+                  scroll={{ y: "450px" }}
+                  columns={columns}
+                  dataSource={dataSource.filter(
+                    (r) =>
+                      r.medico
+                        .toLowerCase()
+                        .includes(searchValue.toLowerCase()) &&
+                      (!verSoloConPremios || r.tiene_premio)
+                  )}
+                  pagination={false}
+                  onRow={(record, index) => ({
+                    onClick: (event) => {
+                      //setSelectedMedico(record);
+                      //setPopupVentasMedicoOpen(true);
+                    },
+                  })}
                   title={(_) =>
-                    dataForExcel == null || (dataSource.filter(_r=>_r.checked)).length<1 ? (
+                    dataForExcel == null ||
+                    dataSource.filter((_r) => _r.checked).length < 1 ? (
                       <></>
                     ) : (
                       <>
@@ -363,13 +431,13 @@ const ListaVentasMedicosTotales = (props) => {
                               columns: [
                                 {
                                   header: `${mes}/${anio}`,
-                                  key:"p",
-                                  width:10,
+                                  key: "p",
+                                  width: 10,
                                 },
                                 {
                                   header: `${ds.medico}`,
-                                  key:"r",
-                                  width:20,
+                                  key: "r",
+                                  width: 20,
                                 },
                                 {
                                   header: "Nro",
@@ -401,7 +469,7 @@ const ListaVentasMedicosTotales = (props) => {
                                 .filter((m0) => m0.idmedico == ds.idmedico)
                                 .map((m) => ({
                                   nro: m.idventa,
-                                  sucursal:m.sucursal,
+                                  sucursal: m.sucursal,
                                   fecha_retiro: m.fecha_f,
                                   cliente: m.cliente,
                                   monto: parseFloat(m.monto),
@@ -411,19 +479,6 @@ const ListaVentasMedicosTotales = (props) => {
                       </>
                     )
                   }
-                  size="small"
-                  scroll={{ y: "450px" }}
-                  columns={columns}
-                  dataSource={dataSource.filter((r) =>
-                    r.medico.toLowerCase().includes(searchValue.toLowerCase())
-                  )}
-                  pagination={false}
-                  onRow={(record, index) => ({
-                    onClick: (event) => {
-                      //setSelectedMedico(record);
-                      //setPopupVentasMedicoOpen(true);
-                    },
-                  })}
                 />
               </Col>
             </Row>
