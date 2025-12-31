@@ -32,7 +32,7 @@ export default function LayoutVentas(props) {
       //alert("Debe Iniciar Sesion")
       window.location.replace(public_urls.login);
     }
-
+/*
     var _t = setTimeout(() => {
       if (_t !== typeof "undefined") {
         console.log("clear timeout");
@@ -71,6 +71,7 @@ export default function LayoutVentas(props) {
           }
         });
     }, 2000);
+    */
   };
   useEffect(() => {
     //console.log("run user effect")

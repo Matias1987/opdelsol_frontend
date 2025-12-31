@@ -1,4 +1,5 @@
-const { default: globals } = require("../globals")
+  const { default: globals } = require("../globals")
+
 
 const post_method = (url, data, callback) => {
     fetch(url, {

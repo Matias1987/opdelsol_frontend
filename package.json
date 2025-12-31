@@ -26,10 +26,10 @@
     "react-barcode": "^1.4.6",
     "react-dom": "^18.2.0",
     "react-google-charts": "^4.0.1",
-    "react-infinite-scroll-component": "^6.1.0",
     "react-router-dom": "^6.10.0",
     "react-simple-wysiwyg": "^3.4.1",
     "react-to-print": "^2.14.12",
+    "socket.io-client": "^4.8.3",
     "sort-by": "^0.0.2"
   },
   "devDependencies": {

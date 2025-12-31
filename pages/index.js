@@ -1,7 +1,7 @@
 import LayoutSingle from "@/components/layout/layout_single";
 
-const { public_urls } = require("@/src/urls")
-const { useEffect } = require("react")
+import { public_urls } from "@/src/urls";
+import { useEffect } from "react";
 
 export default function IndexMain(){
     useEffect(()=>{window.location.href = public_urls.modo},[])

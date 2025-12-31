@@ -1,11 +1,10 @@
 import { Button, Form, Input, Modal } from "antd";
-import { useForm } from "rc-field-form";
 import SubFamiliaSelect from "../SubFamiliaSelect";
 import { PlusCircleOutlined } from "@ant-design/icons";
 import SubFamiliaForm from "./SubFamiliaForm";
 import { useState } from "react";
-const urls = require("../../src/urls")
-const post_helper = require("../../src/helpers/post_helper")
+import urls from "../../src/urls"
+import post_helper from "../../src/helpers/post_helper"
 
 const GrupoForm = (props) => {
     const [form] = Form.useForm();

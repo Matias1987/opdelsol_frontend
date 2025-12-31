@@ -8,6 +8,7 @@ import MenuV2 from "./menu_v2";
 import PopupResultadoBusqueda from "../precios/PopupResultadoBusqueda";
 import BarraResumenCaja from "../forms/caja/BarraResumenCaja";
 import { SearchOutlined } from "@ant-design/icons";
+import SocketClient from "../etc/SocketFile";
 
 export default function LayoutVentas(props) {
   const { Content } = Layout;
@@ -56,7 +57,7 @@ export default function LayoutVentas(props) {
       window.location.replace(public_urls.login);
     }
 
-    var _t = setTimeout(() => {
+    /*var _t = setTimeout(() => {
       if (_t !== typeof "undefined") {
         console.log("clear timeout");
         clearTimeout(_t);
@@ -93,8 +94,10 @@ export default function LayoutVentas(props) {
             }
           }
         });
-    }, 2000);
+    }, 2000);*/
   };
+
+  
   useEffect(() => {
     //console.log("run user effect")
     if (!globals.esUsuarioVentas()) {
@@ -177,6 +180,7 @@ export default function LayoutVentas(props) {
             }}
           />
         </Content>
+        <SocketClient />
         
       </Card>
       {/*
