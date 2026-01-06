@@ -8,7 +8,6 @@ import MenuV2 from "./menu_v2";
 import PopupResultadoBusqueda from "../precios/PopupResultadoBusqueda";
 import BarraResumenCaja from "../forms/caja/BarraResumenCaja";
 import { SearchOutlined } from "@ant-design/icons";
-import SocketClient from "../etc/SocketFile";
 
 export default function LayoutVentas(props) {
   const { Content } = Layout;
@@ -17,18 +16,6 @@ export default function LayoutVentas(props) {
   const [popupBusquedaOpen, setPopupBusquedaOpen] = useState(false);
   const [busqueda, setBusqueda] = useState("");
 
-    const card_style = {
-      header: {
-        background: "#ffffff80", 
-        //background: "linear-gradient(39deg, rgba(173, 216, 230, 1) 62%, rgba(128, 164, 230, 1) 95%)", 
-        //borderTop:"3px solid #4589A0",
-        borderTop:"3px solid rgb(214, 104, 0)",
-      },  
-      body:{
-        backgroundColor:"#FAFBFF", 
-        padding:"0"
-      }
-  } 
     const card_style2 = {
       header: {
         //background: "#94D0AE", 
@@ -45,7 +32,6 @@ export default function LayoutVentas(props) {
     if (busqueda.trim().length < 1) {
       return;
     }
-   // setBusqueda(value);
     setPopupBusquedaOpen(true);
   };
 
@@ -53,53 +39,14 @@ export default function LayoutVentas(props) {
     const _token = getItem("token", "session");
 
     if (_token === typeof "undefined") {
-      //alert("Debe Iniciar Sesion")
       window.location.replace(public_urls.login);
     }
 
-    /*var _t = setTimeout(() => {
-      if (_t !== typeof "undefined") {
-        console.log("clear timeout");
-        clearTimeout(_t);
-      }
-      fetch(get.check_login + _token)
-        .then((response) => response.json())
-        .then((response) => {
-          if (response.data.logged == "0") {
-            //alert("Debe Iniciar Sesion")
-            window.location.replace(public_urls.login);
-          } else {
-            //_t  = validate_user();
-            validate_user();
-          }
-        });
-
-      //check if caja is closed, if so, then check whether it is open now
-      fetch(get.caja_abierta + globals.obtenerSucursal())
-        .then((r) => r.json())
-        .then((response) => {
-          //if caja is open, set this value in local
-          if (typeof response.data !== "undefined") {
-            //alert(JSON.stringify(response))
-            if (response.data != null) {
-              if (+response.data.abierta == 1) {
-                globals.setCajaOpen(true);
-                setAlerta(
-                  +response.data.current == 1 ? "" : "Caja Desactualizada"
-                );
-              } else {
-                //alert("caja cerrada")
-                setAlerta("CAJA CERRADA");
-              }
-            }
-          }
-        });
-    }, 2000);*/
   };
 
   
   useEffect(() => {
-    //console.log("run user effect")
+    
     if (!globals.esUsuarioVentas()) {
       window.location.replace(public_urls.modo);
     }
@@ -117,8 +64,6 @@ export default function LayoutVentas(props) {
         }}
       />
       
-      
-      {/*<MenuVentasTop />*/}
       <Card
       styles={card_style2}
         extra={
@@ -128,7 +73,6 @@ export default function LayoutVentas(props) {
               {
                 borderRadius:"16px", 
                 backgroundColor:"rgb(255, 255, 255)", 
-               //border:"1px solid #663F4C"
               }
             } 
             suffix={<><Button type="link" onClick={onSearch}><SearchOutlined /></Button></>} 
@@ -144,8 +88,6 @@ export default function LayoutVentas(props) {
         title={
           <>
             {<MenuV2 />}
-            {/*<MenuVentasTop />*/}
-           
           </>
         }
       >
@@ -180,18 +122,7 @@ export default function LayoutVentas(props) {
             }}
           />
         </Content>
-        <SocketClient />
-        
       </Card>
-      {/*
-            <Menu items={[{
-                label:<Input.Search style={{padding:".3em"}} prefix={<span style={{fontWeight:"600"}}>Buscar Código:&nbsp;&nbsp;&nbsp;</span>} value={busqueda} onChange={(e)=>{setBusqueda(e.target.value)}} onSearch={onSearch} />
-
-            }]}
-            />
-           */}
-
-      {/*<Alerts />*/}
     </Layout>
   );
 }

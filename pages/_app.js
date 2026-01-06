@@ -8,6 +8,7 @@ import moment from 'moment'
 import dayjs from "dayjs";
 import "dayjs/locale/es";
 import { SocketProvider } from '@/components/etc/SocketProvider'
+import SocketStatus from '@/components/etc/SocketStatus'
 
 export default function App({ Component, pageProps }) {
   const [isDarkTheme, setDarkTheme] = useState(true)
@@ -51,6 +52,7 @@ export default function App({ Component, pageProps }) {
         setDarkTheme(c)
       }}>
         <Component {...pageProps} />
+        <SocketStatus />
       </MyLayout>
     )
     }   

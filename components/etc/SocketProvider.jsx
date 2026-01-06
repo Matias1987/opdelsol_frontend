@@ -1,5 +1,6 @@
 // socketContext.js
 import globals from '@/src/globals';
+import { public_urls } from '@/src/urls';
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { io } from 'socket.io-client';
 
@@ -23,7 +24,7 @@ export const SocketProvider = ({ children }) => {
     setSocket(socketInstance);
 
       socketInstance.on("connect", () => {
-      setStatus("Connected");
+      //setStatus("Connected");
       console.log("Connected to server");
     });
 
@@ -33,8 +34,9 @@ export const SocketProvider = ({ children }) => {
     });
 
     socketInstance.on("disconnect", () => {
-      setStatus("Disconnected");
+      //setStatus("Disconnected");
       console.log("Disconnected from server");
+      window.location.replace(public_urls.login);
     });
 
     // Cleanup on unmount

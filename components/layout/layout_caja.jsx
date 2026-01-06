@@ -21,7 +21,6 @@ export default function LayoutVentas(props) {
     if (busqueda.trim().length < 1) {
       return;
     }
-   // setBusqueda(value);
     setPopupBusquedaOpen(true);
   };
 
@@ -74,7 +73,6 @@ export default function LayoutVentas(props) {
     */
   };
   useEffect(() => {
-    //console.log("run user effect")
     if(!globals.esUsuarioCaja1())
     {
         window.location.replace(public_urls.modo)
@@ -85,7 +83,6 @@ export default function LayoutVentas(props) {
     const card_style2 = {
       header: {
         background: "#E7E9EB",
-        //background: "#94D0AE", 
         borderTop:"2px solid #663F4C",
       },  
       body:{
@@ -108,8 +105,6 @@ export default function LayoutVentas(props) {
         }}
       />
       
-      
-      {/*<MenuVentasTop />*/}
       <Card
       styles={card_style2}
         extra={
@@ -127,7 +122,6 @@ export default function LayoutVentas(props) {
         title={
           <>
             <MenuV2 />
-           
           </>
         }
       >
@@ -163,15 +157,6 @@ export default function LayoutVentas(props) {
           />
         </Content>
       </Card>
-      {/*
-            <Menu items={[{
-                label:<Input.Search style={{padding:".3em"}} prefix={<span style={{fontWeight:"600"}}>Buscar Código:&nbsp;&nbsp;&nbsp;</span>} value={busqueda} onChange={(e)=>{setBusqueda(e.target.value)}} onSearch={onSearch} />
-
-            }]}
-            />
-           */}
-
-      {/*<Alerts />*/}
     </Layout>
   );
 }
