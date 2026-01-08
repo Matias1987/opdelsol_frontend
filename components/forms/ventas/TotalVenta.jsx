@@ -9,7 +9,7 @@ const TotalesVenta = (props) => {
 
   const onDescuentoChange = (v) => {
     setDescuento((descuento) => {
-      const _n = v.length < 1 ? 0 : v;
+      const _n = (v??"").length < 1 ? 0 : v;
       props?.callback?.(_n);
       setTotal(_n);
       return _n;

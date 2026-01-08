@@ -393,7 +393,7 @@ const CodeGridHTML = (props) => {
                               }
                             </Checkbox>
                           </>
-                        ) : (
+                        ) : ( false ? <>{codesDict[`${parseFloat(cell.esf) * 100}${parseFloat(cell.cil) * 100}`]?.cantidad}</> :
                           <>
                             {
                               codesDict[
@@ -447,6 +447,7 @@ const CodeGridHTML = (props) => {
     );
 
   useEffect(() => {
+    //alert(idsucursal)
     if (idsubgrupo < 1) {
       return;
     }

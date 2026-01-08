@@ -42,6 +42,45 @@ export default function LayoutVentas(props) {
       window.location.replace(public_urls.login);
     }
 
+    var _t = setTimeout(() => {
+      if (_t !== typeof "undefined") {
+        console.log("clear timeout");
+        clearTimeout(_t);
+      }
+      fetch(get.check_login + _token)
+        .then((response) => response.json())
+        .then((response) => {
+          if (response.data.logged == "0") {
+            //alert("Debe Iniciar Sesion")
+            window.location.replace(public_urls.login);
+          } else {
+            //_t  = validate_user();
+            validate_user();
+          }
+        });
+
+      //check if caja is closed, if so, then check whether it is open now
+      fetch(get.caja_abierta + globals.obtenerSucursal())
+        .then((r) => r.json())
+        .then((response) => {
+          //if caja is open, set this value in local
+          if (typeof response.data !== "undefined") {
+            //alert(JSON.stringify(response))
+            if (response.data != null) {
+              if (+response.data.abierta == 1) {
+                globals.setCajaOpen(true);
+                setAlerta(
+                  +response.data.current == 1 ? "" : "Caja Desactualizada"
+                );
+              } else {
+                //alert("caja cerrada")
+                setAlerta("CAJA CERRADA");
+              }
+            }
+          }
+        });
+    }, 10000);
+
   };
 
   

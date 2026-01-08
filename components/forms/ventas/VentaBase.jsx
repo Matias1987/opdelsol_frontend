@@ -209,7 +209,8 @@ export default function VentaBase(props) {
                     locale={esES}
                     format={"DD-MM-YYYY"}
                     onChange={(value) => {
-                      onChange("fechaRetiro", value.format("DD-MM-YYYY"));
+                      let _value = value ? value.format("DD-MM-YYYY") : null;
+                      onChange("fechaRetiro", _value);
                     }}
                   />
                 </Form.Item>

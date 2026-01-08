@@ -19,7 +19,7 @@ export default function App({ Component, pageProps }) {
   });
   return (
       <>  
-      <SocketProvider>
+      {/*<SocketProvider>*/}
       <ConfigProvider
       locale={es_ES}
       
@@ -52,12 +52,12 @@ export default function App({ Component, pageProps }) {
         setDarkTheme(c)
       }}>
         <Component {...pageProps} />
-        <SocketStatus />
+       
       </MyLayout>
     )
     }   
     </ConfigProvider>
-    </SocketProvider>
+    {/*</SocketProvider>*/}
       </>
     )
 }

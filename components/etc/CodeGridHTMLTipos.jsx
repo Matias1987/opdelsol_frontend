@@ -87,6 +87,7 @@ const CodeGridHTMLTipos = (props) => {
       children: (
         <>
           <CodeGridHTML
+            key={reload}
             reload={reload}
             {...props}
             gridType="stock"
