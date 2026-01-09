@@ -6,6 +6,7 @@ import { Button, Checkbox, Col, Collapse, Dropdown, Row, Space } from "antd";
 import { useEffect, useState } from "react";
 import DetalleSubgrupo from "../DetalleSubgrupo";
 import ExportToExcel2 from "./ExportToExcel2";
+import ExportToCSV from "../ExportToCSV";
 
 //old javascript...
 /**
@@ -32,6 +33,7 @@ const CodeGridHTML = (props) => {
   const [dataNegative, setDataNegative] = useState([]);
   const [modoSeleccionMultiple, setModoSeleccionMultiple] = useState(false);
   const [codesDict, setCodesDict] = useState({});
+  const [nombreSubgrupo, setNombreSubgrupo] = useState("");
 
   const alertColors = [
     "#DC2626", // 16 - Red (Danger)
@@ -360,7 +362,7 @@ const CodeGridHTML = (props) => {
                           color: "black",
                         }}
                       >
-                        {"undefined" ===
+                        {'undefined' ===
                         typeof codesDict[
                           `${parseFloat(cell.esf) * 100}${
                             parseFloat(cell.cil) * 100
@@ -458,24 +460,26 @@ const CodeGridHTML = (props) => {
     console.log(key);
   };
 
-  const prepareCSV = () => {
-    const data = [];
-    const row0 = [];
-    src[0].forEach((_) => {
-      row0.push();
+  const prepareCSV = (src) => {
+    let str_data = `ESF\\CIL,`;
+    src[0].forEach((v) => {
+
+      str_data+=` ${(parseFloat(v.cil)).toFixed(2)},`;
     });
-    data.push(row0);
+
+    str_data +=`\r\n`;
 
     src.forEach((row) => {
-      const row1 = [];
-      //push esf
-      row1.push();
+
+      str_data+=` ${(parseFloat(row[0].esf)).toFixed(2)},`;
       row.forEach((cell) => {
-        //push
-        row1.push();
+        str_data+=`"${codesDict[`${parseFloat(cell.esf) * 100}${parseFloat(cell.cil) * 100}`]?.cantidad}",`;
       });
-      data.push(row1);
+
+      str_data +=`\r\n`;
     });
+
+    return str_data +`\r\n`;
   };
 
   return (
@@ -489,7 +493,7 @@ const CodeGridHTML = (props) => {
     >
       <Row style={{ padding: "16px" }} gutter={16}>
         <Col>
-          <DetalleSubgrupo idsubgrupo={idsubgrupo} />
+          <DetalleSubgrupo idsubgrupo={idsubgrupo} callback={sg=>{setNombreSubgrupo(sg.nombre_largo)}} />
         </Col>
         <Col>
           <Checkbox
@@ -509,6 +513,9 @@ const CodeGridHTML = (props) => {
             buttonType="link"
             buttonStyle={{ color: "#008132ff", fontWeight: "bolder" }}
           />
+        </Col>
+        <Col>
+            <ExportToCSV parseFnt={_=>  `${"GRILLA"},\r\n ${nombreSubgrupo} || ${gridType},\r\n ${prepareCSV(dataNegative)}\r\n ${prepareCSV(dataPositive)}`} />
         </Col>
       </Row>
       <Row>

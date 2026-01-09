@@ -2,16 +2,16 @@ import { get } from "@/src/urls";
 import { Row, Col, Tag } from "antd";
 import { useEffect, useState } from "react";
 
-const DetalleSubgrupo = props => {
+const DetalleSubgrupo = ({idsubgrupo, callback}) => {
     const [subgrupo, setSubgrupo] = useState(null);
-    const {idsubgrupo} = props;
-
+    
     const load = _=>{
         fetch(get.obtener_detalle_subgrupo + idsubgrupo)
         .then(r=>r.json())
         .then((response)=>{
             //alert(JSON.stringify(response))
             setSubgrupo(response.data[0])
+            callback?.(response.data[0])
         })
         .catch(e=>{console.log("error")})
     }

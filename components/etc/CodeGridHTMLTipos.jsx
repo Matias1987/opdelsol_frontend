@@ -101,7 +101,7 @@ const CodeGridHTMLTipos = (props) => {
       label: "Consumo",
       children: (
         <>
-          <Row>
+          <Row style={{paddingTop:"12px"}}>
             <Col span={24}>
               <DatePicker
                key={reload}
@@ -192,7 +192,14 @@ const CodeGridHTMLTipos = (props) => {
 
   return (
     <>
-      <Tabs defaultActiveKey="1" items={items} onChange={onChange} tabPosition="top" />
+      <Tabs 
+      tabBarStyle={{ marginBottom: 0, borderBottom: '1px solid #e60000ff' }} // Styles for the entire bar
+      
+      defaultActiveKey="1" 
+      items={items} 
+      onChange={onChange} 
+      tabPosition="top" 
+      type="card" />
       <Modal
         open={modalEditarCriticoOpen}
         width={modal_width}

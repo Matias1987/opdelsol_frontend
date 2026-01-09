@@ -7,21 +7,21 @@ import { Button }  from "antd";
  * @param columns columns acording to json 
  * @param parseFnt 
  */
-const ExportToCSV = (props) =>{
+const ExportToCSV = ({parseFnt,fileName}) =>{
 
     const downloadTxtFile = () => {
-        if(typeof props.parseFnt === 'undefined')
+        if(typeof parseFnt === 'undefined')
         {
             return
         }
 
-        const data = props.parseFnt()
+        const data = parseFnt()
         try
         {
             const element = document.createElement("a");
             const file = new Blob([data], {type: 'text/plain'});
             element.href = URL.createObjectURL(file);
-            element.download = `${(props?.fileName||"")||"file"}_${(new Date()).getTime()}.csv`;
+            element.download = `${(fileName??"")||"file"}_${(new Date()).getTime()}.csv`;
             document.body.appendChild(element); // Required for this to work in FireFox
             element.click();
         }
