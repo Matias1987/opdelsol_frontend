@@ -28,6 +28,7 @@ import {
 import CobroOperacionV2 from "../caja/CobroFormV2";
 import { current_date_ymd } from "@/src/helpers/string_helper";
 import Resfuerzo from "../caja/cobro_v2/resfuerzo";
+import ExportToExcel2 from "@/components/etc/ExportToExcel2";
 
 const BuscarVentaV3 = (props) => {
   const [dataSource, setDataSource] = useState([]);
@@ -238,6 +239,7 @@ const BuscarVentaV3 = (props) => {
   return (
     <>
       <Card
+        
         styles={{header:{ color:"#663f4c", fontSize:"1.3em"}}}
         size="small"
         extra={
@@ -306,6 +308,7 @@ const BuscarVentaV3 = (props) => {
         <Row>
           <Col span={24}>
             <Table
+              
               loading={loading}
               size="small"
               scroll={{
@@ -453,6 +456,43 @@ const BuscarVentaV3 = (props) => {
                 },
               ]}
             />
+          </Col>
+        </Row>
+        <Row style={{display:"flex", justifyContent:"start"}}>
+          <Col>
+            {/*<ExportToExcel2
+            fileName={"Ventas"}
+            buttonText=" "
+            buttonType="link"
+            buttonStyle={{backgroundColor:"white", color:"green"}}
+            butttonSize="small"
+            sheets={
+              [
+                {
+                  sheet_name:"Ventas",
+                  footer:"",
+                  columns:[
+                    {header:"Nro.", key:"idventa", width:15},
+                    {header:"Fecha", key:"fecha", width:20},
+                    {header:"Cliente", key:"cliente", width:40},
+                    {header:"Vendedor", key:"vendedor", width:30},
+                   
+                    {header:"Monto", key:"monto", width:15},
+                    {header:"Estado", key:"estado", width:15},
+                  ],
+                  data:(_=>dataSource.map(_row=>({
+                    idventa: _row.idventa,
+                    fecha: _row.fecha,
+                    cliente: _row.cliente,
+                    vendedor: _row.vendedor,
+                    tipo: _row.tipo,
+                    monto: _row.monto,
+                    estado: _row.estado
+                  })))()
+                }
+              ]
+            }
+            />*/}
           </Col>
         </Row>
       </Card>

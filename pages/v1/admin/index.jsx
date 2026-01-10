@@ -1,8 +1,10 @@
 
 import ChartTotalesUltimoAnio from "@/components/admin/graficos/totales_ultimo_anio";
 import ResumenOperacionesRow from "@/components/admin/resumenOperacionesRow";
-import TotalesGastos from "@/components/admin/totales/totales_cobros";
-import TotalesCobros from "@/components/admin/totales/totales_gastos";
+import TotalesCobros from "@/components/admin/totales/totales_cobros";
+import TotalesGastos from "@/components/admin/totales/totales_gastos";
+
+
 import TotalesVentas from "@/components/admin/totales/totales_ventas";
 import TotalesVenta from "@/components/forms/ventas/TotalVenta";
 import LayoutAdmin from "@/components/layout/layout_admin";
@@ -32,14 +34,15 @@ export default function dashboard_admin(){
         })
     },[])
     return <>
-    {/*<Row gutter={24}>
-        <Col span={12}>
+    <Row gutter={24}>
+        {/*<Col  style={{paddingRight:"32px"}}>
             <TotalesCobros />
         </Col>
-        <Col span={12}>
+        <Col  style={{paddingRight:"32px"}}>
             <TotalesGastos />
-        </Col>
+        </Col>*/}
     </Row>
+    {/*
     <Row>
         <Col span={24}>
             <TotalesVentas />

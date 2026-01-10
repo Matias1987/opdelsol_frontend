@@ -23,7 +23,15 @@ const ClientesMorosos = (props) => {
         
         </>},
         {
-            render:(_,{idcliente, checked})=><><Checkbox checked={+checked==1} onChange={()=>{add_cliente_tarea(idcliente)}} /></>, width:"80px", title:"Marcar"
+            render:(_,{idcliente, checked})=><><Checkbox checked={+checked==1} onChange={()=>{
+                if(checked==1) {
+                    return;
+                }
+                else{
+                    add_cliente_tarea(idcliente)
+                }
+                
+            }} /></>, width:"100px", title:"Terminado"
         }
     ]
 

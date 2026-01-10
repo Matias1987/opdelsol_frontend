@@ -5,13 +5,13 @@ import { Button } from "antd";
 import { ExportOutlined, FileExcelOutlined } from "@ant-design/icons";
 /**
  * 
- * @param {*} sheets must contain an array of sheet object with the following: sheet_name, header, footer, columns [], data 
+ * @param {*} sheets must contain an array of sheet object with the following: sheet_name, header, footer, columns [{header, key, width}], data 
  * @param buttonSize
  * @param fileName
  * 
  *  
  */
-const ExportToExcel2 = ({ sheets, buttonSize, fileName, buttonStyle, buttonType, disabled }) => {
+const ExportToExcel2 = ({ sheets, buttonSize, fileName, buttonStyle, buttonType, disabled, buttonText }) => {
     /**
      * sheets must have the following structure:
      * sheets: [
@@ -52,7 +52,7 @@ const ExportToExcel2 = ({ sheets, buttonSize, fileName, buttonStyle, buttonType,
       type={buttonType ?? "primary"}
       onClick={exportExcel}
     >
-      <FileExcelOutlined /> Exportar a Excel
+      <FileExcelOutlined /> {buttonText || "Exportar a Excel"}
     </Button>
   );
 };
