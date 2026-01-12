@@ -27,6 +27,12 @@ const validar_modo_pago = (mp) => {
             return {msg:"Banco no seleccionado",tipo: -1}
         }
     }
+    if(mp.transferencia_monto!=0)
+    {
+        if(mp.fk_banco_transferencia == null){
+            return {msg:"Banco no seleccionado",tipo: -1}
+        }
+    }
 
     return null;
     /*if(mp.mutual_monto!=0)

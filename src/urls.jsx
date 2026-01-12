@@ -487,6 +487,7 @@ const get = {
     obtener_lista_envios_admin: remote_base_url + "admin/obtener_lista_envios_admin/",
     obtener_lista_gastos_admin: remote_base_url + "admin/obtener_lista_gastos_admin/",
     obtener_lista_ventas_admin: remote_base_url + "admin/obtener_lista_ventas_admin/",
+    total_tarjetas_periodo: remote_base_url + "admin/obtener/totales/tarjetas/periodo/",
 
     mensajes: remote_base_url + "mensajes/",
 

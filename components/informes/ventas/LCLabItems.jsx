@@ -14,7 +14,6 @@ export default function LCLabItems(props){
         .then(response=>response.json())
         .then((response)=>{
             setData(response.data)
-            //alert("ITEMS::: " + JSON.stringify(response))
             props?.callback?.()
         })
     },[])

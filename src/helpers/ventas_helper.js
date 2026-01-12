@@ -178,6 +178,8 @@ const submit_venta = (v, productos,total,subTotal, tipo_vta, validate_items, cal
         }
     }*/
 
+
+
     globals.obtenerCajaAsync((result)=>{
 
         if(result===null)
@@ -196,8 +198,8 @@ const submit_venta = (v, productos,total,subTotal, tipo_vta, validate_items, cal
             subtotal: subTotal,
             fkcaja: result.idcaja,
         }
-    
-        const _res1 = validar_modo_pago(__venta.mp)
+
+            const _res1 = validar_modo_pago(__venta.mp)
 
         if(_res1!=null){
             alert("Error. "+_res1.msg)
@@ -217,6 +219,8 @@ const submit_venta = (v, productos,total,subTotal, tipo_vta, validate_items, cal
                 return false
             }
         }
+    
+       
         /**
          * validar cantidad stock 
          */

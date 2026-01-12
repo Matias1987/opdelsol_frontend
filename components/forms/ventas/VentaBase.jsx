@@ -185,7 +185,6 @@ export default function VentaBase(props) {
                   mutualHidden={false}
                 />
               }
-              {/*<ModoPagoV2 />*/}
             </Form.Item>
           </Col>
         </Row>
