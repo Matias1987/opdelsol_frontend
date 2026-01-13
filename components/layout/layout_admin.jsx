@@ -70,7 +70,7 @@ export default function LayoutAdmin({children}){
                 }}/>
           {menu()}
   
-            <Content style={{ margin: '40px 100px', padding: 24}}>
+            <Content style={{ margin: '40px 30px', padding: 0}}>
                 {children}
             </Content>
         </Layout>

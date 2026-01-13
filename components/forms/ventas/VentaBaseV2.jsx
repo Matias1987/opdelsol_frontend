@@ -1,6 +1,5 @@
 import { Button, Col, DatePicker, Input, Row, Tabs, TimePicker } from "antd"
 import SelectCliente from "./SelectCliente"
-import TotalesVentas from "@/components/admin/totales/totales_ventas"
 import { useRef, useState } from "react";
 import Sobre from "./sobre/Sobre";
 
@@ -83,11 +82,7 @@ const VentaBaseV2 = props => {
         </Row>
         <Row>
             <Col span={24}>
-                <TotalesVentas
-                    subtotal={typeof props !== 'undefined' ? props.subTotal : "0"}
-                    total={typeof props !== 'undefined' ? props.total : "0"}
-                    callback={(value) => { onChange("descuento", value) }}
-                />
+
                 <ModoPagoV4
                     total={typeof props !== 'undefined' ? props.total : "0"}
                     callback={(value) => { onChange("mp", value) }}

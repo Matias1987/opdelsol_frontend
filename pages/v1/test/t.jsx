@@ -1,11 +1,12 @@
 
+import TotalCobrosPeriodo from "@/components/admin/totales/totalCobrosPeriodo";
 import LayoutAdmin from "@/components/layout/layout_admin";
 
-import CodeGridHTMLTipos from "@/components/etc/CodeGridHTMLTipos";
 export default function test() {
   return (
     <div>
-      <CodeGridHTMLTipos idsubgrupo={1386} idsucursal={6} />
+      <TotalCobrosPeriodo />
+      
       {/*
       <CodeGridHTML idsubgrupo={1386} idsucursal={6} />
       <VentasFiltrosAdmin />

@@ -78,9 +78,9 @@ const ListadoCajasAdmin = (props) => {
 
   return (
     <>
-      <Card title="Listado de Caja">
+      <Card title="Listado de Caja" size="small">
         <Row>
-          <Col style={{ width: "30%", minWidth: "300px" }}>
+          <Col style={{ width: "20%", minWidth: "200px" }}>
             <CustomCalendar
               onSelect={(date) => {
                 setCajas([])
@@ -89,8 +89,9 @@ const ListadoCajasAdmin = (props) => {
               }}
             />
           </Col>
-          <Col style={{ width: "70%", minWidth: "700px" }}>
+          <Col style={{ width: "80%", minWidth: "700px" }}>
             <Table
+              size="small"
               dataSource={cajas}
               columns={columns}
               scroll={{ y: "500px" }}
