@@ -1,5 +1,6 @@
 import CustomCalendar from "@/components/etc/CustomCalendar";
 import InformeCajaV2 from "@/components/informes/caja/InformeCajaV3";
+import { formatFloat } from "@/src/helpers/formatters";
 import { post_method } from "@/src/helpers/post_helper";
 import { post } from "@/src/urls";
 import { EditOutlined, InfoOutlined } from "@ant-design/icons";
@@ -18,14 +19,17 @@ const ListadoCajasAdmin = (props) => {
   const [detalleCajaOpen, setDetalleCajaOpen] = useState(false);
   const [selectedEstado, setSelectedEstado] = useState(null);
   const columns = [
-    { title: "Sucursal", dataIndex: "sucursal" },
+    { title: "Sucursal", dataIndex: "sucursal", width: "130px" },
 
-    { title: "Estado", dataIndex: "estado" },
+    { title: "Estado", dataIndex: "estado", width: "80px" },
+    { width: "120px" , title: <div style={{textAlign:"right"}}>Monto</div>, dataIndex: "saldo", render: (_,{saldo}) => <div style={{textAlign:"right"}}>$&nbsp;{formatFloat(saldo)}</div> },
     {
+      width: "250px",
       title: "Acciones",
       render: (_, record) => (
         <>
           <Button
+            size="small"
             type="link"
             onClick={(_) => {
               setSelectedCaja(record);
@@ -35,6 +39,8 @@ const ListadoCajasAdmin = (props) => {
             <InfoOutlined /> Detalle
           </Button>
           <Button
+            danger
+            size="small"
             type="link"
             onClick={(_) => {
               setSelectedCaja(record);
@@ -79,8 +85,8 @@ const ListadoCajasAdmin = (props) => {
   return (
     <>
       <Card title="Listado de Caja" size="small">
-        <Row>
-          <Col style={{ width: "20%", minWidth: "200px" }}>
+        <Row gutter={16}>
+          <Col style={{ width: "300px", minWidth: "200px" }}>
             <CustomCalendar
               onSelect={(date) => {
                 setCajas([])
@@ -89,7 +95,7 @@ const ListadoCajasAdmin = (props) => {
               }}
             />
           </Col>
-          <Col style={{ width: "80%", minWidth: "700px" }}>
+          <Col style={{width: "620px", minWidth:"620px" }}>
             <Table
               size="small"
               dataSource={cajas}
@@ -139,6 +145,11 @@ const ListadoCajasAdmin = (props) => {
                 block
                 type="primary"
                 onClick={() => {
+                  if(!selectedEstado)
+                  {
+                    alert("Seleccione un estado");
+                    return;
+                  }
                   cambiarEstado(selectedEstado);
                   setPopupOpen(false);
                 }}
