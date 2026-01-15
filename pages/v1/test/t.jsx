@@ -1,11 +1,15 @@
 
+import TotalesCobros from "@/components/admin/dashboard_components/totales_cobros";
 import TotalCobrosPeriodo from "@/components/admin/totales/totalCobrosPeriodo";
+import TotalesGastosPorSucursal from "@/components/admin/totales/totalesGastosPorSucursal";
 import LayoutAdmin from "@/components/layout/layout_admin";
 
 export default function test() {
   return (
     <div>
+      <TotalesCobros />
       <TotalCobrosPeriodo />
+      <TotalesGastosPorSucursal />
       
       {/*
       <CodeGridHTML idsubgrupo={1386} idsucursal={6} />

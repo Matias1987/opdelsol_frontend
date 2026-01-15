@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 
 const TotalCobrosPeriodo = () => {
   const [data, setData] = useState(null);
-  const [btnAplicarEnabled, setBtnAplicarEnabled] = useState(true);
+  const [btnAplicarEnabled, setBtnAplicarEnabled] = useState(false);
   const [dates, setDates] = useState(null);
   const [reload, setReload] = useState(false);
   const columns = [

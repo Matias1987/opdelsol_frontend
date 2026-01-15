@@ -60,7 +60,7 @@ export default function TestMenu() {
           </Link>
         </Menu.Item>
         <Menu.Item key="sub2_33">
-          <Link href={ idf_optica === 1  ? get_url_to("deposito/stock/agregar_stock") : get_url_to("deposito/stock/agregar_stock") }>
+          <Link href={ idf_optica === 1  ? get_url_to("deposito/stock/agregar_stock_lote_v3") : get_url_to("deposito/stock/agregar_stock") }>
             Agregar Productos...
           </Link>
         </Menu.Item>

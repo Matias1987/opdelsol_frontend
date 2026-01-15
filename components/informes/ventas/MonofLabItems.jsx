@@ -30,8 +30,8 @@ export default function MonofLabItems(props){
                 <th style={{fontSize:".7em", padding:"0", textAlign:"center"}}>Cil.</th>
                 <th style={{fontSize:".7em", padding:"0", textAlign:"center"}}>Eje</th>
                 <th style={{fontSize:".7em", padding:"0", textAlign:"center"}}>C&oacute;digo</th>
-                {/*<th style={{padding:"0", textAlign:"left"}}>Descripci&oacute;n</th>*/}
-                <th style={{fontSize:".7em", padding:"0", textAlign:"left"}}>Descripci&oacute;n</th>
+                {/*<th style={{padding:"0", textAlign:"left"}}>Descripci&oacute;n</th>
+                <th style={{fontSize:".7em", padding:"0", textAlign:"left"}}>Descripci&oacute;n</th>*/}
                 <th style={{fontSize:".7em",padding:"0", textAlign:"right"}}>Precio</th>
             </tr>
         </thead>
@@ -40,13 +40,19 @@ export default function MonofLabItems(props){
                 data.map(r=>(
                     <tr >
                         <td style={{borderBottom:"1px dotted", fontSize:".8em"}}>{((r.tipo||"").toUpperCase()).replace(/_/g," ")}</td>
-                        <td style={{fontSize:".9em", borderBottom:"1px dotted", paddingLeft:"8px", padding:"0",textAlign:"center"}}>{(parseFloat(+r.esf||0)>0 ? "":"") + r.esf}</td>
-                        <td style={{fontSize:".9em", borderBottom:"1px dotted", paddingLeft:"8px", padding:"0",textAlign:"center"}}>{r.cil}</td>
-                        <td style={{fontSize:".9em", borderBottom:"1px dotted", paddingLeft:"8px", padding:"0",textAlign:"center"}}>{r.eje}</td>
-                        <td style={{fontSize:".9em", borderBottom:"1px dotted", paddingLeft:"8px",textAlign:"left"}}><b>{r.codigo}</b></td>
+
+                        {   r.tipo.includes("armazon") ? <></> :
+                            <>
+                            <td style={{fontSize:".9em", borderBottom:"1px dotted", paddingLeft:"8px", padding:"0",textAlign:"center"}}>{(parseFloat(+r.esf||0)>0 ? "":"") + r.esf}</td>
+                            <td style={{fontSize:".9em", borderBottom:"1px dotted", paddingLeft:"8px", padding:"0",textAlign:"center"}}>{r.cil}</td>
+                            <td style={{fontSize:".9em", borderBottom:"1px dotted", paddingLeft:"8px", padding:"0",textAlign:"center"}}>{r.eje}</td>
+                            </>
+                        }
+
+                        <td colSpan={r.tipo.includes("armazon") ? "4" : "1"} style={{fontSize:".9em", borderBottom:"1px dotted", paddingLeft:"8px",textAlign:"left"}}><b>{r.codigo}</b>{!r.tipo.includes("armazon") ? <></> : <>&nbsp; <span style={{fontSize:".8em", fontStyle:"italic"}}>{r.descripcion}</span></>}</td>
                         
-                        {/*<td style={{padding:"0",textAlign:"left"}}>{r.descripcion}</td>*/}
-                        <td style={{borderBottom:"1px dotted", padding:"0",textAlign:"left", fontSize:".7em"}}><i>{r.descripcion}</i></td>
+                        {/*<td style={{padding:"0",textAlign:"left"}}>{r.descripcion}</td>
+                        <td style={{borderBottom:"1px dotted", padding:"0",textAlign:"left", fontSize:".7em"}}><i>{r.descripcion}</i></td>*/}
                         <td style={{borderBottom:"1px dotted", padding:"0",textAlign:"right"}}>$&nbsp;{formatFloat(r.precio)}</td>
                     </tr>
                 ))
