@@ -182,6 +182,7 @@ const post = {
     obtener_ventas_subgrupo: remote_base_url + "ventas/obtener/ventas/subgrupo/",
     obtener_uso_items_adic_subgrupo_periodo: remote_base_url + "adic/obtener/uso/items/adic/subgrupo/periodo/",
     obtener_lista_ventas_sucursal_periodo: remote_base_url + "admin/obtener/ventas/sucursal/periodo/",
+    total_ventas_periodo_sucursal: remote_base_url + "admin/total/ventas/periodo/sucursal/",
 
     desactivar_tarjeta: remote_base_url + "tarjetas/de/t/",
     desactivar_banco: remote_base_url + "bancos/de/b/",
