@@ -51,14 +51,15 @@ const ListaCobros = (props) => {
     },[reload])
 
     const load=_=>{
-        var params = {idsucursal: globals.obtenerSucursal()}
+        var params = {idsucursal: props.idsucursal ? props.idsucursal : globals.obtenerSucursal()}
         params = add(params, filtros.idcliente, 'idcliente')
         params = add(params, filtros.iddestinatario, 'iddestinatario')
         params = add(params, props?.idventa, 'idventa')
         //params = add(params, props?.idsucursal, 'idsucursal')
         params = add(params, filtros?.idcobro, 'idcobro')
         params = add(params, filtros?.fecha, 'fecha')
-        setLoading(true)
+        setLoading(true);
+        //alert(JSON.stringify(params))
         //get list
         post_method(post.obtener_lista_cobros,params,(response)=>{
             

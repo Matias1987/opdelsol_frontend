@@ -48,7 +48,7 @@ const InformeVentaMinV3 = (props) => {
 						total_haber += parseFloat(r.monto)
 					}
 				})
-
+				//alert(JSON.stringify(response.data[0]))
 				setData({...response.data[0], total_haber: total_haber})
                 setLoading(false)
 				
@@ -173,7 +173,7 @@ const InformeVentaMinV3 = (props) => {
 			</div>
 			<hr />
 			<h3>Lista de Cobros</h3>
-			<ListaCobros idventa={data.idventa} readOnly={true} />
+			<ListaCobros idventa={data.idventa} readOnly={true} idsucursal={data.sucursal_idsucursal} />
 			<h3>Anotaciones</h3>
 			<Anotaciones idref={data.idventa} tipo={"VENTA"}  />
 		</>

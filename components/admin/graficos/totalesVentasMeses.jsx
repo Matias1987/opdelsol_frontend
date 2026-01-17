@@ -67,9 +67,11 @@ function TotalesVentasMeses({ idsucursal, cantMeses = 3 }) {
   const [graphData, setGraphData] = useState([])
 
   const options = {
-    title: `Ventas Ultimos ${cantMeses} Meses`,
+    title: `Cantidad de Ventas Ultimos ${cantMeses} Meses`,
     vAxis: { title: "Total" },
     hAxis: { title: "Mes" },
+    legend: { position: "top", maxLines: 9, alignment:'start'  },
+    
   };
 
   const process_data = (raw_data) => {
@@ -117,6 +119,7 @@ function TotalesVentasMeses({ idsucursal, cantMeses = 3 }) {
       height="200px"
       data={graphData}
       options={options}
+
     />
     </Card>
   );

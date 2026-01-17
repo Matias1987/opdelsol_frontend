@@ -1,4 +1,5 @@
 import CustomCalendar from "@/components/etc/CustomCalendar";
+import ExportToExcel2 from "@/components/etc/ExportToExcel2";
 import InformeCajaV2 from "@/components/informes/caja/InformeCajaV3";
 import { formatFloat } from "@/src/helpers/formatters";
 import { post_method } from "@/src/helpers/post_helper";
@@ -102,6 +103,17 @@ const ListadoCajasAdmin = (props) => {
               columns={columns}
               scroll={{ y: "500px" }}
               pagination={false}
+              footer={_=><>
+              <ExportToExcel2 
+                fileName={`Cajas_${selectedDate}`}
+                sheets={[
+                {sheet_name:"Cajas", data:cajas, columns:columns, footer:"", columns:[
+                  {header:"Fecha", width:"30", key:"fecha_f"},
+                  {header:"Sucursal", width:"30", key:"sucursal"},
+                  
+                  {header:"Monto", width:"30", key:"saldo"}
+                ]}
+              ]} /> </>}
             />
           </Col>
         </Row>
