@@ -23,6 +23,7 @@ export default function ModoPagoV4(props){
     const [mercadopagoChecked, setMercadoPagoChecked] = useState(false)
     const [tarjetas, setTarjetas] = useState(null)
     const [bancos, setBancos] = useState(null)
+    const [mutuales, setMutuales] = useState(null)
     const [mpLoaded, setMPLoaded] = useState(false)
     const [dataCuotas, setDataCuotas] = useState([])
     const [total, setTotal] = useState(0)
@@ -39,7 +40,7 @@ export default function ModoPagoV4(props){
         ctacte_interes: 1,
         cheque_monto: 0,
         mutual_monto: 0,
-        mutual_mutual: 0,
+        fk_mutual: null,
         total: 0,
         saldo: 0,
         mercadopago_monto:0,
@@ -92,7 +93,19 @@ export default function ModoPagoV4(props){
             })
         }
 
-        if(tarjetas!=null && bancos!=null && !mpLoaded){
+        if(mutuales==null)
+        {
+            fetch(get.lista_mutuales)
+            .then(response=>response.json())
+            .then((response)=>{
+                setMutuales(response.data.map(r=>({
+                    value: r.idmutual,
+                    label: (r.nombre??"").toUpperCase(),
+                })))
+            })
+        }
+
+        if(tarjetas!=null && bancos!=null && !mpLoaded && mutuales!=null){
         
             if(typeof props.idventa !== 'undefined')
             {
@@ -128,7 +141,7 @@ export default function ModoPagoV4(props){
                                             setChequeChecked(true)
                                             break;
                                         case 'mutual':
-                                            _temp = {..._temp,mutual_monto: r.monto}
+                                            _temp = {..._temp,mutual_monto: r.monto, fk_mutual: r.fk_mutual}
                                             setMutualChecked(true)
                                             break;
                                         case 'tarjeta':
@@ -557,6 +570,22 @@ export default function ModoPagoV4(props){
                     onChange={(value)=>{onChange("mutual_monto", (value||"").toString().length<1? "0":value.toString())}}
                     />
                     
+                </Col>
+                <Col span={9}>
+                        <Select 
+                        showSearch
+                        placeholder="Seleccione Mutual" 
+                        style={{width:'300px'}} 
+                        value={modoPago.fk_mutual}
+                        options={mutuales} 
+                        size="large"
+                        prefix="Mutual: "
+                        onChange={v=>{onChange("fk_mutual", v)}}
+                        optionFilterProp="children"
+                        filterOption={(input, option) => (option?.label.toUpperCase() ?? '').includes(input.toUpperCase())}
+                        filterSort={(optionA, optionB) =>
+                        (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())}
+                        />
                 </Col>
             </Row>
             <Row style={{display: mercadopagoChecked? "flex" : "none", backgroundColor:"rgba(161,196,231,0.5)", padding:"2px"}}>

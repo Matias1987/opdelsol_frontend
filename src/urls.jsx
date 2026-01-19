@@ -97,6 +97,7 @@ const public_urls = {
     admin_medicos: local_base_url + "admin/lista_medicos",
     admin_tarjetas: local_base_url + "admin/lista_tarjetas",
     admin_bancos: local_base_url + "admin/lista_bancos",
+    admin_mutuales: local_base_url + "admin/lista_mutuales",
 
     lista_codigos: local_base_url + "deposito/stock/listados/lista_codigos",
 
@@ -260,6 +261,8 @@ const post = {
     dist_stock: remote_base_url + "stock_ext/dist/stock/",
 
     total_cobros_tipo_periodo: remote_base_url + "admin/total/cobros/tipo/periodo/",
+
+    modificar_mutual_activo: remote_base_url + "mutuales/modif/activo/",
 
     search:{
         filtro_stock: remote_base_url + "stock/filtro_stock/",
@@ -437,6 +440,7 @@ const get = {
     desbloquear_cliente: remote_base_url + "clientes/desbloquear/",//:idcliente
 
     lista_mutuales: remote_base_url + "mutuales/",
+    lista_mutuales_todos: remote_base_url + "mutuales/todos/",
     obtener_mutual: remote_base_url + "mutuales/",//:idmutual
     buscar_mutual: remote_base_url + "mutuales/buscar/",//:value
 

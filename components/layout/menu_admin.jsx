@@ -144,6 +144,14 @@ const items = [
         ),
       },
       {
+        key: "400",
+        label: (
+          <Menu.Item>
+            <Link href={public_urls.admin_mutuales}>Mutuales</Link>
+          </Menu.Item>
+        ),
+      },
+      {
         key: "500",
         label: (
           <Menu.Item>

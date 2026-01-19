@@ -1,7 +1,7 @@
 import { post_method } from "@/src/helpers/post_helper";
 import { post } from "@/src/urls";
 
-const { Form, Input, Button } = require("antd")
+import { Form, Input, Button } from "antd";
 
 const ObraSocialForm = (props) => {
     const [form] = Form.useForm();
