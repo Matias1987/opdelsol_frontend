@@ -1,26 +1,24 @@
 import { get } from "@/src/urls";
-import { Table } from "antd";
+import { Button, Col, Row, Table } from "antd";
 import { useEffect, useState } from "react";
 
-const VistaPreviaPrecios = (props) =>{
+const VistaPreviaPrecios = ({tipoCategoria, idcategoria,pIncremento, incrementar, onOK, onCancel, nuevoPrecio, redondeo=1, signo=1}) =>{
     const [data, setData] = useState([])
     const [loading, setLoading] = useState(true);
 
     const columns = [
         {title: 'Codigo', dataIndex: 'codigo', key: 'codigo'},
-        {title: 'Costo', dataIndex: 'costo', key: 'costo'},
+        
         {title: 'Precio Ant.', dataIndex: 'precioA', key: 'precioA'},
         {title: 'Precio Nuevo', dataIndex: 'precioN', key: 'precioN'},
-        {title: 'mult_ant', dataIndex: 'mult_ant', key: 'mult_ant'},
-        {title: 'mult_act', dataIndex: 'mult_act', key: 'mult_act'},
     ]
 
     useEffect(()=>{
         setLoading(true)
-        const idfamilia = (props.tipo == "familia" ? props.idcategoria : "-1");
-        const idsubfamilia = (props.tipo == "subfamilia" ? props.idcategoria : "-1");
-        const idgrupo = (props.tipo == "grupo" ? props.idcategoria : "-1");
-        const idsubgrupo = (props.tipo == "subgrupo" ? props.idcategoria : "-1");
+        const idfamilia = (tipoCategoria == "familia" ? idcategoria : "-1");
+        const idsubfamilia = (tipoCategoria == "subfamilia" ? idcategoria : "-1");
+        const idgrupo = (tipoCategoria == "grupo" ? idcategoria : "-1");
+        const idsubgrupo = (tipoCategoria == "subgrupo" ? idcategoria : "-1");
         //alert(get.lista_codigos_categoria + `${idfamilia}/${idsubfamilia}/${idgrupo}/${idsubgrupo}`)
         fetch(get.lista_codigos_categoria + `${idfamilia}/${idsubfamilia}/${idgrupo}/${idsubgrupo}/-1`)
         .then(response=>response.json())
@@ -29,25 +27,46 @@ const VistaPreviaPrecios = (props) =>{
                 response.data.map(r=>({
                     codigo: r.codigo,
                     costo: r.costo,
-                    precioA: Math.round((r.costo * r.multiplicador)*.01) * 100,
-                    precioN: props.incrementar ? Math.round((r.costo * (r.multiplicador * props.multiplicador))*.01) * 100 : Math.round((r.costo * props.multiplicador)*.01) * 100,
+                    precioA: r.precio,
+                    precioN: incrementar ?  Math.trunc((r.precio + (r.precio * pIncremento ) * signo) / redondeo) * redondeo : nuevoPrecio,
                     ruta: r.ruta,
-                    mult_ant: r.multiplicador,
-                    mult_act:  props.incrementar ?  (r.multiplicador * props.multiplicador) : props.multiplicador
                 }))
             )
             setLoading(false)
         })
-    },[props.multiplicador,props.idcategoria, props.incrementar, props.tipo ])
+    },[pIncremento,idcategoria, signo, tipoCategoria ])
 
     return (
+        
     <>
-    <b>Modificar precios: {props.incrementar? <>Incrementar</> : <>Cambiar Multiplicador </>} a {Math.round((props.multiplicador - 1) * 100)} %</b>
-    <Table 
-    columns={columns}
-    dataSource={data} 
-    loading={loading}
-    />
+    <Row>
+        <Col span={24}>
+            <b>Vista Previa</b>
+        </Col>
+    </Row>
+    <Row>
+        <Col span={24}>
+            <Table 
+            size="small"
+            columns={columns}
+            dataSource={data} 
+            loading={loading}
+            scroll={{y:"400px"}}
+            />
+        </Col>
+    </Row>
+    <Row>
+        <Col span={24} style={{padding:"8px"}}>
+            <Button type="primary" block onClick={()=>{onOK && onOK()}}>Aplicar Cambios</Button>
+        </Col>
+    </Row>
+    <Row>
+        <Col span={24} style={{padding:"8px"}}>
+            <Button danger size="small" block onClick={()=>{onCancel && onCancel()}}>Cancelar</Button>
+        </Col>
+    </Row>
+    
+    
 
     </>)
 }

@@ -16,6 +16,7 @@ import SubGrupoFormV3 from "../forms/deposito/SubgrupoFormV3";
 import CodeExample from "../etc/codeExample";
 import { SearchOutlined } from "@ant-design/icons";
 import { convertInputToUpper } from "@/src/helpers/string_helper";
+import EditarPrecioIndvCategoria from "../deposito/editarPrecioIndvCategoria";
 
 const ListaPreciosV3 = (props) => {
   const [subfamilias, setSubfamilias] = useState([]);
@@ -41,6 +42,8 @@ const ListaPreciosV3 = (props) => {
 
   const [selectedSubgrupoId, setSelectedSubgrupoId] = useState(-1);
 
+  const [selectedGrupoId, setSelectedGrupoId] = useState(-1);
+
   const [mostrarPrecioPar, setMostrarPrecioPar] = useState(false);
 
   const [mostrarPrecioCaja, setMostrarPrecioCaja] = useState(false);
@@ -48,6 +51,8 @@ const ListaPreciosV3 = (props) => {
   const [filterStr, setFilterStr] = useState("");
 
   const [reload, setReload] = useState(false);
+
+  const [popupEditarGrupoVisible, setPopupEditarGrupoVisible] = useState(false);
 
   useEffect(() => {
     setEsAdmin(globals.esUsuarioAdmin());
@@ -138,6 +143,11 @@ const ListaPreciosV3 = (props) => {
     setColumns(_columns);
   };
 
+  const onEditarGrupoClick = (idgrupo) => {
+    setSelectedGrupoId(idgrupo);
+    setPopupEditarGrupoVisible(true);
+  }
+
   return (
     <div style={{ backgroundColor: "#E8EAF0" }}>
       <Row>
@@ -210,6 +220,7 @@ const ListaPreciosV3 = (props) => {
                       }}
                       nombre={_row.label}
                       idgrupo={_row.value}
+                      onEditarGrupoClick={onEditarGrupoClick}
                     />
                   ))}
                 </Col>
@@ -293,6 +304,16 @@ const ListaPreciosV3 = (props) => {
           <Divider />
           <CodeExample idsubgrupo={selectedSubgrupoId} />
         </div>
+      </Modal>
+      <Modal
+      open={popupEditarGrupoVisible}
+      onCancel={_=>{setPopupEditarGrupoVisible(false)}}
+      footer={null}
+      title="Editar Grupo"
+      width={"600px"}
+      destroyOnClose
+      >
+        <EditarPrecioIndvCategoria categoria={"grupo"} idcategoria={selectedGrupoId} />
       </Modal>
     </div>
   );

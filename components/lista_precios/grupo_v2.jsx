@@ -1,9 +1,9 @@
 import { get } from "@/src/urls";
 import { Button, Col, Modal, Row, Spin, Table } from "antd";
 import { useEffect, useState } from "react";
-import SubGrupoFormV3 from "../forms/deposito/SubgrupoFormV3";
 import globals from "@/src/globals";
 import { formatFloat } from "@/src/helpers/formatters";
+import { EditFilled } from "@ant-design/icons";
 /**
  *
  * @param nombre: Nombre del grupo
@@ -11,15 +11,14 @@ import { formatFloat } from "@/src/helpers/formatters";
  * @param reload: Si se debe recargar los datos
  * @param filterStr: Filtro de búsqueda
  */
-const GrupoV2 = (props) => {
-  const { nombre, callback, reload, filterStr, readOnly } =
-    props;
+const GrupoV2 = ( { nombre, callback, reload, filterStr, readOnly, idgrupo, onEditarGrupoClick }) => {
+
   const [loading, setLoading] = useState(false);
   const [subgrupos, setSubgrupos] = useState([]);
   const [selectedSubgrupoId, setSelectedSubgrupoId] = useState(-1);
   const [mostrarPrecioPar, setMostrarPrecioPar] = useState(false);
   const [mostrarPrecioCaja, setMostrarPrecioCaja] = useState(false);
-
+  const [modalEditarVisible, setModalEditarVisible] = useState(false);
   const columns = [
     {
       title: "Producto",
@@ -84,7 +83,7 @@ const handleRowClick = (record, index) => {
 
   useEffect(() => {
     setLoading(false);
-    fetch(get.optionsforgrupo + props.idgrupo + (readOnly ? `/1`:`/0`))
+    fetch(get.optionsforgrupo + idgrupo + (readOnly ? `/1`:`/0`))
       .then((r) => r.json())
       .then((response) => {
         setLoading(false);
@@ -128,8 +127,9 @@ const handleRowClick = (record, index) => {
         size="small"
         style={{ width: "100%" }}
         title={(_) => (
-          <div>
-            <span>{nombre /*+ props.idgrupo*/}</span>
+          <div style={{display:"flex", justifyContent:"space-between"}}>
+            <div><span>{nombre /*+ props.idgrupo*/}</span></div>
+            <div><Button onClick={_=>{onEditarGrupoClick(idgrupo)}}><EditFilled /></Button></div>
           </div>
         )}
         rowClassName={(record, index) =>
