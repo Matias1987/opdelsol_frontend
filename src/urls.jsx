@@ -322,6 +322,7 @@ const post = {
         transferencia_a_ff: remote_base_url + "ccmm/transferencia/a/ff/",
         egreso_cm: remote_base_url + "ccmm/agregar_egreso/",
         insertar_codigos: remote_base_url + "codigos_ext/insertar_codigos/",
+        insert_cuenta_bancaria: remote_base_url + "cuentas_bancarias/",
     },
     update:{
         optica: remote_base_url + "op/mod/",
@@ -375,6 +376,7 @@ const post = {
         modificar_precio_indv_codigos: remote_base_url + "codigos_ext/modificar/precios/indv/cat/",
         modificar_cantidad_critica: remote_base_url + "codigos_ext/modificar/cant/critica/",
         pin_medico: remote_base_url + "medicos/pin/",
+        activar_cuenta_bancaria: remote_base_url + "cuentas_bancarias/activar/",
     },
 }
 
@@ -565,6 +567,8 @@ const get = {
     get_vendedores: remote_base_url + "usuarios/l/vendedores/",
 
     montos_adic_factura: remote_base_url + "facturas/mont/adic/fact/",
+
+    obtener_cuenta_bancarias: remote_base_url + "cuentas_bancarias/",
 }
 
 module.exports = {

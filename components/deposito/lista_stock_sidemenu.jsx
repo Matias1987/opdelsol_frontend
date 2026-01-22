@@ -360,6 +360,7 @@ const SideMenuListaStock = (props) => {
                 <></>
               ) : (
                 <Tag
+                  style={{overflow:"hidden", maxWidth:"100px"}}
                   color="red"
                   closable
                   onClose={(e) => {

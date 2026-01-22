@@ -20,7 +20,8 @@ export default function LayoutVentas(props) {
       header: {
         //background: "#94D0AE", 
         background: "#E7E9EB",
-        borderTop:"2px solid #663F4C",
+        //borderTop:"2px solid #663F4C",
+        borderTop:"2px solid #3A5C79",
       },  
       body:{
         backgroundColor:"#FAFBFF", 
@@ -104,6 +105,7 @@ export default function LayoutVentas(props) {
       />
       
       <Card
+      size="small"
       styles={card_style2}
         extra={
           <div>
@@ -133,7 +135,7 @@ export default function LayoutVentas(props) {
          {globals.esUsuarioCaja1() ? <BarraResumenCaja /> : <></>}  
         <Content
           style={{
-            margin: "0px 50px",
+            margin: "10px 50px",
             padding: 6,
             borderRadius: "15px",
             minHeight: 580,

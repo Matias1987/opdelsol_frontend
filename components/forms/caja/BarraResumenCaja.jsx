@@ -51,24 +51,26 @@ const BarraResumenCaja = props => {
       }, [update]);
 
       const style = {
+        display:"flex",
+        justifyContent:"flex-end",
         width:"100%", 
         height:"20px", 
         fontSize:"11px", 
         paddingTop:"2px", 
         paddingLeft:"34px" ,
         //backgroundColor:"#FFFFB8", 
-        background: "#f8f8eaff", 
-        //background: "linear-gradient(39deg, rgba(255, 255, 184, 1) 62%, rgba(128, 164, 230, 1) 95%)",
-        //color:"#00306E"
-        color: "#663F4C"
+        //background: "#f8f8eaff", 
+        background: "linear-gradient(45deg, rgb(255, 255, 255) 20%, rgba(248, 248, 234, 1) 95%)",
+        color:"#5c5705"
+        //color: "#663F4C"
         }
 
     return data ? <div style={style}>
         {
-            data.map(_row=><span style={{paddingLeft:"50px"}}>
-                                <span>{_row.detalle||""}:&nbsp;&nbsp;</span>
+            data.map(_row=><div style={{paddingLeft:"50px", width:"150px"}}>
+                                <span style={{whiteSpace:"nowrap"}}>{_row.detalle||""}:&nbsp;&nbsp;</span>
                                 <span style={{fontWeight:"bold"}}>{formatFloat( parseFloat(_row.valor||"0"))}</span>
-                            </span>)
+                            </div>)
         }
         
        {/*<span style={{paddingLeft:"100px"}}><ContadoresEstadoTaller /></span>*/}

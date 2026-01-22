@@ -1,15 +1,16 @@
-import { Button, Card, Col, Form, Input, Row } from "antd";
+import React from "react";
+import { Form, Input, Button, Card, Typography, Flex } from "antd";
+import { UserOutlined, LockOutlined, EyeOutlined } from "@ant-design/icons";
 import LayoutSingle from "@/components/layout/layout_single";
-import useStorage from "../../../../useStorage"
+import { post_method } from "@/src/helpers/post_helper";
+import { post, public_urls } from "@/src/urls";
+import useStorage from "@/useStorage";
 import globals from "@/src/globals";
 import { registrar_evento } from "@/src/helpers/evento_helper";
-import { post, public_urls } from "@/src/urls";
-import { post_method } from "@/src/helpers/post_helper";
+const { Title, Text } = Typography;
 
-
-
-export default function Login(){
-    const [form] = Form.useForm();
+export default function LoginPage(){
+const [form] = Form.useForm();
 
 
     const onFinish = (values)=>{
@@ -37,7 +38,7 @@ export default function Login(){
             if(res.data.logged == 1){
                 const {setItem} = useStorage();
                
-                console.log(res.data.token)
+                //console.log(res.data.token)
                 setItem("token",res.data.token)
                 setItem("uid",res.data.uid)
                 setItem("uname",res.data.udata.nombre)
@@ -73,33 +74,73 @@ export default function Login(){
         alert(errorInfo)
     }
 
-    return (
-        <Row align={"center"}>
-            <Col span={12}>
-                <Card title="Log In" style={{backgroundColor:"rgba(255,255,255,.25)", borderColor:"rgba(255,255,255,.25)", borderRadius:"6px"}}>
-                    <Form
-                    onFinish={onFinish}
-                    onFinishFailed={onFinishFailed}
-                    form={form}
-                    >
-                        <h4></h4>
-                        <Form.Item label={"Usuario"}  name="nombre"  required={true} value="">
-                            <Input style={{width:"300px"}} placeholder="Ingrese Usuario"/>
-                        </Form.Item>
-                        <Form.Item label={"Contraseña"} name="password" required={true} value="">
-                            <Input.Password style={{width:"300px"}}  />
-                        </Form.Item>
-                        <Form.Item>
-                            <Button type="primary" htmlType="submit">Acceder</Button>
-                        </Form.Item>
+  return (
+    <Flex
+      style={{
+        minHeight: "100vh",
+        background: "linear-gradient(135deg, #e9e9e9, #cfcfcf)",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <Card
+        style={{
+          width: 360,
+          boxShadow: "0 8px 24px rgba(0,0,0,0.1)",
+          borderRadius: 12,
+        }}
+      >
+        <Flex vertical align="center" style={{ marginBottom: 24 }}>
+          <Title level={3}></Title>
+          <Text type="secondary">Ingrese usuario y contrase&ntilde;a</Text>
+        </Flex>
 
-                    </Form>
-                </Card>
-            </Col>
-        </Row>
-        
-    )
+        <Form
+          name="login"
+          layout="vertical"
+          onFinish={onFinish}
+          requiredMark={false}
+          onFinishFailed={onFinishFailed}
+        >
+          <Form.Item
+            name="nombre"
+            rules={[{ required: true, message: "Ingrese usuario" }]}
+          >
+            <Input
+              prefix={<UserOutlined />}
+              placeholder="Usuario"
+              size="large"
+            />
+          </Form.Item>
 
-}
+          <Form.Item
+            name="password"
+            rules={[{ required: true, message: "Ingrese contraseña" }]}
+          >
+            <Input.Password
+              prefix={<LockOutlined />}
+              placeholder="Contraseña"
+              size="large"
+            />
+          </Form.Item>
 
-Login.PageLayout = LayoutSingle;
+          <Form.Item>
+            <Button
+              type="primary"
+              htmlType="submit"
+              block
+              size="large"
+              style={{ borderRadius: 8 }}
+            >
+              Acceder
+            </Button>
+          </Form.Item>
+        </Form>
+
+
+      </Card>
+    </Flex>
+  );
+};
+
+LoginPage.PageLayout = LayoutSingle;

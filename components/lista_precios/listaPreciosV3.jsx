@@ -157,11 +157,11 @@ const ListaPreciosV3 = (props) => {
               <>
                 <div
                   style={{
-                    fontWeight: "500",
+                    fontWeight: "bolder",
                     display: "flex",
                     alignContent: "center",
                     justifyContent: "center",
-                    color: "#6E0A18",
+                    color: "#013a6b",
                   }}
                 >
                   <i>{selectedSubFamilia.nombre}</i>

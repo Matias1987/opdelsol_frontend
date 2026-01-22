@@ -25,7 +25,7 @@ const HeaderSol =(props)=> {
         setUName(globals.obtenerUserName())
     },[])
     return(    
-    <Header style={{ background: '#262626', color: "white", paddingLeft: '5em', paddingTop:"4px", lineHeight:'0', margin: '0', fontSize:'.70em', height:'36px' }}>
+    <Header style={{ background: '#131313', color: "white", paddingLeft: '5em', paddingTop:"4px", lineHeight:'0', margin: '0', fontSize:'.70em', height:'36px' }}>
         <Row>
             <Col span={24}>
                 <span style={{padding:'0'}}>

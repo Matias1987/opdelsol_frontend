@@ -83,7 +83,8 @@ export default function LayoutVentas(props) {
     const card_style2 = {
       header: {
         background: "#E7E9EB",
-        borderTop:"2px solid #663F4C",
+        //borderTop:"2px solid #663F4C",
+        borderTop:"2px solid #3A5C79",
       },  
       body:{
         backgroundColor:"#ffffffff", 
