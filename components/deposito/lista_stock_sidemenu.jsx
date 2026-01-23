@@ -105,6 +105,13 @@ const SideMenuListaStock = (props) => {
     }));
   };
 
+  const truncateString = (str, maxLength) => {
+    if (str.length <= maxLength) {
+      return str;
+    }
+    // Truncate the string and append '...'
+    return str.slice(0, maxLength) + '...';
+  };
   const FiltroValor = () => {
     switch (tipoFiltro) {
       case "grupo_contenga_a":
@@ -360,7 +367,7 @@ const SideMenuListaStock = (props) => {
                 <></>
               ) : (
                 <Tag
-                  style={{overflow:"hidden", maxWidth:"100px"}}
+                  style={{width:"150px"}}
                   color="red"
                   closable
                   onClose={(e) => {
@@ -368,11 +375,14 @@ const SideMenuListaStock = (props) => {
                     setFiltros((ff) => ff.filter((f) => f.tipo != t.tipo));
                   }}
                 >
-                  {tipos_filtro_dic[t?.tipo]?.descripcion +
+                  {truncateString(
+                    tipos_filtro_dic[t?.tipo]?.descripcion +
                     ": " +
                     t?.valor +
                     " " +
-                    t?.descripcion}
+                    t?.descripcion,
+                    18
+                  )}
                 </Tag>
               )
             )}

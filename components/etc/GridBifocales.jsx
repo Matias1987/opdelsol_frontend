@@ -26,6 +26,9 @@ const GridBifocales = (props) => {
 
   const tableStyles = {
   container: {
+    height: "600px",
+    overflowY:"auto",
+     maxWidth: "1200px", 
     width: '100%',
     overflowX: 'auto',
     background: 'linear-gradient(to right, #ECECED, #ffffff)',
@@ -41,8 +44,8 @@ const GridBifocales = (props) => {
     color: '#333',
   },
   th: {
-    backgroundColor: '#E3E3E4',
-    color: '#663F4C',
+    backgroundColor: 'rgb(227, 227, 228, .5)',
+    color: '#1826a5',
     padding: '8px 8px',
     textAlign: 'center',
      border: '1px solid #663F4C',
@@ -57,11 +60,32 @@ const GridBifocales = (props) => {
   rowHover: {
     backgroundColor: '#f1f8ff',
   },
+    sticky_head: {
+    position: "sticky" /* Make the header sticky */,
+    top: "0" /* Stick to the top of the scrollable area */,
+    zIndex: "1" /* Ensure the header stays above scrolling content */,
+  },
+
+  sticky_first_row_td: {
+    position: "sticky",
+    left: "0",
+    background: "white",
+    zIndex: "2",
+  },
+
+  sticky_column: {
+    position: "sticky",
+    left: "0",
+    background: "rgba(255,255,255,.5)",
+    color: "red",
+    zIndex: "1",
+    fontWeight:"bolder"
+  },
 };
 
 
   const process = () => {
-   // alert(JSON.stringify(codigosSrc));
+    
     const _codigos = [];
     codigosSrc.forEach((code) => {
       //console.log(`Processing code: ${code}`);
@@ -74,13 +98,29 @@ const GridBifocales = (props) => {
           add: parts[7],
           cantidad: code.cantidad,
           idcodigo: code.idcodigo,
+          weight: (+parts[3] * 1000000) + (+parts[7] * 100) + (parts[5]=='R' ? 1 : 0).toString()
         };
         _codigos.push(_code);
-        console.log(JSON.stringify(_code));
+        //console.log(JSON.stringify(_code));
       } else {
         console.log("No match found");
       }
     });
+
+    let cont = true;
+    while (cont) {
+      cont=false;
+      for (let i = 0; i < _codigos.length - 1; i++) {
+        let _a = _codigos[i];
+        let _b = _codigos[i + 1];
+        if (+_a.weight > +_b.weight) {
+          cont=true;
+          //swap
+          _codigos[i] = _b;
+          _codigos[i + 1] = _a;
+        }
+      }
+    }
 
     const codes_arr = [];
 
@@ -107,7 +147,7 @@ const GridBifocales = (props) => {
     }
 
     //alert(JSON.stringify(codes_arr));
-
+    //console.log(JSON.stringify(codes_arr))
     setCodigos(codes_arr);
   };
 
@@ -136,7 +176,7 @@ const GridBifocales = (props) => {
             {codigos[0][0].codig_base}
         </th>
     </tr>
-    <tr>
+    <tr  style={tableStyles.sticky_head}>
       <th style={tableStyles.th}></th>
       {
         codigos[0].map((r) => (
@@ -156,7 +196,7 @@ const GridBifocales = (props) => {
   const body = (_) => (
     <>
       {codigos.map((row) => (
-        <tr><td style={{...tableStyles.td, ...{fontWeight: 'bold'}}}>{row[0].base}</td>
+        <tr><td style={{...tableStyles.sticky_column, ...{fontWeight: 'bold'}}}>{row[0].base}</td>
         {
           row.map((cell,index) => (
             <>

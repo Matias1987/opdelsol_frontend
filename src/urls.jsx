@@ -569,6 +569,8 @@ const get = {
     montos_adic_factura: remote_base_url + "facturas/mont/adic/fact/",
 
     obtener_cuenta_bancarias: remote_base_url + "cuentas_bancarias/",
+
+    obtener_tipos_cuentas: remote_base_url + "cuentas_bancarias/tipos_cuentas/"
 }
 
 module.exports = {

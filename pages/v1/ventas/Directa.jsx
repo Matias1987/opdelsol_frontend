@@ -8,6 +8,7 @@ import { submit_venta } from "@/src/helpers/ventas_helper";
 import { Modal } from "antd";
 import PrinterWrapper from "@/components/PrinterWrapper";
 import InformeVenta from "@/components/informes/ventas/Base";
+import { useLeavePageConfirm } from "@/src/hooks/useLeavePageConfirm";
 
 export default function VentaDirecta() {
   const [venta, setVenta] = useState(null);
@@ -16,6 +17,9 @@ export default function VentaDirecta() {
   const [subTotal, setSubTotal] = useState(0);
   const [idVenta, setIdVenta] = useState(-1);
   const [printOpen, setPrintOpen] = useState(false);
+  const [isFormDirty, setIsFormDirty] = useState(true);
+  
+  useLeavePageConfirm(isFormDirty);
 
   const callback_venta_modif = (_venta) => {
     setVenta((v) => {
