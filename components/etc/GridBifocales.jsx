@@ -45,16 +45,16 @@ const GridBifocales = (props) => {
   },
   th: {
     backgroundColor: 'rgb(227, 227, 228, .5)',
-    color: '#1826a5',
-    padding: '8px 8px',
+    color: '#000000',
+    padding: '4px 4px',
     textAlign: 'center',
-     border: '1px solid #663F4C',
-    borderBottom: '2px solid #4d2e38ff',
+     border: '1px solid #A6A5A5',
+    //borderBottom: '2px solid rgb(12, 12, 12)',
     transition: 'background-color 0.3s ease',
   },
   td: {
-    padding: '8px 8px',
-    border: '1px solid #663F4C',
+    padding: '16px 4px',
+    border: '1px solid #A6A5A5',
     transition: 'background-color 0.3s ease',
   },
   rowHover: {
@@ -169,13 +169,16 @@ const GridBifocales = (props) => {
                     
           </Dropdown>
   </>
-
-  const header = (_) => <>
-    <tr>
+/**
+ * 
+ * <tr>
         <th colSpan={codigos[0].length *2 +1} style={tableStyles.th}>
             {codigos[0][0].codig_base}
         </th>
     </tr>
+ */
+  const header = (_) => <>
+    
     <tr  style={tableStyles.sticky_head}>
       <th style={tableStyles.th}></th>
       {
@@ -226,7 +229,7 @@ const GridBifocales = (props) => {
     process();
   }, []);
 
-  return codigos.length<1 ? <></> : get_grid()
+  return codigos.length<1 ? <></> : <><div style={{textAlign:"center"}}><h4>{ codigos.length>0? codigos[0][0].codig_base : ""}</h4></div>{get_grid()}</>
   
 };
 

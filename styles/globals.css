@@ -656,3 +656,5 @@ danger list
   border-color: #b0bec5;
   color: #37474f;
 }
+
+.ant-form-item-label { margin-bottom: 0px !important; /* default is 8px */ }
