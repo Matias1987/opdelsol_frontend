@@ -16,7 +16,7 @@ import SubGrupoFormV3 from "../forms/deposito/SubgrupoFormV3";
 import CodeExample from "../etc/codeExample";
 import { SearchOutlined } from "@ant-design/icons";
 import { convertInputToUpper } from "@/src/helpers/string_helper";
-import EditarPrecioIndvCategoria from "../deposito/editarPrecioIndvCategoria";
+import EditarPrecioSGCategoria from "../deposito/EditarPrecioSGCategoria";
 
 const ListaPreciosV3 = (props) => {
   const [subfamilias, setSubfamilias] = useState([]);
@@ -313,7 +313,7 @@ const ListaPreciosV3 = (props) => {
       width={"600px"}
       destroyOnClose
       >
-        <EditarPrecioIndvCategoria categoria={"grupo"} idcategoria={selectedGrupoId} />
+        <EditarPrecioSGCategoria categoria={"grupo"} idcategoria={selectedGrupoId} callback={() => {setReload(!reload); setPopupEditarGrupoVisible(false);}} />
       </Modal>
     </div>
   );

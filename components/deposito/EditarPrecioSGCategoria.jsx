@@ -1,4 +1,4 @@
-import { Row, Col, Input, Button, Modal, InputNumber, Radio }  from "antd" ;
+import { Row, Col, Button, Modal, InputNumber, Radio }  from "antd" ;
 import VistaPreviaPrecios from "../forms/deposito/vista_previa_precios";
 import { useState } from "react";
 import { decimal_separator } from "@/src/config";
@@ -6,7 +6,7 @@ import { post_method } from "@/src/helpers/post_helper";
 import { post } from "@/src/urls";
 
 
-const EditarPrecioIndvCategoria = ({ categoria, idcategoria }) => {
+const EditarPrecioSGCategoria = ({ categoria, idcategoria, callback }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [data, setData] = useState({
     porcentaje: 0,
@@ -38,6 +38,7 @@ const EditarPrecioIndvCategoria = ({ categoria, idcategoria }) => {
         },
         (response)=>{
             alert("Hecho");
+            callback?.();
         }
     );
     }
@@ -111,4 +112,4 @@ const EditarPrecioIndvCategoria = ({ categoria, idcategoria }) => {
   );
 };
 
-export default EditarPrecioIndvCategoria;
+export default EditarPrecioSGCategoria;

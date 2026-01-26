@@ -13,7 +13,7 @@ const SucursalSelect = (props) => {
   const { idsucursal, callback, addNullOption, disabled } = props;
   const [sucursalData, setSucursalData] = useState([]);
   const sucursalUrl = get.sucursales;
-  const [selectedSucursal, setSelectedSucursal] = useState("-1");
+  const [selectedSucursal, setSelectedSucursal] = useState(null);
   const loadSucursales = () => {
     fetch(sucursalUrl)
       .then((response) => response.json())
@@ -75,7 +75,7 @@ const SucursalSelect = (props) => {
             maxWidth: "320px",
             overflow: "hidden",
           }}
-          value={+selectedSucursal}
+          value={+selectedSucursal === null ? "Seleccione..." : selectedSucursal}
           onChange={(value) => {
             onSucursalChange(value);
           }}

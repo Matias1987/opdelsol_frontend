@@ -129,7 +129,7 @@ const handleRowClick = (record, index) => {
         title={(_) => (
           <div style={{display:"flex", justifyContent:"space-between"}}>
             <div><span>{nombre /*+ props.idgrupo*/}</span></div>
-            <div><Button onClick={_=>{onEditarGrupoClick(idgrupo)}}><EditFilled /></Button></div>
+            {globals.esUsuarioAdmin() && !readOnly ? <div><Button type="link" onClick={_=>{onEditarGrupoClick(idgrupo)}}><EditFilled /></Button></div> : <></>}
           </div>
         )}
         rowClassName={(record, index) =>

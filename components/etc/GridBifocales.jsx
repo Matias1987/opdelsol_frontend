@@ -1,10 +1,11 @@
 import globals from "@/src/globals";
+import { get } from "@/src/urls";
 import { DownOutlined, EditOutlined, InfoOutlined } from "@ant-design/icons";
 import { Button, Dropdown, Space } from "antd";
 import { useEffect, useState } from "react";
 
 const GridBifocales = (props) => {
-  const { codigosSrc, onMenuOptionSelected } = props;
+  const { codigosSrc,  onCellClick, reload, gridType } = props;
 
   const regexp = /^([A-Z_]+)(_)(\-|\+[0-9\.]+)(_)(L|R)(_ADD_)([0-9\.]+)/;
 
@@ -83,6 +84,17 @@ const GridBifocales = (props) => {
   },
 };
 
+  const getCantidad = (c)=>
+                  gridType === "ideal"
+                ? c.stock_ideal
+                : gridType === "critico"
+                ? c.stock_critico
+                : gridType === "pedido"
+                ? +c.stock_ideal - +c.cantidad
+                : c.cantidad
+                ;
+  
+
 
   const process = () => {
     
@@ -96,7 +108,7 @@ const GridBifocales = (props) => {
           base: parts[3],
           side: parts[5],
           add: parts[7],
-          cantidad: code.cantidad,
+          cantidad: getCantidad(code),
           idcodigo: code.idcodigo,
           weight: (+parts[3] * 1000000) + (+parts[7] * 100) + (parts[5]=='R' ? 1 : 0).toString()
         };
@@ -152,22 +164,22 @@ const GridBifocales = (props) => {
   };
 
   const cell_content = (data) => <>
-            <Dropdown
-            menu={{
-              items,
-              onClick: ({ key }) => {
-                onMenuOptionSelected?.(key, data.idcodigo)
-              },
-            }}
-          >
-            <Button type="link" size="small">
-              <Space>
-                {data.cantidad}
-                <DownOutlined />
-              </Space>
-            </Button>
-                    
-          </Dropdown>
+      <Dropdown
+      menu={{
+        items,
+        onClick: ({ key }) => {
+          onCellClick?.(key, data.idcodigo)
+        },
+      }}
+    >
+      <Button type="link" size="small">
+        <Space>
+          {(data.cantidad)}
+          <DownOutlined />
+        </Space>
+      </Button>
+              
+    </Dropdown>
   </>
 /**
  * 

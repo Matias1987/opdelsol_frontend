@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import CustomModal from "../CustomModal";
 import VentasVendedor from "../informes/ventas/VentasVendedor";
 import { registrar_evento } from "@/src/helpers/evento_helper";
+import { cambio_sucursal_habilitado, idf_optica } from "@/src/config";
 
 /**
  * 
@@ -30,9 +31,7 @@ const HeaderSol =(props)=> {
             <Col span={24}>
                 <span style={{padding:'0'}}>
                     <i>
-                        Sucursal:&nbsp;&nbsp;<SucursalLabel idsucursal={
-                            globals.obtenerSucursal()
-                            } />
+                        Sucursal:&nbsp;&nbsp;<SucursalLabel changeSucursalEnabled={cambio_sucursal_habilitado} />
                            { /* &nbsp;- Cuenta: <b>{props.tipoCuenta}</b>
                            &nbsp;&nbsp;&nbsp;  Usuario: <b>{uname}</b>
                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   |&nbsp;&nbsp;&nbsp;*/}

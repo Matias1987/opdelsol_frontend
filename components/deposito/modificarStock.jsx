@@ -4,19 +4,18 @@ import EditarStockIndiv from "@/components/forms/deposito/EditarStockIndiv";
 import globals from "@/src/globals";
 import { post_method } from "@/src/helpers/post_helper";
 import { get, post } from "@/src/urls";
-import { Card, Col, Modal, Row, Tag } from "antd";
+import { Card, Col, Modal, Row } from "antd";
 import { useEffect, useState } from "react";
 import TagsLote from "@/components/etiquetas/TagsLote";
 import DetalleStock from "@/components/forms/deposito/detalle/DetalleStock";
-import CodeGridHTML from "@/components/etc/CodeGridHTML";
 import SideMenuListaStock from "@/components/deposito/lista_stock_sidemenu";
-import GridBifocales from "@/components/etc/GridBifocales";
-import GridMonof from "@/components/etc/GridMonof";
 import StockTable from "@/components/deposito/lista_stock_table";
 import EditarCodigoGrupo from "@/components/forms/deposito/EditarCodigoGrupo";
 import EditarPreciosSubgruposForm from "../forms/deposito/EditarPreciosSubgruposForm";
 import SucursalSelect from "../SucursalSelect";
 import CodeGridHTMLTipos from "../etc/CodeGridHTMLTipos";
+import GridBifocalesTipos from "../etc/GridBifocalesTipos";
+import GridMonofTipos from "../etc/GridMonofTipos";
 
 const ModificarStock = (props) => {
   const [usuarioDep, setUsuarioDep] = useState(false);
@@ -87,20 +86,23 @@ const ModificarStock = (props) => {
 
       if (regexp_bif.test(demo_code)) {
         return (
-          <GridBifocales
+          <GridBifocalesTipos
             codigosSrc={data}
-            onMenuOptionSelected={onMenuOptionSelected}
             key={codesChanged}
+            idsucursal={idsucursal}
+            onHasToUpdate={_=>{setValueChanged(!valueChanged)}}
           />
         );
       }
 
       if (regexp_monof.test(demo_code)) {
         return (
-          <GridMonof
+          <GridMonofTipos
             codigosSrc={data}
-            onMenuOptionSelected={onMenuOptionSelected}
+           
             key={codesChanged}
+            idsucursal={idsucursal}
+            onHasToUpdate={_=>{setValueChanged(!valueChanged)}}
           />
         );
       }
@@ -286,6 +288,8 @@ const ModificarStock = (props) => {
             idsubgrupo: row.idsubgrupo,
             etiquetas: row.etiquetas,
             activo: row.activo,
+            stock_ideal: row.stock_ideal,
+            stock_critico: row.stock_critico,
           }))
         );
       }

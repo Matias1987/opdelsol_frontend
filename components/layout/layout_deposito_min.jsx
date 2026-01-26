@@ -1,12 +1,8 @@
 import { get, public_urls } from "@/src/urls";
 import useStorage from "@/useStorage";
-import { LogoutOutlined } from "@ant-design/icons";
 import { Alert, Button, Layout } from "antd";
 import { useEffect, useState } from "react";
-import SucursalLabel from "../sucursal_label";
 import globals from "@/src/globals";
-import MenuVentasTop from "./menu_ventas_top";
-import Alerts from "./alert_container";
 import HeaderSol from "./header";
 import MenuV2 from "./menu_v2";
 

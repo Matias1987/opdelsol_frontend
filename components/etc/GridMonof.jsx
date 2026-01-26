@@ -4,7 +4,7 @@ import { Button, Dropdown, Space } from "antd";
 import { useEffect, useState } from "react";
 
 const GridMonof = (props) => {
-  const { codigosSrc, onMenuOptionSelected } = props;
+  const { codigosSrc, onCellClick } = props;
 
   const regexp = /^([A-Z_0-9\.]+)(_)([0-9\.]+)($)/;
 
@@ -91,7 +91,7 @@ const GridMonof = (props) => {
         menu={{
           items,
           onClick: ({ key }) => {
-            onMenuOptionSelected?.(key, data.idcodigo);
+            onCellClick?.(key, data.idcodigo);
           },
         }}
       >

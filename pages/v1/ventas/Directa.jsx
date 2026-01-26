@@ -17,9 +17,10 @@ export default function VentaDirecta() {
   const [subTotal, setSubTotal] = useState(0);
   const [idVenta, setIdVenta] = useState(-1);
   const [printOpen, setPrintOpen] = useState(false);
-  const [isFormDirty, setIsFormDirty] = useState(true);
+
+/*  const [isFormDirty, setIsFormDirty] = useState(true);
   
-  useLeavePageConfirm(isFormDirty);
+  useLeavePageConfirm(isFormDirty);*/
 
   const callback_venta_modif = (_venta) => {
     setVenta((v) => {
