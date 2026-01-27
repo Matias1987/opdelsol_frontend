@@ -5,7 +5,7 @@ import { formatFloat } from "@/src/helpers/formatters";
 import { post_method } from "@/src/helpers/post_helper";
 import { post } from "@/src/urls";
 import { EditOutlined, InfoOutlined } from "@ant-design/icons";
-import { Button, Col, Row, Table, Card, Modal, Select } from "antd";
+import { Button, Col, Row, Table, Card, Modal, Select, Divider } from "antd";
 import { useEffect, useState } from "react";
 
 const ListadoCajasAdmin = (props) => {
@@ -126,7 +126,7 @@ const ListadoCajasAdmin = (props) => {
         onCancel={(_) => {
           setPopupOpen(false);
         }}
-        width={"900px"}
+        width={"400px"}
       >
         <>
           <Row style={{ padding: "6px" }}>
@@ -150,11 +150,12 @@ const ListadoCajasAdmin = (props) => {
               />
             </Col>
           </Row>
+          <Divider />
           <Row style={{ padding: "6px" }}>
-            <Col span={24}>
+            <Col span={24} style={{display:"flex", justifyContent:"flex-end"}}>
               <Button
-                size="small"
-                block
+                size="middle"
+                
                 type="primary"
                 onClick={() => {
                   if(!selectedEstado)

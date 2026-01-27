@@ -570,7 +570,9 @@ const get = {
 
     obtener_cuenta_bancarias: remote_base_url + "cuentas_bancarias/",
 
-    obtener_tipos_cuentas: remote_base_url + "cuentas_bancarias/tipos_cuentas/"
+    obtener_tipos_cuentas: remote_base_url + "cuentas_bancarias/tipos_cuentas/",
+
+    obtener_cantidades_ventas_taller: remote_base_url + "infvtas/inf/vtas/taller/cantidades/",
 }
 
 module.exports = {

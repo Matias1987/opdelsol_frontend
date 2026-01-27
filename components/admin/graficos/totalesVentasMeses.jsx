@@ -70,7 +70,7 @@ function TotalesVentasMeses({ idsucursal, cantMeses = 3 }) {
     title: `Cantidad de Ventas Ultimos ${cantMeses} Meses`,
     vAxis: { title: "Total" },
     hAxis: { title: "Mes" },
-    legend: { position: "top", maxLines: 9, alignment:'start'  },
+    legend: { position: "top", textStyle: { fontSize: "5px" } },
     
   };
 
@@ -114,7 +114,7 @@ function TotalesVentasMeses({ idsucursal, cantMeses = 3 }) {
   return (
     <Card style={{border:"1px solid #AEB6C7", borderRadius:"8px", boxShadow:"0px 5px 15px #888888"}}>
     <Chart
-      chartType="Line"
+      chartType="LineChart"
       width="100%"
       height="200px"
       data={graphData}

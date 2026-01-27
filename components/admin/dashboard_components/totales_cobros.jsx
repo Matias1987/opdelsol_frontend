@@ -54,7 +54,7 @@ const TotalesCobros = (props) => {
 
   return (
     <>
-      <Row gutter={16} style={{ padding: "16px" }}>
+      <Row gutter={[16,16]} style={{ padding: "16px" }}>
         <Col>
           <Card
             variant="borderless"
@@ -67,13 +67,13 @@ const TotalesCobros = (props) => {
           >
             <Statistic
               loading={dataDia == null}
-              title="Total Cobros Día Efvo."
+              title={<span style={{fontWeight:"bolder", color:"black"}}>{"Total Cobros Día Efvo."}</span>}
               value={totalDia}
               precision={2}
               valueStyle={{
                 color: "#3f8600",
                 fontWeight: "bolder",
-                fontSize: "1.2em",
+                fontSize: "1.4em",
               }}
               prefix={<DollarOutlined />}
             />
@@ -91,13 +91,13 @@ const TotalesCobros = (props) => {
           >
             <Statistic
               loading={dataMes == null}
-              title="Total Cobros Mes Efvo."
+              title={<span style={{fontWeight:"bolder", color:"black"}}>{"Total Cobros Mes Efvo."}</span>}
               value={totalMes}
               precision={2}
               valueStyle={{
                 color: "#3f8600",
                 fontWeight: "bolder",
-                fontSize: "1.2em",
+                fontSize: "1.4em",
               }}
               prefix={<DollarOutlined />}
             />

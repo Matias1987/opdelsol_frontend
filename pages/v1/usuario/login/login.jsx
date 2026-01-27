@@ -75,7 +75,7 @@ export default function Login() {
       }}
     >
       <Card
-        title="Log In"
+
         style={{
           width: "440px",
           boxShadow: "0 8px 24px rgba(0,0,0,0.1)",
