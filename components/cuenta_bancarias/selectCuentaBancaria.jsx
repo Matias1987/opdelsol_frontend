@@ -6,10 +6,10 @@ import { useEffect, useState } from "react";
 const SelectCuentaBancaria = ({callback}) => {
     const [dataSource, setDataSource] = useState([])
     const load = ( ) =>{
-        fetch(get.actualizar_saldo_cliente)
+        fetch(get.obtener_cuenta_bancarias)
         .then(response => response.json())
-        .then(data => {
-            const options = data.map(cuenta => ({
+        .then(response => {
+            const options = response.data.map(cuenta => ({
                 value: cuenta.id_cuenta_bancaria,
                 label: `${cuenta.alias}`
             }));
@@ -23,7 +23,7 @@ const SelectCuentaBancaria = ({callback}) => {
     useEffect(()=>{load();},[])
 
     return <>
-    <Select options={dataSource} onSelect={callback} style={{width:"300px"}} />
+    <Select options={dataSource} onSelect={callback} style={{width:"300px"}} placeholder="Seleccionar Cuenta" />
     </>
 }
 

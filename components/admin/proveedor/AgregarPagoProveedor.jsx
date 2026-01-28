@@ -3,24 +3,27 @@ import { get, post } from "@/src/urls";
 import { Button, Checkbox, Col, DatePicker, Divider, Input, InputNumber, Row, Select } from "antd";
 import { useEffect, useState } from "react";
 import esES from "antd/locale/es_ES"
+import SelectCuentaBancaria from "@/components/cuenta_bancarias/selectCuentaBancaria";
 //onChange={(e)=>{ setPago(  p=>({ ...p, monto: parseFloat(e.target.value.trim()||"0")    })  )  }}
 const AgregarPagoProveedor = (props) => {
     const [bancos, setBancos] = useState([])
     const [mpEfectivo, setMpEfectivo] = useState({
         monto:0,
         checked:false,
-   
+         fkcta_bancaria:null,
     })
     const [mpCheque, setMpCheque] = useState({
 
         monto:0,
         checked:false,
         fkbanco:-1,
+        fkcta_bancaria:null,
     })
     const [mpTransferencia, setMpTransferencia] = useState({
         monto:0,
         checked:false,
         fkbanco:-1,
+        fkcta_bancaria:null,
     })
     const [enabled, setEnabled] = useState(true)
     const [pago, setPago] = useState({
@@ -43,25 +46,25 @@ const AgregarPagoProveedor = (props) => {
         }
         if(mpCheque.checked)
         {
-            if(mpCheque.fkbanco<0)
+            if(mpCheque.fkcta_bancaria==null)
             {
-                alert("Banco no seleccionado para Cheque")
+                alert("Cuenta no seleccionada para Cheque")
                 return
             }
         }
 
         if(mpTransferencia.checked)
         {
-            if(mpTransferencia.fkbanco<0)
+            if(mpTransferencia.fkcta_bancaria==null)
             {
-                alert("Banco no seleccionado para Transferencia")
+                alert("Cuenta no seleccionada para Transferencia")
                 return
             }
         }
 
         const _data = {...pago,  modo:props.modo, fk_proveedor: props.idproveedor, efectivo: mpEfectivo, cheque: mpCheque, transferencia: mpTransferencia }
 
-        //alert(JSON.stringify(_data))
+        alert(JSON.stringify(_data))
 
         setEnabled(false)
         post_method(post.insert.pago_proveedor,_data,(resp)=>{
@@ -178,12 +181,13 @@ const AgregarPagoProveedor = (props) => {
                     </Row>
                     <Row >
                         <Col span={24}>
-                            Banco
+                            Cuenta
                         </Col>
                     </Row>
                     <Row style={{padding:"1em"}}>
                         <Col span={24}>
-                            <Select options={bancos} style={{width:"300px"}} onChange={(v)=>{setMpCheque(mp=>({...mp,fkbanco:v}))}} />
+                            {/*<Select options={bancos} style={{width:"300px"}} onChange={(v)=>{setMpCheque(mp=>({...mp,fkbanco:v}))}} />*/}
+                            <SelectCuentaBancaria callback={(v)=>{setMpCheque(mp=>({...mp,fkcta_bancaria:v}))}} />
                         </Col>
                     </Row>
                 </Col>
@@ -217,12 +221,13 @@ const AgregarPagoProveedor = (props) => {
                     </Row>
                     <Row >
                         <Col span={24}>
-                            Banco
+                            Cuenta
                         </Col>
                     </Row>
                     <Row style={{padding:"1em"}}>
                         <Col span={24}>
-                            <Select options={bancos} style={{width:"300px"}}  onChange={(v)=>{setMpTransferencia(mp=>({...mp,fkbanco:v}))}} />
+                            {/*<Select options={bancos} style={{width:"300px"}}  onChange={(v)=>{setMpTransferencia(mp=>({...mp,fkbanco:v}))}} />*/}
+                            <SelectCuentaBancaria callback={(v)=>{setMpTransferencia(mp=>({...mp,fkcta_bancaria:v}))}} />
                         </Col>
                     </Row>
                 </Col>
