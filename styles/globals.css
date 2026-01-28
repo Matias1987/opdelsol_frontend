@@ -658,3 +658,62 @@ danger list
 }
 
 .ant-form-item-label { margin-bottom: 0px !important; /* default is 8px */ }
+
+/* Highlight the active menu item */
+.ant-menu-item-selected {
+  background-color: #1890ff !important; /* Ant Design blue */
+  font-weight: bold;
+  border-left: 4px solid #40a9ff;       /* Accent bar on the left */
+}
+
+/* Optional: change text color */
+.ant-menu-item-selected a,
+.ant-menu-item-selected span {
+  color: #fff !important;
+}
+
+
+
+/* Apply to your Ant Design header */
+.custom_ant-layout-header {
+  position: relative;
+  background: linear-gradient(135deg, #ffffff, #ffffff);
+  overflow: hidden;
+  height: 52px; /* default Ant Design header height */
+  z-index: 1;
+}
+
+/* Abstract shapes using pseudo-elements */
+.custom_ant-layout-header::before,
+.custom_ant-layout-header::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  opacity: 1;
+  z-index: 0;
+}
+
+/* Red circle top-left */
+.custom_ant-layout-header::before {
+  width: 120px;
+  height: 120px;
+  background: #ff6b6b;
+  top: -40px;
+  left: -40px;
+}
+
+/* Blue blob bottom-right */
+.custom_ant-layout-header::after {
+  width: 180px;
+  height: 180px;
+  background: #1e90ff;
+  bottom: -60px;
+  right: -60px;
+}
+
+.main-logo{
+  font-weight: 700;
+  font-size: 1em;
+  font-family: Poppins, Montserrat, sans-serif;
+  font-style: italic;
+}

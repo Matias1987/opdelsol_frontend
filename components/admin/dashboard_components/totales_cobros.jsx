@@ -1,7 +1,7 @@
 import { post_method } from "@/src/helpers/post_helper";
 import { post } from "@/src/urls";
-import { ArrowUpOutlined, DollarOutlined } from "@ant-design/icons";
-import { Card, Col, Row, Statistic } from "antd";
+import { ArrowUpOutlined, DollarOutlined, ReloadOutlined } from "@ant-design/icons";
+import { Button, Card, Col, Row, Statistic } from "antd";
 import { useEffect, useState } from "react";
 
 const TotalesCobros = (props) => {
@@ -54,6 +54,7 @@ const TotalesCobros = (props) => {
 
   return (
     <>
+    <Card style={{boxShadow:"0px 5px 15px #888888"}} title="Totales Cobros" size="small" extra={<><Button type="link" size="small"><ReloadOutlined /></Button></>}>
       <Row gutter={[16,16]} style={{ padding: "16px" }}>
         <Col>
           <Card
@@ -104,6 +105,7 @@ const TotalesCobros = (props) => {
           </Card>
         </Col>
       </Row>
+      </Card>
     </>
   );
 };

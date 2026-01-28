@@ -7,9 +7,8 @@ import es_ES from 'antd/locale/es_ES'
 import moment from 'moment'
 import dayjs from "dayjs";
 import "dayjs/locale/es";
-import { SocketProvider } from '@/components/etc/SocketProvider'
-import SocketStatus from '@/components/etc/SocketStatus'
-
+//import { SocketProvider } from '@/components/etc/SocketProvider'
+//import SocketStatus from '@/components/etc/SocketStatus'
 export default function App({ Component, pageProps }) {
   const [isDarkTheme, setDarkTheme] = useState(true)
   moment.locale("es")
@@ -20,6 +19,7 @@ export default function App({ Component, pageProps }) {
   return (
       <>  
       {/*<SocketProvider>*/}
+    
       <ConfigProvider
       locale={es_ES}
       

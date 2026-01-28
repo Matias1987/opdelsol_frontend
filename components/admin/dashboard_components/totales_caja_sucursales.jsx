@@ -6,6 +6,7 @@ import {
   EyeFilled,
   InfoCircleOutlined,
   InfoOutlined,
+  ReloadOutlined,
 } from "@ant-design/icons";
 import { Button, Card, Col, Modal, Row, Statistic } from "antd";
 import { useEffect, useState } from "react";
@@ -34,7 +35,8 @@ const TotalesCajasSucursales = ({ style = "green" }) => {
         cursor: "default",
       },
       blue: {
-        backgroundColor: "#d6e4ff",
+        background: "#d6e4ff",
+        background: "linear-gradient(90deg, rgb(144, 167, 243) 0%, rgba(214, 228, 255, 1) 100%)",
         borderRadius: "8px",
         border: "1px solid #597ef7",
         cursor: "default",
@@ -57,7 +59,7 @@ const TotalesCajasSucursales = ({ style = "green" }) => {
         fontSize: "1.2em",
       },
       blue: {
-        color: "#597ef7",
+        color: "#011f83",
         fontWeight: "bolder",
         fontSize: "1.2em",
       },
@@ -83,12 +85,12 @@ const TotalesCajasSucursales = ({ style = "green" }) => {
     <Col>
       <Card
         variant="borderless"
-        style={styles.cardStyles[style] || styles.cardStyles.green}
+        style={{...styles.cardStyles[style] || styles.cardStyles.green, boxShadow:"0px 2px 2px #888888"}}
       >
         <Statistic
           title={
-            <span style={{ fontWeight: "bolder", color: "black" }}>
-              <Button type="link" size="small" onClick={_=>{
+            <span>
+              <Button  style={{ fontWeight: "600", color: "#001677" }} type="link" size="small" onClick={_=>{
                 setSelectedCaja(idcaja);
                 setPopupOpen(true);
               }}>
@@ -107,6 +109,7 @@ const TotalesCajasSucursales = ({ style = "green" }) => {
 
   return (
     <>
+    <Card style={{boxShadow:"0px 5px 15px #888888"}} title="Totales Actuales Por Sucursal" size="small" extra={<><Button  type="link" size="small"><ReloadOutlined /></Button></>}>
       <Row gutter={[16, 16]}>
         {cajas.map((c) =>
           c.idcaja > 0
@@ -114,6 +117,7 @@ const TotalesCajasSucursales = ({ style = "green" }) => {
             : null,
         )}
       </Row>
+      </Card>
       <Modal
         width={"1300px"}
         open={popupOpen}

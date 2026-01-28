@@ -31,7 +31,7 @@ const HeaderSol =(props)=> {
             <Col span={24}>
                 <span style={{padding:'0'}}>
                     <i>
-                        Sucursal:&nbsp;&nbsp;<SucursalLabel changeSucursalEnabled={cambio_sucursal_habilitado} />
+                        {props.tipoCuenta && props.tipoCuenta == "ADMIN"? null: <>Sucursal:&nbsp;&nbsp;<SucursalLabel changeSucursalEnabled={cambio_sucursal_habilitado} /></>}
                            { /* &nbsp;- Cuenta: <b>{props.tipoCuenta}</b>
                            &nbsp;&nbsp;&nbsp;  Usuario: <b>{uname}</b>
                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   |&nbsp;&nbsp;&nbsp;*/}

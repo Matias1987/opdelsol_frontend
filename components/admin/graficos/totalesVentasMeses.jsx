@@ -112,11 +112,11 @@ function TotalesVentasMeses({ idsucursal, cantMeses = 3 }) {
     });
   };
   return (
-    <Card style={{border:"1px solid #AEB6C7", borderRadius:"8px", boxShadow:"0px 5px 15px #888888"}}>
+    <Card style={{border:"1px solid #AEB6C7", borderRadius:"8px", boxShadow:"0px 5px 15px #888888", padding:"0px !important" }}>
     <Chart
       chartType="LineChart"
       width="100%"
-      height="200px"
+      height="100%"
       data={graphData}
       options={options}
 

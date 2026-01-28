@@ -1,4 +1,5 @@
 
+import CustomStatistic from "@/components/admin/dashboard_components/CustomStatistic";
 import TotalesCajasSucursales from "@/components/admin/dashboard_components/totales_caja_sucursales";
 import TotalesCobros from "@/components/admin/dashboard_components/totales_cobros";
 import ChartTotalesUltimoAnio from "@/components/admin/graficos/totales_ultimo_anio";
@@ -6,7 +7,8 @@ import TotalesVentasMeses from "@/components/admin/graficos/totalesVentasMeses";
 import ResumenOperacionesRow from "@/components/admin/resumenOperacionesRow";
 import LayoutAdmin from "@/components/layout/layout_admin";
 import { get } from "@/src/urls";
-import { Card, Col, Divider, Modal, Row } from "antd";
+import { BoxPlotFilled, ReloadOutlined } from "@ant-design/icons";
+import { Button, Card, Col, Divider, Modal, Row } from "antd";
 import { useEffect, useState } from "react";
 
 export default function dashboard_admin(){
@@ -55,33 +57,46 @@ export default function dashboard_admin(){
             <ChartTotalesUltimoAnio />
         </Col>
     </Row>*/}
-    <Row>
-        <Col span={24}>
-            <h4>Totales Efectivo</h4>
-        </Col>
-    </Row>
     <Row gutter={[16,16]}>
         <Col>
             <TotalesCobros />
         </Col>
-    </Row>
-    <Row>
-        <Col span={24}>
-            <h4>Totales Actuales Por Sucursal</h4>
+        <Col>
+            <TotalesCajasSucursales style="black"/>
         </Col>
     </Row>
-    <TotalesCajasSucursales style="blue" />
+    
+    
+    {/*<Row>
+        <Col span={24}>
+            <h4>Cantidad de ventas en dep&oacute;sito</h4>
+        </Col>
+    </Row>
+    <Row gutter={[16,16]}>
+        <Col>
+            <CustomStatistic prefix={<BoxPlotFilled />} style="black" value={10} title="Ventas en Depósito" precision={0} valueStyle={{textAlign:"right"}} />
+        </Col>
+        <Col>
+            <CustomStatistic style="danger" value={5} title="Pedido" precision={0} />
+        </Col>
+        <Col>
+            <CustomStatistic style="danger" value={10} title="Taller" precision={0} />
+        </Col>
+        <Col>
+            <CustomStatistic style="danger" value={2} title="Calibrado" precision={0} />
+        </Col>
+    </Row>*/}
 
-    <Card title="Cantidad de Ventas Ultimos 12 Meses Por Sucursal" style={{marginTop:"20px", marginBottom:"20px", padding:"10px"}}>
+    <Card  style={{marginTop:"20px", marginBottom:"20px", padding:"10px"}} extra={<><Button><ReloadOutlined /></Button></>}>
       <Row gutter={[16,16]}>
 
-        <Col style={{width:"300px"}}><TotalesVentasMeses cantMeses={12} idsucursal={6} /></Col>
-        <Col style={{width:"300px"}}><TotalesVentasMeses cantMeses={12} idsucursal={7} /></Col>
-        <Col style={{width:"300px"}}><TotalesVentasMeses cantMeses={12} idsucursal={8} /></Col>
-        <Col style={{width:"300px"}}><TotalesVentasMeses cantMeses={12} idsucursal={9} /></Col>
-        <Col style={{width:"300px"}}><TotalesVentasMeses cantMeses={12} idsucursal={10} /></Col>
-        <Col style={{width:"300px"}}><TotalesVentasMeses cantMeses={12} idsucursal={11} /></Col>
-        <Col style={{width:"300px"}}><TotalesVentasMeses cantMeses={12} idsucursal={16} /></Col>
+        <Col style={{width:"1200px"}}><TotalesVentasMeses cantMeses={32} idsucursal={6} /></Col>
+        <Col style={{width:"1200px"}}><TotalesVentasMeses cantMeses={32} idsucursal={7} /></Col>
+        <Col style={{width:"1200px"}}><TotalesVentasMeses cantMeses={32} idsucursal={8} /></Col>
+        <Col style={{width:"1200px"}}><TotalesVentasMeses cantMeses={32} idsucursal={9} /></Col>
+        <Col style={{width:"1200px"}}><TotalesVentasMeses cantMeses={32} idsucursal={10} /></Col>
+        <Col style={{width:"1200px"}}><TotalesVentasMeses cantMeses={32} idsucursal={11} /></Col>
+        <Col style={{width:"1200px"}}><TotalesVentasMeses cantMeses={32} idsucursal={16} /></Col>
       </Row>
       </Card>
     {/*<Row>

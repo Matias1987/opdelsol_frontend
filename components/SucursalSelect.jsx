@@ -36,9 +36,9 @@ const SucursalSelect = (props) => {
         }
 
         if (idsucursal) {
-          setSelectedSucursal(idsucursal);
+          setSelectedSucursal(+idsucursal);
           callback?.(
-            idsucursal,
+            +idsucursal,
             response.data.find((s) => +s.idsucursal == +idsucursal)?.nombre ||
               "-"
           );
