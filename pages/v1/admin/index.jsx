@@ -85,20 +85,20 @@ export default function dashboard_admin(){
         <Col>
             <CustomStatistic style="danger" value={2} title="Calibrado" precision={0} />
         </Col>
-    </Row>*/}
+    </Row>
 
-    <Card  style={{marginTop:"20px", marginBottom:"20px", padding:"10px"}} extra={<><Button><ReloadOutlined /></Button></>}>
+    <Card  style={{marginTop:"20px", marginBottom:"20px", padding:"10px"}}>
       <Row gutter={[16,16]}>
 
-        <Col style={{width:"1200px"}}><TotalesVentasMeses cantMeses={32} idsucursal={6} /></Col>
-        <Col style={{width:"1200px"}}><TotalesVentasMeses cantMeses={32} idsucursal={7} /></Col>
-        <Col style={{width:"1200px"}}><TotalesVentasMeses cantMeses={32} idsucursal={8} /></Col>
-        <Col style={{width:"1200px"}}><TotalesVentasMeses cantMeses={32} idsucursal={9} /></Col>
-        <Col style={{width:"1200px"}}><TotalesVentasMeses cantMeses={32} idsucursal={10} /></Col>
-        <Col style={{width:"1200px"}}><TotalesVentasMeses cantMeses={32} idsucursal={11} /></Col>
-        <Col style={{width:"1200px"}}><TotalesVentasMeses cantMeses={32} idsucursal={16} /></Col>
+        <Col style={{width:"1200px"}}><TotalesVentasMeses cantMeses={12} idsucursal={6} /></Col>
+        <Col style={{width:"1200px"}}><TotalesVentasMeses cantMeses={12} idsucursal={7} /></Col>
+        <Col style={{width:"1200px"}}><TotalesVentasMeses cantMeses={12} idsucursal={8} /></Col>
+        <Col style={{width:"1200px"}}><TotalesVentasMeses cantMeses={12} idsucursal={9} /></Col>
+        <Col style={{width:"1200px"}}><TotalesVentasMeses cantMeses={12} idsucursal={10} /></Col>
+        <Col style={{width:"1200px"}}><TotalesVentasMeses cantMeses={12} idsucursal={11} /></Col>
+        <Col style={{width:"1200px"}}><TotalesVentasMeses cantMeses={12} idsucursal={16} /></Col>
       </Row>
-      </Card>
+      </Card>*/}
     {/*<Row>
         <Col span={24}>
             

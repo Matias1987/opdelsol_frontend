@@ -65,6 +65,15 @@ const SideMenuAdmin = ({ collapsed }) => {
           Overview
         </Menu.Item>
         <Menu.Item
+          key="/v1/admin/lista_cajas/"
+          icon={<DollarOutlined />}
+          onClick={() =>
+            router.push("/v1/admin/lista_cajas/")
+          }
+        >
+          Cajas
+        </Menu.Item>
+        {/*<Menu.Item
           key="/v1/admin/custm/dsolch/panel_admin_caja/"
           icon={<DollarOutlined />}
           onClick={() =>
@@ -72,7 +81,7 @@ const SideMenuAdmin = ({ collapsed }) => {
           }
         >
           Cajas
-        </Menu.Item>
+        </Menu.Item>*/}
         <Menu.Item
           key="/v1/admin/ventas/"
           icon={<DollarOutlined />}
@@ -87,7 +96,7 @@ const SideMenuAdmin = ({ collapsed }) => {
         >
           Tarjetas
         </Menu.Item>
-        <Menu.Item
+         {/*<Menu.Item
           key="/v1/admin/panel_proveedores/"
           icon={<UserOutlined />}
           onClick={() => router.push("/v1/admin/panel_proveedores/")}
@@ -95,7 +104,7 @@ const SideMenuAdmin = ({ collapsed }) => {
           Proveedores
         </Menu.Item>
 
-        {/*<SubMenu key="sub2" icon={<FileTextOutlined />} title="Reports">
+       <SubMenu key="sub2" icon={<FileTextOutlined />} title="Reports">
           <Menu.Item
             key="/v1/admin/ventas"
             icon={<BarChartOutlined />}
@@ -154,14 +163,6 @@ const SideMenuAdmin = ({ collapsed }) => {
             Conceptos Gastos
           </Menu.Item>
         </SubMenu>
-
-        <Menu.Item
-          key="/v1/admin/settings"
-          icon={<SettingOutlined />}
-          onClick={() => router.push("/v1/admin/settings")}
-        >
-          Settings
-        </Menu.Item>
         <Menu.Item
           key="/logout"
           icon={<LogoutOutlined />}

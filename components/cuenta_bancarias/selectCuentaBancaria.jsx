@@ -23,7 +23,7 @@ const SelectCuentaBancaria = ({callback}) => {
     useEffect(()=>{load();},[])
 
     return <>
-    <Select options={dataSource} onSelect={callback} style={{width:"300px"}} placeholder="Seleccionar Cuenta" />
+    <Select prefix="Cuenta:" options={dataSource} onSelect={callback} style={{width:"300px"}} placeholder="Seleccionar Cuenta" />
     </>
 }
 

@@ -78,14 +78,14 @@ export default function LayoutAdmin({ children }) {
             alignItems: "center",
             justifyContent: "space-between", // pushes left/right apart
             background: "#001529",  
-            height: "52px",
+            height: "51px",
           }}>
           <Button style={{color:"white"}} type="link" size="large" onClick={() => setCollapsed(!collapsed)}>
             {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
           </Button>
           <div style={{ display: "flex", alignItems: "center" }}>
-            <Logo />
-            <span style={{color:"white"}} className="main-logo">PulseGrid</span>
+            {/*<Logo />
+            <span style={{color:"white"}} className="main-logo">PulseGrid</span>*/}
           </div>
      
         </Header>

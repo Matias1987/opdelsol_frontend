@@ -264,6 +264,8 @@ const post = {
 
     modificar_mutual_activo: remote_base_url + "mutuales/modif/activo/",
 
+    obtener_facturas_saldo: remote_base_url + "facturas/obtener/facturas/saldo/",
+
     search:{
         filtro_stock: remote_base_url + "stock/filtro_stock/",
     },

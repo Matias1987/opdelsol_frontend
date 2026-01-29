@@ -12,8 +12,9 @@ import { Button, Card, Col, Modal, Row, Statistic } from "antd";
 import { useEffect, useState } from "react";
 
 const TotalesCajasSucursales = ({ style = "green" }) => {
-    const [popupOpen, setPopupOpen] = useState(false);
-    const [selectedCaja, setSelectedCaja] = useState(null);
+  const [popupOpen, setPopupOpen] = useState(false);
+  const [selectedCaja, setSelectedCaja] = useState(null);
+  const [reload, setReload] = useState(false);
   const styles = {
     cardStyles: {
       green: {
@@ -36,7 +37,8 @@ const TotalesCajasSucursales = ({ style = "green" }) => {
       },
       blue: {
         background: "#d6e4ff",
-        background: "linear-gradient(90deg, rgb(144, 167, 243) 0%, rgba(214, 228, 255, 1) 100%)",
+        background:
+          "linear-gradient(90deg, rgb(144, 167, 243) 0%, rgba(214, 228, 255, 1) 100%)",
         borderRadius: "8px",
         border: "1px solid #597ef7",
         cursor: "default",
@@ -69,8 +71,9 @@ const TotalesCajasSucursales = ({ style = "green" }) => {
   const load = () => {
     post_method(
       post.obtener_cajas_fecha,
-      { fecha: new Date(2026, 0, 5).toISOString().slice(0, 10) },
+      { fecha: new Date().toISOString().slice(0, 10) },
       (response) => {
+       
         if (response.data.status == "error") return;
         setCajas(response.data || []);
       },
@@ -79,21 +82,29 @@ const TotalesCajasSucursales = ({ style = "green" }) => {
 
   useEffect(() => {
     load();
-  }, []);
+  }, [reload]);
 
   const total_caja = ({ title, totalDia, idcaja }) => (
     <Col>
       <Card
         variant="borderless"
-        style={{...styles.cardStyles[style] || styles.cardStyles.green, boxShadow:"0px 2px 2px #888888"}}
+        style={{
+          ...(styles.cardStyles[style] || styles.cardStyles.green),
+          boxShadow: "0px 2px 2px #888888",
+        }}
       >
         <Statistic
           title={
             <span>
-              <Button  style={{ fontWeight: "600", color: "#001677" }} type="link" size="small" onClick={_=>{
-                setSelectedCaja(idcaja);
-                setPopupOpen(true);
-              }}>
+              <Button
+                style={{ fontWeight: "600", color: "#001677" }}
+                type="link"
+                size="small"
+                onClick={(_) => {
+                  setSelectedCaja(idcaja);
+                  setPopupOpen(true);
+                }}
+              >
                 {title}
               </Button>
             </span>
@@ -107,16 +118,31 @@ const TotalesCajasSucursales = ({ style = "green" }) => {
     </Col>
   );
 
-  return (
+  return ( cajas.length == 0 ? <>Sin datos.</> :
     <>
-    <Card style={{boxShadow:"0px 5px 15px #888888"}} title="Totales Actuales Por Sucursal" size="small" extra={<><Button  type="link" size="small"><ReloadOutlined /></Button></>}>
-      <Row gutter={[16, 16]}>
-        {cajas.map((c) =>
-          c.idcaja > 0
-            ? total_caja({ title: c.sucursal, totalDia: c.saldo, idcaja: c.idcaja })
-            : null,
-        )}
-      </Row>
+      <Card
+        style={{ boxShadow: "0px 5px 15px #888888" }}
+        title="Totales Actuales Por Sucursal"
+        size="small"
+        extra={
+          <>
+            <Button type="link" size="small" onClick={_=>{setReload(!reload)}}>
+              <ReloadOutlined />
+            </Button>
+          </>
+        }
+      >
+        <Row gutter={[16, 16]}>
+          {cajas.map((c) =>
+            c.idcaja > 0
+              ? total_caja({
+                  title: c.sucursal,
+                  totalDia: c.saldo,
+                  idcaja: c.idcaja,
+                })
+              : null,
+          )}
+        </Row>
       </Card>
       <Modal
         width={"1300px"}

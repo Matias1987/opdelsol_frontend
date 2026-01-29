@@ -21,7 +21,7 @@ export default function LayoutVentas(props) {
         //background: "#94D0AE", 
         background: "#E7E9EB",
         //borderTop:"2px solid #663F4C",
-        borderTop:"2px solid #3A5C79",
+        //borderTop:"2px solid #3A5C79",
       },  
       body:{
         backgroundColor:"#FAFBFF", 
