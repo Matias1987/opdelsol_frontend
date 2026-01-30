@@ -145,10 +145,12 @@ const VentasSucursales = (props) => {
   return (
     <>
     
-      <Card title={`Ventas por sucursal del período ${filtros.mes}/${filtros.anio}`}>
+      <Card  size="small">
         <FiltrosInforme callback={(newFilters) => { setFiltros(newFilters); setActualizar(!actualizar); }} />
 
         <Table
+          title={_=><>{ dataSourceSucursal.length<1 ? "" : `Ventas por sucursal del período ${filtros.mes}/${filtros.anio}`}</>}
+          size="small"
           rowClassName={(record, index) =>
             index % 2 === 0 ? "table-row-light" : "table-row-dark"
           }

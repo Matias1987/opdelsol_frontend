@@ -6,6 +6,7 @@ import ChartTotalesUltimoAnio from "@/components/admin/graficos/totales_ultimo_a
 import TotalesVentasMeses from "@/components/admin/graficos/totalesVentasMeses";
 import ResumenOperacionesRow from "@/components/admin/resumenOperacionesRow";
 import LayoutAdmin from "@/components/layout/layout_admin";
+import globals from "@/src/globals";
 import { get } from "@/src/urls";
 import { BoxPlotFilled, ReloadOutlined } from "@ant-design/icons";
 import { Button, Card, Col, Divider, Modal, Row } from "antd";
@@ -15,12 +16,14 @@ export default function dashboard_admin(){
     const [sucursales, setSucursales] = useState([])
     const [idcaja, setIdCaja] = useState(-1)
     const [open, setOpen] = useState(false)
+    const [esUsuarioAdminMin, setEsUsuarioAdminMin] = useState(true)
     const styles = {
         darkRow:"#F0C2A5",
         lightRow:"#F4DD76",
     }
     var col = 0;
     useEffect(()=>{
+        setEsUsuarioAdminMin(globals.esUsuarioAdminMin())
         fetch(get.sucursales)
         .then(response=>response.json())
         .then((response)=>{
@@ -32,7 +35,7 @@ export default function dashboard_admin(){
             )
         })
     },[])
-    return <>
+    return esUsuarioAdminMin ? <><span style={{fontStyle:"italic"}}>Bienvenido</span>  </> : <>
     <Row gutter={24}>
         {/*<Col  style={{paddingRight:"32px"}}>
             <TotalesCobros />

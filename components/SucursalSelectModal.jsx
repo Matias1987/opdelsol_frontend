@@ -31,7 +31,7 @@ const SucursalSelectModal = (props) => {
                 ]
             )
 
-            if(globals.esUsuarioAdmin())
+            if(globals.esUsuarioAdmin() || globals.esUsuarioAdminMin() || globals.esUsuarioAdminProv())
             {
                 setSelectedSucursal(-1)
                 props.callback(-1)

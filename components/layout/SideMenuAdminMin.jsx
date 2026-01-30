@@ -2,23 +2,19 @@ import React from "react";
 import { Layout, Menu } from "antd";
 import {
   DashboardOutlined,
-  UserOutlined,
   SettingOutlined,
-  FileTextOutlined,
   LogoutOutlined,
-  TeamOutlined,
-  BarChartOutlined,
   DollarOutlined,
   CreditCardTwoTone,
 } from "@ant-design/icons";
 import { useRouter } from "next/router";
-import { get, public_urls } from "@/src/urls";
+import { get } from "@/src/urls";
 import useStorage from "@/useStorage";
 
 const { Sider } = Layout;
 const { SubMenu } = Menu;
 
-const SideMenuAdmin = ({ collapsed }) => {
+const SideMenuAdminMin = ({ collapsed }) => {
   const router = useRouter();
   const { pathname } = router;
 
@@ -55,7 +51,7 @@ const SideMenuAdmin = ({ collapsed }) => {
         theme="dark"
         mode="inline"
         selectedKeys={[pathname]} // highlight active route
-        defaultOpenKeys={["sub1", "sub2"]} // keep submenus open if you want
+        defaultOpenKeys={["sub2"]} // keep submenus open if you want
       >
         <Menu.Item
           key="/v1/admin/"
@@ -65,15 +61,6 @@ const SideMenuAdmin = ({ collapsed }) => {
           Overview
         </Menu.Item>
         <Menu.Item
-          key="/v1/admin/custm/dsolch/panel_admin_caja/"
-          icon={<DollarOutlined />}
-          onClick={() =>
-            router.push("/v1/admin/custm/dsolch/panel_admin_caja/")
-          }
-        >
-          Cajas
-        </Menu.Item>
-        {/*<Menu.Item
           key="/v1/admin/lista_cajas/"
           icon={<DollarOutlined />}
           onClick={() =>
@@ -81,7 +68,7 @@ const SideMenuAdmin = ({ collapsed }) => {
           }
         >
           Cajas
-        </Menu.Item>*/}
+        </Menu.Item>
         <Menu.Item
           key="/v1/admin/ventas/"
           icon={<DollarOutlined />}
@@ -96,35 +83,6 @@ const SideMenuAdmin = ({ collapsed }) => {
         >
           Tarjetas
         </Menu.Item>
-         <Menu.Item
-          key="/v1/admin/panel_proveedores/"
-          icon={<UserOutlined />}
-          onClick={() => router.push("/v1/admin/panel_proveedores/")}
-        >
-          Proveedores
-        </Menu.Item>
-
-       {/*<SubMenu key="sub2" icon={<FileTextOutlined />} title="Reports">
-          <Menu.Item
-            key="/v1/admin/ventas"
-            icon={<BarChartOutlined />}
-            onClick={() => router.push("/v1/admin/ventas")}
-          >
-            Sales Reports
-          </Menu.Item>
-          <Menu.Item
-            key="/v1/admin/prov"
-            onClick={() => router.push("/v1/admin/prov")}
-          >
-            Inventory Reports
-          </Menu.Item>
-          <Menu.Item
-            key="/v1/admin/logs"
-            onClick={() => router.push("/v1/admin/logs")}
-          >
-            Activity Logs
-          </Menu.Item>
-        </SubMenu>*/}
         <SubMenu key="sub2" icon={<SettingOutlined />} title="Tablas">
           <Menu.Item
             key="/v1/admin/lista_sucursales"
@@ -175,4 +133,4 @@ const SideMenuAdmin = ({ collapsed }) => {
   );
 };
 
-export default SideMenuAdmin;
+export default SideMenuAdminMin;

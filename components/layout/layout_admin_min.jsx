@@ -15,11 +15,10 @@ import Logo from "./logo/logo";
 import SideMenuAdminMin from "./SideMenuAdminMin";
 const { Header, Content } = Layout;
 
-export default function LayoutAdmin({ children }) {
+export default function LayoutAdminMin({ children }) {
     const [collapsed, setCollapsed] = useState(false);
   const { Content } = Layout;
   const { getItem } = useStorage();
-  const [esAdminMin, setEsAdminMin] = useState(false);
   const validate_user = () => {
     const _token = getItem("token", "session");
 
@@ -52,9 +51,7 @@ export default function LayoutAdmin({ children }) {
     if (!(globals.esUsuarioAdmin() || globals.esUsuarioAdminMin() )) {
       window.location.replace(public_urls.modo);
     }
-    if(globals.esUsuarioAdminMin()){
-        setEsAdminMin(true);
-    }
+
     validate_user();
   }, []);
 /*
@@ -71,8 +68,8 @@ export default function LayoutAdmin({ children }) {
 */
   return (
     <Layout style={{ minHeight: "100vh" }}>
-      {esAdminMin ? <SideMenuAdminMin collapsed={collapsed} /> : <SideMenuAdmin collapsed={collapsed} />}
-      <Layout style={{ minHeight: "100vh", marginLeft: collapsed ? 80 : 200, transition: "all 0.2s" }}>
+      <SideMenuAdminMin collapsed={collapsed} />
+      <Layout style={{ minHeight: 1200, marginLeft: collapsed ? 80 : 200, transition: "all 0.2s" }}>
        <Header  style={{
             padding: "0 16px",
             position: "sticky",

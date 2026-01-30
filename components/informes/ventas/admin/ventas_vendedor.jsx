@@ -141,7 +141,7 @@ const VentasVendedor = (props) => {
   return (
     <>
       <Card
-        title={`Ventas vendedores del período ${filtros.mes}/${filtros.anio}`}
+        size="small"
       >
         <>
           <Row gutter={16}>
@@ -166,36 +166,9 @@ const VentasVendedor = (props) => {
           </Row>
 
           <Table
+            size="small"
             title={(_) => (
-              <>
-                {/*<ExportToExcel2
-              sheets={dataSource.map((row) => ({
-                sheet_name: `Ventas`,
-                header: "",
-                footer: "",
-                columns: [
-                  { header: "usuario", key: "usuario", width: "20" },
-                  { header: "efectivo", key: "efectivo", width: "20" },
-                  { header: "tarjeta", key: "tarjeta", width: "20" },
-                  { header: "cheque", key: "cheque", width: "20" },
-                  { header: "ctacte", key: "ctacte", width: "20" },
-                  { header: "mutual", key: "mutual", width: "20" },
-                  { header: "mp", key: "mp", width: "20" },
-                  { header: "total", key: "total", width: "20" },
-                ],
-                data: dataSource.map((row) => ({
-                  usuario: row.usuario,
-                  efectivo: row.efectivo,
-                  tarjeta: row.tarjeta,
-                  cheque: row.cheque,
-                  ctacte: row.ctacte,
-                  mutual: row.mutual,
-                  mp: row.mp,
-                  total: row.total,
-                })),
-              }))}
-            />*/}
-              </>
+              <>{ dataSource.length<1 ? "" : `Ventas vendedores del período ${filtros.mes}/${filtros.anio}`}</>
             )}
             rowClassName={(record, index) =>
               index % 2 === 0 ? "table-row-light" : "table-row-dark"

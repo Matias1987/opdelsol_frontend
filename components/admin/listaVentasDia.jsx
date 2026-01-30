@@ -185,7 +185,7 @@ const ListaVentasDia = ({dia,mes,anio, dateReadOnly, sucursal, sucursalReadOnly}
 
   return (
     <>
-      <Card title={<>Lista de Ventas por D&iacute;a</>} size="small">
+      <Card size="small">
         <Row>
           <Col span={24}>
             <Table

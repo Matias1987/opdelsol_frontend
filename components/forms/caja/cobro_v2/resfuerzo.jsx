@@ -328,9 +328,9 @@ const Resfuerzo = (props) => {
                     parseFloat(dataVenta.haber || 0)
               }
               ctacteHidden={true}
-              tarjetaHidden={true}
-              chequeHidden={true}
-              mutualHidden={true}
+              tarjetaHidden={false}
+              chequeHidden={false}
+              mutualHidden={false}
             />
           </Col>
         </Row>

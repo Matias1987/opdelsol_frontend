@@ -40,7 +40,6 @@ import SucursalSelectModal from "@/components/SucursalSelectModal";
                         (globals.esUsuarioDepositoMin()?1:0)
 
 
-
       const stay = globals.esUsuarioDeposito() || globals.esUsuarioLaboratorio() || globals.esUsuarioAdmin() || globals.esUsuarioAdminMin();
       globals.establecerUserSoloVentaCaja(!stay)
       setRedirecting(!stay)
@@ -71,7 +70,7 @@ import SucursalSelectModal from "@/components/SucursalSelectModal";
         window.location.replace(public_urls.dashboard_adm_prov)
         return
       }
-      if(globals.esUsuarioAdmin())
+      if(globals.esUsuarioAdmin() || globals.esUsuarioAdminMin())
       {
         window.location.replace(public_urls.dashboard_admin)
         return
@@ -284,7 +283,7 @@ import SucursalSelectModal from "@/components/SucursalSelectModal";
      
 <>
     <SucursalSelectModal callback={(id)=>{
-      if(globals.esUsuarioAdmin())
+      if(globals.esUsuarioAdmin() || globals.esUsuarioAdminMin() || globals.esUsuarioAdminProv())
       {
         setSucursalSelected(true); 
         setReload(!reload);
