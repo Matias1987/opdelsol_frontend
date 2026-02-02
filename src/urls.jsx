@@ -266,6 +266,10 @@ const post = {
 
     obtener_facturas_saldo: remote_base_url + "facturas/obtener/facturas/saldo/",
 
+    obtener_grilla_cristales: remote_base_url + "sc/get/grid/",
+
+    obtener_stock_cristales: remote_base_url + "sc/get/stock/",
+
     search:{
         filtro_stock: remote_base_url + "stock/filtro_stock/",
     },
@@ -325,6 +329,7 @@ const post = {
         egreso_cm: remote_base_url + "ccmm/agregar_egreso/",
         insertar_codigos: remote_base_url + "codigos_ext/insertar_codigos/",
         insert_cuenta_bancaria: remote_base_url + "cuentas_bancarias/",
+        insert_stock_cristal_grid: remote_base_url + "sc/insert/grid/",
     },
     update:{
         optica: remote_base_url + "op/mod/",
@@ -575,6 +580,8 @@ const get = {
     obtener_tipos_cuentas: remote_base_url + "cuentas_bancarias/tipos_cuentas/",
 
     obtener_cantidades_ventas_taller: remote_base_url + "infvtas/inf/vtas/taller/cantidades/",
+
+    obtener_codigos_cristales: remote_base_url + "sc/get/codigos/",
 }
 
 module.exports = {

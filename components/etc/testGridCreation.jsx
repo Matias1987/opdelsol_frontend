@@ -1,11 +1,13 @@
+import { post_method } from "@/src/helpers/post_helper";
+import { get, post } from "@/src/urls";
 import {
   AlertOutlined,
   CheckOutlined,
   SaveFilled,
   UnlockOutlined,
 } from "@ant-design/icons";
-import { Button, Checkbox, Col, Divider, Input, Modal, Radio, Row } from "antd";
-import { useState } from "react";
+import { Button, Checkbox, Col, Divider, Input, Modal, Radio, Row, Select } from "antd";
+import { useEffect, useState } from "react";
 
 const TestGridCreation = () => {
   const [data, setData] = useState([]);
@@ -19,8 +21,10 @@ const TestGridCreation = () => {
   const [modal_visible, setModalVisible] = useState(false);
   const [btnAplicarEnabled, setBtnAplicarEnabled] = useState(true);
   const [cellsEdited, setCellsEdited] = useState(false);
-  const [fkCodigo, setFkCodigo] = useState(null);
-  const [fkSucursal, setFkSucursal] = useState(null);
+  const [fkCodigo, setFkCodigo] = useState(58451);
+  const [fkSucursal, setFkSucursal] = useState(22);
+
+  const [codigosCristales, setCodigosCristales] = useState(null);
   //#region styles
   const diagonal_cell = {
     background: "linear-gradient(to top right, #fff 49%, #ccc 50%, #fff 51%)",
@@ -64,14 +68,17 @@ const TestGridCreation = () => {
       fk_codigo: fkCodigo,
       fk_sucursal: fkSucursal,
       cells: data.map((d) => ({
-        esf: d.esf,
-        cil: d.cil,
+        esf: `${parseFloat(d.esf).toFixed(2)}`,
+        cil: `${parseFloat(d.cil).toFixed(2)}`,
         cantidad: d.cantidad,
       })),
       tipo_grilla: tipo_grilla,
     };
-    console.log("Saving grid data:", dataToSave);
+    //alert(JSON.stringify(dataToSave))
     //save to db.... TO DO
+    post_method(post.insert.insert_stock_cristal_grid, dataToSave, (response) => {
+      alert("Datos Guardados");
+    })
   };
 
   const edit_quantity = (esf, cil, quantity) => {
@@ -98,7 +105,19 @@ const TestGridCreation = () => {
     setData(new_data);
   };
 
-  const prepare = () => {
+  const get_qtty_from_array = (src, _esf, _cil) => {
+
+    const record = src.find(r => (Math.abs(parseFloat(r.esf)) === _esf && Math.abs(parseFloat(r.cil)) === _cil));
+    if (!record) {
+      //alert("Row not fount: " + JSON.stringify({_esf, _cil}));
+      return -1;
+    }
+
+    return record.cantidad;
+
+  }
+
+  const prepare = (p_esf_from, p_esf_to, p_cil_from, p_cil_to, source = null) => {
     if (cellsEdited) {
       const confirm = window.confirm(
         "Hay celdas editadas. Si continua se perderan los cambios. Desea continuar?",
@@ -111,15 +130,15 @@ const TestGridCreation = () => {
     setCellsEdited(false);
     const cells_data = [];
     const _cols = [];
-    for (let i = esf_from; i <= esf_to; i += 0.25) {
-      for (let j = cil_from; j <= cil_to; j += 0.25) {
+    for (let i = p_esf_from; i <= p_esf_to; i += 0.25) {
+      for (let j = p_cil_from; j <= p_cil_to; j += 0.25) {
         cells_data.push({
           esf: i,
           cil: j,
-          cantidad: 0,
+          cantidad: source ? get_qtty_from_array(source, i, j) : 0,
           editing: false,
         });
-        if (i == 0) {
+        if (i == p_esf_from) {
           _cols.push(j.toFixed(2));
         }
       }
@@ -179,8 +198,88 @@ const TestGridCreation = () => {
     </>
   );
 
+  const get_range = (loadedData) => {
+
+    const get_val = strv => Math.abs(parseFloat(strv));
+
+    let min_esf = 9999;
+    let max_esf = -9999;
+    let min_cil = 9999;
+    let max_cil = -9999;
+
+    loadedData.forEach(row => {
+      min_esf = get_val(row.esf) < min_esf ? get_val(row.esf) : min_esf;
+      max_esf = get_val(row.esf) > max_esf ? get_val(row.esf) : max_esf;
+
+      min_cil = get_val(row.cil) < min_cil ? get_val(row.cil) : min_cil;
+      max_cil = get_val(row.cil) > max_cil ? get_val(row.cil) : max_cil;
+    });
+
+    setCilFrom(min_cil);
+    setCilTo(max_cil);
+
+    setEsfFrom(min_esf);
+    setEsfTo(max_esf);
+
+    return { min_esf, max_esf, min_cil, max_cil };
+  }
+
+  const load = () => {
+    post_method(post.obtener_grilla_cristales, {fkCodigo, fkSucursal}, (response) => {
+      if (!response) {
+        alert("Response is null");
+        return;
+      }
+      if (!response.data) {
+        alert("Response data is null");
+        return;
+      }
+      if(response.data.length<1)
+      {
+        alert("No data")
+        return;
+      }
+      const rango = get_range(response.data);
+
+      prepare(rango.min_esf, rango.max_esf, rango.min_cil, rango.max_cil, response.data);
+    })
+  }
+
+  const load_codigos_cristales = () => {
+    fetch(get.obtener_codigos_cristales)
+      .then(r => r.json())
+      .then(response => {
+        setCodigosCristales(response.data.map(row => ({
+          label: row.codigo,
+          value: row.idcodigo,
+        })))
+      })
+      .catch(e => { console.log("error") })
+  }
+
+  useEffect(() => { load_codigos_cristales(); }, [])
+
   return (
     <>
+     
+      <Row gutter={[16,16]} style={{padding:"8px"}}>
+        <Col style={{paddingTop:"6px"}}>
+          Tipo Cristal:
+        </Col>
+        <Col>
+          <Select
+            style={{ width: "400px" }}
+            options={codigosCristales}
+            onChange={(v) => {
+              setFkCodigo(v);
+            }}
+          />
+        </Col>
+        <Col>
+          <Button type="primary" onClick={load}>Load</Button>
+        </Col>
+      </Row>
+
       <div
         style={{
           border: "1px solid #dbdbdb",
@@ -191,6 +290,8 @@ const TestGridCreation = () => {
           maxWidth: "600px",
         }}
       >
+
+
         <Row gutter={[16, 16]}>
           <Col
             style={{
@@ -277,7 +378,7 @@ const TestGridCreation = () => {
             <Button
               disabled={!btnAplicarEnabled}
               type="primary"
-              onClick={prepare}
+              onClick={_ => { prepare(esf_from, esf_to, cil_from, cil_to) }}
             >
               Aplicar
             </Button>
