@@ -7,7 +7,7 @@ import {
   MenuOutlined,
   UserOutlined,
 } from "@ant-design/icons";
-import { Menu } from "antd";
+import { Button, Menu, Modal } from "antd";
 import { useState } from "react";
 import Link from "next/link";
 import { public_urls } from "@/src/urls";
@@ -28,7 +28,7 @@ const items = [
     ),
     key: "12",
   },
-  
+
   {
     label: (
       <Link
@@ -40,7 +40,7 @@ const items = [
     ),
     key: "cajas",
   },
-  
+
   {
     label: (
       <Link
@@ -141,11 +141,11 @@ const items = [
         ),
       },
     ],
-    
+
   },
 
   {
-    label: <BuscarVenta />,
+    label: <><Button onClick={_ => setModalBuscarVentaOpen(true)}>Buscar Venta</Button></>,
     key: "buscar_venta",
   },
 
@@ -153,24 +153,35 @@ const items = [
 
 
 export default function MenuAdminCOExp() {
+  const [modalBuscarVentaOpen, setModalBuscarVentaOpen] = useState(false)
   const [current, setCurrent] = useState("12");
   const onClick = (e) => {
     console.log("click ", e);
     setCurrent(e.key);
   };
   return (
-    <Menu
-      style={{
-        backgroundColor: "#41B79E" /*"#C4DD76""lightblue"*/,
-        boxShadow: "0px 5px  30px #959A9A",
-        borderTop: "3px solid #236254",
-        borderEndEndRadius: "16px",
-        borderEndStartRadius: "16px",
-      }}
-      onClick={onClick}
-      selectedKeys={[current]}
-      mode="horizontal"
-      items={items}
-    />
+    <>
+      <Menu
+        style={{
+          backgroundColor: "#41B79E" /*"#C4DD76""lightblue"*/,
+          boxShadow: "0px 5px  30px #959A9A",
+          borderTop: "3px solid #236254",
+          borderEndEndRadius: "16px",
+          borderEndStartRadius: "16px",
+        }}
+        onClick={onClick}
+        selectedKeys={[current]}
+        mode="horizontal"
+        items={items}
+      />
+      <Modal 
+      open={modalBuscarVentaOpen} 
+      onCancel={_ => setModalBuscarVentaOpen(false)} 
+      destroyOnClose 
+      width={"100%"} 
+      footer={null} >
+        <BuscarVenta />
+      </Modal>
+    </>
   );
 }

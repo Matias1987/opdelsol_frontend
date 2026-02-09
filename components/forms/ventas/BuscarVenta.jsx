@@ -151,15 +151,6 @@ const BuscarVenta = (props)=>{
     
     }
     return <div >
-    <Button 
-    type="text" onClick={()=>{onOpen()}}><SearchOutlined /> {typeof props.textButton==='undefined' ? 'Buscar Venta' : props.textButton }</Button>
-    <Modal 
-    footer={null}
-    destroyOnClose={true} 
-    width={"95%"} 
-    onCancel={onCancel} 
-    open={open} 
-    title={<>Buscar Venta &nbsp;&nbsp;<span style={{fontSize:".8em", color: "gray"}} ><i>(M&aacute;x. 200)</i> </span></>}> 
     <Row>
         <Col span={4}>
         <FiltroVentas callback={f=>{ setFiltros(_f=>f); setReload(!reload)}} />
@@ -255,10 +246,7 @@ const BuscarVenta = (props)=>{
     ]} />
         </Col>
     </Row>
-        
-    
-    
-    </Modal>
+
     <Modal width={"1000px"} destroyOnClose open={detalleOpen} footer={null} onCancel={()=>{setDetalleOpen(false)}}>
         <InformeVentaMinV3 idventa={idventaDetalle} key={idventaDetalle} />
     </Modal>

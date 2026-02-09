@@ -103,11 +103,13 @@ const AnularVentasCobradas = (props) => {
 
 
     return <>
+    {venta == null ? <></> : _venta_details()}
+    {/*
         <Button size="small" onClick={()=>{setOpen(true); load(); load_cobros_no_anulados();}} danger><b>Anular Venta y Cobros</b></Button>
         <Modal destroyOnClose={true} width={"60%"} open={open} onCancel={()=>{setOpen(false); props?.callback?.()}} title="Anular Ventas y Cobros" footer={null}>
-            {venta == null ? <></> : _venta_details()}
+            
         </Modal>
-        
+*/}
     </>
 
 }

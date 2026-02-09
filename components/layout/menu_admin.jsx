@@ -164,12 +164,12 @@ const items = [
     ],
     
   },
-
+/*
   {
     label: <BuscarVenta />,
     key: "buscar_venta",
   },
-  
+  */
   /*{
     label: (<CustomModal openButtonText="Lista de Precios" type="primary"><ListaPreciosV3 /></CustomModal>),
     key: '1001'
