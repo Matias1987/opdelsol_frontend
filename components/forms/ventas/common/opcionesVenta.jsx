@@ -4,6 +4,7 @@ import {
   BackwardOutlined,
   CheckOutlined,
   CloseOutlined,
+  CloseSquareOutlined,
   DollarOutlined,
   DownOutlined,
   InfoCircleFilled,
@@ -23,6 +24,8 @@ const OpcionesVenta = (props) => {
     onAnularClick,
     onResfuerzoClick,
     onDevolucionClick,
+    onAnularCobradasClick,
+    permitirAnularCobradas=false
   } = props;
 
   const menuOptions = {
@@ -34,6 +37,8 @@ const OpcionesVenta = (props) => {
     ENVIAR_A_LABORATORIO: "6",
     RESFUERZO: "7",
     DEVOLUCION: "8",
+    ANULAR_COBRADAS: "9",
+
   };
 
   //#region items
@@ -83,6 +88,12 @@ const OpcionesVenta = (props) => {
       key: menuOptions.IMPRIMIR,
       icon: <PrinterOutlined />,
     },
+    {
+      label: "Anular",
+      key: menuOptions.ANULAR_COBRADAS,
+      icon: <CloseSquareOutlined />,
+      disabled: !permitirAnularCobradas
+    },
   ];
 
   const items_terminadas = [
@@ -114,6 +125,12 @@ const OpcionesVenta = (props) => {
       label: "Enviar a Depósito",
       key: menuOptions.DEVOLUCION,
       icon: <BackwardOutlined />,
+    },
+    {
+      label: "Anular",
+      key: menuOptions.ANULAR_COBRADAS,
+      icon: <CloseSquareOutlined />,
+      disabled: !permitirAnularCobradas
     },
   ];
 
@@ -152,6 +169,12 @@ const OpcionesVenta = (props) => {
       label: "Enviar a Depósito",
       key: menuOptions.DEVOLUCION,
       icon: <BackwardOutlined />,
+    },
+    {
+      label: "Anular",
+      key: menuOptions.ANULAR_COBRADAS,
+      icon: <CloseSquareOutlined />,
+      disabled: !permitirAnularCobradas
     },
   ];
 
@@ -223,6 +246,9 @@ const OpcionesVenta = (props) => {
         break;
       case menuOptions.DEVOLUCION:
         onDevolucionClick?.(venta);
+        break;
+      case menuOptions.ANULAR_COBRADAS:
+        onAnularCobradasClick?.(venta);
         break;
     }
   };

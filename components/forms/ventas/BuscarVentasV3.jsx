@@ -42,6 +42,7 @@ const BuscarVentaV3 = (props) => {
   const [verSoloSucursal, setVerSoloSucursal] = useState(true);
   const [loading, setLoading] = useState(false);
   const [filtroIdLocal, setFiltroIdLocal] = useState("");
+  const [popupAnularOpen, setPopupAnularOpen] = useState(false);
   const add = (obj, value, key) =>
     typeof value === "undefined" ? obj : { ...obj, [key]: value };
 
@@ -186,7 +187,7 @@ const BuscarVentaV3 = (props) => {
           post_method(
             post.update.inc_cantidades_stock_venta,
             { idventa: _venta.idventa, idsucursal: globals.obtenerSucursal() },
-            (response) => {}
+            (response) => { }
           );
           registrarVentaAnulado(_venta.idventa);
         }
@@ -207,6 +208,11 @@ const BuscarVentaV3 = (props) => {
       );
     }
   };
+
+  const onAnularCobradasClick = _venta => {
+    setSelectedVenta(_venta);
+    setPopupAnularOpen(true);
+  }
 
   /*
   const onPopupClosed = () => {
@@ -239,14 +245,14 @@ const BuscarVentaV3 = (props) => {
   return (
     <>
       <Card
-        
-        styles={{header:{ color:"#663f4c", fontSize:"1.3em"}}}
+
+        styles={{ header: { color: "#663f4c", fontSize: "1.3em" } }}
         size="small"
         extra={
           <Row gutter={16}>
             <Col>
               <Input
-                style={{width:"300px"}}
+                style={{ width: "300px" }}
                 prefix="Nro.:"
                 disabled={loading}
                 value={filtros.id}
@@ -268,7 +274,7 @@ const BuscarVentaV3 = (props) => {
               <Button
                 type="primary"
                 onClick={(e) => {
-                  setFiltros((_f) => ({id:""}));
+                  setFiltros((_f) => ({ id: "" }));
                   setReload(!reload);
                 }}
               >
@@ -308,7 +314,7 @@ const BuscarVentaV3 = (props) => {
         <Row>
           <Col span={24}>
             <Table
-              
+
               loading={loading}
               size="small"
               scroll={{
@@ -331,8 +337,8 @@ const BuscarVentaV3 = (props) => {
                 filtroIdLocal.trim() == ""
                   ? dataSource
                   : dataSource.filter((d) =>
-                      d.idventa.toString().includes(filtroIdLocal.trim())
-                    )
+                    d.idventa.toString().includes(filtroIdLocal.trim())
+                  )
               }
               columns={[
                 { title: "Nro.:", dataIndex: "idventa", width: "60px" },
@@ -345,7 +351,7 @@ const BuscarVentaV3 = (props) => {
                       <>
                         {cliente}
                         {estado == "INGRESADO" &&
-                        idsucursal == globals.obtenerSucursal() ? (
+                          idsucursal == globals.obtenerSucursal() ? (
                           <span
                             onClick={(e) => {
                               e.stopPropagation();
@@ -389,9 +395,8 @@ const BuscarVentaV3 = (props) => {
                         );
                       case "PENDIENTE":
                         return (
-                          <Tag color="geekblue">{`${estado} ${
-                            en_laboratorio ? "(Lab)" : ""
-                          }`}</Tag>
+                          <Tag color="geekblue">{`${estado} ${en_laboratorio ? "(Lab)" : ""
+                            }`}</Tag>
                         );
                       case "ENTREGADO":
                         return <Tag color="volcano">{estado}</Tag>;
@@ -435,6 +440,8 @@ const BuscarVentaV3 = (props) => {
                             onAnularClick={onAnularClick}
                             onResfuerzoClick={onResfuerzoClick}
                             onDevolucionClick={onDevolucionClick}
+                            onAnularCobradasClick={onAnularCobradasClick}
+                            permitirAnularCobradas={true}
                           />
                         ) : (
                           <></>
@@ -442,7 +449,7 @@ const BuscarVentaV3 = (props) => {
 
                         {(globals.esUsuarioAdmin() ||
                           globals.esUsuarioAdminMin()) &&
-                        estado != "ANULADO" ? (
+                          estado != "ANULADO" ? (
                           <AnularVentasCobradas
                             idventa={idventa}
                             callback={load}
@@ -458,7 +465,7 @@ const BuscarVentaV3 = (props) => {
             />
           </Col>
         </Row>
-        <Row style={{display:"flex", justifyContent:"start"}}>
+        <Row style={{ display: "flex", justifyContent: "start" }}>
           <Col>
             {/*<ExportToExcel2
             fileName={"Ventas"}
@@ -557,8 +564,8 @@ const BuscarVentaV3 = (props) => {
               selectedVenta.estado === "INGRESADO"
                 ? "ingreso"
                 : selectedVenta.estado === "PENDIENTE"
-                ? "resfuerzo"
-                : "entrega"
+                  ? "resfuerzo"
+                  : "entrega"
             }
           />
         ) : (
@@ -584,6 +591,9 @@ const BuscarVentaV3 = (props) => {
           idventa={selectedVenta?.idventa}
           idcliente={selectedVenta?.idcliente}
         />
+      </Modal>
+      <Modal open={popupAnularOpen} onCancel={_ => {setPopupAnularOpen(false); setReload(!reload)}} width="800px" footer={null} destroyOnClose>
+        <AnularVentasCobradas idventa={selectedVenta?.idventa} />
       </Modal>
     </>
   );
