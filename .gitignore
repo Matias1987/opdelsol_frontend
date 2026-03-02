@@ -33,3 +33,5 @@ yarn-error.log*
 
 #includes url configuration 
 /src/config.js
+
+global.env
