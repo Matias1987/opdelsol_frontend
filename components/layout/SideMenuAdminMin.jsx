@@ -58,7 +58,7 @@ const SideMenuAdminMin = ({ collapsed }) => {
           icon={<DashboardOutlined />}
           onClick={() => router.push("/v1/admin/")}
         >
-          Overview
+          Inicio
         </Menu.Item>
         <Menu.Item
           key="/v1/admin/lista_cajas/"

@@ -171,11 +171,9 @@ const InformeVentaMinV3 = (props) => {
 				</tbody>
 			</table>
 			</div>
-			<hr />
-			<h3>Lista de Cobros</h3>
-			<ListaCobros idventa={data.idventa} readOnly={true} idsucursal={data.sucursal_idsucursal} />
-			<h3>Anotaciones</h3>
 			<Anotaciones idref={data.idventa} tipo={"VENTA"}  />
+			<ListaCobros idventa={data.idventa} readOnly={true} idsucursal={data.sucursal_idsucursal} />
+			
 		</>
     )
 }

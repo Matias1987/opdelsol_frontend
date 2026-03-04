@@ -1,13 +1,13 @@
 import ExportToExcel2 from "@/components/etc/ExportToExcel2";
 import ExportToCSV from "@/components/ExportToCSV";
 import { post_method } from "@/src/helpers/post_helper";
-import { currency_format } from "@/src/helpers/string_helper";
 import { get, post } from "@/src/urls";
 import { InfoCircleOutlined } from "@ant-design/icons";
 import { Table, Button, Card, Select, Row, Col, Modal } from "antd";
 import { useEffect, useState } from "react";
 import FiltrosInforme from "./FiltrosInforme";
 import { formatFloat } from "@/src/helpers/formatters";
+import ListaVentasVendedor from "../ListaVentasVendedor";
 
 const VentasVendedor = (props) => {
   // const { filtros, actualizar } = props;
@@ -36,7 +36,7 @@ const VentasVendedor = (props) => {
               type="link"
               size="small"
               onClick={() => {
-                onDetalleLisaVentasClick(filtros.fksucursal, idusuario);
+                onDetalleLisaVentasClick(idusuario);
               }}
             >
               <InfoCircleOutlined />
@@ -53,6 +53,7 @@ const VentasVendedor = (props) => {
       render: (_, { cantidad_ventas }) => (
         <div style={money_style}>{cantidad_ventas}</div>
       ),
+      sorter: (a, b) => +a.cantidad_ventas - +b.cantidad_ventas,
     },
     {
       width: "100px",
@@ -113,8 +114,14 @@ const VentasVendedor = (props) => {
           {formatFloat  (total)}
         </div>
       ),
+      sorter: (a, b) => +a.total - +b.total,
     },
   ];
+
+  const onDetalleLisaVentasClick = (idusuario) => {
+    setSelectedVendedor(idusuario);
+    setPopupListaVentasOpen(true);
+  }
 
   const money_style = {
     textAlign: "right",
@@ -246,12 +253,12 @@ const VentasVendedor = (props) => {
             parseFnt={() => {
               let s = filtros.nombreSucursal;
               let str = "";
-              str += `MES:,${filtros.mes}, ANIO:,${filtros.anio}, ,,,\r\n`;
-              str += `SUCURSAL:,${s || ""},,,,,,\r\n`;
+              str += `MES:,${filtros.mes}, ANIO:,${filtros.anio}, ,,,,\r\n`;
+              str += `SUCURSAL:,${s || ""},,,,,,,\r\n`;
               str +=
-                "usuario, efectivo, tarjeta,  cheque, ctacte, mutual, mp , total\r\n";
+                "usuario, cantidad, efectivo, tarjeta,  cheque, ctacte, mutual, mp , total\r\n";
               dataSource.forEach((r) => {
-                str += `${r.usuario},${r.efectivo},${r.tarjeta},${r.cheque},${r.ctacte},${r.mutual},${r.mp},${r.total}\r\n`;
+                str += `${r.usuario},${r.cantidad_ventas},${r.efectivo},${r.tarjeta},${r.cheque},${r.ctacte},${r.mutual},${r.mp},${r.total}\r\n`;
               });
               return str;
             }}
@@ -264,8 +271,10 @@ const VentasVendedor = (props) => {
       destroyOnClose
       onCancel={_=>{setPopupListaVentasOpen(false)}}
       footer={null}
+      title={`Ventas del vendedor ${usuarios.find(u=>u.value==selectedVendedor)?.label || ""} - período ${filtros.mes}/${filtros.anio}`}
       
       >
+        <ListaVentasVendedor idvendedor={selectedVendedor} idsucursal={filtros.fksucursal} mes={filtros.mes} anio={filtros.anio} />
 
       </Modal>
     </>

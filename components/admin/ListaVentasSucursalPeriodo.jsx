@@ -2,7 +2,6 @@ import { post_method } from "@/src/helpers/post_helper";
 import { post } from "@/src/urls";
 import { InfoCircleFilled } from "@ant-design/icons";
 import { Button, Col, Modal, Row, Table } from "antd";
-import VentaDetallePopup from "../VentaDetalle";
 import InformeVentaMinV3 from "../informes/ventas/InformeVentasMinV3";
 import { formatFloat } from "@/src/helpers/formatters";
 

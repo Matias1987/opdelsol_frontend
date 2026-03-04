@@ -14,7 +14,6 @@ import {
   Table,
 } from "antd";
 import { useEffect, useState } from "react";
-import VentaDetallePopup from "../VentaDetalle";
 import SucursalSelect from "../SucursalSelect";
 import AnularVentasCobradas from "./anularVentasCobradas";
 import InformeVentaMinV3 from "@/components/informes/ventas/InformeVentasMinV3";

@@ -62,7 +62,7 @@ const SideMenuAdmin = ({ collapsed }) => {
           icon={<DashboardOutlined />}
           onClick={() => router.push("/v1/admin/")}
         >
-          Overview
+          Inicio
         </Menu.Item>
         <Menu.Item
           key="/v1/admin/custm/dsolch/panel_admin_caja/"

@@ -1,7 +1,5 @@
 import { DollarCircleFilled, DollarCircleOutlined, DollarCircleTwoTone, LogoutOutlined, UserAddOutlined } from "@ant-design/icons"
-import { Avatar, Col, List, Row, Select } from "antd"
-import VentaDetallePopup from "../VentaDetalle"
-import InformeX from "../informes/caja/InformeX"
+import { Col, List, Row, Select } from "antd"
 import { post_method } from "@/src/helpers/post_helper"
 
 const { get, post } = require("@/src/urls")
@@ -64,7 +62,7 @@ const Eventos = (props) => {
     const buttons = (tipo, id) => {
         switch(tipo){
             case "USER_LOGIN": return <></>
-            case "VENTA": return <VentaDetallePopup idventa={id} />
+            case "VENTA": return <></>
             case "COBRO": return <></>
             case "GASTO": return <></>
         }

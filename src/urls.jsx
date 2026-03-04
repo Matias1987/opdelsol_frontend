@@ -270,6 +270,8 @@ const post = {
 
     obtener_stock_cristales: remote_base_url + "sc/get/stock/",
 
+    obtener_ventas_vendedor_mes: remote_base_url + "ventas/inf/v/lista_vtas_mes/",
+
     search:{
         filtro_stock: remote_base_url + "stock/filtro_stock/",
     },

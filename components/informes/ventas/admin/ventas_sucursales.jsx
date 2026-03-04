@@ -1,6 +1,5 @@
 import ListaVentasSucursalPeriodo from "@/components/admin/ListaVentasSucursalPeriodo";
 import { post_method } from "@/src/helpers/post_helper";
-import { currency_format } from "@/src/helpers/string_helper";
 import { get, post } from "@/src/urls";
 import { InfoCircleOutlined } from "@ant-design/icons";
 
@@ -59,7 +58,16 @@ const VentasSucursales = (props) => {
     { width: "100px", dataIndex: "sucursal", title: "sucursal", sorter: (a, b) => a.sucursal.localeCompare(b.sucursal) },
     {
       width: "100px",
-      dataIndex: "efectivo",
+      dataIndex: "cantidad_ventas",
+      title: <div style={{ textAlign: "right" }}>Cantidad</div>,
+      render: (_, { cantidad_ventas }) => (
+        <div style={{textAlign:"right"}}>{(cantidad_ventas)}</div>
+      ),
+      sorter: (a, b) => +a.cantidad_ventas - +b.cantidad_ventas,
+    },
+    {
+      width: "100px",
+      dataIndex: "Efectivo",
       title: <div style={{ textAlign: "right" }}>efectivo</div>,
       render: (_, { efectivo }) => (
         <div style={money_style}>{formatFloat(efectivo)}</div>
@@ -67,7 +75,7 @@ const VentasSucursales = (props) => {
     },
     {
       width: "100px",
-      dataIndex: "tarjeta",
+      dataIndex: "Tarjeta",
       title: <div style={{ textAlign: "right" }}>tarjeta</div>,
       render: (_, { tarjeta }) => (
         <div style={money_style}>{formatFloat(tarjeta)}</div>
@@ -75,7 +83,7 @@ const VentasSucursales = (props) => {
     },
     {
       width: "100px",
-      dataIndex: "cheque",
+      dataIndex: "Cheque",
       title: <div style={{ textAlign: "right" }}>cheque</div>,
       render: (_, { cheque }) => (
         <div style={money_style}>{formatFloat(cheque)}</div>
@@ -83,7 +91,7 @@ const VentasSucursales = (props) => {
     },
     {
       width: "100px",
-      dataIndex: "ctacte",
+      dataIndex: "Ctacte",
       title: <div style={{ textAlign: "right" }}>ctacte</div>,
       render: (_, { ctacte }) => (
         <div style={money_style}>{formatFloat(ctacte)}</div>
@@ -91,7 +99,7 @@ const VentasSucursales = (props) => {
     },
     {
       width: "100px",
-      dataIndex: "mutual",
+      dataIndex: "Mutual",
       title: <div style={{ textAlign: "right" }}>mutual</div>,
       render: (_, { mutual }) => (
         <div style={money_style}>{formatFloat(mutual)}</div>
@@ -99,7 +107,7 @@ const VentasSucursales = (props) => {
     },
     {
       width: "100px",
-      dataIndex: "mp",
+      dataIndex: "Mp",
       title: <div style={{ textAlign: "right" }}>mp</div>,
       render: (_, { mp }) => (
         <div style={money_style}>{formatFloat(mp)}</div>
@@ -108,7 +116,7 @@ const VentasSucursales = (props) => {
     {
       fixed: "right",
       width: "120px",
-      dataIndex: "total",
+      dataIndex: "Total",
       sorter: (a,b)=>parseFloat(a.total)-parseFloat(b.total) ,
       title: <div style={{ textAlign: "right" }}>total</div>,
       render: (_, { total }) => (
@@ -133,6 +141,7 @@ const VentasSucursales = (props) => {
           mutual: r.mutual,
           mp: r.mp,
           total: r.total,
+          cantidad_ventas: r.cantidad_ventas,
         }))
       );
     });
