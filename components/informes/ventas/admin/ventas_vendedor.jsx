@@ -4,7 +4,7 @@ import { post_method } from "@/src/helpers/post_helper";
 import { currency_format } from "@/src/helpers/string_helper";
 import { get, post } from "@/src/urls";
 import { InfoCircleOutlined } from "@ant-design/icons";
-import { Table, Button, Card, Select, Row, Col } from "antd";
+import { Table, Button, Card, Select, Row, Col, Modal } from "antd";
 import { useEffect, useState } from "react";
 import FiltrosInforme from "./FiltrosInforme";
 import { formatFloat } from "@/src/helpers/formatters";
@@ -13,6 +13,8 @@ const VentasVendedor = (props) => {
   // const { filtros, actualizar } = props;
   const [dataSource, setDatasource] = useState([]);
   const [usuarios, setUsuarios] = useState([]);
+  const [selectedVendedor, setSelectedVendedor] = useState(null);
+  const [popupListaVentasOpen, setPopupListaVentasOpen] = useState(false);
   const [filtros, setFiltros] = useState({
     mes: 1,
     anio: 2023,
@@ -46,12 +48,21 @@ const VentasVendedor = (props) => {
     { width: "100px", dataIndex: "usuario", title: "usuario", sorter: (a, b) => a.usuario.localeCompare(b.usuario), },
     {
       width: "100px",
+      dataIndex: "cantidad_ventas",
+      title: <div style={{ textAlign: "right" }}>cantidad</div>,
+      render: (_, { cantidad_ventas }) => (
+        <div style={money_style}>{cantidad_ventas}</div>
+      ),
+    },
+    {
+      width: "100px",
       dataIndex: "efectivo",
       title: <div style={{ textAlign: "right" }}>efectivo</div>,
       render: (_, { efectivo }) => (
         <div style={money_style}>{formatFloat(efectivo)}</div>
       ),
     },
+    
     {
       width: "100px",
       dataIndex: "tarjeta",
@@ -133,6 +144,7 @@ const VentasVendedor = (props) => {
           mutual: r.mutual,
           mp: r.mp,
           total: r.total,
+          cantidad_ventas: r.cantidad_ventas,
         }))
       );
     });
@@ -199,7 +211,7 @@ const VentasVendedor = (props) => {
               return (
                 <>
                   <Table.Summary.Row>
-                    <Table.Summary.Cell colSpan={2}>
+                    <Table.Summary.Cell colSpan={3}>
                       TOTALES:
                     </Table.Summary.Cell>
                     <Table.Summary.Cell align={"right"}>
@@ -246,6 +258,16 @@ const VentasVendedor = (props) => {
           />
         </>
       </Card>
+      <Modal
+      open={popupListaVentasOpen}
+      width={"1200px"}
+      destroyOnClose
+      onCancel={_=>{setPopupListaVentasOpen(false)}}
+      footer={null}
+      
+      >
+
+      </Modal>
     </>
   );
 };

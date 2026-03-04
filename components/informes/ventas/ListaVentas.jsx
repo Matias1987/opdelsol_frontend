@@ -38,6 +38,7 @@ import ExportToExcel2 from "@/components/etc/ExportToExcel2";
  * @param enviar_a_sucursal
  * @param ocultarFiltros
  * @param estado_taller
+ * @param idsucursal
  */
 const ListaVentas = (props) => {
   const { estado, hideReloadBtn, hideEstadoDeposito } = props;
