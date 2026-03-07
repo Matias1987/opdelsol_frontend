@@ -8,6 +8,8 @@ import { submit_venta } from "@/src/helpers/ventas_helper";
 import { Modal } from "antd";
 import PrinterWrapper from "@/components/PrinterWrapper";
 import InformeVenta from "@/components/informes/ventas/Base";
+import InformeX from "@/components/informes/caja/InformeX";
+import VentaBaseV3 from "@/components/forms/ventas/VentaBaseV3";
 
 export default function VentaLCStock() {
   const [total, setTotal] = useState(0);
@@ -16,6 +18,8 @@ export default function VentaLCStock() {
   const [productos, setProductos] = useState(null);
   const [idVenta, setIdVenta] = useState(-1);
   const [printOpen, setPrintOpen] = useState(false);
+  const [printPopupXOpen, setPrintPoupXOpen] = useState(false);
+  const [idCobro, setIdCobro] = useState(-1);
 
   const onProductosChange = (_p) => {
     var _total = 0;
@@ -37,15 +41,19 @@ export default function VentaLCStock() {
       subTotal,
       globals.tiposVenta.LCSTOCK,
       true,
-      (idventa) => {
-        setIdVenta(idventa);
+      (responseData) => {
+        const { idVenta, idCobro } = responseData;
+        setIdVenta(idVenta);
         setPrintOpen(true);
+        if (idCobro){
+          setIdCobro(idCobro);
+        }
       },
       {},
       (_) => {
         onFailValidation();
       },
-      true //medico required
+      true, //medico required
     );
   };
 
@@ -58,12 +66,16 @@ export default function VentaLCStock() {
 
   const onClosePrintPopup = (_) => {
     setPrintOpen(false);
-    window.location.replace(public_urls.dashboard_venta);
+    if (idCobro > 0) {
+      setPrintPoupXOpen(true);
+    } else {
+      window.location.replace(public_urls.dashboard_venta);
+    }
   };
 
   return (
     <>
-      <VentaBase
+      <VentaBaseV3
         title={"Venta de Lentes de Contacto Stock"}
         medicoRequired={true}
         subTotal={subTotal}
@@ -72,19 +84,37 @@ export default function VentaLCStock() {
         callback={callback_venta_modif}
       >
         <LCStockItems callback={onProductosChange} />
-      </VentaBase>
-      {<Modal width={"100%"} open={idVenta!=-1 && printOpen} onOk={()=>{onClosePrintPopup()}} onCancel={()=>{onClosePrintPopup()}} footer={null} >
-            <PrinterWrapper>
-                <InformeVenta idventa={idVenta} />
-            </PrinterWrapper>
-    </Modal>}
-      {/*<InformeVentaV2
-        idventa={idVenta}
-        open={idVenta != -1 && printOpen}
-        hidebutton={true}
-        key={idVenta}
-        onclose={onClosePrintPopup}
-      />*/}
+      </VentaBaseV3>
+      {
+        <Modal
+          width={"100%"}
+          open={idVenta != -1 && printOpen}
+          onOk={() => {
+            onClosePrintPopup();
+          }}
+          onCancel={() => {
+            onClosePrintPopup();
+          }}
+          footer={null}
+        >
+          <PrinterWrapper>
+            <InformeVenta idventa={idVenta} />
+          </PrinterWrapper>
+        </Modal>
+      }
+      <Modal
+        open={printPopupXOpen}
+        onCancel={() => {
+          setPrintPoupXOpen(false);
+          window.location.replace(public_urls.dashboard_venta);
+        }}
+        footer={null}
+        width={"1200px"}
+        title="Informe X"
+        destroyOnClose
+      >
+        <InformeX idcobro={idCobro} />
+      </Modal>
     </>
   );
 }

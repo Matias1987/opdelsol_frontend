@@ -87,6 +87,7 @@ const VDItem = (props) => {
     </Modal>
 
     <Table 
+    scroll={{y:"400px"}}
     pagination={false}
     rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'}
     

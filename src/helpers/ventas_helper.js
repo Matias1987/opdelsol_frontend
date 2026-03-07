@@ -139,6 +139,17 @@ const submit_venta = (v, productos,total,subTotal, tipo_vta, validate_items, cal
         }
     }
 
+    if(v.cobrar)
+    {
+        if(v.mp && v.entrega){
+            if(v.mp.total < (total - v.descuento)){
+                alert("Saldo mayor a 0")
+                callbackOnFailValidation?.()
+                return false
+            }
+        }
+    }
+
     if(productos==null)
     {
         alert("Sin Productos")

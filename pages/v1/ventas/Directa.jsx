@@ -8,7 +8,8 @@ import { submit_venta } from "@/src/helpers/ventas_helper";
 import { Modal } from "antd";
 import PrinterWrapper from "@/components/PrinterWrapper";
 import InformeVenta from "@/components/informes/ventas/Base";
-import { useLeavePageConfirm } from "@/src/hooks/useLeavePageConfirm";
+import VentaBaseV3 from "@/components/forms/ventas/VentaBaseV3";
+import InformeX from "@/components/informes/caja/InformeX";
 
 export default function VentaDirecta() {
   const [venta, setVenta] = useState(null);
@@ -17,10 +18,8 @@ export default function VentaDirecta() {
   const [subTotal, setSubTotal] = useState(0);
   const [idVenta, setIdVenta] = useState(-1);
   const [printOpen, setPrintOpen] = useState(false);
-
-/*  const [isFormDirty, setIsFormDirty] = useState(true);
-  
-  useLeavePageConfirm(isFormDirty);*/
+  const [printPopupXOpen, setPrintPoupXOpen] = useState(false);
+  const [idCobro, setIdCobro] = useState(-1);
 
   const callback_venta_modif = (_venta) => {
     setVenta((v) => {
@@ -31,11 +30,16 @@ export default function VentaDirecta() {
   };
   const onClosePrintPopup = (_) => {
     setPrintOpen(false);
-    window.location.replace(public_urls.dashboard_venta);
+    if(idCobro>0){
+      setPrintPoupXOpen(true);
+    }
+    else{
+      window.location.replace(public_urls.dashboard_venta);
+    }
   };
   return (
     <>
-      <VentaBase
+      <VentaBaseV3
         title={"Venta Directa"}
         medicoRequired={false}
         subTotal={subTotal}
@@ -50,15 +54,18 @@ export default function VentaDirecta() {
             subTotal,
             globals.tiposVenta.DIRECTA,
             false,
-            (idventa) => {
-              console.log(JSON.stringify(productos));
-              setIdVenta(idventa);
+            (responseData) => {
+              const { idVenta, idCobro } = responseData;
+              setIdVenta(idVenta);
               setPrintOpen(true);
+              if (idCobro){
+                setIdCobro(idCobro);
+              }
             },
             { ignore_fecha_retiro: 1 },
             () => {
               onFailValidation();
-            }
+            },
           );
         }}
       >
@@ -74,7 +81,7 @@ export default function VentaDirecta() {
             setTotal((_total) => t - dto);
           }}
         />
-      </VentaBase>
+      </VentaBaseV3>
       {
         <Modal
           width={"100%"}
@@ -92,7 +99,19 @@ export default function VentaDirecta() {
           </PrinterWrapper>
         </Modal>
       }
-      {/*<InformeVentaV2 idventa={idVenta} open={idVenta!=-1 && printOpen} hidebutton={true} key={idVenta} onclose={onClosePrintPopup}/>*/}
+      <Modal
+        open={printPopupXOpen}
+        onCancel={() => {
+          setPrintPoupXOpen(false);
+          window.location.replace(public_urls.dashboard_venta);
+        }}
+        footer={null}
+        width={"1200px"}
+        title="Informe X"
+        destroyOnClose
+      >
+        <InformeX idcobro={idCobro} />
+      </Modal>
     </>
   );
 }
