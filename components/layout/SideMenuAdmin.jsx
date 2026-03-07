@@ -73,15 +73,15 @@ const SideMenuAdmin = ({ collapsed }) => {
         >
           Cajas
         </Menu.Item>
-        {/*<Menu.Item
-          key="/v1/admin/lista_cajas/"
+        {<Menu.Item
+          key="/v1/admin/lista_precios/"
           icon={<DollarOutlined />}
           onClick={() =>
-            router.push("/v1/admin/lista_cajas/")
+            router.push("/v1/admin/lista_precios/")
           }
         >
-          Cajas
-        </Menu.Item>*/}
+          Lista de Precios
+        </Menu.Item>}
         <Menu.Item
           key="/v1/admin/ventas/"
           icon={<DollarOutlined />}
