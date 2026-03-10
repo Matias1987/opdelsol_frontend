@@ -141,6 +141,11 @@ const submit_venta = (v, productos,total,subTotal, tipo_vta, validate_items, cal
 
     if(v.cobrar)
     {
+        if(!v.mp && v.entrega && (+total-+v.descuento)>0 ){
+            alert("Saldo mayor a 0")
+                callbackOnFailValidation?.()
+                return false
+        }
         if(v.mp && v.entrega){
             if(v.mp.total < (total - v.descuento)){
                 alert("Saldo mayor a 0")
@@ -249,12 +254,13 @@ const submit_venta = (v, productos,total,subTotal, tipo_vta, validate_items, cal
                     if(confirm("Confirmar Venta"))
                     {
                         post_method(post.insert.venta,__venta,(response)=>{
+                            //alert(JSON.stringify(response.data))
                             //THIS SHOULD NOT BE HERE! but it is
-                            post_method(post.update.desc_cantidades_stock_venta,{idventa: response.data, idsucursal: globals.obtenerSucursal()},()=>{
+                            post_method(post.update.desc_cantidades_stock_venta,{idventa: response.data.idVenta, idsucursal: globals.obtenerSucursal()},()=>{
                                 console.log("Cantidades descontadas? ...")
                             })
 
-                            registrar_evento("VENTA", "Venta Generada $" + total, response.data)
+                            registrar_evento("VENTA", "Venta Generada $" + total, response.data.idVenta)
             
                             callbackOnComplete?.(response.data)
                                 
