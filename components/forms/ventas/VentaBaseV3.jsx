@@ -5,6 +5,7 @@ import TotalesVenta from "@/components/forms/ventas/TotalVenta";
 import globals from "@/src/globals";
 import {
   cambiar_vendedor,
+  cobro_inmediato,
   formulario_venta_estandar,
   use_owner_id,
 } from "@/src/config";
@@ -63,7 +64,7 @@ export default function VentaBaseV3(props) {
     tk: globals.getToken(),
     uid: "",
     entrega: false,
-    cobrar: true,
+    cobrar: cobro_inmediato,
   });
 
   const onChange = (field, value) => {
@@ -469,6 +470,7 @@ export default function VentaBaseV3(props) {
             </Col>
           </Row>
           <Divider />
+          {!cobro_inmediato ? <></> :
           <Row>
             <Col span={24}>
               <Form.Item>
@@ -485,6 +487,7 @@ export default function VentaBaseV3(props) {
               </Form.Item>
             </Col>
           </Row>
+          }
           <Row>
             <Col span={24}>
               <Form.Item>

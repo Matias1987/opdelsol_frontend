@@ -120,12 +120,12 @@ const OpcionesVenta = (props) => {
       key: menuOptions.RESFUERZO,
       icon: <DollarOutlined />,
     },
-    {
+    /*{
       disabled: idf_optica!=1,
       label: "Enviar a Depósito",
       key: menuOptions.DEVOLUCION,
       icon: <BackwardOutlined />,
-    },
+    },*/
     {
       label: "Anular",
       key: menuOptions.ANULAR_COBRADAS,
@@ -164,12 +164,12 @@ const OpcionesVenta = (props) => {
       key: menuOptions.IMPRIMIR,
       icon: <PrinterOutlined />,
     },
-    {
+    /*{
       disabled: idf_optica!=1,
       label: "Enviar a Depósito",
       key: menuOptions.DEVOLUCION,
       icon: <BackwardOutlined />,
-    },
+    },*/
     {
       label: "Anular",
       key: menuOptions.ANULAR_COBRADAS,

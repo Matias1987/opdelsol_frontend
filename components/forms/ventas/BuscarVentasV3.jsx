@@ -183,12 +183,7 @@ const BuscarVentaV3 = (props) => {
         { idventa: _venta.idventa, estado: "ANULADO" },
         (resp) => {
           setReload(!reload);
-          alert("OK");
-          post_method(
-            post.update.inc_cantidades_stock_venta,
-            { idventa: _venta.idventa, idsucursal: globals.obtenerSucursal() },
-            (response) => { }
-          );
+          alert("Venta Anulada");
           registrarVentaAnulado(_venta.idventa);
         }
       );

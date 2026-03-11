@@ -17,6 +17,7 @@ const SucursalSelectModal = (props) => {
         fetch(get.sucursales)
         .then(r=>r.json())
         .then(response=>{
+         
             setSucursales(
                 [
                     ...[{label:"-", value:"-1"}],
@@ -26,6 +27,7 @@ const SucursalSelectModal = (props) => {
                         idoptica: r.fkoptica,
                         fk_localidad: r.fk_localidad,
                         fk_provincia: r.fk_provincia,
+                        cobro_inmediato: +r.cobro_inmediato==1
                         //useTaller: r.set_env_op_taller,
                     }))
                 ]
@@ -77,19 +79,20 @@ const SucursalSelectModal = (props) => {
             },
             (res)=>{
                 const {setItem} = useStorage();
+                const sucursal = sucursales.find(s=>s.value==selectedSucursal);
+                setItem("cobro_inmediato",  sucursal.cobro_inmediato);
+                setItem("ventas",       res.data[0].ventas);
+                setItem("caja1",        res.data[0].caja1);
+                setItem("caja2",        res.data[0].caja2);
+                setItem("deposito_min", res.data[0].deposito_min);
+                setItem("deposito",     res.data[0].deposito);
+                setItem("admin1",       res.data[0].admin1);
+                setItem("admin2",       res.data[0].admin2);
+                setItem("laboratorio",  res.data[0].laboratorio);
                 
-                setItem("ventas",       res.data[0].ventas)
-                setItem("caja1",        res.data[0].caja1)
-                setItem("caja2",        res.data[0].caja2)
-                setItem("deposito_min", res.data[0].deposito_min)
-                setItem("deposito",     res.data[0].deposito)
-                setItem("admin1",       res.data[0].admin1)
-                setItem("admin2",       res.data[0].admin2)
-                setItem("laboratorio",  res.data[0].laboratorio)
-                
-                setOpen(false)
+                setOpen(false);
                
-                props?.callback?.(selectedSucursal)
+                props?.callback?.(selectedSucursal);
             }
         )
     }

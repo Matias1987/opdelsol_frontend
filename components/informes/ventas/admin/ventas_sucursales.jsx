@@ -189,7 +189,7 @@ const VentasSucursales = (props) => {
             return (
               <>
                 <Table.Summary.Row>
-                  <Table.Summary.Cell colSpan={2}>TOTALES:</Table.Summary.Cell>
+                  <Table.Summary.Cell colSpan={3}>TOTALES:</Table.Summary.Cell>
                   <Table.Summary.Cell align={"right"}>
                     <b>{formatFloat(totalEfvo)}</b>
                   </Table.Summary.Cell>

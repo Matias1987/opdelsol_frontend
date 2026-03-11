@@ -104,7 +104,7 @@ const PopupResultadoBusqueda = (props) => {
             </Row>
             
         </Modal>
-        <PopupDetalleBusqueda open={openDetalle} busqueda={codigo} callback={()=>{setOpenDetalle(false); setBusqueda(null); props?.callback?.()}} />
+        <PopupDetalleBusqueda open={openDetalle} busqueda={codigo} callback={()=>{setOpenDetalle(false); setBusqueda(null); }} />
     </>
 }
 
