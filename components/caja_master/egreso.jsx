@@ -2,6 +2,7 @@ import { post_method } from "@/src/helpers/post_helper";
 import { get, post } from "@/src/urls";
 import { Button, Col, Input, Row, Select } from "antd";
 import { useEffect, useState } from "react";
+import EgresoModo from "./egreso_modo";
 
 const Egreso = (props) => {
   const {callback, aCajaMaster} = props;
@@ -68,6 +69,11 @@ const Egreso = (props) => {
             type="number"
             onChange={(e) => setEgreso({ ...egreso, monto: e.target.value })}
           />
+        </Col>
+      </Row>
+      <Row style={row_style}>
+        <Col span={24}>
+          <EgresoModo />
         </Col>
       </Row>
       <Row style={row_style}>
