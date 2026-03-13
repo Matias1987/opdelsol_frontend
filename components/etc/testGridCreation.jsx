@@ -1,3 +1,4 @@
+import globals from "@/src/globals";
 import { post_method } from "@/src/helpers/post_helper";
 import { get, post } from "@/src/urls";
 import {
@@ -22,7 +23,7 @@ const TestGridCreation = () => {
   const [btnAplicarEnabled, setBtnAplicarEnabled] = useState(true);
   const [cellsEdited, setCellsEdited] = useState(false);
   const [fkCodigo, setFkCodigo] = useState(58451);
-  const [fkSucursal, setFkSucursal] = useState(22);
+  const [fkSucursal, setFkSucursal] = useState(14);
 
   const [codigosCristales, setCodigosCristales] = useState(null);
   //#region styles
@@ -66,7 +67,7 @@ const TestGridCreation = () => {
   const on_save = () => {
     const dataToSave = {
       fk_codigo: fkCodigo,
-      fk_sucursal: fkSucursal,
+      fk_sucursal: 14,
       cells: data.map((d) => ({
         esf: `${parseFloat(d.esf).toFixed(2)}`,
         cil: `${parseFloat(d.cil).toFixed(2)}`,
@@ -237,6 +238,7 @@ const TestGridCreation = () => {
       if(response.data.length<1)
       {
         alert("No data")
+        setData([]);
         return;
       }
       const rango = get_range(response.data);
