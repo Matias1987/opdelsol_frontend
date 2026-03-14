@@ -7,7 +7,18 @@ import {
   SaveFilled,
   UnlockOutlined,
 } from "@ant-design/icons";
-import { Button, Checkbox, Col, Divider, Input, Modal, Radio, Row, Select } from "antd";
+import {
+  Button,
+  Card,
+  Checkbox,
+  Col,
+  Divider,
+  Input,
+  Modal,
+  Radio,
+  Row,
+  Select,
+} from "antd";
 import { useEffect, useState } from "react";
 
 const TestGridCreation = () => {
@@ -24,8 +35,9 @@ const TestGridCreation = () => {
   const [cellsEdited, setCellsEdited] = useState(false);
   const [fkCodigo, setFkCodigo] = useState(58451);
   const [fkSucursal, setFkSucursal] = useState(14);
-
+  const [cellsWithQuantity, setCellsWithQuantity] = useState([]);
   const [codigosCristales, setCodigosCristales] = useState(null);
+  const [selectedCodigoLabel, setSelectedCodigoLabel] = useState("");
   //#region styles
   const diagonal_cell = {
     background: "linear-gradient(to top right, #fff 49%, #ccc 50%, #fff 51%)",
@@ -40,15 +52,27 @@ const TestGridCreation = () => {
     padding: "6px 12px",
     textAlign: "center",
     cursor: "pointer",
-    backgroundColor: "#bcfbff",
+    backgroundColor: "#feffce",
     fontWeight: "400",
   };
-  const td_style_editing = {
-    border: "1px solid #dbdbdb",
+  const td_style_pending_save = {
+    border: "2px dotted #dbdbdb",
     padding: "6px 12px",
     textAlign: "center",
     cursor: "pointer",
-    backgroundColor: "#faecac",
+    fontWeight: "600",
+    color: "white",
+    backgroundColor: "#ff0101",
+  };
+
+  const td_style_with_quantity = {
+    border: "2px dotted #dbdbdb",
+    padding: "6px 12px",
+    textAlign: "center",
+    cursor: "pointer",
+    backgroundColor: "#008011",
+    fontWeight: "600",
+    color: "white",
   };
 
   const th_style = {
@@ -64,6 +88,16 @@ const TestGridCreation = () => {
   };
   //#endregion
 
+  const addCellWithQuantity = (esf, cil, tempArray) => {
+    const strVal = `${+esf}-${+cil}`;
+    return !tempArray.find((c) => c === strVal)
+      ? [...tempArray, strVal]
+      : tempArray;
+  };
+
+  const cellsWithQuantityContains = (esf, cil) =>
+    cellsWithQuantity.find((c) => c === `${+esf}-${+cil}`);
+
   const on_save = () => {
     const dataToSave = {
       fk_codigo: fkCodigo,
@@ -77,9 +111,14 @@ const TestGridCreation = () => {
     };
     //alert(JSON.stringify(dataToSave))
     //save to db.... TO DO
-    post_method(post.insert.insert_stock_cristal_grid, dataToSave, (response) => {
-      alert("Datos Guardados");
-    })
+    post_method(
+      post.insert.insert_stock_cristal_grid,
+      dataToSave,
+      (response) => {
+        alert("Datos Guardados");
+        load(fkCodigo);
+      },
+    );
   };
 
   const edit_quantity = (esf, cil, quantity) => {
@@ -99,45 +138,54 @@ const TestGridCreation = () => {
   const set_cell_editing = (esf, cil) => {
     const new_data = data.map((d) => {
       if (d.esf == esf && d.cil == cil) {
-        return { ...d, editing: true };
+        return { ...d, pendingSave: true };
       }
-      return { ...d, editing: false };
+      return { ...d };
     });
     setData(new_data);
   };
 
   const get_qtty_from_array = (src, _esf, _cil) => {
-
-    const record = src.find(r => (Math.abs(parseFloat(r.esf)) === _esf && Math.abs(parseFloat(r.cil)) === _cil));
+    const record = src.find(
+      (r) =>
+        Math.abs(parseFloat(r.esf)) === _esf &&
+        Math.abs(parseFloat(r.cil)) === _cil,
+    );
     if (!record) {
       //alert("Row not fount: " + JSON.stringify({_esf, _cil}));
       return -1;
     }
 
     return record.cantidad;
+  };
 
-  }
-
-  const prepare = (p_esf_from, p_esf_to, p_cil_from, p_cil_to, source = null) => {
-    if (cellsEdited) {
+  const prepare = (
+    p_esf_from,
+    p_esf_to,
+    p_cil_from,
+    p_cil_to,
+    source = null,
+  ) => {
+    /*if (cellsEdited) {
       const confirm = window.confirm(
         "Hay celdas editadas. Si continua se perderan los cambios. Desea continuar?",
       );
       if (!confirm) {
         return;
       }
-    }
+    }*/
     setBtnAplicarEnabled(false);
     setCellsEdited(false);
     const cells_data = [];
     const _cols = [];
+    let _cellsWithQuantity = [];
     for (let i = p_esf_from; i <= p_esf_to; i += 0.25) {
       for (let j = p_cil_from; j <= p_cil_to; j += 0.25) {
         cells_data.push({
           esf: i,
           cil: j,
           cantidad: source ? get_qtty_from_array(source, i, j) : 0,
-          editing: false,
+          pendingSave: false,
         });
         if (i == p_esf_from) {
           _cols.push(j.toFixed(2));
@@ -145,8 +193,19 @@ const TestGridCreation = () => {
       }
     }
 
+    cells_data.forEach((c) => {
+      if (c.cantidad > 0) {
+        _cellsWithQuantity = addCellWithQuantity(
+          c.esf,
+          c.cil,
+          _cellsWithQuantity,
+        );
+      }
+    });
+
     setData(cells_data);
     setCols(_cols);
+    setCellsWithQuantity(_cellsWithQuantity);
   };
 
   const get_grid = () => (
@@ -176,9 +235,11 @@ const TestGridCreation = () => {
                   <td
                     style={
                       data.filter((d) => d.esf == esf_value && d.cil == col)[0]
-                        ?.editing
-                        ? td_style_editing
-                        : td_style
+                        ?.pendingSave
+                        ? td_style_pending_save
+                        : cellsWithQuantityContains(esf_value, col)
+                          ? td_style_with_quantity
+                          : td_style
                     }
                     onClick={() => {
                       setSelectedCell({ esf: esf_value, cil: col });
@@ -200,15 +261,14 @@ const TestGridCreation = () => {
   );
 
   const get_range = (loadedData) => {
-
-    const get_val = strv => Math.abs(parseFloat(strv));
+    const get_val = (strv) => Math.abs(parseFloat(strv));
 
     let min_esf = 9999;
     let max_esf = -9999;
     let min_cil = 9999;
     let max_cil = -9999;
 
-    loadedData.forEach(row => {
+    loadedData.forEach((row) => {
       min_esf = get_val(row.esf) < min_esf ? get_val(row.esf) : min_esf;
       max_esf = get_val(row.esf) > max_esf ? get_val(row.esf) : max_esf;
 
@@ -223,63 +283,76 @@ const TestGridCreation = () => {
     setEsfTo(max_esf);
 
     return { min_esf, max_esf, min_cil, max_cil };
-  }
+  };
 
-  const load = () => {
-    post_method(post.obtener_grilla_cristales, {fkCodigo, fkSucursal}, (response) => {
-      if (!response) {
-        alert("Response is null");
-        return;
-      }
-      if (!response.data) {
-        alert("Response data is null");
-        return;
-      }
-      if(response.data.length<1)
-      {
-        alert("No data")
-        setData([]);
-        return;
-      }
-      const rango = get_range(response.data);
+  const load = (_fkCodigo) => {
+    post_method(
+      post.obtener_grilla_cristales,
+      { fkCodigo: _fkCodigo, fkSucursal },
+      (response) => {
+        if (!response) {
+          alert("Response is null");
+          return;
+        }
+        if (!response.data) {
+          alert("Response data is null");
+          return;
+        }
+        if (response.data.length < 1) {
+          alert("No data");
+          setData([]);
+          return;
+        }
+        const rango = get_range(response.data);
 
-      prepare(rango.min_esf, rango.max_esf, rango.min_cil, rango.max_cil, response.data);
-    })
-  }
+        prepare(
+          rango.min_esf,
+          rango.max_esf,
+          rango.min_cil,
+          rango.max_cil,
+          response.data,
+        );
+      },
+    );
+  };
 
   const load_codigos_cristales = () => {
     fetch(get.obtener_codigos_cristales)
-      .then(r => r.json())
-      .then(response => {
-        setCodigosCristales(response.data.map(row => ({
-          label: row.codigo,
-          value: row.idcodigo,
-        })))
+      .then((r) => r.json())
+      .then((response) => {
+        setCodigosCristales(
+          response.data.map((row) => ({
+            label: row.codigo,
+            value: row.idcodigo,
+          })),
+        );
       })
-      .catch(e => { console.log("error") })
-  }
+      .catch((e) => {
+        console.log("error");
+      });
+  };
 
-  useEffect(() => { load_codigos_cristales(); }, [])
+  useEffect(() => {
+    load_codigos_cristales();
+  }, []);
 
   return (
     <>
-     
-      <Row gutter={[16,16]} style={{padding:"8px"}}>
-        <Col style={{paddingTop:"6px"}}>
-          Tipo Cristal:
-        </Col>
+      <Row gutter={[16, 16]} style={{ padding: "8px" }}>
+        <Col style={{ paddingTop: "6px" }}>Seleccione Tipo Cristal:</Col>
         <Col>
           <Select
+            placeholder="Seleccione un código de cristal"
             style={{ width: "400px" }}
             options={codigosCristales}
             onChange={(v) => {
               setFkCodigo(v);
+              setSelectedCodigoLabel(codigosCristales.find((c) => c.value == v)?.label || "");
+              load(v);
             }}
           />
         </Col>
-        <Col>
-          <Button type="primary" onClick={load}>Load</Button>
-        </Col>
+        
       </Row>
 
       <div
@@ -292,8 +365,6 @@ const TestGridCreation = () => {
           maxWidth: "600px",
         }}
       >
-
-
         <Row gutter={[16, 16]}>
           <Col
             style={{
@@ -380,7 +451,9 @@ const TestGridCreation = () => {
             <Button
               disabled={!btnAplicarEnabled}
               type="primary"
-              onClick={_ => { prepare(esf_from, esf_to, cil_from, cil_to) }}
+              onClick={(_) => {
+                prepare(esf_from, esf_to, cil_from, cil_to);
+              }}
             >
               Aplicar
             </Button>
@@ -402,9 +475,14 @@ const TestGridCreation = () => {
           )}
         </Row>
       </div>
-      <Row>
-        <Col span="24">{get_grid()}</Col>
-      </Row>
+      <Card 
+      size="small" 
+      title={"Grilla de Cristales " + selectedCodigoLabel} 
+      style={{ width: "100%" }}>
+        <Row>
+          <Col span="24">{get_grid()}</Col>
+        </Row>
+      </Card>
       <Divider />
       <Row style={{ paddingTop: "16px" }}>
         <Col span="24" style={{ textAlign: "left" }}>
