@@ -1,26 +1,10 @@
-/**
- * VALIDAR CAMPOS VENTA!!!!! TO DO 
- */
-
-//const { post } = require("../urls")
-/*import globals from "../globals";
-import {post} from "../urls";
-
-import {registrar_evento} from "./evento_helper";
-import {validar_modo_pago} from "./pago_helper";
-import {post_method} from "./post_helper";*/
-
-const { default: globals } = require("../globals");
-const { post } = require("../urls");
-const { registrar_evento } = require("./evento_helper");
-const { validar_modo_pago } = require("./pago_helper");
-const { post_method } = require("./post_helper");
-const { validate_only_numbers_and_letters } = require("./string_helper");
-
+import globals from "../globals";
+import { post } from "../urls";
+import { validar_modo_pago } from "./pago_helper";
+import { post_method } from "./post_helper";
 
 const validar_tipo = (arr, _root, field, aditional_fields) =>
 {
-    //alert(JSON.stringify(_root))
     if(_root[field + "_visible"])
     {
         if(_root[field] == null){
@@ -35,10 +19,8 @@ const validar_tipo = (arr, _root, field, aditional_fields) =>
         if(typeof aditional_fields !== 'undefined'){
         
             /**
-             * check if additional fields are empty!
-             * the default value of the aditional items should be an empty string... (TO DO!)
+             * check if additional fields are empty! the default value of the aditional items should be an empty string... (TO DO!)
              */
-            //alert("root: " + JSON.stringify(_root  ) + "  " + JSON.stringify(aditional_fields) + " field: " + field)
             for(let i=0;i<aditional_fields.length;i++){
 
                 if(_root[field][aditional_fields[i]].trim().length<1)
@@ -48,7 +30,6 @@ const validar_tipo = (arr, _root, field, aditional_fields) =>
             }
         }
     }
-    
     return arr
 }
 
@@ -114,7 +95,6 @@ const validar_items_venta = (venta) => {
     
 }
 /**
- * 
  * @param {*} v 
  * @param {*} productos 
  * @param {*} total 
@@ -175,7 +155,6 @@ const submit_venta = (v, productos,total,subTotal, tipo_vta, validate_items, cal
         return false
     }
 
-    
     if(v.mp!=null){
         if(v.mp.total>total){
             alert("Saldo menor a 0")
@@ -183,18 +162,6 @@ const submit_venta = (v, productos,total,subTotal, tipo_vta, validate_items, cal
             return false
         }
     }
-
-   /* if((v.comentarios.length||"")>0)
-    {
-        if(!validate_only_numbers_and_letters(v.comentarios))
-        {
-            alert("Comentarios sólo acepta letras, números, y el punto.")
-            callbackOnFailValidation?.()
-            return false
-        }
-    }*/
-
-
 
     globals.obtenerCajaAsync((result)=>{
 
@@ -218,67 +185,39 @@ const submit_venta = (v, productos,total,subTotal, tipo_vta, validate_items, cal
             const _res1 = validar_modo_pago(__venta.mp)
 
         if(_res1!=null){
-            alert("Error. "+_res1.msg)
-            callbackOnFailValidation?.()
-            return  false
+            alert("Error. "+_res1.msg);
+            callbackOnFailValidation?.();
+            return  false;
         }
 
-        //it may not be neccessary to validate the items... 
-        if(validate_items)
+        if(validate_items)//it may not be neccessary to validate the items... if the frontend form is well designed, but just in case...
         {
             const _res = validar_items_venta(__venta)
-            
             if(_res.length>0){
-                //only show 1 error per try 
-                alert(_res[0].msg)
-                callbackOnFailValidation?.()
-                return false
+                alert(_res[0].msg);//only show 1 error per try 
+                callbackOnFailValidation?.();
+                return false;
             }
         }
     
-       
-        /**
-         * validar cantidad stock 
-         */
-        //alert(JSON.stringify(productos))
+        if(confirm("Confirmar Venta"))
         {
-            post_method(post.update.verificar_cantidades_productos,{productos: productos, idsucursal: globals.obtenerSucursal(),tipo:tipo_vta},(_response)=>{
-                
-                if(_response?.data?.error == 1){
-                    alert("Error, cantidad insuficiente codigo: " + _response?.data?.ref?.codigo)
-                    callbackOnFailValidation?.()
-                    return false
-                }
-                else
+            post_method(post.insert.venta,__venta,(response)=>{
+
+                if(!response.data || !response.data.idVenta)
                 {
-                    if(confirm("Confirmar Venta"))
-                    {
-                        post_method(post.insert.venta,__venta,(response)=>{
-                            //alert(JSON.stringify(response.data))
-                            //THIS SHOULD NOT BE HERE! but it is
-                            post_method(post.update.desc_cantidades_stock_venta,{idventa: response.data.idVenta, idsucursal: globals.obtenerSucursal()},()=>{
-                                console.log("Cantidades descontadas? ...")
-                            })
-
-                            registrar_evento("VENTA", "Venta Generada $" + total, response.data.idVenta)
-            
-                            callbackOnComplete?.(response.data)
-                                
-                            })
-
-                        return true
-                    }
-
+                    alert(JSON.stringify(response));
+                    alert( response.data?.error || "Error al generar la venta")
                     callbackOnFailValidation?.()
                     return false
-
                 }
-                
-            })
+                callbackOnComplete?.(response.data)  
+                })
+            return true
         }
+        return false;
+        
     });
     
 }
-
-
 module.exports = {validar_items_venta,submit_venta}

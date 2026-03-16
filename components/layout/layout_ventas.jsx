@@ -80,7 +80,8 @@ export default function LayoutVentas(props) {
             }
           }
         });
-    }, 10000);
+        
+    }, 100);
 
   };
 
