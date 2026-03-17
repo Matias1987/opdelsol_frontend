@@ -16,18 +16,18 @@ export default function LayoutVentas(props) {
   const [popupBusquedaOpen, setPopupBusquedaOpen] = useState(false);
   const [busqueda, setBusqueda] = useState("");
 
-    const card_style2 = {
-      header: {
-        //background: "#94D0AE", 
-        background: "#E7E9EB",
-        //borderTop:"2px solid #663F4C",
-        //borderTop:"2px solid #3A5C79",
-      },  
-      body:{
-        backgroundColor:"#FAFBFF", 
-        padding:"0"
-      }
-  } 
+  const card_style2 = {
+    header: {
+      //background: "#94D0AE",
+      background: "#E7E9EB",
+      //borderTop:"2px solid #663F4C",
+      //borderTop:"2px solid #3A5C79",
+    },
+    body: {
+      backgroundColor: "#FAFBFF",
+      padding: "0",
+    },
+  };
 
   const onSearch = () => {
     if (busqueda.trim().length < 1) {
@@ -36,7 +36,44 @@ export default function LayoutVentas(props) {
     setPopupBusquedaOpen(true);
   };
 
+  const validate_user_2 = () => {
+    const _token = getItem("token", "session");
+
+    if (_token === typeof "undefined") {
+      window.location.replace(public_urls.login);
+    }
+
+    fetch(get.check_login + _token)
+      .then((response) => response.json())
+      .then((response) => {
+        if (response.data.logged == "0") {
+          window.location.replace(public_urls.login);
+        } 
+      });
+
+    fetch(get.caja_abierta + globals.obtenerSucursal())
+      .then((r) => r.json())
+      .then((response) => {
+        //if caja is open, set this value in local
+        if (typeof response.data !== "undefined") {
+          //alert(JSON.stringify(response))
+          if (response.data != null) {
+            if (+response.data.abierta == 1) {
+              globals.setCajaOpen(true);
+              setAlerta(
+                +response.data.current == 1 ? "" : "Caja Desactualizada",
+              );
+            } else {
+              //alert("caja cerrada")
+              setAlerta("CAJA CERRADA");
+            }
+          }
+        }
+      });
+  };
+
   const validate_user = () => {
+    console.log("validating user");
     const _token = getItem("token", "session");
 
     if (_token === typeof "undefined") {
@@ -52,10 +89,8 @@ export default function LayoutVentas(props) {
         .then((response) => response.json())
         .then((response) => {
           if (response.data.logged == "0") {
-            //alert("Debe Iniciar Sesion")
             window.location.replace(public_urls.login);
           } else {
-            //_t  = validate_user();
             validate_user();
           }
         });
@@ -64,37 +99,37 @@ export default function LayoutVentas(props) {
       fetch(get.caja_abierta + globals.obtenerSucursal())
         .then((r) => r.json())
         .then((response) => {
-          //if caja is open, set this value in local
           if (typeof response.data !== "undefined") {
-            //alert(JSON.stringify(response))
             if (response.data != null) {
               if (+response.data.abierta == 1) {
                 globals.setCajaOpen(true);
                 setAlerta(
-                  +response.data.current == 1 ? "" : "Caja Desactualizada"
+                  +response.data.current == 1 ? "" : "Caja Desactualizada",
                 );
               } else {
-                //alert("caja cerrada")
                 setAlerta("CAJA CERRADA");
               }
             }
           }
         });
-        
-    }, 100);
-
+    }, 10000);
   };
 
-  
   useEffect(() => {
-    
+    /*
     if (!globals.esUsuarioVentas()) {
       window.location.replace(public_urls.modo);
     }
+    const intervalId = setInterval(() => {}, 1000); // 1000 milliseconds = 1 second
+
+    // Cleanup function to clear the interval when the component unmounts
+    return () => {
+      clearInterval(intervalId);
+    };*/
+
     validate_user();
+
   }, []);
-
-
 
   return (
     <Layout style={{ padding: 0 }} className="layout">
@@ -104,36 +139,36 @@ export default function LayoutVentas(props) {
           props?.displaymodechange?.(__c);
         }}
       />
-      
+
       <Card
-      size="small"
-      styles={card_style2}
+        size="small"
+        styles={card_style2}
         extra={
           <div>
-            <Input 
-            style={
-              {
-                borderRadius:"16px", 
-                backgroundColor:"rgb(255, 255, 255)", 
+            <Input
+              style={{
+                borderRadius: "16px",
+                backgroundColor: "rgb(255, 255, 255)",
+              }}
+              suffix={
+                <>
+                  <Button type="link" onClick={onSearch}>
+                    <SearchOutlined />
+                  </Button>
+                </>
               }
-            } 
-            suffix={<><Button type="link" onClick={onSearch}><SearchOutlined /></Button></>} 
-            prefix={<span style={{fontWeight:"600"}}>Buscar Código:</span>} 
-            value={busqueda} 
-            onChange={(e)=>{
-              setBusqueda(e.target.value);
-            }}
-            onPressEnter={onSearch}
+              prefix={<span style={{ fontWeight: "600" }}>Buscar Código:</span>}
+              value={busqueda}
+              onChange={(e) => {
+                setBusqueda(e.target.value);
+              }}
+              onPressEnter={onSearch}
             />
           </div>
         }
-        title={
-          <>
-            {<MenuV2 />}
-          </>
-        }
+        title={<>{<MenuV2 />}</>}
       >
-         {globals.esUsuarioCaja1() ? <BarraResumenCaja /> : <></>}  
+        {globals.esUsuarioCaja1() ? <BarraResumenCaja /> : <></>}
         <Content
           style={{
             margin: "10px 50px",
@@ -142,15 +177,20 @@ export default function LayoutVentas(props) {
             minHeight: 580,
           }}
         >
-            
-            {alerta != "" ? (
+          {alerta != "" ? (
             <>
-            <Alert style={{fontSize:".9em", padding:"1px 50px "}} key={alerta} message={alerta} type="error" showIcon />
-            <br />
+              <Alert
+                style={{ fontSize: ".9em", padding: "1px 50px " }}
+                key={alerta}
+                message={alerta}
+                type="error"
+                showIcon
+              />
+              <br />
             </>
-            ) : (
-                <></>
-            )}
+          ) : (
+            <></>
+          )}
           <Row>
             <Col span={24}>{props.children}</Col>
           </Row>

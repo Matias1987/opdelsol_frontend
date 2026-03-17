@@ -261,7 +261,7 @@ export default function MenuV2(props) {
     if (globals.esUsuarioCaja1()) {
       if (idf_optica == 1) {
         menu_caja.children.push({
-          key: "108",
+          key: "108b",
           label: (
             <Menu.Item style={{ fontSize: ".85em" }}>
               <Link href={public_urls.ventas_pendientes_lab}>
