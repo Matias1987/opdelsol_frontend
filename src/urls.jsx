@@ -272,6 +272,10 @@ const post = {
 
     obtener_ventas_vendedor_mes: remote_base_url + "ventas/inf/v/lista_vtas_mes/",
 
+    generar_arequest: remote_base_url + "aarr/",
+
+    check_req_status: remote_base_url + "aarr/chs/",
+
     search:{
         filtro_stock: remote_base_url + "stock/filtro_stock/",
     },
