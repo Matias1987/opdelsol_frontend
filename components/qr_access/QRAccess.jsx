@@ -14,7 +14,13 @@ const QRAccess = (_) => {
       return;
     }
 
-    post_method(post.check_req_status, { qr_data: qrData }, (response) => {
+     const id_usuario = globals.obtenerUID();
+    const id_sucursal = 6//globals.obtenerSucursal();
+
+    post_method(post.check_req_status, {
+        id_usuario,
+        id_sucursal,
+      }, (response) => {
       const data = response?.data;
       //alert(JSON.stringify(data))
 
@@ -34,8 +40,8 @@ const QRAccess = (_) => {
 
   const generate_request = (_) => {
     const id_usuario = globals.obtenerUID();
-    const id_sucursal = globals.obtenerSucursal();
-
+    const id_sucursal = 6//globals.obtenerSucursal();
+    //alert(id_sucursal)
     post_method(
       post.generar_arequest,
       {
@@ -43,6 +49,11 @@ const QRAccess = (_) => {
         id_sucursal,
       },
       (response) => {
+        if(response.data.exists)
+        {
+          alert("The user is already validated and approved")
+          return;
+        }
         alert("qr response" + JSON.stringify(response.data.qr_data));
         setQrData((_) => response.data.qr_data);
       },
@@ -62,8 +73,8 @@ const QRAccess = (_) => {
     <>Espere...</>
   ) : (
     <>
-      <Row>
-        <Col span={24}>
+      <Row style={{display:"flex", justifyItems:"center", alignItems:"center"}}>
+        <Col>
           <QRCode value={qrData} />
         </Col>
       </Row>
