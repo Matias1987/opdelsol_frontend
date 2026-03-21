@@ -147,8 +147,9 @@ const CodeGridHTML = (props) => {
         let _max_cil_pos = -99999;
 
         let qtties = {};
-        response.data.forEach((c) => {
-          if(c.esf<0)
+        response.data.forEach((c,indx) => {
+         
+          if(parseFloat(c.esf)<0)
             {
               _max_esf_neg =
                 parseFloat(c.esf) > _max_esf_neg ? parseFloat(c.esf) : _max_esf_neg;
@@ -172,7 +173,8 @@ const CodeGridHTML = (props) => {
               parseFloat(c.cil) > _max_cil_pos ? parseFloat(c.cil) : _max_cil_pos;
           }
           if(gridType=='stock'){
-          console.log(`ESF: ${c.esf} CIL: ${c.cil}, cantidad: ${c.cantidad}`);}
+          //console.log(`ESF: ${c.esf} CIL: ${c.cil}, cantidad: ${c.cantidad}`);
+          }
           
 
           qtties[`${parseFloat(c.esf) * 100}${parseFloat(c.cil) * 100}`] = {
@@ -191,10 +193,11 @@ const CodeGridHTML = (props) => {
             checked: false,
           };
         });
+        //alert(JSON.stringify({_min_esf: _min_esf_neg, _max_esf: _max_esf_neg, _min_cil: _min_cil_neg, _max_cil: _max_cil_neg}));
         if (_min_esf_neg > 1000 || _max_esf_neg < -1000) return;
         if (_min_cil_neg > 1000 || _max_cil_neg < -1000) return;
 
-       // alert(JSON.stringify({_min_esf: _min_esf_neg, _max_esf: _max_esf_neg, _min_cil: _min_cil_neg, _max_cil: _max_cil_neg}));
+        
         setCodesDict(qtties);
         setDataPositive(
           prepare(Math.abs(_min_esf_pos), Math.abs(_max_esf_pos),  Math.abs(_max_cil_pos) ,Math.abs(_min_cil_pos), "+", "-")
@@ -501,7 +504,7 @@ const CodeGridHTML = (props) => {
             onChange={(_) => {
               setModoSeleccionMultiple(!modoSeleccionMultiple);
             }}
-            value={modoSeleccionMultiple}
+            checked={modoSeleccionMultiple}
           >
             Modo Selecci&oacute;n
           </Checkbox>

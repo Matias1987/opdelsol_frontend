@@ -60,6 +60,8 @@ export default function InformeX(props){
                 mercadopago_monto:0,
                 transferencia_monto:0,
             }
+
+            alert(JSON.stringify(response))
             
             response.data.forEach(r=>{
                 switch(r.modo_pago){
