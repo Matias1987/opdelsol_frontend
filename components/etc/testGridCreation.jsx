@@ -22,21 +22,28 @@ import {
 import { useEffect, useState } from "react";
 
 const TestGridCreation = () => {
-  const [data, setData] = useState([]);
-  const [esf_from, setEsfFrom] = useState(0);
-  const [esf_to, setEsfTo] = useState(0);
+  const [dataNeg, setDataNeg] = useState([]);
+  const [dataPos, setDataPos] = useState([]);
+
+  const [esf_from_neg, setEsfFromNeg] = useState(0);
+  const [esf_to_neg, setEsfToNeg] = useState(2);
+  const [esf_from_pos, setEsfFromPos] = useState(0);
+  const [esf_to_pos, setEsfToPos] = useState(2);
   const [cil_from, setCilFrom] = useState(0);
-  const [cil_to, setCilTo] = useState(0);
+  const [cil_to, setCilTo] = useState(2);
   const [cols, setCols] = useState([]);
-  const [tipo_grilla, setTipoGrilla] = useState("positivo");
+  //const [tipo_grilla, setTipoGrilla] = useState("positivo");
   const [selected_cell, setSelectedCell] = useState(null);
   const [modal_visible, setModalVisible] = useState(false);
   const [btnAplicarEnabled, setBtnAplicarEnabled] = useState(true);
   const [cellsEdited, setCellsEdited] = useState(false);
   const [fkCodigo, setFkCodigo] = useState(58451);
   const [fkSucursal, setFkSucursal] = useState(14);
+
   const [cellsWithQuantity, setCellsWithQuantity] = useState([]);
+
   const [codigosCristales, setCodigosCristales] = useState(null);
+
   const [selectedCodigoLabel, setSelectedCodigoLabel] = useState("");
   //#region styles
   const diagonal_cell = {
@@ -102,7 +109,7 @@ const TestGridCreation = () => {
     const dataToSave = {
       fk_codigo: fkCodigo,
       fk_sucursal: 14,
-      cells: data.map((d) => ({
+      cells: dataNeg.map((d) => ({
         esf: `${parseFloat(d.esf).toFixed(2)}`,
         cil: `${parseFloat(d.cil).toFixed(2)}`,
         cantidad: d.cantidad,
@@ -123,26 +130,26 @@ const TestGridCreation = () => {
 
   const edit_quantity = (esf, cil, quantity) => {
     setCellsEdited(true);
-    const cell = data.find((d) => d.esf == esf && d.cil == cil);
+    const cell = dataNeg.find((d) => d.esf == esf && d.cil == cil);
     if (cell) {
-      const new_data = data.map((d) => {
+      const new_data = dataNeg.map((d) => {
         if (d.esf == esf && d.cil == cil) {
           return { ...d, cantidad: quantity };
         }
         return d;
       });
-      setData(new_data);
+      setDataNeg(new_data);
     }
   };
 
   const set_cell_editing = (esf, cil) => {
-    const new_data = data.map((d) => {
+    const new_data = dataNeg.map((d) => {
       if (d.esf == esf && d.cil == cil) {
         return { ...d, pendingSave: true };
       }
       return { ...d };
     });
-    setData(new_data);
+    setDataNeg(new_data);
   };
 
   const get_qtty_from_array = (src, _esf, _cil) => {
@@ -165,6 +172,7 @@ const TestGridCreation = () => {
     p_cil_from,
     p_cil_to,
     source = null,
+    gridType = "N"
   ) => {
     /*if (cellsEdited) {
       const confirm = window.confirm(
@@ -203,12 +211,19 @@ const TestGridCreation = () => {
       }
     });
 
-    setData(cells_data);
+    if(gridType=="N")
+    {
+      setDataNeg(cells_data);
+    }
+    else{
+      setDataPos(cells_data);
+    }
+    
     setCols(_cols);
     setCellsWithQuantity(_cellsWithQuantity);
   };
 
-  const get_grid = () => (
+  const get_grid = (src, tipo_grilla) => (
     <>
       <table style={table_style}>
         <thead>
@@ -222,7 +237,7 @@ const TestGridCreation = () => {
           </tr>
         </thead>
         <tbody>
-          {Array.from(new Set(data.map((d) => d.esf))).map((esf_value) => {
+          {Array.from(new Set(src.map((d) => d.esf))).map((esf_value) => {
             return (
               <tr>
                 <td style={td_style}>
@@ -234,7 +249,7 @@ const TestGridCreation = () => {
                 {cols.map((col) => (
                   <td
                     style={
-                      data.filter((d) => d.esf == esf_value && d.cil == col)[0]
+                      src.filter((d) => d.esf == esf_value && d.cil == col)[0]
                         ?.pendingSave
                         ? td_style_pending_save
                         : cellsWithQuantityContains(esf_value, col)
@@ -247,7 +262,7 @@ const TestGridCreation = () => {
                       setModalVisible(true);
                     }}
                   >
-                    {data
+                    {src
                       .filter((d) => d.esf == esf_value && d.cil == col)
                       .map((d) => d.cantidad)}
                   </td>
@@ -261,28 +276,33 @@ const TestGridCreation = () => {
   );
 
   const get_range = (loadedData) => {
+
+    const result = [];
+
     const get_val = (strv) => Math.abs(parseFloat(strv));
 
-    let min_esf = 9999;
-    let max_esf = -9999;
-    let min_cil = 9999;
-    let max_cil = -9999;
+    ["p", "n"].forEach(idx=>{
 
-    loadedData.forEach((row) => {
-      min_esf = get_val(row.esf) < min_esf ? get_val(row.esf) : min_esf;
-      max_esf = get_val(row.esf) > max_esf ? get_val(row.esf) : max_esf;
+      let sub_arr = idx == "p" ? loadedData.filter(d=>parseFloat(d.esf)>=0) : 
+                                   loadedData.filter(d=>parseFloat(d.esf)<0) ;
 
-      min_cil = get_val(row.cil) < min_cil ? get_val(row.cil) : min_cil;
-      max_cil = get_val(row.cil) > max_cil ? get_val(row.cil) : max_cil;
-    });
+      let min_esf = 9999;
+      let max_esf = -9999;
+      let min_cil = 9999;
+      let max_cil = -9999;
 
-    setCilFrom(min_cil);
-    setCilTo(max_cil);
+      sub_arr.forEach((row) => {
+        min_esf = get_val(row.esf) < min_esf ? get_val(row.esf) : min_esf;
+        max_esf = get_val(row.esf) > max_esf ? get_val(row.esf) : max_esf;
 
-    setEsfFrom(min_esf);
-    setEsfTo(max_esf);
+        min_cil = get_val(row.cil) < min_cil ? get_val(row.cil) : min_cil;
+        max_cil = get_val(row.cil) > max_cil ? get_val(row.cil) : max_cil;
+      });
 
-    return { min_esf, max_esf, min_cil, max_cil };
+      result.push({ min_esf, max_esf, min_cil, max_cil });
+    })
+
+    return result;
   };
 
   const load = (_fkCodigo) => {
@@ -300,17 +320,38 @@ const TestGridCreation = () => {
         }
         if (response.data.length < 1) {
           alert("No data");
-          setData([]);
+          setDataNeg([]);
           return;
         }
         const rango = get_range(response.data);
 
+        setCilFrom(rango[0].min_cil);
+        setCilTo(rango[0].max_cil);
+
+        setEsfFromNeg(rango[0].min_esf);
+        setEsfToNeg(rango[0].max_esf);
+
+        setEsfFromPos(rango[1].min_esf);
+        setEsfToPos(rango[1].max_esf);
+
+
+        alert(JSON.stringify(rango));
+
         prepare(
-          rango.min_esf,
-          rango.max_esf,
-          rango.min_cil,
-          rango.max_cil,
+          rango[0].min_esf,
+          rango[0].max_esf,
+          rango[0].min_cil,
+          rango[0].max_cil,
           response.data,
+          "N"
+        );
+        prepare(
+          rango[1].min_esf,
+          rango[1].max_esf,
+          rango[1].min_cil,
+          rango[1].max_cil,
+          response.data,
+          "P"
         );
       },
     );
@@ -374,15 +415,15 @@ const TestGridCreation = () => {
               fontSize: "1.1em",
             }}
           >
-            Esf:{" "}
+            Esf - :{" "}
           </Col>
           <Col>
             <Input
               style={{ width: "200px" }}
               disabled={!btnAplicarEnabled}
               prefix="Desde: "
-              value={esf_from}
-              onChange={(e) => setEsfFrom(parseFloat(e.target.value))}
+              value={esf_from_neg}
+              onChange={(e) => setEsfFromNeg(parseFloat(e.target.value))}
             />{" "}
           </Col>
           <Col>
@@ -390,8 +431,38 @@ const TestGridCreation = () => {
               style={{ width: "200px" }}
               disabled={!btnAplicarEnabled}
               prefix="Hasta: "
-              value={esf_to}
-              onChange={(e) => setEsfTo(parseFloat(e.target.value))}
+              value={esf_to_neg}
+              onChange={(e) => setEsfToNeg(parseFloat(e.target.value))}
+            />
+          </Col>
+        </Row>
+        <Row gutter={[16, 16]}>
+          <Col
+            style={{
+              paddingTop: "6px",
+              fontWeight: "600",
+              color: "darkblue",
+              fontSize: "1.1em",
+            }}
+          >
+            Esf + :{" "}
+          </Col>
+          <Col>
+            <Input
+              style={{ width: "200px" }}
+              disabled={!btnAplicarEnabled}
+              prefix="Desde: "
+              value={esf_from_pos}
+              onChange={(e) => setEsfFromPos(parseFloat(e.target.value))}
+            />{" "}
+          </Col>
+          <Col>
+            <Input
+              style={{ width: "200px" }}
+              disabled={!btnAplicarEnabled}
+              prefix="Hasta: "
+              value={esf_to_pos}
+              onChange={(e) => setEsfToPos(parseFloat(e.target.value))}
             />
           </Col>
         </Row>
@@ -425,7 +496,7 @@ const TestGridCreation = () => {
             />
           </Col>
         </Row>
-        <Row gutter={[16, 16]} style={{ paddingTop: "8px" }}>
+        {/*<Row gutter={[16, 16]} style={{ paddingTop: "8px" }}>
           <Col span="24">
             <Radio.Group
               disabled={!btnAplicarEnabled}
@@ -438,7 +509,7 @@ const TestGridCreation = () => {
               <Radio value="negativo">Negativo</Radio>
             </Radio.Group>
           </Col>
-        </Row>
+        </Row>*/}
         <Row gutter={[16, 16]} style={{ paddingTop: "8px" }}>
           <Col span="24">
             {" "}
@@ -452,7 +523,8 @@ const TestGridCreation = () => {
               disabled={!btnAplicarEnabled}
               type="primary"
               onClick={(_) => {
-                prepare(esf_from, esf_to, cil_from, cil_to);
+                prepare(esf_from_neg, esf_to_neg, cil_from, cil_to);
+                prepare(esf_from_pos, esf_to_pos, cil_from, cil_to,null, "P");
               }}
             >
               Aplicar
@@ -480,7 +552,11 @@ const TestGridCreation = () => {
       title={"Grilla de Cristales " + selectedCodigoLabel} 
       style={{ width: "100%" }}>
         <Row>
-          <Col span="24">{get_grid()}</Col>
+          <Col span="24">{get_grid(dataNeg || [], "negativo")}</Col>
+        </Row>
+        <Divider />
+        <Row>
+          <Col span="24">{get_grid(dataPos || [], "positivo")}</Col>
         </Row>
       </Card>
       <Divider />

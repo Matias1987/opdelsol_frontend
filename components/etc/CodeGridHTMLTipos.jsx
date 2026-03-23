@@ -13,6 +13,9 @@ const CodeGridHTMLTipos = (props) => {
   const [month, setMonth] = useState(dateNow.getMonth() + 1);
   const [year, setYear] = useState(dateNow.getFullYear());
 
+  const [desde, setDesde] = useState(null);
+  const [hasta, setHasta] = useState(null);
+
   const [modalEditarStockOpen, setModalEditarStockOpen] = useState(false);
   const [modalEditarIdealOpen, setModalEditarIdealOpen] = useState(false);
   const [modalEditarPedidoOpen, setModalEditarPedidoOpen] = useState(false);
@@ -103,13 +106,13 @@ const CodeGridHTMLTipos = (props) => {
         <>
           <Row style={{paddingTop:"12px"}}>
             <Col span={24}>
-              <DatePicker
+              <DatePicker.RangePicker
                key={reload}
                 prefix="Periodo: "
                 defaultValue={dayjs()}
                 picker="month"
                 format="MM/YYYY"
-                onChange={onChangeMonth}
+                onChange={onChangeMonths}
               />
             </Col>
           </Row>
@@ -121,7 +124,9 @@ const CodeGridHTMLTipos = (props) => {
                 gridType="uso"
                 mes={month}
                 anio={year}
-                key={month + year}
+                desde={desde}
+                hasta={hasta}
+                key={desde+hasta}
                 onCellClick={onCellClickUso}
                 editarDisabled
               />
@@ -184,6 +189,16 @@ const CodeGridHTMLTipos = (props) => {
     const parts = dateString.split("/");
     setMonth(parseInt(parts[0], 10));
     setYear(parseInt(parts[1], 10));
+  }
+  function onChangeMonths(values) {
+    if (values) {
+          const [start, end] = values;
+          console.log("Start month:", start.format("YYYY-MM"));
+          console.log("End month:", end.format("YYYY-MM"));
+          setDesde(start);
+          setHasta(end);
+        }
+
   }
 
   function onChange(key) {

@@ -61,8 +61,6 @@ export default function InformeX(props){
                 transferencia_monto:0,
             }
 
-            alert(JSON.stringify(response))
-            
             response.data.forEach(r=>{
                 switch(r.modo_pago){
                     case "efectivo": 
@@ -109,10 +107,6 @@ export default function InformeX(props){
             
             setDataPago(response.data[0])
 
-            //alert(JSON.stringify(response))
-            
-            /*now that I have the pago data, I can know the client id  */
-            
             fetch(get.cliente_por_id + response.data[0].cliente_idcliente)
             .then(_response=>_response.json())
             .then((_response)=>{
@@ -124,7 +118,6 @@ export default function InformeX(props){
             fetch(get.sucursal_details + response.data[0].sucursal_idsucursal)
             .then(__response=>__response.json())
             .then((__response)=>{
-               // alert(JSON.stringify(__response))
                 setDataSucursal(__response.data)
             })
 

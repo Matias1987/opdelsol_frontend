@@ -28,6 +28,8 @@ const CodeGridHTML = (props) => {
     mes,
     anio,
     editarDisabled,
+    desde,
+    hasta
   } = props;
   const [dataPositive, setDataPositive] = useState([]);
   const [dataNegative, setDataNegative] = useState([]);
@@ -117,6 +119,10 @@ const CodeGridHTML = (props) => {
   };
 
   const load = (callback) => {
+    if(gridType==="uso" && (!desde || !hasta))
+    {
+      return;
+    }
     //alert(gridType);
     let endpoint =
       gridType === "uso" ? post.obtener_grilla_uso : post.obtener_grilla_stock;
@@ -130,6 +136,8 @@ const CodeGridHTML = (props) => {
         eje: "-1",
         mes: mes || "-1",
         anio: anio || "-1",
+        desde: desde?.format("YYYY-MM")||"",
+        hasta: hasta?.format("YYYY-MM")||"",
       },
       (response) => {
         //alert(JSON.stringify(response));

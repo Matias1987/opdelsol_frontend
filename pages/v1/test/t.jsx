@@ -7,8 +7,9 @@ export default function test() {
   return (
     <div>
       {/*<Egreso aCajaMaster={true} callback={()=>alert("Callback desde egreso")} />
-      <TestGridCreation />*/}
-      <QRAccess />
+       <QRAccess />
+      */}
+     <TestGridCreation />
       
     </div>
   )
