@@ -109,12 +109,17 @@ const TestGridCreation = () => {
     const dataToSave = {
       fk_codigo: fkCodigo,
       fk_sucursal: 14,
-      cells: dataNeg.map((d) => ({
+      cells_neg: dataNeg.map((d) => ({
         esf: `${parseFloat(d.esf).toFixed(2)}`,
         cil: `${parseFloat(d.cil).toFixed(2)}`,
         cantidad: d.cantidad,
       })),
-      tipo_grilla: tipo_grilla,
+      cells_pos: dataPos.map((d) => ({
+        esf: `${parseFloat(d.esf).toFixed(2)}`,
+        cil: `${parseFloat(d.cil).toFixed(2)}`,
+        cantidad: d.cantidad,
+      })),
+      tipo_grilla: "",
     };
     //alert(JSON.stringify(dataToSave))
     //save to db.... TO DO
@@ -129,27 +134,52 @@ const TestGridCreation = () => {
   };
 
   const edit_quantity = (esf, cil, quantity) => {
-    setCellsEdited(true);
-    const cell = dataNeg.find((d) => d.esf == esf && d.cil == cil);
-    if (cell) {
+    alert(JSON.stringify({esf,cil}))
+    if (parseFloat(esf) < 0) {
       const new_data = dataNeg.map((d) => {
-        if (d.esf == esf && d.cil == cil) {
+        if (
+          Math.abs(parseFloat(d.esf)) == Math.abs(parseFloat(esf)) &&
+          d.cil == cil
+        ) {
           return { ...d, cantidad: quantity };
         }
         return d;
       });
       setDataNeg(new_data);
+    } else {
+      const new_data = dataPos.map((d) => {
+        if (d.esf == esf && d.cil == cil) {
+          return { ...d, cantidad: quantity };
+        }
+        return d;
+      });
+      setDataPos(new_data);
     }
+
+    setCellsEdited(true);
   };
 
-  const set_cell_editing = (esf, cil) => {
-    const new_data = dataNeg.map((d) => {
-      if (d.esf == esf && d.cil == cil) {
-        return { ...d, pendingSave: true };
-      }
-      return { ...d };
-    });
-    setDataNeg(new_data);
+  const set_cell_editing = (esf, cil, tipo_grilla) => {
+    if (tipo_grilla == "negativo") {
+      const new_data = dataNeg.map((d) => {
+        if (
+          parseFloat(d.esf).toFixed(2).toString() == esf &&
+          parseFloat(d.cil).toFixed(2).toString() == cil
+        ) {
+          return { ...d, pendingSave: true };
+        }
+        return { ...d };
+      });
+      setDataNeg(new_data);
+    } else {
+      const new_data = dataPos.map((d) => {
+        if (d.esf == esf && d.cil == cil) {
+          return { ...d, pendingSave: true };
+        }
+        return { ...d };
+      });
+      setDataPos(new_data);
+    }
   };
 
   const get_qtty_from_array = (src, _esf, _cil) => {
@@ -159,7 +189,6 @@ const TestGridCreation = () => {
         Math.abs(parseFloat(r.cil)) === _cil,
     );
     if (!record) {
-      //alert("Row not fount: " + JSON.stringify({_esf, _cil}));
       return -1;
     }
 
@@ -172,16 +201,8 @@ const TestGridCreation = () => {
     p_cil_from,
     p_cil_to,
     source = null,
-    gridType = "N"
+    gridType = "N",
   ) => {
-    /*if (cellsEdited) {
-      const confirm = window.confirm(
-        "Hay celdas editadas. Si continua se perderan los cambios. Desea continuar?",
-      );
-      if (!confirm) {
-        return;
-      }
-    }*/
     setBtnAplicarEnabled(false);
     setCellsEdited(false);
     const cells_data = [];
@@ -190,7 +211,7 @@ const TestGridCreation = () => {
     for (let i = p_esf_from; i <= p_esf_to; i += 0.25) {
       for (let j = p_cil_from; j <= p_cil_to; j += 0.25) {
         cells_data.push({
-          esf: i,
+          esf: (gridType=="N" ? "-" : "") +  i,
           cil: j,
           cantidad: source ? get_qtty_from_array(source, i, j) : 0,
           pendingSave: false,
@@ -211,14 +232,13 @@ const TestGridCreation = () => {
       }
     });
 
-    if(gridType=="N")
-    {
+    if (gridType == "N") {
+      alert(JSON.stringify(cells_data))
       setDataNeg(cells_data);
-    }
-    else{
+    } else {
       setDataPos(cells_data);
     }
-    
+
     setCols(_cols);
     setCellsWithQuantity(_cellsWithQuantity);
   };
@@ -242,8 +262,8 @@ const TestGridCreation = () => {
               <tr>
                 <td style={td_style}>
                   <b>
-                    {(tipo_grilla == "positivo" ? "+" : "-") +
-                      esf_value.toFixed(2)}
+                    {(tipo_grilla == "positivo" ? "+" : "") +
+                     parseFloat(esf_value).toFixed(2)}
                   </b>
                 </td>
                 {cols.map((col) => (
@@ -257,8 +277,14 @@ const TestGridCreation = () => {
                           : td_style
                     }
                     onClick={() => {
-                      setSelectedCell({ esf: esf_value, cil: col });
-                      set_cell_editing(esf_value, col);
+                      //const _esf = tipo_grilla == "negativo" ? -esf_value : esf_value;
+                      //alert(JSON.stringify({ esf: esf_value, cil: col }));
+                      setSelectedCell({
+                        esf: esf_value,
+                        cil: col,
+                        tipo_grilla: tipo_grilla,
+                      });
+                      set_cell_editing(esf_value, col, tipo_grilla);
                       setModalVisible(true);
                     }}
                   >
@@ -276,15 +302,22 @@ const TestGridCreation = () => {
   );
 
   const get_range = (loadedData) => {
-
     const result = [];
 
     const get_val = (strv) => Math.abs(parseFloat(strv));
+    //console.log(JSON.stringify(loadedData))
 
-    ["p", "n"].forEach(idx=>{
+    loadedData.forEach((r) => {
+     console.log( ` ${r.esf} ; ${parseFloat(r.esf)}` )
+    });
 
-      let sub_arr = idx == "p" ? loadedData.filter(d=>parseFloat(d.esf)>=0) : 
-                                   loadedData.filter(d=>parseFloat(d.esf)<0) ;
+    return;
+    ["p", "n"].forEach((idx) => {
+      let sub_arr =
+        idx == "p"
+          ? loadedData.filter((d) => parseFloat(d.esf) >= 0)
+          : loadedData.filter((d) => parseFloat(d.esf) < 0);
+      alert(idx);
 
       let min_esf = 9999;
       let max_esf = -9999;
@@ -300,7 +333,7 @@ const TestGridCreation = () => {
       });
 
       result.push({ min_esf, max_esf, min_cil, max_cil });
-    })
+    });
 
     return result;
   };
@@ -323,6 +356,9 @@ const TestGridCreation = () => {
           setDataNeg([]);
           return;
         }
+
+        //console.log(JSON.stringify(response.data))
+
         const rango = get_range(response.data);
 
         setCilFrom(rango[0].min_cil);
@@ -334,7 +370,6 @@ const TestGridCreation = () => {
         setEsfFromPos(rango[1].min_esf);
         setEsfToPos(rango[1].max_esf);
 
-
         alert(JSON.stringify(rango));
 
         prepare(
@@ -342,16 +377,16 @@ const TestGridCreation = () => {
           rango[0].max_esf,
           rango[0].min_cil,
           rango[0].max_cil,
-          response.data,
-          "N"
+          response.data.filter((r) => parseFloat(r.esf) < 0),
+          "N",
         );
         prepare(
           rango[1].min_esf,
           rango[1].max_esf,
           rango[1].min_cil,
           rango[1].max_cil,
-          response.data,
-          "P"
+          response.data.filter((r) => parseFloat(r.esf) >= 0),
+          "P",
         );
       },
     );
@@ -380,7 +415,7 @@ const TestGridCreation = () => {
   return (
     <>
       <Row gutter={[16, 16]} style={{ padding: "8px" }}>
-        <Col style={{ paddingTop: "6px" }}>Seleccione Tipo Cristal:</Col>
+        <Col style={{ paddingTop: "6px" }}>Seleccion Tipo Cristal:</Col>
         <Col>
           <Select
             placeholder="Seleccione un código de cristal"
@@ -388,12 +423,13 @@ const TestGridCreation = () => {
             options={codigosCristales}
             onChange={(v) => {
               setFkCodigo(v);
-              setSelectedCodigoLabel(codigosCristales.find((c) => c.value == v)?.label || "");
+              setSelectedCodigoLabel(
+                codigosCristales.find((c) => c.value == v)?.label || "",
+              );
               load(v);
             }}
           />
         </Col>
-        
       </Row>
 
       <div
@@ -524,7 +560,7 @@ const TestGridCreation = () => {
               type="primary"
               onClick={(_) => {
                 prepare(esf_from_neg, esf_to_neg, cil_from, cil_to);
-                prepare(esf_from_pos, esf_to_pos, cil_from, cil_to,null, "P");
+                prepare(esf_from_pos, esf_to_pos, cil_from, cil_to, null, "P");
               }}
             >
               Aplicar
@@ -547,10 +583,11 @@ const TestGridCreation = () => {
           )}
         </Row>
       </div>
-      <Card 
-      size="small" 
-      title={"Grilla de Cristales " + selectedCodigoLabel} 
-      style={{ width: "100%" }}>
+      <Card
+        size="small"
+        title={"Grilla de Cristales " + selectedCodigoLabel}
+        style={{ width: "100%" }}
+      >
         <Row>
           <Col span="24">{get_grid(dataNeg || [], "negativo")}</Col>
         </Row>
@@ -590,7 +627,12 @@ const TestGridCreation = () => {
                 if (isNaN(int_value)) {
                   return;
                 }
-                edit_quantity(selected_cell.esf, selected_cell.cil, int_value);
+                edit_quantity(
+                  selected_cell.esf,
+                  selected_cell.cil,
+                  int_value,
+                  selected_cell.tipo_grilla,
+                );
               }}
             />
           </Col>
