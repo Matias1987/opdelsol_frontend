@@ -9,6 +9,7 @@ import {
   validate_only_numbers_and_letters,
 } from "@/src/helpers/string_helper";
 import SelectCodigoVenta from "../../SelectCodigoVenta";
+import HelperToolTip from "../../common/HelperToolTip";
 
 const RecStockCristalEsfCil = (props) => {
   const [visible, setVisible] = useState(false);
@@ -48,6 +49,7 @@ const RecStockCristalEsfCil = (props) => {
   };
 
   const onchange_esf = (v) => {
+    
     if (!validate_esf_cil_eje(v)) {
       return;
     }
@@ -116,7 +118,7 @@ const RecStockCristalEsfCil = (props) => {
         </Col>
 
         <Col>
-          <Input
+          {<Input
             onClick={e=>{e.target.select()}}
             style={{ width: "100px" }}
             prefix="Esf.:"
@@ -127,9 +129,10 @@ const RecStockCristalEsfCil = (props) => {
             onChange={(e) => {
               onchange_esf(e.target.value);
             }}
-          />
+          />}
+          {/*<HelperToolTip disabled={cristal.codigo == null} onChange={e=>onchange_esf(e)} value={cristal.esf} prefix={"Esf."} />*/}
         </Col>
-        <Col>
+        {<Col>
           <Input
             onClick={e=>{e.target.select()}}
             style={{ width: "100px" }}
@@ -142,6 +145,9 @@ const RecStockCristalEsfCil = (props) => {
               onchange_cil(e.target.value);
             }}
           />
+        </Col>}
+        <Col>
+       {/* <HelperToolTip disabled={cristal.codigo == null} onChange={e=>onchange_cil(e.target.value)} value={cristal.cil} prefix={"Cil."} />*/}
         </Col>
         <Col>
           <Input

@@ -65,7 +65,7 @@ export default function VentaBaseV3(props) {
     uid: "",
     entrega: false,
     cobrar: cobro_inmediato,
-    validarCristalesModo2: false,
+    validarCristalesModo2: true,
   });
 
   const onChange = (field, value) => {

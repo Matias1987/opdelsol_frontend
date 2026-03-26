@@ -38,7 +38,7 @@ const TestGridCreation = () => {
   const [btnAplicarEnabled, setBtnAplicarEnabled] = useState(true);
   const [cellsEdited, setCellsEdited] = useState(false);
   const [fkCodigo, setFkCodigo] = useState(58451);
-  const [fkSucursal, setFkSucursal] = useState(14);
+  const [fkSucursal, setFkSucursal] = useState(6);
 
   const [cellsWithQuantity, setCellsWithQuantity] = useState([]);
 
@@ -96,19 +96,18 @@ const TestGridCreation = () => {
   //#endregion
 
   const addCellWithQuantity = (esf, cil, tempArray) => {
-    const strVal = `${+esf}-${+cil}`;
+    const strVal = `${parseFloat(esf)}-${+cil}`;
     return !tempArray.find((c) => c === strVal)
       ? [...tempArray, strVal]
       : tempArray;
   };
 
-  const cellsWithQuantityContains = (esf, cil) =>
-    cellsWithQuantity.find((c) => c === `${+esf}-${+cil}`);
-
+  const cellsWithQuantityContains = (esf, cil) => cellsWithQuantity.find((c) => c === `${+esf}-${+cil}`);
+  
   const on_save = () => {
     const dataToSave = {
       fk_codigo: fkCodigo,
-      fk_sucursal: 14,
+      fk_sucursal: 6,
       cells_neg: dataNeg.map((d) => ({
         esf: `${parseFloat(d.esf).toFixed(2)}`,
         cil: `${parseFloat(d.cil).toFixed(2)}`,
@@ -134,7 +133,7 @@ const TestGridCreation = () => {
   };
 
   const edit_quantity = (esf, cil, quantity) => {
-    alert(JSON.stringify({esf,cil}))
+    //alert(JSON.stringify({esf,cil}))
     if (parseFloat(esf) < 0) {
       const new_data = dataNeg.map((d) => {
         if (
@@ -203,11 +202,12 @@ const TestGridCreation = () => {
     source = null,
     gridType = "N",
   ) => {
+
     setBtnAplicarEnabled(false);
     setCellsEdited(false);
     const cells_data = [];
     const _cols = [];
-    let _cellsWithQuantity = [];
+
     for (let i = p_esf_from; i <= p_esf_to; i += 0.25) {
       for (let j = p_cil_from; j <= p_cil_to; j += 0.25) {
         cells_data.push({
@@ -222,25 +222,14 @@ const TestGridCreation = () => {
       }
     }
 
-    cells_data.forEach((c) => {
-      if (c.cantidad > 0) {
-        _cellsWithQuantity = addCellWithQuantity(
-          c.esf,
-          c.cil,
-          _cellsWithQuantity,
-        );
-      }
-    });
-
     if (gridType == "N") {
-      alert(JSON.stringify(cells_data))
       setDataNeg(cells_data);
     } else {
       setDataPos(cells_data);
     }
 
     setCols(_cols);
-    setCellsWithQuantity(_cellsWithQuantity);
+
   };
 
   const get_grid = (src, tipo_grilla) => (
@@ -307,17 +296,11 @@ const TestGridCreation = () => {
     const get_val = (strv) => Math.abs(parseFloat(strv));
     //console.log(JSON.stringify(loadedData))
 
-    loadedData.forEach((r) => {
-     console.log( ` ${r.esf} ; ${parseFloat(r.esf)}` )
-    });
-
-    return;
     ["p", "n"].forEach((idx) => {
       let sub_arr =
         idx == "p"
           ? loadedData.filter((d) => parseFloat(d.esf) >= 0)
           : loadedData.filter((d) => parseFloat(d.esf) < 0);
-      alert(idx);
 
       let min_esf = 9999;
       let max_esf = -9999;
@@ -338,6 +321,24 @@ const TestGridCreation = () => {
     return result;
   };
 
+
+  const prepareArrayWithQuantities = src =>{
+  let _cellsWithQuantity = [];    
+
+	src.forEach((c) => {
+      if (c.cantidad > 0) {
+        _cellsWithQuantity = addCellWithQuantity(
+          c.esf,
+          c.cil,
+          _cellsWithQuantity,
+        );
+      }
+    });
+    
+    setCellsWithQuantity(_cellsWithQuantity);
+
+  }
+
   const load = (_fkCodigo) => {
     post_method(
       post.obtener_grilla_cristales,
@@ -354,40 +355,43 @@ const TestGridCreation = () => {
         if (response.data.length < 1) {
           alert("No data");
           setDataNeg([]);
+          setDataPos([]);
           return;
         }
 
-        //console.log(JSON.stringify(response.data))
+        const theData = response.data;
 
-        const rango = get_range(response.data);
+        const rango = get_range(theData);
 
         setCilFrom(rango[0].min_cil);
         setCilTo(rango[0].max_cil);
 
-        setEsfFromNeg(rango[0].min_esf);
-        setEsfToNeg(rango[0].max_esf);
+        setEsfFromNeg(rango[1].min_esf);
+        setEsfToNeg(rango[1].max_esf);
 
-        setEsfFromPos(rango[1].min_esf);
-        setEsfToPos(rango[1].max_esf);
+        setEsfFromPos(rango[0].min_esf);
+        setEsfToPos(rango[0].max_esf);
 
-        alert(JSON.stringify(rango));
 
-        prepare(
-          rango[0].min_esf,
-          rango[0].max_esf,
-          rango[0].min_cil,
-          rango[0].max_cil,
-          response.data.filter((r) => parseFloat(r.esf) < 0),
-          "N",
-        );
         prepare(
           rango[1].min_esf,
           rango[1].max_esf,
           rango[1].min_cil,
           rango[1].max_cil,
-          response.data.filter((r) => parseFloat(r.esf) >= 0),
+          theData.filter((r) => parseFloat(r.esf) < 0),
+          "N",
+        );
+        prepare(
+          rango[0].min_esf,
+          rango[0].max_esf,
+          rango[0].min_cil,
+          rango[0].max_cil,
+          theData.filter((r) => parseFloat(r.esf) >= 0),
           "P",
         );
+        
+        prepareArrayWithQuantities(theData);
+
       },
     );
   };
