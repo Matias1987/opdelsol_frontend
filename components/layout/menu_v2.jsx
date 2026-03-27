@@ -13,6 +13,7 @@ import globals from "@/src/globals";
 import ListaPreciosV3 from "../lista_precios/listaPreciosV3";
 import { idf_optica, lista_precios_visible } from "@/src/config";
 import BuscarVentaV3 from "../forms/ventas/BuscarVentasV3";
+import ListaPreciosV4 from "../lista_precios/listaPreciosV4";
 
 export default function MenuV2(props) {
   const [current, setCurrent] = useState(null);
@@ -379,7 +380,7 @@ export default function MenuV2(props) {
         onCancel={() => setLPOpen(false)}
         footer={null}
       >
-        <ListaPreciosV3 />
+        <ListaPreciosV4 />
       </Modal>
       <Modal
         destroyOnClose

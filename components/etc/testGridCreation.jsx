@@ -4,6 +4,7 @@ import { get, post } from "@/src/urls";
 import {
   AlertOutlined,
   CheckOutlined,
+  ReloadOutlined,
   SaveFilled,
   UnlockOutlined,
 } from "@ant-design/icons";
@@ -39,12 +40,15 @@ const TestGridCreation = () => {
   const [cellsEdited, setCellsEdited] = useState(false);
   const [fkCodigo, setFkCodigo] = useState(58451);
   const [fkSucursal, setFkSucursal] = useState(6);
+  const [nuevaGrillaEnabled, setNuevaGrillaEnabled] = useState(false)
 
   const [cellsWithQuantity, setCellsWithQuantity] = useState([]);
 
   const [codigosCristales, setCodigosCristales] = useState(null);
 
   const [selectedCodigoLabel, setSelectedCodigoLabel] = useState("");
+
+  const [update, setUpdate] = useState(false)
   //#region styles
   const diagonal_cell = {
     background: "linear-gradient(to top right, #fff 49%, #ccc 50%, #fff 51%)",
@@ -96,14 +100,15 @@ const TestGridCreation = () => {
   //#endregion
 
   const addCellWithQuantity = (esf, cil, tempArray) => {
-    const strVal = `${parseFloat(esf)}-${+cil}`;
+    const strVal = `${parseFloat(esf)}${+cil}`;
     return !tempArray.find((c) => c === strVal)
       ? [...tempArray, strVal]
       : tempArray;
   };
 
-  const cellsWithQuantityContains = (esf, cil) => cellsWithQuantity.find((c) => c === `${+esf}-${+cil}`);
-  
+  const cellsWithQuantityContains = (esf, cil) =>
+    cellsWithQuantity.find((c) => c === `${+esf}-${+cil}`);
+
   const on_save = () => {
     const dataToSave = {
       fk_codigo: fkCodigo,
@@ -202,7 +207,6 @@ const TestGridCreation = () => {
     source = null,
     gridType = "N",
   ) => {
-
     setBtnAplicarEnabled(false);
     setCellsEdited(false);
     const cells_data = [];
@@ -211,7 +215,7 @@ const TestGridCreation = () => {
     for (let i = p_esf_from; i <= p_esf_to; i += 0.25) {
       for (let j = p_cil_from; j <= p_cil_to; j += 0.25) {
         cells_data.push({
-          esf: (gridType=="N" ? "-" : "") +  i,
+          esf: (gridType == "N" ? "-" : "") + i,
           cil: j,
           cantidad: source ? get_qtty_from_array(source, i, j) : 0,
           pendingSave: false,
@@ -229,7 +233,6 @@ const TestGridCreation = () => {
     }
 
     setCols(_cols);
-
   };
 
   const get_grid = (src, tipo_grilla) => (
@@ -252,7 +255,7 @@ const TestGridCreation = () => {
                 <td style={td_style}>
                   <b>
                     {(tipo_grilla == "positivo" ? "+" : "") +
-                     parseFloat(esf_value).toFixed(2)}
+                      parseFloat(esf_value).toFixed(2)}
                   </b>
                 </td>
                 {cols.map((col) => (
@@ -321,11 +324,10 @@ const TestGridCreation = () => {
     return result;
   };
 
+  const prepareArrayWithQuantities = (src) => {
+    let _cellsWithQuantity = [];
 
-  const prepareArrayWithQuantities = src =>{
-  let _cellsWithQuantity = [];    
-
-	src.forEach((c) => {
+    src.forEach((c) => {
       if (c.cantidad > 0) {
         _cellsWithQuantity = addCellWithQuantity(
           c.esf,
@@ -334,10 +336,9 @@ const TestGridCreation = () => {
         );
       }
     });
-    
+    alert(JSON.stringify(_cellsWithQuantity));
     setCellsWithQuantity(_cellsWithQuantity);
-
-  }
+  };
 
   const load = (_fkCodigo) => {
     post_method(
@@ -353,7 +354,8 @@ const TestGridCreation = () => {
           return;
         }
         if (response.data.length < 1) {
-          alert("No data");
+          alert("Sin Datos.");
+          setNuevaGrillaEnabled(true);
           setDataNeg([]);
           setDataPos([]);
           return;
@@ -372,7 +374,6 @@ const TestGridCreation = () => {
         setEsfFromPos(rango[0].min_esf);
         setEsfToPos(rango[0].max_esf);
 
-
         prepare(
           rango[1].min_esf,
           rango[1].max_esf,
@@ -389,9 +390,8 @@ const TestGridCreation = () => {
           theData.filter((r) => parseFloat(r.esf) >= 0),
           "P",
         );
-        
-        prepareArrayWithQuantities(theData);
 
+        prepareArrayWithQuantities(theData);
       },
     );
   };
@@ -412,9 +412,184 @@ const TestGridCreation = () => {
       });
   };
 
+  const nueva_grilla = () => (
+    <>
+      <div
+        style={{
+          border: "1px solid #dbdbdb",
+          boxShadow: "4px 6px 8px #f0f0f0",
+          marginBottom: "16px",
+          borderRadius: "16px",
+          maxWidth: "600px",
+        }}
+      >
+        <Row>
+          <Col style={{ paddingLeft: "16px" }}>
+            <h3>Nueva Grilla</h3>
+          </Col>
+        </Row>
+        <div
+          style={{
+            paddingLeft: "16px",
+            paddingRight: "16px",
+            paddingBottom: "16px",
+          }}
+        >
+          <Row gutter={[16, 16]}>
+            <Col
+              style={{
+                paddingTop: "6px",
+                fontWeight: "600",
+                color: "darkblue",
+                fontSize: "1.1em",
+              }}
+            >
+              Esf - :{" "}
+            </Col>
+            <Col>
+              <Input
+                style={{ width: "200px" }}
+                disabled={!btnAplicarEnabled}
+                prefix="Desde: "
+                value={esf_from_neg}
+                onChange={(e) => setEsfFromNeg(parseFloat(e.target.value))}
+              />{" "}
+            </Col>
+            <Col>
+              <Input
+                style={{ width: "200px" }}
+                disabled={!btnAplicarEnabled}
+                prefix="Hasta: "
+                value={esf_to_neg}
+                onChange={(e) => setEsfToNeg(parseFloat(e.target.value))}
+              />
+            </Col>
+          </Row>
+          <Row gutter={[16, 16]}>
+            <Col
+              style={{
+                paddingTop: "6px",
+                fontWeight: "600",
+                color: "darkblue",
+                fontSize: "1.1em",
+              }}
+            >
+              Esf + :{" "}
+            </Col>
+            <Col>
+              <Input
+                style={{ width: "200px" }}
+                disabled={!btnAplicarEnabled}
+                prefix="Desde: "
+                value={esf_from_pos}
+                onChange={(e) => setEsfFromPos(parseFloat(e.target.value))}
+              />{" "}
+            </Col>
+            <Col>
+              <Input
+                style={{ width: "200px" }}
+                disabled={!btnAplicarEnabled}
+                prefix="Hasta: "
+                value={esf_to_pos}
+                onChange={(e) => setEsfToPos(parseFloat(e.target.value))}
+              />
+            </Col>
+          </Row>
+          <Row gutter={[16, 16]}>
+            <Col
+              style={{
+                paddingTop: "6px",
+                fontWeight: "600",
+                color: "darkblue",
+                fontSize: "1.1em",
+              }}
+            >
+              Cil:{" "}
+            </Col>
+            <Col>
+              <Input
+                style={{ width: "200px" }}
+                disabled={!btnAplicarEnabled}
+                prefix="Desde: -"
+                value={cil_from}
+                onChange={(e) => setCilFrom(parseFloat(e.target.value))}
+              />{" "}
+            </Col>
+            <Col>
+              <Input
+                style={{ width: "200px" }}
+                disabled={!btnAplicarEnabled}
+                prefix="Hasta: -"
+                value={cil_to}
+                onChange={(e) => setCilTo(parseFloat(e.target.value))}
+              />
+            </Col>
+          </Row>
+          {/*<Row gutter={[16, 16]} style={{ paddingTop: "8px" }}>
+          <Col span="24">
+            <Radio.Group
+              disabled={!btnAplicarEnabled}
+              onChange={(e) => {
+                setTipoGrilla(e.target.value);
+              }}
+              value={tipo_grilla}
+            >
+              <Radio value="positivo">Positivo</Radio>
+              <Radio value="negativo">Negativo</Radio>
+            </Radio.Group>
+          </Col>
+        </Row>*/}
+          <Row gutter={[16, 16]} style={{ paddingTop: "8px" }}>
+            <Col span="24">
+              {" "}
+              <Checkbox disabled={!btnAplicarEnabled}>L/R</Checkbox>{" "}
+            </Col>
+          </Row>
+
+          <Row gutter={[16, 16]} style={{ paddingTop: "8px" }}>
+            <Col>
+              <Button
+                disabled={!btnAplicarEnabled}
+                type="primary"
+                onClick={(_) => {
+                  prepare(esf_from_neg, esf_to_neg, cil_from, cil_to);
+                  prepare(
+                    esf_from_pos,
+                    esf_to_pos,
+                    cil_from,
+                    cil_to,
+                    null,
+                    "P",
+                  );
+                }}
+              >
+                Aplicar
+              </Button>
+            </Col>
+
+            {btnAplicarEnabled ? (
+              <></>
+            ) : (
+              <Col>
+                <Button
+                  danger
+                  onClick={(_) => {
+                    setBtnAplicarEnabled(true);
+                  }}
+                >
+                  <UnlockOutlined />
+                </Button>
+              </Col>
+            )}
+          </Row>
+        </div>
+      </div>
+    </>
+  );
+
   useEffect(() => {
     load_codigos_cristales();
-  }, []);
+  }, [update]);
 
   return (
     <>
@@ -436,161 +611,12 @@ const TestGridCreation = () => {
         </Col>
       </Row>
 
-      <div
-        style={{
-          border: "1px solid #dbdbdb",
-          boxShadow: "4px 6px 8px #f0f0f0",
-          padding: "18px",
-          marginBottom: "16px",
-          borderRadius: "16px",
-          maxWidth: "600px",
-        }}
-      >
-        <Row gutter={[16, 16]}>
-          <Col
-            style={{
-              paddingTop: "6px",
-              fontWeight: "600",
-              color: "darkblue",
-              fontSize: "1.1em",
-            }}
-          >
-            Esf - :{" "}
-          </Col>
-          <Col>
-            <Input
-              style={{ width: "200px" }}
-              disabled={!btnAplicarEnabled}
-              prefix="Desde: "
-              value={esf_from_neg}
-              onChange={(e) => setEsfFromNeg(parseFloat(e.target.value))}
-            />{" "}
-          </Col>
-          <Col>
-            <Input
-              style={{ width: "200px" }}
-              disabled={!btnAplicarEnabled}
-              prefix="Hasta: "
-              value={esf_to_neg}
-              onChange={(e) => setEsfToNeg(parseFloat(e.target.value))}
-            />
-          </Col>
-        </Row>
-        <Row gutter={[16, 16]}>
-          <Col
-            style={{
-              paddingTop: "6px",
-              fontWeight: "600",
-              color: "darkblue",
-              fontSize: "1.1em",
-            }}
-          >
-            Esf + :{" "}
-          </Col>
-          <Col>
-            <Input
-              style={{ width: "200px" }}
-              disabled={!btnAplicarEnabled}
-              prefix="Desde: "
-              value={esf_from_pos}
-              onChange={(e) => setEsfFromPos(parseFloat(e.target.value))}
-            />{" "}
-          </Col>
-          <Col>
-            <Input
-              style={{ width: "200px" }}
-              disabled={!btnAplicarEnabled}
-              prefix="Hasta: "
-              value={esf_to_pos}
-              onChange={(e) => setEsfToPos(parseFloat(e.target.value))}
-            />
-          </Col>
-        </Row>
-        <Row gutter={[16, 16]}>
-          <Col
-            style={{
-              paddingTop: "6px",
-              fontWeight: "600",
-              color: "darkblue",
-              fontSize: "1.1em",
-            }}
-          >
-            Cil:{" "}
-          </Col>
-          <Col>
-            <Input
-              style={{ width: "200px" }}
-              disabled={!btnAplicarEnabled}
-              prefix="Desde: -"
-              value={cil_from}
-              onChange={(e) => setCilFrom(parseFloat(e.target.value))}
-            />{" "}
-          </Col>
-          <Col>
-            <Input
-              style={{ width: "200px" }}
-              disabled={!btnAplicarEnabled}
-              prefix="Hasta: -"
-              value={cil_to}
-              onChange={(e) => setCilTo(parseFloat(e.target.value))}
-            />
-          </Col>
-        </Row>
-        {/*<Row gutter={[16, 16]} style={{ paddingTop: "8px" }}>
-          <Col span="24">
-            <Radio.Group
-              disabled={!btnAplicarEnabled}
-              onChange={(e) => {
-                setTipoGrilla(e.target.value);
-              }}
-              value={tipo_grilla}
-            >
-              <Radio value="positivo">Positivo</Radio>
-              <Radio value="negativo">Negativo</Radio>
-            </Radio.Group>
-          </Col>
-        </Row>*/}
-        <Row gutter={[16, 16]} style={{ paddingTop: "8px" }}>
-          <Col span="24">
-            {" "}
-            <Checkbox disabled={!btnAplicarEnabled}>L/R</Checkbox>{" "}
-          </Col>
-        </Row>
-
-        <Row gutter={[16, 16]} style={{ paddingTop: "8px" }}>
-          <Col>
-            <Button
-              disabled={!btnAplicarEnabled}
-              type="primary"
-              onClick={(_) => {
-                prepare(esf_from_neg, esf_to_neg, cil_from, cil_to);
-                prepare(esf_from_pos, esf_to_pos, cil_from, cil_to, null, "P");
-              }}
-            >
-              Aplicar
-            </Button>
-          </Col>
-
-          {btnAplicarEnabled ? (
-            <></>
-          ) : (
-            <Col>
-              <Button
-                danger
-                onClick={(_) => {
-                  setBtnAplicarEnabled(true);
-                }}
-              >
-                <UnlockOutlined />
-              </Button>
-            </Col>
-          )}
-        </Row>
-      </div>
+      { nuevaGrillaEnabled ? nueva_grilla() : <></>}
       <Card
         size="small"
         title={"Grilla de Cristales " + selectedCodigoLabel}
         style={{ width: "100%" }}
+        extra={<><Button onClick={_=>{load(fkCodigo)}}><ReloadOutlined /></Button></>}
       >
         <Row>
           <Col span="24">{get_grid(dataNeg || [], "negativo")}</Col>

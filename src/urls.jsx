@@ -276,6 +276,8 @@ const post = {
 
     check_req_status: remote_base_url + "aarr/chs/",
 
+    lista_precios_codigos: remote_base_url + "codigos_ext/lp/",
+
     search:{
         filtro_stock: remote_base_url + "stock/filtro_stock/",
     },
@@ -336,6 +338,7 @@ const post = {
         insertar_codigos: remote_base_url + "codigos_ext/insertar_codigos/",
         insert_cuenta_bancaria: remote_base_url + "cuentas_bancarias/",
         insert_stock_cristal_grid: remote_base_url + "sc/insert/grid/",
+        
     },
     update:{
         optica: remote_base_url + "op/mod/",
@@ -588,6 +591,8 @@ const get = {
     obtener_cantidades_ventas_taller: remote_base_url + "infvtas/inf/vtas/taller/cantidades/",
 
     obtener_codigos_cristales: remote_base_url + "sc/get/codigos/",
+
+    
 }
 
 module.exports = {
