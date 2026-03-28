@@ -1,7 +1,9 @@
 
 import CustomStatistic from "@/components/admin/dashboard_components/CustomStatistic";
+import TotalTarjetas from "@/components/admin/dashboard_components/total_tarjetas";
 import TotalesCajasSucursales from "@/components/admin/dashboard_components/totales_caja_sucursales";
 import TotalesCobros from "@/components/admin/dashboard_components/totales_cobros";
+import TotalesMP from "@/components/admin/dashboard_components/totales_mp";
 import ChartTotalesUltimoAnio from "@/components/admin/graficos/totales_ultimo_anio";
 import TotalesVentasMeses from "@/components/admin/graficos/totalesVentasMeses";
 import ResumenOperacionesRow from "@/components/admin/resumenOperacionesRow";
@@ -64,9 +66,15 @@ export default function dashboard_admin(){
         <Col>
             <TotalesCobros />
         </Col>
+        {/*<Col>
+            <TotalTarjetas />
+        </Col>
+        <Col>
+            <TotalesMP />
+        </Col>
         <Col>
             <TotalesCajasSucursales style="black"/>
-        </Col>
+        </Col>*/}
     </Row>
     
     

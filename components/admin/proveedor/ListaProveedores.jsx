@@ -9,6 +9,7 @@ import ListaFacturas from "../factura/listaFacturas";
 import globals from "@/src/globals";
 import { post_method } from "@/src/helpers/post_helper";
 import { formatFloat } from "@/src/helpers/formatters";
+import FichaProveedorV2 from "./fichaProveedorV2";
 
 const ListaProveedores = (props) => {
   const [change, setChange] = useState(false);
@@ -206,7 +207,7 @@ const ListaProveedores = (props) => {
         }}
         destroyOnClose
       >
-        <FichaProveedor
+        <FichaProveedorV2
           idproveedor={idproveedor}
           callback={() => {
             setChange(!change);

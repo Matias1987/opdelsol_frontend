@@ -1,21 +1,21 @@
 import { post_method } from "@/src/helpers/post_helper";
 import { get, post } from "@/src/urls";
-import { Button, Col, Input, Row, Select } from "antd";
+import { Button, Col, Divider, Input, Row, Select } from "antd";
 import { useEffect, useState } from "react";
 import EgresoModo from "./egreso_modo";
 
 const Egreso = (props) => {
-  const {callback, aCajaMaster} = props;
+  const { callback, aCajaMaster } = props;
   const [motivos, setMotivos] = useState([]);
 
   const [egreso, setEgreso] = useState({
     idMotivo: -1,
     monto: 0,
     idcaja: null,
+    modos: [],
   });
 
   const load = (_) => {
-     
     fetch(get.conceptos_gasto)
       .then((response) => response.json())
       .then((response) => {
@@ -23,7 +23,7 @@ const Egreso = (props) => {
           response.data.map((r) => ({
             value: r.idconcepto_gasto,
             label: r.nombre,
-          }))
+          })),
         );
       });
   };
@@ -37,15 +37,13 @@ const Egreso = (props) => {
   };
 
   const onGuardar = () => {
-    //alert(JSON.stringify(egreso))
     // Aquí se implementaría la lógica para guardar el egreso
     console.log("Egreso guardado:", egreso);
     const url = aCajaMaster ? post.insert.egreso_cm : post.insert.egreso;
-    post_method(url, egreso, response=>{
-        alert("Datos Guardados");
-        callback?.();
-
-    })
+    post_method(url, egreso, (response) => {
+      alert("Datos Guardados");
+      callback?.();
+    });
   };
 
   return (
@@ -71,15 +69,16 @@ const Egreso = (props) => {
           />
         </Col>
       </Row>
-      <Row style={row_style}>
+      <Row style={{paddingLeft:"6px", paddingRight:"6px", paddingTop:"6px"}}>
         <Col span={24}>
-          <EgresoModo />
+          <EgresoModo callback={(modos) => setEgreso({ ...egreso, modos })} />
         </Col>
       </Row>
-      <Row style={row_style}>
+      <Divider />
+      <Row style={{paddingLeft:"6px", paddingRight:"6px", paddingBottom:"6px"}}>
         <Col span={24}>
-          <Button type="primary" onClick={onGuardar}>
-            Agregar Egreso
+          <Button type="primary" onClick={onGuardar} disabled={egreso.idMotivo==-1 || egreso.monto<=0/* || egreso.modos.length==0*/} block>
+            Guardar Egreso
           </Button>
         </Col>
       </Row>

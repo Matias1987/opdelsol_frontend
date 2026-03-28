@@ -278,6 +278,8 @@ const post = {
 
     lista_precios_codigos: remote_base_url + "codigos_ext/lp/",
 
+    monedas_existentes_proveedor: remote_base_url + "proveedores/monedas_existentes/",
+
     search:{
         filtro_stock: remote_base_url + "stock/filtro_stock/",
     },
