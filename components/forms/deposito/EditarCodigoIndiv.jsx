@@ -1,10 +1,12 @@
 import Tags from "@/components/etiquetas/tagsCodigos";
+import { decimal_separator } from "@/src/config";
+import { formatFloat } from "@/src/helpers/formatters";
 import { post_method } from "@/src/helpers/post_helper";
 import { get, post } from "@/src/urls";
-import { Button, Col, Input, Modal, Radio, Row, Spin } from "antd";
+import { Button, Col, Input, InputNumber, Modal, Radio, Row, Spin } from "antd";
 import { useEffect, useState } from "react";
 
-const EditarCodigoIndiv = (props) => {
+const EditarCodigoIndiv = ({ idcodigo, callback }) => {
   const [codigo, setCodigo] = useState(null);
 
   const [open, setOpen] = useState(false);
@@ -19,7 +21,7 @@ const EditarCodigoIndiv = (props) => {
 
   const onOpen = () => {
     setOpen(true);
-    fetch(get.detalle_codigo + props.idcodigo)
+    fetch(get.detalle_codigo + idcodigo)
       .then((r) => r.json())
       .then((response) => {
         setCodigo({
@@ -66,9 +68,9 @@ const EditarCodigoIndiv = (props) => {
           alert("Cambios guardados correctamente");
         }
 
-        props?.callback?.(codigo.idcodigo);
+        callback?.(codigo.idcodigo);
         setOpen(false);
-      }
+      },
     );
   };
 
@@ -95,13 +97,12 @@ const EditarCodigoIndiv = (props) => {
                 onChange={(e) => {
                   onChange("codigo", (e.target.value || "").toUpperCase());
                 }}
-               
               />
             </Col>
           </Row>
           <Row>
             <Col span={24}>
-              <Input
+              {/*<Input
                 prefix="Precio Indv.: "
                 value={codigo.precio}
                 onChange={(e) => {
@@ -110,6 +111,26 @@ const EditarCodigoIndiv = (props) => {
                     isNaN(parseFloat(e.target.value))
                       ? 0
                       : parseFloat(e.target.value)
+                  );
+                }}
+              />*/}
+              <InputNumber
+                size="large"
+                style={{ width: "250px" }}
+                decimalSeparator={decimal_separator}
+                onClick={(e) => {
+                  e.target.select();
+                }}
+                value={codigo.precio}
+                prefix={
+                  <span style={{ fontWeight: "600" }}>Monto Efectivo: </span>
+                }
+                onChange={(value) => {
+                  onChange(
+                    "precio",
+                    (value || "").toString().length < 1
+                      ? "0"
+                      : value.toString(),
                   );
                 }}
               />
@@ -143,7 +164,7 @@ const EditarCodigoIndiv = (props) => {
                 }}
               >
                 <Radio value={1}>
-                  Precio Subgrupo <b>(${precioSubgrupo})</b>
+                  Precio Subgrupo <b>(${formatFloat(precioSubgrupo)})</b>
                 </Radio>
                 <Radio value={2}>Precio Individual</Radio>
               </Radio.Group>

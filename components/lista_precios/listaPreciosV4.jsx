@@ -1,10 +1,13 @@
-import {Tabs} from "antd";
+import {Modal, Tabs} from "antd";
 import ListaPreciosCodigos from "./listaPreciosCodigos";
 import { useState } from "react";
+import EditarCodigoIndiv from "../forms/deposito/EditarCodigoIndiv";
 
 const ListaPreciosV4 = (props) => {
     const [activeKey, setActiveKey] = useState('1');
-
+    const [modalEditarVisible, setModalEditarVisible] = useState(false);
+    const [codigoSeleccionado, setCodigoSeleccionado] = useState(null);
+    const [reloadTrigger, setReloadTrigger] = useState(0);
   const onChange = (key) => {
     setActiveKey(key)
     console.log(key);
@@ -17,12 +20,18 @@ const ListaPreciosV4 = (props) => {
   {
     key: '1',
     label: <span style={activeKey=='1' ? current_tab_style : idle_tab_style }>Cristales</span>,
-    children: <ListaPreciosCodigos title={"Cristales"} idRef={"67689"} nivelFiltro={"subgrupo"} />,
+    children: <ListaPreciosCodigos key={reloadTrigger} title={"Cristales"} idRef={"67689"} nivelFiltro={"subgrupo"} onRowClick={(record) => {
+      setCodigoSeleccionado(record.idcodigo);
+      setModalEditarVisible(true);
+    }} />,
   },
   {
     key: '2',
     label: <span style={activeKey=='2' ? current_tab_style : idle_tab_style}>Armazones</span>,
-    children: <ListaPreciosCodigos title={"Armazones"} idRef={"2"} nivelFiltro={"familia"} />,
+    children: <ListaPreciosCodigos key={reloadTrigger} title={"Armazones"} idRef={"2"} nivelFiltro={"familia"} onRowClick={(record) => {
+      setCodigoSeleccionado(record.idcodigo);
+      setModalEditarVisible(true);
+    }} />,
   },
 
 ];
@@ -30,6 +39,17 @@ const ListaPreciosV4 = (props) => {
   return (
     <>
       <Tabs defaultActiveKey="1" activeKey={activeKey} items={items} onChange={onChange} type="card" />
+      <Modal
+        title="Editar Código"
+        open={modalEditarVisible}
+        onCancel={() => setModalEditarVisible(false)}
+        footer={null}
+      >
+        <EditarCodigoIndiv idcodigo={codigoSeleccionado} callback={() => {
+          setModalEditarVisible(false);
+          setReloadTrigger((prev) => prev + 1);
+        }} />
+      </Modal>
     </>
   );
 };

@@ -69,11 +69,11 @@ const Egreso = (props) => {
           />
         </Col>
       </Row>
-      <Row style={{paddingLeft:"6px", paddingRight:"6px", paddingTop:"6px"}}>
+      {/*<Row style={{paddingLeft:"6px", paddingRight:"6px", paddingTop:"6px"}}>
         <Col span={24}>
           <EgresoModo callback={(modos) => setEgreso({ ...egreso, modos })} />
         </Col>
-      </Row>
+      </Row>*/}
       <Divider />
       <Row style={{paddingLeft:"6px", paddingRight:"6px", paddingBottom:"6px"}}>
         <Col span={24}>
