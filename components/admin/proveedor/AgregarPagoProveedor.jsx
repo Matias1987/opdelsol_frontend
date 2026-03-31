@@ -41,6 +41,7 @@ const AgregarPagoProveedor = (props) => {
   const [pago, setPago] = useState({
     monto: 0,
     fecha: "",
+    moneda: props.moneda,
   });
   const [reload, setReload] = useState(false);
 
@@ -147,6 +148,7 @@ const AgregarPagoProveedor = (props) => {
       <Row>
         <Col span={24}>
           <SeleccionCompraAPagar
+            moneda={props.moneda}
             idproveedor={props.idproveedor}
             onChange={onCompraAPagarSeleccionada}
           />

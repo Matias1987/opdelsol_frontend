@@ -5,7 +5,6 @@ import AgregarCMProveedor from "./AregarCMProveedor";
 import { get, post } from "@/src/urls";
 import { post_method } from "@/src/helpers/post_helper";
 
-import { ArrowDownOutlined, CloseOutlined } from "@ant-design/icons";
 import DetalleFactura from "@/components/forms/deposito/DetalleFactura";
 import ExportToCSV from "@/components/ExportToCSV";
 import AgregarFacturaV3 from "../factura/agregarFacturaV3";
@@ -90,7 +89,7 @@ const FichaProveedorMoneda = ({
   const load = () => {
     post_method(
       post.ficha_proveedor,
-      { idproveedor: idproveedor, modo: 1 },
+      { idproveedor: idproveedor, modo: 1, moneda: moneda },
       (response) => {
         let total_d = 0;
         let total_h = 0;
@@ -107,7 +106,7 @@ const FichaProveedorMoneda = ({
     );
     post_method(
       post.ficha_proveedor,
-      { idproveedor: idproveedor, modo: 0 },
+      { idproveedor: idproveedor, modo: 0, moneda: moneda },
       (response) => {
         let total_d = 0;
         let total_h = 0;
@@ -124,7 +123,7 @@ const FichaProveedorMoneda = ({
     );
     post_method(
       post.ficha_proveedor,
-      { idproveedor: idproveedor, modo: -1 },
+      { idproveedor: idproveedor, modo: -1, moneda: moneda },
       (response) => {
         let total_d = 0;
         let total_h = 0;
@@ -209,7 +208,8 @@ const FichaProveedorMoneda = ({
                       {formatFloat(
                         parseFloat(totalesRemito.debe) -
                           parseFloat(totalesRemito.haber),
-                      )}
+                      )}&nbsp;
+                      {moneda}
                     </div>
                   </Table.Summary.Cell>
                 </Table.Summary.Row>
@@ -307,7 +307,8 @@ const FichaProveedorMoneda = ({
                       {formatFloat(
                         parseFloat(totalesFactura.debe) -
                           parseFloat(totalesFactura.haber),
-                      )}
+                      )}&nbsp;
+                      {moneda}
                     </div>
                   </Table.Summary.Cell>
                 </Table.Summary.Row>
@@ -404,7 +405,8 @@ const FichaProveedorMoneda = ({
                       Saldo: ${" "}
                       {formatFloat(
                         parseFloat(totales.debe) - parseFloat(totales.haber),
-                      )}
+                      )}&nbsp;
+                      {moneda}
                     </div>
                   </Table.Summary.Cell>
                 </Table.Summary.Row>
@@ -463,7 +465,7 @@ const FichaProveedorMoneda = ({
       <Modal
         destroyOnClose
         width={"70%"}
-        title="Cargar Pago"
+        title={`Cargar Pago - ${moneda}`}
         footer={null}
         open={popupPagoOpen}
         onCancel={() => {
@@ -474,6 +476,7 @@ const FichaProveedorMoneda = ({
         <AgregarPagoProveedor
           idproveedor={idproveedor}
           modo={modo}
+          moneda={moneda}
           callback={() => {
             setPopupPagoOpen(false);
             setReload(!reload);
@@ -485,7 +488,7 @@ const FichaProveedorMoneda = ({
       <Modal
         destroyOnClose
         width={"700px"}
-        title="Carga Manual"
+        title={`Carga Manual - ${moneda}`}
         footer={null}
         open={popupCMOpen}
         onCancel={() => {
@@ -496,6 +499,7 @@ const FichaProveedorMoneda = ({
         <AgregarCMProveedor
           idproveedor={idproveedor}
           modo={modo}
+          moneda={moneda}
           callback={() => {
             setPopupCMOpen(false);
             setReload(!reload);
@@ -506,7 +510,7 @@ const FichaProveedorMoneda = ({
         destroyOnClose
         width={"70%"}
         open={popupAddFacturaOpen}
-        title="Agregar Factura"
+        title={`Agregar Factura - ${moneda}`}
         footer={null}
         onCancel={() => {
           setPopupAddFacturaOpen(false);
@@ -514,6 +518,7 @@ const FichaProveedorMoneda = ({
       >
         <AgregarFacturaV3
           idproveedor={idproveedor}
+          moneda={moneda}
           callback={() => {
             setReload(!reload);
             setPopupAddFacturaOpen(false);
@@ -524,7 +529,7 @@ const FichaProveedorMoneda = ({
         destroyOnClose
         width={"70%"}
         open={popupAddRemitoOpen}
-        title="Agregar Remito"
+        title={`Agregar Remito - ${moneda}`}
         footer={null}
         onCancel={() => {
           setPopupAddRemitoOpen(false);
@@ -533,6 +538,7 @@ const FichaProveedorMoneda = ({
         <AgregarFacturaV3
           idproveedor={idproveedor}
           esremito={true}
+          moneda={moneda}
           callback={() => {
             setReload(!reload);
             setPopupAddRemitoOpen(false);

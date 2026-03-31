@@ -40,6 +40,7 @@ const AgregarFacturaV3 = (props) => {
     descuento: 0,
     netoGravado: 0,
     netoNoGravado: 0,
+    moneda: props.moneda
   });
   const [reload, setReload] = useState(false);
 

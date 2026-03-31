@@ -5,7 +5,7 @@ import { ArrowRightOutlined, CheckOutlined } from "@ant-design/icons";
 import { Button, Checkbox, Col, Input, Modal, Row, Table } from "antd";
 import { useEffect, useState } from "react";
 
-const SeleccionCompraAPagar = ({ idproveedor, onChange }) => {
+const SeleccionCompraAPagar = ({ idproveedor, onChange, moneda }) => {
   const [compras, setCompras] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedCompra, setSelectedCompra] = useState(null);
@@ -108,7 +108,7 @@ const SeleccionCompraAPagar = ({ idproveedor, onChange }) => {
   const load = () => {
     post_method(
       post.obtener_facturas_saldo,
-      { idproveedor: idproveedor },
+      { idproveedor: idproveedor, moneda: moneda },
       (resp) => {
         setCompras(
           resp.data.map((r) => ({ ...r, checked: false, monto_a_pagar: 0 })),

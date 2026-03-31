@@ -9,10 +9,10 @@ const AgregarCMProveedor = (props) => {
         monto:"",
         comentarios:"",
         fecha:"",
+        moneda: props.moneda
     })
 
     const guardar = _ => {
-        //alert(JSON.stringify({...cargaManual, modo:props.modo, fk_proveedor: props.idproveedor }))
 
         if(isNaN(cargaManual.monto))
         {

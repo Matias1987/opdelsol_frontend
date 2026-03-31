@@ -12,22 +12,7 @@ const FichaProveedorV2 = ({ idproveedor, callback }) => {
   const [tabItems, setTabItems] = useState([]);
   const [reload, setReload] = useState(false);
   const [datosProveedor, setDatosProveedor] = useState(null);
-
-  const detalle_proveedor = (_) =>
-    datosProveedor == null ? (
-      <Spin />
-    ) : (
-      <>
-        <Row>
-          <Col span={24}>
-            Nombre:{" "}
-            <span style={{ fontWeight: "bold", color: "darkslateblue" }}>
-              {datosProveedor.nombre}
-            </span>
-          </Col>
-        </Row>
-      </>
-    );
+  const [selectedTab, setSelectedTab] = useState("ARS");
 
   const load_datos_proveedor = (_) => {
     fetch(get.detalle_proveedor + idproveedor)
@@ -48,13 +33,14 @@ const FichaProveedorV2 = ({ idproveedor, callback }) => {
       (response) => {
         setMonedasExistentesProveedor(response.data);
         const items = response.data.map((m) => {
+          //alert(JSON.stringify(m));
           return {
-            label: m.moneda,
+            label: <div style={{fontWeight:"600", fontSize:"1.2em"}} >{m.moneda}</div>,
             key: m.moneda,
             children: (
               <FichaProveedorMoneda
                 idproveedor={idproveedor}
-                modo={m.moneda}
+                moneda={m.moneda}
                 callback={callback}
                 datosProveedor={datosProveedor}
               />
@@ -66,6 +52,10 @@ const FichaProveedorV2 = ({ idproveedor, callback }) => {
     );
   };
 
+  const onChangeTab = (key) => {
+    setSelectedTab(key);
+  };
+
   useEffect(() => {
     load_datos_proveedor();
     load_monedas_existentes_proveedor();
@@ -73,19 +63,38 @@ const FichaProveedorV2 = ({ idproveedor, callback }) => {
 
   return (
     <>
-    <Card style={{ margin: "12px" }} size="small" title={"Proveedor: " + (datosProveedor ? datosProveedor.nombre : "")} extra={
-        <>
-        <span style={{fontSize:"14px", color:"gray"}}>ID: {idproveedor}</span>
-        <Button onClick={_=>{callback?.()}} danger type="link"><CloseOutlined /> Cerrar</Button>
-        </>
-
-        }>
-
-      <Row>
-        <Col span={24}>
-          <Tabs items={tabItems} direction="ltr" tabPosition="top" type="card" />
-        </Col>
-      </Row>
+      <Card
+        style={{ margin: "12px" }}
+        size="small"
+        title={"Proveedor: " + (datosProveedor ? datosProveedor.nombre : "")}
+        extra={
+          <>
+            <span style={{ fontSize: "14px", color: "gray" }}>
+              ID: {idproveedor}
+            </span>
+            <Button
+              onClick={(_) => {
+                callback?.();
+              }}
+              danger
+              type="link"
+            >
+              <CloseOutlined /> Cerrar
+            </Button>
+          </>
+        }
+      >
+        <Row>
+          <Col span={24}>
+            <Tabs
+              items={tabItems}
+              direction="ltr"
+              tabPosition="top"
+              type="card"
+              onChange={onChangeTab}
+            />
+          </Col>
+        </Row>
       </Card>
     </>
   );
