@@ -9,6 +9,7 @@ import DetalleFactura from "@/components/forms/deposito/DetalleFactura";
 import ExportToCSV from "@/components/ExportToCSV";
 import AgregarFacturaV3 from "../factura/agregarFacturaV3";
 import { formatFloat } from "@/src/helpers/formatters";
+import ExportToExcel2 from "@/components/etc/ExportToExcel2";
 const { TabPane } = Tabs;
 const FichaProveedorMoneda = ({
   idproveedor,
@@ -47,6 +48,9 @@ const FichaProveedorMoneda = ({
       title: "Detalle",
       render: (_, { tipo, detalle, id }) => {
         switch (tipo) {
+          case "PREV":
+            return <>{detalle}</>;
+            break;
           case "FACTURA":
             return (
               <>
@@ -62,7 +66,7 @@ const FichaProveedorMoneda = ({
               </>
             );
           case "PAGO":
-            return <>Pago</>;
+            return <>{detalle}</>;
           case "CM":
             return <>{detalle}</>;
         }
@@ -72,7 +76,7 @@ const FichaProveedorMoneda = ({
       title: <div style={{ textAlign: "right" }}>Debe</div>,
       render: (_, { debe }) => (
         <div style={{ color: "darkblue", textAlign: "right" }}>
-          $&nbsp;{formatFloat(debe)}
+          $&nbsp;{formatFloat(debe||"0")}
         </div>
       ),
     },
@@ -80,7 +84,7 @@ const FichaProveedorMoneda = ({
       title: <div style={{ textAlign: "right" }}>Haber</div>,
       render: (_, { haber }) => (
         <div style={{ color: "darkblue", textAlign: "right" }}>
-          $&nbsp;{formatFloat(haber)}
+          $&nbsp;{formatFloat(haber||"0")}
         </div>
       ),
     },
@@ -94,8 +98,8 @@ const FichaProveedorMoneda = ({
         let total_d = 0;
         let total_h = 0;
         response.data.forEach((r) => {
-          total_d += parseFloat(r.debe);
-          total_h += parseFloat(r.haber);
+          total_d += parseFloat(r.debe||"0");
+          total_h += parseFloat(r.haber||"0");
         });
         setTotalesFactura((_) => ({
           debe: total_d,
@@ -111,8 +115,8 @@ const FichaProveedorMoneda = ({
         let total_d = 0;
         let total_h = 0;
         response.data.forEach((r) => {
-          total_d += parseFloat(r.debe);
-          total_h += parseFloat(r.haber);
+          total_d += parseFloat(r.debe||"0");
+          total_h += parseFloat(r.haber||"0");
         });
         setTotalesRemito((_) => ({
           debe: total_d,
@@ -128,8 +132,8 @@ const FichaProveedorMoneda = ({
         let total_d = 0;
         let total_h = 0;
         response.data.forEach((r) => {
-          total_d += parseFloat(r.debe);
-          total_h += parseFloat(r.haber);
+          total_d += parseFloat(r.debe||"0");
+          total_h += parseFloat(r.haber||"0");
         });
         setTotales((_) => ({
           debe: total_d,
@@ -458,6 +462,13 @@ const FichaProveedorMoneda = ({
               {_general()}
             </TabPane>
           </Tabs>
+        </Col>
+      </Row>
+      <Row style={{padding:"8px"}}>
+        <Col span={24}>
+        <ExportToExcel2
+        buttonSize="small"
+        />
         </Col>
       </Row>
 

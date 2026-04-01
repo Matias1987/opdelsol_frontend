@@ -17,6 +17,7 @@ const ListaProveedores = (props) => {
 
   const [popupFichaOpen, setPopupFichaOpen] = useState(false);
   const [idproveedor, setIdProveedor] = useState(-1);
+  const [loading, setLoading] = useState(false);
 
   const url_for_proveedores = post.saldo_proveedores_lista; //get.lista_proveedores;
   const [tableData, setTableData] = useState([]);
@@ -46,13 +47,24 @@ const ListaProveedores = (props) => {
     { title: "Nombre", dataIndex: "nombre", key: "nombre", sorter: (a, b) => a.nombre.localeCompare(b.nombre) },
     { title: "C.U.I.T.", dataIndex: "cuit", key: "cuit", sorter: (a, b) => a.cuit.localeCompare(b.cuit) },
     {
-      sorter: (a, b) => a.saldo - b.saldo,
-      title: <div style={{ textAlign: "right" }}>Saldo</div>,
-      dataIndex: "saldo",
-      key: "saldo",
+      sorter: (a, b) => +a.saldo_ars - +b.saldo_ars,
+      title: <div style={{ textAlign: "right" }}>Saldo ARS</div>,
+      dataIndex: "saldo_ars",
+      key: "saldo_ars",
       render: (_, record) => (
         <div style={{ textAlign: "right" }}>
-          {formatFloat(record.saldo)}
+          {formatFloat(record.saldo_ars)}
+        </div>
+      ),
+    },
+    {
+      sorter: (a, b) => +a.saldo_usd - +b.saldo_usd,
+      title: <div style={{ textAlign: "right" }}>Saldo USD</div>,
+      dataIndex: "saldo_usd",
+      key: "saldo_usd",
+      render: (_, record) => (
+        <div style={{ textAlign: "right" }}>
+          {formatFloat(record.saldo_usd)}
         </div>
       ),
     },
@@ -97,17 +109,19 @@ const ListaProveedores = (props) => {
         )
 
     })*/
+   setLoading(true);
     post_method(url_for_proveedores, {}, (response) => {
-      //alert(JSON.stringify(response))
       setTableData(
         response.data.map((r) => ({
           idproveedor: r.idproveedor,
           nombre: r.nombre,
           cuit: r.cuit,
-          saldo: r.saldo,
+          saldo_ars: r.saldo_ars,
+          saldo_usd: r.saldo_usd,
           checked: false,
         }))
       );
+      setLoading(false);
     });
   };
 
@@ -165,6 +179,7 @@ const ListaProveedores = (props) => {
         <Row>
           <Col span={24}>
             <Table
+              loading={loading}
               title={header}
               size="small"
               rowClassName={(record, index) =>
