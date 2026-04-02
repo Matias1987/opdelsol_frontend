@@ -10,7 +10,7 @@ const FichaProveedorV2 = ({ idproveedor, callback }) => {
     [],
   );
   const [tabItems, setTabItems] = useState([]);
-  const [reload, setReload] = useState(false);
+  const [reload] = useState(false);
   const [datosProveedor, setDatosProveedor] = useState(null);
   const [selectedTab, setSelectedTab] = useState("ARS");
 
@@ -35,7 +35,11 @@ const FichaProveedorV2 = ({ idproveedor, callback }) => {
         const items = response.data.map((m) => {
           //alert(JSON.stringify(m));
           return {
-            label: <div style={{fontWeight:"600", fontSize:"1.2em"}} >{m.moneda}</div>,
+            label: (
+              <div style={{ fontWeight: "600", fontSize: "1.2em" }}>
+                {m.moneda}
+              </div>
+            ),
             key: m.moneda,
             children: (
               <FichaProveedorMoneda
@@ -55,6 +59,27 @@ const FichaProveedorV2 = ({ idproveedor, callback }) => {
   const onChangeTab = (key) => {
     setSelectedTab(key);
   };
+
+  const RoundedTabBar = (props1, DefaultTabBar) => {
+  // props contains info about tabs, activeKey, etc.
+  const { panes, activeKey, onTabClick } = props1;
+
+  return (
+    <div style={{ display: 'flex', gap: '8px' }}>
+      {panes.map(pane => (
+        <Button
+          style={{boxShadow:"2px 2px 1px 1px #afafaf"}}
+          key={pane.key}
+          shape="round"
+          type={activeKey === pane.key ? 'primary' : 'default'}
+          onClick={() => onTabClick(pane.key)}
+        >
+          { pane.props.tab /* This is the label of the tab */}
+        </Button>
+      ))}
+    </div>
+  );
+};
 
   useEffect(() => {
     load_datos_proveedor();
@@ -87,6 +112,14 @@ const FichaProveedorV2 = ({ idproveedor, callback }) => {
         <Row>
           <Col span={24}>
             <Tabs
+              renderTabBar={RoundedTabBar}
+              tabBarGutter={16}
+              tabBarStyle={{
+                background: "#f2f6fc",
+                padding: "0 16px",
+                borderBottom: "1px solid #d9d9d9",
+              }}
+              size="small"
               items={tabItems}
               direction="ltr"
               tabPosition="top"

@@ -22,6 +22,25 @@ export default function TrabajoMultifLab() {
     });
   };
 
+  const onProductosCallback = (_productos) => {
+    setProductos((productos) => _productos);
+    //calculate total
+
+    var _total = 0;
+    _total += parseFloat(_productos?.od?.precio || 0);
+    _total += parseFloat(_productos?.oi?.precio || 0);
+    _total += parseFloat(_productos?.armazon?.precio || 0);
+    _total += parseFloat(_productos?.tratamiento?.precio || 0);
+
+    setSubTotal((st) => _total);
+
+    var dto = typeof venta === "undefined" ? 0 : venta?.descuento || 0;
+
+    setTotal((total) => _total - dto);
+
+    setProductos((___productos) => _productos);
+  };
+
   const calcular_total = (_productos) => {
     var _t = 0;
     _t += parseFloat(_productos?.lejos_od?.precio || 0);

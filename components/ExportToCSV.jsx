@@ -7,7 +7,7 @@ import { Button }  from "antd";
  * @param columns columns acording to json 
  * @param parseFnt 
  */
-const ExportToCSV = ({parseFnt,fileName}) =>{
+const ExportToCSV = ({parseFnt,fileName, disabled}) =>{
 
     const downloadTxtFile = () => {
         if(typeof parseFnt === 'undefined')
@@ -31,7 +31,7 @@ const ExportToCSV = ({parseFnt,fileName}) =>{
       }
 
       return <>
-        <Button size="small" onClick={downloadTxtFile} style={{backgroundColor:"#F4E086FF"}}><ExportOutlined />CSV</Button>
+        <Button disabled={disabled||false} size="small" onClick={downloadTxtFile} style={{backgroundColor:"#F4E086FF"}}><ExportOutlined />CSV</Button>
       </>
 
 }

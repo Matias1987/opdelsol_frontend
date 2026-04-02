@@ -1,4 +1,4 @@
-import { Button, Card, Col, Modal, Row, Spin, Table, Tabs, Tag } from "antd";
+import { Button, Card, Checkbox, Col, Modal, Row, Spin, Table, Tabs, Tag } from "antd";
 import { useEffect, useState } from "react";
 import AgregarPagoProveedor from "./AgregarPagoProveedor";
 import AgregarCMProveedor from "./AregarCMProveedor";
@@ -76,7 +76,7 @@ const FichaProveedorMoneda = ({
       title: <div style={{ textAlign: "right" }}>Debe</div>,
       render: (_, { debe }) => (
         <div style={{ color: "darkblue", textAlign: "right" }}>
-          $&nbsp;{formatFloat(debe||"0")}
+          $&nbsp;{formatFloat(debe || "0")}
         </div>
       ),
     },
@@ -84,7 +84,7 @@ const FichaProveedorMoneda = ({
       title: <div style={{ textAlign: "right" }}>Haber</div>,
       render: (_, { haber }) => (
         <div style={{ color: "darkblue", textAlign: "right" }}>
-          $&nbsp;{formatFloat(haber||"0")}
+          $&nbsp;{formatFloat(haber || "0")}
         </div>
       ),
     },
@@ -98,8 +98,8 @@ const FichaProveedorMoneda = ({
         let total_d = 0;
         let total_h = 0;
         response.data.forEach((r) => {
-          total_d += parseFloat(r.debe||"0");
-          total_h += parseFloat(r.haber||"0");
+          total_d += parseFloat(r.debe || "0");
+          total_h += parseFloat(r.haber || "0");
         });
         setTotalesFactura((_) => ({
           debe: total_d,
@@ -115,8 +115,8 @@ const FichaProveedorMoneda = ({
         let total_d = 0;
         let total_h = 0;
         response.data.forEach((r) => {
-          total_d += parseFloat(r.debe||"0");
-          total_h += parseFloat(r.haber||"0");
+          total_d += parseFloat(r.debe || "0");
+          total_h += parseFloat(r.haber || "0");
         });
         setTotalesRemito((_) => ({
           debe: total_d,
@@ -132,8 +132,8 @@ const FichaProveedorMoneda = ({
         let total_d = 0;
         let total_h = 0;
         response.data.forEach((r) => {
-          total_d += parseFloat(r.debe||"0");
-          total_h += parseFloat(r.haber||"0");
+          total_d += parseFloat(r.debe || "0");
+          total_h += parseFloat(r.haber || "0");
         });
         setTotales((_) => ({
           debe: total_d,
@@ -163,7 +163,7 @@ const FichaProveedorMoneda = ({
       <Row style={{ backgroundColor: "#E7E7E7" }}>
         <Col span={24} style={{ padding: "0em" }}>
           <Table
-            title={() => table_header("Remitos", operacionesR)}
+            title={() => table_header(null, operacionesR)}
             size="small"
             dataSource={operacionesR}
             columns={columns}
@@ -212,7 +212,8 @@ const FichaProveedorMoneda = ({
                       {formatFloat(
                         parseFloat(totalesRemito.debe) -
                           parseFloat(totalesRemito.haber),
-                      )}&nbsp;
+                      )}
+                      &nbsp;
                       {moneda}
                     </div>
                   </Table.Summary.Cell>
@@ -261,9 +262,9 @@ const FichaProveedorMoneda = ({
   const _facturas = (_) => (
     <>
       <Row style={{ backgroundColor: "#E7E7E7" }}>
-        <Col span={24} style={{ padding: "1em" }}>
+        <Col span={24}>
           <Table
-            title={() => table_header("Lista de Operaciones", operacionesF)}
+            title={() => table_header(null, operacionesF)}
             size="small"
             dataSource={operacionesF}
             columns={columns}
@@ -311,7 +312,8 @@ const FichaProveedorMoneda = ({
                       {formatFloat(
                         parseFloat(totalesFactura.debe) -
                           parseFloat(totalesFactura.haber),
-                      )}&nbsp;
+                      )}
+                      &nbsp;
                       {moneda}
                     </div>
                   </Table.Summary.Cell>
@@ -363,6 +365,7 @@ const FichaProveedorMoneda = ({
       <Row>
         <Col span={24}>
           <Table
+            title={() => table_header("Lista de Operaciones", operacionesGeneral)}
             size="small"
             dataSource={operacionesGeneral}
             columns={columns}
@@ -409,7 +412,8 @@ const FichaProveedorMoneda = ({
                       Saldo: ${" "}
                       {formatFloat(
                         parseFloat(totales.debe) - parseFloat(totales.haber),
-                      )}&nbsp;
+                      )}
+                      &nbsp;
                       {moneda}
                     </div>
                   </Table.Summary.Cell>
@@ -423,24 +427,39 @@ const FichaProveedorMoneda = ({
   );
 
   const table_header = (title, csv_src) => (
-    <>
-      <span style={{ fontWeight: "bold" }}>
+    <div style={{display:"flex", justifyContent:"space-between"}}>
+      <div >
+      <span style={{ fontWeight: "bold", paddingRight:"16px" }}>
         {title || "Lista de Operaciones"}
-      </span>{" "}
-      &nbsp;&nbsp;&nbsp;{" "}
-      <ExportToCSV
-        parseFnt={() => {
-          if (datosProveedor == null || csv_src == null) {
-            return;
-          }
-          let str = `PROVEEDOR: ,${datosProveedor.nombre},,,,\r\nID, FECHA, DETALLE, DEBE, HABER\r\n`;
-          csv_src.forEach((o) => {
-            str += `${o.id},${o.fecha_f},${o.detalle},${o.debe},${o.haber}\r\n`;
-          });
-          return str;
-        }}
-      />
-    </>
+      </span>
+      
+      {/*&nbsp;&nbsp;&nbsp;
+      <ExportToExcel2
+        buttonSize="small"
+        buttonType="text"
+        buttonStyle={{ backgroundColor: "transparent", color: "#217346" }}
+      />*/}
+     
+      {
+        <ExportToCSV
+          disabled
+          parseFnt={() => {
+            if (datosProveedor == null || csv_src == null) {
+              return;
+            }
+            let str = `PROVEEDOR: ,${datosProveedor.nombre},,,,\r\nID, FECHA, DETALLE, DEBE, HABER\r\n`;
+            csv_src.forEach((o) => {
+              str += `${o.id},${o.fecha_f},${o.detalle},${o.debe},${o.haber}\r\n`;
+            });
+            return str;
+          }}
+        />
+      }
+      </div>
+      <div style={{paddingLeft:"8px"}}>
+      <Checkbox>Ver Todo</Checkbox>
+      </div>
+    </div>
   );
 
   const onTabChange = (key) => {
@@ -462,13 +481,6 @@ const FichaProveedorMoneda = ({
               {_general()}
             </TabPane>
           </Tabs>
-        </Col>
-      </Row>
-      <Row style={{padding:"8px"}}>
-        <Col span={24}>
-        <ExportToExcel2
-        buttonSize="small"
-        />
         </Col>
       </Row>
 

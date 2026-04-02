@@ -84,7 +84,7 @@ export default function SelectMedico(props){
 
     const show_details = () => (
         dataMedico === null ? <Spin /> : <>
-            Medico: <b>{dataMedico.nombre}</b> - <b>{dataMedico.matricula}</b> &nbsp;
+            <span style={{fontWeight:"600", color:"#001646"}}>Medico:</span> <b>{dataMedico.nombre}</b> - <b>{dataMedico.matricula}</b> &nbsp;
             <Button size="small" style={{color:"red"}} type="ghost" onClick={()=>{setIdMedico(-1); setDataMedico(null); props?.callback?.(null);}}><CloseOutlined size={"small"} /></Button>
         </>
     )

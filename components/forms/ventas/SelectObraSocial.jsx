@@ -40,7 +40,7 @@ const SelectObraSocial = (props) => {
 
     const show_details = () =>(
         dataObraSocial == null ? <Spin /> : <>
-            Obra Social: <b>{dataObraSocial.nombre}</b>
+            <span style={{fontWeight:"400", color:"#000000"}}>Obra Social:</span> <b>{dataObraSocial.nombre}</b>
             <Button style={{color:"red"}} type="ghost" onClick={()=>{setIdOS(-1); setDataObraSocial(null)}}><CloseOutlined /></Button>
         </>
     )

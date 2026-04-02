@@ -15,13 +15,30 @@ export default function TrabajoMonofLab() {
   const [productos, setProductos] = useState(null);
   const [idVenta, setIdVenta] = useState(-1);
   const [printOpen, setPrintOpen] = useState(false);
-  const callback = (productos) => {
+
+
+  const onProductosCallback = (_p) => {
+    setProductos((productos) => _p);
+    var _total = parseFloat(_p?.lejos_od?.precio || 0);
+    _total += parseFloat(_p?.lejos_oi?.precio || 0);
+    _total += parseFloat(_p?.lejos_armazon?.precio || +0);
+    _total += parseFloat(_p?.lejos_tratamiento?.precio || +0);
+    _total += parseFloat(_p?.cerca_od?.precio || +0);
+    _total += parseFloat(_p?.cerca_oi?.precio || +0);
+    _total += parseFloat(_p?.cerca_armazon?.precio || +0);
+    _total += parseFloat(_p?.cerca_tratamiento?.precio || +0);
+    setSubTotal((st) => _total);
+    var dto = typeof venta === "undefined" ? 0 : venta?.descuento || 0;
+    setTotal((total) => _total - dto);
+  };
+
+
+    const callback = (productos) => {
     setProductos((_productos) => {
       calcular_total(productos);
       return productos;
     });
   };
-
   const calcular_total = (_productos) => {
     var _t = 0;
     _t += parseFloat(_productos?.lejos_od?.precio || 0);
@@ -73,7 +90,7 @@ export default function TrabajoMonofLab() {
               onFailValidation();
             },
 
-            false, 
+            false,
           );
         }}
       >

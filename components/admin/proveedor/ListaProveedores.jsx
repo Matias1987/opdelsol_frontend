@@ -213,9 +213,10 @@ const ListaProveedores = (props) => {
 
       {/** is this temporary? */}
       <Modal
+        styles={{body:{ padding: "0", margin: "0" }}}
         closable={false}
         footer={null}
-        width={"90%"}
+        width={"1200px"}
         open={popupFichaOpen}
         onCancel={() => {
           setPopupFichaOpen(false);
