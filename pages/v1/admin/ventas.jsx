@@ -1,4 +1,6 @@
 import ListaVentasDia from "@/components/admin/listaVentasDia";
+import BuscarVenta from "@/components/forms/ventas/BuscarVenta";
+import BuscarVentaV3 from "@/components/forms/ventas/BuscarVentasV3";
 import ListaVentasMedicosTotales from "@/components/informes/medicos/ventas_medicos_totales";
 import InformeVentasTotales from "@/components/informes/ventas/admin/totales";
 import VentasSucursales from "@/components/informes/ventas/admin/ventas_sucursales";
@@ -27,6 +29,11 @@ const VentasAdminPanel = () => {
       key: "4",
       label: "Ventas Médicos",
       children: <ListaVentasMedicosTotales />,
+    },
+    {
+      key: "5",
+      label: "Buscar Ventas",
+      children: <BuscarVenta />,
     },
   ];
   return (

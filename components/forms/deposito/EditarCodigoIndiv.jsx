@@ -6,7 +6,7 @@ import { get, post } from "@/src/urls";
 import { Button, Col, Input, InputNumber, Modal, Radio, Row, Spin } from "antd";
 import { useEffect, useState } from "react";
 
-const EditarCodigoIndiv = ({ idcodigo, callback }) => {
+const EditarCodigoIndiv = ({ idcodigo, callback, modifModPrecioEnabled,  modifTagsEnabled }) => {
   const [codigo, setCodigo] = useState(null);
 
   const [open, setOpen] = useState(false);
@@ -148,11 +148,14 @@ const EditarCodigoIndiv = ({ idcodigo, callback }) => {
               />
             </Col>
           </Row>
+          {modifTagsEnabled && (
           <Row>
             <Col span={24}>
               <Tags idcodigo={codigo.idcodigo} readOnly={"-1"} />
             </Col>
           </Row>
+          )}
+          {modifModPrecioEnabled && (
           <Row>
             <Col span={24}>
               <Radio.Group
@@ -170,6 +173,7 @@ const EditarCodigoIndiv = ({ idcodigo, callback }) => {
               </Radio.Group>
             </Col>
           </Row>
+          )}
           <Row>
             <Col span={24}>
               <hr />

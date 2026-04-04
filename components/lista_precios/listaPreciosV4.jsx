@@ -2,8 +2,10 @@ import {Modal, Tabs} from "antd";
 import ListaPreciosCodigos from "./listaPreciosCodigos";
 import { useState } from "react";
 import EditarCodigoIndiv from "../forms/deposito/EditarCodigoIndiv";
+import { id_subgrupo_cristales } from "@/src/config";
+import globals from "@/src/globals";
 
-const ListaPreciosV4 = (props) => {
+const ListaPreciosV4 = ({editable}) => {
     const [activeKey, setActiveKey] = useState('1');
     const [modalEditarVisible, setModalEditarVisible] = useState(false);
     const [codigoSeleccionado, setCodigoSeleccionado] = useState(null);
@@ -20,7 +22,8 @@ const ListaPreciosV4 = (props) => {
   {
     key: '1',
     label: <span style={activeKey=='1' ? current_tab_style : idle_tab_style }>Cristales</span>,
-    children: <ListaPreciosCodigos key={reloadTrigger} title={"Cristales"} idRef={"67689"} nivelFiltro={"subgrupo"} onRowClick={(record) => {
+    children: <ListaPreciosCodigos key={reloadTrigger} title={"Cristales"} idRef={id_subgrupo_cristales} nivelFiltro={"subgrupo"} onRowClick={(record) => {
+      if(!editable) return;
       setCodigoSeleccionado(record.idcodigo);
       setModalEditarVisible(true);
     }} />,
@@ -28,7 +31,8 @@ const ListaPreciosV4 = (props) => {
   {
     key: '2',
     label: <span style={activeKey=='2' ? current_tab_style : idle_tab_style}>Armazones</span>,
-    children: <ListaPreciosCodigos key={reloadTrigger} title={"Armazones"} idRef={"2"} nivelFiltro={"familia"} onRowClick={(record) => {
+    children: <ListaPreciosCodigos key={reloadTrigger} title={"Armazones"} idRef={globals.familiaIDs.ARMAZON} nivelFiltro={"familia"} onRowClick={(record) => {
+      if(!editable) return;
       setCodigoSeleccionado(record.idcodigo);
       setModalEditarVisible(true);
     }} />,
@@ -40,6 +44,9 @@ const ListaPreciosV4 = (props) => {
     <>
       <Tabs defaultActiveKey="1" activeKey={activeKey} items={items} onChange={onChange} type="card" />
       <Modal
+        destroyOnClose
+         width={"900px"}
+         centered
         title="Editar Código"
         open={modalEditarVisible}
         onCancel={() => setModalEditarVisible(false)}
@@ -48,7 +55,9 @@ const ListaPreciosV4 = (props) => {
         <EditarCodigoIndiv idcodigo={codigoSeleccionado} callback={() => {
           setModalEditarVisible(false);
           setReloadTrigger((prev) => prev + 1);
-        }} />
+        }} 
+        key={codigoSeleccionado}
+        />
       </Modal>
     </>
   );

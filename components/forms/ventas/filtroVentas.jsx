@@ -204,7 +204,7 @@ const FiltroVentas =(props) => {
 
     return embedded ? filtros_content() :    
     <>
-    <Button type="link" ghost  size="small"  onClick={showModal}>
+    <Button type="primary" ghost  size="small"  onClick={showModal}>
         <b>{"+ Filtros"}</b>
       </Button>
       {/*<Button danger type="link" size="small" onClick={(e)=>{setFiltros(f=>{props?.callback?.({}); return {}}); }}>

@@ -151,18 +151,19 @@ const BuscarVenta = (props)=>{
     
     }
     return <div >
-    <Row>
-        <Col span={4}>
+    <Row gutter={[32,32]}>
+        <Col>
         <FiltroVentas callback={f=>{ setFiltros(_f=>f); setReload(!reload)}} />
         </Col>
-        <Col span={4}>
-        <Button type="link" onClick={(e)=>{setFiltros(_f=>({})); setReload(!reload)}}><ReloadOutlined /></Button>
+        <Col>
+        <Button type="link" onClick={(e)=>{setFiltros(_f=>({})); setReload(!reload)}}><ReloadOutlined /> Recargar</Button>
         </Col>
-        <Col span={5}>
-        <Checkbox checked={verSoloSucursal} style={{fontSize:"1.2em", color:"#362056FF"}} onChange={()=>{setVerSoloSucursal(!verSoloSucursal); setReload(!reload)}}><HomeFilled /> Ver Solo Sucursal</Checkbox>
+        <Col>
+        <Checkbox checked={verSoloSucursal} style={{fontSize:"1.2em"}} onChange={()=>{setVerSoloSucursal(!verSoloSucursal); setReload(!reload)}}><HomeFilled /> Ver Solo Sucursal</Checkbox>
         </Col>
-        <Col span={4}>
+        <Col>
             <Input value={filtros.id} allowClear 
+            prefix={<SearchOutlined />}
             type="number"
             onChange={(e)=>{ 
                 
@@ -191,8 +192,9 @@ const BuscarVenta = (props)=>{
         rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'}
         dataSource={dataSource} 
         columns={[
-        {title:'Nro.:', dataIndex:'idventa'},
+        {title:'Nro.:', dataIndex:'idventa', width:"100px"},
         {
+            width:"250px",
             title:'Cliente', 
             dataIndex:'cliente', 
             render:(_,{cliente,idventa,estado,idsucursal})=>{
@@ -206,11 +208,11 @@ const BuscarVenta = (props)=>{
                 </>
             }
         },
-        {title:'Fecha', dataIndex:'fecha'},
-        {hidden: false, title: "Tipo", dataIndex: "tipo", render:(_,{tipo})=>(
+        {title:'Fecha', dataIndex:'fecha', width:"150px",},
+        {width:"150px", hidden: false, title: "Tipo", dataIndex: "tipo", render:(_,{tipo})=>(
             <span style={{fontSize:".75em", }}><b>{get_tipo(tipo)}</b></span>
         ) },
-        { title: "Estado", dataIndex:"estado", render:(_,{estado})=>{
+        { width:"150px", title: "Estado", dataIndex:"estado", render:(_,{estado})=>{
             switch(estado){
                 case "INGRESADO": return <Tag color="red"><b>{estado}</b></Tag>
                 case "PENDIENTE": return <Tag color="geekblue">{estado}</Tag>
@@ -220,11 +222,12 @@ const BuscarVenta = (props)=>{
             }
         }},
         {
-            title:"Sucursal", dataIndex: "sucursal", render:(_,{sucursal})=>{
+            width:"150px", title:"Sucursal", dataIndex: "sucursal", render:(_,{sucursal})=>{
                 return <>{sucursal}</>
             }
         },
         {
+            width:"150px",
             title:'Acciones', 
             fixed: 'right',
             dataIndex:'idventa', 
@@ -232,15 +235,13 @@ const BuscarVenta = (props)=>{
                 return <div onClick={(e)=>{e.stopPropagation()}}>
             
             { globals.esUsuarioCaja1() ? show_buttons(estado,idventa,en_laboratorio, idsucursal) : <></>}
-            {/*<VentaDetallePopup idventa={idventa} key={idventa} />&nbsp;*/}
-            {/*<ImprimirSobreVenta  idventa={idventa}  key={idventa}/>*/}
-            {/*<InformeVentaV2 hidebutton={false} idventa={idventa} key={idventa} />*/}
+            
             <Button onClick={_=>{setIdVentaDetalle(idventa);  setPrintOpen(true);}}><PrinterFilled /></Button>
-            { (globals.esUsuarioAdmin() || globals.esUsuarioAdminMin()) && estado!='ANULADO' ?
-            <AnularVentasCobradas idventa={idventa} callback={load}/>
+            {/* (globals.esUsuarioAdmin() || globals.esUsuarioAdminMin()) && estado!='ANULADO' ?
+           { <AnularVentasCobradas idventa={idventa} callback={load}/>}
             :
             <></>
-            }
+            */}
             </div>
         }},
     ]} />
