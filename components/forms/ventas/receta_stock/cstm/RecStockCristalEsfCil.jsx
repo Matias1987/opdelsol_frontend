@@ -25,6 +25,12 @@ const RecStockCristalEsfCil = (props) => {
     cil: "",
   });
 
+  useEffect(() => {
+    if (props.data) {
+      setCristal(props.data);
+    }
+  }, [props.data]);
+
   const onchange_codigo = (value) => {
     setCristal((cristal) => {
       const _cristal = {
@@ -49,8 +55,7 @@ const RecStockCristalEsfCil = (props) => {
   };
 
   const onchange_esf = (v) => {
-    
-   /* if (!validate_esf_cil_eje(v)) {
+    /* if (!validate_esf_cil_eje(v)) {
       return;
     }*/
     setCristal((_cristal_) => {
@@ -118,40 +123,50 @@ const RecStockCristalEsfCil = (props) => {
         </Col>
 
         <Col>
-          {<Input
-            onClick={e=>{e.target.select()}}
-            style={{ width: "100px" }}
-            prefix="Esf.:"
-            size="small"
-            disabled={cristal.codigo == null}
-            value={cristal.esf}
-            step={".25"}
-            onChange={(e) => {
-              onchange_esf(e.target.value);
-            }}
-          />}
+          {
+            <Input
+              onClick={(e) => {
+                e.target.select();
+              }}
+              style={{ width: "100px" }}
+              prefix="Esf.:"
+              size="small"
+              disabled={cristal.codigo == null}
+              value={cristal.esf}
+              step={".25"}
+              onChange={(e) => {
+                onchange_esf(e.target.value);
+              }}
+            />
+          }
           {/*<HelperToolTip disabled={cristal.codigo == null} onChange={e=>onchange_esf(e)} value={cristal.esf} prefix={"Esf."} />*/}
         </Col>
-        {<Col>
-          <Input
-            onClick={e=>{e.target.select()}}
-            style={{ width: "100px" }}
-            prefix="Cil.:"
-            size="small"
-            disabled={cristal.codigo == null}
-            value={cristal.cil}
-            step={"0.25"}
-            onChange={(e) => {
-              onchange_cil(e.target.value);
-            }}
-          />
-        </Col>}
+        {
+          <Col>
+            <Input
+              onClick={(e) => {
+                e.target.select();
+              }}
+              style={{ width: "100px" }}
+              prefix="Cil.:"
+              size="small"
+              disabled={cristal.codigo == null}
+              value={cristal.cil}
+              step={"0.25"}
+              onChange={(e) => {
+                onchange_cil(e.target.value);
+              }}
+            />
+          </Col>
+        }
         <Col>
-       {/*<HelperToolTip disabled={cristal.codigo == null} onChange={e=>onchange_cil(e)} value={cristal.cil} prefix={"Cil."} />*/}
+          {/*<HelperToolTip disabled={cristal.codigo == null} onChange={e=>onchange_cil(e)} value={cristal.cil} prefix={"Cil."} />*/}
         </Col>
         <Col>
           <Input
-            onClick={e=>{e.target.select()}}
+            onClick={(e) => {
+              e.target.select();
+            }}
             style={{ width: "100px" }}
             prefix="Eje:"
             disabled={cristal.codigo == null}
@@ -164,7 +179,9 @@ const RecStockCristalEsfCil = (props) => {
         </Col>
         <Col>
           <Input
-            onClick={e=>{e.target.select()}}
+            onClick={(e) => {
+              e.target.select();
+            }}
             onWheel={(e) => {
               e.target.blur();
             }}

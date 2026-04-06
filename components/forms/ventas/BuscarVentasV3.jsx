@@ -29,6 +29,7 @@ import CobroOperacionV2 from "../caja/CobroFormV2";
 import { current_date_ymd } from "@/src/helpers/string_helper";
 import Resfuerzo from "../caja/cobro_v2/resfuerzo";
 import ExportToExcel2 from "@/components/etc/ExportToExcel2";
+import { idf_optica } from "@/src/config";
 
 const BuscarVentaV3 = (props) => {
   const [dataSource, setDataSource] = useState([]);
@@ -205,6 +206,9 @@ const BuscarVentaV3 = (props) => {
   };
 
   const onAnularCobradasClick = _venta => {
+    if(idf_optica!=2){
+      return;
+    }
     setSelectedVenta(_venta);
     setPopupAnularOpen(true);
   }
@@ -442,8 +446,11 @@ const BuscarVentaV3 = (props) => {
                           <></>
                         )}
 
-                        {(globals.esUsuarioAdmin() ||
-                          globals.esUsuarioAdminMin()) &&
+                        {(
+                          globals.esUsuarioAdmin() ||
+                          globals.esUsuarioAdminMin()
+                        ) && 
+                          +idf_optica==2 &&
                           estado != "ANULADO" ? (
                           <AnularVentasCobradas
                             idventa={idventa}

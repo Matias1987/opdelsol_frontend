@@ -1,6 +1,6 @@
 import { Button, Col,  Input, Row } from "antd";
 import SelectCodigoVenta from "../SelectCodigoVenta";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CloseOutlined, DeleteOutlined } from "@ant-design/icons";
 import globals from "@/src/globals";
 import { parse_float_string, validate_esf_cil_eje, validate_only_numbers_and_letters } from "@/src/helpers/string_helper";
@@ -15,8 +15,14 @@ const RecStockCristal = (props) => {
         eje: "",
         precio: 0,
         cantidad:1,
-    })
+    });
 
+    useEffect(()=>{
+        if(props.data)
+        {
+            setCristal(props.data);
+        }
+    }, [props.data]);
 
     const onchange_codigo = (value) => {
        

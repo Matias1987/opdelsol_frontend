@@ -380,7 +380,7 @@ export default function MenuV2(props) {
         onCancel={() => setLPOpen(false)}
         footer={null}
       >
-        <ListaPreciosV4 />
+        {idf_optica == 1 ? <ListaPreciosV3 /> :<ListaPreciosV4 /> }
       </Modal>
       <Modal
         destroyOnClose

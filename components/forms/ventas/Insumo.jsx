@@ -1,6 +1,6 @@
 import { Button, Col, Input, Row } from "antd";
 import SelectCodigoVenta from "./SelectCodigoVenta";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { CloseOutlined, DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import globals from "@/src/globals";
 import { parse_float_string } from "@/src/helpers/string_helper";
@@ -13,7 +13,13 @@ const VentasInsumo = (props) => {
         codigo: null,
         precio: 0,
         cantidad:1,
-    })
+    });
+
+    useEffect(()=>{
+        if(props.data)        {
+            setInsumo(props.data);
+        }
+    }, [props.data]);
 
     const on_codigo_change = (val) => {
         setInsumo((_insumo_)=>{

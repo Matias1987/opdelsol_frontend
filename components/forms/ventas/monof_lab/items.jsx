@@ -73,7 +73,10 @@ const MonofLabItems = (props) => {
                         onVisibleChange={(_value)=>onVisibleChange("lejos_od_visible",_value)}  
                         tipo='LEJOS_OD' 
                         buttonText={<SelectCodeButton />} 
-                        callback={(v)=>{on_change("lejos_od",v)}}/>
+                        callback={(v)=>{on_change("lejos_od",v)}}
+                        data={mlabitems.lejos_od}
+                        />
+                        
                     </Col>
                 </Row>
                 <Row className="table-row-dark" style={row_style}>
@@ -85,7 +88,9 @@ const MonofLabItems = (props) => {
                         onVisibleChange={(_value)=>onVisibleChange("lejos_oi_visible",_value)}  
                         tipo='LEJOS_OI' 
                         buttonText={<SelectCodeButton />} 
-                        callback={(v)=>{on_change("lejos_oi",v)}}/>
+                        callback={(v)=>{on_change("lejos_oi",v)}}
+                        data={mlabitems.lejos_oi}
+                        />
                     </Col>
                 </Row>
                 <Row className="table-row-light" style={row_style}>
@@ -97,7 +102,9 @@ const MonofLabItems = (props) => {
                         onVisibleChange={(_value)=>onVisibleChange("lejos_armazon_visible",_value)}  
                         tipo='LEJOS_ARMAZON' 
                         buttonText={<SelectCodeButton />}  
-                        callback={(v)=>{on_change("lejos_armazon",v)}}/>
+                        callback={(v)=>{on_change("lejos_armazon",v)}}
+                        data={mlabitems.lejos_armazon}
+                        />
                     </Col>
                 </Row>
                 <Row className="table-row-dark" style={row_style}>
@@ -109,7 +116,9 @@ const MonofLabItems = (props) => {
                         onVisibleChange={(_value)=>onVisibleChange("lejos_tratamiento_visible",_value)}  
                         tipo='LEJOS_TRATAMIENTO' 
                         buttonText={<SelectCodeButton />} 
-                        callback={(v)=>{on_change("lejos_tratamiento",v)}}/>
+                        callback={(v)=>{on_change("lejos_tratamiento",v)}}
+                        data={mlabitems.lejos_tratamiento}
+                        />
                     </Col>
                 </Row>
                 </>
@@ -129,7 +138,9 @@ const MonofLabItems = (props) => {
                         onVisibleChange={(_value)=>onVisibleChange("cerca_od_visible",_value)}  
                         tipo='CERCA_OD'  
                         buttonText={<SelectCodeButton />} 
-                        callback={(v)=>{on_change("cerca_od",v)}}/>
+                        callback={(v)=>{on_change("cerca_od",v)}}
+                        data={mlabitems.cerca_od}
+                        />
                     </Col>
                 </Row>
                 <Row className="table-row-dark" style={row_style}>
@@ -141,7 +152,9 @@ const MonofLabItems = (props) => {
                         onVisibleChange={(_value)=>onVisibleChange("cerca_oi_visible",_value)}  
                         tipo='CERCA_OI'  
                         buttonText={<SelectCodeButton />} 
-                        callback={(v)=>{on_change("cerca_oi",v)}}/>
+                        callback={(v)=>{on_change("cerca_oi",v)}}
+                        data={mlabitems.cerca_oi}
+                        />
                     </Col>
                 </Row>
                 <Row className="table-row-light" style={row_style}>
@@ -153,7 +166,9 @@ const MonofLabItems = (props) => {
                         onVisibleChange={(_value)=>onVisibleChange("cerca_armazon_visible",_value)}  
                         tipo='CERCA_ARMAZON' 
                         buttonText={<SelectCodeButton />} 
-                        callback={(v)=>{on_change("cerca_armazon",v)}}/>
+                        callback={(v)=>{on_change("cerca_armazon",v)}}
+                        data={mlabitems.cerca_armazon}
+                        />
                     </Col>
                 </Row>
                 <Row className="table-row-dark" style={row_style}>
@@ -165,7 +180,9 @@ const MonofLabItems = (props) => {
                         onVisibleChange={(_value)=>onVisibleChange("cerca_tratamiento_visible",_value)}  
                         tipo='CERCA_TRATAMIENTO' 
                         buttonText={<SelectCodeButton />} 
-                        callback={(v)=>{on_change("cerca_tratamiento",v)}}/>
+                        callback={(v)=>{on_change("cerca_tratamiento",v)}}
+                        data={mlabitems.cerca_tratamiento}
+                        />
                     </Col>
                 </Row>
                 </>

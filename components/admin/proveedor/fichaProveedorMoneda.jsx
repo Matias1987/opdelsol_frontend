@@ -40,6 +40,7 @@ const FichaProveedorMoneda = ({
     debe: 0,
     haber: 0,
   });
+  const [agrupar, setAgrupar] = useState(0);
 
   const columns = [
     { title: "ID.", dataIndex: "id" },
@@ -93,7 +94,7 @@ const FichaProveedorMoneda = ({
   const load = () => {
     post_method(
       post.ficha_proveedor,
-      { idproveedor: idproveedor, modo: 1, moneda: moneda },
+      { idproveedor: idproveedor, modo: 1, moneda: moneda, agrupar:agrupar  },
       (response) => {
         let total_d = 0;
         let total_h = 0;
@@ -110,7 +111,7 @@ const FichaProveedorMoneda = ({
     );
     post_method(
       post.ficha_proveedor,
-      { idproveedor: idproveedor, modo: 0, moneda: moneda },
+      { idproveedor: idproveedor, modo: 0, moneda: moneda, agrupar:agrupar  },
       (response) => {
         let total_d = 0;
         let total_h = 0;
@@ -127,7 +128,7 @@ const FichaProveedorMoneda = ({
     );
     post_method(
       post.ficha_proveedor,
-      { idproveedor: idproveedor, modo: -1, moneda: moneda },
+      { idproveedor: idproveedor, modo: -1, moneda: moneda, agrupar:agrupar },
       (response) => {
         let total_d = 0;
         let total_h = 0;
@@ -146,7 +147,7 @@ const FichaProveedorMoneda = ({
 
   useEffect(() => {
     load();
-  }, [reload]);
+  }, [reload, agrupar]);
 
   const onAgregarPago = (mp) => {
     setModo(mp);
@@ -457,7 +458,9 @@ const FichaProveedorMoneda = ({
       }
       </div>
       <div style={{paddingLeft:"8px"}}>
-      <Checkbox>Ver Todo</Checkbox>
+      <Checkbox checked={agrupar==0} onChange={(e) => setAgrupar(agrupar==1?0:1)}>
+        Ver Todo
+      </Checkbox>
       </div>
     </div>
   );

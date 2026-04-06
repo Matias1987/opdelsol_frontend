@@ -1,6 +1,6 @@
 import { Button, Col, Input, InputNumber, Row } from "antd";
 import SelectCodigoVenta from "../SelectCodigoVenta";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { DeleteOutlined } from "@ant-design/icons";
 import globals from "@/src/globals";
 import { parse_float_string, parse_int_string, round_float } from "@/src/helpers/string_helper";
@@ -20,7 +20,14 @@ const LCItem = (props) => {
         cantidad: 1,
         total: 0,
         max: 0,
-    })
+    });
+
+    useEffect(()=>{
+        if(props.data)
+        {
+            setLC(props.data);
+        }
+    }, [props.data]);
 
     const onCodigoChange = (value) => {
         setLC((lc)=>{

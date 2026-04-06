@@ -1,5 +1,5 @@
 import { Button, Col, Input, InputNumber, Row } from "antd";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { CloseOutlined, DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import SelectCodigoVenta from "../SelectCodigoVenta";
 import globals from "@/src/globals";
@@ -18,7 +18,15 @@ const LCLabItem = (props) =>{
         cb: "0",
         eje: "",
         diametro: 0,
-    })
+    });
+
+
+    useEffect(()=>{
+        if(props.data)        {
+            setLC(props.data);
+        }
+    }, [props.data]);
+
     const on_codigo_change = (val) => {
         
         setLC((_LC)=>{

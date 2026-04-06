@@ -14,9 +14,7 @@ const ListaPreciosCodigos = ({ nivelFiltro, idRef, title, onRowClick }) => {
       title: "Código",
       dataIndex: "codigo",
       render: (_, { codigo }) => (
-        <div style={{ fontWeight: "500", color:"#000127ff" }}>
-          {codigo}
-        </div>
+        <div style={{ fontWeight: "500", color: "#000127ff" }}>{codigo}</div>
       ),
     },
     {
@@ -24,9 +22,7 @@ const ListaPreciosCodigos = ({ nivelFiltro, idRef, title, onRowClick }) => {
       title: "Descripción",
       dataIndex: "descripcion",
       render: (_, { descripcion }) => (
-        <div style={{ color: "#333", fontWeight: "500" }}>
-          {descripcion}
-        </div>
+        <div style={{ color: "#333", fontWeight: "500" }}>{descripcion}</div>
       ),
     },
     {
@@ -34,7 +30,14 @@ const ListaPreciosCodigos = ({ nivelFiltro, idRef, title, onRowClick }) => {
       title: <div style={{ textAlign: "right" }}>Precio</div>,
       dataIndex: "precio",
       render: (_, { precio }) => (
-        <div style={{ textAlign: "right", fontSize: "1.3em", color:"#010038", fontWeight:"500" }}>
+        <div
+          style={{
+            textAlign: "right",
+            fontSize: "1.3em",
+            color: "#010038",
+            fontWeight: "500",
+          }}
+        >
           $&nbsp;{formatFloat(precio)}
         </div>
       ),
@@ -78,13 +81,21 @@ const ListaPreciosCodigos = ({ nivelFiltro, idRef, title, onRowClick }) => {
         size="small"
         title={
           <Input
-            onChange={e=>{setFilterStr( e ? e.target.value : "")}}
+            onChange={(e) => {
+              setFilterStr(e ? e.target.value : "");
+            }}
             prefix={
-              <span style={{ color: "#3A5C79", fontStyle: "italic" }} >
-                B&uacute;squeda {title}: <Switch checkedChildren="Código" unCheckedChildren="Descripción" checked={modoBusquedaCodigo} onChange={(checked) => {
-                  setModoBusquedaCodigo(checked);
-                }} />
-
+              <span style={{ color: "#3A5C79", fontStyle: "italic" }}>
+                B&uacute;squeda {title}:{" "}
+                <Switch
+                  style={{ backgroundColor: modoBusquedaCodigo==1 ? "green" : "#D86500" }}
+                  checkedChildren="Código"
+                  unCheckedChildren="Descripción"
+                  checked={modoBusquedaCodigo}
+                  onChange={(checked) => {
+                    setModoBusquedaCodigo(checked);
+                  }}
+                />
               </span>
             }
             allowClear
@@ -97,19 +108,29 @@ const ListaPreciosCodigos = ({ nivelFiltro, idRef, title, onRowClick }) => {
             <Table
               loading={data == null}
               rowClassName={(record, index) =>
-                index % 2 === 0
-                    ? "table-row-light"
-                    : "table-row-dark"
+                index % 2 === 0 ? "table-row-light" : "table-row-dark"
               }
               size="small"
               columns={columns}
-              dataSource={filterStr ? data.filter((item) =>
-                  modoBusquedaCodigo ?
-                  item.codigo.toLowerCase().includes(filterStr.toLowerCase()) :
-                  item.descripcion.toLowerCase().includes(filterStr.toLowerCase())
-                ).sort((a, b) => modoBusquedaCodigo ? +a.long_cod - +b.long_cod : +a.long_desc - +b.long_desc )
-                
-                : data}
+              dataSource={
+                filterStr
+                  ? data
+                      .filter((item) =>
+                        modoBusquedaCodigo
+                          ? item.codigo
+                              .toLowerCase()
+                              .includes(filterStr.toLowerCase())
+                          : item.descripcion
+                              .toLowerCase()
+                              .includes(filterStr.toLowerCase()),
+                      )
+                      .sort((a, b) =>
+                        modoBusquedaCodigo
+                          ? +a.long_cod - +b.long_cod
+                          : +a.long_desc - +b.long_desc,
+                      )
+                  : data
+              }
               scroll={{ y: "500px" }}
               pagination={true}
               onRow={(record, index) => {

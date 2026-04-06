@@ -21,7 +21,14 @@ const MonofLabCristal = (props) => {
         cil: "",
         cantidad:1,
 
-    })
+    });
+
+    useEffect(()=>{
+        if(props.data)
+        {
+            setCristal(props.data);
+        }
+    }, [props.data]);
 
     /*useEffect(()=>{
         var esf  = []
