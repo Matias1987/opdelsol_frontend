@@ -18,9 +18,11 @@ const RecStockCristal = (props) => {
     });
 
     useEffect(()=>{
-        if(props.data)
+        if(props.data && props.data?.codigo)
         {
             setCristal(props.data);
+            setVisible(true);
+            alert(JSON.stringify(props.data))
         }
     }, [props.data]);
 

@@ -22,7 +22,7 @@ const LCLabItem = (props) =>{
 
 
     useEffect(()=>{
-        if(props.data)        {
+        if(props.data  && props.data?.codigo)        {
             setLC(props.data);
         }
     }, [props.data]);

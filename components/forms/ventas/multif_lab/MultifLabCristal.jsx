@@ -26,7 +26,7 @@ const MultifLabCristal = (props) => {
     });
 
     useEffect(()=>{
-        if(props.data)
+        if(props.data  && props.data?.codigo)
         {
             setCristal(props.data);
         }
