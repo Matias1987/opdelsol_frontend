@@ -34,6 +34,7 @@ const EdicionVentas = (props) => {
   });
   const [items, setItems] = useState([]);
   const [venta, setVenta] = useState({
+    idventa:-1,
     fkcliente: null,
     fkdestinatario: null,
     fkmedico: null,
