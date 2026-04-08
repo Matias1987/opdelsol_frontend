@@ -16,7 +16,7 @@ const RecStockCristal = (props) => {
         precio: 0,
         cantidad:1,
     });
-
+/*
     useEffect(()=>{
         if(props.data && props.data?.codigo)
         {
@@ -24,7 +24,7 @@ const RecStockCristal = (props) => {
             setVisible(true);
             alert(JSON.stringify(props.data))
         }
-    }, [props.data]);
+    }, [props.data]);*/
 
     const onchange_codigo = (value) => {
        

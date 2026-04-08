@@ -1,4 +1,5 @@
 import Egreso from "@/components/caja_master/egreso";
+import EdicionVentas from "@/components/edicion_ventas/EdicionVentas";
 import TestGridCreation from "@/components/etc/testGridCreation";
 import TrabajoRecetaStock from "@/components/forms/ventas/trabajo/trab_receta_stock";
 import LayoutAdmin from "@/components/layout/layout_admin";
@@ -10,9 +11,9 @@ export default function test() {
       {/*<Egreso aCajaMaster={true} callback={()=>alert("Callback desde egreso")} />
        <QRAccess />
        <TestGridCreation />
-      */}
-      <TrabajoRecetaStock />
-     
+      
+      <TrabajoRecetaStock />*/}
+     <EdicionVentas />
       
     </div>
   )
