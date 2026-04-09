@@ -6,6 +6,7 @@ import ObraSocialForm from "../ObraSocialForm";
 import { get } from "@/src/urls";
 
 const SelectObraSocial = (props) => {
+    const {pIdOS} = props;
     const [idOS , setIdOS] = useState(-1);
     const [obrasociales, setObraSociales] = useState([]);
     const [dataObraSocial, setDataObraSocial] = useState(null)
@@ -20,8 +21,15 @@ const SelectObraSocial = (props) => {
     ]
 
     useEffect(()=>{
-        //alert(get.lista_mutuales)
-        //load os
+
+        if(pIdOS && pIdOS != -1){
+            onOSSelected(pIdOS)
+        }
+        
+    },[])
+
+
+    const onOpen = () =>{
         setLoading(true)
         fetch(get.lista_mutuales)
         .then(response=>response.json())
@@ -36,7 +44,7 @@ const SelectObraSocial = (props) => {
             )
             setLoading(false)
         })
-    },[])
+    }
 
     const show_details = () =>(
         dataObraSocial == null ? <Spin /> : <>
@@ -87,7 +95,7 @@ const SelectObraSocial = (props) => {
     return (
         idOS === -1 ?
         <>
-        <CustomModal openButtonText="Seleccione Obra Social" title="" width="700px">
+        <CustomModal openButtonText="Seleccione Obra Social" title="" width="700px" onOpen={onOpen}>
             Obra Social
             <Input.Search onSearch={onSearch} size="large" />
             <CustomModal openButtonText="+ Agregar" title="Agregar" >

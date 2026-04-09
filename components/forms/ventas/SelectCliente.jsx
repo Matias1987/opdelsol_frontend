@@ -6,9 +6,9 @@ import { get } from "@/src/urls";
 import ClienteFormV2 from "../ClienteFormV2";
 
 const SelectCliente = (props) =>{
-    const {minVersion, callback} = props
+    const {minVersion, callback, pIdcliente} = props
     const [idCliente, setIdCliente] = useState(-1);
-    const [loadingDetalles, setLoadingDetalles] = useState(true);
+    const [loadingDetalles, setLoadingDetalles] = useState(false);
     const [clientes, setClientes] = useState(null);
     const [clienteData, setClienteData] = useState(null);
     const [reload, setReload] = useState(false)
@@ -71,27 +71,11 @@ const SelectCliente = (props) =>{
     }
 
     useEffect(()=>{
-        setLoading(true)
-        fetch(get.lista_clientes)
-        .then(response=>response.json())
-        .then((response)=>{
+        if(typeof pIdcliente !== 'undefined' && pIdcliente!=null && pIdcliente != -1)
+        {
+            upload_cliente_details(pIdcliente);
+        }
             
-            setClientes(
-                response.data.map(r=>(
-                    {
-                        dni: r.dni,
-                        idcliente: r.idcliente,
-                        apellido: r.apellido,
-                        nombre: r.nombre,
-                        direccion: r.direccion,
-                        telefono1: r.telefono1,
-                        bloqueado: r.bloqueado,
-                    }
-                ))
-            )
-            setLoading(false)
-        })
-        .catch((err)=>{console.log(err)})
     },[reload])
 
 
@@ -131,8 +115,32 @@ const SelectCliente = (props) =>{
         </>
     )
 
-    const onOpenPopup = () => {
+    const load = () => {
+        setLoading(true)
+        fetch(get.lista_clientes)
+        .then(response=>response.json())
+        .then((response)=>{
+            
+            setClientes(
+                response.data.map(r=>(
+                    {
+                        dni: r.dni,
+                        idcliente: r.idcliente,
+                        apellido: r.apellido,
+                        nombre: r.nombre,
+                        direccion: r.direccion,
+                        telefono1: r.telefono1,
+                        bloqueado: r.bloqueado,
+                    }
+                ))
+            )
+            setLoading(false)
+        })
+        .catch((err)=>{console.log(err)})
+    }
 
+    const onOpenPopup = () => {
+        load();
     }
 
     return (

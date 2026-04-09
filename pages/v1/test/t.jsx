@@ -11,9 +11,12 @@ export default function test() {
       {/*<Egreso aCajaMaster={true} callback={()=>alert("Callback desde egreso")} />
        <QRAccess />
        <TestGridCreation />
+        <TrabajoRecetaStock />
+      */}
       
-      <TrabajoRecetaStock />*/}
-     <EdicionVentas />
+
+      <EdicionVentas idventa={69677} />
+    
       
     </div>
   )

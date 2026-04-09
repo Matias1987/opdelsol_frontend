@@ -395,6 +395,7 @@ const post = {
         modificar_cantidad_critica: remote_base_url + "codigos_ext/modificar/cant/critica/",
         pin_medico: remote_base_url + "medicos/pin/",
         activar_cuenta_bancaria: remote_base_url + "cuentas_bancarias/activar/",
+        update_venta: remote_base_url + "ventas/save/modif/v/",
     },
 }
 

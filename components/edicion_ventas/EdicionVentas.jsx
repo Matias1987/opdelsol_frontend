@@ -2,22 +2,30 @@ import globals from "@/src/globals";
 import {
   Button,
   Card,
+  Checkbox,
   Col,
+  DatePicker,
   Divider,
   Input,
   Modal,
   Row,
   Select,
+  Spin,
   Table,
 } from "antd";
 import { useEffect, useState } from "react";
-import { CloseOutlined, PlusOutlined } from "@ant-design/icons";
+import { CloseOutlined, PlusOutlined, ReloadOutlined } from "@ant-design/icons";
 import SelectMedico from "../forms/ventas/SelectMedico";
 import SelectCliente from "../forms/ventas/SelectCliente";
 import SelectObraSocial from "../forms/ventas/SelectObraSocial";
 import { cobro_inmediato } from "@/src/config";
 import SelectCodigoVenta from "../forms/ventas/SelectCodigoVenta";
 import { InputNumber } from "antd/lib";
+import { formatFloat } from "@/src/helpers/formatters";
+import { get, post } from "@/src/urls";
+import dayjs from "dayjs";
+import esES from "antd/locale/es_ES";
+import { post_method } from "@/src/helpers/post_helper";
 
 const EdicionVentas = (props) => {
   const [loading, setLoading] = useState(true);
@@ -25,6 +33,7 @@ const EdicionVentas = (props) => {
   const [tipos, setTipos] = useState([]);
   const [familiasIds, setFamiliasIds] = useState([]);
   const [idLocal, setIdLocal] = useState(0);
+  const [modificarFechaRetiro, setModificarFechaRetiro] = useState(false);
   const [productToAdd, setProductToAdd] = useState({
     tipo: "",
     codigoRecord: null,
@@ -34,7 +43,7 @@ const EdicionVentas = (props) => {
   });
   const [items, setItems] = useState([]);
   const [venta, setVenta] = useState({
-    idventa:-1,
+    idventa: -1,
     fkcliente: null,
     fkdestinatario: null,
     fkmedico: null,
@@ -61,22 +70,59 @@ const EdicionVentas = (props) => {
     tipo: 0,
   });
   const columns = [
-    { width: "150px", dataIndex: "tipo", title: "tipo" },
-    { width: "150px", dataIndex: "codigo", title: "codigo" },
-    { width: "150px", dataIndex: "descripcion", title: "desc." },
-    { width: "150px", dataIndex: "precio", title: "precio" },
-    { width: "150px", dataIndex: "cantidad", title: "cantidad" },
-    { width: "150px", dataIndex: "total", title: "total" },
+    {
+      width: "100px",
+      dataIndex: "tipo",
+      title: "Tipo",
+      render: (_, record) => (
+        <span style={{ fontWeight: "600", color: "#1100f8" }}>
+          {record.tipo.replace("_", " ")}
+        </span>
+      ),
+    },
+    { width: "150px", dataIndex: "codigo", title: "Codigo" },
+    { width: "150px", dataIndex: "descripcion", title: "Descripción" },
+    { width: "100px", dataIndex: "esf", title: "Esf" },
+    { width: "100px", dataIndex: "cil", title: "Cil" },
+    { width: "100px", dataIndex: "eje", title: "Eje" },
+    {
+      width: "150px",
+      dataIndex: "precio",
+      title: <div style={{ textAlign: "right" }}>Precio</div>,
+      render: (_, record) => (
+        <div style={{ textAlign: "right" }}>$ {formatFloat(record.precio)}</div>
+      ),
+    },
+    {
+      width: "150px",
+      dataIndex: "cantidad",
+      title: <div style={{ textAlign: "right" }}>Cantidad</div>,
+      render: (_, record) => (
+        <div style={{ textAlign: "right" }}>{formatFloat(record.cantidad)}</div>
+      ),
+    },
+    {
+      width: "150px",
+      dataIndex: "total",
+      title: <div style={{ textAlign: "right" }}>Total</div>,
+      render: (_, record) => (
+        <div style={{ textAlign: "right" }}>
+          $ {formatFloat(+record.precio * +record.cantidad)}
+        </div>
+      ),
+    },
     {
       width: "50px",
-      title: "acciones",
+      title: "",
       render: (_, record) => (
         <>
           <Button
             size="small"
             danger
             onClick={(_) => {
-              setItems((_) => items.filter((r) => r.key !== record.key));
+              const __items = items.filter((r) => r.key !== record.key);
+              setItems((_) => __items);
+              calcular_totales(__items);
             }}
           >
             <CloseOutlined />
@@ -85,46 +131,168 @@ const EdicionVentas = (props) => {
       ),
     },
   ];
-  const load_venta = (callback) => {};
-  const load_medico = (callback) => {};
-  const load_os = (callback) => {};
+
+  const url = get.venta;
+  const url_venta_items = get.obtener_venta_items;
+
+  const onSave = () => {
+    let _productos = {};
+
+    items.forEach((item) => {
+      _productos[item.tipo] = {
+        codigo: item.codigo,
+        descripcion: item.descripcion,
+        esf: item.esf,
+        cil: item.cil,
+        eje: item.eje,
+        precio: item.precio,
+        cantidad: item.cantidad,
+        idcodigo: item.idcodigo,
+        tipo: item.tipo,
+      };
+    });
+
+
+    const _venta = { ...venta, productos: _productos };
+    alert("Venta a guardar: " + JSON.stringify(_venta));
+    post_method(post.update.update_venta, _venta, (response) => {
+      alert("Venta actualizada correctamente");
+      load();
+    });
+  };
+
+  const load_venta = (callback) => {
+    fetch(url + props.idventa)
+      .then((response) => response.json())
+      .then((response) => {
+        //alert("Venta cargada: " + JSON.stringify(response.data[0]));
+
+        const ventaData = response.data[0];
+        if (!ventaData) {
+          alert("error");
+          return;
+        }
+        set_tipos(+ventaData.tipo);
+        setVenta((v) => ({
+          ...v,
+          idventa: ventaData.idventa,
+          fkcliente: ventaData.cliente_idcliente,
+          fkdestinatario: ventaData.fk_destinatario,
+          fkmedico: ventaData.medico_idmedico,
+          fkos: ventaData.fk_os,
+          fkusuario: ventaData.usuario_idusuario,
+          mp: null,
+          subtotal: ventaData.subtotal,
+          descuento: ventaData.descuento,
+          total: ventaData.monto_total,
+          fechaRetiro: ventaData.fecha_retiro,
+          horaRetiro: null,
+          comentarios: ventaData.comentarios,
+          productos: null,
+          fksucursal: ventaData.sucursal_idsucursal,
+          fkcaja: ventaData.caja_idcaja,
+          json_items: "",
+          tk: globals.getToken(),
+          uid: "",
+          entrega: false,
+          cobrar: cobro_inmediato,
+          validarCristalesModo2: true,
+          tipo: ventaData.tipo,
+          estado: ventaData.estado,
+        }));
+        callback();
+      });
+  };
+
+  const load_venta_items = (callback) => {
+    let _localId = 0;
+    fetch(url_venta_items + props.idventa)
+      .then((response) => response.json())
+      .then((response) => {
+        // alert(JSON.stringify(response));
+        const data = response.data;
+
+        if (!data) {
+          alert("error 2");
+          return;
+        }
+        setItems(
+          data.map((record) => ({
+            key: _localId++,
+            tipo: record.tipo,
+            esf: record.esf,
+            cil: record.cil,
+            eje: record.eje,
+            precio: parseFloat(record.precio),
+            cantidad: +record.cantidad,
+            codigo: record.codigo,
+            descripcion: record.descripcion,
+            idcodigo: record.stock_codigo_idcodigo,
+          })),
+        );
+        setIdLocal(_localId + 1);
+        callback();
+      });
+  };
 
   useEffect(() => {
-    set_tipos(globals.tiposVenta.RECSTOCK);
+    load();
+  }, []);
+
+  const load = () => {
+    setLoading(true);
     load_venta((_) => {
       load_venta_items((_) => {
         setLoading(false);
       });
     });
-  }, []);
+  };
 
-  const load_venta_items = (callback) => {};
+  const calcular_totales = (_items) => {
+    const total = _items.reduce(
+      (a, b) => parseFloat(a) + parseFloat(b.precio) * parseFloat(b.cantidad),
+      0,
+    );
+    setVenta((v) => ({
+      ...v,
+      subtotal: total,
+      total: parseFloat(total) - (parseFloat(v.descuento) || 0),
+    }));
+  };
+
+  const onchange_descuento = (d) => {
+    setVenta((v) => ({
+      ...v,
+      descuento: parseFloat(d),
+      total: parseFloat(v.subtotal) - (parseFloat(d) || 0),
+    }));
+  };
 
   const t1 = [
-    { value: "LEJOS_OD", label: "LEJOS OD" },
-    { value: "LEJOS_OI", label: "LEJOS OI" },
-    { value: "LEJOS_ARMAZON", label: "LEJOS ARMAZON" },
-    { value: "LEJOS_TRATAMIENTO", label: "LEJOS TRATAMIENTO" },
-    { value: "CERCA_OD", label: "CERCA OD" },
-    { value: "CERCA_OI", label: "CERCA OI" },
-    { value: "CERCA_ARMAZON", label: "CERCA ARMAZON" },
-    { value: "CERCA_TRATAMIENTO", label: "CERCA TRATAMIENTO" },
+    { value: "lejos_od", label: "LEJOS OD" },
+    { value: "lejos_oi", label: "LEJOS OI" },
+    { value: "lejos_armazon", label: "LEJOS ARMAZON" },
+    { value: "lejos_tratamiento", label: "LEJOS TRATAMIENTO" },
+    { value: "cerca_od", label: "CERCA OD" },
+    { value: "cerca_oi", label: "CERCA OI" },
+    { value: "cerca_armazon", label: "CERCA ARMAZON" },
+    { value: "cerca_tratamiento", label: "CERCA TRATAMIENTO" },
   ];
   const t2 = [
-    { value: "OD", label: "OD" },
-    { value: "OI", label: "OI" },
-    { value: "ARMAZON", label: "ARMAZON" },
-    { value: "TRATAMIENTO", label: "TRATAMIENTO" },
+    { value: "od", label: "OD" },
+    { value: "oi", label: "OI" },
+    { value: "armazon", label: "ARMAZON" },
+    { value: "tratamiento", label: "TRATAMIENTO" },
   ];
 
   const t3 = [
-    { value: "OD", label: "OD" },
-    { value: "OI", label: "OI" },
-    { value: "INSUMO", label: "INSUMO" },
+    { value: "od", label: "OD" },
+    { value: "oi", label: "OI" },
+    { value: "insumo", label: "INSUMO" },
   ];
 
   const set_tipos = (tipo) => {
-    switch (tipo) {
+    switch (tipo.toString()) {
       case globals.tiposVenta.RECSTOCK:
         setTipos(t1);
         break;
@@ -197,8 +365,8 @@ const EdicionVentas = (props) => {
       return;
     }
 
-    setItems((i) => [
-      ...i,
+    const __items = [
+      ...items,
       {
         codigo: productToAdd.codigoRecord.codigo,
         descripcion: productToAdd.codigoRecord.descripcion,
@@ -209,8 +377,13 @@ const EdicionVentas = (props) => {
         idcodigo: productToAdd.codigoRecord.idcodigo,
         tipo: productToAdd.tipo,
       },
-    ]);
+    ];
+
+    setItems((_) => __items);
+
     setIdLocal(idLocal + 1);
+
+    calcular_totales(__items);
 
     setModalItemOpen(false);
 
@@ -225,49 +398,98 @@ const EdicionVentas = (props) => {
 
   const row_style = {
     padding: "4px",
-    border: "1px dotted #dddddd",
+    border: "1px dotted #d6d6d5",
     borderRadius: "5px",
-    margin:"2px",
+    margin: "2px",
+    background: "#fcfcfc",
+    background:
+      "radial-gradient(circle,rgba(253, 253, 253, 1) 80%, rgba(248, 248, 248,1) 100%)",
   };
 
-  return (
+  return loading ? (
+    <>
+      <Spin /> Cargando...
+    </>
+  ) : (
     <div>
       <Card
-        title="Editar Venta"
+        styles={{
+          header: {
+            background: "#fcfcfc",
+            background:
+              "radial-gradient(circle,rgba(253, 253, 253, 1) 80%, rgba(248, 248, 248,1) 100%)",
+          },
+        }}
+        title={
+          <div>
+            Editando Venta Nro.: {venta.idventa}{" "}
+            <Button
+              style={{ color: "#1d0dff" }}
+              onClick={(_) => {
+                if (
+                  !window.confirm(
+                    "¿Confirma que desea recargar la venta? Se perderán los cambios no guardados.",
+                  )
+                ) {
+                  return;
+                }
+                load();
+              }}
+            >
+              <ReloadOutlined />
+            </Button>
+          </div>
+        }
         size="small"
         style={{ border: "1px solid #e2e2e2", boxShadow: "2px 2px 3px grey" }}
       >
         <Row style={row_style}>
           <Col span={24}>
-            <SelectCliente />
+            <SelectCliente
+              pIdcliente={venta.fkcliente}
+              key={`cliente-${venta.fkcliente}`}
+            />
           </Col>
         </Row>
         <Row style={row_style}>
           <Col span={24}>
-            <SelectCliente />
+            <SelectCliente
+              destinatario
+              pIdcliente={venta.fkdestinatario}
+              key={`destinatario-${venta.fkdestinatario}`}
+            />
           </Col>
         </Row>
         <Row style={row_style}>
           <Col span={12}>
-            <SelectMedico />
+            <SelectMedico pIdMedico={venta.fkmedico} />
           </Col>
 
           <Col span={12}>
-            <SelectObraSocial />
+            <SelectObraSocial pIdOS={venta.fkos} />
           </Col>
         </Row>
-        <Row style={{paddingTop:"12px"}} >
+        <Row style={{ paddingTop: "12px" }}>
           <Col span={24}>
             <Card
               style={{
                 border: "1px solid #dae3ff",
                 boxShadow: "2px 2px 3px grey",
               }}
-              title="Items"
+              styles={{
+                header: {
+                  background: "#fcfcfc",
+                  background:
+                    "radial-gradient(circle,rgba(253, 253, 253, 1) 80%, rgba(248, 248, 248,1) 100%)",
+                },
+              }}
+              title="Productos"
               size="small"
               extra={
                 <>
                   <Button
+                    size="small"
+                    style={{ borderRadius: "50%" }}
                     type="primary"
                     onClick={(_) => {
                       setModalItemOpen(true);
@@ -278,15 +500,79 @@ const EdicionVentas = (props) => {
                 </>
               }
             >
-              <Table dataSource={items} columns={columns} pagination={false} />
+              <Table
+                scroll={{ y: "600px" }}
+                dataSource={items}
+                columns={columns}
+                pagination={false}
+                size="small"
+                rowClassName={(record, index) =>
+                  index % 2 === 0 ? "table-row-light" : "table-row-dark"
+                }
+              />
             </Card>
           </Col>
         </Row>
         <Divider />
         <Row style={row_style}>
-              <Col span={24}>
-                <Button type="primary">Guardar Cambios</Button>
-              </Col>
+          <Col span={12}>
+            <Input
+              prefix="Subtotal: "
+              style={{ width: "100%" }}
+              readOnly
+              value={formatFloat(venta.subtotal)}
+            />
+          </Col>
+        </Row>
+        <Row style={row_style}>
+          <Col span={12}>
+            <InputNumber
+              prefix={<span style={{ fontWeight: "bold" }}>Descuento:</span>}
+              style={{ width: "100%" }}
+              value={venta.descuento}
+              onChange={(v) => onchange_descuento(parseFloat(v || "0"))}
+            />
+          </Col>
+        </Row>
+        
+        <Row style={row_style}>
+          <Col span={12}>
+            <Input
+              readOnly
+              prefix="Total: "
+              style={{ width: "100%" }}
+              value={formatFloat(venta.total)}
+            />
+          </Col>
+        </Row>
+       
+        <Row gutter={[16,16]} style={row_style}>
+          <Col style={{paddingTop:"4px"}}><Checkbox checked={modificarFechaRetiro} onChange={(e) => setModificarFechaRetiro(e.target.checked)}>
+           <span style={{fontWeight:"500"}}>Modificar Fecha Retiro</span>
+          </Checkbox></Col>
+          <Col>
+            <DatePicker
+              disabled={!modificarFechaRetiro}
+              defaultValue={props.ignore_fecha_retiro ? dayjs() : null}
+              locale={esES}
+              format={"DD-MM-YYYY"}
+              onChange={(value) => {
+                let _value = value ? value.format("DD-MM-YYYY") : null;
+                setVenta((v) => ({
+                  ...v,
+                  fechaRetiro: _value,
+                }));
+              }}
+            />
+          </Col>
+        </Row>
+         <Divider />
+        <Row style={row_style}>
+          <Col span={24}>
+            <Button type="primary" onClick={onSave}>
+              Guardar Cambios
+            </Button>
+          </Col>
         </Row>
       </Card>
       <Modal
@@ -298,6 +584,10 @@ const EdicionVentas = (props) => {
         destroyOnClose
         title="Agregar Elemento"
         footer={null}
+        afterOpenChange={(_) => {
+          if (modalItemOpen) {
+          }
+        }}
       >
         <Row style={{ paddingTop: "8px" }}>
           <Col style={{ fontWeight: "600" }}>Tipo</Col>
