@@ -7,6 +7,7 @@ import {
   CloseSquareOutlined,
   DollarOutlined,
   DownOutlined,
+  EditOutlined,
   InfoCircleFilled,
   InfoOutlined,
   PrinterOutlined,
@@ -25,6 +26,7 @@ const OpcionesVenta = (props) => {
     onResfuerzoClick,
     onDevolucionClick,
     onAnularCobradasClick,
+    onEditarClick,
     permitirAnularCobradas=false
   } = props;
 
@@ -38,7 +40,7 @@ const OpcionesVenta = (props) => {
     RESFUERZO: "7",
     DEVOLUCION: "8",
     ANULAR_COBRADAS: "9",
-
+    EDITAR: "10",
   };
 
   //#region items
@@ -65,6 +67,11 @@ const OpcionesVenta = (props) => {
       key: menuOptions.ANULAR,
       icon: <CloseOutlined />,
     },
+    {
+      label: <span style={{ color: "#4f992aff", fontWeight: "600" }}>Editar</span>,
+      key: menuOptions.EDITAR,
+      icon: <EditOutlined />,
+    }
   ];
 
   const items_pendientes_taller = [
@@ -250,6 +257,10 @@ const OpcionesVenta = (props) => {
       case menuOptions.ANULAR_COBRADAS:
         onAnularCobradasClick?.(venta);
         break;
+      case menuOptions.EDITAR:
+        onEditarClick?.(venta);
+        break;
+
     }
   };
 

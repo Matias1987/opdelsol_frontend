@@ -30,6 +30,7 @@ import { current_date_ymd } from "@/src/helpers/string_helper";
 import Resfuerzo from "../caja/cobro_v2/resfuerzo";
 import ExportToExcel2 from "@/components/etc/ExportToExcel2";
 import { idf_optica } from "@/src/config";
+import EdicionVentas from "@/components/edicion_ventas/EdicionVentas";
 
 const BuscarVentaV3 = (props) => {
   const [dataSource, setDataSource] = useState([]);
@@ -44,6 +45,7 @@ const BuscarVentaV3 = (props) => {
   const [loading, setLoading] = useState(false);
   const [filtroIdLocal, setFiltroIdLocal] = useState("");
   const [popupAnularOpen, setPopupAnularOpen] = useState(false);
+  const [popupEditarOpen, setPopupEditarOpen] = useState(false);
   const add = (obj, value, key) =>
     typeof value === "undefined" ? obj : { ...obj, [key]: value };
 
@@ -211,6 +213,11 @@ const BuscarVentaV3 = (props) => {
     }
     setSelectedVenta(_venta);
     setPopupAnularOpen(true);
+  }
+
+  const onEditarClick = _venta => {
+    setSelectedVenta(_venta);
+    setPopupEditarOpen(true);
   }
 
   /*
@@ -440,6 +447,7 @@ const BuscarVentaV3 = (props) => {
                             onResfuerzoClick={onResfuerzoClick}
                             onDevolucionClick={onDevolucionClick}
                             onAnularCobradasClick={onAnularCobradasClick}
+                            onEditarClick={onEditarClick}
                             permitirAnularCobradas={true}
                           />
                         ) : (
@@ -596,6 +604,9 @@ const BuscarVentaV3 = (props) => {
       </Modal>
       <Modal open={popupAnularOpen} onCancel={_ => {setPopupAnularOpen(false); setReload(!reload)}} width="800px" footer={null} destroyOnClose>
         <AnularVentasCobradas idventa={selectedVenta?.idventa} />
+      </Modal>
+      <Modal open={popupEditarOpen} onCancel={_ => {setPopupEditarOpen(false); setReload(!reload)}} width="1000px" footer={null} destroyOnClose>
+        <EdicionVentas idventa={selectedVenta?.idventa} callback={_ => {setPopupEditarOpen(false); setReload(!reload)}} />
       </Modal>
     </>
   );

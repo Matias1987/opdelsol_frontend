@@ -34,11 +34,15 @@ const EdicionVentas = (props) => {
   const [familiasIds, setFamiliasIds] = useState([]);
   const [idLocal, setIdLocal] = useState(0);
   const [modificarFechaRetiro, setModificarFechaRetiro] = useState(false);
+  const [formEnabled, setFormEnabled] = useState(true);
+  const [ventaTieneCantidadEditable, setVentaTieneCantidadEditable] =
+    useState(false);
+  const [esVentaDirecta, setEsVentaDirecta] = useState(false);
   const [productToAdd, setProductToAdd] = useState({
     tipo: "",
     codigoRecord: null,
     precio: 0,
-    cantidad: 0,
+    cantidad: 1,
     total: 0,
   });
   const [items, setItems] = useState([]);
@@ -71,6 +75,7 @@ const EdicionVentas = (props) => {
   });
   const columns = [
     {
+      fixed: "left",
       width: "100px",
       dataIndex: "tipo",
       title: "Tipo",
@@ -80,7 +85,7 @@ const EdicionVentas = (props) => {
         </span>
       ),
     },
-    { width: "150px", dataIndex: "codigo", title: "Codigo" },
+    { fixed: "left", width: "150px", dataIndex: "codigo", title: "Codigo" },
     { width: "150px", dataIndex: "descripcion", title: "Descripción" },
     { width: "100px", dataIndex: "esf", title: "Esf" },
     { width: "100px", dataIndex: "cil", title: "Cil" },
@@ -98,10 +103,11 @@ const EdicionVentas = (props) => {
       dataIndex: "cantidad",
       title: <div style={{ textAlign: "right" }}>Cantidad</div>,
       render: (_, record) => (
-        <div style={{ textAlign: "right" }}>{formatFloat(record.cantidad)}</div>
+        <div style={{ textAlign: "right" }}>{record.cantidad}</div>
       ),
     },
     {
+      fixed: "right",
       width: "150px",
       dataIndex: "total",
       title: <div style={{ textAlign: "right" }}>Total</div>,
@@ -112,11 +118,13 @@ const EdicionVentas = (props) => {
       ),
     },
     {
+      fixed: "right",
       width: "50px",
       title: "",
       render: (_, record) => (
         <>
           <Button
+            disabled={!formEnabled}
             size="small"
             danger
             onClick={(_) => {
@@ -135,7 +143,60 @@ const EdicionVentas = (props) => {
   const url = get.venta;
   const url_venta_items = get.obtener_venta_items;
 
+  const parse_date1 = (pData) => {
+    if (!pData) {
+      alert("returning null for fecha retiro")
+      return null;
+    }
+    //input format 2026-03-10T06:00:00.000Z
+    try {
+      const parts = pData.split("-");
+      const year = parts[0];
+      const month = parts[1];
+      const day = parts[2].substring(0, 2);
+      return `${day}-${month}-${year}`;
+    } catch (e) {
+      alert("error trying to parse date");
+      return null;
+    }
+  };
+
+  const validar = () => {
+    if (venta.fkcaja == null) {
+      return false;
+    }
+
+    if (venta.fkcliente == null) {
+      alert("Seleccione Cliente");
+      return false;
+    }
+
+    if (venta.fksucursal == null) {
+      return false;
+    }
+
+    if (items.length < 1) {
+      alert("No hay Productos");
+      return false;
+    }
+
+    if (venta.total < 0) {
+      alert("Saldo negativo");
+      return false;
+    }
+
+    return true;
+  };
+
   const onSave = () => {
+    if (!validar()) {
+      return;
+    }
+
+    if (!confirm("Confirmar cambios")) {
+      return;
+    }
+
     let _productos = {};
 
     items.forEach((item) => {
@@ -149,15 +210,17 @@ const EdicionVentas = (props) => {
         cantidad: item.cantidad,
         idcodigo: item.idcodigo,
         tipo: item.tipo,
+        total: item.total,
       };
     });
 
-
     const _venta = { ...venta, productos: _productos };
-    alert("Venta a guardar: " + JSON.stringify(_venta));
+    //alert("Venta a guardar: " + JSON.stringify(_venta));
+    setFormEnabled(false);
     post_method(post.update.update_venta, _venta, (response) => {
       alert("Venta actualizada correctamente");
       load();
+      setFormEnabled(true);
     });
   };
 
@@ -173,6 +236,14 @@ const EdicionVentas = (props) => {
           return;
         }
         set_tipos(+ventaData.tipo);
+        if (ventaData.tipo === globals.tiposVenta.LCSTOCK) {
+          setVentaTieneCantidadEditable(true);
+        }
+        if (ventaData.tipo === globals.tiposVenta.DIRECTA) {
+          setFamiliasIds(get_familias_id(null));
+          setEsVentaDirecta(true);
+          setFormEnabled(false);
+        }
         setVenta((v) => ({
           ...v,
           idventa: ventaData.idventa,
@@ -185,7 +256,7 @@ const EdicionVentas = (props) => {
           subtotal: ventaData.subtotal,
           descuento: ventaData.descuento,
           total: ventaData.monto_total,
-          fechaRetiro: ventaData.fecha_retiro,
+          fechaRetiro: parse_date1(ventaData.fecha_retiro),
           horaRetiro: null,
           comentarios: ventaData.comentarios,
           productos: null,
@@ -228,6 +299,7 @@ const EdicionVentas = (props) => {
             codigo: record.codigo,
             descripcion: record.descripcion,
             idcodigo: record.stock_codigo_idcodigo,
+            total: record.total,
           })),
         );
         setIdLocal(_localId + 1);
@@ -240,6 +312,7 @@ const EdicionVentas = (props) => {
   }, []);
 
   const load = () => {
+    setModificarFechaRetiro(false);
     setLoading(true);
     load_venta((_) => {
       load_venta_items((_) => {
@@ -314,13 +387,22 @@ const EdicionVentas = (props) => {
   };
 
   const get_familias_id = (tipo) => {
-    if (tipo.includes("ARMAZON")) {
+    if (tipo == null) {
+      return [
+        globals.familiaIDs.ARMAZON,
+        globals.familiaIDs.TRATAMIENTO,
+        globals.familiaIDs.INSUMO,
+        globals.familiaIDs.LC,
+      ];
+    }
+
+    if (tipo.includes("armazon")) {
       return [globals.familiaIDs.ARMAZON];
     }
-    if (tipo.includes("TRATAMIENTO")) {
+    if (tipo.includes("tratamiento")) {
       return [globals.familiaIDs.TRATAMIENTO];
     }
-    if (tipo.includes("INSUMO")) {
+    if (tipo.includes("insumo")) {
       return [globals.familiaIDs.INSUMO];
     }
 
@@ -360,9 +442,11 @@ const EdicionVentas = (props) => {
       return;
     }
 
-    if (items.find((i) => i.tipo == productToAdd.tipo)) {
-      alert("Ya hay un item de tipo " + productToAdd.tipo);
-      return;
+    if (!esVentaDirecta) {
+      if (items.find((i) => i.tipo == productToAdd.tipo)) {
+        alert("Ya hay un item de tipo " + productToAdd.tipo);
+        return;
+      }
     }
 
     const __items = [
@@ -372,10 +456,11 @@ const EdicionVentas = (props) => {
         descripcion: productToAdd.codigoRecord.descripcion,
         precio: productToAdd.precio,
         cantidad: productToAdd.cantidad,
-        total: 0,
+        total:
+          parseFloat(productToAdd.precio) * parseFloat(productToAdd.cantidad),
         key: idLocal,
         idcodigo: productToAdd.codigoRecord.idcodigo,
-        tipo: productToAdd.tipo,
+        tipo: esVentaDirecta ? "vdir" : productToAdd.tipo,
       },
     ];
 
@@ -391,7 +476,7 @@ const EdicionVentas = (props) => {
       tipo: "",
       codigoRecord: null,
       precio: 0,
-      cantidad: 0,
+      cantidad: 1,
       total: 0,
     });
   };
@@ -415,15 +500,18 @@ const EdicionVentas = (props) => {
       <Card
         styles={{
           header: {
-            background: "#fcfcfc",
+            background: "#b0d0ff",
             background:
-              "radial-gradient(circle,rgba(253, 253, 253, 1) 80%, rgba(248, 248, 248,1) 100%)",
+              "radial-gradient(circle,rgb(230, 237, 252) 80%, rgba(248, 248, 248,1) 100%)",
           },
         }}
         title={
           <div>
-            Editando Venta Nro.: {venta.idventa}{" "}
+            Editando Venta Nro.: {venta.idventa}&nbsp;&nbsp;&nbsp;
             <Button
+              type="dashed"
+              size="small"
+              disabled={!formEnabled}
               style={{ color: "#1d0dff" }}
               onClick={(_) => {
                 if (
@@ -448,6 +536,9 @@ const EdicionVentas = (props) => {
             <SelectCliente
               pIdcliente={venta.fkcliente}
               key={`cliente-${venta.fkcliente}`}
+              callback={(id) => {
+                setVenta((v) => ({ ...v, fkcliente: id }));
+              }}
             />
           </Col>
         </Row>
@@ -457,16 +548,29 @@ const EdicionVentas = (props) => {
               destinatario
               pIdcliente={venta.fkdestinatario}
               key={`destinatario-${venta.fkdestinatario}`}
+              callback={(id) => {
+                setVenta((v) => ({ ...v, fkdestinatario: id }));
+              }}
             />
           </Col>
         </Row>
         <Row style={row_style}>
           <Col span={12}>
-            <SelectMedico pIdMedico={venta.fkmedico} />
+            <SelectMedico
+              pIdMedico={venta.fkmedico}
+              callback={(id) => {
+                setVenta((v) => ({ ...v, fkmedico: id }));
+              }}
+            />
           </Col>
 
           <Col span={12}>
-            <SelectObraSocial pIdOS={venta.fkos} />
+            <SelectObraSocial
+              pIdOS={venta.fkos}
+              callback={(id) => {
+                setVenta((v) => ({ ...v, fkos: id }));
+              }}
+            />
           </Col>
         </Row>
         <Row style={{ paddingTop: "12px" }}>
@@ -488,6 +592,7 @@ const EdicionVentas = (props) => {
               extra={
                 <>
                   <Button
+                    disabled={!formEnabled}
                     size="small"
                     style={{ borderRadius: "50%" }}
                     type="primary"
@@ -501,7 +606,7 @@ const EdicionVentas = (props) => {
               }
             >
               <Table
-                scroll={{ y: "600px" }}
+                scroll={{ y: 200 }}
                 dataSource={items}
                 columns={columns}
                 pagination={false}
@@ -527,6 +632,7 @@ const EdicionVentas = (props) => {
         <Row style={row_style}>
           <Col span={12}>
             <InputNumber
+              disabled={!formEnabled}
               prefix={<span style={{ fontWeight: "bold" }}>Descuento:</span>}
               style={{ width: "100%" }}
               value={venta.descuento}
@@ -534,7 +640,7 @@ const EdicionVentas = (props) => {
             />
           </Col>
         </Row>
-        
+
         <Row style={row_style}>
           <Col span={12}>
             <Input
@@ -545,11 +651,22 @@ const EdicionVentas = (props) => {
             />
           </Col>
         </Row>
-       
-        <Row gutter={[16,16]} style={row_style}>
-          <Col style={{paddingTop:"4px"}}><Checkbox checked={modificarFechaRetiro} onChange={(e) => setModificarFechaRetiro(e.target.checked)}>
-           <span style={{fontWeight:"500"}}>Modificar Fecha Retiro</span>
-          </Checkbox></Col>
+        <Row style={row_style}>
+          <Col span={12}>
+                <Input prefix="Fecha Retiro: " readOnly value={venta.fechaRetiro||"-"} />
+          </Col>
+        </Row>
+
+        <Row gutter={[16, 16]} style={row_style}>
+          <Col style={{ paddingTop: "4px" }}>
+            <Checkbox
+              disabled={!formEnabled}
+              checked={modificarFechaRetiro}
+              onChange={(e) => setModificarFechaRetiro(e.target.checked)}
+            >
+              <span style={{ fontWeight: "500" }}>Modificar Fecha Retiro</span>
+            </Checkbox>
+          </Col>
           <Col>
             <DatePicker
               disabled={!modificarFechaRetiro}
@@ -566,10 +683,10 @@ const EdicionVentas = (props) => {
             />
           </Col>
         </Row>
-         <Divider />
+        <Divider />
         <Row style={row_style}>
           <Col span={24}>
-            <Button type="primary" onClick={onSave}>
+            <Button type="primary" onClick={onSave} disabled={!formEnabled}>
               Guardar Cambios
             </Button>
           </Col>
@@ -598,7 +715,7 @@ const EdicionVentas = (props) => {
               value={productToAdd.tipo}
               options={tipos}
               style={{ width: "100%" }}
-              disabled={productToAdd.codigo != null}
+              disabled={productToAdd.codigo != null || esVentaDirecta}
               onChange={(v) => {
                 setFamiliasIds(get_familias_id(v));
                 setProductToAdd((p) => ({
@@ -617,12 +734,16 @@ const EdicionVentas = (props) => {
         </Row>
         <Row>
           <Col style={{ minWidth: "300px" }}>
-            <SelectCodigoVenta
-              idfamilias={familiasIds}
-              key={productToAdd.tipo}
-              callback={onchange_codigo}
-              hideExtOpt={"0"}
-            />
+            {productToAdd.tipo == "" && !esVentaDirecta ? (
+              <>Seleccione tipo</>
+            ) : (
+              <SelectCodigoVenta
+                idfamilias={familiasIds}
+                key={productToAdd.tipo}
+                callback={onchange_codigo}
+                hideExtOpt={"0"}
+              />
+            )}
           </Col>
         </Row>
         <Row style={{ paddingTop: "8px" }}>
@@ -630,7 +751,16 @@ const EdicionVentas = (props) => {
         </Row>
         <Row>
           <Col>
-            <InputNumber style={{ width: "200px" }} />
+            <InputNumber
+              style={{ width: "200px" }}
+              value={productToAdd.precio}
+              onChange={(v) => {
+                setProductToAdd((pta) => ({
+                  ...pta,
+                  precio: parseFloat(v || "0"),
+                }));
+              }}
+            />
           </Col>
         </Row>
         <Row style={{ paddingTop: "8px" }}>
@@ -639,6 +769,8 @@ const EdicionVentas = (props) => {
         <Row>
           <Col>
             <Input
+              disabled={!ventaTieneCantidadEditable}
+              value={productToAdd.cantidad}
               type="number"
               step={1}
               min={1}
@@ -657,7 +789,14 @@ const EdicionVentas = (props) => {
         </Row>
         <Row>
           <Col>
-            <Input readOnly style={{ width: "200px" }} />
+            <Input
+              readOnly
+              style={{ width: "200px" }}
+              value={
+                parseFloat(productToAdd.cantidad) *
+                parseFloat(productToAdd.precio)
+              }
+            />
           </Col>
         </Row>
 
