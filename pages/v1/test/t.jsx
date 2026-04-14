@@ -14,9 +14,9 @@ export default function test() {
        <TestGridCreation />
         <TrabajoRecetaStock />
       
-      
+      */}
 
-      <EdicionVentas idventa={69677} />*/}
+      <EdicionVentas idventa={69677} />
       <TrabajoMultiple />
     
       

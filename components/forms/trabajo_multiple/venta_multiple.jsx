@@ -166,7 +166,7 @@ const TrabajoMultiple = ({
       <Divider />
 
       <Card
-        title="Productos"
+        title="Trabajos"
         size="small"
         style={{ boxShadow: "-1px 3px 3px 2px #9e9c9c" }}
       >

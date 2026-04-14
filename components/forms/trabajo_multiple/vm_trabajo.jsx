@@ -26,6 +26,8 @@ const VMTrabajo = (props) => {
     <Row>
       <Col span={24}>
         <Select
+          prefix="Tipo: "
+          placeholder="Seleccione tipo de Trabajo..."
           onChange={(v) => {
             setTipoTrabajo(v);
           }}
