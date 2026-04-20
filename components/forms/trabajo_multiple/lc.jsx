@@ -18,6 +18,11 @@ const VMLC = (props) => {
 
   return (
     <>
+    <Row>
+        <Col>
+          <h3>Stock</h3>
+        </Col>
+      </Row>
       <Row>
         <Col>
           <Table

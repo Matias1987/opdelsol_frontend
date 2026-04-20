@@ -23,10 +23,16 @@ const VMTrabajo = (props) => {
   };
 
   return tipoTrabajo < 0 ? (
-    <Row>
+    <div style={{ backgroundColor:"#faf6e7", borderRadius:"16px"}}>
+    <Row style={{paddingLeft:"32px"}}>
+      <Col span={24}>
+        <h3 style={{color:"#3A5C79"}}>Tipo de trabajo: </h3>
+      </Col>
+    </Row>
+    <Row style={{paddingLeft:"32px", paddingRight:"32px", paddingBottom:"63px"}}>
       <Col span={24}>
         <Select
-          prefix="Tipo: "
+          prefix="Seleccione: "
           placeholder="Seleccione tipo de Trabajo..."
           onChange={(v) => {
             setTipoTrabajo(v);
@@ -40,6 +46,7 @@ const VMTrabajo = (props) => {
         />
       </Col>
     </Row>
+    </div>
   ) : (
     get_content()
   );

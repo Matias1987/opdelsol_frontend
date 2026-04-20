@@ -1,3 +1,4 @@
+import TotalesVentasDiaEmpleado from "@/components/admin/dashboard_components/totales_ventas_dia_empleado";
 import Egreso from "@/components/caja_master/egreso";
 import EdicionVentas from "@/components/edicion_ventas/EdicionVentas";
 import TestGridCreation from "@/components/etc/testGridCreation";
@@ -14,12 +15,13 @@ export default function test() {
        <TestGridCreation />
         <TrabajoRecetaStock />
       
-      */}
+     */}
 
       <EdicionVentas idventa={69677} />
       <TrabajoMultiple />
     
-      
+       
+       <TotalesVentasDiaEmpleado />
     </div>
   )
 }
