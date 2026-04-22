@@ -27,6 +27,11 @@ const CuotasPendientesTarjetas = (props) => {
   const [selectedCobro, setSelectedCobro] = useState(null);
   const columns = [
     {
+      title:"Sucursal",
+      dataIndex:"sucursal",
+      width:"100px",
+    },
+    {
       title: "Operación",
       width: "20%",
       render: (_, record) => (
