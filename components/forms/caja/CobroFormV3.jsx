@@ -46,46 +46,44 @@ const CobroOperacionV3 = (props) => {
     load();
   }, []);
 
-  const onCobrarBase = (nextAction) =>{
-        setCobrarDisabled(true);
+  const onCobrarBase = (nextAction) => {
+    setCobrarDisabled(true);
 
-        if (!_validar_campos() || !_validar_variables()) {
-        setCobrarDisabled(false);
-        return;
-        }
+    if (!_validar_campos() || !_validar_variables()) {
+      setCobrarDisabled(false);
+      return;
+    }
 
-        /** si hay venta pero es de monto 0*/
-        if (dataVenta != null && +mp.total == 0 && dataVenta.saldo == 0) {
-        _on_venta_monto_zero();
-        return;
-        }
+    /** si hay venta pero es de monto 0*/
+    if (dataVenta != null && +mp.total == 0 && dataVenta.saldo == 0) {
+      _on_venta_monto_zero();
+      return;
+    }
 
-        nextAction()
-  }
+    nextAction();
+  };
 
   const onCobrarCuotaClick = (e) => {
-        onCobrarBase(_=>{
-            onCobrarClick("cuota")
-        })
-  }
+    onCobrarBase((_) => {
+      onCobrarClick("cuota");
+    });
+  };
 
   const onCobrarResfuerzoClick = (e) => {
-    onCobrarBase(_=>{
-            onCobrarClick("resfuerzo")
-        })
-  }
+    onCobrarBase((_) => {
+      onCobrarClick("resfuerzo");
+    });
+  };
   const onCobrarEntregaClick = (e) => {
-    onCobrarBase(_=>{
-            onCobrarClick("entrega")
-        })
-  }
+    onCobrarBase((_) => {
+      onCobrarClick("entrega");
+    });
+  };
   const onCobrarIngresoClick = (e) => {
-    onCobrarBase(_=>{
-        onCobrarClick("ingreso")
-    })
-  }
-
-
+    onCobrarBase((_) => {
+      onCobrarClick("ingreso");
+    });
+  };
 
   const load = (_) => {
     setCobrarDisabled(false);
@@ -254,7 +252,7 @@ const CobroOperacionV3 = (props) => {
           },
           (resp) => {
             onClose(null);
-          }
+          },
         );
         registrarVentaEntregada(dataVenta.idventa);
       } else {
@@ -269,7 +267,7 @@ const CobroOperacionV3 = (props) => {
             },
             (resp) => {
               onClose(null);
-            }
+            },
           );
           registrarVentaEntregada(dataVenta.idventa);
         } else {
@@ -282,7 +280,7 @@ const CobroOperacionV3 = (props) => {
             },
             (resp) => {
               onClose(null);
-            }
+            },
           );
           registrarVentaPendiente(dataVenta.idventa);
         }
@@ -291,7 +289,6 @@ const CobroOperacionV3 = (props) => {
   };
 
   const onCobrarClick = (_tipo_accion) => {
-
     var params = {
       mp: mp,
       tipo: props.tipo,
@@ -313,7 +310,7 @@ const CobroOperacionV3 = (props) => {
         ? params
         : { ...params, idcliente: props.idcliente };
 
-/*    const _sdo =
+    /*    const _sdo =
       typeof props.idventa === "undefined"
         ? 0
         : parseFloat(dataVenta.subtotal) -
@@ -379,100 +376,86 @@ const CobroOperacionV3 = (props) => {
         : "";*/
 
     post_method(post.insert.cobro, params, (id) => {
-        onSaved(id, tipo);
+      onSaved(id, tipo);
     });
   };
 
-
-
   const onSaved = (id, __tipo) => {
     if (id.data == 0) {
-        if (dataVenta != null && __tipo != "resfuerzo") {
-          let est =
-            __tipo == "entrega"
-              ? "ENTREGADO"
-              : entrega
+      if (dataVenta != null && __tipo != "resfuerzo") {
+        let est =
+          __tipo == "entrega"
+            ? "ENTREGADO"
+            : entrega
               ? "ENTREGADO"
               : "PENDIENTE";
 
-          post_method(
-            post.cambiar_estado_venta,
-            {
-              idventa: dataVenta.idventa,
-              estado:                 est /*estado at this point could be entrega or ingreso  */,
-              fecha_retiro: current_date_ymd(),
-            },
-            (resp) => {
-              onCobroSaved(0);
-            }
-          );
-          registrar_evento(
-            "VENTA",
-            "Cambio estado a " + est,
-            dataVenta.idventa
-          );
-        } else {
-          onCobroSaved(0);
-        }
+        post_method(
+          post.cambiar_estado_venta,
+          {
+            idventa: dataVenta.idventa,
+            estado: est /*estado at this point could be entrega or ingreso  */,
+            fecha_retiro: current_date_ymd(),
+          },
+          (resp) => {
+            onCobroSaved(0);
+          },
+        );
+        registrar_evento("VENTA", "Cambio estado a " + est, dataVenta.idventa);
       } else {
-        if (dataVenta != null && __tipo != "resfuerzo") {
-          //entrega
-          let est =
-            __tipo == "entrega"
-              ? "ENTREGADO"
-              : entrega
+        onCobroSaved(0);
+      }
+    } else {
+      if (dataVenta != null && __tipo != "resfuerzo") {
+        //entrega
+        let est =
+          __tipo == "entrega"
+            ? "ENTREGADO"
+            : entrega
               ? "ENTREGADO"
               : "PENDIENTE";
 
-          post_method(
-            post.cambiar_estado_venta,
-            {
-              idventa: dataVenta.idventa,
-              estado: est,
-              fecha_retiro: current_date_ymd(),
-            },
-            (resp) => {
-              /** actualizar balance de cta cte en recibo x */
+        post_method(
+          post.cambiar_estado_venta,
+          {
+            idventa: dataVenta.idventa,
+            estado: est,
+            fecha_retiro: current_date_ymd(),
+          },
+          (resp) => {
+            /** actualizar balance de cta cte en recibo x */
 
-              if(+(id.data||"0")>0)
-              {
-                fetch(get.actualizar_saldo_en_cobro + id.data)
+            if (+(id.data || "0") > 0) {
+              fetch(get.actualizar_saldo_en_cobro + id.data)
                 .then((___response) => ___response.json())
                 .then((___response) => {
                   onCobroSaved(id.data);
                 });
-              }
-              else{
-                onCobroSaved(0);
-              }
-            }
-          );
-          registrar_evento(
-            "VENTA",
-            "Cambio estado a " + est,
-            dataVenta.idventa
-          );
-        } else {
-          /**actualizar balance de cta cte en recibo x */
-            if(+(id.data||"0")>0)
-            {
-            fetch(get.actualizar_saldo_en_cobro + id.data)
-              .then((_r) => _r.json())
-              .then((___response) => {
-                onCobroSaved(id.data);
-              });
-            }
-            else{
+            } else {
               onCobroSaved(0);
             }
-        }
-        registrar_evento(
-          "COBRO",
-          "Registro Cobro $" + mp.total.toString(),
-          id.data
+          },
         );
+        registrar_evento("VENTA", "Cambio estado a " + est, dataVenta.idventa);
+      } else {
+        /**actualizar balance de cta cte en recibo x */
+        if (+(id.data || "0") > 0) {
+          fetch(get.actualizar_saldo_en_cobro + id.data)
+            .then((_r) => _r.json())
+            .then((___response) => {
+              onCobroSaved(id.data);
+            });
+        } else {
+          onCobroSaved(0);
+        }
       }
-  }
+      registrar_evento(
+        "COBRO",
+        "Registro Cobro $" + mp.total.toString(),
+        id.data,
+      );
+    }
+  };
 
   const cliente_detalle = (_) =>
     dataCliente == null ? (
@@ -501,18 +484,18 @@ const CobroOperacionV3 = (props) => {
             prefix={"Descuento:"}
             value={descuento}
             onChange={(e) => {
-              setDescuento(
-                (e.target.value.length < 1 ? "0" : e.target.value)
-              );
+              setDescuento(e.target.value.length < 1 ? "0" : e.target.value);
             }}
           />
           Haber: <b>{parseFloat(dataVenta.haber).toFixed(2)}</b> &nbsp;&nbsp;
           <span style={{ backgroundColor: "lightyellow", color: "red" }}>
             Saldo:{" "}
             <b>
-              {(parseFloat(dataVenta.subtotal) -
+              {(
+                parseFloat(dataVenta.subtotal) -
                 parseFloat(descuento) -
-                parseFloat(dataVenta.haber || 0)).toFixed(2)}
+                parseFloat(dataVenta.haber || 0)
+              ).toFixed(2)}
             </b>
           </span>
           &nbsp;&nbsp;
@@ -567,7 +550,7 @@ const CobroOperacionV3 = (props) => {
       { idventa: props.idventa, estado: "PENDIENTE", removeMPRows: 1 },
       (resp) => {
         onClose(null);
-      }
+      },
     );
   };
 
@@ -626,6 +609,24 @@ const CobroOperacionV3 = (props) => {
         </Row>
 
         {estado_switch()}
+
+        {entrega ? (
+          <>
+            <Row>
+              <Col span={24}>
+                <Input.TextArea
+                  rows={4}
+                  placeholder="Observaciones del cliente"
+                  onChange={(e) => {
+                    mp.observaciones_entrega = e.target.value;
+                  }}
+                />
+              </Col>
+            </Row>
+          </>
+        ) : (
+          <></>
+        )}
 
         {props.tipo == "cuota" && mp != null ? (
           <Button

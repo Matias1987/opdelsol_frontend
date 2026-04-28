@@ -657,7 +657,24 @@ const CobroOperacionV2 = (props) => {
         </Row>
 
         {estado_switch()}
-
+        {entrega ? (
+          <>
+            <Row>
+              <span>Observaciones del cliente:</span>
+              <Col span={24}>
+                <Input.TextArea
+                  rows={4}
+                  placeholder="Observaciones del cliente"
+                  onChange={(e) => {
+                    mp.observaciones_entrega = e.target.value;
+                  }}
+                />
+              </Col>
+            </Row>
+          </>
+        ) : (
+          <></>
+        )}
         {props.tipo == "cuota" && mp != null ? (
           <Button
             type="primary"

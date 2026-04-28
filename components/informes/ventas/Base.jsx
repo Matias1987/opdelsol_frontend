@@ -18,6 +18,7 @@ import DestinatarioInf from "./common/Destinatario";
 import DataSucursalInf from "./common/DataSucursalInf";
 import {
   local_base_url,
+  mostrar_qr_opiniones,
   mostrar_talon_cliente,
   usar_correcciones_recstock,
 } from "@/src/config";
@@ -158,25 +159,23 @@ const InformeVenta = (props) => {
                       flexDirection: "column",
                       alignItems: "center",
                       justifyContent: "center",
-					  width: "80%",
                     }}
                   >
                     {tipo_venta(data.tipo)}
                   </div>
+                </td>
+                { !mostrar_qr_opiniones ? <></> : <td>
                   <div
                     style={{
-						width: "20%",
-                      textAlign: "right",
+                      width: "40px",
+                      textAlign: "center",
                       display: "flex",
                       flexDirection: "column",
-                      alignItems: "right",
-                      justifyContent: "right",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      paddingRight:"8px"
                     }}
                   >
-                    {/*
-									<Barcode value={data.idventa} displayValue={false} width={2} height={12} />
-								*/}
-
                     <QRCode
                       value={
                         local_base_url + "valorar" + "?idventa=" + data.idventa
@@ -191,7 +190,7 @@ const InformeVenta = (props) => {
                       experiencia
                     </span>
                   </div>
-                </td>
+                </td>}
                 <td width="250px">
                   <FechaEntregaInf data={data} />
 
