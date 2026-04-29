@@ -3,17 +3,9 @@ import useStorage from "@/useStorage";
 import { Button, Layout, Menu } from "antd";
 import { useEffect, useState } from "react";
 import globals from "@/src/globals";
-import HeaderSol from "./header";
-import MenuAdminTop from "./menu_admin";
-import { idf_optica } from "@/src/config";
-import MenuAdminSolParana from "./opts/sol_parana/menu_admin";
-import MenuAdminCOExp from "./opts/coexp/menu_admin";
-import SideMenu from "./test/SideMenuTest";
 import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
-import SideMenuAdmin from "./SideMenuAdmin";
-import Logo from "./logo/logo";
 import SideMenuAdminMin from "./SideMenuAdminMin";
-const { Header, Content } = Layout;
+const { Header } = Layout;
 
 export default function LayoutAdminMin({ children }) {
     const [collapsed, setCollapsed] = useState(false);

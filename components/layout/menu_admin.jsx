@@ -1,19 +1,16 @@
 import {
   AreaChartOutlined,
   BoxPlotOutlined,
-  CarOutlined,
   CreditCardOutlined,
   DollarOutlined,
   HomeFilled,
   MenuOutlined,
-  SearchOutlined,
   UserOutlined,
 } from "@ant-design/icons";
 import { Menu } from "antd";
 import { useState } from "react";
 import Link from "next/link";
 import { public_urls } from "@/src/urls";
-import BuscarVenta from "../forms/ventas/BuscarVenta";
 import CustomModal from "../CustomModal";
 import ListaPreciosV3 from "../lista_precios/listaPreciosV3";
 import { lista_precios_visible } from "@/src/config";

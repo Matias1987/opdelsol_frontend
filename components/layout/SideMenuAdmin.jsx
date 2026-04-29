@@ -4,15 +4,12 @@ import {
   DashboardOutlined,
   UserOutlined,
   SettingOutlined,
-  FileTextOutlined,
   LogoutOutlined,
-  TeamOutlined,
-  BarChartOutlined,
   DollarOutlined,
   CreditCardTwoTone,
 } from "@ant-design/icons";
 import { useRouter } from "next/router";
-import { get, public_urls } from "@/src/urls";
+import { get } from "@/src/urls";
 import useStorage from "@/useStorage";
 
 const { Sider } = Layout;

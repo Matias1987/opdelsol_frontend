@@ -1,4 +1,17 @@
-import { Button, Card, Checkbox, Col, Modal, Row, Spin, Table, Tabs, Tag } from "antd";
+import dayjs from "dayjs";
+import {
+  Button,
+  Card,
+  Checkbox,
+  Col,
+  DatePicker,
+  Modal,
+  Row,
+  Spin,
+  Table,
+  Tabs,
+  Tag,
+} from "antd";
 import { useEffect, useState } from "react";
 import AgregarPagoProveedor from "./AgregarPagoProveedor";
 import AgregarCMProveedor from "./AregarCMProveedor";
@@ -28,6 +41,9 @@ const FichaProveedorMoneda = ({
   const [modo, setModo] = useState(1);
   const [selectedFactura, setSelectedFactura] = useState(-1);
   const [popupDetalleFacturaOpen, setPopupDetalleFacturaOpen] = useState(false);
+  const [filterDate, setFilterDate] = useState(null);
+  const [labelDate, setLabelDate] = useState(null);
+  const [currentTab, setCurrentTab] = useState("1");
   const [totalesFactura, setTotalesFactura] = useState({
     debe: 0,
     haber: 0,
@@ -44,7 +60,43 @@ const FichaProveedorMoneda = ({
 
   const columns = [
     { title: "ID.", dataIndex: "id" },
-    { title: "Fecha", dataIndex: "fecha_f" },
+    {
+      title: "Fecha",
+      dataIndex: "fecha_f",
+      filterDropdown: ({ setSelectedKeys, selectedKeys, confirm }) => (
+        <div style={{ padding: 8 }}>
+          <DatePicker
+            format="DD-MM-YYYY"
+            value={
+              selectedKeys[0] ? dayjs(selectedKeys[0], "DD-MM-YYYY") : null
+            }
+            onChange={(date, dateString) => {
+              setSelectedKeys(dateString ? [dateString] : []);
+              setFilterDate(date); // store as dayjs
+            }}
+          />
+          <Button
+            onClick={() => {
+              confirm();
+              setLabelDate(
+                selectedKeys[0] ? dayjs(selectedKeys[0], "DD-MM-YYYY") : null,
+              );
+            }}
+            style={{ marginTop: 8 }}
+            disabled={agrupar}
+          >
+            {filterDate
+              ? "Aplicar Filtro"
+              : labelDate
+                ? "Limpiar Filtro"
+                : "Selecione..."}
+          </Button>
+        </div>
+      ),
+      onFilter: (value, record) => {
+        return isDateBeforeOrEqual(record.fecha_f, dayjs(value, "DD-MM-YYYY"));
+      },
+    },
     {
       title: "Detalle",
       render: (_, { tipo, detalle, id }) => {
@@ -91,10 +143,28 @@ const FichaProveedorMoneda = ({
     },
   ];
 
+  /**
+   * Check if a DB date string (dd-mm-yyyy) is <= a given "to" date.
+   * @param {string} dbDate - Date string from DB in "dd-mm-yyyy" format.
+   * @param {dayjs.Dayjs} to - End date (mandatory).
+   * @returns {boolean} true if dbDate <= to, else false.
+   */
+  function isDateBeforeOrEqual(dbDate, to) {
+    if (!dbDate || !to) return false;
+
+    // Parse with explicit format dd-mm-yyyy
+    const target = dayjs(dbDate, "DD-MM-YY");
+    const end = to.endOf("day");
+    //alert(target.format("DD-MM-YYYY") + " <= " + end.format("DD-MM-YYYY") + " ? " + target.isBefore(end) + " or same day: " + target.isSame(end, "day"));
+
+    return target.isBefore(end) || target.isSame(end, "day");
+  }
+
   const load = () => {
+    setFilterDate(null);
     post_method(
       post.ficha_proveedor,
-      { idproveedor: idproveedor, modo: 1, moneda: moneda, agrupar:agrupar  },
+      { idproveedor: idproveedor, modo: 1, moneda: moneda, agrupar: agrupar },
       (response) => {
         let total_d = 0;
         let total_h = 0;
@@ -111,7 +181,7 @@ const FichaProveedorMoneda = ({
     );
     post_method(
       post.ficha_proveedor,
-      { idproveedor: idproveedor, modo: 0, moneda: moneda, agrupar:agrupar  },
+      { idproveedor: idproveedor, modo: 0, moneda: moneda, agrupar: agrupar },
       (response) => {
         let total_d = 0;
         let total_h = 0;
@@ -128,7 +198,7 @@ const FichaProveedorMoneda = ({
     );
     post_method(
       post.ficha_proveedor,
-      { idproveedor: idproveedor, modo: -1, moneda: moneda, agrupar:agrupar },
+      { idproveedor: idproveedor, modo: -1, moneda: moneda, agrupar: agrupar },
       (response) => {
         let total_d = 0;
         let total_h = 0;
@@ -164,63 +234,73 @@ const FichaProveedorMoneda = ({
       <Row style={{ backgroundColor: "#E7E7E7" }}>
         <Col span={24} style={{ padding: "0em" }}>
           <Table
+            key={currentTab}
             title={() => table_header(null, operacionesR)}
             size="small"
             dataSource={operacionesR}
             columns={columns}
             scroll={{ y: "600px" }}
             pagination={false}
-            summary={() => (
-              <Table.Summary fixed>
-                <Table.Summary.Row style={{ backgroundColor: "lightgreen" }}>
-                  <Table.Summary.Cell colSpan={3}>Totales</Table.Summary.Cell>
+            summary={(data) => {
+              const totalDebe = data.reduce(
+                (sum, r) => sum + parseFloat(r.debe || "0"),
+                0,
+              );
+              const totalHaber = data.reduce(
+                (sum, r) => sum + parseFloat(r.haber || "0"),
+                0,
+              );
 
-                  <Table.Summary.Cell>
-                    <div
-                      style={{
-                        textAlign: "right",
-                        fontWeight: "bold",
-                        color: "black",
-                        fontSize: "1.1em",
-                      }}
-                    >
-                      $&nbsp;{formatFloat(totalesRemito.debe)}
-                    </div>
-                  </Table.Summary.Cell>
-                  <Table.Summary.Cell>
-                    <div
-                      style={{
-                        textAlign: "right",
-                        fontWeight: "bold",
-                        color: "black",
-                        fontSize: "1.1em",
-                      }}
-                    >
-                      $&nbsp;{formatFloat(totalesRemito.haber)}
-                    </div>
-                  </Table.Summary.Cell>
-                </Table.Summary.Row>
-                <Table.Summary.Row>
-                  <Table.Summary.Cell colSpan={5}>
-                    <div
-                      style={{
-                        textAlign: "left",
-                        fontWeight: "bolder",
-                        fontSize: "1.3em",
-                      }}
-                    >
-                      Saldo: ${" "}
-                      {formatFloat(
-                        parseFloat(totalesRemito.debe) -
-                          parseFloat(totalesRemito.haber),
-                      )}
-                      &nbsp;
-                      {moneda}
-                    </div>
-                  </Table.Summary.Cell>
-                </Table.Summary.Row>
-              </Table.Summary>
-            )}
+              return (
+                <Table.Summary fixed>
+                  <Table.Summary.Row style={{ backgroundColor: "lightblue" }}>
+                    <Table.Summary.Cell colSpan={3}>Totales</Table.Summary.Cell>
+                    <Table.Summary.Cell>
+                      <div
+                        style={{
+                          textAlign: "right",
+                          fontWeight: "bold",
+                          color: "black",
+                          fontSize: "1.1em",
+                        }}
+                      >
+                        $&nbsp;{formatFloat(totalDebe)}
+                      </div>
+                    </Table.Summary.Cell>
+                    <Table.Summary.Cell>
+                      <div
+                        style={{
+                          textAlign: "right",
+                          fontWeight: "bold",
+                          color: "black",
+                          fontSize: "1.1em",
+                        }}
+                      >
+                        $&nbsp;{formatFloat(totalHaber)}
+                      </div>
+                    </Table.Summary.Cell>
+                  </Table.Summary.Row>
+                  <Table.Summary.Row>
+                    <Table.Summary.Cell colSpan={5}>
+                      <div
+                        style={{
+                          textAlign: "left",
+                          fontWeight: "bolder",
+                          fontSize: "1.3em",
+                        }}
+                      >
+                        Saldo: ${" "}
+                        {formatFloat(
+                          parseFloat(totalDebe) - parseFloat(totalHaber),
+                        )}
+                        &nbsp;
+                        {moneda}
+                      </div>
+                    </Table.Summary.Cell>
+                  </Table.Summary.Row>
+                </Table.Summary>
+              );
+            }}
           />
         </Col>
       </Row>
@@ -228,6 +308,7 @@ const FichaProveedorMoneda = ({
       <Row>
         <Col span={24}>
           <Button
+            disabled={agrupar || labelDate != null}
             type="primary"
             onClick={() => {
               onAgregarPago(0);
@@ -237,6 +318,7 @@ const FichaProveedorMoneda = ({
           </Button>
           &nbsp;
           <Button
+            disabled={agrupar || labelDate != null}
             type="primary"
             onClick={() => {
               onAgregarCargaManual(0);
@@ -246,6 +328,7 @@ const FichaProveedorMoneda = ({
           </Button>
           &nbsp;
           <Button
+            disabled={agrupar || labelDate != null}
             type="primary"
             onClick={() => {
               setPopupAddRemitoOpen(true);
@@ -265,62 +348,73 @@ const FichaProveedorMoneda = ({
       <Row style={{ backgroundColor: "#E7E7E7" }}>
         <Col span={24}>
           <Table
+            key={currentTab}
             title={() => table_header(null, operacionesF)}
             size="small"
             dataSource={operacionesF}
             columns={columns}
             scroll={{ y: "400px" }}
             pagination={false}
-            summary={() => (
-              <Table.Summary fixed>
-                <Table.Summary.Row style={{ backgroundColor: "lightblue" }}>
-                  <Table.Summary.Cell colSpan={3}>Totales</Table.Summary.Cell>
-                  <Table.Summary.Cell>
-                    <div
-                      style={{
-                        textAlign: "right",
-                        fontWeight: "bold",
-                        color: "black",
-                        fontSize: "1.1em",
-                      }}
-                    >
-                      $&nbsp;{formatFloat(totalesFactura.debe)}
-                    </div>
-                  </Table.Summary.Cell>
-                  <Table.Summary.Cell>
-                    <div
-                      style={{
-                        textAlign: "right",
-                        fontWeight: "bold",
-                        color: "black",
-                        fontSize: "1.1em",
-                      }}
-                    >
-                      $&nbsp;{formatFloat(totalesFactura.haber)}
-                    </div>
-                  </Table.Summary.Cell>
-                </Table.Summary.Row>
-                <Table.Summary.Row>
-                  <Table.Summary.Cell colSpan={5}>
-                    <div
-                      style={{
-                        textAlign: "left",
-                        fontWeight: "bolder",
-                        fontSize: "1.3em",
-                      }}
-                    >
-                      Saldo: ${" "}
-                      {formatFloat(
-                        parseFloat(totalesFactura.debe) -
-                          parseFloat(totalesFactura.haber),
-                      )}
-                      &nbsp;
-                      {moneda}
-                    </div>
-                  </Table.Summary.Cell>
-                </Table.Summary.Row>
-              </Table.Summary>
-            )}
+            summary={(data) => {
+              const totalDebe = data.reduce(
+                (sum, r) => sum + parseFloat(r.debe || "0"),
+                0,
+              );
+              const totalHaber = data.reduce(
+                (sum, r) => sum + parseFloat(r.haber || "0"),
+                0,
+              );
+
+              return (
+                <Table.Summary fixed>
+                  <Table.Summary.Row style={{ backgroundColor: "lightblue" }}>
+                    <Table.Summary.Cell colSpan={3}>Totales</Table.Summary.Cell>
+                    <Table.Summary.Cell>
+                      <div
+                        style={{
+                          textAlign: "right",
+                          fontWeight: "bold",
+                          color: "black",
+                          fontSize: "1.1em",
+                        }}
+                      >
+                        $&nbsp;{formatFloat(totalDebe)}
+                      </div>
+                    </Table.Summary.Cell>
+                    <Table.Summary.Cell>
+                      <div
+                        style={{
+                          textAlign: "right",
+                          fontWeight: "bold",
+                          color: "black",
+                          fontSize: "1.1em",
+                        }}
+                      >
+                        $&nbsp;{formatFloat(totalHaber)}
+                      </div>
+                    </Table.Summary.Cell>
+                  </Table.Summary.Row>
+                  <Table.Summary.Row>
+                    <Table.Summary.Cell colSpan={5}>
+                      <div
+                        style={{
+                          textAlign: "left",
+                          fontWeight: "bolder",
+                          fontSize: "1.3em",
+                        }}
+                      >
+                        Saldo: ${" "}
+                        {formatFloat(
+                          parseFloat(totalDebe) - parseFloat(totalHaber),
+                        )}
+                        &nbsp;
+                        {moneda}
+                      </div>
+                    </Table.Summary.Cell>
+                  </Table.Summary.Row>
+                </Table.Summary>
+              );
+            }}
           />
         </Col>
       </Row>
@@ -328,6 +422,7 @@ const FichaProveedorMoneda = ({
       <Row>
         <Col span={24}>
           <Button
+            disabled={agrupar || labelDate != null}
             type="primary"
             onClick={() => {
               onAgregarPago(1);
@@ -337,6 +432,7 @@ const FichaProveedorMoneda = ({
           </Button>
           &nbsp;
           <Button
+            disabled={agrupar || labelDate != null}
             type="primary"
             onClick={() => {
               onAgregarCargaManual(1);
@@ -346,6 +442,7 @@ const FichaProveedorMoneda = ({
           </Button>
           &nbsp;
           <Button
+            disabled={agrupar || labelDate != null}
             type="primary"
             onClick={() => {
               setPopupAddFacturaOpen(true);
@@ -366,61 +463,75 @@ const FichaProveedorMoneda = ({
       <Row>
         <Col span={24}>
           <Table
-            title={() => table_header("Lista de Operaciones", operacionesGeneral)}
+            key={currentTab}
+            title={() =>
+              table_header("Lista de Operaciones", operacionesGeneral)
+            }
             size="small"
             dataSource={operacionesGeneral}
             columns={columns}
             scroll={{ y: "400px" }}
             pagination={false}
-            summary={() => (
-              <Table.Summary fixed>
-                <Table.Summary.Row style={{ backgroundColor: "lightpink" }}>
-                  <Table.Summary.Cell colSpan={3}>Totales</Table.Summary.Cell>
-                  <Table.Summary.Cell>
-                    <div
-                      style={{
-                        textAlign: "right",
-                        fontWeight: "bold",
-                        color: "black",
-                        fontSize: "1.1em",
-                      }}
-                    >
-                      $&nbsp;{formatFloat(totales.debe)}
-                    </div>
-                  </Table.Summary.Cell>
-                  <Table.Summary.Cell>
-                    <div
-                      style={{
-                        textAlign: "right",
-                        fontWeight: "bold",
-                        color: "black",
-                        fontSize: "1.1em",
-                      }}
-                    >
-                      $&nbsp;{formatFloat(totales.haber)}
-                    </div>
-                  </Table.Summary.Cell>
-                </Table.Summary.Row>
-                <Table.Summary.Row>
-                  <Table.Summary.Cell colSpan={5}>
-                    <div
-                      style={{
-                        textAlign: "left",
-                        fontWeight: "bolder",
-                        fontSize: "1.3em",
-                      }}
-                    >
-                      Saldo: ${" "}
-                      {formatFloat(
-                        parseFloat(totales.debe) - parseFloat(totales.haber),
-                      )}
-                      &nbsp;
-                      {moneda}
-                    </div>
-                  </Table.Summary.Cell>
-                </Table.Summary.Row>
-              </Table.Summary>
-            )}
+            summary={(data) => {
+              const totalDebe = data.reduce(
+                (sum, r) => sum + parseFloat(r.debe || "0"),
+                0,
+              );
+              const totalHaber = data.reduce(
+                (sum, r) => sum + parseFloat(r.haber || "0"),
+                0,
+              );
+
+              return (
+                <Table.Summary fixed>
+                  <Table.Summary.Row style={{ backgroundColor: "lightblue" }}>
+                    <Table.Summary.Cell colSpan={3}>Totales</Table.Summary.Cell>
+                    <Table.Summary.Cell>
+                      <div
+                        style={{
+                          textAlign: "right",
+                          fontWeight: "bold",
+                          color: "black",
+                          fontSize: "1.1em",
+                        }}
+                      >
+                        $&nbsp;{formatFloat(totalDebe)}
+                      </div>
+                    </Table.Summary.Cell>
+                    <Table.Summary.Cell>
+                      <div
+                        style={{
+                          textAlign: "right",
+                          fontWeight: "bold",
+                          color: "black",
+                          fontSize: "1.1em",
+                        }}
+                      >
+                        $&nbsp;{formatFloat(totalHaber)}
+                      </div>
+                    </Table.Summary.Cell>
+                  </Table.Summary.Row>
+                  <Table.Summary.Row>
+                    <Table.Summary.Cell colSpan={5}>
+                      <div
+                        style={{
+                          textAlign: "left",
+                          fontWeight: "bolder",
+                          fontSize: "1.3em",
+                        }}
+                      >
+                        Saldo: ${" "}
+                        {formatFloat(
+                          parseFloat(totalDebe) - parseFloat(totalHaber),
+                        )}
+                        &nbsp;
+                        {moneda}
+                      </div>
+                    </Table.Summary.Cell>
+                  </Table.Summary.Row>
+                </Table.Summary>
+              );
+            }}
           />
         </Col>
       </Row>
@@ -428,45 +539,56 @@ const FichaProveedorMoneda = ({
   );
 
   const table_header = (title, csv_src) => (
-    <div style={{display:"flex", justifyContent:"space-between"}}>
-      <div >
-      <span style={{ fontWeight: "bold", paddingRight:"16px" }}>
-        {title || "Lista de Operaciones"}
-      </span>
-      
-      {/*&nbsp;&nbsp;&nbsp;
+    <div style={{ display: "flex", justifyContent: "space-between" }}>
+      <div>
+        <span style={{ fontWeight: "bold", paddingRight: "16px" }}>
+          {(title || "Lista de Operaciones ") +
+            (labelDate
+              ? `(Filtrado hasta ${labelDate.format("DD-MM-YYYY")})`
+              : "")}
+        </span>
+
+        {/*&nbsp;&nbsp;&nbsp;
       <ExportToExcel2
         buttonSize="small"
         buttonType="text"
         buttonStyle={{ backgroundColor: "transparent", color: "#217346" }}
       />*/}
-     
-      {
-        <ExportToCSV
-          disabled
-          parseFnt={() => {
-            if (datosProveedor == null || csv_src == null) {
-              return;
-            }
-            let str = `PROVEEDOR: ,${datosProveedor.nombre},,,,\r\nID, FECHA, DETALLE, DEBE, HABER\r\n`;
-            csv_src.forEach((o) => {
-              str += `${o.id},${o.fecha_f},${o.detalle},${o.debe},${o.haber}\r\n`;
-            });
-            return str;
-          }}
-        />
-      }
+
+        {
+          <ExportToCSV
+            disabled
+            parseFnt={() => {
+              if (datosProveedor == null || csv_src == null) {
+                return;
+              }
+              let str = `PROVEEDOR: ,${datosProveedor.nombre},,,,\r\nID, FECHA, DETALLE, DEBE, HABER\r\n`;
+              csv_src.forEach((o) => {
+                str += `${o.id},${o.fecha_f},${o.detalle},${o.debe},${o.haber}\r\n`;
+              });
+              return str;
+            }}
+          />
+        }
       </div>
-      <div style={{paddingLeft:"8px"}}>
-      <Checkbox checked={agrupar==0} onChange={(e) => setAgrupar(agrupar==1?0:1)}>
-        Ver Todo
-      </Checkbox>
+      <div style={{ paddingLeft: "8px" }}>
+        <Checkbox
+          disabled={filterDate ? true : false}
+          checked={agrupar == 0}
+          onChange={(e) => setAgrupar(agrupar == 1 ? 0 : 1)}
+        >
+          Ver Todo
+        </Checkbox>
       </div>
     </div>
   );
 
   const onTabChange = (key) => {
     console.log("Tab changed to:", key);
+    setCurrentTab(key);
+    setFilterDate(null);
+    setLabelDate(null);
+    setAgrupar(0);
   };
 
   return (

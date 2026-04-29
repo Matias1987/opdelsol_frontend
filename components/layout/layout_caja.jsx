@@ -1,6 +1,6 @@
 import { get, public_urls } from "@/src/urls";
 import useStorage from "@/useStorage";
-import { Alert, Layout, Row, Col, Input, Menu, Card, Button } from "antd";
+import { Alert, Layout, Row, Col, Input, Card, Button } from "antd";
 import { useEffect, useState } from "react";
 import globals from "@/src/globals";
 import HeaderSol from "./header";

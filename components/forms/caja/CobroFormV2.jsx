@@ -43,6 +43,7 @@ const CobroOperacionV2 = (props) => {
   const [cobrarDisabled, setCobrarDisabled] = useState(false);
 
   const [descuento, setDescuento] = useState(0);
+  const [comentarioCliente, setComentarioCliente] = useState(null);
 
   useEffect(() => {
     load();
@@ -318,6 +319,7 @@ const CobroOperacionV2 = (props) => {
       descuento: descuento,
       fecha: current_date_ymd(),
       tk: globals.getToken(),
+      comentario_cliente: comentarioCliente,
     };
 
     params =
@@ -663,10 +665,10 @@ const CobroOperacionV2 = (props) => {
               <span>Observaciones del cliente:</span>
               <Col span={24}>
                 <Input.TextArea
-                  rows={4}
+                  rows={2}
                   placeholder="Observaciones del cliente"
                   onChange={(e) => {
-                    mp.observaciones_entrega = e.target.value;
+                    setComentarioCliente(e.target.value||"");
                   }}
                 />
               </Col>

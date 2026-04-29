@@ -1,10 +1,7 @@
-import { FloatButton, Menu, Modal } from "antd";
+import { Menu, Modal } from "antd";
 import {
   DollarOutlined,
   MenuOutlined,
-  SearchOutlined,
-  StarOutlined,
-  UserOutlined,
 } from "@ant-design/icons";
 
 import { useState, useEffect } from "react";

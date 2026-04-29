@@ -4,7 +4,6 @@ import { Layout } from "antd";
 import { useEffect } from "react";
 import globals from "@/src/globals";
 import HeaderSol from "./header";
-import MenuAdminTop from "./menu_admin";
 import MenuAdminProveedores from "./menu_admin_proveedores";
 
 export default function layout_admin_proveedores({children}){
