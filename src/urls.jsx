@@ -98,6 +98,7 @@ const public_urls = {
     admin_tarjetas: local_base_url + "admin/lista_tarjetas",
     admin_bancos: local_base_url + "admin/lista_bancos",
     admin_mutuales: local_base_url + "admin/lista_mutuales",
+    admin_clientes: local_base_url + "admin/clientes",
 
     lista_codigos: local_base_url + "deposito/stock/listados/lista_codigos",
 
@@ -340,6 +341,7 @@ const post = {
         insertar_codigos: remote_base_url + "codigos_ext/insertar_codigos/",
         insert_cuenta_bancaria: remote_base_url + "cuentas_bancarias/",
         insert_stock_cristal_grid: remote_base_url + "sc/insert/grid/",
+        insert_cliente_opinion: remote_base_url + "opinion/add/",
         
     },
     update:{
@@ -594,6 +596,8 @@ const get = {
     obtener_cantidades_ventas_taller: remote_base_url + "infvtas/inf/vtas/taller/cantidades/",
 
     obtener_codigos_cristales: remote_base_url + "sc/get/codigos/",
+
+    obtener_opiniones: remote_base_url + "opinion/",
 
     
 }

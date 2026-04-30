@@ -100,6 +100,13 @@ const SideMenuAdmin = ({ collapsed }) => {
         >
           Proveedores
         </Menu.Item>
+         <Menu.Item
+          key="/v1/admin/clientes/"
+          icon={<UserOutlined />}
+          onClick={() => router.push("/v1/admin/clientes/")}
+        >
+          Clientes
+        </Menu.Item>
 
        {/*<SubMenu key="sub2" icon={<FileTextOutlined />} title="Reports">
           <Menu.Item

@@ -16,10 +16,11 @@ export default function test() {
         <TrabajoRecetaStock />
       <EdicionVentas idventa={69677} />
        <TotalesVentasDiaEmpleado />
+       
      */}
 
-      
       <TrabajoMultiple />
+      
     
        
       
