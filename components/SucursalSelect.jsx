@@ -70,7 +70,7 @@ const SucursalSelect = (props) => {
           }
           options={sucursalData}
           style={{
-            width: "320px",
+            width: "230px",
             minWidth: "80px",
             maxWidth: "320px",
             overflow: "hidden",
