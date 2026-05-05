@@ -1,9 +1,9 @@
 import globals from "@/src/globals";
 import { Col, Row, Select } from "antd";
 import { useState } from "react";
-import VMCristalesLaboratorio from "./laboratorio";
 import VMCristalesStock from "./stock";
 import VMLC from "./lc";
+import LaboratorioForm from "./laboratorio";
 
 const VMTrabajo = (props) => {
     const CRISTALES_LABORATORIO= 0;
@@ -14,9 +14,9 @@ const VMTrabajo = (props) => {
   const get_content = () => {
     switch (tipoTrabajo) {
       case CRISTALES_LABORATORIO:
-        return <VMCristalesLaboratorio />;
+        return <LaboratorioForm />;
       case CRISTALES_STOCK:
-        return <VMCristalesStock />;
+        return <LaboratorioForm />;
       case LC:
         return <VMLC />;
     }

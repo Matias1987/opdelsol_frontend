@@ -599,6 +599,8 @@ const get = {
 
     obtener_opiniones: remote_base_url + "opinion/",
 
+    obtener_ventas_tm: remote_base_url + "tm/",
+
     
 }
 
