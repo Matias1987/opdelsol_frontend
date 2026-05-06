@@ -1,5 +1,5 @@
 import { PlusOutlined } from "@ant-design/icons";
-import { Button, Col, Divider, Modal, Row, Table } from "antd";
+import { Button, Card, Col, Divider, Input, Modal, Row, Select, Table } from "antd";
 import { useState } from "react";
 import StockItem from "./stock_item";
 
@@ -18,42 +18,40 @@ const VMCristalesStock = (props) => {
   );
 
   return (
-    <div style={{border:"1px solid #3A5C79", borderRadius:"16px", padding:"0px 16px 16px 16px"}}>
+    <Card size="small" title="Stock" style={{ boxShadow: "-1px 1px 1px 1px #9e9c9c" }}>
+ 
       <Row>
-        <Col>
-          <h3>Stock</h3>
+        <Col span={24}>
+          <Row>
+            <Col span={3}></Col>
+            <Col span={8}>Cristal</Col>
+            <Col span={6}>Eje</Col>
+            <Col span={6}>Precio</Col>
+          </Row>
+          <Row>
+            <Col span={3}>OD</Col>
+            <Col span={8}><Select style={{width:"100%"}}/></Col>
+            <Col span={6}><Input /></Col>
+            <Col span={6}><Input /></Col>
+          </Row>
+          <Row>
+            <Col span={3}>OI</Col>
+            <Col span={8}><Select style={{width:"100%"}}/></Col>
+            <Col span={6}><Input /></Col>
+            <Col span={6}><Input /></Col>
+          </Row>
+          <Row>
+            <Col span={3}>Tratamiento</Col>
+            
+            <Col span={8}><Select style={{width:"100%"}}/></Col>
+            <Col span={6}></Col>
+            <Col span={6}><Input /></Col>
+          </Row>
+   
         </Col>
       </Row>
-      <Row>
-        <Col>
-          <Table
-            size="small"
-            title={header}
-            columns={columns}
-            dataSource={dataSource}
-            pagination={false}
-            scroll={{ y: 400 }}
-          />
-        </Col>
-      </Row>
-      <Modal
-        width={"400px"}
-        footer={null}
-        title="Agregar Elemento"
-        onCancel={(_) => setModalOpen(false)}
-        open={modalOpen}
-        onClose={(_) => {
-          setModalOpen(false);
-        }}
-      >
-        <Row>
-          <Col>
-            <StockItem />
-          </Col>
-        </Row>
-        
-      </Modal>
-    </div>
+      
+    </Card>
   );
 };
 

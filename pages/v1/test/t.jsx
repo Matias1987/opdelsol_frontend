@@ -21,10 +21,12 @@ export default function test() {
        <TotalesVentasDiaEmpleado />
        
        <ListadoVentasTM />
+
+        <DetalleVentaTM />
      */}
   
         
-  <DetalleVentaTM />
+ 
 
   <Divider />
       

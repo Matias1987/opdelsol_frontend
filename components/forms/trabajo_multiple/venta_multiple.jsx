@@ -35,6 +35,7 @@ const TrabajoMultiple = ({
   title,
 }) => {
   const date = new Date();
+  const [localId, setLocalId] = useState(0);
   const [btnEnabled, setBtnEnabled] = useState(true);
   const [activeKey, setActiveKey] = useState("1");
   const [venta, setVenta] = useState({
@@ -57,7 +58,6 @@ const TrabajoMultiple = ({
         : null,
     horaRetiro: null,
     comentarios: "",
-    productos: null,
     fksucursal: globals.obtenerSucursal(),
     fkcaja: globals.obtenerCajaID(),
     json_items: "",
@@ -66,35 +66,47 @@ const TrabajoMultiple = ({
     entrega: false,
     cobrar: cobro_inmediato,
     validarCristalesModo2: false,
+    trabajos: [],
   });
+  const [subTotal, setSubTotal] = useState(0);
+  const [descuento, setDescuento] = useState(0);
+  const [trabajos, setTrabajos] = useState([]);
+  const [items, setItems] = useState([]);
 
-
-
-  const tab_content = () => (
+  const tab_content = (id) => (
     <>
-        <VMTrabajo />
+      <VMTrabajo localId={id} callback={onTabValuesChange} />
     </>
   );
 
-  /**
- * {
-      label: "Tab 1",
-      key: "1",
-      children: "Content of editable tab 1",
-    },
-
- */
-  const [items, setItems] = useState([]);
-
   const newTabIndex = useRef(0);
+
+  const onTabValuesChange = (data) => {
+    setTrabajos((t) => {
+      const mod = [...t];
+      const index = mod.findIndex((t) => +t.localId == +data.localId);
+      if (index !== -1) {
+        mod[index] = { ...mod[index], ...data };
+      } else {
+        mod.push(data);
+      }
+      calcularTotal(mod);
+      return mod;
+    });
+  };
+
+  const calcularTotal = (trabajos) => {
+    setSubTotal(trabajos.reduce((acc, trabajo) => acc + trabajo.monto_total, 0));
+  }
+
   const add = () => {
-    const newActiveKey = `newTab${newTabIndex.current++}`;
+    const newActiveKey = newTabIndex.current++;
     setItems([
       ...(items || []),
       {
         label: "Trabajo #" + items.length,
         key: newActiveKey,
-        children: <>{tab_content()}</>,
+        children: <>{tab_content(newActiveKey)}</>,
       },
     ]);
     setActiveKey(newActiveKey);
@@ -112,6 +124,16 @@ const TrabajoMultiple = ({
         ].key;
       setActiveKey(newActiveKey);
     }
+
+    setTrabajos((t) => {
+      const mod = [...t];
+      const index = mod.findIndex((t) => +t.localId == +targetKey);
+      if (index !== -1) {
+        mod.splice(index, 1);
+      }
+      calcularTotal(mod);
+      return mod;
+    });
     setItems(newItems);
   };
   const onEdit = (targetKey, action) => {
@@ -131,6 +153,7 @@ const TrabajoMultiple = ({
   };
 
   const finalizar_venta = (e) => {
+    alert(JSON.stringify(trabajos));
     const idvendedor =
       cambiar_vendedor == 0 ? +globals.obtenerUID() : venta.fkusuario;
 
@@ -171,7 +194,7 @@ const TrabajoMultiple = ({
         style={{ boxShadow: "-1px 3px 3px 2px #9e9c9c" }}
       >
         <Row>
-          <Col span={24}>
+          <Col span={16}>
             <Tabs
               type="editable-card"
               size={"large"}
@@ -181,10 +204,30 @@ const TrabajoMultiple = ({
               items={items}
             />
           </Col>
+          <Col span={8}>
+          <div style={{backgroundColor:"#000000", color:"#00ff00", fontFamily:"Consolas", height:"400px", overflowY:"scroll", overflowX:"scroll"}}>
+            <pre style={{font:"Consolas"}}>{JSON.stringify(trabajos, null, 2)}</pre>
+            </div>
+          </Col>
         </Row>
       </Card>
       <Divider />
       <Card size="small" style={{ boxShadow: "-1px 3px 3px 2px #9e9c9c" }}>
+        <Row style={{ marginBottom: "12px" }}>
+          <Col span={24}>
+            <Input readOnly prefix="Subtotal" style={{ width: "300px" }} value={subTotal} />
+          </Col>
+        </Row>
+        <Row style={{ marginBottom: "12px" }}>
+          <Col span={24}>
+            <Input prefix="Descuento" style={{ width: "300px" }} onChange={(e) => setDescuento(parseFloat(e.target.value) || 0)} />
+          </Col>
+        </Row>
+        <Row style={{ marginBottom: "12px" }}>
+          <Col span={24}>
+            <Input readOnly prefix="Total" style={{ width: "300px" }} value={subTotal - descuento} />
+          </Col>
+        </Row>
         <Row gutter={24} style={{ padding: "6px" }}>
           <Col>
             <Form.Item label={"Fecha de Retiro"}>

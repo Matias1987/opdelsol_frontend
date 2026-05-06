@@ -1,24 +1,51 @@
 import globals from "@/src/globals";
 import { Col, Row, Select } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import VMCristalesStock from "./stock";
 import VMLC from "./lc";
 import LaboratorioForm from "./laboratorio";
 
-const VMTrabajo = (props) => {
+const VMTrabajo = ({callback, localId, tipo}) => {
     const CRISTALES_LABORATORIO= 0;
     const CRISTALES_STOCK=1;
     const LC=2;
   const [tipoTrabajo, setTipoTrabajo] = useState(-1);
+  const [trabajo, setTrabajo] = useState({
+    localId:0,
+    nro:"1",
+    tipo:"",
+    items:null,
+    monto_total: 0,
+  });
+  
+  useEffect(()=>{
+    onChange("localId", localId);
+  },[]);
+
+ const onChange = (key, value) =>{
+    setTrabajo(t=>{
+      const mod = {...t, [key]:value};
+      callback?.(mod);
+      return mod;
+    });
+ }
+
+  const onItemsChanged = (_items, total) => {
+    setTrabajo(t=>{
+      const mod = {...t, items:_items, monto_total: total};
+      callback?.(mod);
+      return mod;
+    })
+  }
 
   const get_content = () => {
     switch (tipoTrabajo) {
       case CRISTALES_LABORATORIO:
-        return <LaboratorioForm />;
+        return <LaboratorioForm callback={onItemsChanged} />;
       case CRISTALES_STOCK:
-        return <LaboratorioForm />;
+        return <VMCristalesStock callback={onItemsChanged} />;
       case LC:
-        return <VMLC />;
+        return <VMLC callback={onItemsChanged} />;
     }
   };
 
@@ -36,12 +63,12 @@ const VMTrabajo = (props) => {
           placeholder="Seleccione tipo de Trabajo..."
           onChange={(v) => {
             setTipoTrabajo(v);
+            onChange("tipo", v == CRISTALES_LABORATORIO ? "Cristales Laboratorio" : v == CRISTALES_STOCK ? "Cristales Stock" : v == LC ? "LC" : "");
           }}
           style={{ width: "100%" }}
           options={[
             { label: "Cristales Laboratorio", value: CRISTALES_LABORATORIO },
-            { label: "Cristales Stock", value: CRISTALES_STOCK },
-            { label: "LC", value: LC },
+            { label: "Cristales Stock", value: CRISTALES_STOCK }
           ]}
         />
       </Col>
