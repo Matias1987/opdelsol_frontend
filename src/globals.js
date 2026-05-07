@@ -245,6 +245,10 @@ const globals =  {
         const {getItem} = useStorage();
         return getItem("deposito")==1;
     },
+    esUsuarioDistribuidora: () => {
+        const {getItem} = useStorage();
+        return getItem("distribuidora")==1;
+    },
     esUsuarioDepositoMin: () => {
         const {getItem} = useStorage();
         return getItem("deposito_min")==1;

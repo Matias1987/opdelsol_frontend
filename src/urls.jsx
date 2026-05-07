@@ -26,6 +26,7 @@ const public_urls = {
     dashboard_venta : local_base_url + "ventas/",
     dashboard_caja : local_base_url + "caja/",
     dashboard_laboratorio : local_base_url + "laboratorio/",
+    dashboard_distribuidora : local_base_url + "distribuidora/",
     dashboard : local_base_url ,
     editar_multiplicadores : local_base_url + "deposito/stock/modificar_precios_categoria/",
     lista_subgrupos: local_base_url + "deposito/stock/listados/lista_subgrupos/",
@@ -127,6 +128,8 @@ const public_urls = {
     panel_proveedores: local_base_url + "admin/panel_proveedores",
 
     panel_ventas: local_base_url + "admin/ventas",
+
+    nueva_venta_distribuidora: local_base_url + "trabajos/nuevo",
 
     custom:{
         copex:{

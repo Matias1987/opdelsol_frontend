@@ -11,7 +11,7 @@ import { registrar_evento } from "@/src/helpers/evento_helper";
 import { cambio_sucursal_habilitado, idf_optica } from "@/src/config";
 
 /**
- * 
+ * Componente para el encabezado de la aplicación
  * @param tipoCuenta
  * @returns 
  */

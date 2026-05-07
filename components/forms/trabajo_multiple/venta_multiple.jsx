@@ -172,12 +172,12 @@ const TrabajoMultiple = ({
 
   const modo_formulario_unico = (_) => (
     <>
-      <Row className="table-row-dark" style={{ padding: ".9em" }}>
+      <Row style={{ padding: ".9em" }}>
         <Col style={{ minWidth: "250px" }}>
           <SelectCliente
             openButtonText={
               <span style={{ color: "#3300CC" }}>
-                &nbsp;*Seleccione Cliente
+                Cliente: &nbsp;*Seleccione...
               </span>
             }
             callback={(value) => {
@@ -194,7 +194,7 @@ const TrabajoMultiple = ({
         style={{ boxShadow: "-1px 3px 3px 2px #9e9c9c" }}
       >
         <Row>
-          <Col span={16}>
+          <Col span={24}>
             <Tabs
               type="editable-card"
               size={"large"}
@@ -204,11 +204,11 @@ const TrabajoMultiple = ({
               items={items}
             />
           </Col>
-          <Col span={8}>
+         { /*<Col span={8}>
           <div style={{backgroundColor:"#000000", color:"#00ff00", fontFamily:"Consolas", height:"400px", overflowY:"scroll", overflowX:"scroll"}}>
             <pre style={{font:"Consolas"}}>{JSON.stringify(trabajos, null, 2)}</pre>
             </div>
-          </Col>
+          </Col>*/}
         </Row>
       </Card>
       <Divider />

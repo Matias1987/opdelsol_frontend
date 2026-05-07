@@ -25,6 +25,7 @@ import SucursalSelectModal from "@/components/SucursalSelectModal";
           esUsuarioLaboratorio: globals.esUsuarioLaboratorio(),
           esUsuarioAdmin: globals.esUsuarioAdmin(),
           esUsuarioAdminMin: globals.esUsuarioAdminMin(),
+          esUsuarioDistribuidora: globals.esUsuarioDistribuidora(),
         }
         return _t
       })
@@ -37,7 +38,9 @@ import SucursalSelectModal from "@/components/SucursalSelectModal";
                         (globals.esUsuarioCaja2()?1:0) +
                         (globals.esUsuarioAdminMin()?1:0)+
                         (globals.esUsuarioDeposito()?1:0)+
-                        (globals.esUsuarioDepositoMin()?1:0)
+                        (globals.esUsuarioDepositoMin()?1:0) +
+                        (globals.esUsuarioAdminProv()?1:0) +
+                        (globals.esUsuarioDistribuidora()?1:0);
 
 
       const stay = globals.esUsuarioDeposito() || globals.esUsuarioLaboratorio() || globals.esUsuarioAdmin() || globals.esUsuarioAdminMin();
@@ -108,7 +111,13 @@ import SucursalSelectModal from "@/components/SucursalSelectModal";
 
       }
 
-     
+      if(globals.esUsuarioDistribuidora()){
+
+        window.location.replace(public_urls.dashboard_distribuidora)
+        return
+
+      }
+
     }
 
     useEffect(()=>{
