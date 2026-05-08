@@ -17,6 +17,11 @@ const SaldoCtaCteOptica = (props) =>
         fetch(get.saldo_ctacte_optica + `${props.idcliente}/${globals.obtenerOptica()}`)
         .then(response=>response.json())
         .then((response)=>{
+            if(!response || !response.data || response.data.length<1
+            )
+            {
+                return;
+            }
             //alert(JSON.stringify(response))
             const _debe = response.data.debe == null ? 0 : response.data.debe;
             const _haber = response.data.haber == null ? 0 : response.data.haber;

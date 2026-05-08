@@ -1,7 +1,6 @@
 import CustomModal from "@/components/CustomModal";
 import { Button, Input, Spin, Table } from "antd";
 import { useEffect, useState } from "react";
-import { CheckCircleFilled, CloseOutlined, EditOutlined } from "@ant-design/icons";
 import ClienteForm from "../ClienteForm";
 import { get } from "@/src/urls";
 

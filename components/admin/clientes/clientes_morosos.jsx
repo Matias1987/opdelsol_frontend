@@ -1,4 +1,4 @@
-import FichaCliente from "@/components/FichaCliente";
+import FichaCliente from "@/components/cliente/FichaCliente";
 import SelectTarea from "@/components/tarea/selectTarea";
 import { post_method } from "@/src/helpers/post_helper";
 import { post } from "@/src/urls";

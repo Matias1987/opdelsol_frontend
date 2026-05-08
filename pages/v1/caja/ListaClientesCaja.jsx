@@ -1,5 +1,5 @@
 import LayoutCaja from "@/components/layout/layout_caja";
-import ListaClientes from "@/components/ListaClientes";
+import ListaClientes from "@/components/cliente/ListaClientes";
 
 export default function ListaClientesCaja() {
   return (

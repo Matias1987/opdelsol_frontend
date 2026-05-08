@@ -3,11 +3,11 @@ import { useEffect, useState } from "react";
 import { ReloadOutlined } from "@ant-design/icons";
 
 import { get } from "@/src/urls";
-import FichaCliente from "@/components/FichaCliente";
+import FichaCliente from "@/components/cliente/FichaCliente";
 import LayoutCaja from "@/components/layout/layout_caja";
-import DetalleCliente from "@/components/DetalleCliente";
-import ClienteFormV2 from "./forms/ClienteFormV2";
-import ListaPagares from "./forms/caja/ListaPagares";
+import DetalleCliente from "@/components/cliente/DetalleCliente";
+import ClienteFormV2 from "./ClienteFormV2";
+import ListaPagares from "../forms/caja/ListaPagares";
 
 export default function ListaClientes(props) {
   const [clientes, setClientes] = useState(null);

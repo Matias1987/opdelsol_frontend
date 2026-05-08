@@ -2,12 +2,12 @@ import { Card, Col, Divider, Row, Table, Tag } from "antd";
 import SaldoCtaCte from "./SaldoCtaCte";
 import { useEffect, useState } from "react";
 import { get } from "@/src/urls";
-import VentaDetallePopup from "./VentaDetalle";
-import EdicionClientePopup from "./forms/EdicionCliente";
+import VentaDetallePopup from "../VentaDetalle";
+import EdicionClientePopup from "./EdicionCliente";
 import LlamadasCliente from "./LLamadasCliente";
 import Edad from "./Edad";
 import SaldoCtaCteOptica from "./SaldoCtaCteOptica";
-import UltimaGraduacion from "./cliente/ultima_graduacion";
+import UltimaGraduacion from "./ultima_graduacion";
 
 const DetalleCliente = (props) =>
 {

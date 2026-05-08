@@ -5,7 +5,7 @@ import { Button, Col, DatePicker, Form, Input, Modal, Row, Space } from "antd";
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 import SelectLocalidadV2 from "../SelectLocalidadV2";
-import Edad from "../Edad";
+import Edad from "./Edad";
 import { convertInputToUpper, validate_only_numbers_and_letters } from "@/src/helpers/string_helper";
 import { cliente_id_obl } from "@/src/config";
 

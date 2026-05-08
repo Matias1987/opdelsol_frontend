@@ -1,5 +1,5 @@
 import { get } from "@/src/urls"
-import LlamadaClienteForm from "./forms/LlamadaClienteForm"
+import LlamadaClienteForm from "./LlamadaClienteForm"
 import { useEffect, useState } from "react"
 import { Card, Col, Row, Table } from "antd"
 

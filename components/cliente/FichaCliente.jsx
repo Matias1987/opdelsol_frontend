@@ -1,13 +1,13 @@
 import { get, post } from "@/src/urls"
 import { Button, Checkbox, Col, Divider, Input, Row, Spin, Table, Tag } from "antd"
 import { useEffect, useRef, useState } from "react"
-import CobroOperacion from "./forms/caja/CobroForm"
-import CargaManual from "./forms/caja/CargaManual"
-import PrinterWrapper from "./PrinterWrapper"
-import CargaBloqueo from "./forms/caja/CargaBloqueo"
+import CobroOperacion from "../forms/caja/CobroForm"
+import CargaManual from "../forms/caja/CargaManual"
+import PrinterWrapper from "../PrinterWrapper"
+import CargaBloqueo from "../forms/caja/CargaBloqueo"
 import globals from "@/src/globals"
 import { post_method } from "@/src/helpers/post_helper"
-import Anotaciones from "./anotacion/anotaciones"
+import Anotaciones from "../anotacion/anotaciones"
 
 
 export default function FichaCliente(props){

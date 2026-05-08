@@ -3,7 +3,7 @@ import { Button, Col, Input, Modal, Row, Spin, Table } from "antd";
 import { useEffect, useState } from "react";
 import { CloseOutlined, PlusOutlined, ReloadOutlined } from "@ant-design/icons";
 import { get } from "@/src/urls";
-import ClienteFormV2 from "../ClienteFormV2";
+import ClienteFormV2 from "../../cliente/ClienteFormV2";
 
 const SelectCliente = (props) =>{
     const {minVersion, callback, pIdcliente} = props

@@ -1,4 +1,4 @@
-import ListaClientes from "@/components/ListaClientes";
+import ListaClientes from "@/components/cliente/ListaClientes";
 
 const ListaClientesAdmin = () => {
     return <> <ListaClientes ficha /></>

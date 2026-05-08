@@ -2,6 +2,7 @@
 //import Egreso from "@/components/caja_master/egreso";
 //import EdicionVentas from "@/components/edicion_ventas/EdicionVentas";
 //import TestGridCreation from "@/components/etc/testGridCreation";
+import NuevoDescuento from "@/components/cliente/descuentos/nuevoDescuento";
 import ListadoVentasTM from "@/components/forms/trabajo_multiple/listado/listadoTM";
 import TrabajoMultiple from "@/components/forms/trabajo_multiple/venta_multiple";
 import DetalleVentaTM from "@/components/forms/trabajo_multiple/vista/detalleVentaTM";
@@ -23,14 +24,12 @@ export default function test() {
        <ListadoVentasTM />
 
         <DetalleVentaTM />
+
+        <TrabajoMultiple />
      */}
   
         
- 
-
-  <Divider />
-      
-      <TrabajoMultiple />
+      <NuevoDescuento />
     
        
       

@@ -21,6 +21,7 @@ import { public_urls } from "@/src/urls";
 import { CloseOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
 import VMTrabajo from "./vm_trabajo";
+import Informe from "./informe/informe";
 
 /* leer: https://refine.dev/blog/common-usestate-mistakes-and-how-to-avoid/ */
 /**
@@ -339,6 +340,7 @@ const TrabajoMultiple = ({
           </Row>
         }
       </Card>
+      <Informe idventa={69747} />
     </>
   );
 };
