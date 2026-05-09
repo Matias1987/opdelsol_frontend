@@ -288,19 +288,22 @@ const EditarSobre = (props) => {
             {
                 case globals.tiposVenta.LCLAB:
                     six_rows_type=false;
-                    break
+                    break;
                 case globals.tiposVenta.MONOFLAB:
-                    six_rows_type=true
-                    break
+                    six_rows_type=true;
+                    break;
                 case globals.tiposVenta.MULTILAB:
-                    six_rows_type=false
-                    break
+                    six_rows_type=false;
+                    break;
                 case globals.tiposVenta.RECSTOCK:
-                    six_rows_type=true
-                    break
+                    six_rows_type=true;
+                    break;
                 case globals.tiposVenta.LCSTOCK:
-                    six_rows_type=false
-                    break
+                    six_rows_type=false;
+                    break;
+                case globals.tiposVenta.MULTIPLE:
+                    six_rows_type=false;
+                    break;
             }
 
             setVenta(response.data[0])

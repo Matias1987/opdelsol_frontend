@@ -12,10 +12,52 @@ import {
 } from "antd";
 import { useState } from "react";
 import SelectClienteDescuento from "./selectClienteDescuento";
+import { post } from "@/src/urls";
+import { post_method } from "@/src/helpers/post_helper";
 
 const NuevoDescuento = () => {
   const [descuentoGral, setDescuentoGral] = useState(false);
   const [modalClientesOpen, setModalClientesOpen] = useState(false);
+  const [clientesSeleccionados, setClientesSeleccionados] = useState([]);
+  const [idsubgrupo, setIdSubGrupo] = useState(-1);
+  const [porcentaje, setPorcentaje] = useState(0);
+  const columns = [
+    { dataIndex: "apellido", title: "Apellido", key: "apellido" },
+    { dataIndex: "nombre", title: "Nombre", key: "nombre" },
+    { dataIndex: "dni", title: "DNI", key: "dni" },
+    { dataIndex: "direccion", title: "Direccion", key: "direccion" },
+    {render: (_, record) => <Button danger size="small" onClick={() => {
+      setClientesSeleccionados((c) => c.filter((cl) => cl.idcliente != record.idcliente));
+    }}>Eliminar</Button>}
+  ]
+  const onAgregarCliente = (cliente) => {
+    if (clientesSeleccionados.find((c) => c.idcliente == cliente.idcliente)) {
+      alert("Cliente ya seleccionado");
+      return;
+    }
+    setClientesSeleccionados((c) => [...c, cliente]);
+  }
+
+  const guardarDescuento = () => {
+    const payload = {
+      descuentoGral,
+      porcentaje,
+      idsubgrupo,
+      idclientes: clientesSeleccionados.map(c => c.idcliente),
+    };
+    //alert(post.insert.descuento_cliente);
+    //alert(JSON.stringify(payload));
+    post_method(post.insert.descuento_cliente, payload, (res)=>{
+      // Reset form
+      setDescuentoGral(false);
+      setClientesSeleccionados([]);
+      setIdSubGrupo(-1);
+      setPorcentaje(0);
+      alert("Descuento guardado con éxito");
+    })
+    
+  };
+
   const row_style = { padding: "8px" };
   return (
     <div>
@@ -40,7 +82,7 @@ const NuevoDescuento = () => {
         ) : (
           <Row style={row_style}>
             <Col span={24}>
-              <Table size="small" title={(_) => <>Clientes</>} />
+              <Table  size="small" title={(_) => <>Clientes</>} dataSource={clientesSeleccionados} columns={columns} />
             </Col>
           </Row>
         )}
@@ -50,7 +92,8 @@ const NuevoDescuento = () => {
             <SubGroupSelectV2
               title="Seleccione..."
               callback={(res) => {
-                alert(JSON.stringify(res));
+                setIdSubGrupo(res);
+                //alert(JSON.stringify(res));
               }}
             />
           </Col>
@@ -58,12 +101,18 @@ const NuevoDescuento = () => {
         <Row style={row_style}>
           <Col span={24}>Porcentaje:</Col>
           <Col span={24}>
-            <InputNumber addonAfter="%" />
+            <InputNumber
+              addonAfter="%"
+              value={porcentaje}
+              onChange={(value) => setPorcentaje(value)}
+            />
           </Col>
         </Row>
         <Row style={row_style}>
           <Col span={24}>
-            <Button type="primary">Guardar</Button>
+            <Button type="primary" onClick={guardarDescuento}>
+              Guardar
+            </Button>
           </Col>
         </Row>
       </Card>
@@ -77,8 +126,7 @@ const NuevoDescuento = () => {
         title="Seleccionar Cliente"
         destroyOnClose
       >
-
-        <SelectClienteDescuento callback={c=>{alert(JSON.stringify(c))}} />
+        <SelectClienteDescuento callback={c=>{onAgregarCliente(c)}} />
       </Modal>
     </div>
   );

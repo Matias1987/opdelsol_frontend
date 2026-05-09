@@ -292,6 +292,7 @@ const globals =  {
         MONOFLAB: "4",
         MULTILAB: "5",
         RECSTOCK: "2",
+        MULTIPLE: "7",
 
     },
     estadosVenta:{

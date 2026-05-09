@@ -143,7 +143,8 @@ const LaboratorioForm = ({ callback }) => {
                 </Col>
                 <Col span={6}>
                   <InputNumber
-                    style={{ width: "150px" }}
+                    addonBefore={<span style={{color:"red"}}>-5%</span>}
+                    style={{ width: "200px" }}
                     onChange={(val) => {
                       onValueChange("od_precio", val);
                     }}
@@ -185,7 +186,8 @@ const LaboratorioForm = ({ callback }) => {
                 </Col>
                 <Col span={6}>
                   <InputNumber
-                    style={{ width: "150px" }}
+                    addonBefore={<span style={{color:"red"}}>-5%</span>}
+                    style={{ width: "200px" }}
                     onChange={(val) => {
                       onValueChange("oi_precio", val);
                     }}

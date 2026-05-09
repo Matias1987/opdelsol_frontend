@@ -154,7 +154,7 @@ const TrabajoMultiple = ({
   };
 
   const finalizar_venta = (e) => {
-    alert(JSON.stringify(trabajos));
+    //alert(JSON.stringify(trabajos));
     const idvendedor =
       cambiar_vendedor == 0 ? +globals.obtenerUID() : venta.fkusuario;
 

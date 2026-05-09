@@ -345,6 +345,7 @@ const post = {
         insert_cuenta_bancaria: remote_base_url + "cuentas_bancarias/",
         insert_stock_cristal_grid: remote_base_url + "sc/insert/grid/",
         insert_cliente_opinion: remote_base_url + "opinion/add/",
+        descuento_cliente: remote_base_url + "dc/",
         
     },
     update:{
@@ -603,6 +604,8 @@ const get = {
     obtener_opiniones: remote_base_url + "opinion/",
 
     obtener_ventas_tm: remote_base_url + "tm/",
+
+    obtener_items_trabajo: remote_base_url + "tm/items/",
 
     
 }

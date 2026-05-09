@@ -1,5 +1,4 @@
 import globals from "@/src/globals";
-import { PlusOutlined } from "@ant-design/icons";
 import {
   Card,
   Col,
@@ -82,6 +81,7 @@ const VMCristalesStock = ({ callback }) => {
             </Col>
             <Col span={6}>
               <InputNumber
+                addonBefore={<span style={{color:"red"}}>-5%</span>}
                 style={{width:"100%"}}
                 value={trabajoStock.od_precio}
                 onChange={(v) => onChange("od_precio", v)}
@@ -105,6 +105,7 @@ const VMCristalesStock = ({ callback }) => {
             </Col>
             <Col span={6}>
               <InputNumber
+                addonBefore={<span style={{color:"red"}}>-5%</span>}
                 style={{width:"100%"}}
                 value={trabajoStock.oi_precio}
                 onChange={(v) => onChange("oi_precio", v)}
@@ -123,6 +124,7 @@ const VMCristalesStock = ({ callback }) => {
             <Col span={3}></Col>
             <Col span={6}>
               <InputNumber
+                addonBefore={<span style={{color:"red"}}>-5%</span>}
                 style={{width:"100%"}}
                 value={trabajoStock.tratamiento_precio}
                 onChange={(v) => onChange("tratamiento_precio", v)}

@@ -23,18 +23,17 @@ export default function test() {
        
        <ListadoVentasTM />
 
-        <DetalleVentaTM />
-
-        <TrabajoMultiple />
-     */}
-  
         
+
+        
+     */}
+
+      <TrabajoMultiple />
+
+      <DetalleVentaTM />
       <NuevoDescuento />
-    
-       
-      
     </div>
-  )
+  );
 }
 
 test.PageLayout = LayoutAdmin;
