@@ -104,18 +104,24 @@ const LaboratorioForm = ({ callback }) => {
             }}
           >
             <Row style={row_style}>
-              <Col style={{width:"30px"}}></Col>
-              <Col span={6} style={{fontWeight:"600", fontSize: "11px"}}>Tipo</Col>
-              <Col span={6} style={{fontWeight:"600", fontSize: "11px"}}>Diseño</Col>
-              <Col span={6} style={{fontWeight:"600", fontSize: "11px"}}>Precio</Col>
+              <Col style={{ width: "30px" }}></Col>
+              <Col span={6} style={{ fontWeight: "600", fontSize: "11px" }}>
+                Tipo
+              </Col>
+              <Col span={6} style={{ fontWeight: "600", fontSize: "11px" }}>
+                Diseño
+              </Col>
+              <Col span={6} style={{ fontWeight: "600", fontSize: "11px" }}>
+                Precio
+              </Col>
             </Row>
             {ojos == "oi" ? (
               <></>
             ) : (
-              <Row style={{...row_style, backgroundColor:"#f1f1f1"}}>
+              <Row style={{ ...row_style, backgroundColor: "#f1f1f1" }}>
                 <Col
                   style={{
-                    width:"30px",
+                    width: "30px",
                     color: "#0003af",
                     fontWeight: "600",
                     textAlign: "right",
@@ -136,14 +142,23 @@ const LaboratorioForm = ({ callback }) => {
                 </Col>
                 <Col span={6}>
                   <SelectDisenio
-                    callback={(v) => onValueChange("od_fkDisenio", v)}
+                    callback={(v) => {
+                      //alert(JSON.stringify(v));
+                      setProductos((p) => {
+                        const dto = v.descuento || 0;
+                        const modif = { ...p, "od_fkDisenio": v.idsubgrupo, od_descuento: dto, od_precio: parseFloat(v.precio) - parseFloat(v.precio) * dto * .01 };
+                        callback?.(modif, modif.od_precio + modif.oi_precio);
+                        return modif;
+                      });
+                    }}
                     idgrupo={productos.od_fkTipo}
                     style={{ width: "100%" }}
                   />
                 </Col>
                 <Col span={6}>
                   <InputNumber
-                    addonBefore={<span style={{color:"red"}}>-5%</span>}
+                    value={productos.od_precio}
+                    addonBefore={ productos.od_descuento && productos.od_descuento> 0 ?  <span style={{ color: "red" }}>-{productos.od_descuento}%</span> : <></>}
                     style={{ width: "200px" }}
                     onChange={(val) => {
                       onValueChange("od_precio", val);
@@ -158,7 +173,7 @@ const LaboratorioForm = ({ callback }) => {
               <Row style={row_style}>
                 <Col
                   style={{
-                    width:"30px",
+                    width: "30px",
                     color: "#0003af",
                     fontWeight: "600",
                     textAlign: "right",
@@ -179,14 +194,24 @@ const LaboratorioForm = ({ callback }) => {
                 </Col>
                 <Col span={6}>
                   <SelectDisenio
-                    callback={(v) => onValueChange("oi_fkDisenio", v)}
+                    callback={(v) => 
+                    {
+                      setProductos((p) => {
+                        const dto = v.descuento || 0;
+                        const modif = { ...p, "oi_fkDisenio": v.idsubgrupo, oi_descuento: dto, oi_precio: parseFloat(v.precio) - parseFloat(v.precio) * dto * .01 };
+                        callback?.(modif, modif.od_precio + modif.oi_precio);
+                        return modif;
+                      });
+                    }
+                    }
                     idgrupo={productos.oi_fkTipo}
                     style={{ width: "100%" }}
                   />
                 </Col>
                 <Col span={6}>
                   <InputNumber
-                    addonBefore={<span style={{color:"red"}}>-5%</span>}
+                    value={productos.oi_precio}
+                    addonBefore={ productos.oi_descuento && productos.oi_descuento> 0 ?  <span style={{ color: "red" }}>-{productos.oi_descuento}%</span> : <></>}
                     style={{ width: "200px" }}
                     onChange={(val) => {
                       onValueChange("oi_precio", val);
@@ -207,7 +232,7 @@ const LaboratorioForm = ({ callback }) => {
               <Row>
                 <Col span={24}>
                   <Row style={row_style}>
-                    <Col style={{width:"30px"}}></Col>
+                    <Col style={{ width: "30px" }}></Col>
                     <Col span={10}>Base</Col>
                     <Col span={3}>Esf</Col>
                     <Col span={3}>Cil</Col>
@@ -217,10 +242,10 @@ const LaboratorioForm = ({ callback }) => {
                   {ojos == "oi" ? (
                     <></>
                   ) : (
-                    <Row style={{...row_style, backgroundColor:"#f1f1f1"}}>
+                    <Row style={{ ...row_style, backgroundColor: "#f1f1f1" }}>
                       <Col
                         style={{
-                          width:"30px",
+                          width: "30px",
                           color: "#0003af",
                           fontWeight: "bold",
                           textAlign: "right",
@@ -235,7 +260,9 @@ const LaboratorioForm = ({ callback }) => {
                         <SelectCodigoVenta
                           idfamilias={[globals.familiaIDs.CRISTALES]}
                           buttonText={"Seleccionar..."}
-                          callback={v=>{onchange_codigo("od_fkBase","od_precio",v)}}
+                          callback={(v) => {
+                            onchange_codigo("od_fkBase", "od_precio", v);
+                          }}
                         />
                       </Col>
                       <Col span={3}>
@@ -278,7 +305,7 @@ const LaboratorioForm = ({ callback }) => {
                     <Row style={row_style}>
                       <Col
                         style={{
-                          width:"30px",
+                          width: "30px",
                           color: "#0003af",
                           fontWeight: "bold",
                           textAlign: "right",
@@ -292,7 +319,9 @@ const LaboratorioForm = ({ callback }) => {
                         <SelectCodigoVenta
                           idfamilias={[globals.familiaIDs.CRISTALES]}
                           buttonText={"Seleccionar..."}
-                          callback={v=>{onchange_codigo("oi_fkBase","oi_precio",v)}}
+                          callback={(v) => {
+                            onchange_codigo("oi_fkBase", "oi_precio", v);
+                          }}
                         />
                       </Col>
                       <Col span={3}>

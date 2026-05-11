@@ -24,7 +24,7 @@ export default function MenuVentasTop(props) {
     key: "SubMenuVentas",
     icon: <MenuOutlined />,
     disabled: !globals.esUsuarioVentas(),
-    children: [
+    items: [
       {
         key: "1",
         label: (

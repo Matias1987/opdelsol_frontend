@@ -99,7 +99,7 @@ const items = [
     label: "Tablas",
     key: "SubMenu",
     icon: <MenuOutlined />,
-    children: [
+    items: [
       /*{
         label: (
           <Menu.Item>

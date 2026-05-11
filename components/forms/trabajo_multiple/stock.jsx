@@ -21,6 +21,7 @@ const VMCristalesStock = ({ callback }) => {
     oi_precio: "",
     idtratamiento: "",
     tratamiento_precio: "",
+    tratamiento_descuento: "",
     armazon: "",
   });
 
@@ -32,13 +33,28 @@ const VMCristalesStock = ({ callback }) => {
     });
   };
 
-    const onchange_codigo = (key_idcodigo, key_precio, value) => {
+    const onchange_codigo = (key_idcodigo, key_precio, key_descuento, value) => {
+      if(value === null || value?.codigo === null){
+        setTrabajoStock((p) => {
+          const mod = {
+            ...p,
+            [key_idcodigo]: "",
+            [key_precio]: 0,
+            [key_descuento]: 0,
+          };
+          callback?.(mod, mod.od_precio + mod.oi_precio + mod.tratamiento_precio);
+          return mod;
+        });
+        return;
+      }
     setTrabajoStock((p) => {
       const mod = {
         ...p,
         [key_idcodigo]: value.idcodigo,
-        [key_precio]: value.precio,
+        [key_precio]: parseFloat(value.precio_defecto_mayorista) - (parseFloat(value.precio_defecto_mayorista) * parseFloat(value.descuento||"0") * .01),
+        [key_descuento]: value.descuento||"0",
       };
+
       callback?.(mod, mod.od_precio + mod.oi_precio + mod.tratamiento_precio);
       return mod;
     });
@@ -69,7 +85,7 @@ const VMCristalesStock = ({ callback }) => {
               <SelectCodigoVenta
                           idfamilias={[globals.familiaIDs.CRISTALES]}
                           buttonText={"Seleccionar..."}
-                          callback={v=>{onchange_codigo("od_idcodigo","od_precio",v)}}
+                          callback={v=>{onchange_codigo("od_idcodigo","od_precio","od_descuento",v)}}
                         />
                         </div>
             </Col>
@@ -81,7 +97,7 @@ const VMCristalesStock = ({ callback }) => {
             </Col>
             <Col span={6}>
               <InputNumber
-                addonBefore={<span style={{color:"red"}}>-5%</span>}
+                addonBefore={trabajoStock.od_descuento && trabajoStock.od_descuento > 0 ? <span style={{color:"red"}}>-{trabajoStock.od_descuento}%</span> : <></>}
                 style={{width:"100%"}}
                 value={trabajoStock.od_precio}
                 onChange={(v) => onChange("od_precio", v)}
@@ -94,7 +110,7 @@ const VMCristalesStock = ({ callback }) => {
               <SelectCodigoVenta
                           idfamilias={[globals.familiaIDs.CRISTALES]}
                           buttonText={"Seleccionar..."}
-                          callback={v=>{onchange_codigo("oi_idcodigo","oi_precio",v)}}
+                          callback={v=>{onchange_codigo("oi_idcodigo","oi_precio","oi_descuento",v)}}
                         />
             </Col>
             <Col span={3}>
@@ -105,7 +121,7 @@ const VMCristalesStock = ({ callback }) => {
             </Col>
             <Col span={6}>
               <InputNumber
-                addonBefore={<span style={{color:"red"}}>-5%</span>}
+                addonBefore={trabajoStock.oi_descuento && trabajoStock.oi_descuento > 0 ? <span style={{color:"red"}}>-{trabajoStock.oi_descuento}%</span> : <></>}
                 style={{width:"100%"}}
                 value={trabajoStock.oi_precio}
                 onChange={(v) => onChange("oi_precio", v)}
@@ -118,13 +134,13 @@ const VMCristalesStock = ({ callback }) => {
               <SelectCodigoVenta
                 idfamilias={[globals.familiaIDs.TRATAMIENTO]}
                 buttonText={"Seleccionar..."}
-                callback={v => { onchange_codigo("idtratamiento","tratamiento_precio",v) }}
+                callback={v => { onchange_codigo("idtratamiento","tratamiento_precio","tratamiento_descuento",v) }}
               />
             </Col>
             <Col span={3}></Col>
             <Col span={6}>
               <InputNumber
-                addonBefore={<span style={{color:"red"}}>-5%</span>}
+                addonBefore={trabajoStock.tratamiento_descuento && trabajoStock.tratamiento_descuento > 0 ? <span style={{color:"red"}}>-{trabajoStock.tratamiento_descuento}%</span> : <></>}
                 style={{width:"100%"}}
                 value={trabajoStock.tratamiento_precio}
                 onChange={(v) => onChange("tratamiento_precio", v)}

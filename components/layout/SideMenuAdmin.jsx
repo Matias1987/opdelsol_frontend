@@ -7,6 +7,9 @@ import {
   LogoutOutlined,
   DollarOutlined,
   CreditCardTwoTone,
+  DownOutlined,
+  ArrowDownOutlined,
+  OrderedListOutlined,
 } from "@ant-design/icons";
 import { useRouter } from "next/router";
 import { get } from "@/src/urls";
@@ -100,14 +103,22 @@ const SideMenuAdmin = ({ collapsed }) => {
         >
           Proveedores
         </Menu.Item>
-         <Menu.Item
-          key="/v1/admin/clientes/"
-          icon={<UserOutlined />}
-          onClick={() => router.push("/v1/admin/clientes/")}
-        >
-          Clientes
-        </Menu.Item>
-
+          <SubMenu key="submenu_clientes" icon={<UserOutlined />} title="Clientes">
+          <Menu.Item
+            key="/v1/admin/clientes/"
+            icon={<OrderedListOutlined />}
+            onClick={() => router.push("/v1/admin/clientes/")}
+          >
+            Listado
+          </Menu.Item>
+          <Menu.Item
+            key="/v1/admin/descuentos/"
+            icon={<ArrowDownOutlined />}
+            onClick={() => router.push("/v1/admin/descuentos/")}
+          >
+            Descuentos
+          </Menu.Item>
+        </SubMenu>
        {/*<SubMenu key="sub2" icon={<FileTextOutlined />} title="Reports">
           <Menu.Item
             key="/v1/admin/ventas"

@@ -17,7 +17,7 @@ const items = [
   {
     label: (<>Contactos</>),
     key: '14',
-    children: [
+    items: [
       {
         label: (<Link href={public_urls.adm_prov_lista_prov}>Proveedores</Link>),
         key: "170",

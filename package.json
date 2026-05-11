@@ -6,7 +6,8 @@
     "dev": "next dev -p 3000",
     "build": "next build",
     "start": "next start -p 3000",
-    "lint": "next lint"
+    "lint": "next lint",
+    "analyze": "set ANALYZE=true && next build"
   },
   "dependencies": {
     "@ant-design/charts": "^2.6.7",

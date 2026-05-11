@@ -97,7 +97,7 @@ const TrabajoMultiple = ({
   };
 
   const calcularTotal = (trabajos) => {
-    setSubTotal(trabajos.reduce((acc, trabajo) => acc + trabajo.monto_total, 0));
+    setSubTotal(trabajos.reduce((acc, trabajo) => acc + parseFloat(trabajo?.monto_total||"0"), 0));
   }
 
   const add = () => {
@@ -154,7 +154,8 @@ const TrabajoMultiple = ({
   };
 
   const finalizar_venta = (e) => {
-    //alert(JSON.stringify(trabajos));
+    alert(JSON.stringify({...venta, trabajos}));
+    return;
     const idvendedor =
       cambiar_vendedor == 0 ? +globals.obtenerUID() : venta.fkusuario;
 
@@ -195,7 +196,7 @@ const TrabajoMultiple = ({
         style={{ boxShadow: "-1px 3px 3px 2px #9e9c9c" }}
       >
         <Row>
-          <Col span={24}>
+          <Col span={16}>
             <Tabs
               type="editable-card"
               size={"large"}
@@ -205,11 +206,13 @@ const TrabajoMultiple = ({
               items={items}
             />
           </Col>
-         { /*<Col span={8}>
+         { <Col span={8}>
           <div style={{backgroundColor:"#000000", color:"#00ff00", fontFamily:"Consolas", height:"400px", overflowY:"scroll", overflowX:"scroll"}}>
-            <pre style={{font:"Consolas"}}>{JSON.stringify(trabajos, null, 2)}</pre>
+            <pre style={{font:"Consolas"}}>
+              {JSON.stringify({...venta, trabajos: trabajos}, null, 2)}
+              </pre>
             </div>
-          </Col>*/}
+          </Col>}
         </Row>
       </Card>
       <Divider />

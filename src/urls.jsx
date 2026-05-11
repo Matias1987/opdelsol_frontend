@@ -131,6 +131,8 @@ const public_urls = {
 
     nueva_venta_distribuidora: local_base_url + "trabajos/nuevo",
 
+    descuentos_adm: "admin/descuentos",
+
     custom:{
         copex:{
             monto_ventas_mes: local_base_url + "admin/custm/oexp/monto_ventas_mes",
@@ -283,6 +285,8 @@ const post = {
     lista_precios_codigos: remote_base_url + "codigos_ext/lp/",
 
     monedas_existentes_proveedor: remote_base_url + "proveedores/monedas_existentes/",
+
+    descuentos_subgrupo_cliente: remote_base_url + "dc/obtener/",
 
     search:{
         filtro_stock: remote_base_url + "stock/filtro_stock/",
@@ -607,6 +611,7 @@ const get = {
 
     obtener_items_trabajo: remote_base_url + "tm/items/",
 
+    obtener_lista_descuentos: remote_base_url + "dc/",
     
 }
 

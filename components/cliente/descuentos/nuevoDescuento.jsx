@@ -61,7 +61,7 @@ const NuevoDescuento = () => {
   const row_style = { padding: "8px" };
   return (
     <div>
-      <Card title="Nuevo Descuento para Clientes" size="small">
+      <Card title="" size="small" style={{ boxShadow: "-1px 1px 1px 1px #9e9c9c" }}>
         <Row style={row_style}>
           <Col span={24}>
             <Checkbox
@@ -82,7 +82,7 @@ const NuevoDescuento = () => {
         ) : (
           <Row style={row_style}>
             <Col span={24}>
-              <Table  size="small" title={(_) => <>Clientes</>} dataSource={clientesSeleccionados} columns={columns} />
+              <Table  size="small" title={(_) => <>Clientes</>} dataSource={clientesSeleccionados} columns={columns} pagination={false} scroll={{y:200}} />
             </Col>
           </Row>
         )}
@@ -110,7 +110,7 @@ const NuevoDescuento = () => {
         </Row>
         <Row style={row_style}>
           <Col span={24}>
-            <Button type="primary" onClick={guardarDescuento}>
+            <Button block type="primary" onClick={guardarDescuento}>
               Guardar
             </Button>
           </Col>

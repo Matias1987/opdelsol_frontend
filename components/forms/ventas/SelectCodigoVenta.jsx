@@ -29,7 +29,9 @@ export default function SelectCodigoVenta(props){
                 descripcion: response.data[0].descripcion,
                 precio: response.data[0].precio,
                 cantidad: response.data[0].cantidad,
+                precio_defecto_mayorista: response.data[0].precio_defecto_mayorista,
                 idcodigo: id,
+                descuento: response.data[0].descuento,
             };
             setDataCodigo(
                 _data
