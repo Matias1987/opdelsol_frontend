@@ -15,7 +15,7 @@ import SelectClienteDescuento from "./selectClienteDescuento";
 import { post } from "@/src/urls";
 import { post_method } from "@/src/helpers/post_helper";
 
-const NuevoDescuento = () => {
+const NuevoDescuento = ({callback}) => {
   const [descuentoGral, setDescuentoGral] = useState(false);
   const [modalClientesOpen, setModalClientesOpen] = useState(false);
   const [clientesSeleccionados, setClientesSeleccionados] = useState([]);
@@ -54,6 +54,7 @@ const NuevoDescuento = () => {
       setIdSubGrupo(-1);
       setPorcentaje(0);
       alert("Descuento guardado con éxito");
+      callback?.();
     })
     
   };

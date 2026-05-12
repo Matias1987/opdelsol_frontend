@@ -97,8 +97,13 @@ const TrabajoMultiple = ({
   };
 
   const calcularTotal = (trabajos) => {
-    setSubTotal(trabajos.reduce((acc, trabajo) => acc + parseFloat(trabajo?.monto_total||"0"), 0));
-  }
+    setSubTotal(
+      trabajos.reduce(
+        (acc, trabajo) => acc + parseFloat(trabajo?.monto_total || "0"),
+        0,
+      ),
+    );
+  };
 
   const add = () => {
     const newActiveKey = newTabIndex.current++;
@@ -153,8 +158,87 @@ const TrabajoMultiple = ({
     });
   };
 
+  const format_venta = () => {
+    const procesar_items_laboratorio = (tr) => {
+      const _items = [];
+      if (tr.od_fkDisenio && tr?.od_fkDisenio > 0) {
+        _items.push({
+          idcodigo: 130,
+          idtrabajo: 0,
+          iddescuento: 0,
+          tipo: "od",
+          cantidad: "1",
+          descuento: 0,
+          precio: "0",
+          esf: "0",
+          cil: "0",
+          eje: "0",
+        });
+      }
+      if (tr.oi_fkDisenio && tr?.oi_fkDisenio > 0) {
+        _items.push({
+          idcodigo: 130,
+          idtrabajo: 0,
+          iddescuento: 0,
+          descuento: 0,
+          tipo: "oi",
+          cantidad: "1",
+          precio: "0",
+          esf: "0",
+          cil: "0",
+          eje: "0",
+        });
+      }
+      return _items;
+    };
+    const procesar_items_stock = (tr) => {
+      const _items = [];
+      if (tr.od_idcodigo && +tr.od_idcodigo > 0) {
+        _items.push({
+          idcodigo: tr.od_idcodigo,
+          idtrabajo: 0,
+          iddescuento: 0,
+          tipo: "od",
+          cantidad: "1",
+          precio: "0",
+          esf: "0",
+          cil: "0",
+          eje: "0",
+        });
+      }
+      if (tr.oi_idcodigo && +tr.oi_idcodigo > 0) {
+        _items.push({
+          idcodigo: tr.oi_idcodigo,
+          idtrabajo: 0,
+          iddescuento: 0,
+          tipo: "oi",
+          cantidad: "1",
+          precio: "0",
+          esf: "0",
+          cil: "0",
+          eje: "0",
+        });
+      }
+      return _items;
+    };
+
+    const tt = trabajos.map((t) => ({
+      tipo: t.tipo,
+      nro: t.nro,
+      items:
+        t.tipo != "stock"
+          ? procesar_items_laboratorio(t.items)
+          : procesar_items_stock(t.items),
+    }));
+
+    return { ...venta, trabajos: tt };
+  };
+
   const finalizar_venta = (e) => {
-    alert(JSON.stringify({...venta, trabajos}));
+    //alert(JSON.stringify({ ...venta, trabajos }));
+
+    alert(JSON.stringify(format_venta()));
+
     return;
     const idvendedor =
       cambiar_vendedor == 0 ? +globals.obtenerUID() : venta.fkusuario;
@@ -206,30 +290,55 @@ const TrabajoMultiple = ({
               items={items}
             />
           </Col>
-         { <Col span={8}>
-          <div style={{backgroundColor:"#000000", color:"#00ff00", fontFamily:"Consolas", height:"400px", overflowY:"scroll", overflowX:"scroll"}}>
-            <pre style={{font:"Consolas"}}>
-              {JSON.stringify({...venta, trabajos: trabajos}, null, 2)}
-              </pre>
-            </div>
-          </Col>}
+          {
+            <Col span={8}>
+              <div
+                style={{
+                  backgroundColor: "#000000",
+                  color: "#00ff00",
+                  fontFamily: "Consolas",
+                  height: "400px",
+                  overflowY: "scroll",
+                  overflowX: "scroll",
+                }}
+              >
+                <pre style={{ font: "Consolas" }}>
+                  {JSON.stringify({ ...venta, trabajos: trabajos }, null, 2)}
+                </pre>
+              </div>
+            </Col>
+          }
         </Row>
       </Card>
       <Divider />
       <Card size="small" style={{ boxShadow: "-1px 3px 3px 2px #9e9c9c" }}>
         <Row style={{ marginBottom: "12px" }}>
           <Col span={24}>
-            <Input readOnly prefix="Subtotal" style={{ width: "300px" }} value={subTotal} />
+            <Input
+              readOnly
+              prefix="Subtotal"
+              style={{ width: "300px" }}
+              value={subTotal}
+            />
           </Col>
         </Row>
         <Row style={{ marginBottom: "12px" }}>
           <Col span={24}>
-            <Input prefix="Descuento" style={{ width: "300px" }} onChange={(e) => setDescuento(parseFloat(e.target.value) || 0)} />
+            <Input
+              prefix="Descuento"
+              style={{ width: "300px" }}
+              onChange={(e) => setDescuento(parseFloat(e.target.value) || 0)}
+            />
           </Col>
         </Row>
         <Row style={{ marginBottom: "12px" }}>
           <Col span={24}>
-            <Input readOnly prefix="Total" style={{ width: "300px" }} value={subTotal - descuento} />
+            <Input
+              readOnly
+              prefix="Total"
+              style={{ width: "300px" }}
+              value={subTotal - descuento}
+            />
           </Col>
         </Row>
         <Row gutter={24} style={{ padding: "6px" }}>

@@ -406,6 +406,7 @@ const post = {
         pin_medico: remote_base_url + "medicos/pin/",
         activar_cuenta_bancaria: remote_base_url + "cuentas_bancarias/activar/",
         update_venta: remote_base_url + "ventas/save/modif/v/",
+        cambiar_estado_descuento: remote_base_url + "dc/cambiar/estado/",
     },
 }
 

@@ -135,7 +135,7 @@ const SubGrupoFormV3 = (props) => {
               style={{
                 fontWeight: "bold",
                 color: "red",
-                backgroundColor: "lightgoldenrodyellow",
+                backgroundColor: "#ffffff",
               }}
               readOnly
               value={(+precio * 2).toLocaleString(2)}
@@ -145,7 +145,7 @@ const SubGrupoFormV3 = (props) => {
         )}
       </Row>
 
-      {!mostrarPrecioMayorista || true ? (
+      {!mostrarPrecioMayorista ? (
         <></>
       ) : (
         <>
@@ -153,9 +153,9 @@ const SubGrupoFormV3 = (props) => {
           <Row gutter={16}>
             <Col>
               <Input
-                style={{ backgroundColor: "#E8EAF0" }}
+                style={{ backgroundColor: "#ffffff" }}
                 readOnly={props.readOnly}
-                prefix="Precio Mayorista: $ "
+                prefix={<span style={{fontWeight:"600"}}>Precio Mayorista: $</span> }
                 value={
                   props.readOnly
                     ? parseFloat(precioMayorista || "0").toLocaleString(2)
@@ -169,7 +169,7 @@ const SubGrupoFormV3 = (props) => {
             </Col>
             <Col>
               <Input
-                style={{ backgroundColor: "#E8EAF0" }}
+                style={{ backgroundColor: "#ffffff" }}
                 readOnly
                 prefix="Par: $ "
                 value={parseFloat(precioMayorista * 2).toLocaleString(2)}

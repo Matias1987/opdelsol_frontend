@@ -63,7 +63,7 @@ const VMTrabajo = ({callback, localId, tipo}) => {
           placeholder="Seleccione tipo de Trabajo..."
           onChange={(v) => {
             setTipoTrabajo(v);
-            onChange("tipo", v == CRISTALES_LABORATORIO ? "Cristales Laboratorio" : v == CRISTALES_STOCK ? "Cristales Stock" : v == LC ? "LC" : "");
+            onChange("tipo", v == CRISTALES_LABORATORIO ? "laboratorio" : v == CRISTALES_STOCK ? "stock" : v == LC ? "LC" : "");
           }}
           style={{ width: "100%" }}
           options={[
