@@ -1,12 +1,14 @@
 import globals from "@/src/globals";
 import { post_method } from "@/src/helpers/post_helper";
 import { get, post } from "@/src/urls";
+import Papa from "papaparse";
 import {
   AlertOutlined,
   CheckOutlined,
   ReloadOutlined,
   SaveFilled,
   UnlockOutlined,
+  UploadOutlined,
 } from "@ant-design/icons";
 import {
   Button,
@@ -16,15 +18,19 @@ import {
   Divider,
   Input,
   Modal,
-  Radio,
   Row,
   Select,
+  Upload,
 } from "antd";
 import { useEffect, useState } from "react";
+import SucursalSelect from "../SucursalSelect";
 
 const TestGridCreation = () => {
   const [dataNeg, setDataNeg] = useState([]);
   const [dataPos, setDataPos] = useState([]);
+
+  const [impCSVModo, setImpCSVModo] = useState("neg");
+  const [impCSVinvertirESF, setImpCSVinvertirESF] = useState(false);
 
   const [esf_from_neg, setEsfFromNeg] = useState(0);
   const [esf_to_neg, setEsfToNeg] = useState(2);
@@ -38,7 +44,7 @@ const TestGridCreation = () => {
   const [modal_visible, setModalVisible] = useState(false);
   const [btnAplicarEnabled, setBtnAplicarEnabled] = useState(true);
   const [cellsEdited, setCellsEdited] = useState(false);
-  const [fkCodigo, setFkCodigo] = useState(58451);
+  const [fkCodigo, setFkCodigo] = useState("-1"); //useState(58451);
   const [fkSucursal, setFkSucursal] = useState(6);
   const [nuevaGrillaEnabled, setNuevaGrillaEnabled] = useState(false)
 
@@ -64,16 +70,21 @@ const TestGridCreation = () => {
     textAlign: "center",
     cursor: "pointer",
     backgroundColor: "#feffce",
-    fontWeight: "400",
+    //fontWeight: "400",
+    color: "#000000",
+    fontWeight: "600",
+    fontSize:"1.3em",
   };
   const td_style_pending_save = {
     border: "2px dotted #dbdbdb",
     padding: "6px 12px",
     textAlign: "center",
     cursor: "pointer",
-    fontWeight: "600",
-    color: "white",
-    backgroundColor: "#ff0101",
+    //fontWeight: "600",
+    color: "darkblue ",
+    //backgroundColor: "#ff0101",
+     backgroundColor: "#feffce",
+     //color: "darkblue",
   };
 
   const td_style_with_quantity = {
@@ -81,9 +92,11 @@ const TestGridCreation = () => {
     padding: "6px 12px",
     textAlign: "center",
     cursor: "pointer",
-    backgroundColor: "#008011",
+    //backgroundColor: "#008011",
+     backgroundColor: "#feffce",
     fontWeight: "600",
-    color: "white",
+    color: "#000000",
+    fontSize:"1.3em",
   };
 
   const th_style = {
@@ -112,7 +125,7 @@ const TestGridCreation = () => {
   const on_save = () => {
     const dataToSave = {
       fk_codigo: fkCodigo,
-      fk_sucursal: 6,
+      fk_sucursal: fkSucursal,
       cells_neg: dataNeg.map((d) => ({
         esf: `${parseFloat(d.esf).toFixed(2)}`,
         cil: `${parseFloat(d.cil).toFixed(2)}`,
@@ -145,7 +158,7 @@ const TestGridCreation = () => {
           Math.abs(parseFloat(d.esf)) == Math.abs(parseFloat(esf)) &&
           d.cil == cil
         ) {
-          return { ...d, cantidad: quantity };
+          return { ...d, cantidad: quantity, pares: parseFloat(quantity)/2 };
         }
         return d;
       });
@@ -153,7 +166,7 @@ const TestGridCreation = () => {
     } else {
       const new_data = dataPos.map((d) => {
         if (d.esf == esf && d.cil == cil) {
-          return { ...d, cantidad: quantity };
+          return { ...d, cantidad: quantity, pares: parseFloat(quantity)/2 };
         }
         return d;
       });
@@ -218,6 +231,7 @@ const TestGridCreation = () => {
           esf: (gridType == "N" ? "-" : "") + i,
           cil: j,
           cantidad: source ? get_qtty_from_array(source, i, j) : 0,
+          pares: parseFloat(source ? get_qtty_from_array(source, i, j) : 0) / 2,
           pendingSave: false,
         });
         if (i == p_esf_from) {
@@ -233,6 +247,8 @@ const TestGridCreation = () => {
     }
 
     setCols(_cols);
+
+    //alert(JSON.stringify(cells_data));
   };
 
   const get_grid = (src, tipo_grilla) => (
@@ -252,12 +268,12 @@ const TestGridCreation = () => {
           {Array.from(new Set(src.map((d) => d.esf))).map((esf_value) => {
             return (
               <tr>
-                <td style={td_style}>
+                <th style={th_style}>
                   <b>
                     {(tipo_grilla == "positivo" ? "+" : "") +
                       parseFloat(esf_value).toFixed(2)}
                   </b>
-                </td>
+                </th>
                 {cols.map((col) => (
                   <td
                     style={
@@ -282,7 +298,7 @@ const TestGridCreation = () => {
                   >
                     {src
                       .filter((d) => d.esf == esf_value && d.cil == col)
-                      .map((d) => d.cantidad)}
+                      .map((d) => d.pares.toFixed(2))}
                   </td>
                 ))}
               </tr>
@@ -336,7 +352,7 @@ const TestGridCreation = () => {
         );
       }
     });
-    alert(JSON.stringify(_cellsWithQuantity));
+    //alert(JSON.stringify(_cellsWithQuantity));
     setCellsWithQuantity(_cellsWithQuantity);
   };
 
@@ -400,12 +416,15 @@ const TestGridCreation = () => {
     fetch(get.obtener_codigos_cristales)
       .then((r) => r.json())
       .then((response) => {
-        setCodigosCristales(
-          response.data.map((row) => ({
+        setCodigosCristales(_=>{
+          let t = [{label:"-", value:"-1"}];
+          t = [...t,...response.data.map((row) => ({
             label: row.codigo,
             value: row.idcodigo,
-          })),
-        );
+          }))];
+          //alert(JSON.stringify(t))
+          return t; 
+        });
       })
       .catch((e) => {
         console.log("error");
@@ -452,7 +471,7 @@ const TestGridCreation = () => {
                 disabled={!btnAplicarEnabled}
                 prefix="Desde: "
                 value={esf_from_neg}
-                onChange={(e) => setEsfFromNeg(parseFloat(e.target.value))}
+                onChange={(e) => setEsfFromNeg((e.target.value))}
               />{" "}
             </Col>
             <Col>
@@ -461,7 +480,7 @@ const TestGridCreation = () => {
                 disabled={!btnAplicarEnabled}
                 prefix="Hasta: "
                 value={esf_to_neg}
-                onChange={(e) => setEsfToNeg(parseFloat(e.target.value))}
+                onChange={(e) => setEsfToNeg((e.target.value))}
               />
             </Col>
           </Row>
@@ -482,7 +501,7 @@ const TestGridCreation = () => {
                 disabled={!btnAplicarEnabled}
                 prefix="Desde: "
                 value={esf_from_pos}
-                onChange={(e) => setEsfFromPos(parseFloat(e.target.value))}
+                onChange={(e) => setEsfFromPos((e.target.value))}
               />{" "}
             </Col>
             <Col>
@@ -491,7 +510,7 @@ const TestGridCreation = () => {
                 disabled={!btnAplicarEnabled}
                 prefix="Hasta: "
                 value={esf_to_pos}
-                onChange={(e) => setEsfToPos(parseFloat(e.target.value))}
+                onChange={(e) => setEsfToPos((e.target.value))}
               />
             </Col>
           </Row>
@@ -512,7 +531,7 @@ const TestGridCreation = () => {
                 disabled={!btnAplicarEnabled}
                 prefix="Desde: -"
                 value={cil_from}
-                onChange={(e) => setCilFrom(parseFloat(e.target.value))}
+                onChange={(e) => setCilFrom((e.target.value))}
               />{" "}
             </Col>
             <Col>
@@ -521,7 +540,7 @@ const TestGridCreation = () => {
                 disabled={!btnAplicarEnabled}
                 prefix="Hasta: -"
                 value={cil_to}
-                onChange={(e) => setCilTo(parseFloat(e.target.value))}
+                onChange={(e) => setCilTo((e.target.value))}
               />
             </Col>
           </Row>
@@ -587,16 +606,77 @@ const TestGridCreation = () => {
     </>
   );
 
+  const handleFileUpload = (file) => {
+    Papa.parse(file, {
+      header: false, // use first row as column headers
+      skipEmptyLines: true,
+      complete: (results) => {
+        const parsedData = results.data;
+        /*const cols = Object.keys(parsedData[0] || {}).map((key) => ({
+          title: key,
+          dataIndex: key,
+          key,
+        }));*/
+        const data = impCSVModo == "neg" ?  [...dataNeg] : [...dataPos];
+        let idx = 0;
+        if(impCSVinvertirESF)
+        {
+          for(let i=parsedData.length-1;i>-1;i--)
+          {
+            const row = parsedData[i];
+            row.forEach(cell=>{
+              data[idx].cantidad = cell;
+              data[idx].pares = parseFloat(cell)/2;
+              idx++;
+            });
+          }
+        }
+        else
+        {
+          parsedData.forEach(row=>{
+            row.forEach(cell=>{
+              data[idx].cantidad = cell;
+              data[idx].pares = parseFloat(cell)/2;
+              idx++;
+            });
+          });
+        }
+        
+        if( impCSVModo == "neg")
+        {
+          setDataNeg(data);
+        }
+        else{
+          setDataPos(data);
+        }
+        //alert(JSON.stringify(data));
+      },
+    });
+    return false; // prevent default upload behavior
+  };
+
   useEffect(() => {
     load_codigos_cristales();
   }, [update]);
 
   return (
     <>
+    <Row  style={{ padding: "8px" }}>
+      <Col span={24}>
+      <SucursalSelect callback={v=>{
+        setFkSucursal(v);
+        setDataNeg([]);
+        setDataPos([]);
+        setFkCodigo("-1");
+      }}
+      />
+      </Col>
+    </Row>
       <Row gutter={[16, 16]} style={{ padding: "8px" }}>
         <Col style={{ paddingTop: "6px" }}>Seleccion Tipo Cristal:</Col>
         <Col>
           <Select
+            value={fkCodigo}
             placeholder="Seleccione un código de cristal"
             style={{ width: "400px" }}
             options={codigosCristales}
@@ -632,6 +712,28 @@ const TestGridCreation = () => {
           <Button size="large" type="primary" onClick={on_save}>
             <SaveFilled /> Guardar grilla
           </Button>
+        </Col>
+      </Row>
+      <Divider />
+      <Row style={{border:"1px solid #bebebe", padding:"8px", borderRadius:"8px"}}>
+        <Col span={6}>
+            <Checkbox checked={impCSVinvertirESF} onChange={_=>{setImpCSVinvertirESF(!impCSVinvertirESF)}} >Invertir orden ESF</Checkbox>
+        </Col>
+        <Col span={6}>
+            <Select 
+            prefix="Modo: "
+            style={{width:"300px"}} options={[
+              {value:"neg", label:"Negativo"},
+              {value:"pos", label:"Positivo"},
+            ]}
+            value={impCSVModo}
+            onChange={v=>{setImpCSVModo(v)}}
+            />
+        </Col>
+        <Col span={24}>
+                  <Upload beforeUpload={handleFileUpload} showUploadList={false}>
+        <Button icon={<UploadOutlined />}>Cargar CSV</Button>
+      </Upload>
         </Col>
       </Row>
 
