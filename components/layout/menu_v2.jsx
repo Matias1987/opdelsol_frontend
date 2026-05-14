@@ -25,7 +25,7 @@ export default function MenuV2(props) {
     key: "SubMenuStockMin",
     icon: <MenuOutlined />,
     disabled: !globals.esUsuarioDepositoMin(),
-    items: [
+    children: [
       {
         key: "201",
         label: (
@@ -76,7 +76,7 @@ export default function MenuV2(props) {
     key: "SubMenuVentas",
     icon: <MenuOutlined />,
     disabled: !globals.esUsuarioVentas(),
-    items: [
+    children: [
       {
         key: "1",
         label: (
@@ -137,7 +137,7 @@ export default function MenuV2(props) {
     key: "SubMenuCaja",
     icon: <MenuOutlined />,
     disabled: !globals.esUsuarioCaja1(),
-    items: [
+    children: [
       {
         key: "100",
         label: (
@@ -261,7 +261,7 @@ export default function MenuV2(props) {
 
     if (globals.esUsuarioCaja1()) {
       if (idf_optica == 1) {
-        menu_caja.items.push({
+        menu_caja.children.push({
           key: "108b",
           label: (
             <Menu.Item style={{ fontSize: ".85em" }}>
@@ -275,7 +275,7 @@ export default function MenuV2(props) {
 
       if (idf_optica == 2) {
         //optica del sol parana
-        menu_caja.items.push({
+        menu_caja.children.push({
           key: "113",
           label: (
             <Menu.Item style={{ fontSize: ".85em" }}>
@@ -291,7 +291,7 @@ export default function MenuV2(props) {
     if (globals.esUsuarioVentas()) {
       if (idf_optica == 2) {
         //optica del sol parana
-        menu_ventas.items.push({
+        menu_ventas.children.push({
           key: "110",
           label: (
             <Menu.SubMenu key="sub20" title={<span>Informes</span>}>

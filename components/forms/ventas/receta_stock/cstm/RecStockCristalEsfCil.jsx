@@ -25,11 +25,11 @@ const RecStockCristalEsfCil = (props) => {
     cil: "",
   });
 
-  useEffect(() => {
+  /*useEffect(() => {
     if (props.data  && props.data?.codigo) {
       setCristal(props.data);
     }
-  }, [props.data]);
+  }, [props.data]);*/
 
   const onchange_codigo = (value) => {
     setCristal((cristal) => {

@@ -4,7 +4,7 @@ import {
   MenuOutlined,
 } from "@ant-design/icons";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Children } from "react";
 import Link from "next/link";
 import { public_urls } from "@/src/urls";
 import globals from "@/src/globals";
@@ -24,7 +24,7 @@ export default function MenuVentasTop(props) {
     key: "SubMenuVentas",
     icon: <MenuOutlined />,
     disabled: !globals.esUsuarioVentas(),
-    items: [
+    children: [
       {
         key: "1",
         label: (
