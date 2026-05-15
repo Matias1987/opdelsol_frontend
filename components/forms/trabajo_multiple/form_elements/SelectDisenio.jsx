@@ -10,6 +10,7 @@ const SelectDisenio = ({ idgrupo, callback, style, idcliente }) => {
   const [descuento, setDescuento] = useState(null);
 
   const load_discounts = (idsubgrupo, callback1) => {
+    //alert(JSON.stringify({ idsubgrupo: idsubgrupo, idcliente: idcliente || null }));
     post_method(
       post.descuentos_subgrupo_cliente,
       { idsubgrupo: idsubgrupo, idcliente: idcliente || null },
@@ -56,7 +57,7 @@ const SelectDisenio = ({ idgrupo, callback, style, idcliente }) => {
       }
       const selectedgrupo = data.find((d) => d.value === val);
 
-      callback?.({idsubgrupo: val, descuento: dto.porcentaje, precio: selectedgrupo.precio});
+      callback?.({idsubgrupo: val, descuento: dto? dto?.porcentaje: 0, precio: selectedgrupo.precio, iddescuento: dto ? dto?.id_descuento: null});
       setLoading(false);
     });
   };

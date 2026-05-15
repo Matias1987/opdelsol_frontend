@@ -4,88 +4,134 @@ import { Spin } from "antd";
 import { useEffect, useState } from "react";
 
 const Informe = ({ idventa }) => {
-  const [loading, setLoading] = useState(true);
-  const [data, setData] = useState({
-    idventa: 69747,
-    cliente_idcliente: 6715,
-    sucursal_idsucursal: 6,
-    caja_idcaja: 1,
-    usuario_idusuario: 5,
-    medico_idmedico: null,
-    monto_total: "0",
-    descuento: "0",
-    debe: "0",
-    haber: "0",
-    saldo: "0",
-    fecha: "2026-05-07T15:17:56.000Z",
-    fecha_alta: "2026-05-07T15:17:56.000Z",
-    fk_os: null,
-    fecha_retiro: "2026-01-01T03:00:00.000Z",
-    fk_destinatario: null,
-    subtotal: "0.000000",
-    comentarios: "",
-    tipo: "MULTIPLE",
-    estado: "",
-    hora_retiro: "",
-    en_laboratorio: 0,
-    json_items: "",
-    estado_taller: null,
-    recarga: "0.000000",
-    uid: "",
-    recibe_premio: 1,
-    trabajos: [
-      {
-        idtrabajo: 65,
-        tipo: "cristales_laboratorio",
-        nro: 1,
-        items: [
-          {
-            idcodigo: 130,
-            esf: "0",
-            cil: "0",
-            eje: "0",
-            cantidad: 1,
-            precio: "0.000000",
-            total: "0.000000",
-          },
-          {
-            idcodigo: 130,
-            esf: "0",
-            cil: "0",
-            eje: "0",
-            cantidad: 1,
-            precio: "0.000000",
-            total: "0.000000",
-          },
-        ],
-      },
-      {
-        idtrabajo: 66,
-        tipo: "cristales_stock",
-        nro: 2,
-        items: [
-          {
-            idcodigo: 130,
-            esf: "0",
-            cil: "0",
-            eje: "0",
-            cantidad: 1,
-            precio: "0.000000",
-            total: "0.000000",
-          },
-          {
-            idcodigo: 130,
-            esf: "0",
-            cil: "0",
-            eje: "0",
-            cantidad: 1,
-            precio: "0.000000",
-            total: "0.000000",
-          },
-        ],
-      },
-    ],
-  });
+  const [loading, setLoading] = useState(false);
+  const [data, setData] = useState(
+{
+        "idventa": 69767,
+        "cliente_idcliente": 1,
+        "sucursal_idsucursal": 15,
+        "caja_idcaja": 4165,
+        "usuario_idusuario": 18,
+        "medico_idmedico": null,
+        "monto_total": "0",
+        "descuento": "0",
+        "debe": "0",
+        "haber": "0",
+        "saldo": "0",
+        "fecha": "2026-05-15T14:36:45.000Z",
+        "fecha_alta": "2026-05-15T14:36:45.000Z",
+        "fk_os": null,
+        "fecha_retiro": "2026-05-14T03:00:00.000Z",
+        "fk_destinatario": null,
+        "subtotal": "0.000000",
+        "comentarios": "",
+        "tipo": "7",
+        "estado": "PENDIENTE",
+        "hora_retiro": "",
+        "en_laboratorio": 0,
+        "json_items": "",
+        "estado_taller": null,
+        "recarga": "0.000000",
+        "uid": "",
+        "recibe_premio": 1,
+        "trabajos": [
+            {
+                "idtrabajo": 94,
+                "tipo": "laboratorio",
+                "nro": 1,
+                "items": [
+                    {
+                        "idcodigo": 37314,
+                        "esf": "5",
+                        "cil": "6",
+                        "eje": "7",
+                        "tipo": "od",
+                        "cantidad": 1,
+                        "precio": "630000.000000",
+                        "total": "630000.000000",
+                        "iddescuento": 18
+                    },
+                    {
+                        "idcodigo": 37314,
+                        "esf": "1",
+                        "cil": "2",
+                        "eje": "3",
+                        "tipo": "oi",
+                        "cantidad": 1,
+                        "precio": "630000.000000",
+                        "total": "630000.000000",
+                        "iddescuento": 18
+                    }
+                ]
+            },
+            {
+                "idtrabajo": 95,
+                "tipo": "laboratorio",
+                "nro": 1,
+                "items": [
+                    {
+                        "idcodigo": 37314,
+                        "esf": "55",
+                        "cil": "66",
+                        "eje": "77",
+                        "tipo": "od",
+                        "cantidad": 1,
+                        "precio": "630000.000000",
+                        "total": "630000.000000",
+                        "iddescuento": 18
+                    }
+                ]
+            },
+            {
+                "idtrabajo": 96,
+                "tipo": "laboratorio",
+                "nro": 1,
+                "items": [
+                    {
+                        "idcodigo": 37315,
+                        "esf": "45",
+                        "cil": "56",
+                        "eje": "67",
+                        "tipo": "oi",
+                        "cantidad": 1,
+                        "precio": "630000.000000",
+                        "total": "630000.000000",
+                        "iddescuento": 18
+                    }
+                ]
+            },
+            {
+                "idtrabajo": 97,
+                "tipo": "laboratorio",
+                "nro": 1,
+                "items": [
+                    {
+                        "idcodigo": 39026,
+                        "esf": "90",
+                        "cil": "99",
+                        "eje": "98",
+                        "tipo": "od",
+                        "cantidad": 1,
+                        "precio": "630000.000000",
+                        "total": "630000.000000",
+                        "iddescuento": 18
+                    },
+                    {
+                        "idcodigo": 39027,
+                        "esf": "09",
+                        "cil": "08",
+                        "eje": "90",
+                        "tipo": "oi",
+                        "cantidad": 1,
+                        "precio": "630000.000000",
+                        "total": "630000.000000",
+                        "iddescuento": 18
+                    }
+                ]
+            }
+        ]
+    }
+  );
 
   const load = () => {
     setLoading(true);
@@ -109,7 +155,7 @@ const Informe = ({ idventa }) => {
   };
 
   useEffect(() => {
-    load();
+    //load();
   }, []);
 
   const header = () => {
@@ -234,7 +280,7 @@ const Informe = ({ idventa }) => {
   };
 
   const trabajo = (data) => {
-    return data.tipo != "cristales_laboratorio"
+    return data.tipo != "laboratorio"
       ? stock(data)
       : laboratorio(data);
   };

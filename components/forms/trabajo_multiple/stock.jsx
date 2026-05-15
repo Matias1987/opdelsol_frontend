@@ -150,7 +150,7 @@ const VMCristalesStock = ({ callback }) => {
           <Divider />
           <Row style={{backgroundColor:"#f1f1f1", padding:"8px"}}>
             <Col span={24}>
-              <Input style={{width:"400px"}} prefix={<span style={{fontWeight:"bold"}}>Armaz&oacute;n</span>} value={trabajoStock.armazon} onChange={e=>onChange("armazon",e.target.value)} />
+              <Input style={{width:"100%"}} prefix={<span style={{fontWeight:"bold"}}>Armaz&oacute;n</span>} value={trabajoStock.armazon} onChange={e=>onChange("armazon",e.target.value)} />
             </Col>
           </Row>
         </Col>

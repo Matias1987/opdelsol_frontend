@@ -69,6 +69,11 @@ export default function TestMenu() {
             Modificar Cant. Categor&iacute;a
           </Link>
         </Menu.Item>
+        <Menu.Item key="sub2_35">
+          <Link href={get_url_to("deposito/stock/crsv2/stock_cristales")}>
+            Stock Cristales
+          </Link>
+        </Menu.Item>
       </SubMenu>
       <SubMenu
         key="sub1"

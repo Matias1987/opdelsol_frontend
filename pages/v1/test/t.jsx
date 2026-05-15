@@ -4,6 +4,7 @@
 //import TestGridCreation from "@/components/etc/testGridCreation";
 import NuevoDescuento from "@/components/cliente/descuentos/nuevoDescuento";
 import TestGridCreation from "@/components/etc/testGridCreation";
+import TrabajoMultiple from "@/components/forms/trabajo_multiple/venta_multiple";
 //import TrabajoRecetaStock from "@/components/forms/ventas/trabajo/trab_receta_stock";
 import LayoutAdmin from "@/components/layout/layout_admin";
 import { Divider } from "antd";
@@ -23,11 +24,15 @@ export default function test() {
 
               <TrabajoMultiple />
 
-      <DetalleVentaTM />
+      
   <NuevoDescuento />
+        <DetalleVentaTM />
+  <TestGridCreation />
         
      */}
-    <TestGridCreation />
+
+     <TrabajoMultiple />
+    
         
     
     </div>

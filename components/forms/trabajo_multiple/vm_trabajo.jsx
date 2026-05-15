@@ -5,7 +5,7 @@ import VMCristalesStock from "./stock";
 import VMLC from "./lc";
 import LaboratorioForm from "./laboratorio";
 
-const VMTrabajo = ({callback, localId, tipo}) => {
+const VMTrabajo = ({callback, localId, tipo, idCliente}) => {
     const CRISTALES_LABORATORIO= 0;
     const CRISTALES_STOCK=1;
     const LC=2;
@@ -16,6 +16,7 @@ const VMTrabajo = ({callback, localId, tipo}) => {
     tipo:"",
     items:null,
     monto_total: 0,
+    comentarios:"",
   });
   
   useEffect(()=>{
@@ -41,9 +42,9 @@ const VMTrabajo = ({callback, localId, tipo}) => {
   const get_content = () => {
     switch (tipoTrabajo) {
       case CRISTALES_LABORATORIO:
-        return <LaboratorioForm callback={onItemsChanged} />;
+        return <LaboratorioForm callback={onItemsChanged} idCliente={idCliente} />;
       case CRISTALES_STOCK:
-        return <VMCristalesStock callback={onItemsChanged} />;
+        return <VMCristalesStock callback={onItemsChanged} idCliente={idCliente} />;
       case LC:
         return <VMLC callback={onItemsChanged} />;
     }

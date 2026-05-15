@@ -1,11 +1,11 @@
-import { Card, Col, Input, InputNumber, Row, Select } from "antd";
+import { Card, Col, Divider, Input, InputNumber, Row, Select } from "antd";
 import { useEffect, useState } from "react";
 import SelectDisenio from "./form_elements/SelectDisenio";
 import { get, post } from "@/src/urls";
 import SelectCodigoVenta from "../ventas/SelectCodigoVenta";
 import globals from "@/src/globals";
 
-const LaboratorioForm = ({ callback }) => {
+const LaboratorioForm = ({ callback, idCliente }) => {
   const [ojos, setOjos] = useState("ambos");
   const [tipos, setTipos] = useState([]);
 
@@ -27,6 +27,7 @@ const LaboratorioForm = ({ callback }) => {
     oi_fkTipo: -1,
     oi_fkDisenio: -1,
     oi_precio: 0,
+    armazon:"",
   });
 
   const row_style = {
@@ -74,7 +75,7 @@ const LaboratorioForm = ({ callback }) => {
       <Card
         title="Laboratorio"
         size="small"
-        style={{ boxShadow: "-1px 1px 1px 1px #9e9c9c" }}
+        style={{ boxShadow: "-1px 1px 1px 1px #d4d3d3" }}
       >
         <Row style={row_style}>
           <Col span={24}>
@@ -103,7 +104,7 @@ const LaboratorioForm = ({ callback }) => {
               padding: "8px",
             }}
           >
-            <Row style={row_style}>
+            <Row style={{ ...row_style, borderBottom: "1px dotted #d8d7d7" }}>
               <Col style={{ width: "30px" }}></Col>
               <Col span={6} style={{ fontWeight: "600", fontSize: "11px" }}>
                 Tipo
@@ -118,7 +119,7 @@ const LaboratorioForm = ({ callback }) => {
             {ojos == "oi" ? (
               <></>
             ) : (
-              <Row style={{ ...row_style, backgroundColor: "#f1f1f1" }}>
+              <Row style={{ ...row_style, borderBottom: "1px dotted #dddada" }}>
                 <Col
                   style={{
                     width: "30px",
@@ -142,11 +143,18 @@ const LaboratorioForm = ({ callback }) => {
                 </Col>
                 <Col span={6}>
                   <SelectDisenio
+                    idcliente={idCliente}
                     callback={(v) => {
                       //alert(JSON.stringify(v));
                       setProductos((p) => {
                         const dto = v.descuento || 0;
-                        const modif = { ...p, "od_fkDisenio": v.idsubgrupo, od_descuento: dto, od_precio: parseFloat(v.precio) - parseFloat(v.precio) * dto * .01 };
+                        const modif = { 
+                          ...p, 
+                          "od_fkDisenio": v.idsubgrupo, 
+                          od_descuento: dto, 
+                          od_precio: parseFloat(v.precio) - parseFloat(v.precio) * dto * .01 ,
+                          od_iddescuento: v.iddescuento,
+                        };
                         callback?.(modif, modif.od_precio + modif.oi_precio);
                         return modif;
                       });
@@ -194,11 +202,18 @@ const LaboratorioForm = ({ callback }) => {
                 </Col>
                 <Col span={6}>
                   <SelectDisenio
+                  idcliente={idCliente}
                     callback={(v) => 
                     {
                       setProductos((p) => {
                         const dto = v.descuento || 0;
-                        const modif = { ...p, "oi_fkDisenio": v.idsubgrupo, oi_descuento: dto, oi_precio: parseFloat(v.precio) - parseFloat(v.precio) * dto * .01 };
+                        const modif = { 
+                          ...p, 
+                          "oi_fkDisenio": v.idsubgrupo, 
+                          oi_descuento: dto, 
+                          oi_precio: parseFloat(v.precio) - parseFloat(v.precio) * dto * .01,
+                          oi_iddescuento: v.iddescuento,
+                        };
                         callback?.(modif, modif.od_precio + modif.oi_precio);
                         return modif;
                       });
@@ -225,24 +240,30 @@ const LaboratorioForm = ({ callback }) => {
         <Row>
           <Col span={24}>
             <Card
-              title="Prescripción"
+             
               size="small"
-              style={{ boxShadow: "-1px 1px 1px 1px #9e9c9c" }}
+              style={{ boxShadow: "-1px 1px 1px 1px white" }}
+              styles={{header:{fontSize:"11px", fontWeight:"600", fontStyle:"oblique", color:"darkblue"}}}
             >
               <Row>
                 <Col span={24}>
-                  <Row style={row_style}>
+                <span style={{fontWeight:"600", fontSize:"12px"}}>Prescripci&oacute;n</span>
+                </Col>
+              </Row>
+              <Row>
+                <Col span={24}>
+                  <Row style={{ ...row_style, borderBottom: "1px dotted #d8d7d7" }}>
                     <Col style={{ width: "30px" }}></Col>
-                    <Col span={10}>Base</Col>
-                    <Col span={3}>Esf</Col>
-                    <Col span={3}>Cil</Col>
-                    <Col span={3}>Eje</Col>
-                    <Col span={3}>Add</Col>
+                    <Col style={{fontWeight:"600", fontSize:"11px"}} span={10}>Base</Col>
+                    <Col style={{fontWeight:"600", fontSize:"11px"}} span={3}>Esf</Col>
+                    <Col style={{fontWeight:"600", fontSize:"11px"}} span={3}>Cil</Col>
+                    <Col style={{fontWeight:"600", fontSize:"11px"}} span={3}>Eje</Col>
+                    <Col style={{fontWeight:"600", fontSize:"11px"}} span={3}>Add</Col>
                   </Row>
                   {ojos == "oi" ? (
                     <></>
                   ) : (
-                    <Row style={{ ...row_style, backgroundColor: "#f1f1f1" }}>
+                    <Row style={{ ...row_style, borderBottom: "1px solid #d8d7d7" }}>
                       <Col
                         style={{
                           width: "30px",
@@ -261,7 +282,7 @@ const LaboratorioForm = ({ callback }) => {
                           idfamilias={[globals.familiaIDs.CRISTALES]}
                           buttonText={"Seleccionar..."}
                           callback={(v) => {
-                            onchange_codigo("od_fkBase", "od_precio", v);
+                            onValueChange("od_fkBase", v.idcodigo);
                           }}
                         />
                       </Col>
@@ -320,7 +341,7 @@ const LaboratorioForm = ({ callback }) => {
                           idfamilias={[globals.familiaIDs.CRISTALES]}
                           buttonText={"Seleccionar..."}
                           callback={(v) => {
-                            onchange_codigo("oi_fkBase", "oi_precio", v);
+                            onValueChange("oi_fkBase", v.idcodigo);
                           }}
                         />
                       </Col>
@@ -363,6 +384,11 @@ const LaboratorioForm = ({ callback }) => {
             </Card>
           </Col>
         </Row>
+          <Row style={{backgroundColor:"#f1f1f1", padding:"8px"}}>
+            <Col span={24}>
+              <Input style={{width:"100%"}} prefix={<span style={{fontWeight:"600"}}>Armaz&oacute;n</span>} value={productos.armazon} onChange={e=>onValueChange("armazon",e.target.value)} />
+            </Col>
+          </Row>
       </Card>
     </>
   );

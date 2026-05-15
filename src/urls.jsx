@@ -350,6 +350,7 @@ const post = {
         insert_stock_cristal_grid: remote_base_url + "sc/insert/grid/",
         insert_cliente_opinion: remote_base_url + "opinion/add/",
         descuento_cliente: remote_base_url + "dc/",
+        insert_venta_multiple: remote_base_url + "tm/",
         
     },
     update:{

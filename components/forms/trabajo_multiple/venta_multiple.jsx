@@ -17,11 +17,12 @@ import {
 import esES from "antd/locale/es_ES";
 import { useRef, useState } from "react";
 import SelectVendedor from "@/components/usuario/vendedor/SelectVendedor";
-import { public_urls } from "@/src/urls";
+import { post, public_urls } from "@/src/urls";
 import { CloseOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
 import VMTrabajo from "./vm_trabajo";
 import Informe from "./informe/informe";
+import { post_method } from "@/src/helpers/post_helper";
 
 /* leer: https://refine.dev/blog/common-usestate-mistakes-and-how-to-avoid/ */
 /**
@@ -60,7 +61,7 @@ const TrabajoMultiple = ({
     horaRetiro: null,
     comentarios: "",
     fksucursal: globals.obtenerSucursal(),
-    fkcaja: globals.obtenerCajaID(),
+    fkcaja: 4165,//globals.obtenerCajaID(),
     json_items: "",
     tk: globals.getToken(),
     uid: "",
@@ -73,10 +74,12 @@ const TrabajoMultiple = ({
   const [descuento, setDescuento] = useState(0);
   const [trabajos, setTrabajos] = useState([]);
   const [items, setItems] = useState([]);
+  const [idCliente, setIdCliente] = useState(-1)
+  const [finalV, setFinalV] = useState({});
 
   const tab_content = (id) => (
     <>
-      <VMTrabajo localId={id} callback={onTabValuesChange} />
+      <VMTrabajo localId={id} callback={onTabValuesChange} idCliente={idCliente} />
     </>
   );
 
@@ -163,30 +166,30 @@ const TrabajoMultiple = ({
       const _items = [];
       if (tr.od_fkDisenio && tr?.od_fkDisenio > 0) {
         _items.push({
-          idcodigo: 130,
-          idtrabajo: 0,
-          iddescuento: 0,
+          idcodigo: tr.od_fkBase,
+          idtrabajo: tr.od_fkDisenio,
+          iddescuento: tr.od_iddescuento,
           tipo: "od",
           cantidad: "1",
-          descuento: 0,
-          precio: "0",
-          esf: "0",
-          cil: "0",
-          eje: "0",
+          descuento: tr.od_descuento,
+          precio: tr.od_precio,
+          esf: tr.od_esf,
+          cil: tr.od_cil,
+          eje: tr.od_eje,
         });
       }
       if (tr.oi_fkDisenio && tr?.oi_fkDisenio > 0) {
         _items.push({
-          idcodigo: 130,
-          idtrabajo: 0,
-          iddescuento: 0,
-          descuento: 0,
+          idcodigo: tr.oi_fkBase,
+          idtrabajo: tr.oi_fkDisenio,
+          iddescuento: tr.oi_iddescuento,
+          descuento: tr.oi_descuento,
           tipo: "oi",
           cantidad: "1",
-          precio: "0",
-          esf: "0",
-          cil: "0",
-          eje: "0",
+          precio: tr.oi_precio,
+          esf: tr.oi_esf,
+          cil: tr.oi_cil,
+          eje: tr.oi_eje,
         });
       }
       return _items;
@@ -236,9 +239,9 @@ const TrabajoMultiple = ({
 
   const finalizar_venta = (e) => {
     //alert(JSON.stringify({ ...venta, trabajos }));
-
-    alert(JSON.stringify(format_venta()));
-
+    const __v = format_venta();
+    //alert(JSON.stringify());
+    setFinalV(__v);
     return;
     const idvendedor =
       cambiar_vendedor == 0 ? +globals.obtenerUID() : venta.fkusuario;
@@ -247,13 +250,18 @@ const TrabajoMultiple = ({
       alert("Seleccione Vendedor");
       return;
     }
-    setBtnEnabled(false);
-    setVenta((venta) => {
-      onfinish?.({ ...venta, fkusuario: idvendedor }, (_) => {
+    //setBtnEnabled(false);
+    /*setVenta((venta) => {
+      
+      onfinish?.(venta, (resp) => {
         setBtnEnabled(true);
+        alert("OK")
       });
       return { ...venta, fkusuario: idvendedor };
-    });
+    });*/
+    post_method(post.insert.insert_venta_multiple,__v,(response)=>{
+      alert(JSON.stringify(response))
+    })
   };
 
   const modo_formulario_unico = (_) => (
@@ -268,6 +276,7 @@ const TrabajoMultiple = ({
             }
             callback={(value) => {
               onChange("fkcliente", value);
+              setIdCliente(value);
             }}
           />
         </Col>
@@ -275,39 +284,25 @@ const TrabajoMultiple = ({
       <Divider />
 
       <Card
-        title="Trabajos"
+        
         size="small"
-        style={{ boxShadow: "-1px 3px 3px 2px #9e9c9c" }}
+        style={{ boxShadow: "-1px 1px 1px 0px #9e9c9c" }}
       >
         <Row>
-          <Col span={16}>
+          <Col span={24}>
             <Tabs
               type="editable-card"
-              size={"large"}
+              size={"small"}
+              tabBarExtraContent={{left:<span style={{fontWeight:"600", fontSize:"1.1em", paddingRight:"16px", color:"#00000f"}}> Trabajos: </span>}}
+              tabPosition="top"
+              tab
               activeKey={activeKey}
               onChange={setActiveKey}
               onEdit={onEdit}
               items={items}
             />
           </Col>
-          {
-            <Col span={8}>
-              <div
-                style={{
-                  backgroundColor: "#000000",
-                  color: "#00ff00",
-                  fontFamily: "Consolas",
-                  height: "400px",
-                  overflowY: "scroll",
-                  overflowX: "scroll",
-                }}
-              >
-                <pre style={{ font: "Consolas" }}>
-                  {JSON.stringify({ ...venta, trabajos: trabajos }, null, 2)}
-                </pre>
-              </div>
-            </Col>
-          }
+          
         </Row>
       </Card>
       <Divider />
@@ -383,7 +378,7 @@ const TrabajoMultiple = ({
             <Button
               style={{ borderRadius: "16px" }}
               size="large"
-              disabled={!btnEnabled}
+              disabled={false}
               type="primary"
               block
               onClick={finalizar_venta}
@@ -401,7 +396,7 @@ const TrabajoMultiple = ({
       <Card
         title={<>{title || "Venta"}</>}
         extra={
-          cambiar_vendedor == 0 ? (
+          cambiar_vendedor == 10 ? (
             <> </>
           ) : (
             <SelectVendedor
@@ -452,6 +447,24 @@ const TrabajoMultiple = ({
           </Row>
         }
       </Card>
+      {
+            <Col span={8}>
+              <div
+                style={{
+                  backgroundColor: "#000000",
+                  color: "#00ff00",
+                  fontFamily: "Consolas",
+                  height: "400px",
+                  overflowY: "scroll",
+                  overflowX: "scroll",
+                }}
+              >
+                <pre style={{ font: "Consolas" }}>
+                  {JSON.stringify(finalV, null, 2)}
+                </pre>
+              </div>
+            </Col>
+          }
       <Informe idventa={69747} />
     </>
   );
