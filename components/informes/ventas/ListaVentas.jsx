@@ -294,21 +294,7 @@ const ListaVentas = (props) => {
         return;
       }
 
-      setDataSource((src) =>
-        response.data.map((v) => ({
-          idventa: v.idventa,
-          idcliente: v.cliente_idcliente,
-          fecha: v.fecha,
-          cliente: v.cliente,
-          vendedor: v.vendedor,
-          estado: v.estado,
-          monto: parseFloat(v.monto),
-          tipo: v.tipo,
-          sucursal: v.sucursal,
-          idsucursal: v.sucursal_idsucursal,
-          estado_taller: v.estado_taller,
-        }))
-      );
+      setDataSource(response.data);
       setLoading(false);
     });
   }, [reload]);
@@ -327,12 +313,23 @@ const ListaVentas = (props) => {
         return "Multif. Lab.";
       case 6:
         return "L.C. Lab.";
+      case 7:
+        return "Varios";
     }
   };
 
   const columns = [
     {
-      render: (_, { idventa, idcliente, idsucursal, tipo }) => (
+      fixed: "left",
+      width: "160px",
+      hidden: false,
+      title: "Nro.",
+      dataIndex: "idventa",
+      sorter: (a, b) => a.idventa - b.idventa,
+      render: (_,{idventa, idtrabajo, isParent}) => isParent ? <span style={{fontWeight:"bolder"}}>{idventa}</span> : <span style={{fontStyle:"italic", color:"blue"}}>{idventa}-{idtrabajo}</span>
+    },
+    {
+      render: (_, { idventa, idcliente, idsucursal, tipo, idtrabajo }) => (
         <>
           {" "}
           <Button
@@ -352,17 +349,10 @@ const ListaVentas = (props) => {
           </Button>
         </>
       ),
-      width: "30px",
+      width: "80px",
       hidden: false,
     },
-    {
-      fixed: "left",
-      width: "60px",
-      hidden: false,
-      title: "Nro.",
-      dataIndex: "idventa",
-      sorter: (a, b) => a.idventa - b.idventa,
-    },
+    
     {
       fixed: "left",
       width: "180px",
@@ -370,6 +360,7 @@ const ListaVentas = (props) => {
       title: "Cliente",
       dataIndex: "cliente",
       sorter: (a, b) => a.cliente.localeCompare(b.cliente),
+      render: (_,{cliente, isParent})=> isParent ? cliente : ""
     },
     {
       fixed: "left",
@@ -400,14 +391,14 @@ const ListaVentas = (props) => {
       hidden: false,
       title: "Tipo",
       dataIndex: "tipo",
-      render: (_, { tipo }) => (
+      render: (_, { tipo, tipo_trabajo, isParent }) => +isParent==1 ? (
         <span style={{ fontSize: ".75em" }}>
           <b>{get_tipo(tipo)}</b>
         </span>
-      ),
+      ) : (<span style={{color:"blue"}}>&nbsp;&nbsp;{tipo_trabajo}</span>),
       sorter: (a, b) => a.tipo.localeCompare(b.tipo),
     },
-    { width: "100px", hidden: false, title: "Fecha", dataIndex: "fecha" },
+    { width: "100px", hidden: false, title: "Fecha", dataIndex: "fecha", render: (_,{isParent, fecha})=> isParent ? fecha : "" },
 
     {
       width: "110px",
@@ -459,8 +450,8 @@ const ListaVentas = (props) => {
       hidden: false,
       title: "Acciones",
       dataIndex: "idventa",
-      render: (_, { idventa, idcliente, idsucursal, tipo }) => {
-        return <>{buttons(idventa, idcliente, idsucursal, tipo)}</>;
+      render: (_, { idventa, idcliente, idsucursal, tipo, isParent }) => {
+        return +isParent==1 ? <></> : <>{ buttons(idventa, idcliente, idsucursal, tipo)}</>;
       },
     },
   ];
@@ -541,12 +532,13 @@ const ListaVentas = (props) => {
                   ? true
                   : props.pagination
               }
-              /* rowClassName={(record, index) =>
-                index % 2 === 0 ? "table-row-light" : "table-row-dark"
-              }*/
+              rowClassName={(record, index) =>
+                +record.isParent == 0 ? "dark" : "table-row-light"
+              }
               dataSource={dataSource}
               columns={columns.filter((r) => !r.hidden)}
               loading={loading}
+              expandable={{ defaultExpandAllRows: true }}
             />
           </Col>
         </Row>
