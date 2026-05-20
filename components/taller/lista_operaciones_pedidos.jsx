@@ -48,6 +48,7 @@ export default function LisaOperacionesPedidos(){
             titulo="Pedidos"
             id={idBusqueda} 
             estado_taller="PEDIDO" 
+            estado_trabajo="PEDIDO"
             mostrarEstado="0"  
             ignoreSucursal 
             laboratorio_modificar 

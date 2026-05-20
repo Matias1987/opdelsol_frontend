@@ -190,9 +190,9 @@ const EditarSobre = (props) => {
         }
         setBtnSaveEnabled(false)
 
-        post_method(post.insert.pedido,{items: _data_pedidos, fkventa: props.idventa, fksucursalpedido: globals.obtenerSucursal()},(response)=>{
+        post_method(post.insert.pedido,{items: _data_pedidos, fkventa: props.idventa, fksucursalpedido: globals.obtenerSucursal(), fktrabajo: props.idtrabajo},(response)=>{
 
-            post_method(post.insert.item_adicional,{fkventa: props.idventa, fksucursal: globals.obtenerSucursal() , items: _data_items_adicionales},(response)=>{
+            post_method(post.insert.item_adicional,{fkventa: props.idventa, fktrabajo: props.idtrabajo, fksucursal: globals.obtenerSucursal() , items: _data_items_adicionales},(response)=>{
                 //alert("Datos guardados")
                 setFirstLoad(true)
                 setBtnCambiarEstadoEnabled(true)
@@ -251,7 +251,7 @@ const EditarSobre = (props) => {
          */
         _local_id =  -1;
 
-        post_method(post.obtener_items_ventas_taller,{idventa: props.idventa},(response)=>{
+        post_method(post.obtener_items_ventas_taller,{idventa: props.idventa, idtrabajo: props.idtrabajo},(response)=>{
         
             response.data.forEach((r)=>{
               
@@ -280,7 +280,7 @@ const EditarSobre = (props) => {
 
     const load = _ => {
         setLoading(true)
-        fetch(get.venta + props.idventa)
+        fetch(get.venta + props.idventa )
         .then(r=>r.json())
         .then((response)=>{
             
@@ -308,7 +308,7 @@ const EditarSobre = (props) => {
 
             setVenta(response.data[0])
             
-            fetch(get.items_adicional_venta+props.idventa)
+            fetch(get.items_adicional_venta+props.idventa+ '/' + props.idtrabajo)
             .then(r=>r.json())
             .then((response)=>{
                
@@ -402,7 +402,7 @@ const EditarSobre = (props) => {
         <Col span={24} style={{padding:"1em"}}>
             <Row>
                 <Col span={24}>
-                    <h4>Detalle Venta  Nro.: {props.idventa}</h4>
+                    <span style={{color:"#0016dd"}}>Detalle Venta  Nro.: {props.idventa}</span> { +props.idtrabajo>0 ? <span style={{color:"#ee0000ff", fontWeight:"600"}}> - Trabajo id: {props.idtrabajo}</span>: <></>}
                 </Col>
             </Row>
             <Row style={{padding:"1em"}}>
@@ -444,7 +444,7 @@ const EditarSobre = (props) => {
         }
         setBtnCambiarEstadoEnabled(false)
         setBtnSaveEnabled(false)
-        post_method(post.update.marcar_como_laboratorio,{idventa:props.idventa},(resp)=>{
+        post_method(post.update.marcar_como_laboratorio,{idventa:props.idventa, idtrabajo: props.idtrabajo},(resp)=>{
             alert("OK")
             props?.callback?.()
         })
@@ -472,7 +472,7 @@ const EditarSobre = (props) => {
 
         setBtnCambiarEstadoEnabled(false)
         setBtnSaveEnabled(false)
-        post_method(post.update.marcar_como_calibrando,{idventa:props.idventa},(resp)=>{
+        post_method(post.update.marcar_como_calibrando,{idventa:props.idventa, idtrabajo: props.idtrabajo},(resp)=>{
             alert("OK")
             props?.callback?.()
         })
@@ -519,7 +519,7 @@ const EditarSobre = (props) => {
     //    alert("OK")
     //    props?.callback?.()
     //})
-    post_method(post.update.marcar_como_terminado,{idventa:props.idventa},(resp)=>{
+    post_method(post.update.marcar_como_terminado,{idventa:props.idventa, idtrabajo: props.idtrabajo},(resp)=>{
         alert("OK")
         props?.callback?.()
     })

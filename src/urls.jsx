@@ -288,6 +288,8 @@ const post = {
 
     descuentos_subgrupo_cliente: remote_base_url + "dc/obtener/",
 
+    pagos_no_saldados: remote_base_url + "proveedores/pagos_no_saldados/",
+
     search:{
         filtro_stock: remote_base_url + "stock/filtro_stock/",
     },

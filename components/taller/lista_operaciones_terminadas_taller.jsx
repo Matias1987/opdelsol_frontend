@@ -48,6 +48,7 @@ export default function ListaOperacionesTerminadasTaller(){
             titulo="Terminados"
             id={idBusqueda} 
             estado_taller="TERMINADO" 
+            estado_trabajo="TERMINADO" 
             laboratorio_modificar
             ignoreSucursal 
             mostrarEstado="0" 

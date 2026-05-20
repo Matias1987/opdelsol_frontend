@@ -48,6 +48,7 @@ export default function ListaOperacionesLab() {
             idsucursal={idSucursal}
             titulo="Laboratorio"
             estado_taller="LAB"
+            estado_trabajo="LAB"
             id={idBusqueda}
             mostrarEstado="0"
             ignoreSucursal

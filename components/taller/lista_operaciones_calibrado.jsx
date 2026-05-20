@@ -49,6 +49,7 @@ export default function LisaOperacionesCalibrado() {
             titulo="Calibrado"
             id={idBusqueda}
             estado_taller="CALIBRADO"
+            estado_trabajo="CALIBRADO"
             mostrarEstado="0"
             ignoreSucursal
             laboratorio_modificar

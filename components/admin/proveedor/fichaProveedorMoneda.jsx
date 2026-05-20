@@ -5,6 +5,7 @@ import {
   Checkbox,
   Col,
   DatePicker,
+  Divider,
   Modal,
   Row,
   Spin,
@@ -23,6 +24,7 @@ import ExportToCSV from "@/components/ExportToCSV";
 import AgregarFacturaV3 from "../factura/agregarFacturaV3";
 import { formatFloat } from "@/src/helpers/formatters";
 import ExportToExcel2 from "@/components/etc/ExportToExcel2";
+import AsignarPagos from "./AsignarPagos";
 const { TabPane } = Tabs;
 const FichaProveedorMoneda = ({
   idproveedor,
@@ -38,6 +40,7 @@ const FichaProveedorMoneda = ({
   const [popupCMOpen, setPopupCMOpen] = useState(false);
   const [popupAddFacturaOpen, setPopupAddFacturaOpen] = useState(false);
   const [popupAddRemitoOpen, setPopupAddRemitoOpen] = useState(false);
+  const [popupAsignarPagosOpen, setPopupAsignarPagosOpen] = useState(false);
   const [modo, setModo] = useState(1);
   const [selectedFactura, setSelectedFactura] = useState(-1);
   const [popupDetalleFacturaOpen, setPopupDetalleFacturaOpen] = useState(false);
@@ -336,6 +339,16 @@ const FichaProveedorMoneda = ({
           >
             Agregar Remito
           </Button>
+          <Divider />
+          <Button
+          disabled={agrupar || labelDate != null}
+          type="primary"
+          onClick={() => {
+              setPopupAsignarPagosOpen(true);
+            }}
+          >
+            Asignar Pagos
+          </Button>
         </Col>
       </Row>
       <Row>
@@ -449,6 +462,16 @@ const FichaProveedorMoneda = ({
             }}
           >
             Agregar Factura
+          </Button>
+          <Divider />
+          <Button
+          disabled={agrupar || labelDate != null}
+          type="primary"
+          onClick={() => {
+              setPopupAsignarPagosOpen(true);
+            }}
+          >
+            Asignar Pagos
           </Button>
         </Col>
       </Row>
@@ -704,6 +727,26 @@ const FichaProveedorMoneda = ({
         width={"900px"}
       >
         <DetalleFactura idFactura={selectedFactura} />
+      </Modal>
+      <Modal
+        open={popupAsignarPagosOpen}
+        onCancel={(_) => {
+          setPopupAsignarPagosOpen(false);
+        }}
+        footer={null}
+        title=""
+        destroyOnClose
+        width={"900px"}
+      >
+        <AsignarPagos
+          callback={(_) => {
+            setReload(!reload);
+            setPopupAsignarPagosOpen(false);
+          }}
+          moneda={moneda}
+          idproveedor={idproveedor}
+          modo={modo}
+        />
       </Modal>
     </>
   );

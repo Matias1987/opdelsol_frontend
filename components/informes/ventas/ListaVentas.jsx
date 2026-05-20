@@ -39,6 +39,7 @@ import ExportToExcel2 from "@/components/etc/ExportToExcel2";
  * @param ocultarFiltros
  * @param estado_taller
  * @param idsucursal
+ * @param ocultarPrecio
  */
 const ListaVentas = (props) => {
   const { estado, hideReloadBtn, hideEstadoDeposito } = props;
@@ -60,7 +61,7 @@ const ListaVentas = (props) => {
   const add = (obj, value, key) =>
     typeof value === "undefined" ? obj : { ...obj, [key]: value };
 
-  const buttons = (_idventa, _idcliente, _idsucursal, _tipo) => {
+  const buttons = (_idventa, _idcliente, _idsucursal, _tipo,_idtrabajo) => {
     return (
       <>
         {typeof props.imprimir !== "undefined" ? (
@@ -232,7 +233,7 @@ const ListaVentas = (props) => {
             <Button
               type="link"
               onClick={() => {
-                props?.onEditLaboratorioClick?.(_idventa);
+                props?.onEditLaboratorioClick?.(_idventa, _idtrabajo);
               }}
               danger
             >
@@ -260,7 +261,9 @@ const ListaVentas = (props) => {
         params = { idsucursal: props.idsucursal };
       }
     }
+    alert(props.estado_trabajo)
     params = add(params, props?.estado, "estado");
+    params = add(params, props?.estado_trabajo, "estado_trabajo");
     params = add(params, props?.idCliente, "idCliente");
     params = add(params, props?.en_laboratorio, "en_laboratorio");
 
@@ -321,12 +324,12 @@ const ListaVentas = (props) => {
   const columns = [
     {
       fixed: "left",
-      width: "160px",
+      width: "100px",
       hidden: false,
       title: "Nro.",
       dataIndex: "idventa",
       sorter: (a, b) => a.idventa - b.idventa,
-      render: (_,{idventa, idtrabajo, isParent}) => isParent ? <span style={{fontWeight:"bolder"}}>{idventa}</span> : <span style={{fontStyle:"italic", color:"blue"}}>{idventa}-{idtrabajo}</span>
+      render: (_,{idventa, idtrabajo, isParent}) => +idtrabajo <0 || +isParent==1 ?  <span style={{fontWeight:"bolder", fontSize:"13px"}}>{idventa}</span> :  <span style={{fontStyle:"italic", color:"blue", fontSize:"11px"}}>{idventa}-{idtrabajo}</span>
     },
     {
       render: (_, { idventa, idcliente, idsucursal, tipo, idtrabajo }) => (
@@ -360,24 +363,46 @@ const ListaVentas = (props) => {
       title: "Cliente",
       dataIndex: "cliente",
       sorter: (a, b) => a.cliente.localeCompare(b.cliente),
-      render: (_,{cliente, isParent})=> isParent ? cliente : ""
+      render: (_,{cliente, isParent})=> +isParent==1 ? cliente : ""
     },
     {
       fixed: "left",
       width: "180px",
       hidden: hideEstadoDeposito ? true : false,
       title: "Estado Dep.",
-      render: (_, { estado_taller }) => (
+      render: (_, { estado_taller, estado_trabajo, isParent }) => +isParent==1 ? <></> : estado_trabajo !='' ?
+      (
         <>
           <Tag
             color={
-              estado_taller == "LABORATORIO"
-                ? "purple"
+              estado_trabajo == "LAB"
+                ? "red"
+                : estado_trabajo == "CALIBRADO"
+                ? "blue"
+                : estado_trabajo == "TERMINADO"
+                ? "green"
+                : estado_trabajo == "PEDIDO"
+                ? "orange"
+                : "purple"
+            }
+          >
+            {estado_trabajo}
+          </Tag>
+        </>
+      )
+      : (
+        <>
+          <Tag
+            color={
+              estado_taller == "LAB"
+                ? "red"
                 : estado_taller == "CALIBRADO"
+                ? "blue"
+                : estado_trabajo == "TERMINADO"
                 ? "green"
                 : estado_taller == "PEDIDO"
                 ? "orange"
-                : "default"
+                : "purple"
             }
           >
             {estado_taller}
@@ -391,7 +416,7 @@ const ListaVentas = (props) => {
       hidden: false,
       title: "Tipo",
       dataIndex: "tipo",
-      render: (_, { tipo, tipo_trabajo, isParent }) => +isParent==1 ? (
+      render: (_, { tipo, tipo_trabajo, isParent, idtrabajo }) => +isParent==1 || +tipo!=7 ? (
         <span style={{ fontSize: ".75em" }}>
           <b>{get_tipo(tipo)}</b>
         </span>
@@ -406,6 +431,7 @@ const ListaVentas = (props) => {
       title: "Vendedor",
       dataIndex: "vendedor",
       sorter: (a, b) => a.vendedor.localeCompare(b.vendedor),
+       render:(_,{idtrabajo, isParent, vendedor}) => +idtrabajo<0 || +isParent==1 ? <>{vendedor}</> : <></>,
     },
     {
       width: "80px",
@@ -434,7 +460,7 @@ const ListaVentas = (props) => {
     },
     {
       width: "110px",
-      hidden: false,
+      hidden: props.ocultarPrecio ? props.ocultarPrecio:false,
       title: <div style={{ textAlign: "right" }}>Monto</div>,
       dataIndex: "monto",
       render: (_, { monto }) => (
@@ -443,15 +469,15 @@ const ListaVentas = (props) => {
         </div>
       ),
     },
-    { width: "110px", hidden: false, title: "Sucursal", dataIndex: "sucursal" },
+    { width: "110px", hidden: false, title: "Sucursal", dataIndex: "sucursal", render:(_,{idtrabajo, isParent, sucursal}) => +idtrabajo<0 || +isParent==1 ? <>{sucursal}</> : <></> },
     {
       fixed: "right",
       width: "200px",
       hidden: false,
       title: "Acciones",
       dataIndex: "idventa",
-      render: (_, { idventa, idcliente, idsucursal, tipo, isParent }) => {
-        return +isParent==1 ? <></> : <>{ buttons(idventa, idcliente, idsucursal, tipo)}</>;
+      render: (_, { idventa, idcliente, idsucursal, tipo, isParent, idtrabajo }) => {
+        return +isParent==1 ? <></> : <>{ buttons(idventa, idcliente, idsucursal, tipo, idtrabajo)}</>;
       },
     },
   ];
@@ -538,7 +564,7 @@ const ListaVentas = (props) => {
               dataSource={dataSource}
               columns={columns.filter((r) => !r.hidden)}
               loading={loading}
-              expandable={{ defaultExpandAllRows: true }}
+              expandable={{ defaultExpandAllRows: true, expandRowByClick:true }}
             />
           </Col>
         </Row>
