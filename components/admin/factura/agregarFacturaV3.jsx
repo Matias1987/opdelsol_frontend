@@ -56,7 +56,7 @@ const AgregarFacturaV3 = (props) => {
   const [proveedorSelectEnabled, setProveedorSelectEnabled] = useState(true);
   const [esRemito, setEsRemito] = useState(false);
   const [agregarProveedorOpen, setAgregarProveedorOpen] = useState(false);
-
+  const [btnGuardarEnabled, setBtnGuardarEnabled] = useState(true)
   const columnsIVA = [
     { title: "Tipo", dataIndex: "tipo" },
     { title: "Monto", dataIndex: "monto" },
@@ -242,6 +242,7 @@ const AgregarFacturaV3 = (props) => {
     };
     //console.log(JSON.stringify(data))
     // alert(JSON.stringify(data))
+    setBtnGuardarEnabled(false);
     post_method(post.insert.factura, data, (resp) => {
       alert("Hecho.");
       props?.callback?.();
@@ -628,6 +629,7 @@ const AgregarFacturaV3 = (props) => {
       <Row style={{ display: "flex", justifyContent: "end" }}>
         <Col>
           <Button
+            disabled={!btnGuardarEnabled}
             size="large"
             block
             type="primary"

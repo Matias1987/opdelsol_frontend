@@ -290,6 +290,9 @@ const post = {
 
     pagos_no_saldados: remote_base_url + "proveedores/pagos_no_saldados/",
 
+    
+    asignar_pagos: remote_base_url + "proveedores/agregar_pago_compra/",
+
     search:{
         filtro_stock: remote_base_url + "stock/filtro_stock/",
     },
