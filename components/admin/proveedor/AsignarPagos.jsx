@@ -1,7 +1,12 @@
 import { formatFloat } from "@/src/helpers/formatters";
 import { post_method } from "@/src/helpers/post_helper";
 import { post } from "@/src/urls";
-import { ArrowRightOutlined, CheckOutlined, CloseOutlined, EditFilled } from "@ant-design/icons";
+import {
+  ArrowRightOutlined,
+  CheckOutlined,
+  CloseOutlined,
+  EditFilled,
+} from "@ant-design/icons";
 import {
   Button,
   Card,
@@ -19,14 +24,17 @@ import { useEffect, useState } from "react";
 const AsignarPagos = ({ idproveedor, moneda, modo, callback }) => {
   const [dataPagos, setDataPagos] = useState(null);
   const [compras, setCompras] = useState([]);
+  const [cm, setCM] = useState([]);
   const [loading, setLoading] = useState(false);
   const [selectedPago, setSelectedPago] = useState(null);
   const [selectedCompra, setSelectedCompra] = useState(null);
+  const [selectedCM, setSelectedCM] = useState(null);
   const [montoAsignado, setMontoAsignado] = useState(0);
   const [editPopupMonto, setEditPopupMonto] = useState(0);
   const [editPopupVisible, setEditPopupVisible] = useState(false);
   const [btnGuardarEnabled, setBtnGuardarEnabled] = useState(true);
   const [selectPagoEnabled, setSelectPagoEnabled] = useState(true);
+
   //const [selectCompraEnabled, setSelectCompraEnabled] = useState(false);
 
   const columns_pagos = [
@@ -51,9 +59,24 @@ const AsignarPagos = ({ idproveedor, moneda, modo, callback }) => {
         </>
       ),
     },
-    { title: "Nro.", dataIndex: "id",  render:(_,{id, checked})=><>{checked ? <ArrowRightOutlined /> : <></> }{id} </> },
+    {
+      title: "Nro.",
+      dataIndex: "id",
+      render: (_, { id, checked }) => (
+        <>
+          {checked ? <ArrowRightOutlined /> : <></>}
+          {id}{" "}
+        </>
+      ),
+    },
     { title: "Fecha", dataIndex: "fecha" },
-    { title: <div style={{textAlign:"right"}}>Monto</div>, dataIndex: "monto", render:(_,{monto})=><div style={{textAlign:"right"}}>$ {formatFloat(monto)}</div> },
+    {
+      title: <div style={{ textAlign: "right" }}>Monto</div>,
+      dataIndex: "monto",
+      render: (_, { monto }) => (
+        <div style={{ textAlign: "right" }}>$ {formatFloat(monto)}</div>
+      ),
+    },
   ];
 
   const columns_compras = [
@@ -61,7 +84,7 @@ const AsignarPagos = ({ idproveedor, moneda, modo, callback }) => {
       render: (_, record) => (
         <>
           <Checkbox
-            disabled={selectedPago == null}
+            disabled={selectedPago == null || +record.monto_a_pagar != 0}
             checked={record.checked}
             onChange={(_) => {
               setCompras((cc) => {
@@ -120,24 +143,160 @@ const AsignarPagos = ({ idproveedor, moneda, modo, callback }) => {
     {
       title: <div style={{ textAlign: "right" }}>Saldo</div>,
       render: (_, record) => (
-        <div style={{ textAlign: "right" }}>$ {formatFloat(parseFloat(record.saldo) - parseFloat(record.monto_a_pagar))}</div>
+        <div style={{ textAlign: "right" }}>
+          ${" "}
+          {formatFloat(
+            parseFloat(record.saldo) - parseFloat(record.monto_a_pagar),
+          )}
+        </div>
       ),
     },
     {
-      width:"60px",
-      title: <div style={{ textAlign: "center", fontSize:"9px" }}>Saldado</div>,
+      width: "60px",
+      title: (
+        <div style={{ textAlign: "center", fontSize: "9px" }}>Saldado</div>
+      ),
       render: (_, record) => (
-        <div>{record.saldado ? <div style={{textAlign:"center", color:"green", fontSize:"18px", fontWeight:"bolder"}}><CheckOutlined /> </div> : <div style={{textAlign:"center", color:"red", fontSize:"18px", fontWeight:"bolder"}}><CloseOutlined /> </div>}</div>
+        <div>
+          {record.saldado ? (
+            <div
+              style={{
+                textAlign: "center",
+                color: "green",
+                fontSize: "18px",
+                fontWeight: "bolder",
+              }}
+            >
+              <CheckOutlined />{" "}
+            </div>
+          ) : (
+            <div
+              style={{
+                textAlign: "center",
+                color: "red",
+                fontSize: "18px",
+                fontWeight: "bolder",
+              }}
+            >
+              <CloseOutlined />{" "}
+            </div>
+          )}
+        </div>
+      ),
+    },
+  ];
+  const columns_cm = [
+    {
+      render: (_, record) => (
+        <>
+          <Checkbox
+            disabled={selectedPago == null || +record.monto_a_pagar != 0}
+            checked={record.checked}
+            onChange={(_) => {
+              setCM((cc) => {
+                const temp = cc.map((c) =>
+                  c.id == record.id ? { ...c, checked: !c.checked } : c,
+                );
+                updateMontoAsignado(compras, temp);
+                return temp;
+              });
+            }}
+          ></Checkbox>
+        </>
+      ),
+      width: "40px",
+    },
+    { title: <>Nro</>, dataIndex: "id" },
+    {
+      title: <div style={{ textAlign: "right" }}>Monto</div>,
+      dataIndex: "monto",
+      render: (_, { monto }) => (
+        <div style={{ textAlign: "right" }}>$ {formatFloat(monto)}</div>
+      ),
+    },
+    {
+      title: <div style={{ textAlign: "right" }}>Pagado</div>,
+      render: (_, { pagado }) => (
+        <div style={{ textAlign: "right" }}>$ {formatFloat(pagado)}</div>
+      ),
+    },
+    {
+      title: <div style={{ textAlign: "right" }}>Saldo Previo</div>,
+      render: (_, { saldo }) => (
+        <div style={{ textAlign: "right" }}>$ {formatFloat(saldo)}</div>
+      ),
+    },
+    {
+      title: <div style={{ textAlign: "right" }}>A Pagar</div>,
+      render: (_, record) => (
+        <div style={{ textAlign: "right" }}>
+          <Button
+            type="link"
+            disabled={!record.checked}
+            onClick={(_) => {
+              setSelectedCM(record);
+              setEditPopupVisible(true);
+            }}
+          >
+            $ {record.monto_a_pagar}
+            <EditFilled />
+          </Button>
+        </div>
+      ),
+    },
+    {
+      title: <div style={{ textAlign: "right" }}>Saldo</div>,
+      render: (_, record) => (
+        <div style={{ textAlign: "right" }}>
+          ${" "}
+          {formatFloat(
+            parseFloat(record.saldo) - parseFloat(record.monto_a_pagar),
+          )}
+        </div>
+      ),
+    },
+    {
+      width: "60px",
+      title: (
+        <div style={{ textAlign: "center", fontSize: "9px" }}>Saldado</div>
+      ),
+      render: (_, record) => (
+        <div>
+          {record.saldado ? (
+            <div
+              style={{
+                textAlign: "center",
+                color: "green",
+                fontSize: "18px",
+                fontWeight: "bolder",
+              }}
+            >
+              <CheckOutlined />{" "}
+            </div>
+          ) : (
+            <div
+              style={{
+                textAlign: "center",
+                color: "red",
+                fontSize: "18px",
+                fontWeight: "bolder",
+              }}
+            >
+              <CloseOutlined />{" "}
+            </div>
+          )}
+        </div>
       ),
     },
   ];
 
-  const updateMontoAsignado = (_compras) => {
-    const total = _compras.reduce((acc, curr) => {
+  const updateMontoAsignado = (_compras, _cm) => {
+    const _all_operations = [..._compras, ..._cm];
+    const total = _all_operations.reduce((acc, curr) => {
       return curr.checked ? acc + parseFloat(curr.monto_a_pagar) : acc;
     }, 0);
     setMontoAsignado(total);
-    setSelectPagoEnabled(!(total>0));
+    setSelectPagoEnabled(!(total > 0));
   };
 
   const load_pagos = (_callback) => {
@@ -145,9 +304,7 @@ const AsignarPagos = ({ idproveedor, moneda, modo, callback }) => {
       post.pagos_no_saldados,
       { idproveedor, moneda, modo },
       (response) => {
-        //AGREGAR CAMPO CHECKED
-        // alert(JSON.stringify(response))
-        setDataPagos(response.data);
+        setDataPagos(response.data.map(p=>({...p, checked:false})));
         _callback?.();
       },
     );
@@ -156,7 +313,7 @@ const AsignarPagos = ({ idproveedor, moneda, modo, callback }) => {
   const load_compras = (_callback) => {
     post_method(
       post.obtener_facturas_saldo,
-      { idproveedor: idproveedor, moneda: moneda },
+      { idproveedor: idproveedor, moneda: moneda, modo },
       (resp) => {
         setCompras(
           resp.data.map((r) => ({
@@ -172,20 +329,55 @@ const AsignarPagos = ({ idproveedor, moneda, modo, callback }) => {
     );
   };
 
+  const load_cm = (_callback) => {
+    post_method(
+      post.obtener_cm_saldo,
+      { idproveedor: idproveedor, moneda: moneda, modo },
+      (resp) => {
+        setCM(
+          resp.data.map((cm) => ({
+            ...cm,
+            checked: false,
+            monto_a_pagar: 0,
+            nuevo_saldo: 0,
+            saldado: false,
+          })),
+        );
+        _callback?.();
+      },
+    );
+  };
+
   const load = () => {
     setLoading(true);
     load_compras((_) => {
       load_pagos((_) => {
-        setLoading(false);
+        load_cm(_=>{
+          setLoading(false);
+        })
       });
     });
   };
 
-  const asignar_saldo = () =>{
-    const _disp  = parseFloat(selectedPago?.monto||"0") - parseFloat(montoAsignado);
-    const _resto = parseFloat(selectedCompra.monto) > _disp ? _disp : parseFloat(selectedCompra.monto);
+  const asignar_saldo = () => {
+    const _disp =
+      parseFloat(selectedPago?.monto || "0") - parseFloat(montoAsignado);
+
+    let _resto = 0;
+    if (selectedCompra) {
+      _resto =
+        parseFloat(selectedCompra.monto) > _disp
+          ? _disp
+          : parseFloat(selectedCompra.monto);
+    } else {
+      _resto =
+        parseFloat(selectedCM.monto) > _disp
+          ? _disp
+          : parseFloat(selectedCM.monto);
+    }
+
     setEditPopupMonto(_resto);
-  }
+  };
 
   useEffect(() => {
     load();
@@ -194,21 +386,20 @@ const AsignarPagos = ({ idproveedor, moneda, modo, callback }) => {
   const guardarCambios = () => {
     const data = {
       idpago: selectedPago.id,
-      compras: compras.filter(c=>c.checked)
-    }
+      compras: compras.filter((c) => c.checked),
+      cm: cm.filter((c) => c.checked),
+    };
     alert(JSON.stringify(data));
-
-    post_method(post.asignar_pagos,data,(response)=>{
+   
+    post_method(post.asignar_pagos, data, (response) => {
       alert("Datos Guardados");
-      callback?.()
-    })
-    
+      callback?.();
+    });
+
     //setBtnGuardarEnabled(false);
   };
 
-  const limpiar = () =>{
-
-  }
+  const limpiar = () => {};
 
   return (
     <>
@@ -217,15 +408,56 @@ const AsignarPagos = ({ idproveedor, moneda, modo, callback }) => {
           <Col span={24}>
             <Table
               pagination={false}
-              scroll={{y:200}}
+              scroll={{ y: 200 }}
               size="small"
-              title={(_) => <span style={{fontWeight:"600"}}>Pagos</span>}
+              title={(_) => (
+                <span style={{ fontWeight: "600" }}>Seleccione Pago:</span>
+              )}
               columns={columns_pagos}
               dataSource={dataPagos}
             />
           </Col>
         </Row>
-        <Row style={{padding:"8px"}}>
+
+        <Row>
+          <Col span={24}>
+            <Table
+              size="small"
+              title={(_) => (
+                <>
+                  <span style={{ fontWeight: "600" }}>Compras</span>
+                  &nbsp;&nbsp;&nbsp;&nbsp;
+                  <Checkbox>Ver solo selecci&oacute;n</Checkbox>
+                </>
+              )}
+              columns={columns_compras}
+              dataSource={compras}
+              scroll={{ y: 120 }}
+              pagination={false}
+            />
+          </Col>
+        </Row>
+        <Row>
+          <Col span={24}>
+            <Table
+              showHeader={false}
+              size="small"
+              title={(_) => (
+                <>
+                  <span style={{ fontWeight: "600" }}>Cargas Manuales</span>{" "}
+                  &nbsp;&nbsp;&nbsp;&nbsp;
+                  <Checkbox>Ver solo selecci&oacute;n</Checkbox>
+                </>
+              )}
+              columns={columns_cm}
+              dataSource={cm}
+              scroll={{ y: 100 }}
+              pagination={false}
+            />
+          </Col>
+        </Row>
+        <Divider />
+        <Row style={{ padding: "8px" }}>
           <Col span={8}>
             <Input
               addonBefore="Monto Pago: "
@@ -239,33 +471,30 @@ const AsignarPagos = ({ idproveedor, moneda, modo, callback }) => {
           <Col span={8}>
             <Input
               addonBefore="Asignado: "
-              style={{ width: "220px", color:"red" }}
+              style={{ width: "220px", color: "red" }}
               value={formatFloat(montoAsignado)}
               readOnly
               key={montoAsignado}
             />
           </Col>
           <Col span={8}>
-            <Input addonBefore="A asignar: " style={{ width: "220px", color:"red" }} value={formatFloat(parseFloat(selectedPago?.monto||"0") - parseFloat(montoAsignado))}/>
-          </Col>
-        </Row>
-
-        <Row>
-          <Col span={24}>
-            <Table
-              size="small"
-              title={(_) => <span style={{fontWeight:"600"}}>Compras</span>}
-              columns={columns_compras}
-              dataSource={compras}
-              scroll={{ y: 200 }}
-              pagination={false}
+            <Input
+              addonBefore="A asignar: "
+              style={{ width: "220px", color: "red" }}
+              value={formatFloat(
+                parseFloat(selectedPago?.monto || "0") -
+                  parseFloat(montoAsignado),
+              )}
             />
           </Col>
         </Row>
-        <Divider />
         <Row>
           <Col span={24}>
-            <Button type="primary" disabled={!btnGuardarEnabled} onClick={guardarCambios}>
+            <Button
+              type="primary"
+              disabled={!btnGuardarEnabled}
+              onClick={guardarCambios}
+            >
               Guardar Cambios
             </Button>
           </Col>
@@ -283,13 +512,15 @@ const AsignarPagos = ({ idproveedor, moneda, modo, callback }) => {
       >
         <Row>
           <Col span={24}>
-          <Button type="link" onClick={asignar_saldo}>Asignar Saldo</Button>
+            <Button type="link" onClick={asignar_saldo}>
+              Asignar Saldo
+            </Button>
           </Col>
         </Row>
         <Row>
           <Col span={24}>
             <InputNumber
-              style={{width:"300px"}}
+              style={{ width: "300px" }}
               value={editPopupMonto}
               onChange={(val) => setEditPopupMonto(val || parseFloat("0"))}
             />
@@ -300,17 +531,49 @@ const AsignarPagos = ({ idproveedor, moneda, modo, callback }) => {
             <Button
               block
               onClick={(_) => {
-                setCompras((cc) => {
-                  const temp = cc.map((c) =>
-                    c.idfactura == selectedCompra.idfactura
-                      ? { ...c, monto_a_pagar: editPopupMonto }
-                      : c,
-                  );
-                  updateMontoAsignado(temp);
-                  return temp;
-                });
+                //actualiza compras...
+                if (selectedCompra) {
+                  setCompras((cc) => {
+                    const temp = cc.map((c) =>
+                      c.idfactura == selectedCompra.idfactura
+                        ? {
+                            ...c,
+                            monto_a_pagar: editPopupMonto,
+                            saldado: !(
+                              parseFloat(c.saldo) -
+                                parseFloat(editPopupMonto) !=
+                              0
+                            ),
+                          }
+                        : c,
+                    );
+                    updateMontoAsignado(temp, cm);
+                    return temp;
+                  });
+                } else {
+                  //actualiza cm...
+                  setCM((ccmm) => {
+                    const temp = ccmm.map((cm) =>
+                      cm.id == selectedCM.id
+                        ? {
+                            ...cm,
+                            monto_a_pagar: editPopupMonto,
+                            saldado: !(
+                              parseFloat(cm.saldo) -
+                                parseFloat(editPopupMonto) !=
+                              0
+                            ),
+                          }
+                        : cm,
+                    );
+                    updateMontoAsignado(compras, temp);
+                    return temp;
+                  });
+                }
+
                 setEditPopupVisible(false);
                 setSelectedCompra(null);
+                setSelectedCM(null);
               }}
             >
               <CheckOutlined /> Aceptar

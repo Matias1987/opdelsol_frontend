@@ -8,6 +8,7 @@ import {
   Divider,
   Modal,
   Row,
+  Select,
   Spin,
   Table,
   Tabs,
@@ -47,6 +48,7 @@ const FichaProveedorMoneda = ({
   const [filterDate, setFilterDate] = useState(null);
   const [labelDate, setLabelDate] = useState(null);
   const [currentTab, setCurrentTab] = useState("1");
+  const [estado, setEstado] = useState(1);
   const [totalesFactura, setTotalesFactura] = useState({
     debe: 0,
     haber: 0,
@@ -167,7 +169,7 @@ const FichaProveedorMoneda = ({
     setFilterDate(null);
     post_method(
       post.ficha_proveedor,
-      { idproveedor: idproveedor, modo: 1, moneda: moneda, agrupar: agrupar },
+      { idproveedor: idproveedor, modo: 1, moneda: moneda, agrupar: agrupar, estado: estado },
       (response) => {
         let total_d = 0;
         let total_h = 0;
@@ -184,7 +186,7 @@ const FichaProveedorMoneda = ({
     );
     post_method(
       post.ficha_proveedor,
-      { idproveedor: idproveedor, modo: 0, moneda: moneda, agrupar: agrupar },
+      { idproveedor: idproveedor, modo: 0, moneda: moneda, agrupar: agrupar, estado: estado },
       (response) => {
         let total_d = 0;
         let total_h = 0;
@@ -201,7 +203,7 @@ const FichaProveedorMoneda = ({
     );
     post_method(
       post.ficha_proveedor,
-      { idproveedor: idproveedor, modo: -1, moneda: moneda, agrupar: agrupar },
+      { idproveedor: idproveedor, modo: -1, moneda: moneda, agrupar: agrupar, estado: estado },
       (response) => {
         let total_d = 0;
         let total_h = 0;
@@ -220,7 +222,7 @@ const FichaProveedorMoneda = ({
 
   useEffect(() => {
     load();
-  }, [reload, agrupar]);
+  }, [reload, agrupar, estado]);
 
   const onAgregarPago = (mp) => {
     setModo(mp);
@@ -341,9 +343,9 @@ const FichaProveedorMoneda = ({
           </Button>
           <Divider />
           <Button
-          disabled={agrupar || labelDate != null}
-          type="primary"
-          onClick={() => {
+            disabled={agrupar || labelDate != null}
+            type="primary"
+            onClick={() => {
               setPopupAsignarPagosOpen(true);
             }}
           >
@@ -465,9 +467,9 @@ const FichaProveedorMoneda = ({
           </Button>
           <Divider />
           <Button
-          disabled={agrupar || labelDate != null}
-          type="primary"
-          onClick={() => {
+            disabled={agrupar || labelDate != null}
+            type="primary"
+            onClick={() => {
               setPopupAsignarPagosOpen(true);
             }}
           >
@@ -562,48 +564,60 @@ const FichaProveedorMoneda = ({
   );
 
   const table_header = (title, csv_src) => (
-    <div style={{ display: "flex", justifyContent: "space-between" }}>
-      <div>
-        <span style={{ fontWeight: "bold", paddingRight: "16px" }}>
-          {(title || "Lista de Operaciones ") +
-            (labelDate
-              ? `(Filtrado hasta ${labelDate.format("DD-MM-YYYY")})`
-              : "")}
-        </span>
-
-        {/*&nbsp;&nbsp;&nbsp;
-      <ExportToExcel2
-        buttonSize="small"
-        buttonType="text"
-        buttonStyle={{ backgroundColor: "transparent", color: "#217346" }}
-      />*/}
-
-        {
-          <ExportToCSV
-            disabled
-            parseFnt={() => {
-              if (datosProveedor == null || csv_src == null) {
-                return;
-              }
-              let str = `PROVEEDOR: ,${datosProveedor.nombre},,,,\r\nID, FECHA, DETALLE, DEBE, HABER\r\n`;
-              csv_src.forEach((o) => {
-                str += `${o.id},${o.fecha_f},${o.detalle},${o.debe},${o.haber}\r\n`;
-              });
-              return str;
-            }}
+    <>
+      <Row>
+        <Col span={24}>
+          <Select
+            value={estado}
+            onChange={v=>{setEstado(v)}}
+            dropdownStyle={{ backgroundColor: '#f9ffe0', fontWeight:"600"}}
+            prefix="Estado: "
+            defaultValue={"0"}
+            options={[
+              { label: "Pendientes", value: 0 },
+              { label: "Saldados", value: 1 },
+              { label: "Todo", value: 2 },
+            ]}
+            style={{ width: "100%" }}
           />
-        }
-      </div>
-      <div style={{ paddingLeft: "8px" }}>
-        <Checkbox
-          disabled={filterDate ? true : false}
-          checked={agrupar == 0}
-          onChange={(e) => setAgrupar(agrupar == 1 ? 0 : 1)}
-        >
-          Ver Todo
-        </Checkbox>
-      </div>
-    </div>
+        </Col>
+      </Row>
+      {/*<div style={{ display: "flex", justifyContent: "space-between" }}>
+        <div>
+          <span style={{ fontWeight: "bold", paddingRight: "16px" }}>
+            {(title || "Lista de Operaciones ") +
+              (labelDate
+                ? `(Filtrado hasta ${labelDate.format("DD-MM-YYYY")})`
+                : "")}
+          </span>
+
+          {
+            <ExportToCSV
+              disabled
+              parseFnt={() => {
+                if (datosProveedor == null || csv_src == null) {
+                  return;
+                }
+                let str = `PROVEEDOR: ,${datosProveedor.nombre},,,,\r\nID, FECHA, DETALLE, DEBE, HABER\r\n`;
+                csv_src.forEach((o) => {
+                  str += `${o.id},${o.fecha_f},${o.detalle},${o.debe},${o.haber}\r\n`;
+                });
+                return str;
+              }}
+            />
+          }
+        </div>
+        <div style={{ paddingLeft: "8px" }}>
+          <Checkbox
+            disabled={filterDate ? true : false}
+            checked={agrupar == 0}
+            onChange={(e) => setAgrupar(agrupar == 1 ? 0 : 1)}
+          >
+            Ver Todo
+          </Checkbox>
+        </div>
+      </div>*/}
+    </>
   );
 
   const onTabChange = (key) => {
@@ -736,7 +750,7 @@ const FichaProveedorMoneda = ({
         footer={null}
         title=""
         destroyOnClose
-        width={"900px"}
+        width={"1000px"}
       >
         <AsignarPagos
           callback={(_) => {

@@ -293,6 +293,8 @@ const post = {
     
     asignar_pagos: remote_base_url + "proveedores/agregar_pago_compra/",
 
+    obtener_cm_saldo: remote_base_url + "proveedores/obtener_cm_saldo/",
+
     search:{
         filtro_stock: remote_base_url + "stock/filtro_stock/",
     },
