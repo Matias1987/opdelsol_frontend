@@ -48,7 +48,7 @@ const FichaProveedorMoneda = ({
   const [filterDate, setFilterDate] = useState(null);
   const [labelDate, setLabelDate] = useState(null);
   const [currentTab, setCurrentTab] = useState("1");
-  const [estado, setEstado] = useState(1);
+  const [estado, setEstado] = useState(0);
   const [totalesFactura, setTotalesFactura] = useState({
     debe: 0,
     haber: 0,
@@ -572,10 +572,10 @@ const FichaProveedorMoneda = ({
             onChange={v=>{setEstado(v)}}
             dropdownStyle={{ backgroundColor: '#f9ffe0', fontWeight:"600"}}
             prefix="Estado: "
-            defaultValue={"0"}
+            defaultValue={0}
             options={[
               { label: "Pendientes", value: 0 },
-              { label: "Saldados", value: 1 },
+              
               { label: "Todo", value: 2 },
             ]}
             style={{ width: "100%" }}

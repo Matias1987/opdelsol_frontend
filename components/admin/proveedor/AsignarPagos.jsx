@@ -291,7 +291,9 @@ const AsignarPagos = ({ idproveedor, moneda, modo, callback }) => {
   ];
 
   const updateMontoAsignado = (_compras, _cm) => {
-    const _all_operations = [..._compras, ..._cm];
+    const __compras = _compras ? _compras : [];
+    const __cm = _cm ? _cm : [];
+    const _all_operations = [...__compras, ...__cm];
     const total = _all_operations.reduce((acc, curr) => {
       return curr.checked ? acc + parseFloat(curr.monto_a_pagar) : acc;
     }, 0);
