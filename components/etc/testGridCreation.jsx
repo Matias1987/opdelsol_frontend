@@ -45,7 +45,7 @@ const TestGridCreation = () => {
   const [btnAplicarEnabled, setBtnAplicarEnabled] = useState(true);
   const [cellsEdited, setCellsEdited] = useState(false);
   const [fkCodigo, setFkCodigo] = useState("-1"); //useState(58451);
-  const [fkSucursal, setFkSucursal] = useState(6);
+  const [fkSucursal, setFkSucursal] = useState(-1);
   const [nuevaGrillaEnabled, setNuevaGrillaEnabled] = useState(false)
 
   const [cellsWithQuantity, setCellsWithQuantity] = useState([]);
@@ -298,7 +298,7 @@ const TestGridCreation = () => {
                   >
                     {src
                       .filter((d) => d.esf == esf_value && d.cil == col)
-                      .map((d) => d.pares.toFixed(2))}
+                      .map((d) => d.cantidad /*d.pares.toFixed(2)*/)}
                   </td>
                 ))}
               </tr>
@@ -676,6 +676,7 @@ const TestGridCreation = () => {
         <Col style={{ paddingTop: "6px" }}>Seleccion Tipo Cristal:</Col>
         <Col>
           <Select
+            disabled={+fkSucursal<0}
             value={fkCodigo}
             placeholder="Seleccione un código de cristal"
             style={{ width: "400px" }}
@@ -691,7 +692,7 @@ const TestGridCreation = () => {
         </Col>
       </Row>
 
-      { nuevaGrillaEnabled ? nueva_grilla() : <></>}
+      { nuevaGrillaEnabled  && +fkSucursal>0? nueva_grilla() : <></>}
       <Card
         size="small"
         title={"Grilla de Cristales " + selectedCodigoLabel}
