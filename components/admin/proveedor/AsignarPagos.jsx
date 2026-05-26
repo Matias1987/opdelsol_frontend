@@ -379,6 +379,7 @@ const AsignarPagos = ({ idproveedor, moneda, modo, callback }) => {
     }
 
     setEditPopupMonto(_resto);
+    
   };
 
   useEffect(() => {
@@ -507,19 +508,20 @@ const AsignarPagos = ({ idproveedor, moneda, modo, callback }) => {
         destroyOnClose
         onCancel={(_) => {
           setEditPopupVisible(false);
+          setEditPopupMonto(0);
         }}
         width="400px"
         title="Editar Monto"
         footer={null}
       >
-        <Row>
+        <Row style={{padding:"4px"}}>
           <Col span={24}>
             <Button type="link" onClick={asignar_saldo}>
-              Asignar Saldo
+              <span style={{fontWeight:"bold", color:"red"}}><CheckOutlined /> Asignar Saldo </span>
             </Button>
           </Col>
         </Row>
-        <Row>
+        <Row style={{padding:"4px"}}>
           <Col span={24}>
             <InputNumber
               style={{ width: "300px" }}
@@ -528,7 +530,7 @@ const AsignarPagos = ({ idproveedor, moneda, modo, callback }) => {
             />
           </Col>
         </Row>
-        <Row>
+        <Row style={{padding:"4px"}}>
           <Col span={24}>
             <Button
               block
@@ -576,6 +578,7 @@ const AsignarPagos = ({ idproveedor, moneda, modo, callback }) => {
                 setEditPopupVisible(false);
                 setSelectedCompra(null);
                 setSelectedCM(null);
+                setEditPopupMonto(0);
               }}
             >
               <CheckOutlined /> Aceptar
