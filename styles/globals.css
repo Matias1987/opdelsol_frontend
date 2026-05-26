@@ -193,6 +193,9 @@ a::before{
 .table-row-light {
   background-color: #ffffff; /*#f9ffc2;#F9F9C5;*/
 }
+.table-row-light-yellow {
+  background-color: #fdf9d3; /*#f9ffc2;#F9F9C5;*/
+}
 .table-row-dark {
   background-color: #e6e6e6; /* #daffcc;#e7f0fc;*/
 }
