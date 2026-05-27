@@ -1,4 +1,5 @@
 import DetallesVendedor from "@/components/DetallesVendedor"
+import MostrarDNI from "@/components/etc/MostrarDNI"
 import globals from "@/src/globals"
 import { convertToWords, currency_format } from "@/src/helpers/string_helper"
 import { get } from "@/src/urls"
@@ -259,7 +260,7 @@ export default function InformeX(props){
     const data_cliente = () => {
         //el campo condicion iva no tiene sentido....
         return dataCliente == null ? <Spin /> : <>
-            Se&ntilde;or/es: {dataCliente.apellido + ", " + dataCliente.nombre}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;D.N.I.:{dataCliente.dni}<br />
+            Se&ntilde;or/es: {dataCliente.apellido + ", " + dataCliente.nombre}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;D.N.I.:<MostrarDNI dni={dataCliente.dni} /><br />
             Domicilio: {dataCliente.direccion}<br />
             Condicion IVA: {"NO INSCRIPTO"}<br />   
         </>

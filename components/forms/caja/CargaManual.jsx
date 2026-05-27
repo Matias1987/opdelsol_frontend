@@ -1,3 +1,4 @@
+import MostrarDNI from "@/components/etc/MostrarDNI"
 import globals from "@/src/globals"
 import { registrar_evento } from "@/src/helpers/evento_helper"
 import { post_method } from "@/src/helpers/post_helper"
@@ -92,7 +93,7 @@ const CargaManual = (props) => {
       };
 
     const detalles_cliente =_ => dataCliente === null ? <Spin /> : <>
-        <p>Nombre: <b>{dataCliente.nombre}</b> &nbsp;&nbsp;&nbsp;&nbsp; DNI: <b>{dataCliente.dni}</b></p>
+        <p>Nombre: <b>{dataCliente.nombre}</b> &nbsp;&nbsp;&nbsp;&nbsp; DNI: <b><MostrarDNI dni={dataCliente.dni} /></b></p>
         <p>Tel.: <b>{dataCliente.telefono1}</b> &nbsp;&nbsp;&nbsp;&nbsp; Dir.: <b>{dataCliente.direccion}</b></p>
     </>
     return <>

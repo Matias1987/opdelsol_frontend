@@ -47,6 +47,7 @@ const TestGridCreation = () => {
   const [fkCodigo, setFkCodigo] = useState("-1"); //useState(58451);
   const [fkSucursal, setFkSucursal] = useState(-1);
   const [nuevaGrillaEnabled, setNuevaGrillaEnabled] = useState(false)
+  const [editingValue, setEditingValue] = useState(0);
 
   const [cellsWithQuantity, setCellsWithQuantity] = useState([]);
 
@@ -298,7 +299,7 @@ const TestGridCreation = () => {
                   >
                     {src
                       .filter((d) => d.esf == esf_value && d.cil == col)
-                      .map((d) => d.cantidad /*d.pares.toFixed(2)*/)}
+                      .map((d) => d.pares.toFixed(2)/*d.cantidad  d.pares.toFixed(2)*/)}
                   </td>
                 ))}
               </tr>
@@ -751,12 +752,39 @@ const TestGridCreation = () => {
           </Col>
         </Row>
         <Row gutter={[16, 16]} style={{ padding: "8px" }}>
-          <Col>
+          {/*<Col>
             <Input
               prefix="Cantidad: "
               type="number"
               onChange={(e) => {
                 const int_value = parseInt(e.target.value);
+                if (isNaN(int_value)) {
+                  return;
+                }
+                edit_quantity(
+                  selected_cell.esf,
+                  selected_cell.cil,
+                  int_value,
+                  selected_cell.tipo_grilla,
+                );
+              }}
+            />
+          </Col>*/}
+          <Col>
+            <Input
+              prefix="Pares: "
+              type="number"
+              step="0.5"
+              min="0"
+              value={editingValue}
+              onChange={(e) => {
+                let theValue=e.target.value;
+                if(isNaN(parseFloat(e.target.value)) || e.target.value.length<1)
+                {
+                  theValue = "0";
+                }
+                setEditingValue(theValue);
+                const int_value = parseFloat(theValue || "0") * 2;
                 if (isNaN(int_value)) {
                   return;
                 }

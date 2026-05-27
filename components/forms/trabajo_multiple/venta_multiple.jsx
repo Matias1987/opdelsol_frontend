@@ -465,7 +465,7 @@ const TrabajoMultiple = ({
               </div>
             </Col>
           }
-      <Informe idventa={69747} />
+      
     </>
   );
 };

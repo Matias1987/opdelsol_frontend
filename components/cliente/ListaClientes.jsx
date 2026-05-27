@@ -8,6 +8,7 @@ import LayoutCaja from "@/components/layout/layout_caja";
 import DetalleCliente from "@/components/cliente/DetalleCliente";
 import ClienteFormV2 from "./ClienteFormV2";
 import ListaPagares from "../forms/caja/ListaPagares";
+import MostrarDNI from "../etc/MostrarDNI";
 
 export default function ListaClientes(props) {
   const [clientes, setClientes] = useState(null);
@@ -86,7 +87,7 @@ export default function ListaClientes(props) {
       key: "nombre", 
       sorter: (a, b) => a.nombre.localeCompare(b.nombre)
     },
-    { width: "100px", dataIndex: "dni", title: "DNI", key: "dni", sorter: (a, b) => a.dni.localeCompare(b.dni) },
+    { width: "100px", dataIndex: "dni", title: "DNI", key: "dni", sorter: (a, b) => a.dni.localeCompare(b.dni), render: (dni) => <MostrarDNI dni={dni} /> },
     {
       width: "150px",
       dataIndex: "direccion",

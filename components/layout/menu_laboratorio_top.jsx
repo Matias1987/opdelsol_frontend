@@ -1,10 +1,13 @@
 import { public_urls } from "@/src/urls";
 import { useState } from "react";
-import { Menu } from "antd";
+import { Menu, Modal } from "antd";
 import Link from "next/link"
+import { SearchOutlined } from "@ant-design/icons";
+import BuscarVentaV3 from "../forms/ventas/BuscarVentasV3";
 
 const MenuLaboratorioTop = (props)=>{
     const [current, setCurrent] = useState('mail');
+    const [buscarVentaOpen, setBuscarVentaOpen] = useState(false);
     const items = [
         
         {
@@ -37,7 +40,11 @@ const MenuLaboratorioTop = (props)=>{
           label: (<Link href={public_urls.laboratorio_lista_facturas}>Facturas</Link>),
           key: '15',
         },
-        
+        {
+          label: <>Buscar Venta</>,
+          icon: <SearchOutlined />,
+          key: "buscar_venta",
+        }
         
       ];
 
@@ -51,8 +58,22 @@ const MenuLaboratorioTop = (props)=>{
       const onClick = (e) => {
         console.log('click ', e);
         setCurrent(e.key);
+        if(e.key === "buscar_venta"){
+          setBuscarVentaOpen(true);
+        }
       };
-      return <Menu style={_style_} onClick={onClick} selectedKeys={[current]} mode="horizontal" items={items} />;
+      return <><Menu style={_style_} onClick={onClick} selectedKeys={[current]} mode="horizontal" items={items} />
+      <Modal
+        destroyOnClose
+        width={"100%"}
+        open={buscarVentaOpen}
+        onCancel={() => setBuscarVentaOpen(false)}
+        title="Buscar Venta"
+        footer={null}
+      >
+        <BuscarVentaV3 />
+      </Modal>
+      </>;
 }
 
 export default MenuLaboratorioTop;

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { CloseOutlined, PlusOutlined, ReloadOutlined } from "@ant-design/icons";
 import { get } from "@/src/urls";
 import ClienteFormV2 from "../../cliente/ClienteFormV2";
+import MostrarDNI from "@/components/etc/MostrarDNI";
 
 const SelectClienteV2 = (props) =>{
     const {minVersion, callback, pIdcliente} = props
@@ -92,7 +93,7 @@ const SelectClienteV2 = (props) =>{
             <b>{clienteData.nombre} </b> 
         {   typeof props.destinatario === 'undefined' ? 
             <>
-                &nbsp;&nbsp;  DNI: <b>{clienteData.dni}</b>&nbsp;
+                &nbsp;&nbsp;  DNI: <b><MostrarDNI dni={clienteData.dni} /></b>&nbsp;
                 { typeof minVersion === 'undefined' ? <>
                     Tel&eacute;fono: {clienteData.telefono1}&nbsp;
                     Direcci&oacute;n: {clienteData.direccion}&nbsp;

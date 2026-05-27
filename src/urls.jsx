@@ -130,6 +130,8 @@ const public_urls = {
     panel_ventas: local_base_url + "admin/ventas",
 
     nueva_venta_distribuidora: local_base_url + "trabajos/nuevo",
+    index_distribuidora: local_base_url + "trabajos/index",
+    lista_operaciones_distribuidora: local_base_url + "trabajos/listado",
 
     descuentos_adm: "admin/descuentos",
 

@@ -8,6 +8,7 @@ import CargaBloqueo from "../forms/caja/CargaBloqueo"
 import globals from "@/src/globals"
 import { post_method } from "@/src/helpers/post_helper"
 import Anotaciones from "../anotacion/anotaciones"
+import MostrarDNI from "../etc/MostrarDNI"
 
 
 export default function FichaCliente(props){
@@ -86,7 +87,7 @@ export default function FichaCliente(props){
     ]
 
     const detalles_cliente =_ => dataCliente === null ? <Spin /> : <>
-        <p>Nro.: <b>{dataCliente.idcliente}</b>&nbsp;&nbsp;Apellido y Nombre: <b>{dataCliente.apellido + ",  "+ dataCliente.nombre}</b> &nbsp;&nbsp;&nbsp;&nbsp; DNI: <b>{dataCliente.dni}</b></p>
+        <p>Nro.: <b>{dataCliente.idcliente}</b>&nbsp;&nbsp;Apellido y Nombre: <b>{dataCliente.apellido + ",  "+ dataCliente.nombre}</b> &nbsp;&nbsp;&nbsp;&nbsp; DNI: <b><MostrarDNI dni={dataCliente.dni} /></b></p>
         <p>Tel.: <b>{dataCliente.telefono1}</b> &nbsp;&nbsp;&nbsp;&nbsp; Dir.: <b>{dataCliente.direccion}</b></p>
         <p>{dataCliente.bloqueado == 1 ? <><Tag color="red">BLOQUEADO</Tag></>:<></>}</p>
     </>

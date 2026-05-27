@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 
 export default function LisaOperacionesCalibrado() {
   const [idventa, setIdVenta] = useState(-1);
+  const [idTrabajo, setIdTrabajo] = useState(-1);
   const [busqueda, setBusqueda] = useState("");
   const [idBusqueda, setIdBusqueda] = useState(-1);
   const [idSucursal, setIdSucursal] = useState(-1);
@@ -57,9 +58,7 @@ export default function LisaOperacionesCalibrado() {
             en_laboratorio={1}
             ignoreSucursalEntrega
             estado={"PENDIENTE"}
-            onEditLaboratorioClick={(id) => {
-              setIdVenta(id), setOpen(true);
-            }}
+            onEditLaboratorioClick={(id, _idTrabajo)=>{setIdVenta(id); setIdTrabajo(_idTrabajo ? _idTrabajo : -1); setOpen(true)}} 
             key={reload}
           />
         </Col>
@@ -77,6 +76,7 @@ export default function LisaOperacionesCalibrado() {
         <EditarSobre
           readonly={false}
           idventa={idventa}
+          idtrabajo={idTrabajo}
           callback={() => {
             setReload(!reload), setOpen(false);
           }}
