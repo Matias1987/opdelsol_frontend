@@ -1,5 +1,4 @@
 import RecetaStockItems from "@/components/forms/ventas/receta_stock/Items";
-import VentaBase from "../../../components/forms/ventas/VentaBase";
 import { useState } from "react";
 import LayoutVentas from "@/components/layout/layout_ventas";
 import { public_urls } from "@/src/urls";

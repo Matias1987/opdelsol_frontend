@@ -1,5 +1,4 @@
 import LCStockItems from "@/components/forms/ventas/lc_stock/items";
-import VentaBase from "../../../components/forms/ventas/VentaBase";
 import LayoutVentas from "@/components/layout/layout_ventas";
 import { useState } from "react";
 import { public_urls } from "@/src/urls";

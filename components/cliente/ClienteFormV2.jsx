@@ -122,7 +122,7 @@ export default function ClienteFormV2(props){
 
                     setBtnDisabled(false)
 
-                    setClienteData({
+                    /*setClienteData({
                         nombres:"",
                         dni:"",
                         apellidos:"",
@@ -131,11 +131,9 @@ export default function ClienteFormV2(props){
                         telefono: "",
                         destinatario: '0',
                         idlocalidad:globals.obtenerOpticaLocalidad()
-                    })
+                    })*/
 
-                    if(typeof props.callback !== 'undefined'){
-                        props.callback(res.data);
-                    }
+                    props?.callback?.(res.data, clienteData);
                 })
             }
         })

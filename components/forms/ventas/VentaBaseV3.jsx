@@ -30,6 +30,7 @@ import SelectVendedor from "@/components/usuario/vendedor/SelectVendedor";
 import { public_urls } from "@/src/urls";
 import { CloseOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
+import SelectClienteV2 from "./SelectClienteV2";
 
 /* leer: https://refine.dev/blog/common-usestate-mistakes-and-how-to-avoid/ */
 /**
@@ -104,7 +105,7 @@ export default function VentaBaseV3(props) {
     <>
       <Row className="table-row-dark" style={{ padding: ".9em" }}>
         <Col style={{ minWidth: "250px" }}>
-          <SelectCliente
+          <SelectClienteV2
             openButtonText={
               <span style={{ color: "#3300CC" }}>
                 &nbsp;*Seleccione Cliente
@@ -118,7 +119,7 @@ export default function VentaBaseV3(props) {
       </Row>
       <Row className="table-row-light" style={{ padding: ".9em" }}>
         <Col style={{ minWidth: "250px" }}>
-          <SelectCliente
+          <SelectClienteV2
             destinatario
             callback={(value) => {
               onChange("fkdestinatario", value);
@@ -305,7 +306,7 @@ export default function VentaBaseV3(props) {
         <>
           <Row className="table-row-dark" style={{ padding: ".9em" }}>
             <Col span={24}>
-              <SelectCliente
+              <SelectClienteV2
                 openButtonText={
                   <span style={{ color: "#3300CC" }}>
                     &nbsp;*Seleccione Cliente
@@ -319,7 +320,7 @@ export default function VentaBaseV3(props) {
           </Row>
           <Row className="table-row-light" style={{ padding: ".9em" }}>
             <Col span={24}>
-              <SelectCliente
+              <SelectClienteV2
                 destinatario
                 callback={(value) => {
                   onChange("fkdestinatario", value);
