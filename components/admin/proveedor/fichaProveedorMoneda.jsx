@@ -33,6 +33,7 @@ const FichaProveedorMoneda = ({
   datosProveedor,
   callback,
 }) => {
+  const [currentKey, setCurrentKey] = useState("1");
   const [reload, setReload] = useState(false);
   const [operacionesF, setOperacionesF] = useState([]);
   const [operacionesR, setOperacionesR] = useState([]);
@@ -64,8 +65,26 @@ const FichaProveedorMoneda = ({
   const [agrupar, setAgrupar] = useState(0);
 
   const columns = [
-    { title: "ID.", dataIndex: "id" },
     {
+      title: "ID.",
+      dataIndex: "id",
+      width: "50px",
+      key: "id",
+      render: (_, { id }) => (
+        <span
+          style={{
+            fontWeight: "400",
+            fontStyle: "italic",
+            color: "rgb(104, 104, 105)",
+            fontSize: ".8em",
+          }}
+        >
+          {id}
+        </span>
+      ),
+    },
+    {
+      width: "100px",
       title: "Fecha",
       dataIndex: "fecha_f",
       filterDropdown: ({ setSelectedKeys, selectedKeys, confirm }) => (
@@ -88,7 +107,7 @@ const FichaProveedorMoneda = ({
               );
             }}
             style={{ marginTop: 8 }}
-            disabled={agrupar}
+            disabled={agrupar || true}
           >
             {filterDate
               ? "Aplicar Filtro"
@@ -107,26 +126,58 @@ const FichaProveedorMoneda = ({
       render: (_, { tipo, detalle, id }) => {
         switch (tipo) {
           case "PREV":
-            return <>{detalle}</>;
+            return (
+              <span
+                style={{
+                  cursor: "pointer",
+                  fontWeight: "600",
+                  color: "rgb(33, 17, 155)",
+                }}
+              >
+                {detalle}
+              </span>
+            );
             break;
           case "FACTURA":
             return (
-              <>
-                <Tag
-                  style={{ cursor: "pointer" }}
-                  onClick={() => {
-                    setSelectedFactura(id);
-                    setPopupDetalleFacturaOpen(true);
-                  }}
-                >
-                  {detalle}
-                </Tag>
-              </>
+              <span
+                style={{
+                  cursor: "pointer",
+                  fontWeight: "600",
+                  color: "rgb(155, 70, 17)",
+                }}
+                onClick={() => {
+                  setSelectedFactura(id);
+                  setPopupDetalleFacturaOpen(true);
+                }}
+              >
+                {detalle}
+              </span>
             );
           case "PAGO":
-            return <>{detalle}</>;
+            return (
+              <span
+                style={{
+                  cursor: "pointer",
+                  fontWeight: "600",
+                  color: "rgb(0, 131, 41)",
+                }}
+              >
+                {detalle}
+              </span>
+            );
           case "CM":
-            return <>{detalle}</>;
+            return (
+              <span
+                style={{
+                  cursor: "pointer",
+                  fontWeight: "600",
+                  color: "rgb(155, 17, 121)",
+                }}
+              >
+                {detalle}
+              </span>
+            );
         }
       },
     },
@@ -143,6 +194,14 @@ const FichaProveedorMoneda = ({
       render: (_, { haber }) => (
         <div style={{ color: "darkblue", textAlign: "right" }}>
           $&nbsp;{formatFloat(haber || "0")}
+        </div>
+      ),
+    },
+    {
+      title: <div style={{ textAlign: "right" }}>Saldo</div>,
+      render: (_, { saldo }) => (
+        <div style={{ color: "darkblue", textAlign: "right" }}>
+          $&nbsp;{formatFloat(saldo || "0")}
         </div>
       ),
     },
@@ -169,53 +228,83 @@ const FichaProveedorMoneda = ({
     setFilterDate(null);
     post_method(
       post.ficha_proveedor,
-      { idproveedor: idproveedor, modo: 1, moneda: moneda, agrupar: agrupar, estado: estado },
+      {
+        idproveedor: idproveedor,
+        modo: 1,
+        moneda: moneda,
+        agrupar: agrupar,
+        estado: estado,
+      },
       (response) => {
         let total_d = 0;
         let total_h = 0;
+        const _data = [];
+        let saldo = 0;
         response.data.forEach((r) => {
           total_d += parseFloat(r.debe || "0");
           total_h += parseFloat(r.haber || "0");
+          saldo += parseFloat(r.debe || "0") - parseFloat(r.haber || "0");
+          _data.push({ ...r, saldo: saldo });
         });
         setTotalesFactura((_) => ({
           debe: total_d,
           haber: total_h,
         }));
-        setOperacionesF(response.data);
+        setOperacionesF(_data);
       },
     );
     post_method(
       post.ficha_proveedor,
-      { idproveedor: idproveedor, modo: 0, moneda: moneda, agrupar: agrupar, estado: estado },
+      {
+        idproveedor: idproveedor,
+        modo: 0,
+        moneda: moneda,
+        agrupar: agrupar,
+        estado: estado,
+      },
       (response) => {
         let total_d = 0;
         let total_h = 0;
+        const _data = [];
+        let saldo = 0;
         response.data.forEach((r) => {
           total_d += parseFloat(r.debe || "0");
           total_h += parseFloat(r.haber || "0");
+          saldo += parseFloat(r.debe || "0") - parseFloat(r.haber || "0");
+          _data.push({ ...r, saldo: saldo });
         });
         setTotalesRemito((_) => ({
           debe: total_d,
           haber: total_h,
         }));
-        setOperacionesR(response.data);
+        setOperacionesR(_data);
       },
     );
     post_method(
       post.ficha_proveedor,
-      { idproveedor: idproveedor, modo: -1, moneda: moneda, agrupar: agrupar, estado: estado },
+      {
+        idproveedor: idproveedor,
+        modo: -1,
+        moneda: moneda,
+        agrupar: agrupar,
+        estado: estado,
+      },
       (response) => {
         let total_d = 0;
         let total_h = 0;
+        const _data = [];
+        let saldo = 0;
         response.data.forEach((r) => {
           total_d += parseFloat(r.debe || "0");
           total_h += parseFloat(r.haber || "0");
+          saldo += parseFloat(r.debe || "0") - parseFloat(r.haber || "0");
+          _data.push({ ...r, saldo: saldo });
         });
         setTotales((_) => ({
           debe: total_d,
           haber: total_h,
         }));
-        setOperacionesGeneral(response.data);
+        setOperacionesGeneral(_data);
       },
     );
   };
@@ -286,7 +375,7 @@ const FichaProveedorMoneda = ({
                     </Table.Summary.Cell>
                   </Table.Summary.Row>
                   <Table.Summary.Row>
-                    <Table.Summary.Cell colSpan={5}>
+                    <Table.Summary.Cell colSpan={6}>
                       <div
                         style={{
                           textAlign: "left",
@@ -310,8 +399,14 @@ const FichaProveedorMoneda = ({
         </Col>
       </Row>
 
-      <Row>
-        <Col span={24}>
+      <Row
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          backgroundColor: "#E7E7E7",
+        }}
+      >
+        <Col>
           <Button
             disabled={agrupar || labelDate != null}
             type="primary"
@@ -341,8 +436,10 @@ const FichaProveedorMoneda = ({
           >
             Agregar Remito
           </Button>
-          <Divider />
+        </Col>
+        <Col>
           <Button
+            danger
             disabled={agrupar || labelDate != null}
             type="primary"
             onClick={() => {
@@ -410,7 +507,7 @@ const FichaProveedorMoneda = ({
                     </Table.Summary.Cell>
                   </Table.Summary.Row>
                   <Table.Summary.Row>
-                    <Table.Summary.Cell colSpan={5}>
+                    <Table.Summary.Cell colSpan={6}>
                       <div
                         style={{
                           textAlign: "left",
@@ -434,8 +531,14 @@ const FichaProveedorMoneda = ({
         </Col>
       </Row>
 
-      <Row>
-        <Col span={24}>
+      <Row
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          backgroundColor: "#E7E7E7",
+        }}
+      >
+        <Col>
           <Button
             disabled={agrupar || labelDate != null}
             type="primary"
@@ -465,10 +568,12 @@ const FichaProveedorMoneda = ({
           >
             Agregar Factura
           </Button>
-          <Divider />
+        </Col>
+        <Col>
           <Button
-            disabled={agrupar || labelDate != null}
+            danger
             type="primary"
+            disabled={agrupar || labelDate != null}
             onClick={() => {
               setPopupAsignarPagosOpen(true);
             }}
@@ -537,7 +642,7 @@ const FichaProveedorMoneda = ({
                     </Table.Summary.Cell>
                   </Table.Summary.Row>
                   <Table.Summary.Row>
-                    <Table.Summary.Cell colSpan={5}>
+                    <Table.Summary.Cell colSpan={6}>
                       <div
                         style={{
                           textAlign: "left",
@@ -569,13 +674,15 @@ const FichaProveedorMoneda = ({
         <Col span={24}>
           <Select
             value={estado}
-            onChange={v=>{setEstado(v)}}
-            dropdownStyle={{ backgroundColor: '#f9ffe0', fontWeight:"600"}}
+            onChange={(v) => {
+              setEstado(v);
+            }}
+            dropdownStyle={{ backgroundColor: "#f9ffe0", fontWeight: "600" }}
             prefix="Estado: "
             defaultValue={0}
             options={[
               { label: "Pendientes", value: 0 },
-              
+
               { label: "Todo", value: 2 },
             ]}
             style={{ width: "100%" }}
@@ -621,18 +728,24 @@ const FichaProveedorMoneda = ({
   );
 
   const onTabChange = (key) => {
-    console.log("Tab changed to:", key);
     setCurrentTab(key);
     setFilterDate(null);
     setLabelDate(null);
     setAgrupar(0);
+    setCurrentKey(key);
+    setModo(+key);
   };
 
   return (
     <>
       <Row>
         <Col span={24}>
-          <Tabs defaultActiveKey="1" onChange={onTabChange} direction="ltr">
+          <Tabs
+            defaultActiveKey="1"
+            activeKey={currentKey}
+            onChange={onTabChange}
+            direction="ltr"
+          >
             <TabPane tab="Facturas" key="1">
               {_facturas()}
             </TabPane>
@@ -759,7 +872,7 @@ const FichaProveedorMoneda = ({
           }}
           moneda={moneda}
           idproveedor={idproveedor}
-          modo={modo}
+          modo={+modo == 1 ? 0 : 1}
         />
       </Modal>
     </>

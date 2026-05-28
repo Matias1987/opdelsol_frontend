@@ -81,6 +81,13 @@ const AsignarPagos = ({ idproveedor, moneda, modo, callback }) => {
 
   const columns_compras = [
     {
+      title:"ID", dataIndex:"idfactura", key:"idfactura", width:"40px", render: (_, { idfactura }) => (
+        <span style={{fontSize:"10px", color:"blue"}}>
+          {idfactura} 
+        </span>
+      )
+    },
+    {
       render: (_, record) => (
         <>
           <Checkbox
@@ -417,7 +424,7 @@ const AsignarPagos = ({ idproveedor, moneda, modo, callback }) => {
           <Col span={24}>
             <Table
               pagination={false}
-              scroll={{ y: 200 }}
+              scroll={{ y: 100 }}
               size="small"
               title={(_) => (
                 <span style={{ fontWeight: "600" }}>Seleccione Pago:</span>
@@ -427,44 +434,7 @@ const AsignarPagos = ({ idproveedor, moneda, modo, callback }) => {
             />
           </Col>
         </Row>
-
-        <Row>
-          <Col span={24}>
-            <Table
-              size="small"
-              title={(_) => (
-                <>
-                  <span style={{ fontWeight: "600" }}>Compras</span>
-                </>
-              )}
-              columns={columns_compras}
-              dataSource={compras}
-              scroll={{ y: 120 }}
-              pagination={false}
-            />
-          </Col>
-        </Row>
-        <Row>
-          <Col span={24}>
-            <Table
-              showHeader={false}
-              size="small"
-              title={(_) => (
-                <>
-                  <span style={{ fontWeight: "600" }}>
-                    Cargas Manuales
-                  </span>{" "}
-                </>
-              )}
-              columns={columns_cm}
-              dataSource={cm}
-              scroll={{ y: 100 }}
-              pagination={false}
-            />
-          </Col>
-        </Row>
-        <Divider />
-        <Row style={{ padding: "8px" }}>
+        <Row style={{ padding: "12px", backgroundColor: "rgb(251, 255, 227)" }}>
           <Col span={8}>
             <Input
               addonBefore="Monto Pago: "
@@ -495,6 +465,43 @@ const AsignarPagos = ({ idproveedor, moneda, modo, callback }) => {
             />
           </Col>
         </Row>
+        <Row>
+          <Col span={24}>
+            <Table
+              size="small"
+              title={(_) => (
+                <>
+                  <span style={{ fontWeight: "600" }}>Compras</span>
+                </>
+              )}
+              columns={columns_compras}
+              dataSource={compras}
+              scroll={{ y: 300 }}
+              pagination={false}
+            />
+          </Col>
+        </Row>
+        <Row>
+          <Col span={24}>
+            <Table
+              showHeader={false}
+              size="small"
+              title={(_) => (
+                <>
+                  <span style={{ fontWeight: "600" }}>
+                    Cargas Manuales
+                  </span>{" "}
+                </>
+              )}
+              columns={columns_cm}
+              dataSource={cm}
+              scroll={{ y: 60 }}
+              pagination={false}
+            />
+          </Col>
+        </Row>
+        <Divider />
+        
         <Row>
           <Col span={24}>
             <Button
