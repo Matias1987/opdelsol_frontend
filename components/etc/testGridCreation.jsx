@@ -226,8 +226,13 @@ const TestGridCreation = () => {
     const cells_data = [];
     const _cols = [];
 
-    for (let i = p_esf_from; i <= p_esf_to; i += 0.25) {
-      for (let j = p_cil_from; j <= p_cil_to; j += 0.25) {
+    //alert(`Preparando grilla. Esf from: ${p_esf_from} Esf to: ${p_esf_to} Cil from: ${p_cil_from} Cil to: ${p_cil_to} Tipo grilla: ${gridType}`);
+    if(!confirm("¿Confirma que desea preparar la grilla con los siguientes parámetros?\nEsf from: " + p_esf_from + "\nEsf to: " + p_esf_to + "\nCil from: " + p_cil_from + "\nCil to: " + p_cil_to + "\nTipo grilla: " + gridType))
+      return;
+
+    for (let i = +p_esf_from; i <= +p_esf_to; i += 0.25) {
+      for (let j = +p_cil_from; j <= +p_cil_to; j += 0.25) {
+        //console.log(`Procesando celda Esf: ${i} Cil: ${j}`);
         cells_data.push({
           esf: (gridType == "N" ? "-" : "") + i,
           cil: j,
@@ -240,6 +245,8 @@ const TestGridCreation = () => {
         }
       }
     }
+
+    alert("Grilla preparada con " + cells_data.length + " celdas. Columnas: " + _cols.length);
 
     if (gridType == "N") {
       setDataNeg(cells_data);

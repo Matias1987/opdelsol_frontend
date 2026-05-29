@@ -720,3 +720,30 @@ danger list
   font-family: Poppins, Montserrat, sans-serif;
   font-style: italic;
 }
+
+.segmented-list {
+  background-color: #0283be; /* celeste */
+  font-size: large;
+}
+
+.segmented-kanban {
+  background-color: #996900; /* naranja claro */
+  font-size: large;
+}
+
+.segmented-calendar {
+  background-color: #74e403; /* verde claro */
+  font-size: large;
+}
+
+/* opción activa */
+.ant-segmented-item-selected {
+  background-color: #1890ff; /* azul */
+  color: #fff;
+}
+
+/* opciones inactivas */
+.ant-segmented-item {
+  background-color: #f0f0f0; /* gris claro */
+  color: #000;
+}

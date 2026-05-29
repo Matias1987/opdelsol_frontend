@@ -176,10 +176,9 @@ const rowSelection = {
       
   <NuevoDescuento />
         <DetalleVentaTM />
-  <TestGridCreation />
+  
         <TrabajoMultiple />
-     */}
-
+     
       <Card>
 
       <Space align="center" style={{ marginBottom: 16 }}>
@@ -194,7 +193,8 @@ const rowSelection = {
         dataSource={data}
       />
       </Col></Row>
-      </Card>
+      </Card>*/}
+<TestGridCreation />
     </div>
   );
 }

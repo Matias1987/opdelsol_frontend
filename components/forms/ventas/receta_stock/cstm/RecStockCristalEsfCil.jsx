@@ -1,4 +1,4 @@
-import { Button, Col, Input, Row } from "antd";
+import { Button, Col, Input, Row, Segmented } from "antd";
 
 import { useState } from "react";
 import { CloseOutlined, DeleteOutlined } from "@ant-design/icons";
@@ -13,7 +13,7 @@ import HelperToolTip from "../../common/HelperToolTip";
 
 const RecStockCristalEsfCil = (props) => {
   const [visible, setVisible] = useState(false);
-
+  const [value, setValue] = useState('List');
   const [cristal, setCristal] = useState({
     idcodigo: -1,
     tipo: props.tipo,
@@ -114,6 +114,10 @@ const RecStockCristalEsfCil = (props) => {
     <>
       <Row gutter={16}>
         <Col>
+        
+
+        </Col>
+        <Col>
           <SelectCodigoVenta
             hideExtOpt={"0"}
             idfamilias={[globals.familiaIDs.CRISTALES]}
@@ -123,7 +127,7 @@ const RecStockCristalEsfCil = (props) => {
         </Col>
 
         <Col>
-          {
+          {/*
             <Input
               onClick={(e) => {
                 e.target.select();
@@ -138,10 +142,10 @@ const RecStockCristalEsfCil = (props) => {
                 onchange_esf(e.target.value);
               }}
             />
-          }
-          {/*<HelperToolTip disabled={cristal.codigo == null} onChange={e=>onchange_esf(e)} value={cristal.esf} prefix={"Esf."} />*/}
+          */}
+         <HelperToolTip disabled={cristal.codigo == null} onChange={e=>onchange_esf(e)} value={cristal.esf} prefix={"Esf."} />
         </Col>
-        {
+        {/*
           <Col>
             <Input
               onClick={(e) => {
@@ -158,9 +162,9 @@ const RecStockCristalEsfCil = (props) => {
               }}
             />
           </Col>
-        }
+        */}
         <Col>
-          {/*<HelperToolTip disabled={cristal.codigo == null} onChange={e=>onchange_cil(e)} value={cristal.cil} prefix={"Cil."} />*/}
+          {<HelperToolTip disabled={cristal.codigo == null} onChange={e=>onchange_cil(e)} value={cristal.cil} prefix={"Cil."} />}
         </Col>
         <Col>
           <Input

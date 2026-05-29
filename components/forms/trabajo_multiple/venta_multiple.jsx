@@ -242,7 +242,7 @@ const TrabajoMultiple = ({
     const __v = format_venta();
     //alert(JSON.stringify());
     setFinalV(__v);
-    return;
+    //return;
     const idvendedor =
       cambiar_vendedor == 0 ? +globals.obtenerUID() : venta.fkusuario;
 
