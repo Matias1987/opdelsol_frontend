@@ -720,30 +720,37 @@ danger list
   font-family: Poppins, Montserrat, sans-serif;
   font-style: italic;
 }
+.custom-segmented .ant-segmented-item-label {
+  font-family: 'Arial', sans-serif;
+  color: #940000;
+  font-size: 36px;
+  font-weight: "bolder";
+}
+
+.segmented-danger {
+  color: #940000; 
+}
+
+.segmented-blue {
+  color: #1203e4; 
+}
+/*
+
 
 .segmented-list {
-  background-color: #0283be; /* celeste */
+  background-color: #0283be; 
   font-size: large;
 }
 
-.segmented-kanban {
-  background-color: #996900; /* naranja claro */
-  font-size: large;
-}
 
-.segmented-calendar {
-  background-color: #74e403; /* verde claro */
-  font-size: large;
-}
 
-/* opción activa */
 .ant-segmented-item-selected {
-  background-color: #1890ff; /* azul */
+  background-color: #1890ff; 
   color: #fff;
 }
 
-/* opciones inactivas */
 .ant-segmented-item {
-  background-color: #f0f0f0; /* gris claro */
+  background-color: #f0f0f0;
   color: #000;
 }
+*/

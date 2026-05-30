@@ -55,6 +55,7 @@ const RecStockCristalEsfCil = (props) => {
   };
 
   const onchange_esf = (v) => {
+    //alert(v);
     /* if (!validate_esf_cil_eje(v)) {
       return;
     }*/
@@ -143,7 +144,7 @@ const RecStockCristalEsfCil = (props) => {
               }}
             />
           */}
-         <HelperToolTip disabled={cristal.codigo == null} onChange={e=>onchange_esf(e)} value={cristal.esf} prefix={"Esf."} />
+         <HelperToolTip disabled={cristal.codigo == null} onChange={e=>onchange_esf(e)}prefix={"Esf."} />
         </Col>
         {/*
           <Col>
@@ -164,7 +165,7 @@ const RecStockCristalEsfCil = (props) => {
           </Col>
         */}
         <Col>
-          {<HelperToolTip disabled={cristal.codigo == null} onChange={e=>onchange_cil(e)} value={cristal.cil} prefix={"Cil."} />}
+          {<HelperToolTip disabled={cristal.codigo == null} onChange={e=>onchange_cil(e)}  prefix={"Cil."} />}
         </Col>
         <Col>
           <Input
