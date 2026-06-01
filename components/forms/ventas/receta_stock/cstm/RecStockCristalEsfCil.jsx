@@ -1,4 +1,4 @@
-import { Button, Col, Input, Row, Segmented } from "antd";
+import { Button, Col, Input, InputNumber, Row, Segmented } from "antd";
 
 import { useState } from "react";
 import { CloseOutlined, DeleteOutlined } from "@ant-design/icons";
@@ -10,15 +10,16 @@ import {
 } from "@/src/helpers/string_helper";
 import SelectCodigoVenta from "../../SelectCodigoVenta";
 import HelperToolTip from "../../common/HelperToolTip";
+import { decimal_separator } from "@/src/config";
 
 const RecStockCristalEsfCil = (props) => {
   const [visible, setVisible] = useState(false);
-  const [value, setValue] = useState('List');
+  const [value, setValue] = useState("List");
   const [cristal, setCristal] = useState({
     idcodigo: -1,
     tipo: props.tipo,
     codigo: null,
-    eje: "",
+    eje: "0",
     precio: 0,
     cantidad: 1,
     esf: "",
@@ -44,7 +45,7 @@ const RecStockCristalEsfCil = (props) => {
     });
   };
   const onchange_eje = (v) => {
-    if (!validate_esf_cil_eje(v)) {
+    if (!validate_esf_cil_eje(v.toString())) {
       return;
     }
     setCristal((cristal) => {
@@ -91,11 +92,6 @@ const RecStockCristalEsfCil = (props) => {
     });
   };
 
-  const _estilo_label = {
-    /*padding: ".30em",*/
-    textAlign: "right",
-  };
-
   return !visible ? (
     <Button
       size="small"
@@ -114,10 +110,7 @@ const RecStockCristalEsfCil = (props) => {
   ) : (
     <>
       <Row gutter={16}>
-        <Col>
-        
-
-        </Col>
+        <Col></Col>
         <Col>
           <SelectCodigoVenta
             hideExtOpt={"0"}
@@ -128,86 +121,61 @@ const RecStockCristalEsfCil = (props) => {
         </Col>
 
         <Col>
-          {/*
-            <Input
-              onClick={(e) => {
-                e.target.select();
-              }}
-              style={{ width: "100px" }}
-              prefix="Esf.:"
-              size="small"
-              disabled={cristal.codigo == null}
-              value={cristal.esf}
-              step={".25"}
-              onChange={(e) => {
-                onchange_esf(e.target.value);
-              }}
-            />
-          */}
-         <HelperToolTip disabled={cristal.codigo == null} onChange={e=>onchange_esf(e)}prefix={"Esf."} />
-        </Col>
-        {/*
-          <Col>
-            <Input
-              onClick={(e) => {
-                e.target.select();
-              }}
-              style={{ width: "100px" }}
-              prefix="Cil.:"
-              size="small"
-              disabled={cristal.codigo == null}
-              value={cristal.cil}
-              step={"0.25"}
-              onChange={(e) => {
-                onchange_cil(e.target.value);
-              }}
-            />
-          </Col>
-        */}
-        <Col>
-          {<HelperToolTip disabled={cristal.codigo == null} onChange={e=>onchange_cil(e)}  prefix={"Cil."} />}
+          <HelperToolTip
+            disabled={cristal.codigo == null}
+            onChange={(e) => onchange_esf(e)}
+            prefix={"Esf."}
+          />
         </Col>
         <Col>
-          <Input
+          {
+            <HelperToolTip
+              disabled={cristal.codigo == null}
+              onChange={(e) => onchange_cil(e)}
+              prefix={"Cil."}
+            />
+          }
+        </Col>
+        <Col>
+          <InputNumber
+            decimalSeparator={decimal_separator}
             onClick={(e) => {
               e.target.select();
             }}
             style={{ width: "100px" }}
             prefix="Eje:"
             disabled={cristal.codigo == null}
-            size="small"
+            size="middle"
             value={cristal.eje}
-            onChange={(e) => {
-              onchange_eje(e.target.value);
+            onChange={(v) => {
+              onchange_eje(v || "0");
             }}
+            changeOnWheel={false}
           />
         </Col>
         <Col>
-          <Input
+          <InputNumber
+            changeOnWheel={false}
+            decimalSeparator={decimal_separator}
+            disabled={cristal.codigo == null}
+            style={{ width: "150px" }}
             onClick={(e) => {
               e.target.select();
             }}
-            onWheel={(e) => {
-              e.target.blur();
-            }}
-            style={{ width: "150px" }}
-            disabled={cristal.codigo == null}
-            type="number"
-            value={cristal.precio}
-            readOnly={false}
-            onChange={(e) => {
+            prefix={"Precio: $"}
+            onChange={(v) => {
               onchange_precio({
-                precio: e.target.value.length < 1 ? "0" : e.target.value,
+                precio: v || "0",
               });
             }}
-            size="small"
-            prefix="Precio: "
+            value={cristal.precio}
+            size="middle"
           />
         </Col>
         <Col>
           <Button
             danger
-            size="small"
+            size="middle"
             onClick={() => {
               onRemove();
             }}

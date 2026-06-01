@@ -46,7 +46,7 @@ const TestGridCreation = () => {
   const [cellsEdited, setCellsEdited] = useState(false);
   const [fkCodigo, setFkCodigo] = useState("-1"); //useState(58451);
   const [fkSucursal, setFkSucursal] = useState(-1);
-  const [nuevaGrillaEnabled, setNuevaGrillaEnabled] = useState(false)
+  const [nuevaGrillaEnabled, setNuevaGrillaEnabled] = useState(false);
   const [editingValue, setEditingValue] = useState(0);
 
   const [cellsWithQuantity, setCellsWithQuantity] = useState([]);
@@ -55,7 +55,11 @@ const TestGridCreation = () => {
 
   const [selectedCodigoLabel, setSelectedCodigoLabel] = useState("");
 
-  const [update, setUpdate] = useState(false)
+  const [update, setUpdate] = useState(false);
+
+  const [modalNuevaGrillaVisible, setModalNuevaGrillaVisible] = useState(false);
+
+  const [grillaVisible, setGrillaVisible] = useState(false);
   //#region styles
   const diagonal_cell = {
     background: "linear-gradient(to top right, #fff 49%, #ccc 50%, #fff 51%)",
@@ -74,7 +78,7 @@ const TestGridCreation = () => {
     //fontWeight: "400",
     color: "#000000",
     fontWeight: "600",
-    fontSize:"1.3em",
+    fontSize: "1.3em",
   };
   const td_style_pending_save = {
     border: "2px dotted #dbdbdb",
@@ -84,8 +88,8 @@ const TestGridCreation = () => {
     //fontWeight: "600",
     color: "darkblue ",
     //backgroundColor: "#ff0101",
-     backgroundColor: "#feffce",
-     //color: "darkblue",
+    backgroundColor: "#feffce",
+    //color: "darkblue",
   };
 
   const td_style_with_quantity = {
@@ -94,10 +98,10 @@ const TestGridCreation = () => {
     textAlign: "center",
     cursor: "pointer",
     //backgroundColor: "#008011",
-     backgroundColor: "#feffce",
+    backgroundColor: "#feffce",
     fontWeight: "600",
     color: "#000000",
-    fontSize:"1.3em",
+    fontSize: "1.3em",
   };
 
   const th_style = {
@@ -159,7 +163,7 @@ const TestGridCreation = () => {
           Math.abs(parseFloat(d.esf)) == Math.abs(parseFloat(esf)) &&
           d.cil == cil
         ) {
-          return { ...d, cantidad: quantity, pares: parseFloat(quantity)/2 };
+          return { ...d, cantidad: quantity, pares: parseFloat(quantity) / 2 };
         }
         return d;
       });
@@ -167,7 +171,7 @@ const TestGridCreation = () => {
     } else {
       const new_data = dataPos.map((d) => {
         if (d.esf == esf && d.cil == cil) {
-          return { ...d, cantidad: quantity, pares: parseFloat(quantity)/2 };
+          return { ...d, cantidad: quantity, pares: parseFloat(quantity) / 2 };
         }
         return d;
       });
@@ -227,8 +231,8 @@ const TestGridCreation = () => {
     const _cols = [];
 
     //alert(`Preparando grilla. Esf from: ${p_esf_from} Esf to: ${p_esf_to} Cil from: ${p_cil_from} Cil to: ${p_cil_to} Tipo grilla: ${gridType}`);
-    if(!confirm("¿Confirma que desea preparar la grilla con los siguientes parámetros?\nEsf from: " + p_esf_from + "\nEsf to: " + p_esf_to + "\nCil from: " + p_cil_from + "\nCil to: " + p_cil_to + "\nTipo grilla: " + gridType))
-      return;
+    //if(!confirm("¿Confirma que desea preparar la grilla con los siguientes parámetros?\nEsf from: " + p_esf_from + "\nEsf to: " + p_esf_to + "\nCil from: " + p_cil_from + "\nCil to: " + p_cil_to + "\nTipo grilla: " + gridType))
+    //return;
 
     for (let i = +p_esf_from; i <= +p_esf_to; i += 0.25) {
       for (let j = +p_cil_from; j <= +p_cil_to; j += 0.25) {
@@ -246,7 +250,7 @@ const TestGridCreation = () => {
       }
     }
 
-    alert("Grilla preparada con " + cells_data.length + " celdas. Columnas: " + _cols.length);
+    //alert("Grilla preparada con " + cells_data.length + " celdas. Columnas: " + _cols.length);
 
     if (gridType == "N") {
       setDataNeg(cells_data);
@@ -306,7 +310,10 @@ const TestGridCreation = () => {
                   >
                     {src
                       .filter((d) => d.esf == esf_value && d.cil == col)
-                      .map((d) => d.pares.toFixed(2)/*d.cantidad  d.pares.toFixed(2)*/)}
+                      .map(
+                        (d) =>
+                          d.pares.toFixed(2) /*d.cantidad  d.pares.toFixed(2)*/,
+                      )}
                   </td>
                 ))}
               </tr>
@@ -379,6 +386,7 @@ const TestGridCreation = () => {
         }
         if (response.data.length < 1) {
           alert("Sin Datos.");
+          setGrillaVisible(false);
           setNuevaGrillaEnabled(true);
           setDataNeg([]);
           setDataPos([]);
@@ -416,6 +424,8 @@ const TestGridCreation = () => {
         );
 
         prepareArrayWithQuantities(theData);
+
+        setGrillaVisible(true);
       },
     );
   };
@@ -424,14 +434,17 @@ const TestGridCreation = () => {
     fetch(get.obtener_codigos_cristales)
       .then((r) => r.json())
       .then((response) => {
-        setCodigosCristales(_=>{
-          let t = [{label:"-", value:"-1"}];
-          t = [...t,...response.data.map((row) => ({
-            label: row.codigo,
-            value: row.idcodigo,
-          }))];
+        setCodigosCristales((_) => {
+          let t = [{ label: "-", value: "-1" }];
+          t = [
+            ...t,
+            ...response.data.map((row) => ({
+              label: row.codigo,
+              value: row.idcodigo,
+            })),
+          ];
           //alert(JSON.stringify(t))
-          return t; 
+          return t;
         });
       })
       .catch((e) => {
@@ -479,7 +492,7 @@ const TestGridCreation = () => {
                 disabled={!btnAplicarEnabled}
                 prefix="Desde: "
                 value={esf_from_neg}
-                onChange={(e) => setEsfFromNeg((e.target.value))}
+                onChange={(e) => setEsfFromNeg(e.target.value)}
               />{" "}
             </Col>
             <Col>
@@ -488,7 +501,7 @@ const TestGridCreation = () => {
                 disabled={!btnAplicarEnabled}
                 prefix="Hasta: "
                 value={esf_to_neg}
-                onChange={(e) => setEsfToNeg((e.target.value))}
+                onChange={(e) => setEsfToNeg(e.target.value)}
               />
             </Col>
           </Row>
@@ -509,7 +522,7 @@ const TestGridCreation = () => {
                 disabled={!btnAplicarEnabled}
                 prefix="Desde: "
                 value={esf_from_pos}
-                onChange={(e) => setEsfFromPos((e.target.value))}
+                onChange={(e) => setEsfFromPos(e.target.value)}
               />{" "}
             </Col>
             <Col>
@@ -518,7 +531,7 @@ const TestGridCreation = () => {
                 disabled={!btnAplicarEnabled}
                 prefix="Hasta: "
                 value={esf_to_pos}
-                onChange={(e) => setEsfToPos((e.target.value))}
+                onChange={(e) => setEsfToPos(e.target.value)}
               />
             </Col>
           </Row>
@@ -539,7 +552,7 @@ const TestGridCreation = () => {
                 disabled={!btnAplicarEnabled}
                 prefix="Desde: -"
                 value={cil_from}
-                onChange={(e) => setCilFrom((e.target.value))}
+                onChange={(e) => setCilFrom(e.target.value)}
               />{" "}
             </Col>
             <Col>
@@ -548,7 +561,7 @@ const TestGridCreation = () => {
                 disabled={!btnAplicarEnabled}
                 prefix="Hasta: -"
                 value={cil_to}
-                onChange={(e) => setCilTo((e.target.value))}
+                onChange={(e) => setCilTo(e.target.value)}
               />
             </Col>
           </Row>
@@ -565,14 +578,14 @@ const TestGridCreation = () => {
               <Radio value="negativo">Negativo</Radio>
             </Radio.Group>
           </Col>
-        </Row>*/}
+        </Row>
           <Row gutter={[16, 16]} style={{ paddingTop: "8px" }}>
             <Col span="24">
               {" "}
               <Checkbox disabled={!btnAplicarEnabled}>L/R</Checkbox>{" "}
             </Col>
           </Row>
-
+*/}
           <Row gutter={[16, 16]} style={{ paddingTop: "8px" }}>
             <Col>
               <Button
@@ -588,6 +601,8 @@ const TestGridCreation = () => {
                     null,
                     "P",
                   );
+                  setGrillaVisible(true);
+                  setModalNuevaGrillaVisible(false);
                 }}
               >
                 Aplicar
@@ -625,36 +640,30 @@ const TestGridCreation = () => {
           dataIndex: key,
           key,
         }));*/
-        const data = impCSVModo == "neg" ?  [...dataNeg] : [...dataPos];
+        const data = impCSVModo == "neg" ? [...dataNeg] : [...dataPos];
         let idx = 0;
-        if(impCSVinvertirESF)
-        {
-          for(let i=parsedData.length-1;i>-1;i--)
-          {
+        if (impCSVinvertirESF) {
+          for (let i = parsedData.length - 1; i > -1; i--) {
             const row = parsedData[i];
-            row.forEach(cell=>{
+            row.forEach((cell) => {
               data[idx].cantidad = cell;
-              data[idx].pares = parseFloat(cell)/2;
+              data[idx].pares = parseFloat(cell) / 2;
               idx++;
             });
           }
-        }
-        else
-        {
-          parsedData.forEach(row=>{
-            row.forEach(cell=>{
+        } else {
+          parsedData.forEach((row) => {
+            row.forEach((cell) => {
               data[idx].cantidad = cell;
-              data[idx].pares = parseFloat(cell)/2;
+              data[idx].pares = parseFloat(cell) / 2;
               idx++;
             });
           });
         }
-        
-        if( impCSVModo == "neg")
-        {
+
+        if (impCSVModo == "neg") {
           setDataNeg(data);
-        }
-        else{
+        } else {
           setDataPos(data);
         }
         //alert(JSON.stringify(data));
@@ -669,83 +678,140 @@ const TestGridCreation = () => {
 
   return (
     <>
-    <Row  style={{ padding: "8px" }}>
-      <Col span={24}>
-      <SucursalSelect callback={v=>{
-        setFkSucursal(v);
-        setDataNeg([]);
-        setDataPos([]);
-        setFkCodigo("-1");
-      }}
-      />
-      </Col>
-    </Row>
-      <Row gutter={[16, 16]} style={{ padding: "8px" }}>
-        <Col style={{ paddingTop: "6px" }}>Seleccion Tipo Cristal:</Col>
-        <Col>
-          <Select
-            disabled={+fkSucursal<0}
-            value={fkCodigo}
-            placeholder="Seleccione un código de cristal"
-            style={{ width: "400px" }}
-            options={codigosCristales}
-            onChange={(v) => {
-              setFkCodigo(v);
-              setSelectedCodigoLabel(
-                codigosCristales.find((c) => c.value == v)?.label || "",
-              );
-              load(v);
-            }}
-          />
-        </Col>
-      </Row>
-
-      { nuevaGrillaEnabled  && +fkSucursal>0? nueva_grilla() : <></>}
-      <Card
-        size="small"
-        title={"Grilla de Cristales " + selectedCodigoLabel}
-        style={{ width: "100%" }}
-        extra={<><Button onClick={_=>{load(fkCodigo)}}><ReloadOutlined /></Button></>}
-      >
-        <Row>
-          <Col span="24">{get_grid(dataNeg || [], "negativo")}</Col>
-        </Row>
-        <Divider />
-        <Row>
-          <Col span="24">{get_grid(dataPos || [], "positivo")}</Col>
-        </Row>
-      </Card>
-      <Divider />
-      <Row style={{ paddingTop: "16px" }}>
-        <Col span="24" style={{ textAlign: "left" }}>
-          <Button size="large" type="primary" onClick={on_save}>
-            <SaveFilled /> Guardar grilla
-          </Button>
-        </Col>
-      </Row>
-      <Divider />
-      <Row style={{border:"1px solid #bebebe", padding:"8px", borderRadius:"8px"}}>
-        <Col span={6}>
-            <Checkbox checked={impCSVinvertirESF} onChange={_=>{setImpCSVinvertirESF(!impCSVinvertirESF)}} >Invertir orden ESF</Checkbox>
-        </Col>
-        <Col span={6}>
-            <Select 
-            prefix="Modo: "
-            style={{width:"300px"}} options={[
-              {value:"neg", label:"Negativo"},
-              {value:"pos", label:"Positivo"},
-            ]}
-            value={impCSVModo}
-            onChange={v=>{setImpCSVModo(v)}}
-            />
-        </Col>
+      <Row style={{backgroundColor: "#fce1e1", padding: "16px", borderRadius: "8px"}}>
         <Col span={24}>
-                  <Upload beforeUpload={handleFileUpload} showUploadList={false}>
-        <Button icon={<UploadOutlined />}>Cargar CSV</Button>
-      </Upload>
+          <Row style={{ padding: "8px" }} gutter={[16, 16]}>
+            <Col>Seleccione Sucursal:</Col>
+            <Col>
+              <SucursalSelect
+                callback={(v) => {
+                  setFkSucursal(v);
+                  setDataNeg([]);
+                  setDataPos([]);
+                  setFkCodigo("-1");
+                  setGrillaVisible(false);
+                }}
+              />
+            </Col>
+          </Row>
+          <Row gutter={[16, 16]} style={{ padding: "8px" }}>
+            <Col style={{ paddingTop: "6px" }}>Seleccion Tipo Cristal:</Col>
+            <Col>
+              <Select
+                disabled={+fkSucursal < 0}
+                value={fkCodigo}
+                placeholder="Seleccione un código de cristal"
+                style={{ width: "400px" }}
+                options={codigosCristales}
+                onChange={(v) => {
+                  setFkCodigo(v);
+                  setSelectedCodigoLabel(
+                    codigosCristales.find((c) => c.value == v)?.label || "",
+                  );
+                  load(v);
+                }}
+              />
+            </Col>
+          </Row>
         </Col>
       </Row>
 
+      {nuevaGrillaEnabled && +fkSucursal > 0 ? (
+        <Button
+          size="large"
+          type="primary"
+          onClick={() => setModalNuevaGrillaVisible(true)}
+        >
+          Nueva Grilla
+        </Button>
+      ) : (
+        <></>
+      )}
+      <Modal
+        destroyOnClose
+        footer={null}
+        open={modalNuevaGrillaVisible}
+        onCancel={() => setModalNuevaGrillaVisible(false)}
+        width={"650px"}
+      >
+        {nueva_grilla()}
+      </Modal>
+
+      {grillaVisible && (
+        <Card
+          size="small"
+          title={"Grilla de Cristales " + selectedCodigoLabel}
+          style={{ width: "100%" }}
+          extra={
+            <>
+              <Button
+                onClick={(_) => {
+                  load(fkCodigo);
+                }}
+              >
+                <ReloadOutlined />
+              </Button>
+            </>
+          }
+        >
+          <Row>
+            <Col span="24">{get_grid(dataNeg || [], "negativo")}</Col>
+          </Row>
+          <Divider />
+          <Row>
+            <Col span="24">{get_grid(dataPos || [], "positivo")}</Col>
+          </Row>
+          <Row style={{ paddingTop: "16px" }}>
+            <Col span="24" style={{ textAlign: "left" }}>
+              <Button size="large" type="primary" onClick={on_save}>
+                <SaveFilled /> Guardar grilla
+              </Button>
+            </Col>
+          </Row>
+        </Card>
+      )}
+      <Divider />
+
+      <Divider />
+      {grillaVisible && (
+        <Row
+          style={{
+            border: "1px solid #bebebe",
+            padding: "8px",
+            borderRadius: "8px",
+          }}
+        >
+          <Col span={6}>
+            <Checkbox
+              checked={impCSVinvertirESF}
+              onChange={(_) => {
+                setImpCSVinvertirESF(!impCSVinvertirESF);
+              }}
+            >
+              Invertir orden ESF
+            </Checkbox>
+          </Col>
+          <Col span={6}>
+            <Select
+              prefix="Modo: "
+              style={{ width: "300px" }}
+              options={[
+                { value: "neg", label: "Negativo" },
+                { value: "pos", label: "Positivo" },
+              ]}
+              value={impCSVModo}
+              onChange={(v) => {
+                setImpCSVModo(v);
+              }}
+            />
+          </Col>
+          <Col span={24}>
+            <Upload beforeUpload={handleFileUpload} showUploadList={false}>
+              <Button icon={<UploadOutlined />}>Cargar CSV</Button>
+            </Upload>
+          </Col>
+        </Row>
+      )}
       <Modal
         destroyOnClose
         footer={null}
@@ -759,24 +825,6 @@ const TestGridCreation = () => {
           </Col>
         </Row>
         <Row gutter={[16, 16]} style={{ padding: "8px" }}>
-          {/*<Col>
-            <Input
-              prefix="Cantidad: "
-              type="number"
-              onChange={(e) => {
-                const int_value = parseInt(e.target.value);
-                if (isNaN(int_value)) {
-                  return;
-                }
-                edit_quantity(
-                  selected_cell.esf,
-                  selected_cell.cil,
-                  int_value,
-                  selected_cell.tipo_grilla,
-                );
-              }}
-            />
-          </Col>*/}
           <Col>
             <Input
               prefix="Pares: "
@@ -785,9 +833,11 @@ const TestGridCreation = () => {
               min="0"
               value={editingValue}
               onChange={(e) => {
-                let theValue=e.target.value;
-                if(isNaN(parseFloat(e.target.value)) || e.target.value.length<1)
-                {
+                let theValue = e.target.value;
+                if (
+                  isNaN(parseFloat(e.target.value)) ||
+                  e.target.value.length < 1
+                ) {
                   theValue = "0";
                 }
                 setEditingValue(theValue);

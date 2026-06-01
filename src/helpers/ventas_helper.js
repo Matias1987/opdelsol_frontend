@@ -23,9 +23,9 @@ const validar_tipo = (arr, _root, field, aditional_fields) =>
              */
             for(let i=0;i<aditional_fields.length;i++){
 
-                if(_root[field][aditional_fields[i]].trim().length<1)
+                if(_root[field][aditional_fields[i]].toString().trim().length<1)
                 {
-                    return [...arr,{res: -2, msg: "Error: Campo vacio para   " +  aditional_fields[i] + "     " + field}]
+                    return [...arr,{res: -2, msg: "Error: Campo vacio para   " +  aditional_fields[i].toString() + "     " + field}]
                 }
             }
         }
