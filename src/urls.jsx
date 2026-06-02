@@ -138,6 +138,7 @@ const public_urls = {
     custom:{
         copex:{
             monto_ventas_mes: local_base_url + "admin/custm/oexp/monto_ventas_mes",
+            taller: local_base_url + "deposito/stock/crsv2/stock_cristales",
         },
         delsol:{
             cajas: local_base_url + "admin/custm/dsolch/panel_admin_caja",

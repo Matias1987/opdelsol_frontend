@@ -12,6 +12,8 @@ const SucursalSelectModal = (props) => {
 
     const [sucursales, setSucursales] = useState([])
 
+    const [showSelect, setShowSelect] = useState(false);
+
     useEffect(()=>{
         
         fetch(get.sucursales)
@@ -40,10 +42,17 @@ const SucursalSelectModal = (props) => {
                 return;
             }
 
+            if(+props.sucursalDefecto>0){
+                setSelectedSucursal(props.sucursalDefecto)
+                props.callback(props.sucursalDefecto)
+                return;
+            }
+
             if(response.data.length==1)
             {
                 setSelectedSucursal(response.data[0].idsucursal)
                 props.callback(response.data[0].idsucursal)
+                return;
             }
             else{
                 if(typeof globals.obtenerUID()!== 'undefined')
@@ -51,6 +60,7 @@ const SucursalSelectModal = (props) => {
                     if(null==selectedSucursal)
                     {
                         setOpen(true)
+                        setShowSelect(true);
                     }
                 }
             }
@@ -97,7 +107,7 @@ const SucursalSelectModal = (props) => {
         )
     }
 
-    return <>
+    return !showSelect ? <></> :  (<>
         <Modal
             width={"700px"}
             footer={null}
@@ -115,7 +125,7 @@ const SucursalSelectModal = (props) => {
                 </Col>
             </Row>
         </Modal>
-    </>
+    </>)
 }
 
 export default SucursalSelectModal;

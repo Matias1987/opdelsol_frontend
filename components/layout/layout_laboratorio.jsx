@@ -6,6 +6,8 @@ import globals from "@/src/globals";
 import Alerts from "./alert_container";
 import HeaderSol from "./header";
 import MenuLaboratorioTop from "./menu_laboratorio_top";
+import { idf_optica } from "@/src/config";
+import MenuTallerCOExp from "./opts/coexp/menu_taller";
 
 export default function LayoutLaboratorio(props){
     const { Content } = Layout;
@@ -56,7 +58,7 @@ export default function LayoutLaboratorio(props){
             <HeaderSol tipoCuenta="LABORATORIO" displaymodechange={(__c)=>{
                 props?.displaymodechange?.(__c)
             }}/>
-            <MenuLaboratorioTop />
+            {+idf_optica!=3?  <MenuLaboratorioTop /> : <MenuTallerCOExp />}
             <Content style={{ margin: '20px 10px', padding: 10, minHeight: 280 }}>
                 {props.children}
             </Content>

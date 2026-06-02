@@ -110,7 +110,6 @@ const RecStockCristalEsfCil = (props) => {
   ) : (
     <>
       <Row gutter={16}>
-        <Col></Col>
         <Col>
           <SelectCodigoVenta
             hideExtOpt={"0"}

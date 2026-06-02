@@ -151,7 +151,7 @@ const HelperToolTip = ({ disabled, callback, value, onChange, prefix }) => {
         prefix={
           <span style={{ fontWeight: "500" }}>{`${enabled ? "-" : "+"}`}</span>
         }
-        style={{ width: 100 }}
+        style={{ width: 80 }}
         placeholder="Ingrese valor"
         allowClear
         filterOption={(inputValue, option) =>

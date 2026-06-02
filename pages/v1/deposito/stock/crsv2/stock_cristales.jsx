@@ -1,5 +1,5 @@
 import TestGridCreation from "@/components/etc/testGridCreation";
-import MyLayout from "@/components/layout/layout";
+import LayoutLaboratorio from "@/components/layout/layout_laboratorio";
 
 export default function stock_cristales() {
   return (
@@ -9,4 +9,5 @@ export default function stock_cristales() {
   );
 }
 
-stock_cristales.PageLayout = MyLayout;
+//stock_cristales.PageLayout = MyLayout;
+stock_cristales.PageLayout = LayoutLaboratorio;

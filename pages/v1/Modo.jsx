@@ -291,7 +291,9 @@ import SucursalSelectModal from "@/components/SucursalSelectModal";
     return (
      
 <>
-    <SucursalSelectModal callback={(id)=>{
+    <SucursalSelectModal 
+    sucursalDefecto={globals.obtenerSucursalDefecto()}
+    callback={(id)=>{
       if(globals.esUsuarioAdmin() || globals.esUsuarioAdminMin() || globals.esUsuarioAdminProv())
       {
         setSucursalSelected(true); 

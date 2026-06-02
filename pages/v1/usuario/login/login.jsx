@@ -48,6 +48,7 @@ export default function Login() {
         setItem("laboratorio", res.data.udata.laboratorio);
         setItem("distribuidora", res.data.udata.distribuidora);
         setItem("multInstances", res.data.udata.multInstances);
+        setItem("fksucursal_default", Number.isNaN( parseInt(res.data.udata.fksucursal_default)) ? -1 : parseInt(res.data.udata.fksucursal_default) );
 
         globals.setUserLogedIn(1);
 

@@ -50,6 +50,11 @@ const globals =  {
         const {getItem} = useStorage();
         return getItem("idsucursal");
     },
+    obtenerSucursalDefecto: () =>
+    {
+        const {getItem} = useStorage();
+        return getItem("fksucursal_default");
+    },
     establecerOptica: (idoptica) =>
     {
         const {setItem} = useStorage();
