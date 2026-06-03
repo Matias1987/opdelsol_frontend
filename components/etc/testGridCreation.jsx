@@ -29,6 +29,8 @@ const TestGridCreation = () => {
   const [dataNeg, setDataNeg] = useState([]);
   const [dataPos, setDataPos] = useState([]);
 
+  const [modo, setModo] = useState("ambos");
+
   const [impCSVModo, setImpCSVModo] = useState("neg");
   const [impCSVinvertirESF, setImpCSVinvertirESF] = useState(false);
 
@@ -38,7 +40,8 @@ const TestGridCreation = () => {
   const [esf_to_pos, setEsfToPos] = useState(2);
   const [cil_from, setCilFrom] = useState(0);
   const [cil_to, setCilTo] = useState(2);
-  const [cols, setCols] = useState([]);
+  const [colsNeg, setColsNeg] = useState([]);
+  const [colsPos, setColsPos] = useState([]);
   //const [tipo_grilla, setTipoGrilla] = useState("positivo");
   const [selected_cell, setSelectedCell] = useState(null);
   const [modal_visible, setModalVisible] = useState(false);
@@ -143,7 +146,8 @@ const TestGridCreation = () => {
       })),
       tipo_grilla: "",
     };
-    //alert(JSON.stringify(dataToSave))
+    //alert(JSON.stringify(dataToSave));
+    //return;
     //save to db.... TO DO
     post_method(
       post.insert.insert_stock_cristal_grid,
@@ -254,75 +258,87 @@ const TestGridCreation = () => {
 
     if (gridType == "N") {
       setDataNeg(cells_data);
+      setColsNeg(_cols);
     } else {
       setDataPos(cells_data);
+      setColsPos(_cols);
     }
-
-    setCols(_cols);
 
     //alert(JSON.stringify(cells_data));
   };
 
-  const get_grid = (src, tipo_grilla) => (
-    <>
-      <table style={table_style}>
-        <thead>
-          <tr>
-            <th style={diagonal_cell}>
-              ESF&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CIL
-            </th>
-            {cols.map((c) => (
-              <th style={th_style}>{"-" + c}</th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {Array.from(new Set(src.map((d) => d.esf))).map((esf_value) => {
-            return (
-              <tr>
-                <th style={th_style}>
-                  <b>
-                    {(tipo_grilla == "positivo" ? "+" : "") +
-                      parseFloat(esf_value).toFixed(2)}
-                  </b>
-                </th>
-                {cols.map((col) => (
-                  <td
-                    style={
-                      src.filter((d) => d.esf == esf_value && d.cil == col)[0]
-                        ?.pendingSave
-                        ? td_style_pending_save
-                        : cellsWithQuantityContains(esf_value, col)
-                          ? td_style_with_quantity
-                          : td_style
-                    }
-                    onClick={() => {
-                      //const _esf = tipo_grilla == "negativo" ? -esf_value : esf_value;
-                      //alert(JSON.stringify({ esf: esf_value, cil: col }));
-                      setSelectedCell({
-                        esf: esf_value,
-                        cil: col,
-                        tipo_grilla: tipo_grilla,
-                      });
-                      set_cell_editing(esf_value, col, tipo_grilla);
-                      setModalVisible(true);
-                    }}
-                  >
-                    {src
-                      .filter((d) => d.esf == esf_value && d.cil == col)
-                      .map(
-                        (d) =>
-                          d.pares.toFixed(2) /*d.cantidad  d.pares.toFixed(2)*/,
-                      )}
-                  </td>
-                ))}
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
-    </>
-  );
+  const get_grid = (src, tipo_grilla, columns) =>
+    src.length < 1 ? (
+      <p>{tipo_grilla == "negativo" ? "Negativos" : "Positivos"} - No hay datos para mostrar</p>
+    ) : (
+      <>
+        <table style={table_style}>
+          <thead>
+            <tr>
+              <th colSpan={ columns.length +1} style={{ ...th_style, textAlign: "center" }}>
+                {tipo_grilla == "negativo" ? "Negativos" : "Positivos"}
+              </th>
+            </tr>
+            <tr>
+              <th style={diagonal_cell}>
+                ESF&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CIL
+              </th>
+              {columns.map((c) => (
+                <th style={th_style}>{"-" + c}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {Array.from(new Set(src.map((d) => d.esf))).map((esf_value) => {
+              return (
+                <tr>
+                  <th style={th_style}>
+                    <b>
+                      {(tipo_grilla == "positivo" ? "+" : "") +
+                        parseFloat(esf_value).toFixed(2)}
+                    </b>
+                  </th>
+                  {columns.map((col) => (
+                    <td
+                      style={
+                        src.filter((d) => d.esf == esf_value && d.cil == col)[0]
+                          ?.pendingSave
+                          ? td_style_pending_save
+                          : cellsWithQuantityContains(esf_value, col)
+                            ? td_style_with_quantity
+                            : td_style
+                      }
+                      onClick={() => {
+                        //const _esf = tipo_grilla == "negativo" ? -esf_value : esf_value;
+                        //alert(JSON.stringify({ esf: esf_value, cil: col }));
+                        setSelectedCell({
+                          esf: esf_value,
+                          cil: col,
+                          tipo_grilla: tipo_grilla,
+                        });
+                        set_cell_editing(esf_value, col, tipo_grilla);
+                        setEditingValue("");
+                        setModalVisible(true);
+                      }}
+                    >
+                      {src
+                        .filter((d) => d.esf == esf_value && d.cil == col)
+                        .map(
+                          (d) =>
+                            d.pares.toFixed(
+                              2,
+                            ) /*d.cantidad  d.pares.toFixed(2)*/,
+                        )}
+                    </td>
+                  ))}
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+        <br />
+      </>
+    );
 
   const get_range = (loadedData) => {
     const result = [];
@@ -340,16 +356,26 @@ const TestGridCreation = () => {
       let max_esf = -9999;
       let min_cil = 9999;
       let max_cil = -9999;
-
+      let unchanged = true;
       sub_arr.forEach((row) => {
         min_esf = get_val(row.esf) < min_esf ? get_val(row.esf) : min_esf;
         max_esf = get_val(row.esf) > max_esf ? get_val(row.esf) : max_esf;
 
         min_cil = get_val(row.cil) < min_cil ? get_val(row.cil) : min_cil;
         max_cil = get_val(row.cil) > max_cil ? get_val(row.cil) : max_cil;
+        unchanged =false;
       });
 
-      result.push({ min_esf, max_esf, min_cil, max_cil });
+      if(!unchanged)
+      {
+        result.push({ min_esf, max_esf, min_cil, max_cil });
+      }
+      else
+      {
+        result.push({ min_esf: 0, max_esf: -1, min_cil: 0, max_cil: -1 });
+      }
+
+      
     });
 
     return result;
@@ -393,12 +419,23 @@ const TestGridCreation = () => {
           return;
         }
 
+        setModo("ambos");
+
         const theData = response.data;
 
         const rango = get_range(theData);
 
+        //alert(JSON.stringify(rango));
+
+        if(rango.length < 1)
+        {
+          alert("No se encontraron datos para crear la grilla.");
+          return;
+        }
+
         setCilFrom(rango[0].min_cil);
         setCilTo(rango[0].max_cil);
+
 
         setEsfFromNeg(rango[1].min_esf);
         setEsfToNeg(rango[1].max_esf);
@@ -406,6 +443,8 @@ const TestGridCreation = () => {
         setEsfFromPos(rango[0].min_esf);
         setEsfToPos(rango[0].max_esf);
 
+        //alert( JSON.stringify(theData.filter((r) => parseFloat(r.esf) >= 0)));
+        //console.log(JSON.stringify(theData));
         prepare(
           rango[1].min_esf,
           rango[1].max_esf,
@@ -452,7 +491,7 @@ const TestGridCreation = () => {
       });
   };
 
-  const nueva_grilla = () => (
+  const editar_grilla = () => (
     <>
       <div
         style={{
@@ -465,7 +504,26 @@ const TestGridCreation = () => {
       >
         <Row>
           <Col style={{ paddingLeft: "16px" }}>
-            <h3>Nueva Grilla</h3>
+            <h3>Editar Grilla</h3>
+          </Col>
+        </Row>
+        <Row gutter={[16, 16]} style={{ paddingBottom: "8px" }}>
+          <Col span={24}>
+            <Select
+              prefix={
+                <div style={{ whiteSpace: "nowrap", color: "darkblue" }}>
+                  Tipo de Grilla:
+                </div>
+              }
+              value={modo}
+              onChange={(v) => setModo(v)}
+              options={[
+                { value: "ambos", label: "Positivo y Negativo" },
+                { value: "negativo", label: "Negativo" },
+                { value: "positivo", label: "Positivo" },
+              ]}
+              style={{ width: "100%" }}
+            />
           </Col>
         </Row>
         <div
@@ -475,66 +533,70 @@ const TestGridCreation = () => {
             paddingBottom: "16px",
           }}
         >
-          <Row gutter={[16, 16]}>
-            <Col
-              style={{
-                paddingTop: "6px",
-                fontWeight: "600",
-                color: "darkblue",
-                fontSize: "1.1em",
-              }}
-            >
-              Esf - :{" "}
-            </Col>
-            <Col>
-              <Input
-                style={{ width: "200px" }}
-                disabled={!btnAplicarEnabled}
-                prefix="Desde: "
-                value={esf_from_neg}
-                onChange={(e) => setEsfFromNeg(e.target.value)}
-              />{" "}
-            </Col>
-            <Col>
-              <Input
-                style={{ width: "200px" }}
-                disabled={!btnAplicarEnabled}
-                prefix="Hasta: "
-                value={esf_to_neg}
-                onChange={(e) => setEsfToNeg(e.target.value)}
-              />
-            </Col>
-          </Row>
-          <Row gutter={[16, 16]}>
-            <Col
-              style={{
-                paddingTop: "6px",
-                fontWeight: "600",
-                color: "darkblue",
-                fontSize: "1.1em",
-              }}
-            >
-              Esf + :{" "}
-            </Col>
-            <Col>
-              <Input
-                style={{ width: "200px" }}
-                disabled={!btnAplicarEnabled}
-                prefix="Desde: "
-                value={esf_from_pos}
-                onChange={(e) => setEsfFromPos(e.target.value)}
-              />{" "}
-            </Col>
-            <Col>
-              <Input
-                style={{ width: "200px" }}
-                disabled={!btnAplicarEnabled}
-                prefix="Hasta: "
-                value={esf_to_pos}
-                onChange={(e) => setEsfToPos(e.target.value)}
-              />
-            </Col>
-          </Row>
+          {modo !== "positivo" || modo === "ambos" ? (
+            <Row gutter={[16, 16]}>
+              <Col
+                style={{
+                  paddingTop: "6px",
+                  fontWeight: "600",
+                  color: "darkblue",
+                  fontSize: "1.1em",
+                }}
+              >
+                Esf:{" "}
+              </Col>
+              <Col>
+                <Input
+                  style={{ width: "200px" }}
+                  prefix="Desde: -"
+                  value={esf_from_neg}
+                  onChange={(e) => setEsfFromNeg(e.target.value)}
+                />{" "}
+              </Col>
+              <Col>
+                <Input
+                  style={{ width: "200px" }}
+                  prefix="Hasta: -"
+                  value={esf_to_neg}
+                  onChange={(e) => setEsfToNeg(e.target.value)}
+                />
+              </Col>
+            </Row>
+          ) : (
+            <></>
+          )}
+          {modo === "positivo" || modo === "ambos" ? (
+            <Row gutter={[16, 16]}>
+              <Col
+                style={{
+                  paddingTop: "6px",
+                  fontWeight: "600",
+                  color: "darkblue",
+                  fontSize: "1.1em",
+                }}
+              >
+                Esf :{" "}
+              </Col>
+              <Col>
+                <Input
+                  style={{ width: "200px" }}
+                  prefix="Desde: +"
+                  value={esf_from_pos}
+                  onChange={(e) => setEsfFromPos(e.target.value)}
+                />{" "}
+              </Col>
+              <Col>
+                <Input
+                  style={{ width: "200px" }}
+                  prefix="Hasta: +"
+                  value={esf_to_pos}
+                  onChange={(e) => setEsfToPos(e.target.value)}
+                />
+              </Col>
+            </Row>
+          ) : (
+            <></>
+          )}
           <Row gutter={[16, 16]}>
             <Col
               style={{
@@ -549,7 +611,6 @@ const TestGridCreation = () => {
             <Col>
               <Input
                 style={{ width: "200px" }}
-                disabled={!btnAplicarEnabled}
                 prefix="Desde: -"
                 value={cil_from}
                 onChange={(e) => setCilFrom(e.target.value)}
@@ -558,7 +619,6 @@ const TestGridCreation = () => {
             <Col>
               <Input
                 style={{ width: "200px" }}
-                disabled={!btnAplicarEnabled}
                 prefix="Hasta: -"
                 value={cil_to}
                 onChange={(e) => setCilTo(e.target.value)}
@@ -589,18 +649,24 @@ const TestGridCreation = () => {
           <Row gutter={[16, 16]} style={{ paddingTop: "8px" }}>
             <Col>
               <Button
-                disabled={!btnAplicarEnabled}
                 type="primary"
                 onClick={(_) => {
-                  prepare(esf_from_neg, esf_to_neg, cil_from, cil_to);
-                  prepare(
-                    esf_from_pos,
-                    esf_to_pos,
-                    cil_from,
-                    cil_to,
-                    null,
-                    "P",
-                  );
+                  setDataNeg([]);
+                  setDataPos([]);
+                  if (modo === "negativo" || modo === "ambos") {
+                    prepare(esf_from_neg, esf_to_neg, cil_from, cil_to);
+                  }
+                  if (modo === "positivo" || modo === "ambos") {
+                    prepare(
+                      esf_from_pos,
+                      esf_to_pos,
+                      cil_from,
+                      cil_to,
+                      null,
+                      "P",
+                    );
+                  }
+
                   setGrillaVisible(true);
                   setModalNuevaGrillaVisible(false);
                 }}
@@ -608,21 +674,6 @@ const TestGridCreation = () => {
                 Aplicar
               </Button>
             </Col>
-
-            {btnAplicarEnabled ? (
-              <></>
-            ) : (
-              <Col>
-                <Button
-                  danger
-                  onClick={(_) => {
-                    setBtnAplicarEnabled(true);
-                  }}
-                >
-                  <UnlockOutlined />
-                </Button>
-              </Col>
-            )}
           </Row>
         </div>
       </div>
@@ -678,7 +729,13 @@ const TestGridCreation = () => {
 
   return (
     <>
-      <Row style={{backgroundColor: "#fce1e1", padding: "16px", borderRadius: "8px"}}>
+      <Row
+        style={{
+          backgroundColor: "#fce1e1",
+          padding: "16px",
+          borderRadius: "8px",
+        }}
+      >
         <Col span={24}>
           <Row style={{ padding: "8px" }} gutter={[16, 16]}>
             <Col>Seleccione Sucursal:</Col>
@@ -716,13 +773,13 @@ const TestGridCreation = () => {
         </Col>
       </Row>
 
-      {nuevaGrillaEnabled && +fkSucursal > 0 ? (
+      {+fkSucursal > 0 && +fkCodigo > 0 ? (
         <Button
           size="large"
           type="primary"
           onClick={() => setModalNuevaGrillaVisible(true)}
         >
-          Nueva Grilla
+          Editar Grilla
         </Button>
       ) : (
         <></>
@@ -734,7 +791,7 @@ const TestGridCreation = () => {
         onCancel={() => setModalNuevaGrillaVisible(false)}
         width={"650px"}
       >
-        {nueva_grilla()}
+        {editar_grilla()}
       </Modal>
 
       {grillaVisible && (
@@ -754,13 +811,20 @@ const TestGridCreation = () => {
             </>
           }
         >
-          <Row>
-            <Col span="24">{get_grid(dataNeg || [], "negativo")}</Col>
-          </Row>
-          <Divider />
-          <Row>
-            <Col span="24">{get_grid(dataPos || [], "positivo")}</Col>
-          </Row>
+          {modo === "negativo" || modo === "ambos" ? (
+            <Row>
+              <Col span="24">{get_grid(dataNeg || [], "negativo", colsNeg)}</Col>
+            </Row>
+          ) : (
+            <></>
+          )}
+          {modo === "positivo" || modo === "ambos" ? (
+            <Row>
+              <Col span="24">{get_grid(dataPos || [], "positivo", colsPos)}</Col>
+            </Row>
+          ) : (
+            <></>
+          )}
           <Row style={{ paddingTop: "16px" }}>
             <Col span="24" style={{ textAlign: "left" }}>
               <Button size="large" type="primary" onClick={on_save}>
