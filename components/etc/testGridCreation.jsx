@@ -40,6 +40,14 @@ const TestGridCreation = () => {
   const [esf_to_pos, setEsfToPos] = useState(2);
   const [cil_from, setCilFrom] = useState(0);
   const [cil_to, setCilTo] = useState(2);
+  const [formData, setFormData] = useState({
+    esf_from_neg: 0,
+    esf_to_neg: 0,
+    esf_from_pos: 0,
+    esf_to_pos: 0,
+    cil_from: 0,
+    cil_to: 0,
+  })
   const [colsNeg, setColsNeg] = useState([]);
   const [colsPos, setColsPos] = useState([]);
   //const [tipo_grilla, setTipoGrilla] = useState("positivo");
@@ -275,7 +283,7 @@ const TestGridCreation = () => {
         <table style={table_style}>
           <thead>
             <tr>
-              <th colSpan={ columns.length +1} style={{ ...th_style, textAlign: "center" }}>
+              <th colSpan={columns.length + 1} style={{ ...th_style, textAlign: "center" }}>
                 {tipo_grilla == "negativo" ? "Negativos" : "Positivos"}
               </th>
             </tr>
@@ -363,19 +371,17 @@ const TestGridCreation = () => {
 
         min_cil = get_val(row.cil) < min_cil ? get_val(row.cil) : min_cil;
         max_cil = get_val(row.cil) > max_cil ? get_val(row.cil) : max_cil;
-        unchanged =false;
+        unchanged = false;
       });
 
-      if(!unchanged)
-      {
+      if (!unchanged) {
         result.push({ min_esf, max_esf, min_cil, max_cil });
       }
-      else
-      {
+      else {
         result.push({ min_esf: 0, max_esf: -1, min_cil: 0, max_cil: -1 });
       }
 
-      
+
     });
 
     return result;
@@ -427,8 +433,7 @@ const TestGridCreation = () => {
 
         //alert(JSON.stringify(rango));
 
-        if(rango.length < 1)
-        {
+        if (rango.length < 1) {
           alert("No se encontraron datos para crear la grilla.");
           return;
         }
@@ -549,16 +554,22 @@ const TestGridCreation = () => {
                 <Input
                   style={{ width: "200px" }}
                   prefix="Desde: -"
-                  value={esf_from_neg}
-                  onChange={(e) => setEsfFromNeg(e.target.value)}
+                  value={formData.esf_from_neg}
+                  onChange={(e) => {
+                    setFormData(fd => ({ ...fd, esf_from_neg: e.target.value }))
+                    // setEsfFromNeg(e.target.value)
+                  }}
                 />{" "}
               </Col>
               <Col>
                 <Input
                   style={{ width: "200px" }}
                   prefix="Hasta: -"
-                  value={esf_to_neg}
-                  onChange={(e) => setEsfToNeg(e.target.value)}
+                  value={formData.esf_to_neg}
+                  onChange={(e) => {
+                    setFormData(fd => ({ ...fd, esf_to_neg: e.target.value }))
+                    //  setEsfToNeg(e.target.value)
+                  }}
                 />
               </Col>
             </Row>
@@ -581,16 +592,22 @@ const TestGridCreation = () => {
                 <Input
                   style={{ width: "200px" }}
                   prefix="Desde: +"
-                  value={esf_from_pos}
-                  onChange={(e) => setEsfFromPos(e.target.value)}
+                  value={formData.esf_from_pos}
+                  onChange={(e) => {
+                    setFormData(fd => ({ ...fd, esf_from_pos: e.target.value }))
+                    //  setEsfFromPos(e.target.value)
+                  }}
                 />{" "}
               </Col>
               <Col>
                 <Input
                   style={{ width: "200px" }}
                   prefix="Hasta: +"
-                  value={esf_to_pos}
-                  onChange={(e) => setEsfToPos(e.target.value)}
+                  value={formData.esf_to_pos}
+                  onChange={(e) => {
+                    setFormData(fd => ({ ...fd, esf_to_pos: e.target.value }))
+                    //  setEsfToPos(e.target.value)
+                  }}
                 />
               </Col>
             </Row>
@@ -612,16 +629,22 @@ const TestGridCreation = () => {
               <Input
                 style={{ width: "200px" }}
                 prefix="Desde: -"
-                value={cil_from}
-                onChange={(e) => setCilFrom(e.target.value)}
+                value={formData.cil_from}
+                onChange={(e) => {
+                  setFormData(fd => ({ ...fd, cil_from: e.target.value }))
+                  //setCilFrom(e.target.value)
+                }}
               />{" "}
             </Col>
             <Col>
               <Input
                 style={{ width: "200px" }}
                 prefix="Hasta: -"
-                value={cil_to}
-                onChange={(e) => setCilTo(e.target.value)}
+                value={formData.cil_to}
+                onChange={(e) => {
+                  setFormData(fd => ({ ...fd, cil_to: e.target.value }))
+                  //setCilTo(e.target.value)
+                }}
               />
             </Col>
           </Row>
@@ -654,14 +677,18 @@ const TestGridCreation = () => {
                   setDataNeg([]);
                   setDataPos([]);
                   if (modo === "negativo" || modo === "ambos") {
-                    prepare(esf_from_neg, esf_to_neg, cil_from, cil_to);
+                    prepare(
+                      formData.esf_from_neg, 
+                      formData.esf_to_neg, 
+                      formData.cil_from, 
+                      formData.cil_to);
                   }
                   if (modo === "positivo" || modo === "ambos") {
                     prepare(
-                      esf_from_pos,
-                      esf_to_pos,
-                      cil_from,
-                      cil_to,
+                      formData.esf_from_pos,
+                      formData.esf_to_pos,
+                      formData.cil_from,
+                      formData.cil_to,
                       null,
                       "P",
                     );
