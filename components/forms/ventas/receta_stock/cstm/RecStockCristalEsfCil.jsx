@@ -25,6 +25,7 @@ const RecStockCristalEsfCil = (props) => {
     esf: "",
     cil: "",
   });
+  
 
   /*useEffect(() => {
     if (props.data  && props.data?.codigo) {

@@ -4,6 +4,7 @@ import SelectDisenio from "./form_elements/SelectDisenio";
 import { get, post } from "@/src/urls";
 import SelectCodigoVenta from "../ventas/SelectCodigoVenta";
 import globals from "@/src/globals";
+import HelperToolTip from "../ventas/common/HelperToolTip";
 
 const LaboratorioForm = ({ callback, idCliente }) => {
   const [ojos, setOjos] = useState("ambos");
@@ -70,6 +71,7 @@ const LaboratorioForm = ({ callback, idCliente }) => {
     });
   };
 
+  
   return (
     <>
       <Card
@@ -287,34 +289,36 @@ const LaboratorioForm = ({ callback, idCliente }) => {
                         />
                       </Col>
                       <Col span={3}>
-                        <Input
+                      <HelperToolTip onChange={(e) => {onValueChange("od_esf", e)}} />
+                        {/*<Input
                           style={{ width: "100%" }}
                           onChange={(e) => {
                             onValueChange("od_esf", e.target.value);
                           }}
-                        />
+                        />*/}
                       </Col>
                       <Col span={3}>
-                        <Input
+                      <HelperToolTip onChange={(e) => {onValueChange("od_cil", e)}} />
+                        {/*<Input
                           style={{ width: "100%" }}
                           onChange={(e) => {
                             onValueChange("od_cil", e.target.value);
                           }}
-                        />
+                        />*/}
                       </Col>
                       <Col span={3}>
-                        <Input
+                        <InputNumber
                           style={{ width: "100%" }}
-                          onChange={(e) => {
-                            onValueChange("od_eje", e.target.value);
+                          onChange={(v) => {
+                            onValueChange("od_eje",((v||"0").toString()).length > 0 ? v : "");
                           }}
                         />
                       </Col>
                       <Col span={3}>
-                        <Input
+                        <InputNumber
                           style={{ width: "100%" }}
-                          onChange={(e) => {
-                            onValueChange("od_add", e.target.value);
+                          onChange={(v) => {
+                            onValueChange("od_add",((v||"0").toString()).length > 0 ? v : "");
                           }}
                         />
                       </Col>
@@ -346,34 +350,36 @@ const LaboratorioForm = ({ callback, idCliente }) => {
                         />
                       </Col>
                       <Col span={3}>
-                        <Input
+                      <HelperToolTip onChange={(e) => {onValueChange("oi_esf", e)}} />
+                        {/*<Input
                           style={{ width: "100%" }}
                           onChange={(e) => {
                             onValueChange("oi_esf", e.target.value);
                           }}
-                        />
+                        />*/}
                       </Col>
                       <Col span={3}>
-                        <Input
+                      <HelperToolTip onChange={(e) => {onValueChange("oi_cil", e)}} />
+                        {/*<Input
                           style={{ width: "100%" }}
                           onChange={(e) => {
                             onValueChange("oi_cil", e.target.value);
                           }}
-                        />
+                        />*/}
                       </Col>
                       <Col span={3}>
-                        <Input
+                        <InputNumber
                           style={{ width: "100%" }}
-                          onChange={(e) => {
-                            onValueChange("oi_eje", e.target.value);
+                          onChange={(v) => {
+                            onValueChange("oi_eje",((v||"0").toString()).length > 0 ? v : "");
                           }}
                         />
                       </Col>
                       <Col span={3}>
-                        <Input
+                        <InputNumber
                           style={{ width: "100%" }}
-                          onChange={(e) => {
-                            onValueChange("oi_add", e.target.value);
+                          onChange={(v) => {
+                            onValueChange("oi_add", ((v||"0").toString()).length > 0 ? v : "");
                           }}
                         />
                       </Col>
