@@ -1,3 +1,4 @@
+import { idf_optica, usar_correcciones_recstock } from "../config";
 import globals from "../globals";
 import { post } from "../urls";
 import { validar_modo_pago } from "./pago_helper";
@@ -52,12 +53,23 @@ const validar_items_venta = (venta) => {
         {
             case 2: //receta stock
             //alert("tipo 2 " + venta.productos["lejos_od_visible"] + " " + venta.productos["lejos_od"])
-                _result = validar_tipo(_result,venta.productos,'lejos_od',['eje'])
-                _result = validar_tipo(_result,venta.productos,'lejos_oi',['eje'])
+                if(usar_correcciones_recstock)
+                {
+                    _result = validar_tipo(_result,venta.productos,'lejos_od',['eje','esf','cil'])
+                    _result = validar_tipo(_result,venta.productos,'lejos_oi',['eje','esf','cil'])
+                    _result = validar_tipo(_result,venta.productos,'cerca_od',['eje','esf','cil'])
+                    _result = validar_tipo(_result,venta.productos,'cerca_oi',['eje','esf','cil'])
+                }
+                else{
+                    _result = validar_tipo(_result,venta.productos,'lejos_od',['eje'])
+                    _result = validar_tipo(_result,venta.productos,'lejos_oi',['eje'])
+                    _result = validar_tipo(_result,venta.productos,'cerca_od',['eje'])
+                    _result = validar_tipo(_result,venta.productos,'cerca_oi',['eje'])
+                }
+
                 _result = validar_tipo(_result,venta.productos,'lejos_armazon')
                 _result = validar_tipo(_result,venta.productos,'lejos_tratamiento')
-                _result = validar_tipo(_result,venta.productos,'cerca_od',['eje'])
-                _result = validar_tipo(_result,venta.productos,'cerca_oi',['eje'])
+
                 _result = validar_tipo(_result,venta.productos,'cerca_armazon')
                 _result = validar_tipo(_result,venta.productos,'cerca_tratamiento')
             break; 

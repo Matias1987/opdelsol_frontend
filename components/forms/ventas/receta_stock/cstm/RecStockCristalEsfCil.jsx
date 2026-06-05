@@ -111,7 +111,7 @@ const RecStockCristalEsfCil = (props) => {
   ) : (
     <>
       <Row gutter={16}>
-        <Col>
+        <Col span={10}>
           <SelectCodigoVenta
             hideExtOpt={"0"}
             idfamilias={[globals.familiaIDs.CRISTALES]}
@@ -120,23 +120,25 @@ const RecStockCristalEsfCil = (props) => {
           />
         </Col>
 
-        <Col>
+        <Col span={3}>
           <HelperToolTip
             disabled={cristal.codigo == null}
             onChange={(e) => onchange_esf(e)}
             prefix={"Esf."}
+            positiveZero={true}
           />
         </Col>
-        <Col>
+        <Col span={3}>
           {
             <HelperToolTip
               disabled={cristal.codigo == null}
               onChange={(e) => onchange_cil(e)}
               prefix={"Cil."}
+            positiveZero={false}
             />
           }
         </Col>
-        <Col>
+        <Col span={3}>
           <InputNumber
             decimalSeparator={decimal_separator}
             onClick={(e) => {
@@ -153,7 +155,7 @@ const RecStockCristalEsfCil = (props) => {
             changeOnWheel={false}
           />
         </Col>
-        <Col>
+        <Col span={3}>
           <InputNumber
             changeOnWheel={false}
             decimalSeparator={decimal_separator}
@@ -172,10 +174,10 @@ const RecStockCristalEsfCil = (props) => {
             size="middle"
           />
         </Col>
-        <Col>
+        <Col span={2}>
           <Button
             danger
-            size="middle"
+            size="small"
             onClick={() => {
               onRemove();
             }}

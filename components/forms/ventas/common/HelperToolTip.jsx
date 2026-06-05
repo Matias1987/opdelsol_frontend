@@ -9,7 +9,7 @@ import {
 import { useState } from "react";
 import PosNegPicker from "./PosNegPicker";
 
-const HelperToolTip = ({ disabled, callback, value, onChange, prefix }) => {
+const HelperToolTip = ({ disabled, callback, value, onChange, prefix, pWidth, positiveZero }) => {
   const [enabled, setEnabled] = useState(true);
   const [internalValue, setInternalValue] = useState("");
   const options = [
@@ -101,17 +101,6 @@ const HelperToolTip = ({ disabled, callback, value, onChange, prefix }) => {
       placement="top"
       title={
         <>
-          {/*<Switch
-            size="large"
-            checked={enabled}
-            onChange={(_) => setEnabled(!enabled)}
-            checkedChildren={<span style={{fontSize:"1.5em", fontWeight:"bolder", marginTop:"-32px"}}>-</span>}
-            unCheckedChildren={<span style={{fontSize:"1.5em", fontWeight:"bolder", marginTop:"-12px"}}>+</span>}
-            defaultChecked
-            style={{
-              backgroundColor: enabled ? "green" : "orange", padding: "0" // Set colors dynamically
-            }}
-          />*/}
           <PosNegPicker
             onChange={(v) => {
               let e = true;
@@ -127,52 +116,53 @@ const HelperToolTip = ({ disabled, callback, value, onChange, prefix }) => {
       }
       color="cyan"
     >
-      {/*<InputNumber
-        onClick={(e) => {
-          e.target.select();
-        }}
-        style={{ width: "130px",  }}
-        prefix={<span style={{fontWeight:"500"}}>{`${enabled ? '-' : '+'}`}</span>}
-        size="small"
-        addonBefore={`${prefix}:`}
-        disabled={disabled}
-        value={value}
-        defaultValue={0}
-        step={"0.25"}
-        min={0}
-        onChange={(e) => {
-          onChange?.(e);
-        }}
-      />*/}
       <AutoComplete
         options={options}
         value={internalValue}
         disabled={disabled}
         prefix={
-          <span style={{ fontWeight: "500" }}>{`${enabled ? "-" : "+"}`}</span>
+          <span style={{ fontWeight: "500", whiteSpace: "nowrap" }}>{prefix} {`${enabled ? "-" : "+"}`}</span>
         }
-        style={{ width: "100px" }}
+        style={{ width: pWidth || "80px" }}
         placeholder="Ingrese valor"
-        allowClear
         filterOption={(inputValue, option) =>
           option.value.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1
         }
         onChange={(e) => {
-          let _value = e;
+          let _value = e||"";
+
+          if(_value.length<1)
+          {
+            onChange?.("");
+          }
+
+          let _enabled = enabled
           if (/\+|\-/.test(_value)) {
             if (/\+/.test(_value)) {
-              setEnabled(false);
+              //setEnabled(false);
+              _enabled=false;
             } else {
-              setEnabled(true);
+              //setEnabled(true);
+              _enabled=true;
             }
             //remove + or - for validation
             _value = _value.replace(/\+|\-/, "");
           }
+
+          if(_value.toString()=="0.00")
+          {
+            //alert(positiveZero ? "El valor 0.00 se interpretará como positivo." : "El valor 0.00 se interpretará como negativo.");
+            _enabled= positiveZero ?  false : true;
+          }
+          setEnabled(_enabled)
           setInternalValue(_value);
-          const v1 = (enabled ? "-" : "+") + _value;
+          const v1 = (_enabled ? "-" : "+") + _value;
+          
           onChange?.(v1);
         }}
         onFocus={(e)=>e.target.select()}
+
+
       />
     </Tooltip>
   );
