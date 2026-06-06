@@ -5,18 +5,23 @@ import Papa from "papaparse";
 import {
   AlertOutlined,
   CheckOutlined,
+  EditFilled,
+  EditOutlined,
   ReloadOutlined,
   SaveFilled,
   UnlockOutlined,
   UploadOutlined,
 } from "@ant-design/icons";
 import {
+  Affix,
   Button,
   Card,
   Checkbox,
   Col,
   Divider,
+  Flex,
   Input,
+  InputNumber,
   Modal,
   Row,
   Select,
@@ -34,20 +39,20 @@ const TestGridCreation = () => {
   const [impCSVModo, setImpCSVModo] = useState("neg");
   const [impCSVinvertirESF, setImpCSVinvertirESF] = useState(false);
 
-  const [esf_from_neg, setEsfFromNeg] = useState(0);
-  const [esf_to_neg, setEsfToNeg] = useState(2);
-  const [esf_from_pos, setEsfFromPos] = useState(0);
-  const [esf_to_pos, setEsfToPos] = useState(2);
-  const [cil_from, setCilFrom] = useState(0);
-  const [cil_to, setCilTo] = useState(2);
+  //const [esf_from_neg, setEsfFromNeg] = useState(0);
+  //const [esf_to_neg, setEsfToNeg] = useState(2);
+  //const [esf_from_pos, setEsfFromPos] = useState(0);
+  //const [esf_to_pos, setEsfToPos] = useState(2);
+  //const [cil_from, setCilFrom] = useState(0);
+  //const [cil_to, setCilTo] = useState(2);
   const [formData, setFormData] = useState({
-    esf_from_neg: 0,
-    esf_to_neg: 0,
+    esf_from_neg: 0.25,
+    esf_to_neg: 4,
     esf_from_pos: 0,
-    esf_to_pos: 0,
+    esf_to_pos: 4,
     cil_from: 0,
-    cil_to: 0,
-  })
+    cil_to: 2,
+  });
   const [colsNeg, setColsNeg] = useState([]);
   const [colsPos, setColsPos] = useState([]);
   //const [tipo_grilla, setTipoGrilla] = useState("positivo");
@@ -139,6 +144,8 @@ const TestGridCreation = () => {
     cellsWithQuantity.find((c) => c === `${+esf}-${+cil}`);
 
   const on_save = () => {
+    if (!confirm("¿Confirma que desea guardar la grilla?")) return;
+
     const dataToSave = {
       fk_codigo: fkCodigo,
       fk_sucursal: fkSucursal,
@@ -277,13 +284,19 @@ const TestGridCreation = () => {
 
   const get_grid = (src, tipo_grilla, columns) =>
     src.length < 1 ? (
-      <p>{tipo_grilla == "negativo" ? "Negativos" : "Positivos"} - No hay datos para mostrar</p>
+      <p>
+        {tipo_grilla == "negativo" ? "Negativos" : "Positivos"} - No hay datos
+        para mostrar
+      </p>
     ) : (
       <>
         <table style={table_style}>
           <thead>
             <tr>
-              <th colSpan={columns.length + 1} style={{ ...th_style, textAlign: "center" }}>
+              <th
+                colSpan={columns.length + 1}
+                style={{ ...th_style, textAlign: "center" }}
+              >
                 {tipo_grilla == "negativo" ? "Negativos" : "Positivos"}
               </th>
             </tr>
@@ -376,12 +389,9 @@ const TestGridCreation = () => {
 
       if (!unchanged) {
         result.push({ min_esf, max_esf, min_cil, max_cil });
-      }
-      else {
+      } else {
         result.push({ min_esf: 0, max_esf: -1, min_cil: 0, max_cil: -1 });
       }
-
-
     });
 
     return result;
@@ -438,15 +448,14 @@ const TestGridCreation = () => {
           return;
         }
 
-        setCilFrom(rango[0].min_cil);
-        setCilTo(rango[0].max_cil);
+        //setCilFrom(rango[0].min_cil);
+        //setCilTo(rango[0].max_cil);
 
+        //setEsfFromNeg(rango[1].min_esf);
+        //setEsfToNeg(rango[1].max_esf);
 
-        setEsfFromNeg(rango[1].min_esf);
-        setEsfToNeg(rango[1].max_esf);
-
-        setEsfFromPos(rango[0].min_esf);
-        setEsfToPos(rango[0].max_esf);
+        //setEsfFromPos(rango[0].min_esf);
+        //setEsfToPos(rango[0].max_esf);
 
         //alert( JSON.stringify(theData.filter((r) => parseFloat(r.esf) >= 0)));
         //console.log(JSON.stringify(theData));
@@ -509,7 +518,7 @@ const TestGridCreation = () => {
       >
         <Row>
           <Col style={{ paddingLeft: "16px" }}>
-            <h3>Editar Grilla</h3>
+            <h3>Editar Grilla: {selectedCodigoLabel}</h3>
           </Col>
         </Row>
         <Row gutter={[16, 16]} style={{ paddingBottom: "8px" }}>
@@ -551,23 +560,40 @@ const TestGridCreation = () => {
                 Esf:{" "}
               </Col>
               <Col>
-                <Input
+                <InputNumber
+                  min={0.25}
+                  step={0.25}
                   style={{ width: "200px" }}
                   prefix="Desde: -"
                   value={formData.esf_from_neg}
-                  onChange={(e) => {
-                    setFormData(fd => ({ ...fd, esf_from_neg: e.target.value }))
+                  onChange={(v) => {
+                    let _val = v || "0";
+                    if (parseFloat(_val) < 0.25) {
+                    }
+                    setFormData((fd) => ({
+                      ...fd,
+                      esf_from_neg: _val.toString(),
+                    }));
                     // setEsfFromNeg(e.target.value)
                   }}
                 />{" "}
               </Col>
               <Col>
-                <Input
+                <InputNumber
+                  min={0}
+                  step={0.25}
                   style={{ width: "200px" }}
                   prefix="Hasta: -"
                   value={formData.esf_to_neg}
-                  onChange={(e) => {
-                    setFormData(fd => ({ ...fd, esf_to_neg: e.target.value }))
+                  onChange={(v) => {
+                    let _val = v || "0";
+                    if (parseFloat(_val) < 0) {
+                      _val = "0";
+                    }
+                    setFormData((fd) => ({
+                      ...fd,
+                      esf_to_neg: _val.toString(),
+                    }));
                     //  setEsfToNeg(e.target.value)
                   }}
                 />
@@ -586,26 +612,44 @@ const TestGridCreation = () => {
                   fontSize: "1.1em",
                 }}
               >
-                Esf :{" "}
+                Esf:{" "}
               </Col>
               <Col>
-                <Input
+                <InputNumber
+                  min={0}
+                  step={0.25}
                   style={{ width: "200px" }}
                   prefix="Desde: +"
                   value={formData.esf_from_pos}
-                  onChange={(e) => {
-                    setFormData(fd => ({ ...fd, esf_from_pos: e.target.value }))
+                  onChange={(v) => {
+                    let _val = v || "0";
+                    if (parseFloat(_val) < 0) {
+                      _val = "0";
+                    }
+                    setFormData((fd) => ({
+                      ...fd,
+                      esf_from_pos: _val.toString(),
+                    }));
                     //  setEsfFromPos(e.target.value)
                   }}
                 />{" "}
               </Col>
               <Col>
-                <Input
+                <InputNumber
+                  min={0}
+                  step={0.25}
                   style={{ width: "200px" }}
                   prefix="Hasta: +"
                   value={formData.esf_to_pos}
-                  onChange={(e) => {
-                    setFormData(fd => ({ ...fd, esf_to_pos: e.target.value }))
+                  onChange={(v) => {
+                    let _val = v || "0";
+                    if (parseFloat(_val) < 0) {
+                      _val = "0";
+                    }
+                    setFormData((fd) => ({
+                      ...fd,
+                      esf_to_pos: _val.toString(),
+                    }));
                     //  setEsfToPos(e.target.value)
                   }}
                 />
@@ -614,7 +658,7 @@ const TestGridCreation = () => {
           ) : (
             <></>
           )}
-          <Row gutter={[16, 16]}>
+          <Row gutter={[16, 16]} style={{ paddingTop: "8px" }}>
             <Col
               style={{
                 paddingTop: "6px",
@@ -626,23 +670,41 @@ const TestGridCreation = () => {
               Cil:{" "}
             </Col>
             <Col>
-              <Input
+              <InputNumber
+                min={0}
+                step={0.25}
                 style={{ width: "200px" }}
                 prefix="Desde: -"
                 value={formData.cil_from}
-                onChange={(e) => {
-                  setFormData(fd => ({ ...fd, cil_from: e.target.value }))
-                  //setCilFrom(e.target.value)
+                onChange={(v) => {
+                  let _val = v || "0";
+                  if (parseFloat(_val) < 0) {
+                    _val = "0";
+                  }
+                  setFormData((fd) => ({
+                    ...fd,
+                    cil_from: _val.toString(),
+                  }));
+                  //setCilFrom(v)
                 }}
               />{" "}
             </Col>
             <Col>
-              <Input
+              <InputNumber
+                min={0}
+                step={0.25}
                 style={{ width: "200px" }}
                 prefix="Hasta: -"
                 value={formData.cil_to}
-                onChange={(e) => {
-                  setFormData(fd => ({ ...fd, cil_to: e.target.value }))
+                onChange={(v) => {
+                  let _val = v || "0";
+                  if (parseFloat(_val) < 0) {
+                    _val = "0";
+                  }
+                  setFormData((fd) => ({
+                    ...fd,
+                    cil_to: _val.toString(),
+                  }));
                   //setCilTo(e.target.value)
                 }}
               />
@@ -674,14 +736,28 @@ const TestGridCreation = () => {
               <Button
                 type="primary"
                 onClick={(_) => {
+                  if (
+                    (dataNeg.length &&
+                      (modo === "negativo" || modo === "ambos")) ||
+                    (dataPos.length > 0 &&
+                      (modo === "positivo" || modo === "ambos"))
+                  ) {
+                    if (
+                      !confirm(
+                        "Al aplicar se van a sobrescribir los datos existentes. ¿Desea continuar?",
+                      )
+                    )
+                      return;
+                  }
                   setDataNeg([]);
                   setDataPos([]);
                   if (modo === "negativo" || modo === "ambos") {
                     prepare(
-                      formData.esf_from_neg, 
-                      formData.esf_to_neg, 
-                      formData.cil_from, 
-                      formData.cil_to);
+                      formData.esf_from_neg,
+                      formData.esf_to_neg,
+                      formData.cil_from,
+                      formData.cil_to,
+                    );
                   }
                   if (modo === "positivo" || modo === "ambos") {
                     prepare(
@@ -758,14 +834,18 @@ const TestGridCreation = () => {
     <>
       <Row
         style={{
-          backgroundColor: "#fce1e1",
-          padding: "16px",
+          backgroundColor: "#f1f1f1",
+          padding: "8px",
           borderRadius: "8px",
+          border: "1px solid #dbdbdb",
+          marginBottom: "16px",
         }}
       >
+        
         <Col span={24}>
+        <Flex justify="center" align="center">
           <Row style={{ padding: "8px" }} gutter={[16, 16]}>
-            <Col>Seleccione Sucursal:</Col>
+            <Col style={{ paddingTop: "6px" }}>Seleccione Sucursal:</Col>
             <Col>
               <SucursalSelect
                 callback={(v) => {
@@ -797,20 +877,83 @@ const TestGridCreation = () => {
               />
             </Col>
           </Row>
+          </Flex>
         </Col>
+        
       </Row>
-
-      {+fkSucursal > 0 && +fkCodigo > 0 ? (
-        <Button
-          size="large"
-          type="primary"
-          onClick={() => setModalNuevaGrillaVisible(true)}
+      <Affix offsetTop={0} style={{ zIndex: 999 }}>
+        <Row
+          style={{
+            paddingTop: "4px",
+            paddingBottom: "4px",
+            paddingLeft: "16px",
+            paddingRight: "16px",
+            display: "flex",
+            justifyContent: "space-between",
+            backgroundColor: "rgba(216, 214, 214, 0.9)",
+            border: "1px solid #dbdbdb",
+            borderRadius: "8px",
+          }}
         >
-          Editar Grilla
-        </Button>
-      ) : (
-        <></>
-      )}
+          <Col style={{ display: "flex", gap: "16px" }}>
+            {+fkSucursal > 0 && +fkCodigo > 0 ? (
+              <>
+                <Button
+                  style={{borderRadius:"8px", backgroundColor:"rgba(0, 128, 17, 0.1)", borderColor:"#0502c7", color:"#0502c7"}}
+                  size="middle"
+                  type="primary"
+                  onClick={() => setModalNuevaGrillaVisible(true)}
+                >
+                  <EditFilled />
+                  Editar Grilla
+                </Button>
+                <Button
+                  style={{borderRadius:"8px", backgroundColor:"rgba(0, 128, 17, 0.1)", borderColor:"#008011", color:"#008011"}}
+                  onClick={(_) => {
+                    load(fkCodigo);
+                  }}
+                >
+                  <ReloadOutlined /> Recargar Grilla
+                </Button>
+              </>
+            ) : (
+              <></>
+            )}
+          </Col>
+
+          <Col>
+            <span
+              style={{
+                display: "inline-block",
+                fontWeight: "600",
+                color: "#030244",
+                fontSize: "1.1em",
+                fontStyle: "italic",
+                paddingTop: "6px",
+              }}
+            >
+              {+fkSucursal > 0 && +fkCodigo > 0 ? (
+                <>{selectedCodigoLabel}</>
+              ) : (
+                <></>
+              )}
+            </span>
+          </Col>
+
+          <Col style={{ textAlign: "left" }}>
+            <Button
+              style={{borderRadius:"8px", backgroundColor:"rgba(255, 0, 0, 0.1)", borderColor:"#ff0000", color:"#ff0000"}}
+              size="middle"
+              type="primary"
+              danger
+              onClick={on_save}
+              disabled={dataNeg.length < 1 && dataPos.length < 1}
+            >
+              <SaveFilled /> Guardar grilla
+            </Button>
+          </Col>
+        </Row>
+      </Affix>
       <Modal
         destroyOnClose
         footer={null}
@@ -822,43 +965,30 @@ const TestGridCreation = () => {
       </Modal>
 
       {grillaVisible && (
-        <Card
-          size="small"
-          title={"Grilla de Cristales " + selectedCodigoLabel}
-          style={{ width: "100%" }}
-          extra={
-            <>
-              <Button
-                onClick={(_) => {
-                  load(fkCodigo);
-                }}
-              >
-                <ReloadOutlined />
-              </Button>
-            </>
-          }
-        >
+        <Card size="small" style={{ width: "100%" }} extra={<></>}>
           {modo === "negativo" || modo === "ambos" ? (
             <Row>
-              <Col span="24">{get_grid(dataNeg || [], "negativo", colsNeg)}</Col>
+              <Col span="24">
+                <Flex justify="center" align="center">
+                  {get_grid(dataNeg || [], "negativo", colsNeg)}
+                </Flex>
+              </Col>
             </Row>
           ) : (
             <></>
           )}
           {modo === "positivo" || modo === "ambos" ? (
             <Row>
-              <Col span="24">{get_grid(dataPos || [], "positivo", colsPos)}</Col>
+              <Col span="24">
+                <Flex justify="center" align="center">
+                  {get_grid(dataPos || [], "positivo", colsPos)}
+                </Flex>
+              </Col>
             </Row>
           ) : (
             <></>
           )}
-          <Row style={{ paddingTop: "16px" }}>
-            <Col span="24" style={{ textAlign: "left" }}>
-              <Button size="large" type="primary" onClick={on_save}>
-                <SaveFilled /> Guardar grilla
-              </Button>
-            </Col>
-          </Row>
+          <Row style={{ paddingTop: "16px" }}></Row>
         </Card>
       )}
       <Divider />
@@ -909,6 +1039,7 @@ const TestGridCreation = () => {
         open={modal_visible}
         onCancel={() => setModalVisible(false)}
         width={"400px"}
+        title={selectedCodigoLabel}
       >
         <Row style={{ padding: "8px" }}>
           <Col>

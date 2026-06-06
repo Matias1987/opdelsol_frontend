@@ -13,6 +13,7 @@ const EdicionClientePopup = (props) => {
         telefono: '',
         direccion: '',
         idcliente: '',
+        dni:'',
 
     })
     const [fechaNac, setFechaNac] = useState({
@@ -36,6 +37,7 @@ const EdicionClientePopup = (props) => {
                 telefono: response.data[0].telefono1,
                 direccion: response.data[0].direccion,
                 idcliente: props.idcliente,
+                dni: response.data[0].dni,
             })
         })
         .catch(err=>{console.log("error")})
@@ -48,6 +50,7 @@ const EdicionClientePopup = (props) => {
             telefono: '',
             idcliente: '',
             direccion: '',
+            dni: '',
         })
     }
 
@@ -68,7 +71,17 @@ const EdicionClientePopup = (props) => {
             alert("Teléfono no válido")
             return;
         }
+        if(is_invalid(cliente.dni))
+        {
+            alert("DNI no válido")
+            return;
+        }
         post_method(post.update.update_cliente,cliente,(resp)=>{
+            if((resp?.data) && +resp?.data?.ok==0)
+            {
+                alert(resp?.data?.message || "Error" );
+                return;
+            }
             alert("OK")
             setOpen(false)
             props?.callback?.()
@@ -79,6 +92,9 @@ const EdicionClientePopup = (props) => {
     <Button onClick={onOpen} size="small" type="link" ><EditOutlined /> Editar</Button>
     <Modal open={open} title="Editar Cliente" onCancel={()=>{onClose()}} onOk={onPost}>
     <Row>
+        <Col span={24}>
+            <Input style={{backgroundColor:"rgba(110,127,128,0.3)"}} prefix={"DNI:"} onChange={(e)=>{setCliente((__c)=>({...__c,dni:e.target.value}))}} value={cliente.dni} />
+        </Col>
         <Col span={24}>
             <Input style={{backgroundColor:"rgba(110,127,128,0.3)"}} prefix={"Apellido:"} onChange={(e)=>{setCliente((__c)=>({...__c,apellido:e.target.value}))}} value={cliente.apellido} />
         </Col>
@@ -91,6 +107,7 @@ const EdicionClientePopup = (props) => {
         <Col span={24}>
             <Input style={{backgroundColor:"rgba(110,127,128,0.3)"}} prefix={"Dirección:"} onChange={(e)=>{setCliente((__c)=>({...__c,direccion:e.target.value}))}} value={cliente.direccion} />
         </Col>
+        
         {/*<Col span={20}>
             <Space>
                 <Space.Compact>
