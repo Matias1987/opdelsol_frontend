@@ -296,7 +296,7 @@ const ListaVentas = (props) => {
         return;
       }
 
-      setDataSource(response.data);
+      setDataSource(response.data.map((r) => ({ ...r, key: r.idventa, idsucursal: r.sucursal_idsucursal, idcliente: r.cliente_idcliente })));
       setLoading(false);
     });
   }, [reload]);
@@ -422,7 +422,7 @@ const ListaVentas = (props) => {
       ) : (<span style={{color:"#013f01", fontWeight:"600", fontSize: ".75em"}}>&nbsp;&nbsp;{tipo_trabajo}</span>),
       sorter: (a, b) => a.tipo.localeCompare(b.tipo),
     },
-    { width: "100px", hidden: false, title: "Fecha", dataIndex: "fecha", render: (_,{isParent, fecha})=> isParent ? fecha : "" },
+    { width: "100px", hidden: false, title: "Fecha", dataIndex: "fecha", render: (_,{isParent, fecha, idtrabajo})=> (+idtrabajo<0 || +isParent==1) ? fecha : "" },
 
     {
       width: "110px",
