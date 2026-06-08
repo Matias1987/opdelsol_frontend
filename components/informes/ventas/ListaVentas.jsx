@@ -362,7 +362,7 @@ const ListaVentas = (props) => {
       title: "Cliente",
       dataIndex: "cliente",
       sorter: (a, b) => a.cliente.localeCompare(b.cliente),
-      render: (_,{cliente, isParent})=> +isParent==1 ? cliente : ""
+      render: (_,{cliente, isParent, idtrabajo})=> (+idtrabajo<0 || +isParent==1) ? cliente : ""
     },
     {
       //fixed: "left",
