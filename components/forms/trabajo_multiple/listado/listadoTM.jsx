@@ -100,7 +100,7 @@ const ListadoVentasTM = (_) => {
         title={`Venta ${ventaSeleccionada?.idventa}`}
       >
 
-        <Informe idventa={69747} />
+        <Informe idventa={ventaSeleccionada?.idventa} />
       </Modal>
     </>
   );

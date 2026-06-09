@@ -167,7 +167,7 @@ const TrabajoMultiple = ({
       if (tr.od_fkDisenio && tr?.od_fkDisenio > 0) {
         _items.push({
           idcodigo: tr.od_fkBase,
-          idtrabajo: tr.od_fkDisenio,
+          iddisenio: tr.od_fkDisenio,
           iddescuento: tr.od_iddescuento,
           tipo: "od",
           cantidad: "1",
@@ -181,7 +181,7 @@ const TrabajoMultiple = ({
       if (tr.oi_fkDisenio && tr?.oi_fkDisenio > 0) {
         _items.push({
           idcodigo: tr.oi_fkBase,
-          idtrabajo: tr.oi_fkDisenio,
+          iddisenio: tr.oi_fkDisenio,
           iddescuento: tr.oi_iddescuento,
           descuento: tr.oi_descuento,
           tipo: "oi",

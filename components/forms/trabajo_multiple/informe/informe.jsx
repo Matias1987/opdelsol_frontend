@@ -1,12 +1,12 @@
 import PrinterWrapper from "@/components/PrinterWrapper";
 import { get } from "@/src/urls";
-import { Spin } from "antd";
+import { Input, Spin } from "antd";
 import { useEffect, useState } from "react";
 
 const Informe = ({ idventa }) => {
   const [loading, setLoading] = useState(false);
-  const [data, setData] = useState(
-{
+  const [data, setData] = useState(null);
+/*{
         "idventa": 69767,
         "cliente_idcliente": 1,
         "sucursal_idsucursal": 15,
@@ -130,15 +130,14 @@ const Informe = ({ idventa }) => {
                 ]
             }
         ]
-    }
-  );
-
+    } */
   const load = () => {
     setLoading(true);
-    fetch(get.obtener_ventas_tm + idventa)
+    fetch(get.obtener_venta_tm + idventa)
       .then((r) => r.json())
       .then((response) => {
         setData(response.data);
+        
         setLoading(false);
       });
   };
@@ -155,7 +154,7 @@ const Informe = ({ idventa }) => {
   };
 
   useEffect(() => {
-    //load();
+    load();
   }, []);
 
   const header = () => {
@@ -167,8 +166,8 @@ const Informe = ({ idventa }) => {
             <td style={{ padding: "4px" }}></td>
           </tr>
           <tr>
-            <td>Operaci&oacute;n N°: <span style={{fontWeight:"600"}}>{data.idventa}</span></td>
-            <td>Cliente ID: {data.cliente_idcliente}</td>
+            <td>Operaci&oacute;n N°: <span style={{fontWeight:"600"}}>{data?.idventa}</span></td>
+            <td>Cliente ID: {data?.cliente_idcliente}</td>
           </tr>
           <tr>
             <td>Fecha: 00/00/0000</td>
@@ -208,7 +207,7 @@ const Informe = ({ idventa }) => {
           </tr>
         </thead>
         <tbody>
-          {data.items.map((i) => {
+          {data?.items?.map((i) => {
             return (
               <tr>
                 <th style={td_style}>{i.tipo}</th>
@@ -258,7 +257,7 @@ const Informe = ({ idventa }) => {
           </tr>
         </thead>
         <tbody>
-          {data.items.map((i) => {
+          {data?.items?.map((i) => {
             return (
               <tr>
                 <th style={td_style}>{i.tipo}</th>
@@ -280,7 +279,7 @@ const Informe = ({ idventa }) => {
   };
 
   const trabajo = (data) => {
-    return data.tipo != "laboratorio"
+    return data?.tipo != "laboratorio"
       ? stock(data)
       : laboratorio(data);
   };
@@ -311,11 +310,14 @@ const Informe = ({ idventa }) => {
     <Spin />
   ) : (
     <>
+    {/*<div style={{overflow:"scroll", maxHeight:"400px", width:"400px"}}>
+      <pre>{JSON.stringify(data, null, 4)}</pre>
+    </div>*/}
       <PrinterWrapper>
         <div style={{ fontFamily: "Arial" }}>
           {header()}
           <br />
-          {data.trabajos.map((t) => trabajo(t))}
+          {data?.trabajos?.map((t) => trabajo(t))}
           <br />
           <hr />
           {totales()}

@@ -22,6 +22,7 @@ import Resfuerzo from "@/components/forms/caja/cobro_v2/resfuerzo";
 import { formatFloat } from "@/src/helpers/formatters";
 import { idf_optica } from "@/src/config";
 import ExportToExcel2 from "@/components/etc/ExportToExcel2";
+import Informe from "@/components/forms/trabajo_multiple/informe/informe";
 /**
  *
  * @param estado INGRESADO, PENDIENTE, TERMINADO, ENTREGADO, ANULADO...
@@ -49,6 +50,8 @@ const ListaVentas = (props) => {
   const [reload, setReload] = useState(true);
   const [popupCobroOpen, setPopupCobroOpen] = useState(false);
   const [popupDetalleOpen, setPopupDetalleOpen] = useState(false);
+  const [popupDetalleTMOpen, setPopupDetalleTMOpen] = useState(false);
+  const [popupImprimirOpen, setPoupImprimirOpen] = useState(false);
   const [selectedVenta, setSelectedVenta] = useState({
     idventa: -1,
     idcliente: -1,
@@ -61,13 +64,27 @@ const ListaVentas = (props) => {
   const add = (obj, value, key) =>
     typeof value === "undefined" ? obj : { ...obj, [key]: value };
 
-  const buttons = (_idventa, _idcliente, _idsucursal, _tipo,_idtrabajo) => {
+  const buttons = (_idventa, _idcliente, _idsucursal, _tipo, _idtrabajo) => {
     return (
       <>
         {typeof props.imprimir !== "undefined" ? (
           <>
-            <ImprimirSobreVenta idventa={_idventa} />
-            &nbsp;&nbsp;
+            <Button
+              onClick={(_) => {
+                setSelectedVenta({ idventa: _idventa });
+                if(+_tipo!=7)
+                {
+                  alert(_tipo)
+                  setPoupImprimirOpen(true);
+                }
+                else{
+                  setPopupDetalleTMOpen(true);
+                }
+                
+              }}
+            >
+              <InfoCircleFilled />
+            </Button>
           </>
         ) : (
           <></>
@@ -119,7 +136,7 @@ const ListaVentas = (props) => {
                     (resp) => {
                       alert("OK");
                       setReload(!reload);
-                    }
+                    },
                   );
                   registrarVentaTerminado(_idventa);
                 }
@@ -152,7 +169,7 @@ const ListaVentas = (props) => {
                   (resp) => {
                     alert("OK");
                     setReload(!reload);
-                  }
+                  },
                 );
               }
             }}
@@ -186,10 +203,10 @@ const ListaVentas = (props) => {
                           idventa: _idventa,
                           idsucursal: globals.obtenerSucursal(),
                         },
-                        (response) => {}
+                        (response) => {},
                       );
                       registrarVentaAnulado(_idventa);
-                    }
+                    },
                   );
                 }
               }}
@@ -296,7 +313,14 @@ const ListaVentas = (props) => {
         return;
       }
 
-      setDataSource(response.data.map((r) => ({ ...r, key: r.idventa, idsucursal: r.sucursal_idsucursal, idcliente: r.cliente_idcliente })));
+      setDataSource(
+        response.data.map((r) => ({
+          ...r,
+          key: r.idventa,
+          idsucursal: r.sucursal_idsucursal,
+          idcliente: r.cliente_idcliente,
+        })),
+      );
       setLoading(false);
     });
   }, [reload]);
@@ -328,33 +352,52 @@ const ListaVentas = (props) => {
       title: "Nro.",
       dataIndex: "idventa",
       sorter: (a, b) => a.idventa - b.idventa,
-      render: (_,{idventa, idtrabajo, isParent}) => +idtrabajo <0 || +isParent==1 ?  <span style={{fontWeight:"bolder", fontSize:"13px"}}>{idventa}</span> :  <span style={{fontStyle:"italic", color:"blue", fontSize:"11px"}}>{idventa}-{idtrabajo}</span>
+      render: (_, { idventa, idtrabajo, isParent }) =>
+        +idtrabajo < 0 || +isParent == 1 ? (
+          <span style={{ fontWeight: "bolder", fontSize: "13px" }}>
+            {idventa}
+          </span>
+        ) : (
+          <span
+            style={{ fontStyle: "italic", color: "blue", fontSize: "11px" }}
+          >
+            {idventa}-{idtrabajo}
+          </span>
+        ),
     },
     {
-      render: (_, { idventa, idcliente, idsucursal, tipo, idtrabajo }) => (
+      render: (_, { idventa, idcliente, idsucursal, tipo, idtrabajo, isParent }) => +idtrabajo < 0 || +isParent == 1 ? (
         <>
           {" "}
           <Button
             size="small"
             type="link"
-            onClick={(_) => {
+            onClick={(e) => {
+              e.stopPropagation();
               setSelectedVenta((_) => ({
                 idventa: idventa,
                 idcliente: idcliente,
                 idsucursal: idsucursal,
                 tipo: tipo,
               }));
-              setPopupDetalleOpen(true);
+              if(+tipo!=7)
+                {
+                  setPopupDetalleOpen(true);
+                }
+                else{
+                  setPopupDetalleTMOpen(true);
+                }
+              
             }}
           >
             <InfoCircleFilled />
           </Button>
         </>
-      ),
+      ) : <></>,
       width: "40px",
       hidden: false,
     },
-    
+
     {
       //fixed: "left",
       width: "180px",
@@ -362,52 +405,54 @@ const ListaVentas = (props) => {
       title: "Cliente",
       dataIndex: "cliente",
       sorter: (a, b) => a.cliente.localeCompare(b.cliente),
-      render: (_,{cliente, isParent, idtrabajo})=> (+idtrabajo<0 || +isParent==1) ? cliente : ""
+      render: (_, { cliente, isParent, idtrabajo }) =>
+        +idtrabajo < 0 || +isParent == 1 ? cliente : "",
     },
     {
       //fixed: "left",
       width: "130px",
       hidden: hideEstadoDeposito ? true : false,
       title: "Estado Dep.",
-      render: (_, { estado_taller, estado_trabajo, isParent }) => +isParent==1 ? <></> : estado_trabajo !='' ?
-      (
-        <>
-          <Tag
-            color={
-              estado_trabajo == "LAB"
-                ? "red"
-                : estado_trabajo == "CALIBRADO"
-                ? "blue"
-                : estado_trabajo == "TERMINADO"
-                ? "green"
-                : estado_trabajo == "PEDIDO"
-                ? "orange"
-                : "purple"
-            }
-          >
-            {estado_trabajo}
-          </Tag>
-        </>
-      )
-      : (
-        <>
-          <Tag
-            color={
-              estado_taller == "LAB"
-                ? "red"
-                : estado_taller == "CALIBRADO"
-                ? "blue"
-                : estado_trabajo == "TERMINADO"
-                ? "green"
-                : estado_taller == "PEDIDO"
-                ? "orange"
-                : "purple"
-            }
-          >
-            {estado_taller}
-          </Tag>
-        </>
-      ),
+      render: (_, { estado_taller, estado_trabajo, isParent }) =>
+        +isParent == 1 ? (
+          <></>
+        ) : estado_trabajo != "" ? (
+          <>
+            <Tag
+              color={
+                estado_trabajo == "LAB"
+                  ? "red"
+                  : estado_trabajo == "CALIBRADO"
+                    ? "blue"
+                    : estado_trabajo == "TERMINADO"
+                      ? "green"
+                      : estado_trabajo == "PEDIDO"
+                        ? "orange"
+                        : "purple"
+              }
+            >
+              {estado_trabajo}
+            </Tag>
+          </>
+        ) : (
+          <>
+            <Tag
+              color={
+                estado_taller == "LAB"
+                  ? "red"
+                  : estado_taller == "CALIBRADO"
+                    ? "blue"
+                    : estado_trabajo == "TERMINADO"
+                      ? "green"
+                      : estado_taller == "PEDIDO"
+                        ? "orange"
+                        : "purple"
+              }
+            >
+              {estado_taller}
+            </Tag>
+          </>
+        ),
       sorter: (a, b) => a.estado_taller.localeCompare(b.estado_taller),
     },
     {
@@ -415,14 +460,28 @@ const ListaVentas = (props) => {
       hidden: false,
       title: "Tipo",
       dataIndex: "tipo",
-      render: (_, { tipo, tipo_trabajo, isParent, idtrabajo }) => +isParent==1 || +tipo!=7 ? (
-        <span style={{ fontSize: ".75em" }}>
-          <b>{get_tipo(tipo)}</b>
-        </span>
-      ) : (<span style={{color:"#013f01", fontWeight:"600", fontSize: ".75em"}}>&nbsp;&nbsp;{tipo_trabajo}</span>),
+      render: (_, { tipo, tipo_trabajo, isParent, idtrabajo }) =>
+        +isParent == 1 || +tipo != 7 ? (
+          <span style={{ fontSize: ".75em" }}>
+            <b>{get_tipo(tipo)}</b>
+          </span>
+        ) : (
+          <span
+            style={{ color: "#013f01", fontWeight: "600", fontSize: ".75em" }}
+          >
+            &nbsp;&nbsp;{tipo_trabajo}
+          </span>
+        ),
       sorter: (a, b) => a.tipo.localeCompare(b.tipo),
     },
-    { width: "100px", hidden: false, title: "Fecha", dataIndex: "fecha", render: (_,{isParent, fecha, idtrabajo})=> (+idtrabajo<0 || +isParent==1) ? fecha : "" },
+    {
+      width: "100px",
+      hidden: false,
+      title: "Fecha",
+      dataIndex: "fecha",
+      render: (_, { isParent, fecha, idtrabajo }) =>
+        +idtrabajo < 0 || +isParent == 1 ? fecha : "",
+    },
 
     {
       width: "110px",
@@ -430,7 +489,8 @@ const ListaVentas = (props) => {
       title: "Vendedor",
       dataIndex: "vendedor",
       sorter: (a, b) => a.vendedor.localeCompare(b.vendedor),
-       render:(_,{idtrabajo, isParent, vendedor}) => +idtrabajo<0 || +isParent==1 ? <>{vendedor}</> : <></>,
+      render: (_, { idtrabajo, isParent, vendedor }) =>
+        +idtrabajo < 0 || +isParent == 1 ? <>{vendedor}</> : <></>,
     },
     {
       width: "80px",
@@ -459,7 +519,7 @@ const ListaVentas = (props) => {
     },
     {
       width: "110px",
-      hidden: props.ocultarPrecio ? props.ocultarPrecio:false,
+      hidden: props.ocultarPrecio ? props.ocultarPrecio : false,
       title: <div style={{ textAlign: "right" }}>Monto</div>,
       dataIndex: "monto",
       render: (_, { monto }) => (
@@ -468,15 +528,37 @@ const ListaVentas = (props) => {
         </div>
       ),
     },
-    { width: "110px", hidden: false, title: "Sucursal", dataIndex: "sucursal", render:(_,{idtrabajo, isParent, sucursal}) => +idtrabajo<0 || +isParent==1 ? <>{sucursal}</> : <></> },
+    {
+      width: "110px",
+      hidden: false,
+      title: "Sucursal",
+      dataIndex: "sucursal",
+      render: (_, { idtrabajo, isParent, sucursal }) =>
+        +idtrabajo < 0 || +isParent == 1 ? <>{sucursal}</> : <></>,
+    },
     {
       //fixed: "right",
       width: "150px",
       hidden: false,
       title: "Acciones",
       dataIndex: "idventa",
-      render: (_, { idventa, idcliente, idsucursal, tipo, isParent, idtrabajo, estado_trabajo }) => {
-        return +isParent==1  || estado_trabajo=="TERMINADO"? <></> : <>{ buttons(idventa, idcliente, idsucursal, tipo, idtrabajo)}</>;
+      render: (
+        _,
+        {
+          idventa,
+          idcliente,
+          idsucursal,
+          tipo,
+          isParent,
+          idtrabajo,
+          estado_trabajo,
+        },
+      ) => {
+        return +isParent == 1 || estado_trabajo == "TERMINADO" ? (
+          <></>
+        ) : (
+          <>{buttons(idventa, idcliente, idsucursal, tipo, idtrabajo)}</>
+        );
       },
     },
   ];
@@ -506,7 +588,6 @@ const ListaVentas = (props) => {
   return (
     <>
       <Card
-
         style={{ boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)" }}
         size="large"
         title={
@@ -558,20 +639,29 @@ const ListaVentas = (props) => {
                   : props.pagination
               }
               rowClassName={(record, index) =>
-                +record.idtrabajo<0 || +record.isParent==1? "table-row-light" : "table-row-light-yellow"
+                +record.idtrabajo < 0 || +record.isParent == 1
+                  ? "table-row-light"
+                  : "table-row-light-yellow"
               }
               dataSource={dataSource}
               columns={columns.filter((r) => !r.hidden)}
               loading={loading}
-              expandable={{ defaultExpandAllRows: true, expandRowByClick:true }}
+              expandable={{
+                defaultExpandAllRows: true,
+                expandRowByClick: true,
+              }}
             />
           </Col>
         </Row>
         <Row>
           <Col>
-           <ExportToExcel2
+            <ExportToExcel2
               buttonType="link"
-              buttonStyle={{backgroundColor:"white", color:"#006e1c", fontWeight:"bolder"}}
+              buttonStyle={{
+                backgroundColor: "white",
+                color: "#006e1c",
+                fontWeight: "bolder",
+              }}
               fileName={"Informe_Ventas_" + new Date().toLocaleDateString()}
               sheets={[
                 {
@@ -581,7 +671,7 @@ const ListaVentas = (props) => {
                   columns: [
                     { header: "Nro. Venta", key: "idventa", width: 15 },
                     { header: "Cliente", key: "cliente", width: 30 },
-                   
+
                     { header: "Fecha", key: "fecha", width: 20 },
                     { header: "Vendedor", key: "vendedor", width: 25 },
                     { header: "Estado", key: "estado", width: 15 },
@@ -655,6 +745,34 @@ const ListaVentas = (props) => {
           idventa={selectedVenta?.idventa}
           idcliente={selectedVenta?.idcliente}
         />
+      </Modal>
+      <Modal
+        open={popupImprimirOpen}
+        onCancel={(_) => {
+          setPoupImprimirOpen(false);
+        }}
+        destroyOnClose
+        width={"1000px"}
+        title=""
+        footer={null}
+      >
+        <PrinterWrapper>
+          <InformeVenta idventa={selectedVenta.idventa} />
+        </PrinterWrapper>
+      </Modal>
+      <Modal
+        open={popupDetalleTMOpen}
+        onCancel={(_) => {
+          setPopupDetalleTMOpen(false);
+        }}
+        destroyOnClose
+        width={"1000px"}
+        title=""
+        footer={null}
+      >
+        <PrinterWrapper>
+          <Informe idventa={selectedVenta.idventa} />
+        </PrinterWrapper>
       </Modal>
     </>
   );

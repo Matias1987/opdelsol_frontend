@@ -311,7 +311,7 @@ const EditarSobre = (props) => {
             fetch(get.items_adicional_venta+props.idventa+ '/' + props.idtrabajo)
             .then(r=>r.json())
             .then((response)=>{
-               
+                //alert(JSON.stringify(response));
                 populate_rows(response.data, true)
                 
                 
