@@ -31,6 +31,8 @@ const LaboratorioForm = ({ callback, idCliente }) => {
     armazon:"",
   });
 
+  const row_border_color = "#9e9e9e";
+
   const row_style = {
     padding: "4px",
   };
@@ -106,7 +108,7 @@ const LaboratorioForm = ({ callback, idCliente }) => {
               padding: "8px",
             }}
           >
-            <Row style={{ ...row_style, borderBottom: "1px dotted #d8d7d7" }}>
+            <Row style={{ ...row_style, borderBottom: `1px dotted ${row_border_color}` }}>
               <Col style={{ width: "30px" }}></Col>
               <Col span={6} style={{ fontWeight: "600", fontSize: "11px" }}>
                 Tipo
@@ -121,7 +123,7 @@ const LaboratorioForm = ({ callback, idCliente }) => {
             {ojos == "oi" ? (
               <></>
             ) : (
-              <Row style={{ ...row_style, borderBottom: "1px dotted #dddada" }}>
+              <Row style={{ ...row_style, borderBottom: `1px dotted ${row_border_color}` }}>
                 <Col
                   style={{
                     width: "30px",
@@ -180,7 +182,7 @@ const LaboratorioForm = ({ callback, idCliente }) => {
             {ojos == "od" ? (
               <></>
             ) : (
-              <Row style={row_style}>
+              <Row style={{ ...row_style, borderBottom: `1px dotted ${row_border_color}` }}>
                 <Col
                   style={{
                     width: "30px",
@@ -254,7 +256,7 @@ const LaboratorioForm = ({ callback, idCliente }) => {
               </Row>
               <Row>
                 <Col span={24}>
-                  <Row style={{ ...row_style, borderBottom: "1px dotted #d8d7d7" }}>
+                  <Row style={{ ...row_style, borderBottom: `1px dotted ${row_border_color}` }}>
                     <Col style={{ width: "30px" }}></Col>
                     <Col style={{fontWeight:"600", fontSize:"11px"}} span={10}>Base</Col>
                     <Col style={{fontWeight:"600", fontSize:"11px"}} span={3}>Esf</Col>
@@ -265,7 +267,7 @@ const LaboratorioForm = ({ callback, idCliente }) => {
                   {ojos == "oi" ? (
                     <></>
                   ) : (
-                    <Row style={{ ...row_style, borderBottom: "1px solid #d8d7d7" }}>
+                    <Row style={{ ...row_style, borderBottom: `1px solid ${row_border_color}` }}>
                       <Col
                         style={{
                           width: "30px",

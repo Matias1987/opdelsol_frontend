@@ -1,4 +1,4 @@
-import { StarOutlined, UnorderedListOutlined } from "@ant-design/icons";
+import { StarOutlined, UnorderedListOutlined, UserOutlined } from "@ant-design/icons";
 import { Menu } from "antd";
 import { useState } from "react";
 import Link from "next/link"
@@ -14,6 +14,11 @@ const items = [
     label: (<Link href={public_urls.lista_operaciones_distribuidora}>Lista de Operaciones</Link>),
     key: '11',
     icon: <UnorderedListOutlined />,
+  },
+  {
+    label: (<Link href={public_urls.lista_operaciones_distribuidora}>Clientes</Link>),
+    key: '12',
+    icon: <UserOutlined />,
   },
 ];
 export default function MenuDistribuidora(){

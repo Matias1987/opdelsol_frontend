@@ -1,634 +1,637 @@
-//RELEASE
-//const remote_base_url = "http://54.174.39.15:3001/api/v1/"
-//const local_base_url = "http://54.174.39.15:3000/v1/"
+const { local_base_url, remote_base_url } = require("./config");
 
-const { local_base_url, remote_base_url } = require("./config")
-
-//TEST
-//const remote_base_url = "http://54.174.39.15:3002/api/v1/"
-//const local_base_url = "http://54.174.39.15:3003/v1/"
-
-//LOCAL
-//const remote_base_url = "http://localhost:3001/api/v1/"
-//const local_base_url = "http://localhost:3000/v1/"
-
-//const remote_base_url = "https://2a7b-186-123-181-180.ngrok-free.app/api/v1/";// "http://172.31.176.1:3001/api/v1/" //
-//const local_base_url =  "https://clever-mice-tap.loca.lt/v1/"
-
-//const token = "&token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3QiLCJpYXQiOjE2ODI0NjEwMjksImV4cCI6MTY4MjQ2NDYyOX0.Unf5zmxNVQCJVD4qxSAcdcmsrs1s-q4h7Q0e2dYHHEo";
 const public_urls = {
-    auth: local_base_url + "usuario/auth/", 
-    stock_admin: local_base_url + "admin/stock_sucursal_admin/",
-    eventos_admin: local_base_url + "admin/eventos/",
-    dashboard_admin : local_base_url + "admin/",
-    dashboard_deposito : local_base_url + "deposito/",
-    dashboard_deposito_min : local_base_url + "deposito/index_min",
-    dashboard_venta : local_base_url + "ventas/",
-    dashboard_caja : local_base_url + "caja/",
-    dashboard_laboratorio : local_base_url + "laboratorio/",
-    dashboard_distribuidora : local_base_url + "distribuidora/",
-    dashboard : local_base_url ,
-    editar_multiplicadores : local_base_url + "deposito/stock/modificar_precios_categoria/",
-    lista_subgrupos: local_base_url + "deposito/stock/listados/lista_subgrupos/",
-    login: local_base_url + "usuario/login/login",
-    nuevo_envio: local_base_url + "deposito/envio/nuevo_envio",
-    lista_stock: local_base_url + "deposito/stock/listados/lista_stockv3",
-    agregar_stock: local_base_url + "deposito/stock/agregar_stock_lote_v3",
-    lista_stock_taller: local_base_url + "laboratorio/stock_tallerv2",
-    modo: local_base_url + "Modo",
-    //ventas: 
-    venta_directa: local_base_url + "ventas/Directa",
-    venta_lclab: local_base_url + "ventas/LCLab",
-    venta_lcstock: local_base_url + "ventas/LCStock",
-    venta_multilab: local_base_url + "ventas/MultifLab",
-    venta_monoflab: local_base_url + "ventas/MonofLab",
-    venta_recetastock: local_base_url + "ventas/RecetaStockV2",
-    //caja
-    lista_caja: local_base_url + "caja/lista_caja",
-    caja_diaria: local_base_url + "caja/caja_diaria",
-    cargar_gasto: local_base_url + "caja/CargaGasto/",
-    lista_gastos: local_base_url + "caja/ListaGastos/",
-    lista_cobros_sucursal: local_base_url + "caja/ListaCobros/",
-    cierre_caja: local_base_url + "caja/",
-    inicio_caja: local_base_url + "caja/",
-    caja_admin: local_base_url + "caja/panelCajaAdmin/",
-    listado_caja: local_base_url + "caja/",
-    
-    ventas_ingresadas: local_base_url + "caja/ventas_ingresadas",
-    ventas_pendientes: local_base_url + "caja/ventas_pendientes",
-    ventas_pendientes_lab: local_base_url + "caja/ventas_en_laboratorio",
-    ventas_terminadas: local_base_url + "caja/ventas_terminadas",
-    ventas_entregadas: local_base_url + "caja/ventas_entregadas",
-    ventas_anuladas: local_base_url + "caja/ventas_anuladas",
-    
-    lista_clientes_caja: local_base_url + "caja/ListaClientesCaja",
+  login: local_base_url + "usuario/login/login",
+  auth: local_base_url + "usuario/auth/",
+  modo: local_base_url + "Modo",
 
-    lista_clientes_ventas: local_base_url + "ventas/listados/ListaClientesVentas",
-    informe_ventas_dia_min: local_base_url + "ventas/informes/ventas_dias_min",
-    //laboratorio
-    lista_operaciones_laboratorio: local_base_url + "laboratorio/lista_operaciones_laboratorio",
-    lista_operaciones_total: local_base_url + "laboratorio",
-    lista_operaciones_calibrado: local_base_url + "laboratorio/lista_operaciones_calibrado",
-    lista_operaciones_pedidos: local_base_url + "laboratorio/lista_operaciones_pedidos",
-    lista_operaciones_terminadas_taller: local_base_url + "laboratorio/lista_operaciones_terminadas_taller",
+  dashboard_venta: local_base_url + "ventas/",
+  dashboard_caja: local_base_url + "caja/",
+  dashboard_laboratorio: local_base_url + "laboratorio/",
+  dashboard_distribuidora: local_base_url + "distribuidora/",
+  dashboard: local_base_url,
 
-    transferencias: local_base_url + "caja/lista_transferencia_sucursal",
+  nuevo_envio: local_base_url + "deposito/envio/nuevo_envio",
+  lista_stock: local_base_url + "deposito/stock/listados/lista_stockv3",
+  agregar_stock: local_base_url + "deposito/stock/agregar_stock_lote_v3",
+  editar_multiplicadores:
+    local_base_url + "deposito/stock/modificar_precios_categoria/",
+  lista_subgrupos: local_base_url + "deposito/stock/listados/lista_subgrupos/",
+  dashboard_deposito: local_base_url + "deposito/",
+  dashboard_deposito_min: local_base_url + "deposito/index_min",
+  arbol_codigos: local_base_url + "deposito/arbol_codigos",
+  editar_precios: local_base_url + "deposito/stock/editar_precios",
+  bajar_envios: local_base_url + "deposito/envio/descargar_envio",
+  lista_control_stock: local_base_url + "deposito/control_stock/lista",
+  nuevo_control_stock: local_base_url + "deposito/control_stock/carga",
+  lista_codigos: local_base_url + "deposito/stock/listados/lista_codigos",
+  imprimir_codigos: local_base_url + "deposito/imprimir_codigos",
 
-    arbol_codigos: local_base_url + "deposito/arbol_codigos",
+  //ventas:
+  venta_directa: local_base_url + "ventas/Directa",
+  venta_lclab: local_base_url + "ventas/LCLab",
+  venta_lcstock: local_base_url + "ventas/LCStock",
+  venta_multilab: local_base_url + "ventas/MultifLab",
+  venta_monoflab: local_base_url + "ventas/MonofLab",
+  venta_recetastock: local_base_url + "ventas/RecetaStockV2",
+  lista_clientes_ventas: local_base_url + "ventas/listados/ListaClientesVentas",
+  informe_ventas_dia_min: local_base_url + "ventas/informes/ventas_dias_min",
+  ventas_vendedor: local_base_url + "ventas/informes/ventas_vendedor",
+  totales_venta_vendedores: local_base_url + "ventas/informes/t_ventas_v",
+  //caja
+  lista_caja: local_base_url + "caja/lista_caja",
+  caja_diaria: local_base_url + "caja/caja_diaria",
+  cargar_gasto: local_base_url + "caja/CargaGasto/",
+  lista_gastos: local_base_url + "caja/ListaGastos/",
+  lista_cobros_sucursal: local_base_url + "caja/ListaCobros/",
+  cierre_caja: local_base_url + "caja/",
+  inicio_caja: local_base_url + "caja/",
+  caja_admin: local_base_url + "caja/panelCajaAdmin/",
+  listado_caja: local_base_url + "caja/",
+  ventas_ingresadas: local_base_url + "caja/ventas_ingresadas",
+  ventas_pendientes: local_base_url + "caja/ventas_pendientes",
+  ventas_pendientes_lab: local_base_url + "caja/ventas_en_laboratorio",
+  ventas_terminadas: local_base_url + "caja/ventas_terminadas",
+  ventas_entregadas: local_base_url + "caja/ventas_entregadas",
+  ventas_anuladas: local_base_url + "caja/ventas_anuladas",
+  lista_clientes_caja: local_base_url + "caja/ListaClientesCaja",
+  transferencias: local_base_url + "caja/lista_transferencia_sucursal",
+  clientes_morosos: local_base_url + "caja/clientes_morosos",
 
-    editar_precios: local_base_url + "deposito/stock/editar_precios",
+  //laboratorio
+  lista_operaciones_laboratorio:
+    local_base_url + "laboratorio/lista_operaciones_laboratorio",
+  lista_operaciones_total: local_base_url + "laboratorio",
+  lista_operaciones_calibrado:
+    local_base_url + "laboratorio/lista_operaciones_calibrado",
+  lista_operaciones_pedidos:
+    local_base_url + "laboratorio/lista_operaciones_pedidos",
+  lista_operaciones_terminadas_taller:
+    local_base_url + "laboratorio/lista_operaciones_terminadas_taller",
+  lista_stock_taller: local_base_url + "laboratorio/stock_tallerv2",
+  laboratorio_agregar_factura: local_base_url + "laboratorio/agregar_factura",
+  laboratorio_lista_facturas: local_base_url + "laboratorio/facturas",
 
-    bajar_envios: local_base_url + "deposito/envio/descargar_envio",
+  ventas_medicos: local_base_url + "informes/medicos/ventas_medicos",
+//admin
+  lista_ventas_dia_vendedor: local_base_url + "admin/lista_ventas_dia",
+  listausuarios: local_base_url + "admin/listausuarios",
+  admin_sucursales: local_base_url + "admin/lista_sucursales",
+  admin_medicos: local_base_url + "admin/lista_medicos",
+  admin_tarjetas: local_base_url + "admin/lista_tarjetas",
+  admin_bancos: local_base_url + "admin/lista_bancos",
+  admin_mutuales: local_base_url + "admin/lista_mutuales",
+  admin_clientes: local_base_url + "admin/clientes",
+  dashboard_adm_prov: local_base_url + "admin/prov/",
+  adm_prov_facturas: local_base_url + "admin/prov/facturas",
+  adm_prov_cargar_factura: local_base_url + "admin/prov/cargar_factura",
+  adm_prov_lista_prov: local_base_url + "admin/prov/lista_proveedores_adm",
+  adm_prov_pagos: local_base_url + "admin/prov/pagos",
+  adm_prov_remitos: local_base_url + "admin/prov/remitos",
+  lista_conceptos_gastos: local_base_url + "admin/lista_conceptos_gastos",
+  informe_cobros_tarjetas: local_base_url + "admin/ict",
+  lista_cajas_admin: local_base_url + "admin/lista_cajas",
+  panel_proveedores: local_base_url + "admin/panel_proveedores",
+  panel_ventas: local_base_url + "admin/ventas",
+  descuentos_adm: local_base_url + "admin/descuentos",
+  stock_admin: local_base_url + "admin/stock_sucursal_admin/",
+  eventos_admin: local_base_url + "admin/eventos/",
+  dashboard_admin: local_base_url + "admin/",
 
-    totales_venta_vendedores: local_base_url + "ventas/informes/t_ventas_v",
+  informe_stock_sucursal: local_base_url + "informes/stock/stock_sucursal",
 
-    ventas_medicos: local_base_url + "informes/medicos/ventas_medicos",
+  nueva_venta_distribuidora: local_base_url + "trabajos/nuevo",
+  index_distribuidora: local_base_url + "trabajos/index",
+  lista_operaciones_distribuidora: local_base_url + "trabajos/listado",
 
-    ventas_vendedor: local_base_url + "ventas/informes/ventas_vendedor",
-
-    lista_ventas_dia_vendedor: local_base_url + "admin/lista_ventas_dia",
-
-    listausuarios: local_base_url + "admin/listausuarios",
-
-    lista_control_stock: local_base_url + "deposito/control_stock/lista",
-    
-    nuevo_control_stock: local_base_url + "deposito/control_stock/carga",
-
-    admin_sucursales: local_base_url + "admin/lista_sucursales",
-    admin_medicos: local_base_url + "admin/lista_medicos",
-    admin_tarjetas: local_base_url + "admin/lista_tarjetas",
-    admin_bancos: local_base_url + "admin/lista_bancos",
-    admin_mutuales: local_base_url + "admin/lista_mutuales",
-    admin_clientes: local_base_url + "admin/clientes",
-
-    lista_codigos: local_base_url + "deposito/stock/listados/lista_codigos",
-
-    imprimir_codigos: local_base_url + "deposito/imprimir_codigos",
-    /*admin_sucursales: local_base_url + "",
-    admin_sucursales: local_base_url + "",*/
-    //admin prov
-    dashboard_adm_prov: local_base_url + "admin/prov/",
-    adm_prov_facturas: local_base_url + "admin/prov/facturas",
-    adm_prov_cargar_factura: local_base_url + "admin/prov/cargar_factura",
-    adm_prov_lista_prov: local_base_url + "admin/prov/lista_proveedores_adm",
-    adm_prov_pagos: local_base_url + "admin/prov/pagos",
-    adm_prov_remitos: local_base_url + "admin/prov/remitos",
-    clientes_morosos: local_base_url + "caja/clientes_morosos",
-
-    informe_stock_sucursal: local_base_url + "informes/stock/stock_sucursal",
-    lista_conceptos_gastos: local_base_url + "admin/lista_conceptos_gastos",
-
-    informe_cobros_tarjetas: local_base_url + "admin/ict",
-
-    laboratorio_agregar_factura: local_base_url + "laboratorio/agregar_factura",
-    laboratorio_lista_facturas: local_base_url + "laboratorio/facturas",
-
-    lista_cajas_admin: local_base_url + "admin/lista_cajas",
-
-    panel_proveedores: local_base_url + "admin/panel_proveedores",
-
-    panel_ventas: local_base_url + "admin/ventas",
-
-    nueva_venta_distribuidora: local_base_url + "trabajos/nuevo",
-    index_distribuidora: local_base_url + "trabajos/index",
-    lista_operaciones_distribuidora: local_base_url + "trabajos/listado",
-
-    descuentos_adm: "admin/descuentos",
-
-    custom:{
-        copex:{
-            monto_ventas_mes: local_base_url + "admin/custm/oexp/monto_ventas_mes",
-            taller: local_base_url + "deposito/stock/crsv2/stock_cristales",
-        },
-        delsol:{
-            cajas: local_base_url + "admin/custm/dsolch/panel_admin_caja",
-        }
-
-    }
-
-}
-
+  custom: {
+    copex: {
+      monto_ventas_mes: local_base_url + "admin/custm/oexp/monto_ventas_mes",
+      taller: local_base_url + "deposito/stock/crsv2/stock_cristales",
+    },
+    delsol: {
+      cajas: local_base_url + "admin/custm/dsolch/panel_admin_caja",
+    },
+  },
+};
 
 const informes = {
-    envio: local_base_url + "informes/envio/",
-    codigos: local_base_url + "deposito/imprimir_codigos/",
-    codigos_envio: local_base_url + "deposito/imprimir_codigos/",
-}
+  envio: local_base_url + "informes/envio/",
+  codigos: local_base_url + "deposito/imprimir_codigos/",
+  codigos_envio: local_base_url + "deposito/imprimir_codigos/",
+};
 
 const post = {
-    login: remote_base_url + "usuarios/login/",
-    codigo_por_codigo: remote_base_url + "codigos/porcodigo/",
-    obtener_stock_ventas: remote_base_url + "stock/obtener_stock_ventas/",
-    obtener_cliente_dni: remote_base_url + "clientes/getPorDNI/",
-    cargar_envio: remote_base_url+"envio/cargarEnvio/",
-    venta_estado_sucursal: remote_base_url+"ventas/venta_estado_sucursal/",
-    obtener_lista_cobros: remote_base_url+"cobros/lista/",
-    cambiar_estado_venta: remote_base_url + "ventas/cambiar_estado/",
-    caja_exists: remote_base_url + "caja/exists/",
-    totales_venta_vendedor: remote_base_url + "ventas/inf/v/totales_v/",
-    totales_venta_sucursal: remote_base_url + "ventas/inf/v/lista_ventas_sucursal_mes/",
-    totales_ventas_medicos: remote_base_url + "medicos/ventas_medico_totales/",
-    lista_ventas_medico: remote_base_url + "medicos/ventas_medico/",
-    obtener_caja_sucursal_dia: remote_base_url + "admin/obtener_caja_s_dia/",
-    obtener_codigos_filtro: remote_base_url + "codigos/codigos_filtros/",
-    obtener_totales_ventas_vendedor_dia: remote_base_url + "admin/obtener_totales_ventas_vendedor_dia/",
-    obtener_ventas_dia_vendedor: remote_base_url + "admin/obtener_ventas_dia_vendedor/",
-    gr_ventas_dia_totales: remote_base_url + "admin/gr/ventas_dia_totales/",
-    eventos: remote_base_url + "evt/get/",
+  login: remote_base_url + "usuarios/login/",
+  codigo_por_codigo: remote_base_url + "codigos/porcodigo/",
+  obtener_stock_ventas: remote_base_url + "stock/obtener_stock_ventas/",
+  obtener_cliente_dni: remote_base_url + "clientes/getPorDNI/",
+  cargar_envio: remote_base_url + "envio/cargarEnvio/",
+  venta_estado_sucursal: remote_base_url + "ventas/venta_estado_sucursal/",
+  obtener_lista_cobros: remote_base_url + "cobros/lista/",
+  cambiar_estado_venta: remote_base_url + "ventas/cambiar_estado/",
+  caja_exists: remote_base_url + "caja/exists/",
+  totales_venta_vendedor: remote_base_url + "ventas/inf/v/totales_v/",
+  totales_venta_sucursal:
+    remote_base_url + "ventas/inf/v/lista_ventas_sucursal_mes/",
+  totales_ventas_medicos: remote_base_url + "medicos/ventas_medico_totales/",
+  lista_ventas_medico: remote_base_url + "medicos/ventas_medico/",
+  obtener_caja_sucursal_dia: remote_base_url + "admin/obtener_caja_s_dia/",
+  obtener_codigos_filtro: remote_base_url + "codigos/codigos_filtros/",
+  obtener_totales_ventas_vendedor_dia:
+    remote_base_url + "admin/obtener_totales_ventas_vendedor_dia/",
+  obtener_ventas_dia_vendedor:
+    remote_base_url + "admin/obtener_ventas_dia_vendedor/",
+  gr_ventas_dia_totales: remote_base_url + "admin/gr/ventas_dia_totales/",
+  eventos: remote_base_url + "evt/get/",
 
-    obtener_grilla_stock: remote_base_url + "stock/obtener_grilla_stock/",
-    obtener_grilla_pedido: remote_base_url + "stock/obtener_grilla_pedido/",
-    obtener_grilla_uso: remote_base_url + "mod_sob/consumo-subgrupo-mes/",
+  obtener_grilla_stock: remote_base_url + "stock/obtener_grilla_stock/",
+  obtener_grilla_pedido: remote_base_url + "stock/obtener_grilla_pedido/",
+  obtener_grilla_uso: remote_base_url + "mod_sob/consumo-subgrupo-mes/",
 
-    totales_stock_ventas_periodo: remote_base_url + "admin/inf/stock/ventas/periodo/",
-    obtener_ventas_taller: remote_base_url + "tl/",
-    obtener_items_ventas_taller: remote_base_url + "tl/items/op/",
-    lista_anotaciones: remote_base_url + "anot/lista/anot/",
+  totales_stock_ventas_periodo:
+    remote_base_url + "admin/inf/stock/ventas/periodo/",
+  obtener_ventas_taller: remote_base_url + "tl/",
+  obtener_items_ventas_taller: remote_base_url + "tl/items/op/",
+  lista_anotaciones: remote_base_url + "anot/lista/anot/",
 
-    lista_tag: remote_base_url + "tag/lista/",
-    lista_categoria_tag: remote_base_url + "tag/categoria/lista/",
-    lista_tags_codigo: remote_base_url + "tag/lista/tag/codigo/",
-    rem_t_c: remote_base_url + "tag/rem/tag/cod/",
-    obtener_ventas_subgrupo: remote_base_url + "ventas/obtener/ventas/subgrupo/",
-    obtener_uso_items_adic_subgrupo_periodo: remote_base_url + "adic/obtener/uso/items/adic/subgrupo/periodo/",
-    obtener_lista_ventas_sucursal_periodo: remote_base_url + "admin/obtener/ventas/sucursal/periodo/",
-    total_ventas_periodo_sucursal: remote_base_url + "admin/total/ventas/periodo/sucursal/",
+  lista_tag: remote_base_url + "tag/lista/",
+  lista_categoria_tag: remote_base_url + "tag/categoria/lista/",
+  lista_tags_codigo: remote_base_url + "tag/lista/tag/codigo/",
+  rem_t_c: remote_base_url + "tag/rem/tag/cod/",
+  obtener_ventas_subgrupo: remote_base_url + "ventas/obtener/ventas/subgrupo/",
+  obtener_uso_items_adic_subgrupo_periodo:
+    remote_base_url + "adic/obtener/uso/items/adic/subgrupo/periodo/",
+  obtener_lista_ventas_sucursal_periodo:
+    remote_base_url + "admin/obtener/ventas/sucursal/periodo/",
+  total_ventas_periodo_sucursal:
+    remote_base_url + "admin/total/ventas/periodo/sucursal/",
 
-    desactivar_tarjeta: remote_base_url + "tarjetas/de/t/",
-    desactivar_banco: remote_base_url + "bancos/de/b/",
-    desactivar_medico: remote_base_url + "medicos/d/m/",
+  desactivar_tarjeta: remote_base_url + "tarjetas/de/t/",
+  desactivar_banco: remote_base_url + "bancos/de/b/",
+  desactivar_medico: remote_base_url + "medicos/d/m/",
 
+  ficha_proveedor: remote_base_url + "proveedores/prov/ficha/",
 
-    ficha_proveedor: remote_base_url + "proveedores/prov/ficha/",
+  user_credentials: remote_base_url + "usuarios/perm/u/s/",
 
-    user_credentials: remote_base_url + "usuarios/perm/u/s/",
+  obtener_factura_por_nro: remote_base_url + "facturas/detalle/factura/nro",
 
-    obtener_factura_por_nro: remote_base_url + "facturas/detalle/factura/nro",
+  obtener_subfamilias_de_familias:
+    remote_base_url + "subfamilia/obtener/subfamilias/familias/",
 
-    obtener_subfamilias_de_familias: remote_base_url + "subfamilia/obtener/subfamilias/familias/",
+  buscar_stock_envios: remote_base_url + "envio/search/stock/for/envio/", //"stock/search_stock_envio/",//idsucursal/idsucursal_destino/search_value
 
-    buscar_stock_envios: remote_base_url +  "envio/search/stock/for/envio/", //"stock/search_stock_envio/",//idsucursal/idsucursal_destino/search_value
-    
-    obtener_facturas_filtros: remote_base_url + "facturas/obtener/fact/uras/filtros/",
+  obtener_facturas_filtros:
+    remote_base_url + "facturas/obtener/fact/uras/filtros/",
 
-    o_c_m: remote_base_url + "clientes/g/cl/m/",
+  o_c_m: remote_base_url + "clientes/g/cl/m/",
 
-    
-    tarea_g: remote_base_url + "t//t/g/",
+  tarea_g: remote_base_url + "t//t/g/",
 
-    sorteo_get: remote_base_url + "srt/srt/",
-    sorteo_get_participantes: remote_base_url + "srt/get/p/dis/",
+  sorteo_get: remote_base_url + "srt/srt/",
+  sorteo_get_participantes: remote_base_url + "srt/get/p/dis/",
 
-    upload_image:  remote_base_url + "img/upload/",
-    register_image:  remote_base_url +"img/register/",
-    obtener_images:  remote_base_url +"img/",
+  upload_image: remote_base_url + "img/upload/",
+  register_image: remote_base_url + "img/register/",
+  obtener_images: remote_base_url + "img/",
 
-    obtener_objetivo_sucursal: remote_base_url + "objs/list",
-    obtener_progreso_sucursal_objetivo: remote_base_url + "objs/get/progress",
-    get_settings:  remote_base_url + "stt/ls/",
+  obtener_objetivo_sucursal: remote_base_url + "objs/list",
+  obtener_progreso_sucursal_objetivo: remote_base_url + "objs/get/progress",
+  get_settings: remote_base_url + "stt/ls/",
 
-    get_ultima_graduacion: remote_base_url + "clientes/get/ultimas/graduaciones/cliente/",
+  get_ultima_graduacion:
+    remote_base_url + "clientes/get/ultimas/graduaciones/cliente/",
 
-    get_operaciones_fondo_fijo: remote_base_url + "ff/operaciones/",
+  get_operaciones_fondo_fijo: remote_base_url + "ff/operaciones/",
 
-    total_tarjetas_periodo: remote_base_url + "admin/obtener/totales/tarjetas/periodo/",
+  total_tarjetas_periodo:
+    remote_base_url + "admin/obtener/totales/tarjetas/periodo/",
 
-    informe_stock_totales: remote_base_url + "infstck/inf/t/st/",
+  informe_stock_totales: remote_base_url + "infstck/inf/t/st/",
 
-    pagos_atrasados_proveedores: remote_base_url + "proveedores/pagos_atrasados_proveedores/",
+  pagos_atrasados_proveedores:
+    remote_base_url + "proveedores/pagos_atrasados_proveedores/",
 
-    cobros_tarjeta_dia: remote_base_url + "tarjetas/cobros/t/",
+  cobros_tarjeta_dia: remote_base_url + "tarjetas/cobros/t/",
 
-    cuotas_pendientes_tarjetas: remote_base_url + "tarjetas/ctas_p/t/",
+  cuotas_pendientes_tarjetas: remote_base_url + "tarjetas/ctas_p/t/",
 
-    obtener_cajas_fecha: remote_base_url + "caja/caja/fecha/",
-    
-    cambiar_estado_caja: remote_base_url + "caja/c/estado/",
+  obtener_cajas_fecha: remote_base_url + "caja/caja/fecha/",
 
-    saldo_proveedores_lista: remote_base_url + "infp/info/l/sdo/",
+  cambiar_estado_caja: remote_base_url + "caja/c/estado/",
 
-    informe_monto_ventas_periodo: remote_base_url + "infvtas/inf/vtas/mes/",
-    
-    informe_monto_medicos_periodo: remote_base_url + "infvtas/inf/vtas/med/",
+  saldo_proveedores_lista: remote_base_url + "infp/info/l/sdo/",
 
-    informe_cobro_cuotas_mes: remote_base_url + "infcaja/ls/total/cc/m/",
-    
-    informe_gastos_mes: remote_base_url + "infcaja/ls/total/g/m/",
+  informe_monto_ventas_periodo: remote_base_url + "infvtas/inf/vtas/mes/",
 
-    informe_ventas_filtros: remote_base_url + "infvtas/inf/vtas/ff/",
+  informe_monto_medicos_periodo: remote_base_url + "infvtas/inf/vtas/med/",
 
-    informe_taller_cantidades_periodo: remote_base_url + "tl/inf/cons/per/",
+  informe_cobro_cuotas_mes: remote_base_url + "infcaja/ls/total/cc/m/",
 
-    detalle_consumo_codigo: remote_base_url + "tl/det/cons/cod/",
+  informe_gastos_mes: remote_base_url + "infcaja/ls/total/g/m/",
 
-    contadores_estado_taller: remote_base_url + "tl/cont/est/tal/",
+  informe_ventas_filtros: remote_base_url + "infvtas/inf/vtas/ff/",
 
-    anuar_gasto: remote_base_url + "gastos/anular/",
+  informe_taller_cantidades_periodo: remote_base_url + "tl/inf/cons/per/",
 
-    agregar_stock_quick: remote_base_url + "stock_ext/quick_add/",
+  detalle_consumo_codigo: remote_base_url + "tl/det/cons/cod/",
 
-    dist_stock: remote_base_url + "stock_ext/dist/stock/",
+  contadores_estado_taller: remote_base_url + "tl/cont/est/tal/",
 
-    total_cobros_tipo_periodo: remote_base_url + "admin/total/cobros/tipo/periodo/",
+  anuar_gasto: remote_base_url + "gastos/anular/",
 
-    modificar_mutual_activo: remote_base_url + "mutuales/modif/activo/",
+  agregar_stock_quick: remote_base_url + "stock_ext/quick_add/",
 
-    obtener_facturas_saldo: remote_base_url + "facturas/obtener/facturas/saldo/",
+  dist_stock: remote_base_url + "stock_ext/dist/stock/",
 
-    obtener_grilla_cristales: remote_base_url + "sc/get/grid/",
+  total_cobros_tipo_periodo:
+    remote_base_url + "admin/total/cobros/tipo/periodo/",
 
-    obtener_stock_cristales: remote_base_url + "sc/get/stock/",
+  modificar_mutual_activo: remote_base_url + "mutuales/modif/activo/",
 
-    obtener_ventas_vendedor_mes: remote_base_url + "ventas/inf/v/lista_vtas_mes/",
+  obtener_facturas_saldo: remote_base_url + "facturas/obtener/facturas/saldo/",
 
-    generar_arequest: remote_base_url + "aarr/",
+  obtener_grilla_cristales: remote_base_url + "sc/get/grid/",
 
-    check_req_status: remote_base_url + "aarr/chs/",
+  obtener_stock_cristales: remote_base_url + "sc/get/stock/",
 
-    lista_precios_codigos: remote_base_url + "codigos_ext/lp/",
+  obtener_ventas_vendedor_mes: remote_base_url + "ventas/inf/v/lista_vtas_mes/",
 
-    monedas_existentes_proveedor: remote_base_url + "proveedores/monedas_existentes/",
+  generar_arequest: remote_base_url + "aarr/",
 
-    descuentos_subgrupo_cliente: remote_base_url + "dc/obtener/",
+  check_req_status: remote_base_url + "aarr/chs/",
 
-    pagos_no_saldados: remote_base_url + "proveedores/pagos_no_saldados/",
+  lista_precios_codigos: remote_base_url + "codigos_ext/lp/",
 
-    
-    asignar_pagos: remote_base_url + "proveedores/agregar_pago_compra/",
+  monedas_existentes_proveedor:
+    remote_base_url + "proveedores/monedas_existentes/",
 
-    obtener_cm_saldo: remote_base_url + "proveedores/obtener_cm_saldo/",
+  descuentos_subgrupo_cliente: remote_base_url + "dc/obtener/",
 
-    search:{
-        filtro_stock: remote_base_url + "stock/filtro_stock/",
-    },
-    insert:{
-        optica: remote_base_url + "op/",
-        stock_lote: remote_base_url + "stock/agregar_stock/lote/",
-        familia: remote_base_url + "familia/",
-        subfamilia: remote_base_url + "subfamilia/",
-        grupo: remote_base_url + "grupos/",
-        subgrupo: remote_base_url + "subgrupos/",
-        codigo: remote_base_url + "codigos/",
-        stock: remote_base_url + "stock/",
-        envio: remote_base_url + "envio/",
-        factura: remote_base_url + "facturas/",
-        proveedor: remote_base_url + "proveedores/",
-        sucursal: remote_base_url + "sucursales/",
-        baja_desperfecto: remote_base_url + "bajadesperfecto/",
-        cliente: remote_base_url + "clientes/",
-        medico: remote_base_url + "medicos/",
-        mutual: remote_base_url + "mutuales/",
-        venta: remote_base_url + "ventas/",
-        cobro: remote_base_url + "cobros/",
-        carga_manual: remote_base_url + "cargamanual/",
-        gasto: remote_base_url + "gastos/",
-        caja: remote_base_url + "caja/",
-        transferencia: remote_base_url + "transferencias/",
-        destinatario: remote_base_url + "cliente/destinatario/",
-        mensajes: remote_base_url + "mensajes/",
-        pagare: remote_base_url + "pagares/",
-        session: remote_base_url + "usuarios/adds/",
-        llamada_cliente: remote_base_url + "llamadas/",
-        evento: remote_base_url+"evt/",
-        item_adicional: remote_base_url + "adic/",
-        control_stock: remote_base_url + "cs/",
-        u_permisos_a_u: remote_base_url + "usuarios/perm/u/a/m/",
-        usuario: remote_base_url + "usuarios/",
-        pedido: remote_base_url + "tl/ped/",
-        anotacion: remote_base_url + "anot/",
-        tag: remote_base_url + "tag/",
-        categoria_tag: remote_base_url + "tag/categoria/",
-        tag_codigo: remote_base_url + "tag/tag/codigo/",
-        banco: remote_base_url + "bancos/",
-        tarjeta: remote_base_url + "tarjetas/",
-        cm_proveedor: remote_base_url + "proveedores/agregar/cm/proveedor/",
-        pago_proveedor: remote_base_url + "proveedores/agregar/pago/proveedor/",
-        tarea_: remote_base_url + "t/t/add/",
-        registrar_cambio_venta_item: remote_base_url + "cb/add/cambio/item/",
-        generar_sorteo: remote_base_url + "srt/gen/",
-        establecer_objetivo_sucursal: remote_base_url + "objs/",
-        settings: remote_base_url + "stt/",
-        concepto_gasto: remote_base_url + "conceptogastos/",
-        fondo_fijo: remote_base_url + "ff/",
-        egreso: remote_base_url + "egresos/",
-        ingreso: remote_base_url + "ingresos/",
-        modificacion_ingreso_caja: remote_base_url + "ccmm/transferencia/a/master/",
-        transferencia_a_ff: remote_base_url + "ccmm/transferencia/a/ff/",
-        egreso_cm: remote_base_url + "ccmm/agregar_egreso/",
-        insertar_codigos: remote_base_url + "codigos_ext/insertar_codigos/",
-        insert_cuenta_bancaria: remote_base_url + "cuentas_bancarias/",
-        insert_stock_cristal_grid: remote_base_url + "sc/insert/grid/",
-        insert_cliente_opinion: remote_base_url + "opinion/add/",
-        descuento_cliente: remote_base_url + "dc/",
-        insert_venta_multiple: remote_base_url + "tm/",
-        
-    },
-    update:{
-        optica: remote_base_url + "op/mod/",
-        familia: remote_base_url + "familia/",
-        subfamilia: remote_base_url + "subfamilia/",
-        grupo: remote_base_url + "grupos/",
-        subgrupo: remote_base_url + "subgrupos/",
-        subgrupo_2: remote_base_url + "subgrupos/m/modif_sg/",
-        codigo: remote_base_url + "codigo/",
-        stock: remote_base_url + "stock/",
-        envio: remote_base_url + "envio/",
-        factura: remote_base_url + "facturas/",
-        proveedor: remote_base_url + "proveedores/",
-        sucursal: remote_base_url + "sucursales/edit/",
-        modificar_multiplicador: remote_base_url + "subgrupos/modificar_multiplicador/",
-        incrementar_cantidad: remote_base_url + "stock/m/incrementar_cantidad/",
-        descontar_cantidad_por_codigo: remote_base_url + "stock/m/descontar_cantidad_por_codigo/",
-        cambiar_venta_sucursal_deposito: remote_base_url +"ventas/cambiar_venta_sucursal_deposito/",
-        inc_cantidades_stock_venta: remote_base_url +"ventas/inc_cantidades_stock_venta/",
-        desc_cantidades_stock_venta: remote_base_url +"ventas/desc_cantidades_stock_venta/",
-        modificar_precios_defecto_subgrupo: remote_base_url + "subgrupos/modificar_precios_defecto/",
-        modificar_cantidad_categoria: remote_base_url + "stock/m/modificar_cantidad_categoria/",
-        verificar_cantidades_productos: remote_base_url + "stock/verificar_cantidades_productos/",
+  pagos_no_saldados: remote_base_url + "proveedores/pagos_no_saldados/",
 
-        bloquear_cliente: remote_base_url + "clientes/bloquear/",
-        update_perm_request_status: remote_base_url + "usuarios/update_s/",
-        update_cliente: remote_base_url + "clientes/edit_c/",
-        editar_codigo: remote_base_url + "codigos/editar_c/",
-        modificar_cantidad_stock: remote_base_url + "stock/modificar_cantidad/",
+  asignar_pagos: remote_base_url + "proveedores/agregar_pago_compra/",
 
-        cambiar_destinatario: remote_base_url + "ventas/cambiar_destinatario/",
-        cambiar_responsable: remote_base_url + "ventas/cambiar_responsable/",
+  obtener_cm_saldo: remote_base_url + "proveedores/obtener_cm_saldo/",
 
-        anular_cobros: remote_base_url + "cobros/anular_cobro/",
-        anular_carga_manual: remote_base_url + "cargamanual/anular/",
-        modificar_carga_manual: remote_base_url + "cargamanual/update/",
+  search: {
+    filtro_stock: remote_base_url + "stock/filtro_stock/",
+  },
+  insert: {
+    optica: remote_base_url + "op/",
+    stock_lote: remote_base_url + "stock/agregar_stock/lote/",
+    familia: remote_base_url + "familia/",
+    subfamilia: remote_base_url + "subfamilia/",
+    grupo: remote_base_url + "grupos/",
+    subgrupo: remote_base_url + "subgrupos/",
+    codigo: remote_base_url + "codigos/",
+    stock: remote_base_url + "stock/",
+    envio: remote_base_url + "envio/",
+    factura: remote_base_url + "facturas/",
+    proveedor: remote_base_url + "proveedores/",
+    sucursal: remote_base_url + "sucursales/",
+    baja_desperfecto: remote_base_url + "bajadesperfecto/",
+    cliente: remote_base_url + "clientes/",
+    medico: remote_base_url + "medicos/",
+    mutual: remote_base_url + "mutuales/",
+    venta: remote_base_url + "ventas/",
+    cobro: remote_base_url + "cobros/",
+    carga_manual: remote_base_url + "cargamanual/",
+    gasto: remote_base_url + "gastos/",
+    caja: remote_base_url + "caja/",
+    transferencia: remote_base_url + "transferencias/",
+    destinatario: remote_base_url + "cliente/destinatario/",
+    mensajes: remote_base_url + "mensajes/",
+    pagare: remote_base_url + "pagares/",
+    session: remote_base_url + "usuarios/adds/",
+    llamada_cliente: remote_base_url + "llamadas/",
+    evento: remote_base_url + "evt/",
+    item_adicional: remote_base_url + "adic/",
+    control_stock: remote_base_url + "cs/",
+    u_permisos_a_u: remote_base_url + "usuarios/perm/u/a/m/",
+    usuario: remote_base_url + "usuarios/",
+    pedido: remote_base_url + "tl/ped/",
+    anotacion: remote_base_url + "anot/",
+    tag: remote_base_url + "tag/",
+    categoria_tag: remote_base_url + "tag/categoria/",
+    tag_codigo: remote_base_url + "tag/tag/codigo/",
+    banco: remote_base_url + "bancos/",
+    tarjeta: remote_base_url + "tarjetas/",
+    cm_proveedor: remote_base_url + "proveedores/agregar/cm/proveedor/",
+    pago_proveedor: remote_base_url + "proveedores/agregar/pago/proveedor/",
+    tarea_: remote_base_url + "t/t/add/",
+    registrar_cambio_venta_item: remote_base_url + "cb/add/cambio/item/",
+    generar_sorteo: remote_base_url + "srt/gen/",
+    establecer_objetivo_sucursal: remote_base_url + "objs/",
+    settings: remote_base_url + "stt/",
+    concepto_gasto: remote_base_url + "conceptogastos/",
+    fondo_fijo: remote_base_url + "ff/",
+    egreso: remote_base_url + "egresos/",
+    ingreso: remote_base_url + "ingresos/",
+    modificacion_ingreso_caja: remote_base_url + "ccmm/transferencia/a/master/",
+    transferencia_a_ff: remote_base_url + "ccmm/transferencia/a/ff/",
+    egreso_cm: remote_base_url + "ccmm/agregar_egreso/",
+    insertar_codigos: remote_base_url + "codigos_ext/insertar_codigos/",
+    insert_cuenta_bancaria: remote_base_url + "cuentas_bancarias/",
+    insert_stock_cristal_grid: remote_base_url + "sc/insert/grid/",
+    insert_cliente_opinion: remote_base_url + "opinion/add/",
+    descuento_cliente: remote_base_url + "dc/",
+    insert_venta_multiple: remote_base_url + "tm/",
+  },
+  update: {
+    optica: remote_base_url + "op/mod/",
+    familia: remote_base_url + "familia/",
+    subfamilia: remote_base_url + "subfamilia/",
+    grupo: remote_base_url + "grupos/",
+    subgrupo: remote_base_url + "subgrupos/",
+    subgrupo_2: remote_base_url + "subgrupos/m/modif_sg/",
+    codigo: remote_base_url + "codigo/",
+    stock: remote_base_url + "stock/",
+    envio: remote_base_url + "envio/",
+    factura: remote_base_url + "facturas/",
+    proveedor: remote_base_url + "proveedores/",
+    sucursal: remote_base_url + "sucursales/edit/",
+    modificar_multiplicador:
+      remote_base_url + "subgrupos/modificar_multiplicador/",
+    incrementar_cantidad: remote_base_url + "stock/m/incrementar_cantidad/",
+    descontar_cantidad_por_codigo:
+      remote_base_url + "stock/m/descontar_cantidad_por_codigo/",
+    cambiar_venta_sucursal_deposito:
+      remote_base_url + "ventas/cambiar_venta_sucursal_deposito/",
+    inc_cantidades_stock_venta:
+      remote_base_url + "ventas/inc_cantidades_stock_venta/",
+    desc_cantidades_stock_venta:
+      remote_base_url + "ventas/desc_cantidades_stock_venta/",
+    modificar_precios_defecto_subgrupo:
+      remote_base_url + "subgrupos/modificar_precios_defecto/",
+    modificar_cantidad_categoria:
+      remote_base_url + "stock/m/modificar_cantidad_categoria/",
+    verificar_cantidades_productos:
+      remote_base_url + "stock/verificar_cantidades_productos/",
 
-        modificar_cantidad_lista: remote_base_url + "stock/modificar_cantidad_lista/",
+    bloquear_cliente: remote_base_url + "clientes/bloquear/",
+    update_perm_request_status: remote_base_url + "usuarios/update_s/",
+    update_cliente: remote_base_url + "clientes/edit_c/",
+    editar_codigo: remote_base_url + "codigos/editar_c/",
+    modificar_cantidad_stock: remote_base_url + "stock/modificar_cantidad/",
 
-        editar_lote_codigos: remote_base_url + "codigos/editar_lote/",
+    cambiar_destinatario: remote_base_url + "ventas/cambiar_destinatario/",
+    cambiar_responsable: remote_base_url + "ventas/cambiar_responsable/",
 
-        marcar_como_calibrando: remote_base_url + "tl/c/est/dep/cal/",
-        marcar_como_terminado: remote_base_url + "tl/c/est/dep/ter/",
-        marcar_como_laboratorio: remote_base_url + "tl/c/est/dep/lab/",
-        editar_cantidad_ideal: remote_base_url + "codigos/cod/editar/stock/ideal/",
-        mover_subgrupos:remote_base_url + "subgrupos/m/v/sg/",
-        mover_grupos: remote_base_url + "grupos/mover/",
-        cl_a_f_l:remote_base_url+"cl/a/f/l/",
-        sorteo_set_ganador: remote_base_url + "srt/set/wn/",
-        editar_medico: remote_base_url + "medicos/ed/it/m/",
-        modificar_precio_indv_codigos: remote_base_url + "codigos_ext/modificar/precios/indv/cat/",
-        modificar_cantidad_critica: remote_base_url + "codigos_ext/modificar/cant/critica/",
-        pin_medico: remote_base_url + "medicos/pin/",
-        activar_cuenta_bancaria: remote_base_url + "cuentas_bancarias/activar/",
-        update_venta: remote_base_url + "ventas/save/modif/v/",
-        cambiar_estado_descuento: remote_base_url + "dc/cambiar/estado/",
-    },
-}
+    anular_cobros: remote_base_url + "cobros/anular_cobro/",
+    anular_carga_manual: remote_base_url + "cargamanual/anular/",
+    modificar_carga_manual: remote_base_url + "cargamanual/update/",
+
+    modificar_cantidad_lista:
+      remote_base_url + "stock/modificar_cantidad_lista/",
+
+    editar_lote_codigos: remote_base_url + "codigos/editar_lote/",
+
+    marcar_como_calibrando: remote_base_url + "tl/c/est/dep/cal/",
+    marcar_como_terminado: remote_base_url + "tl/c/est/dep/ter/",
+    marcar_como_laboratorio: remote_base_url + "tl/c/est/dep/lab/",
+    editar_cantidad_ideal: remote_base_url + "codigos/cod/editar/stock/ideal/",
+    mover_subgrupos: remote_base_url + "subgrupos/m/v/sg/",
+    mover_grupos: remote_base_url + "grupos/mover/",
+    cl_a_f_l: remote_base_url + "cl/a/f/l/",
+    sorteo_set_ganador: remote_base_url + "srt/set/wn/",
+    editar_medico: remote_base_url + "medicos/ed/it/m/",
+    modificar_precio_indv_codigos:
+      remote_base_url + "codigos_ext/modificar/precios/indv/cat/",
+    modificar_cantidad_critica:
+      remote_base_url + "codigos_ext/modificar/cant/critica/",
+    pin_medico: remote_base_url + "medicos/pin/",
+    activar_cuenta_bancaria: remote_base_url + "cuentas_bancarias/activar/",
+    update_venta: remote_base_url + "ventas/save/modif/v/",
+    cambiar_estado_descuento: remote_base_url + "dc/cambiar/estado/",
+  },
+};
 
 const get = {
-    opticas: remote_base_url + "op/",
-    obtener_usuarios_permisos: remote_base_url + "usuarios/l/a/s/obtener_usuarios_permisos/",
-    lista_codigos_categoria: remote_base_url + "codigos/lista_por_categoria/", ///:idfamilia/:idsubfamilia/:idgrupo/:idsubgrupo
-    lista_familia: remote_base_url + "familia/",
-    lista_subgrupo: remote_base_url + "subgrupos/listado/subgrupos/",
-    lista_envio_stock: remote_base_url + "enviostock/",
-    detalle_envio: remote_base_url + "envio/",
-    lista_envios: remote_base_url + "envio/",
-    envio_pendientes: remote_base_url + "envio/envio_pendientes/",
-    detalle_stock: remote_base_url + "stock/detalle/",
-    sucursales: remote_base_url + "sucursales/",
-    search_codigos: remote_base_url + "codigos/search/",
-    detalle_codigo: remote_base_url + "codigos/",
-    lista_stock: remote_base_url + "stock/",
-    lista_subfamilias: remote_base_url + "subfamilia/",
-    buscar_stock: remote_base_url + "stock/search/",
-    lista_grupos: remote_base_url + "grupos/",
-    lista_codigos: remote_base_url + "codigos/",
-    check_login: remote_base_url + "usuarios/l/checklogin/",
-    logout: remote_base_url + "usuarios/l/logout/",
-    familia_menu_opt: remote_base_url + "familia/menu/options/",
-    subfamilia_menu_opt: remote_base_url + "subfamilia/optionsforfamilia/",
-    lista_proveedores: remote_base_url + "proveedores/",
-    lista_stock_porsubgrupo: remote_base_url + "stock/porsubgrupo",
-    lista_facturas: remote_base_url + "facturas/",
-    optionsforfamilia: remote_base_url + "subfamilia/optionsforfamilia/",
-    optionsforsubfamilia: remote_base_url + "grupos/optionsforsubfamilia/",
-    optionsforgrupo: remote_base_url + "subgrupos/optionsforgrupo/",
-    codigosOptSubgrupo: remote_base_url + "codigos/optforsubgrupo/",
-    sucursal_details: remote_base_url + "sucursales/",
-    cod_sin_stock_s: remote_base_url + "stock/cod_sin_stock_s/",
-    stock_exists: remote_base_url + "stock/exists/", 
-    descripcion_cat_subgrupo: remote_base_url + "subgrupos/descripcion_cat_subgrupo/",//:subgrupoId
+  opticas: remote_base_url + "op/",
+  obtener_usuarios_permisos:
+    remote_base_url + "usuarios/l/a/s/obtener_usuarios_permisos/",
+  lista_codigos_categoria: remote_base_url + "codigos/lista_por_categoria/", ///:idfamilia/:idsubfamilia/:idgrupo/:idsubgrupo
+  lista_familia: remote_base_url + "familia/",
+  lista_subgrupo: remote_base_url + "subgrupos/listado/subgrupos/",
+  lista_envio_stock: remote_base_url + "enviostock/",
+  detalle_envio: remote_base_url + "envio/",
+  lista_envios: remote_base_url + "envio/",
+  envio_pendientes: remote_base_url + "envio/envio_pendientes/",
+  detalle_stock: remote_base_url + "stock/detalle/",
+  sucursales: remote_base_url + "sucursales/",
+  search_codigos: remote_base_url + "codigos/search/",
+  detalle_codigo: remote_base_url + "codigos/",
+  lista_stock: remote_base_url + "stock/",
+  lista_subfamilias: remote_base_url + "subfamilia/",
+  buscar_stock: remote_base_url + "stock/search/",
+  lista_grupos: remote_base_url + "grupos/",
+  lista_codigos: remote_base_url + "codigos/",
+  check_login: remote_base_url + "usuarios/l/checklogin/",
+  logout: remote_base_url + "usuarios/l/logout/",
+  familia_menu_opt: remote_base_url + "familia/menu/options/",
+  subfamilia_menu_opt: remote_base_url + "subfamilia/optionsforfamilia/",
+  lista_proveedores: remote_base_url + "proveedores/",
+  lista_stock_porsubgrupo: remote_base_url + "stock/porsubgrupo",
+  lista_facturas: remote_base_url + "facturas/",
+  optionsforfamilia: remote_base_url + "subfamilia/optionsforfamilia/",
+  optionsforsubfamilia: remote_base_url + "grupos/optionsforsubfamilia/",
+  optionsforgrupo: remote_base_url + "subgrupos/optionsforgrupo/",
+  codigosOptSubgrupo: remote_base_url + "codigos/optforsubgrupo/",
+  sucursal_details: remote_base_url + "sucursales/",
+  cod_sin_stock_s: remote_base_url + "stock/cod_sin_stock_s/",
+  stock_exists: remote_base_url + "stock/exists/",
+  descripcion_cat_subgrupo:
+    remote_base_url + "subgrupos/descripcion_cat_subgrupo/", //:subgrupoId
 
-    obtener_stock_sucursal: remote_base_url + "stock/stock_sucursal/",//:idsucursal/:idcodigo
-    stock_codigo_sucursales: remote_base_url + "stock/stock_sucursales/", //:idcodigo
-    obtener_envios_codigo: remote_base_url + "envio/envio_codigo/",//:idcodigo
+  obtener_stock_sucursal: remote_base_url + "stock/stock_sucursal/", //:idsucursal/:idcodigo
+  stock_codigo_sucursales: remote_base_url + "stock/stock_sucursales/", //:idcodigo
+  obtener_envios_codigo: remote_base_url + "envio/envio_codigo/", //:idcodigo
 
-    obtener_lista_baja_desperfectos: remote_base_url + "bajadesperfecto/",
+  obtener_lista_baja_desperfectos: remote_base_url + "bajadesperfecto/",
 
-    detalle_factura: remote_base_url + "facturas/df/",//idfactura
-    elementos_factura: remote_base_url + "facturas/elementos/",//idfactura
+  detalle_factura: remote_base_url + "facturas/df/", //idfactura
+  elementos_factura: remote_base_url + "facturas/elementos/", //idfactura
 
-    obtener_detalle_subgrupo: remote_base_url + "subgrupos/",//subgrupoId
+  obtener_detalle_subgrupo: remote_base_url + "subgrupos/", //subgrupoId
 
-    //ventas
-    obtener_stock_detalles_venta: remote_base_url + "stock/detalle_stock_venta/",//:idsucursal/:idcodigo
+  //ventas
+  obtener_stock_detalles_venta: remote_base_url + "stock/detalle_stock_venta/", //:idsucursal/:idcodigo
 
-    //clientes
-    cliente_por_id: remote_base_url + "clientes/",
-    lista_clientes: remote_base_url + "clientes/",
-    operaciones_cliente: remote_base_url + "clientes/operaciones/",
-    buscar_cliente: remote_base_url + "clientes/buscar/",
-    saldo_ctacte: remote_base_url + "clientes/saldo/ctacte/",//:idcliente
-    saldo_ctacte_optica:remote_base_url + "op/obtener/saldo/cliente/optica/",
-    actualizar_saldo_en_cobro: remote_base_url + "clientes/actualizar_saldo_en_cobro/",//:idcobro
+  //clientes
+  cliente_por_id: remote_base_url + "clientes/",
+  lista_clientes: remote_base_url + "clientes/",
+  operaciones_cliente: remote_base_url + "clientes/operaciones/",
+  buscar_cliente: remote_base_url + "clientes/buscar/",
+  saldo_ctacte: remote_base_url + "clientes/saldo/ctacte/", //:idcliente
+  saldo_ctacte_optica: remote_base_url + "op/obtener/saldo/cliente/optica/",
+  actualizar_saldo_en_cobro:
+    remote_base_url + "clientes/actualizar_saldo_en_cobro/", //:idcobro
 
-    
-    desbloquear_cliente: remote_base_url + "clientes/desbloquear/",//:idcliente
+  desbloquear_cliente: remote_base_url + "clientes/desbloquear/", //:idcliente
 
-    lista_mutuales: remote_base_url + "mutuales/",
-    lista_mutuales_todos: remote_base_url + "mutuales/todos/",
-    obtener_mutual: remote_base_url + "mutuales/",//:idmutual
-    buscar_mutual: remote_base_url + "mutuales/buscar/",//:value
+  lista_mutuales: remote_base_url + "mutuales/",
+  lista_mutuales_todos: remote_base_url + "mutuales/todos/",
+  obtener_mutual: remote_base_url + "mutuales/", //:idmutual
+  buscar_mutual: remote_base_url + "mutuales/buscar/", //:value
 
-    lista_medicos: remote_base_url + "medicos/",
-    lista_medicos_opt: remote_base_url + "medicos/o/p/t/",
-    obtener_medico: remote_base_url + "medicos/",//:idmedico
-    buscar_medico: remote_base_url + "medicos/buscar/",//:value
+  lista_medicos: remote_base_url + "medicos/",
+  lista_medicos_opt: remote_base_url + "medicos/o/p/t/",
+  obtener_medico: remote_base_url + "medicos/", //:idmedico
+  buscar_medico: remote_base_url + "medicos/buscar/", //:value
 
-    venta: remote_base_url + "ventas/",//:idventa
-    detalle_cliente: remote_base_url + "clientes/",
-    get_venta_mp: remote_base_url + "ventas/get_venta_mp/",//idVenta
-    get_venta_mp_ctacte: remote_base_url + "ventas/get_venta_mp_ctacte/",//idVenta
-    
-    obtener_venta_items: remote_base_url + "ventas/get_venta_items/",//idventa
+  venta: remote_base_url + "ventas/", //:idventa
+  detalle_cliente: remote_base_url + "clientes/",
+  get_venta_mp: remote_base_url + "ventas/get_venta_mp/", //idVenta
+  get_venta_mp_ctacte: remote_base_url + "ventas/get_venta_mp_ctacte/", //idVenta
 
-    actualizar_saldo_cliente: remote_base_url + "clientes/actualizar_saldo_cliente/",//clienteId
-    
-    //cobros
-    detalle_cobro: remote_base_url + "cobros/",//idcobro
-    lista_mp_cobro: remote_base_url + "cobros/mp/",//idcobro
+  obtener_venta_items: remote_base_url + "ventas/get_venta_items/", //idventa
 
-    //gastos
-    conceptos_gasto: remote_base_url + "conceptogastos/",
-    lista_gastos_sucursal: remote_base_url + "gastos/g_s/",//:idsucursal
-    lista_gastos_caja: remote_base_url + "gastos/g_c/",//:idcaja
+  actualizar_saldo_cliente:
+    remote_base_url + "clientes/actualizar_saldo_cliente/", //clienteId
 
-    //caja
-    caja: remote_base_url + "caja/c/",//idsucursal
-    cerrar_caja: remote_base_url + "caja/cerrar/",//idcaja
-    informe_caja: remote_base_url + "caja/inf/",
-    lista_caja_sucursal: remote_base_url + "caja/lista/",
-    caja_id: remote_base_url + "caja/",//idsucursal
-    caja_abierta: remote_base_url + "caja/caja_abierta/",
-    
+  //cobros
+  detalle_cobro: remote_base_url + "cobros/", //idcobro
+  lista_mp_cobro: remote_base_url + "cobros/mp/", //idcobro
 
-    //tarjetas
-    lista_tarjetas: remote_base_url + "tarjetas/", 
+  //gastos
+  conceptos_gasto: remote_base_url + "conceptogastos/",
+  lista_gastos_sucursal: remote_base_url + "gastos/g_s/", //:idsucursal
+  lista_gastos_caja: remote_base_url + "gastos/g_c/", //:idcaja
 
-    lista_bancos: remote_base_url + "bancos/",
+  //caja
+  caja: remote_base_url + "caja/c/", //idsucursal
+  cerrar_caja: remote_base_url + "caja/cerrar/", //idcaja
+  informe_caja: remote_base_url + "caja/inf/",
+  lista_caja_sucursal: remote_base_url + "caja/lista/",
+  caja_id: remote_base_url + "caja/", //idsucursal
+  caja_abierta: remote_base_url + "caja/caja_abierta/",
 
-    stock_full: remote_base_url + "stock/get/subgrupos/full/list/",
+  //tarjetas
+  lista_tarjetas: remote_base_url + "tarjetas/",
 
-    //transferencias
+  lista_bancos: remote_base_url + "bancos/",
 
-    transferencias_enviadas: remote_base_url + "transferencias/enviadas/",//idsucursal
-    transferencias_recibidas: remote_base_url + "transferencias/recibidas/",//idsucursal
+  stock_full: remote_base_url + "stock/get/subgrupos/full/list/",
 
-    detalle_usuario: remote_base_url + "usuarios/",//:idusuario
+  //transferencias
 
-    obtener_lista_cobros_admin: remote_base_url + "admin/obtener_lista_cobros_admin/",
-    obtener_lista_envios_admin: remote_base_url + "admin/obtener_lista_envios_admin/",
-    obtener_lista_gastos_admin: remote_base_url + "admin/obtener_lista_gastos_admin/",
-    obtener_lista_ventas_admin: remote_base_url + "admin/obtener_lista_ventas_admin/",
-   // total_tarjetas_periodo: remote_base_url + "admin/obtener/totales/tarjetas/periodo/",
+  transferencias_enviadas: remote_base_url + "transferencias/enviadas/", //idsucursal
+  transferencias_recibidas: remote_base_url + "transferencias/recibidas/", //idsucursal
 
-    mensajes: remote_base_url + "mensajes/",
+  detalle_usuario: remote_base_url + "usuarios/", //:idusuario
 
-    obtener_pagare: remote_base_url + "ventas/obtener_datos_pagare/",
-    obtener_pagares_cliente: remote_base_url + "ventas/obtener_lista_pagares/",
+  obtener_lista_cobros_admin:
+    remote_base_url + "admin/obtener_lista_cobros_admin/",
+  obtener_lista_envios_admin:
+    remote_base_url + "admin/obtener_lista_envios_admin/",
+  obtener_lista_gastos_admin:
+    remote_base_url + "admin/obtener_lista_gastos_admin/",
+  obtener_lista_ventas_admin:
+    remote_base_url + "admin/obtener_lista_ventas_admin/",
+  // total_tarjetas_periodo: remote_base_url + "admin/obtener/totales/tarjetas/periodo/",
 
-    obtener_categorias_productos_venta: remote_base_url + "ventas/obtener_categorias_productos_venta/",
+  mensajes: remote_base_url + "mensajes/",
 
-    obtener_interes_cuota: remote_base_url + "ic/",
+  obtener_pagare: remote_base_url + "ventas/obtener_datos_pagare/",
+  obtener_pagares_cliente: remote_base_url + "ventas/obtener_lista_pagares/",
 
-    obtener_localidades_provincia: remote_base_url + "localidad/obtener_localidades_provincia/",
+  obtener_categorias_productos_venta:
+    remote_base_url + "ventas/obtener_categorias_productos_venta/",
 
-    obtener_provincias: remote_base_url + "localidad/obtener_provincias/",
+  obtener_interes_cuota: remote_base_url + "ic/",
 
-    cliente_ventas_gral: remote_base_url + "clientes/ventas_gral/",
+  obtener_localidades_provincia:
+    remote_base_url + "localidad/obtener_localidades_provincia/",
 
-    check_session: remote_base_url + "usuarios/checks/",
+  obtener_provincias: remote_base_url + "localidad/obtener_provincias/",
 
-    lista_request: remote_base_url + "usuarios/l/sessions/",
+  cliente_ventas_gral: remote_base_url + "clientes/ventas_gral/",
 
-    admin_totales_sucursal: remote_base_url + "admin/resumen_op_sucursal/",//:idcaja
+  check_session: remote_base_url + "usuarios/checks/",
 
-    lista_subgrupos_subfamilia: remote_base_url + "subgrupos/subgrupos_subfamilia/",
+  lista_request: remote_base_url + "usuarios/l/sessions/",
 
-    lista_llamadas_cliente: remote_base_url + "llamadas/",
+  admin_totales_sucursal: remote_base_url + "admin/resumen_op_sucursal/", //:idcaja
 
-    lista_usuarios: remote_base_url + "usuarios/",
+  lista_subgrupos_subfamilia:
+    remote_base_url + "subgrupos/subgrupos_subfamilia/",
 
-    carga_manual: remote_base_url + "cargamanual/",
+  lista_llamadas_cliente: remote_base_url + "llamadas/",
 
-    items_adicional_venta: remote_base_url + "adic/",
+  lista_usuarios: remote_base_url + "usuarios/",
 
-    obtener_lista_controles: remote_base_url + "cs/",
+  carga_manual: remote_base_url + "cargamanual/",
 
-    anular_envio: remote_base_url + "envio/anular/envio/",
+  items_adicional_venta: remote_base_url + "adic/",
 
-    obtener_anotaciones: remote_base_url + "anot/",
-    obtener_anotacion: remote_base_url + "anot/",//:idanotacion
+  obtener_lista_controles: remote_base_url + "cs/",
 
-    detalle_proveedor: remote_base_url + "proveedores/",
+  anular_envio: remote_base_url + "envio/anular/envio/",
 
-    listado_subgrupos_filtros: remote_base_url + "subgrupos/listado/subgrupos/fitros/",
+  obtener_anotaciones: remote_base_url + "anot/",
+  obtener_anotacion: remote_base_url + "anot/", //:idanotacion
 
-    obtener_optica: remote_base_url + "op/",//:idoptica
+  detalle_proveedor: remote_base_url + "proveedores/",
 
-    default_product_image: remote_base_url + "img/def/",
+  listado_subgrupos_filtros:
+    remote_base_url + "subgrupos/listado/subgrupos/fitros/",
 
-    resumen_caja: remote_base_url + "caja/resumen/caja/s/",
+  obtener_optica: remote_base_url + "op/", //:idoptica
 
-    cambiar_estado_codigo_activo: remote_base_url + "codigos/cambiar/estado/codigo/",
+  default_product_image: remote_base_url + "img/def/",
 
-    ejemplo_codigo: "codigos/ej/cod/",
+  resumen_caja: remote_base_url + "caja/resumen/caja/s/",
 
-    listado_caja_sucursales_pendientes: remote_base_url + "caja/listado_caja_sucursales_pendientes/",
+  cambiar_estado_codigo_activo:
+    remote_base_url + "codigos/cambiar/estado/codigo/",
 
-    cm_listado_caja_sucursales: remote_base_url + "caja/listado_caja_sucursales/",
+  ejemplo_codigo: "codigos/ej/cod/",
 
-    cajas_ls: remote_base_url + "ccmm/cajas/p/s",
+  listado_caja_sucursales_pendientes:
+    remote_base_url + "caja/listado_caja_sucursales_pendientes/",
 
-    caja_m_balance: remote_base_url + "ccmm/blc/",
+  cm_listado_caja_sucursales: remote_base_url + "caja/listado_caja_sucursales/",
 
-    conceptos_gasto: remote_base_url + "conceptogastos/",
+  cajas_ls: remote_base_url + "ccmm/cajas/p/s",
 
-    lista_ff: remote_base_url + "ff/",
+  caja_m_balance: remote_base_url + "ccmm/blc/",
 
-    get_id_ccmm: remote_base_url + "ccmm/",
+  conceptos_gasto: remote_base_url + "conceptogastos/",
 
-    get_vendedores: remote_base_url + "usuarios/l/vendedores/",
+  lista_ff: remote_base_url + "ff/",
 
-    montos_adic_factura: remote_base_url + "facturas/mont/adic/fact/",
+  get_id_ccmm: remote_base_url + "ccmm/",
 
-    obtener_cuenta_bancarias: remote_base_url + "cuentas_bancarias/",
+  get_vendedores: remote_base_url + "usuarios/l/vendedores/",
 
-    obtener_tipos_cuentas: remote_base_url + "cuentas_bancarias/tipos_cuentas/",
+  montos_adic_factura: remote_base_url + "facturas/mont/adic/fact/",
 
-    obtener_cantidades_ventas_taller: remote_base_url + "infvtas/inf/vtas/taller/cantidades/",
+  obtener_cuenta_bancarias: remote_base_url + "cuentas_bancarias/",
 
-    obtener_codigos_cristales: remote_base_url + "sc/get/codigos/",
+  obtener_tipos_cuentas: remote_base_url + "cuentas_bancarias/tipos_cuentas/",
 
-    obtener_opiniones: remote_base_url + "opinion/",
+  obtener_cantidades_ventas_taller:
+    remote_base_url + "infvtas/inf/vtas/taller/cantidades/",
 
-    obtener_ventas_tm: remote_base_url + "tm/ls/s/",
-    
-    obtener_venta_tm: remote_base_url + "tm/",
+  obtener_codigos_cristales: remote_base_url + "sc/get/codigos/",
 
-    obtener_items_trabajo: remote_base_url + "tm/items/",
+  obtener_opiniones: remote_base_url + "opinion/",
 
-    obtener_lista_descuentos: remote_base_url + "dc/",
-    
-}
+  obtener_ventas_tm: remote_base_url + "tm/ls/s/",
+
+  obtener_venta_tm: remote_base_url + "tm/",
+
+  obtener_items_trabajo: remote_base_url + "tm/items/",
+
+  obtener_lista_descuentos: remote_base_url + "dc/",
+};
 
 module.exports = {
-    post,get,informes,public_urls,local_base_url
-}
+  post,
+  get,
+  informes,
+  public_urls,
+  local_base_url,
+};

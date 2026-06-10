@@ -14,7 +14,6 @@ export default function LayoutLaboratorio(props){
 
     const { getItem } = useStorage();
     const validate_user = () => {
-
         const _token = getItem("token",'session')
 
         if(_token === typeof 'undefined' ){
@@ -40,17 +39,18 @@ export default function LayoutLaboratorio(props){
                     validate_user();
                 }
             })
+            .catch((err)=>{
+                console.log("error validating user", err);
+                validate_user();
+            });
             
-        }, 2000);
+        }, 10000);
     }
   useEffect(()=>{
-    console.log("run user effect")
-
     if(!globals.esUsuarioLaboratorio())
     {
         window.location.replace(public_urls.modo)
     }
-    
     validate_user()
   },[])
     return (

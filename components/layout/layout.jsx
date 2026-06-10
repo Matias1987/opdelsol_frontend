@@ -51,7 +51,7 @@ export default function MyLayout(props){
 
             })
             
-        }, 2000);
+        }, 10000);
     }
   useEffect(()=>{
     console.log("run user effect")

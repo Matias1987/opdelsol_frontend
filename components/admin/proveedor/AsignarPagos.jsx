@@ -406,9 +406,10 @@ const AsignarPagos = ({ idproveedor, moneda, modo, callback }) => {
       compras: compras.filter((c) => c.checked),
       cm: cm.filter((c) => c.checked),
     };
-
+    setBtnGuardarEnabled(false);
     post_method(post.asignar_pagos, data, (response) => {
       alert("Datos Guardados");
+      setBtnGuardarEnabled(true);
       callback?.();
     });
 
@@ -531,7 +532,8 @@ const AsignarPagos = ({ idproveedor, moneda, modo, callback }) => {
                 setMontoAsignado(0);
                 setEditPopupMonto(0);
                 setEditPopupVisible(false);
-                load();
+                //load();
+                callback?.();
               }}
             >
               Cancelar
