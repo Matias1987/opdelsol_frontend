@@ -43,8 +43,10 @@ const SucursalSelectModal = (props) => {
             }
 
             if(+props.sucursalDefecto>0){
+                //alert(props.sucursalDefecto)
                 setSelectedSucursal(props.sucursalDefecto)
                 props.callback(props.sucursalDefecto)
+                globals.establecerSucursal(props.sucursalDefecto)
                 return;
             }
 
@@ -52,6 +54,7 @@ const SucursalSelectModal = (props) => {
             {
                 setSelectedSucursal(response.data[0].idsucursal)
                 props.callback(response.data[0].idsucursal)
+                globals.establecerSucursal(response.data[0].idsucursal)
                 return;
             }
             else{
