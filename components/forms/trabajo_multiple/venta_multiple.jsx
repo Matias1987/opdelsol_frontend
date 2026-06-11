@@ -61,7 +61,7 @@ const TrabajoMultiple = ({
     horaRetiro: null,
     comentarios: "",
     fksucursal: globals.obtenerSucursal(),
-    fkcaja: 4165,//globals.obtenerCajaID(),
+    fkcaja: 4165, //globals.obtenerCajaID(),
     json_items: "",
     tk: globals.getToken(),
     uid: "",
@@ -74,12 +74,16 @@ const TrabajoMultiple = ({
   const [descuento, setDescuento] = useState(0);
   const [trabajos, setTrabajos] = useState([]);
   const [items, setItems] = useState([]);
-  const [idCliente, setIdCliente] = useState(-1)
+  const [idCliente, setIdCliente] = useState(-1);
   const [finalV, setFinalV] = useState({});
 
   const tab_content = (id) => (
     <>
-      <VMTrabajo localId={id} callback={onTabValuesChange} idCliente={idCliente} />
+      <VMTrabajo
+        localId={id}
+        callback={onTabValuesChange}
+        idCliente={idCliente}
+      />
     </>
   );
 
@@ -259,9 +263,9 @@ const TrabajoMultiple = ({
       });
       return { ...venta, fkusuario: idvendedor };
     });*/
-    post_method(post.insert.insert_venta_multiple,__v,(response)=>{
-      alert(JSON.stringify(response))
-    })
+    post_method(post.insert.insert_venta_multiple, __v, (response) => {
+      alert(JSON.stringify(response));
+    });
   };
 
   const modo_formulario_unico = (_) => (
@@ -281,28 +285,39 @@ const TrabajoMultiple = ({
           />
         </Col>
       </Row>
-      <Divider />
+  
 
-      <Card
-        
-        size="small"
-        style={{ boxShadow: "-1px 1px 1px 0px #9e9c9c" }}
-      >
+      <Card size="small" style={{ boxShadow: "-1px 1px 1px 0px #9e9c9c" }}>
         <Row>
           <Col span={24}>
             <Tabs
               type="editable-card"
               size={"small"}
-              tabBarExtraContent={{left:<span style={{fontWeight:"600", fontSize:"1.1em", paddingRight:"16px", color:"#00000f"}}> Trabajos: </span>}}
+              tabBarExtraContent={{
+                left: (
+                  <span
+                    style={{
+                      fontWeight: "bolder",
+                      fontSize: "1.1em",
+                      paddingRight: "16px",
+                      color: "#b12502",
+                    }}
+                  >
+
+                    Trabajos:{" "}
+                  </span>
+                ),
+              }}
               tabPosition="top"
-              tab
               activeKey={activeKey}
               onChange={setActiveKey}
               onEdit={onEdit}
               items={items}
+
+            
+
             />
           </Col>
-          
         </Row>
       </Card>
       <Divider />
@@ -415,7 +430,7 @@ const TrabajoMultiple = ({
           header: {
             backgroundColor: "##ffffed",
             background:
-              "linear-gradient(281deg,rgba(248,248,234, 1) 32%, rgba(231,233,235, 1) 75%)",
+              "linear-gradient(281deg, #ffebcd 32%, rgba(231,233,235, 1) 75%)",
             borderBottom: "1px solid #eee",
             borderTopLeftRadius: "16px",
             borderTopRightRadius: "16px",
@@ -447,7 +462,7 @@ const TrabajoMultiple = ({
           </Row>
         }
       </Card>
-      {
+      {/*
             <Col span={8}>
               <div
                 style={{
@@ -464,8 +479,7 @@ const TrabajoMultiple = ({
                 </pre>
               </div>
             </Col>
-          }
-      
+          */}
     </>
   );
 };

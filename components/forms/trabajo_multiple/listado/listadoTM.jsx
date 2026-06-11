@@ -1,6 +1,10 @@
 import globals from "@/src/globals";
 import { get, post } from "@/src/urls";
-import { InfoCircleFilled, SearchOutlined } from "@ant-design/icons";
+import {
+  InfoCircleFilled,
+  ReloadOutlined,
+  SearchOutlined,
+} from "@ant-design/icons";
 import {
   Button,
   Card,
@@ -25,28 +29,14 @@ const ListadoVentasTM = (_) => {
   const [formsEnabled, setFormEnabled] = useState(true);
   const columns = [
     {
-      render: (_, record) =>
-        +record.isParent == 0 ? (
-          <></>
-        ) : (
-          <>
-            <Button
-              onClick={(e) => {
-                setVentaSeleccionada(record);
-                setModalOpen(true);
-              }}
-            >
-              <InfoCircleFilled />
-            </Button>
-          </>
-        ),
-      width: "50px",
-      title: "info",
+      render: (_, record) => <></>,
+      width: "15px",
+      title: "",
     },
     {
       sorter: (a, b) => +a.idventa - +b.idventa,
       dataIndex: "idventa",
-      width: "80px",
+      width: "50px",
       title: "ID",
       filterIcon: (filtered) => (
         <SearchOutlined style={{ color: filtered ? "#1677ff" : undefined }} />
@@ -97,14 +87,44 @@ const ListadoVentasTM = (_) => {
         // 'value' corresponds to selectedKeys[0] passed from the input field
         return record.idventa.toString().includes(value);
       },
+
+      render: (_, record) =>
+        +record.isParent == 0 ? (
+          <span
+            style={{ fontStyle: "italic", fontSize: "1.1em", color: "#000a9c" }}
+          >
+            {record.idventa}-{record.idtrabajo}
+          </span>
+        ) : (
+          <>
+            {record.idventa}
+            <Button
+              type="link"
+              onClick={(e) => {
+                setVentaSeleccionada(record);
+                setModalOpen(true);
+              }}
+            >
+              <InfoCircleFilled />
+            </Button>
+          </>
+        ),
     },
     {
       dataIndex: "cliente",
-      width: "80px",
+      width: "100px",
       title: "Cliente",
+      render: (_, record) =>
+        1 === +record.isParent ? <>{record.cliente}</> : <></>,
       sorter: (a, b) => a.cliente.localeCompare(b.cliente),
     },
-    { dataIndex: "fecha", width: "80px", title: "Fecha" },
+    {
+      dataIndex: "fecha",
+      width: "60px",
+      title: "Fecha",
+      render: (_, record) =>
+        1 === +record.isParent ? <>{record.fecha}</> : <></>,
+    },
     {
       // 1. Define the choices appearing in the filter menu
       filters: [
@@ -118,37 +138,85 @@ const ListadoVentasTM = (_) => {
       filterMultiple: false,
 
       title: "Estado",
-      width: "80px",
+      width: "60px",
       dataIndex: "estado",
       render: (_, { estado, isParent, estado_trabajo }) => {
         if (+isParent === 0) {
           return (
-            <Tag
-              color={
-                estado_trabajo == "LAB"
-                  ? "red"
-                  : estado_trabajo == "CALIBRADO"
-                    ? "blue"
-                    : estado_trabajo == "TERMINADO"
-                      ? "green"
-                      : estado_trabajo == "PEDIDO"
-                        ? "orange"
-                        : "purple"
-              }
-            >
-              {estado_trabajo}
-            </Tag>
+            <>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              <span
+                style={{
+                  fontWeight: "bold",
+                  color: `${
+                    estado_trabajo == "LAB"
+                      ? "red"
+                      : estado_trabajo == "CALIBRADO"
+                        ? "blue"
+                        : estado_trabajo == "TERMINADO"
+                          ? "green"
+                          : estado_trabajo == "PEDIDO"
+                            ? "orange"
+                            : "purple"
+                  }`,
+                }}
+              >
+                {estado_trabajo}
+              </span>
+            </>
           );
         }
         switch (estado) {
           case "PENDIENTE":
-            return <b>{`${estado} `}</b>;
+            return (
+              <span
+                style={{
+                  fontSize: "12px",
+                  fontStyle: "normal",
+                  fontWeight: "600",
+                  color: "#eb0202",
+                }}
+              >{`En Taller`}</span>
+            );
           case "ENTREGADO":
-            return <b>{estado}</b>;
+            return (
+              <span
+                style={{
+                  fontSize: "12px",
+                  fontStyle: "normal",
+                  fontWeight: "600",
+                  color: "#007914",
+                }}
+              >
+                Entregado
+              </span>
+            );
           case "ANULADO":
-            return <b>{estado}</b>;
+            return (
+              <span
+                style={{
+                  fontSize: "12px",
+                  fontStyle: "normal",
+                  fontWeight: "600",
+                  color: "#490101",
+                }}
+              >
+                Anulado
+              </span>
+            );
           case "TERMINADO":
-            return <b>{estado}</b>;
+            return (
+              <span
+                style={{
+                  fontSize: "12px",
+                  fontStyle: "normal",
+                  fontWeight: "600",
+                  color: "#000cb8",
+                }}
+              >
+                Terminado
+              </span>
+            );
         }
       },
     },
@@ -156,10 +224,16 @@ const ListadoVentasTM = (_) => {
       width: "80px",
       title: "Acciones",
       render: (_, record) =>
-        "TERMINADO" == record.estado ? (
+        "TERMINADO" == record.estado && +record.isParent === 1 ? (
           <Button
+            type="dashed"
+            size="small"
+            style={{ color: "red", fontWeight: "bold" }}
             disabled={!formsEnabled}
             onClick={(_) => {
+              if (!confirm("Confirmar Marcar como Entregado")) {
+                return;
+              }
               marcar_entregado(record.idventa);
             }}
           >
@@ -203,7 +277,36 @@ const ListadoVentasTM = (_) => {
 
   return (
     <>
-      <Card title="Operaciones" size="small">
+      <Card
+        style={{
+          boxShadow: "0 2px 8px rgba(0, 0, 0, 0.3)",
+          borderRadius: "16px",
+        }}
+        styles={{
+          header: {
+            backgroundColor: "##ffffed",
+            background:
+              "linear-gradient(281deg, #ffebcd 32%, rgba(231,233,235, 1) 75%)",
+            borderBottom: "1px solid #eee",
+            borderTopLeftRadius: "16px",
+            borderTopRightRadius: "16px",
+          },
+        }}
+        title="Operaciones"
+        size="small"
+        extra={
+          <>
+            <Button
+              onClick={(_) => {
+                setReload(!reload);
+              }}
+              type="link"
+            >
+              <ReloadOutlined />
+            </Button>
+          </>
+        }
+      >
         <Row>
           <Col>
             <Table
@@ -211,6 +314,11 @@ const ListadoVentasTM = (_) => {
               dataSource={data}
               scroll={{ y: "300" }}
               size="small"
+              rowClassName={(record, index) =>
+                +record.idtrabajo < 0 || +record.isParent == 1
+                  ? "table-row-light"
+                  : "table-row-light-yellow"
+              }
             />
           </Col>
         </Row>

@@ -734,6 +734,8 @@ danger list
 .segmented-blue {
   color: #1203e4; 
 }
+
+
 /*
 
 
@@ -754,3 +756,19 @@ danger list
   color: #000;
 }
 */
+
+.custom-menu-distribuidora {
+  background-color: #db712a !important; /* azul oscuro */
+}
+
+.custom-menu-distribuidora .ant-menu-item {
+  color: #fff !important;
+  font-weight: bold;
+}
+
+.custom-menu-distribuidora .ant-menu-item-selected {
+  background-color: #c73e1c !important;
+  color: #fff !important;
+  border-left: 4px solid #ad1c12;   
+}
+
