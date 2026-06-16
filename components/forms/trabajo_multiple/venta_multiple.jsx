@@ -18,7 +18,7 @@ import esES from "antd/locale/es_ES";
 import { useRef, useState } from "react";
 import SelectVendedor from "@/components/usuario/vendedor/SelectVendedor";
 import { post, public_urls } from "@/src/urls";
-import { CloseOutlined } from "@ant-design/icons";
+import { CloseOutlined, PlusOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
 import VMTrabajo from "./vm_trabajo";
 import Informe from "./informe/informe";
@@ -268,6 +268,12 @@ const TrabajoMultiple = ({
     });
   };
 
+  const customAddButton = (
+    <Button style={{fontWeight:"bolder"}} type="link" size="large" icon={<PlusOutlined />}>
+      Nuevo
+    </Button>
+  );
+
   const modo_formulario_unico = (_) => (
     <>
       <Row style={{ padding: ".9em" }}>
@@ -291,21 +297,22 @@ const TrabajoMultiple = ({
         <Row>
           <Col span={24}>
             <Tabs
+              className="custom-body-tabs" 
               type="editable-card"
               size={"small"}
               tabBarExtraContent={{
                 left: (
-                  <span
+                  <div
                     style={{
+                      display: "inline-block",
                       fontWeight: "bolder",
                       fontSize: "1.1em",
-                      paddingRight: "16px",
+                      padding: "8px 16px;",
                       color: "#b12502",
                     }}
                   >
-
-                    Trabajos:{" "}
-                  </span>
+                   &nbsp;&nbsp;&nbsp;Trabajos:&nbsp;&nbsp;&nbsp;
+                  </div>
                 ),
               }}
               tabPosition="top"
@@ -314,14 +321,12 @@ const TrabajoMultiple = ({
               onEdit={onEdit}
               items={items}
 
-            
-
             />
           </Col>
         </Row>
       </Card>
       <Divider />
-      <Card size="small" style={{ boxShadow: "-1px 3px 3px 2px #9e9c9c" }}>
+      <Card size="small" style={{ boxShadow: "-1px 1px 1px 0px #9e9c9c" }} className="custom-body-tabs" >
         <Row style={{ marginBottom: "12px" }}>
           <Col span={24}>
             <Input
@@ -409,7 +414,7 @@ const TrabajoMultiple = ({
   return (
     <>
       <Card
-        title={<>{title || "Venta"}</>}
+        title={<>{title || "Nueva Operación"}</>}
         extra={
           cambiar_vendedor == 10 ? (
             <> </>
@@ -440,7 +445,6 @@ const TrabajoMultiple = ({
         <Row>
           <Col span={24}>{modo_formulario_unico()}</Col>
         </Row>
-        <Divider />
         {
           <Row>
             <Col

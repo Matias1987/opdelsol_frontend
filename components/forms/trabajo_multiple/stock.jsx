@@ -67,7 +67,7 @@ const VMCristalesStock = ({ callback }) => {
   return (
     <Card
       size="small"
-      title="Stock"
+      title={<span style={{color: "#b12502"}}>Stock</span>}
       style={{ boxShadow: "-1px 1px 1px 1px #9e9c9c" }}
     >
       <Row>
@@ -78,7 +78,7 @@ const VMCristalesStock = ({ callback }) => {
             <Col span={3} style={{fontWeight:"600"}}>Eje</Col>
             <Col span={6} style={{fontWeight:"600"}}>Precio</Col>
           </Row>
-          <Row style={{backgroundColor:"#f1f1f1", padding:"4px"}}>
+          <Row style={{backgroundColor:"#fafafa", padding:"4px"}}>
             <Col style={{textAlign:"right", paddingRight:"8px", fontWeight:"600", paddingTop:"4px", width:"100px"}}>OD</Col>
             <Col span={8} style={{textAlign:"left"}}>
             <div >
@@ -128,7 +128,7 @@ const VMCristalesStock = ({ callback }) => {
               />
             </Col>
           </Row>
-          <Row style={{backgroundColor:"#f1f1f1", padding:"4px"}}>
+          <Row style={{backgroundColor:"#fafafa", padding:"4px"}}>
             <Col style={{textAlign:"right", paddingRight:"8px", fontWeight:"600", paddingTop:"4px", width:"100px"}}>Tratamiento</Col>
             <Col span={8} style={{textAlign:"left"}}>
               <SelectCodigoVenta
@@ -148,7 +148,7 @@ const VMCristalesStock = ({ callback }) => {
             </Col>
           </Row>
           <Divider />
-          <Row style={{backgroundColor:"#f1f1f1", padding:"8px"}}>
+          <Row style={{backgroundColor:"#fafafa", padding:"8px"}}>
             <Col span={24}>
               <Input style={{width:"100%"}} prefix={<span style={{fontWeight:"bold"}}>Armaz&oacute;n</span>} value={trabajoStock.armazon} onChange={e=>onChange("armazon",e.target.value)} />
             </Col>

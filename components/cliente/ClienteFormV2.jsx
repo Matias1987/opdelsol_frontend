@@ -114,6 +114,8 @@ export default function ClienteFormV2(props){
                     apellidos: clienteData.apellidos.toUpperCase(),
                     domicilio: clienteData.domicilio.toUpperCase(),
                     tk: globals.getToken(),
+                    id_usuario: globals.obtenerUID(),
+                    id_sucursal: globals.obtenerSucursal()
                 }
 
                 

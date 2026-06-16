@@ -51,13 +51,13 @@ const VMTrabajo = ({callback, localId, tipo, idCliente}) => {
   };
 
   return tipoTrabajo < 0 ? (
-    <div style={{ backgroundColor:"#faf6e7", borderRadius:"16px"}}>
+    <div>
     <Row style={{paddingLeft:"32px"}}>
       <Col span={24}>
         <h3 style={{color:"#3A5C79"}}>Tipo de trabajo: </h3>
       </Col>
     </Row>
-    <Row style={{paddingLeft:"32px", paddingRight:"32px", paddingBottom:"63px"}}>
+    <Row style={{paddingLeft:"32px", paddingRight:"32px", paddingBottom:"32px"}}>
       <Col span={24}>
         <Select
           prefix="Seleccione: "

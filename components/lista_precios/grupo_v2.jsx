@@ -38,7 +38,7 @@ const GrupoV2 = ( { nombre, callback, reload, filterStr, readOnly, idgrupo, onEd
           >
             {/*producto.replaceAll("_", " ")  + " " + idsubgrupo*/}
             <div dangerouslySetInnerHTML={{
-                __html: (producto.replace('_',' ')).replace(/\n/g, "<br />"),
+                __html: (producto.replaceAll('_',' ')).replace(/\n/g, "<br />"),
               }}></div>
           </Button>
         </>

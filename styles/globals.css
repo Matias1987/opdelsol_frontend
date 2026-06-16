@@ -170,7 +170,7 @@ h5 {
 }
 
 body {
-  background: #f5f5f5; /*#1A1A1A;*/
+  background: #F6F6F9; /*#1A1A1A;*/
   margin: 0!important;
 }
 /*
@@ -772,3 +772,27 @@ danger list
   border-left: 4px solid #ad1c12;   
 }
 
+
+/* Change background of the entire navigation wrapper */
+.ant-tabs-nav {
+  background-color: #FAFAFA;
+  margin: 0!important;
+}
+
+.ant-tabs-content-holder {
+  background-color: #FAFAFA;
+  padding: 4px; /* Optional: adds breathing room inside your new background */
+}
+
+/* Ant Design v5/v6 target */
+.custom-body-tabs .ant-tabs-content-holder {
+  padding: 8px!important;
+}
+
+.ant-tabs-content-holder {
+  padding: 8px!important;
+}
+
+.ant-card-small >.ant-card-body{
+  padding: 8px;
+}
