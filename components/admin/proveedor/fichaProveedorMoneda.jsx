@@ -773,7 +773,7 @@ const FichaProveedorMoneda = ({
       >
         <AgregarPagoProveedor
           idproveedor={idproveedor}
-          modo={modo}
+          es_remito={+modo == 1 }
           moneda={moneda}
           callback={() => {
             setPopupPagoOpen(false);

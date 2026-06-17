@@ -46,6 +46,7 @@ const AgregarPagoProveedor = (props) => {
   const [reload, setReload] = useState(false);
 
   const guardar_click = () => {
+    /*
     if (comprasSeleccionadas.length < 1) {
       if (
         confirm(
@@ -55,6 +56,7 @@ const AgregarPagoProveedor = (props) => {
         return;
       }
     }
+    */
     if (pago.monto <= 0) {
       alert("Monto debe ser mayor a 0");
       return;
@@ -88,7 +90,7 @@ const AgregarPagoProveedor = (props) => {
 
     const _data = {
       ...pago,
-      modo: props.modo,
+      modo: props.es_remito ? 1 : 0,
       fk_proveedor: props.idproveedor,
       efectivo: mpEfectivo,
       cheque: mpCheque,
@@ -145,16 +147,16 @@ const AgregarPagoProveedor = (props) => {
 
   return (
     <>
-      <Row>
+      {/*<Row>
         <Col span={24}>
           {<SeleccionCompraAPagar
             moneda={props.moneda}
             idproveedor={props.idproveedor}
-            modo={props.modo}
+            modo={props.es_remito ? 0 : 1}
             onChange={onCompraAPagarSeleccionada}
           />}
         </Col>
-      </Row>
+      </Row>*/}
       <Row style={{ marginTop: "24px" }} gutter={[16, 16]}>
         <Col style={{ paddingTop: "4px" }}>
           <span style={{ fontWeight: "bold" }}>Fecha</span>

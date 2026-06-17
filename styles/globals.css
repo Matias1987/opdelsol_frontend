@@ -420,16 +420,16 @@ just some testing
   transition: background-color 0.3s ease;
   font-weight: 600 !important;
 }
-
+/*
 .ant-menu-item:hover,
 .ant-menu-submenu-title:hover {
   background-color: var(
     --bar-bg-color
-  ) !important; /* Slightly darker green for hover */
-  text-decoration: none !important; /* Removes underline */
+  ) !important; 
+  text-decoration: none !important; 
   color: oklch(
     from var(--n-text-color) calc(l * 0.1) c h
-  ) !important; /* Darkens by 20% */
+  ) !important; 
 }
 
 .ant-menu-item-selected {
@@ -437,7 +437,7 @@ just some testing
   font-weight: bold;
   color: oklch(from var(--n-text-color) calc(l * 0.5) c h) !important;
 }
-
+*/
 .ant-menu-item-selected::after,
 .ant-menu-item:hover::after {
   border-bottom: none !important;
@@ -513,7 +513,6 @@ just some testing
   line-height: 30px;
   font-weight: bold;
   cursor: pointer;
-  user-select: none;
   transform: translate(-50%, -50%);
 }
 
