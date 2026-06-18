@@ -1,4 +1,3 @@
-import SelectCliente from "@/components/forms/ventas/SelectCliente";
 import globals from "@/src/globals";
 import { cambiar_vendedor, cobro_inmediato, use_owner_id } from "@/src/config";
 import {
@@ -23,6 +22,7 @@ import dayjs from "dayjs";
 import VMTrabajo from "./vm_trabajo";
 import Informe from "./informe/informe";
 import { post_method } from "@/src/helpers/post_helper";
+import SelectClienteMayorista from "./select_cliente";
 
 /* leer: https://refine.dev/blog/common-usestate-mistakes-and-how-to-avoid/ */
 /**
@@ -278,12 +278,9 @@ const TrabajoMultiple = ({
     <>
       <Row style={{ padding: ".9em" }}>
         <Col style={{ minWidth: "250px" }}>
-          <SelectCliente
-            openButtonText={
-              <span style={{ color: "#3300CC" }}>
-                Cliente: &nbsp;*Seleccione...
-              </span>
-            }
+          <SelectClienteMayorista
+            mayorista
+
             callback={(value) => {
               onChange("fkcliente", value);
               setIdCliente(value);
@@ -307,8 +304,8 @@ const TrabajoMultiple = ({
                       display: "inline-block",
                       fontWeight: "bolder",
                       fontSize: "1.1em",
-                      padding: "8px 16px;",
-                      color: "#b12502",
+                      padding: "8px 16px",
+                      color: "#262D42",
                     }}
                   >
                    &nbsp;&nbsp;&nbsp;Trabajos:&nbsp;&nbsp;&nbsp;
@@ -331,7 +328,7 @@ const TrabajoMultiple = ({
           <Col span={24}>
             <Input
               readOnly
-              prefix="Subtotal"
+              addonBefore="Subtotal"
               style={{ width: "300px" }}
               value={subTotal}
             />
@@ -340,7 +337,7 @@ const TrabajoMultiple = ({
         <Row style={{ marginBottom: "12px" }}>
           <Col span={24}>
             <Input
-              prefix="Descuento"
+              addonBefore="Descuento"
               style={{ width: "300px" }}
               onChange={(e) => setDescuento(parseFloat(e.target.value) || 0)}
             />
@@ -350,7 +347,7 @@ const TrabajoMultiple = ({
           <Col span={24}>
             <Input
               readOnly
-              prefix="Total"
+              addonBefore="Total"
               style={{ width: "300px" }}
               value={subTotal - descuento}
             />

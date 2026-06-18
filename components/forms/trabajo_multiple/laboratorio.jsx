@@ -76,7 +76,7 @@ const LaboratorioForm = ({ callback, idCliente }) => {
   return (
     <>
       <Card
-        title={<span style={{color: "#b12502"}}>Laboratorio</span>}
+        title={<span style={{color: "#262D42"}}>Laboratorio</span>}
         size="small"
         style={{ boxShadow: "-1px 1px 1px 1px #9e9c9c", backgroundColor:"#fafafa" }}
       >

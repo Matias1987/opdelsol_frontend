@@ -67,7 +67,7 @@ const VMCristalesStock = ({ callback }) => {
   return (
     <Card
       size="small"
-      title={<span style={{color: "#b12502"}}>Stock</span>}
+      title={<span style={{color: "#262D42"}}>Stock</span>}
       style={{ boxShadow: "-1px 1px 1px 1px #9e9c9c" }}
     >
       <Row>

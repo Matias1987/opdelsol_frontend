@@ -12,10 +12,11 @@ export default function LayoutDistribuidora(props) {
   const { getItem } = useStorage();
   const card_style2 = {
     header: {
-      backgroundColor: "#db712a",
+      backgroundColor: "#262D42",
+      
     },
     body: {
-      backgroundColor: "#FAFBFF",
+      backgroundColor: "#FAFAFA",
       padding: "0",
     },
   };
@@ -75,7 +76,12 @@ export default function LayoutDistribuidora(props) {
       <Card
         size="small"
         styles={card_style2}
-        title={<div style={{backgroundColor:"#007efc"}}>{<MenuDistribuidora />}</div>}
+        title={<div>{<MenuDistribuidora />}</div>}
+        style={{
+          borderTop:"2px solid #ffffff",
+          borderLeft:"#262D42",
+          borderRight:"#262D42",
+        }}
       >
         <Content
           style={{

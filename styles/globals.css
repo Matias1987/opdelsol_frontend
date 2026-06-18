@@ -324,7 +324,7 @@ just some testing
 
 .ant-input {
   border: 1px solid rgb(183, 181, 181) !important;
-  border-radius: 6px !important;
+  /*border-radius: 6px !important;*/
   padding: 2px !important;
 }
 
@@ -668,14 +668,14 @@ danger list
   border-left: 4px solid #40a9ff;       /* Accent bar on the left */
 }
 
-/* Optional: change text color */
+/* Optional: change text color 
 .ant-menu-item-selected a,
 .ant-menu-item-selected span {
   color: #fff !important;
 }
 
 
-
+*/
 /* Apply to your Ant Design header */
 .custom_ant-layout-header {
   position: relative;
@@ -757,7 +757,7 @@ danger list
 */
 
 .custom-menu-distribuidora {
-  background-color: #db712a !important; /* azul oscuro */
+  background-color: #262D42 !important; /* db712a */
 }
 
 .custom-menu-distribuidora .ant-menu-item {
@@ -766,11 +766,13 @@ danger list
 }
 
 .custom-menu-distribuidora .ant-menu-item-selected {
-  background-color: #c73e1c !important;
-  color: #fff !important;
-  border-left: 4px solid #ad1c12;   
+  background-color: #FAFAFA !important;/*c73e1c*/
+  color: #131313 !important;/* ce4e27*/
+  border-left: 6px solid #FFEBCD;   /*727272*/
 }
-
+.ant-menu-item-selected {
+  color: #131313 !important;
+}
 
 /* Change background of the entire navigation wrapper */
 .ant-tabs-nav {
@@ -794,4 +796,17 @@ danger list
 
 .ant-card-small >.ant-card-body{
   padding: 8px;
+}
+
+/* Override the horizontal/vertical padding of individual menu items */
+.ant-menu-item, 
+.ant-menu-submenu-title {
+  padding-inline: 12px !important;  /* Horizontal padding */
+  padding-block: 0px !important;   /* Vertical padding */
+  
+}
+
+/* Override padding of the root horizontal menu wrapper */
+.ant-menu-horizontal {
+  padding-left: 0px !important;
 }

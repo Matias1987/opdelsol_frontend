@@ -1,14 +1,24 @@
+import ClienteFormDistrib from "@/components/cliente/ClienteFormDistrib";
 import LayoutDistribuidora from "@/components/layout/layout_distribuidora";
+import { get } from "@/src/urls";
 import { PlusOutlined, ReloadOutlined } from "@ant-design/icons";
-import { Button, Card, Table } from "antd";
-import { useState } from "react";
+import { Button, Card, Modal, Table } from "antd";
+import { useEffect, useState } from "react";
 
 export default function clientes() {
   const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [selectedCliente, setSelectedCliente] = useState(false);
+  const [popupAddOpen, setPopupAddOpen] = useState(false);
   const columns = [
-    { title: "Nombre" },
-    { title: "Teléfono" },
-    { title: "Saldo" },
+    {
+      width: "200px",
+      dataIndex: "nombre",
+      title: "Nombre",
+      key: "nombre", 
+      sorter: (a, b) => a.nombre.localeCompare(b.nombre)
+    },
+    { title: "Teléfono", dataIndex:"telefono1" },
     {
       title: "Acciones",
       render: (_, record) => (
@@ -19,13 +29,44 @@ export default function clientes() {
       ),
     },
   ];
+
+  const onClienteAdded=_=>{
+    refresh();
+  }
+
+  useEffect(()=>{refresh()},[])
+
+
+    const refresh = () => {
+    setLoading(true);
+    fetch(get.lista_clientes + "1")
+      .then((response) => response.json())
+      .then((response) => {
+        setData(
+          response.data.map((r) => ({
+            dni: r.dni,
+            idcliente: r.idcliente,
+            apellido: r.apellido,
+            nombre: r.nombre,
+            direccion: r.direccion,
+            telefono1: r.telefono1,
+            bloqueado: r.bloqueado,
+          }))
+        );
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
     <>
       <Card
         title={
           <>
             Clientes&nbsp;
-            <Button type="link">
+            <Button type="link" onClick={_=>{setPopupAddOpen(true)}}>
               <PlusOutlined />
             </Button>
           </>
@@ -47,14 +88,27 @@ export default function clientes() {
         }}
         extra={
           <>
-            <Button type="link">
+            <Button type="link" onClick={_=>{refresh()}}>
               <ReloadOutlined />
             </Button>
           </>
         }
       >
-        <Table dataSource={data} columns={columns} />
+        <Table dataSource={data} columns={columns}  size="small" scroll={{y:300}}/>
       </Card>
+
+      <Modal
+        footer={null}
+        open={popupAddOpen}
+        onCancel={(_) => {
+          setPopupAddOpen(false);
+        }}
+        destroyOnClose
+        title="Nuevo Cliente"
+        width={"600px"}
+      >
+        <ClienteFormDistrib callback={onClienteAdded} />
+      </Modal>
     </>
   );
 }
