@@ -107,7 +107,7 @@ export default function FichaClienteMayorista(props){
     },[scrollChange])
 
     const load = (pFiltrarSucursal=-1) => {
-    
+        alert(get.cliente_por_id + props.idcliente)
          //detalles
          fetch(get.cliente_por_id + props.idcliente)
          .then(response=>response.json())

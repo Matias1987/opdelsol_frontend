@@ -1,4 +1,5 @@
 import {
+  HomeFilled,
   StarOutlined,
   UnorderedListOutlined,
   UserOutlined,
@@ -9,6 +10,14 @@ import Link from "next/link";
 import { public_urls } from "@/src/urls";
 
 const items = [
+  {
+    label: (
+      <Link href={public_urls.dashboard_distribuidora}>
+       <HomeFilled />
+      </Link>
+    ),
+    key: "9",
+  },
   {
     label: (
       <Link href={public_urls.nueva_venta_distribuidora}>
@@ -36,7 +45,7 @@ const items = [
   },
 ];
 export default function MenuDistribuidora() {
-  const [current, setCurrent] = useState("10");
+  const [current, setCurrent] = useState("9");
   const onClick = (e) => {
     setCurrent(e.key);
   };

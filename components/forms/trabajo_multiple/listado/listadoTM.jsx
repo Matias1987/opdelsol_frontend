@@ -255,13 +255,13 @@ const ListadoVentasTM = (_) => {
   };
 
   const marcar_entregado = (_idventa) => {
+    alert(post.entrega_venta_distrib);
+
     setFormEnabled(false);
     post_method(
-      post.cambiar_estado_venta,
+      post.entrega_venta_distrib,
       {
-        idventa: _idventa,
-        estado: "ENTREGADO",
-        fecha_retiro: current_date_ymd(),
+        idventa: _idventa
       },
       (resp) => {
         alert("OK");

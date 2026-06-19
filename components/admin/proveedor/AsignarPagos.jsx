@@ -323,7 +323,7 @@ const AsignarPagos = ({ idproveedor, moneda, modo, callback }) => {
       post.pagos_no_saldados,
       { idproveedor, moneda, modo },
       (response) => {
-        setDataPagos(response.data.map((p) => ({ ...p, checked: false })));
+        setDataPagos(response.data.map((p) => ({ ...p, checked: false, int_multiplied: Math.trunc( p.monto * 100 )})));
         _callback?.();
       },
     );
@@ -341,6 +341,7 @@ const AsignarPagos = ({ idproveedor, moneda, modo, callback }) => {
             monto_a_pagar: 0,
             nuevo_saldo: 0,
             saldado: false,
+            int_multiplied: Math.trunc( r.saldo * 100 ),
           })),
           _callback?.(),
         );
@@ -360,6 +361,7 @@ const AsignarPagos = ({ idproveedor, moneda, modo, callback }) => {
             monto_a_pagar: 0,
             nuevo_saldo: 0,
             saldado: false,
+            int_multiplied: Math.trunc( cm.saldo * 100 ),
           })),
         );
         _callback?.();
@@ -401,6 +403,11 @@ const AsignarPagos = ({ idproveedor, moneda, modo, callback }) => {
   }, []);
 
   const guardarCambios = () => {
+    if( Math.trunc( montoAsignado*100) > 1)
+    {
+      alert("Monto a asignar mayor a 0");
+      return;
+    }
     const data = {
       idpago: selectedPago.id,
       compras: compras.filter((c) => c.checked),
@@ -507,13 +514,7 @@ const AsignarPagos = ({ idproveedor, moneda, modo, callback }) => {
           <Col span={24}>
             <Button
               type="primary"
-              disabled={
-                !btnGuardarEnabled ||
-                parseFloat(selectedPago?.monto || "0") -
-                  parseFloat(montoAsignado) >
-                  0 ||
-                montoAsignado <= 0
-              }
+              disabled={!btnGuardarEnabled }
               onClick={guardarCambios}
             >
               Guardar Cambios
@@ -573,14 +574,18 @@ const AsignarPagos = ({ idproveedor, moneda, modo, callback }) => {
         <Row style={{ padding: "4px" }}>
           <Col span={24}>
             <Button
-              disabled={editPopupMonto <= 0}
+              disabled={parseFloat(editPopupMonto) <= 0}
               type="primary"
               block
               onClick={(_) => {
-                if (
-                  editPopupMonto >
-                  parseFloat(selectedCompra?.saldo || selectedCM?.saldo || "0")
-                ) {
+                //working with integers
+                const _popupMonto = Math.trunc(editPopupMonto * 100)
+                const _saldo = selectedCompra ? Math.trunc(selectedCompra.saldo * 100) :
+                  selectedCM ? Math.trunc(selectedCM.saldo * 100) : 0;
+
+                alert(JSON.stringify({_popupMonto, _saldo}))
+      
+                if (_popupMonto >_saldo) {
                   alert("El monto a pagar no puede ser mayor al saldo");
                   return;
                 }

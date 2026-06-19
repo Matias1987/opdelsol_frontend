@@ -1,4 +1,5 @@
 import ClienteFormDistrib from "@/components/cliente/ClienteFormDistrib";
+import FichaClienteMayorista from "@/components/cliente/FichaClienteMayorista";
 import LayoutDistribuidora from "@/components/layout/layout_distribuidora";
 import { get } from "@/src/urls";
 import { PlusOutlined, ReloadOutlined } from "@ant-design/icons";
@@ -10,34 +11,47 @@ export default function clientes() {
   const [loading, setLoading] = useState(false);
   const [selectedCliente, setSelectedCliente] = useState(false);
   const [popupAddOpen, setPopupAddOpen] = useState(false);
+  const [popupFichaOpen, setPopupFichaOpen] = useState(false);
+  const [popupDetalleOpen, setPopupDetalleOpen] = useState(false);
   const columns = [
     {
       width: "200px",
       dataIndex: "nombre",
       title: "Nombre",
-      key: "nombre", 
-      sorter: (a, b) => a.nombre.localeCompare(b.nombre)
+      key: "nombre",
+      sorter: (a, b) => a.nombre.localeCompare(b.nombre),
     },
-    { title: "Teléfono", dataIndex:"telefono1" },
+    { title: "Teléfono", dataIndex: "telefono1" },
     {
       title: "Acciones",
       render: (_, record) => (
         <>
-          <Button type="link">Ficha</Button>
-          <Button type="link">Detalle</Button>
+          <Button type="link" onClick={_=>onFichaClienteClick(record)}>Ficha</Button>
+          <Button type="link" onClick={_=>onDetalleClienteClick(record)}>Detalle</Button>
         </>
       ),
     },
   ];
 
-  const onClienteAdded=_=>{
-    refresh();
+  const onFichaClienteClick = (record) => {
+    alert(JSON.stringify(record))
+    setSelectedCliente(record);
+    setPopupFichaOpen(true);
+  }
+  const onDetalleClienteClick = (record) => {
+    setSelectedCliente(record);
+    setPopupDetalleOpen(true);
   }
 
-  useEffect(()=>{refresh()},[])
+  const onClienteAdded = (_) => {
+    refresh();
+  };
 
+  useEffect(() => {
+    refresh();
+  }, []);
 
-    const refresh = () => {
+  const refresh = () => {
     setLoading(true);
     fetch(get.lista_clientes + "1")
       .then((response) => response.json())
@@ -51,7 +65,7 @@ export default function clientes() {
             direccion: r.direccion,
             telefono1: r.telefono1,
             bloqueado: r.bloqueado,
-          }))
+          })),
         );
         setLoading(false);
       })
@@ -66,7 +80,12 @@ export default function clientes() {
         title={
           <>
             Clientes&nbsp;
-            <Button type="link" onClick={_=>{setPopupAddOpen(true)}}>
+            <Button
+              type="link"
+              onClick={(_) => {
+                setPopupAddOpen(true);
+              }}
+            >
               <PlusOutlined />
             </Button>
           </>
@@ -88,13 +107,24 @@ export default function clientes() {
         }}
         extra={
           <>
-            <Button type="link" onClick={_=>{refresh()}}>
+            <Button
+              type="link"
+              onClick={(_) => {
+                refresh();
+              }}
+            >
               <ReloadOutlined />
             </Button>
           </>
         }
       >
-        <Table dataSource={data} columns={columns}  size="small" scroll={{y:300}}/>
+        <Table
+          dataSource={data}
+          columns={columns}
+          size="small"
+          scroll={{ y: 300 }}
+          loading={loading}
+        />
       </Card>
 
       <Modal
@@ -108,6 +138,30 @@ export default function clientes() {
         width={"600px"}
       >
         <ClienteFormDistrib callback={onClienteAdded} />
+      </Modal>
+      <Modal
+        footer={null}
+        open={popupFichaOpen}
+        onCancel={(_) => {
+          setPopupFichaOpen(false);
+        }}
+        destroyOnClose
+        title="Saldo"
+        width={"1000px"}
+      >
+        <FichaClienteMayorista idcliente={selectedCliente.idcliente} callback={onClienteAdded} />
+      </Modal>
+      <Modal
+        footer={null}
+        open={popupDetalleOpen}
+        onCancel={(_) => {
+          setPopupDetalleOpen(false);
+        }}
+        destroyOnClose
+        title="Detalle"
+        width={"600px"}
+      >
+       To Do ...
       </Modal>
     </>
   );

@@ -131,6 +131,7 @@ const post = {
   venta_estado_sucursal: remote_base_url + "ventas/venta_estado_sucursal/",
   obtener_lista_cobros: remote_base_url + "cobros/lista/",
   cambiar_estado_venta: remote_base_url + "ventas/cambiar_estado/",
+  
   caja_exists: remote_base_url + "caja/exists/",
   totales_venta_vendedor: remote_base_url + "ventas/inf/v/totales_v/",
   totales_venta_sucursal:
@@ -264,6 +265,8 @@ const post = {
   check_req_status: remote_base_url + "aarr/chs/",
 
   lista_precios_codigos: remote_base_url + "codigos_ext/lp/",
+
+  entrega_venta_distrib: remote_base_url + "tm/marcar_entregado/",
 
   monedas_existentes_proveedor:
     remote_base_url + "proveedores/monedas_existentes/",
