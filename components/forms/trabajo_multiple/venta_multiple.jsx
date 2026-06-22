@@ -232,6 +232,7 @@ const TrabajoMultiple = ({
     const tt = trabajos.map((t) => ({
       tipo: t.tipo,
       nro: t.nro,
+      comentarios: t.comentarios,
       items:
         t.tipo != "stock"
           ? procesar_items_laboratorio(t.items)
@@ -269,7 +270,12 @@ const TrabajoMultiple = ({
   };
 
   const customAddButton = (
-    <Button style={{fontWeight:"bolder"}} type="link" size="large" icon={<PlusOutlined />}>
+    <Button
+      style={{ fontWeight: "bolder" }}
+      type="link"
+      size="large"
+      icon={<PlusOutlined />}
+    >
       Nuevo
     </Button>
   );
@@ -280,131 +286,148 @@ const TrabajoMultiple = ({
         <Col style={{ minWidth: "250px" }}>
           <SelectClienteMayorista
             mayorista
-
             callback={(value) => {
               onChange("fkcliente", value);
               setIdCliente(value);
+              if(!value)
+              {
+                setIdCliente(-1);
+              }
             }}
           />
         </Col>
       </Row>
-  
 
-      <Card size="small" style={{ boxShadow: "-1px 1px 1px 0px #9e9c9c" }}>
-        <Row>
-          <Col span={24}>
-            <Tabs
-              className="custom-body-tabs" 
-              type="editable-card"
-              size={"small"}
-              tabBarExtraContent={{
-                left: (
-                  <div
-                    style={{
-                      display: "inline-block",
-                      fontWeight: "bolder",
-                      fontSize: "1.1em",
-                      padding: "8px 16px",
-                      color: "#262D42",
-                    }}
-                  >
-                   &nbsp;&nbsp;&nbsp;Trabajos:&nbsp;&nbsp;&nbsp;
-                  </div>
-                ),
-              }}
-              tabPosition="top"
-              activeKey={activeKey}
-              onChange={setActiveKey}
-              onEdit={onEdit}
-              items={items}
+      {+idCliente < 0 ? (
+        <></>
+      ) : (
+        <>
+          <Card size="small" style={{ boxShadow: "-1px 1px 1px 0px #9e9c9c" }}>
+            <Row>
+              <Col span={24}>
+                <Tabs
+                  className="custom-body-tabs"
+                  type="editable-card"
+                  size={"small"}
+                  tabBarExtraContent={{
+                    left: (
+                      <div
+                        style={{
+                          display: "inline-block",
+                          fontWeight: "bolder",
+                          fontSize: "1.1em",
+                          padding: "8px 16px",
+                          color: "#262D42",
+                        }}
+                      >
+                        &nbsp;&nbsp;&nbsp;Trabajos:&nbsp;&nbsp;&nbsp;
+                      </div>
+                    ),
+                  }}
+                  tabPosition="top"
+                  activeKey={activeKey}
+                  onChange={setActiveKey}
+                  onEdit={onEdit}
+                  items={items}
+                />
+              </Col>
+            </Row>
+          </Card>
 
-            />
-          </Col>
-        </Row>
-      </Card>
-      <Divider />
-      <Card size="small" style={{ boxShadow: "-1px 1px 1px 0px #9e9c9c" }} className="custom-body-tabs" >
-        <Row style={{ marginBottom: "12px" }}>
-          <Col span={24}>
-            <Input
-              readOnly
-              addonBefore="Subtotal"
-              style={{ width: "300px" }}
-              value={subTotal}
-            />
-          </Col>
-        </Row>
-        <Row style={{ marginBottom: "12px" }}>
-          <Col span={24}>
-            <Input
-              addonBefore="Descuento"
-              style={{ width: "300px" }}
-              onChange={(e) => setDescuento(parseFloat(e.target.value) || 0)}
-            />
-          </Col>
-        </Row>
-        <Row style={{ marginBottom: "12px" }}>
-          <Col span={24}>
-            <Input
-              readOnly
-              addonBefore="Total"
-              style={{ width: "300px" }}
-              value={subTotal - descuento}
-            />
-          </Col>
-        </Row>
-        <Row gutter={24} style={{ padding: "6px" }}>
-          <Col>
-            <Form.Item label={"Fecha de Retiro"}>
-              <DatePicker
-                defaultValue={ignore_fecha_retiro ? dayjs() : null}
-                locale={esES}
-                format={"DD-MM-YYYY"}
-                onChange={(value) => {
-                  let _value = value ? value.format("DD-MM-YYYY") : null;
-                  onChange("fechaRetiro", _value);
-                }}
+          <Divider />
+        </>
+      )}
+
+      {trabajos.length<1 || idCliente<0 ?  (
+        <></>
+      ) : (
+        <Card
+          size="small"
+          style={{ boxShadow: "-1px 1px 1px 0px #9e9c9c" }}
+          className="custom-body-tabs"
+        >
+          <Row style={{ marginBottom: "12px" }}>
+            <Col span={24}>
+              <Input
+                readOnly
+                addonBefore="Subtotal"
+                style={{ width: "300px" }}
+                value={subTotal}
               />
-            </Form.Item>
-          </Col>
-          <Col>
-            <Form.Item label={"Hora de Retiro"}>
-              <TimePicker
-                format={"HH:mm"}
-                onChange={(value, timeString) => {
-                  onChange("horaRetiro", timeString);
-                }}
+            </Col>
+          </Row>
+          <Row style={{ marginBottom: "12px" }}>
+            <Col span={24}>
+              <Input
+                addonBefore="Descuento"
+                style={{ width: "300px" }}
+                onChange={(e) => setDescuento(parseFloat(e.target.value) || 0)}
               />
-            </Form.Item>
-          </Col>
-        </Row>
-        <Row style={{ padding: "6px" }}>
-          <Col span="24">
-            <Form.Item label={"Comentarios"}>
-              <Input.TextArea
-                rows={2}
-                onChange={(e) => {
-                  onChange("comentarios", e.target.value);
-                }}
+            </Col>
+          </Row>
+          <Row style={{ marginBottom: "12px" }}>
+            <Col span={24}>
+              <Input
+                readOnly
+                addonBefore="Total"
+                style={{ width: "300px" }}
+                value={subTotal - descuento}
               />
-            </Form.Item>
-          </Col>
-        </Row>
-        <Row style={{ padding: "6px" }}>
-          <Col span={24}>
-            <Button
-              style={{ borderRadius: "16px" }}
-              size="large"
-              disabled={false}
-              type="primary"
-              block
-              onClick={finalizar_venta}
-            >
-              Imprimir Trabajo
-            </Button>
-          </Col>
-        </Row>
-      </Card>
+            </Col>
+          </Row>
+          <Row gutter={24} style={{ padding: "6px" }}>
+            <Col>
+              <Form.Item label={"Fecha de Retiro"}>
+                <DatePicker
+                  defaultValue={ignore_fecha_retiro ? dayjs() : null}
+                  locale={esES}
+                  format={"DD-MM-YYYY"}
+                  onChange={(value) => {
+                    let _value = value ? value.format("DD-MM-YYYY") : null;
+                    onChange("fechaRetiro", _value);
+                  }}
+                />
+              </Form.Item>
+            </Col>
+            <Col>
+              <Form.Item label={"Hora de Retiro"}>
+                <TimePicker
+                  format={"HH:mm"}
+                  onChange={(value, timeString) => {
+                    onChange("horaRetiro", timeString);
+                  }}
+                />
+              </Form.Item>
+            </Col>
+          </Row>
+          <Row style={{ padding: "6px" }}>
+            <Col span="24">
+              <Form.Item label={"Comentarios"}>
+                <Input.TextArea
+                  rows={2}
+                  onChange={(e) => {
+                    onChange("comentarios", e.target.value);
+                  }}
+                />
+              </Form.Item>
+            </Col>
+          </Row>
+          <Row style={{ padding: "6px" }}>
+            <Col span={24}>
+              <Button
+                style={{ borderRadius: "16px" }}
+                size="large"
+                disabled={false}
+                type="primary"
+                block
+                onClick={finalizar_venta}
+              >
+                Imprimir Trabajo
+              </Button>
+            </Col>
+          </Row>
+        </Card>
+      )}
     </>
   );
 

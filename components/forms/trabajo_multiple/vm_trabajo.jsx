@@ -42,9 +42,9 @@ const VMTrabajo = ({callback, localId, tipo, idCliente}) => {
   const get_content = () => {
     switch (tipoTrabajo) {
       case CRISTALES_LABORATORIO:
-        return <LaboratorioForm callback={onItemsChanged} idCliente={idCliente} />;
+        return <LaboratorioForm callback={onItemsChanged} idCliente={idCliente} onComentariosChange={v=>{onChange("comentarios", v)}} />;
       case CRISTALES_STOCK:
-        return <VMCristalesStock callback={onItemsChanged} idCliente={idCliente} />;
+        return <VMCristalesStock callback={onItemsChanged} idCliente={idCliente} onComentariosChange={v=>{onChange("comentarios", v)}} />;
       case LC:
         return <VMLC callback={onItemsChanged} />;
     }

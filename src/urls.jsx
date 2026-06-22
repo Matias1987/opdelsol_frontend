@@ -466,6 +466,7 @@ const get = {
   //clientes
   cliente_por_id: remote_base_url + "clientes/",
   lista_clientes: remote_base_url + "clientes/",
+  lista_clientes_m: remote_base_url + "clientes/lista/mayorista/",
   operaciones_cliente: remote_base_url + "clientes/operaciones/",
   buscar_cliente: remote_base_url + "clientes/buscar/",
   saldo_ctacte: remote_base_url + "clientes/saldo/ctacte/", //:idcliente

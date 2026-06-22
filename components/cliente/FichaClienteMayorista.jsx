@@ -57,24 +57,24 @@ export default function FichaClienteMayorista(props){
         { width:"90px", dataIndex: 'id',  title: 'Nro.'},
         { width:"90px", dataIndex: 'fecha_f',  title: 'Fecha'},
         
-        { width:"300px", dataIndex: 'detalle',  title: 'Detalle', render:(_,{detalle,id,tipo})=>{
+        { width:"300px", dataIndex: 'detalle',  title: 'Detalle', render:(_,{detalle_m,id,tipo})=>{
             {switch(tipo){
-                    case 'VENTA': return <>{detalle}</>; break;
+                    case 'VENTA': return <>{detalle_m}</>; break;
                     case 'PAGO CUOTA': 
                     return <>
-                        {detalle}
+                        {detalle_m}
                        
                     </>
                     break;
                     case 'ENTREGA': 
                     return <>
-                        {detalle}
+                        {detalle_m}
                         
                     </>
                     break;
                     case 'CARGA MANUAL':
                         return <>
-                        {detalle} 
+                        {detalle_m} 
                         </>
                     default: return {detalle}
                 }
@@ -142,6 +142,7 @@ export default function FichaClienteMayorista(props){
                 fecha_f: row.fecha_f,
                 tipo: row.tipo,
                 detalle: row.detalle,
+                detalle_m: row.detalle_m,
                 debe: row.debe,
                 haber: row.haber,
                 idsucursal: row.idsucursal,
@@ -221,7 +222,7 @@ export default function FichaClienteMayorista(props){
                     ctacteHidden={true}
                     chequeHidden={false}
                     mutualHidden={false}
-                    buttonText="Cargar Cuota" 
+                    buttonText="Cargar Pago" 
                     totalsHidden={true} 
                     tipo="cuota" 
                     idcliente={props.idcliente}  

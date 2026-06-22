@@ -11,7 +11,7 @@ import {
 import { useEffect, useState } from "react";
 import SelectCodigoVenta from "../ventas/SelectCodigoVenta";
 
-const VMCristalesStock = ({ callback }) => {
+const VMCristalesStock = ({ callback, onComentariosChange }) => {
   const [trabajoStock, setTrabajoStock] = useState({
     od_idcodigo: "",
     od_eje: "",
@@ -150,7 +150,7 @@ const VMCristalesStock = ({ callback }) => {
           <Divider />
           <Row style={{backgroundColor:"#fafafa", padding:"8px"}}>
             <Col span={24}>
-              <Input style={{width:"100%"}} prefix={<span style={{fontWeight:"bold"}}>Armaz&oacute;n</span>} value={trabajoStock.armazon} onChange={e=>onChange("armazon",e.target.value)} />
+              <Input style={{width:"100%"}} addonBefore={<span style={{fontWeight:"bold"}}>Armaz&oacute;n</span>} onChange={(e) => onComentariosChange(e.target?.value||"")} />
             </Col>
           </Row>
         </Col>

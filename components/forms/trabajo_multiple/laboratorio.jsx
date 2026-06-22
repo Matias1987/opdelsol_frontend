@@ -6,10 +6,9 @@ import SelectCodigoVenta from "../ventas/SelectCodigoVenta";
 import globals from "@/src/globals";
 import HelperToolTip from "../ventas/common/HelperToolTip";
 
-const LaboratorioForm = ({ callback, idCliente }) => {
+const LaboratorioForm = ({ callback, idCliente, onComentariosChange }) => {
   const [ojos, setOjos] = useState("ambos");
   const [tipos, setTipos] = useState([]);
-
   const [productos, setProductos] = useState({
     modo: "ambos",
     od_esf: "",
@@ -520,11 +519,10 @@ const LaboratorioForm = ({ callback, idCliente }) => {
               <Col span={24}>
                 <Input
                   style={{ width: "100%" }}
-                  prefix={
+                  addonBefore={
                     <span style={{ fontWeight: "600" }}>Armaz&oacute;n</span>
                   }
-                  value={productos.armazon}
-                  onChange={(e) => onValueChange("armazon", e.target.value)}
+                  onChange={(e) => onComentariosChange(e.target?.value||"")}
                 />
               </Col>
             </Row>

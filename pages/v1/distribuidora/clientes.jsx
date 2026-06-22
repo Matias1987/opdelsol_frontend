@@ -53,7 +53,7 @@ export default function clientes() {
 
   const refresh = () => {
     setLoading(true);
-    fetch(get.lista_clientes + "1")
+    fetch(get.lista_clientes_m)
       .then((response) => response.json())
       .then((response) => {
         setData(
