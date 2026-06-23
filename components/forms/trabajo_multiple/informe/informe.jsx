@@ -1,4 +1,5 @@
 import PrinterWrapper from "@/components/PrinterWrapper";
+import { formatFloat } from "@/src/helpers/formatters";
 import { get } from "@/src/urls";
 import { Input, Spin } from "antd";
 import { useEffect, useState } from "react";
@@ -137,7 +138,7 @@ const Informe = ({ idventa }) => {
       .then((r) => r.json())
       .then((response) => {
         setData(response.data);
-        
+        alert(JSON.stringify(response.data))
         setLoading(false);
       });
   };
@@ -167,10 +168,10 @@ const Informe = ({ idventa }) => {
           </tr>
           <tr>
             <td>Operaci&oacute;n N°: <span style={{fontWeight:"600"}}>{data?.idventa}</span></td>
-            <td>Cliente ID: {data?.cliente_idcliente}</td>
+            <td>Cliente ID: {data?.cliente_idcliente} | {data?.cliente}</td>
           </tr>
           <tr>
-            <td>Fecha: 00/00/0000</td>
+            <td>Fecha: {data?.fecha_f}</td>
             <td></td>
           </tr>
         </table>
@@ -197,8 +198,8 @@ const Informe = ({ idventa }) => {
             </th>
           </tr>
           <tr>
-            <th style={{ ...th_style, width: "70px" }}>Tipo</th>
-            <th style={th_style}>Trabajo</th>
+            <th style={{ ...th_style, width: "70px", textAlign:"right" }}>Tipo</th>
+            <th style={{ ...th_style, textAlign:"center"}}>Trabajo</th>
             <th style={{ ...th_style, textAlign: "right" }}>Esf</th>
             <th style={{ ...th_style, textAlign: "right" }}>Cil</th>
             <th style={{ ...th_style, textAlign: "right" }}>Eje</th>
@@ -210,19 +211,19 @@ const Informe = ({ idventa }) => {
           {data?.items?.map((i) => {
             return (
               <tr>
-                <th style={td_style}>{i.tipo}</th>
-                <td style={td_style}>{""}</td>
+                <th style={{ ...td_style, width: "70px", textAlign:"right" }}>{i.tipo}</th>
+                <td style={{ ...td_style, textAlign:"center"}}>{i.detalle_trabajo + ' | ' +  i.codigo}</td>
                 <td style={{ ...td_style, textAlign: "right" }}>{i.esf}</td>
                 <td style={{ ...td_style, textAlign: "right" }}>{i.cil}</td>
                 <td style={{ ...td_style, textAlign: "right" }}>{i.eje}</td>
                 <td style={{ ...td_style, textAlign: "right" }}>{i.add}</td>
-                <td style={{ ...td_style, textAlign: "right" }}>{i.precio}</td>
+                <td style={{ ...td_style, textAlign: "right" }}>$ {formatFloat(i.precio)}</td>
               </tr>
             );
           })}
           <tr>
-            <th style={td_style}>Armaz&oacute;n</th>
-            <td colSpan={8} style={td_style}></td>
+            <th style={{ ...td_style, width: "70px", textAlign:"right" }}>Armaz&oacute;n</th>
+            <td colSpan={8} style={td_style}>{data.comentarios}</td>
           </tr>
         </tbody>
       </table>
@@ -250,8 +251,8 @@ const Informe = ({ idventa }) => {
             </th>
           </tr>
           <tr>
-            <th style={{ ...th_style, width: "70px" }}>Tipo</th>
-            <th style={th_style}>Cristal</th>
+            <th style={{ ...th_style, width: "70px", textAlign:"right" }}>Tipo</th>
+            <th style={{ ...th_style, textAlign:"center"}}>Cristal</th>
             <th style={{ ...th_style, textAlign: "right" }}>Eje</th>
             <th style={{ ...th_style, textAlign: "right" }}>Precio</th>
           </tr>
@@ -260,16 +261,16 @@ const Informe = ({ idventa }) => {
           {data?.items?.map((i) => {
             return (
               <tr>
-                <th style={td_style}>{i.tipo}</th>
-                <td style={td_style}>{i.idcodigo}</td>
+                <th style={{ ...td_style, width: "70px", textAlign:"right" }}>{i.tipo}</th>
+                <td style={{ ...td_style, textAlign:"center"}}>{i.codigo}</td>
                 <td style={{ ...td_style, textAlign: "right" }}>{i.eje}</td>
-                <td style={{ ...td_style, textAlign: "right" }}>{i.precio}</td>
+                <td style={{ ...td_style, textAlign: "right" }}>$ {formatFloat(i.precio)}</td>
               </tr>
             );
           })}
           <tr>
-            <th style={td_style}>Armaz&oacute;n</th>
-            <td colSpan={8} style={td_style}></td>
+            <th style={{ ...td_style, width: "70px", textAlign:"right" }}>Armaz&oacute;n</th>
+            <td colSpan={8} style={td_style}>{data.comentarios}</td>
           </tr>
         </tbody>
       </table>
@@ -290,15 +291,15 @@ const Informe = ({ idventa }) => {
           <tbody>
             <tr>
               <td style={{ padding: "4px" }}>Subtotal:</td>
-              <td style={{ padding: "4px" }}>$ 00000.00</td>
+              <td style={{ padding: "4px" }}>$ {formatFloat(data?.subtotal)}</td>
             </tr>
             <tr>
               <td style={{ padding: "4px" }}>Descuento:</td>
-              <td style={{ padding: "4px" }}>$ 00000.00</td>
+              <td style={{ padding: "4px" }}>$ {formatFloat(data?.descuento)}</td>
             </tr>
             <tr>
               <td style={{ padding: "4px" }}>Total:</td>
-              <td style={{ padding: "4px" }}>$ 00000.00</td>
+              <td style={{ padding: "4px" }}>$ {formatFloat(data?.monto_total)}</td>
             </tr>
           </tbody>
         </table>

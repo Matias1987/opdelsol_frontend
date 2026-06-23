@@ -45,7 +45,7 @@ const TrabajoMultiple = ({
     fkdestinatario: null,
     fkmedico: null,
     fkos: null,
-    fkusuario: -1,
+    fkusuario: globals.obtenerUID(),
     mp: null,
     subtotal: 0,
     descuento: 0,
@@ -104,12 +104,16 @@ const TrabajoMultiple = ({
   };
 
   const calcularTotal = (trabajos) => {
-    setSubTotal(
-      trabajos.reduce(
-        (acc, trabajo) => acc + parseFloat(trabajo?.monto_total || "0"),
-        0,
-      ),
+    const _subtotal = trabajos.reduce(
+      (acc, trabajo) => acc + parseFloat(trabajo?.monto_total || "0"),
+      0,
     );
+    setSubTotal(_subtotal);
+    setVenta((_v) => ({
+      ..._v,
+      subtotal: parseFloat(_subtotal ?? "0"),
+      total: parseFloat(_subtotal) - parseFloat(_v.descuento),
+    }));
   };
 
   const add = () => {
@@ -289,8 +293,7 @@ const TrabajoMultiple = ({
             callback={(value) => {
               onChange("fkcliente", value);
               setIdCliente(value);
-              if(!value)
-              {
+              if (!value) {
                 setIdCliente(-1);
               }
             }}
@@ -338,7 +341,7 @@ const TrabajoMultiple = ({
         </>
       )}
 
-      {trabajos.length<1 || idCliente<0 ?  (
+      {trabajos.length < 1 || idCliente < 0 ? (
         <></>
       ) : (
         <Card
@@ -431,12 +434,57 @@ const TrabajoMultiple = ({
     </>
   );
 
+  const validar = (v) => {
+    const messages = [];
+    /* idcodigo: tr.od_idcodigo,
+          idtrabajo: 0,
+          iddescuento: 0,
+          tipo: "od",
+          cantidad: "1",
+          precio: "0",
+          esf: "0",
+          cil: "0",
+          eje: "0", */
+    const validar_stock = (op) => {
+      if (+op.idcodigo < 0) {
+      }
+    };
+
+    const validar_lab = (op) => {
+      if (+op.idcodigo < 0) {
+      }
+      if (+op.iddisenio < 0) {
+      }
+
+      if ("" == op.esf) {
+      }
+      if ("" == op.cil) {
+      }
+      if ("" == op.eje) {
+      }
+    };
+
+    v.trabajos.forEach((t) => {
+      if (t.tipo == "stock") {
+        t.items.forEach((i) => validar_stock(i));
+      } else {
+        t.items.forEach((i) => validar_lab(i));
+      }
+    });
+
+    if (messages.length > 0) {
+      alert(messages[0]);
+      return false;
+    }
+    return true;
+  };
+
   return (
     <>
       <Card
         title={<>{title || "Nueva Operación"}</>}
         extra={
-          cambiar_vendedor == 10 ? (
+          cambiar_vendedor == 0 ? (
             <> </>
           ) : (
             <SelectVendedor

@@ -324,6 +324,7 @@ const ListadoVentasTM = (_) => {
         </Row>
       </Card>
       <Modal
+        footer={null}
         destroyOnClose
         width={"1100px"}
         open={modalOpen}
@@ -337,3 +338,73 @@ const ListadoVentasTM = (_) => {
 };
 
 export default ListadoVentasTM;
+/*
+Looking out across the nighttime
+The city winks a sleepless eye
+Hear her voice shake my window
+Sweet seducing sighs
+
+Get me out into the nighttime
+Four walls won't hold me tonight
+If this town is just an apple
+Then let me take a bite
+
+If they say: Why? Why?
+Tell them that it's human nature
+Why? Why does he do me that way?
+If they say: Why? Why?
+Tell them that it's human nature
+Why? Why does he do me that way?
+
+Reaching out to touch a stranger
+Electric eyes are everywhere
+See that girl, she knows I'm watching
+She likes the way I stare
+
+If they say: Why? Why?
+Just tell them that it's human nature
+Why? Why does he do me that way?
+If they say: Why? Why?
+(She's keeping him by, keeping him around)
+Tell them that it's human nature
+Why? Why does he do me that way?
+
+I like livin' this way
+I like lovin' this way
+(That way) why? Oh, why?
+(That way) why? Oh, why?
+
+Looking out across the morning
+The city's heart begins to beat
+Reaching out, I touch her shoulder
+I'm dreaming of the street
+
+If they say: Why? Why?
+Tell them that it's human nature
+Why? Why does he do me that way?
+If they say: Why? Why?
+(She's keeping him by, keeping him around)
+Oh, tell 'em!
+Why? Why does he do me that way?
+
+If they say: Why? Why?
+Cha-cha-cha-cha-cha (why? Why?)
+Oh, why? Why does he do me that way?
+
+If they say: Why? Why?
+(She's keeping him by, keeping him around)
+Oh, tell 'em!
+Why? Why does he do me that way?
+If they say: Why? Why?
+Oh, tell 'em!
+Why? Why does he do me that way?
+
+If they say: Why? Why?
+(She's keeping him by, keeping him around)
+Da-da-da-da-da-da-da
+Why? Why does he do me that way?
+
+I like living this way
+Why? Oh, why? (That way)
+Why? Oh, why? (That way)
+Why? Oh, why? (That way)*/

@@ -403,11 +403,11 @@ const AsignarPagos = ({ idproveedor, moneda, modo, callback }) => {
   }, []);
 
   const guardarCambios = () => {
-    if( Math.trunc( montoAsignado*100) > 1)
+   /* if( Math.trunc( montoAsignado*100) > 1)
     {
       alert("Monto a asignar mayor a 0");
       return;
-    }
+    }*/
     const data = {
       idpago: selectedPago.id,
       compras: compras.filter((c) => c.checked),
