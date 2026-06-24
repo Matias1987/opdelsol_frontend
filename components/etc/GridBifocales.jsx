@@ -5,10 +5,13 @@ import { Button, Dropdown, Space } from "antd";
 import { useEffect, useState } from "react";
 
 const GridBifocales = (props) => {
-  const { codigosSrc,  onCellClick, reload, gridType } = props;
+  const { codigosSrc, onCellClick, reload, gridType } = props;
 
   const regexp = /^([A-Z_]+)(_)(\-|\+[0-9\.]+)(_)(L|R)(_ADD_)([0-9\.]+)/;
 
+  const regex_add = /(_ADD_)([\.0-9]+)/;
+  const regex_base = /_((\+|\-)?[0-9\.]+)_(L|R)/;
+  const regex_side = /_(L|R)_/;
   const [codigos, setCodigos] = useState([]);
 
   const items = [
@@ -26,94 +29,117 @@ const GridBifocales = (props) => {
   ];
 
   const tableStyles = {
-  container: {
-    height: "600px",
-    overflowY:"auto",
-     maxWidth: "1200px", 
-    width: '100%',
-    overflowX: 'auto',
-    background: 'linear-gradient(to right, #ECECED, #ffffff)',
-    borderRadius: '12px',
-    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
-    padding: '1rem',
-  },
-  table: {
-    width: '100%',
-    borderCollapse: 'collapse',
-    fontFamily: 'Segoe UI, sans-serif',
-    fontSize: '0.95rem',
-    color: '#333',
-  },
-  th: {
-    backgroundColor: 'rgb(227, 227, 228, .5)',
-    color: '#000000',
-    padding: '4px 4px',
-    textAlign: 'center',
-     border: '1px solid #A6A5A5',
-    //borderBottom: '2px solid rgb(12, 12, 12)',
-    transition: 'background-color 0.3s ease',
-  },
-  td: {
-    padding: '16px 4px',
-    border: '1px solid #A6A5A5',
-    transition: 'background-color 0.3s ease',
-  },
-  rowHover: {
-    backgroundColor: '#f1f8ff',
-  },
+    container: {
+      height: "600px",
+      overflowY: "auto",
+      maxWidth: "1200px",
+      width: "100%",
+      overflowX: "auto",
+      background: "linear-gradient(to right, #ECECED, #ffffff)",
+      borderRadius: "12px",
+      boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+      padding: "1rem",
+    },
+    table: {
+      width: "100%",
+      borderCollapse: "collapse",
+      fontFamily: "Segoe UI, sans-serif",
+      fontSize: "0.95rem",
+      color: "#333",
+    },
+    th: {
+      backgroundColor: "rgb(227, 227, 228, .5)",
+      color: "#000000",
+      padding: "4px 4px",
+      textAlign: "center",
+      border: "1px solid #A6A5A5",
+      //borderBottom: '2px solid rgb(12, 12, 12)',
+      transition: "background-color 0.3s ease",
+    },
+    td: {
+      padding: "16px 4px",
+      border: "1px solid #A6A5A5",
+      transition: "background-color 0.3s ease",
+    },
+    rowHover: {
+      backgroundColor: "#f1f8ff",
+    },
     sticky_head: {
-    position: "sticky" /* Make the header sticky */,
-    top: "0" /* Stick to the top of the scrollable area */,
-    zIndex: "1" /* Ensure the header stays above scrolling content */,
-  },
+      position: "sticky" /* Make the header sticky */,
+      top: "0" /* Stick to the top of the scrollable area */,
+      zIndex: "1" /* Ensure the header stays above scrolling content */,
+    },
 
-  sticky_first_row_td: {
-    position: "sticky",
-    left: "0",
-    background: "white",
-    zIndex: "2",
-  },
+    sticky_first_row_td: {
+      position: "sticky",
+      left: "0",
+      background: "white",
+      zIndex: "2",
+    },
 
-  sticky_column: {
-    position: "sticky",
-    left: "0",
-    background: "rgba(255,255,255,.5)",
-    color: "red",
-    zIndex: "1",
-    fontWeight:"bolder"
-  },
-};
+    sticky_column: {
+      position: "sticky",
+      left: "0",
+      background: "rgba(255,255,255,.5)",
+      color: "red",
+      zIndex: "1",
+      fontWeight: "bolder",
+    },
+  };
 
-  const getCantidad = (c)=>
-                  gridType === "ideal"
-                ? c.stock_ideal
-                : gridType === "critico"
-                ? c.stock_critico
-                : gridType === "pedido"
-                ? +c.stock_ideal - +c.cantidad
-                : c.cantidad
-                ;
-  
+  const get_add = (_code ) => {
+    const result = _code.match(regex_add);
+    //example: [ '_ADD_1.00', '_ADD_', '1.00', index: 30, input: '1.499_FLAPTOP_ORG_70MM_-4.00_L_ADD_1.00', groups: undefined ]
+    return result[2];
+  }
 
+  const get_base = (_code) => {
+    const result = _code.match(regex_base);
+    //example: [ '_-4.00_L', '-4.00', '-', 'L', index: 22, input: '1.499_FLAPTOP_ORG_70MM_-4.00_L_ADD_1.00', groups: undefined ]
+    return result[1];
 
+  }
+
+  const get_side = (_code) =>{
+    const result = _code.match(regex_base);
+    //example: [ '_L_', 'L', index: 28, input: '1.499_FLAPTOP_ORG_70MM_-4.00_L_ADD_1.00', groups: undefined ]
+    return result[1];
+  }
+
+  const getCantidad = (c) =>
+    gridType === "ideal"
+      ? c.stock_ideal
+      : gridType === "critico"
+        ? c.stock_critico
+        : gridType === "pedido"
+          ? +c.stock_ideal - +c.cantidad
+          : c.cantidad;
   const process = () => {
-    
     const _codigos = [];
+
     codigosSrc.forEach((code) => {
       //console.log(`Processing code: ${code}`);
       const parts = regexp.exec(code.codigo);
-      if (parts) {
+
+
+      const match_found = true// parts ?? false;
+
+      const add = get_add(code.codigo);
+      const base = get_base(code.codigo);
+      const side = get_side(code.codigo);
+      const weight = parseInt(base) * 1000000 + parseInt(add) * 100 + (side == "R" ? 1 : 0);
+      console.log(JSON.stringify({add, base, side, weight}));
+      if (match_found) {
         const _code = {
-          codig_base: parts[1],
-          base: parts[3],
-          side: parts[5],
-          add: parts[7],
+          codig_base: code.codigo,
+          base: base,//parts[3],
+          side: side,//parts[5],
+          add: add, //parts[7],
           cantidad: getCantidad(code),
           idcodigo: code.idcodigo,
-          weight: (+parts[3] * 1000000) + (+parts[7] * 100) + (parts[5]=='R' ? 1 : 0).toString()
+          weight: weight //            +parts[3] * 1000000 +            +parts[7] * 100 +            (parts[5] == "R" ? 1 : 0).toString(),
         };
         _codigos.push(_code);
-        //console.log(JSON.stringify(_code));
       } else {
         console.log("No match found");
       }
@@ -121,12 +147,12 @@ const GridBifocales = (props) => {
 
     let cont = true;
     while (cont) {
-      cont=false;
+      cont = false;
       for (let i = 0; i < _codigos.length - 1; i++) {
         let _a = _codigos[i];
         let _b = _codigos[i + 1];
         if (+_a.weight > +_b.weight) {
-          cont=true;
+          cont = true;
           //swap
           _codigos[i] = _b;
           _codigos[i + 1] = _a;
@@ -142,7 +168,9 @@ const GridBifocales = (props) => {
       if (prev_base != _codigos[i].base) {
         //new row
         codes_arr.push([]);
-        console.log(`New row added for add: ${prev_base} new: ${_codigos[i].add}`);
+        console.log(
+          `New row added for add: ${prev_base} new: ${_codigos[i].add}`,
+        );
       }
 
       codes_arr[codes_arr.length - 1].push({
@@ -163,25 +191,26 @@ const GridBifocales = (props) => {
     setCodigos(codes_arr);
   };
 
-  const cell_content = (data) => <>
+  const cell_content = (data) => (
+    <>
       <Dropdown
-      menu={{
-        items,
-        onClick: ({ key }) => {
-          onCellClick?.(key, data.idcodigo)
-        },
-      }}
-    >
-      <Button type="link" size="small">
-        <Space>
-          {(data.cantidad)}
-          <DownOutlined />
-        </Space>
-      </Button>
-              
-    </Dropdown>
-  </>
-/**
+        menu={{
+          items,
+          onClick: ({ key }) => {
+            onCellClick?.(key, data.idcodigo);
+          },
+        }}
+      >
+        <Button type="link" size="small">
+          <Space>
+            {data.cantidad}
+            <DownOutlined />
+          </Space>
+        </Button>
+      </Dropdown>
+    </>
+  );
+  /**
  * 
  * <tr>
         <th colSpan={codigos[0].length *2 +1} style={tableStyles.th}>
@@ -189,41 +218,65 @@ const GridBifocales = (props) => {
         </th>
     </tr>
  */
-  const header = (_) => <>
-    
-    <tr  style={tableStyles.sticky_head}>
-      <th style={tableStyles.th}></th>
-      {
-        codigos[0].map((r) => (
-            <th style={tableStyles.th} colSpan={2}>{r.add}</th>
-        ))
-      }
-    </tr>
-    <tr>
-      <th style={tableStyles.th}></th>
-    {
-      codigos[0].map(() => (
-          <><th style={tableStyles.th}>L</th><th style={tableStyles.th}>R</th></>
-      ))
-    }
-    </tr>
-  </>;
+  const header = (_) => (
+    <>
+      <tr style={tableStyles.sticky_head}>
+        <th style={tableStyles.th}></th>
+        {codigos[0].map((r) => (
+          <th style={tableStyles.th} colSpan={2}>
+            {r.add}
+          </th>
+        ))}
+      </tr>
+      <tr>
+        <th style={tableStyles.th}></th>
+        {codigos[0].map(() => (
+          <>
+            <th style={tableStyles.th}>L</th>
+            <th style={tableStyles.th}>R</th>
+          </>
+        ))}
+      </tr>
+    </>
+  );
   const body = (_) => (
     <>
       {codigos.map((row) => (
-        <tr><td style={{...tableStyles.sticky_column, ...{fontWeight: 'bold'}}}>{row[0].base}</td>
-        {
-          row.map((cell,index) => (
+        <tr>
+          <td
+            style={{ ...tableStyles.sticky_column, ...{ fontWeight: "bold" } }}
+          >
+            {row[0].base}
+          </td>
+          {row.map((cell, index) => (
             <>
-            <td className="gid-table-td" style={{...tableStyles.td, ...{backgroundColor: cell.left>0 ? "#d1f7d1ff" : "#F5F5F5"}}}>
-              {cell_content({cantidad: cell.left, idcodigo: cell.id_left})}
-            </td>
-            <td className="gid-table-td" style={{...tableStyles.td, ...{backgroundColor: cell.right>0 ? "#d1f7d1ff" : "#F5F5F5"}}}>
-              {cell_content({cantidad: cell.right, idcodigo: cell.id_right})}
+              <td
+                className="gid-table-td"
+                style={{
+                  ...tableStyles.td,
+                  ...{
+                    backgroundColor: cell.left > 0 ? "#d1f7d1ff" : "#F5F5F5",
+                  },
+                }}
+              >
+                {cell_content({ cantidad: cell.left, idcodigo: cell.id_left })}
+              </td>
+              <td
+                className="gid-table-td"
+                style={{
+                  ...tableStyles.td,
+                  ...{
+                    backgroundColor: cell.right > 0 ? "#d1f7d1ff" : "#F5F5F5",
+                  },
+                }}
+              >
+                {cell_content({
+                  cantidad: cell.right,
+                  idcodigo: cell.id_right,
+                })}
               </td>
             </>
-          ))
-        }
+          ))}
         </tr>
       ))}
     </>
@@ -241,8 +294,16 @@ const GridBifocales = (props) => {
     process();
   }, []);
 
-  return codigos.length<1 ? <></> : <><div style={{textAlign:"center"}}><h4>{ codigos.length>0? codigos[0][0].codig_base : ""}</h4></div>{get_grid()}</>
-  
+  return codigos.length < 1 ? (
+    <></>
+  ) : (
+    <>
+      <div style={{ textAlign: "center" }}>
+        <h4>{codigos.length > 0 ? codigos[0][0].codig_base : ""}</h4>
+      </div>
+      {get_grid()}
+    </>
+  );
 };
 
 export default GridBifocales;

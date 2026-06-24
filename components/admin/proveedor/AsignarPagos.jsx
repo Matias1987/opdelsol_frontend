@@ -69,7 +69,7 @@ const AsignarPagos = ({ idproveedor, moneda, modo, callback }) => {
         </>
       ),
     },
-    
+
     {
       title: <div style={{ textAlign: "right" }}>Monto</div>,
       dataIndex: "monto",
@@ -81,11 +81,13 @@ const AsignarPagos = ({ idproveedor, moneda, modo, callback }) => {
 
   const columns_compras = [
     {
-      title:"ID", dataIndex:"idfactura", key:"idfactura", width:"40px", render: (_, { idfactura }) => (
-        <span style={{fontSize:"10px", color:"blue"}}>
-          {idfactura} 
-        </span>
-      )
+      title: "ID",
+      dataIndex: "idfactura",
+      key: "idfactura",
+      width: "40px",
+      render: (_, { idfactura }) => (
+        <span style={{ fontSize: "10px", color: "blue" }}>{idfactura}</span>
+      ),
     },
     {
       render: (_, record) => (
@@ -323,7 +325,13 @@ const AsignarPagos = ({ idproveedor, moneda, modo, callback }) => {
       post.pagos_no_saldados,
       { idproveedor, moneda, modo },
       (response) => {
-        setDataPagos(response.data.map((p) => ({ ...p, checked: false, int_multiplied: Math.trunc( p.monto * 100 )})));
+        setDataPagos(
+          response.data.map((p) => ({
+            ...p,
+            checked: false,
+            int_multiplied: Math.trunc(p.monto * 100),
+          })),
+        );
         _callback?.();
       },
     );
@@ -341,7 +349,7 @@ const AsignarPagos = ({ idproveedor, moneda, modo, callback }) => {
             monto_a_pagar: 0,
             nuevo_saldo: 0,
             saldado: false,
-            int_multiplied: Math.trunc( r.saldo * 100 ),
+            int_multiplied: Math.trunc(r.saldo * 100),
           })),
           _callback?.(),
         );
@@ -361,7 +369,7 @@ const AsignarPagos = ({ idproveedor, moneda, modo, callback }) => {
             monto_a_pagar: 0,
             nuevo_saldo: 0,
             saldado: false,
-            int_multiplied: Math.trunc( cm.saldo * 100 ),
+            int_multiplied: Math.trunc(cm.saldo * 100),
           })),
         );
         _callback?.();
@@ -403,14 +411,36 @@ const AsignarPagos = ({ idproveedor, moneda, modo, callback }) => {
   }, []);
 
   const guardarCambios = () => {
-   /* if( Math.trunc( montoAsignado*100) > 1)
+    /* if( Math.trunc( montoAsignado*100) > 1)
     {
       alert("Monto a asignar mayor a 0");
       return;
     }*/
+    if (!selectedPago) {
+      alert("Seleccione un pago");
+      return;
+    }
+    const cApagar = compras.filter((c) => c.checked);
+    if (cApagar.length < 1) {
+      alert("Seleccione compras");
+      return;
+    }
+
+    if (
+      Math.abs(
+        parseInt(
+          parseInt(selectedPago?.monto || "0") - parseInt(montoAsignado),
+        ),
+      ) > 1
+    ) {
+      alert("Saldo distinto de 0");
+      return
+      
+    }
+
     const data = {
       idpago: selectedPago.id,
-      compras: compras.filter((c) => c.checked),
+      compras: cApagar,
       cm: cm.filter((c) => c.checked),
     };
     setBtnGuardarEnabled(false);
@@ -509,12 +539,12 @@ const AsignarPagos = ({ idproveedor, moneda, modo, callback }) => {
           </Col>
         </Row>
         <Divider />
-        
+
         <Row>
           <Col span={24}>
             <Button
               type="primary"
-              disabled={!btnGuardarEnabled }
+              disabled={!btnGuardarEnabled}
               onClick={guardarCambios}
             >
               Guardar Cambios
@@ -579,13 +609,16 @@ const AsignarPagos = ({ idproveedor, moneda, modo, callback }) => {
               block
               onClick={(_) => {
                 //working with integers
-                const _popupMonto = Math.trunc(editPopupMonto * 100)
-                const _saldo = selectedCompra ? Math.trunc(selectedCompra.saldo * 100) :
-                  selectedCM ? Math.trunc(selectedCM.saldo * 100) : 0;
+                const _popupMonto = Math.trunc(editPopupMonto * 100);
+                const _saldo = selectedCompra
+                  ? Math.trunc(selectedCompra.saldo * 100)
+                  : selectedCM
+                    ? Math.trunc(selectedCM.saldo * 100)
+                    : 0;
 
-                alert(JSON.stringify({_popupMonto, _saldo}))
-      
-                if (_popupMonto >_saldo) {
+                //alert(JSON.stringify({ _popupMonto, _saldo }));
+
+                if (_popupMonto > _saldo) {
                   alert("El monto a pagar no puede ser mayor al saldo");
                   return;
                 }

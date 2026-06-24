@@ -50,7 +50,8 @@ const ModificarStock = (props) => {
 
   const [sucuralSelectEnabled, setSucursalSelectEnabled] = useState(false);
 
-  const regexp_bif = /^([A-Z_]+)(_)(\-|\+[0-9\.]+)(_)(L|R)(_ADD_)([0-9\.]+)/;
+  //const regexp_bif = /^([0-9\.]{0,})([A-Z_]+)(_)([\-|\+]?[0-9\.]+)(_)(L|R)(_ADD_)([0-9\.]+)/;
+  const regexp_bif = /(_)(L|R)(_ADD_)/;
   const regexp_monof = /^([A-Z_0-9\.]+)(_)([0-9\.]+)($)/;
   const regexp_terminados = /ESF(\-|\+)([0-9\.]+)CIL(\-|\+)([0-9\.]+).*$/;
 

@@ -34,7 +34,6 @@ export default function clientes() {
   ];
 
   const onFichaClienteClick = (record) => {
-    alert(JSON.stringify(record))
     setSelectedCliente(record);
     setPopupFichaOpen(true);
   }
