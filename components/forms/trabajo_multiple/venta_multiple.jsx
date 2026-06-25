@@ -269,7 +269,8 @@ const TrabajoMultiple = ({
       return { ...venta, fkusuario: idvendedor };
     });*/
     post_method(post.insert.insert_venta_multiple, __v, (response) => {
-      alert(JSON.stringify(response));
+      alert("Datos guardados.");
+      window.location.href = ""; 
     });
   };
 

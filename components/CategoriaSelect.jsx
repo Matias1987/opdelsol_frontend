@@ -75,8 +75,8 @@ const CategoriaSelect = (props) => {
                         {categoria=="-1" ? <></> : <Button 
                         disabled = {categoria=="-1"}
                         size="small" 
-                        type="ghost"
-                        style={{color:"red", textAlign:"center"}} 
+                        type="dashed"
+                        style={{color:"red", textAlign:"center", fontWeight:"bolder"}} 
                         block
                         onClick={()=>{
                             setEnabled(true)

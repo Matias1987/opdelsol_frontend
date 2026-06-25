@@ -255,8 +255,10 @@ const ListadoVentasTM = (_) => {
   };
 
   const marcar_entregado = (_idventa) => {
-    alert(post.entrega_venta_distrib);
-
+    //alert(post.entrega_venta_distrib);
+    if(!confirm("Confirmar Marcar Entregado")){
+      return;
+    }
     setFormEnabled(false);
     post_method(
       post.entrega_venta_distrib,

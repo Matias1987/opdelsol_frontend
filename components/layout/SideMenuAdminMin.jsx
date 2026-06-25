@@ -6,6 +6,7 @@ import {
   LogoutOutlined,
   DollarOutlined,
   CreditCardTwoTone,
+  BoxPlotOutlined,
 } from "@ant-design/icons";
 import { useRouter } from "next/router";
 import { get } from "@/src/urls";
@@ -75,6 +76,13 @@ const SideMenuAdminMin = ({ collapsed }) => {
           onClick={() => router.push("/v1/admin/ventas/")}
         >
           Ventas
+        </Menu.Item>
+        <Menu.Item
+          key="/v1/admin/stock_s_admin_min/"
+          icon={<BoxPlotOutlined />}
+          onClick={() => router.push("/v1/admin/stock_s_admin_min/")}
+        >
+          Stock
         </Menu.Item>
         <Menu.Item
           key="/v1/admin/ict/"

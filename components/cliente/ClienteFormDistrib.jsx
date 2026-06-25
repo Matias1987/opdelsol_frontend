@@ -92,6 +92,10 @@ export default function ClienteFormDistrib({callback}) {
   };
 
   const onChange = (val, idx) => {
+    if(!val)
+    {
+      return
+    }
     if (!validate_only_numbers_and_letters(val) && val.length > 0) {
       return;
     }
@@ -158,14 +162,14 @@ export default function ClienteFormDistrib({callback}) {
       <Row style={{ padding: "4px" }}>
         <Col span={24}><span style={{fontWeight:"600"}}>Localidad:</span></Col>
         <Col span={18}>
-          <SelectLocalidadV2
+          {/*<SelectLocalidadV2
             fk_localidad={+globals.obtenerOpticaLocalidad()}
             fk_provincia={+globals.obtenerOpticaProvincia()}
             callback={(p) => {
               // alert(JSON.stringify(p))
               onChange(p.idlocalidad, "idlocalidad");
             }}
-          />
+          />*/}
         </Col>
       </Row>
 

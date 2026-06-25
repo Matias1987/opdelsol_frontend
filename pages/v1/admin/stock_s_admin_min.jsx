@@ -3,6 +3,7 @@ import CantidadesSucursales from "@/components/admin/stock/CantidadesSucursales"
 import EditarCodesTree from "@/components/admin/stock/EditarCodesTree";
 import VentasTotalesSucursales from "@/components/admin/stock/VentasTotalesSucursales";
 import LayoutAdmin from "@/components/layout/layout_admin";
+import LayoutAdminMin from "@/components/layout/layout_admin_min";
 import {Row, Col, Select, Tabs} from "antd";
 
 
@@ -60,4 +61,4 @@ export default function StockSucursalAdmin(){
 
 
 
-StockSucursalAdmin.PageLayout = LayoutAdmin;  
+StockSucursalAdmin.PageLayout = LayoutAdminMin;  

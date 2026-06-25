@@ -7,138 +7,14 @@ import { useEffect, useState } from "react";
 const Informe = ({ idventa }) => {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState(null);
-/*{
-        "idventa": 69767,
-        "cliente_idcliente": 1,
-        "sucursal_idsucursal": 15,
-        "caja_idcaja": 4165,
-        "usuario_idusuario": 18,
-        "medico_idmedico": null,
-        "monto_total": "0",
-        "descuento": "0",
-        "debe": "0",
-        "haber": "0",
-        "saldo": "0",
-        "fecha": "2026-05-15T14:36:45.000Z",
-        "fecha_alta": "2026-05-15T14:36:45.000Z",
-        "fk_os": null,
-        "fecha_retiro": "2026-05-14T03:00:00.000Z",
-        "fk_destinatario": null,
-        "subtotal": "0.000000",
-        "comentarios": "",
-        "tipo": "7",
-        "estado": "PENDIENTE",
-        "hora_retiro": "",
-        "en_laboratorio": 0,
-        "json_items": "",
-        "estado_taller": null,
-        "recarga": "0.000000",
-        "uid": "",
-        "recibe_premio": 1,
-        "trabajos": [
-            {
-                "idtrabajo": 94,
-                "tipo": "laboratorio",
-                "nro": 1,
-                "items": [
-                    {
-                        "idcodigo": 37314,
-                        "esf": "5",
-                        "cil": "6",
-                        "eje": "7",
-                        "tipo": "od",
-                        "cantidad": 1,
-                        "precio": "630000.000000",
-                        "total": "630000.000000",
-                        "iddescuento": 18
-                    },
-                    {
-                        "idcodigo": 37314,
-                        "esf": "1",
-                        "cil": "2",
-                        "eje": "3",
-                        "tipo": "oi",
-                        "cantidad": 1,
-                        "precio": "630000.000000",
-                        "total": "630000.000000",
-                        "iddescuento": 18
-                    }
-                ]
-            },
-            {
-                "idtrabajo": 95,
-                "tipo": "laboratorio",
-                "nro": 1,
-                "items": [
-                    {
-                        "idcodigo": 37314,
-                        "esf": "55",
-                        "cil": "66",
-                        "eje": "77",
-                        "tipo": "od",
-                        "cantidad": 1,
-                        "precio": "630000.000000",
-                        "total": "630000.000000",
-                        "iddescuento": 18
-                    }
-                ]
-            },
-            {
-                "idtrabajo": 96,
-                "tipo": "laboratorio",
-                "nro": 1,
-                "items": [
-                    {
-                        "idcodigo": 37315,
-                        "esf": "45",
-                        "cil": "56",
-                        "eje": "67",
-                        "tipo": "oi",
-                        "cantidad": 1,
-                        "precio": "630000.000000",
-                        "total": "630000.000000",
-                        "iddescuento": 18
-                    }
-                ]
-            },
-            {
-                "idtrabajo": 97,
-                "tipo": "laboratorio",
-                "nro": 1,
-                "items": [
-                    {
-                        "idcodigo": 39026,
-                        "esf": "90",
-                        "cil": "99",
-                        "eje": "98",
-                        "tipo": "od",
-                        "cantidad": 1,
-                        "precio": "630000.000000",
-                        "total": "630000.000000",
-                        "iddescuento": 18
-                    },
-                    {
-                        "idcodigo": 39027,
-                        "esf": "09",
-                        "cil": "08",
-                        "eje": "90",
-                        "tipo": "oi",
-                        "cantidad": 1,
-                        "precio": "630000.000000",
-                        "total": "630000.000000",
-                        "iddescuento": 18
-                    }
-                ]
-            }
-        ]
-    } */
+
   const load = () => {
     setLoading(true);
     fetch(get.obtener_venta_tm + idventa)
       .then((r) => r.json())
       .then((response) => {
         setData(response.data);
-        alert(JSON.stringify(response.data))
+        //alert(JSON.stringify(response.data))
         setLoading(false);
       });
   };

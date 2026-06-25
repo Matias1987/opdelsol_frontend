@@ -10,6 +10,7 @@ import {
   DownOutlined,
   ArrowDownOutlined,
   OrderedListOutlined,
+  BoxPlotOutlined,
 } from "@ant-design/icons";
 import { useRouter } from "next/router";
 import { get } from "@/src/urls";
@@ -102,6 +103,13 @@ const SideMenuAdmin = ({ collapsed }) => {
           onClick={() => router.push("/v1/admin/panel_proveedores/")}
         >
           Proveedores
+        </Menu.Item>
+         <Menu.Item
+          key="/v1/admin/stock_sucursal_admin/"
+          icon={<BoxPlotOutlined />}
+          onClick={() => router.push("/v1/admin/stock_sucursal_admin/")}
+        >
+          Stock
         </Menu.Item>
           <SubMenu key="submenu_clientes" icon={<UserOutlined />} title="Clientes">
           <Menu.Item
