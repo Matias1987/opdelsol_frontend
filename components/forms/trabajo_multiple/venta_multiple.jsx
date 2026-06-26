@@ -77,12 +77,35 @@ const TrabajoMultiple = ({
   const [idCliente, setIdCliente] = useState(-1);
   const [finalV, setFinalV] = useState({});
 
+  const updateTabName = (tabKey, newName) => {
+    setItems((prevTabs) =>
+      prevTabs.map((tab) =>
+        +tab.key == +tabKey
+          ? {
+              ...tab,
+              label: (
+                <span
+                  style={{
+                    color: newName != "STOCK" ? "#262D42" : "#151a29",
+                    fontWeight: "600",
+                  }}
+                >
+                  {newName}
+                </span>
+              ),
+            }
+          : tab,
+      ),
+    );
+  };
+
   const tab_content = (id) => (
     <>
       <VMTrabajo
         localId={id}
         callback={onTabValuesChange}
         idCliente={idCliente}
+        onRename={updateTabName}
       />
     </>
   );
@@ -121,7 +144,7 @@ const TrabajoMultiple = ({
     setItems([
       ...(items || []),
       {
-        label: "Trabajo #" + items.length,
+        label: "Nuevo Trabajo",
         key: newActiveKey,
         children: <>{tab_content(newActiveKey)}</>,
       },
@@ -249,9 +272,17 @@ const TrabajoMultiple = ({
   const finalizar_venta = (e) => {
     //alert(JSON.stringify({ ...venta, trabajos }));
     const __v = format_venta();
-    //alert(JSON.stringify());
+    alert(JSON.stringify(__v));
+
+    const msgs = validar(__v);
+
+    if (msgs.length > 0) {
+      alert(msgs[0]);
+      return;
+    }
+
     setFinalV(__v);
-    //return;
+    return;
     const idvendedor =
       cambiar_vendedor == 0 ? +globals.obtenerUID() : venta.fkusuario;
 
@@ -270,7 +301,7 @@ const TrabajoMultiple = ({
     });*/
     post_method(post.insert.insert_venta_multiple, __v, (response) => {
       alert("Datos guardados.");
-      window.location.href = ""; 
+      window.location.href = "";
     });
   };
 
@@ -379,7 +410,7 @@ const TrabajoMultiple = ({
               />
             </Col>
           </Row>
-          <Row gutter={24} style={{ padding: "6px" }}>
+          {/*<Row gutter={24} style={{ padding: "6px" }}>
             <Col>
               <Form.Item label={"Fecha de Retiro"}>
                 <DatePicker
@@ -403,7 +434,7 @@ const TrabajoMultiple = ({
                 />
               </Form.Item>
             </Col>
-          </Row>
+          </Row>*/}
           <Row style={{ padding: "6px" }}>
             <Col span="24">
               <Form.Item label={"Comentarios"}>
@@ -465,19 +496,28 @@ const TrabajoMultiple = ({
       }
     };
 
-    v.trabajos.forEach((t) => {
+    if ((v?.trabajos?.length ?? 0) < 1) {
+      messages.push("No se encontraron trabajos.");
+      return;
+    }
+
+    for (let i = 0; i < v.trabajos.length; i++) {
+      const t = v.trabajos[i];
+      if (t.items.length < 1) {
+        messages.push(
+          "No se encontraron elementos en el trabajo " + (+i+1) + "  " + t.tipo,
+        );
+        break;
+      }
+      /*
       if (t.tipo == "stock") {
         t.items.forEach((i) => validar_stock(i));
       } else {
         t.items.forEach((i) => validar_lab(i));
-      }
-    });
-
-    if (messages.length > 0) {
-      alert(messages[0]);
-      return false;
+      }*/
     }
-    return true;
+
+    return messages;
   };
 
   return (

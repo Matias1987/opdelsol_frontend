@@ -11,6 +11,7 @@ import {
 } from "@ant-design/icons";
 import { get } from "@/src/urls";
 import ClienteFormDistrib from "@/components/cliente/ClienteFormDistrib";
+import MostrarDNI from "@/components/etc/MostrarDNI";
 
 const SelectClienteMayorista = (props) => {
   const { minVersion, callback, pIdcliente } = props;
@@ -115,7 +116,7 @@ const SelectClienteMayorista = (props) => {
           <b>{clienteData.nombre} </b>
           {typeof props.destinatario === "undefined" ? (
             <>
-              &nbsp;&nbsp; DNI: <b>{clienteData.dni}</b>&nbsp;
+              &nbsp;&nbsp; CUIT/CUIL: <b>{<MostrarDNI dni={clienteData.dni} />}</b>&nbsp;
               {typeof minVersion === "undefined" ? (
                 <>
                   Tel&eacute;fono: {clienteData.telefono1}&nbsp;
@@ -212,7 +213,7 @@ const SelectClienteMayorista = (props) => {
                       }}
                     >
                       <PlusOutlined /> Agregar
-                    </Button>{" "}
+                    </Button>
                   </Col>
                   <Col>
                     <Input
@@ -252,9 +253,13 @@ const SelectClienteMayorista = (props) => {
         footer={null}
       >
         <ClienteFormDistrib
-          callback={(id) => {
+          callback={(id, data) => {
+            //console.log("lasflsflñ")
+            alert(JSON.stringify(data));
             setReload(!reload);
             upload_cliente_details(id);
+            setPopupAddOpen(false);
+            callback?.(id);
           }}
         />
       </Modal>

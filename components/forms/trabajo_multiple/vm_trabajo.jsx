@@ -5,13 +5,13 @@ import VMCristalesStock from "./stock";
 import VMLC from "./lc";
 import LaboratorioForm from "./laboratorio";
 
-const VMTrabajo = ({callback, localId, tipo, idCliente}) => {
+const VMTrabajo = ({callback, localId, tipo, idCliente, onRename}) => {
     const CRISTALES_LABORATORIO= 0;
     const CRISTALES_STOCK=1;
     const LC=2;
   const [tipoTrabajo, setTipoTrabajo] = useState(-1);
   const [trabajo, setTrabajo] = useState({
-    localId:0,
+    localId:localId,
     nro:"1",
     tipo:"",
     items:null,
@@ -64,7 +64,9 @@ const VMTrabajo = ({callback, localId, tipo, idCliente}) => {
           placeholder="Seleccione tipo de Trabajo..."
           onChange={(v) => {
             setTipoTrabajo(v);
-            onChange("tipo", v == CRISTALES_LABORATORIO ? "laboratorio" : v == CRISTALES_STOCK ? "stock" : v == LC ? "LC" : "");
+            const _tipo = v == CRISTALES_LABORATORIO ? "laboratorio" : v == CRISTALES_STOCK ? "stock" : v == LC ? "LC" : "";
+            onChange("tipo",_tipo );
+            onRename(trabajo.localId,_tipo.toLocaleUpperCase());
           }}
           style={{ width: "100%" }}
           options={[

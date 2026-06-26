@@ -38,6 +38,8 @@ export default function ClienteFormDistrib({callback}) {
   const url = post.insert.cliente;
 
   const onFinish = () => {
+
+
     const validateStr = (field, message) => {
       var _val = true;
       if (typeof field === "undefined") {
@@ -86,8 +88,7 @@ export default function ClienteFormDistrib({callback}) {
 
     post_method(url, _data, (res) => {
       setBtnDisabled(false);
-
-      callback?.(res.data, clienteData);
+      callback(res.data, clienteData);
     });
   };
 
@@ -162,14 +163,14 @@ export default function ClienteFormDistrib({callback}) {
       <Row style={{ padding: "4px" }}>
         <Col span={24}><span style={{fontWeight:"600"}}>Localidad:</span></Col>
         <Col span={18}>
-          {/*<SelectLocalidadV2
+          {<SelectLocalidadV2
             fk_localidad={+globals.obtenerOpticaLocalidad()}
             fk_provincia={+globals.obtenerOpticaProvincia()}
             callback={(p) => {
               // alert(JSON.stringify(p))
               onChange(p.idlocalidad, "idlocalidad");
             }}
-          />*/}
+          />}
         </Col>
       </Row>
 

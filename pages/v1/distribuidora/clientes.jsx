@@ -43,6 +43,7 @@ export default function clientes() {
   }
 
   const onClienteAdded = (_) => {
+    setPopupAddOpen(false);
     refresh();
   };
 

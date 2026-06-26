@@ -19,9 +19,7 @@ const SucursalSelectModal = (props) => {
         fetch(get.sucursales)
         .then(r=>r.json())
         .then(response=>{
-         
-            setSucursales(
-                [
+            const _sucursales = [
                     ...[{label:"-", value:"-1"}],
                     ...response.data.map(r=>({
                         label: r.nombre,
@@ -32,7 +30,9 @@ const SucursalSelectModal = (props) => {
                         cobro_inmediato: +r.cobro_inmediato==1
                         //useTaller: r.set_env_op_taller,
                     }))
-                ]
+                ];
+            setSucursales(
+                _sucursales
             )
 
             if(globals.esUsuarioAdmin() || globals.esUsuarioAdminMin() || globals.esUsuarioAdminProv())
@@ -43,18 +43,15 @@ const SucursalSelectModal = (props) => {
             }
 
             if(+props.sucursalDefecto>0){
-                //alert(props.sucursalDefecto)
-                setSelectedSucursal(props.sucursalDefecto)
-                props.callback(props.sucursalDefecto)
-                globals.establecerSucursal(props.sucursalDefecto)
+                on_sucursal_selected(props.sucursalDefecto, _sucursales);
+                props.callback(props.sucursalDefecto);
                 return;
             }
 
             if(response.data.length==1)
             {
-                setSelectedSucursal(response.data[0].idsucursal)
+                on_sucursal_selected(response.data[0].idsucursal, _sucursales);
                 props.callback(response.data[0].idsucursal)
-                globals.establecerSucursal(response.data[0].idsucursal)
                 return;
             }
             else{
@@ -70,9 +67,9 @@ const SucursalSelectModal = (props) => {
         })
     },[])
 
-    const on_sucursal_selected = (id) => {
-        
-        const obj = sucursales.find(s=>s.value==id)
+    const on_sucursal_selected = (id, pSource) => {
+        const src = pSource ?? sucursales
+        const obj = src.find(s=>s.value==id);
 
         if(typeof obj !== 'undefined')
         {

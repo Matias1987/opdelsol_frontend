@@ -123,7 +123,7 @@ export default function FichaClienteMayorista(props) {
         <p>
           Nro.: <b>{dataCliente.idcliente}</b>&nbsp;&nbsp;Apellido y Nombre:{" "}
           <b>{dataCliente.apellido + ",  " + dataCliente.nombre}</b>{" "}
-          &nbsp;&nbsp;&nbsp;&nbsp; DNI:{" "}
+          &nbsp;&nbsp;&nbsp;&nbsp; CUIL/CUIT:{" "}
           <b>
             <MostrarDNI dni={dataCliente.dni} />
           </b>
