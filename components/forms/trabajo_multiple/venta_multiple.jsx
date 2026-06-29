@@ -231,26 +231,28 @@ const TrabajoMultiple = ({
         _items.push({
           idcodigo: tr.od_idcodigo,
           idtrabajo: 0,
-          iddescuento: 0,
+          iddescuento: tr.od_iddescuento||null,
+          descuento: tr.od_descuento??"0",
           tipo: "od",
           cantidad: "1",
-          precio: "0",
+          precio: tr.od_precio,
           esf: "0",
           cil: "0",
-          eje: "0",
+          eje: tr.od_eje || "0",
         });
       }
       if (tr.oi_idcodigo && +tr.oi_idcodigo > 0) {
         _items.push({
           idcodigo: tr.oi_idcodigo,
           idtrabajo: 0,
-          iddescuento: 0,
+          iddescuento: tr.oi_iddescuento||null,
+          descuento: tr.oi_descuento??"0",
           tipo: "oi",
           cantidad: "1",
-          precio: "0",
+          precio: tr.oi_precio,
           esf: "0",
           cil: "0",
-          eje: "0",
+          eje: tr.oi_eje || "0",
         });
       }
       return _items;
@@ -282,7 +284,7 @@ const TrabajoMultiple = ({
     }
 
     setFinalV(__v);
-    
+
     const idvendedor =
       cambiar_vendedor == 0 ? +globals.obtenerUID() : venta.fkusuario;
 
@@ -505,7 +507,10 @@ const TrabajoMultiple = ({
       const t = v.trabajos[i];
       if (t.items.length < 1) {
         messages.push(
-          "No se encontraron elementos en el trabajo " + (+i+1) + "  " + t.tipo,
+          "No se encontraron elementos en el trabajo " +
+            (+i + 1) +
+            "  " +
+            t.tipo,
         );
         break;
       }

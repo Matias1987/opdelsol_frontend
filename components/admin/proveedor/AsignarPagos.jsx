@@ -421,8 +421,8 @@ const AsignarPagos = ({ idproveedor, moneda, modo, callback }) => {
       return;
     }
     const cApagar = compras.filter((c) => c.checked);
-    if (cApagar.length < 1) {
-      alert("Seleccione compras");
+    if (cApagar.length <1 && cm.length<1) {
+      alert("Seleccione operaciones a pagar");
       return;
     }
 
