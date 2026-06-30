@@ -417,7 +417,7 @@ const LaboratorioForm = ({ callback, idCliente, onComentariosChange }) => {
                               onChange={(v) => {
                                 onValueChange(
                                   "od_eje",
-                                  (v || "0").toString().length > 0 ? v : "",
+                                  (v ?? "0").toString().length > 0 ? v : "",
                                 );
                               }}
                             />
@@ -428,7 +428,7 @@ const LaboratorioForm = ({ callback, idCliente, onComentariosChange }) => {
                               onChange={(v) => {
                                 onValueChange(
                                   "od_add",
-                                  (v || "0").toString().length > 0 ? v : "",
+                                  (v ?? "0").toString().length > 0 ? v : "",
                                 );
                               }}
                             />
@@ -492,7 +492,7 @@ const LaboratorioForm = ({ callback, idCliente, onComentariosChange }) => {
                               onChange={(v) => {
                                 onValueChange(
                                   "oi_eje",
-                                  (v || "0").toString().length > 0 ? v : "",
+                                  (v ?? "0").toString().length > 0 ? v : "",
                                 );
                               }}
                             />
@@ -503,7 +503,7 @@ const LaboratorioForm = ({ callback, idCliente, onComentariosChange }) => {
                               onChange={(v) => {
                                 onValueChange(
                                   "oi_add",
-                                  (v || "0").toString().length > 0 ? v : "",
+                                  (v ?? "0").toString().length > 0 ? v : "",
                                 );
                               }}
                             />

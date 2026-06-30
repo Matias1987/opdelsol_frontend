@@ -255,7 +255,7 @@ const SelectClienteMayorista = (props) => {
         <ClienteFormDistrib
           callback={(id, data) => {
             //console.log("lasflsflñ")
-            alert(JSON.stringify(data));
+            //alert(JSON.stringify(data));
             setReload(!reload);
             upload_cliente_details(id);
             setPopupAddOpen(false);

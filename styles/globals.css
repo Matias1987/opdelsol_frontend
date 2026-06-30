@@ -810,3 +810,17 @@ danger list
 .ant-menu-horizontal {
   padding-left: 0px !important;
 }
+
+
+/* Apply this class to hide the body and any empty placeholder text */
+.hide-table-body .ant-table-tbody,
+.hide-table-body .ant-table-placeholder {
+  display: none !important;
+}
+
+/* Change header background and font */
+.ant-table-thead > tr > th {
+  background-color: #dddddd !important; /* DodgerBlue */              /* Font color */
+  font-weight: bold;         /* Font weight */
+  font-size: 14px;           /* Font size */
+}

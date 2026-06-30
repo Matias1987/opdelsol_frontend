@@ -22,6 +22,7 @@ import Anotaciones from "../anotacion/anotaciones";
 import MostrarDNI from "../etc/MostrarDNI";
 import { HomeFilled } from "@ant-design/icons";
 import { key } from "localforage";
+import { formatFloat } from "@/src/helpers/formatters";
 
 export default function FichaClienteMayorista(props) {
   const [operaciones, setOperaciones] = useState([]);
@@ -34,6 +35,18 @@ export default function FichaClienteMayorista(props) {
   const [fix, setFix] = useState(0);
   const [loadPending, setLoadPending] = useState(true);
   const dummyref = useRef(null);
+
+  const gridRow = {
+    display: "grid",
+    gridAutoFlow: "column" /* Force items into columns */,
+    overflowX: "hidden" /* Allow horizontal scroll if needed */,
+    gap: "2px" /* Space between items */,
+    padding: "0px",
+    background: "#f0f0f0",
+  };
+  const gridItem = {
+    fontWeight: "bold",
+  };
 
   const bloquear = (_) => {
     if (!confirm("Bloquear Cuenta?")) {
@@ -210,11 +223,7 @@ export default function FichaClienteMayorista(props) {
   const items = [
     {
       key: "1",
-      label: (
-        <>
-          <HomeFilled />
-        </>
-      ),
+      label: <>Saldo</>,
       children: (
         <>
           <PrinterWrapper>
@@ -222,47 +231,60 @@ export default function FichaClienteMayorista(props) {
               <Col span={20}>{detalles_cliente()}</Col>
             </Row>
             <Row>
+              <Col span={24}>
+                <Table
+                  size="small"
+                  columns={columns}
+                  dataSource={[]}
+                  pagination={false}
+                  locale={{ emptyText: null }}
+                  className="hide-table-body ant-table-thead-custom" 
+                />
+              </Col>
               <Col span={24} className="scrollable-div">
                 {
-                  <Table
-                    style={{
-                      border: "1px dotted #e4e3e3",
-                      boxShadow: "-1px 1px 1px 1px #9e9c9c",
-                      backgroundColor: "#fafafa",
-                    }}
-                    size="small"
-                    loading={loading}
-                    columns={columns}
-                    dataSource={operaciones}
-                    pagination={false}
-                    summary={(data) => {
-                      var total_debe = 0;
-                      var total_haber = 0;
-                      data.forEach((r) => {
-                        total_debe += parseFloat(r.debe);
-                        total_haber += parseFloat(r.haber);
-                      });
-                      setSaldo(total_debe - total_haber);
-                      return (
-                        <>
-                          <Table.Summary.Row>
-                            <Table.Summary.Cell colSpan={3}>
-                              <b>Totales</b>
-                            </Table.Summary.Cell>
-                            <Table.Summary.Cell align="right">
-                              <b>{total_debe.toFixed(2)}</b>
-                            </Table.Summary.Cell>
-                            <Table.Summary.Cell align="right">
-                              <b>{total_haber.toFixed(2)}</b>
-                            </Table.Summary.Cell>
-                            <Table.Summary.Cell align="right">
-                              <b>{(total_debe - total_haber).toFixed(2)}</b>
-                            </Table.Summary.Cell>
-                          </Table.Summary.Row>
-                        </>
-                      );
-                    }}
-                  />
+                  <>
+                    <Table
+                      showHeader={false}
+                      style={{
+                        border: "1px dotted #e4e3e3",
+                        boxShadow: "-1px 1px 1px 1px #9e9c9c",
+                        backgroundColor: "#fafafa",
+                      }}
+                      size="small"
+                      loading={loading}
+                      columns={columns}
+                      dataSource={operaciones}
+                      pagination={false}
+                      summary={(data) => {
+                        var total_debe = 0;
+                        var total_haber = 0;
+                        data.forEach((r) => {
+                          total_debe += parseFloat(r.debe);
+                          total_haber += parseFloat(r.haber);
+                        });
+                        setSaldo(total_debe - total_haber);
+                        return (
+                          <>
+                            <Table.Summary.Row>
+                              <Table.Summary.Cell colSpan={3}>
+                                <b>Totales</b>
+                              </Table.Summary.Cell>
+                              <Table.Summary.Cell align="right">
+                                <b>{total_debe.toFixed(2)}</b>
+                              </Table.Summary.Cell>
+                              <Table.Summary.Cell align="right">
+                                <b>{total_haber.toFixed(2)}</b>
+                              </Table.Summary.Cell>
+                              <Table.Summary.Cell align="right">
+                                <b>{(total_debe - total_haber).toFixed(2)}</b>
+                              </Table.Summary.Cell>
+                            </Table.Summary.Row>
+                          </>
+                        );
+                      }}
+                    />
+                  </>
                 }
                 <div ref={dummyref}></div>
               </Col>
@@ -273,7 +295,7 @@ export default function FichaClienteMayorista(props) {
                   prefix={"Saldo: $ "}
                   style={{ backgroundColor: "#feffc1" }}
                   readOnly={true}
-                  value={parseFloat(saldo).toFixed(2)}
+                  value={ formatFloat( parseFloat(saldo).toFixed(2))}
                 />
               </Col>
             </Row>

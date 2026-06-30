@@ -61,7 +61,7 @@ const TrabajoMultiple = ({
     horaRetiro: null,
     comentarios: "",
     fksucursal: globals.obtenerSucursal(),
-    fkcaja: 4165, //globals.obtenerCajaID(),
+    fkcaja: 0, //globals.obtenerCajaID(),
     json_items: "",
     tk: globals.getToken(),
     uid: "",
@@ -207,6 +207,7 @@ const TrabajoMultiple = ({
           esf: tr.od_esf,
           cil: tr.od_cil,
           eje: tr.od_eje,
+          add: tr?.od_add??"",
         });
       }
       if (tr.oi_fkDisenio && tr?.oi_fkDisenio > 0) {
@@ -221,6 +222,7 @@ const TrabajoMultiple = ({
           esf: tr.oi_esf,
           cil: tr.oi_cil,
           eje: tr.oi_eje,
+          add: tr?.oi_add??"",
         });
       }
       return _items;
@@ -274,7 +276,7 @@ const TrabajoMultiple = ({
   const finalizar_venta = (e) => {
     //alert(JSON.stringify({ ...venta, trabajos }));
     const __v = format_venta();
-    alert(JSON.stringify(__v));
+    //alert(JSON.stringify(__v));
 
     const msgs = validar(__v);
 
@@ -292,7 +294,7 @@ const TrabajoMultiple = ({
       alert("Seleccione Vendedor");
       return;
     }
-    //setBtnEnabled(false);
+    setBtnEnabled(false);
     /*setVenta((venta) => {
       
       onfinish?.(venta, (resp) => {
@@ -480,21 +482,32 @@ const TrabajoMultiple = ({
           cil: "0",
           eje: "0", */
     const validar_stock = (op) => {
+      
       if (+op.idcodigo < 0) {
+        messages.push("Seleccione codigo");
+        return;
       }
     };
 
     const validar_lab = (op) => {
+     
       if (+op.idcodigo < 0) {
+        messages.push("Seleccione base");
+        return;
       }
       if (+op.iddisenio < 0) {
+        messages.push("Seleccione diseño");
+        return;
       }
 
-      if ("" == op.esf) {
+      if ("" == op.esf.toString()) {
+        messages.push("Indique valor esf");
       }
-      if ("" == op.cil) {
+      if ("" == op.cil.toString()) {
+        messages.push("Indique valor cil");
       }
-      if ("" == op.eje) {
+      if ("" == op.eje.toString()) {
+        messages.push("Indique valor eje");
       }
     };
 
@@ -514,12 +527,12 @@ const TrabajoMultiple = ({
         );
         break;
       }
-      /*
+      
       if (t.tipo == "stock") {
         t.items.forEach((i) => validar_stock(i));
       } else {
         t.items.forEach((i) => validar_lab(i));
-      }*/
+      }
     }
 
     return messages;
@@ -559,7 +572,7 @@ const TrabajoMultiple = ({
         <Row>
           <Col span={24}>{modo_formulario_unico()}</Col>
         </Row>
-        {
+        {/*
           <Row>
             <Col
               span={24}
@@ -578,7 +591,7 @@ const TrabajoMultiple = ({
               </Button>
             </Col>
           </Row>
-        }
+        */}
       </Card>
       {/*
             <Col span={8}>

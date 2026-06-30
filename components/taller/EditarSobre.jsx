@@ -7,6 +7,7 @@ import { post_method } from "@/src/helpers/post_helper";
 import DetalleCodigo from "../forms/deposito/DetalleCodigo";
 import CustomModal from "../CustomModal";
 import SearchCodigo from "../SearchCodigo";
+import MostrarDNI from "../etc/MostrarDNI";
 
 const EditarSobre = (props) => {
     const [firstLoad, setFirstLoad] = useState(true)
@@ -407,7 +408,7 @@ const EditarSobre = (props) => {
             </Row>
             <Row style={{padding:"1em"}}>
                 <Col span={4} style={{textAlign:"left"}}>Cliente: </Col>
-                <Col span={4}><b>{venta.cliente_nombre  + "  " + venta.cliente_dni} </b></Col>
+                <Col span={4}><b>{venta.cliente_nombre    } </b>&nbsp;&nbsp;<MostrarDNI dni={venta.cliente_dni} /> </Col>
             
                 <Col span={4} style={{textAlign:"left"}}>Vendedor: </Col>
                 <Col span={4}><b>{venta.usuario_nombre} </b></Col>

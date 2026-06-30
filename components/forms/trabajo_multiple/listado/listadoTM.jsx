@@ -20,6 +20,7 @@ import { useEffect, useState } from "react";
 import Informe from "../informe/informe";
 import { post_method } from "@/src/helpers/post_helper";
 import { current_date_ymd } from "@/src/helpers/string_helper";
+import { ignorar_paso_taller } from "@/src/config";
 
 const ListadoVentasTM = (_) => {
   const [data, setData] = useState([]);
@@ -141,7 +142,12 @@ const ListadoVentasTM = (_) => {
       width: "60px",
       dataIndex: "estado",
       render: (_, { estado, isParent, estado_trabajo }) => {
-        if (+isParent === 0) {
+        
+        if (+isParent === 0 ) {
+          if(true==ignorar_paso_taller)
+          {
+            return "";
+          }
           return (
             <>
               &nbsp;&nbsp;&nbsp;&nbsp;
@@ -224,7 +230,7 @@ const ListadoVentasTM = (_) => {
       width: "80px",
       title: "Acciones",
       render: (_, record) =>
-        "TERMINADO" == record.estado && +record.isParent === 1 ? (
+        +record.isParent === 1 && ("TERMINADO" == record.estado  || ignorar_paso_taller) && "ENTREGADO" != record.estado ? (
           <Button
             type="dashed"
             size="small"
@@ -255,10 +261,7 @@ const ListadoVentasTM = (_) => {
   };
 
   const marcar_entregado = (_idventa) => {
-    //alert(post.entrega_venta_distrib);
-    if(!confirm("Confirmar Marcar Entregado")){
-      return;
-    }
+
     setFormEnabled(false);
     post_method(
       post.entrega_venta_distrib,
@@ -266,7 +269,6 @@ const ListadoVentasTM = (_) => {
         idventa: _idventa
       },
       (resp) => {
-        alert("OK");
         setReload(!reload);
         setFormEnabled(true);
       },

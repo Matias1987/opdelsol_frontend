@@ -2,8 +2,12 @@ import ClienteFormDistrib from "@/components/cliente/ClienteFormDistrib";
 import FichaClienteMayorista from "@/components/cliente/FichaClienteMayorista";
 import LayoutDistribuidora from "@/components/layout/layout_distribuidora";
 import { get } from "@/src/urls";
-import { PlusOutlined, ReloadOutlined } from "@ant-design/icons";
-import { Button, Card, Modal, Table } from "antd";
+import {
+  InfoCircleFilled,
+  PlusOutlined,
+  ReloadOutlined,
+} from "@ant-design/icons";
+import { Button, Card, Input, Modal, Table } from "antd";
 import { useEffect, useState } from "react";
 
 export default function clientes() {
@@ -13,6 +17,7 @@ export default function clientes() {
   const [popupAddOpen, setPopupAddOpen] = useState(false);
   const [popupFichaOpen, setPopupFichaOpen] = useState(false);
   const [popupDetalleOpen, setPopupDetalleOpen] = useState(false);
+  const [searchString, setSearchString] = useState("");
   const columns = [
     {
       width: "200px",
@@ -26,8 +31,10 @@ export default function clientes() {
       title: "Acciones",
       render: (_, record) => (
         <>
-          <Button type="link" onClick={_=>onFichaClienteClick(record)}>Ficha</Button>
-          <Button type="link" onClick={_=>onDetalleClienteClick(record)}>Detalle</Button>
+          <Button type="link" onClick={(_) => onFichaClienteClick(record)}>
+            <InfoCircleFilled /> Detalles
+          </Button>
+          {/*<Button type="link" onClick={_=>onDetalleClienteClick(record)}>Detalle</Button>*/}
         </>
       ),
     },
@@ -36,11 +43,11 @@ export default function clientes() {
   const onFichaClienteClick = (record) => {
     setSelectedCliente(record);
     setPopupFichaOpen(true);
-  }
+  };
   const onDetalleClienteClick = (record) => {
     setSelectedCliente(record);
     setPopupDetalleOpen(true);
-  }
+  };
 
   const onClienteAdded = (_) => {
     setPopupAddOpen(false);
@@ -78,17 +85,38 @@ export default function clientes() {
     <>
       <Card
         title={
-          <>
-            Clientes&nbsp;
-            <Button
-              type="link"
-              onClick={(_) => {
-                setPopupAddOpen(true);
-              }}
-            >
-              <PlusOutlined />
-            </Button>
-          </>
+          <div
+            style={{
+              width: "100%",
+              display: "flex",
+              justifyContent: "space-between",
+            }}
+          >
+            <div>
+              <span>Clientes</span>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              <Button
+                size="small"
+                type="dashed"
+                onClick={(_) => {
+                  setPopupAddOpen(true);
+                }}
+              >
+                <PlusOutlined />
+                &nbsp; Agregar
+              </Button>
+            </div>
+            <div>
+              <Input
+                value={searchString}
+                onChange={(e) => setSearchString(e.target.value ?? "")}
+                style={{ width: "300px", backgroundColor: "rgba(0,0,0,0)" }}
+                addonBefore="Búsqueda"
+                size="small"
+                allowClear
+              />
+            </div>
+          </div>
         }
         size="small"
         style={{
@@ -119,7 +147,15 @@ export default function clientes() {
         }
       >
         <Table
-          dataSource={data}
+          dataSource={
+            searchString.trim().length > 0
+              ? data.filter((record) =>
+                  record.nombre
+                    .toUpperCase()
+                    .includes(searchString.toUpperCase()),
+                )
+              : data
+          }
           columns={columns}
           size="small"
           scroll={{ y: 300 }}
@@ -149,7 +185,10 @@ export default function clientes() {
         title="Saldo"
         width={"1000px"}
       >
-        <FichaClienteMayorista idcliente={selectedCliente.idcliente} callback={onClienteAdded} />
+        <FichaClienteMayorista
+          idcliente={selectedCliente.idcliente}
+          callback={onClienteAdded}
+        />
       </Modal>
       <Modal
         footer={null}
@@ -161,7 +200,7 @@ export default function clientes() {
         title="Detalle"
         width={"600px"}
       >
-       To Do ...
+        To Do ...
       </Modal>
     </>
   );
