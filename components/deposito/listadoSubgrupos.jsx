@@ -18,6 +18,7 @@ import SubGrupoFormV2 from "../forms/SubGrupoFormV2";
 import { EditOutlined, PlusOutlined } from "@ant-design/icons";
 import EditarPreciosSubgruposForm from "../forms/deposito/EditarPreciosSubgruposForm";
 import SubGrupoFormV3 from "../forms/deposito/SubgrupoFormV3";
+import AgregarSGAGrupoDistrib from "./agregarSubgrupoAGrupoDistrib";
 
 const ListadoSubGrupos = (props) => {
   const [change, setChange] = useState(false);
@@ -30,6 +31,7 @@ const ListadoSubGrupos = (props) => {
   const [popupAddOpen, setPopupAddOpen] = useState(false);
   const [selectedSubGrupo, setSelectedSubgrupo] = useState(-1);
   const [modalEditarOpen, setModalEditarOpen] = useState(false);
+  const [modalAgregarAGrupoOpen, setModalAgregarAGrupoOpen] = useState(false);
 
   useEffect(() => {
     fetch(get.lista_subgrupo + (filtrarPorGrupo ? idgrupo : -1))
@@ -101,7 +103,7 @@ const ListadoSubGrupos = (props) => {
         return (
           <>
             <Button onClick={_=>{setSelectedSubgrupo(idsubgrupo); setModalEditarOpen(true); }} size="small" type="link">
-                <EditOutlined /> Editar
+                <b>Editar</b>
             </Button>
             &nbsp;
             <Button
@@ -113,7 +115,18 @@ const ListadoSubGrupos = (props) => {
                 setEditarPopupPreciosOpen(true);
               }}
             >
-              Modif. Precios Subgrupo
+              Modif. Precios
+            </Button>
+            &nbsp;
+            <Button
+              size="small"
+              type="link"
+              onClick={() => {
+                setSelectedSubgrupo(idsubgrupo);
+                setModalAgregarAGrupoOpen(true);
+              }}
+            >
+              Agregar a Grupo
             </Button>
           </>
         );
@@ -321,6 +334,18 @@ const ListadoSubGrupos = (props) => {
             setChange(!change);
           }}
         />
+      </Modal>
+      <Modal
+        width={"800px"}
+        open={modalAgregarAGrupoOpen}
+        onCancel={() => {
+          setModalAgregarAGrupoOpen(false);
+        }}
+        footer={null}
+        title="Agregar Subgrupo a Grupo"
+        destroyOnClose
+      >
+        <AgregarSGAGrupoDistrib subgrupoId={selectedSubGrupo} callback={() => setModalAgregarAGrupoOpen(false)} />
       </Modal>
     </>
   );

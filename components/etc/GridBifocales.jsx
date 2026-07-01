@@ -1,7 +1,7 @@
 import globals from "@/src/globals";
 import { get } from "@/src/urls";
 import { DownOutlined, EditOutlined, InfoOutlined } from "@ant-design/icons";
-import { Button, Dropdown, Space } from "antd";
+import { Button, Dropdown, Input, Space } from "antd";
 import { useEffect, useState } from "react";
 
 const GridBifocales = (props) => {
@@ -87,24 +87,23 @@ const GridBifocales = (props) => {
     },
   };
 
-  const get_add = (_code ) => {
+  const get_add = (_code) => {
     const result = _code.match(regex_add);
     //example: [ '_ADD_1.00', '_ADD_', '1.00', index: 30, input: '1.499_FLAPTOP_ORG_70MM_-4.00_L_ADD_1.00', groups: undefined ]
     return result[2];
-  }
+  };
 
   const get_base = (_code) => {
     const result = _code.match(regex_base);
     //example: [ '_-4.00_L', '-4.00', '-', 'L', index: 22, input: '1.499_FLAPTOP_ORG_70MM_-4.00_L_ADD_1.00', groups: undefined ]
     return result[1];
+  };
 
-  }
-
-  const get_side = (_code) =>{
+  const get_side = (_code) => {
     const result = _code.match(regex_base);
     //example: [ '_L_', 'L', index: 28, input: '1.499_FLAPTOP_ORG_70MM_-4.00_L_ADD_1.00', groups: undefined ]
     return result[1];
-  }
+  };
 
   const getCantidad = (c) =>
     gridType === "ideal"
@@ -114,37 +113,30 @@ const GridBifocales = (props) => {
         : gridType === "pedido"
           ? +c.stock_ideal - +c.cantidad
           : c.cantidad;
-  const process = () => {
+  const process = (codes = codigosSrc) => {
     const _codigos = [];
 
-    codigosSrc.forEach((code) => {
-      //console.log(`Processing code: ${code}`);
-      const parts = regexp.exec(code.codigo);
-
-
-      const match_found = true// parts ?? false;
-
+    codes.forEach((code) => {
       const add = get_add(code.codigo);
       const base = get_base(code.codigo);
       const side = get_side(code.codigo);
-      const weight = parseInt(base) * 1000000 + parseInt(add) * 100 + (side == "R" ? 1 : 0);
-      console.log(JSON.stringify({add, base, side, weight}));
-      if (match_found) {
-        const _code = {
-          codig_base: code.codigo,
-          base: base,//parts[3],
-          side: side,//parts[5],
-          add: add, //parts[7],
-          cantidad: getCantidad(code),
-          idcodigo: code.idcodigo,
-          weight: weight //            +parts[3] * 1000000 +            +parts[7] * 100 +            (parts[5] == "R" ? 1 : 0).toString(),
-        };
-        _codigos.push(_code);
-      } else {
-        console.log("No match found");
-      }
+      const weight =
+        parseFloat(base) * 1000000 +
+        parseFloat(add) * 100 +
+        (side === "R" ? 1 : 0);
+
+      _codigos.push({
+        codig_base: code.codigo,
+        base,
+        side,
+        add,
+        cantidad: getCantidad(code),
+        idcodigo: code.idcodigo,
+        weight,
+      });
     });
 
+    //sort by weight
     let cont = true;
     while (cont) {
       cont = false;
@@ -153,7 +145,6 @@ const GridBifocales = (props) => {
         let _b = _codigos[i + 1];
         if (+_a.weight > +_b.weight) {
           cont = true;
-          //swap
           _codigos[i] = _b;
           _codigos[i + 1] = _a;
         }
@@ -161,33 +152,28 @@ const GridBifocales = (props) => {
     }
 
     const codes_arr = [];
-
     let prev_base = "";
 
     for (let i = 0; i < _codigos.length - 1; i += 2) {
-      if (prev_base != _codigos[i].base) {
-        //new row
+      if (prev_base !== _codigos[i].base) {
         codes_arr.push([]);
-        console.log(
-          `New row added for add: ${prev_base} new: ${_codigos[i].add}`,
-        );
       }
 
       codes_arr[codes_arr.length - 1].push({
-        codig_base: _codigos[i].codig_base,
+        codig_left: _codigos[i].codig_base,
+        codig_right: _codigos[i + 1].codig_base,
+
         add: _codigos[i].add,
         base: _codigos[i].base,
         left: _codigos[i].cantidad,
         right: _codigos[i + 1].cantidad,
         id_left: _codigos[i].idcodigo,
         id_right: _codigos[i + 1].idcodigo,
+        weight: _codigos[i + 1].weight,
       });
 
       prev_base = _codigos[i].base;
     }
-
-    //alert(JSON.stringify(codes_arr));
-    //console.log(JSON.stringify(codes_arr))
     setCodigos(codes_arr);
   };
 
@@ -302,6 +288,8 @@ const GridBifocales = (props) => {
         <h4>{codigos.length > 0 ? codigos[0][0].codig_base : ""}</h4>
       </div>
       {get_grid()}
+      <Input value={JSON.stringify(codigosSrc)} />
+      <Input value={JSON.stringify(codigos)} />
     </>
   );
 };

@@ -279,6 +279,8 @@ const post = {
 
   obtener_cm_saldo: remote_base_url + "proveedores/obtener_cm_saldo/",
 
+  agregar_sg_a_g: remote_base_url + "subgrupos/add/to/grupo/",
+
   search: {
     filtro_stock: remote_base_url + "stock/filtro_stock/",
   },
