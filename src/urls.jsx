@@ -633,6 +633,8 @@ const get = {
   obtener_items_trabajo: remote_base_url + "tm/items/",
 
   obtener_lista_descuentos: remote_base_url + "dc/",
+
+  subgrupo_por_grupo_v2: remote_base_url + "subgrupos/subgrupo_por_grupo_v2/",
 };
 
 module.exports = {

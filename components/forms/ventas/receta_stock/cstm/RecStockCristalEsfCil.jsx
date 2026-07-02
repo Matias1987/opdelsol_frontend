@@ -110,8 +110,8 @@ const RecStockCristalEsfCil = (props) => {
     </Button>
   ) : (
     <>
-      <Row gutter={16}>
-        <Col span={10}>
+      <Row gutter={8}>
+        <Col span={4}>
           <SelectCodigoVenta
             hideExtOpt={"0"}
             idfamilias={[globals.familiaIDs.CRISTALES]}
@@ -120,17 +120,19 @@ const RecStockCristalEsfCil = (props) => {
           />
         </Col>
 
-        <Col span={3}>
+        <Col span={5}>
           <HelperToolTip
+            pWidth={"120px"}
             disabled={cristal.codigo == null}
             onChange={(e) => onchange_esf(e)}
             prefix={"Esf."}
             positiveZero={true}
           />
         </Col>
-        <Col span={3}>
+        <Col span={5}>
           {
             <HelperToolTip
+              pWidth={"120px"}
               disabled={cristal.codigo == null}
               onChange={(e) => onchange_cil(e)}
               prefix={"Cil."}
@@ -138,14 +140,14 @@ const RecStockCristalEsfCil = (props) => {
             />
           }
         </Col>
-        <Col span={3}>
+        <Col span={4}>
           <InputNumber
             decimalSeparator={decimal_separator}
             onClick={(e) => {
               e.target.select();
             }}
             style={{ width: "100px" }}
-            prefix="Eje:"
+            addonBefore="Eje:"
             disabled={cristal.codigo == null}
             size="middle"
             value={cristal.eje}
@@ -155,16 +157,16 @@ const RecStockCristalEsfCil = (props) => {
             changeOnWheel={false}
           />
         </Col>
-        <Col span={3}>
+        <Col span={4}>
           <InputNumber
             changeOnWheel={false}
             decimalSeparator={decimal_separator}
             disabled={cristal.codigo == null}
-            style={{ width: "150px" }}
+            style={{ width: "180px" }}
             onClick={(e) => {
               e.target.select();
             }}
-            prefix={"Precio: $"}
+            addonBefore={"Precio: $"}
             onChange={(v) => {
               onchange_precio({
                 precio: v || "0",

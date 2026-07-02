@@ -1,3 +1,4 @@
+import AgregarSGAGrupoDistrib from "@/components/deposito/agregarSubgrupoAGrupoDistrib";
 import Wysiwyg from "@/components/etc/wysiwyg";
 import { mostrar_lc_precio_caja } from "@/src/config";
 import globals from "@/src/globals";
@@ -29,6 +30,7 @@ const SubGrupoFormV3 = (props) => {
   const [nombreLargo, setNombreLargo] = useState("");
   const [visibleLP, setVisibleLP] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [modalAgregarAGrupoOpen, setModalAgregarAGrupoOpen] = useState(false);
 
   useEffect(() => {
     load();
@@ -68,7 +70,7 @@ const SubGrupoFormV3 = (props) => {
         alert("Datos actualizados correctamente");
         callback?.();
         setOpen(false);
-      }
+      },
     );
   };
 
@@ -102,7 +104,11 @@ const SubGrupoFormV3 = (props) => {
       ) : (
         <Col span={24}>
           <div
-            style={{   backgroundColor: "#f3f3f3ff", fontWeight:"600", fontSize:"1.1em" }}
+            style={{
+              backgroundColor: "#f3f3f3ff",
+              fontWeight: "600",
+              fontSize: "1.1em",
+            }}
             dangerouslySetInnerHTML={{
               __html: nombreLargo.replace(/\n/g, "<br />"),
             }}
@@ -155,7 +161,9 @@ const SubGrupoFormV3 = (props) => {
               <Input
                 style={{ backgroundColor: "#ffffff" }}
                 readOnly={props.readOnly}
-                prefix={<span style={{fontWeight:"600"}}>Precio Mayorista: $</span> }
+                prefix={
+                  <span style={{ fontWeight: "600" }}>Precio Mayorista: $</span>
+                }
                 value={
                   props.readOnly
                     ? parseFloat(precioMayorista || "0").toLocaleString(2)
@@ -240,7 +248,7 @@ const SubGrupoFormV3 = (props) => {
       {(props.readOnly || "0") == "0" ? (
         <Row style={{ padding: "1em" }}>
           <Col span={24}>
-          <Divider />
+            <Divider />
             <Button type="primary" block onClick={actualizar}>
               Aplicar
             </Button>
@@ -249,6 +257,36 @@ const SubGrupoFormV3 = (props) => {
       ) : (
         <></>
       )}
+      <Divider />
+      <Row style={{ padding: "4px" }}>
+        <Col span={24}>
+          <Button
+            size="small"
+            type="link"
+            onClick={() => {
+              setModalAgregarAGrupoOpen(true);
+            }}
+          >
+            Agregar a Grupo Venta Mayorista...
+          </Button>
+        </Col>
+      </Row>
+
+      <Modal
+        width={"800px"}
+        open={modalAgregarAGrupoOpen}
+        onCancel={() => {
+          setModalAgregarAGrupoOpen(false);
+        }}
+        footer={null}
+        title="Agregar Subgrupo a Grupo"
+        destroyOnClose
+      >
+        <AgregarSGAGrupoDistrib
+          subgrupoId={idsubgrupo}
+          callback={() => setModalAgregarAGrupoOpen(false)}
+        />
+      </Modal>
     </>
   );
 };

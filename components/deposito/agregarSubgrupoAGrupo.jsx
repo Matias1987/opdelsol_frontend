@@ -45,7 +45,7 @@ const AgregarSubgrupoAGrupo = ({ subfamiliaId, subgrupoId, onClose }) => {
 
   return (
     <>
-      <Card title="Agregar A Grupo">
+      <Card size="small">
         <Row>
           <Col span={24}>Seleccione Grupo</Col>
         </Row>

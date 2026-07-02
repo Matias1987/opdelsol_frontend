@@ -124,7 +124,7 @@ const HelperToolTip = ({ disabled, callback, value, onChange, prefix, pWidth, po
           <span style={{ fontWeight: "500", whiteSpace: "nowrap" }}>{prefix} {`${enabled ? "-" : "+"}`}</span>
         }
         style={{ width: pWidth || "80px" }}
-        placeholder="Ingrese valor"
+        placeholder=""
         filterOption={(inputValue, option) =>
           option.value.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1
         }

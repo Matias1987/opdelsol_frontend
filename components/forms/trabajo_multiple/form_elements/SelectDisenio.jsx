@@ -21,15 +21,17 @@ const SelectDisenio = ({ idgrupo, callback, style, idcliente }) => {
   };
 
   const load = () => {
+    setSelection(null);
     if (!idgrupo || +idgrupo < 0) {
+      setData([]);
+      setLoading(false);
       return;
     }
     setLoading(true);
-    const url = get.lista_subgrupo + idgrupo;
+    const url = get.subgrupo_por_grupo_v2 + idgrupo;
     fetch(url)
       .then((res) => res.json())
       .then((res) => {
-        //alert(JSON.stringify(res));
         const options = res.data.map((sg) => ({
           label: sg.nombre_corto,
           value: sg.idsubgrupo,
@@ -62,14 +64,16 @@ const SelectDisenio = ({ idgrupo, callback, style, idcliente }) => {
     });
   };
 
-  return (
+  return +idgrupo>0 ? (
     <Select
+      value={selection}
+      placeholder="Seleccione un diseño"
       style={style}
       loading={loading}
       options={data}
       onChange={onChange}
     />
-  );
+  ) : <div style={{padding:"6px"}}><span style={{fontWeight:"600", color:"gray", fontStyle:"italic", fontSize:"11px"}}>Seleccione Tipo...</span></div>;
 };
 
 export default SelectDisenio;
