@@ -47,7 +47,7 @@ export default function ListaClientes(props) {
 
   const refresh = () => {
     setLoading(true);
-    fetch(get.lista_clientes)
+    fetch(get.lista_clientes_muestra)
       .then((response) => response.json())
       .then((response) => {
         setClientes(

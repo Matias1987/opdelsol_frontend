@@ -1,11 +1,8 @@
 import { get } from "@/src/urls";
 import { useEffect, useState } from "react";
-import GrillaCristales from "./informes/GrillaCristales";
 
 import { CarryOutOutlined,  EditFilled,  ReloadOutlined,  TableOutlined }  from "@ant-design/icons";
 import { Tree, Row, Col, Table, Divider, Button, Modal, Checkbox, Card }  from "antd";
-import EditarCodigo from "@/pages/v1/deposito/stock/editar_codigo";
-import EditarCodigoIndiv from "./forms/deposito/EditarCodigoIndiv";
 
 /**
  * 
@@ -113,7 +110,6 @@ const CodesTree = (props) => {
     <Card
         size="small"
         title="Arbol de Códigos"
-        headStyle={{backgroundColor:"#F07427", color:"white"}}
         >
       {<Row>
         <Col span={2} style={{padding:"1em"}}>

@@ -9,6 +9,7 @@ import globals from "@/src/globals"
 import { post_method } from "@/src/helpers/post_helper"
 import Anotaciones from "../anotacion/anotaciones"
 import MostrarDNI from "../etc/MostrarDNI"
+import { formatFloat } from "@/src/helpers/formatters"
 
 
 export default function FichaCliente(props){
@@ -81,9 +82,9 @@ export default function FichaCliente(props){
             }
           
         }},
-        { width:"120px", dataIndex: 'debe',  title: 'Debe', align: 'right', render:(_,{debe})=>(<>{parseFloat(debe||0).toFixed(2)}</>)},
-        { width:"120px", dataIndex: 'haber',  title: 'Haber', align: 'right', render:(_,{haber})=>(<>{parseFloat(haber||0).toFixed(2)}</>)},
-        { width:"120px",  title: 'Saldo', align: 'right', dataIndex:'saldo', render:(_,{saldo})=>(<>{parseFloat(saldo||0).toFixed(2)}</>) },
+        { width:"120px", dataIndex: 'debe',  title: 'Debe', align: 'right', render:(_,{debe})=>(<>{ formatFloat( parseFloat(debe||0).toFixed(2))}</>)},
+        { width:"120px", dataIndex: 'haber',  title: 'Haber', align: 'right', render:(_,{haber})=>(<>{ formatFloat( parseFloat(haber||0).toFixed(2))}</>)},
+        { width:"120px",  title: 'Saldo', align: 'right', dataIndex:'saldo', render:(_,{saldo})=>(<>{ formatFloat( parseFloat(saldo||0).toFixed(2))}</>) },
     ]
 
     const detalles_cliente =_ => dataCliente === null ? <Spin /> : <>
@@ -205,13 +206,13 @@ export default function FichaCliente(props){
                                 <b>Totales</b>
                             </Table.Summary.Cell>
                             <Table.Summary.Cell align="right">
-                                <b>{total_debe.toFixed(2)}</b>
+                                <b>{formatFloat((total_debe).toFixed(2))}</b>
                             </Table.Summary.Cell>
                             <Table.Summary.Cell align="right">
-                                <b>{(total_haber).toFixed(2)}</b>
+                                <b>{formatFloat((total_haber).toFixed(2))}</b>
                             </Table.Summary.Cell>
                             <Table.Summary.Cell align="right">
-                                <b>{(total_debe-total_haber).toFixed(2)}</b>
+                                <b>{formatFloat((total_debe-total_haber).toFixed(2))}</b>
                             </Table.Summary.Cell>
                         </Table.Summary.Row>
                         </>
@@ -222,7 +223,7 @@ export default function FichaCliente(props){
     </Row>
     <Row>
         <Col span={24}>
-            <Input prefix={"Saldo: $ "} style={{backgroundColor:"lightblue"}} readOnly={true} value={parseFloat(saldo).toFixed(2)}/>
+            <Input prefix={"Saldo: $ "} style={{backgroundColor:"lightblue"}} readOnly={true} value={formatFloat(parseFloat(saldo).toFixed(2))}/>
         </Col>
     </Row>
     </PrinterWrapper>

@@ -113,7 +113,7 @@ const SelectClienteV2 = (props) =>{
 
     const load = () => {
         setLoading(true)
-        fetch(get.lista_clientes)
+        fetch(get.lista_clientes_muestra)
         .then(response=>response.json())
         .then((response)=>{
             

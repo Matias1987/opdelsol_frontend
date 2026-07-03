@@ -36,8 +36,8 @@ export default function VentaDirectaItems(props){
             {
                 data.map(r=>(
                     <tr >
-                        <td style={{borderBottom:"1px dotted", padding:"0", fontSize:"1em"}}><b>{r.codigo}</b></td>
-                        <td style={{borderBottom:"1px dotted", padding:"0"}}>{r.descripcion}</td>
+                        <td style={{borderBottom:"1px dotted", padding:"0", fontSize:"1em"}}><b>{(r.codigo.toString()).replace(/_/g," ")}</b></td>
+                        <td style={{borderBottom:"1px dotted", padding:"0"}}>{(r.descripcion.toString()).replace(/_/g," ")}</td>
                         <td style={{borderBottom:"1px dotted", padding:"0", textAlign:"right"}}>$&nbsp;{formatFloat(r.precio)}</td>
                         <td style={{borderBottom:"1px dotted", padding:"0", textAlign:"right"}}>{r.cantidad}</td>
                         <td style={{borderBottom:"1px dotted", padding:"0",textAlign:"right"}}>$&nbsp;{formatFloat(r.total)}</td>

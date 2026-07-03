@@ -39,7 +39,7 @@ export default function RecStockItemsB(props){
                 data.map(r=>(
                     <tr >
                         <td style={{borderBottom:"1px dotted"}}>{((r.tipo||"").toUpperCase()).replace(/_/g," ")}</td>
-                        <td style={{borderBottom:"1px dotted", padding:".2em",textAlign:"left"}}><span style={{fontWeight:"600"}}>{r.codigo}</span>{!r.tipo.includes("armazon") ? <></> : <>&nbsp; <span style={{fontSize:".9em", fontStyle:"italic"}}>{r.descripcion}</span></>}</td>
+                        <td style={{borderBottom:"1px dotted", padding:".2em",textAlign:"left"}}><span style={{fontWeight:"600"}}>{(r.codigo.toString()).replace(/_/g," ")}</span>{!r.tipo.includes("armazon") ? <></> : <>&nbsp; <span style={{fontSize:".9em", fontStyle:"italic"}}>{(r.descripcion.toString()).replace(/_/g," ")}</span></>}</td>
                         <td style={{ borderBottom:"1px dotted", padding:"0",textAlign:"center"}}>{r.esf}</td>
                         <td style={{ borderBottom:"1px dotted", padding:"0",textAlign:"center"}}>{r.cil}</td>
                         

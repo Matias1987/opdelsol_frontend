@@ -49,7 +49,7 @@ export default function MonofLabItems(props){
                             </>
                         }
 
-                        <td colSpan={r.tipo.includes("armazon") ? "4" : "1"} style={{fontSize:".9em", borderBottom:"1px dotted", paddingLeft:"8px",textAlign:"left"}}><b>{r.codigo}</b>{!r.tipo.includes("armazon") ? <></> : <>&nbsp; <span style={{fontSize:".8em", fontStyle:"italic"}}>{r.descripcion}</span></>}</td>
+                        <td colSpan={r.tipo.includes("armazon") ? "4" : "1"} style={{fontSize:".9em", borderBottom:"1px dotted", paddingLeft:"8px",textAlign:"left"}}><b>{(r.codigo.toString()).replace(/_/g," ")}</b>{!r.tipo.includes("armazon") ? <></> : <>&nbsp; <span style={{fontSize:".8em", fontStyle:"italic"}}>{(r.descripcion.toString()).replace(/_/g," ")}</span></>}</td>
                         
                         {/*<td style={{padding:"0",textAlign:"left"}}>{r.descripcion}</td>
                         <td style={{borderBottom:"1px dotted", padding:"0",textAlign:"left", fontSize:".7em"}}><i>{r.descripcion}</i></td>*/}

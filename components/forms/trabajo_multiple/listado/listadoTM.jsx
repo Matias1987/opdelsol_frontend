@@ -1,6 +1,8 @@
 import globals from "@/src/globals";
 import { get, post } from "@/src/urls";
 import {
+  AlertFilled,
+  AlertOutlined,
   InfoCircleFilled,
   ReloadOutlined,
   SearchOutlined,
@@ -19,7 +21,6 @@ import {
 import { useEffect, useState } from "react";
 import Informe from "../informe/informe";
 import { post_method } from "@/src/helpers/post_helper";
-import { current_date_ymd } from "@/src/helpers/string_helper";
 import { ignorar_paso_taller } from "@/src/config";
 
 const ListadoVentasTM = (_) => {
@@ -142,10 +143,8 @@ const ListadoVentasTM = (_) => {
       width: "60px",
       dataIndex: "estado",
       render: (_, { estado, isParent, estado_trabajo }) => {
-        
-        if (+isParent === 0 ) {
-          if(true==ignorar_paso_taller)
-          {
+        if (+isParent === 0) {
+          if (true == ignorar_paso_taller) {
             return "";
           }
           return (
@@ -229,30 +228,55 @@ const ListadoVentasTM = (_) => {
     {
       width: "80px",
       title: "Acciones",
-      render: (_, record) =>
-        +record.isParent === 1 && ("TERMINADO" == record.estado  || ignorar_paso_taller) && "ENTREGADO" != record.estado ? (
-          <Button
-            type="dashed"
-            size="small"
-            style={{ color: "red", fontWeight: "bold" }}
-            disabled={!formsEnabled}
-            onClick={(_) => {
-              if (!confirm("Confirmar Marcar como Entregado")) {
-                return;
-              }
-              marcar_entregado(record.idventa);
-            }}
-          >
-            Marcar como Entregado
-          </Button>
-        ) : (
-          <></>
-        ),
+      render: (_, record) => (
+        <>
+          {+record.isParent === 1 &&
+          ("TERMINADO" == record.estado || ignorar_paso_taller) &&
+          "ENTREGADO" != record.estado &&
+          "ANULADO" != record.estado ? (
+            <Button
+              type="dashed"
+              size="small"
+              style={{ color: "red", fontWeight: "bold" }}
+              disabled={!formsEnabled}
+              onClick={(_) => {
+                if (!confirm("Confirmar Marcar como Entregado")) {
+                  return;
+                }
+                marcar_entregado(record.idventa);
+              }}
+            >
+              Marcar como Entregado
+            </Button>
+          ) : (
+            <></>
+          )}
+          {+record.isParent === 1 &&
+          "ENTREGADO" != record.estado &&
+          "ANULADO" != record.estado ? (
+            <Button
+              danger
+              size="small"
+              type="dashed"
+              onClick={(_) => {
+                if (!confirm("Confirmar Anular Venta")) {
+                  return;
+                }
+                anular_venta(record.idventa);
+              }}
+            >
+              Anular
+            </Button>
+          ) : (
+            <></>
+          )}
+        </>
+      ),
     },
   ];
   const load = () => {
     setFormEnabled(false);
-    fetch(get.obtener_ventas_tm + globals.obtenerSucursal())
+    fetch(get.obtener_ventas_tm + globals.obtenerSucursal() + "/0")
       .then((response) => response.json())
       .then((response) => {
         setData(response.data);
@@ -261,12 +285,11 @@ const ListadoVentasTM = (_) => {
   };
 
   const marcar_entregado = (_idventa) => {
-
     setFormEnabled(false);
     post_method(
       post.entrega_venta_distrib,
       {
-        idventa: _idventa
+        idventa: _idventa,
       },
       (resp) => {
         setReload(!reload);
@@ -275,6 +298,19 @@ const ListadoVentasTM = (_) => {
     );
   };
 
+  const anular_venta = (_idventa) => {
+    setFormEnabled(false);
+    post_method(
+      post.update.anular_venta_multiple,
+      {
+        idventa: _idventa,
+      },
+      (resp) => {
+        setReload(!reload);
+        setFormEnabled(true);
+      },
+    );
+  };
   useEffect(() => {
     load();
   }, [reload]);

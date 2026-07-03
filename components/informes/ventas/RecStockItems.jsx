@@ -37,7 +37,7 @@ export default function RecStockItems(props){
                 data.map(r=>(
                     <tr >
                         <td style={{borderBottom:"1px dotted"}}>{((r.tipo||"").toUpperCase()).replace(/_/g," ")}</td>
-                        <td style={{borderBottom:"1px dotted", padding:".2em",textAlign:"left"}}><span style={{fontWeight:"600"}}>{r.codigo}</span> {!r.tipo.includes("armazon") ? <></> : <>&nbsp; <span style={{fontSize:".9em", fontStyle:"italic"}}>{r.descripcion}</span></>}</td>
+                        <td style={{borderBottom:"1px dotted", padding:".2em",textAlign:"left"}}><span style={{fontWeight:"600"}}>{(r.codigo.toString()).replace(/_/g," ")}</span> {!r.tipo.includes("armazon") ? <></> : <>&nbsp; <span style={{fontSize:".9em", fontStyle:"italic"}}>{r.descripcion}</span></>}</td>
                         <td style={{borderBottom:"1px dotted", padding:".2em",textAlign:"left"}}><b>{ !r.tipo.includes("armazon") ? r.eje : ""}</b></td>
                         {/*<td style={{borderBottom:"1px dotted", padding:"0",textAlign:"left", paddingLeft:"8px", fontSize:".7em"}}><i>{r.descripcion}</i></td>*/}
                         <td style={{borderBottom:"1px dotted", padding:".2em",textAlign:"right"}}>$&nbsp;{formatFloat(r.precio)}</td>

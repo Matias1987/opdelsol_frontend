@@ -411,6 +411,7 @@ const post = {
     activar_cuenta_bancaria: remote_base_url + "cuentas_bancarias/activar/",
     update_venta: remote_base_url + "ventas/save/modif/v/",
     cambiar_estado_descuento: remote_base_url + "dc/cambiar/estado/",
+    anular_venta_multiple: remote_base_url + "tm/anular/",
   },
 };
 
@@ -468,6 +469,7 @@ const get = {
   //clientes
   cliente_por_id: remote_base_url + "clientes/",
   lista_clientes: remote_base_url + "clientes/",
+  lista_clientes_muestra: remote_base_url + "clientes/lista/muestra/",
   lista_clientes_m: remote_base_url + "clientes/lista/mayorista/",
   operaciones_cliente: remote_base_url + "clientes/operaciones/",
   buscar_cliente: remote_base_url + "clientes/buscar/",

@@ -34,7 +34,7 @@ const VMCristalesStock = ({ callback, onComentariosChange }) => {
   };
 
     const onchange_codigo = (key_idcodigo, key_precio, key_descuento, value) => {
-      alert(JSON.stringify(value))
+      //alert(JSON.stringify(value))
       if(value === null || value?.codigo === null){
         setTrabajoStock((p) => {
           const mod = {

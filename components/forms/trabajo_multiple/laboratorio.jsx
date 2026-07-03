@@ -84,6 +84,7 @@ const LaboratorioForm = ({ callback, idCliente, onComentariosChange }) => {
             <Row>
               <Col span={24}>
                 <Card
+                  title="Diseño"
                   size="small"
                   style={{ boxShadow: "-1px 1px 1px 1px #d4d3d3", backgroundColor:"#ffffff" }}
                 >
@@ -122,19 +123,19 @@ const LaboratorioForm = ({ callback, idCliente, onComentariosChange }) => {
                       >
                         <Col style={{ width: "30px" }}></Col>
                         <Col
-                          span={6}
+                          span={4}
                           style={{ fontWeight: "600", fontSize: "11px" }}
                         >
                           Tipo
                         </Col>
                         <Col
-                          span={6}
+                          span={10}
                           style={{ fontWeight: "600", fontSize: "11px" }}
                         >
                           Diseño
                         </Col>
                         <Col
-                          span={6}
+                          span={4}
                           style={{ fontWeight: "600", fontSize: "11px" }}
                         >
                           Precio
@@ -161,7 +162,7 @@ const LaboratorioForm = ({ callback, idCliente, onComentariosChange }) => {
                           >
                             OD
                           </Col>
-                          <Col span={6}>
+                          <Col span={4}>
                             <Select
                               style={{ width: "100%" }}
                               onChange={(v) => {
@@ -170,7 +171,7 @@ const LaboratorioForm = ({ callback, idCliente, onComentariosChange }) => {
                               options={tipos}
                             />
                           </Col>
-                          <Col span={6}>
+                          <Col span={10}>
                             <SelectDisenio
                               idcliente={idCliente}
                               callback={(v) => {
@@ -197,7 +198,7 @@ const LaboratorioForm = ({ callback, idCliente, onComentariosChange }) => {
                               style={{ width: "100%" }}
                             />
                           </Col>
-                          <Col span={6}>
+                          <Col span={4}>
                             <InputNumber
                               value={productos.od_precio}
                               addonBefore={
@@ -239,7 +240,7 @@ const LaboratorioForm = ({ callback, idCliente, onComentariosChange }) => {
                           >
                             OI
                           </Col>
-                          <Col span={6}>
+                          <Col span={4}>
                             <Select
                               style={{ width: "100%" }}
                               onChange={(v) => {
@@ -248,7 +249,7 @@ const LaboratorioForm = ({ callback, idCliente, onComentariosChange }) => {
                               options={tipos}
                             />
                           </Col>
-                          <Col span={6}>
+                          <Col span={10}>
                             <SelectDisenio
                               idcliente={idCliente}
                               callback={(v) => {
@@ -274,7 +275,7 @@ const LaboratorioForm = ({ callback, idCliente, onComentariosChange }) => {
                               style={{ width: "100%" }}
                             />
                           </Col>
-                          <Col span={6}>
+                          <Col span={4}>
                             <InputNumber
                               value={productos.oi_precio}
                               addonBefore={
