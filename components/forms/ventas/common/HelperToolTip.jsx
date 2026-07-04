@@ -12,6 +12,7 @@ import PosNegPicker from "./PosNegPicker";
 const HelperToolTip = ({ disabled, callback, value, onChange, prefix, pWidth, positiveZero }) => {
   const [enabled, setEnabled] = useState(true);
   const [internalValue, setInternalValue] = useState("");
+  const [error, setError] = useState(false);
   const options = [
     { value: "0.00" },
     { value: "0.25" },
@@ -96,6 +97,43 @@ const HelperToolTip = ({ disabled, callback, value, onChange, prefix, pWidth, po
     };
   }
 
+    // Función de formateo y validación simplificada
+  const procesarFormato = (texto) => {
+    let valor = texto.trim();
+
+    // Permite opcionalmente enteros y decimales, sin signos
+    const esNumeroValido = /^\d+(\.\d+)?$/.test(valor);
+    if (!esNumeroValido) {
+      return { valido: false, valorProcesado: valor };
+    }
+
+    const numero = parseFloat(valor);
+
+    // Caso especial del cero o cualquier número: forzar siempre dos decimales
+    const valorFormateado = numero.toFixed(2);
+
+    return {
+      valido: true,
+      valorProcesado: valorFormateado
+    };
+  };
+
+  // Se ejecuta al salir del input
+  const handleBlur = () => {
+    if (!internalValue) return; // No validar si está vacío
+
+    const resultado = procesarFormato(internalValue);
+
+    if (resultado.valido) {
+     
+      setInternalValue(resultado.valorProcesado);
+      setError(false);
+    } else {
+       setInternalValue("0.00")
+      setError(true); // Muestra error si ingresó letras o signos inválidos
+    }
+  };
+
   return (
     <Tooltip
       placement="top"
@@ -117,6 +155,7 @@ const HelperToolTip = ({ disabled, callback, value, onChange, prefix, pWidth, po
       color="cyan"
     >
       <AutoComplete
+        onBlur={handleBlur}
         options={options}
         value={internalValue}
         disabled={disabled}

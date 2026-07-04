@@ -5,8 +5,10 @@ import Papa from "papaparse";
 import {
   AlertOutlined,
   CheckOutlined,
+  DownloadOutlined,
   EditFilled,
   EditOutlined,
+  ExportOutlined,
   ReloadOutlined,
   SaveFilled,
   UnlockOutlined,
@@ -826,6 +828,20 @@ const TestGridCreation = () => {
     return false; // prevent default upload behavior
   };
 
+  const ponerGrillaPositivaEnCero = () => {
+    if (!confirm("¿Confirma que desea poner en cero la grilla positiva?"))
+      return;
+    const new_data = dataPos.map((d) => ({ ...d, cantidad: 0, pares: 0 }));
+    setDataPos(new_data);
+  }
+
+  const ponerGrillaNegativaEnCero = () => {
+    if (!confirm("¿Confirma que desea poner en cero la grilla negativa?"))
+      return;
+    const new_data = dataNeg.map((d) => ({ ...d, cantidad: 0, pares: 0 }));
+    setDataNeg(new_data);
+  }
+
   useEffect(() => {
     load_codigos_cristales();
   }, [update]);
@@ -841,45 +857,60 @@ const TestGridCreation = () => {
           marginBottom: "16px",
         }}
       >
-        
         <Col span={24}>
-        <Flex justify="center" align="center">
-          <Row style={{ padding: "8px" }} gutter={[16, 16]}>
-            <Col style={{ paddingTop: "6px" }}>Seleccione Sucursal:</Col>
-            <Col>
-              <SucursalSelect
-                callback={(v) => {
-                  setFkSucursal(v);
-                  setDataNeg([]);
-                  setDataPos([]);
-                  setFkCodigo("-1");
-                  setGrillaVisible(false);
-                }}
-              />
-            </Col>
-          </Row>
-          <Row gutter={[16, 16]} style={{ padding: "8px" }}>
-            <Col style={{ paddingTop: "6px" }}>Seleccion Tipo Cristal:</Col>
-            <Col>
-              <Select
-                disabled={+fkSucursal < 0}
-                value={fkCodigo}
-                placeholder="Seleccione un código de cristal"
-                style={{ width: "400px" }}
-                options={codigosCristales}
-                onChange={(v) => {
-                  setFkCodigo(v);
-                  setSelectedCodigoLabel(
-                    codigosCristales.find((c) => c.value == v)?.label || "",
-                  );
-                  load(v);
-                }}
-              />
-            </Col>
-          </Row>
+          <Flex justify="center" align="center">
+            <Row style={{ padding: "8px", margin: "0 8px 0 0" }} gutter={[16, 16]}>
+              <Col style={{ paddingTop: "6px" }}>Sucursal:</Col>
+              <Col>
+                <SucursalSelect
+                  callback={(v) => {
+                    setFkSucursal(v);
+                    setDataNeg([]);
+                    setDataPos([]);
+                    setFkCodigo("-1");
+                    setGrillaVisible(false);
+                  }}
+                />
+              </Col>
+            </Row>
+            <Row gutter={[16, 16]} style={{ padding: "8px", margin: "0 8px 0 0"  }}>
+              <Col style={{ paddingTop: "6px" }}>Tipo Cristal:</Col>
+              <Col>
+                <Select
+                  disabled={+fkSucursal < 0}
+                  value={fkCodigo}
+                  placeholder="Seleccione un código de cristal"
+                  style={{ width: "300px" }}
+                  options={codigosCristales}
+                  onChange={(v) => {
+                    setFkCodigo(v);
+                    setSelectedCodigoLabel(
+                      codigosCristales.find((c) => c.value == v)?.label || "",
+                    );
+                    load(v);
+                  }}
+                />
+              </Col>
+            </Row>
+            <Row gutter={[16, 16]} style={{ padding: "8px" }}>
+              <Col style={{ paddingTop: "6px" }}>Tipo Grilla:</Col>
+              <Col>
+                <Select
+                  disabled={true}
+                  value={"stock"}
+                  placeholder="Seleccione un código de grilla"
+                  style={{ width: "200px" }}
+                  options={[
+                    { value: "stock", label: "Existente" },
+                    { value: "uso", label: "Consumo" },
+                  ]}
+                  onChange={(v) => {
+                  }}
+                />
+              </Col>
+            </Row>
           </Flex>
         </Col>
-        
       </Row>
       <Affix offsetTop={0} style={{ zIndex: 999 }}>
         <Row
@@ -895,32 +926,6 @@ const TestGridCreation = () => {
             borderRadius: "8px",
           }}
         >
-          <Col style={{ display: "flex", gap: "16px" }}>
-            {+fkSucursal > 0 && +fkCodigo > 0 ? (
-              <>
-                <Button
-                  style={{borderRadius:"8px", backgroundColor:"rgba(0, 128, 17, 0.1)", borderColor:"#0502c7", color:"#0502c7"}}
-                  size="middle"
-                  type="primary"
-                  onClick={() => setModalNuevaGrillaVisible(true)}
-                >
-                  <EditFilled />
-                  Editar Grilla
-                </Button>
-                <Button
-                  style={{borderRadius:"8px", backgroundColor:"rgba(0, 128, 17, 0.1)", borderColor:"#008011", color:"#008011"}}
-                  onClick={(_) => {
-                    load(fkCodigo);
-                  }}
-                >
-                  <ReloadOutlined /> Recargar Grilla
-                </Button>
-              </>
-            ) : (
-              <></>
-            )}
-          </Col>
-
           <Col>
             <span
               style={{
@@ -939,17 +944,84 @@ const TestGridCreation = () => {
               )}
             </span>
           </Col>
+          <Col style={{ display: "flex", gap: "16px" }}>
+            {+fkSucursal > 0 && +fkCodigo > 0 ? (
+              <>
+                <Button
+                  style={{
+                    borderRadius: "8px",
+                    backgroundColor: "rgba(0, 128, 17, 0.1)",
+                    borderColor: "#0502c7",
+                    color: "#0502c7",
+                  }}
+                  size="middle"
+                  type="primary"
+                  onClick={() => setModalNuevaGrillaVisible(true)}
+                >
+                  <EditFilled />
+                  Editar Grilla
+                </Button>
+                <Button
+                  style={{
+                    borderRadius: "8px",
+                    backgroundColor: "rgba(0, 128, 17, 0.1)",
+                    borderColor: "#008011",
+                    color: "#008011",
+                  }}
+                  onClick={(_) => {
+                    load(fkCodigo);
+                  }}
+                >
+                  <DownloadOutlined /> Recargar Grilla
+                </Button>
+              </>
+            ) : (
+              <></>
+            )}
+            <Button
+              style={{
+                borderRadius: "8px",
+                backgroundColor: "rgba(128, 15, 0, 0.1)",
+                borderColor: "#ce2d11",
+                color: "#ce2d11",
+              }}
+              onClick={(_) => {
+                ponerGrillaNegativaEnCero();
+                ponerGrillaPositivaEnCero();
+              }}
+            >
+              <ReloadOutlined /> Poner Grilla en Cero
+            </Button>
+            {/*<Button
+              style={{
+                borderRadius: "8px",
+                backgroundColor: "rgba(128, 15, 0, 0.1)",
+                borderColor: "#ce2d11",
+                color: "#ce2d11",
+              }}
+              onClick={(_) => {
+                
+              }}
+            >
+              <ExportOutlined /> Exportar Grilla a CSV
+            </Button>*/}
+          </Col>
 
           <Col style={{ textAlign: "left" }}>
             <Button
-              style={{borderRadius:"8px", backgroundColor:"rgba(255, 0, 0, 0.1)", borderColor:"#ff0000", color:"#ff0000"}}
+              style={{
+                borderRadius: "8px",
+                backgroundColor: "rgba(255, 0, 0, 0.1)",
+                borderColor: "#ff0000",
+                color: "#ff0000",
+              }}
               size="middle"
               type="primary"
               danger
               onClick={on_save}
               disabled={dataNeg.length < 1 && dataPos.length < 1}
             >
-              <SaveFilled /> Guardar grilla
+              <SaveFilled /> Guardar Cambios
             </Button>
           </Col>
         </Row>
