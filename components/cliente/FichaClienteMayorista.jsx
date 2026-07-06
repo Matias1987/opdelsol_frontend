@@ -3,8 +3,10 @@ import {
   Button,
   Checkbox,
   Col,
+  DatePicker,
   Divider,
   Input,
+  Modal,
   Row,
   Spin,
   Table,
@@ -20,9 +22,11 @@ import globals from "@/src/globals";
 import { post_method } from "@/src/helpers/post_helper";
 import Anotaciones from "../anotacion/anotaciones";
 import MostrarDNI from "../etc/MostrarDNI";
-import { HomeFilled } from "@ant-design/icons";
-import { key } from "localforage";
 import { formatFloat } from "@/src/helpers/formatters";
+import esES from "antd/locale/es_ES";
+import dayjs from "dayjs";
+import ImpresionResumen from "./ImpresionResumen";
+import { InfoCircleOutlined, PrinterOutlined } from "@ant-design/icons";
 
 export default function FichaClienteMayorista(props) {
   const [operaciones, setOperaciones] = useState([]);
@@ -34,6 +38,9 @@ export default function FichaClienteMayorista(props) {
   const [loading, setLoading] = useState(false);
   const [fix, setFix] = useState(0);
   const [loadPending, setLoadPending] = useState(true);
+  const [filtrarPorFecha, setFiltrarPorFecha] = useState(true);
+  const [fechaFiltro, setFechaFiltro] = useState(null);
+  const [modalInformeVisible, setModalInformeVisible] = useState(false);
   const dummyref = useRef(null);
 
   const gridRow = {
@@ -65,6 +72,59 @@ export default function FichaClienteMayorista(props) {
     post_method(post.update.anular_carga_manual, { id: id }, (response) => {
       load();
     });
+  };
+
+  function processAndSortArray(arr, targetDateStr) {
+    // Helper to parse 'dd-mm-yyyy' into a native Date object
+    const parseDate = (dateStr) => {
+      const [day, month, year] = dateStr.split("-").map(Number);
+      return new Date(year, +month - 1, day);
+    };
+
+    const targetLimitDate = parseDate(targetDateStr);
+    let accumulatedDebe = 0;
+    let accumulatedHaber = 0;
+    const filteredAndSortedRecords = [];
+
+    // Step 1: Separate records into accumulated total or active records
+    arr.forEach((item) => {
+      const itemDate = parseDate(item.fecha_f);
+
+      if (itemDate <= targetLimitDate) {
+        // Accumulate total for records on or before the target date
+        accumulatedDebe += parseFloat(item.debe) || 0;
+        accumulatedHaber += parseFloat(item.haber) || 0;
+      } else {
+        // Keep records after the target date
+        filteredAndSortedRecords.push({ ...item });
+      }
+    });
+
+    // Step 2: Sort the remaining future records by date (ascending)
+    filteredAndSortedRecords.sort(
+      (a, b) => parseDate(a.fecha_f) - parseDate(b.fecha_f),
+    );
+
+    // Step 3: Insert the accumulated summary row at the beginning
+    const summaryRow = {
+      detalle_m: "Saldo Anterior",
+      fecha_f: targetDateStr,
+      debe: accumulatedDebe,
+      haber: accumulatedHaber,
+      saldo: parseFloat(accumulatedDebe) - parseFloat(accumulatedHaber),
+      id: "summary", // Unique identifier for the summary row
+      isSummary: true, // Visual flag to help you identify this special row
+    };
+
+    return [summaryRow, ...filteredAndSortedRecords];
+  }
+
+  const onChangeDate = (_date, _date_str) => {
+    if (!_date) {
+      setFechaFiltro(null);
+      return;
+    }
+    setFechaFiltro(_date_str);
   };
   const desBloquear = (_) => {
     if (!confirm("Desbloquear Cuenta?")) {
@@ -100,7 +160,7 @@ export default function FichaClienteMayorista(props) {
             case "CARGA MANUAL":
               return <>{detalle_m}</>;
             default:
-              return { detalle };
+              return <>{detalle_m}</>;
           }
         }
       },
@@ -110,21 +170,21 @@ export default function FichaClienteMayorista(props) {
       dataIndex: "debe",
       title: "Debe",
       align: "right",
-      render: (_, { debe }) => <>{parseFloat(debe || 0).toFixed(2)}</>,
+      render: (_, { debe }) => <>{`$ ${parseFloat(debe || 0).toFixed(2)}`}</>,
     },
     {
       width: "120px",
       dataIndex: "haber",
       title: "Haber",
       align: "right",
-      render: (_, { haber }) => <>{parseFloat(haber || 0).toFixed(2)}</>,
+      render: (_, { haber }) => <>{`$ ${parseFloat(haber || 0).toFixed(2)}`}</>,
     },
     {
       width: "120px",
       title: "Saldo",
       align: "right",
       dataIndex: "saldo",
-      render: (_, { saldo }) => <>{parseFloat(saldo || 0).toFixed(2)}</>,
+      render: (_, { saldo }) => <>{`$ ${parseFloat(saldo || 0).toFixed(2)}`}</>,
     },
   ];
 
@@ -158,6 +218,8 @@ export default function FichaClienteMayorista(props) {
     );
 
   useEffect(() => {
+    setFechaFiltro(dayjs().subtract(1, "month").format("DD-MM-YYYY"));
+    setFiltrarPorFecha(true);
     if (scrollChange) {
       dummyref.current?.scrollIntoView({ behavior: "smooth" });
       setScrollChange(false);
@@ -226,7 +288,7 @@ export default function FichaClienteMayorista(props) {
       label: <>Saldo</>,
       children: (
         <>
-          <PrinterWrapper>
+          
             <Row>
               <Col span={20}>{detalles_cliente()}</Col>
             </Row>
@@ -238,7 +300,44 @@ export default function FichaClienteMayorista(props) {
                   dataSource={[]}
                   pagination={false}
                   locale={{ emptyText: null }}
-                  className="hide-table-body ant-table-thead-custom" 
+                  className="hide-table-body ant-table-thead-custom"
+                  title={() => (
+                    <Row gutter={32}>
+                      <Col style={{ paddingTop: "4px", paddingLeft: "32px" }}>
+                        <span style={{ fontWeight: "600" }}>
+                          Lista de Operaciones
+                        </span>
+                      </Col>
+                      <Col>
+                        <DatePicker
+                          locale={esES}
+                          format={"DD-MM-YYYY"}
+                          defaultValue={dayjs().subtract(1, "month")}
+                          prefix={
+                            <>
+                              <Checkbox
+                                checked={filtrarPorFecha}
+                                onChange={(_) => {
+                                  setFiltrarPorFecha(!filtrarPorFecha);
+                                }}
+                              >
+                                <span style={{ whiteSpace: "nowrap" }}>
+                                  Ocultar Hasta
+                                </span>{" "}
+                              </Checkbox>
+                            </>
+                          }
+                          disabled={!filtrarPorFecha}
+                          onChange={(v, str) => {
+                            onChangeDate(v, str);
+                          }}
+                        />
+                      </Col>
+                      <Col>
+                        <Button type="link" onClick={() => setModalInformeVisible(true)}><PrinterOutlined /> Informe</Button>
+                      </Col>
+                    </Row>
+                  )}
                 />
               </Col>
               <Col span={24} className="scrollable-div">
@@ -254,7 +353,11 @@ export default function FichaClienteMayorista(props) {
                       size="small"
                       loading={loading}
                       columns={columns}
-                      dataSource={operaciones}
+                      dataSource={
+                        filtrarPorFecha && fechaFiltro
+                          ? processAndSortArray(operaciones, fechaFiltro)
+                          : operaciones
+                      }
                       pagination={false}
                       summary={(data) => {
                         var total_debe = 0;
@@ -295,11 +398,11 @@ export default function FichaClienteMayorista(props) {
                   prefix={"Saldo: $ "}
                   style={{ backgroundColor: "#feffc1" }}
                   readOnly={true}
-                  value={ formatFloat( parseFloat(saldo).toFixed(2))}
+                  value={formatFloat(parseFloat(saldo).toFixed(2))}
                 />
               </Col>
             </Row>
-          </PrinterWrapper>
+          
           <Row>
             <Col span={12}>
               {dataCliente == null ? (
@@ -401,6 +504,16 @@ export default function FichaClienteMayorista(props) {
       {/*<Button onClick={()=>{setOpen(true); load();}}>Ficha</Button>
     <Modal open={open} title={"Ficha Cliente"} onCancel={()=>{setOpen(false)}} footer={null} width={"80%"} destroyOnClose={true}>  */}
       <Tabs defaultActiveKey="1" items={items} />
+      <Modal open={modalInformeVisible} title={"Informe de Operaciones"} onCancel={() => { setModalInformeVisible(false) }} footer={null} width={"90%"} destroyOnClose={true}>
+        <ImpresionResumen
+          cliente={dataCliente}
+          operaciones={
+            filtrarPorFecha && fechaFiltro
+              ? processAndSortArray(operaciones, fechaFiltro)
+              : operaciones
+          }
+        />
+      </Modal>
     </div>
   );
 }

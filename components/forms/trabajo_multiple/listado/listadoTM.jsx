@@ -144,7 +144,7 @@ const ListadoVentasTM = (_) => {
       dataIndex: "estado",
       render: (_, { estado, isParent, estado_trabajo }) => {
         if (+isParent === 0) {
-          if (true == ignorar_paso_taller) {
+          if (true == ignorar_paso_taller || "ANULADO" == estado || "ENTREGADO" == estado) {
             return "";
           }
           return (
