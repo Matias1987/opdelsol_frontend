@@ -97,7 +97,7 @@ const HelperToolTip = ({ disabled, callback, value, onChange, prefix, pWidth, po
     };
   }
 
-    // Función de formateo y validación simplificada
+  // Función de formateo y validación simplificada
   const procesarFormato = (texto) => {
     let valor = texto.trim();
 
@@ -125,11 +125,20 @@ const HelperToolTip = ({ disabled, callback, value, onChange, prefix, pWidth, po
     const resultado = procesarFormato(internalValue);
 
     if (resultado.valido) {
-     
+
       setInternalValue(resultado.valorProcesado);
+      let _enabled = enabled;
+      //alert(_enabled)
+      if(parseFloat(resultado.valorProcesado)==0){
+        _enabled=false;
+      }
+      const v1 = (_enabled ? "-" : "+") + resultado.valorProcesado;
+      //alert(v1)
+      onChange?.(v1);
       setError(false);
     } else {
-       setInternalValue("0.00")
+      setInternalValue("0.00")
+      onChange?.("+0.00");
       setError(true); // Muestra error si ingresó letras o signos inválidos
     }
   };
@@ -143,8 +152,8 @@ const HelperToolTip = ({ disabled, callback, value, onChange, prefix, pWidth, po
             onChange={(v) => {
               let e = true;
               if (/\+/.test(v)) {
-                e=false;
-              } 
+                e = false;
+              }
               const v1 = (e ? "-" : "+") + internalValue;
               setEnabled(e);
               onChange?.(v1);
@@ -168,10 +177,9 @@ const HelperToolTip = ({ disabled, callback, value, onChange, prefix, pWidth, po
           option.value.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1
         }
         onChange={(e) => {
-          let _value = e||"";
+          let _value = e || "";
 
-          if(_value.length<1)
-          {
+          if (_value.length < 1) {
             onChange?.("");
           }
 
@@ -179,27 +187,26 @@ const HelperToolTip = ({ disabled, callback, value, onChange, prefix, pWidth, po
           if (/\+|\-/.test(_value)) {
             if (/\+/.test(_value)) {
               //setEnabled(false);
-              _enabled=false;
+              _enabled = false;
             } else {
               //setEnabled(true);
-              _enabled=true;
+              _enabled = true;
             }
             //remove + or - for validation
             _value = _value.replace(/\+|\-/, "");
           }
 
-          if(_value.toString()=="0.00")
-          {
+          if (_value.toString() == "0.00") {
             //alert(positiveZero ? "El valor 0.00 se interpretará como positivo." : "El valor 0.00 se interpretará como negativo.");
-            _enabled= positiveZero ?  false : true;
+            _enabled = positiveZero ? false : true;
           }
           setEnabled(_enabled)
           setInternalValue(_value);
           const v1 = (_enabled ? "-" : "+") + _value;
-          
+
           onChange?.(v1);
         }}
-        onFocus={(e)=>e.target.select()}
+        onFocus={(e) => e.target.select()}
 
 
       />
