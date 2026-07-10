@@ -29,6 +29,7 @@ const ListadoVentasTM = (_) => {
   const [ventaSeleccionada, setVentaSeleccionada] = useState(null);
   const [reload, setReload] = useState(false);
   const [formsEnabled, setFormEnabled] = useState(true);
+  const [loading, setLoading] = useState(false);
   const columns = [
     {
       render: (_, record) => <></>,
@@ -275,12 +276,14 @@ const ListadoVentasTM = (_) => {
     },
   ];
   const load = () => {
+    setLoading(true);
     setFormEnabled(false);
     fetch(get.obtener_ventas_tm + globals.obtenerSucursal() + "/0")
       .then((response) => response.json())
       .then((response) => {
         setData(response.data);
         setFormEnabled(true);
+        setLoading(false);
       });
   };
 
@@ -350,6 +353,7 @@ const ListadoVentasTM = (_) => {
         <Row>
           <Col>
             <Table
+              loading={loading}
               columns={columns}
               dataSource={data}
               scroll={{ y: "300" }}
