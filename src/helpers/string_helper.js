@@ -59,7 +59,83 @@ const parse_DMY_date = (_date) => {
     return new Date(parts[2],parts[1]-1,parts[0])
 }
 
+
+function numeroATexto(num) {
+    
+  const unidades = [
+    "cero", "uno", "dos", "tres", "cuatro",
+    "cinco", "seis", "siete", "ocho", "nueve"
+  ];
+
+  const especiales = [
+    "diez", "once", "doce", "trece", "catorce",
+    "quince", "dieciséis", "diecisiete", "dieciocho", "diecinueve"
+  ];
+
+  const decenas = [
+    "", "diez", "veinte", "treinta", "cuarenta",
+    "cincuenta", "sesenta", "setenta", "ochenta", "noventa"
+  ];
+
+  const centenas = [
+    "", "cien", "doscientos", "trescientos", "cuatrocientos",
+    "quinientos", "seiscientos", "setecientos", "ochocientos", "novecientos"
+  ];
+
+  function convertirMenorMil(n) {
+    if (n < 10) return unidades[n];
+    if (n < 20) return especiales[n - 10];
+    if (n < 100) {
+      const d = Math.floor(n / 10);
+      const u = n % 10;
+      return u === 0 ? decenas[d] : decenas[d] + " y " + unidades[u];
+    }
+    if (n < 1000) {
+      const c = Math.floor(n / 100);
+      const resto = n % 100;
+      if (n === 100) return "cien";
+      return centenas[c] + (resto > 0 ? " " + convertirMenorMil(resto) : "");
+    }
+    return "";
+  }
+
+  function convertirEntero(n) {
+    if (n === 0) return "cero";
+    let texto = "";
+    const millones = Math.floor(n / 1000000);
+    const miles = Math.floor((n % 1000000) / 1000);
+    const resto = n % 1000;
+
+    if (millones > 0) {
+      texto += millones === 1 ? "un millón" : convertirMenorMil(millones) + " millones";
+    }
+    if (miles > 0) {
+      if (texto) texto += " ";
+      texto += miles === 1 ? "mil" : convertirMenorMil(miles) + " mil";
+    }
+    if (resto > 0) {
+      if (texto) texto += " ";
+      texto += convertirMenorMil(resto);
+    }
+    return texto;
+  }
+
+  // separar parte entera y decimal
+  const [enteroStr, decimalStr] = parseFloat(num).toFixed(2).split(".");
+  const entero = parseInt(enteroStr, 10);
+  const decimal = parseInt(decimalStr, 10);
+
+  let resultado = "pesos: " +  convertirEntero(entero) + " ";
+  if (decimal > 0) {
+    resultado += " con " + convertirMenorMil(decimal) + " centavos";
+  }
+
+  return resultado;
+}
+
 const convertToWords = (value, centavos=true) => {
+    return numeroATexto(value).toUpperCase()
+    /*
     //#region
     const unidades = [
         "uno","dos","tres","cuatro","cinco","seis","siete","ocho","nueve",
@@ -249,7 +325,7 @@ const convertToWords = (value, centavos=true) => {
 	{
 		return  str_int.toUpperCase() + " PESOS";
 	}
-
+ */
 
 
 	

@@ -95,6 +95,13 @@ const SearchStockVentas = (props) => {
                             unCheckedChildren="Descripción" 
                         /></>}
  */
+/*
+addonAfter={
+              <Button size="large" type="text" onClick={_=>{setModalQROpen(true);}}>
+                <QrcodeOutlined size={"large"} style={{ fontSize: "32px" }} />
+              </Button>
+            }
+*/
   return (
     <>
       <Row gutter={[16, 16]}>
@@ -114,11 +121,7 @@ const SearchStockVentas = (props) => {
                 onSearch();
               }
             }}
-            addonAfter={
-              <Button size="large" type="text" onClick={_=>{setModalQROpen(true);}}>
-                <QrcodeOutlined size={"large"} style={{ fontSize: "32px" }} />
-              </Button>
-            }
+            
           />
         </Col>
       </Row>

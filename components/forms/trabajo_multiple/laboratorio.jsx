@@ -5,6 +5,7 @@ import { get, post } from "@/src/urls";
 import SelectCodigoVenta from "../ventas/SelectCodigoVenta";
 import globals from "@/src/globals";
 import HelperToolTip from "../ventas/common/HelperToolTip";
+import SelectDisenioV2 from "./form_elements/SelectDisenioV2";
 
 const LaboratorioForm = ({ callback, idCliente, onComentariosChange }) => {
   const [ojos, setOjos] = useState("ambos");
@@ -172,7 +173,7 @@ const LaboratorioForm = ({ callback, idCliente, onComentariosChange }) => {
                             />
                           </Col>
                           <Col span={10}>
-                            <SelectDisenio
+                            <SelectDisenioV2
                               idcliente={idCliente}
                               callback={(v) => {
                                 //alert(JSON.stringify(v));
@@ -250,7 +251,7 @@ const LaboratorioForm = ({ callback, idCliente, onComentariosChange }) => {
                             />
                           </Col>
                           <Col span={10}>
-                            <SelectDisenio
+                            <SelectDisenioV2
                               idcliente={idCliente}
                               callback={(v) => {
                                 setProductos((p) => {

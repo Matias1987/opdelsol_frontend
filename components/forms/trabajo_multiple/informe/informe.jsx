@@ -44,7 +44,7 @@ const Informe = ({ idventa }) => {
           </tr>
           <tr>
             <td>Operaci&oacute;n N°: <span style={{fontWeight:"600"}}>{data?.idventa}</span></td>
-            <td>Cliente ID: {data?.cliente_idcliente} | {data?.cliente}</td>
+            <td>Cliente: {data?.cliente}</td>
           </tr>
           <tr>
             <td>Fecha: {data?.fecha_f}</td>
@@ -88,7 +88,7 @@ const Informe = ({ idventa }) => {
             return (
               <tr>
                 <th style={{ ...td_style, width: "70px", textAlign:"right" }}>{i.tipo}</th>
-                <td style={{ ...td_style, textAlign:"center"}}>{i.detalle_trabajo + ' | ' +  i.codigo}</td>
+                <td style={{ ...td_style, textAlign:"center"}}>{(i.detalle_trabajo + ' | ' +  i.codigo).toUpperCase().replace(/_/g, " ")}</td>
                 <td style={{ ...td_style, textAlign: "right" }}>{i.esf}</td>
                 <td style={{ ...td_style, textAlign: "right" }}>{i.cil}</td>
                 <td style={{ ...td_style, textAlign: "right" }}>{i.eje}</td>
@@ -138,7 +138,7 @@ const Informe = ({ idventa }) => {
             return (
               <tr>
                 <th style={{ ...td_style, width: "70px", textAlign:"right" }}>{i.tipo}</th>
-                <td style={{ ...td_style, textAlign:"center"}}>{i.codigo}</td>
+                <td style={{ ...td_style, textAlign:"center"}}>{(i.codigo).toUpperCase().replace(/_/g, " ")}</td>
                 <td style={{ ...td_style, textAlign: "right" }}>{i.eje}</td>
                 <td style={{ ...td_style, textAlign: "right" }}>$ {formatFloat(i.precio)}</td>
               </tr>
