@@ -196,7 +196,7 @@ const submit_venta = (
 
         const __venta = {
             ...v, 
-            json_items: JSON.stringify(productos),
+            json_items: "",
             productos:productos, 
             tipo:tipo_vta, 
             total: total,
@@ -204,7 +204,9 @@ const submit_venta = (
             fkcaja: result.idcaja,
         }
 
-            const _res1 = validar_modo_pago(__venta.mp)
+        //alert(JSON.stringify(__venta))
+
+        const _res1 = validar_modo_pago(__venta.mp)
 
         if(_res1!=null){
             alert("Error. "+_res1.msg);

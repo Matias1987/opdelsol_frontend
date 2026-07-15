@@ -24,6 +24,7 @@ import { post_method } from "@/src/helpers/post_helper";
 import { registrar_evento } from "@/src/helpers/evento_helper";
 import { decimal_separator } from "@/src/config";
 import { formatFloat } from "@/src/helpers/formatters";
+import { v4 as uuidv4 } from 'uuid'; 
 const Resfuerzo = (props) => {
   const { callback, idventa, idcliente, title } = props;
   const [mp, setMP] = useState(null);
@@ -33,7 +34,7 @@ const Resfuerzo = (props) => {
   const [idCobro, setIdCobro] = useState(-1);
   const [descuento, setDescuento] = useState(0);
   const [informeOpen, setInformeOpen] = useState(false);
-
+  const [uid, setUID] = useState("");
   const onCobroSaved = (id) => {
     if (id < 1) {
       callback?.();
@@ -185,6 +186,7 @@ const Resfuerzo = (props) => {
       tipo: "resfuerzo",
       accion: "resfuerzo",
       removeCtaCteRow: 1,
+      uid: uid,
     };
 
     globals.obtenerCajaAsync((response) => {
@@ -274,6 +276,7 @@ const Resfuerzo = (props) => {
     );
 
   useEffect(() => {
+    setUID(uuidv4());
     load();
   }, []);
 

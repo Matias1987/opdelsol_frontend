@@ -15,6 +15,7 @@ import {
   registrar_evento,
 } from "@/src/helpers/evento_helper";
 import ModoPagoV4 from "../modo_pago/ModoPagoV4";
+import { v4 as uuidv4 } from 'uuid'; 
 
 /**
  *

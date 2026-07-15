@@ -20,8 +20,10 @@ import { post_method } from "@/src/helpers/post_helper";
 import AgregarProductoFactura from "./agregarProductoFactura";
 import globals from "@/src/globals";
 import ProveedorForm from "@/components/forms/ProveedorForm";
+import { v4 as uuidv4 } from 'uuid'; 
 
 const AgregarFacturaV3 = (props) => {
+  const [uid, setUID] = useState("");
   const [factura, setFactura] = useState({
     conceptosNoGravados: 0,
     impuestosInternos: 0,
@@ -145,6 +147,8 @@ const AgregarFacturaV3 = (props) => {
   ];
 
   useEffect(() => {
+    setUID(uuidv4());
+
     if ("undefined" !== typeof props.idproveedor) {
       setProveedorSelectEnabled(false);
       setFactura((_f) => ({ ..._f, fkproveedor: props.idproveedor }));
@@ -239,6 +243,7 @@ const AgregarFacturaV3 = (props) => {
       retenciones: retencionRows,
       esremito: esRemito ? 1 : 0,
       idsucursal: globals.obtenerSucursal(),
+      uid: uid,
     };
     //console.log(JSON.stringify(data))
     // alert(JSON.stringify(data))

@@ -16,6 +16,7 @@ import esES from "antd/locale/es_ES";
 import SelectCuentaBancaria from "@/components/cuenta_bancarias/selectCuentaBancaria";
 import SeleccionCompraAPagar from "./SeleccionCompraAPagar";
 import { ArrowLeftOutlined, ArrowRightOutlined } from "@ant-design/icons";
+import { v4 as uuidv4 } from 'uuid'; 
 const AgregarPagoProveedor = (props) => {
   const [comprasSeleccionadas, setComprasSeleccionadas] = useState([]);
   const [totalAPagar, setTotalAPagar] = useState(0);
@@ -44,6 +45,7 @@ const AgregarPagoProveedor = (props) => {
     moneda: props.moneda,
   });
   const [reload, setReload] = useState(false);
+  const [uid, setUID] = useState("");
 
   const guardar_click = () => {
     /*
@@ -96,6 +98,7 @@ const AgregarPagoProveedor = (props) => {
       cheque: mpCheque,
       transferencia: mpTransferencia,
       compras: comprasSeleccionadas,
+      uid:uid,
     };
 
     setEnabled(false);
@@ -128,6 +131,7 @@ const AgregarPagoProveedor = (props) => {
   const update = (_) => setReload(!reload);
 
   useEffect(() => {
+    setUID(uuidv4());
     fetch(get.lista_bancos)
       .then((r) => r.json())
       .then((resp) => {

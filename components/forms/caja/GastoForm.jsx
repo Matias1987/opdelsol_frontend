@@ -10,9 +10,11 @@ import { get, post } from "@/src/urls";
 
 import { Form, Input, Select, Button, Row, Col }  from "antd";
 import { useState, useEffect } from "react";
+import { v4 as uuidv4 } from 'uuid'; 
 
 const GastoForm = (props) => {
   const [options, setOptions] = useState([]);
+  const [uid, setUID] = useState("");
   const [enabled, setEnabled] = useState(true);
   const [gasto, setGasto] = useState({
     idmotivo: null,
@@ -29,6 +31,7 @@ const GastoForm = (props) => {
   };
 
   useEffect(() => {
+    setUID(uuidv4());
     fetch(get.conceptos_gasto)
       .then((response) => response.json())
       .then((response) => {
@@ -78,6 +81,7 @@ const GastoForm = (props) => {
         caja_idcaja: result.idcaja,
         usuario_idusuario: globals.obtenerUID(),
         sucursal_idsucursal: globals.obtenerSucursal(),
+        uid: uid,
       };
       post_method(post.insert.gasto, data, (response) => {
         alert("OK");

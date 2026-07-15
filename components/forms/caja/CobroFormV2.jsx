@@ -17,6 +17,7 @@ import {
 import ModoPagoV4 from "../modo_pago/ModoPagoV4";
 import { formatFloat } from "@/src/helpers/formatters";
 import { decimal_separator } from "@/src/config";
+import { v4 as uuidv4 } from 'uuid'; 
 
 /**
  *
@@ -45,7 +46,10 @@ const CobroOperacionV2 = (props) => {
   const [descuento, setDescuento] = useState(0);
   const [comentarioCliente, setComentarioCliente] = useState(null);
 
+  const [uid, setUID] = useState("");
+
   useEffect(() => {
+    setUID(uuidv4());
     load();
   }, []);
 
@@ -320,6 +324,7 @@ const CobroOperacionV2 = (props) => {
       fecha: current_date_ymd(),
       tk: globals.getToken(),
       comentario_cliente: comentarioCliente,
+      uid: uid,
     };
 
     params =

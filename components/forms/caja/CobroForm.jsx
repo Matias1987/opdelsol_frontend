@@ -11,6 +11,7 @@ import VentaDetallePopup from "@/components/VentaDetalle";
 import { current_date_ymd } from "@/src/helpers/string_helper";
 import { registrarVentaEntregada, registrarVentaPendiente, registrar_evento } from "@/src/helpers/evento_helper";
 import ModoPagoV4 from "../modo_pago/ModoPagoV4";
+import { v4 as uuidv4 } from 'uuid'; 
 
 /**
  * 
@@ -39,6 +40,8 @@ export default function CobroOperacion(props){
     const [cobrarDisabled, setCobrarDisabled] = useState(false)
 
     const [descuento, setDescuento] = useState(0)
+
+    const [uid, setUID] = useState("");
     
 
     /**     2/9/2023
@@ -50,6 +53,7 @@ export default function CobroOperacion(props){
      * this is mean to be executed twice: after the initial load and when idcobro changes (i.e. when the cobro is created...), I dunno if this is a good way 
      */
     useEffect(()=>{
+        setUID(uuidv4());
         if(idCobro>-1){
             
             /**
@@ -255,6 +259,7 @@ export default function CobroOperacion(props){
             descuento: descuento,
             fecha: current_date_ymd(),
             tk: globals.getToken(),
+            uid: uid,
         }
 
         params = typeof props.idventa === 'undefined' ? params : {...params,idventa:props.idventa} 

@@ -20,7 +20,7 @@ import {
   Table,
 } from "antd";
 import { useEffect, useState } from "react";
-
+import { v4 as uuidv4 } from 'uuid'; 
 const AsignarPagos = ({ idproveedor, moneda, modo, callback }) => {
   const [dataPagos, setDataPagos] = useState(null);
   const [compras, setCompras] = useState([]);
@@ -34,7 +34,7 @@ const AsignarPagos = ({ idproveedor, moneda, modo, callback }) => {
   const [editPopupVisible, setEditPopupVisible] = useState(false);
   const [btnGuardarEnabled, setBtnGuardarEnabled] = useState(true);
   const [selectPagoEnabled, setSelectPagoEnabled] = useState(true);
-
+  const [uid, setUID] = useState("");
   //const [selectCompraEnabled, setSelectCompraEnabled] = useState(false);
 
   const columns_pagos = [
@@ -407,6 +407,7 @@ const AsignarPagos = ({ idproveedor, moneda, modo, callback }) => {
   };
 
   useEffect(() => {
+    setUID(uuidv4());
     load();
   }, []);
 
@@ -442,6 +443,7 @@ const AsignarPagos = ({ idproveedor, moneda, modo, callback }) => {
       idpago: selectedPago.id,
       compras: cApagar,
       cm: cm.filter((c) => c.checked),
+      uid: uid,
     };
     setBtnGuardarEnabled(false);
     post_method(post.asignar_pagos, data, (response) => {

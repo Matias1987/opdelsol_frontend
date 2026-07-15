@@ -24,13 +24,14 @@ import {
   TimePicker,
 } from "antd";
 import esES from "antd/locale/es_ES";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ModoPagoV4 from "../modo_pago/ModoPagoV4";
 import SelectVendedor from "@/components/usuario/vendedor/SelectVendedor";
 import { public_urls } from "@/src/urls";
 import { CloseOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
 import SelectClienteV2 from "./SelectClienteV2";
+import { v4 as uuidv4 } from 'uuid'; 
 
 /* leer: https://refine.dev/blog/common-usestate-mistakes-and-how-to-avoid/ */
 /**
@@ -40,6 +41,7 @@ import SelectClienteV2 from "./SelectClienteV2";
  */
 export default function VentaBaseV3(props) {
   const date = new Date();
+  const [uid, setUID] = useState("");
   const [btnEnabled, setBtnEnabled] = useState(true);
   const [current, setCurrent] = useState(0);
   const [venta, setVenta] = useState({
@@ -68,6 +70,8 @@ export default function VentaBaseV3(props) {
     validarCristalesModo2: true,
   });
 
+  useEffect(()=>{setUID(uuidv4());}, [])
+
   const onChange = (field, value) => {
     setVenta((venta) => {
       const __venta = { ...venta, [field]: value };
@@ -86,7 +90,7 @@ export default function VentaBaseV3(props) {
     }
     setBtnEnabled(false);
     setVenta((venta) => {
-      props?.onfinish?.({ ...venta, fkusuario: idvendedor }, (_) => {
+      props?.onfinish?.({ ...venta, fkusuario: idvendedor, uid }, (_) => {
         setBtnEnabled(true);
       });
       return { ...venta, fkusuario: idvendedor };
