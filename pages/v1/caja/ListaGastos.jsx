@@ -1,6 +1,7 @@
 import GastoForm from "@/components/forms/caja/GastoForm";
 import LayoutCaja from "@/components/layout/layout_caja";
 import globals from "@/src/globals";
+import { formatFloat } from "@/src/helpers/formatters";
 import { get } from "@/src/urls";
 import { Button, Card, Modal, Table } from "antd";
 import { useEffect, useState } from "react";
@@ -57,9 +58,9 @@ export default function ListaGastos(){
         dataSource={gastos} 
         columns={
             [
-                {width:"100px", dataIndex: "idgasto", title: "Nro."},
-                {width:"100px", dataIndex: "fecha_f", title: "Fecha"},
-                {width:"100px", dataIndex: "monto", title: "Monto"},
+                {width:"50px", dataIndex: "idgasto", title: "Nro."},
+                {width:"50px", dataIndex: "fecha_f", title: "Fecha"},
+                {width:"60px", dataIndex: "monto", title: <div style={{textAlign:"right"}}>Monto</div>, render:(_,{monto})=><div style={{textAlign:"right"}}>$ {formatFloat(monto)}</div>},
                 {width:"100px", dataIndex: "concepto_gasto", title: "Concepto"},
             ]
         } />

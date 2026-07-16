@@ -4,16 +4,14 @@ import LayoutCaja from "@/components/layout/layout_caja";
 import LayoutVentas from "@/components/layout/layout_ventas";
 import globals from "@/src/globals";
 
-export default function NuevoEnvio(){
-
-
-    return (
-        <>
-        
-        <EnvioForm  action="NONE" />
-        </>
-    )
-
+export default function NuevoEnvio() {
+  return (
+    <>
+      <EnvioForm action="NONE" />
+    </>
+  );
 }
 
-NuevoEnvio.PageLayout = globals.esUsuarioDepositoMin() ? LayoutVentas : MyLayout;
+NuevoEnvio.PageLayout = globals.esUsuarioDepositoMin()
+  ? LayoutVentas
+  : MyLayout;

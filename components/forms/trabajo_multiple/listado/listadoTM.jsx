@@ -360,7 +360,7 @@ const ListadoVentasTM = (_) => {
               size="small"
               rowClassName={(record, index) =>
                 +record.idtrabajo < 0 || +record.isParent == 1
-                  ? "table-row-light"
+                  ? index % 2 === 0 ? "table-row-light" : "table-row-dark"
                   : "table-row-light-yellow"
               }
             />

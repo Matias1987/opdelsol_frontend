@@ -34,7 +34,6 @@ export default function clientes() {
           <Button type="link" onClick={(_) => onFichaClienteClick(record)}>
             <InfoCircleFilled /> Detalles
           </Button>
-          {/*<Button type="link" onClick={_=>onDetalleClienteClick(record)}>Detalle</Button>*/}
         </>
       ),
     },
@@ -147,6 +146,9 @@ export default function clientes() {
         }
       >
         <Table
+          rowClassName={(record, index) =>
+            index % 2 === 0 ? "table-row-light" : "table-row-dark"
+          }
           dataSource={
             searchString.trim().length > 0
               ? data.filter((record) =>
