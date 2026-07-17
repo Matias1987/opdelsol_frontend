@@ -19,15 +19,33 @@ import SubGroupSelect from "../SubGroupSelect";
 import GrupoSelect from "../GrupoSelect";
 import SubFamiliaSelect from "../SubFamiliaSelect";
 import FamiliaSelect from "../FamiliaSelect";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const SideMenuListaStock = (props) => {
-  const { folded, onMenuFoldedClick, onMenuUnfoldedClick, callback, loading } = props;
+  const { folded, onMenuFoldedClick, onMenuUnfoldedClick, callback, loading, defIdSubgrupo } = props;
   const [orden, setOrden] = useState("");
   const [tipoFiltro, setTipoFiltro] = useState("");
   const [valorFiltro, setValorFiltro] = useState(null);
   const [tags, setTags] = useState([]);
   const [filtros, setFiltros] = useState([]);
+
+  useEffect(()=>{
+    if(defIdSubgrupo){
+      //alert(defIdSubgrupo)
+      const ff = [
+        {
+          tipo: "subgrupo",
+          valor: defIdSubgrupo,
+          descripcion: "Subgrupo",
+        },
+      ]
+      setFiltros(ff);
+      callback?.({filtros: ff, tags:[]});
+    }
+    else{
+      setFiltros([])
+    }
+  },[defIdSubgrupo])
 
   const agregar_filtro = () => {
     if(!valorFiltro)

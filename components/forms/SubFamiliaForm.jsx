@@ -3,9 +3,10 @@ import LoadSelect from "../LoadSelect";
 import { PlusCircleOutlined } from "@ant-design/icons";
 import { useState } from "react";
 import FamiliaForm from "./FamiliaForm";
+import { post } from "@/src/urls";
+import { post_method } from "@/src/helpers/post_helper";
 
-const urls = require("../../src/urls")
-const post_helper = require("../../src/helpers/post_helper")
+
 
 const SubFamiliaForm = (props) =>{
 
@@ -13,7 +14,7 @@ const SubFamiliaForm = (props) =>{
     const [popup_open,setPopupOpen] = useState(false);
     const [reload, setReload] = useState(false) 
     const agregar = ( _values ) => {
-        post_helper.post_method(urls.post.insert.subfamilia,_values,(res)=>{
+        post_helper.post_method(post.insert.subfamilia,_values,(res)=>{
 
             if(res.status == "OK"){
                 alert("Datos Guardados")
@@ -30,7 +31,7 @@ const SubFamiliaForm = (props) =>{
             case 'ADD': 
                 agregar(values);
               break;
-            case 'EDIT': post_helper.post_method(urls.post.update.subfamilia,values,(res)=>{
+            case 'EDIT': post_method(urls.post.update.subfamilia,values,(res)=>{
               if(res.status == "OK"){alert("Cambios Guardados")}else{alert("Error.")}});
               break;
             };

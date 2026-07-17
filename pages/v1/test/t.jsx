@@ -3,6 +3,7 @@
 //import EdicionVentas from "@/components/edicion_ventas/EdicionVentas";
 //import TestGridCreation from "@/components/etc/testGridCreation";
 import NuevoDescuento from "@/components/cliente/descuentos/nuevoDescuento";
+import IconViewSubgrupoSelector from "@/components/deposito/iconViewSubgrupoSelector";
 import TestGridCreation from "@/components/etc/testGridCreation";
 import TrabajoMultiple from "@/components/forms/trabajo_multiple/venta_multiple";
 //import TrabajoRecetaStock from "@/components/forms/ventas/trabajo/trab_receta_stock";
@@ -193,8 +194,10 @@ const rowSelection = {
         dataSource={data}
       />
       </Col></Row>
-      </Card>*/}
-<TestGridCreation />
+      </Card>
+      <TestGridCreation />
+      */}
+      <IconViewSubgrupoSelector />
     </div>
   );
 }

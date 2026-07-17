@@ -4,7 +4,7 @@ import EditarStockIndiv from "@/components/forms/deposito/EditarStockIndiv";
 import globals from "@/src/globals";
 import { post_method } from "@/src/helpers/post_helper";
 import { get, post } from "@/src/urls";
-import { Card, Col, Modal, Row } from "antd";
+import { Button, Card, Col, Modal, Row } from "antd";
 import { useEffect, useState } from "react";
 import TagsLote from "@/components/etiquetas/TagsLote";
 import DetalleStock from "@/components/forms/deposito/detalle/DetalleStock";
@@ -16,6 +16,8 @@ import SucursalSelect from "../SucursalSelect";
 import CodeGridHTMLTipos from "../etc/CodeGridHTMLTipos";
 import GridBifocalesTipos from "../etc/GridBifocalesTipos";
 import GridMonofTipos from "../etc/GridMonofTipos";
+import IconViewSubgrupoSelector from "./iconViewSubgrupoSelector";
+import { CloseOutlined } from "@ant-design/icons";
 
 const ModificarStock = (props) => {
   const [usuarioDep, setUsuarioDep] = useState(false);
@@ -36,7 +38,7 @@ const ModificarStock = (props) => {
     useState(false);
   const [selectedIdCodigo, setSelectedIdCodigo] = useState(-1);
   const [open, setOpen] = useState(false);
-  const [menuFolded, setMenuFolded] = useState(false);
+  const [menuFolded, setMenuFolded] = useState(true);
 
   const [filtros, setFiltros] = useState(null);
 
@@ -50,6 +52,7 @@ const ModificarStock = (props) => {
 
   const [sucuralSelectEnabled, setSucursalSelectEnabled] = useState(false);
 
+  const [defIdSubgrupo, setDefIdSubgrupo] = useState(null);
   //const regexp_bif = /^([0-9\.]{0,})([A-Z_]+)(_)([\-|\+]?[0-9\.]+)(_)(L|R)(_ADD_)([0-9\.]+)/;
   const regexp_bif = /(_)(L|R)(_ADD_)/;
   const regexp_monof = /^([A-Z_0-9\.]+)(_)([0-9\.]+)($)/;
@@ -80,7 +83,6 @@ const ModificarStock = (props) => {
             reload={valueChanged}
             idsubgrupo={idsubgrupo}
             idsucursal={idsucursal}
-            
           />
         );
       }
@@ -91,7 +93,9 @@ const ModificarStock = (props) => {
             codigosSrc={data}
             key={codesChanged}
             idsucursal={idsucursal}
-            onHasToUpdate={_=>{setValueChanged(!valueChanged)}}
+            onHasToUpdate={(_) => {
+              setValueChanged(!valueChanged);
+            }}
           />
         );
       }
@@ -100,10 +104,11 @@ const ModificarStock = (props) => {
         return (
           <GridMonofTipos
             codigosSrc={data}
-           
             key={codesChanged}
             idsucursal={idsucursal}
-            onHasToUpdate={_=>{setValueChanged(!valueChanged)}}
+            onHasToUpdate={(_) => {
+              setValueChanged(!valueChanged);
+            }}
           />
         );
       }
@@ -161,8 +166,8 @@ const ModificarStock = (props) => {
   const onItemCBChecked = (e, idcodigo) => {
     setData((_data) =>
       _data.map((d) =>
-        d.idcodigo == idcodigo ? { ...d, checked: e.target.checked } : d
-      )
+        d.idcodigo == idcodigo ? { ...d, checked: e.target.checked } : d,
+      ),
     );
   };
 
@@ -176,7 +181,7 @@ const ModificarStock = (props) => {
       (response) => {
         //alert("disparado desde cambiar_estados_codigos")
         setValueChanged(!valueChanged);
-      }
+      },
     );
   };
 
@@ -291,7 +296,7 @@ const ModificarStock = (props) => {
             activo: row.activo,
             stock_ideal: row.stock_ideal,
             stock_critico: row.stock_critico,
-          }))
+          })),
         );
       }
 
@@ -312,57 +317,21 @@ const ModificarStock = (props) => {
           <Col span={24}>
             <Row>
               <Col span={24}>
-                {menuFolded ? (
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "row-reverse",
-                      paddingRight: "18px",
-                      paddingTop: "3px",
-                      paddingBottom: "3px",
-                      backgroundColor: "#f1f6ffff",
-                      marginTop: "12px",
-                    }}
-                  >
-                    <span
-                      style={{
-                        fontWeight: "600",
-                        fontSize: "1.3em",
-                        color: "#070063ff",
-                      }}
-                    >
-                      {nombreSucursal}
-                    </span>
-                  </div>
-                ) : (
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "row",
-                      paddingLeft: "18px",
-                      paddingTop: "3px",
-                      paddingBottom: "3px",
-                      backgroundColor: "#f1f6ffff",
-                      marginTop: "12px",
-                    }}
-                  >
-                    <SucursalSelect
-                      disabled={!sucuralSelectEnabled}
-                      addNullOption={false}
-                      size="large"
-                      idsucursal={idsucursal}
-                      callback={(_idsucursal, _sucursal_nombre) => {
-                        //alert("Sucursal cambiada a: " + _sucursal_nombre);
-                        setIdSucursal(_idsucursal);
-                        if (idsucursal != _idsucursal) {
-                          setData([]);
-                        }
+                <SucursalSelect
+                  disabled={!sucuralSelectEnabled}
+                  addNullOption={false}
+                  size="large"
+                  idsucursal={idsucursal}
+                  callback={(_idsucursal, _sucursal_nombre) => {
+                    //alert("Sucursal cambiada a: " + _sucursal_nombre);
+                    setIdSucursal(_idsucursal);
+                    if (idsucursal != _idsucursal) {
+                      setData([]);
+                    }
 
-                        setNombreSucursal(_sucursal_nombre);
-                      }}
-                    />
-                  </div>
-                )}
+                    setNombreSucursal(_sucursal_nombre);
+                  }}
+                />
               </Col>
             </Row>
           </Col>
@@ -370,6 +339,8 @@ const ModificarStock = (props) => {
         <Row>
           <Col style={{ padding: "16px", width: menuFolded ? "100px" : "30%" }}>
             <SideMenuListaStock
+              key={defIdSubgrupo}
+              defIdSubgrupo={defIdSubgrupo}
               loading={loading}
               onMenuUnfoldedClick={(_) => {
                 setMenuFolded(false);
@@ -387,13 +358,48 @@ const ModificarStock = (props) => {
                 }
 
                 setFiltros(data);
-                //alert("disparado desde el boton de la barra del costado")
+                //alert("disparado desde el boton de la barra del costado");
                 setValueChanged(!valueChanged);
               }}
               folded={menuFolded}
             />
           </Col>
           <Col style={{ width: menuFolded ? "100%" : "70%", padding: "6px" }}>
+            <Row>
+              <Col span={24}>
+                {data.length > 0 ? (
+                  <div style={{padding:"8px"}}>
+                    <Button
+                      size="small"
+                      type="link"
+                      danger
+                      onClick={(_) => {
+                        setData([]);
+                        setFiltros(null);
+                      }}
+                    >
+                      <CloseOutlined />{" "}
+                      <span style={{ fontStyle: "italic" }}>
+                        {" "}
+                        Limpiar Resultados de B&uacute;squeda
+                      </span>
+                    </Button>
+                  </div>
+                ) : (
+                  <>
+                    <IconViewSubgrupoSelector
+                      callback={(_idsubgrupo) => {
+                        if (null === _idsubgrupo) {
+                          setData([]);
+                          return;
+                        }
+                        setDefIdSubgrupo(_idsubgrupo);
+                      }}
+                    />
+                  </>
+                )}
+              </Col>
+            </Row>
             <Row key={data}>
               <Col span={24}>{get_grid()}</Col>
             </Row>

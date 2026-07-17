@@ -824,3 +824,9 @@ danger list
   font-weight: bold;         /* Font weight */
   font-size: 14px;           /* Font size */
 }
+
+.disable-select {
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none;     /* IE 10 and Consumer Edge */
+  user-select: none;         /* Standard syntax for Chrome, Firefox, Opera */
+}
