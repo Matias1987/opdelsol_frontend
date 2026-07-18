@@ -5,6 +5,8 @@ import {
   FileOutlined,
   FolderFilled,
   FolderOutlined,
+  FolderTwoTone,
+  FolderViewOutlined,
   GroupOutlined,
   InfoOutlined,
   PlusOutlined,
@@ -43,7 +45,7 @@ const IconViewSubgrupoSelector = ({ callback }) => {
     ) : (
       <FolderFilled
         className="disable-select"
-        style={{ fontSize: "48px", color: "#FFCD42" }}//#ff9307
+        style={{ fontSize: "48px", color: "#FFE8A0" }}//#ff9307
       />
     );
   };
@@ -201,7 +203,7 @@ const IconViewSubgrupoSelector = ({ callback }) => {
           onClick={(_) => {
             setAddFOpen(true);
           }}
-          style={{ fontWeight: "600", color: "#7a1616" }}
+          style={{ fontWeight: "600", color: "#293338" }}
         >
           <PlusOutlined /> Nuevo
         </Button>
@@ -249,13 +251,14 @@ const IconViewSubgrupoSelector = ({ callback }) => {
     <>
       <Card
         size="small"
-        styles={{ body: { backgroundColor:"#F0F2F5", boxShadow: "1px 1px 1px 1px rgba(154, 154, 155, 0.6)" } }}
-        extra={
+        styles={{ body: { backgroundColor:"#F8F8F8", boxShadow: "1px 1px 1px 1px rgba(154, 154, 155, 0.6)" } }}
+        title={
           <Input
+            style={{width:"100%"}}
             allowClear
             onChange={(e) => setFiltroStr(e.target.value || "")}
             value={filtroStr}
-            addonBefore={<SearchOutlined />}
+            prefix={<SearchOutlined />}
           />
         }
       >
@@ -272,7 +275,7 @@ const IconViewSubgrupoSelector = ({ callback }) => {
             >
               {" "}
               <BackwardOutlined />
-              <span style={{ fontWeight: "600", color: "#7a1616" }}>
+              <span style={{ fontWeight: "600", color: "#293338" }}>
                 {" "}
                 {getPath(parent)}{" "}
               </span>

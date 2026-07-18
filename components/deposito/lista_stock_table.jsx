@@ -35,6 +35,7 @@ const StockTable = (props) => {
     verRutaCol,
     verTagsCol,
     verPrecioCol,
+    title,
   } = props;
 
   const [searchStr, setSearchStr] = useState("");
@@ -42,7 +43,7 @@ const StockTable = (props) => {
   const header = (_) => (
     <>
       <Row >
-        <Col span={24} style={{textAlign:"center", fontWeight:"500"}}>Listado de C&oacute;digos</Col>
+        <Col span={24} style={{textAlign:"center", fontWeight:"500"}}>Listado de C&oacute;digos - {title}</Col>
       </Row>
       <Row
         style={{

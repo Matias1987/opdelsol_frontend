@@ -18,6 +18,7 @@ import GridBifocalesTipos from "../etc/GridBifocalesTipos";
 import GridMonofTipos from "../etc/GridMonofTipos";
 import IconViewSubgrupoSelector from "./iconViewSubgrupoSelector";
 import { CloseOutlined } from "@ant-design/icons";
+import DetalleSubgrupo from "../DetalleSubgrupo";
 
 const ModificarStock = (props) => {
   const [usuarioDep, setUsuarioDep] = useState(false);
@@ -61,16 +62,17 @@ const ModificarStock = (props) => {
   const get_grid = () => {
     if (data.length < 1) {
       return (
-        <span
+        <div
           style={{
             padding: "16px",
             fontWeight: "500",
             fontSize: "1.1em",
             color: "#1215E5",
+            textAlign:"center"
           }}
         >
           <i></i>
-        </span>
+        </div>
       );
     }
 
@@ -116,6 +118,7 @@ const ModificarStock = (props) => {
 
     return (
       <StockTable
+        title={<DetalleSubgrupo idsubgrupo={idsubgrupo} />}
         data={data}
         loading={loading}
         onMenuOptionSelected={onMenuOptionSelected}

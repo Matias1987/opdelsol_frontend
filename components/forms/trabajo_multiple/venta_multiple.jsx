@@ -461,7 +461,7 @@ const TrabajoMultiple = ({
                 block
                 onClick={finalizar_venta}
               >
-                Imprimir Trabajo
+                Guardar Trabajos
               </Button>
             </Col>
           </Row>

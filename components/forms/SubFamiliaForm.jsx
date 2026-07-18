@@ -31,7 +31,7 @@ const SubFamiliaForm = (props) =>{
             case 'ADD': 
                 agregar(values);
               break;
-            case 'EDIT': post_method(urls.post.update.subfamilia,values,(res)=>{
+            case 'EDIT': post_method(post.update.subfamilia,values,(res)=>{
               if(res.status == "OK"){alert("Cambios Guardados")}else{alert("Error.")}});
               break;
             };
