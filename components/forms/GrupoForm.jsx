@@ -2,24 +2,29 @@ import { Button, Form, Input, Modal } from "antd";
 import SubFamiliaSelect from "../SubFamiliaSelect";
 import { PlusCircleOutlined } from "@ant-design/icons";
 import SubFamiliaForm from "./SubFamiliaForm";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import urls from "../../src/urls"
 import post_helper from "../../src/helpers/post_helper"
+import { v4 as uuidv4 } from 'uuid'; 
 
 const GrupoForm = (props) => {
     const [form] = Form.useForm();
     const [popup_open,setPopupOpen] = useState(false);
-    const [reload, setReload] = useState(false) 
+    const [reload, setReload] = useState(false);
+    const [uid, setUID] = useState("");
+    const [btnEnabled, setBtnEnabled] = useState(true);
+
+    useEffect(()=>{setUID(uuidv4());},[])
 
     const onFinish = (values) => {
         switch(props.action){
-            case 'ADD': post_helper.post_method(urls.post.insert.grupo,values,(res)=>{
+            case 'ADD': post_helper.post_method(urls.post.insert.grupo,{...values, uid},(res)=>{
               if(res.status == "OK"){
                 alert("Datos Guardados")
                 props?.callback?.()
             }else{alert("Error: " + res.data)}});
               break;
-            case 'EDIT': post_helper.post_method(urls.post.update.grupo,values,(res)=>{
+            case 'EDIT': post_helper.post_method(urls.post.update.grupo,{...values, uid},(res)=>{
               if(res.status == "OK"){alert("Cambios Guardados")}else{alert("Error.")}});
               break;
             };

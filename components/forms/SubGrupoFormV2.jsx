@@ -1,19 +1,22 @@
 import { PlusCircleOutlined } from "@ant-design/icons"
 import GrupoForm from "./GrupoForm"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import GrupoSelect from "../GrupoSelect"
-
 import { Form, Input, Button, Modal, Row, Col, Checkbox } from "antd"
 import { post_method } from "@/src/helpers/post_helper"
 import { post } from "@/src/urls"
+import { v4 as uuidv4 } from 'uuid'; 
 
 const SubGrupoFormV2 = (props) => {
     const [form] = Form.useForm();
 
     const [popup_open,setPopupOpen] = useState(false);
 
-    const [reload, setReload] = useState(false) 
+    const [reload, setReload] = useState(false);
 
+    const [uid, setUID] = useState("");
+
+    useEffect(()=>{setUID(uuidv4());},[]);
     
     const [subgrupo, setSubgrupo] = useState({
         grupo_idgrupo: null,
@@ -36,7 +39,7 @@ const SubGrupoFormV2 = (props) => {
             return
         }
         switch(props.action){
-            case 'ADD': post_method(post.insert.subgrupo,subgrupo,(res)=>{
+            case 'ADD': post_method(post.insert.subgrupo,{...subgrupo, uid},(res)=>{
               if(res.status == "OK"){
                 alert("Datos Guardados")
                 props?.callback?.()
@@ -44,7 +47,7 @@ const SubGrupoFormV2 = (props) => {
                 alert("Error: " + res.data)
             }});
               break;
-            case 'EDIT': post_method(post.update.subgrupo,subgrupo,(res)=>{
+            case 'EDIT': post_method(post.update.subgrupo,{...subgrupo, uid},(res)=>{
               if(res.status == "OK"){alert("Cambios Guardados")}else{alert("Error.")}});
               break;
             }

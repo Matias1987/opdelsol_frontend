@@ -4,11 +4,13 @@ import { post_method } from "@/src/helpers/post_helper";
 import { current_date_ymd } from "@/src/helpers/string_helper";
 import { post } from "@/src/urls";
 import { Button, Form, Input, Modal } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 
 export default function InicioCaja(props){
-    const [open, setOpen] = useState(false)
-    const [btnBlocked, setBtnBlocked] = useState(false)
+    const [open, setOpen] = useState(false);
+    const [btnBlocked, setBtnBlocked] = useState(false);
+  const [uid, setUID] = useState("");
 
     const check_if_caja_exists = (callback) => {
         post_method(post.caja_exists,{
@@ -32,6 +34,8 @@ export default function InicioCaja(props){
         )
     }
 
+    useEffect(()=>{setUID(uuidv4());},[]);
+
     const onFinishFailed = ()=> {
 
     }
@@ -47,7 +51,8 @@ export default function InicioCaja(props){
                 usuario_idusuario: globals.obtenerUID(),
                 monto_inicial: values.monto,
                 fecha: current_date_ymd(),
-                tk: globals.getToken(),
+                tk: "",
+                uid,
             }
             post_method(post.insert.caja, data, (result)=>{
                 alert("OK")

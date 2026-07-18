@@ -91,6 +91,8 @@ export default function VentaBaseV3(props) {
     setBtnEnabled(false);
     setVenta((venta) => {
       props?.onfinish?.({ ...venta, fkusuario: idvendedor, uid }, (_) => {
+        console.log("renew uid...");
+        setUID(uuidv4());
         setBtnEnabled(true);
       });
       return { ...venta, fkusuario: idvendedor };

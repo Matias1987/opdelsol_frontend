@@ -1,12 +1,17 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Form, Divider, Button, Select, Input } from "antd";
 import urls  from "../../src/urls";
 import post_helper  from "../../src/helpers/post_helper";
+import { v4 as uuidv4 } from 'uuid'; 
 
 const FamiliaForm = (props) => {
+  const [uid, setUID] = useState("");
+  const [btnEnabled, setBtnEnabled] = useState(true);
+  
+  useEffect(()=>{setUID(uuidv4());},[]);
 
   const agregar = (_values) =>{
-    post_helper.post_method(urls.post.insert.familia,_values,(res)=>{
+    post_helper.post_method(urls.post.insert.familia,{..._values, uid},(res)=>{
         if(res.status == "OK"){
           alert("Datos Guardados")
           props?.callback?.()
@@ -23,7 +28,7 @@ const FamiliaForm = (props) => {
       case 'ADD': 
         agregar(values)
         break;
-      case 'EDIT': post_helper.post_method(urls.post.update.familia,values,(res)=>{
+      case 'EDIT': post_helper.post_method(urls.post.update.familia,{...values, uid},(res)=>{
         if(res.status == "OK"){alert("Cambios Guardados")}else{alert("Error.")}});
         break;
       };

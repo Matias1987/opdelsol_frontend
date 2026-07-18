@@ -1,12 +1,13 @@
-import MostrarDNI from "@/components/etc/MostrarDNI"
-import globals from "@/src/globals"
-import { registrar_evento } from "@/src/helpers/evento_helper"
-import { post_method } from "@/src/helpers/post_helper"
-import { current_date_ymd } from "@/src/helpers/string_helper"
+import MostrarDNI from "@/components/etc/MostrarDNI";
+import globals from "@/src/globals";
+import { registrar_evento } from "@/src/helpers/evento_helper";
+import { post_method } from "@/src/helpers/post_helper";
+import { current_date_ymd } from "@/src/helpers/string_helper";
+import { useEffect, useState } from "react";
+import { get, post } from "@/src/urls";
+import { Form, Input, Row, Col, Modal, Button, Spin } from "antd";
+import { v4 as uuidv4 } from "uuid";
 
-const { get, post } = require("@/src/urls")
-const { Form, Input, Row, Col, Modal, Button, Spin } = require("antd")
-const { useEffect, useState } = require("react")
 
 const CargaManual = (props) => {
     const [dataCliente, setData] = useState(null)
@@ -16,7 +17,8 @@ const CargaManual = (props) => {
         monto: 0,
         concepto: 0,
         tk: globals.getToken(),
-    })
+    });
+    const [uid, setUID] = useState("");
 
     const onFinish = (values) => {
         setBtnEnabled(false)
@@ -51,7 +53,8 @@ const CargaManual = (props) => {
             caja_idcaja: c.idcaja,
             usuario_idusuario: globals.obtenerUID(),
             cliente_idcliente: props.idcliente,
-            sucursal_idsucursal: globals.obtenerSucursal()
+            sucursal_idsucursal: globals.obtenerSucursal(),
+            uid
         }
 
         post_method(post.insert.carga_manual, data,(response)=>{
@@ -75,6 +78,7 @@ const CargaManual = (props) => {
       };
 
     useEffect(()=>{
+        setUID(uuidv4());
         fetch(get.cliente_por_id + props.idcliente)
         .then(response=>response.json())
         .then(response=>{

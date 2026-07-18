@@ -17,6 +17,7 @@ import SearchStockEnvio from "./deposito/SearchStockEnvio";
 import { CloseCircleFilled, DownOutlined, PlusCircleFilled, UpOutlined } from "@ant-design/icons";
 import { post_method } from "@/src/helpers/post_helper";
 import { get, informes, post, public_urls } from "@/src/urls";
+import { v4 as uuidv4 } from 'uuid'; 
 
 const EnvioForm = (props) => {
   const [tableData, setTableData] = useState([]);
@@ -28,8 +29,11 @@ const EnvioForm = (props) => {
   const [total, setTotal] = useState(0);
   const [generarEnvioBtnEnabled, setGenerarEnvioBtnEnabled] = useState(true);
   const [rows_to_add, setRowsToAdd] = useState([]);
-  const [popupAddOpen, setPopupAddOpen] = useState(false)
+  const [popupAddOpen, setPopupAddOpen] = useState(false);
+  const [uid, setUID] = useState("");
+
   useEffect(() => {
+    setUID(uuidv4());
     if (rows_to_add.length > 0) {
       load_details_for_selected_id(rows_to_add[0], (_) => {
         rows_to_add.shift();
@@ -88,8 +92,9 @@ const EnvioForm = (props) => {
       usuario_idusuario: globals.obtenerUID(),
       cantidad_total: 0,
       id_sucursal_origen: globals.obtenerSucursal(),
-      tk: globals.getToken(),
+      tk: "",
       items: [],
+      uid
     };
     let __cantidad = 0;
     tableData.forEach((e) => {

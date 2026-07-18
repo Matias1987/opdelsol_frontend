@@ -7,10 +7,9 @@ import {
   validate_only_numbers_and_letters,
 } from "@/src/helpers/string_helper";
 import { get, post } from "@/src/urls";
-
-import { Form, Input, Select, Button, Row, Col }  from "antd";
+import { Input, Select, Button, Row, Col } from "antd";
 import { useState, useEffect } from "react";
-import { v4 as uuidv4 } from 'uuid'; 
+import { v4 as uuidv4 } from "uuid";
 
 const GastoForm = (props) => {
   const [options, setOptions] = useState([]);
@@ -40,7 +39,7 @@ const GastoForm = (props) => {
           response.data.map((r) => ({
             value: r.idconcepto_gasto,
             label: r.nombre,
-          }))
+          })),
         );
       });
   }, []);
@@ -90,7 +89,7 @@ const GastoForm = (props) => {
         registrar_evento(
           "GASTO",
           "Carga Gasto $" + gasto.monto,
-          response?.data
+          response?.data,
         );
         props?.callback?.(response.data);
       });
@@ -118,22 +117,7 @@ const GastoForm = (props) => {
           />
         </Col>
       </Row>
-      {/*<Row style={row_style}>
-        <Col span={24}>
-          <b>Modo de Pago</b>
-        </Col>
-        <Col span={24}>
-          <Select
-            defaultValue={"efectivo"}
-            style={{ width: "100%" }}
-            options={[
-              { label: "EFECTIVO", value: "efectivo" },
-              { label: "TRANSFERENCIA", value: "transferencia" },
-            ]}
-          />
-        </Col>
-      </Row>*/}
-     
+
       <Row style={row_style}>
         <Col span={24}>
           <b>Monto</b>
@@ -179,25 +163,6 @@ const GastoForm = (props) => {
           </Button>
         </Col>
       </Row>
-      {/*<Form  onFinish={onFinish} onFinishFailed={onFinishFailed}>
-            <Form.Item required label="Motivo" name={"motivo"} >
-                
-            </Form.Item>
-
-            <Form.Item label="Monto"  name={"monto"} value={gasto.monto} >
-
-                
-            </Form.Item>
-            <Form.Item label="Comentarios"  name={"comentarios"}>
-
-                
-            </Form.Item>
-
-            <Form.Item>
-                
-            </Form.Item>
-
-        </Form>*/}
     </>
   );
 };
