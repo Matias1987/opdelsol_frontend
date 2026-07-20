@@ -3,7 +3,7 @@ import LoadSelect from "../LoadSelect";
 import { PlusCircleOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 import FamiliaForm from "./FamiliaForm";
-import { post } from "@/src/urls";
+import { get, post } from "@/src/urls";
 import { post_method } from "@/src/helpers/post_helper";
 import { v4 as uuidv4 } from "uuid";
 
@@ -17,7 +17,9 @@ const SubFamiliaForm = (props) => {
   useEffect(()=>{setUID(uuidv4());},[]);
 
   const agregar = (_values) => {
-    post_helper.post_method(post.insert.subfamilia, _values, (res) => {
+    alert(JSON.stringify(_values))
+    alert(post.insert.subfamilia)
+    post_method(post.insert.subfamilia, _values, (res) => {
       if (res.status == "OK") {
         alert("Datos Guardados");
         props?.callback?.();
@@ -108,7 +110,7 @@ const SubFamiliaForm = (props) => {
           <>
             <LoadSelect
               key={reload}
-              fetchurl={urls.get.familia_menu_opt}
+              fetchurl={get.familia_menu_opt}
               callback={(id) => {
                 setValue(id);
               }}
