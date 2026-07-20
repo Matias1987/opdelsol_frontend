@@ -70,7 +70,7 @@ const PopupResultadoBusqueda = (props) => {
     
 
     return <>
-        <Modal footer={null} open={props.open} destroyOnClose  onCancel={()=>{setBusqueda(null); props.callback();}} width={"60%"}>
+        <Modal footer={null} open={props.open} destroyOnClose  onCancel={()=>{setBusqueda(null); props.callback();}} width={"95%"}>
             <Row>
                 <Col span={24}>
                     <h3>Resultado B&uacute;squeda</h3>

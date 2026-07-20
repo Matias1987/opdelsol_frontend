@@ -72,29 +72,29 @@ const LCLabItem = (props) =>{
             props.buttonText
             }</Button>  :
         <>
-            <Row>
-                <Col span={5}>
+            <Row gutter={[16,16]}>
+                <Col>
                     <SelectCodigoVenta idfamilias={[globals.familiaIDs.LC]} callback={on_codigo_change} />
                 </Col>
-                <Col span={3}>
+                <Col>
                     <Input onClick={e=>{e.target.select()}} style={{minWidth:"90px"}}  disabled={LC.codigo==null} size="small" prefix="Eje" type="text" value={LC.eje} onChange={(e=>{on_change(e.target.value,"eje")})} />
                 </Col>
-                <Col span={3}>
+                <Col>
                     <Input onClick={e=>{e.target.select()}} style={{minWidth:"90px"}}  disabled={LC.codigo==null} size="small" prefix="Esf." type="text" value={LC.esf} onChange={(e=>{on_change(e.target.value,"esf")})} />
                 </Col>
-                <Col span={3}>
+                <Col>
                     <Input onClick={e=>{e.target.select()}} style={{minWidth:"90px"}}  disabled={LC.codigo==null} size="small" prefix="Cil." type="text" value={LC.cil} onChange={(e=>{on_change(e.target.value,"cil")})} />
                 </Col>
-                <Col span={3}>
+                <Col>
                     <Input onClick={e=>{e.target.select()}} style={{minWidth:"90px"}}  disabled={LC.codigo==null} size="small" prefix="C.B." type="text" value={LC.cb} onChange={(e=>{on_change(e.target.value,"cb")})} />
                 </Col>
-                <Col span={3}>
+                <Col>
                     <Input onClick={e=>{e.target.select()}} style={{minWidth:"90px"}}  disabled={LC.codigo==null} size="small" prefix="Diám." type="text" value={LC.diametro} onChange={(e=>{on_change(e.target.value,"diametro")})} />
                 </Col>
-                <Col span={3}>
+                <Col>
                     <Input onClick={e=>{e.target.select()}} onWheel={(e)=>{e.target.blur()}} style={{minWidth:"100px"}} disabled={LC.codigo==null} size="small" readOnly={false} type="number" prefix={"Precio: "} value={LC.precio_str} onChange={(v)=>{on_precio_change(v.target.value)}} />
                 </Col>
-                <Col span={1}>
+                <Col>
                     <Button size="small" danger onClick={()=>{onRemove()}}><CloseOutlined/></Button>
                 </Col>
             </Row>

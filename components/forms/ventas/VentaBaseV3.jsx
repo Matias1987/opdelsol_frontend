@@ -16,6 +16,7 @@ import {
   DatePicker,
   Divider,
   Form,
+  Grid,
   Input,
   Row,
   Steps,
@@ -31,8 +32,8 @@ import { public_urls } from "@/src/urls";
 import { CloseOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
 import SelectClienteV2 from "./SelectClienteV2";
-import { v4 as uuidv4 } from 'uuid'; 
-
+import { v4 as uuidv4 } from "uuid";
+const { useBreakpoint } = Grid;
 /* leer: https://refine.dev/blog/common-usestate-mistakes-and-how-to-avoid/ */
 /**
  *
@@ -69,8 +70,11 @@ export default function VentaBaseV3(props) {
     cobrar: cobro_inmediato,
     validarCristalesModo2: true,
   });
+  const screens = useBreakpoint();
 
-  useEffect(()=>{setUID(uuidv4());}, [])
+  useEffect(() => {
+    setUID(uuidv4());
+  }, []);
 
   const onChange = (field, value) => {
     setVenta((venta) => {
@@ -100,73 +104,78 @@ export default function VentaBaseV3(props) {
   };
 
   const onChangeEstadoSwitch = () => {
-    setVenta(v=>({ ...venta, entrega: !v.entrega }));
-  }
+    setVenta((v) => ({ ...venta, entrega: !v.entrega }));
+  };
 
   const onFinish = (values) => {};
 
   const onFinishFailed = (error) => {};
 
+  const card_style = {boxShadow: "-1px 2px 2px 2px #d3d3d3", marginBottom:"8px" }
+
   const modo_formulario_unico = (_) => (
     <>
-      <Row className="table-row-dark" style={{ padding: ".9em" }}>
-        <Col style={{ minWidth: "250px" }}>
-          <SelectClienteV2
-            openButtonText={
-              <span style={{ color: "#3300CC" }}>
-                &nbsp;*Seleccione Cliente
-              </span>
-            }
-            callback={(value) => {
-              onChange("fkcliente", value);
-            }}
-          />
-        </Col>
-      </Row>
-      <Row className="table-row-light" style={{ padding: ".9em" }}>
-        <Col style={{ minWidth: "250px" }}>
-          <SelectClienteV2
-            destinatario
-            callback={(value) => {
-              onChange("fkdestinatario", value);
-            }}
-          />
-        </Col>
-      </Row>
+      <Card size="small" style={card_style}>
+        <Row className="table-row-dark" style={{ padding: ".9em" }}>
+          <Col style={{ minWidth: "250px" }}>
+            <SelectClienteV2
+              openButtonText={
+                <span style={{ color: "#3300CC" }}>
+                  &nbsp;*Seleccione Cliente
+                </span>
+              }
+              callback={(value) => {
+                onChange("fkcliente", value);
+              }}
+            />
+          </Col>
+        </Row>
+        <Row className="table-row-light" style={{ padding: ".9em" }}>
+          <Col style={{ minWidth: "250px" }}>
+            <SelectClienteV2
+              destinatario
+              callback={(value) => {
+                onChange("fkdestinatario", value);
+              }}
+            />
+          </Col>
+        </Row>
 
-      <Row className="table-row-dark" style={{ padding: ".9em" }}>
-        <Col span={24}>
-          <SelectMedico
-            medicoRequired={props.medicoRequired}
-            openButtonText={
-              <span
-                style={{
-                  color: props.medicoRequired ? "#3300CC" : "inherit",
-                }}
-              >
-                &nbsp;{props.medicoRequired ? "*" : ""}Seleccione M&eacute;dico
-              </span>
-            }
-            callback={(value) => {
-              onChange("fkmedico", value);
-            }}
-          />
-        </Col>
-      </Row>
+        <Row className="table-row-dark" style={{ padding: ".9em" }}>
+          <Col span={24}>
+            <SelectMedico
+              medicoRequired={props.medicoRequired}
+              openButtonText={
+                <span
+                  style={{
+                    color: props.medicoRequired ? "#3300CC" : "inherit",
+                  }}
+                >
+                  &nbsp;{props.medicoRequired ? "*" : ""}Seleccione
+                  M&eacute;dico
+                </span>
+              }
+              callback={(value) => {
+                onChange("fkmedico", value);
+              }}
+            />
+          </Col>
+        </Row>
 
-      <Row className="table-row-light" style={{ padding: ".9em" }}>
-        <Col span={24}>
-          <SelectObraSocial
-            callback={(value) => {
-              onChange("fkos", value);
-            }}
-          />
-        </Col>
-      </Row>
+        <Row className="table-row-light" style={{ padding: ".9em" }}>
+          <Col span={24}>
+            <SelectObraSocial
+              callback={(value) => {
+                onChange("fkos", value);
+              }}
+            />
+          </Col>
+        </Row>
+      </Card>
       <Card
         title="Productos"
         size="small"
-        style={{ boxShadow: "-1px 3px 3px 2px #9e9c9c" }}
+        style={card_style}
       >
         <Row>
           <Col span={24}>
@@ -174,11 +183,10 @@ export default function VentaBaseV3(props) {
           </Col>
         </Row>
       </Card>
-      <Divider />
       <Card
         title="Modo de Pago"
         size="small"
-        style={{ boxShadow: "-1px 3px 3px 2px #9e9c9c" }}
+        style={card_style}
       >
         <Row>
           <Col span={24}>
@@ -190,7 +198,8 @@ export default function VentaBaseV3(props) {
                   onChange("descuento", value);
                 }}
               />
-              {
+
+              <Col span={24} style={{ paddingTop: "8px" }}>
                 <ModoPagoV4
                   total={typeof props !== "undefined" ? props.total : "0"}
                   callback={(value) => {
@@ -201,106 +210,107 @@ export default function VentaBaseV3(props) {
                   chequeHidden={false}
                   mutualHidden={false}
                 />
-              }
+              </Col>
               {/*<ModoPagoV2 />*/}
             </Form.Item>
           </Col>
         </Row>
       </Card>
-      <Divider />
-      <Row gutter={24}>
-        {props.ocultarFechaRetiro ? (
+      <Card size="small" style={card_style}>
+        <Row gutter={24}>
+          {props.ocultarFechaRetiro ? (
+            <></>
+          ) : (
+            <>
+              <Col>
+                <Form.Item label={"Fecha de Retiro"}>
+                  <DatePicker
+                    defaultValue={props.ignore_fecha_retiro ? dayjs() : null}
+                    locale={esES}
+                    format={"DD-MM-YYYY"}
+                    onChange={(value) => {
+                      let _value = value ? value.format("DD-MM-YYYY") : null;
+                      onChange("fechaRetiro", _value);
+                    }}
+                  />
+                </Form.Item>
+              </Col>
+              <Col>
+                <Form.Item label={"Hora de Retiro"}>
+                  <TimePicker
+                    format={"HH:mm"}
+                    onChange={(value, timeString) => {
+                      onChange("horaRetiro", timeString);
+                    }}
+                  />
+                </Form.Item>
+              </Col>
+            </>
+          )}
+        </Row>
+
+        {!use_owner_id ? (
           <></>
         ) : (
-          <>
-            <Col>
-              <Form.Item label={"Fecha de Retiro"}>
-                <DatePicker
-                  defaultValue={props.ignore_fecha_retiro ? dayjs() : null}
-                  locale={esES}
-                  format={"DD-MM-YYYY"}
-                  onChange={(value) => {
-                    let _value = value ? value.format("DD-MM-YYYY") : null;
-                    onChange("fechaRetiro", _value);
-                  }}
-                />
-              </Form.Item>
-            </Col>
-            <Col>
-              <Form.Item label={"Hora de Retiro"}>
-                <TimePicker
-                  format={"HH:mm"}
-                  onChange={(value, timeString) => {
-                    onChange("horaRetiro", timeString);
-                  }}
-                />
-              </Form.Item>
-            </Col>
-          </>
-        )}
-      </Row>
-
-      {!use_owner_id ? (
-        <></>
-      ) : (
-        <Row style={{ paddingTop: "6px", paddingBottom: "6px" }}>
-          <Col span="24">
-            <Input
-              prefix="Nro. Sobre:"
-              style={{ maxWidth: "350px" }}
-              allowClear
-              onChange={(e) => {
-                onChange("uid", e.target.value);
-              }}
-            />
-          </Col>
-        </Row>
-      )}
-
-      <Row>
-        <Col span="24">
-          <Form.Item label={"Comentarios"}>
-            <Input.TextArea
-              rows={2}
-              onChange={(e) => {
-                onChange("comentarios", e.target.value);
-              }}
-            />
-          </Form.Item>
-        </Col>
-      </Row>
-      <Divider />
-      <Row>
-        <Col span={24}>
-          <Form.Item>
-            <Col span={24}>
-              <Divider />
-              <Switch
-                size="large"
-                style={{ backgroundColor: venta.entrega ? "green" : "red" }}
-                checkedChildren="Entrega"
-                unCheckedChildren="Depósito"
-                checked={venta.entrega}
+          <Row style={{ paddingTop: "6px", paddingBottom: "6px" }}>
+            <Col span="24">
+              <Input
+                prefix="Nro. Sobre:"
+                style={{ maxWidth: "350px" }}
+                allowClear
                 onChange={(e) => {
-                  setVenta({ ...venta, entrega: !venta.entrega });
+                  onChange("uid", e.target.value);
                 }}
               />
             </Col>
-          </Form.Item>
-          <Form.Item>
-            <Button
-              style={{ borderRadius: "16px" }}
-              size="large"
-              disabled={!btnEnabled}
-              type="primary"
-              block
-              onClick={finalizar_venta}
-            >
-              Imprimir Sobre
-            </Button>
-          </Form.Item>
-        </Col>
-      </Row>
+          </Row>
+        )}
+
+        <Row>
+          <Col span="24">
+            <Form.Item label={"Comentarios"}>
+              <Input.TextArea
+                rows={2}
+                onChange={(e) => {
+                  onChange("comentarios", e.target.value);
+                }}
+              />
+            </Form.Item>
+          </Col>
+        </Row>
+        <Divider />
+        <Row>
+          <Col span={24}>
+            <Form.Item>
+              <Col span={24}>
+                <Divider />
+                <Switch
+                  size="large"
+                  style={{ backgroundColor: venta.entrega ? "green" : "red" }}
+                  checkedChildren="Entrega"
+                  unCheckedChildren="Depósito"
+                  checked={venta.entrega}
+                  onChange={(e) => {
+                    setVenta({ ...venta, entrega: !venta.entrega });
+                  }}
+                />
+              </Col>
+            </Form.Item>
+            <Form.Item>
+              <Button
+                style={{ borderRadius: "16px" }}
+                size="large"
+                disabled={!btnEnabled}
+                type="primary"
+                block
+                onClick={finalizar_venta}
+              >
+                Imprimir Sobre
+              </Button>
+            </Form.Item>
+          </Col>
+        </Row>
+      </Card>
     </>
   );
 
@@ -477,24 +487,26 @@ export default function VentaBaseV3(props) {
             </Col>
           </Row>
           <Divider />
-          {!cobro_inmediato ? <></> :
-          <Row>
-            <Col span={24}>
-              <Form.Item>
-                <Switch
-                  size="large"
-                  style={{ backgroundColor: venta.entrega ? "green" : "red" }}
-                  checkedChildren="Entrega"
-                  unCheckedChildren="Depósito"
-                  checked={venta.entrega}
-                  onChange={(e) => {
-                    onChangeEstadoSwitch();
-                  }}
-                />
-              </Form.Item>
-            </Col>
-          </Row>
-          }
+          {!cobro_inmediato ? (
+            <></>
+          ) : (
+            <Row>
+              <Col span={24}>
+                <Form.Item>
+                  <Switch
+                    size="large"
+                    style={{ backgroundColor: venta.entrega ? "green" : "red" }}
+                    checkedChildren="Entrega"
+                    unCheckedChildren="Depósito"
+                    checked={venta.entrega}
+                    onChange={(e) => {
+                      onChangeEstadoSwitch();
+                    }}
+                  />
+                </Form.Item>
+              </Col>
+            </Row>
+          )}
           <Row>
             <Col span={24}>
               <Form.Item>
@@ -548,7 +560,7 @@ export default function VentaBaseV3(props) {
       >
         <Row>
           <Col span={24}>
-            {formulario_venta_estandar ? (
+            {!screens.md ? (
               modo_formulario_unico()
             ) : (
               <Form onFinish={onFinish} onFinishFailed={onFinishFailed}>

@@ -1,4 +1,4 @@
-@media screen and (min-width: 320px) and (max-width: 900px) and (orientation: portrait) {
+/*@media screen and (min-width: 320px) and (max-width: 900px) and (orientation: portrait) {
   html {
     transform: rotate(-90deg);
     transform-origin: left top;
@@ -9,7 +9,7 @@
     top: 100%;
     left: 0;
   }
-}
+}*/
 :root {
   --n-image-w: 200px;
   --n-image-h: 149px;

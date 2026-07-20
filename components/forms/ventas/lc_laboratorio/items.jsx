@@ -3,6 +3,7 @@ import { useState } from "react";
 import VentasInsumo from "../Insumo";
 import LCLabItem from "./lc_lab_item";
 import SelectCodeButton from "../selectCodeButton";
+import { EditFilled } from "@ant-design/icons";
 
 const LCLabItems = (props) => {
   const [items, setItems] = useState({
@@ -40,11 +41,11 @@ const LCLabItems = (props) => {
 
   return (
     <>
-      <Row className="table-row-light" style={{ padding: ".7em" }}>
-        <Col style={_style_label} span={1}>
+      <Row className="table-row-light" style={{ padding: ".7em" }} gutter={[16,16]}>
+        <Col style={_style_label} >
           OD
         </Col>
-        <Col span={23} style={{ padding: ".5em" }}>
+        <Col  style={{ padding: ".5em" }}>
           <LCLabItem
             buttonText={<SelectCodeButton />}
             onVisibleChange={(_value) => onVisibleChange("od_visible", _value)}
@@ -56,11 +57,11 @@ const LCLabItems = (props) => {
           />
         </Col>
       </Row>
-      <Row className="table-row-dark" style={{ padding: ".7em" }}>
-        <Col style={_style_label} span={1}>
+      <Row className="table-row-dark" style={{ padding: ".7em" }} gutter={[16,16]}>
+        <Col style={_style_label} >
           OI
         </Col>
-        <Col span={23} style={{ padding: ".5em" }}>
+        <Col style={{ padding: ".5em" }}>
           <LCLabItem
             buttonText={<SelectCodeButton />}
             onVisibleChange={(_value) => onVisibleChange("oi_visible", _value)}
@@ -72,13 +73,13 @@ const LCLabItems = (props) => {
           />
         </Col>
       </Row>
-      <Row className="table-row-light" style={{ padding: ".7em" }}>
-        <Col style={_style_label} span={1}>
+      <Row className="table-row-light" style={{ padding: ".7em" }} gutter={[16,16]}>
+        <Col style={_style_label} >
           Insumo
         </Col>
-        <Col span={23} style={{ padding: ".5em" }}>
+        <Col  style={{ padding: ".5em" }}>
           <VentasInsumo
-            buttonText={<SelectCodeButton />}
+            buttonText={<><EditFilled /></>}
             onVisibleChange={(_value) =>
               onVisibleChange("insumo_visible", _value)
             }

@@ -267,15 +267,46 @@ export default function ModoPagoV4(props) {
     parseFloat(__mp.efectivo_monto || 0) +
     parseFloat(__mp.mercadopago_monto || 0) +
     parseFloat(__mp.transferencia_monto || 0);
+
+  const checkbox_style = {
+    border: "1px dotted #d4d4d4",
+    padding: "4px",
+    borderRadius: "4px",
+    backgroundColor: "#f5f3f3",
+  };
+
+  const mp_row_style = {
+    padding: "6px",
+    borderRadius: "4px",
+    marginTop: "2px",
+    marginBottom: "2px",
+    border: "1px dotted #1C221c35",
+    backgroundColor: "rgba(229, 229, 243, 0.5)",
+  };
+
   return !dataLoaded ? (
     <Spin />
   ) : (
-    <>
-      <Row style={{ paddingLeft: "1.3em" }}>
-        <Col span={24} style={{ paddingTop: ".2em" }}>
-          <span style={{ fontWeight: "600" }}>Seleccione Modo de Pago:</span>
-          &nbsp;&nbsp;&nbsp;
+    <div
+      style={{
+        border: "1px solid #e4e4e4",
+        padding: "6px",
+        borderRadius: "6px",
+      }}
+    >
+      <Row style={{ paddingBottom: "8px" }}>
+        <Col span={24}>
+          <span
+            style={{ fontWeight: "600", color: "#0e0035", fontSize: "1.1em" }}
+          >
+            Seleccione Modo de Pago:
+          </span>
+        </Col>
+      </Row>
+      <Row gutter={[8, 8]}>
+        <Col>
           <Checkbox
+            style={checkbox_style}
             checked={efectivoChecked}
             onChange={(e) => {
               setEfectivoChecked(!efectivoChecked);
@@ -288,7 +319,10 @@ export default function ModoPagoV4(props) {
           >
             Efectivo
           </Checkbox>
+        </Col>
+        <Col>
           <Checkbox
+            style={checkbox_style}
             disabled={props.tarjetaHidden}
             checked={tarjetaChecked}
             onChange={(e) => {
@@ -302,7 +336,10 @@ export default function ModoPagoV4(props) {
           >
             Tarjeta
           </Checkbox>
+        </Col>
+        <Col>
           <Checkbox
+            style={checkbox_style}
             disabled={props.ctacteHidden}
             checked={ctacteChecked}
             onChange={(e) => {
@@ -314,7 +351,10 @@ export default function ModoPagoV4(props) {
           >
             CtaCte
           </Checkbox>
+        </Col>
+        <Col>
           <Checkbox
+            style={checkbox_style}
             disabled={props.chequeHidden}
             checked={chequeChecked}
             onChange={(e) => {
@@ -326,7 +366,10 @@ export default function ModoPagoV4(props) {
           >
             Cheque
           </Checkbox>
+        </Col>
+        <Col>
           <Checkbox
+            style={checkbox_style}
             disabled={props.mutualHidden}
             checked={mutualChecked}
             onChange={(e) => {
@@ -338,7 +381,10 @@ export default function ModoPagoV4(props) {
           >
             Mutual
           </Checkbox>
+        </Col>
+        <Col>
           <Checkbox
+            style={checkbox_style}
             checked={mercadopagoChecked}
             onChange={(e) => {
               setMercadoPagoChecked(!mercadopagoChecked);
@@ -349,7 +395,10 @@ export default function ModoPagoV4(props) {
           >
             MercadoPago
           </Checkbox>
+        </Col>
+        <Col>
           <Checkbox
+            style={checkbox_style}
             checked={transferenciaChecked}
             onChange={(e) => {
               setTransferenciaChecked(!transferenciaChecked);
@@ -365,10 +414,10 @@ export default function ModoPagoV4(props) {
 
       <>
         <Row
+          gutter={[8, 8]}
           style={{
+            ...mp_row_style,
             display: efectivoChecked ? "flex" : "none",
-            backgroundColor: "rgba(244,232,179,0.5)",
-            padding: "2px",
           }}
         >
           <Col>
@@ -394,11 +443,10 @@ export default function ModoPagoV4(props) {
         </Row>
 
         <Row
-          gutter={6}
+          gutter={[8, 8]}
           style={{
+            ...mp_row_style,
             display: tarjetaChecked ? "flex" : "none",
-            backgroundColor: "rgba(240,191,161,0.5)",
-            padding: "2px",
           }}
         >
           <Col>
@@ -475,11 +523,10 @@ export default function ModoPagoV4(props) {
           </Col>
         </Row>
         <Row
-          gutter={6}
+          gutter={[8, 8]}
           style={{
+            ...mp_row_style,
             display: tarjeta1Checked ? "flex" : "none",
-            backgroundColor: "rgba(233, 151, 99, 0.5)",
-            padding: "2px",
           }}
         >
           <Col>
@@ -555,13 +602,13 @@ export default function ModoPagoV4(props) {
         </Row>
 
         <Row
+          gutter={[8, 8]}
           style={{
+            ...mp_row_style,
             display: ctacteChecked ? "flex" : "none",
-            backgroundColor: "rgba(235,177,172,0.5)",
-            padding: "2px",
           }}
         >
-          <Col span={11}>
+          <Col>
             <InputNumber
               size="large"
               style={{ width: "250px" }}
@@ -581,7 +628,7 @@ export default function ModoPagoV4(props) {
             />
           </Col>
 
-          <Col span={3}>
+          <Col>
             <Select
               size="large"
               prefix="Cuotas"
@@ -625,7 +672,7 @@ export default function ModoPagoV4(props) {
               }}
             />
           </Col>
-          <Col span={8}>
+          <Col>
             {/*<Input onWheel={(e)=>{e.target.blur()}} type="number" readOnly={false} onClick={(e)=>{e.target.select()}} value={modoPago.ctacte_monto_cuotas}  prefix="Valor Cuota: " onChange={(e)=>{onChange("ctacte_monto_cuotas", (e.target.value))}}></Input>*/}
             <InputNumber
               size="large"
@@ -646,13 +693,13 @@ export default function ModoPagoV4(props) {
           </Col>
         </Row>
         <Row
+          gutter={[8, 8]}
           style={{
+            ...mp_row_style,
             display: chequeChecked ? "flex" : "none",
-            backgroundColor: "rgba(204,182,192,0.5) ",
-            padding: "2px",
           }}
         >
-          <Col span={9}>
+          <Col>
             <InputNumber
               size="large"
               style={{ width: "250px" }}
@@ -698,13 +745,13 @@ export default function ModoPagoV4(props) {
         </Row>
 
         <Row
+          gutter={[8, 8]}
           style={{
+            ...mp_row_style,
             display: mutualChecked ? "flex" : "none",
-            backgroundColor: "rgba(207,186,235,0.5) ",
-            padding: "2px",
           }}
         >
-          <Col span={9}>
+          <Col>
             <InputNumber
               size="large"
               style={{ width: "250px" }}
@@ -722,7 +769,7 @@ export default function ModoPagoV4(props) {
               }}
             />
           </Col>
-          <Col span={9}>
+          <Col>
             <Select
               showSearch
               placeholder="Seleccione Mutual"
@@ -749,13 +796,13 @@ export default function ModoPagoV4(props) {
           </Col>
         </Row>
         <Row
+          gutter={[8, 8]}
           style={{
+            ...mp_row_style,
             display: mercadopagoChecked ? "flex" : "none",
-            backgroundColor: "rgba(161,196,231,0.5)",
-            padding: "2px",
           }}
         >
-          <Col span={9}>
+          <Col>
             <InputNumber
               size="large"
               style={{ width: "250px" }}
@@ -775,13 +822,13 @@ export default function ModoPagoV4(props) {
           </Col>
         </Row>
         <Row
+          gutter={[8, 8]}
           style={{
+            ...mp_row_style,
             display: transferenciaChecked ? "flex" : "none",
-            backgroundColor: "rgba(141,163,153,0.5) ",
-            padding: "2px",
           }}
         >
-          <Col span={9}>
+          <Col>
             <InputNumber
               size="large"
               style={{ width: "250px" }}
@@ -849,8 +896,8 @@ export default function ModoPagoV4(props) {
             </Col>
           </Row>
         ) : (
-          <Row>
-            <Col span={6}>
+          <Row gutter={[16, 16]} style={{ paddingTop: "16px" }}>
+            <Col>
               <Input
                 readOnly
                 prefix="Total a Pagar"
@@ -858,7 +905,7 @@ export default function ModoPagoV4(props) {
                 value={formatFloat(props.total)}
               />
             </Col>
-            <Col span={9}>
+            <Col>
               <Input
                 readOnly
                 prefix="Pago Total"
@@ -866,7 +913,7 @@ export default function ModoPagoV4(props) {
                 value={formatFloat(modoPago.total)}
               />
             </Col>
-            <Col span={9}>
+            <Col>
               <Input
                 readOnly
                 prefix="Saldo"
@@ -884,6 +931,6 @@ export default function ModoPagoV4(props) {
           </Row>
         )}
       </>
-    </>
+    </div>
   );
 }

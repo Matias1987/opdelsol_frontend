@@ -9,6 +9,7 @@ import PrinterWrapper from "@/components/PrinterWrapper";
 import InformeVenta from "@/components/informes/ventas/Base";
 import InformeX from "@/components/informes/caja/InformeX";
 import VentaBaseV3 from "@/components/forms/ventas/VentaBaseV3";
+import LayoutVentasV2 from "@/components/layout/layout_ventas_v2";
 
 export default function VentaLCLab() {
   const [productos, setProductos] = useState(null);
@@ -111,4 +112,4 @@ export default function VentaLCLab() {
   );
 }
 
-VentaLCLab.PageLayout = LayoutVentas;
+VentaLCLab.PageLayout = LayoutVentasV2;
