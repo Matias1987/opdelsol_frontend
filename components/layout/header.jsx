@@ -41,7 +41,6 @@ const HeaderSol = (props) => {
         <Col>
           {props.tipoCuenta && props.tipoCuenta == "ADMIN" ? null : (
             <>
-              Sucursal:
               <SucursalLabel
                 changeSucursalEnabled={cambio_sucursal_habilitado}
               />

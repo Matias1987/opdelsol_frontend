@@ -1,19 +1,23 @@
 import {
   HomeFilled,
+  LogoutOutlined,
   StarOutlined,
   UnorderedListOutlined,
   UserOutlined,
 } from "@ant-design/icons";
-import { Menu } from "antd";
+import { Button, Flex, Menu } from "antd";
 import { useState } from "react";
 import Link from "next/link";
-import { public_urls } from "@/src/urls";
+import { get, public_urls } from "@/src/urls";
+import globals from "@/src/globals";
+import { getItem } from "localforage";
+import SucursalLabel from "../sucursal_label";
 
 const items = [
   {
     label: (
       <Link href={public_urls.dashboard_distribuidora}>
-       <HomeFilled />
+        <HomeFilled />
       </Link>
     ),
     key: "9",
@@ -50,15 +54,49 @@ export default function MenuDistribuidora() {
     setCurrent(e.key);
   };
   return (
-    <Menu
-      styles={{
-        root: { padding: "2px" }, // Custom padding for the main wrapper
-      }}
-      className="custom-menu-distribuidora"
-      onClick={onClick}
-      selectedKeys={[current]}
-      mode="horizontal"
-      items={items}
-    />
+    <Flex
+      justify="space-between"
+      align="center"
+    >
+      <Menu
+        style={{width:"600px"}}
+        styles={{
+          root: { padding: "2px" }, // Custom padding for the main wrapper
+        }}
+        className="custom-menu-distribuidora"
+        onClick={onClick}
+        selectedKeys={[current]}
+        mode="horizontal"
+        items={items}
+      />
+      <div>
+        <SucursalLabel />
+        <Button
+            size="small"
+            type="text"
+            style={{ color: "white", paddingTop:"8px" }}
+            onClick={() => {
+              const _token = getItem("token", "session");
+
+              fetch(get.logout + _token)
+                .then((response) => response.json())
+                .then((response) => {
+                  registrar_evento(
+                    "USER_LOGOUT",
+                    "Cierre de sesion",
+                    globals.obtenerUID(),
+                  );
+                  window.location.replace(public_urls.login);
+                })
+                .catch((err) => {
+                  console.log("error");
+                });
+            }}
+          >
+            <LogoutOutlined />
+            Salir
+          </Button>
+      </div>
+    </Flex>
   );
 }

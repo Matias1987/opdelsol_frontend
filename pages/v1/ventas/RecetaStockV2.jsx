@@ -11,6 +11,7 @@ import RecetaStockItemsB from "@/components/forms/ventas/receta_stock/items_b";
 import { usar_correcciones_recstock } from "@/src/config";
 import InformeX from "@/components/informes/caja/InformeX";
 import VentaBaseV3 from "@/components/forms/ventas/VentaBaseV3";
+import LayoutVentasV2 from "@/components/layout/layout_ventas_v2";
 
 export default function VentaRecetaStock() {
   const [total, setTotal] = useState(0);
@@ -131,4 +132,4 @@ export default function VentaRecetaStock() {
     </>
   );
 }
-VentaRecetaStock.PageLayout = LayoutVentas;
+VentaRecetaStock.PageLayout = LayoutVentasV2;

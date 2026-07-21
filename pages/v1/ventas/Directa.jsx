@@ -9,6 +9,7 @@ import PrinterWrapper from "@/components/PrinterWrapper";
 import InformeVenta from "@/components/informes/ventas/Base";
 import VentaBaseV3 from "@/components/forms/ventas/VentaBaseV3";
 import InformeX from "@/components/informes/caja/InformeX";
+import LayoutVentasV2 from "@/components/layout/layout_ventas_v2";
 
 export default function VentaDirecta() {
   const [venta, setVenta] = useState(null);
@@ -115,4 +116,4 @@ export default function VentaDirecta() {
   );
 }
 
-VentaDirecta.PageLayout = LayoutVentas;
+VentaDirecta.PageLayout = LayoutVentasV2;

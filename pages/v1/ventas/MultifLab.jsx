@@ -9,6 +9,7 @@ import PrinterWrapper from "@/components/PrinterWrapper";
 import InformeVenta from "@/components/informes/ventas/Base";
 import InformeX from "@/components/informes/caja/InformeX";
 import VentaBaseV3 from "@/components/forms/ventas/VentaBaseV3";
+import LayoutVentasV2 from "@/components/layout/layout_ventas_v2";
 
 export default function VentaMultifocalesLab() {
   const [total, setTotal] = useState(0);
@@ -115,4 +116,4 @@ export default function VentaMultifocalesLab() {
     </>
   );
 }
-VentaMultifocalesLab.PageLayout = LayoutVentas;
+VentaMultifocalesLab.PageLayout = LayoutVentasV2;

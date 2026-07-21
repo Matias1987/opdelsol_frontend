@@ -9,6 +9,7 @@ import PopupResultadoBusqueda from "../precios/PopupResultadoBusqueda";
 import BarraResumenCaja from "../forms/caja/BarraResumenCaja";
 import { SearchOutlined } from "@ant-design/icons";
 import MenuVentasMobile from "./mobile_menu_ventas";
+import MenuV3 from "./menu_v3";
 const { useBreakpoint } = Grid;
 
 export default function LayoutVentasV2(props) {
@@ -19,14 +20,12 @@ export default function LayoutVentasV2(props) {
   const [busqueda, setBusqueda] = useState("");
   const screens = useBreakpoint();
 
-
   const onSearch = () => {
     if (busqueda.trim().length < 1) {
       return;
     }
     setPopupBusquedaOpen(true);
   };
-
 
   const validate_user = () => {
     console.log("validating user");
@@ -72,18 +71,17 @@ export default function LayoutVentasV2(props) {
   };
 
   const content_style_desktop = {
-          margin: "10px 50px",
-          padding: 6,
-          borderRadius: "15px",
-          minHeight: 580,
-        }
+    margin: "10px 50px",
+    padding: 6,
+    borderRadius: "15px",
+    minHeight: 580,
+  };
   const content_style_mobile = {
-          margin: "0",
-          padding: 0,
-          borderRadius: "4px",
-          minHeight: 580,
-        }
-
+    margin: "0",
+    padding: 0,
+    borderRadius: "4px",
+    minHeight: 580,
+  };
 
   useEffect(() => {
     validate_user();
@@ -91,41 +89,40 @@ export default function LayoutVentasV2(props) {
 
   return (
     <Layout style={{ padding: 0 }} className="layout">
-      <HeaderSol
+      {/*<HeaderSol
         tipoCuenta="VENTAS"
         displaymodechange={(__c) => {
           props?.displaymodechange?.(__c);
         }}
-      />
-    {!screens.md ? <MenuVentasMobile /> : <MenuV2 />}
-      
-
-      <div>
-        <Input
-          style={{
-            borderRadius: "16px",
-            backgroundColor: "rgb(255, 255, 255)",
-          }}
-          suffix={
-            <>
-              <Button type="link" onClick={onSearch}>
-                <SearchOutlined />
-              </Button>
-            </>
-          }
-          prefix={<span style={{ fontWeight: "600" }}>Buscar Código:</span>}
-          value={busqueda}
-          onChange={(e) => {
+      />*/}
+      {!screens.md ? (
+        <MenuVentasMobile />
+      ) : (
+        <MenuV3
+          onChangeSearch={(e) => {
             setBusqueda(e.target.value);
           }}
-          onPressEnter={onSearch}
+          onSearch={onSearch}
         />
-      </div>
+      )}
 
       {globals.esUsuarioCaja1() ? <BarraResumenCaja /> : <></>}
       <Content
         style={!screens.md ? content_style_mobile : content_style_desktop}
       >
+        <Row>
+          <Col span={24}>{props.children}</Col>
+        </Row>
+
+        <PopupResultadoBusqueda
+          open={popupBusquedaOpen}
+          busqueda={busqueda}
+          callback={() => {
+            setPopupBusquedaOpen(false);
+            setBusqueda("");
+          }}
+        />
+
         {alerta != "" ? (
           <>
             <Alert
@@ -140,18 +137,6 @@ export default function LayoutVentasV2(props) {
         ) : (
           <></>
         )}
-        <Row>
-          <Col span={24}>{props.children}</Col>
-        </Row>
-
-        <PopupResultadoBusqueda
-          open={popupBusquedaOpen}
-          busqueda={busqueda}
-          callback={() => {
-            setPopupBusquedaOpen(false);
-            setBusqueda("");
-          }}
-        />
       </Content>
     </Layout>
   );

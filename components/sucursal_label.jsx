@@ -6,7 +6,7 @@ import globals from "@/src/globals";
 import { post_method } from "@/src/helpers/post_helper";
 import useStorage from "@/useStorage";
 
-const SucursalLabel = ({ changeSucursalEnabled = false }) => {
+const SucursalLabel = ({ changeSucursalEnabled = false, color="white" }) => {
   const [data, setData] = useState(null);
   const [reload, setReload] = useState(false);
   const [popupOpen, setPopupOpen] = useState(false);
@@ -49,7 +49,7 @@ const SucursalLabel = ({ changeSucursalEnabled = false }) => {
         onClick={(_) => {
           changeSucursalEnabled && setPopupOpen(true);
         }}
-        style={{ color: "white", cursor: "pointer" }}
+        style={{ color: color, cursor: "pointer" }}
       >
         {data[0].nombre}
       </Button>

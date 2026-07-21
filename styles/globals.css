@@ -171,7 +171,7 @@ h5 {
 
 body {
   background: #F6F6F9; /*#1A1A1A;*/
-  margin: 0!important;
+  margin: 1px!important;
 }
 /*
 a{
@@ -418,7 +418,7 @@ just some testing
 .ant-menu-submenu-title {
   color: var(--n-text-color) !important;
   transition: background-color 0.3s ease;
-  font-weight: 600 !important;
+  font-weight: 500 !important;
 }
 /*
 .ant-menu-item:hover,
@@ -663,9 +663,9 @@ danger list
 
 /* Highlight the active menu item */
 .ant-menu-item-selected {
-  background-color: #1890ff !important; /* Ant Design blue */
+  /*background-color: #1890ff !important;  Ant Design blue */
   font-weight: bold;
-  border-left: 4px solid #40a9ff;       /* Accent bar on the left */
+  /*border-left: 4px solid #40a9ff;        Accent bar on the left */
 }
 
 /* Optional: change text color 

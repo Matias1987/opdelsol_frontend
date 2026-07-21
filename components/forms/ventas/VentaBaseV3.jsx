@@ -113,10 +113,19 @@ export default function VentaBaseV3(props) {
 
   const card_style = {boxShadow: "-1px 2px 2px 2px #d3d3d3", marginBottom:"8px" }
 
+    const mp_row_style = {
+    padding: "6px",
+    borderRadius: "4px",
+    marginTop: "2px",
+    marginBottom: "2px",
+    border: "1px dotted #1C221c35",
+    backgroundColor: "rgba(243, 243, 250, 0.5)",
+  };
+
   const modo_formulario_unico = (_) => (
     <>
       <Card size="small" style={card_style}>
-        <Row className="table-row-dark" style={{ padding: ".9em" }}>
+        <Row  style={mp_row_style}>
           <Col style={{ minWidth: "250px" }}>
             <SelectClienteV2
               openButtonText={
@@ -130,7 +139,7 @@ export default function VentaBaseV3(props) {
             />
           </Col>
         </Row>
-        <Row className="table-row-light" style={{ padding: ".9em" }}>
+        <Row style={mp_row_style}>
           <Col style={{ minWidth: "250px" }}>
             <SelectClienteV2
               destinatario
@@ -141,7 +150,7 @@ export default function VentaBaseV3(props) {
           </Col>
         </Row>
 
-        <Row className="table-row-dark" style={{ padding: ".9em" }}>
+        <Row style={mp_row_style}>
           <Col span={24}>
             <SelectMedico
               medicoRequired={props.medicoRequired}
@@ -162,7 +171,7 @@ export default function VentaBaseV3(props) {
           </Col>
         </Row>
 
-        <Row className="table-row-light" style={{ padding: ".9em" }}>
+        <Row style={mp_row_style}>
           <Col span={24}>
             <SelectObraSocial
               callback={(value) => {
@@ -320,11 +329,11 @@ export default function VentaBaseV3(props) {
       label: <span style={{ fontWeight: "600" }}>Cliente y M&eacute;dico</span>,
       children: (
         <>
-          <Row className="table-row-dark" style={{ padding: ".9em" }}>
+          <Row style={mp_row_style}>
             <Col span={24}>
               <SelectClienteV2
                 openButtonText={
-                  <span style={{ color: "#3300CC" }}>
+                  <span style={{ color: "#3300CC", fontWeight:"600" }}>
                     &nbsp;*Seleccione Cliente
                   </span>
                 }
@@ -334,9 +343,14 @@ export default function VentaBaseV3(props) {
               />
             </Col>
           </Row>
-          <Row className="table-row-light" style={{ padding: ".9em" }}>
+          <Row style={mp_row_style}>
             <Col span={24}>
               <SelectClienteV2
+                openButtonText={
+                  <span style={{ fontWeight:"400" }}>
+                    &nbsp;*Seleccione Destinatario
+                  </span>
+                }
                 destinatario
                 callback={(value) => {
                   onChange("fkdestinatario", value);
@@ -344,14 +358,14 @@ export default function VentaBaseV3(props) {
               />
             </Col>
           </Row>
-          <Row className="table-row-dark" style={{ padding: ".9em" }}>
+          <Row style={mp_row_style}>
             <Col span={24}>
               <SelectMedico
                 medicoRequired={props.medicoRequired}
                 openButtonText={
                   <span
                     style={{
-                      color: props.medicoRequired ? "#3300CC" : "inherit",
+                      color: props.medicoRequired ? "#3300CC" : "inherit", fontWeight:"600"
                     }}
                   >
                     &nbsp;{props.medicoRequired ? "*" : ""}Seleccione
@@ -365,7 +379,7 @@ export default function VentaBaseV3(props) {
             </Col>
           </Row>
 
-          <Row className="table-row-light" style={{ padding: ".9em" }}>
+          <Row style={mp_row_style}>
             <Col span={24}>
               <SelectObraSocial
                 callback={(value) => {

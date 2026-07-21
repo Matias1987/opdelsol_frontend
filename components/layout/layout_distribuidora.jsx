@@ -66,19 +66,11 @@ export default function LayoutDistribuidora(props) {
 
   return (
     <Layout style={{ padding: 0 }} className="layout">
-      <HeaderSol
-        tipoCuenta="Distribuidora"
-        displaymodechange={(__c) => {
-          props?.displaymodechange?.(__c);
-        }}
-      />
-
       <Card
         size="small"
         styles={card_style2}
         title={<div>{<MenuDistribuidora />}</div>}
         style={{
-          borderTop:"2px solid #ffffff",
           borderLeft:"#262D42",
           borderRight:"#262D42",
         }}
