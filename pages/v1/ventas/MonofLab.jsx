@@ -124,4 +124,4 @@ export default function VentaMonofocalesLab() {
   );
 }
 
-VentaMonofocalesLab.PageLayout = LayoutVentasV2;
+VentaMonofocalesLab.PageLayout = LayoutVentas;

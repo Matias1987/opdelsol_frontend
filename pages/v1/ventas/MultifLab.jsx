@@ -116,4 +116,4 @@ export default function VentaMultifocalesLab() {
     </>
   );
 }
-VentaMultifocalesLab.PageLayout = LayoutVentasV2;
+VentaMultifocalesLab.PageLayout = LayoutVentas;

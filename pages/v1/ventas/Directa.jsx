@@ -116,4 +116,4 @@ export default function VentaDirecta() {
   );
 }
 
-VentaDirecta.PageLayout = LayoutVentasV2;
+VentaDirecta.PageLayout = LayoutVentas;

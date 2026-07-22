@@ -112,4 +112,4 @@ export default function VentaLCLab() {
   );
 }
 
-VentaLCLab.PageLayout = LayoutVentasV2;
+VentaLCLab.PageLayout = LayoutVentas;

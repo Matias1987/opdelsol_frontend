@@ -1,4 +1,5 @@
 import {
+  BoxPlotOutlined,
   HomeFilled,
   LogoutOutlined,
   StarOutlined,
@@ -17,7 +18,7 @@ const items = [
   {
     label: (
       <Link href={public_urls.dashboard_distribuidora}>
-        <HomeFilled />
+        <HomeFilled /> Inicio
       </Link>
     ),
     key: "9",
@@ -47,6 +48,13 @@ const items = [
     key: "12",
     icon: <UserOutlined />,
   },
+  {
+    label: (
+      <Link href={public_urls.productos_distribuidora}>Productos</Link>
+    ),
+    key: "13",
+    icon: <BoxPlotOutlined />,
+  },
 ];
 export default function MenuDistribuidora() {
   const [current, setCurrent] = useState("9");
@@ -55,11 +63,18 @@ export default function MenuDistribuidora() {
   };
   return (
     <Flex
+      style={{ width: "100%", padding: "0 16px" }}
       justify="space-between"
       align="center"
     >
+      <div
+        style={{ marginRight: "24px", display: "flex", alignItems: "center", color:"white" }}
+      >
+        Universal Lens
+        
+      </div>
       <Menu
-        style={{width:"600px"}}
+        style={{ width: "650px" }}
         styles={{
           root: { padding: "2px" }, // Custom padding for the main wrapper
         }}
@@ -69,33 +84,34 @@ export default function MenuDistribuidora() {
         mode="horizontal"
         items={items}
       />
+
       <div>
         <SucursalLabel />
         <Button
-            size="small"
-            type="text"
-            style={{ color: "white", paddingTop:"8px" }}
-            onClick={() => {
-              const _token = getItem("token", "session");
+          size="small"
+          type="text"
+          style={{ color: "white", paddingTop: "8px" }}
+          onClick={() => {
+            const _token = getItem("token", "session");
 
-              fetch(get.logout + _token)
-                .then((response) => response.json())
-                .then((response) => {
-                  registrar_evento(
-                    "USER_LOGOUT",
-                    "Cierre de sesion",
-                    globals.obtenerUID(),
-                  );
-                  window.location.replace(public_urls.login);
-                })
-                .catch((err) => {
-                  console.log("error");
-                });
-            }}
-          >
-            <LogoutOutlined />
-            Salir
-          </Button>
+            fetch(get.logout + _token)
+              .then((response) => response.json())
+              .then((response) => {
+                registrar_evento(
+                  "USER_LOGOUT",
+                  "Cierre de sesion",
+                  globals.obtenerUID(),
+                );
+                window.location.replace(public_urls.login);
+              })
+              .catch((err) => {
+                console.log("error");
+              });
+          }}
+        >
+          <LogoutOutlined />
+          Salir
+        </Button>
       </div>
     </Flex>
   );

@@ -119,4 +119,4 @@ export default function VentaLCStock() {
   );
 }
 
-VentaLCStock.PageLayout = LayoutVentasV2;
+VentaLCStock.PageLayout = LayoutVentas;

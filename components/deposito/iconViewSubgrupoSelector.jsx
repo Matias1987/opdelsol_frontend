@@ -10,16 +10,28 @@ import {
   GroupOutlined,
   InfoOutlined,
   PlusOutlined,
+  ScheduleOutlined,
   SearchOutlined,
+  ToolFilled,
+  ToolOutlined,
 } from "@ant-design/icons";
-import { Button, Card, Col, Input, Modal, Row } from "antd";
+import { Button, Card, Col, Dropdown, Input, Modal, Row } from "antd";
 import { cloneElement, useEffect, useState } from "react";
 import FamiliaForm from "../forms/FamiliaForm";
 import SubFamiliaForm from "../forms/SubFamiliaForm";
 import GrupoForm from "../forms/GrupoForm";
 import SubGrupoFormV3 from "../forms/deposito/SubgrupoFormV3";
 
-const IconViewSubgrupoSelector = ({ callback }) => {
+const IconViewSubgrupoSelector = ({
+  callback,
+  idInicial,
+  tipoInicial,
+  modoDistribuidora,
+  onEditarClick,
+  onDetalleClick,
+  onInhabilitarClick,
+  incCodigos,
+}) => {
   const [loading, setLoading] = useState(false);
   const [items, setItems] = useState([]);
   const [parent, setParent] = useState(null);
@@ -34,20 +46,68 @@ const IconViewSubgrupoSelector = ({ callback }) => {
   const regexp_monof = /^([A-Z_0-9\.]+)(_)([0-9\.]+)($)/;
   const regexp_terminados = /ESF(\-|\+)([0-9\.]+)CIL(\-|\+)([0-9\.]+).*$/;
 
+  const cmItems = [
+    {
+      label: "Editar",
+      key: "edit",
+    },
+    {
+      label: "Detalle",
+      key: "info",
+    },
+    {
+      type: "divider", // Adds a separation line
+    },
+    {
+      label: "Desactivar",
+      key: "delete",
+      danger: true,
+    },
+  ];
+
+  const handleMenuClick = ({ key }, item) => {
+    //alert(JSON.stringify({key, id: item.id, tipo: item.tipo}))
+    switch (key) {
+      case "edit":
+        onEditarClick?.(item.id, item.tipo);
+        break;
+      case "info":
+        onDetalleClick?.(item.id, item.tipo);
+        break;
+      case "delete":
+        onInhabilitarClick?.(item.id, item.tipo);
+        break;
+    }
+  };
+
   const getIcon = (tipo) => {
-    return "codigo" === tipo ? (
-      <>
-        <FileOutlined
-          className="disable-select"
-          style={{ fontSize: "24px", color: "#0787ff" }}
-        />{" "}
-      </>
-    ) : (
-      <FolderFilled
-        className="disable-select"
-        style={{ fontSize: "48px", color: "#FFE8A0" }}//#ff9307
-      />
-    );
+    switch (tipo) {
+      case "codigo":
+        return (
+          <>
+            <FileOutlined
+              className="disable-select"
+              style={{ fontSize: "24px", color: "#0787ff" }}
+            />{" "}
+          </>
+        );
+      case "trabajo":
+        return (
+          <>
+            <ToolOutlined
+              className="disable-select"
+              style={{ fontSize: "48px", color: "#0787ff" }}
+            />
+          </>
+        );
+      default:
+        return (
+          <FolderFilled
+            className="disable-select"
+            style={{ fontSize: "48px", color: "#FFD04F" }} //#ff9307
+          />
+        );
+    }
   };
 
   const clearElements = () => {
@@ -67,20 +127,27 @@ const IconViewSubgrupoSelector = ({ callback }) => {
   };
 
   const onParentChange = (element) => {
-    if (element && "codigo" === element.tipo) {
+    if (element && element?.hasChildren === false) {
       return;
     }
     setFiltroStr("");
-    setParent(element);
+
+    if (null === element || true === element?.isRoot) {
+      setParent(null);
+    } else {
+      setParent(element);
+    }
+
     if (null === element) {
       callback?.(null);
       return load(get.lista_familia, (rows) => {
         setItems(
           rows.map((row) => ({
-            parent: element,
+            parent: { ...element, isRoot: true },
             nombre: row.nombre_corto,
             id: row.idfamilia,
             tipo: "familia",
+            hasChildren: true,
           })),
         );
       });
@@ -94,6 +161,7 @@ const IconViewSubgrupoSelector = ({ callback }) => {
             nombre: row.label,
             id: row.value,
             tipo: "subfamilia",
+            hasChildren: true,
           })),
         );
       });
@@ -107,44 +175,71 @@ const IconViewSubgrupoSelector = ({ callback }) => {
             nombre: row.label,
             id: row.value,
             tipo: "grupo",
+            hasChildren: true,
           })),
         );
       });
     }
     if ("grupo" === element.tipo) {
       callback?.(null);
-      return load(get.optionsforgrupo + element.id, (rows) => {
-        setItems(
-          rows.map((row) => ({
-            parent: element,
-            nombre: row.label,
-            id: row.value,
-            tipo: "subgrupo",
-          })),
-        );
-      });
+      if (!modoDistribuidora) {
+        return load(get.optionsforgrupo + element.id, (rows) => {
+          setItems(
+            rows.map((row) => ({
+              parent: element,
+              nombre: row.label,
+              id: row.value,
+              tipo: "subgrupo",
+              hasChildren: false,
+            })),
+          );
+        });
+      } else {
+        return load(get.subgrupo_por_grupo_v2 + element.id, (rows) => {
+          setItems(
+            rows.map((row) => ({
+              parent: element,
+              nombre: row.nombre_corto,
+              id: row.idsubgrupo,
+              tipo: +row.es_disenio == 1 ? "trabajo" : "subgrupo",
+              hasChildren: +row.es_disenio != 1,
+            })),
+          );
+        });
+      }
     }
     if ("subgrupo" === element.tipo) {
       setItems([]);
       callback?.(element.id);
+      if (incCodigos) {
+        return load(get.codigosOptSubgrupo + element.id, (rows) => {
+          setItems(
+            rows.map((row) => ({
+              parent: element,
+              nombre: row.label,
+              id: row.value,
+              tipo: "codigo",
+            })),
+          );
+        });
+      }
       /*
-      return load(get.codigosOptSubgrupo + element.id, (rows) => {
-        
-        setItems(
-          rows.map((row) => ({
-            parent: element,
-            nombre: row.label,
-            id: row.value,
-            tipo: "codigo",
-          })),
-        );
-      });
+      
       */
     }
   };
 
   useEffect(() => {
-    onParentChange(parent);
+    let _parent = null;
+    if (idInicial) {
+      _parent = {
+        isRoot: true,
+        tipo: tipoInicial,
+        id: idInicial,
+        nombre: "DISTRIBUIDORA",
+      };
+    }
+    onParentChange(_parent);
   }, [reload]);
 
   const getPath = (element) => {
@@ -196,7 +291,7 @@ const IconViewSubgrupoSelector = ({ callback }) => {
     if (element && "codigo" === element.tipo) {
       return;
     }
-  
+
     if (null === element) {
       return (
         <Button
@@ -251,10 +346,15 @@ const IconViewSubgrupoSelector = ({ callback }) => {
     <>
       <Card
         size="small"
-        styles={{ body: { backgroundColor:"#F8F8F8", boxShadow: "1px 1px 1px 1px rgba(154, 154, 155, 0.6)" } }}
+        styles={{
+          body: {
+            backgroundColor: "#F8F8F8",
+            boxShadow: "1px 1px 1px 1px rgba(154, 154, 155, 0.6)",
+          },
+        }}
         title={
           <Input
-            style={{width:"100%"}}
+            style={{ width: "100%" }}
             allowClear
             onChange={(e) => setFiltroStr(e.target.value || "")}
             value={filtroStr}
@@ -292,43 +392,56 @@ const IconViewSubgrupoSelector = ({ callback }) => {
               )
           ).map((item) => (
             <Col xs={12} sm={8} md={6} lg={4} xl={3} key={item.id}>
-              <Card
-                loading={loading}
-                onClick={(_) => {
-                  setSelectedItem(item);
+              <Dropdown
+                menu={{
+                  items: cmItems,
+                  onClick: (e) => {
+                    handleMenuClick(e, item);
+                  },
                 }}
-                onDoubleClick={(_) => {
-                  onParentChange(item);
-                }}
-                hoverable
-                style={{ borderRadius:"16px", backgroundColor:"rgba(255, 255, 255, 0.1)"}}
-                styles={{
-                  cursor: "pointer",
-                 
-                  body: { padding: "16px", textAlign: "center"},
-                }}
+                trigger={["contextMenu"]}
               >
-                <div style={{ marginBottom: "8px", textAlign:"center" }}>
-                  {/* Scale up the icon size for grid view */}
-                  {cloneElement(getIcon(item.tipo), {
-                    style: {
-                      fontSize: "48px",
-                      ...getIcon(item.type).props.style,
-                    },
-                  })}
-                </div>
-                <div
-                  className="disable-select"
+                <Card
+                  loading={loading}
+                  onClick={(_) => {
+                    setSelectedItem(item);
+                  }}
+                  onDoubleClick={(_) => {
+                    onParentChange(item);
+                  }}
+                  hoverable
                   style={{
-                    textOverflow: "ellipsis",
-                    overflow: "hidden",
-                    whiteSpace: "nowrap",
-                    textAlign:"center" 
+                    borderRadius: "16px",
+                    backgroundColor: "rgba(255, 255, 255, 0.1)",
+                  }}
+                  styles={{
+                    cursor: "pointer",
+
+                    body: { padding: "16px", textAlign: "center" },
                   }}
                 >
-                  {item.nombre}
-                </div>
-              </Card>
+                  <div style={{ marginBottom: "8px", textAlign: "center" }}>
+                    {/* Scale up the icon size for grid view */}
+                    {cloneElement(getIcon(item.tipo), {
+                      style: {
+                        fontSize: "48px",
+                        ...getIcon(item.type).props.style,
+                      },
+                    })}
+                  </div>
+                  <div
+                    className="disable-select"
+                    style={{
+                      textOverflow: "ellipsis",
+                      overflow: "hidden",
+                      whiteSpace: "nowrap",
+                      textAlign: "center",
+                    }}
+                  >
+                    {item.nombre}
+                  </div>
+                </Card>
+              </Dropdown>
             </Col>
           ))}
         </Row>

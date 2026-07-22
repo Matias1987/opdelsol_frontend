@@ -132,4 +132,4 @@ export default function VentaRecetaStock() {
     </>
   );
 }
-VentaRecetaStock.PageLayout = LayoutVentasV2;
+VentaRecetaStock.PageLayout = LayoutVentas;
