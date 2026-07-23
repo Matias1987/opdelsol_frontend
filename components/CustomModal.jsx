@@ -1,65 +1,77 @@
-import { Button, Modal } from "antd";
+import { Button, Col, Modal, Row } from "antd";
 import { useState } from "react";
 
 /**
- * 
- * @param onOpen function to be called before setting open to true 
- * @param validateOpen the popups opens according to the value returned by this function 
- * @param onCancel function to be called on cancel action 
- * @param onOk function to be called on OK action 
- * @param openButtonText text for the button to show 
+ *
+ * @param onOpen function to be called before setting open to true
+ * @param validateOpen the popups opens according to the value returned by this function
+ * @param onCancel function to be called on cancel action
+ * @param onOk function to be called on OK action
+ * @param openButtonText text for the button to show
  * @param okButtonProps button ok props
  * @param okText
  * @param block
- * @returns 
+ * @returns
  */
-export default function CustomModal(props){
+export default function CustomModal(props) {
   const [open, setOpen] = useState(false);
 
   const showModal = () => {
-    
-    if(typeof props.onOpen !== 'undefined'){
+    if (typeof props.onOpen !== "undefined") {
       props.onOpen();
     }
 
-    if(typeof props.validateOpen !== 'undefined'){
+    if (typeof props.validateOpen !== "undefined") {
       setOpen(props.validateOpen());
-    }
-    else{
+    } else {
       setOpen(true);
     }
-
-    
   };
 
   const handleCancel = () => {
-    console.log('Clicked cancel button');
+    console.log("Clicked cancel button");
     props?.onCancel?.();
     setOpen(false);
   };
   return (
     <>
-      <Button  type={props.type||"link"}  size={props.size||"small"}  onClick={showModal} block={typeof props.block !== 'undefined'}>
-        <span style={{fontSize:"1.00em", fontWeight:"400"}}><i>{props.openButtonText}</i></span>
-      </Button>
+      <Row>
+        <Col span={24}>
+          <Button
+            type={props.type || "link"}
+            size={props.size || "small"}
+            onClick={showModal}
+            block={typeof props.block !== "undefined"}
+            style={props.btnStyle || { fontSize: "1em" }}
+          >
+            <span style={{ fontSize: "1.00em", fontWeight: "400" }}>
+              <i>{props.openButtonText}</i>
+            </span>
+          </Button>
+        </Col>
+      </Row>
+
       <Modal
-      
         footer={null}
-        cancelButtonProps={{ style: { display: 'none' } }}
-        okButtonProps={(typeof props.okButtonProps === 'undefined') ? {children:"CERRAR"} : props.okButtonProps}
-        
-        width={props?.width||"95%"}
+        cancelButtonProps={{ style: { display: "none" } }}
+        okButtonProps={
+          typeof props.okButtonProps === "undefined"
+            ? { children: "CERRAR" }
+            : props.okButtonProps
+        }
+        width={props?.width || "95%"}
         title={<>{props.title}</>}
         open={open}
-        onOk={()=>{ 
-          props?.onOk?.(); 
-          setOpen(false)}}
+        onOk={() => {
+          props?.onOk?.();
+          setOpen(false);
+        }}
         onCancel={handleCancel}
-        okText= {typeof props.okText === 'undefined' ? "CERRAR": props.okText}
+        okText={typeof props.okText === "undefined" ? "CERRAR" : props.okText}
         destroyOnClose={true}
       >
         {props.children}
       </Modal>
     </>
   );
-};
+}

@@ -323,7 +323,7 @@ const TrabajoMultiple = ({
   const modo_formulario_unico = (_) => (
     <>
       <Row style={{ padding: ".9em" }}>
-        <Col style={{ minWidth: "250px" }}>
+        <Col style={{ minWidth: "250px", width:"100%" }}>
           <SelectClienteMayorista
             mayorista
             callback={(value) => {

@@ -16,7 +16,6 @@ import {
 import { useEffect, useRef, useState } from "react";
 import CobroOperacion from "../forms/caja/CobroForm";
 import CargaManual from "../forms/caja/CargaManual";
-import PrinterWrapper from "../PrinterWrapper";
 import CargaBloqueo from "../forms/caja/CargaBloqueo";
 import globals from "@/src/globals";
 import { post_method } from "@/src/helpers/post_helper";
@@ -27,6 +26,7 @@ import esES from "antd/locale/es_ES";
 import dayjs from "dayjs";
 import ImpresionResumen from "./ImpresionResumen";
 import { InfoCircleOutlined, PrinterOutlined } from "@ant-design/icons";
+import ClienteDescuentos from "./descuentos/clienteDescuentos";
 
 export default function FichaClienteMayorista(props) {
   const [operaciones, setOperaciones] = useState([]);
@@ -474,6 +474,29 @@ export default function FichaClienteMayorista(props) {
       ),
     },
     {
+      key: "3",
+      label: <>Descuentos</>,
+      children: (
+        <>
+          <Row>
+            <Col span={20}>{detalles_cliente()}</Col>
+          </Row>
+          <Row>
+            <Col span={24}>
+              {dataCliente == null ? (
+                <></>
+              ) : (
+                <ClienteDescuentos
+                  cliente={dataCliente}
+                  key={fix}
+                />
+              )}
+            </Col>
+          </Row>
+        </>
+      ),
+    },
+    {
       key: "2",
       label: <>Anotaciones</>,
       children: (
@@ -497,6 +520,7 @@ export default function FichaClienteMayorista(props) {
         </>
       ),
     },
+    
   ];
 
   return (

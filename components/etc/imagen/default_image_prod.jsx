@@ -36,7 +36,7 @@ const DefaultImageProduct = props => {
                 return
             }
             
-            setImg(_=>({src:uploads_url + response.data[0].fname}))
+            setImg(_=>({src:uploads_url + response.data[0]?.fname}))
         })
     }
 

@@ -89,7 +89,7 @@ const SelectClienteMayorista = (props) => {
 
   const columns = [
     { dataIndex: "nombre", title: "Nombre", key: "nombre" },
-  /*   { dataIndex: "dni", title: "DNI", key: "dni" },*/
+    /*   { dataIndex: "dni", title: "DNI", key: "dni" },*/
     { dataIndex: "direccion", title: "Direccion", key: "direccion" },
     /*        {dataIndex: 'idcliente', title: '', key: 'acciones', render: (_,{idcliente, bloqueado})=>(
             <>
@@ -116,7 +116,8 @@ const SelectClienteMayorista = (props) => {
           <b>{clienteData.nombre} </b>
           {typeof props.destinatario === "undefined" ? (
             <>
-              &nbsp;&nbsp; CUIT/CUIL: <b>{<MostrarDNI dni={clienteData.dni} />}</b>&nbsp;
+              &nbsp;&nbsp; CUIT/CUIL:{" "}
+              <b>{<MostrarDNI dni={clienteData.dni} />}</b>&nbsp;
               {typeof minVersion === "undefined" ? (
                 <>
                   Tel&eacute;fono: {clienteData.telefono1}&nbsp;
@@ -172,76 +173,93 @@ const SelectClienteMayorista = (props) => {
 
   return idCliente == -1 ? (
     <>
-      <CustomModal
-        size="small"
-        onOpen={onOpenPopup}
-        openButtonText={
-          <span
-            style={{
-              fontWeight: "bolder",
-              color: "#e90800",
-              fontSize: "1.1em",
-            }}
-          >
-            <UserOutlined /> Seleccione Cliente ...
-          </span>
-        }
-        title="Seleccionar Cliente"
-      >
-        <Row>
-          <Col span={24}>
-            <Table
-              onRow={(record, index) => ({
-                onClick: (e) => {
-                  if (+record.bloqueado == 1) {
-                    alert("Cliente bloqueado");
-                    return;
-                  }
+      <Row>
+        <Col span={24}>
+          <CustomModal
+            block
+            btnStyle={{ border: "1px dotted #fceae8", padding:"8px" }}
 
-                  upload_cliente_details(record.idcliente);
-                  setClienteData(record);
-                },
-              })}
-              title={(_) => (
-                <Row gutter={"16"}>
-                  <Col>
-                    <span style={{ fontWeight: "bold" }}>Clientes</span>{" "}
-                    <Button
-                      type="link"
-                      onClick={(_) => {
-                        setPopupAddOpen(true);
-                      }}
-                    >
-                      <PlusOutlined /> Agregar
-                    </Button>
-                  </Col>
-                  <Col>
-                    <Input
-                      addonBefore="Buscar"
-                      style={{ width: "350px" }}
-                      allowClear
-                      value={strBusqueda}
-                      onChange={(e) => setStrBusqueda(e.target.value || "")}
-                    />
-                  </Col>
-                </Row>
-              )}
-              size="small"
-              scroll={{ y: "500px" }}
-              loading={loading}
-              rowClassName={(record, index) =>
-                record.bloqueado
-                  ? "error-row"
-                  : index % 2 === 0
-                    ? "table-row-light"
-                    : "table-row-dark"
-              }
-              columns={columns}
-              dataSource={ (strBusqueda.trim()).length < 1 ?  clientes : clientes.filter(c=>c.nombre.toUpperCase().includes(strBusqueda.toUpperCase()))}
-            />
-          </Col>
-        </Row>
-      </CustomModal>
+            onOpen={onOpenPopup}
+            openButtonText={
+              <div
+                style={{
+                  fontWeight: "bolder",
+                  color: "#e90800",
+                  fontSize: "1.1em",
+                  width: "100%",
+                  textAlign: "center",
+                }}
+              >
+                <UserOutlined /> Seleccione Cliente ...
+              </div>
+            }
+            title="Seleccionar Cliente"
+          >
+            <Row>
+              <Col span={24}>
+                <Table
+                  onRow={(record, index) => ({
+                    onClick: (e) => {
+                      if (+record.bloqueado == 1) {
+                        alert("Cliente bloqueado");
+                        return;
+                      }
+
+                      upload_cliente_details(record.idcliente);
+                      setClienteData(record);
+                    },
+                  })}
+                  title={(_) => (
+                    <Row gutter={"16"}>
+                      <Col>
+                        <span style={{ fontWeight: "bold" }}>Clientes</span>{" "}
+                        <Button
+                          type="link"
+                          onClick={(_) => {
+                            setPopupAddOpen(true);
+                          }}
+                        >
+                          <PlusOutlined /> Agregar
+                        </Button>
+                      </Col>
+                      <Col>
+                        <Input
+                          addonBefore="Buscar"
+                          style={{ width: "350px" }}
+                          allowClear
+                          value={strBusqueda}
+                          onChange={(e) => setStrBusqueda(e.target.value || "")}
+                        />
+                      </Col>
+                    </Row>
+                  )}
+                  size="small"
+                  scroll={{ y: "500px" }}
+                  loading={loading}
+                  rowClassName={(record, index) =>
+                    record.bloqueado
+                      ? "error-row"
+                      : index % 2 === 0
+                        ? "table-row-light"
+                        : "table-row-dark"
+                  }
+                  columns={columns}
+                  dataSource={
+                    strBusqueda.trim().length < 1
+                      ? clientes
+                      : clientes.filter((c) =>
+                          c.nombre
+                            .toUpperCase()
+                            .includes(strBusqueda.toUpperCase()),
+                        )
+                  }
+                />
+              </Col>
+            </Row>
+          </CustomModal>
+        </Col>
+      </Row>
+
       <Modal
         open={popupAddOpen}
         onCancel={(_) => {

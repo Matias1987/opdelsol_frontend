@@ -1,21 +1,27 @@
 import { get } from "@/src/urls";
 import {
+  AppstoreOutlined,
   BackwardOutlined,
-  EditOutlined,
+  BarsOutlined,
   FileOutlined,
   FolderFilled,
-  FolderOutlined,
-  FolderTwoTone,
-  FolderViewOutlined,
   GroupOutlined,
-  InfoOutlined,
   PlusOutlined,
-  ScheduleOutlined,
   SearchOutlined,
-  ToolFilled,
   ToolOutlined,
 } from "@ant-design/icons";
-import { Button, Card, Col, Dropdown, Input, Modal, Row } from "antd";
+import {
+  Button,
+  Card,
+  Col,
+  Dropdown,
+  Flex,
+  Input,
+  Modal,
+  Row,
+  Segmented,
+  Table,
+} from "antd";
 import { cloneElement, useEffect, useState } from "react";
 import FamiliaForm from "../forms/FamiliaForm";
 import SubFamiliaForm from "../forms/SubFamiliaForm";
@@ -24,13 +30,18 @@ import SubGrupoFormV3 from "../forms/deposito/SubgrupoFormV3";
 
 const IconViewSubgrupoSelector = ({
   callback,
+  title,
   idInicial,
   tipoInicial,
+  nombreInicial,
   modoDistribuidora,
   onEditarClick,
   onDetalleClick,
   onInhabilitarClick,
   incCodigos,
+  vistaTabla,
+  size,
+  disableAdd,
 }) => {
   const [loading, setLoading] = useState(false);
   const [items, setItems] = useState([]);
@@ -42,9 +53,42 @@ const IconViewSubgrupoSelector = ({
   const [addSGOpen, setAddSGOpen] = useState(false);
   const [reload, setReload] = useState(false);
   const [filtroStr, setFiltroStr] = useState("");
+  const [displayMode, setDisplayMode] = useState("k");
   const regexp_bif = /(_)(L|R)(_ADD_)/;
   const regexp_monof = /^([A-Z_0-9\.]+)(_)([0-9\.]+)($)/;
   const regexp_terminados = /ESF(\-|\+)([0-9\.]+)CIL(\-|\+)([0-9\.]+).*$/;
+
+  const columns = [
+    {
+      width: "100%",
+      dataIndex: "id",
+      title: "Nombre",
+
+      render: (_, record) => (
+        <>
+          <Dropdown
+            menu={{
+              items: cmItems,
+              onClick: (e) => {
+                handleMenuClick(e, record);
+              },
+            }}
+            trigger={["contextMenu"]}
+          >
+            <div>
+              {cloneElement(getIcon(record.tipo), {
+                style: {
+                  fontSize: "s" === size ? "16px" : "32px",
+                  ...getIcon(record.type).props.style,
+                },
+              })}
+              &nbsp;&nbsp;&nbsp;{record.nombre}
+            </div>
+          </Dropdown>
+        </>
+      ),
+    },
+  ];
 
   const cmItems = [
     {
@@ -87,7 +131,10 @@ const IconViewSubgrupoSelector = ({
           <>
             <FileOutlined
               className="disable-select"
-              style={{ fontSize: "24px", color: "#0787ff" }}
+              style={{
+                fontSize: "s" === size ? "16px" : "32px",
+                color: "#0787ff",
+              }}
             />{" "}
           </>
         );
@@ -96,7 +143,10 @@ const IconViewSubgrupoSelector = ({
           <>
             <ToolOutlined
               className="disable-select"
-              style={{ fontSize: "48px", color: "#0787ff" }}
+              style={{
+                fontSize: "s" === size ? "16px" : "32px",
+                color: "#0787ff",
+              }}
             />
           </>
         );
@@ -104,7 +154,10 @@ const IconViewSubgrupoSelector = ({
         return (
           <FolderFilled
             className="disable-select"
-            style={{ fontSize: "48px", color: "#FFD04F" }} //#ff9307
+            style={{
+              fontSize: "s" === size ? "16px" : "32px",
+              color: "#FFD04F",
+            }} //#ff9307
           />
         );
     }
@@ -127,15 +180,16 @@ const IconViewSubgrupoSelector = ({
   };
 
   const onParentChange = (element) => {
-    if (element && element?.hasChildren === false) {
-      return;
-    }
+    //alert(JSON.stringify(element));
+
     setFiltroStr("");
 
     if (null === element || true === element?.isRoot) {
       setParent(null);
     } else {
-      setParent(element);
+      if (element?.hasChildren) {
+        setParent(element);
+      }
     }
 
     if (null === element) {
@@ -143,7 +197,7 @@ const IconViewSubgrupoSelector = ({
       return load(get.lista_familia, (rows) => {
         setItems(
           rows.map((row) => ({
-            parent: { ...element, isRoot: true },
+            parent: null,
             nombre: row.nombre_corto,
             id: row.idfamilia,
             tipo: "familia",
@@ -190,7 +244,7 @@ const IconViewSubgrupoSelector = ({
               nombre: row.label,
               id: row.value,
               tipo: "subgrupo",
-              hasChildren: false,
+              hasChildren: true,
             })),
           );
         });
@@ -208,10 +262,10 @@ const IconViewSubgrupoSelector = ({
         });
       }
     }
-    if ("subgrupo" === element.tipo) {
-      setItems([]);
-      callback?.(element.id);
-      if (incCodigos) {
+    if ("subgrupo" === element.tipo || "trabajo" === element.tipo) {
+      callback?.(element.id, element.tipo);
+      if (incCodigos && "subgrupo" === element.tipo ) {
+        setItems([]);
         return load(get.codigosOptSubgrupo + element.id, (rows) => {
           setItems(
             rows.map((row) => ({
@@ -230,23 +284,25 @@ const IconViewSubgrupoSelector = ({
   };
 
   useEffect(() => {
+    setDisplayMode(vistaTabla ? "l" : "k");
     let _parent = null;
     if (idInicial) {
       _parent = {
         isRoot: true,
         tipo: tipoInicial,
         id: idInicial,
-        nombre: "DISTRIBUIDORA",
+        nombre: nombreInicial,
       };
     }
+
     onParentChange(_parent);
   }, [reload]);
 
   const getPath = (element) => {
     let p = "";
     let cur = element;
-    while (null !== cur) {
-      p = cur.nombre + " / " + p;
+    while (cur) {
+      p = (cur?.nombre || "") + " / " + p;
       cur = cur?.parent || null;
     }
 
@@ -286,6 +342,10 @@ const IconViewSubgrupoSelector = ({
   };
 
   const getNewButton = () => {
+    if(disableAdd)
+    {
+      return <></>;
+    }
     const element = parent;
 
     if (element && "codigo" === element.tipo) {
@@ -295,6 +355,7 @@ const IconViewSubgrupoSelector = ({
     if (null === element) {
       return (
         <Button
+          size="small"
           onClick={(_) => {
             setAddFOpen(true);
           }}
@@ -308,6 +369,7 @@ const IconViewSubgrupoSelector = ({
     if ("familia" === element.tipo) {
       return (
         <Button
+          size="small"
           onClick={(_) => {
             setAddSFOpen(true);
           }}
@@ -320,6 +382,7 @@ const IconViewSubgrupoSelector = ({
     if ("subfamilia" === element.tipo) {
       return (
         <Button
+          size="small"
           onClick={(_) => {
             setAddGOpen(true);
           }}
@@ -332,6 +395,7 @@ const IconViewSubgrupoSelector = ({
     if ("grupo" === element.tipo) {
       return (
         <Button
+          size="small"
           onClick={(_) => {
             setAddSGOpen(true);
           }}
@@ -353,22 +417,38 @@ const IconViewSubgrupoSelector = ({
           },
         }}
         title={
-          <Input
-            style={{ width: "100%" }}
-            allowClear
-            onChange={(e) => setFiltroStr(e.target.value || "")}
-            value={filtroStr}
-            prefix={<SearchOutlined />}
-          />
+          <Flex justify="space-between" align="center">
+            {title ?? ""}
+            <span>
+              <Segmented
+                value={displayMode}
+                onChange={(v) => setDisplayMode(v)}
+                options={[
+                  { value: "k", icon: <AppstoreOutlined /> },
+                  { value: "l", icon: <BarsOutlined /> },
+                ]}
+              />
+              <Input
+                style={{ width: "300px" }}
+                allowClear
+                onChange={(e) => setFiltroStr(e.target.value || "")}
+                value={filtroStr}
+                prefix={<SearchOutlined />}
+              />
+            </span>
+          </Flex>
         }
       >
         {null === parent ? (
-          <Row>
+          <Row style={{ padding: "4px" }}>
             <Col span={24}> {getNewButton()}</Col>
           </Row>
         ) : (
-          <Row style={{ padding: "12px" }}>
+          <Row
+            style={{ padding: "4px", fontSize: size == "s" ? "12px" : "24px" }}
+          >
             <Button
+              size="small"
               onClick={(_) => {
                 onParentChange(parent.parent || null);
               }}
@@ -384,67 +464,92 @@ const IconViewSubgrupoSelector = ({
             {getNewButton()}
           </Row>
         )}
-        <Row g={16} gutter={[16, 16]}>
-          {(filtroStr.trim().length < 1
-            ? items
-            : items.filter((i) =>
-                i.nombre.toUpperCase().includes(filtroStr.toUpperCase()),
-              )
-          ).map((item) => (
-            <Col xs={12} sm={8} md={6} lg={4} xl={3} key={item.id}>
-              <Dropdown
-                menu={{
-                  items: cmItems,
-                  onClick: (e) => {
-                    handleMenuClick(e, item);
-                  },
-                }}
-                trigger={["contextMenu"]}
-              >
-                <Card
-                  loading={loading}
-                  onClick={(_) => {
-                    setSelectedItem(item);
-                  }}
-                  onDoubleClick={(_) => {
-                    onParentChange(item);
-                  }}
-                  hoverable
-                  style={{
-                    borderRadius: "16px",
-                    backgroundColor: "rgba(255, 255, 255, 0.1)",
-                  }}
-                  styles={{
-                    cursor: "pointer",
 
-                    body: { padding: "16px", textAlign: "center" },
+        {"k" === displayMode ? (
+          <Row g={16} gutter={[16, 16]}>
+            {(filtroStr.trim().length < 1
+              ? items
+              : items.filter((i) =>
+                  i.nombre.toUpperCase().includes(filtroStr.toUpperCase()),
+                )
+            ).map((item) => (
+              <Col xs={12} sm={8} md={6} lg={4} xl={3} key={item.id}>
+                <Dropdown
+                  menu={{
+                    items: cmItems,
+                    onClick: (e) => {
+                      handleMenuClick(e, item);
+                    },
                   }}
+                  trigger={["contextMenu"]}
                 >
-                  <div style={{ marginBottom: "8px", textAlign: "center" }}>
-                    {/* Scale up the icon size for grid view */}
-                    {cloneElement(getIcon(item.tipo), {
-                      style: {
-                        fontSize: "48px",
-                        ...getIcon(item.type).props.style,
-                      },
-                    })}
-                  </div>
-                  <div
-                    className="disable-select"
+                  <Card
+                    loading={loading}
+                    onClick={(_) => {
+                      setSelectedItem(item);
+                    }}
+                    onDoubleClick={(_) => {
+                      onParentChange(item);
+                    }}
+                    hoverable
                     style={{
-                      textOverflow: "ellipsis",
-                      overflow: "hidden",
-                      whiteSpace: "nowrap",
-                      textAlign: "center",
+                      borderRadius: "16px",
+                      backgroundColor: "rgba(255, 255, 255, 0.1)",
+                    }}
+                    styles={{
+                      cursor: "pointer",
+
+                      body: { padding: "16px", textAlign: "center" },
                     }}
                   >
-                    {item.nombre}
-                  </div>
-                </Card>
-              </Dropdown>
-            </Col>
-          ))}
-        </Row>
+                    <div style={{ marginBottom: "8px", textAlign: "center" }}>
+                      {/* Scale up the icon size for grid view */}
+                      {cloneElement(getIcon(item.tipo), {
+                        style: {
+                          fontSize: "s" === size ? "16px" : "32px",
+                          ...getIcon(item.type).props.style,
+                        },
+                      })}
+                    </div>
+                    <div
+                      className="disable-select"
+                      style={{
+                        textOverflow: "ellipsis",
+                        overflow: "hidden",
+                        whiteSpace: "nowrap",
+                        textAlign: "center",
+                      }}
+                    >
+                      {item.nombre}
+                    </div>
+                  </Card>
+                </Dropdown>
+              </Col>
+            ))}
+          </Row>
+        ) : (
+          <Table
+            size="small"
+            columns={columns}
+            showHeader={true}
+            scroll={{ y: size == "s" ? 200 : 300 }}
+            pagination={false}
+            dataSource={
+              filtroStr.trim().length < 1
+                ? items
+                : items.filter((i) =>
+                    i.nombre.toUpperCase().includes(filtroStr.toUpperCase()),
+                  )
+            }
+            onRow={(record, rowIndex) => {
+              return {
+                onDoubleClick: (event) => {
+                  onParentChange(record);
+                },
+              };
+            }}
+          />
+        )}
       </Card>
 
       <Modal

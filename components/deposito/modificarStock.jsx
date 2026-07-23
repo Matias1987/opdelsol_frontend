@@ -20,7 +20,7 @@ import IconViewSubgrupoSelector from "./iconViewSubgrupoSelector";
 import { CloseOutlined } from "@ant-design/icons";
 import DetalleSubgrupo from "../DetalleSubgrupo";
 
-const ModificarStock = (props) => {
+const ModificarStock = ({dataDef}) => {
   const [usuarioDep, setUsuarioDep] = useState(false);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -68,7 +68,7 @@ const ModificarStock = (props) => {
             fontWeight: "500",
             fontSize: "1.1em",
             color: "#1215E5",
-            textAlign:"center"
+            textAlign: "center",
           }}
         >
           <i></i>
@@ -371,7 +371,7 @@ const ModificarStock = (props) => {
             <Row>
               <Col span={24}>
                 {data.length > 0 ? (
-                  <div style={{padding:"8px"}}>
+                  <div style={{ padding: "8px" }}>
                     <Button
                       size="small"
                       type="link"
@@ -391,6 +391,10 @@ const ModificarStock = (props) => {
                 ) : (
                   <>
                     <IconViewSubgrupoSelector
+                      title={dataDef.title}
+                      idInicial={dataDef.idInicial}
+                      tipoInicial={dataDef.tipoInicial}
+                      nombreInicial={dataDef.nombreInicial}
                       callback={(_idsubgrupo) => {
                         if (null === _idsubgrupo) {
                           setData([]);

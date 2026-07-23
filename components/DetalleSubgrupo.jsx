@@ -2,7 +2,7 @@ import { get } from "@/src/urls";
 import { Row, Col, Tag } from "antd";
 import { useEffect, useState } from "react";
 
-const DetalleSubgrupo = ({idsubgrupo, callback}) => {
+const DetalleSubgrupo = ({idsubgrupo, callback, onClose, closable}) => {
     const [subgrupo, setSubgrupo] = useState(null);
     
     const load = _=>{
@@ -21,7 +21,7 @@ const DetalleSubgrupo = ({idsubgrupo, callback}) => {
     }, [idsubgrupo]);
 
     return <span style={{fontWeight:"600",}}>
-     Subgrupo:&nbsp;{subgrupo==null ? idsubgrupo : <><Tag color="geekblue" style={{fontSize:"1.3em"}}>{subgrupo.nombre_largo}</Tag></>}
+     Subgrupo:&nbsp;{subgrupo==null ? idsubgrupo : <><Tag closable={closable} onClose={onClose} color="geekblue" style={{fontSize:"1em"}}>{subgrupo.nombre_largo}</Tag></>}
     </span>
 }
 

@@ -4,7 +4,13 @@ import LayoutVentas from "@/components/layout/layout_caja";
 import globals from "@/src/globals";
 
 export default function ListaStockV3() {
-    return <ModificarStock />
+    return <ModificarStock dataDef={
+        {
+            title:"Cristales",
+            idInicial:globals.familiaIDs.ARMAZON,
+            tipoInicial: "familia",
+            nombreInicial:"CRISTALES"
+        }}/>
 }
 
 ListaStockV3.PageLayout = globals.esUsuarioDepositoMin()

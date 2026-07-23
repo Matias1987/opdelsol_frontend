@@ -42,10 +42,24 @@ export default function productos_distrib() {
   };
   return (
     <>
-      <Card title="">
+      <Card
+        title="Productos"
+        size="small"
+        styles={{
+          header: {
+            backgroundColor: "##ffffed",
+            background:
+              "linear-gradient(281deg, #ffebcd 32%, rgba(231,233,235, 1) 75%)",
+            borderBottom: "1px solid #eee",
+            borderTopLeftRadius: "16px",
+            borderTopRightRadius: "16px",
+          },
+        }}
+      >
         <IconViewSubgrupoSelector
           idInicial={19}
           tipoInicial={"familia"}
+          nombreInicial={"DISTRIBUIDORA"}
           modoDistribuidora
           onEditarClick={onEditarClick}
           incCodigos={true}
@@ -85,27 +99,21 @@ export default function productos_distrib() {
         destroyOnClose
         width={"600px"}
         footer={null}
-      >
-      
-      </Modal>
+      ></Modal>
       <Modal
         open={popupEditSFOpen}
         onCancel={(_) => setPopupEditSFOpen(false)}
         destroyOnClose
         width={"600px"}
         footer={null}
-      >
-      
-      </Modal>
+      ></Modal>
       <Modal
         open={popupEditGOpen}
         onCancel={(_) => setPopupEditGOpen(false)}
         destroyOnClose
         width={"600px"}
         footer={null}
-      >
-      
-      </Modal>
+      ></Modal>
       <Modal
         open={popupEditSGOpen}
         onCancel={(_) => setPopupEditSGOpen(false)}
@@ -113,9 +121,12 @@ export default function productos_distrib() {
         width={"600px"}
         footer={null}
       >
-        <SubGrupoFormV3 idsubgrupo={selectedProducto?.id} callback={(_) => {
+        <SubGrupoFormV3
+          idsubgrupo={selectedProducto?.id}
+          callback={(_) => {
             setPopupEditSGOpen(false);
-          }} />
+          }}
+        />
       </Modal>
     </>
   );
