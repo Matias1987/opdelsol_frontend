@@ -6,10 +6,10 @@ import globals from "@/src/globals";
 export default function ListaStockV3() {
     return <ModificarStock dataDef={
         {
-            title:"Cristales",
+            title:"Armazones",
             idInicial:globals.familiaIDs.ARMAZON,
             tipoInicial: "familia",
-            nombreInicial:"CRISTALES"
+            nombreInicial:"ARMAZONES"
         }}/>
 }
 

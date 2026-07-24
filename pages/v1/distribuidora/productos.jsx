@@ -63,6 +63,7 @@ export default function productos_distrib() {
           modoDistribuidora
           onEditarClick={onEditarClick}
           incCodigos={true}
+          vistaTabla={true}
         />
       </Card>
       <Modal
@@ -88,6 +89,7 @@ export default function productos_distrib() {
       >
         <EditarCodigoIndiv
           idcodigo={selectedProducto?.id}
+          buttonText={<>Editar C&oacute;digo</>}
           callback={(_) => {
             setPopupEditCodigoOpen(false);
           }}

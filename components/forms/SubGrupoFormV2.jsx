@@ -86,8 +86,8 @@ const SubGrupoFormV2 = (props) => {
         </Modal>
     </>)
 
-    const _row_style = {padding:"1em"}
-    const _input_style = {backgroundColor: "#78ACAC"}
+    const _row_style = {padding:"4px"}
+    const _input_style = {backgroundColor: "#ffffff"}
 
     return (
     <>
@@ -122,14 +122,14 @@ const SubGrupoFormV2 = (props) => {
             <Input prefix={"Precio por Defecto"} style={{..._input_style,width:'310px', textAlign:'right'}} type="number" step={".1"} value={subgrupo.precio_defecto} min="0" onChange={(e)=>{setSubgrupo((sg)=>({...sg,precio_defecto:e.target.value}))}}/>
             </Col>
          </Row>
-         <Row style={_row_style}>
+         {/*<Row style={_row_style}>
             <Col span={24}>
                 <Checkbox checked={subgrupo.control_stock==0} onChange={(e)=>{
                     setSubgrupo((sg)=>({...sg,control_stock:e.target.checked ? 0 : 1}))
                 }} > Laboratorio </Checkbox>
             </Col>
-         </Row>
-         <Row style={_row_style}>
+         </Row>*/}
+         <Row style={{..._row_style, textAlign:"right"}}>
             <Col span={24}>
                 <Button onClick={onFinish} type="primary">Agregar Subgrupo</Button>
             </Col>

@@ -281,6 +281,8 @@ const post = {
 
   agregar_sg_a_g: remote_base_url + "subgrupos/add/to/grupo/",
 
+  descuentos_cliente: remote_base_url + "dc/obtener/dto/cliente/",
+
   search: {
     filtro_stock: remote_base_url + "stock/filtro_stock/",
   },
@@ -637,6 +639,10 @@ const get = {
   obtener_lista_descuentos: remote_base_url + "dc/",
 
   subgrupo_por_grupo_v2: remote_base_url + "subgrupos/subgrupo_por_grupo_v2/",
+
+  venta_mayorista_bases: remote_base_url + "codigos/venta_mayorista_bases/",
+
+  venta_mayorista_stock: remote_base_url + "codigos/venta_mayorista_stock/",
 };
 
 module.exports = {

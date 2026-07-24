@@ -20,7 +20,7 @@ const Anotaciones = (props) => {
       dataIndex: "fecha_f",
       title: (
         <span
-          style={{ fontSize: ".65em", fontWeight: "bold", color: "#000680" }}
+          style={{  fontWeight: "bold", color: "#000680" }}
         >
           Fecha
         </span>
@@ -31,7 +31,7 @@ const Anotaciones = (props) => {
       dataIndex: "usuario",
       title: (
         <span
-          style={{ fontSize: ".65em", fontWeight: "bold", color: "#000680" }}
+          style={{  fontWeight: "bold", color: "#000680" }}
         >
           Autor
         </span>
@@ -42,7 +42,7 @@ const Anotaciones = (props) => {
       dataIndex: "nota",
       title: (
         <span
-          style={{ fontSize: ".65em", fontWeight: "bold", color: "#000680" }}
+          style={{  fontWeight: "bold", color: "#000680" }}
         >
           Mensaje
         </span>
@@ -82,17 +82,17 @@ const Anotaciones = (props) => {
         title={
           <>
             Anotaciones&nbsp;
-            <Button
+            
+          </>
+        }
+        extra={<Button
               onClick={() => {
                 setPopupAddOpen(true);
               }}
-              type="link"
-              size="small"
+              type="primary"
             >
-              <PlusOutlined size={"small"} />
-            </Button>
-          </>
-        }
+              <PlusOutlined size={"small"} /> Agregar
+            </Button>}
       >
         <Row>
           <Col span={24}>

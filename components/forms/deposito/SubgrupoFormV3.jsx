@@ -37,6 +37,7 @@ const SubGrupoFormV3 = (props) => {
   const [btnEnabled, setBtnEnabled] = useState(true);
 
   useEffect(() => {
+    alert(idsubgrupo);
     setUID(uuidv4());
     load();
   }, []);

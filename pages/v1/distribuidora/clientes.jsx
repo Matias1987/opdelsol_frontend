@@ -184,8 +184,8 @@ export default function clientes() {
           setPopupFichaOpen(false);
         }}
         destroyOnClose
-        title="Saldo"
-        width={"1000px"}
+        title="Detalle"
+        width={"800px"}
       >
         <FichaClienteMayorista
           idcliente={selectedCliente.idcliente}

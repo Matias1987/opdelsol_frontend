@@ -1,8 +1,9 @@
-import { get } from "@/src/urls";
+import { get, post } from "@/src/urls";
 import {
   AppstoreOutlined,
   BackwardOutlined,
   BarsOutlined,
+  DatabaseOutlined,
   FileOutlined,
   FolderFilled,
   GroupOutlined,
@@ -27,6 +28,9 @@ import FamiliaForm from "../forms/FamiliaForm";
 import SubFamiliaForm from "../forms/SubFamiliaForm";
 import GrupoForm from "../forms/GrupoForm";
 import SubGrupoFormV3 from "../forms/deposito/SubgrupoFormV3";
+import SubGrupoFormV2 from "../forms/SubGrupoFormV2";
+import SeleccionSubgrupo from "../forms/trabajo_multiple/seleccion_subgrupo";
+import { post_method } from "@/src/helpers/post_helper";
 
 const IconViewSubgrupoSelector = ({
   callback,
@@ -51,9 +55,11 @@ const IconViewSubgrupoSelector = ({
   const [addSFOpen, setAddSFOpen] = useState(false);
   const [addGOpen, setAddGOpen] = useState(false);
   const [addSGOpen, setAddSGOpen] = useState(false);
+  const [addExistenteSGOpen, setAddExistenteSGOpen] = useState(false);
   const [reload, setReload] = useState(false);
   const [filtroStr, setFiltroStr] = useState("");
   const [displayMode, setDisplayMode] = useState("k");
+  const [firstLoad, setFirstLoad] = useState(true);
   const regexp_bif = /(_)(L|R)(_ADD_)/;
   const regexp_monof = /^([A-Z_0-9\.]+)(_)([0-9\.]+)($)/;
   const regexp_terminados = /ESF(\-|\+)([0-9\.]+)CIL(\-|\+)([0-9\.]+).*$/;
@@ -126,6 +132,18 @@ const IconViewSubgrupoSelector = ({
 
   const getIcon = (tipo) => {
     switch (tipo) {
+      case "subgrupo":
+        return (
+          <>
+            <FolderFilled
+              className="disable-select"
+              style={{
+                fontSize: "s" === size ? "16px" : "32px",
+                color: "#d8821f",
+              }}
+            />{" "}
+          </>
+        );
       case "codigo":
         return (
           <>
@@ -244,7 +262,7 @@ const IconViewSubgrupoSelector = ({
               nombre: row.label,
               id: row.value,
               tipo: "subgrupo",
-              hasChildren: true,
+              hasChildren: incCodigos,
             })),
           );
         });
@@ -264,7 +282,7 @@ const IconViewSubgrupoSelector = ({
     }
     if ("subgrupo" === element.tipo || "trabajo" === element.tipo) {
       callback?.(element.id, element.tipo);
-      if (incCodigos && "subgrupo" === element.tipo ) {
+      if (incCodigos && "subgrupo" === element.tipo) {
         setItems([]);
         return load(get.codigosOptSubgrupo + element.id, (rows) => {
           setItems(
@@ -284,15 +302,19 @@ const IconViewSubgrupoSelector = ({
   };
 
   useEffect(() => {
-    setDisplayMode(vistaTabla ? "l" : "k");
-    let _parent = null;
-    if (idInicial) {
-      _parent = {
-        isRoot: true,
-        tipo: tipoInicial,
-        id: idInicial,
-        nombre: nombreInicial,
-      };
+    let _parent = parent;
+    if (firstLoad || null === parent) {
+      setFirstLoad(false);
+      setDisplayMode(vistaTabla ? "l" : "k");
+
+      if (idInicial) {
+        _parent = {
+          isRoot: true,
+          tipo: tipoInicial,
+          id: idInicial,
+          nombre: nombreInicial,
+        };
+      }
     }
 
     onParentChange(_parent);
@@ -305,45 +327,11 @@ const IconViewSubgrupoSelector = ({
       p = (cur?.nombre || "") + " / " + p;
       cur = cur?.parent || null;
     }
-
     return p;
   };
 
-  const getGridIcons = () => {
-    if (items.length < 1) {
-      return;
-    }
-    if ("codigo" !== items[0].tipo) {
-      return;
-    }
-    const demo_code = items[0].nombre;
-
-    if (regexp_terminados.test(demo_code)) {
-      return (
-        <Button>
-          <GroupOutlined /> Ver Grilla
-        </Button>
-      );
-    }
-    if (regexp_bif.test(demo_code)) {
-      return (
-        <Button>
-          <GroupOutlined /> Ver Grilla
-        </Button>
-      );
-    }
-    if (regexp_monof.test(demo_code)) {
-      return (
-        <Button>
-          <GroupOutlined /> Ver Grilla
-        </Button>
-      );
-    }
-  };
-
   const getNewButton = () => {
-    if(disableAdd)
-    {
+    if (disableAdd) {
       return <></>;
     }
     const element = parent;
@@ -352,7 +340,14 @@ const IconViewSubgrupoSelector = ({
       return;
     }
 
-    if (null === element) {
+    let _tipo =
+      null === element && tipoInicial
+        ? tipoInicial
+        : element
+          ? element.tipo
+          : "-";
+
+    if ("-" === _tipo) {
       return (
         <Button
           size="small"
@@ -366,7 +361,7 @@ const IconViewSubgrupoSelector = ({
       );
     }
 
-    if ("familia" === element.tipo) {
+    if ("familia" === _tipo) {
       return (
         <Button
           size="small"
@@ -379,7 +374,7 @@ const IconViewSubgrupoSelector = ({
         </Button>
       );
     }
-    if ("subfamilia" === element.tipo) {
+    if ("subfamilia" === _tipo) {
       return (
         <Button
           size="small"
@@ -392,7 +387,7 @@ const IconViewSubgrupoSelector = ({
         </Button>
       );
     }
-    if ("grupo" === element.tipo) {
+    if ("grupo" === _tipo) {
       return (
         <Button
           size="small"
@@ -440,8 +435,15 @@ const IconViewSubgrupoSelector = ({
         }
       >
         {null === parent ? (
-          <Row style={{ padding: "4px" }}>
-            <Col span={24}> {getNewButton()}</Col>
+          <Row
+            style={{
+              padding: "4px",
+            }}
+          >
+            <Col>
+              {" "}
+              {nombreInicial} / {getNewButton()}
+            </Col>
           </Row>
         ) : (
           <Row
@@ -462,6 +464,24 @@ const IconViewSubgrupoSelector = ({
             </Button>
 
             {getNewButton()}
+            {parent?.tipo !== "grupo" || disableAdd || !modoDistribuidora ? (
+              <></>
+            ) : (
+              <Col>
+                <Col style={{ paddingLeft: "8px" }}>
+                  <Button
+                    style={{color:"#2f00af"}}
+                    type="link"
+                    size="small"
+                    onClick={(_) => {
+                      setAddExistenteSGOpen(true);
+                    }}
+                  >
+                    Agregar Existente...
+                  </Button>
+                </Col>
+              </Col>
+            )}
           </Row>
         )}
 
@@ -529,6 +549,7 @@ const IconViewSubgrupoSelector = ({
           </Row>
         ) : (
           <Table
+            loading={loading}
             size="small"
             columns={columns}
             showHeader={true}
@@ -611,14 +632,38 @@ const IconViewSubgrupoSelector = ({
           setAddSGOpen(false);
         }}
         footer={null}
-        title="Editar Subgrupo"
+        title="Agregar Subgrupo"
         destroyOnClose
       >
-        <SubGrupoFormV3
-          idsubgrupo={parent?.id}
+        <SubGrupoFormV2
           callback={() => {
             setAddSGOpen(false);
             setReload(!reload);
+          }}
+        />
+      </Modal>
+      <Modal
+        width={"800px"}
+        open={addExistenteSGOpen}
+        onCancel={() => {
+          setAddExistenteSGOpen(false);
+        }}
+        footer={null}
+        title="Agregar..."
+        destroyOnClose
+      >
+        <SeleccionSubgrupo
+          callback={(id) => {
+            const data = {
+              idgrupo: parent.id,
+              idsubgrupo: id,
+            };
+            setAddExistenteSGOpen(false);
+            post_method(post.agregar_sg_a_g, data, (response) => {
+              alert("Subgrupo agregado.");
+
+              setReload(!reload);
+            });
           }}
         />
       </Modal>
