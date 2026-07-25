@@ -283,6 +283,8 @@ const post = {
 
   descuentos_cliente: remote_base_url + "dc/obtener/dto/cliente/",
 
+  rm_g_has_sg: remote_base_url + "subgrupos/rm/g_has_sg/",
+
   search: {
     filtro_stock: remote_base_url + "stock/filtro_stock/",
   },
@@ -640,9 +642,9 @@ const get = {
 
   subgrupo_por_grupo_v2: remote_base_url + "subgrupos/subgrupo_por_grupo_v2/",
 
-  venta_mayorista_bases: remote_base_url + "codigos/venta_mayorista_bases/",
+  venta_mayorista_bases: remote_base_url + "codigos/l/venta_mayorista_bases/",
 
-  venta_mayorista_stock: remote_base_url + "codigos/venta_mayorista_stock/",
+  venta_mayorista_stock: remote_base_url + "codigos/l/venta_mayorista_stock/",
 };
 
 module.exports = {

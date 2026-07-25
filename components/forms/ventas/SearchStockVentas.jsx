@@ -126,7 +126,7 @@ addonAfter={
         </Col>
       </Row>
 
-      {idf_optica == 3 ? (
+      {(idf_optica == 3) || ((hideExtOpt||"0") == "1")? (
         <></>
       ) : (
         <Space direction="vertical" size="middle">

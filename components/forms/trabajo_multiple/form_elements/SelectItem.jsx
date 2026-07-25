@@ -1,13 +1,15 @@
 import { get } from "@/src/urls";
+import { FilterFilled, FilterTwoTone } from "@ant-design/icons";
 import { Input, Table } from "antd";
+import Search from "antd/es/transfer/search";
 import { useEffect, useMemo, useState } from "react";
 
-const SelectItem = ({ tipo }) => {
+const SelectItem = ({ tipo, callback }) => {
   const [loading, setLoading] = useState(true);
   const [dataSource, setDataSource] = useState([]);
   const [inputValue, setInputValue] = useState(""); // Updates instantly for the Input UI
   const [searchString, setSearchString] = useState(""); // Updates after user pauses typing
-  const columns = [];
+  const columns = [{ dataIndex: "codigo" , render:(_,{codigo}) =><span style={{fontWeight:"600", color:"#0a0033", fontSize:"1.2em"}}>{codigo}</span>}, ];
   // Simple, dependency-free debounce helper
   const debounce = (func, delay) => {
     let timeoutId;
@@ -46,16 +48,18 @@ const SelectItem = ({ tipo }) => {
     // 2. High-performance filtering loop
     for (let i = 0; i < dataLen; i++) {
       const codigoStr = searchIndex[i];
-
+      let found = true;
       for (let j = 0; j < partsLen; j++) {
-        if (codigoStr.includes(parts[j])) {
-          // Cache the string length right here to avoid recalculating it during sort
-          matches.push({
-            item: dataSource[i],
-            length: codigoStr.length,
-          });
+        if (!codigoStr.includes(parts[j])) {
+          found = false;
           break;
         }
+      }
+      if (found) {
+        matches.push({
+          item: dataSource[i],
+          length: codigoStr.length,
+        });
       }
     }
 
@@ -73,12 +77,28 @@ const SelectItem = ({ tipo }) => {
   };
 
   const load = () => {
-    const url = "stock" == tipo ? get.venta_mayorista_bases : get.venta_mayorista_stock;
+    setLoading(true);
+    const url =
+      "stock" == tipo ? get.venta_mayorista_bases : get.venta_mayorista_stock;
+    //alert(url);
     fetch(url)
-    .then(r=>r.json())
-    .then(response=>{
-        
-    })
+      .then((r) => r.json())
+      .then((response) => {
+        setLoading(false);
+
+        if (!response?.data) {
+          return;
+        }
+        //alert(JSON.stringify(response));
+        setDataSource(
+          response.data.map((record) => ({
+            id: record.idcodigo,
+            codigo: record.codigo,
+            precio_minorista: record.precio,
+            precio_mayorista: record.precio_mayorista,
+          })),
+        );
+      });
   };
 
   useEffect(() => {
@@ -88,7 +108,7 @@ const SelectItem = ({ tipo }) => {
   const header = () => (
     <>
       <Input
-        prefix={<></>}
+        prefix={<><FilterTwoTone /></>}
         style={{ width: "100%" }}
         allowClear
         value={inputValue}
@@ -100,12 +120,21 @@ const SelectItem = ({ tipo }) => {
   return (
     <>
       <Table
+        size="small"
+        showHeader={false}
         loading={loading}
         title={header}
         dataSource={filteredData}
         columns={columns}
         pagination={false}
         scroll={{ y: 400 }}
+        onRow={(record, rowIndex) => {
+          return {
+            onClick: (_) => {
+              callback?.(record);
+            },
+          };
+        }}
       />
     </>
   );

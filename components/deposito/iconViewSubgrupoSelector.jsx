@@ -63,12 +63,14 @@ const IconViewSubgrupoSelector = ({
   const regexp_bif = /(_)(L|R)(_ADD_)/;
   const regexp_monof = /^([A-Z_0-9\.]+)(_)([0-9\.]+)($)/;
   const regexp_terminados = /ESF(\-|\+)([0-9\.]+)CIL(\-|\+)([0-9\.]+).*$/;
+  const [cmItems, setcmItems] = useState([]);
 
   const columns = [
     {
       width: "100%",
       dataIndex: "id",
       title: "Nombre",
+      sorter: (a, b) => a.nombre.localeCompare(b.nombre),
 
       render: (_, record) => (
         <>
@@ -96,6 +98,17 @@ const IconViewSubgrupoSelector = ({
     },
   ];
 
+  const resetOptions = (extraOptions = []) => {
+    const default_options = [{
+        label: "Detalle",
+        key: "info",
+      }]
+    setcmItems([
+      ...default_options,
+      ...extraOptions
+    ]);
+  };
+  /*
   const cmItems = [
     {
       label: "Editar",
@@ -113,7 +126,7 @@ const IconViewSubgrupoSelector = ({
       key: "delete",
       danger: true,
     },
-  ];
+  ];*/
 
   const handleMenuClick = ({ key }, item) => {
     //alert(JSON.stringify({key, id: item.id, tipo: item.tipo}))
@@ -125,6 +138,14 @@ const IconViewSubgrupoSelector = ({
         onDetalleClick?.(item.id, item.tipo);
         break;
       case "delete":
+        if(modoDistribuidora)
+        {
+          if(!confirm("Eliminar registro?"))
+          {
+            return;
+          }
+          return eliminar_click(parent.id, item.id);
+        }
         onInhabilitarClick?.(item.id, item.tipo);
         break;
     }
@@ -197,6 +218,12 @@ const IconViewSubgrupoSelector = ({
       });
   };
 
+  const eliminar_click = (idgrupo, idsubgrupo) => {
+    post_method(post.rm_g_has_sg,{idgrupo, idsubgrupo},(response)=>{
+      setReload(!reload);
+    })
+  }
+
   const onParentChange = (element) => {
     //alert(JSON.stringify(element));
 
@@ -212,6 +239,7 @@ const IconViewSubgrupoSelector = ({
 
     if (null === element) {
       callback?.(null);
+      resetOptions();
       return load(get.lista_familia, (rows) => {
         setItems(
           rows.map((row) => ({
@@ -226,6 +254,7 @@ const IconViewSubgrupoSelector = ({
     }
     if ("familia" === element.tipo) {
       callback?.(null);
+      resetOptions();
       return load(get.optionsforfamilia + element.id, (rows) => {
         setItems(
           rows.map((row) => ({
@@ -240,6 +269,7 @@ const IconViewSubgrupoSelector = ({
     }
     if ("subfamilia" === element.tipo) {
       callback?.(null);
+      resetOptions();
       return load(get.optionsforsubfamilia + element.id, (rows) => {
         setItems(
           rows.map((row) => ({
@@ -254,6 +284,7 @@ const IconViewSubgrupoSelector = ({
     }
     if ("grupo" === element.tipo) {
       callback?.(null);
+      resetOptions();
       if (!modoDistribuidora) {
         return load(get.optionsforgrupo + element.id, (rows) => {
           setItems(
@@ -267,6 +298,13 @@ const IconViewSubgrupoSelector = ({
           );
         });
       } else {
+        resetOptions([
+          {
+            label: "Eliminar",
+            key: "delete",
+            danger: true,
+          },
+        ]);
         return load(get.subgrupo_por_grupo_v2 + element.id, (rows) => {
           setItems(
             rows.map((row) => ({
@@ -281,6 +319,7 @@ const IconViewSubgrupoSelector = ({
       }
     }
     if ("subgrupo" === element.tipo || "trabajo" === element.tipo) {
+      resetOptions();
       callback?.(element.id, element.tipo);
       if (incCodigos && "subgrupo" === element.tipo) {
         setItems([]);
@@ -470,7 +509,7 @@ const IconViewSubgrupoSelector = ({
               <Col>
                 <Col style={{ paddingLeft: "8px" }}>
                   <Button
-                    style={{color:"#2f00af"}}
+                    style={{ color: "#2f00af" }}
                     type="link"
                     size="small"
                     onClick={(_) => {

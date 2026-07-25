@@ -6,6 +6,7 @@ import SelectCodigoVenta from "../ventas/SelectCodigoVenta";
 import globals from "@/src/globals";
 import HelperToolTip from "../ventas/common/HelperToolTip";
 import SelectDisenioV2 from "./form_elements/SelectDisenioV2";
+import SelectItemModal from "./form_elements/SelectItemModal";
 
 const LaboratorioForm = ({ callback, idCliente, onComentariosChange }) => {
   const [ojos, setOjos] = useState("ambos");
@@ -378,14 +379,15 @@ const LaboratorioForm = ({ callback, idCliente, onComentariosChange }) => {
                             OD
                           </Col>
                           <Col span={10}>
-                            {/*<Select style={{ width: "100%" }} onChange={e=>{onValueChange("od_fkBase", e.target.value);}}/>*/}
+                            {/*<Select style={{ width: "100%" }} onChange={e=>{onValueChange("od_fkBase", e.target.value);}}/>
                             <SelectCodigoVenta
                               idfamilias={[globals.familiaIDs.CRISTALES]}
                               buttonText={"Seleccionar..."}
                               callback={(v) => {
                                 onValueChange("od_fkBase", v.idcodigo);
                               }}
-                            />
+                            />*/}
+                            <SelectItemModal callback={id=>{onValueChange("od_fkBase", id);}} />
                           </Col>
                           <Col span={3}>
                             <HelperToolTip
@@ -454,13 +456,14 @@ const LaboratorioForm = ({ callback, idCliente, onComentariosChange }) => {
                             OI
                           </Col>
                           <Col span={10}>
-                            <SelectCodigoVenta
+                            {/*<SelectCodigoVenta
                               idfamilias={[globals.familiaIDs.CRISTALES]}
                               buttonText={"Seleccionar..."}
                               callback={(v) => {
                                 onValueChange("oi_fkBase", v.idcodigo);
                               }}
-                            />
+                            />*/}
+                            <SelectItemModal callback={id=>{onValueChange("oi_fkBase", id);}} />
                           </Col>
                           <Col span={3}>
                             <HelperToolTip
