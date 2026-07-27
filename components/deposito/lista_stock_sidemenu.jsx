@@ -22,15 +22,26 @@ import FamiliaSelect from "../FamiliaSelect";
 import { useEffect, useState } from "react";
 
 const SideMenuListaStock = (props) => {
-  const { folded, onMenuFoldedClick, onMenuUnfoldedClick, callback, loading, defIdSubgrupo } = props;
+  const {
+    folded,
+    onMenuFoldedClick,
+    onMenuUnfoldedClick,
+    callback,
+    loading,
+    defIdSubgrupo,
+    defIdFamilia,
+    familiaEnabled,
+    subFamiliaEnabled,
+    grupoEnabled,
+  } = props;
   const [orden, setOrden] = useState("");
   const [tipoFiltro, setTipoFiltro] = useState("");
   const [valorFiltro, setValorFiltro] = useState(null);
   const [tags, setTags] = useState([]);
   const [filtros, setFiltros] = useState([]);
 
-  useEffect(()=>{
-    if(defIdSubgrupo){
+  useEffect(() => {
+    if (defIdSubgrupo) {
       //alert(defIdSubgrupo)
       const ff = [
         {
@@ -38,37 +49,33 @@ const SideMenuListaStock = (props) => {
           valor: defIdSubgrupo,
           descripcion: "Subgrupo",
         },
-      ]
+      ];
       setFiltros(ff);
-      callback?.({filtros: ff, tags:[]});
+      callback?.({ filtros: ff, tags: [] });
+    } else {
+      setFiltros([]);
     }
-    else{
-      setFiltros([])
-    }
-  },[defIdSubgrupo])
+  }, [defIdSubgrupo]);
 
   const agregar_filtro = () => {
-    if(!valorFiltro)
-    {
-      return
+    if (!valorFiltro) {
+      return;
     }
     ///alert(JSON.stringify(tipoFiltro))
-    if(filtros.find(f=>f.tipo==tipoFiltro))
-    {
-      alert("Ya se encuentra el tipo de filtro")
-      return
+    if (filtros.find((f) => f.tipo == tipoFiltro)) {
+      alert("Ya se encuentra el tipo de filtro");
+      return;
     }
-    const val = (valorFiltro.valor||"").toString();
-    if(!/^[_A-ZÑ0-9\s\.\-]+$/.test(val.toUpperCase()))
-    {
-      alert("El valor solo puede contener letras, números, espacio, punto y guión.")
-      return
+    const val = (valorFiltro.valor || "").toString();
+    if (!/^[_A-ZÑ0-9\s\.\-]+$/.test(val.toUpperCase())) {
+      alert(
+        "El valor solo puede contener letras, números, espacio, punto y guión.",
+      );
+      return;
     }
 
-    if(valorFiltro.tipo=="number")
-    {
-      if(isNaN(parseFloat(valorFiltro.valor)))
-      {
+    if (valorFiltro.tipo == "number") {
+      if (isNaN(parseFloat(valorFiltro.valor))) {
         return;
       }
     }
@@ -107,13 +114,36 @@ const SideMenuListaStock = (props) => {
     sucursal: { tipo: "sucursal", descripcion: "Sucursal" },
   };
 
-  const setValue = (tipo, val, descripcion = "") => {
-    if(!val)
-    {
-      return
+  const get_filtro_options = () => {
+    let res = [
+      { label: "Codigo", value: "codigo_contenga_a" },
+      { label: "SubGrupo", value: "subgrupo" },
+      { label: "Grupo", value: "grupo" },
+      { label: "SubFamilia", value: "subfamilia" },
+
+      { label: "Grupo Contenga a", value: "grupo_contenga_a" },
+
+      //{label: 'Codigo Igual a ', value: 'codigo_igual_a'},
+      { label: "Precio - Mayor a", value: "precio_mayor_a" },
+      { label: "Precio - Menor a", value: "precio_menor_a" },
+      { label: "Precio - Igual a", value: "precio_igual_a" },
+      { label: "Cantidad - Igual a", value: "cantidad_igual_a" },
+      { label: "Cantidad - Mayor a", value: "cantidad_mayor_a" },
+      { label: "Cantidad - Menor a", value: "cantidad_menor_a" },
+      { label: "Descripción", value: "detalles" },
+    ];
+
+    if (typeof familiaEnabled === 'undefined' || familiaEnabled===true) {
+      res.push({ label: "Familia", value: "familia" });
     }
-    if(((val.toString()||"").trim()).length<1)
-    {
+    return res;
+  };
+
+  const setValue = (tipo, val, descripcion = "") => {
+    if (!val) {
+      return;
+    }
+    if ((val.toString() || "").trim().length < 1) {
       return;
     }
     setValorFiltro((_) => ({
@@ -128,7 +158,7 @@ const SideMenuListaStock = (props) => {
       return str;
     }
     // Truncate the string and append '...'
-    return str.slice(0, maxLength) + '...';
+    return str.slice(0, maxLength) + "...";
   };
   const FiltroValor = () => {
     switch (tipoFiltro) {
@@ -239,6 +269,10 @@ const SideMenuListaStock = (props) => {
       case "subgrupo":
         return (
           <SubGroupSelect
+            subFamiliaEnabled={subFamiliaEnabled}
+            familiaEnabled={familiaEnabled}
+            grupoEnabled={grupoEnabled}
+            defIdFamilia={defIdFamilia}
             callback={(id, desc) => {
               setValue("valor", id, desc);
             }}
@@ -247,6 +281,8 @@ const SideMenuListaStock = (props) => {
       case "grupo":
         return (
           <GrupoSelect
+            familiaEnabled={familiaEnabled}
+            defIdFamilia={defIdFamilia}
             callback={(id, desc) => {
               setValue("valor", id, desc);
             }}
@@ -255,6 +291,8 @@ const SideMenuListaStock = (props) => {
       case "subfamilia":
         return (
           <SubFamiliaSelect
+            familiaEnabled={familiaEnabled}
+            defIdFamilia={defIdFamilia}
             callback={(id, desc) => {
               setValue("valor", id, desc);
             }}
@@ -271,7 +309,11 @@ const SideMenuListaStock = (props) => {
           </>
         );
       default:
-        return <>{/*<span style={{color:"gray"}}><i>Seleccione tipo filtro...</i></span>*/}</> ;
+        return (
+          <>
+            {/*<span style={{color:"gray"}}><i>Seleccione tipo filtro...</i></span>*/}
+          </>
+        );
     }
   };
 
@@ -280,13 +322,12 @@ const SideMenuListaStock = (props) => {
   };
 
   const on_finish = () => {
-    const data  = {
+    const data = {
       tags,
       filtros,
-    }
-    
+    };
 
-    callback?.(data)
+    callback?.(data);
   };
 
   return folded ? (
@@ -326,35 +367,19 @@ const SideMenuListaStock = (props) => {
             },
           }}
         >
-          <Col style={{fontWeight:"600", paddingTop:"4px"}}>Filtro a Agregar:&nbsp;&nbsp; </Col>
+          <Col style={{ fontWeight: "600", paddingTop: "4px" }}>
+            Filtro a Agregar:&nbsp;&nbsp;{" "}
+          </Col>
           <Col>
             <Select
               value={tipoFiltro}
-              
               placeholder="Seleccione Tipo de Filtro..."
-              options={[
-                { label: "Codigo", value: "codigo_contenga_a" },
-                { label: "SubGrupo", value: "subgrupo" },
-                { label: "Grupo", value: "grupo" },
-                { label: "SubFamilia", value: "subfamilia" },
-                { label: "Familia", value: "familia" },
-                { label: "Grupo Contenga a", value: "grupo_contenga_a" },
-
-                //{label: 'Codigo Igual a ', value: 'codigo_igual_a'},
-                { label: "Precio - Mayor a", value: "precio_mayor_a" },
-                { label: "Precio - Menor a", value: "precio_menor_a" },
-                { label: "Precio - Igual a", value: "precio_igual_a" },
-                { label: "Cantidad - Igual a", value: "cantidad_igual_a" },
-                { label: "Cantidad - Mayor a", value: "cantidad_mayor_a" },
-                { label: "Cantidad - Menor a", value: "cantidad_menor_a" },
-                {label: 'Descripción', value: 'detalles'},
-              ]}
+              options={get_filtro_options()}
               style={{ width: "200px" }}
               onChange={(value) => {
                 setTipoFiltro(value);
               }}
             />
-           
           </Col>
 
           <Col span={24} style={{ paddingTop: "16px" }}>
@@ -364,7 +389,7 @@ const SideMenuListaStock = (props) => {
         <Row style={row_style}>
           <Col>
             <Button
-              disabled={valorFiltro==null}
+              disabled={valorFiltro == null}
               onClick={agregar_filtro}
               type="link"
               danger
@@ -377,7 +402,16 @@ const SideMenuListaStock = (props) => {
           </Col>
         </Row>
 
-        <Row style={{...row_style,...{backgroundColor:"lightyellow", borderRadius:"8px", padding:"6px"}}}>
+        <Row
+          style={{
+            ...row_style,
+            ...{
+              backgroundColor: "lightyellow",
+              borderRadius: "8px",
+              padding: "6px",
+            },
+          }}
+        >
           <Col span={24}>
             {filtros.map((t) =>
               typeof tipos_filtro_dic[t.tipo] === "undefined" ||
@@ -385,7 +419,7 @@ const SideMenuListaStock = (props) => {
                 <></>
               ) : (
                 <Tag
-                  style={{width:"150px"}}
+                  style={{ width: "150px" }}
                   color="red"
                   closable
                   onClose={(e) => {
@@ -395,14 +429,14 @@ const SideMenuListaStock = (props) => {
                 >
                   {truncateString(
                     tipos_filtro_dic[t?.tipo]?.descripcion +
-                    ": " +
-                    t?.valor +
-                    " " +
-                    t?.descripcion,
-                    18
+                      ": " +
+                      t?.valor +
+                      " " +
+                      t?.descripcion,
+                    18,
                   )}
                 </Tag>
-              )
+              ),
             )}
           </Col>
         </Row>
@@ -431,7 +465,7 @@ const SideMenuListaStock = (props) => {
           <Col span={24}>
             <SelectTag
               callback={(v) => {
-                setTags(v)
+                setTags(v);
               }}
             />
           </Col>
@@ -440,7 +474,10 @@ const SideMenuListaStock = (props) => {
           <Col span={24}>
             <Divider />
             <Button
-              disabled={(filtros.length<1&&tags.length<1)||(typeof loading==='undefined' ? false : loading)}
+              disabled={
+                (filtros.length < 1 && tags.length < 1) ||
+                (typeof loading === "undefined" ? false : loading)
+              }
               type="primary"
               htmlType="submit"
               size="small"

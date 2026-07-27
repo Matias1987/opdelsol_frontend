@@ -1,28 +1,22 @@
 import globals from "@/src/globals";
-import { cambiar_vendedor, cobro_inmediato, use_owner_id } from "@/src/config";
+import { cambiar_vendedor, cobro_inmediato } from "@/src/config";
 import {
   Button,
   Card,
   Col,
-  DatePicker,
   Divider,
   Form,
   Input,
   Row,
-  Select,
-  Tabs,
-  TimePicker,
+  Tabs
 } from "antd";
-import esES from "antd/locale/es_ES";
 import { useRef, useState } from "react";
 import SelectVendedor from "@/components/usuario/vendedor/SelectVendedor";
-import { post, public_urls } from "@/src/urls";
-import { CloseOutlined, PlusOutlined } from "@ant-design/icons";
-import dayjs from "dayjs";
+import { post } from "@/src/urls";
 import VMTrabajo from "./vm_trabajo";
-import Informe from "./informe/informe";
 import { post_method } from "@/src/helpers/post_helper";
 import SelectClienteMayorista from "./select_cliente";
+//import useStorage from "@/useStorage";
 
 /* leer: https://refine.dev/blog/common-usestate-mistakes-and-how-to-avoid/ */
 /**
@@ -40,6 +34,7 @@ const TrabajoMultiple = ({
   const [localId, setLocalId] = useState(0);
   const [btnEnabled, setBtnEnabled] = useState(true);
   const [activeKey, setActiveKey] = useState("1");
+  //const { setItem } = useStorage();
   const [venta, setVenta] = useState({
     fkcliente: null,
     fkdestinatario: null,
@@ -76,6 +71,8 @@ const TrabajoMultiple = ({
   const [items, setItems] = useState([]);
   const [idCliente, setIdCliente] = useState(-1);
   const [finalV, setFinalV] = useState({});
+
+
 
   const updateTabName = (tabKey, newName) => {
     setItems((prevTabs) =>
@@ -132,11 +129,16 @@ const TrabajoMultiple = ({
       0,
     );
     setSubTotal(_subtotal);
-    setVenta((_v) => ({
-      ..._v,
-      subtotal: parseFloat(_subtotal ?? "0"),
-      total: parseFloat(_subtotal) - parseFloat(_v.descuento),
-    }));
+
+    setVenta((_v) => {
+      const __v = {
+        ..._v,
+        subtotal: parseFloat(_subtotal ?? "0"),
+        total: parseFloat(_subtotal) - parseFloat(_v.descuento)
+      };
+      setVentaLStorage(__v);
+      return __v;
+    });
   };
 
   const add = () => {
@@ -188,6 +190,7 @@ const TrabajoMultiple = ({
     setVenta((venta) => {
       const __venta = { ...venta, [field]: value };
       callback?.(__venta);
+      setVentaLStorage(__venta);
       return __venta;
     });
   };
@@ -207,7 +210,7 @@ const TrabajoMultiple = ({
           esf: tr.od_esf,
           cil: tr.od_cil,
           eje: tr.od_eje,
-          add: tr?.od_add??"",
+          add: tr?.od_add ?? "",
         });
       }
       if (tr.oi_fkDisenio && tr?.oi_fkDisenio > 0) {
@@ -222,7 +225,7 @@ const TrabajoMultiple = ({
           esf: tr.oi_esf,
           cil: tr.oi_cil,
           eje: tr.oi_eje,
-          add: tr?.oi_add??"",
+          add: tr?.oi_add ?? "",
         });
       }
       return _items;
@@ -233,8 +236,8 @@ const TrabajoMultiple = ({
         _items.push({
           idcodigo: tr.od_idcodigo,
           idtrabajo: 0,
-          iddescuento: tr.od_iddescuento||null,
-          descuento: tr.od_descuento??"0",
+          iddescuento: tr.od_iddescuento || null,
+          descuento: tr.od_descuento ?? "0",
           tipo: "od",
           cantidad: "1",
           precio: tr.od_precio,
@@ -247,8 +250,8 @@ const TrabajoMultiple = ({
         _items.push({
           idcodigo: tr.oi_idcodigo,
           idtrabajo: 0,
-          iddescuento: tr.oi_iddescuento||null,
-          descuento: tr.oi_descuento??"0",
+          iddescuento: tr.oi_iddescuento || null,
+          descuento: tr.oi_descuento ?? "0",
           tipo: "oi",
           cantidad: "1",
           precio: tr.oi_precio,
@@ -309,21 +312,10 @@ const TrabajoMultiple = ({
     });
   };
 
-  const customAddButton = (
-    <Button
-      style={{ fontWeight: "bolder" }}
-      type="link"
-      size="large"
-      icon={<PlusOutlined />}
-    >
-      Nuevo
-    </Button>
-  );
-
   const modo_formulario_unico = (_) => (
     <>
       <Row style={{ padding: ".9em" }}>
-        <Col style={{ minWidth: "250px", width:"100%" }}>
+        <Col style={{ minWidth: "250px", width: "100%" }}>
           <SelectClienteMayorista
             mayorista
             callback={(value) => {
@@ -482,7 +474,6 @@ const TrabajoMultiple = ({
           cil: "0",
           eje: "0", */
     const validar_stock = (op) => {
-      
       if (+op.idcodigo < 0) {
         messages.push("Seleccione codigo");
         return;
@@ -490,7 +481,6 @@ const TrabajoMultiple = ({
     };
 
     const validar_lab = (op) => {
-     
       if (+op.idcodigo < 0) {
         messages.push("Seleccione base");
         return;
@@ -527,7 +517,7 @@ const TrabajoMultiple = ({
         );
         break;
       }
-      
+
       if (t.tipo == "stock") {
         t.items.forEach((i) => validar_stock(i));
       } else {
@@ -536,6 +526,10 @@ const TrabajoMultiple = ({
     }
 
     return messages;
+  };
+
+  const setVentaLStorage = (_v) => {
+    //setItem("last_op", JSON.stringify(_v));
   };
 
   return (
@@ -548,7 +542,11 @@ const TrabajoMultiple = ({
           ) : (
             <SelectVendedor
               onChange={(value) => {
-                setVenta((_v) => ({ ..._v, fkusuario: value }));
+                setVenta((_v) => {
+                  const __v = { ..._v, fkusuario: value };
+                  setVentaLStorage(__v);
+                  return __v;
+                });
               }}
             />
           )

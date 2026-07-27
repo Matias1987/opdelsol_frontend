@@ -10,7 +10,10 @@ export default function ListaStockV3() {
             idInicial:globals.familiaIDs.ARMAZON,
             tipoInicial: "familia",
             nombreInicial:"ARMAZONES"
-        }}/>
+        }}
+        defIdFamilia={globals.familiaIDs.ARMAZON}
+        familiaEnabled={false}
+        />
 }
 
 ListaStockV3.PageLayout = globals.esUsuarioDepositoMin()

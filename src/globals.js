@@ -7,6 +7,10 @@ import { parse_DMY_date } from "./helpers/string_helper";
 import { get, public_urls } from "./urls";*/
 const globals =  {
 
+    getLastOp:()=>{
+        const {getItem} = useStorage()
+        return getItem("last_op") || null;
+    },
     setSettings:(index,value)=>{
         const {setItem} = useStorage()
         setItem(index, value)

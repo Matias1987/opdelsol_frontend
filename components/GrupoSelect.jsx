@@ -4,7 +4,7 @@ import { get } from "@/src/urls";
 import { Space, Select, Spin } from "antd";
 import { useState, useEffect }  from "react";
 
-const GrupoSelect = (props) => {
+const GrupoSelect = ({callback, disabled, defIdFamilia, defIdSubfamilia, familiaEnabled, subfamiliaEnabled}) => {
 
     const familiaFetchUrl = get.familia_menu_opt;
     const subfamiliaFetchUrl = get.subfamilia_menu_opt;
@@ -31,6 +31,10 @@ const GrupoSelect = (props) => {
         .then((response) => {
             setFamiliaOptions(response.data);
             setFamiliaLoading(false);
+            if(defIdFamilia && defIdFamilia>0){
+                setIdFamilia(defIdFamilia);
+                loadSubFamilia(defIdFamilia);
+            }
         })
         .catch(error => console.error(error))
     }
@@ -68,7 +72,7 @@ const GrupoSelect = (props) => {
             <Space wrap>
                 <Select 
                 size="small"
-                disabled={typeof props.disabled === 'undefined' ? false : props.disabled}
+                disabled={(typeof disabled === 'undefined' ? false : disabled) || (typeof familiaEnabled === "undefined" ? false : !familiaEnabled)}
                 style={{ width: 240, overflow:"hidden"  }}
                 prefix={<span style={{color:"#536872"}}>Familia: </span>}
                 loading = {familiaLoading}
@@ -81,7 +85,7 @@ const GrupoSelect = (props) => {
                         setIdGrupo(-1);
 
                         loadSubFamilia(value);
-                        props.callback(-1,"")
+                        callback(-1,"")
                     }
                 }
                 options = {familiaOptions}
@@ -91,7 +95,7 @@ const GrupoSelect = (props) => {
                     (
                         <Select 
                         size="small"
-                        disabled={typeof props.disabled === 'undefined' ? false : props.disabled}
+                        disabled={typeof disabled === 'undefined' ? false : disabled}
                         style={{ width: 240, overflow:"hidden"  }}
                         loading = {subFamiliaLoading}
                         options = {subFamiliaOptions}
@@ -104,7 +108,7 @@ const GrupoSelect = (props) => {
                                 setIdGrupo(-1);
 
                                 loadGrupo(value);
-                                props.callback(-1,"")
+                                callback(-1,"")
                             }
 
                         }
@@ -117,7 +121,7 @@ const GrupoSelect = (props) => {
                         <Select 
                         labelInValue 
                         size="small"
-                        disabled={typeof props.disabled === 'undefined' ? false : props.disabled}
+                        disabled={typeof disabled === 'undefined' ? false : disabled}
                         style={{ width: 240, overflow:"hidden"  }}
                         loading = {grupoLoading}
                         options = {grupoOptions}
@@ -127,7 +131,7 @@ const GrupoSelect = (props) => {
                         onChange = {
                             (value)=>{
                                 setIdGrupo(value)
-                                props.callback(value.key, value.label)
+                                callback(value.key, value.label)
                             }
                         }
                         />

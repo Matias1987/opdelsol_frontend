@@ -20,7 +20,7 @@ import IconViewSubgrupoSelector from "./iconViewSubgrupoSelector";
 import { CloseOutlined } from "@ant-design/icons";
 import DetalleSubgrupo from "../DetalleSubgrupo";
 
-const ModificarStock = ({dataDef}) => {
+const ModificarStock = ({ dataDef, defIdFamilia, familiaEnabled }) => {
   const [usuarioDep, setUsuarioDep] = useState(false);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -342,6 +342,8 @@ const ModificarStock = ({dataDef}) => {
         <Row>
           <Col style={{ padding: "16px", width: menuFolded ? "100px" : "30%" }}>
             <SideMenuListaStock
+              familiaEnabled={familiaEnabled}
+              defIdFamilia={defIdFamilia}
               key={defIdSubgrupo}
               defIdSubgrupo={defIdSubgrupo}
               loading={loading}
@@ -391,10 +393,10 @@ const ModificarStock = ({dataDef}) => {
                 ) : (
                   <>
                     <IconViewSubgrupoSelector
-                      title={dataDef.title}
-                      idInicial={dataDef.idInicial}
-                      tipoInicial={dataDef.tipoInicial}
-                      nombreInicial={dataDef.nombreInicial}
+                      title={dataDef?.title}
+                      idInicial={dataDef?.idInicial}
+                      tipoInicial={dataDef?.tipoInicial}
+                      nombreInicial={dataDef?.nombreInicial}
                       callback={(_idsubgrupo) => {
                         if (null === _idsubgrupo) {
                           setData([]);

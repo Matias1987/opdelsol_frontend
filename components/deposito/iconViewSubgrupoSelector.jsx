@@ -27,7 +27,6 @@ import { cloneElement, useEffect, useState } from "react";
 import FamiliaForm from "../forms/FamiliaForm";
 import SubFamiliaForm from "../forms/SubFamiliaForm";
 import GrupoForm from "../forms/GrupoForm";
-import SubGrupoFormV3 from "../forms/deposito/SubgrupoFormV3";
 import SubGrupoFormV2 from "../forms/SubGrupoFormV2";
 import SeleccionSubgrupo from "../forms/trabajo_multiple/seleccion_subgrupo";
 import { post_method } from "@/src/helpers/post_helper";

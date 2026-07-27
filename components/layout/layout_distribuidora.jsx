@@ -1,12 +1,13 @@
 import { get, public_urls } from "@/src/urls";
 import useStorage from "@/useStorage";
-import { Alert, Layout, Row, Col, Card } from "antd";
+import { Alert, Layout, Row, Col, Card, Modal } from "antd";
 import { useEffect, useState } from "react";
 import globals from "@/src/globals";
-import HeaderSol from "./header";
 import MenuDistribuidora from "./menu_distribuidora";
+import TrabajoMultiple from "../forms/trabajo_multiple/venta_multiple";
 
 export default function LayoutDistribuidora(props) {
+  const [modalOpen, setModalOpen] = useState(false)
   const { Content } = Layout;
   const [alerta, setAlerta] = useState("");
   const { getItem } = useStorage();
@@ -69,7 +70,7 @@ export default function LayoutDistribuidora(props) {
       <Card
         size="small"
         styles={card_style2}
-        title={<div>{<MenuDistribuidora />}</div>}
+        title={<div>{<MenuDistribuidora onNuevaVentaClick={_=>{setModalOpen(true)}} />}</div>}
         style={{
           borderLeft:"#262D42",
           borderRight:"#262D42",
@@ -102,6 +103,9 @@ export default function LayoutDistribuidora(props) {
           </Row>
         </Content>
       </Card>
+      <Modal open={modalOpen} onCancel={_=>{setModalOpen(false)}} width={"100%"}>
+        <TrabajoMultiple />
+    </Modal>
     </Layout>
   );
 }

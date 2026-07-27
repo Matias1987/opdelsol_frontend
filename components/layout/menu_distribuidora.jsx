@@ -14,7 +14,10 @@ import globals from "@/src/globals";
 import { getItem } from "localforage";
 import SucursalLabel from "../sucursal_label";
 
-const items = [
+
+export default function MenuDistribuidora({onNuevaVentaClick}) {
+  const [current, setCurrent] = useState("9");
+  const items = [
   {
     label: (
       <Link href={public_urls.dashboard_distribuidora}>
@@ -23,15 +26,7 @@ const items = [
     ),
     key: "9",
   },
-  {
-    label: (
-      <Link href={public_urls.nueva_venta_distribuidora}>
-        Nueva Operaci&oacute;n
-      </Link>
-    ),
-    key: "10",
-    icon: <StarOutlined />,
-  },
+  
   {
     label: (
       <Link href={public_urls.lista_operaciones_distribuidora}>
@@ -55,9 +50,16 @@ const items = [
     key: "13",
     icon: <BoxPlotOutlined />,
   },
+
+  {
+    label: (
+      <Button onClick={onNuevaVentaClick}>
+        <StarOutlined /> Nueva Operaci&oacute;n
+      </Button>
+    ),
+    key: "10",
+  },
 ];
-export default function MenuDistribuidora() {
-  const [current, setCurrent] = useState("9");
   const onClick = (e) => {
     setCurrent(e.key);
   };

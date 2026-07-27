@@ -1,9 +1,6 @@
-import { Card, Col, Divider, Input, InputNumber, Row, Select } from "antd";
+import { Card, Col, Input, InputNumber, Row, Select } from "antd";
 import { useEffect, useState } from "react";
-import SelectDisenio from "./form_elements/SelectDisenio";
-import { get, post } from "@/src/urls";
-import SelectCodigoVenta from "../ventas/SelectCodigoVenta";
-import globals from "@/src/globals";
+import { get } from "@/src/urls";
 import HelperToolTip from "../ventas/common/HelperToolTip";
 import SelectDisenioV2 from "./form_elements/SelectDisenioV2";
 import SelectItemModal from "./form_elements/SelectItemModal";

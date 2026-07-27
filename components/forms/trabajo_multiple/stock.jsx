@@ -1,5 +1,5 @@
 import globals from "@/src/globals";
-import { Card, Col, Divider, Input, InputNumber, Row, Select } from "antd";
+import { Card, Col, Divider, Input, InputNumber, Row } from "antd";
 import { useEffect, useState } from "react";
 import SelectCodigoVenta from "../ventas/SelectCodigoVenta";
 import SelectItemModal from "./form_elements/SelectItemModal";

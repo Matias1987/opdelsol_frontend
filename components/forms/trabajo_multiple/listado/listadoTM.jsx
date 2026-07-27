@@ -1,8 +1,6 @@
 import globals from "@/src/globals";
 import { get, post } from "@/src/urls";
 import {
-  AlertFilled,
-  AlertOutlined,
   InfoCircleFilled,
   ReloadOutlined,
   SearchOutlined,
@@ -16,7 +14,6 @@ import {
   Row,
   Space,
   Table,
-  Tag,
 } from "antd";
 import { useEffect, useState } from "react";
 import Informe from "../informe/informe";
@@ -42,7 +39,7 @@ const ListadoVentasTM = (_) => {
       width: "50px",
       title: "ID",
       filterIcon: (filtered) => (
-        <SearchOutlined style={{ color: filtered ? "#1677ff" : undefined }} />
+        <SearchOutlined />
       ),
       // Render a custom input panel
       filterDropdown: ({

@@ -1,4 +1,3 @@
-import globals from "@/src/globals";
 import { Col, Row, Select } from "antd";
 import { useEffect, useState } from "react";
 import VMCristalesStock from "./stock";

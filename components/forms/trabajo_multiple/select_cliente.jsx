@@ -4,10 +4,7 @@ import { useEffect, useState } from "react";
 import {
   CloseOutlined,
   PlusOutlined,
-  ReloadOutlined,
-  UserAddOutlined,
   UserOutlined,
-  UserSwitchOutlined,
 } from "@ant-design/icons";
 import { get } from "@/src/urls";
 import ClienteFormDistrib from "@/components/cliente/ClienteFormDistrib";

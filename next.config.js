@@ -12,6 +12,8 @@ module.exports = nextConfig
 const nextConfig = {
   reactStrictMode: false,
   swcMinify: false, // 'minify' in Next versions < 12.0
+  outputFileTracing: false, 
+  transpilePackages: ['@ant-design/icons', 'antd'],
 };
 
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
