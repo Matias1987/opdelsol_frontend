@@ -1,19 +1,27 @@
 import { idf_optica, local_base_url } from "@/src/config";
-import {
-  ArrowDownOutlined,
-  BarsOutlined,
-  BoxPlotFilled,
-  FileTextOutlined,
-  HomeOutlined,
-  InfoOutlined,
-  PartitionOutlined,
-  PlusCircleOutlined,
-  PrinterOutlined,
-  RocketOutlined,
-  SnippetsOutlined,
-  TableOutlined,
-  UserOutlined,
-} from "@ant-design/icons";
+import ArrowDownOutlined from "@ant-design/icons/ArrowDownOutlined";
+
+import BarsOutlined from "@ant-design/icons/BarsOutlined";
+
+import BoxPlotFilled from "@ant-design/icons/BoxPlotFilled";
+
+import FileTextOutlined from "@ant-design/icons/FileTextOutlined";
+
+import HomeOutlined from "@ant-design/icons/HomeOutlined";
+
+import InfoOutlined from "@ant-design/icons/InfoOutlined";
+
+import PartitionOutlined from "@ant-design/icons/PartitionOutlined";
+
+import PrinterOutlined from "@ant-design/icons/PrinterOutlined";
+
+import RocketOutlined from "@ant-design/icons/RocketOutlined";
+
+import SnippetsOutlined from "@ant-design/icons/SnippetsOutlined";
+
+import TableOutlined from "@ant-design/icons/TableOutlined";
+
+import UserOutlined from "@ant-design/icons/UserOutlined";
 
 import { Menu } from "antd";
 import Link from "next/link";
@@ -60,7 +68,13 @@ export default function TestMenu() {
           </Link>
         </Menu.Item>
         <Menu.Item key="sub2_33">
-          <Link href={ idf_optica === 1  ? get_url_to("deposito/stock/agregar_stock_lote_v3") : get_url_to("deposito/stock/agregar_stock") }>
+          <Link
+            href={
+              idf_optica === 1
+                ? get_url_to("deposito/stock/agregar_stock_lote_v3")
+                : get_url_to("deposito/stock/agregar_stock")
+            }
+          >
             Agregar Productos...
           </Link>
         </Menu.Item>

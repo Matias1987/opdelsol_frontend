@@ -7,10 +7,11 @@ import HeaderSol from "./header";
 import MenuV2 from "./menu_v2";
 import PopupResultadoBusqueda from "../precios/PopupResultadoBusqueda";
 import BarraResumenCaja from "../forms/caja/BarraResumenCaja";
-import { SearchOutlined } from "@ant-design/icons";
+import SearchOutlined from "@ant-design/icons/SearchOutlined";
+import { Content } from "antd/es/layout/layout";
 
 export default function LayoutVentas(props) {
-  const { Content } = Layout;
+  //const { Content } = Layout;
   const [alerta, setAlerta] = useState("");
   const { getItem } = useStorage();
   const [popupBusquedaOpen, setPopupBusquedaOpen] = useState(false);
@@ -48,7 +49,7 @@ export default function LayoutVentas(props) {
       .then((response) => {
         if (response.data.logged == "0") {
           window.location.replace(public_urls.login);
-        } 
+        }
       });
 
     fetch(get.caja_abierta + globals.obtenerSucursal())
@@ -128,7 +129,6 @@ export default function LayoutVentas(props) {
     };*/
 
     validate_user();
-
   }, []);
 
   return (

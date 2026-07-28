@@ -1,8 +1,8 @@
-import { post_method } from "@/src/helpers/post_helper"
-import { post } from "@/src/urls"
-import { SaveOutlined } from "@ant-design/icons"
-import { Row, Col, Input, Button } from "antd"
-import { useState } from "react"
+import { post_method } from "@/src/helpers/post_helper";
+import { post } from "@/src/urls";
+import  SaveOutlined from "@ant-design/icons/SaveOutlined";
+import { Row, Col, Input, Button } from "antd";
+import { useState } from "react";
 
 
 const AddEditSetting = props => {

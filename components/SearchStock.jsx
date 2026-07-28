@@ -1,8 +1,8 @@
 import { Button, Table, Input, Row } from "antd";
 import { useState } from "react";
-import { get, post } from "@/src/urls";
+import { post } from "@/src/urls";
 import globals from "@/src/globals";
-import { PlusCircleFilled } from "@ant-design/icons";
+import  PlusCircleFilled  from "@ant-design/icons/PlusCircleFilled";
 import { post_method } from "@/src/helpers/post_helper";
 
 const SearchStock = (props) => {

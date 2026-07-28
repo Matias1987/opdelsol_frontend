@@ -1,12 +1,4 @@
-import {
-  Card,
-  Col,
-  Divider,
-  Input,
-  Modal,
-  Row,
-  Table,
-} from "antd";
+import { Card, Col, Divider, Input, Modal, Row, Table } from "antd";
 import { useEffect, useState } from "react";
 import { post_method } from "@/src/helpers/post_helper";
 import globals from "@/src/globals";
@@ -14,11 +6,11 @@ import { get, post } from "@/src/urls";
 import GrupoV2 from "./grupo_v2";
 import SubGrupoFormV3 from "../forms/deposito/SubgrupoFormV3";
 import CodeExample from "../etc/codeExample";
-import { SearchOutlined } from "@ant-design/icons";
+import SearchOutlined from "@ant-design/icons/SearchOutlined";
 import { convertInputToUpper } from "@/src/helpers/string_helper";
 import EditarPrecioSGCategoria from "../deposito/EditarPrecioSGCategoria";
 
-const ListaPreciosV3 = (props) => {
+const ListaPreciosV3 = () => {
   const [subfamilias, setSubfamilias] = useState([]);
 
   const [selectedSubFamilia, setSelectedSubFamilia] = useState({
@@ -77,16 +69,16 @@ const ListaPreciosV3 = (props) => {
             id: sf.idsubfamilia,
             nombre: sf.nombre_largo,
             familia: sf.familia,
-          }))
+          })),
         );
 
         if (resp.data.length > 0) {
           onSubfamiliaClick(
             resp.data[0].idsubfamilia,
-            resp.data[0].nombre_largo
+            resp.data[0].nombre_largo,
           );
         }
-      }
+      },
     );
   }, []);
 
@@ -146,7 +138,7 @@ const ListaPreciosV3 = (props) => {
   const onEditarGrupoClick = (idgrupo) => {
     setSelectedGrupoId(idgrupo);
     setPopupEditarGrupoVisible(true);
-  }
+  };
 
   return (
     <div style={{ backgroundColor: "#E8EAF0" }}>
@@ -230,20 +222,20 @@ const ListaPreciosV3 = (props) => {
         </Col>
         <Col span={6}>
           <Table
-            onRow={(record,rowIndex) => {
-                return {
-                    onClick: (e) => {
-                        onSubfamiliaClick(record.id, record.nombre);
-                    }
-                }
+            onRow={(record, rowIndex) => {
+              return {
+                onClick: (e) => {
+                  onSubfamiliaClick(record.id, record.nombre);
+                },
+              };
             }}
             key={selectedSubFamilia}
             rowClassName={(record, index) =>
               record.id == selectedSubFamilia.id
                 ? "table-selected-row"
                 : index % 2 === 0
-                ? "table-row-light"
-                : "table-row-dark"
+                  ? "table-row-light"
+                  : "table-row-dark"
             }
             dataSource={subfamilias}
             columns={[
@@ -253,19 +245,18 @@ const ListaPreciosV3 = (props) => {
                 render: (_, obj) => (
                   <div
                     style={{
-                        fontSize:"14px",
-                        color: selectedSubFamilia.id == obj.id ? "#536872" : "#03045E",
-                        fontWeight: "600",
-                        textAlign: "left",
-                        width: "100%",
-                        whiteSpace: "normal",
-                        border:"0",
-                        backgroundColor:"rgba(0,0,0,0)"
+                      fontSize: "14px",
+                      color:
+                        selectedSubFamilia.id == obj.id ? "#536872" : "#03045E",
+                      fontWeight: "600",
+                      textAlign: "left",
+                      width: "100%",
+                      whiteSpace: "normal",
+                      border: "0",
+                      backgroundColor: "rgba(0,0,0,0)",
                     }}
                     disabled={loading}
-                    onClick={() => {
-                      
-                    }}
+                    onClick={() => {}}
                   >
                     {obj.familia + " / " + obj.nombre}
                   </div>
@@ -306,14 +297,23 @@ const ListaPreciosV3 = (props) => {
         </div>
       </Modal>
       <Modal
-      open={popupEditarGrupoVisible}
-      onCancel={_=>{setPopupEditarGrupoVisible(false)}}
-      footer={null}
-      title="Editar Grupo"
-      width={"600px"}
-      destroyOnClose
+        open={popupEditarGrupoVisible}
+        onCancel={(_) => {
+          setPopupEditarGrupoVisible(false);
+        }}
+        footer={null}
+        title="Editar Grupo"
+        width={"600px"}
+        destroyOnClose
       >
-        <EditarPrecioSGCategoria categoria={"grupo"} idcategoria={selectedGrupoId} callback={() => {setReload(!reload); setPopupEditarGrupoVisible(false);}} />
+        <EditarPrecioSGCategoria
+          categoria={"grupo"}
+          idcategoria={selectedGrupoId}
+          callback={() => {
+            setReload(!reload);
+            setPopupEditarGrupoVisible(false);
+          }}
+        />
       </Modal>
     </div>
   );

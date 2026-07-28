@@ -4,7 +4,8 @@ import InformeCajaV2 from "@/components/informes/caja/InformeCajaV3";
 import { formatFloat } from "@/src/helpers/formatters";
 import { post_method } from "@/src/helpers/post_helper";
 import { post } from "@/src/urls";
-import { EditOutlined, InfoOutlined } from "@ant-design/icons";
+import EditOutlined from "@ant-design/icons/EditOutlined";
+import InfoOutlined from "@ant-design/icons/InfoOutlined";
 import { Button, Col, Row, Table, Card, Modal, Select, Divider } from "antd";
 import { useEffect, useState } from "react";
 
@@ -23,7 +24,14 @@ const ListadoCajasAdmin = (props) => {
     { title: "Sucursal", dataIndex: "sucursal", width: "130px" },
 
     { title: "Estado", dataIndex: "estado", width: "80px" },
-    { width: "120px" , title: <div style={{textAlign:"right"}}>Monto</div>, dataIndex: "saldo", render: (_,{saldo}) => <div style={{textAlign:"right"}}>$&nbsp;{formatFloat(saldo)}</div> },
+    {
+      width: "120px",
+      title: <div style={{ textAlign: "right" }}>Monto</div>,
+      dataIndex: "saldo",
+      render: (_, { saldo }) => (
+        <div style={{ textAlign: "right" }}>$&nbsp;{formatFloat(saldo)}</div>
+      ),
+    },
     {
       width: "250px",
       title: "Acciones",
@@ -64,7 +72,7 @@ const ListadoCajasAdmin = (props) => {
         //alert(JSON.stringify(response.data));
         if (response.data.status == "error") return;
         setCajas(response.data || []);
-      }
+      },
     );
   };
 
@@ -75,7 +83,7 @@ const ListadoCajasAdmin = (props) => {
       (response) => {
         if (response.data.status == "error") return;
         setReload(!reload);
-      }
+      },
     );
   };
 
@@ -90,30 +98,40 @@ const ListadoCajasAdmin = (props) => {
           <Col style={{ width: "300px", minWidth: "200px" }}>
             <CustomCalendar
               onSelect={(date) => {
-                setCajas([])
+                setCajas([]);
                 setSelectedDate(date.format("YYYY-MM-DD"));
                 setReload(!reload);
               }}
             />
           </Col>
-          <Col style={{width: "620px", minWidth:"620px" }}>
+          <Col style={{ width: "620px", minWidth: "620px" }}>
             <Table
               size="small"
               dataSource={cajas}
               columns={columns}
               scroll={{ y: "500px" }}
               pagination={false}
-              footer={_=><>
-              <ExportToExcel2 
-                fileName={`Cajas_${selectedDate}`}
-                sheets={[
-                {sheet_name:"Cajas", data:cajas, columns:columns, footer:"", columns:[
-                  {header:"Fecha", width:"30", key:"fecha_f"},
-                  {header:"Sucursal", width:"30", key:"sucursal"},
-                  
-                  {header:"Monto", width:"30", key:"saldo"}
-                ]}
-              ]} /> </>}
+              footer={(_) => (
+                <>
+                  <ExportToExcel2
+                    fileName={`Cajas_${selectedDate}`}
+                    sheets={[
+                      {
+                        sheet_name: "Cajas",
+                        data: cajas,
+                        columns: columns,
+                        footer: "",
+                        columns: [
+                          { header: "Fecha", width: "30", key: "fecha_f" },
+                          { header: "Sucursal", width: "30", key: "sucursal" },
+
+                          { header: "Monto", width: "30", key: "saldo" },
+                        ],
+                      },
+                    ]}
+                  />{" "}
+                </>
+              )}
             />
           </Col>
         </Row>
@@ -152,14 +170,15 @@ const ListadoCajasAdmin = (props) => {
           </Row>
           <Divider />
           <Row style={{ padding: "6px" }}>
-            <Col span={24} style={{display:"flex", justifyContent:"flex-end"}}>
+            <Col
+              span={24}
+              style={{ display: "flex", justifyContent: "flex-end" }}
+            >
               <Button
                 size="middle"
-                
                 type="primary"
                 onClick={() => {
-                  if(!selectedEstado)
-                  {
+                  if (!selectedEstado) {
                     alert("Seleccione un estado");
                     return;
                   }

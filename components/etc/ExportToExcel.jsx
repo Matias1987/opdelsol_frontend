@@ -2,9 +2,16 @@ import React from "react";
 import ExcelJS from "exceljs";
 import { saveAs } from "file-saver";
 import { Button } from "antd";
-import { ExportOutlined, FileExcelOutlined } from "@ant-design/icons";
+import FileExcelOutlined from "@ant-design/icons/FileExcelOutlined";
 
-const ExportToExcel = ({ data, columns, fileName, buttonSize, sheetName, buttonType }) => {
+const ExportToExcel = ({
+  data,
+  columns,
+  fileName,
+  buttonSize,
+  sheetName,
+  buttonType,
+}) => {
   const exportExcel = async () => {
     const workbook = new ExcelJS.Workbook();
     const worksheet = workbook.addWorksheet(sheetName || "Página 1");
@@ -25,7 +32,7 @@ const ExportToExcel = ({ data, columns, fileName, buttonSize, sheetName, buttonT
   return (
     <Button
       size={buttonSize || "middle"}
-      style={{ backgroundColor: "#217346", color:"white" }}
+      style={{ backgroundColor: "#217346", color: "white" }}
       type={buttonType ? buttonType : "primary"}
       onClick={exportExcel}
     >

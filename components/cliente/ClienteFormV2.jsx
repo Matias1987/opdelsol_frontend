@@ -1,9 +1,9 @@
 import globals from "@/src/globals";
 import { post_method } from "@/src/helpers/post_helper";
 import { post } from "@/src/urls";
-import { Button, Col, DatePicker, Form, Input, Modal, Row, Space } from "antd";
+import { Button, Col, DatePicker, Form, Input, Row } from "antd";
 import dayjs from "dayjs";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import SelectLocalidadV2 from "../SelectLocalidadV2";
 import Edad from "./Edad";
 import { convertInputToUpper, validate_only_numbers_and_letters } from "@/src/helpers/string_helper";

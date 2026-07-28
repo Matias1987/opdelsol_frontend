@@ -1,11 +1,11 @@
-import {Button, Col, Progress, Row, Input, Card} from "antd";
+import {Button, Col, Progress, Row, Input} from "antd";
 
 import { useEffect, useState } from "react";
 import { post_method } from "@/src/helpers/post_helper";
 import { post } from "@/src/urls";
 import globals from "@/src/globals";
+import  SaveFilled from "@ant-design/icons/SaveFilled";
 
-import { SaveFilled } from "@ant-design/icons";
 /**
  * 
  * @param idsucursal if not provided, the current sucursal id is used

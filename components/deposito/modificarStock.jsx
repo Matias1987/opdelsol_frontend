@@ -17,7 +17,7 @@ import CodeGridHTMLTipos from "../etc/CodeGridHTMLTipos";
 import GridBifocalesTipos from "../etc/GridBifocalesTipos";
 import GridMonofTipos from "../etc/GridMonofTipos";
 import IconViewSubgrupoSelector from "./iconViewSubgrupoSelector";
-import { CloseOutlined } from "@ant-design/icons";
+import CloseOutlined from "@ant-design/icons/CloseOutlined";
 import DetalleSubgrupo from "../DetalleSubgrupo";
 
 const ModificarStock = ({ dataDef, defIdFamilia, familiaEnabled }) => {

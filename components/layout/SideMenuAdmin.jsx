@@ -1,23 +1,19 @@
 import React from "react";
-import { Layout, Menu } from "antd";
-import {
-  DashboardOutlined,
-  UserOutlined,
-  SettingOutlined,
-  LogoutOutlined,
-  DollarOutlined,
-  CreditCardTwoTone,
-  DownOutlined,
-  ArrowDownOutlined,
-  OrderedListOutlined,
-  BoxPlotOutlined,
-} from "@ant-design/icons";
+import { Menu } from "antd";
+import DashboardOutlined from "@ant-design/icons/DashboardOutlined";
+import UserOutlined from "@ant-design/icons/UserOutlined";
+import SettingOutlined from "@ant-design/icons/SettingOutlined";
+import LogoutOutlined from "@ant-design/icons/LogoutOutlined";
+import DollarOutlined from "@ant-design/icons/DollarOutlined";
+import CreditCardTwoTone from "@ant-design/icons/CreditCardTwoTone";
+import ArrowDownOutlined from "@ant-design/icons/ArrowDownOutlined";
+import OrderedListOutlined from "@ant-design/icons/OrderedListOutlined";
+import BoxPlotOutlined from "@ant-design/icons/BoxPlotOutlined";
 import { useRouter } from "next/router";
 import { get } from "@/src/urls";
 import useStorage from "@/useStorage";
-
-const { Sider } = Layout;
-const { SubMenu } = Menu;
+import Sider from "antd/es/layout/Sider";
+import SubMenu from "antd/es/menu/SubMenu";
 
 const SideMenuAdmin = ({ collapsed }) => {
   const router = useRouter();
@@ -30,8 +26,6 @@ const SideMenuAdmin = ({ collapsed }) => {
     fetch(get.logout + _token)
       .then((response) => response.json())
       .then((response) => {
-        //registrar_evento("USER_LOGOUT", "Cierre de sesion",globals.obtenerUID() )
-        //window.location.replace(public_urls.login);
         router.push("/v1/usuario/login/login");
       })
       .catch((err) => {
@@ -74,15 +68,15 @@ const SideMenuAdmin = ({ collapsed }) => {
         >
           Cajas
         </Menu.Item>
-        {<Menu.Item
-          key="/v1/admin/lista_precios/"
-          icon={<DollarOutlined />}
-          onClick={() =>
-            router.push("/v1/admin/lista_precios/")
-          }
-        >
-          Lista de Precios
-        </Menu.Item>}
+        {
+          <Menu.Item
+            key="/v1/admin/lista_precios/"
+            icon={<DollarOutlined />}
+            onClick={() => router.push("/v1/admin/lista_precios/")}
+          >
+            Lista de Precios
+          </Menu.Item>
+        }
         <Menu.Item
           key="/v1/admin/ventas/"
           icon={<DollarOutlined />}
@@ -97,21 +91,25 @@ const SideMenuAdmin = ({ collapsed }) => {
         >
           Tarjetas
         </Menu.Item>
-         <Menu.Item
+        <Menu.Item
           key="/v1/admin/panel_proveedores/"
           icon={<UserOutlined />}
           onClick={() => router.push("/v1/admin/panel_proveedores/")}
         >
           Proveedores
         </Menu.Item>
-         <Menu.Item
+        <Menu.Item
           key="/v1/admin/stock_sucursal_admin/"
           icon={<BoxPlotOutlined />}
           onClick={() => router.push("/v1/admin/stock_sucursal_admin/")}
         >
           Stock
         </Menu.Item>
-          <SubMenu key="submenu_clientes" icon={<UserOutlined />} title="Clientes">
+        <SubMenu
+          key="submenu_clientes"
+          icon={<UserOutlined />}
+          title="Clientes"
+        >
           <Menu.Item
             key="/v1/admin/clientes/"
             icon={<OrderedListOutlined />}
@@ -127,27 +125,7 @@ const SideMenuAdmin = ({ collapsed }) => {
             Descuentos
           </Menu.Item>
         </SubMenu>
-       {/*<SubMenu key="sub2" icon={<FileTextOutlined />} title="Reports">
-          <Menu.Item
-            key="/v1/admin/ventas"
-            icon={<BarChartOutlined />}
-            onClick={() => router.push("/v1/admin/ventas")}
-          >
-            Sales Reports
-          </Menu.Item>
-          <Menu.Item
-            key="/v1/admin/prov"
-            onClick={() => router.push("/v1/admin/prov")}
-          >
-            Inventory Reports
-          </Menu.Item>
-          <Menu.Item
-            key="/v1/admin/logs"
-            onClick={() => router.push("/v1/admin/logs")}
-          >
-            Activity Logs
-          </Menu.Item>
-        </SubMenu>*/}
+
         <SubMenu key="sub2" icon={<SettingOutlined />} title="Tablas">
           <Menu.Item
             key="/v1/admin/lista_sucursales"

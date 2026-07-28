@@ -1,23 +1,21 @@
-import SucursalSelect from "@/components/SucursalSelect";
 import ListaVentas from "@/components/informes/ventas/ListaVentas";
-import LayoutLaboratorio from "@/components/layout/layout_laboratorio";
 import EditarSobre from "@/components/taller/EditarSobre";
-import { SearchOutlined } from "@ant-design/icons";
-import { Button, Col, Input, Modal, Row } from "antd";
+import { Col, Modal, Row } from "antd";
 import { useEffect, useState } from "react";
 
-export default function  ListaOperacionesTotal(){
-    const [idventa, setIdVenta] = useState(-1)
-    const [idTrabajo, setIdTrabajo] = useState(-1)
-    const [busqueda, setBusqueda] = useState("")
-    const [idBusqueda, setIdBusqueda] = useState(-1)
-    const [idSucursal, setIdSucursal] = useState(-1)
-    const [open, setOpen] = useState(false)
-    const [reload, setReload] = useState(false)
-    useEffect(()=>{},[])
-    return <>
-    {<Row>
-        {/*<Col span={6}>
+export default function ListaOperacionesTotal() {
+  const [idventa, setIdVenta] = useState(-1);
+  const [idTrabajo, setIdTrabajo] = useState(-1);
+  const [idBusqueda, setIdBusqueda] = useState(-1);
+  const [idSucursal, setIdSucursal] = useState(-1);
+  const [open, setOpen] = useState(false);
+  const [reload, setReload] = useState(false);
+  useEffect(() => {}, []);
+  return (
+    <>
+      {
+        <Row>
+          {/*<Col span={6}>
             <SucursalSelect callback={(v)=>{setIdSucursal(v)}} />
         </Col>
         <Col span={10}>
@@ -40,33 +38,52 @@ export default function  ListaOperacionesTotal(){
             </Button></>}
             />
         </Col>*/}
-
-    </Row>}
-    <Row>
+        </Row>
+      }
+      <Row>
         <Col span={24}>
-        <ListaVentas 
+          <ListaVentas
             hideReloadBtn={false}
             idsucursal={idSucursal}
             titulo="Todas las Operaciones"
-            id={idBusqueda} 
-            mostrarEstado="0" 
-            ignoreSucursal 
-            laboratorio_modificar 
-            enviar_a_sucursal 
-            en_laboratorio={1} 
-            ignoreSucursalEntrega  
-            estado={"PENDIENTE"} 
-            onEditLaboratorioClick={(id, _idTrabajo)=>{setIdVenta(id); setIdTrabajo(_idTrabajo ? _idTrabajo : -1); setOpen(true)}} 
-            key={reload} 
+            id={idBusqueda}
+            mostrarEstado="0"
+            ignoreSucursal
+            laboratorio_modificar
+            enviar_a_sucursal
+            en_laboratorio={1}
+            ignoreSucursalEntrega
+            estado={"PENDIENTE"}
+            onEditLaboratorioClick={(id, _idTrabajo) => {
+              setIdVenta(id);
+              setIdTrabajo(_idTrabajo ? _idTrabajo : -1);
+              setOpen(true);
+            }}
+            key={reload}
             ocultarPrecio={true}
-        />
-       
-        
+          />
         </Col>
-    </Row>
+      </Row>
 
-        <Modal destroyOnClose open={open} footer={null} onCancel={()=>{setOpen(false)}} key={idventa} width={"100%"}>
-            <EditarSobre readonly={false} idventa={idventa} idtrabajo={idTrabajo} callback={()=>{setReload(!reload), setOpen(false)}} />
-        </Modal>
+      <Modal
+        destroyOnClose
+        open={open}
+        footer={null}
+        onCancel={() => {
+          setOpen(false);
+        }}
+        key={idventa}
+        width={"100%"}
+      >
+        <EditarSobre
+          readonly={false}
+          idventa={idventa}
+          idtrabajo={idTrabajo}
+          callback={() => {
+            (setReload(!reload), setOpen(false));
+          }}
+        />
+      </Modal>
     </>
+  );
 }

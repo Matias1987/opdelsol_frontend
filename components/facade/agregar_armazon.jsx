@@ -10,16 +10,12 @@ import {
   Checkbox,
   Divider,
 } from "antd";
-import SelectArmazonMarca from "./select_marca";
 import { useEffect, useState } from "react";
-import SubFamiliaSelect from "../SubFamiliaSelect";
-import GrupoSelect from "../GrupoSelect";
-import { PlusOutlined } from "@ant-design/icons";
-import EditableTable from "../etc/editableTable";
+import PlusOutlined from "@ant-design/icons/PlusOutlined";
 import { get, post } from "@/src/urls";
 import { post_method } from "@/src/helpers/post_helper";
 
-const AgregarArmazon = (props) => {
+const AgregarArmazon = () => {
   /********************************************************************************************************* */
   const [reload, setReload] = useState(false);
   const [modalAgregarCodigoOpen, setModalAgregarCodigoOpen] = useState(false);
@@ -49,7 +45,7 @@ const AgregarArmazon = (props) => {
           r.data.map((s) => ({
             ...s,
             checked: true,
-          }))
+          })),
         );
       });
   };
@@ -106,7 +102,7 @@ const AgregarArmazon = (props) => {
 
     if (!/^[A-Za-z0-9_\s]+$/.test(marcaToAdd)) {
       alert(
-        "La marca solo puede contener letras, espacios, números y guiones bajos"
+        "La marca solo puede contener letras, espacios, números y guiones bajos",
       );
       return;
     }
@@ -133,7 +129,7 @@ const AgregarArmazon = (props) => {
 
     if (!/^[A-Za-z0-9_\s]+$/.test(subCategoriaToAdd)) {
       alert(
-        "La sub-categoría solo puede contener letras, espacios, números y guiones bajos"
+        "La sub-categoría solo puede contener letras, espacios, números y guiones bajos",
       );
       return;
     }
@@ -184,7 +180,7 @@ const AgregarArmazon = (props) => {
             danger
             onClick={() => {
               setCodigosData((oldData) =>
-                oldData.filter((d) => d.codigo !== record.codigo)
+                oldData.filter((d) => d.codigo !== record.codigo),
               );
             }}
           >
@@ -206,8 +202,8 @@ const AgregarArmazon = (props) => {
                 _s.map((__s) =>
                   record.idsucursal == __s.idsucursal
                     ? { ...__s, checked: !__s.checked }
-                    : __s
-                )
+                    : __s,
+                ),
               );
             }}
           />
@@ -358,7 +354,7 @@ const AgregarArmazon = (props) => {
               size="small"
               title={
                 <>
-                Lista de C&oacute;digos a agregar:  &nbsp;&nbsp;&nbsp;&nbsp;
+                  Lista de C&oacute;digos a agregar: &nbsp;&nbsp;&nbsp;&nbsp;
                   <Button
                     size="large"
                     type="primary"
@@ -448,7 +444,10 @@ const AgregarArmazon = (props) => {
               allowClear
               value={codeToAdd.codigo}
               onChange={(e) =>
-                setCodeToAdd({ ...codeToAdd, codigo: (e.target.value||"").toUpperCase() })
+                setCodeToAdd({
+                  ...codeToAdd,
+                  codigo: (e.target.value || "").toUpperCase(),
+                })
               }
             />
           </Col>
@@ -460,7 +459,10 @@ const AgregarArmazon = (props) => {
               allowClear
               value={codeToAdd.descripcion}
               onChange={(e) =>
-                setCodeToAdd({ ...codeToAdd, descripcion: (e.target.value||"").toUpperCase() })
+                setCodeToAdd({
+                  ...codeToAdd,
+                  descripcion: (e.target.value || "").toUpperCase(),
+                })
               }
             />
           </Col>
@@ -472,7 +474,10 @@ const AgregarArmazon = (props) => {
               type="number"
               value={codeToAdd.precio}
               onChange={(e) =>
-                setCodeToAdd({ ...codeToAdd, precio: e.target.value.length<1? "0" : e.target.value })
+                setCodeToAdd({
+                  ...codeToAdd,
+                  precio: e.target.value.length < 1 ? "0" : e.target.value,
+                })
               }
             />
           </Col>
@@ -499,7 +504,9 @@ const AgregarArmazon = (props) => {
               prefix="Marca: "
               allowClear
               value={marcaToAdd}
-              onChange={(e) => setMarcaToAdd((e.target.value||"").toUpperCase())}
+              onChange={(e) =>
+                setMarcaToAdd((e.target.value || "").toUpperCase())
+              }
             />
           </Col>
         </Row>
@@ -525,7 +532,9 @@ const AgregarArmazon = (props) => {
               prefix="Subcategoría: "
               allowClear
               value={subCategoriaToAdd}
-              onChange={(e) => setSubCategoriaToAdd((e.target.value||"").toUpperCase())}
+              onChange={(e) =>
+                setSubCategoriaToAdd((e.target.value || "").toUpperCase())
+              }
             />
           </Col>
         </Row>

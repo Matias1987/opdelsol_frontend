@@ -1,8 +1,6 @@
-import FichaProveedor from "@/components/admin/proveedor/fichaProveedor";
 import ProveedorForm from "@/components/forms/ProveedorForm";
-import { get, post } from "@/src/urls";
-import { PlusOutlined } from "@ant-design/icons";
-
+import { post } from "@/src/urls";
+import PlusOutlined from "@ant-design/icons/PlusOutlined";
 import { Table, Button, Modal, Row, Col, Card, Checkbox, Input } from "antd";
 import { useState, useEffect } from "react";
 import ListaFacturas from "../factura/listaFacturas";
@@ -19,7 +17,7 @@ const ListaProveedores = (props) => {
   const [idproveedor, setIdProveedor] = useState(-1);
   const [loading, setLoading] = useState(false);
 
-  const url_for_proveedores = post.saldo_proveedores_lista; //get.lista_proveedores;
+  const url_for_proveedores = post.saldo_proveedores_lista; 
   const [tableData, setTableData] = useState([]);
 
   const [listaFacturasOpen, setListaFacturasOpen] = useState(false);
@@ -33,7 +31,7 @@ const ListaProveedores = (props) => {
           checked={checked}
           onChange={(e) => {
             const temp = tableData.map((p) =>
-              p.idproveedor == idproveedor ? { ...p, checked: !p.checked } : p
+              p.idproveedor == idproveedor ? { ...p, checked: !p.checked } : p,
             );
 
             setTableData(temp);
@@ -43,9 +41,24 @@ const ListaProveedores = (props) => {
         />
       ),
     },
-    { title: "Nro.", dataIndex: "idproveedor", key: "idproveedor", sorter: (a, b) => a.idproveedor - b.idproveedor },
-    { title: "Nombre", dataIndex: "nombre", key: "nombre", sorter: (a, b) => a.nombre.localeCompare(b.nombre) },
-    { title: "C.U.I.T.", dataIndex: "cuit", key: "cuit", sorter: (a, b) => a.cuit.localeCompare(b.cuit) },
+    {
+      title: "Nro.",
+      dataIndex: "idproveedor",
+      key: "idproveedor",
+      sorter: (a, b) => a.idproveedor - b.idproveedor,
+    },
+    {
+      title: "Nombre",
+      dataIndex: "nombre",
+      key: "nombre",
+      sorter: (a, b) => a.nombre.localeCompare(b.nombre),
+    },
+    {
+      title: "C.U.I.T.",
+      dataIndex: "cuit",
+      key: "cuit",
+      sorter: (a, b) => a.cuit.localeCompare(b.cuit),
+    },
     {
       sorter: (a, b) => +a.saldo_ars - +b.saldo_ars,
       title: <div style={{ textAlign: "right" }}>Saldo ARS</div>,
@@ -92,24 +105,7 @@ const ListaProveedores = (props) => {
   ];
 
   const load = () => {
-    /*fetch(url_for_proveedores)
-    .then(response=>response.json())
-    .then((response)=>{
-
-        setTableData(
-            response.data.map((r)=>(
-                {
-                    idproveedor: r.idproveedor,
-                    nombre: r.nombre,
-                    cuit: r.cuit,
-                    checked: false,
-                }
-                )
-            )
-        )
-
-    })*/
-   setLoading(true);
+    setLoading(true);
     post_method(url_for_proveedores, {}, (response) => {
       setTableData(
         response.data.map((r) => ({
@@ -119,7 +115,7 @@ const ListaProveedores = (props) => {
           saldo_ars: r.saldo_ars,
           saldo_usd: r.saldo_usd,
           checked: false,
-        }))
+        })),
       );
       setLoading(false);
     });
@@ -191,7 +187,7 @@ const ListaProveedores = (props) => {
                   ? true
                   : (d.nombre || "")
                       .toUpperCase()
-                      .includes(searchValue.toUpperCase())
+                      .includes(searchValue.toUpperCase()),
               )}
             />
           </Col>
@@ -213,7 +209,7 @@ const ListaProveedores = (props) => {
 
       {/** is this temporary? */}
       <Modal
-        styles={{body:{ padding: "0", margin: "0" }}}
+        styles={{ body: { padding: "0", margin: "0" } }}
         closable={false}
         footer={null}
         width={"1200px"}

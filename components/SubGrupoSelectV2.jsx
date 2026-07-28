@@ -1,8 +1,8 @@
 
 import { get } from "@/src/urls";
-import { PlusOutlined } from "@ant-design/icons";
+import  PlusOutlined  from "@ant-design/icons/PlusOutlined";
 
-import { Space, Select, Spin, Col, Row, Card, Button, Modal }  from "antd";
+import {  Select, Col, Row, Card, Button, Modal }  from "antd";
 import { useState, useEffect }  from "react";
 import SubGrupoForm from "./forms/SubGrupoForm";
 

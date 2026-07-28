@@ -1,6 +1,7 @@
 import { post_method } from "@/src/helpers/post_helper";
 import { post } from "@/src/urls";
-import { ReloadOutlined, UserOutlined } from "@ant-design/icons";
+import  ReloadOutlined  from "@ant-design/icons/ReloadOutlined";
+import  UserOutlined  from "@ant-design/icons/UserOutlined";
 import { Card, List, Button, Modal } from "antd";
 import { useEffect, useState } from "react";
 import FichaProveedor from "../proveedor/fichaProveedor";

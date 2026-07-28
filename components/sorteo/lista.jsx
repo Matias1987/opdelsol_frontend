@@ -1,4 +1,4 @@
-import { PlusOutlined } from "@ant-design/icons"
+import  PlusOutlined from "@ant-design/icons/PlusOutlined";
 import {Row, Col, Table, Button, Modal} from "antd"
 import { useEffect, useState } from "react"
 import SorteoForm from "./sorteo_form"

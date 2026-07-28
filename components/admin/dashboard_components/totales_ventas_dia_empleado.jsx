@@ -1,8 +1,5 @@
-import {
-  FolderOpenTwoTone,
-  ReloadOutlined,
-  UserOutlined,
-} from "@ant-design/icons";
+import ReloadOutlined from "@ant-design/icons/ReloadOutlined";
+import UserOutlined from "@ant-design/icons/UserOutlined";
 import { Button, Col, Modal, Row, Table } from "antd";
 import { useState } from "react";
 import InformeVendedor from "../empleados/informeVendedor";
@@ -87,11 +84,11 @@ const TotalesVentasDiaEmpleado = (props) => {
       dataIndex: "vendedor",
       render: (_, record) => (
         <div style={{ textAlign: "left" }}>
-          <Button type="link" onClick={_=>setModalDetalleUsuarioOpen(true)}>
-          <span style={{ color: "#1000f3" }}>
-            <UserOutlined />
-          </span>{" "}
-          {record.vendedor}
+          <Button type="link" onClick={(_) => setModalDetalleUsuarioOpen(true)}>
+            <span style={{ color: "#1000f3" }}>
+              <UserOutlined />
+            </span>{" "}
+            {record.vendedor}
           </Button>
         </div>
       ),

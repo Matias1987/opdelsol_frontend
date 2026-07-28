@@ -1,20 +1,9 @@
 import globals from "@/src/globals";
 import { get, post } from "@/src/urls";
-import {
-  InfoCircleFilled,
-  ReloadOutlined,
-  SearchOutlined,
-} from "@ant-design/icons";
-import {
-  Button,
-  Card,
-  Col,
-  InputNumber,
-  Modal,
-  Row,
-  Space,
-  Table,
-} from "antd";
+import InfoCircleFilled from "@ant-design/icons/InfoCircleFilled";
+import ReloadOutlined from "@ant-design/icons/ReloadOutlined";
+import SearchOutlined from "@ant-design/icons/SearchOutlined";
+import { Button, Card, Col, InputNumber, Modal, Row, Space, Table } from "antd";
 import { useEffect, useState } from "react";
 import Informe from "../informe/informe";
 import { post_method } from "@/src/helpers/post_helper";
@@ -38,9 +27,7 @@ const ListadoVentasTM = (_) => {
       dataIndex: "idventa",
       width: "50px",
       title: "ID",
-      filterIcon: (filtered) => (
-        <SearchOutlined />
-      ),
+      filterIcon: (filtered) => <SearchOutlined />,
       // Render a custom input panel
       filterDropdown: ({
         setSelectedKeys,
@@ -142,7 +129,11 @@ const ListadoVentasTM = (_) => {
       dataIndex: "estado",
       render: (_, { estado, isParent, estado_trabajo }) => {
         if (+isParent === 0) {
-          if (true == ignorar_paso_taller || "ANULADO" == estado || "ENTREGADO" == estado) {
+          if (
+            true == ignorar_paso_taller ||
+            "ANULADO" == estado ||
+            "ENTREGADO" == estado
+          ) {
             return "";
           }
           return (
@@ -357,7 +348,9 @@ const ListadoVentasTM = (_) => {
               size="small"
               rowClassName={(record, index) =>
                 +record.idtrabajo < 0 || +record.isParent == 1
-                  ? index % 2 === 0 ? "table-row-light" : "table-row-dark"
+                  ? index % 2 === 0
+                    ? "table-row-light"
+                    : "table-row-dark"
                   : "table-row-light-yellow"
               }
             />

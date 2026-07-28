@@ -1,15 +1,21 @@
-import { PrinterFilled } from "@ant-design/icons";
-import { Button, Col, FloatButton, Row } from "antd";
+import  PrinterFilled  from "@ant-design/icons/PrinterFilled";
+import { FloatButton } from "antd";
 import { useRef } from "react";
 import ReactToPrint from "react-to-print";
 
 export default function PrinterWrapper({ children }) {
-    const linkToPrint = () => {
-        return (
-            <FloatButton  className="floatbuttonsol" shape="square"   size="small" style={{backgroundColor:"red !important"}}icon={<PrinterFilled />} />
-        )
-    }
-    const page_style = `
+  const linkToPrint = () => {
+    return (
+      <FloatButton
+        className="floatbuttonsol"
+        shape="square"
+        size="small"
+        style={{ backgroundColor: "red !important" }}
+        icon={<PrinterFilled />}
+      />
+    );
+  };
+  const page_style = `
         body{
             background-color: white;
             color: black;
@@ -40,28 +46,28 @@ export default function PrinterWrapper({ children }) {
         
        
         
-    `
+    `;
 
-    const __style = {
-        backgroundColor: "white",
-        color: "black",
-        fontSize: ".96em",
-    }
+  const __style = {
+    backgroundColor: "white",
+    color: "black",
+    fontSize: ".96em",
+  };
 
+  const componentRef = useRef();
+  return (
+    <>
+      <ReactToPrint
+        pageStyle={page_style}
+        trigger={linkToPrint}
+        content={() => componentRef.current}
+      />
 
-    const componentRef = useRef();
-    return (
-        <>
-        <ReactToPrint pageStyle={page_style} trigger={linkToPrint} content={() => componentRef.current} />
-            
-                <br />
-                <div ref={componentRef}>
-                    {children}
-                </div>
-                <br />
-           
-        {/*<ReactToPrint  pageStyle={page_style} trigger={linkToPrint} content={() => componentRef.current} />*/}
-            
-        </>
-    );
+      <br />
+      <div ref={componentRef}>{children}</div>
+      <br />
+
+      {/*<ReactToPrint  pageStyle={page_style} trigger={linkToPrint} content={() => componentRef.current} />*/}
+    </>
+  );
 }

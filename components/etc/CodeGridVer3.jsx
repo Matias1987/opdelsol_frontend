@@ -1,8 +1,9 @@
-import { CheckOutlined } from "@ant-design/icons";
-import { Button, Col, Input, Row, Select } from "antd";
-import { use, useEffect, useState } from "react";
+import  CheckOutlined from "@ant-design/icons/CheckOutlined";
 
-const CodeGridV3 = (props) => {
+import { Button, Col, Input, Row, Select } from "antd";
+import { useEffect, useState } from "react";
+
+const CodeGridV3 = () => {
   const [applyPending1, setApplyPending1] = useState(false);
   const [applyPending2, setApplyPending2] = useState(false);
   const [applyPending3, setApplyPending3] = useState(false);

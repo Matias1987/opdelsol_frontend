@@ -1,8 +1,8 @@
-import globals from "@/src/globals";
 import { post_method } from "@/src/helpers/post_helper";
 import { reg_only_letters_s, reg_only_numbers_and_letters_s } from "@/src/helpers/string_helper";
 import { get, post } from "@/src/urls";
-import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
+import  EyeInvisibleOutlined   from "@ant-design/icons/EyeInvisibleOutlined";
+import  EyeTwoTone  from "@ant-design/icons/EyeTwoTone";
 import { Button, Checkbox, Col, Input, Row } from "antd";
 import { useEffect, useState } from "react";
 

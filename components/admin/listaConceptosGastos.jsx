@@ -1,10 +1,10 @@
 import { Button, Card, Checkbox, Col, Input, Modal, Row, Table } from "antd";
 import { useEffect, useState } from "react";
 import AgregarConceptoGastoForm from "./agregarConceptoGasto";
-import { get, public_urls } from "@/src/urls";
-import { PlusOutlined } from "@ant-design/icons";
+import { get } from "@/src/urls";
+import PlusOutlined from "@ant-design/icons/PlusOutlined";
 
-const ListaConceptosGastos = (props) => {
+const ListaConceptosGastos = () => {
   const [data, setData] = useState([]);
   const [agregarOpen, setAgregarOpen] = useState(false);
   const [searchValue, setSearchValue] = useState("");
@@ -43,7 +43,11 @@ const ListaConceptosGastos = (props) => {
         title={
           <>
             Lista de Conceptos de Gastos&nbsp;&nbsp;
-            <Button size="small" type="link" onClick={() => setAgregarOpen(true)}>
+            <Button
+              size="small"
+              type="link"
+              onClick={() => setAgregarOpen(true)}
+            >
               <PlusOutlined /> Agregar
             </Button>
           </>
@@ -70,7 +74,7 @@ const ListaConceptosGastos = (props) => {
               size="small"
               columns={columns}
               dataSource={data.filter((item) =>
-                item.nombre.toUpperCase().includes(searchValue.toUpperCase())
+                item.nombre.toUpperCase().includes(searchValue.toUpperCase()),
               )}
             />
           </Col>

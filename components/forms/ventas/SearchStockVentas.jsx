@@ -1,23 +1,10 @@
-import {
-  Button,
-  Table,
-  Input,
-  Row,
-  Col,
-  Flex,
-  Space,
-  Switch,
-  Divider,
-  Modal,
-} from "antd";
-import { useEffect, useState } from "react";
+import { Button, Table, Input, Row, Col, Space, Divider, Modal } from "antd";
+import { useState } from "react";
 import { post } from "@/src/urls";
 import globals from "@/src/globals";
-import {
-  CheckCircleFilled,
-  CloseOutlined,
-  SearchOutlined,
-} from "@ant-design/icons";
+import CheckCircleFilled from "@ant-design/icons/CheckCircleFilled";
+import CloseOutlined from "@ant-design/icons/CloseOutlined";
+import SearchOutlined from "@ant-design/icons/SearchOutlined";
 import { post_method } from "@/src/helpers/post_helper";
 import { regex_get_id_if_match } from "@/src/helpers/barcode_helper";
 import { idf_optica } from "@/src/config";
@@ -93,7 +80,7 @@ const SearchStockVentas = (props) => {
                             unCheckedChildren="Descripción" 
                         /></>}
  */
-/*
+  /*
 addonAfter={
               <Button size="large" type="text" onClick={_=>{setModalQROpen(true);}}>
                 <QrcodeOutlined size={"large"} style={{ fontSize: "32px" }} />
@@ -103,9 +90,13 @@ addonAfter={
   return (
     <>
       <Row gutter={[16, 16]}>
-        <Col span={24} style={{ padding: "4px", minWidth: "250px" }} flex="auto">
+        <Col
+          span={24}
+          style={{ padding: "4px", minWidth: "250px" }}
+          flex="auto"
+        >
           <Input
-            style={{border:"0"}}
+            style={{ border: "0" }}
             onInput={convertInputToUpper}
             allowClear
             size="large"
@@ -119,12 +110,11 @@ addonAfter={
                 onSearch();
               }
             }}
-            
           />
         </Col>
       </Row>
 
-      {(idf_optica == 3) || ((hideExtOpt||"0") == "1")? (
+      {idf_optica == 3 || (hideExtOpt || "0") == "1" ? (
         <></>
       ) : (
         <Space direction="vertical" size="middle">
@@ -177,7 +167,7 @@ addonAfter={
               }}
             />
             <Button
-                disabled
+              disabled
               danger
               type="text"
               onClick={(e) => {
@@ -242,7 +232,12 @@ addonAfter={
           />
         </Col>
       </Row>
-      <Modal open={modalQROpen} onCancel={() => setModalQROpen(false)} footer={null} title="Escanear código QR">
+      <Modal
+        open={modalQROpen}
+        onCancel={() => setModalQROpen(false)}
+        footer={null}
+        title="Escanear código QR"
+      >
         <QRScannerCodigos
           onScan={(codigo) => {
             setFiltros((f) => ({ ...f, mainval: codigo }));

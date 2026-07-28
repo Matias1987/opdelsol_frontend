@@ -1,70 +1,117 @@
 import { Button, Col, Input, Row } from "antd";
 import SelectCodigoVenta from "./SelectCodigoVenta";
-import { useEffect, useRef, useState } from "react";
-import { CloseOutlined, DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import { useEffect, useState } from "react";
+import CloseOutlined from "@ant-design/icons/CloseOutlined";
 import globals from "@/src/globals";
-import { parse_float_string } from "@/src/helpers/string_helper";
 
 const VentasInsumo = (props) => {
-    const [visible, setVisible] = useState(false);
-    
-    const [insumo, setInsumo] = useState({
-        idcodigo: -1,
-        codigo: null,
-        precio: 0,
-        cantidad:1,
+  const [visible, setVisible] = useState(false);
+
+  const [insumo, setInsumo] = useState({
+    idcodigo: -1,
+    codigo: null,
+    precio: 0,
+    cantidad: 1,
+  });
+
+  useEffect(() => {
+    if (props.data) {
+      setInsumo(props.data);
+    }
+  }, [props.data]);
+
+  const on_codigo_change = (val) => {
+    setInsumo((_insumo_) => {
+      const __insumo = {
+        ..._insumo_,
+        codigo: val.codigo,
+        idcodigo: val.idcodigo,
+        precio: val.precio,
+      };
+      props?.callback?.(__insumo);
+      return __insumo;
     });
+  };
 
-    useEffect(()=>{
-        if(props.data)        {
-            setInsumo(props.data);
-        }
-    }, [props.data]);
+  const on_precio_change = (e) => {
+    setInsumo((_insumo_) => {
+      const __insumo = {
+        ..._insumo_,
+        precio: e.target.value.length < 1 ? "0" : e.target.value,
+      };
+      props?.callback?.(__insumo);
+      return __insumo;
+    });
+  };
 
-    const on_codigo_change = (val) => {
-        setInsumo((_insumo_)=>{
-            const __insumo ={..._insumo_,codigo:val.codigo,idcodigo: val.idcodigo, precio: val.precio};
-            props?.callback?.(__insumo);
-            return __insumo;
-        })
-    }
+  const onRemove = () => {
+    on_codigo_change({ precio: 0, codigo: null, idcodigo: -1 });
+    setVisible((v) => {
+      props?.onVisibleChange?.(false);
+      return false;
+    });
+  };
 
-    const on_precio_change = (e) => {
-        
-        setInsumo((_insumo_)=>{
-            const __insumo = {..._insumo_, precio: (e.target.value.length<1? "0":e.target.value)};
-            props?.callback?.(__insumo);
-            return __insumo;    
-        })
-        
-    }
-
-    const onRemove = () => {
-        on_codigo_change({precio:0, codigo:null, idcodigo: -1})
-        setVisible(v=>{ props?.onVisibleChange?.(false); return false;})
-    }
-
-    return (
-        !visible ? <Button size="small" type="primary" onClick={()=>{setVisible(v=>{ props?.onVisibleChange?.(true); return true;})}}>{
-            typeof props.buttonText === 'undefined' ?
-            "Insumo"
-            :
-            props.buttonText
-            }</Button>  :
-        <>
-            <Row gutter={[16,16]}>
-                <Col >
-                    <SelectCodigoVenta hideExtOpt="1" buttonText="Seleccione Código Insumo" idfamilias={[globals.familiaIDs.INSUMO,globals.familiaIDs.LIQUIDOS]} callback={on_codigo_change} />
-                </Col>
-                <Col >
-                    <Input onClick={e=>{e.target.select()}} onWheel={(e)=>{e.target.blur()}} style={{minWidth:"100px"}} disabled={insumo.codigo==null} type="number" min={0} prefix={"Precio: "} readOnly={false} value={insumo.precio} onChange={on_precio_change} size="small" />
-                </Col>
-                <Col >
-                <Button danger size="small" onClick={()=>{onRemove()}}><CloseOutlined/></Button>
-                </Col>
-            </Row>
-        </>
-        )
-}
+  return !visible ? (
+    <Button
+      size="small"
+      type="primary"
+      onClick={() => {
+        setVisible((v) => {
+          props?.onVisibleChange?.(true);
+          return true;
+        });
+      }}
+    >
+      {typeof props.buttonText === "undefined" ? "Insumo" : props.buttonText}
+    </Button>
+  ) : (
+    <>
+      <Row gutter={[16, 16]}>
+        <Col>
+          <SelectCodigoVenta
+            hideExtOpt="1"
+            buttonText="Seleccione Código Insumo"
+            idfamilias={[
+              globals.familiaIDs.INSUMO,
+              globals.familiaIDs.LIQUIDOS,
+            ]}
+            callback={on_codigo_change}
+          />
+        </Col>
+        <Col>
+          <Input
+            onClick={(e) => {
+              e.target.select();
+            }}
+            onWheel={(e) => {
+              e.target.blur();
+            }}
+            style={{ minWidth: "100px" }}
+            disabled={insumo.codigo == null}
+            type="number"
+            min={0}
+            prefix={"Precio: "}
+            readOnly={false}
+            value={insumo.precio}
+            onChange={on_precio_change}
+            size="small"
+          />
+        </Col>
+        <Col>
+          <Button
+            danger
+            size="small"
+            onClick={() => {
+              onRemove();
+            }}
+          >
+            <CloseOutlined />
+          </Button>
+        </Col>
+      </Row>
+    </>
+  );
+};
 
 export default VentasInsumo;

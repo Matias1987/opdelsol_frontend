@@ -1,7 +1,7 @@
 import { post_method } from "@/src/helpers/post_helper";
 import { post } from "@/src/urls";
 import "@/styles/codeGrid.module.css";
-import { DownOutlined } from "@ant-design/icons";
+import  DownOutlined from "@ant-design/icons/DownOutlined";
 import { Button, Checkbox, Col, Collapse, Dropdown, Row, Space } from "antd";
 import { useEffect, useState } from "react";
 import DetalleSubgrupo from "../DetalleSubgrupo";

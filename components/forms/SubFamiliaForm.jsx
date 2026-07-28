@@ -1,6 +1,6 @@
-import { Form, Divider, Button, Select, Input, Modal } from "antd";
+import { Form, Button, Input, Modal } from "antd";
 import LoadSelect from "../LoadSelect";
-import { PlusCircleOutlined } from "@ant-design/icons";
+import  PlusCircleOutlined from "@ant-design/icons/PlusCircleOutlined";
 import { useEffect, useState } from "react";
 import FamiliaForm from "./FamiliaForm";
 import { get, post } from "@/src/urls";
@@ -12,7 +12,6 @@ const SubFamiliaForm = (props) => {
   const [popup_open, setPopupOpen] = useState(false);
   const [reload, setReload] = useState(false);
   const [uid, setUID] = useState("");
-  const [btnEnabled, setBtnEnabled] = useState(true);
   
   useEffect(()=>{setUID(uuidv4());},[]);
 

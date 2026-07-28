@@ -14,7 +14,8 @@ import FiltroVentas from "./filtroVentas";
 import { post } from "@/src/urls";
 import { post_method } from "@/src/helpers/post_helper";
 import globals from "@/src/globals";
-import { HomeFilled, ReloadOutlined } from "@ant-design/icons";
+import HomeFilled from "@ant-design/icons/HomeFilled";
+import ReloadOutlined from "@ant-design/icons/ReloadOutlined";
 import InformeVentaMinV3 from "@/components/informes/ventas/InformeVentasMinV3";
 import CambiarResponsableDestinatario from "./edicion/CambiarResponsableDestinatario";
 import AnularVentasCobradas from "@/components/admin/anularVentasCobradas";
@@ -28,7 +29,6 @@ import {
 import CobroOperacionV2 from "../caja/CobroFormV2";
 import { current_date_ymd } from "@/src/helpers/string_helper";
 import Resfuerzo from "../caja/cobro_v2/resfuerzo";
-import ExportToExcel2 from "@/components/etc/ExportToExcel2";
 import { idf_optica } from "@/src/config";
 import EdicionVentas from "@/components/edicion_ventas/EdicionVentas";
 
@@ -81,7 +81,7 @@ const BuscarVentaV3 = (props) => {
     params = add(
       params,
       verSoloSucursal ? globals.obtenerSucursal() : "",
-      "idsucursal"
+      "idsucursal",
     );
     setLoading(true);
     post_method(url, params, (response) => {
@@ -108,7 +108,7 @@ const BuscarVentaV3 = (props) => {
           sucursal: v.sucursal,
           en_laboratorio: v.en_laboratorio,
           iddestinatario: v.fk_destinatario,
-        }))
+        })),
       );
     });
   };
@@ -152,7 +152,7 @@ const BuscarVentaV3 = (props) => {
         (resp) => {
           alert("OK");
           setReload(!reload);
-        }
+        },
       );
       registrarVentaTerminado(_venta.idventa);
     }
@@ -170,7 +170,7 @@ const BuscarVentaV3 = (props) => {
         (resp) => {
           alert("OK");
           setReload(!reload);
-        }
+        },
       );
     }
   };
@@ -188,7 +188,7 @@ const BuscarVentaV3 = (props) => {
           setReload(!reload);
           alert("Venta Anulada");
           registrarVentaAnulado(_venta.idventa);
-        }
+        },
       );
     }
   };
@@ -202,23 +202,23 @@ const BuscarVentaV3 = (props) => {
         (resp) => {
           alert("OK");
           setReload(!reload);
-        }
+        },
       );
     }
   };
 
-  const onAnularCobradasClick = _venta => {
-    if(idf_optica!=2){
+  const onAnularCobradasClick = (_venta) => {
+    if (idf_optica != 2) {
       return;
     }
     setSelectedVenta(_venta);
     setPopupAnularOpen(true);
-  }
+  };
 
-  const onEditarClick = _venta => {
+  const onEditarClick = (_venta) => {
     setSelectedVenta(_venta);
     setPopupEditarOpen(true);
-  }
+  };
 
   /*
   const onPopupClosed = () => {
@@ -251,7 +251,6 @@ const BuscarVentaV3 = (props) => {
   return (
     <>
       <Card
-
         styles={{ header: { color: "#663f4c", fontSize: "1.3em" } }}
         size="small"
         extra={
@@ -320,7 +319,6 @@ const BuscarVentaV3 = (props) => {
         <Row>
           <Col span={24}>
             <Table
-
               loading={loading}
               size="small"
               scroll={{
@@ -343,8 +341,8 @@ const BuscarVentaV3 = (props) => {
                 filtroIdLocal.trim() == ""
                   ? dataSource
                   : dataSource.filter((d) =>
-                    d.idventa.toString().includes(filtroIdLocal.trim())
-                  )
+                      d.idventa.toString().includes(filtroIdLocal.trim()),
+                    )
               }
               columns={[
                 { title: "Nro.:", dataIndex: "idventa", width: "60px" },
@@ -357,7 +355,7 @@ const BuscarVentaV3 = (props) => {
                       <>
                         {cliente}
                         {estado == "INGRESADO" &&
-                          idsucursal == globals.obtenerSucursal() ? (
+                        idsucursal == globals.obtenerSucursal() ? (
                           <span
                             onClick={(e) => {
                               e.stopPropagation();
@@ -401,8 +399,9 @@ const BuscarVentaV3 = (props) => {
                         );
                       case "PENDIENTE":
                         return (
-                          <Tag color="geekblue">{`${estado} ${en_laboratorio ? "(Lab)" : ""
-                            }`}</Tag>
+                          <Tag color="geekblue">{`${estado} ${
+                            en_laboratorio ? "(Lab)" : ""
+                          }`}</Tag>
                         );
                       case "ENTREGADO":
                         return <Tag color="volcano">{estado}</Tag>;
@@ -454,12 +453,10 @@ const BuscarVentaV3 = (props) => {
                           <></>
                         )}
 
-                        {(
-                          globals.esUsuarioAdmin() ||
-                          globals.esUsuarioAdminMin()
-                        ) && 
-                          +idf_optica==2 &&
-                          estado != "ANULADO" ? (
+                        {(globals.esUsuarioAdmin() ||
+                          globals.esUsuarioAdminMin()) &&
+                        +idf_optica == 2 &&
+                        estado != "ANULADO" ? (
                           <AnularVentasCobradas
                             idventa={idventa}
                             callback={load}
@@ -602,11 +599,35 @@ const BuscarVentaV3 = (props) => {
           idcliente={selectedVenta?.idcliente}
         />
       </Modal>
-      <Modal open={popupAnularOpen} onCancel={_ => {setPopupAnularOpen(false); setReload(!reload)}} width="800px" footer={null} destroyOnClose>
+      <Modal
+        open={popupAnularOpen}
+        onCancel={(_) => {
+          setPopupAnularOpen(false);
+          setReload(!reload);
+        }}
+        width="800px"
+        footer={null}
+        destroyOnClose
+      >
         <AnularVentasCobradas idventa={selectedVenta?.idventa} />
       </Modal>
-      <Modal open={popupEditarOpen} onCancel={_ => {setPopupEditarOpen(false); setReload(!reload)}} width="1000px" footer={null} destroyOnClose>
-        <EdicionVentas idventa={selectedVenta?.idventa} callback={_ => {setPopupEditarOpen(false); setReload(!reload)}} />
+      <Modal
+        open={popupEditarOpen}
+        onCancel={(_) => {
+          setPopupEditarOpen(false);
+          setReload(!reload);
+        }}
+        width="1000px"
+        footer={null}
+        destroyOnClose
+      >
+        <EdicionVentas
+          idventa={selectedVenta?.idventa}
+          callback={(_) => {
+            setPopupEditarOpen(false);
+            setReload(!reload);
+          }}
+        />
       </Modal>
     </>
   );

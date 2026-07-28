@@ -1,9 +1,6 @@
-import {
-  EditOutlined,
-  InfoCircleOutlined,
-  PlusOutlined,
-} from "@ant-design/icons";
-import { Button, Card, Checkbox, Col, Divider, Modal, Row, Table } from "antd";
+import PlusOutlined from "@ant-design/icons/PlusOutlined";
+import InfoCircleOutlined from "@ant-design/icons/InfoCircleOutlined";
+import { Button, Card, Checkbox, Col, Modal, Row, Table } from "antd";
 import { useEffect, useState } from "react";
 import NuevoDescuento from "./nuevoDescuento";
 import { get, post } from "@/src/urls";

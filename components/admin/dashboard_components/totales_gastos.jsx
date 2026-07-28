@@ -1,12 +1,12 @@
-import { ArrowUpOutlined, DollarOutlined } from "@ant-design/icons"
-import {Card, Col, Row, Statistic} from "antd"
+import DollarOutlined from "@ant-design/icons/DollarOutlined";
+import { Card, Col, Row, Statistic } from "antd";
 
 const TotalesGastos = (props) => {
   return (
     <>
       <Row>
         <Col span={24}>
-          <span style={{fontWeight:"600"}}>Gastos</span>
+          <span style={{ fontWeight: "600" }}>Gastos</span>
         </Col>
       </Row>
       <Row gutter={16}>

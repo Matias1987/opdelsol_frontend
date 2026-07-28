@@ -1,5 +1,7 @@
 import globals from "@/src/globals";
-import { DownOutlined, EditOutlined, InfoOutlined } from "@ant-design/icons";
+import DownOutlined from "@ant-design/icons/DownOutlined";
+import EditOutlined from "@ant-design/icons/EditOutlined";
+import InfoOutlined from "@ant-design/icons/InfoOutlined";
 import { Button, Dropdown, Space } from "antd";
 import { useEffect, useState } from "react";
 
@@ -20,7 +22,7 @@ const GridMonof = (props) => {
       label: "Editar Stock",
       key: "2",
       icon: <EditOutlined />,
-      disabled:  !globals.esUsuarioDeposito() && !globals.esUsuarioLaboratorio(),
+      disabled: !globals.esUsuarioDeposito() && !globals.esUsuarioLaboratorio(),
     },
   ];
 
@@ -123,7 +125,9 @@ const GridMonof = (props) => {
     <>
       {codigos.map((codigo, index) => (
         <tr>
-          <td style={{...tableStyles.td, ...{fontWeight: 'bold'}}}>{codigo.base}</td>
+          <td style={{ ...tableStyles.td, ...{ fontWeight: "bold" } }}>
+            {codigo.base}
+          </td>
           <td style={tableStyles.td}>{cell_content(codigo)}</td>
         </tr>
       ))}

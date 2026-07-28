@@ -1,4 +1,5 @@
-import { DollarOutlined, ReloadOutlined } from "@ant-design/icons";
+import DollarOutlined from "@ant-design/icons/DollarOutlined";
+import ReloadOutlined from "@ant-design/icons/ReloadOutlined";
 import { Button, Card, Col, Row, Statistic } from "antd";
 import { useEffect, useState } from "react";
 

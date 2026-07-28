@@ -1,14 +1,12 @@
 import React from "react";
 import { Layout, Menu } from "antd";
-import {
-  DashboardOutlined,
-  UserOutlined,
-  SettingOutlined,
-  FileTextOutlined,
-  LogoutOutlined,
-  TeamOutlined,
-  BarChartOutlined,
-} from "@ant-design/icons";
+import DashboardOutlined from "@ant-design/icons/DashboardOutlined";
+import UserOutlined from "@ant-design/icons/UserOutlined";
+import SettingOutlined from "@ant-design/icons/SettingOutlined";
+import FileTextOutlined from "@ant-design/icons/FileTextOutlined";
+import LogoutOutlined from "@ant-design/icons/LogoutOutlined";
+import TeamOutlined from "@ant-design/icons/TeamOutlined";
+import BarChartOutlined from "@ant-design/icons/BarChartOutlined";
 import { useRouter } from "next/router";
 
 const { Sider } = Layout;
@@ -25,13 +23,16 @@ const SideMenu = ({ collapsed }) => {
       collapsed={collapsed}
       style={{ position: "fixed", height: "100vh", left: 0, top: 0 }}
     >
-      <div className="logo" style={{ color: "#fff", padding: "16px", textAlign: "center" }}>
+      <div
+        className="logo"
+        style={{ color: "#fff", padding: "16px", textAlign: "center" }}
+      >
         {collapsed ? "DB" : "Dashboard"}
       </div>
       <Menu
         theme="dark"
         mode="inline"
-        selectedKeys={[pathname]}   // highlight active route
+        selectedKeys={[pathname]} // highlight active route
         defaultOpenKeys={["sub1", "sub2"]} // keep submenus open if you want
       >
         <Menu.Item

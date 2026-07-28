@@ -2,7 +2,6 @@ import {
   Button,
   Checkbox,
   Col,
-  Divider,
   Flex,
   Input,
   InputNumber,
@@ -11,13 +10,11 @@ import {
   Spin,
 } from "antd";
 import { useEffect, useState } from "react";
-import {
-  CloseOutlined,
-  PlusOutlined,
-  RightCircleFilled,
-} from "@ant-design/icons";
+import CloseOutlined from "@ant-design/icons/CloseOutlined";
+
+import PlusOutlined from "@ant-design/icons/PlusOutlined";
+
 import { get } from "@/src/urls";
-import { round_float } from "@/src/helpers/string_helper";
 import { decimal_separator } from "@/src/config";
 import { formatFloat } from "@/src/helpers/formatters";
 

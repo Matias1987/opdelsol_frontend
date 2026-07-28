@@ -1,4 +1,4 @@
-import { PlusOutlined } from "@ant-design/icons";
+import PlusOutlined from "@ant-design/icons/PlusOutlined";
 import { Button, Col, Row, Table } from "antd";
 import { useState } from "react";
 
@@ -18,7 +18,7 @@ const VMLC = (props) => {
 
   return (
     <>
-    <Row>
+      <Row>
         <Col>
           <h3>Stock</h3>
         </Col>

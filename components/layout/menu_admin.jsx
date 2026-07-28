@@ -1,12 +1,17 @@
-import {
-  AreaChartOutlined,
-  BoxPlotOutlined,
-  CreditCardOutlined,
-  DollarOutlined,
-  HomeFilled,
-  MenuOutlined,
-  UserOutlined,
-} from "@ant-design/icons";
+import AreaChartOutlined from "@ant-design/icons/AreaChartOutlined";
+
+import BoxPlotOutlined from "@ant-design/icons/BoxPlotOutlined";
+
+import CreditCardOutlined from "@ant-design/icons/CreditCardOutlined";
+
+import DollarOutlined from "@ant-design/icons/DollarOutlined";
+
+import HomeFilled from "@ant-design/icons/HomeFilled";
+
+import MenuOutlined from "@ant-design/icons/MenuOutlined";
+
+import UserOutlined from "@ant-design/icons/UserOutlined";
+
 import { Menu } from "antd";
 import { useState } from "react";
 import Link from "next/link";
@@ -27,7 +32,7 @@ const items = [
     ),
     key: "12",
   },
-  
+
   {
     label: (
       <Link
@@ -50,7 +55,7 @@ const items = [
     ),
     key: "ventas",
   },
-  
+
   {
     label: (
       <Link
@@ -66,14 +71,13 @@ const items = [
     label: (
       <Link
         style={{ fontWeight: "600", fontSize: "1.1em", color: "#102C3E" }}
-         href={public_urls.panel_proveedores}
+        href={public_urls.panel_proveedores}
       >
         <UserOutlined /> Proveedores
       </Link>
     ),
     key: "505",
   },
-  
 
   {
     label: (
@@ -159,9 +163,8 @@ const items = [
         ),
       },
     ],
-    
   },
-/*
+  /*
   {
     label: <BuscarVenta />,
     key: "buscar_venta",

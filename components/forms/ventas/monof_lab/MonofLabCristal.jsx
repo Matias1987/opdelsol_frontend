@@ -1,13 +1,10 @@
 //MonofLabCristal
-import { Button, Col, Form, Input, Row, Select } from "antd";
+import { Button, Col, Input, Row } from "antd";
 import SelectCodigoVenta from "../SelectCodigoVenta";
-import { useEffect, useRef, useState } from "react";
-import { CloseOutlined, DeleteOutlined } from "@ant-design/icons";
+import { useEffect, useState } from "react";
+import CloseOutlined from "@ant-design/icons/CloseOutlined";
 import globals from "@/src/globals";
-import {
-  parse_float_string,
-  validate_esf_cil_eje,
-} from "@/src/helpers/string_helper";
+import { validate_esf_cil_eje } from "@/src/helpers/string_helper";
 import HelperToolTip from "../common/HelperToolTip";
 
 const MonofLabCristal = (props) => {
@@ -151,7 +148,6 @@ const MonofLabCristal = (props) => {
           />
         </Col>
         <Col span={3}>
-
           <HelperToolTip
             disabled={cristal.codigo == null}
             onChange={(e) => onchange_esf(e)}

@@ -1,4 +1,6 @@
-import { CloseCircleTwoTone, PlusOutlined } from "@ant-design/icons";
+import CloseCircleTwoTone from "@ant-design/icons/CloseCircleTwoTone";
+import PlusOutlined from "@ant-design/icons/PlusOutlined";
+
 import {
   Button,
   Col,
@@ -20,7 +22,7 @@ import { post_method } from "@/src/helpers/post_helper";
 import AgregarProductoFactura from "./agregarProductoFactura";
 import globals from "@/src/globals";
 import ProveedorForm from "@/components/forms/ProveedorForm";
-import { v4 as uuidv4 } from 'uuid'; 
+import { v4 as uuidv4 } from "uuid";
 
 const AgregarFacturaV3 = (props) => {
   const [uid, setUID] = useState("");
@@ -42,7 +44,7 @@ const AgregarFacturaV3 = (props) => {
     descuento: 0,
     netoGravado: 0,
     netoNoGravado: 0,
-    moneda: props.moneda
+    moneda: props.moneda,
   });
   const [reload, setReload] = useState(false);
 
@@ -58,7 +60,7 @@ const AgregarFacturaV3 = (props) => {
   const [proveedorSelectEnabled, setProveedorSelectEnabled] = useState(true);
   const [esRemito, setEsRemito] = useState(false);
   const [agregarProveedorOpen, setAgregarProveedorOpen] = useState(false);
-  const [btnGuardarEnabled, setBtnGuardarEnabled] = useState(true)
+  const [btnGuardarEnabled, setBtnGuardarEnabled] = useState(true);
   const columnsIVA = [
     { title: "Tipo", dataIndex: "tipo" },
     { title: "Monto", dataIndex: "monto" },
@@ -74,7 +76,7 @@ const AgregarFacturaV3 = (props) => {
                 factura,
                 _rows,
                 percepcionRows,
-                retencionRows
+                retencionRows,
               );
 
               setFactura((f) => ({ ...f, total: _total }));
@@ -102,7 +104,7 @@ const AgregarFacturaV3 = (props) => {
                 factura,
                 ivaRows,
                 _rows,
-                retencionRows
+                retencionRows,
               );
 
               setFactura((f) => ({ ...f, total: _total }));
@@ -131,7 +133,7 @@ const AgregarFacturaV3 = (props) => {
                 factura,
                 ivaRows,
                 percepcionRows,
-                _rows
+                _rows,
               );
 
               setFactura((f) => ({ ...f, total: _total }));
@@ -262,7 +264,7 @@ const AgregarFacturaV3 = (props) => {
     _factura,
     _ivarows,
     _percepcionesrows,
-    _retencionesrows
+    _retencionesrows,
   ) => {
     let totalIVA = 0;
     let totalPercepciones = 0;
@@ -489,7 +491,7 @@ const AgregarFacturaV3 = (props) => {
                     onNetoGravadoChange(
                       (value || "").toString().length < 1
                         ? "0"
-                        : value.toString()
+                        : value.toString(),
                     );
                   }}
                 />
@@ -514,7 +516,9 @@ const AgregarFacturaV3 = (props) => {
                 value={factura.netoNoGravado}
                 onChange={(value) => {
                   onNetoNoGravadoChange(
-                    (value || "").toString().length < 1 ? "0" : value.toString()
+                    (value || "").toString().length < 1
+                      ? "0"
+                      : value.toString(),
                   );
                 }}
               />
@@ -539,7 +543,9 @@ const AgregarFacturaV3 = (props) => {
                 value={factura.impuestosInternos}
                 onChange={(value) => {
                   onImpuestosInternosChange(
-                    (value || "").toString().length < 1 ? "0" : value.toString()
+                    (value || "").toString().length < 1
+                      ? "0"
+                      : value.toString(),
                   );
                 }}
               />
@@ -563,7 +569,9 @@ const AgregarFacturaV3 = (props) => {
                 value={factura.descuento}
                 onChange={(value) => {
                   onDescuentoChange(
-                    (value || "").toString().length < 1 ? "0" : value.toString()
+                    (value || "").toString().length < 1
+                      ? "0"
+                      : value.toString(),
                   );
                 }}
               />
@@ -713,7 +721,7 @@ const AgregarFacturaV3 = (props) => {
               factura,
               _rows,
               percepcionRows,
-              retencionRows
+              retencionRows,
             );
             setFactura((f) => ({ ...f, total: total }));
 

@@ -21,7 +21,7 @@ import { useState } from "react";
 import ModoPagoV4 from "../modo_pago/ModoPagoV4";
 import SelectVendedor from "@/components/usuario/vendedor/SelectVendedor";
 import { public_urls } from "@/src/urls";
-import { CloseOutlined } from "@ant-design/icons";
+import CloseOutlined from "@ant-design/icons/CloseOutlined";
 import dayjs from "dayjs";
 
 /* leer: https://refine.dev/blog/common-usestate-mistakes-and-how-to-avoid/ */
@@ -53,7 +53,7 @@ export default function VentaBase(props) {
     fkcaja: globals.obtenerCajaID(),
     json_items: "",
     tk: globals.getToken(),
-    uid:"",
+    uid: "",
   });
 
   const onChange = (field, value) => {
@@ -196,47 +196,54 @@ export default function VentaBase(props) {
       label: <span style={{ fontWeight: "600" }}>Finalizar Sobre</span>,
       children: (
         <>
-        <Row gutter={24}>
-          {props.ocultarFechaRetiro ? (
-            <></>
-          ) : (
-            <>
-              <Col>
-                <Form.Item label={"Fecha de Retiro"}>
-                  <DatePicker
-                    defaultValue={props.ignore_fecha_retiro ? dayjs() : null}
-                    locale={esES}
-                    format={"DD-MM-YYYY"}
-                    onChange={(value) => {
-                      let _value = value ? value.format("DD-MM-YYYY") : null;
-                      onChange("fechaRetiro", _value);
-                    }}
-                  />
-                </Form.Item>
-              </Col>
-              <Col>
-                <Form.Item label={"Hora de Retiro"}>
-                  <TimePicker
-                    format={"HH:mm"}
-                    onChange={(value, timeString) => {
-                      onChange("horaRetiro", timeString);
-                    }}
-                  />
-                </Form.Item>
-              </Col>
-            </>
-          )}
+          <Row gutter={24}>
+            {props.ocultarFechaRetiro ? (
+              <></>
+            ) : (
+              <>
+                <Col>
+                  <Form.Item label={"Fecha de Retiro"}>
+                    <DatePicker
+                      defaultValue={props.ignore_fecha_retiro ? dayjs() : null}
+                      locale={esES}
+                      format={"DD-MM-YYYY"}
+                      onChange={(value) => {
+                        let _value = value ? value.format("DD-MM-YYYY") : null;
+                        onChange("fechaRetiro", _value);
+                      }}
+                    />
+                  </Form.Item>
+                </Col>
+                <Col>
+                  <Form.Item label={"Hora de Retiro"}>
+                    <TimePicker
+                      format={"HH:mm"}
+                      onChange={(value, timeString) => {
+                        onChange("horaRetiro", timeString);
+                      }}
+                    />
+                  </Form.Item>
+                </Col>
+              </>
+            )}
           </Row>
 
-          {!use_owner_id  ? <></>:
-          <Row style={{paddingTop:"6px", paddingBottom:"6px"}}>
-            <Col span="24">
-              <Input prefix="Nro. Sobre:" style={{maxWidth:"350px"}} allowClear onChange={e=>{
-                onChange("uid",e.target.value)
-              }} />
-            </Col>
-          </Row>
-          }
+          {!use_owner_id ? (
+            <></>
+          ) : (
+            <Row style={{ paddingTop: "6px", paddingBottom: "6px" }}>
+              <Col span="24">
+                <Input
+                  prefix="Nro. Sobre:"
+                  style={{ maxWidth: "350px" }}
+                  allowClear
+                  onChange={(e) => {
+                    onChange("uid", e.target.value);
+                  }}
+                />
+              </Col>
+            </Row>
+          )}
 
           <Row>
             <Col span="24">

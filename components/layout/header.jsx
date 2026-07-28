@@ -2,13 +2,15 @@ import globals from "@/src/globals";
 import { Button, Col, Layout, Row } from "antd";
 import SucursalLabel from "../sucursal_label";
 import useStorage from "@/useStorage";
-import { LeftOutlined, LogoutOutlined, MehOutlined, UserOutlined } from "@ant-design/icons";
+import LogoutOutlined from "@ant-design/icons/LogoutOutlined";
+import UserOutlined from "@ant-design/icons/UserOutlined";
+
 import { get, public_urls } from "@/src/urls";
 import { useEffect, useState } from "react";
 import CustomModal from "../CustomModal";
 import VentasVendedor from "../informes/ventas/VentasVendedor";
 import { registrar_evento } from "@/src/helpers/evento_helper";
-import { cambio_sucursal_habilitado, idf_optica } from "@/src/config";
+import { cambio_sucursal_habilitado } from "@/src/config";
 
 /**
  * Componente para el encabezado de la aplicación
@@ -16,7 +18,7 @@ import { cambio_sucursal_habilitado, idf_optica } from "@/src/config";
  * @returns
  */
 const HeaderSol = (props) => {
-  const { Header, Sider, Content } = Layout;
+  const { Header } = Layout;
   const { getItem } = useStorage();
   const [uname, setUName] = useState("");
   const [soloVtasCaja, setCambiarModo] = useState(true);
@@ -34,7 +36,7 @@ const HeaderSol = (props) => {
         lineHeight: "6px",
         margin: "0",
         fontSize: ".70em",
-        height:"42px"
+        height: "42px",
       }}
     >
       <Row gutter={8}>
@@ -66,7 +68,7 @@ const HeaderSol = (props) => {
           <Button
             size="small"
             type="text"
-            style={{ color: "white", paddingTop:"8px" }}
+            style={{ color: "white", paddingTop: "8px" }}
             onClick={() => {
               const _token = getItem("token", "session");
 

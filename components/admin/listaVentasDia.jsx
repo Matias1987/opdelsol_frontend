@@ -1,23 +1,11 @@
 import { post_method } from "@/src/helpers/post_helper";
 import { get, post } from "@/src/urls";
-import {
-  Button,
-  Card,
-  Checkbox,
-  Col,
-  Divider,
-  Input,
-  Modal,
-  Row,
-  Select,
-  Space,
-  Table,
-} from "antd";
+import { Button, Card, Col, Input, Modal, Row, Select, Table } from "antd";
 import { useEffect, useState } from "react";
 import SucursalSelect from "../SucursalSelect";
 import AnularVentasCobradas from "./anularVentasCobradas";
 import InformeVentaMinV3 from "@/components/informes/ventas/InformeVentasMinV3";
-import { InfoCircleOutlined, InfoOutlined } from "@ant-design/icons";
+import InfoCircleOutlined from "@ant-design/icons/InfoCircleOutlined";
 import CustomCalendar from "../etc/CustomCalendar";
 
 const ListaVentasDia = ({
@@ -43,7 +31,7 @@ const ListaVentasDia = ({
     anio: 0,
     idusuario: -1,
     idsucursal: sucursal ? sucursal : -1,
-    formattedDate:""
+    formattedDate: "",
   });
   const get_tipo = (tipo) => {
     switch (+tipo) {
@@ -194,16 +182,14 @@ const ListaVentasDia = ({
   };
 
   const header = (_) => (
-    <>
-      {formattedDate.length>0 ? `Ventas del día ${formattedDate}` : ""}
-    </>
+    <>{formattedDate.length > 0 ? `Ventas del día ${formattedDate}` : ""}</>
   );
 
   return (
     <>
       <Card size="small">
         <Row>
-          <Col style={{ width: "230px"}}>
+          <Col style={{ width: "230px" }}>
             <Row style={{ paddingTop: "0px" }}>
               <Col span={24}>
                 <SucursalSelect
@@ -237,7 +223,7 @@ const ListaVentasDia = ({
 
                     // Format to Argentinian style dd-mm-yyyy
                     const formatted = date.format("DD-MM-YYYY");
-                    
+
                     // Extract into separate variables
                     const day = date.date(); // 1–31
                     const month = date.month() + 1; // 0–11, so add 1

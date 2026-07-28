@@ -1,6 +1,6 @@
 import { post_method } from "@/src/helpers/post_helper"
 import { get, post } from "@/src/urls"
-import { EditFilled } from "@ant-design/icons"
+import  EditFilled from "@ant-design/icons/EditFilled";
 import { Button, Col, Input, Modal, Row } from "antd"
 import { useState } from "react"
 /**

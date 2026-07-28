@@ -1,7 +1,7 @@
 import { Card, Table, Row, Col, Modal, Button } from "antd";
 import { useState, useEffect } from "react";
 import AgregarDeuda from "./agregar_deuda";
-import { PlusOutlined } from "@ant-design/icons";
+import PlusOutlined from "@ant-design/icons/PlusOutlined";
 
 const ListaDeudas = (props) => {
   const [deudas, setDeudas] = useState([]);

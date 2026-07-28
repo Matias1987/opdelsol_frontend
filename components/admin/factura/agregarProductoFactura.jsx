@@ -1,8 +1,6 @@
-import {
-  BarcodeOutlined,
-  CloseOutlined,
-  SearchOutlined,
-} from "@ant-design/icons";
+import BarcodeOutlined from "@ant-design/icons/BarcodeOutlined";
+import CloseOutlined from "@ant-design/icons/CloseOutlined";
+import SearchOutlined from "@ant-design/icons/SearchOutlined";
 import { Button, Card, Col, Input, Modal, Row, Table } from "antd";
 import { useState } from "react";
 import BuscarCodigoFactura from "./buscarCodigoFactura";
@@ -87,7 +85,7 @@ const AgregarProductoFactura = ({ onchange }) => {
   const onSetData = (idcodigo, index, value) => {
     setData((_data) => {
       const _new_data = _data.map((r) =>
-        r.idcodigo == idcodigo ? { ...r, [index]: value } : r
+        r.idcodigo == idcodigo ? { ...r, [index]: value } : r,
       );
       onchange?.(_new_data);
       return _new_data;

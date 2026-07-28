@@ -1,4 +1,3 @@
-import FacturaSelect from "@/components/FacturaSelect";
 import FacturaSelect2 from "@/components/FacturaSelect2";
 import { post_method } from "@/src/helpers/post_helper";
 import { parse_int_string } from "@/src/helpers/string_helper";
@@ -6,7 +5,7 @@ import { get, post } from "@/src/urls";
 import { Button, Checkbox, Col, Input, Modal, Row, Spin, Tag } from "antd";
 import { useEffect, useState } from "react";
 import EditarCodigoIndiv from "./EditarCodigoIndiv";
-import { EditOutlined } from "@ant-design/icons";
+import  EditOutlined from "@ant-design/icons/EditOutlined";
 /**
  *
  * @param nrofactura

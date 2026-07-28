@@ -1,9 +1,8 @@
-import { DollarCircleFilled, DollarCircleOutlined, DollarCircleTwoTone, LogoutOutlined, UserAddOutlined } from "@ant-design/icons"
 import { Col, List, Row, Select } from "antd"
 import { post_method } from "@/src/helpers/post_helper"
+import { get, post } from "@/src/urls"
+import { useEffect, useState } from "react"
 
-const { get, post } = require("@/src/urls")
-const { useState, useEffect } = require("react")
 
 const Eventos = (props) => {
     const [eventos, setEventos] = useState([])
@@ -71,11 +70,11 @@ const Eventos = (props) => {
 
     const icon = (tipo) => {
         switch(tipo){
-            case "USER_LOGIN": return <UserAddOutlined />
-            case "USER_LOGOUT": return <LogoutOutlined />
-            case "VENTA": return <DollarCircleTwoTone />
-            case "COBRO": return <DollarCircleFilled />
-            case "GASTO": return <DollarCircleOutlined />
+            case "USER_LOGIN": return <></>
+            case "USER_LOGOUT": return <></>
+            case "VENTA": return <></>
+            case "COBRO": return <></>
+            case "GASTO": return <></>
         }
     }
     useEffect(()=>{

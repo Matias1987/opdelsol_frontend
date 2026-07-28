@@ -1,28 +1,46 @@
 import { get } from "@/src/urls";
-import { Row, Col, Tag } from "antd";
+import { Tag } from "antd";
 import { useEffect, useState } from "react";
 
-const DetalleSubgrupo = ({idsubgrupo, callback, onClose, closable}) => {
-    const [subgrupo, setSubgrupo] = useState(null);
-    
-    const load = _=>{
-        fetch(get.obtener_detalle_subgrupo + idsubgrupo)
-        .then(r=>r.json())
-        .then((response)=>{
-            //alert(JSON.stringify(response))
-            setSubgrupo(response.data[0])
-            callback?.(response.data[0])
-        })
-        .catch(e=>{console.log("error")})
-    }
+const DetalleSubgrupo = ({ idsubgrupo, callback, onClose, closable }) => {
+  const [subgrupo, setSubgrupo] = useState(null);
 
-    useEffect(() => {
-        load();
-    }, [idsubgrupo]);
+  const load = (_) => {
+    fetch(get.obtener_detalle_subgrupo + idsubgrupo)
+      .then((r) => r.json())
+      .then((response) => {
+        //alert(JSON.stringify(response))
+        setSubgrupo(response.data[0]);
+        callback?.(response.data[0]);
+      })
+      .catch((e) => {
+        console.log("error");
+      });
+  };
 
-    return <span style={{fontWeight:"600",}}>
-     Subgrupo:&nbsp;{subgrupo==null ? idsubgrupo : <><Tag closable={closable} onClose={onClose} color="geekblue" style={{fontSize:"1em"}}>{subgrupo.nombre_largo}</Tag></>}
+  useEffect(() => {
+    load();
+  }, [idsubgrupo]);
+
+  return (
+    <span style={{ fontWeight: "600" }}>
+      Subgrupo:&nbsp;
+      {subgrupo == null ? (
+        idsubgrupo
+      ) : (
+        <>
+          <Tag
+            closable={closable}
+            onClose={onClose}
+            color="geekblue"
+            style={{ fontSize: "1em" }}
+          >
+            {subgrupo.nombre_largo}
+          </Tag>
+        </>
+      )}
     </span>
-}
+  );
+};
 
 export default DetalleSubgrupo;

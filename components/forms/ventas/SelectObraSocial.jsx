@@ -1,5 +1,5 @@
 import CustomModal from "@/components/CustomModal";
-import { CloseOutlined } from "@ant-design/icons";
+import  CloseOutlined from "@ant-design/icons/CloseOutlined";
 import { Button, Input, Spin, Table } from "antd";
 import { useEffect, useState } from "react";
 import ObraSocialForm from "../ObraSocialForm";
@@ -13,11 +13,6 @@ const SelectObraSocial = (props) => {
     const [loading, setLoading] = useState(false)
     const columns = [
         {title: 'Nombre', dataIndex: 'nombre'},
-       /* {title: '', dataIndex: 'idmutual', render: (_,{idmutual})=>(
-        <>
-            <Button onClick={()=>{onOSSelected(idmutual)}}><CheckCircleOutlined /></Button>
-        </>
-        )}*/
     ]
 
     useEffect(()=>{

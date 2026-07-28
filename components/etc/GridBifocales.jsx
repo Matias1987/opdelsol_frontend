@@ -1,17 +1,16 @@
 import globals from "@/src/globals";
-import { get } from "@/src/urls";
-import { DownOutlined, EditOutlined, InfoOutlined } from "@ant-design/icons";
+import DownOutlined from "@ant-design/icons/DownOutlined";
+import EditOutlined from "@ant-design/icons/EditOutlined";
+import InfoOutlined from "@ant-design/icons/InfoOutlined";
+
 import { Button, Dropdown, Input, Space } from "antd";
 import { useEffect, useState } from "react";
 
 const GridBifocales = (props) => {
-  const { codigosSrc, onCellClick, reload, gridType } = props;
-
-  const regexp = /^([A-Z_]+)(_)(\-|\+[0-9\.]+)(_)(L|R)(_ADD_)([0-9\.]+)/;
+  const { codigosSrc, onCellClick, gridType } = props;
 
   const regex_add = /(_ADD_)([\.0-9]+)/;
   const regex_base = /_((\+|\-)?[0-9\.]+)_(L|R)/;
-  const regex_side = /_(L|R)_/;
   const [codigos, setCodigos] = useState([]);
 
   const items = [

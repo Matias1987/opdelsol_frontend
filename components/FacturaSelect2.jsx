@@ -1,7 +1,5 @@
 import { get } from "@/src/urls";
-import {
-  CloseCircleFilled,
-} from "@ant-design/icons";
+import  CloseCircleFilled  from "@ant-design/icons/CloseCircleFilled";
 import { Button, Col, Modal, Row, Select } from "antd";
 import { useEffect, useState } from "react";
 import ProveedorForm from "./forms/ProveedorForm";

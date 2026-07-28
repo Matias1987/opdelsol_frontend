@@ -1,4 +1,3 @@
-import CustomModal from "@/components/CustomModal";
 import PrinterWrapper from "@/components/PrinterWrapper";
 import InformeX from "@/components/informes/caja/InformeX";
 import { Button, Card, Col, Modal, Row, Table, Tag } from "antd";

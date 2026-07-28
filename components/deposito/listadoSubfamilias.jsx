@@ -4,7 +4,7 @@ import { Button, Card, Checkbox, Col, Modal, Row, Table } from "antd";
 import { useEffect, useState } from "react";
 import SubFamiliaForm from "../forms/SubFamiliaForm";
 import FamiliaSelect from "../FamiliaSelect";
-import { PlusOutlined } from "@ant-design/icons";
+import  PlusOutlined from "@ant-design/icons/PlusOutlined";
 import EditarPreciosSubgruposForm from "../forms/deposito/EditarPreciosSubgruposForm";
 
 const ListadoSubFamilias = ( props ) => {

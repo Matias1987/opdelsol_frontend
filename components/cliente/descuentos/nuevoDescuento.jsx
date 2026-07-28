@@ -1,5 +1,3 @@
-import SubGroupSelect from "@/components/SubGroupSelect";
-import SubGroupSelectV2 from "@/components/SubGrupoSelectV2";
 import {
   Button,
   Card,
@@ -16,7 +14,6 @@ import { post } from "@/src/urls";
 import { post_method } from "@/src/helpers/post_helper";
 import IconViewSubgrupoSelector from "@/components/deposito/iconViewSubgrupoSelector";
 import DetalleSubgrupo from "@/components/DetalleSubgrupo";
-import { CloseOutlined } from "@ant-design/icons";
 
 const NuevoDescuento = ({ callback, pCliente }) => {
   const [descuentoGral, setDescuentoGral] = useState(false);

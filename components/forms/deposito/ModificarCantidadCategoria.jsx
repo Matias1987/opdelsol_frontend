@@ -5,8 +5,7 @@ import SubGroupSelect from "@/components/SubGroupSelect";
 import SucursalSelect from "@/components/SucursalSelect";
 import globals from "@/src/globals";
 import { post_method } from "@/src/helpers/post_helper";
-import { get, post } from "@/src/urls";
-import { EyeFilled } from "@ant-design/icons";
+import { post } from "@/src/urls";
 import { Button, Card, Col, Input, Modal, Row, Select, Table } from "antd";
 import { useState } from "react";
 

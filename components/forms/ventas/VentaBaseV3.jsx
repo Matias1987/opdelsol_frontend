@@ -1,14 +1,8 @@
-import SelectCliente from "@/components/forms/ventas/SelectCliente";
 import SelectMedico from "@/components/forms/ventas/SelectMedico";
 import SelectObraSocial from "@/components/forms/ventas/SelectObraSocial";
 import TotalesVenta from "@/components/forms/ventas/TotalVenta";
 import globals from "@/src/globals";
-import {
-  cambiar_vendedor,
-  cobro_inmediato,
-  formulario_venta_estandar,
-  use_owner_id,
-} from "@/src/config";
+import { cambiar_vendedor, cobro_inmediato, use_owner_id } from "@/src/config";
 import {
   Button,
   Card,
@@ -19,7 +13,6 @@ import {
   Grid,
   Input,
   Row,
-  Steps,
   Switch,
   Tabs,
   TimePicker,
@@ -29,7 +22,7 @@ import { useEffect, useState } from "react";
 import ModoPagoV4 from "../modo_pago/ModoPagoV4";
 import SelectVendedor from "@/components/usuario/vendedor/SelectVendedor";
 import { public_urls } from "@/src/urls";
-import { CloseOutlined } from "@ant-design/icons";
+import CloseOutlined from "@ant-design/icons/CloseOutlined";
 import dayjs from "dayjs";
 import SelectClienteV2 from "./SelectClienteV2";
 import { v4 as uuidv4 } from "uuid";
@@ -111,9 +104,12 @@ export default function VentaBaseV3(props) {
 
   const onFinishFailed = (error) => {};
 
-  const card_style = {boxShadow: "-1px 2px 2px 2px #d3d3d3", marginBottom:"8px" }
+  const card_style = {
+    boxShadow: "-1px 2px 2px 2px #d3d3d3",
+    marginBottom: "8px",
+  };
 
-    const mp_row_style = {
+  const mp_row_style = {
     padding: "6px",
     borderRadius: "4px",
     marginTop: "2px",
@@ -125,7 +121,7 @@ export default function VentaBaseV3(props) {
   const modo_formulario_unico = (_) => (
     <>
       <Card size="small" style={card_style}>
-        <Row  style={mp_row_style}>
+        <Row style={mp_row_style}>
           <Col style={{ minWidth: "250px" }}>
             <SelectClienteV2
               openButtonText={
@@ -181,22 +177,14 @@ export default function VentaBaseV3(props) {
           </Col>
         </Row>
       </Card>
-      <Card
-        title="Productos"
-        size="small"
-        style={card_style}
-      >
+      <Card title="Productos" size="small" style={card_style}>
         <Row>
           <Col span={24}>
             <Form.Item>{props.children}</Form.Item>
           </Col>
         </Row>
       </Card>
-      <Card
-        title="Modo de Pago"
-        size="small"
-        style={card_style}
-      >
+      <Card title="Modo de Pago" size="small" style={card_style}>
         <Row>
           <Col span={24}>
             <Form.Item>
@@ -333,7 +321,7 @@ export default function VentaBaseV3(props) {
             <Col span={24}>
               <SelectClienteV2
                 openButtonText={
-                  <span style={{ color: "#3300CC", fontWeight:"600" }}>
+                  <span style={{ color: "#3300CC", fontWeight: "600" }}>
                     &nbsp;*Seleccione Cliente
                   </span>
                 }
@@ -347,7 +335,7 @@ export default function VentaBaseV3(props) {
             <Col span={24}>
               <SelectClienteV2
                 openButtonText={
-                  <span style={{ fontWeight:"400" }}>
+                  <span style={{ fontWeight: "400" }}>
                     &nbsp;*Seleccione Destinatario
                   </span>
                 }
@@ -365,7 +353,8 @@ export default function VentaBaseV3(props) {
                 openButtonText={
                   <span
                     style={{
-                      color: props.medicoRequired ? "#3300CC" : "inherit", fontWeight:"600"
+                      color: props.medicoRequired ? "#3300CC" : "inherit",
+                      fontWeight: "600",
                     }}
                   >
                     &nbsp;{props.medicoRequired ? "*" : ""}Seleccione

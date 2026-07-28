@@ -1,4 +1,4 @@
-import { InfoCircleFilled } from "@ant-design/icons"
+import  InfoCircleFilled from "@ant-design/icons/InfoCircleFilled";
 import { Button, Col, Divider, Input, Modal, Row, Table } from "antd"
 import { useState } from "react"
 

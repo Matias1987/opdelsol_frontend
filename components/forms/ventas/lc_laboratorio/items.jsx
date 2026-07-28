@@ -1,9 +1,9 @@
-import { Col, Form, Row } from "antd";
+import { Col, Row } from "antd";
 import { useState } from "react";
 import VentasInsumo from "../Insumo";
 import LCLabItem from "./lc_lab_item";
 import SelectCodeButton from "../selectCodeButton";
-import { EditFilled } from "@ant-design/icons";
+import  EditFilled from "@ant-design/icons/EditFilled";
 
 const LCLabItems = (props) => {
   const [items, setItems] = useState({

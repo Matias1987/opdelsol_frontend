@@ -1,12 +1,11 @@
 import { formatFloat } from "@/src/helpers/formatters";
 import { post_method } from "@/src/helpers/post_helper";
 import { post } from "@/src/urls";
-import {
-  ArrowRightOutlined,
-  CheckOutlined,
-  CloseOutlined,
-  EditFilled,
-} from "@ant-design/icons";
+import ArrowRightOutlined from "@ant-design/icons/ArrowRightOutlined";
+import CheckOutlined from "@ant-design/icons/CheckOutlined";
+import CloseOutlined from "@ant-design/icons/CloseOutlined";
+import EditFilled from "@ant-design/icons/EditFilled";
+
 import {
   Button,
   Card,
@@ -20,7 +19,7 @@ import {
   Table,
 } from "antd";
 import { useEffect, useState } from "react";
-import { v4 as uuidv4 } from 'uuid'; 
+import { v4 as uuidv4 } from "uuid";
 const AsignarPagos = ({ idproveedor, moneda, modo, callback }) => {
   const [dataPagos, setDataPagos] = useState(null);
   const [compras, setCompras] = useState([]);
@@ -422,7 +421,7 @@ const AsignarPagos = ({ idproveedor, moneda, modo, callback }) => {
       return;
     }
     const cApagar = compras.filter((c) => c.checked);
-    if (cApagar.length <1 && cm.length<1) {
+    if (cApagar.length < 1 && cm.length < 1) {
       alert("Seleccione operaciones a pagar");
       return;
     }
@@ -435,8 +434,7 @@ const AsignarPagos = ({ idproveedor, moneda, modo, callback }) => {
       ) > 1
     ) {
       alert("Saldo distinto de 0");
-      return
-      
+      return;
     }
 
     const data = {

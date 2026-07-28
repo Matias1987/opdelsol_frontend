@@ -1,4 +1,3 @@
-import EditarLoteGrupo from "@/components/deposito/editarLoteGrupo";
 import DefaultImageProduct from "@/components/etc/imagen/default_image_prod";
 import ImagenesProducto from "@/components/etc/imagen/imagen_producto";
 import TagsLote from "@/components/etiquetas/TagsLote";
@@ -11,21 +10,16 @@ import MyLayout from "@/components/layout/layout";
 import globals from "@/src/globals";
 import { post_method } from "@/src/helpers/post_helper";
 import { get, post } from "@/src/urls";
-import {
-  CheckOutlined,
-  CloseOutlined,
-  DownOutlined,
-  EditOutlined,
-  InfoOutlined,
-  PictureOutlined,
-} from "@ant-design/icons";
+import DownOutlined from "@ant-design/icons/DownOutlined";
+import EditOutlined from "@ant-design/icons/EditOutlined";
+import InfoOutlined from "@ant-design/icons/InfoOutlined";
+import PictureOutlined from "@ant-design/icons/PictureOutlined";
 import {
   Card,
   Button,
   Checkbox,
   Col,
   Dropdown,
-  Input,
   Modal,
   Row,
   Space,
@@ -95,7 +89,7 @@ export default function ListaCodigos() {
           subgrupo: row.subgrupo,
           activo: row.activo,
           //estado: "ACTIVO"
-        }))
+        })),
       );
 
       setLoading(false);
@@ -117,7 +111,7 @@ export default function ListaCodigos() {
       },
       (response) => {
         setChange(!change);
-      }
+      },
     );
   };
 
@@ -127,7 +121,7 @@ export default function ListaCodigos() {
       title: "Codigo",
       dataIndex: "codigo",
       fixed: "left",
-      sorter: (a,b)=> a.codigo.localeCompare(b),
+      sorter: (a, b) => a.codigo.localeCompare(b),
       render: (_, { codigo }) => (
         <span style={{ fontWeight: "bolder" }}>{codigo}</span>
       ),
@@ -149,7 +143,7 @@ export default function ListaCodigos() {
           <Checkbox
             onChange={(e) => {
               setDataSource((d) =>
-                d.map((r) => ({ ...r, checked: e.target.checked }))
+                d.map((r) => ({ ...r, checked: e.target.checked })),
               );
             }}
           />
@@ -164,8 +158,8 @@ export default function ListaCodigos() {
               onChange={(v) => {
                 setDataSource((d) =>
                   d.map((r) =>
-                    r.idcodigo == idcodigo ? { ...r, checked: !r.checked } : r
-                  )
+                    r.idcodigo == idcodigo ? { ...r, checked: !r.checked } : r,
+                  ),
                 );
               }}
             />
@@ -216,7 +210,12 @@ export default function ListaCodigos() {
         );
       },
     },
-    { width: "100px", title: "Precio", dataIndex: "precio", sorter:(a,b)=>+a.precio-+b.precio },
+    {
+      width: "100px",
+      title: "Precio",
+      dataIndex: "precio",
+      sorter: (a, b) => +a.precio - +b.precio,
+    },
     /*{
             title: 'Estado',
             dataIndex: 'estado', 
@@ -341,8 +340,8 @@ export default function ListaCodigos() {
                 +record.activo == 0
                   ? "error-row"
                   : index % 2 === 0
-                  ? "table-row-light"
-                  : "table-row-dark"
+                    ? "table-row-light"
+                    : "table-row-dark"
               }
             />
           </Col>

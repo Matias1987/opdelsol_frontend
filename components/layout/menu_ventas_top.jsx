@@ -1,10 +1,8 @@
 import { Menu, Modal } from "antd";
-import {
-  DollarOutlined,
-  MenuOutlined,
-} from "@ant-design/icons";
+import DollarOutlined from "@ant-design/icons/DollarOutlined";
+import MenuOutlined from "@ant-design/icons/MenuOutlined";
 
-import { useState, useEffect, Children } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { public_urls } from "@/src/urls";
 import globals from "@/src/globals";
@@ -17,7 +15,6 @@ export default function MenuVentasTop(props) {
   const [itemsMenu, setItemsMenu] = useState([]);
   const [lpOpen, setLPOpen] = useState(false);
   const [buscarVentaOpen, setBuscarVentaOpen] = useState(false);
- 
 
   const menu_ventas = {
     label: "Ventas",
@@ -80,15 +77,12 @@ export default function MenuVentasTop(props) {
     ],
   };
 
- 
   useEffect(() => {
-    const items = []; 
+    const items = [];
 
     if (globals.esUsuarioVentas()) {
       items.push(menu_ventas);
     }
-
-
 
     /*if (globals.esUsuarioCaja1() || globals.esUsuarioVentas()) {
       items.push(
@@ -150,13 +144,11 @@ export default function MenuVentasTop(props) {
         selectedKeys={[current]}
         mode={typeof props.mode === "undefined" ? "horizontal" : props.mode}
         items={itemsMenu}
-        
       />
       <Modal
         width={"100%"}
         open={lpOpen}
         onCancel={() => setLPOpen(false)}
-       
         footer={null}
       >
         <ListaPreciosV3 />

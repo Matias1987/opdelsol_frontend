@@ -14,8 +14,7 @@ import AgregarPagoProveedor from "./AgregarPagoProveedor";
 import AgregarCMProveedor from "./AregarCMProveedor";
 import { get, post } from "@/src/urls";
 import { post_method } from "@/src/helpers/post_helper";
-
-import { ArrowDownOutlined, CloseOutlined } from "@ant-design/icons";
+import  CloseOutlined from "@ant-design/icons/CloseOutlined";
 import DetalleFactura from "@/components/forms/deposito/DetalleFactura";
 import ExportToCSV from "@/components/ExportToCSV";
 import AgregarFacturaV3 from "../factura/agregarFacturaV3";

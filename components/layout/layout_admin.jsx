@@ -1,16 +1,17 @@
 import { get, public_urls } from "@/src/urls";
 import useStorage from "@/useStorage";
-import { Button, Layout } from "antd";
+
 import { useEffect, useState } from "react";
 import globals from "@/src/globals";
-import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
+import  MenuFoldOutlined  from "@ant-design/icons/MenuFoldOutlined";
+import  MenuUnfoldOutlined  from "@ant-design/icons/MenuUnfoldOutlined";
 import SideMenuAdmin from "./SideMenuAdmin";
 import SideMenuAdminMin from "./SideMenuAdminMin";
-const { Header } = Layout;
+import { Button, Layout } from "antd";
+import { Content } from "antd/es/layout/layout";
 
 export default function LayoutAdmin({ children }) {
-    const [collapsed, setCollapsed] = useState(false);
-  const { Content } = Layout;
+  const [collapsed, setCollapsed] = useState(false);
   const { getItem } = useStorage();
   const [esAdminMin, setEsAdminMin] = useState(false);
   const validate_user = () => {
@@ -23,7 +24,6 @@ export default function LayoutAdmin({ children }) {
 
     var _t = setTimeout(() => {
       if (_t !== typeof "undefined") {
-        //console.log("clear timeout")
         clearTimeout(_t);
       }
       fetch(get.check_login + _token)
@@ -33,40 +33,37 @@ export default function LayoutAdmin({ children }) {
             alert("Debe Iniciar Sesion");
             window.location.replace(public_urls.login);
           } else {
-            //console.log("user validated")
             validate_user();
           }
         });
     }, 10000);
   };
   useEffect(() => {
-    //console.log("run user effect")
-
-    if (!(globals.esUsuarioAdmin() || globals.esUsuarioAdminMin() )) {
+    if (!(globals.esUsuarioAdmin() || globals.esUsuarioAdminMin())) {
       window.location.replace(public_urls.modo);
     }
-    if(globals.esUsuarioAdminMin()){
-        setEsAdminMin(true);
+    if (globals.esUsuarioAdminMin()) {
+      setEsAdminMin(true);
     }
     validate_user();
   }, []);
-/*
-  const menu = (_) => {
-    switch (idf_optica) {
-      case 1:
-        return <MenuAdminTop />;
-      case 2:
-        return <MenuAdminSolParana />;
-      case 3:
-        return <MenuAdminCOExp />;
-    }
-  };
-*/
+
   return (
     <Layout style={{ minHeight: "100vh" }}>
-      {esAdminMin ? <SideMenuAdminMin collapsed={collapsed} /> : <SideMenuAdmin collapsed={collapsed} />}
-      <Layout style={{ minHeight: "100vh", marginLeft: collapsed ? 80 : 200, transition: "all 0.2s" }}>
-       <Header  style={{
+      {esAdminMin ? (
+        <SideMenuAdminMin collapsed={collapsed} />
+      ) : (
+        <SideMenuAdmin collapsed={collapsed} />
+      )}
+      <Layout
+        style={{
+          minHeight: "100vh",
+          marginLeft: collapsed ? 80 : 200,
+          transition: "all 0.2s",
+        }}
+      >
+        <div
+          style={{
             padding: "0 16px",
             position: "sticky",
             top: 0,
@@ -74,21 +71,27 @@ export default function LayoutAdmin({ children }) {
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between", // pushes left/right apart
-            background: "#001529",  
+            background: "#001529",
             height: "51px",
-          }}>
-          <Button style={{color:"white"}} type="link" size="large" onClick={() => setCollapsed(!collapsed)}>
+          }}
+        >
+          <Button
+            style={{ color: "white" }}
+            type="link"
+            size="large"
+            onClick={() => setCollapsed(!collapsed)}
+          >
             {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
           </Button>
           <div style={{ display: "flex", alignItems: "center" }}>
             {/*<Logo />
             <span style={{color:"white"}} className="main-logo">PulseGrid</span>*/}
           </div>
-     
-        </Header>
-       
+        </div>
 
-        <Content style={{ margin: "24px 16px", padding: 24, background: "#fff" }}>
+        <Content
+          style={{ margin: "24px 16px", padding: 24, background: "#fff" }}
+        >
           {children}
         </Content>
       </Layout>

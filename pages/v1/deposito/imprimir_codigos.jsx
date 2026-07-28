@@ -1,11 +1,10 @@
-import CustomModal from "@/components/CustomModal";
 import ExportToCSV from "@/components/ExportToCSV";
 import PrinterWrapper from "@/components/PrinterWrapper";
 import SearchCodigo from "@/components/SearchCodigo";
 import MyLayout from "@/components/layout/layout";
 import { get_barcode_from_id2 } from "@/src/helpers/barcode_helper";
 import { get } from "@/src/urls";
-import { CloseCircleOutlined, PrinterTwoTone } from "@ant-design/icons";
+import CloseCircleOutlined from "@ant-design/icons/CloseCircleOutlined";
 import { Modal, Button, Card, Col, Row, Table } from "antd";
 
 import { useState } from "react";
@@ -115,7 +114,13 @@ export default function ImprimirCodigos() {
                 summary={(_) => (
                   <Table.Summary.Row>
                     <Table.Summary.Cell colSpan={2}>
-                    <Button onClick={_=>{setModalOpen(true)}}>Imprimir C&oacute;digos</Button>
+                      <Button
+                        onClick={(_) => {
+                          setModalOpen(true);
+                        }}
+                      >
+                        Imprimir C&oacute;digos
+                      </Button>
                     </Table.Summary.Cell>
                   </Table.Summary.Row>
                 )}

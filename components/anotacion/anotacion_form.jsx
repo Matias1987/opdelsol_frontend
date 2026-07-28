@@ -1,11 +1,8 @@
 import globals from "@/src/globals"
 import { post_method } from "@/src/helpers/post_helper"
 import { post } from "@/src/urls"
-import { Row, Col, Checkbox, Input, Button } from "antd"
+import { Row, Col, Input, Button } from "antd"
 import { useState } from "react"
-
-
-
 
 /**
  * 

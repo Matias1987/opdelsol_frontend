@@ -1,4 +1,4 @@
-import { Card, Col, Divider, Row, Table, Tag } from "antd";
+import { Card, Col, Row, Table, Tag } from "antd";
 import SaldoCtaCte from "./SaldoCtaCte";
 import { useEffect, useState } from "react";
 import { get } from "@/src/urls";

@@ -1,52 +1,49 @@
-
-import CustomStatistic from "@/components/admin/dashboard_components/CustomStatistic";
-import TotalTarjetas from "@/components/admin/dashboard_components/total_tarjetas";
-import TotalesCajasSucursales from "@/components/admin/dashboard_components/totales_caja_sucursales";
 import TotalesCobros from "@/components/admin/dashboard_components/totales_cobros";
-import TotalesMP from "@/components/admin/dashboard_components/totales_mp";
-import ChartTotalesUltimoAnio from "@/components/admin/graficos/totales_ultimo_anio";
-import TotalesVentasMeses from "@/components/admin/graficos/totalesVentasMeses";
-import ResumenOperacionesRow from "@/components/admin/resumenOperacionesRow";
+
 import LayoutAdmin from "@/components/layout/layout_admin";
 import globals from "@/src/globals";
 import { get } from "@/src/urls";
-import { BoxPlotFilled, ReloadOutlined } from "@ant-design/icons";
-import { Button, Card, Col, Divider, Modal, Row } from "antd";
+import { Col, Row } from "antd";
 import { useEffect, useState } from "react";
 
-export default function dashboard_admin(){
-    const [sucursales, setSucursales] = useState([])
-    const [idcaja, setIdCaja] = useState(-1)
-    const [open, setOpen] = useState(false)
-    const [esUsuarioAdminMin, setEsUsuarioAdminMin] = useState(true)
-    const styles = {
-        darkRow:"#F0C2A5",
-        lightRow:"#F4DD76",
-    }
-    var col = 0;
-    useEffect(()=>{
-        setEsUsuarioAdminMin(globals.esUsuarioAdminMin())
-        fetch(get.sucursales)
-        .then(response=>response.json())
-        .then((response)=>{
-            setSucursales(
-                response.data.map(r=>({
-                    nombre:r.nombre,
-                    idsucursal:r.idsucursal,
-                }))
-            )
-        })
-    },[])
-    return esUsuarioAdminMin ? <><span style={{fontStyle:"italic"}}>Bienvenido</span>  </> : <>
-    <Row gutter={24}>
+export default function dashboard_admin() {
+  const [sucursales, setSucursales] = useState([]);
+  const [idcaja, setIdCaja] = useState(-1);
+  const [open, setOpen] = useState(false);
+  const [esUsuarioAdminMin, setEsUsuarioAdminMin] = useState(true);
+  const styles = {
+    darkRow: "#F0C2A5",
+    lightRow: "#F4DD76",
+  };
+  var col = 0;
+  useEffect(() => {
+    setEsUsuarioAdminMin(globals.esUsuarioAdminMin());
+    fetch(get.sucursales)
+      .then((response) => response.json())
+      .then((response) => {
+        setSucursales(
+          response.data.map((r) => ({
+            nombre: r.nombre,
+            idsucursal: r.idsucursal,
+          })),
+        );
+      });
+  }, []);
+  return esUsuarioAdminMin ? (
+    <>
+      <span style={{ fontStyle: "italic" }}>Bienvenido</span>{" "}
+    </>
+  ) : (
+    <>
+      <Row gutter={24}>
         {/*<Col  style={{paddingRight:"32px"}}>
             <TotalesCobros />
         </Col>
         <Col  style={{paddingRight:"32px"}}>
             <TotalesGastos />
         </Col>*/}
-    </Row>
-    {/*
+      </Row>
+      {/*
     <Row>
         <Col span={24}>
             <TotalesVentas />
@@ -62,9 +59,9 @@ export default function dashboard_admin(){
             <ChartTotalesUltimoAnio />
         </Col>
     </Row>*/}
-    <Row gutter={[16,16]}>
+      <Row gutter={[16, 16]}>
         <Col>
-            <TotalesCobros />
+          <TotalesCobros />
         </Col>
         {/*<Col>
             <TotalTarjetas />
@@ -75,10 +72,9 @@ export default function dashboard_admin(){
         <Col>
             <TotalesCajasSucursales style="black"/>
         </Col>*/}
-    </Row>
-    
-    
-    {/*<Row>
+      </Row>
+
+      {/*<Row>
         <Col span={24}>
             <h4>Cantidad de ventas en dep&oacute;sito</h4>
         </Col>
@@ -110,7 +106,7 @@ export default function dashboard_admin(){
         <Col style={{width:"1200px"}}><TotalesVentasMeses cantMeses={12} idsucursal={16} /></Col>
       </Row>
       </Card>*/}
-    {/*<Row>
+      {/*<Row>
         <Col span={24}>
             
             {
@@ -118,12 +114,8 @@ export default function dashboard_admin(){
             }
         </Col>
     </Row>*/}
-
-   
-    
-    
-    
     </>
+  );
 }
 
-dashboard_admin.PageLayout = LayoutAdmin;  
+dashboard_admin.PageLayout = LayoutAdmin;

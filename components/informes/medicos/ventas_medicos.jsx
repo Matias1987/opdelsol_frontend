@@ -1,14 +1,10 @@
-import CustomModal from "@/components/CustomModal";
-import ExportToExcel2 from "@/components/etc/ExportToExcel2";
-import ExportToCSV from "@/components/ExportToCSV";
 import PrinterWrapper from "@/components/PrinterWrapper";
 import VentaDetallePopup from "@/components/VentaDetalle";
 import globals from "@/src/globals";
 import { formatFloat } from "@/src/helpers/formatters";
 import { post_method } from "@/src/helpers/post_helper";
 import { post } from "@/src/urls";
-import { InfoCircleFilled } from "@ant-design/icons";
-import { Button, Col, Divider, Input, Modal, Row, Table } from "antd";
+import { Col, Divider, Row, Table } from "antd";
 import { useEffect, useState } from "react";
 
 /**
@@ -19,7 +15,6 @@ import { useEffect, useState } from "react";
  * @param idsucursal
  */
 const VentasMedicos = (props) => {
-  const [open, setOpen] = useState(false);
   const [dataSource, setDataSource] = useState([]);
   const [idmedico, setIdMedico] = useState(-1);
   const [total, setTotal] = useState(0);

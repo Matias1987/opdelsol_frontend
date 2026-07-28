@@ -4,7 +4,7 @@ import AgregarBancoForm from "./agregarBanco";
 import { get, post } from "@/src/urls";
 import { post_method } from "@/src/helpers/post_helper";
 
-import { PlusOutlined } from "@ant-design/icons";
+import  PlusOutlined  from "@ant-design/icons/PlusOutlined";
 
 const ListaBancos = (props) =>{
     const [data, setData] = useState([])

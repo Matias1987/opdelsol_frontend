@@ -1,18 +1,10 @@
 import { post_method } from "@/src/helpers/post_helper";
 import { post } from "@/src/urls";
-import { CheckOutlined, EditFilled, InfoCircleTwoTone } from "@ant-design/icons";
-import {
-  Button,
-  Card,
-  Checkbox,
-  Col,
-  DatePicker,
-  Input,
-  Row,
-  Table,
-  Modal,
-} from "antd";
-import { useEffect, useState } from "react";
+import CheckOutlined from "@ant-design/icons/CheckOutlined";
+import InfoCircleTwoTone from "@ant-design/icons/InfoCircleTwoTone";
+
+import { Button, Card, Col, DatePicker, Input, Row, Table, Modal } from "antd";
+import { useState } from "react";
 import DetalleConsumoCodigo from "./detalle_consumo_codigo";
 
 const InformeCantidadesPeriodo = () => {
@@ -26,7 +18,12 @@ const InformeCantidadesPeriodo = () => {
   const [popupDetalleOpen, setPopupDetalleOpen] = useState(false);
   const columns = [
     { title: "Codigo", dataIndex: "codigo", key: "codigo" },
-    { title: "Cantidad", dataIndex: "cantidad", key: "cantidad", sorter: (a, b) => a.cantidad - b.cantidad },
+    {
+      title: "Cantidad",
+      dataIndex: "cantidad",
+      key: "cantidad",
+      sorter: (a, b) => a.cantidad - b.cantidad,
+    },
     {
       title: "Acciones",
       render: (_, { fk_codigo, codigo }) => (
@@ -119,7 +116,6 @@ const InformeCantidadesPeriodo = () => {
         <Row>
           <Col>
             <Table
-              
               size="small"
               title={(_) => (
                 <>
@@ -157,7 +153,7 @@ const InformeCantidadesPeriodo = () => {
                   ? data.filter((item) =>
                       item.codigo
                         .toUpperCase()
-                        .includes(stringFilter.toUpperCase())
+                        .includes(stringFilter.toUpperCase()),
                     )
                   : data
               }

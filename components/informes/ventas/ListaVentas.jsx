@@ -1,14 +1,11 @@
-import ImprimirSobreVenta from "@/pages/v1/ventas/informes/sobre_venta";
 import { post_method } from "@/src/helpers/post_helper";
 import { useEffect, useState } from "react";
 import { post } from "@/src/urls";
 import globals from "@/src/globals";
 import FiltroVentas from "@/components/forms/ventas/filtroVentas";
-import {
-  EditFilled,
-  InfoCircleFilled,
-  ReloadOutlined,
-} from "@ant-design/icons";
+import EditFilled from "@ant-design/icons/EditFilled";
+import InfoCircleFilled from "@ant-design/icons/InfoCircleFilled";
+import ReloadOutlined from "@ant-design/icons/ReloadOutlined";
 import { current_date_ymd } from "@/src/helpers/string_helper";
 import {
   registrarVentaAnulado,
@@ -72,15 +69,12 @@ const ListaVentas = (props) => {
             <Button
               onClick={(_) => {
                 setSelectedVenta({ idventa: _idventa });
-                if(+_tipo!=7)
-                {
-                  alert(_tipo)
+                if (+_tipo != 7) {
+                  alert(_tipo);
                   setPoupImprimirOpen(true);
-                }
-                else{
+                } else {
                   setPopupDetalleTMOpen(true);
                 }
-                
               }}
             >
               <InfoCircleFilled />
@@ -366,34 +360,37 @@ const ListaVentas = (props) => {
         ),
     },
     {
-      render: (_, { idventa, idcliente, idsucursal, tipo, idtrabajo, isParent }) => +idtrabajo < 0 || +isParent == 1 ? (
-        <>
-          {" "}
-          <Button
-            size="small"
-            type="link"
-            onClick={(e) => {
-              e.stopPropagation();
-              setSelectedVenta((_) => ({
-                idventa: idventa,
-                idcliente: idcliente,
-                idsucursal: idsucursal,
-                tipo: tipo,
-              }));
-              if(+tipo!=7)
-                {
+      render: (
+        _,
+        { idventa, idcliente, idsucursal, tipo, idtrabajo, isParent },
+      ) =>
+        +idtrabajo < 0 || +isParent == 1 ? (
+          <>
+            {" "}
+            <Button
+              size="small"
+              type="link"
+              onClick={(e) => {
+                e.stopPropagation();
+                setSelectedVenta((_) => ({
+                  idventa: idventa,
+                  idcliente: idcliente,
+                  idsucursal: idsucursal,
+                  tipo: tipo,
+                }));
+                if (+tipo != 7) {
                   setPopupDetalleOpen(true);
-                }
-                else{
+                } else {
                   setPopupDetalleTMOpen(true);
                 }
-              
-            }}
-          >
-            <InfoCircleFilled />
-          </Button>
-        </>
-      ) : <></>,
+              }}
+            >
+              <InfoCircleFilled />
+            </Button>
+          </>
+        ) : (
+          <></>
+        ),
       width: "40px",
       hidden: false,
     },

@@ -1,8 +1,8 @@
-import { PlusCircleOutlined } from "@ant-design/icons"
+import  PlusCircleOutlined from "@ant-design/icons/PlusCircleOutlined";
 import GrupoForm from "./GrupoForm"
 import { useEffect, useState } from "react"
 import GrupoSelect from "../GrupoSelect"
-import { Form, Input, Button, Modal, Row, Col, Checkbox } from "antd"
+import { Form, Input, Button, Modal, Row, Col } from "antd"
 import { post_method } from "@/src/helpers/post_helper"
 import { post } from "@/src/urls"
 import { v4 as uuidv4 } from 'uuid'; 

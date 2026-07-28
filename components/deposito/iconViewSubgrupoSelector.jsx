@@ -1,16 +1,13 @@
 import { get, post } from "@/src/urls";
-import {
-  AppstoreOutlined,
-  BackwardOutlined,
-  BarsOutlined,
-  DatabaseOutlined,
-  FileOutlined,
-  FolderFilled,
-  GroupOutlined,
-  PlusOutlined,
-  SearchOutlined,
-  ToolOutlined,
-} from "@ant-design/icons";
+import AppstoreOutlined from "@ant-design/icons/AppstoreOutlined";
+import BackwardOutlined from "@ant-design/icons/BackwardOutlined";
+import BarsOutlined from "@ant-design/icons/BarsOutlined";
+import FileOutlined from "@ant-design/icons/FileOutlined";
+import FolderFilled from "@ant-design/icons/FolderFilled";
+import PlusOutlined from "@ant-design/icons/PlusOutlined";
+import SearchOutlined from "@ant-design/icons/SearchOutlined";
+import ToolOutlined from "@ant-design/icons/ToolOutlined";
+
 import {
   Button,
   Card,
@@ -59,9 +56,6 @@ const IconViewSubgrupoSelector = ({
   const [filtroStr, setFiltroStr] = useState("");
   const [displayMode, setDisplayMode] = useState("k");
   const [firstLoad, setFirstLoad] = useState(true);
-  const regexp_bif = /(_)(L|R)(_ADD_)/;
-  const regexp_monof = /^([A-Z_0-9\.]+)(_)([0-9\.]+)($)/;
-  const regexp_terminados = /ESF(\-|\+)([0-9\.]+)CIL(\-|\+)([0-9\.]+).*$/;
   const [cmItems, setcmItems] = useState([]);
 
   const columns = [
@@ -98,14 +92,13 @@ const IconViewSubgrupoSelector = ({
   ];
 
   const resetOptions = (extraOptions = []) => {
-    const default_options = [{
+    const default_options = [
+      {
         label: "Detalle",
         key: "info",
-      }]
-    setcmItems([
-      ...default_options,
-      ...extraOptions
-    ]);
+      },
+    ];
+    setcmItems([...default_options, ...extraOptions]);
   };
   /*
   const cmItems = [
@@ -137,10 +130,8 @@ const IconViewSubgrupoSelector = ({
         onDetalleClick?.(item.id, item.tipo);
         break;
       case "delete":
-        if(modoDistribuidora)
-        {
-          if(!confirm("Eliminar registro?"))
-          {
+        if (modoDistribuidora) {
+          if (!confirm("Eliminar registro?")) {
             return;
           }
           return eliminar_click(parent.id, item.id);
@@ -218,10 +209,10 @@ const IconViewSubgrupoSelector = ({
   };
 
   const eliminar_click = (idgrupo, idsubgrupo) => {
-    post_method(post.rm_g_has_sg,{idgrupo, idsubgrupo},(response)=>{
+    post_method(post.rm_g_has_sg, { idgrupo, idsubgrupo }, (response) => {
       setReload(!reload);
-    })
-  }
+    });
+  };
 
   const onParentChange = (element) => {
     //alert(JSON.stringify(element));

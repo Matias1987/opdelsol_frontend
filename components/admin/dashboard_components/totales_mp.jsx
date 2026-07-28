@@ -1,12 +1,13 @@
-import { DollarOutlined, ReloadOutlined } from "@ant-design/icons";
+import DollarOutlined from "@ant-design/icons/DollarOutlined";
+import ReloadOutlined from "@ant-design/icons/ReloadOutlined";
+
 import { Button, Card, Col, Row, Statistic } from "antd";
 import { useEffect, useState } from "react";
 
-const TotalesMP = (props) => {
+const TotalesMP = () => {
   const [dataDia, setDataDia] = useState(null);
   const [dataMes, setDataMes] = useState(null);
   const [totalDia, setTotalDia] = useState(0);
-  const [totalMes, setTotalMes] = useState(0);
   const [reload, setReload] = useState(false);
 
   const load = () => {

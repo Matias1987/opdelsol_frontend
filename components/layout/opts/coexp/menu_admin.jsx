@@ -1,19 +1,13 @@
-import {
-  AreaChartOutlined,
-  BoxPlotOutlined,
-  CreditCardOutlined,
-  DollarOutlined,
-  HomeFilled,
-  MenuOutlined,
-  UserOutlined,
-} from "@ant-design/icons";
+import AreaChartOutlined from "@ant-design/icons/AreaChartOutlined";
+import BoxPlotOutlined from "@ant-design/icons/BoxPlotOutlined";
+import CreditCardOutlined from "@ant-design/icons/CreditCardOutlined";
+import DollarOutlined from "@ant-design/icons/DollarOutlined";
+import HomeFilled from "@ant-design/icons/HomeFilled";
+import MenuOutlined from "@ant-design/icons/MenuOutlined";
 import { Button, Menu, Modal } from "antd";
 import { useState } from "react";
 import Link from "next/link";
 import { public_urls } from "@/src/urls";
-import { lista_precios_visible } from "@/src/config";
-import CustomModal from "@/components/CustomModal";
-import ListaPreciosV3 from "@/components/lista_precios/listaPreciosV3";
 import BuscarVenta from "@/components/forms/ventas/BuscarVenta";
 
 const items = [
@@ -90,14 +84,7 @@ const items = [
     key: "SubMenu",
     icon: <MenuOutlined />,
     children: [
-      /*{
-        label: (
-          <Menu.Item>
-            <Link href={public_urls.listausuarios}>Usuarios</Link>
-          </Menu.Item>
-        ),
-        key: "170",
-      },*/
+
       {
         key: "100",
         label: (
@@ -141,19 +128,22 @@ const items = [
         ),
       },
     ],
-
   },
 
   {
-    label: <><Button onClick={_ => setModalBuscarVentaOpen(true)}>Buscar Venta</Button></>,
+    label: (
+      <>
+        <Button onClick={(_) => setModalBuscarVentaOpen(true)}>
+          Buscar Venta
+        </Button>
+      </>
+    ),
     key: "buscar_venta",
   },
-
 ];
 
-
 export default function MenuAdminCOExp() {
-  const [modalBuscarVentaOpen, setModalBuscarVentaOpen] = useState(false)
+  const [modalBuscarVentaOpen, setModalBuscarVentaOpen] = useState(false);
   const [current, setCurrent] = useState("12");
   const onClick = (e) => {
     console.log("click ", e);
@@ -174,12 +164,13 @@ export default function MenuAdminCOExp() {
         mode="horizontal"
         items={items}
       />
-      <Modal 
-      open={modalBuscarVentaOpen} 
-      onCancel={_ => setModalBuscarVentaOpen(false)} 
-      destroyOnClose 
-      width={"100%"} 
-      footer={null} >
+      <Modal
+        open={modalBuscarVentaOpen}
+        onCancel={(_) => setModalBuscarVentaOpen(false)}
+        destroyOnClose
+        width={"100%"}
+        footer={null}
+      >
         <BuscarVenta />
       </Modal>
     </>

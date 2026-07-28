@@ -3,12 +3,14 @@ import useStorage from "@/useStorage";
 import { Button, Layout, Menu } from "antd";
 import { useEffect, useState } from "react";
 import globals from "@/src/globals";
-import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
+import MenuFoldOutlined from "@ant-design/icons/MenuFoldOutlined";
+import MenuUnfoldOutlined from "@ant-design/icons/MenuUnfoldOutlined";
+
 import SideMenuAdminMin from "./SideMenuAdminMin";
 const { Header } = Layout;
 
 export default function LayoutAdminMin({ children }) {
-    const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(false);
   const { Content } = Layout;
   const { getItem } = useStorage();
   const validate_user = () => {
@@ -40,13 +42,13 @@ export default function LayoutAdminMin({ children }) {
   useEffect(() => {
     //console.log("run user effect")
 
-    if (!(globals.esUsuarioAdmin() || globals.esUsuarioAdminMin() )) {
+    if (!(globals.esUsuarioAdmin() || globals.esUsuarioAdminMin())) {
       window.location.replace(public_urls.modo);
     }
 
     validate_user();
   }, []);
-/*
+  /*
   const menu = (_) => {
     switch (idf_optica) {
       case 1:
@@ -61,8 +63,15 @@ export default function LayoutAdminMin({ children }) {
   return (
     <Layout style={{ minHeight: "100vh" }}>
       <SideMenuAdminMin collapsed={collapsed} />
-      <Layout style={{ minHeight: 1200, marginLeft: collapsed ? 80 : 200, transition: "all 0.2s" }}>
-       <Header  style={{
+      <Layout
+        style={{
+          minHeight: 1200,
+          marginLeft: collapsed ? 80 : 200,
+          transition: "all 0.2s",
+        }}
+      >
+        <Header
+          style={{
             padding: "0 16px",
             position: "sticky",
             top: 0,
@@ -70,21 +79,27 @@ export default function LayoutAdminMin({ children }) {
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between", // pushes left/right apart
-            background: "#001529",  
+            background: "#001529",
             height: "51px",
-          }}>
-          <Button style={{color:"white"}} type="link" size="large" onClick={() => setCollapsed(!collapsed)}>
+          }}
+        >
+          <Button
+            style={{ color: "white" }}
+            type="link"
+            size="large"
+            onClick={() => setCollapsed(!collapsed)}
+          >
             {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
           </Button>
           <div style={{ display: "flex", alignItems: "center" }}>
             {/*<Logo />
             <span style={{color:"white"}} className="main-logo">PulseGrid</span>*/}
           </div>
-     
         </Header>
-       
 
-        <Content style={{ margin: "24px 16px", padding: 24, background: "#fff" }}>
+        <Content
+          style={{ margin: "24px 16px", padding: 24, background: "#fff" }}
+        >
           {children}
         </Content>
       </Layout>

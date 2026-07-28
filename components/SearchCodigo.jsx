@@ -1,6 +1,7 @@
 import { Button, Table, Input,  Row, Col } from "antd";
 import { useState } from "react";
-import { PlusCircleFilled, PlusOutlined, SearchOutlined } from "@ant-design/icons";
+import  SearchOutlined  from "@ant-design/icons/SearchOutlined";
+import  PlusOutlined   from "@ant-design/icons/PlusOutlined";
 import { get } from "@/src/urls";
 
 const SearchCodigo = (props) => {

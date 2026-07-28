@@ -1,28 +1,15 @@
 import globals from "@/src/globals";
 import { post_method } from "@/src/helpers/post_helper";
 import { post } from "@/src/urls";
-import {
-  Button,
-  Col,
-  DatePicker,
-  Divider,
-  Form,
-  Input,
-  Modal,
-  Row,
-  Space,
-} from "antd";
-import dayjs from "dayjs";
-import { useEffect, useState } from "react";
+import { Button, Col, Divider, Input, Row } from "antd";
+import { useState } from "react";
 import SelectLocalidadV2 from "../SelectLocalidadV2";
-import Edad from "./Edad";
 import {
   convertInputToUpper,
   validate_only_numbers_and_letters,
 } from "@/src/helpers/string_helper";
-import { cliente_id_obl } from "@/src/config";
 
-export default function ClienteFormDistrib({callback}) {
+export default function ClienteFormDistrib({ callback }) {
   const [btnDisabled, setBtnDisabled] = useState(false);
   const [clienteData, setClienteData] = useState({
     nombres: "",
@@ -38,8 +25,6 @@ export default function ClienteFormDistrib({callback}) {
   const url = post.insert.cliente;
 
   const onFinish = () => {
-
-
     const validateStr = (field, message) => {
       var _val = true;
       if (typeof field === "undefined") {
@@ -83,7 +68,7 @@ export default function ClienteFormDistrib({callback}) {
       tk: globals.getToken(),
       id_usuario: globals.obtenerUID(),
       id_sucursal: globals.obtenerSucursal(),
-      cliente_mayorista: 1
+      cliente_mayorista: 1,
     };
 
     post_method(url, _data, (res) => {
@@ -93,9 +78,8 @@ export default function ClienteFormDistrib({callback}) {
   };
 
   const onChange = (val, idx) => {
-    if(!val)
-    {
-      return
+    if (!val) {
+      return;
     }
     if (!validate_only_numbers_and_letters(val) && val.length > 0) {
       return;
@@ -125,7 +109,9 @@ export default function ClienteFormDistrib({callback}) {
       </Row>*/}
 
       <Row style={{ padding: "4px" }}>
-        <Col span={24}><span style={{fontWeight:"600"}}>Nombre:</span></Col>
+        <Col span={24}>
+          <span style={{ fontWeight: "600" }}>Nombre:</span>
+        </Col>
         <Col span={24}>
           <Input
             onInput={convertInputToUpper}
@@ -141,7 +127,9 @@ export default function ClienteFormDistrib({callback}) {
       </Row>
 
       <Row style={{ padding: "4px" }}>
-        <Col span={24}><span style={{fontWeight:"600"}}>Direcci&oacute;n:</span></Col>
+        <Col span={24}>
+          <span style={{ fontWeight: "600" }}>Direcci&oacute;n:</span>
+        </Col>
         <Col span={24}>
           <Input
             allowClear
@@ -161,21 +149,27 @@ export default function ClienteFormDistrib({callback}) {
             </Col>*/}
       </Row>
       <Row style={{ padding: "4px" }}>
-        <Col span={24}><span style={{fontWeight:"600"}}>Localidad:</span></Col>
+        <Col span={24}>
+          <span style={{ fontWeight: "600" }}>Localidad:</span>
+        </Col>
         <Col span={18}>
-          {<SelectLocalidadV2
-            fk_localidad={+globals.obtenerOpticaLocalidad()}
-            fk_provincia={+globals.obtenerOpticaProvincia()}
-            callback={(p) => {
-              // alert(JSON.stringify(p))
-              onChange(p.idlocalidad, "idlocalidad");
-            }}
-          />}
+          {
+            <SelectLocalidadV2
+              fk_localidad={+globals.obtenerOpticaLocalidad()}
+              fk_provincia={+globals.obtenerOpticaProvincia()}
+              callback={(p) => {
+                // alert(JSON.stringify(p))
+                onChange(p.idlocalidad, "idlocalidad");
+              }}
+            />
+          }
         </Col>
       </Row>
 
       <Row style={{ padding: "4px" }}>
-        <Col span={24}><span style={{fontWeight:"600"}}>Tel&eacute;fono:</span></Col>
+        <Col span={24}>
+          <span style={{ fontWeight: "600" }}>Tel&eacute;fono:</span>
+        </Col>
         <Col span={24}>
           <Input
             allowClear

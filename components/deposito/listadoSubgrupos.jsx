@@ -1,12 +1,10 @@
 import GrupoSelect from "@/components/GrupoSelect";
-import EditarSubgrupo from "@/components/forms/deposito/EditarSubgrupo";
 import { get } from "@/src/urls";
 import {
   Button,
   Card,
   Checkbox,
   Col,
-  Divider,
   Input,
   Modal,
   Row,
@@ -15,12 +13,12 @@ import {
 import { useEffect, useState } from "react";
 import EditarLoteSubgrupo from "./editarLoteSubgrupo";
 import SubGrupoFormV2 from "../forms/SubGrupoFormV2";
-import { EditOutlined, PlusOutlined } from "@ant-design/icons";
+import  PlusOutlined from "@ant-design/icons/PlusOutlined";
 import EditarPreciosSubgruposForm from "../forms/deposito/EditarPreciosSubgruposForm";
 import SubGrupoFormV3 from "../forms/deposito/SubgrupoFormV3";
 import AgregarSGAGrupoDistrib from "./agregarSubgrupoAGrupoDistrib";
 
-const ListadoSubGrupos = (props) => {
+const ListadoSubGrupos = () => {
   const [change, setChange] = useState(false);
   const [dataSource, setDataSource] = useState([]);
   const [filtrarPorGrupo, setFiltrarPorGrupo] = useState(false);

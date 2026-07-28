@@ -1,12 +1,10 @@
 import { Button, Table, Input, Row, Col, Space, Tabs } from "antd";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { post } from "@/src/urls";
 import globals from "@/src/globals";
-import {
-  CheckCircleFilled,
-  CloseOutlined,
-  SearchOutlined,
-} from "@ant-design/icons";
+import CheckCircleFilled from "@ant-design/icons/CheckCircleFilled";
+import CloseOutlined from "@ant-design/icons/CloseOutlined";
+import SearchOutlined from "@ant-design/icons/SearchOutlined";
 import { post_method } from "@/src/helpers/post_helper";
 import { regex_get_id_if_match } from "@/src/helpers/barcode_helper";
 import AddStockQuick from "@/components/deposito/addStockQuick";
@@ -66,7 +64,7 @@ const BuscarCodigoFactura = (props) => {
           descripcion: row.descripcion,
           idcodigo: row.idcodigo,
           costo: row.costo,
-        }))
+        })),
       );
       setLoading(false);
     });
@@ -214,9 +212,11 @@ const BuscarCodigoFactura = (props) => {
       label: "Agregar",
       children: (
         <>
-          <AddStockQuick callback={data=>{
-            props.callback(data)
-          }} />
+          <AddStockQuick
+            callback={(data) => {
+              props.callback(data);
+            }}
+          />
         </>
       ),
     },

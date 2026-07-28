@@ -1,4 +1,4 @@
-import { PlusOutlined } from "@ant-design/icons";
+import  PlusOutlined from "@ant-design/icons/PlusOutlined";
 import { Button, Col, Divider, Input, Row, Select } from "antd";
 import { useState } from "react";
 

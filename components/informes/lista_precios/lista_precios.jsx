@@ -1,11 +1,13 @@
 import { post_method } from "@/src/helpers/post_helper";
-import { get, post, public_urls } from "@/src/urls";
-import { EditOutlined, SearchOutlined } from "@ant-design/icons";
+import { get, post } from "@/src/urls";
+import EditOutlined from "@ant-design/icons/EditOutlined";
+import SearchOutlined from "@ant-design/icons/SearchOutlined";
+
 import { useState } from "react";
 
-const { Row, Modal, Button, Col, Menu, Card, Layout, Input } = require("antd");
+import { Row, Modal, Button, Col, Menu, Card, Layout, Input } from "antd";
 export default function ListaPrecios() {
-  const { Header, Sider, Content } = Layout;
+  const { Sider, Content } = Layout;
   const [subgrupos, setSubgrupos] = useState([]);
   const [menuSubfamilia, setMenuSubFamilia] = useState([]);
   const [open, setOpen] = useState(false);

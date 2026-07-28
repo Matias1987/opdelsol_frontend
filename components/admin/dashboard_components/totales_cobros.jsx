@@ -1,10 +1,7 @@
 import { post_method } from "@/src/helpers/post_helper";
 import { post } from "@/src/urls";
-import {
-  ArrowUpOutlined,
-  DollarOutlined,
-  ReloadOutlined,
-} from "@ant-design/icons";
+import DollarOutlined from "@ant-design/icons/DollarOutlined";
+import ReloadOutlined from "@ant-design/icons/ReloadOutlined";
 import { Button, Card, Col, Row, Statistic } from "antd";
 import { useEffect, useState } from "react";
 
@@ -63,7 +60,13 @@ const TotalesCobros = (props) => {
         size="small"
         extra={
           <>
-            <Button type="link" size="small" onClick={_=>{setReload(!reload)}}>
+            <Button
+              type="link"
+              size="small"
+              onClick={(_) => {
+                setReload(!reload);
+              }}
+            >
               <ReloadOutlined />
             </Button>
           </>

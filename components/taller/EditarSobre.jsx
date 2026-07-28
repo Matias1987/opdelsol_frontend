@@ -2,7 +2,8 @@ import globals from "@/src/globals";
 import { get, post } from "@/src/urls";
 import { Button, Col, Modal, Row, Table, Tag } from "antd";
 import { useEffect, useState } from "react";
-import { ArrowRightOutlined, PlusOutlined } from "@ant-design/icons";
+import ArrowRightOutlined from "@ant-design/icons/ArrowRightOutlined";
+import PlusOutlined from "@ant-design/icons/PlusOutlined";
 import { post_method } from "@/src/helpers/post_helper";
 import DetalleCodigo from "../forms/deposito/DetalleCodigo";
 import CustomModal from "../CustomModal";
@@ -388,7 +389,7 @@ const EditarSobre = (props) => {
             fktrabajo: props.idtrabajo,
             fksucursal: globals.obtenerSucursal(),
             items: _data_items_adicionales,
-            uid: _uid
+            uid: _uid,
           },
           (response) => {
             //alert("Datos guardados")

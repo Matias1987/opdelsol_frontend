@@ -1,17 +1,12 @@
-import { idf_optica } from "@/src/config";
 import globals from "@/src/globals";
-import {
-  BackwardOutlined,
-  CheckOutlined,
-  CloseOutlined,
-  CloseSquareOutlined,
-  DollarOutlined,
-  DownOutlined,
-  EditOutlined,
-  InfoCircleFilled,
-  InfoOutlined,
-  PrinterOutlined,
-} from "@ant-design/icons";
+import CheckOutlined from "@ant-design/icons/CheckOutlined";
+import CloseOutlined from "@ant-design/icons/CloseOutlined";
+import CloseSquareOutlined from "@ant-design/icons/CloseSquareOutlined";
+import DollarOutlined from "@ant-design/icons/DollarOutlined";
+import DownOutlined from "@ant-design/icons/DownOutlined";
+import EditOutlined from "@ant-design/icons/EditOutlined";
+import InfoOutlined from "@ant-design/icons/InfoOutlined";
+import PrinterOutlined from "@ant-design/icons/PrinterOutlined";
 import { Button, Dropdown, Space } from "antd";
 
 const OpcionesVenta = (props) => {
@@ -27,7 +22,7 @@ const OpcionesVenta = (props) => {
     onDevolucionClick,
     onAnularCobradasClick,
     onEditarClick,
-    permitirAnularCobradas=false
+    permitirAnularCobradas = false,
   } = props;
 
   const menuOptions = {
@@ -68,10 +63,12 @@ const OpcionesVenta = (props) => {
       icon: <CloseOutlined />,
     },
     {
-      label: <span style={{ color: "#4f992aff", fontWeight: "600" }}>Editar</span>,
+      label: (
+        <span style={{ color: "#4f992aff", fontWeight: "600" }}>Editar</span>
+      ),
       key: menuOptions.EDITAR,
       icon: <EditOutlined />,
-    }
+    },
   ];
 
   const items_pendientes_taller = [
@@ -99,7 +96,7 @@ const OpcionesVenta = (props) => {
       label: "Anular",
       key: menuOptions.ANULAR_COBRADAS,
       icon: <CloseSquareOutlined />,
-      disabled: !permitirAnularCobradas
+      disabled: !permitirAnularCobradas,
     },
   ];
 
@@ -137,7 +134,7 @@ const OpcionesVenta = (props) => {
       label: "Anular",
       key: menuOptions.ANULAR_COBRADAS,
       icon: <CloseSquareOutlined />,
-      disabled: !permitirAnularCobradas
+      disabled: !permitirAnularCobradas,
     },
   ];
 
@@ -181,7 +178,7 @@ const OpcionesVenta = (props) => {
       label: "Anular",
       key: menuOptions.ANULAR_COBRADAS,
       icon: <CloseSquareOutlined />,
-      disabled: !permitirAnularCobradas
+      disabled: !permitirAnularCobradas,
     },
   ];
 
@@ -260,7 +257,6 @@ const OpcionesVenta = (props) => {
       case menuOptions.EDITAR:
         onEditarClick?.(venta);
         break;
-
     }
   };
 

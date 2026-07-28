@@ -1,8 +1,9 @@
 import { get } from "@/src/urls";
 import { useEffect, useState } from "react";
 
-import { CarryOutOutlined,  EditFilled,  ReloadOutlined,  TableOutlined }  from "@ant-design/icons";
-import { Tree, Row, Col, Table, Divider, Button, Modal, Checkbox, Card }  from "antd";
+import  CarryOutOutlined  from "@ant-design/icons/CarryOutOutlined";
+import  ReloadOutlined  from "@ant-design/icons/ReloadOutlined";
+import { Tree, Row, Col, Table,  Button,  Checkbox, Card }  from "antd";
 
 /**
  * 

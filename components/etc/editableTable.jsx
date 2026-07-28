@@ -1,4 +1,4 @@
-import { PlusOutlined } from "@ant-design/icons";
+import  PlusOutlined from "@ant-design/icons/PlusOutlined";
 import { Button, Form, Input, Table } from "antd";
 import { createContext, useContext, useEffect, useRef, useState } from "react";
 const EditableContext = createContext(null);

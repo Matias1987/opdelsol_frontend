@@ -1,9 +1,9 @@
-import { Button, Card, Col, Row, Spin, Tabs } from "antd";
+import { Button, Card, Col, Row, Tabs } from "antd";
 import { useEffect, useState } from "react";
 import { get, post } from "@/src/urls";
 import { post_method } from "@/src/helpers/post_helper";
 import FichaProveedorMoneda from "./fichaProveedorMoneda";
-import { CloseOutlined } from "@ant-design/icons";
+import CloseOutlined from "@ant-design/icons/CloseOutlined";
 
 const FichaProveedorV2 = ({ idproveedor, callback }) => {
   const [monedasExistentesProveedor, setMonedasExistentesProveedor] = useState(
@@ -18,7 +18,6 @@ const FichaProveedorV2 = ({ idproveedor, callback }) => {
     fetch(get.detalle_proveedor + idproveedor)
       .then((r) => r.json())
       .then((response) => {
-        //alert(JSON.stringify(response))
         setDatosProveedor(response.data[0]);
       })
       .catch((e) => {
@@ -61,25 +60,25 @@ const FichaProveedorV2 = ({ idproveedor, callback }) => {
   };
 
   const RoundedTabBar = (props1, DefaultTabBar) => {
-  // props contains info about tabs, activeKey, etc.
-  const { panes, activeKey, onTabClick } = props1;
+    // props contains info about tabs, activeKey, etc.
+    const { panes, activeKey, onTabClick } = props1;
 
-  return (
-    <div style={{ display: 'flex', gap: '8px' }}>
-      {panes.map(pane => (
-        <Button
-          style={{boxShadow:"2px 2px 1px 1px #afafaf"}}
-          key={pane.key}
-          shape="round"
-          type={activeKey === pane.key ? 'primary' : 'default'}
-          onClick={() => onTabClick(pane.key)}
-        >
-          { pane.props.tab /* This is the label of the tab */}
-        </Button>
-      ))}
-    </div>
-  );
-};
+    return (
+      <div style={{ display: "flex", gap: "8px" }}>
+        {panes.map((pane) => (
+          <Button
+            style={{ boxShadow: "2px 2px 1px 1px #afafaf" }}
+            key={pane.key}
+            shape="round"
+            type={activeKey === pane.key ? "primary" : "default"}
+            onClick={() => onTabClick(pane.key)}
+          >
+            {pane.props.tab /* This is the label of the tab */}
+          </Button>
+        ))}
+      </div>
+    );
+  };
 
   useEffect(() => {
     load_datos_proveedor();

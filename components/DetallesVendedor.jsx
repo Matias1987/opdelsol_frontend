@@ -1,5 +1,6 @@
-const { get } = require("@/src/urls")
-const { useState } = require("react")
+import { get } from "@/src/urls"
+import { useState } from "react"
+
 
 const DetallesVendedor = (props) => {
     const [data, setData] = useState(null)

@@ -1,4 +1,4 @@
-import { InfoCircleFilled, InfoCircleOutlined } from "@ant-design/icons";
+import  InfoCircleOutlined  from "@ant-design/icons/InfoCircleOutlined";
 import { Button, Modal, Spin } from "antd";
 import { useState } from "react";
 import InformeVentaMinV2 from "./informes/ventas/InformeVentasMinV2";

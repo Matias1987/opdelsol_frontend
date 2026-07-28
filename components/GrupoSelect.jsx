@@ -1,7 +1,7 @@
 
 import { get } from "@/src/urls";
 
-import { Space, Select, Spin } from "antd";
+import { Space, Select } from "antd";
 import { useState, useEffect }  from "react";
 
 const GrupoSelect = ({callback, disabled, defIdFamilia, defIdSubfamilia, familiaEnabled, subfamiliaEnabled}) => {

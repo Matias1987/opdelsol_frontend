@@ -1,6 +1,6 @@
 import { get } from "@/src/urls";
-import { ScissorOutlined } from "@ant-design/icons";
-import { QRCode, Spin, Tag } from "antd";
+import ScissorOutlined from "@ant-design/icons/ScissorOutlined";
+import { QRCode, Spin } from "antd";
 import Barcode from "react-barcode";
 
 import { useState, useEffect } from "react";
@@ -164,33 +164,43 @@ const InformeVenta = (props) => {
                     {tipo_venta(data.tipo)}
                   </div>
                 </td>
-                { !mostrar_qr_opiniones ? <></> : <td>
-                  <div
-                    style={{
-                      width: "40px",
-                      textAlign: "center",
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      paddingRight:"8px"
-                    }}
-                  >
-                    <QRCode
-                      value={
-                        local_base_url + "valorar" + "?idventa=" + data.idventa
-                      }
-                      size={128}
-                      title={
-                        local_base_url + "valorar" + "?idventa=" + data.idventa
-                      }
-                    />
-                    <span style={{ fontSize: "11px", fontStyle: "italic" }}>
-                      Califica tu <br />
-                      experiencia
-                    </span>
-                  </div>
-                </td>}
+                {!mostrar_qr_opiniones ? (
+                  <></>
+                ) : (
+                  <td>
+                    <div
+                      style={{
+                        width: "40px",
+                        textAlign: "center",
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        paddingRight: "8px",
+                      }}
+                    >
+                      <QRCode
+                        value={
+                          local_base_url +
+                          "valorar" +
+                          "?idventa=" +
+                          data.idventa
+                        }
+                        size={128}
+                        title={
+                          local_base_url +
+                          "valorar" +
+                          "?idventa=" +
+                          data.idventa
+                        }
+                      />
+                      <span style={{ fontSize: "11px", fontStyle: "italic" }}>
+                        Califica tu <br />
+                        experiencia
+                      </span>
+                    </div>
+                  </td>
+                )}
                 <td width="250px">
                   <FechaEntregaInf data={data} />
 

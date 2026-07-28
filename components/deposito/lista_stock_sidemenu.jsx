@@ -1,15 +1,12 @@
-import {
-  MenuFoldOutlined,
-  MenuUnfoldOutlined,
-  PlusOutlined,
-} from "@ant-design/icons";
+import MenuFoldOutlined from "@ant-design/icons/MenuFoldOutlined";
+import MenuUnfoldOutlined from "@ant-design/icons/MenuUnfoldOutlined";
+import PlusOutlined from "@ant-design/icons/PlusOutlined";
 import {
   Button,
   Card,
   Col,
   Divider,
   Input,
-  InputNumber,
   Row,
   Select,
   Tag,
@@ -42,7 +39,6 @@ const SideMenuListaStock = (props) => {
 
   useEffect(() => {
     if (defIdSubgrupo) {
-      //alert(defIdSubgrupo)
       const ff = [
         {
           tipo: "subgrupo",
@@ -61,7 +57,6 @@ const SideMenuListaStock = (props) => {
     if (!valorFiltro) {
       return;
     }
-    ///alert(JSON.stringify(tipoFiltro))
     if (filtros.find((f) => f.tipo == tipoFiltro)) {
       alert("Ya se encuentra el tipo de filtro");
       return;
@@ -133,7 +128,7 @@ const SideMenuListaStock = (props) => {
       { label: "Descripción", value: "detalles" },
     ];
 
-    if (typeof familiaEnabled === 'undefined' || familiaEnabled===true) {
+    if (typeof familiaEnabled === "undefined" || familiaEnabled === true) {
       res.push({ label: "Familia", value: "familia" });
     }
     return res;

@@ -1,9 +1,8 @@
 import { post_method } from "@/src/helpers/post_helper"
 import { get, post } from "@/src/urls"
-import { EditOutlined } from "@ant-design/icons"
-import { Button, Col, Input, Modal, Row, Space } from "antd"
-
-const { useState } = require("react")
+import  EditOutlined from "@ant-design/icons/EditOutlined";
+import { Button, Col, Input, Modal, Row } from "antd"
+import { useState } from "react";
 
 const EdicionClientePopup = (props) => {
     const [open, setOpen] = useState(false)

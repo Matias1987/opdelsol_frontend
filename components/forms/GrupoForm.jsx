@@ -1,6 +1,6 @@
 import { Button, Form, Input, Modal } from "antd";
 import SubFamiliaSelect from "../SubFamiliaSelect";
-import { PlusCircleOutlined } from "@ant-design/icons";
+import  PlusCircleOutlined from "@ant-design/icons/PlusCircleOutlined";
 import SubFamiliaForm from "./SubFamiliaForm";
 import { useEffect, useState } from "react";
 import urls from "../../src/urls"

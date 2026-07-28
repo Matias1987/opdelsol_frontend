@@ -1,24 +1,19 @@
 import globals from "@/src/globals";
-import {
-  CheckOutlined,
-  CloseOutlined,
-  DownOutlined,
-  EditOutlined,
-  InfoOutlined,
-} from "@ant-design/icons";
+import DownOutlined from "@ant-design/icons/DownOutlined";
+import EditOutlined from "@ant-design/icons/EditOutlined";
+import InfoOutlined from "@ant-design/icons/InfoOutlined";
+
 import {
   Button,
   Checkbox,
   Col,
   Dropdown,
-  Input,
   Row,
   Space,
   Table,
   Tag,
   Card,
 } from "antd";
-import ExportToCSV from "../ExportToCSV";
 import ExportToExcel from "../etc/ExportToExcel";
 import { useEffect, useState } from "react";
 
@@ -42,8 +37,10 @@ const StockTable = (props) => {
 
   const header = (_) => (
     <>
-      <Row >
-        <Col span={24} style={{textAlign:"center", fontWeight:"500"}}>Listado de C&oacute;digos - {title}</Col>
+      <Row>
+        <Col span={24} style={{ textAlign: "center", fontWeight: "500" }}>
+          Listado de C&oacute;digos - {title}
+        </Col>
       </Row>
       <Row
         style={{
@@ -138,12 +135,16 @@ const StockTable = (props) => {
         <Col style={{ fontWeight: "500" }}>Columnas: </Col>
         <Col>
           <Checkbox
-            defaultChecked={typeof verRutaCol === 'undefined' ? false : verRutaCol}
+            defaultChecked={
+              typeof verRutaCol === "undefined" ? false : verRutaCol
+            }
             onChange={(v) => {
               setColumns((cc) =>
                 cc.map((col) =>
-                  col.key === "ruta" ? { ...col, hidden: !v.target.checked } : col
-                )
+                  col.key === "ruta"
+                    ? { ...col, hidden: !v.target.checked }
+                    : col,
+                ),
               );
             }}
           >
@@ -155,8 +156,8 @@ const StockTable = (props) => {
             onChange={(v) => {
               setColumns((cc) =>
                 cc.map((col) =>
-                  col.key === "tags" ? { ...col, hidden: !col.hidden } : col
-                )
+                  col.key === "tags" ? { ...col, hidden: !col.hidden } : col,
+                ),
               );
             }}
           >
@@ -168,8 +169,8 @@ const StockTable = (props) => {
             onChange={(v) => {
               setColumns((cc) =>
                 cc.map((col) =>
-                  col.key === "precio" ? { ...col, hidden: !col.hidden } : col
-                )
+                  col.key === "precio" ? { ...col, hidden: !col.hidden } : col,
+                ),
               );
             }}
           >
@@ -411,17 +412,28 @@ const StockTable = (props) => {
     },*/
   ]);
 
-  useEffect(()=>{
-    setColumns(_cols=>
-     _cols.map(c=> 
-      c.key=='precio' ? {...c, hidden: typeof verPrecioCol !== 'undefined' ? verPrecioCol: true} :
-      c.key=='ruta' ? {...c, hidden: typeof verRutaCol !== 'undefined' ? verRutaCol: true} :
-      c.key=='tags' ? {...c, hidden: typeof verTagsCol !== 'undefined' ? verTagsCol : true} : 
-      c
-    )
-  );
-
-  },[])
+  useEffect(() => {
+    setColumns((_cols) =>
+      _cols.map((c) =>
+        c.key == "precio"
+          ? {
+              ...c,
+              hidden: typeof verPrecioCol !== "undefined" ? verPrecioCol : true,
+            }
+          : c.key == "ruta"
+            ? {
+                ...c,
+                hidden: typeof verRutaCol !== "undefined" ? verRutaCol : true,
+              }
+            : c.key == "tags"
+              ? {
+                  ...c,
+                  hidden: typeof verTagsCol !== "undefined" ? verTagsCol : true,
+                }
+              : c,
+      ),
+    );
+  }, []);
 
   return (
     <Card size="small">
@@ -434,7 +446,7 @@ const StockTable = (props) => {
         dataSource={
           searchStr.trim().length > 0
             ? data.filter((c) =>
-                c.codigo.toUpperCase().includes(searchStr.toUpperCase())
+                c.codigo.toUpperCase().includes(searchStr.toUpperCase()),
               )
             : data
         }

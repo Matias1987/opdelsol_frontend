@@ -1,6 +1,4 @@
-import globals from "@/src/globals";
 import { public_urls } from "@/src/urls";
-import { AppstoreOutlined, MenuOutlined } from "@ant-design/icons";
 import { Menu } from "antd";
 import { useState } from "react";
 import Link from "next/link";

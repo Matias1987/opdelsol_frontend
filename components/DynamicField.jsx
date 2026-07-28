@@ -1,5 +1,6 @@
 import React from "react";
-import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
+import MinusCircleOutlined from "@ant-design/icons/MinusCircleOutlined";
+import PlusOutlined from "@ant-design/icons/PlusOutlined";
 import { Form, Divider, Button, Select, Input } from "antd";
 
 function DynamicField(props) {
@@ -55,7 +56,7 @@ function DynamicField(props) {
               </Button>
             </Form.Item>
           </div>
-        );/* return */
+        ); /* return */
       }}
     </Form.List>
   );

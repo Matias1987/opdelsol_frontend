@@ -1,11 +1,12 @@
-import CustomModal from "@/components/CustomModal";
-import { Button, Col, Input, Modal, Row, Spin, Table } from "antd";
+import { Button, Col, Input, Modal, Row, Table } from "antd";
 import { useEffect, useState } from "react";
-import { CloseOutlined, PlusOutlined, ReloadOutlined, SearchOutlined } from "@ant-design/icons";
+import PlusOutlined from "@ant-design/icons/PlusOutlined";
+import ReloadOutlined from "@ant-design/icons/ReloadOutlined";
+import SearchOutlined from "@ant-design/icons/SearchOutlined";
 import { get } from "@/src/urls";
 import ClienteFormV2 from "../ClienteFormV2";
 
-const SelectClienteDescuento = ({callback}) => {
+const SelectClienteDescuento = ({ callback }) => {
   const [clientes, setClientes] = useState(null);
   const [loading, setLoading] = useState(false);
   const [popupAddOpen, setPopupAddOpen] = useState(false);
@@ -62,7 +63,15 @@ const SelectClienteDescuento = ({callback}) => {
             <Col>
               <span style={{ fontWeight: "bold" }}>Clientes</span>{" "}
             </Col>
-            <Col><Input addonAfter={<><SearchOutlined /></>} /></Col>
+            <Col>
+              <Input
+                addonAfter={
+                  <>
+                    <SearchOutlined />
+                  </>
+                }
+              />
+            </Col>
 
             <Col>
               <Button
@@ -73,7 +82,7 @@ const SelectClienteDescuento = ({callback}) => {
                 <PlusOutlined /> Agregar
               </Button>
             </Col>
-            
+
             <Col>
               <Button
                 size="middle"

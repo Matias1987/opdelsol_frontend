@@ -1,9 +1,9 @@
 import { get } from "@/src/urls";
-import { Button, Col, Modal, Row, Spin, Table } from "antd";
+import { Button, Col,  Spin, Table } from "antd";
 import { useEffect, useState } from "react";
 import globals from "@/src/globals";
 import { formatFloat } from "@/src/helpers/formatters";
-import { EditFilled } from "@ant-design/icons";
+import  EditFilled from "@ant-design/icons/EditFilled";
 /**
  *
  * @param nombre: Nombre del grupo
@@ -18,7 +18,6 @@ const GrupoV2 = ( { nombre, callback, reload, filterStr, readOnly, idgrupo, onEd
   const [selectedSubgrupoId, setSelectedSubgrupoId] = useState(-1);
   const [mostrarPrecioPar, setMostrarPrecioPar] = useState(false);
   const [mostrarPrecioCaja, setMostrarPrecioCaja] = useState(false);
-  const [modalEditarVisible, setModalEditarVisible] = useState(false);
   const columns = [
     {
       title: "Producto",

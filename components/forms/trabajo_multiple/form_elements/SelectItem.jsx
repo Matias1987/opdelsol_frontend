@@ -1,7 +1,6 @@
 import { get } from "@/src/urls";
-import { FilterFilled, FilterTwoTone } from "@ant-design/icons";
+import  FilterTwoTone from "@ant-design/icons/FilterTwoTone";
 import { Input, Table } from "antd";
-import Search from "antd/es/transfer/search";
 import { useEffect, useMemo, useState } from "react";
 
 const SelectItem = ({ tipo, callback }) => {

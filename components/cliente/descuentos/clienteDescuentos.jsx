@@ -1,4 +1,4 @@
-import { PlusCircleFilled, PlusOutlined } from "@ant-design/icons";
+import PlusOutlined from "@ant-design/icons/PlusOutlined";
 import { Button, Card, Checkbox, Input, Modal, Table } from "antd";
 import { useEffect, useState } from "react";
 import NuevoDescuento from "./nuevoDescuento";
@@ -36,7 +36,6 @@ const ClienteDescuentos = ({ cliente }) => {
       post.descuentos_cliente,
       { idcliente: cliente.idcliente },
       (response) => {
-        //alert(JSON.stringify(response))
         setData(
           response.map((record) => ({
             detalle: record.nombre_corto,

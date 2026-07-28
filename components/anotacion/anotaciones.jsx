@@ -1,8 +1,8 @@
 import { Button, Card, Col, Modal, Row, Table } from "antd";
 import { useEffect, useState } from "react";
 import AnotacionForm from "./anotacion_form";
-import { get, post } from "@/src/urls";
-import { PlusOutlined } from "@ant-design/icons";
+import { post } from "@/src/urls";
+import PlusOutlined from "@ant-design/icons/PlusOutlined";
 import { post_method } from "@/src/helpers/post_helper";
 
 /**
@@ -19,33 +19,21 @@ const Anotaciones = (props) => {
       width: "80px",
       dataIndex: "fecha_f",
       title: (
-        <span
-          style={{  fontWeight: "bold", color: "#000680" }}
-        >
-          Fecha
-        </span>
+        <span style={{ fontWeight: "bold", color: "#000680" }}>Fecha</span>
       ),
     },
     {
       width: "90px",
       dataIndex: "usuario",
       title: (
-        <span
-          style={{  fontWeight: "bold", color: "#000680" }}
-        >
-          Autor
-        </span>
+        <span style={{ fontWeight: "bold", color: "#000680" }}>Autor</span>
       ),
     },
     {
       width: "300px",
       dataIndex: "nota",
       title: (
-        <span
-          style={{  fontWeight: "bold", color: "#000680" }}
-        >
-          Mensaje
-        </span>
+        <span style={{ fontWeight: "bold", color: "#000680" }}>Mensaje</span>
       ),
     },
   ];
@@ -79,20 +67,17 @@ const Anotaciones = (props) => {
           backgroundColor: "#fafafa",
         }}
         size="small"
-        title={
-          <>
-            Anotaciones&nbsp;
-            
-          </>
+        title={<>Anotaciones&nbsp;</>}
+        extra={
+          <Button
+            onClick={() => {
+              setPopupAddOpen(true);
+            }}
+            type="primary"
+          >
+            <PlusOutlined size={"small"} /> Agregar
+          </Button>
         }
-        extra={<Button
-              onClick={() => {
-                setPopupAddOpen(true);
-              }}
-              type="primary"
-            >
-              <PlusOutlined size={"small"} /> Agregar
-            </Button>}
       >
         <Row>
           <Col span={24}>

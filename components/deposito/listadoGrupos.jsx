@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import GrupoForm from "../forms/GrupoForm";
 import EditarLoteGrupo from "./editarLoteGrupo";
 import SubFamiliaSelect from "../SubFamiliaSelect";
-import { PlusOutlined } from "@ant-design/icons";
+import  PlusOutlined from "@ant-design/icons/PlusOutlined";
 import EditarPreciosSubgruposForm from "../forms/deposito/EditarPreciosSubgruposForm";
 
 const ListadoGrupos = ( props ) => {

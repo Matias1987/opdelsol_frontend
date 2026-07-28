@@ -1,4 +1,4 @@
-import { get_barcode_from_id, get_barcode_from_id2 } from "@/src/helpers/barcode_helper";
+import { get_barcode_from_id2 } from "@/src/helpers/barcode_helper";
 import { get } from "@/src/urls";
 import { useEffect, useState } from "react";
 import Barcode from "react-barcode";

@@ -1,11 +1,11 @@
-import { get, post } from "@/src/urls"
-import { Button, Card, Col, Input, Modal, Row, Select, Spin } from "antd"
-import ModificarCantidadesEdicion from "./modificar_cantidades"
-import SelectCodigoVenta from "../forms/ventas/SelectCodigoVenta"
-import globals from "@/src/globals"
-import { useState } from "react"
-import InformeVentaMinV3 from "../informes/ventas/InformeVentasMinV3"
-import { InfoOutlined } from "@ant-design/icons"
+import { get, post } from "@/src/urls";
+import { Button, Card, Col, Input, Modal, Row, Select } from "antd";
+import ModificarCantidadesEdicion from "./modificar_cantidades";
+import SelectCodigoVenta from "../forms/ventas/SelectCodigoVenta";
+import globals from "@/src/globals";
+import { useState } from "react";
+import InformeVentaMinV3 from "../informes/ventas/InformeVentasMinV3";
+import  InfoOutlined from "@ant-design/icons/InfoOutlined";
 import { post_method } from "@/src/helpers/post_helper"
 
 

@@ -1,4 +1,3 @@
-import PrinterWrapper from "@/components/PrinterWrapper";
 import { post_method } from "@/src/helpers/post_helper";
 import { parse_int_string } from "@/src/helpers/string_helper";
 import { get, post } from "@/src/urls";
@@ -6,7 +5,6 @@ import {
   Button,
   Card,
   Col,
-  Divider,
   Input,
   Row,
   Select,
@@ -16,10 +14,8 @@ import {
 } from "antd";
 import { useEffect, useState } from "react";
 import VentasMedicos from "./ventas_medicos";
-import ExportToCSV from "@/components/ExportToCSV";
 import ExportToExcel2 from "@/components/etc/ExportToExcel2";
-import { InfoOutlined } from "@ant-design/icons";
-import SelectMedico from "@/components/forms/ventas/SelectMedico";
+import InfoOutlined from "@ant-design/icons/InfoOutlined";
 import { formatFloat } from "@/src/helpers/formatters";
 
 const ListaVentasMedicosTotales = (props) => {
@@ -57,7 +53,7 @@ const ListaVentasMedicosTotales = (props) => {
                     r.medico.toLowerCase().includes(searchValue.toLowerCase())
                       ? e.target.checked
                       : false,
-                }))
+                })),
               );
             }}
           />
@@ -72,8 +68,8 @@ const ListaVentasMedicosTotales = (props) => {
                 _ds.map((r) =>
                   r.idmedico == record.idmedico
                     ? { ...r, checked: !record.checked }
-                    : r
-                )
+                    : r,
+                ),
               )
             }
           />
@@ -165,7 +161,11 @@ const ListaVentasMedicosTotales = (props) => {
     {
       fixed: "right",
       width: "70px",
-      title: <div style={{fontWeight:"bold"}}>Tiene <span style={{whiteSpace:"nowrap"}}>Comisi&oacute;n</span></div>,
+      title: (
+        <div style={{ fontWeight: "bold" }}>
+          Tiene <span style={{ whiteSpace: "nowrap" }}>Comisi&oacute;n</span>
+        </div>
+      ),
       render: (_, record) => (
         <>
           <Checkbox
@@ -178,7 +178,7 @@ const ListaVentasMedicosTotales = (props) => {
                 (_) => {
                   //alert("klkl")
                   init_totales();
-                }
+                },
               );
               //setMedicos(mm=>mm.map(m=>m.idmedico == record.idmedico ? m : {...m, tiene_premio: !m.tiene_premio}))}
             }}
@@ -250,10 +250,10 @@ const ListaVentasMedicosTotales = (props) => {
               transferencia: r.transferencia,
               checked: false,
               tiene_premio: +r.pinned == 1,
-            }))
+            })),
           );
         }
-      }
+      },
     );
     setDataForExcelLoaded(false);
     post_method(
@@ -266,7 +266,7 @@ const ListaVentasMedicosTotales = (props) => {
         //alert(JSON.stringify(response));
         setDataForExcelLoaded(true);
         setDataForExcel(response.data);
-      }
+      },
     );
   };
 
@@ -404,7 +404,7 @@ const ListaVentasMedicosTotales = (props) => {
                       r.medico
                         .toLowerCase()
                         .includes(searchValue.toLowerCase()) &&
-                      (!verSoloConPremios || r.tiene_premio)
+                      (!verSoloConPremios || r.tiene_premio),
                   )}
                   pagination={false}
                   onRow={(record, index) => ({

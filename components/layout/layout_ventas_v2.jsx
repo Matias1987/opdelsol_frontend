@@ -1,13 +1,10 @@
 import { get, public_urls } from "@/src/urls";
 import useStorage from "@/useStorage";
-import { Alert, Layout, Row, Col, Input, Card, Button, Grid } from "antd";
+import { Alert, Layout, Row, Col, Grid } from "antd";
 import { useEffect, useState } from "react";
 import globals from "@/src/globals";
-import HeaderSol from "./header";
-import MenuV2 from "./menu_v2";
 import PopupResultadoBusqueda from "../precios/PopupResultadoBusqueda";
 import BarraResumenCaja from "../forms/caja/BarraResumenCaja";
-import { SearchOutlined } from "@ant-design/icons";
 import MenuVentasMobile from "./mobile_menu_ventas";
 import MenuV3 from "./menu_v3";
 const { useBreakpoint } = Grid;

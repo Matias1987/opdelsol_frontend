@@ -1,8 +1,7 @@
-import CustomModal from "@/components/CustomModal";
 import PrinterWrapper from "@/components/PrinterWrapper";
 import InformeEnvio from "@/components/informes/InformeEnvio";
 import { get } from "@/src/urls";
-import { InfoOutlined, SearchOutlined } from "@ant-design/icons";
+import  InfoOutlined from "@ant-design/icons/InfoOutlined";
 import { Button, Input, Modal, Spin, Table } from "antd";
 import { useEffect, useState } from "react";
 
@@ -15,8 +14,6 @@ const EnviosCodigos = (props) => {
   const [searchValue, setSearchValue] = useState("");
 
   useEffect(() => {
-    //get envios
-    //alert(url_envios + props.idcodigo)
     fetch(url_envios + props.idcodigo)
       .then((response) => response.json())
       .then((response) => {

@@ -1,10 +1,10 @@
-import { PlusOutlined } from "@ant-design/icons";
-import { Button, Card, Checkbox, Col, Modal, Row, Table } from "antd";
+import  PlusOutlined from "@ant-design/icons/PlusOutlined";
+import { Button, Card, Col, Modal, Row, Table } from "antd";
 import { useEffect, useState } from "react";
 import OpticaForm from "./opticaForm";
 import { get } from "@/src/urls";
 
-const ListaOpticas = (props) => {
+const ListaOpticas = () => {
     const [opticas, setOpticas] = useState([])
     const [popupAddOpen, setPopupAddOpen] = useState(false)
     const [reload, setReload] = useState(false)
@@ -13,14 +13,6 @@ const ListaOpticas = (props) => {
         {
             title:"Nombre", dataIndex:"nombre"
         },
-        /*{
-            render:(_,{idoptica, checked})=><Checkbox 
-            checked={checked}
-            onChange={(e)=>{
-                setOpticas(opts=>opts.map(o=>({...o, checked: o.idoptica== idoptica ? e.target.checked : false  })))
-                props?.callback?.(e.target.checked?idoptica:-1)
-            }} ></Checkbox>
-        }*/
     ]
 
     useEffect(()=>{

@@ -1,5 +1,5 @@
 import { get } from "@/src/urls";
-import { MinusOutlined } from "@ant-design/icons";
+import  MinusOutlined from "@ant-design/icons/MinusOutlined";
 import { Button, Col, Row, Table } from "antd";
 import { useEffect, useState } from "react";
 /**

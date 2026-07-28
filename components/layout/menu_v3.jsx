@@ -1,22 +1,18 @@
 import { Button, Col, Flex, Input, Menu, Modal } from "antd";
-import {
-  DollarOutlined,
-  DownOutlined,
-  LogoutOutlined,
-  MenuOutlined,
-  SearchOutlined,
-  UserOutlined,
-} from "@ant-design/icons";
-
+import DollarOutlined from "@ant-design/icons/DollarOutlined";
+import DownOutlined from "@ant-design/icons/DownOutlined";
+import LogoutOutlined from "@ant-design/icons/LogoutOutlined";
+import MenuOutlined from "@ant-design/icons/MenuOutlined";
+import SearchOutlined from "@ant-design/icons/SearchOutlined";
+import UserOutlined from "@ant-design/icons/UserOutlined";
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { get, public_urls } from "@/src/urls";
+import { public_urls } from "@/src/urls";
 import globals from "@/src/globals";
 import ListaPreciosV3 from "../lista_precios/listaPreciosV3";
 import { idf_optica, lista_precios_visible } from "@/src/config";
 import BuscarVentaV3 from "../forms/ventas/BuscarVentasV3";
 import ListaPreciosV4 from "../lista_precios/listaPreciosV4";
-import { getItem } from "localforage";
 import SucursalLabel from "../sucursal_label";
 
 export default function MenuV3(props) {
@@ -25,7 +21,6 @@ export default function MenuV3(props) {
   const [itemsMenu, setItemsMenu] = useState([]);
   const [lpOpen, setLPOpen] = useState(false);
   const [buscarVentaOpen, setBuscarVentaOpen] = useState(false);
-  const [sucursal, setSucursal] = useState("");
   const [usuario, setUsuario] = useState("");
   const _menu_deposito_min = {
     label: "Depósito",
@@ -149,7 +144,10 @@ export default function MenuV3(props) {
         key: "100",
         label: (
           <Menu.Item>
-            <Link style={{ color: "#1e3474" }} href={public_urls.ventas_ingresadas}>
+            <Link
+              style={{ color: "#1e3474" }}
+              href={public_urls.ventas_ingresadas}
+            >
               Operaciones Ingresadas{" "}
             </Link>
           </Menu.Item>
@@ -379,7 +377,10 @@ export default function MenuV3(props) {
       <Flex
         justify="space-between"
         align="center"
-        style={{backgroundColor:"#E7E9EB", border:"1px solid rgb(136, 136, 136)"}}
+        style={{
+          backgroundColor: "#E7E9EB",
+          border: "1px solid rgb(136, 136, 136)",
+        }}
       >
         <Menu
           onClick={onClick}
@@ -389,7 +390,11 @@ export default function MenuV3(props) {
         />
 
         <Input
-          style={{ width: "350px", backgroundColor:"#E7E9EB", border:"1px solid rgb(136, 136, 136)" }}
+          style={{
+            width: "350px",
+            backgroundColor: "#E7E9EB",
+            border: "1px solid rgb(136, 136, 136)",
+          }}
           prefix={<div style={{ fontWeight: "600" }}>Búsqueda:</div>}
           allowClear
           addonAfter={
@@ -428,7 +433,7 @@ export default function MenuV3(props) {
             </div>
           </Button>*/}
           <Menu
-            style={{width:"250px"}}
+            style={{ width: "250px" }}
             mode="horizontal"
             items={[
               {

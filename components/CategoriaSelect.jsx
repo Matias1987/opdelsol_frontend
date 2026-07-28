@@ -1,4 +1,4 @@
-import { CloseCircleFilled, CloseOutlined } from "@ant-design/icons"
+import CloseOutlined from "@ant-design/icons/CloseOutlined"
 import { Button, Col, Row, Select } from "antd"
 import { useState } from "react"
 import FamiliaSelect from "./FamiliaSelect"

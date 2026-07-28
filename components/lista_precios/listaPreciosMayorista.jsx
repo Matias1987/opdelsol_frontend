@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
-import ListaPreciosCodigos from "./listaPreciosCodigos";
-import { Button, Col, Divider, Modal, Row, Table } from "antd";
+import { Button, Col, Modal, Row, Table } from "antd";
 import SubGrupoFormV3 from "../forms/deposito/SubgrupoFormV3";
-import CodeExample from "../etc/codeExample";
-import { EditFilled } from "@ant-design/icons";
+import EditFilled from "@ant-design/icons/EditFilled";
 import { get } from "@/src/urls";
 import { formatFloat } from "@/src/helpers/formatters";
 
@@ -15,8 +13,15 @@ const ListaPreciosMayorista = (_) => {
   const [loading, setLoading] = useState(false);
 
   const columns = [
-    { title: "Nombre", render:(_,{nombre_corto})=><>{nombre_corto}</> },
-    { title: <div style={{textAlign:"right"}}>Precio</div> , render:(_,{precio_mayorista})=><div style={{textAlign:"right"}}>$ { formatFloat( precio_mayorista)}</div> },
+    { title: "Nombre", render: (_, { nombre_corto }) => <>{nombre_corto}</> },
+    {
+      title: <div style={{ textAlign: "right" }}>Precio</div>,
+      render: (_, { precio_mayorista }) => (
+        <div style={{ textAlign: "right" }}>
+          $ {formatFloat(precio_mayorista)}
+        </div>
+      ),
+    },
     {
       title: "Acciones",
       render: (_, record) => (
@@ -24,7 +29,7 @@ const ListaPreciosMayorista = (_) => {
           <Button
             onClick={(_) => {
               setSelectedSubgrupo(record);
-              setPopupDetalleOpen(true)
+              setPopupDetalleOpen(true);
             }}
           >
             <EditFilled />
@@ -34,7 +39,7 @@ const ListaPreciosMayorista = (_) => {
     },
   ];
 
-  const load = () =>{
+  const load = () => {
     setLoading(true);
     fetch(get.listado_subgrupos_filtros + `-1/-1/-1/${19}`)
       .then((r) => r.json())
@@ -49,16 +54,21 @@ const ListaPreciosMayorista = (_) => {
             ruta: row.ruta,
             precio_mayorista: row.precio_defecto_mayorista,
             checked: false,
-          }))
+          })),
         );
         setLoading(false);
       })
       .catch((e) => {
         "error";
       });
-  }
+  };
 
-  useEffect((_) => {load()}, [reload]);
+  useEffect(
+    (_) => {
+      load();
+    },
+    [reload],
+  );
 
   return (
     <>
@@ -98,7 +108,6 @@ const ListaPreciosMayorista = (_) => {
             idsubgrupo={selectedSubgrupo.idsubgrupo}
             title={"Detalle Subgrupo " + selectedSubgrupo.nombre_corto}
           />
-  
         </div>
       </Modal>
     </>

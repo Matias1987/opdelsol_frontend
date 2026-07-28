@@ -1,14 +1,13 @@
 import ListaVentasSucursalPeriodo from "@/components/admin/ListaVentasSucursalPeriodo";
 import { post_method } from "@/src/helpers/post_helper";
-import { get, post } from "@/src/urls";
-import { InfoCircleOutlined } from "@ant-design/icons";
-
+import { post } from "@/src/urls";
+import InfoCircleOutlined from "@ant-design/icons/InfoCircleOutlined";
 import { Table, Button, Modal, Card } from "antd";
 import { useEffect, useState } from "react";
 import FiltrosInforme from "./FiltrosInforme";
 import { formatFloat } from "@/src/helpers/formatters";
 
-const VentasSucursales = (props) => {
+const VentasSucursales = () => {
   const [filtros, setFiltros] = useState({
     mes: 1,
     anio: 2023,
@@ -55,13 +54,18 @@ const VentasSucursales = (props) => {
         );
       },
     },
-    { width: "100px", dataIndex: "sucursal", title: "sucursal", sorter: (a, b) => a.sucursal.localeCompare(b.sucursal) },
+    {
+      width: "100px",
+      dataIndex: "sucursal",
+      title: "sucursal",
+      sorter: (a, b) => a.sucursal.localeCompare(b.sucursal),
+    },
     {
       width: "100px",
       dataIndex: "cantidad_ventas",
       title: <div style={{ textAlign: "right" }}>Cantidad</div>,
       render: (_, { cantidad_ventas }) => (
-        <div style={{textAlign:"right"}}>{(cantidad_ventas)}</div>
+        <div style={{ textAlign: "right" }}>{cantidad_ventas}</div>
       ),
       sorter: (a, b) => +a.cantidad_ventas - +b.cantidad_ventas,
     },
@@ -109,15 +113,13 @@ const VentasSucursales = (props) => {
       width: "100px",
       dataIndex: "Mp",
       title: <div style={{ textAlign: "right" }}>mp</div>,
-      render: (_, { mp }) => (
-        <div style={money_style}>{formatFloat(mp)}</div>
-      ),
+      render: (_, { mp }) => <div style={money_style}>{formatFloat(mp)}</div>,
     },
     {
       fixed: "right",
       width: "120px",
       dataIndex: "Total",
-      sorter: (a,b)=>parseFloat(a.total)-parseFloat(b.total) ,
+      sorter: (a, b) => parseFloat(a.total) - parseFloat(b.total),
       title: <div style={{ textAlign: "right" }}>total</div>,
       render: (_, { total }) => (
         <div style={{ ...money_style, fontWeight: "bold" }}>
@@ -128,7 +130,6 @@ const VentasSucursales = (props) => {
   ];
 
   const load = (_) => {
-   
     post_method(post.totales_venta_sucursal, filtros, (response) => {
       setDatasourceSucursal(
         response.data.map((r) => ({
@@ -142,7 +143,7 @@ const VentasSucursales = (props) => {
           mp: r.mp,
           total: r.total,
           cantidad_ventas: r.cantidad_ventas,
-        }))
+        })),
       );
     });
   };
@@ -153,12 +154,22 @@ const VentasSucursales = (props) => {
 
   return (
     <>
-    
-      <Card  size="small">
-        <FiltrosInforme callback={(newFilters) => { setFiltros(newFilters); setActualizar(!actualizar); }} />
+      <Card size="small">
+        <FiltrosInforme
+          callback={(newFilters) => {
+            setFiltros(newFilters);
+            setActualizar(!actualizar);
+          }}
+        />
 
         <Table
-          title={_=><>{ dataSourceSucursal.length<1 ? "" : `Ventas por sucursal del período ${filtros.mes}/${filtros.anio}`}</>}
+          title={(_) => (
+            <>
+              {dataSourceSucursal.length < 1
+                ? ""
+                : `Ventas por sucursal del período ${filtros.mes}/${filtros.anio}`}
+            </>
+          )}
           size="small"
           rowClassName={(record, index) =>
             index % 2 === 0 ? "table-row-light" : "table-row-dark"

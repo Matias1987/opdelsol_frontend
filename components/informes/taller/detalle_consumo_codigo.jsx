@@ -2,8 +2,7 @@ import { Button, Col, Row, Table, Modal } from "antd";
 import { post_method } from "@/src/helpers/post_helper";
 import { post } from "@/src/urls";
 import { useEffect, useState } from "react";
-import { InfoCircleTwoTone } from "@ant-design/icons";
-import InformeVentaV2 from "../ventas/InformeVentaV2";
+import InfoCircleTwoTone from "@ant-design/icons/InfoCircleTwoTone";
 import InformeVenta from "../ventas/Base";
 import DetalleCodigoHeader from "@/components/forms/DetalleCodigoHeader";
 
@@ -19,7 +18,25 @@ const DetalleConsumoCodigo = ({
   const [modalOpen, setModalOpen] = useState(false);
 
   const columns = [
-    { title: "Nro Venta", dataIndex: "idventa", key: "idventa", render:(_,{idventa})=><><Button type="link" onClick={_=>{setSelectedId(idventa); setModalOpen(true)}}> {idventa} <InfoCircleTwoTone /> </Button></> },
+    {
+      title: "Nro Venta",
+      dataIndex: "idventa",
+      key: "idventa",
+      render: (_, { idventa }) => (
+        <>
+          <Button
+            type="link"
+            onClick={(_) => {
+              setSelectedId(idventa);
+              setModalOpen(true);
+            }}
+          >
+            {" "}
+            {idventa} <InfoCircleTwoTone />{" "}
+          </Button>
+        </>
+      ),
+    },
     { title: "Sucursal", dataIndex: "sucursal", key: "sucursal" },
     { title: "Fecha Retiro", dataIndex: "fecha_retiro", key: "fecha_retiro" },
     { title: "Código", dataIndex: "codigo" },
@@ -34,7 +51,7 @@ const DetalleConsumoCodigo = ({
         console.log(response.data);
         setData(response.data);
         setLoading(false);
-      }
+      },
     );
   };
 
@@ -46,7 +63,12 @@ const DetalleConsumoCodigo = ({
     <>
       <Row>
         <Col span={24}>
-          <DetalleCodigoHeader idcodigo={idcodigo} size={"small"} hideImage hidePrice />
+          <DetalleCodigoHeader
+            idcodigo={idcodigo}
+            size={"small"}
+            hideImage
+            hidePrice
+          />
         </Col>
       </Row>
       <Row>
@@ -64,7 +86,15 @@ const DetalleConsumoCodigo = ({
       <Row>
         <Col span={24}>Cant. Total: {data.length}</Col>
       </Row>
-      <Modal open={modalOpen} onCancel={_=>{setModalOpen(false)}} destroyOnClose width={"1100px"} footer={null}>
+      <Modal
+        open={modalOpen}
+        onCancel={(_) => {
+          setModalOpen(false);
+        }}
+        destroyOnClose
+        width={"1100px"}
+        footer={null}
+      >
         <InformeVenta idventa={selectedId} />
       </Modal>
     </>

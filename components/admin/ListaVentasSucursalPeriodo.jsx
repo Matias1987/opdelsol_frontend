@@ -1,6 +1,6 @@
 import { post_method } from "@/src/helpers/post_helper";
 import { post } from "@/src/urls";
-import { InfoCircleFilled } from "@ant-design/icons";
+import InfoCircleFilled from "@ant-design/icons/InfoCircleFilled";
 import { Button, Col, Modal, Row, Table } from "antd";
 import InformeVentaMinV3 from "../informes/ventas/InformeVentasMinV3";
 import { formatFloat } from "@/src/helpers/formatters";
@@ -15,7 +15,11 @@ const ListaVentasSucursalPeriodo = (props) => {
   const [popupOpen, setPopupOpen] = useState(false);
 
   const columns = [
-    { dataIndex: "idventa", title: "Nro.", sorter:(a,b)=>+a.idventa-+b.idventa, },
+    {
+      dataIndex: "idventa",
+      title: "Nro.",
+      sorter: (a, b) => +a.idventa - +b.idventa,
+    },
     {
       dataIndex: "fecha_retiro_f",
       title: "Fecha Retiro",
@@ -24,9 +28,24 @@ const ListaVentasSucursalPeriodo = (props) => {
         return new Date(a.fecha_retiro_f1) - new Date(b.fecha_retiro_f1);
       },
     },
-    { dataIndex: "cliente", title: "Cliente", sorter: (a, b) => a.cliente.localeCompare(b.name), },
-    { dataIndex: "vendedor", title: "Vendedor", sorter: (a, b) => a.vendedor.localeCompare(b.name), },
-    { dataIndex: "monto", title: "Monto" , sorter:(a,b)=>+a.monto-+b.monto, render:(_,record)=><div style={{textAlign:"right"}}>{formatFloat(record.monto)}</div>},
+    {
+      dataIndex: "cliente",
+      title: "Cliente",
+      sorter: (a, b) => a.cliente.localeCompare(b.name),
+    },
+    {
+      dataIndex: "vendedor",
+      title: "Vendedor",
+      sorter: (a, b) => a.vendedor.localeCompare(b.name),
+    },
+    {
+      dataIndex: "monto",
+      title: "Monto",
+      sorter: (a, b) => +a.monto - +b.monto,
+      render: (_, record) => (
+        <div style={{ textAlign: "right" }}>{formatFloat(record.monto)}</div>
+      ),
+    },
     {
       render: (_, { idventa }) => (
         <>
@@ -64,9 +83,9 @@ const ListaVentasSucursalPeriodo = (props) => {
           cant_total: response.data.length,
           monto_total: _monto_total,
         }));
-       
+
         setVentas(response.data);
-      }
+      },
     );
   };
 
@@ -81,7 +100,8 @@ const ListaVentasSucursalPeriodo = (props) => {
 
   const html_totales = (_) => (
     <span style={{ fontWeight: "bold" }}>
-      Cant Total: {totales.cant_total} Monto total: ${ formatFloat(totales.monto_total)}
+      Cant Total: {totales.cant_total} Monto total: $
+      {formatFloat(totales.monto_total)}
     </span>
   );
 

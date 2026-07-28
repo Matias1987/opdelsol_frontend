@@ -1,7 +1,7 @@
 import { post_method } from "@/src/helpers/post_helper";
 import { get, post } from "@/src/urls";
-import { CloseOutlined } from "@ant-design/icons";
-import { Button, Input, Modal, Select, Spin, Table } from "antd";
+import CloseOutlined from "@ant-design/icons/CloseOutlined";
+import { Button, Input, Modal, Spin, Table } from "antd";
 import { useEffect, useState } from "react";
 
 const SelectDisenioV2 = ({ idgrupo, callback, style, idcliente }) => {
@@ -54,7 +54,7 @@ const SelectDisenioV2 = ({ idgrupo, callback, style, idcliente }) => {
       .then((res) => res.json())
       .then((res) => {
         const options = res.data.map((sg) => ({
-          label: sg.grupo + " / " +  sg.nombre_corto,
+          label: sg.grupo + " / " + sg.nombre_corto,
           value: sg.idsubgrupo,
           precio: sg.precio_defecto_mayorista,
         }));
@@ -99,7 +99,12 @@ const SelectDisenioV2 = ({ idgrupo, callback, style, idcliente }) => {
       <>
         {selection ? (
           <div
-            style={{ paddingLeft: "16px", paddingRight: "16px" ,  fontWeight: "600", color: "#460000" }}
+            style={{
+              paddingLeft: "16px",
+              paddingRight: "16px",
+              fontWeight: "600",
+              color: "#460000",
+            }}
           >
             {selection.label.toUpperCase().replace(/_/g, " ")}{" "}
             <Button
@@ -144,7 +149,7 @@ const SelectDisenioV2 = ({ idgrupo, callback, style, idcliente }) => {
           <Table
             scroll={{ y: 400 }}
             dataSource={
-              (searchString??"").length > 0
+              (searchString ?? "").length > 0
                 ? data.filter((r) =>
                     r.label.toUpperCase().includes(searchString.toUpperCase()),
                   )

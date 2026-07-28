@@ -13,7 +13,9 @@ import {
   Checkbox,
 } from "antd";
 import { useState, useEffect } from "react";
-import { CloseOutlined, InfoOutlined, PlusOutlined } from "@ant-design/icons";
+import CloseOutlined from "@ant-design/icons/CloseOutlined";
+import InfoOutlined from "@ant-design/icons/InfoOutlined";
+import PlusOutlined from "@ant-design/icons/PlusOutlined";
 import ExportToCSV from "@/components/ExportToCSV";
 import ListaProveedores from "../proveedor/ListaProveedores";
 import { post_method } from "@/src/helpers/post_helper";
@@ -42,17 +44,40 @@ const ListaFacturas = (props) => {
   const [popupAddFacturaOpen, setPopupAddFacturaOpen] = useState(false);
   const [popupAddRemitoOpen, setPopupAddRemitoOpen] = useState(false);
   const columns = [
-    { title: <div style={{ textAlign: "center" }}>Nro.</div>, dataIndex: "numero", key: "numero", sorter: (a, b) => a.numero - b.numero },
-    { title: "Fecha", dataIndex: "fecha", key: "fecha", sorter: (a, b) => new Date(a.fecha) - new Date(b.fecha) },
-    { title: "Proveedor", dataIndex: "proveedor", key: "proveedor", sorter: (a, b) => a.proveedor.localeCompare(b.proveedor) },
-    { title: "Cantidad", dataIndex: "cantidad", key: "cantidad", sorter: (a, b) => a.cantidad - b.cantidad, hidden:true },
+    {
+      title: <div style={{ textAlign: "center" }}>Nro.</div>,
+      dataIndex: "numero",
+      key: "numero",
+      sorter: (a, b) => a.numero - b.numero,
+    },
+    {
+      title: "Fecha",
+      dataIndex: "fecha",
+      key: "fecha",
+      sorter: (a, b) => new Date(a.fecha) - new Date(b.fecha),
+    },
+    {
+      title: "Proveedor",
+      dataIndex: "proveedor",
+      key: "proveedor",
+      sorter: (a, b) => a.proveedor.localeCompare(b.proveedor),
+    },
+    {
+      title: "Cantidad",
+      dataIndex: "cantidad",
+      key: "cantidad",
+      sorter: (a, b) => a.cantidad - b.cantidad,
+      hidden: true,
+    },
     {
       sorter: (a, b) => a.monto - b.monto,
       title: <div style={{ textAlign: "right" }}>Monto</div>,
       dataIndex: "monto",
       key: "monto",
       render: (_, { monto }) => (
-        <div style={{ textAlign: "right", width: "100%" }}>$&nbsp;{ formatFloat(monto)}</div>
+        <div style={{ textAlign: "right", width: "100%" }}>
+          $&nbsp;{formatFloat(monto)}
+        </div>
       ),
     },
     {
@@ -112,7 +137,7 @@ const ListaFacturas = (props) => {
           cantidad: r.cantidad,
           monto: r.monto,
           fecha: r.fecha_f, //<---TODO
-        }))
+        })),
       );
     });
 
@@ -262,11 +287,31 @@ const ListaFacturas = (props) => {
   return (
     <>
       <Card
-        extra={<>
-        <Button style={{borderRadius:"16px"}} type="primary" size="small" onClick={_=>{setPopupAddFacturaOpen(true)}}><PlusOutlined /> Agregar Factura</Button>
-        &nbsp;&nbsp;
-        <Button style={{borderRadius:"16px"}} type="primary" size="small" onClick={_=>{setPopupAddRemitoOpen(true)}}><PlusOutlined /> Agregar Remito</Button>
-        </>}
+        extra={
+          <>
+            <Button
+              style={{ borderRadius: "16px" }}
+              type="primary"
+              size="small"
+              onClick={(_) => {
+                setPopupAddFacturaOpen(true);
+              }}
+            >
+              <PlusOutlined /> Agregar Factura
+            </Button>
+            &nbsp;&nbsp;
+            <Button
+              style={{ borderRadius: "16px" }}
+              type="primary"
+              size="small"
+              onClick={(_) => {
+                setPopupAddRemitoOpen(true);
+              }}
+            >
+              <PlusOutlined /> Agregar Remito
+            </Button>
+          </>
+        }
         size="small"
         title={
           <>

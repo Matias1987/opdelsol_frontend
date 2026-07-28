@@ -1,5 +1,5 @@
 import { get } from "@/src/urls"
-import { DeleteFilled } from "@ant-design/icons"
+import  DeleteFilled  from "@ant-design/icons/DeleteFilled"
 import { Button, Col, Row } from "antd"
 import { useState } from "react"
 import LoadSelect from "./LoadSelect"

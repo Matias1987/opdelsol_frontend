@@ -1,6 +1,6 @@
 import SelectCliente from "@/components/forms/ventas/SelectCliente";
 import globals from "@/src/globals";
-import { cambiar_vendedor, cobro_inmediato, use_owner_id } from "@/src/config";
+import { cambiar_vendedor, cobro_inmediato } from "@/src/config";
 import {
   Button,
   Card,
@@ -16,7 +16,7 @@ import esES from "antd/locale/es_ES";
 import { useState } from "react";
 import SelectVendedor from "@/components/usuario/vendedor/SelectVendedor";
 import { public_urls } from "@/src/urls";
-import { CloseOutlined } from "@ant-design/icons";
+import CloseOutlined from "@ant-design/icons/CloseOutlined";
 import dayjs from "dayjs";
 
 /* leer: https://refine.dev/blog/common-usestate-mistakes-and-how-to-avoid/ */
@@ -150,15 +150,15 @@ export default function Trabajo(props) {
         <Row style={{ padding: "6px" }}>
           <Col span={24}>
             <Button
-                style={{ borderRadius: "16px" }}
-                size="large"
-                disabled={!btnEnabled}
-                type="primary"
-                block
-                onClick={finalizar_venta}
-              >
-                Imprimir Trabajo
-              </Button>
+              style={{ borderRadius: "16px" }}
+              size="large"
+              disabled={!btnEnabled}
+              type="primary"
+              block
+              onClick={finalizar_venta}
+            >
+              Imprimir Trabajo
+            </Button>
           </Col>
         </Row>
       </Card>

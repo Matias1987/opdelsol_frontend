@@ -1,17 +1,16 @@
-import React, { useState } from 'react';
+
 import { Layout} from 'antd';
 import TestMenu from './menu_test';
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import useStorage from "../../useStorage";
 import { get, public_urls } from '@/src/urls';
 import globals from '@/src/globals';
 import HeaderSol from './header';
 import MenuV2 from './menu_v2';
+import { Content } from 'antd/es/layout/layout';
 
 
 export default function MyLayout(props){
-    const { Sider, Content } = Layout;
-    const [collapsed, setCollapsed] = useState(false);
     const [uDepositoMin, setUDepositoMin] = useState(false)
     const [uDeposito, setUDeposito] = useState(false)
     const { getItem } = useStorage();

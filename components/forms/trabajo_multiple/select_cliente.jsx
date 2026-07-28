@@ -1,11 +1,9 @@
 import CustomModal from "@/components/CustomModal";
 import { Button, Col, Input, Modal, Row, Spin, Table } from "antd";
 import { useEffect, useState } from "react";
-import {
-  CloseOutlined,
-  PlusOutlined,
-  UserOutlined,
-} from "@ant-design/icons";
+import CloseOutlined from "@ant-design/icons/CloseOutlined";
+import PlusOutlined from "@ant-design/icons/PlusOutlined";
+import UserOutlined from "@ant-design/icons/UserOutlined";
 import { get } from "@/src/urls";
 import ClienteFormDistrib from "@/components/cliente/ClienteFormDistrib";
 import MostrarDNI from "@/components/etc/MostrarDNI";
@@ -174,8 +172,7 @@ const SelectClienteMayorista = (props) => {
         <Col span={24}>
           <CustomModal
             block
-            btnStyle={{ border: "1px dotted #fceae8", padding:"8px" }}
-
+            btnStyle={{ border: "1px dotted #fceae8", padding: "8px" }}
             onOpen={onOpenPopup}
             openButtonText={
               <div

@@ -1,23 +1,36 @@
 import InformeVenta from "@/components/informes/ventas/Base";
 import PrinterWrapper from "@/components/PrinterWrapper";
-import { PrinterFilled } from "@ant-design/icons";
+import PrinterFilled from "@ant-design/icons/PrinterFilled";
+
 import { Button, Modal } from "antd";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
+export default function ImprimirSobreVenta(props) {
+  const [open, setOpen] = useState(false);
 
-export default function ImprimirSobreVenta(props){
-    const [open, setOpen] = useState(false)
-
-    return (
-        <>
-            <Button type="link" onClick={()=>{setOpen(true)}}><PrinterFilled /></Button>
-            <Modal width={"80%"} open={open} onCancel={()=>{setOpen(false)}} footer={null} title={"Detalle Venta"}>
-                <PrinterWrapper>
-                    <InformeVenta idventa={props.idventa} />
-                </PrinterWrapper>
-            </Modal>
-        </>)
+  return (
+    <>
+      <Button
+        type="link"
+        onClick={() => {
+          setOpen(true);
+        }}
+      >
+        <PrinterFilled />
+      </Button>
+      <Modal
+        width={"80%"}
+        open={open}
+        onCancel={() => {
+          setOpen(false);
+        }}
+        footer={null}
+        title={"Detalle Venta"}
+      >
+        <PrinterWrapper>
+          <InformeVenta idventa={props.idventa} />
+        </PrinterWrapper>
+      </Modal>
+    </>
+  );
 }
-
-

@@ -2,9 +2,8 @@ import { post_method } from "@/src/helpers/post_helper";
 import { post } from "@/src/urls";
 import { Button, Col, Modal, Row, Table } from "antd";
 import { useEffect, useState } from "react";
-import InformeVenta from "./Base";
 import InformeVentaMinV3 from "./InformeVentasMinV3";
-import { InfoCircleFilled, InfoOutlined } from "@ant-design/icons";
+import InfoCircleFilled from "@ant-design/icons/InfoCircleFilled";
 import { formatFloat } from "@/src/helpers/formatters";
 
 const ListaVentasVendedor = ({ idvendedor, idsucursal, mes, anio }) => {
@@ -13,11 +12,28 @@ const ListaVentasVendedor = ({ idvendedor, idsucursal, mes, anio }) => {
   const [selectedVenta, setSelectedVenta] = useState(null);
 
   const columns = [
-    { width:"100px", title: "Nro. Venta", dataIndex: "idventa", key: "idventa", sorter: (a, b) => +a.idventa - +b.idventa },
-    { width:"100px", title: "Fecha Retiro", dataIndex: "fecha_retiro", key: "fecha_retiro" },
-    { width:"200px", title: "Cliente", dataIndex: "cliente", key: "cliente", sorter: (a, b) => a.cliente.localeCompare(b.cliente) },
     {
-      width:"100px",
+      width: "100px",
+      title: "Nro. Venta",
+      dataIndex: "idventa",
+      key: "idventa",
+      sorter: (a, b) => +a.idventa - +b.idventa,
+    },
+    {
+      width: "100px",
+      title: "Fecha Retiro",
+      dataIndex: "fecha_retiro",
+      key: "fecha_retiro",
+    },
+    {
+      width: "200px",
+      title: "Cliente",
+      dataIndex: "cliente",
+      key: "cliente",
+      sorter: (a, b) => a.cliente.localeCompare(b.cliente),
+    },
+    {
+      width: "100px",
       title: <div style={{ textAlign: "right" }}>Monto</div>,
       dataIndex: "monto_total",
       key: "monto_total",
@@ -27,7 +43,7 @@ const ListaVentasVendedor = ({ idvendedor, idsucursal, mes, anio }) => {
       sorter: (a, b) => +a.monto_total - +b.monto_total,
     },
     {
-      width:"100px",
+      width: "100px",
       render: (_, record) => {
         return (
           <Button

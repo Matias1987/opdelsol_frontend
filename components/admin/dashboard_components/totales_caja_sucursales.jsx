@@ -1,13 +1,8 @@
 import { post_method } from "@/src/helpers/post_helper";
 import InformeCajaV3 from "@/components/informes/caja/InformeCajaV3";
 import { post } from "@/src/urls";
-import {
-  DollarOutlined,
-  EyeFilled,
-  InfoCircleOutlined,
-  InfoOutlined,
-  ReloadOutlined,
-} from "@ant-design/icons";
+import ReloadOutlined from "@ant-design/icons/ReloadOutlined";
+import DollarOutlined from "@ant-design/icons/DollarOutlined";
 import { Button, Card, Col, Modal, Row, Statistic } from "antd";
 import { useEffect, useState } from "react";
 
@@ -73,7 +68,6 @@ const TotalesCajasSucursales = ({ style = "green" }) => {
       post.obtener_cajas_fecha,
       { fecha: new Date().toISOString().slice(0, 10) },
       (response) => {
-       
         if (response.data.status == "error") return;
         setCajas(response.data || []);
       },
@@ -118,7 +112,9 @@ const TotalesCajasSucursales = ({ style = "green" }) => {
     </Col>
   );
 
-  return ( cajas.length == 0 ? <>Sin datos.</> :
+  return cajas.length == 0 ? (
+    <>Sin datos.</>
+  ) : (
     <>
       <Card
         style={{ boxShadow: "0px 5px 15px #888888" }}
@@ -126,7 +122,13 @@ const TotalesCajasSucursales = ({ style = "green" }) => {
         size="small"
         extra={
           <>
-            <Button type="link" size="small" onClick={_=>{setReload(!reload)}}>
+            <Button
+              type="link"
+              size="small"
+              onClick={(_) => {
+                setReload(!reload);
+              }}
+            >
               <ReloadOutlined />
             </Button>
           </>

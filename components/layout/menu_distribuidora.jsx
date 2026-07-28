@@ -1,11 +1,10 @@
-import {
-  BoxPlotOutlined,
-  HomeFilled,
-  LogoutOutlined,
-  StarOutlined,
-  UnorderedListOutlined,
-  UserOutlined,
-} from "@ant-design/icons";
+import BoxPlotOutlined from "@ant-design/icons/BoxPlotOutlined";
+import HomeFilled from "@ant-design/icons/HomeFilled";
+import LogoutOutlined from "@ant-design/icons/LogoutOutlined";
+import StarOutlined from "@ant-design/icons/StarOutlined";
+import UnorderedListOutlined from "@ant-design/icons/UnorderedListOutlined";
+import UserOutlined from "@ant-design/icons/UserOutlined";
+
 import { Button, Flex, Menu } from "antd";
 import { useState } from "react";
 import Link from "next/link";
@@ -14,52 +13,49 @@ import globals from "@/src/globals";
 import { getItem } from "localforage";
 import SucursalLabel from "../sucursal_label";
 
-
-export default function MenuDistribuidora({onNuevaVentaClick}) {
+export default function MenuDistribuidora({ onNuevaVentaClick }) {
   const [current, setCurrent] = useState("9");
   const items = [
-  {
-    label: (
-      <Link href={public_urls.dashboard_distribuidora}>
-        <HomeFilled /> Inicio
-      </Link>
-    ),
-    key: "9",
-  },
-  
-  {
-    label: (
-      <Link href={public_urls.lista_operaciones_distribuidora}>
-        Lista de Operaciones
-      </Link>
-    ),
-    key: "11",
-    icon: <UnorderedListOutlined />,
-  },
-  {
-    label: (
-      <Link href={public_urls.lista_clientes_distribuidora}>Clientes</Link>
-    ),
-    key: "12",
-    icon: <UserOutlined />,
-  },
-  {
-    label: (
-      <Link href={public_urls.productos_distribuidora}>Productos</Link>
-    ),
-    key: "13",
-    icon: <BoxPlotOutlined />,
-  },
+    {
+      label: (
+        <Link href={public_urls.dashboard_distribuidora}>
+          <HomeFilled /> Inicio
+        </Link>
+      ),
+      key: "9",
+    },
 
-  {
-    label: (
-      <Button onClick={onNuevaVentaClick}>
-        <StarOutlined /> Nueva Operaci&oacute;n
-      </Button>
-    ),
-    key: "10",
-  },
-];
+    {
+      label: (
+        <Link href={public_urls.lista_operaciones_distribuidora}>
+          Lista de Operaciones
+        </Link>
+      ),
+      key: "11",
+      icon: <UnorderedListOutlined />,
+    },
+    {
+      label: (
+        <Link href={public_urls.lista_clientes_distribuidora}>Clientes</Link>
+      ),
+      key: "12",
+      icon: <UserOutlined />,
+    },
+    {
+      label: <Link href={public_urls.productos_distribuidora}>Productos</Link>,
+      key: "13",
+      icon: <BoxPlotOutlined />,
+    },
+
+    {
+      label: (
+        <Button onClick={onNuevaVentaClick}>
+          <StarOutlined /> Nueva Operaci&oacute;n
+        </Button>
+      ),
+      key: "10",
+    },
+  ];
   const onClick = (e) => {
     setCurrent(e.key);
   };
@@ -70,10 +66,14 @@ export default function MenuDistribuidora({onNuevaVentaClick}) {
       align="center"
     >
       <div
-        style={{ marginRight: "24px", display: "flex", alignItems: "center", color:"white" }}
+        style={{
+          marginRight: "24px",
+          display: "flex",
+          alignItems: "center",
+          color: "white",
+        }}
       >
         Universal Lens
-        
       </div>
       <Menu
         style={{ width: "650px" }}

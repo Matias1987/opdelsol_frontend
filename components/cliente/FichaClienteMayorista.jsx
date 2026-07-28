@@ -1,10 +1,9 @@
-import { get, post } from "@/src/urls";
+import { get } from "@/src/urls";
 import {
   Button,
   Checkbox,
   Col,
   DatePicker,
-  Divider,
   Input,
   Modal,
   Row,
@@ -25,13 +24,12 @@ import { formatFloat } from "@/src/helpers/formatters";
 import esES from "antd/locale/es_ES";
 import dayjs from "dayjs";
 import ImpresionResumen from "./ImpresionResumen";
-import { InfoCircleOutlined, PrinterOutlined } from "@ant-design/icons";
+import PrinterOutlined from "@ant-design/icons/PrinterOutlined";
 import ClienteDescuentos from "./descuentos/clienteDescuentos";
 
 export default function FichaClienteMayorista(props) {
   const [operaciones, setOperaciones] = useState([]);
   const [dataCliente, setDataCliente] = useState(null);
-  //const [dataChange, setDataChange] = useState(true)
   const [scrollChange, setScrollChange] = useState(false);
   const [saldo, setSaldo] = useState(0);
   const [filtrarSucursal, setFiltrarSucursal] = useState(false);
@@ -42,37 +40,6 @@ export default function FichaClienteMayorista(props) {
   const [fechaFiltro, setFechaFiltro] = useState(null);
   const [modalInformeVisible, setModalInformeVisible] = useState(false);
   const dummyref = useRef(null);
-
-  const gridRow = {
-    display: "grid",
-    gridAutoFlow: "column" /* Force items into columns */,
-    overflowX: "hidden" /* Allow horizontal scroll if needed */,
-    gap: "2px" /* Space between items */,
-    padding: "0px",
-    background: "#f0f0f0",
-  };
-  const gridItem = {
-    fontWeight: "bold",
-  };
-
-  const bloquear = (_) => {
-    if (!confirm("Bloquear Cuenta?")) {
-      return;
-    }
-    fetch(get.bloquear_cliente + dataCliente.idcliente)
-      .then((resp) => resp.json())
-      .then((resp) => {
-        load();
-      });
-  };
-  const anular_carga_manual = (id) => {
-    if (!confirm("Anular Carga Manual?")) {
-      return;
-    }
-    post_method(post.update.anular_carga_manual, { id: id }, (response) => {
-      load();
-    });
-  };
 
   function processAndSortArray(arr, targetDateStr) {
     // Helper to parse 'dd-mm-yyyy' into a native Date object
@@ -288,121 +255,125 @@ export default function FichaClienteMayorista(props) {
       label: <>Saldo</>,
       children: (
         <>
-          
-            <Row>
-              <Col span={20}>{detalles_cliente()}</Col>
-            </Row>
-            <Row>
-              <Col span={24}>
-                <Table
-                  size="small"
-                  columns={columns}
-                  dataSource={[]}
-                  pagination={false}
-                  locale={{ emptyText: null }}
-                  className="hide-table-body ant-table-thead-custom"
-                  title={() => (
-                    <Row gutter={32}>
-                      <Col style={{ paddingTop: "4px", paddingLeft: "32px" }}>
-                        <span style={{ fontWeight: "600" }}>
-                          Lista de Operaciones
-                        </span>
-                      </Col>
-                      <Col>
-                        <DatePicker
-                          locale={esES}
-                          format={"DD-MM-YYYY"}
-                          defaultValue={dayjs().subtract(1, "month")}
-                          prefix={
-                            <>
-                              <Checkbox
-                                checked={filtrarPorFecha}
-                                onChange={(_) => {
-                                  setFiltrarPorFecha(!filtrarPorFecha);
-                                }}
-                              >
-                                <span style={{ whiteSpace: "nowrap" }}>
-                                  Ocultar Hasta
-                                </span>{" "}
-                              </Checkbox>
-                            </>
-                          }
-                          disabled={!filtrarPorFecha}
-                          onChange={(v, str) => {
-                            onChangeDate(v, str);
-                          }}
-                        />
-                      </Col>
-                      <Col>
-                        <Button type="link" onClick={() => setModalInformeVisible(true)}><PrinterOutlined /> Informe</Button>
-                      </Col>
-                    </Row>
-                  )}
-                />
-              </Col>
-              <Col span={24} className="scrollable-div">
-                {
-                  <>
-                    <Table
-                      showHeader={false}
-                      style={{
-                        border: "1px dotted #e4e3e3",
-                        boxShadow: "-1px 1px 1px 1px #9e9c9c",
-                        backgroundColor: "#fafafa",
-                      }}
-                      size="small"
-                      loading={loading}
-                      columns={columns}
-                      dataSource={
-                        filtrarPorFecha && fechaFiltro
-                          ? processAndSortArray(operaciones, fechaFiltro)
-                          : operaciones
-                      }
-                      pagination={false}
-                      summary={(data) => {
-                        var total_debe = 0;
-                        var total_haber = 0;
-                        data.forEach((r) => {
-                          total_debe += parseFloat(r.debe);
-                          total_haber += parseFloat(r.haber);
-                        });
-                        setSaldo(total_debe - total_haber);
-                        return (
+          <Row>
+            <Col span={20}>{detalles_cliente()}</Col>
+          </Row>
+          <Row>
+            <Col span={24}>
+              <Table
+                size="small"
+                columns={columns}
+                dataSource={[]}
+                pagination={false}
+                locale={{ emptyText: null }}
+                className="hide-table-body ant-table-thead-custom"
+                title={() => (
+                  <Row gutter={32}>
+                    <Col style={{ paddingTop: "4px", paddingLeft: "32px" }}>
+                      <span style={{ fontWeight: "600" }}>
+                        Lista de Operaciones
+                      </span>
+                    </Col>
+                    <Col>
+                      <DatePicker
+                        locale={esES}
+                        format={"DD-MM-YYYY"}
+                        defaultValue={dayjs().subtract(1, "month")}
+                        prefix={
                           <>
-                            <Table.Summary.Row>
-                              <Table.Summary.Cell colSpan={3}>
-                                <b>Totales</b>
-                              </Table.Summary.Cell>
-                              <Table.Summary.Cell align="right">
-                                <b>{total_debe.toFixed(2)}</b>
-                              </Table.Summary.Cell>
-                              <Table.Summary.Cell align="right">
-                                <b>{total_haber.toFixed(2)}</b>
-                              </Table.Summary.Cell>
-                              <Table.Summary.Cell align="right">
-                                <b>{(total_debe - total_haber).toFixed(2)}</b>
-                              </Table.Summary.Cell>
-                            </Table.Summary.Row>
+                            <Checkbox
+                              checked={filtrarPorFecha}
+                              onChange={(_) => {
+                                setFiltrarPorFecha(!filtrarPorFecha);
+                              }}
+                            >
+                              <span style={{ whiteSpace: "nowrap" }}>
+                                Ocultar Hasta
+                              </span>{" "}
+                            </Checkbox>
                           </>
-                        );
-                      }}
-                    />
-                  </>
-                }
-                <div ref={dummyref}></div>
-              </Col>
-            </Row>
-            <Row>
-              <Col span={24}>
-                <Input
-                  prefix={"Saldo: $ "}
-                  style={{ backgroundColor: "#feffc1" }}
-                  readOnly={true}
-                  value={formatFloat(parseFloat(saldo).toFixed(2))}
-                />
-              </Col>
-            </Row>
-          
+                        }
+                        disabled={!filtrarPorFecha}
+                        onChange={(v, str) => {
+                          onChangeDate(v, str);
+                        }}
+                      />
+                    </Col>
+                    <Col>
+                      <Button
+                        type="link"
+                        onClick={() => setModalInformeVisible(true)}
+                      >
+                        <PrinterOutlined /> Informe
+                      </Button>
+                    </Col>
+                  </Row>
+                )}
+              />
+            </Col>
+            <Col span={24} className="scrollable-div">
+              {
+                <>
+                  <Table
+                    showHeader={false}
+                    style={{
+                      border: "1px dotted #e4e3e3",
+                      boxShadow: "-1px 1px 1px 1px #9e9c9c",
+                      backgroundColor: "#fafafa",
+                    }}
+                    size="small"
+                    loading={loading}
+                    columns={columns}
+                    dataSource={
+                      filtrarPorFecha && fechaFiltro
+                        ? processAndSortArray(operaciones, fechaFiltro)
+                        : operaciones
+                    }
+                    pagination={false}
+                    summary={(data) => {
+                      var total_debe = 0;
+                      var total_haber = 0;
+                      data.forEach((r) => {
+                        total_debe += parseFloat(r.debe);
+                        total_haber += parseFloat(r.haber);
+                      });
+                      setSaldo(total_debe - total_haber);
+                      return (
+                        <>
+                          <Table.Summary.Row>
+                            <Table.Summary.Cell colSpan={3}>
+                              <b>Totales</b>
+                            </Table.Summary.Cell>
+                            <Table.Summary.Cell align="right">
+                              <b>{total_debe.toFixed(2)}</b>
+                            </Table.Summary.Cell>
+                            <Table.Summary.Cell align="right">
+                              <b>{total_haber.toFixed(2)}</b>
+                            </Table.Summary.Cell>
+                            <Table.Summary.Cell align="right">
+                              <b>{(total_debe - total_haber).toFixed(2)}</b>
+                            </Table.Summary.Cell>
+                          </Table.Summary.Row>
+                        </>
+                      );
+                    }}
+                  />
+                </>
+              }
+              <div ref={dummyref}></div>
+            </Col>
+          </Row>
+          <Row>
+            <Col span={24}>
+              <Input
+                prefix={"Saldo: $ "}
+                style={{ backgroundColor: "#feffc1" }}
+                readOnly={true}
+                value={formatFloat(parseFloat(saldo).toFixed(2))}
+              />
+            </Col>
+          </Row>
+
           <Row>
             <Col span={12}>
               {dataCliente == null ? (
@@ -486,10 +457,7 @@ export default function FichaClienteMayorista(props) {
               {dataCliente == null ? (
                 <></>
               ) : (
-                <ClienteDescuentos
-                  cliente={dataCliente}
-                  key={fix}
-                />
+                <ClienteDescuentos cliente={dataCliente} key={fix} />
               )}
             </Col>
           </Row>
@@ -520,7 +488,6 @@ export default function FichaClienteMayorista(props) {
         </>
       ),
     },
-    
   ];
 
   return (
@@ -528,7 +495,16 @@ export default function FichaClienteMayorista(props) {
       {/*<Button onClick={()=>{setOpen(true); load();}}>Ficha</Button>
     <Modal open={open} title={"Ficha Cliente"} onCancel={()=>{setOpen(false)}} footer={null} width={"80%"} destroyOnClose={true}>  */}
       <Tabs defaultActiveKey="1" items={items} />
-      <Modal open={modalInformeVisible} title={"Informe de Operaciones"} onCancel={() => { setModalInformeVisible(false) }} footer={null} width={"90%"} destroyOnClose={true}>
+      <Modal
+        open={modalInformeVisible}
+        title={"Informe de Operaciones"}
+        onCancel={() => {
+          setModalInformeVisible(false);
+        }}
+        footer={null}
+        width={"90%"}
+        destroyOnClose={true}
+      >
         <ImpresionResumen
           cliente={dataCliente}
           operaciones={

@@ -1,16 +1,13 @@
 import { get, public_urls } from "@/src/urls";
 import useStorage from "@/useStorage";
-import { Alert, Layout, Row, Col, Input, Menu, Card, Button } from "antd";
+import { Alert, Layout, Row, Col, Input, Card, Button } from "antd";
 import { useEffect, useState } from "react";
 import globals from "@/src/globals";
 import HeaderSol from "./header";
-import MenuV2 from "./menu_v2";
 import PopupResultadoBusqueda from "../precios/PopupResultadoBusqueda";
 import BarraResumenCaja from "../forms/caja/BarraResumenCaja";
-import { SearchOutlined } from "@ant-design/icons";
-import Chat from "../chat/chat";
+import SearchOutlined from "@ant-design/icons/SearchOutlined";
 import MenuVentasTop from "./menu_ventas_top";
-
 
 export default function LayoutVentasOnly(props) {
   const { Content } = Layout;
@@ -19,35 +16,35 @@ export default function LayoutVentasOnly(props) {
   const [popupBusquedaOpen, setPopupBusquedaOpen] = useState(false);
   const [busqueda, setBusqueda] = useState("");
 
-    const card_style = {
-      header: {
-        background: "#ffffff80", 
-        //background: "linear-gradient(39deg, rgba(173, 216, 230, 1) 62%, rgba(128, 164, 230, 1) 95%)", 
-        //borderTop:"3px solid #4589A0",
-        borderTop:"3px solid rgb(214, 104, 0)",
-      },  
-      body:{
-        backgroundColor:"#FAFBFF", 
-        padding:"0"
-      }
-  } 
-    const card_style2 = {
-      header: {
-        //background: "#94D0AE", 
-        background: "#E7E9EB",
-        borderTop:"2px solid #663F4C",
-      },  
-      body:{
-        backgroundColor:"#FAFBFF", 
-        padding:"0"
-      }
-  } 
+  const card_style = {
+    header: {
+      background: "#ffffff80",
+      //background: "linear-gradient(39deg, rgba(173, 216, 230, 1) 62%, rgba(128, 164, 230, 1) 95%)",
+      //borderTop:"3px solid #4589A0",
+      borderTop: "3px solid rgb(214, 104, 0)",
+    },
+    body: {
+      backgroundColor: "#FAFBFF",
+      padding: "0",
+    },
+  };
+  const card_style2 = {
+    header: {
+      //background: "#94D0AE",
+      background: "#E7E9EB",
+      borderTop: "2px solid #663F4C",
+    },
+    body: {
+      backgroundColor: "#FAFBFF",
+      padding: "0",
+    },
+  };
 
   const onSearch = () => {
     if (busqueda.trim().length < 1) {
       return;
     }
-   // setBusqueda(value);
+    // setBusqueda(value);
     setPopupBusquedaOpen(true);
   };
 
@@ -87,7 +84,7 @@ export default function LayoutVentasOnly(props) {
               if (+response.data.abierta == 1) {
                 globals.setCajaOpen(true);
                 setAlerta(
-                  +response.data.current == 1 ? "" : "Caja Desactualizada"
+                  +response.data.current == 1 ? "" : "Caja Desactualizada",
                 );
               } else {
                 //alert("caja cerrada")
@@ -106,8 +103,6 @@ export default function LayoutVentasOnly(props) {
     validate_user();
   }, []);
 
-
-
   return (
     <Layout style={{ padding: 0 }} className="layout">
       <HeaderSol
@@ -116,28 +111,31 @@ export default function LayoutVentasOnly(props) {
           props?.displaymodechange?.(__c);
         }}
       />
-      
-      
+
       {/*<MenuVentasTop />*/}
       <Card
-      styles={card_style2}
+        styles={card_style2}
         extra={
           <div>
-            <Input 
-            style={
-              {
-                borderRadius:"16px", 
-                backgroundColor:"rgb(255, 255, 255)", 
-               //border:"1px solid #663F4C"
+            <Input
+              style={{
+                borderRadius: "16px",
+                backgroundColor: "rgb(255, 255, 255)",
+                //border:"1px solid #663F4C"
+              }}
+              suffix={
+                <>
+                  <Button type="link" onClick={onSearch}>
+                    <SearchOutlined />
+                  </Button>
+                </>
               }
-            } 
-            suffix={<><Button type="link" onClick={onSearch}><SearchOutlined /></Button></>} 
-            prefix={<span style={{fontWeight:"600"}}>Buscar Código:</span>} 
-            value={busqueda} 
-            onChange={(e)=>{
-              setBusqueda(e.target.value);
-            }}
-            onPressEnter={onSearch}
+              prefix={<span style={{ fontWeight: "600" }}>Buscar Código:</span>}
+              value={busqueda}
+              onChange={(e) => {
+                setBusqueda(e.target.value);
+              }}
+              onPressEnter={onSearch}
             />
           </div>
         }
@@ -145,11 +143,10 @@ export default function LayoutVentasOnly(props) {
           <>
             {/*<MenuV2 />*/}
             {<MenuVentasTop />}
-           
           </>
         }
       >
-         {globals.esUsuarioCaja1() ? <BarraResumenCaja /> : <></>}  
+        {globals.esUsuarioCaja1() ? <BarraResumenCaja /> : <></>}
         <Content
           style={{
             margin: "0px 100px",
@@ -158,15 +155,20 @@ export default function LayoutVentasOnly(props) {
             minHeight: 580,
           }}
         >
-            
-            {alerta != "" ? (
+          {alerta != "" ? (
             <>
-            <Alert style={{fontSize:".9em", padding:"1px 50px "}} key={alerta} message={alerta} type="error" showIcon />
-            <br />
+              <Alert
+                style={{ fontSize: ".9em", padding: "1px 50px " }}
+                key={alerta}
+                message={alerta}
+                type="error"
+                showIcon
+              />
+              <br />
             </>
-            ) : (
-                <></>
-            )}
+          ) : (
+            <></>
+          )}
           <Row>
             <Col span={24}>{props.children}</Col>
           </Row>
@@ -180,7 +182,6 @@ export default function LayoutVentasOnly(props) {
             }}
           />
         </Content>
-        
       </Card>
       {/*
             <Menu items={[{

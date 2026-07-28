@@ -1,16 +1,14 @@
-import ExportToExcel2 from "@/components/etc/ExportToExcel2";
 import ExportToCSV from "@/components/ExportToCSV";
 import { post_method } from "@/src/helpers/post_helper";
 import { get, post } from "@/src/urls";
-import { InfoCircleOutlined } from "@ant-design/icons";
+import InfoCircleOutlined from "@ant-design/icons/InfoCircleOutlined";
 import { Table, Button, Card, Select, Row, Col, Modal } from "antd";
 import { useEffect, useState } from "react";
 import FiltrosInforme from "./FiltrosInforme";
 import { formatFloat } from "@/src/helpers/formatters";
 import ListaVentasVendedor from "../ListaVentasVendedor";
 
-const VentasVendedor = (props) => {
-  // const { filtros, actualizar } = props;
+const VentasVendedor = () => {
   const [dataSource, setDatasource] = useState([]);
   const [usuarios, setUsuarios] = useState([]);
   const [selectedVendedor, setSelectedVendedor] = useState(null);
@@ -45,7 +43,12 @@ const VentasVendedor = (props) => {
         );
       },
     },
-    { width: "100px", dataIndex: "usuario", title: "usuario", sorter: (a, b) => a.usuario.localeCompare(b.usuario), },
+    {
+      width: "100px",
+      dataIndex: "usuario",
+      title: "usuario",
+      sorter: (a, b) => a.usuario.localeCompare(b.usuario),
+    },
     {
       width: "100px",
       dataIndex: "cantidad_ventas",
@@ -63,7 +66,7 @@ const VentasVendedor = (props) => {
         <div style={money_style}>{formatFloat(efectivo)}</div>
       ),
     },
-    
+
     {
       width: "100px",
       dataIndex: "tarjeta",
@@ -100,9 +103,7 @@ const VentasVendedor = (props) => {
       width: "100px",
       dataIndex: "mp",
       title: <div style={{ textAlign: "right" }}>mp</div>,
-      render: (_, { mp }) => (
-        <div style={money_style}>{formatFloat(mp)}</div>
-      ),
+      render: (_, { mp }) => <div style={money_style}>{formatFloat(mp)}</div>,
     },
     {
       fixed: "right",
@@ -111,7 +112,7 @@ const VentasVendedor = (props) => {
       title: <div style={{ textAlign: "right" }}>total</div>,
       render: (_, { total }) => (
         <div style={{ ...money_style, fontWeight: "bold" }}>
-          {formatFloat  (total)}
+          {formatFloat(total)}
         </div>
       ),
       sorter: (a, b) => +a.total - +b.total,
@@ -121,7 +122,7 @@ const VentasVendedor = (props) => {
   const onDetalleLisaVentasClick = (idusuario) => {
     setSelectedVendedor(idusuario);
     setPopupListaVentasOpen(true);
-  }
+  };
 
   const money_style = {
     textAlign: "right",
@@ -152,16 +153,14 @@ const VentasVendedor = (props) => {
           mp: r.mp,
           total: r.total,
           cantidad_ventas: r.cantidad_ventas,
-        }))
+        })),
       );
     });
   };
 
   return (
     <>
-      <Card
-        size="small"
-      >
+      <Card size="small">
         <>
           <Row gutter={16}>
             <Col>
@@ -177,7 +176,7 @@ const VentasVendedor = (props) => {
             <Col>
               <FiltrosInforme
                 callback={(_filtros) => {
-                  setFiltros(_f=>({..._f,..._filtros}));
+                  setFiltros((_f) => ({ ..._f, ..._filtros }));
                   setActualizar(!actualizar);
                 }}
               />
@@ -187,7 +186,11 @@ const VentasVendedor = (props) => {
           <Table
             size="small"
             title={(_) => (
-              <>{ dataSource.length<1 ? "" : `Ventas vendedores del período ${filtros.mes}/${filtros.anio}`}</>
+              <>
+                {dataSource.length < 1
+                  ? ""
+                  : `Ventas vendedores del período ${filtros.mes}/${filtros.anio}`}
+              </>
             )}
             rowClassName={(record, index) =>
               index % 2 === 0 ? "table-row-light" : "table-row-dark"
@@ -266,16 +269,21 @@ const VentasVendedor = (props) => {
         </>
       </Card>
       <Modal
-      open={popupListaVentasOpen}
-      width={"1200px"}
-      destroyOnClose
-      onCancel={_=>{setPopupListaVentasOpen(false)}}
-      footer={null}
-      title={`Ventas del vendedor ${usuarios.find(u=>u.value==selectedVendedor)?.label || ""} - período ${filtros.mes}/${filtros.anio}`}
-      
+        open={popupListaVentasOpen}
+        width={"1200px"}
+        destroyOnClose
+        onCancel={(_) => {
+          setPopupListaVentasOpen(false);
+        }}
+        footer={null}
+        title={`Ventas del vendedor ${usuarios.find((u) => u.value == selectedVendedor)?.label || ""} - período ${filtros.mes}/${filtros.anio}`}
       >
-        <ListaVentasVendedor idvendedor={selectedVendedor} idsucursal={filtros.fksucursal} mes={filtros.mes} anio={filtros.anio} />
-
+        <ListaVentasVendedor
+          idvendedor={selectedVendedor}
+          idsucursal={filtros.fksucursal}
+          mes={filtros.mes}
+          anio={filtros.anio}
+        />
       </Modal>
     </>
   );

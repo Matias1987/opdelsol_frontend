@@ -2,11 +2,9 @@ import ClienteFormDistrib from "@/components/cliente/ClienteFormDistrib";
 import FichaClienteMayorista from "@/components/cliente/FichaClienteMayorista";
 import LayoutDistribuidora from "@/components/layout/layout_distribuidora";
 import { get } from "@/src/urls";
-import {
-  InfoCircleFilled,
-  PlusOutlined,
-  ReloadOutlined,
-} from "@ant-design/icons";
+import InfoCircleFilled from "@ant-design/icons/InfoCircleFilled";
+import PlusOutlined from "@ant-design/icons/PlusOutlined";
+import ReloadOutlined from "@ant-design/icons/ReloadOutlined";
 import { Button, Card, Input, Modal, Table } from "antd";
 import { useEffect, useState } from "react";
 

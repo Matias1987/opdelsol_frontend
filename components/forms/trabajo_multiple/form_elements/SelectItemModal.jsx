@@ -1,7 +1,7 @@
 import { useState } from "react";
 import SelectItem from "./SelectItem";
 import { Button, Modal } from "antd";
-import { CloseOutlined } from "@ant-design/icons";
+import  CloseOutlined from "@ant-design/icons/CloseOutlined";
 
 const SelectItemModal = ({ tipo, idcliente, callback }) => {
   const [selection, setSelection] = useState(null);

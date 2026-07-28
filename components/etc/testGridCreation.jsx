@@ -1,19 +1,12 @@
-import globals from "@/src/globals";
 import { post_method } from "@/src/helpers/post_helper";
 import { get, post } from "@/src/urls";
 import Papa from "papaparse";
-import {
-  AlertOutlined,
-  CheckOutlined,
-  DownloadOutlined,
-  EditFilled,
-  EditOutlined,
-  ExportOutlined,
-  ReloadOutlined,
-  SaveFilled,
-  UnlockOutlined,
-  UploadOutlined,
-} from "@ant-design/icons";
+import CheckOutlined from "@ant-design/icons/CheckOutlined";
+import DownloadOutlined from "@ant-design/icons/DownloadOutlined";
+import EditFilled from "@ant-design/icons/EditFilled";
+import ReloadOutlined from "@ant-design/icons/ReloadOutlined";
+import SaveFilled from "@ant-design/icons/SaveFilled";
+import UploadOutlined from "@ant-design/icons/UploadOutlined";
 import {
   Affix,
   Button,
@@ -41,12 +34,6 @@ const TestGridCreation = () => {
   const [impCSVModo, setImpCSVModo] = useState("neg");
   const [impCSVinvertirESF, setImpCSVinvertirESF] = useState(false);
 
-  //const [esf_from_neg, setEsfFromNeg] = useState(0);
-  //const [esf_to_neg, setEsfToNeg] = useState(2);
-  //const [esf_from_pos, setEsfFromPos] = useState(0);
-  //const [esf_to_pos, setEsfToPos] = useState(2);
-  //const [cil_from, setCilFrom] = useState(0);
-  //const [cil_to, setCilTo] = useState(2);
   const [formData, setFormData] = useState({
     esf_from_neg: 0.25,
     esf_to_neg: 4,
@@ -833,14 +820,14 @@ const TestGridCreation = () => {
       return;
     const new_data = dataPos.map((d) => ({ ...d, cantidad: 0, pares: 0 }));
     setDataPos(new_data);
-  }
+  };
 
   const ponerGrillaNegativaEnCero = () => {
     if (!confirm("¿Confirma que desea poner en cero la grilla negativa?"))
       return;
     const new_data = dataNeg.map((d) => ({ ...d, cantidad: 0, pares: 0 }));
     setDataNeg(new_data);
-  }
+  };
 
   useEffect(() => {
     load_codigos_cristales();
@@ -859,7 +846,10 @@ const TestGridCreation = () => {
       >
         <Col span={24}>
           <Flex justify="center" align="center">
-            <Row style={{ padding: "8px", margin: "0 8px 0 0" }} gutter={[16, 16]}>
+            <Row
+              style={{ padding: "8px", margin: "0 8px 0 0" }}
+              gutter={[16, 16]}
+            >
               <Col style={{ paddingTop: "6px" }}>Sucursal:</Col>
               <Col>
                 <SucursalSelect
@@ -873,7 +863,10 @@ const TestGridCreation = () => {
                 />
               </Col>
             </Row>
-            <Row gutter={[16, 16]} style={{ padding: "8px", margin: "0 8px 0 0"  }}>
+            <Row
+              gutter={[16, 16]}
+              style={{ padding: "8px", margin: "0 8px 0 0" }}
+            >
               <Col style={{ paddingTop: "6px" }}>Tipo Cristal:</Col>
               <Col>
                 <Select
@@ -904,8 +897,7 @@ const TestGridCreation = () => {
                     { value: "stock", label: "Existente" },
                     { value: "uso", label: "Consumo" },
                   ]}
-                  onChange={(v) => {
-                  }}
+                  onChange={(v) => {}}
                 />
               </Col>
             </Row>

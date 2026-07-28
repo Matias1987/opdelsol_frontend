@@ -7,11 +7,11 @@ import HeaderSol from "./header";
 import MenuV2 from "./menu_v2";
 import PopupResultadoBusqueda from "../precios/PopupResultadoBusqueda";
 import BarraResumenCaja from "../forms/caja/BarraResumenCaja";
-import { SearchOutlined } from "@ant-design/icons";
+import SearchOutlined from "@ant-design/icons/SearchOutlined";
+import { Content } from "antd/es/layout/layout";
 
 
 export default function LayoutVentas(props) {
-  const { Content } = Layout;
   const [alerta, setAlerta] = useState("");
   const { getItem } = useStorage();
   const [popupBusquedaOpen, setPopupBusquedaOpen] = useState(false);

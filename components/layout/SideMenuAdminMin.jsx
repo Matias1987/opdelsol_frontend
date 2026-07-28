@@ -1,19 +1,16 @@
 import React from "react";
-import { Layout, Menu } from "antd";
-import {
-  DashboardOutlined,
-  SettingOutlined,
-  LogoutOutlined,
-  DollarOutlined,
-  CreditCardTwoTone,
-  BoxPlotOutlined,
-} from "@ant-design/icons";
+import { Menu } from "antd";
+import DashboardOutlined from "@ant-design/icons/DashboardOutlined";
+import SettingOutlined from "@ant-design/icons/SettingOutlined";
+import LogoutOutlined from "@ant-design/icons/LogoutOutlined";
+import DollarOutlined from "@ant-design/icons/DollarOutlined";
+import CreditCardTwoTone from "@ant-design/icons/CreditCardTwoTone";
+import BoxPlotOutlined from "@ant-design/icons/BoxPlotOutlined";
 import { useRouter } from "next/router";
 import { get } from "@/src/urls";
 import useStorage from "@/useStorage";
-
-const { Sider } = Layout;
-const { SubMenu } = Menu;
+import Sider from "antd/es/layout/Sider";
+import SubMenu from "antd/es/menu/SubMenu";
 
 const SideMenuAdminMin = ({ collapsed }) => {
   const router = useRouter();
@@ -64,9 +61,7 @@ const SideMenuAdminMin = ({ collapsed }) => {
         <Menu.Item
           key="/v1/admin/lista_cajas/"
           icon={<DollarOutlined />}
-          onClick={() =>
-            router.push("/v1/admin/lista_cajas/")
-          }
+          onClick={() => router.push("/v1/admin/lista_cajas/")}
         >
           Cajas
         </Menu.Item>

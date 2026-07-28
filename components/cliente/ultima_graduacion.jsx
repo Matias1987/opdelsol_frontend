@@ -1,10 +1,9 @@
-import { post_method } from "@/src/helpers/post_helper"
 import { post } from "@/src/urls"
-import { Col, Row, Tabs } from "antd"
+import { Col,  Tabs } from "antd"
 import { useEffect, useState } from "react"
 
 const UltimaGraduacion = props =>{
-    const {idcliente, tipo} = props
+    const {idcliente} = props
     const [dataCristales, setDataCristales] = useState([])
     const [dataLC, setDataLC] = useState([])
     const load = _=>{
@@ -13,9 +12,6 @@ const UltimaGraduacion = props =>{
         .then(response=>{
 
             const result = response.data.filter(l=>l.tipo.includes("od") || l.tipo.includes("oi"))
-
-            //alert(JSON.stringify(response));
-
             setDataCristales(_=>result.filter(_r=>_r.origen=="CR").map(r=>(
                 {
                     codigo: r.codigo.replace(/\_/g,' '),

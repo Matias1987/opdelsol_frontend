@@ -1,9 +1,8 @@
 import { Button, Col, Input, Row } from "antd";
 import SelectCodigoVenta from "./SelectCodigoVenta";
-import { useEffect, useRef, useState } from "react";
-import { CloseOutlined, DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import { useEffect, useState } from "react";
+import  CloseOutlined from "@ant-design/icons/CloseOutlined";
 import globals from "@/src/globals";
-import { parse_float_string } from "@/src/helpers/string_helper";
 
 const VentasArmazon = (props) => {
     const [visible, setVisible] = useState(false);

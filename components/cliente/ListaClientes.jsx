@@ -1,6 +1,6 @@
 import { Button, Card, Col, Input, Modal, Row, Table } from "antd";
 import { useEffect, useState } from "react";
-import { ReloadOutlined } from "@ant-design/icons";
+import ReloadOutlined from "@ant-design/icons/ReloadOutlined";
 
 import { get } from "@/src/urls";
 import FichaCliente from "@/components/cliente/FichaCliente";
@@ -36,7 +36,7 @@ export default function ListaClientes(props) {
             nombre: r.nombre,
             direccion: r.direccion,
             bloqueado: r.bloqueado,
-          }))
+          })),
         );
         setLoading(false);
       })
@@ -59,7 +59,7 @@ export default function ListaClientes(props) {
             direccion: r.direccion,
             telefono1: r.telefono1,
             bloqueado: r.bloqueado,
-          }))
+          })),
         );
         setLoading(false);
       })
@@ -78,22 +78,29 @@ export default function ListaClientes(props) {
       dataIndex: "apellido",
       title: "Apellido",
       key: "apellido",
-      sorter: (a, b) => a.apellido.localeCompare(b.apellido)
+      sorter: (a, b) => a.apellido.localeCompare(b.apellido),
     },
     {
       width: "100px",
       dataIndex: "nombre",
       title: "Nombre",
-      key: "nombre", 
-      sorter: (a, b) => a.nombre.localeCompare(b.nombre)
+      key: "nombre",
+      sorter: (a, b) => a.nombre.localeCompare(b.nombre),
     },
-    { width: "100px", dataIndex: "dni", title: "DNI", key: "dni", sorter: (a, b) => a.dni.localeCompare(b.dni), render: (dni) => <MostrarDNI dni={dni} /> },
+    {
+      width: "100px",
+      dataIndex: "dni",
+      title: "DNI",
+      key: "dni",
+      sorter: (a, b) => a.dni.localeCompare(b.dni),
+      render: (dni) => <MostrarDNI dni={dni} />,
+    },
     {
       width: "150px",
       dataIndex: "direccion",
       title: "Direccion",
       key: "direccion",
-      sorter: (a, b) => a.direccion.localeCompare(b.direccion)
+      sorter: (a, b) => a.direccion.localeCompare(b.direccion),
     },
     {
       width: "80px",
@@ -156,7 +163,16 @@ export default function ListaClientes(props) {
             &nbsp;&nbsp;&nbsp;
           </div>
         }
-        extra={<><Button type="primary" onClick={() => setModalNuevoClienteOpen(true)}>Nuevo Cliente</Button></>}
+        extra={
+          <>
+            <Button
+              type="primary"
+              onClick={() => setModalNuevoClienteOpen(true)}
+            >
+              Nuevo Cliente
+            </Button>
+          </>
+        }
       >
         <Row style={row_style}>
           <Col span={24}>

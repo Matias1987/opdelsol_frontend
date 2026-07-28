@@ -14,9 +14,8 @@ import {
 import { useEffect, useState } from "react";
 import esES from "antd/locale/es_ES";
 import SelectCuentaBancaria from "@/components/cuenta_bancarias/selectCuentaBancaria";
-import SeleccionCompraAPagar from "./SeleccionCompraAPagar";
-import { ArrowLeftOutlined, ArrowRightOutlined } from "@ant-design/icons";
-import { v4 as uuidv4 } from 'uuid'; 
+import ArrowRightOutlined from "@ant-design/icons/ArrowRightOutlined";
+import { v4 as uuidv4 } from "uuid";
 const AgregarPagoProveedor = (props) => {
   const [comprasSeleccionadas, setComprasSeleccionadas] = useState([]);
   const [totalAPagar, setTotalAPagar] = useState(0);
@@ -81,12 +80,12 @@ const AgregarPagoProveedor = (props) => {
       }
     }
 
-    if(comprasSeleccionadas.find(c=>parseFloat(c.monto_a_pagar)<=0)){
+    if (comprasSeleccionadas.find((c) => parseFloat(c.monto_a_pagar) <= 0)) {
       alert("El monto a pagar de las compras seleccionadas debe ser mayor a 0");
       return;
     }
 
-    if(!confirm("Confirma guardar el pago al proveedor?")){
+    if (!confirm("Confirma guardar el pago al proveedor?")) {
       return;
     }
 
@@ -98,7 +97,7 @@ const AgregarPagoProveedor = (props) => {
       cheque: mpCheque,
       transferencia: mpTransferencia,
       compras: comprasSeleccionadas,
-      uid:uid,
+      uid: uid,
     };
 
     setEnabled(false);
@@ -146,7 +145,9 @@ const AgregarPagoProveedor = (props) => {
 
   const onCompraAPagarSeleccionada = (seleccion) => {
     setComprasSeleccionadas(seleccion);
-    setTotalAPagar(seleccion.reduce((acc, c) => acc + parseFloat(c.monto_a_pagar), 0));
+    setTotalAPagar(
+      seleccion.reduce((acc, c) => acc + parseFloat(c.monto_a_pagar), 0),
+    );
   };
 
   return (
@@ -221,14 +222,21 @@ const AgregarPagoProveedor = (props) => {
         <>
           <Row style={{ marginTop: "8px" }}>
             <Col span={24}>
-              <Button type="link" onClick={_=>{ updateMP({...mpEfectivo, monto:totalAPagar})}}><ArrowRightOutlined /><span style={{ fontWeight: "bold" }}>Efectivo</span></Button> 
+              <Button
+                type="link"
+                onClick={(_) => {
+                  updateMP({ ...mpEfectivo, monto: totalAPagar });
+                }}
+              >
+                <ArrowRightOutlined />
+                <span style={{ fontWeight: "bold" }}>Efectivo</span>
+              </Button>
             </Col>
           </Row>
           <Row style={{ paddingLeft: "16px" }}>
             <Col span={24} style={{ padding: "1em" }}>
               {/*<Input allowClear type="number" onChange={(e)=>{updateMP({...mpEfectivo,monto:(e.target.value.length<1?"0":e.target.value)});}} value={(mpEfectivo.monto)} prefix="Monto: " />*/}
               <InputNumber
-                
                 style={{ width: "300px" }}
                 prefix={<>Monto: </>}
                 onClick={(e) => {
@@ -255,7 +263,15 @@ const AgregarPagoProveedor = (props) => {
         <>
           <Row style={{ marginTop: "8px" }}>
             <Col span={24}>
-              <Button type="link" onClick={_=>{ updateMP(null,{...mpCheque, monto:totalAPagar})}}><ArrowRightOutlined /><span style={{ fontWeight: "bold" }}>Cheque</span></Button>
+              <Button
+                type="link"
+                onClick={(_) => {
+                  updateMP(null, { ...mpCheque, monto: totalAPagar });
+                }}
+              >
+                <ArrowRightOutlined />
+                <span style={{ fontWeight: "bold" }}>Cheque</span>
+              </Button>
             </Col>
           </Row>
           <Row style={{ paddingLeft: "16px" }}>
@@ -301,7 +317,18 @@ const AgregarPagoProveedor = (props) => {
         <>
           <Row style={{ marginTop: "8px" }}>
             <Col span={24}>
-              <Button type="link" onClick={_=>{updateMP(null,null,{...mpTransferencia, monto:totalAPagar})}}><ArrowRightOutlined /><span style={{ fontWeight: "bold" }}>Transferencia</span></Button>
+              <Button
+                type="link"
+                onClick={(_) => {
+                  updateMP(null, null, {
+                    ...mpTransferencia,
+                    monto: totalAPagar,
+                  });
+                }}
+              >
+                <ArrowRightOutlined />
+                <span style={{ fontWeight: "bold" }}>Transferencia</span>
+              </Button>
             </Col>
           </Row>
           <Row style={{ paddingLeft: "16px" }}>

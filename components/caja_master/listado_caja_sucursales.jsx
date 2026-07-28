@@ -1,8 +1,8 @@
-import { Button, Card, Col, Input, Modal, Row, Table } from "antd";
+import { Button, Card, Col, Modal, Row, Table } from "antd";
 import { useEffect, useState } from "react";
 import ModifIngresoCaja from "./modificacion_ingreso_caja";
 import { get } from "@/src/urls";
-import { ReloadOutlined } from "@ant-design/icons";
+import ReloadOutlined from "@ant-design/icons/ReloadOutlined";
 import InformeCajaV2 from "../informes/caja/InformeCajaV3";
 import { formatFloat } from "@/src/helpers/formatters";
 
@@ -14,12 +14,10 @@ const ListadoCajaSucursales = (props) => {
   const [selectedRow, setSelectedRow] = useState(null);
 
   const load = () => {
-    //alert(get.cajas_ls)
     setLoading(true);
     fetch(get.cajas_ls)
       .then((response) => response.json())
       .then((response) => {
-       // alert(JSON.stringify(response))
         setData(response);
         setLoading(false);
       })
@@ -55,12 +53,19 @@ const ListadoCajaSucursales = (props) => {
             <Table
               scroll={{ y: "300px" }}
               size="small"
-              
               dataSource={data}
               columns={[
                 { dataIndex: "fecha", title: "Fecha" },
                 { dataIndex: "sucursal", title: "Sucursal" },
-                { dataIndex: "monto_efectivo", title: <div style={{textAlign:"right"}}>Monto</div>, render:(_,{s})=><div style={{textAlign:"right"}}>$&nbsp;{formatFloat(s)}</div> },
+                {
+                  dataIndex: "monto_efectivo",
+                  title: <div style={{ textAlign: "right" }}>Monto</div>,
+                  render: (_, { s }) => (
+                    <div style={{ textAlign: "right" }}>
+                      $&nbsp;{formatFloat(s)}
+                    </div>
+                  ),
+                },
                 {
                   title: "Acciones",
                   render: (_, row) => (

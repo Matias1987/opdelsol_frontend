@@ -3,18 +3,19 @@ import { Button, Card, Col, Row, Table, Modal, Checkbox } from "antd";
 import { useEffect, useState } from "react";
 import Egreso from "./egreso";
 import InformeCajaV2 from "@/components/informes/caja/InformeCajaV3";
-import { InfoCircleTwoTone, InfoOutlined, ReloadOutlined } from "@ant-design/icons";
+import InfoCircleTwoTone from "@ant-design/icons/InfoCircleTwoTone";
+import ReloadOutlined from "@ant-design/icons/ReloadOutlined";
 import Ingreso from "./ingreso";
 import { formatFloat } from "@/src/helpers/formatters";
 
 const CajaMaster = (props) => {
   const [data, setData] = useState([]);
   const [popupAddOpen, setPopupAddOpen] = useState(false);
-  const [popupAddIngresoOpen, setPopupAddIngresoOpen] = useState(false)
+  const [popupAddIngresoOpen, setPopupAddIngresoOpen] = useState(false);
   const [detalleCajaOpen, setDetalleCajaOpen] = useState(false);
   const [selectedRow, setSelectedRow] = useState(null);
-  const [verTodo, setVerTodo] = useState(false)
-  const [reload, setReload] = useState(false)
+  const [verTodo, setVerTodo] = useState(false);
+  const [reload, setReload] = useState(false);
   const columns = [
     { width: "30px", title: "Nro.", dataIndex: "id", key: "id" },
     { width: "60px", title: "Fecha", dataIndex: "fecha_f", key: "fecha" },
@@ -34,33 +35,58 @@ const CajaMaster = (props) => {
         </span>
       ),
     },
-    { width: "100px", title: "Detalle", dataIndex: "detalle", key: "detalle", render:(_,record)=><>
-    <b>{record.detalle}</b>&nbsp;&nbsp;{+record.ref_id==0?<></> : <Button type="link" size="small" onClick={_=>{setSelectedRow(record); setDetalleCajaOpen(true)}}><InfoCircleTwoTone /></Button>}
-    </> },
+    {
+      width: "100px",
+      title: "Detalle",
+      dataIndex: "detalle",
+      key: "detalle",
+      render: (_, record) => (
+        <>
+          <b>{record.detalle}</b>&nbsp;&nbsp;
+          {+record.ref_id == 0 ? (
+            <></>
+          ) : (
+            <Button
+              type="link"
+              size="small"
+              onClick={(_) => {
+                setSelectedRow(record);
+                setDetalleCajaOpen(true);
+              }}
+            >
+              <InfoCircleTwoTone />
+            </Button>
+          )}
+        </>
+      ),
+    },
     {
       width: "100px",
       title: <div style={{ textAlign: "right" }}>Monto</div>,
       dataIndex: "monto",
       render: (_, obj) => (
         <>
-          {
-          obj.tipo != "EGRESO" ? (
-            <div style={{ color: obj.tipo == "SALDO" ? "blue" : "green", textAlign: "right" }}>
-              $&nbsp;{formatFloat(parseFloat(obj.monto||"0"))}
+          {obj.tipo != "EGRESO" ? (
+            <div
+              style={{
+                color: obj.tipo == "SALDO" ? "blue" : "green",
+                textAlign: "right",
+              }}
+            >
+              $&nbsp;{formatFloat(parseFloat(obj.monto || "0"))}
             </div>
           ) : (
             <div style={{ color: "red", textAlign: "right" }}>
-              $&nbsp;-{formatFloat(parseFloat(obj.monto||"0"))}
+              $&nbsp;-{formatFloat(parseFloat(obj.monto || "0"))}
             </div>
           )}
         </>
       ),
     },
-
   ];
 
   const load = () => {
-    const q = get.caja_m_balance + (verTodo ? '1':'0')
+    const q = get.caja_m_balance + (verTodo ? "1" : "0");
     //alert(q)
     //llamar api
     fetch(q)
@@ -95,7 +121,15 @@ const CajaMaster = (props) => {
             title={<b>Lista de operaciones</b>}
             extra={
               <>
-                <Checkbox onChange={_=>{setVerTodo(!verTodo); setReload(!reload)} } checked={verTodo}>Ver Todo</Checkbox>
+                <Checkbox
+                  onChange={(_) => {
+                    setVerTodo(!verTodo);
+                    setReload(!reload);
+                  }}
+                  checked={verTodo}
+                >
+                  Ver Todo
+                </Checkbox>
                 &nbsp;&nbsp;
                 <Button type="primary" onClick={handleAddEgreso} size="small">
                   Agregar Egreso
@@ -109,7 +143,13 @@ const CajaMaster = (props) => {
                   Agregar Ingreso
                 </Button>
                 &nbsp;&nbsp;
-                <Button onClick={_=>{load()}} size="small" type="primary">
+                <Button
+                  onClick={(_) => {
+                    load();
+                  }}
+                  size="small"
+                  type="primary"
+                >
                   <ReloadOutlined size={"small"} />
                 </Button>
               </>
@@ -125,8 +165,12 @@ const CajaMaster = (props) => {
                   columns={columns}
                   summary={(pageData) => {
                     const total = pageData.reduce(
-                      (sum, item) => sum += item.tipo != "EGRESO" ? parseFloat(item.monto||"0") : -parseFloat(item.monto||"0"),
-                      0
+                      (sum, item) =>
+                        (sum +=
+                          item.tipo != "EGRESO"
+                            ? parseFloat(item.monto || "0")
+                            : -parseFloat(item.monto || "0")),
+                      0,
                     );
                     return (
                       <Table.Summary fixed>
@@ -188,14 +232,17 @@ const CajaMaster = (props) => {
         open={popupAddIngresoOpen}
         title="Agregar Ingreso"
         footer={null}
-        onCancel={_=>{setPopupAddIngresoOpen(false)}}
+        onCancel={(_) => {
+          setPopupAddIngresoOpen(false);
+        }}
       >
-          <Ingreso cm={1} callback={_=>{
-            setPopupAddIngresoOpen(false)
+        <Ingreso
+          cm={1}
+          callback={(_) => {
+            setPopupAddIngresoOpen(false);
             load();
-            
           }}
-          />
+        />
       </Modal>
     </>
   );

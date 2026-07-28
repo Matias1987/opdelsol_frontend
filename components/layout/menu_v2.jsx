@@ -1,11 +1,8 @@
 import { Menu, Modal } from "antd";
-import {
-  DollarOutlined,
-  MenuOutlined,
-  SearchOutlined,
-  UserOutlined,
-} from "@ant-design/icons";
-
+import DollarOutlined from "@ant-design/icons/DollarOutlined";
+import MenuOutlined from "@ant-design/icons/MenuOutlined";
+import SearchOutlined from "@ant-design/icons/SearchOutlined";
+import UserOutlined from "@ant-design/icons/UserOutlined";
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { public_urls } from "@/src/urls";
@@ -333,7 +330,7 @@ export default function MenuV2(props) {
           label: <>Buscar Venta</>,
           icon: <SearchOutlined />,
           key: "buscar_venta",
-        }
+        },
       );
     }
     if (lista_precios_visible != 0) {
@@ -380,7 +377,7 @@ export default function MenuV2(props) {
         onCancel={() => setLPOpen(false)}
         footer={null}
       >
-        {idf_optica == 1 ? <ListaPreciosV3 /> :<ListaPreciosV4 /> }
+        {idf_optica == 1 ? <ListaPreciosV3 /> : <ListaPreciosV4 />}
       </Modal>
       <Modal
         destroyOnClose

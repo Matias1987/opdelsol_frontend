@@ -1,7 +1,8 @@
 import { formatFloat } from "@/src/helpers/formatters";
 import { post_method } from "@/src/helpers/post_helper";
 import { post } from "@/src/urls";
-import { ArrowRightOutlined, CheckOutlined } from "@ant-design/icons";
+import ArrowRightOutlined from "@ant-design/icons/ArrowRightOutlined";
+import CheckOutlined from "@ant-design/icons/CheckOutlined";
 import { Button, Checkbox, Col, Input, Modal, Row, Table } from "antd";
 import { useEffect, useState } from "react";
 
@@ -34,14 +35,20 @@ const SeleccionCompraAPagar = ({ idproveedor, onChange, moneda, modo }) => {
       title: "ID ",
       dataIndex: "idfactura",
       key: "idfactura",
-      width:"40px",
-      render:(_,{idfactura}) => <span style={{fontSize:"11px", fontStyle:"italic", color:"#231e4d"}}>{idfactura}</span>
+      width: "40px",
+      render: (_, { idfactura }) => (
+        <span
+          style={{ fontSize: "11px", fontStyle: "italic", color: "#231e4d" }}
+        >
+          {idfactura}
+        </span>
+      ),
     },
     {
       title: "Nro. ",
       dataIndex: "numero",
       key: "numero",
-      width:"70px"
+      width: "70px",
     },
     {
       title: <div style={{ textAlign: "right" }}>Monto Total</div>,
@@ -50,7 +57,7 @@ const SeleccionCompraAPagar = ({ idproveedor, onChange, moneda, modo }) => {
       render: (_, { monto }) => (
         <div style={{ textAlign: "right" }}>{formatFloat(monto)}</div>
       ),
-      width:"160px"
+      width: "160px",
     },
     {
       title: <div style={{ textAlign: "right" }}>Monto Pagado</div>,
@@ -59,10 +66,14 @@ const SeleccionCompraAPagar = ({ idproveedor, onChange, moneda, modo }) => {
       render: (_, { monto_pagado }) => (
         <div style={{ textAlign: "right" }}>{formatFloat(monto_pagado)}</div>
       ),
-      width:"160px"
+      width: "160px",
     },
     {
-      title: <div style={{ textAlign: "right" }}>Saldo&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>,
+      title: (
+        <div style={{ textAlign: "right" }}>
+          Saldo&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </div>
+      ),
       dataIndex: "saldo",
       key: "saldo",
       render: (_, { idfactura, saldo, checked }) => (
@@ -88,11 +99,11 @@ const SeleccionCompraAPagar = ({ idproveedor, onChange, moneda, modo }) => {
           </Button>
         </div>
       ),
-      width:"160px"
+      width: "160px",
     },
     {
       title: <div style={{ textAlign: "right" }}>Monto a Pagar</div>,
-      width:"170px",
+      width: "170px",
       dataIndex: "monto_a_pagar",
       key: "monto_a_pagar",
       render: (_, { monto_a_pagar, idfactura, checked }) =>
@@ -118,7 +129,7 @@ const SeleccionCompraAPagar = ({ idproveedor, onChange, moneda, modo }) => {
   ];
 
   const load = () => {
-   // alert(JSON.stringify( { idproveedor: idproveedor, moneda: moneda, modo: modo, es_remito: modo==1 ? false : true }))
+    // alert(JSON.stringify( { idproveedor: idproveedor, moneda: moneda, modo: modo, es_remito: modo==1 ? false : true }))
     post_method(
       post.obtener_facturas_saldo,
       { idproveedor: idproveedor, moneda: moneda, modo: modo },
@@ -141,7 +152,16 @@ const SeleccionCompraAPagar = ({ idproveedor, onChange, moneda, modo }) => {
           <Table
             size="small"
             title={(_) => <>Seleccione Documentos a Pagar</>}
-            footer={_=><div>Total a Pagar: $ {formatFloat(compras.filter(c=>c.checked).reduce((acc,c)=>acc+c.monto_a_pagar,0))}</div>}
+            footer={(_) => (
+              <div>
+                Total a Pagar: ${" "}
+                {formatFloat(
+                  compras
+                    .filter((c) => c.checked)
+                    .reduce((acc, c) => acc + c.monto_a_pagar, 0),
+                )}
+              </div>
+            )}
             dataSource={compras}
             columns={columns}
             pagination={false}

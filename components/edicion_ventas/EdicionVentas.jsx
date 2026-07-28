@@ -14,7 +14,10 @@ import {
   Table,
 } from "antd";
 import { useEffect, useState } from "react";
-import { CloseOutlined, PlusOutlined, ReloadOutlined } from "@ant-design/icons";
+import CloseOutlined from "@ant-design/icons/CloseOutlined";
+import PlusOutlined from "@ant-design/icons/PlusOutlined";
+import ReloadOutlined from "@ant-design/icons/ReloadOutlined";
+
 import SelectMedico from "../forms/ventas/SelectMedico";
 import SelectCliente from "../forms/ventas/SelectCliente";
 import SelectObraSocial from "../forms/ventas/SelectObraSocial";
@@ -145,7 +148,7 @@ const EdicionVentas = (props) => {
 
   const parse_date1 = (pData) => {
     if (!pData) {
-      alert("returning null for fecha retiro")
+      alert("returning null for fecha retiro");
       return null;
     }
     //input format 2026-03-10T06:00:00.000Z
@@ -653,7 +656,11 @@ const EdicionVentas = (props) => {
         </Row>
         <Row style={row_style}>
           <Col span={12}>
-                <Input prefix="Fecha Retiro: " readOnly value={venta.fechaRetiro||"-"} />
+            <Input
+              prefix="Fecha Retiro: "
+              readOnly
+              value={venta.fechaRetiro || "-"}
+            />
           </Col>
         </Row>
 

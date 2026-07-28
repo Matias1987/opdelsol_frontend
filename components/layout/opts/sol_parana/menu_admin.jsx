@@ -1,12 +1,8 @@
-import {
-  AreaChartOutlined,
-  BoxPlotOutlined,
-  CreditCardOutlined,
-  DollarOutlined,
-  HomeFilled,
-  MenuOutlined,
-  UserOutlined,
-} from "@ant-design/icons";
+import AreaChartOutlined from "@ant-design/icons/AreaChartOutlined";
+import CreditCardOutlined from "@ant-design/icons/CreditCardOutlined";
+import DollarOutlined from "@ant-design/icons/DollarOutlined";
+import HomeFilled from "@ant-design/icons/HomeFilled";
+import MenuOutlined from "@ant-design/icons/MenuOutlined";
 import { Menu, Modal } from "antd";
 import { useState } from "react";
 import Link from "next/link";
@@ -14,10 +10,9 @@ import { public_urls } from "@/src/urls";
 
 import BuscarVenta from "@/components/forms/ventas/BuscarVenta";
 
-
 export default function MenuAdminSolParana() {
   const [current, setCurrent] = useState("12");
-  const [modalBuscarVentaOpen, setModalBuscarVentaOpen] = useState(false)
+  const [modalBuscarVentaOpen, setModalBuscarVentaOpen] = useState(false);
 
   const items = [
     {
@@ -133,14 +128,18 @@ export default function MenuAdminSolParana() {
           ),
         },
       ],
-
     },
 
     {
-      label: <><Button onClick={_ => setModalBuscarVentaOpen(true)}>Buscar Venta</Button></>,
+      label: (
+        <>
+          <Button onClick={(_) => setModalBuscarVentaOpen(true)}>
+            Buscar Venta
+          </Button>
+        </>
+      ),
       key: "buscar_venta",
     },
-
   ];
 
   const onClick = (e) => {
@@ -164,10 +163,11 @@ export default function MenuAdminSolParana() {
       />
       <Modal
         open={modalBuscarVentaOpen}
-        onCancel={_ => setModalBuscarVentaOpen(false)}
+        onCancel={(_) => setModalBuscarVentaOpen(false)}
         destroyOnClose
         width={"100%"}
-        footer={null} >
+        footer={null}
+      >
         <BuscarVenta />
       </Modal>
     </>

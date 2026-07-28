@@ -1,18 +1,12 @@
 import { get } from "@/src/urls";
-import { Button, Col, Row, Table, Tag } from "antd";
-//import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
-//import { Pie } from 'react-chartjs-2';
+import { Col, Row, Table, Tag } from "antd";
 import { useEffect, useState } from "react";
 import { currency_format } from "@/src/helpers/string_helper";
-import { InfoCircleTwoTone } from "@ant-design/icons";
 import VentaDetallePopup from "../VentaDetalle";
-
-
 
 const ListaVentasAdmin = (props) =>{
     const [dataSource, setDataSource] = useState([])
     const [count, setCount] = useState(0);
-   // ChartJS.register(ArcElement, Tooltip, Legend);
 
 /*const data = {
     labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],

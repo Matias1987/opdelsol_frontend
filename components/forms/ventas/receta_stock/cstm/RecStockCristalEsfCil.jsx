@@ -1,13 +1,10 @@
-import { Button, Col, Input, InputNumber, Row, Segmented } from "antd";
+import { Button, Col, InputNumber, Row } from "antd";
 
 import { useState } from "react";
-import { CloseOutlined, DeleteOutlined } from "@ant-design/icons";
+import CloseOutlined from "@ant-design/icons/CloseOutlined";
+
 import globals from "@/src/globals";
-import {
-  parse_float_string,
-  validate_esf_cil_eje,
-  validate_only_numbers_and_letters,
-} from "@/src/helpers/string_helper";
+import { validate_esf_cil_eje } from "@/src/helpers/string_helper";
 import SelectCodigoVenta from "../../SelectCodigoVenta";
 import HelperToolTip from "../../common/HelperToolTip";
 import { decimal_separator } from "@/src/config";
@@ -25,7 +22,6 @@ const RecStockCristalEsfCil = (props) => {
     esf: "",
     cil: "",
   });
-  
 
   /*useEffect(() => {
     if (props.data  && props.data?.codigo) {
@@ -136,7 +132,7 @@ const RecStockCristalEsfCil = (props) => {
               disabled={cristal.codigo == null}
               onChange={(e) => onchange_cil(e)}
               prefix={"Cil."}
-            positiveZero={false}
+              positiveZero={false}
             />
           }
         </Col>
