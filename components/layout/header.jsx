@@ -1,16 +1,34 @@
 import globals from "@/src/globals";
 import { Button, Col, Layout, Row } from "antd";
-import SucursalLabel from "../sucursal_label";
 import useStorage from "@/useStorage";
 import LogoutOutlined from "@ant-design/icons/LogoutOutlined";
 import UserOutlined from "@ant-design/icons/UserOutlined";
 
 import { get, public_urls } from "@/src/urls";
 import { useEffect, useState } from "react";
-import CustomModal from "../CustomModal";
-import VentasVendedor from "../informes/ventas/VentasVendedor";
 import { registrar_evento } from "@/src/helpers/evento_helper";
 import { cambio_sucursal_habilitado } from "@/src/config";
+import dynamic from "next/dynamic";
+
+const CustomModal = dynamic(() => import("../CustomModal"), {
+  ssr: false,
+  loading: () => <div style={{ height: "30px" }}>Espere...</div>,
+});
+
+const VentasVendedor = dynamic(
+  () => import("../informes/ventas/VentasVendedor"),
+  {
+    ssr: false,
+    loading: () => <div style={{ height: "30px" }}>Espere...</div>,
+  },
+);
+
+const SucursalLabel = dynamic(() => import("../sucursal_label"), {
+  ssr: false,
+  loading: () => <div style={{ height: "30px" }}>Espere...</div>,
+});
+
+
 
 /**
  * Componente para el encabezado de la aplicación
@@ -23,7 +41,6 @@ const HeaderSol = (props) => {
   const [uname, setUName] = useState("");
   const [soloVtasCaja, setCambiarModo] = useState(true);
   useEffect(() => {
-    //alert(globals.obtenerSoloVtaCajaUser())
     setCambiarModo(globals.obtenerSoloVtaCajaUser());
     setUName(globals.obtenerUserName());
   }, []);
@@ -48,6 +65,8 @@ const HeaderSol = (props) => {
               />
             </>
           )}
+          </Col>
+          <Col>
           <CustomModal
             title={<h2 style={{ color: "darkred" }}>{uname}</h2>}
             width="500px"
@@ -56,7 +75,7 @@ const HeaderSol = (props) => {
               <>
                 <span style={{ color: "white" }}>
                   <UserOutlined size={"small"} />
-                  &nbsp;{uname}
+                  {uname}
                 </span>
               </>
             }

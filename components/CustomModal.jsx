@@ -45,7 +45,7 @@ export default function CustomModal(props) {
             style={props.btnStyle || { fontSize: "1em" }}
           >
             <span style={{ fontSize: "1.00em", fontWeight: "400" }}>
-              <i>{props.openButtonText}</i>
+              {props.openButtonText}
             </span>
           </Button>
         </Col>

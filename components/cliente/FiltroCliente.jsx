@@ -1,5 +1,5 @@
 import CustomModal from "@/components/CustomModal";
-import { Button, Input, Spin, Table } from "antd";
+import { Input, Table } from "antd";
 import { useEffect, useState } from "react";
 import ClienteForm from "../ClienteForm";
 import { get } from "@/src/urls";

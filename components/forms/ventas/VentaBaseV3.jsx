@@ -139,6 +139,7 @@ export default function VentaBaseV3(props) {
           <Col style={{ minWidth: "250px" }}>
             <SelectClienteV2
               destinatario
+       
               callback={(value) => {
                 onChange("fkdestinatario", value);
               }}
@@ -336,7 +337,7 @@ export default function VentaBaseV3(props) {
               <SelectClienteV2
                 openButtonText={
                   <span style={{ fontWeight: "400" }}>
-                    &nbsp;*Seleccione Destinatario
+                    &nbsp;Seleccione Destinatario
                   </span>
                 }
                 destinatario
