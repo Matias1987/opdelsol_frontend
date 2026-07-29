@@ -1,4 +1,3 @@
-import VDItem from "@/components/forms/ventas/directa/Item";
 import LayoutVentas from "@/components/layout/layout_ventas";
 import { public_urls } from "@/src/urls";
 import { useState } from "react";
@@ -6,10 +5,38 @@ import globals from "@/src/globals";
 import { submit_venta } from "@/src/helpers/ventas_helper";
 import { Modal } from "antd";
 import PrinterWrapper from "@/components/PrinterWrapper";
-import InformeVenta from "@/components/informes/ventas/Base";
-import VentaBaseV3 from "@/components/forms/ventas/VentaBaseV3";
-import InformeX from "@/components/informes/caja/InformeX";
-import LayoutVentasV2 from "@/components/layout/layout_ventas_v2";
+import dynamic from "next/dynamic";
+
+const VentaBaseV3 = dynamic(
+  () => import("@/components/forms/ventas/VentaBaseV3"),
+  {
+    ssr: false,
+    loading: () => <div style={{ height: "300px" }}>..::Loading::..</div>,
+  },
+);
+const InformeX = dynamic(
+  () => import("@/components/informes/caja/InformeX"),
+  {
+    ssr: false,
+    loading: () => <div style={{ height: "300px" }}>..::Loading::..</div>,
+  },
+);
+const VDItem = dynamic(
+  () => import("@/components/forms/ventas/directa/Item"),
+  {
+    ssr: false,
+    loading: () => <div style={{ height: "300px" }}>..::Loading::..</div>,
+  },
+);
+const InformeVenta = dynamic(
+  () => import("@/components/informes/ventas/Base"),
+  {
+    ssr: false,
+    loading: () => <div style={{ height: "300px" }}>..::Loading::..</div>,
+  },
+);
+
+
 
 export default function VentaDirecta() {
   const [venta, setVenta] = useState(null);

@@ -1,13 +1,34 @@
 import { get, public_urls } from "@/src/urls";
 import useStorage from "@/useStorage";
-import { Alert, Button, Layout } from "antd";
+import {Layout} from "antd";
 import { useEffect } from "react";
 import globals from "@/src/globals";
-import Alerts from "./alert_container";
-import HeaderSol from "./header";
-import MenuLaboratorioTop from "./menu_laboratorio_top";
 import { idf_optica } from "@/src/config";
-import MenuTallerCOExp from "./opts/coexp/menu_taller";
+import dynamic from "next/dynamic";
+
+const MenuLaboratorioTop = dynamic(
+  () => import("./menu_laboratorio_top"),
+  {
+    ssr: false,
+    loading: () => <div style={{ height: "300px" }}>..::Loading::..</div>,
+  },
+);
+
+const MenuTallerCOExp = dynamic(
+  () => import("./opts/coexp/menu_taller"),
+  {
+    ssr: false,
+    loading: () => <div style={{ height: "300px" }}>..::Loading::..</div>,
+  },
+);
+
+const HeaderSol = dynamic(
+  () => import("./header"),
+  {
+    ssr: false,
+    loading: () => <div style={{ height: "300px" }}>..::Loading::..</div>,
+  },
+);
 
 export default function LayoutLaboratorio(props){
     const { Content } = Layout;

@@ -1,23 +1,16 @@
-import ModificarStock from "@/components/deposito/modificarStock";
 import LayoutLaboratorio from "@/components/layout/layout_laboratorio";
-import globals from "@/src/globals";
+import dynamic from "next/dynamic";
+
+const ModificarStock = dynamic(
+  () => import("@/components/deposito/modificarStock"),
+  {
+    ssr: false,
+    loading: () => <div style={{ height: "300px" }}>..::Loading::..</div>,
+  },
+);
 
 export default function stock_taller() {
-  return (
-    <ModificarStock
-
-    />
-  );
+  return <ModificarStock />;
 }
 
 stock_taller.PageLayout = LayoutLaboratorio;
-/*
-
-      dataDef={{
-        title: "Armazones",
-        idInicial: globals.familiaIDs.CRISTALES,
-        tipoInicial: "familia",
-        nombreInicial: "CRISTALES",
-      }}
-      defIdFamilia={globals.familiaIDs.CRISTALES}
-      familiaEnabled={false}*/

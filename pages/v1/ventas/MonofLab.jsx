@@ -1,4 +1,3 @@
-import MonofLabItems from "@/components/forms/ventas/monof_lab/items";
 import LayoutVentas from "@/components/layout/layout_ventas";
 import { useState } from "react";
 import { public_urls } from "@/src/urls";
@@ -6,9 +5,34 @@ import globals from "@/src/globals";
 import { submit_venta } from "@/src/helpers/ventas_helper";
 import { Modal } from "antd";
 import PrinterWrapper from "@/components/PrinterWrapper";
-import InformeVenta from "@/components/informes/ventas/Base";
-import InformeX from "@/components/informes/caja/InformeX";
-import VentaBaseV3 from "@/components/forms/ventas/VentaBaseV3";
+
+import dynamic from "next/dynamic";
+
+const MonofLabItems = dynamic(
+  () => import("@/components/forms/ventas/monof_lab/items"),
+  {
+    ssr: false,
+    loading: () => <div style={{ height: "300px" }}>..::Loading::..</div>,
+  },
+);
+const InformeVenta = dynamic(
+  () => import("@/components/informes/ventas/Base"),
+  {
+    ssr: false,
+    loading: () => <div style={{ height: "300px" }}>..::Loading::..</div>,
+  },
+);
+const InformeX = dynamic(() => import("@/components/informes/caja/InformeX"), {
+  ssr: false,
+  loading: () => <div style={{ height: "300px" }}>..::Loading::..</div>,
+});
+const VentaBaseV3 = dynamic(
+  () => import("@/components/forms/ventas/VentaBaseV3"),
+  {
+    ssr: false,
+    loading: () => <div style={{ height: "300px" }}>..::Loading::..</div>,
+  },
+);
 
 export default function VentaMonofocalesLab() {
   const [productos, setProductos] = useState(null);
@@ -69,10 +93,9 @@ export default function VentaMonofocalesLab() {
 
   const onClosePrintPopup = (_) => {
     setPrintOpen(false);
-    if(idCobro>0){
+    if (idCobro > 0) {
       setPrintPoupXOpen(true);
-    }
-    else{
+    } else {
       window.location.replace(public_urls.dashboard_venta);
     }
   };

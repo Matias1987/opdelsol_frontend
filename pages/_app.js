@@ -4,18 +4,29 @@ import "@/styles/globals.css";
 import { ConfigProvider, theme } from "antd";
 import { useState } from "react";
 import es_ES from "antd/locale/es_ES";
-import moment from "moment";
 import dayjs from "dayjs";
 import "dayjs/locale/es";
+import updateLocale from 'dayjs/plugin/updateLocale';
 //import { SocketProvider } from '@/components/etc/SocketProvider'
 //import SocketStatus from '@/components/etc/SocketStatus'
 export default function App({ Component, pageProps }) {
   const [isDarkTheme, setDarkTheme] = useState(true);
-  moment.locale("es");
-  dayjs.locale("es");
-  moment.updateLocale("en", {
-    weekdaysMin: ["Dom", "Lun", "Mar", "Mier", "Thu", "Fri", "Sat"],
-  });
+  //moment.locale("es");
+  //dayjs.locale("es");
+  //moment.updateLocale("en", {
+  //  weekdaysMin: ["Dom", "Lun", "Mar", "Mier", "Thu", "Fri", "Sat"],
+  //});
+
+  // 1. Activate the updateLocale plugin
+dayjs.extend(updateLocale);
+
+// 2. Set global locale to Spanish
+dayjs.locale('es');
+
+// 3. Update the English locale configuration
+dayjs.updateLocale('en', {
+  weekdaysMin: ["Dom", "Lun", "Mar", "Mier", "Thu", "Fri", "Sat"]});
+
   return (
     <>
       {/*<SocketProvider>*/}

@@ -1,4 +1,3 @@
-import LCLabItems from "@/components/forms/ventas/lc_laboratorio/items";
 import LayoutVentas from "@/components/layout/layout_ventas";
 import { useState } from "react";
 import { public_urls } from "@/src/urls";
@@ -6,10 +5,36 @@ import globals from "@/src/globals";
 import { submit_venta } from "@/src/helpers/ventas_helper";
 import { Modal } from "antd";
 import PrinterWrapper from "@/components/PrinterWrapper";
-import InformeVenta from "@/components/informes/ventas/Base";
-import InformeX from "@/components/informes/caja/InformeX";
-import VentaBaseV3 from "@/components/forms/ventas/VentaBaseV3";
-import LayoutVentasV2 from "@/components/layout/layout_ventas_v2";
+import dynamic from "next/dynamic";
+
+const LCLabItems = dynamic(
+  () => import("@/components/forms/ventas/lc_laboratorio/items"),
+  {
+    ssr: false,
+    loading: () => <div style={{ height: "300px" }}>..::Loading::..</div>,
+  },
+);
+const InformeVenta = dynamic(
+  () => import("@/components/informes/ventas/Base"),
+  {
+    ssr: false,
+    loading: () => <div style={{ height: "300px" }}>..::Loading::..</div>,
+  },
+);
+const InformeX = dynamic(
+  () => import("@/components/informes/caja/InformeX"),
+  {
+    ssr: false,
+    loading: () => <div style={{ height: "300px" }}>..::Loading::..</div>,
+  },
+);
+const VentaBaseV3 = dynamic(
+  () => import("@/components/forms/ventas/VentaBaseV3"),
+  {
+    ssr: false,
+    loading: () => <div style={{ height: "300px" }}>..::Loading::..</div>,
+  },
+);
 
 export default function VentaLCLab() {
   const [productos, setProductos] = useState(null);

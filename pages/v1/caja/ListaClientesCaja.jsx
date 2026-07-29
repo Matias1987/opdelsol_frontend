@@ -1,5 +1,13 @@
 import LayoutCaja from "@/components/layout/layout_caja";
-import ListaClientes from "@/components/cliente/ListaClientes";
+import dynamic from "next/dynamic";
+
+const ListaClientes = dynamic(
+  () => import("@/components/cliente/ListaClientes"),
+  {
+    ssr: false,
+    loading: () => <div style={{ height: "300px" }}>..::Loading::..</div>,
+  },
+);
 
 export default function ListaClientesCaja() {
   return (

@@ -1,5 +1,13 @@
-import TestGridCreation from "@/components/etc/testGridCreation";
 import LayoutLaboratorio from "@/components/layout/layout_laboratorio";
+import dynamic from "next/dynamic";
+
+const TestGridCreation = dynamic(
+  () => import("@/components/etc/testGridCreation"),
+  {
+    ssr: false,
+    loading: () => <div style={{ height: "300px" }}>..::Loading::..</div>,
+  },
+);
 
 export default function stock_cristales() {
   return (
@@ -9,5 +17,4 @@ export default function stock_cristales() {
   );
 }
 
-//stock_cristales.PageLayout = MyLayout;
 stock_cristales.PageLayout = LayoutLaboratorio;

@@ -1,6 +1,5 @@
+//import LayoutVentasV2 from "@/components/layout/layout_ventas_v2";
 import LayoutVentas from "@/components/layout/layout_ventas";
-import LayoutVentasV2 from "@/components/layout/layout_ventas_v2";
-
 export default function Index(){
 
     return (<>
@@ -8,4 +7,4 @@ export default function Index(){
     </>)
 }
 
-Index.PageLayout = LayoutVentasV2;  
+Index.PageLayout = LayoutVentas;  

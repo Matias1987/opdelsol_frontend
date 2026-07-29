@@ -1,5 +1,3 @@
-import ClienteFormDistrib from "@/components/cliente/ClienteFormDistrib";
-import FichaClienteMayorista from "@/components/cliente/FichaClienteMayorista";
 import LayoutDistribuidora from "@/components/layout/layout_distribuidora";
 import { get } from "@/src/urls";
 import InfoCircleFilled from "@ant-design/icons/InfoCircleFilled";
@@ -7,6 +5,23 @@ import PlusOutlined from "@ant-design/icons/PlusOutlined";
 import ReloadOutlined from "@ant-design/icons/ReloadOutlined";
 import { Button, Card, Input, Modal, Table } from "antd";
 import { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
+
+const ClienteFormDistrib = dynamic(
+  () => import("@/components/cliente/ClienteFormDistrib"),
+  {
+    ssr: false,
+    loading: () => <div style={{ height: "300px" }}>Cargando...</div>,
+  },
+);
+const FichaClienteMayorista = dynamic(
+  () => import("@/components/cliente/FichaClienteMayorista"),
+  {
+    ssr: false,
+    loading: () => <div style={{ height: "300px" }}>Cargando...</div>,
+  },
+);
+
 
 export default function clientes() {
   const [data, setData] = useState(null);

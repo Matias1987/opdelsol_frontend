@@ -3,15 +3,39 @@ import useStorage from "@/useStorage";
 import { Alert, Layout, Row, Col, Grid } from "antd";
 import { useEffect, useState } from "react";
 import globals from "@/src/globals";
-import PopupResultadoBusqueda from "../precios/PopupResultadoBusqueda";
-import BarraResumenCaja from "../forms/caja/BarraResumenCaja";
-import MenuVentasMobile from "./mobile_menu_ventas";
-import MenuV3 from "./menu_v3";
+import dynamic from "next/dynamic";
 const { useBreakpoint } = Grid;
+
+
+const BarraResumenCaja = dynamic(
+  () => import("../forms/caja/BarraResumenCaja"),
+  {
+    ssr: false,
+    loading: () => <div style={{ height: "300px" }}>..::Loading::..</div>,
+  },
+);
+
+const MenuVentasMobile = dynamic(() => import("./mobile_menu_ventas"), {
+  ssr: false,
+  loading: () => <div style={{ height: "300px" }}>..::Loading::..</div>,
+});
+const MenuV3 = dynamic(() => import("./menu_v3"), {
+  ssr: false,
+  loading: () => <div style={{ height: "300px" }}>..::Loading::..</div>,
+});
+
+const PopupResultadoBusqueda = dynamic(
+  () => import("../precios/PopupResultadoBusqueda"),
+  {
+    ssr: false,
+    loading: () => <div style={{ height: "300px" }}>..::Loading::..</div>,
+  },
+);
 
 export default function LayoutVentasV2(props) {
   const { Content } = Layout;
   const [alerta, setAlerta] = useState("");
+  const [esUsuaroCaja1, setEsUsuarioCaja1] = useState(false);
   const { getItem } = useStorage();
   const [popupBusquedaOpen, setPopupBusquedaOpen] = useState(false);
   const [busqueda, setBusqueda] = useState("");
@@ -81,45 +105,45 @@ export default function LayoutVentasV2(props) {
   };
 
   useEffect(() => {
+    setEsUsuarioCaja1(globals.esUsuarioCaja1());
     validate_user();
   }, []);
 
   return (
     <Layout style={{ padding: 0 }} className="layout">
-      {/*<HeaderSol
-        tipoCuenta="VENTAS"
-        displaymodechange={(__c) => {
-          props?.displaymodechange?.(__c);
-        }}
-      />*/}
-      {!screens.md ? (
-        <MenuVentasMobile />
-      ) : (
-        <MenuV3
-          onChangeSearch={(e) => {
-            setBusqueda(e.target.value);
-          }}
-          onSearch={onSearch}
-        />
-      )}
-
-      {globals.esUsuarioCaja1() ? <BarraResumenCaja /> : <></>}
+      <div>
+        {!screens.md ? (
+          <div>
+            <MenuVentasMobile />
+          </div>
+        ) : (
+          <div>
+            <MenuV3
+              onChangeSearch={(e) => {
+                setBusqueda(e.target.value);
+              }}
+              onSearch={onSearch}
+            />
+          </div>
+        )}
+      </div>
+      <div>{esUsuaroCaja1 ? <div><BarraResumenCaja /></div> : <div></div>}</div>
       <Content
         style={!screens.md ? content_style_mobile : content_style_desktop}
       >
         <Row>
           <Col span={24}>{props.children}</Col>
         </Row>
-
-        <PopupResultadoBusqueda
-          open={popupBusquedaOpen}
-          busqueda={busqueda}
-          callback={() => {
-            setPopupBusquedaOpen(false);
-            setBusqueda("");
-          }}
-        />
-
+        <div>
+          <PopupResultadoBusqueda
+            open={popupBusquedaOpen}
+            busqueda={busqueda}
+            callback={() => {
+              setPopupBusquedaOpen(false);
+              setBusqueda("");
+            }}
+          />
+        </div>
         {alerta != "" ? (
           <>
             <Alert

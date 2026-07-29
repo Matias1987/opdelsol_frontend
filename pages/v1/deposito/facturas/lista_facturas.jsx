@@ -1,11 +1,18 @@
-import ListaFacturas from "@/components/admin/factura/listaFacturas";
+import dynamic from "next/dynamic";
 
+const ListaFacturas = dynamic(
+  () => import("@/components/admin/factura/listaFacturas"),
+  {
+    ssr: false,
+    loading: () => <div style={{ height: "300px" }}>..::Loading::..</div>,
+  },
+);
 const lista_facturas_deposito = (props) => {
-    
-
-    return <>
-    <ListaFacturas />
+  return (
+    <>
+      <ListaFacturas />
     </>
-}
+  );
+};
 
-export default  lista_facturas_deposito;
+export default lista_facturas_deposito;

@@ -1,9 +1,5 @@
-import CustomModal from "@/components/CustomModal";
-import PrinterWrapper from "@/components/PrinterWrapper";
 import InicioCaja from "@/components/forms/caja/InicioCaja";
 import ListaCaja from "@/components/forms/caja/ListaCajas";
-import InformeCaja from "@/components/informes/caja/InformeCaja";
-import InformeCajaV2 from "@/components/informes/caja/InformeCajaV2";
 
 import InformeCajaV3 from "@/components/informes/caja/InformeCajaV3";
 import LayoutCaja from "@/components/layout/layout_caja";

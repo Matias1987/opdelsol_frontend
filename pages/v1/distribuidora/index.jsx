@@ -1,5 +1,5 @@
 import LayoutDistribuidora from "@/components/layout/layout_distribuidora";
-import { Col, Divider, Row } from "antd";
+import { Col, Row } from "antd";
 
 export default function DashboardDistribuidora() {
   return (
@@ -8,16 +8,6 @@ export default function DashboardDistribuidora() {
         <Col>
           <div>Bienvenido</div>
         </Col>
-      </Row>
-      <Divider />
-      <Row>
-        <Col></Col>
-      </Row>
-      <Row>
-        <Col></Col>
-      </Row>
-      <Row>
-        <Col></Col>
       </Row>
     </>
   );

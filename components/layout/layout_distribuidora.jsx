@@ -3,18 +3,29 @@ import useStorage from "@/useStorage";
 import { Alert, Layout, Row, Col, Card, Modal } from "antd";
 import { useEffect, useState } from "react";
 import globals from "@/src/globals";
-import MenuDistribuidora from "./menu_distribuidora";
-import TrabajoMultiple from "../forms/trabajo_multiple/venta_multiple";
+import dynamic from "next/dynamic";
+
+const MenuDistribuidora = dynamic(() => import("./menu_distribuidora"), {
+  ssr: false,
+  loading: () => <div style={{ height: "300px" }}>..::Loading::..</div>,
+});
+
+const TrabajoMultiple = dynamic(
+  () => import("../forms/trabajo_multiple/venta_multiple"),
+  {
+    ssr: false,
+    loading: () => <div style={{ height: "300px" }}>..::Loading::..</div>,
+  },
+);
 
 export default function LayoutDistribuidora(props) {
-  const [modalOpen, setModalOpen] = useState(false)
+  const [modalOpen, setModalOpen] = useState(false);
   const { Content } = Layout;
   const [alerta, setAlerta] = useState("");
   const { getItem } = useStorage();
   const card_style2 = {
     header: {
       backgroundColor: "#262D42",
-      
     },
     body: {
       backgroundColor: "#FAFAFA",
@@ -70,10 +81,20 @@ export default function LayoutDistribuidora(props) {
       <Card
         size="small"
         styles={card_style2}
-        title={<div>{<MenuDistribuidora onNuevaVentaClick={_=>{setModalOpen(true)}} />}</div>}
+        title={
+          <div>
+            {
+              <MenuDistribuidora
+                onNuevaVentaClick={(_) => {
+                  setModalOpen(true);
+                }}
+              />
+            }
+          </div>
+        }
         style={{
-          borderLeft:"#262D42",
-          borderRight:"#262D42",
+          borderLeft: "#262D42",
+          borderRight: "#262D42",
         }}
       >
         <Content
@@ -103,9 +124,15 @@ export default function LayoutDistribuidora(props) {
           </Row>
         </Content>
       </Card>
-      <Modal open={modalOpen} onCancel={_=>{setModalOpen(false)}} width={"100%"}>
+      <Modal
+        open={modalOpen}
+        onCancel={(_) => {
+          setModalOpen(false);
+        }}
+        width={"100%"}
+      >
         <TrabajoMultiple />
-    </Modal>
+      </Modal>
     </Layout>
   );
 }

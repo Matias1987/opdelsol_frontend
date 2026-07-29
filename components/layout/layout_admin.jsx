@@ -3,12 +3,21 @@ import useStorage from "@/useStorage";
 
 import { useEffect, useState } from "react";
 import globals from "@/src/globals";
-import  MenuFoldOutlined  from "@ant-design/icons/MenuFoldOutlined";
-import  MenuUnfoldOutlined  from "@ant-design/icons/MenuUnfoldOutlined";
-import SideMenuAdmin from "./SideMenuAdmin";
-import SideMenuAdminMin from "./SideMenuAdminMin";
+import MenuFoldOutlined from "@ant-design/icons/MenuFoldOutlined";
+import MenuUnfoldOutlined from "@ant-design/icons/MenuUnfoldOutlined";
 import { Button, Layout } from "antd";
 import { Content } from "antd/es/layout/layout";
+import dynamic from "next/dynamic";
+
+const SideMenuAdmin = dynamic(() => import("./SideMenuAdmin"), {
+  ssr: false,
+  loading: () => <div style={{ height: "300px" }}>..::Loading::..</div>,
+});
+
+const SideMenuAdminMin = dynamic(() => import("./SideMenuAdminMin"), {
+  ssr: false,
+  loading: () => <div style={{ height: "300px" }}>..::Loading::..</div>,
+});
 
 export default function LayoutAdmin({ children }) {
   const [collapsed, setCollapsed] = useState(false);

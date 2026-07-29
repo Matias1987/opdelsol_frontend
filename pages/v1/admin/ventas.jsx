@@ -1,11 +1,47 @@
-import ListaVentasDia from "@/components/admin/listaVentasDia";
-import BuscarVenta from "@/components/forms/ventas/BuscarVenta";
-import BuscarVentaV3 from "@/components/forms/ventas/BuscarVentasV3";
-import ListaVentasMedicosTotales from "@/components/informes/medicos/ventas_medicos_totales";
-import InformeVentasTotales from "@/components/informes/ventas/admin/totales";
-import VentasSucursales from "@/components/informes/ventas/admin/ventas_sucursales";
-import VentasVendedor from "@/components/informes/ventas/admin/ventas_vendedor";
 import LayoutAdmin from "@/components/layout/layout_admin";
+
+import dynamic from "next/dynamic";
+
+const BuscarVenta = dynamic(
+  () => import("@/components/forms/ventas/BuscarVenta"),
+  {
+    ssr: false,
+    loading: () => <div style={{ height: "300px" }}>..::Loading::..</div>,
+  },
+);
+
+const ListaVentasMedicosTotales = dynamic(
+  () => import("@/components/informes/medicos/ventas_medicos_totales"),
+  {
+    ssr: false,
+    loading: () => <div style={{ height: "300px" }}>..::Loading::..</div>,
+  },
+);
+
+const VentasSucursales = dynamic(
+  () => import("@/components/informes/ventas/admin/ventas_sucursales"),
+  {
+    ssr: false,
+    loading: () => <div style={{ height: "300px" }}>..::Loading::..</div>,
+  },
+);
+
+const VentasVendedor = dynamic(
+  () => import("@/components/informes/ventas/admin/ventas_vendedor"),
+  {
+    ssr: false,
+    loading: () => <div style={{ height: "300px" }}>..::Loading::..</div>,
+  },
+);
+
+const ListaVentasDia = dynamic(
+  () => import("@/components/admin/listaVentasDia"),
+  {
+    ssr: false,
+    loading: () => <div style={{ height: "300px" }}>..::Loading::..</div>,
+  },
+);
+
 import { Tabs } from "antd";
 
 const VentasAdminPanel = () => {
@@ -42,5 +78,5 @@ const VentasAdminPanel = () => {
     </div>
   );
 };
-VentasAdminPanel.PageLayout = LayoutAdmin;  
+VentasAdminPanel.PageLayout = LayoutAdmin;
 export default VentasAdminPanel;

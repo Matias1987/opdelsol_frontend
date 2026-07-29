@@ -1,14 +1,33 @@
 
 import { Layout} from 'antd';
-import TestMenu from './menu_test';
 import { useEffect, useState } from 'react'
 import useStorage from "../../useStorage";
 import { get, public_urls } from '@/src/urls';
 import globals from '@/src/globals';
-import HeaderSol from './header';
-import MenuV2 from './menu_v2';
 import { Content } from 'antd/es/layout/layout';
+import dynamic from 'next/dynamic';
 
+const TestMenu = dynamic(
+  () => import("./menu_test"),
+  {
+    ssr: false,
+    loading: () => <div style={{ height: "300px" }}>Cargando...</div>,
+  },
+);
+const MenuV2 = dynamic(
+  () => import("./menu_v2"),
+  {
+    ssr: false,
+    loading: () => <div style={{ height: "300px" }}>Cargando...</div>,
+  },
+);
+const HeaderSol = dynamic(
+  () => import("./header"),
+  {
+    ssr: false,
+    loading: () => <div style={{ height: "300px" }}>Cargando...</div>,
+  },
+);
 
 export default function MyLayout(props){
     const [uDepositoMin, setUDepositoMin] = useState(false)

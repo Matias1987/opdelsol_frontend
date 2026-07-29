@@ -3,20 +3,42 @@ import useStorage from "@/useStorage";
 import { Alert, Layout, Row, Col, Input, Card, Button } from "antd";
 import { useEffect, useState } from "react";
 import globals from "@/src/globals";
-import HeaderSol from "./header";
-import MenuV2 from "./menu_v2";
-import PopupResultadoBusqueda from "../precios/PopupResultadoBusqueda";
-import BarraResumenCaja from "../forms/caja/BarraResumenCaja";
 import SearchOutlined from "@ant-design/icons/SearchOutlined";
 import { Content } from "antd/es/layout/layout";
+import dynamic from "next/dynamic";
 
+const MenuV2 = dynamic(() => import("./menu_v2"), {
+  ssr: false,
+  loading: () => <div style={{ height: "300px" }}>..::Loading::..</div>,
+});
+
+const PopupResultadoBusqueda = dynamic(
+  () => import("../precios/PopupResultadoBusqueda"),
+  {
+    ssr: false,
+    loading: () => <div style={{ height: "300px" }}>..::Loading::..</div>,
+  },
+);
+
+const BarraResumenCaja = dynamic(
+  () => import("../forms/caja/BarraResumenCaja"),
+  {
+    ssr: false,
+    loading: () => <div style={{ height: "300px" }}>..::Loading::..</div>,
+  },
+);
+
+const HeaderSol = dynamic(() => import("./header"), {
+  ssr: false,
+  loading: () => <div style={{ height: "300px" }}>..::Loading::..</div>,
+});
 
 export default function LayoutVentas(props) {
   const [alerta, setAlerta] = useState("");
   const { getItem } = useStorage();
   const [popupBusquedaOpen, setPopupBusquedaOpen] = useState(false);
   const [busqueda, setBusqueda] = useState("");
-
+  const [esUCaja1, setEsUCaja1] = useState(false)
   const onSearch = () => {
     if (busqueda.trim().length < 1) {
       return;
@@ -60,7 +82,7 @@ export default function LayoutVentas(props) {
               if (+response.data.abierta == 1) {
                 globals.setCajaOpen(true);
                 setAlerta(
-                  +response.data.current == 1 ? "" : "Caja Desactualizada"
+                  +response.data.current == 1 ? "" : "Caja Desactualizada",
                 );
               } else {
                 //alert("caja cerrada")
@@ -70,33 +92,37 @@ export default function LayoutVentas(props) {
           }
         });
     }, 10000);
-    
   };
   useEffect(() => {
-    if(!globals.esUsuarioCaja1())
-    {
-        window.location.replace(public_urls.modo)
+    setEsUCaja1(globals.esUsuarioCaja1());
+    if (!globals.esUsuarioCaja1()) {
+      window.location.replace(public_urls.modo);
     }
     validate_user();
   }, []);
 
-    const card_style2 = {
-      header: {
-        background: "#E7E9EB",
-        //borderTop:"2px solid #663F4C",
-        //borderTop:"2px solid #3A5C79",
-      },  
-      body:{
-        backgroundColor:"#ffffffff", 
-        padding:"0"
-      }
-  } 
+  const card_style2 = {
+    header: {
+      background: "#E7E9EB",
+      //borderTop:"2px solid #663F4C",
+      //borderTop:"2px solid #3A5C79",
+    },
+    body: {
+      backgroundColor: "#ffffffff",
+      padding: "0",
+    },
+  };
 
   const card_style = {
-        header:{background: "#ADD8E6", background: "linear-gradient(39deg, rgba(173, 216, 230, 1) 62%, rgba(128, 164, 230, 1) 95%)", borderTop:"3px solid #4589A0"},  
-        body:{backgroundColor:"#FAFBFF", padding:"0"}
-      }
-  
+    header: {
+      background: "#ADD8E6",
+      background:
+        "linear-gradient(39deg, rgba(173, 216, 230, 1) 62%, rgba(128, 164, 230, 1) 95%)",
+      borderTop: "3px solid #4589A0",
+    },
+    body: { backgroundColor: "#FAFBFF", padding: "0" },
+  };
+
   return (
     <Layout style={{ padding: 0 }} className="layout">
       <HeaderSol
@@ -105,18 +131,33 @@ export default function LayoutVentas(props) {
           props?.displaymodechange?.(__c);
         }}
       />
-      
+
       <Card
-      styles={card_style2}
+        styles={card_style2}
         extra={
           <div>
-            <Input 
-            style={{borderRadius:"16px", backgroundColor:"rgb(255, 255, 255)", }} 
-            suffix={<><Button type="link" onClick={onSearch}><SearchOutlined /></Button></>} 
-            prefix={<span style={{fontWeight:"600"}}>Buscar Código:</span>} 
-            value={busqueda} 
-            onChange={(e)=>{setBusqueda(e.target.value)}}
-            onKeyDown={e=>{if(e.key=== 'Enter'){onSearch()}}}
+            <Input
+              style={{
+                borderRadius: "16px",
+                backgroundColor: "rgb(255, 255, 255)",
+              }}
+              suffix={
+                <div>
+                  <Button type="link" onClick={onSearch}>
+                    <SearchOutlined />
+                  </Button>
+                </div>
+              }
+              prefix={<span style={{ fontWeight: "600" }}>Buscar Código:</span>}
+              value={busqueda}
+              onChange={(e) => {
+                setBusqueda(e.target.value);
+              }}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  onSearch();
+                }
+              }}
             />
           </div>
         }
@@ -126,7 +167,7 @@ export default function LayoutVentas(props) {
           </>
         }
       >
-         {globals.esUsuarioCaja1() ? <BarraResumenCaja /> : <></>}  
+        { esUCaja1 ? <div> <BarraResumenCaja /> </div> : <div></div>}
         <Content
           style={{
             margin: "0px 10px",
@@ -135,15 +176,20 @@ export default function LayoutVentas(props) {
             minHeight: 580,
           }}
         >
-            
-            {alerta != "" ? (
+          {alerta != "" ? (
             <>
-            <Alert style={{fontSize:".9em", padding:"1px 50px "}} key={alerta} message={alerta} type="error" showIcon />
-            <br />
+              <Alert
+                style={{ fontSize: ".9em", padding: "1px 50px " }}
+                key={alerta}
+                message={alerta}
+                type="error"
+                showIcon
+              />
+              <br />
             </>
-            ) : (
-                <></>
-            )}
+          ) : (
+            <></>
+          )}
           <Row>
             <Col span={24}>{props.children}</Col>
           </Row>

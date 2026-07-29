@@ -10,17 +10,14 @@ const BarraResumenCaja = () => {
     fetch(get.resumen_caja + globals.obtenerSucursal())
       .then((r) => r.json())
       .then((response) => {
-        //alert(JSON.stringify(response))
         const rows = [];
         let saldo = 0;
         const result = response?.data || [];
-        //alert(JSON.stringify(result))
         result.forEach((row) => {
           saldo +=
             row.tipo == "ingreso"
               ? parseFloat(row.monto || "0")
               : -parseFloat(row.monto || "0");
-          //alert(saldo)
           rows.push({
             tipo: row.tipo,
             detalle: row.detalle,
@@ -67,8 +64,8 @@ const BarraResumenCaja = () => {
 
   return data ? (
     <div style={style}>
-      {data.map((_row) => (
-        <div style={{ paddingLeft: "50px", width: "150px" }}>
+      {data.map((_row, index) => (
+        <div style={{ paddingLeft: "50px", width: "150px" }} key={index}>
           <span style={{ whiteSpace: "nowrap" }}>
             {_row.detalle || ""}:&nbsp;&nbsp;
           </span>

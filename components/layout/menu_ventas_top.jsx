@@ -6,9 +6,21 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { public_urls } from "@/src/urls";
 import globals from "@/src/globals";
-import ListaPreciosV3 from "../lista_precios/listaPreciosV3";
 import { lista_precios_visible } from "@/src/config";
-import BuscarVentaV3 from "../forms/ventas/BuscarVentasV3";
+import dynamic from "next/dynamic";
+
+const ListaPreciosV3 = dynamic(
+  () => import("../lista_precios/listaPreciosV3"),
+  {
+    ssr: false,
+    loading: () => <div style={{ height: "300px" }}>..::Loading::..</div>,
+  },
+);
+
+const BuscarVentaV3 = dynamic(() => import("../forms/ventas/BuscarVentasV3"), {
+  ssr: false,
+  loading: () => <div style={{ height: "300px" }}>..::Loading::..</div>,
+});
 
 export default function MenuVentasTop(props) {
   const [current, setCurrent] = useState(null);

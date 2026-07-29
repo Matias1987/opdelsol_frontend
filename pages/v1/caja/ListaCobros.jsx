@@ -1,12 +1,21 @@
-import ListaCobros from "@/components/forms/caja/ListaCobros";
 import LayoutCaja from "@/components/layout/layout_caja";
 import globals from "@/src/globals";
+import dynamic from "next/dynamic";
 
-export default function ListaCobrosSucursal(){
-    return <>
-   
-        <ListaCobros idsucursal={globals.obtenerSucursal()} />
-    </>  
+const ListaCobros = dynamic(
+  () => import("@/components/forms/caja/ListaCobros"),
+  {
+    ssr: false,
+    loading: () => <div style={{ height: "300px" }}>..::Loading::..</div>,
+  },
+);
+
+export default function ListaCobrosSucursal() {
+  return (
+    <>
+      <ListaCobros idsucursal={globals.obtenerSucursal()} />
+    </>
+  );
 }
 
-ListaCobrosSucursal.PageLayout = LayoutCaja;  
+ListaCobrosSucursal.PageLayout = LayoutCaja;

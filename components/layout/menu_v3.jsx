@@ -9,11 +9,31 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { public_urls } from "@/src/urls";
 import globals from "@/src/globals";
-import ListaPreciosV3 from "../lista_precios/listaPreciosV3";
 import { idf_optica, lista_precios_visible } from "@/src/config";
-import BuscarVentaV3 from "../forms/ventas/BuscarVentasV3";
-import ListaPreciosV4 from "../lista_precios/listaPreciosV4";
-import SucursalLabel from "../sucursal_label";
+import dynamic from "next/dynamic";
+
+const ListaPreciosV3 = dynamic(
+  () => import("../lista_precios/listaPreciosV3"),
+  {
+    ssr: false,
+    loading: () => <div style={{ height: "300px" }}>..::Loading::..</div>,
+  },
+);
+const BuscarVentaV3 = dynamic(() => import("../forms/ventas/BuscarVentasV3"), {
+  ssr: false,
+  loading: () => <div style={{ height: "300px" }}>..::Loading::..</div>,
+});
+const ListaPreciosV4 = dynamic(
+  () => import("../lista_precios/listaPreciosV4"),
+  {
+    ssr: false,
+    loading: () => <div style={{ height: "300px" }}>..::Loading::..</div>,
+  },
+);
+const SucursalLabel = dynamic(() => import("../sucursal_label"), {
+  ssr: false,
+  loading: () => <div style={{ height: "300px" }}>..::Loading::..</div>,
+});
 
 export default function MenuV3(props) {
   const { onSearch, onChangeSearch } = props;

@@ -44,7 +44,6 @@ const TestGridCreation = () => {
   });
   const [colsNeg, setColsNeg] = useState([]);
   const [colsPos, setColsPos] = useState([]);
-  //const [tipo_grilla, setTipoGrilla] = useState("positivo");
   const [selected_cell, setSelectedCell] = useState(null);
   const [modal_visible, setModalVisible] = useState(false);
   const [btnAplicarEnabled, setBtnAplicarEnabled] = useState(true);

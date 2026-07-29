@@ -1,12 +1,37 @@
-import IconViewSubgrupoSelector from "@/components/deposito/iconViewSubgrupoSelector";
-import EditarCodigoIndiv from "@/components/forms/deposito/EditarCodigoIndiv";
-import EditarDisenio from "@/components/forms/trabajo_multiple/editar_disenio";
 import LayoutDistribuidora from "@/components/layout/layout_distribuidora";
 import { Card, Modal } from "antd";
 import { useState } from "react";
-import EditarFamilia from "../deposito/stock/editar_familia";
-import FamiliaForm from "@/components/forms/FamiliaForm";
-import SubGrupoFormV3 from "@/components/forms/deposito/SubgrupoFormV3";
+
+import dynamic from "next/dynamic";
+
+const IconViewSubgrupoSelector = dynamic(
+  () => import("@/components/deposito/iconViewSubgrupoSelector"),
+  {
+    ssr: false,
+    loading: () => <div style={{ height: "300px" }}>..::Loading::..</div>,
+  },
+);
+const EditarCodigoIndiv = dynamic(
+  () => import("@/components/forms/deposito/EditarCodigoIndiv"),
+  {
+    ssr: false,
+    loading: () => <div style={{ height: "300px" }}>..::Loading::..</div>,
+  },
+);
+const EditarDisenio = dynamic(
+  () => import("@/components/forms/trabajo_multiple/editar_disenio"),
+  {
+    ssr: false,
+    loading: () => <div style={{ height: "300px" }}>..::Loading::..</div>,
+  },
+);
+const SubGrupoFormV3 = dynamic(
+  () => import("@/components/forms/deposito/SubgrupoFormV3"),
+  {
+    ssr: false,
+    loading: () => <div style={{ height: "300px" }}>..::Loading::..</div>,
+  },
+);
 
 export default function productos_distrib() {
   const [selectedProducto, setSelectedProducto] = useState(null);
