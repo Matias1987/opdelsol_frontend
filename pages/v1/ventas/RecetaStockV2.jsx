@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import LayoutVentas from "@/components/layout/layout_ventas";
 import { public_urls } from "@/src/urls";
 import globals from "@/src/globals";
 import { submit_venta } from "@/src/helpers/ventas_helper";
@@ -7,37 +6,38 @@ import { Modal } from "antd";
 import PrinterWrapper from "@/components/PrinterWrapper";
 import { usar_correcciones_recstock } from "@/src/config";
 import dynamic from "next/dynamic";
+import LayoutVentasV2 from "@/components/layout/layout_ventas_v2";
 
 const RecetaStockItems = dynamic(
   () => import("@/components/forms/ventas/receta_stock/Items"),
   {
     ssr: false,
-    loading: () => <div style={{ height: "300px" }}>..::Loading::..</div>,
+    loading: () => <div style={{ height: "300px" }}>&#9203;</div>,
   },
 );
 const RecetaStockItemsB = dynamic(
   () => import("@/components/forms/ventas/receta_stock/items_b"),
   {
     ssr: false,
-    loading: () => <div style={{ height: "300px" }}>..::Loading::..</div>,
+    loading: () => <div style={{ height: "300px" }}>&#9203;</div>,
   },
 );
 const InformeVenta = dynamic(
   () => import("@/components/informes/ventas/Base"),
   {
     ssr: false,
-    loading: () => <div style={{ height: "300px" }}>..::Loading::..</div>,
+    loading: () => <div style={{ height: "300px" }}>&#9203;</div>,
   },
 );
 const InformeX = dynamic(() => import("@/components/informes/caja/InformeX"), {
   ssr: false,
-  loading: () => <div style={{ height: "300px" }}>..::Loading::..</div>,
+  loading: () => <div style={{ height: "300px" }}>&#9203;</div>,
 });
 const VentaBaseV3 = dynamic(
   () => import("@/components/forms/ventas/VentaBaseV3"),
   {
     ssr: false,
-    loading: () => <div style={{ height: "300px" }}>..::Loading::..</div>,
+    loading: () => <div style={{ height: "300px" }}>&#9203;</div>,
   },
 );
 
@@ -167,4 +167,4 @@ export default function VentaRecetaStock() {
     </>
   );
 }
-VentaRecetaStock.PageLayout = LayoutVentas;
+VentaRecetaStock.PageLayout = LayoutVentasV2;

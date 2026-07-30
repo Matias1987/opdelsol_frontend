@@ -11,21 +11,21 @@ const TestMenu = dynamic(
   () => import("./menu_test"),
   {
     ssr: false,
-    loading: () => <div style={{ height: "300px" }}>Cargando...</div>,
+    loading: () => <div style={{ height: "30px" }}>...</div>,
   },
 );
 const MenuV2 = dynamic(
   () => import("./menu_v2"),
   {
     ssr: false,
-    loading: () => <div style={{ height: "300px" }}>Cargando...</div>,
+    loading: () => <div style={{ height: "30px" }}>...</div>,
   },
 );
 const HeaderSol = dynamic(
   () => import("./header"),
   {
     ssr: false,
-    loading: () => <div style={{ height: "300px" }}>Cargando...</div>,
+    loading: () => <div style={{ height: "30px" }}>...</div>,
   },
 );
 
@@ -82,19 +82,12 @@ export default function MyLayout(props){
     
     return (
             <Layout className='layout' >
-                
-                {/**<Sider width={"auto"} collapsed={collapsed} style={{backgroundColor:'#262626'}}>
-                    {<div className="logo" style={{padding:".45em", textAlign:"center", height:"36px" }}>
-                        <span style={{color:"rgba(255,255,255,1)"}}><b></b>&nbsp;&nbsp;</span>
-                        
-                    </div>}
-                    
-                </Sider>*/}
+
                 <Layout>
 
-                    <HeaderSol tipoCuenta="DEPOSITO" displaymodechange={(c)=>{
+                    {/*<HeaderSol tipoCuenta="DEPOSITO" displaymodechange={(c)=>{
                         props?.displaymodechange?.(c)
-                    }}/>
+                    }}/>*/}
                     {uDeposito?<>
                         <TestMenu />
                     </>:

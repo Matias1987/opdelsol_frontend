@@ -106,6 +106,7 @@ const VMCristalesStock = ({ callback, onComentariosChange }) => {
                           callback={v=>{onchange_codigo("od_idcodigo","od_precio","od_descuento",v)}}
                         />*/}
               <SelectItemModal
+                tipo={"stock"}
                 callback={(_,v) => {
                   
                   onchange_codigo("od_idcodigo", "od_precio", "od_descuento", {
@@ -158,6 +159,7 @@ const VMCristalesStock = ({ callback, onComentariosChange }) => {
                           callback={v=>{onchange_codigo("oi_idcodigo","oi_precio","oi_descuento",v)}}
                         />*/}
               <SelectItemModal
+                tipo={"stock"}
                 callback={(_, v) => {
                   onchange_codigo("oi_idcodigo", "oi_precio", "oi_descuento", {
                      idcodigo: v ? v.idcodigo : -1,

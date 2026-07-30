@@ -78,8 +78,7 @@ const SelectItem = ({ tipo, callback }) => {
   const load = () => {
     setLoading(true);
     const url =
-      "stock" == tipo ? get.venta_mayorista_bases : get.venta_mayorista_stock;
-    //alert(url);
+      "stock" !== tipo ? get.venta_mayorista_bases : get.venta_mayorista_stock;
     fetch(url)
       .then((r) => r.json())
       .then((response) => {

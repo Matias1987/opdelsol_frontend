@@ -7,19 +7,20 @@ import dynamic from "next/dynamic";
 
 const MenuDistribuidora = dynamic(() => import("./menu_distribuidora"), {
   ssr: false,
-  loading: () => <div style={{ height: "300px" }}>..::Loading::..</div>,
+  loading: () => <div style={{ height: "30px" }}>&#9203;</div>,
 });
 
 const TrabajoMultiple = dynamic(
   () => import("../forms/trabajo_multiple/venta_multiple"),
   {
     ssr: false,
-    loading: () => <div style={{ height: "300px" }}>..::Loading::..</div>,
+    loading: () => <div style={{ height: "30px" }}>&#9203;</div>,
   },
 );
 
 export default function LayoutDistribuidora(props) {
   const [modalOpen, setModalOpen] = useState(false);
+  const [showBadge, setShowBadge] = useState(false);
   const { Content } = Layout;
   const [alerta, setAlerta] = useState("");
   const { getItem } = useStorage();
@@ -85,6 +86,7 @@ export default function LayoutDistribuidora(props) {
           <div>
             {
               <MenuDistribuidora
+                showBadge={showBadge}
                 onNuevaVentaClick={(_) => {
                   setModalOpen(true);
                 }}
@@ -125,13 +127,14 @@ export default function LayoutDistribuidora(props) {
         </Content>
       </Card>
       <Modal
+        footer={null}
         open={modalOpen}
         onCancel={(_) => {
           setModalOpen(false);
         }}
         width={"100%"}
       >
-        <TrabajoMultiple />
+        <TrabajoMultiple on_change_done={b=>{ setShowBadge(b)}} />
       </Modal>
     </Layout>
   );

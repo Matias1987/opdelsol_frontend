@@ -37,41 +37,6 @@ export default function LayoutVentas(props) {
     setPopupBusquedaOpen(true);
   };
 
-  const validate_user_2 = () => {
-    const _token = getItem("token", "session");
-
-    if (_token === typeof "undefined") {
-      window.location.replace(public_urls.login);
-    }
-
-    fetch(get.check_login + _token)
-      .then((response) => response.json())
-      .then((response) => {
-        if (response.data.logged == "0") {
-          window.location.replace(public_urls.login);
-        }
-      });
-
-    fetch(get.caja_abierta + globals.obtenerSucursal())
-      .then((r) => r.json())
-      .then((response) => {
-        //if caja is open, set this value in local
-        if (typeof response.data !== "undefined") {
-          //alert(JSON.stringify(response))
-          if (response.data != null) {
-            if (+response.data.abierta == 1) {
-              globals.setCajaOpen(true);
-              setAlerta(
-                +response.data.current == 1 ? "" : "Caja Desactualizada",
-              );
-            } else {
-              //alert("caja cerrada")
-              setAlerta("CAJA CERRADA");
-            }
-          }
-        }
-      });
-  };
 
   const validate_user = () => {
     console.log("validating user");

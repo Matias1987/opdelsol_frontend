@@ -1,5 +1,5 @@
 import GastoForm from "@/components/forms/caja/GastoForm";
-import LayoutCaja from "@/components/layout/layout_caja";
+import LayoutVentasV2 from "@/components/layout/layout_ventas_v2";
 import globals from "@/src/globals";
 import { formatFloat } from "@/src/helpers/formatters";
 import { get } from "@/src/urls";
@@ -68,4 +68,4 @@ export default function ListaGastos(){
     </>
 }
 
-ListaGastos.PageLayout = LayoutCaja;
+ListaGastos.PageLayout = LayoutVentasV2;

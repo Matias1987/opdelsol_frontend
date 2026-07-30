@@ -8,28 +8,28 @@ const IconViewSubgrupoSelector = dynamic(
   () => import("@/components/deposito/iconViewSubgrupoSelector"),
   {
     ssr: false,
-    loading: () => <div style={{ height: "300px" }}>..::Loading::..</div>,
+    loading: () => <div style={{ height: "300px" }}>&#9203;Cargando...</div>,
   },
 );
 const EditarCodigoIndiv = dynamic(
   () => import("@/components/forms/deposito/EditarCodigoIndiv"),
   {
     ssr: false,
-    loading: () => <div style={{ height: "300px" }}>..::Loading::..</div>,
+    loading: () => <div style={{ height: "300px" }}>...</div>,
   },
 );
 const EditarDisenio = dynamic(
   () => import("@/components/forms/trabajo_multiple/editar_disenio"),
   {
     ssr: false,
-    loading: () => <div style={{ height: "300px" }}>..::Loading::..</div>,
+    loading: () => <div style={{ height: "300px" }}>...</div>,
   },
 );
 const SubGrupoFormV3 = dynamic(
   () => import("@/components/forms/deposito/SubgrupoFormV3"),
   {
     ssr: false,
-    loading: () => <div style={{ height: "300px" }}>..::Loading::..</div>,
+    loading: () => <div style={{ height: "300px" }}>...</div>,
   },
 );
 

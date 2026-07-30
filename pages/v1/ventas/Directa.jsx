@@ -1,4 +1,3 @@
-import LayoutVentas from "@/components/layout/layout_ventas";
 import { public_urls } from "@/src/urls";
 import { useState } from "react";
 import globals from "@/src/globals";
@@ -6,33 +5,34 @@ import { submit_venta } from "@/src/helpers/ventas_helper";
 import { Modal } from "antd";
 import PrinterWrapper from "@/components/PrinterWrapper";
 import dynamic from "next/dynamic";
+import LayoutVentasV2 from "@/components/layout/layout_ventas_v2";
 
 const VentaBaseV3 = dynamic(
   () => import("@/components/forms/ventas/VentaBaseV3"),
   {
     ssr: false,
-    loading: () => <div style={{ height: "300px" }}>..::Loading::..</div>,
+    loading: () => <div style={{ height: "300px" }}>&#9203;</div>,
   },
 );
 const InformeX = dynamic(
   () => import("@/components/informes/caja/InformeX"),
   {
     ssr: false,
-    loading: () => <div style={{ height: "300px" }}>..::Loading::..</div>,
+    loading: () => <div style={{ height: "300px" }}>&#9203;</div>,
   },
 );
 const VDItem = dynamic(
   () => import("@/components/forms/ventas/directa/Item"),
   {
     ssr: false,
-    loading: () => <div style={{ height: "300px" }}>..::Loading::..</div>,
+    loading: () => <div style={{ height: "300px" }}>&#9203;</div>,
   },
 );
 const InformeVenta = dynamic(
   () => import("@/components/informes/ventas/Base"),
   {
     ssr: false,
-    loading: () => <div style={{ height: "300px" }}>..::Loading::..</div>,
+    loading: () => <div style={{ height: "300px" }}>&#9203;</div>,
   },
 );
 
@@ -143,4 +143,4 @@ export default function VentaDirecta() {
   );
 }
 
-VentaDirecta.PageLayout = LayoutVentas;
+VentaDirecta.PageLayout = LayoutVentasV2;

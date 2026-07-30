@@ -10,7 +10,7 @@ const MenuLaboratorioTop = dynamic(
   () => import("./menu_laboratorio_top"),
   {
     ssr: false,
-    loading: () => <div style={{ height: "300px" }}>..::Loading::..</div>,
+    loading: () => <div style={{ height: "30px" }}>...</div>,
   },
 );
 
@@ -18,7 +18,7 @@ const MenuTallerCOExp = dynamic(
   () => import("./opts/coexp/menu_taller"),
   {
     ssr: false,
-    loading: () => <div style={{ height: "300px" }}>..::Loading::..</div>,
+    loading: () => <div style={{ height: "30px" }}>...</div>,
   },
 );
 
@@ -26,7 +26,7 @@ const HeaderSol = dynamic(
   () => import("./header"),
   {
     ssr: false,
-    loading: () => <div style={{ height: "300px" }}>..::Loading::..</div>,
+    loading: () => <div style={{ height: "30px" }}>...</div>,
   },
 );
 

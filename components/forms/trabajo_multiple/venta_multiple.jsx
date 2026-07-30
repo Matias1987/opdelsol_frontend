@@ -29,6 +29,7 @@ const TrabajoMultiple = ({
   onfinish,
   callback,
   title,
+  on_change_done
 }) => {
   const date = new Date();
   const [localId, setLocalId] = useState(0);
@@ -119,6 +120,7 @@ const TrabajoMultiple = ({
         mod.push(data);
       }
       calcularTotal(mod);
+      on_change_done?.(mod.length>0);
       return mod;
     });
   };
@@ -174,6 +176,7 @@ const TrabajoMultiple = ({
         mod.splice(index, 1);
       }
       calcularTotal(mod);
+      on_change_done?.(mod.length>0);
       return mod;
     });
     setItems(newItems);
@@ -184,6 +187,7 @@ const TrabajoMultiple = ({
     } else {
       remove(targetKey);
     }
+
   };
 
   const onChange = (field, value) => {
@@ -298,14 +302,7 @@ const TrabajoMultiple = ({
       return;
     }
     setBtnEnabled(false);
-    /*setVenta((venta) => {
-      
-      onfinish?.(venta, (resp) => {
-        setBtnEnabled(true);
-        alert("OK")
-      });
-      return { ...venta, fkusuario: idvendedor };
-    });*/
+
     post_method(post.insert.insert_venta_multiple, __v, (response) => {
       alert("Datos guardados.");
       window.location.href = "";
@@ -406,31 +403,6 @@ const TrabajoMultiple = ({
               />
             </Col>
           </Row>
-          {/*<Row gutter={24} style={{ padding: "6px" }}>
-            <Col>
-              <Form.Item label={"Fecha de Retiro"}>
-                <DatePicker
-                  defaultValue={ignore_fecha_retiro ? dayjs() : null}
-                  locale={esES}
-                  format={"DD-MM-YYYY"}
-                  onChange={(value) => {
-                    let _value = value ? value.format("DD-MM-YYYY") : null;
-                    onChange("fechaRetiro", _value);
-                  }}
-                />
-              </Form.Item>
-            </Col>
-            <Col>
-              <Form.Item label={"Hora de Retiro"}>
-                <TimePicker
-                  format={"HH:mm"}
-                  onChange={(value, timeString) => {
-                    onChange("horaRetiro", timeString);
-                  }}
-                />
-              </Form.Item>
-            </Col>
-          </Row>*/}
           <Row style={{ padding: "6px" }}>
             <Col span="24">
               <Form.Item label={"Comentarios"}>
@@ -464,15 +436,7 @@ const TrabajoMultiple = ({
 
   const validar = (v) => {
     const messages = [];
-    /* idcodigo: tr.od_idcodigo,
-          idtrabajo: 0,
-          iddescuento: 0,
-          tipo: "od",
-          cantidad: "1",
-          precio: "0",
-          esf: "0",
-          cil: "0",
-          eje: "0", */
+
     const validar_stock = (op) => {
       if (+op.idcodigo < 0) {
         messages.push("Seleccione codigo");
@@ -570,45 +534,7 @@ const TrabajoMultiple = ({
         <Row>
           <Col span={24}>{modo_formulario_unico()}</Col>
         </Row>
-        {/*
-          <Row>
-            <Col
-              span={24}
-              style={{ display: "flex", justifyContent: "flex-end" }}
-            >
-              <Button
-                type="link"
-                danger
-                onClick={(_) => {
-                  if (confirm("Cancelar Operación?")) {
-                    window.location.replace(public_urls.dashboard_venta);
-                  }
-                }}
-              >
-                <CloseOutlined /> Cancelar
-              </Button>
-            </Col>
-          </Row>
-        */}
       </Card>
-      {/*
-            <Col span={8}>
-              <div
-                style={{
-                  backgroundColor: "#000000",
-                  color: "#00ff00",
-                  fontFamily: "Consolas",
-                  height: "400px",
-                  overflowY: "scroll",
-                  overflowX: "scroll",
-                }}
-              >
-                <pre style={{ font: "Consolas" }}>
-                  {JSON.stringify(finalV, null, 2)}
-                </pre>
-              </div>
-            </Col>
-          */}
     </>
   );
 };

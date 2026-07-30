@@ -384,7 +384,7 @@ const LaboratorioForm = ({ callback, idCliente, onComentariosChange }) => {
                                 onValueChange("od_fkBase", v.idcodigo);
                               }}
                             />*/}
-                            <SelectItemModal callback={id=>{onValueChange("od_fkBase", id);}} />
+                            <SelectItemModal tipo={"base"} callback={id=>{onValueChange("od_fkBase", id);}} />
                           </Col>
                           <Col span={3}>
                             <HelperToolTip
@@ -460,7 +460,7 @@ const LaboratorioForm = ({ callback, idCliente, onComentariosChange }) => {
                                 onValueChange("oi_fkBase", v.idcodigo);
                               }}
                             />*/}
-                            <SelectItemModal callback={id=>{onValueChange("oi_fkBase", id);}} />
+                            <SelectItemModal tipo={"base"}  callback={id=>{onValueChange("oi_fkBase", id);}} />
                           </Col>
                           <Col span={3}>
                             <HelperToolTip

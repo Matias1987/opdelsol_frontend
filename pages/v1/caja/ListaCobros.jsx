@@ -1,4 +1,4 @@
-import LayoutCaja from "@/components/layout/layout_caja";
+import LayoutVentasV2 from "@/components/layout/layout_ventas_v2";
 import globals from "@/src/globals";
 import dynamic from "next/dynamic";
 
@@ -18,4 +18,4 @@ export default function ListaCobrosSucursal() {
   );
 }
 
-ListaCobrosSucursal.PageLayout = LayoutCaja;
+ListaCobrosSucursal.PageLayout = LayoutVentasV2;

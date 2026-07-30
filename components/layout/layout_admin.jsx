@@ -11,12 +11,12 @@ import dynamic from "next/dynamic";
 
 const SideMenuAdmin = dynamic(() => import("./SideMenuAdmin"), {
   ssr: false,
-  loading: () => <div style={{ height: "300px" }}>..::Loading::..</div>,
+  loading: () => <div style={{ height: "30px" }}>...</div>,
 });
 
 const SideMenuAdminMin = dynamic(() => import("./SideMenuAdminMin"), {
   ssr: false,
-  loading: () => <div style={{ height: "300px" }}>..::Loading::..</div>,
+  loading: () => <div style={{ height: "30px" }}>...</div>,
 });
 
 export default function LayoutAdmin({ children }) {

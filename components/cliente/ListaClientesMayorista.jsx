@@ -1,0 +1,222 @@
+import { get } from "@/src/urls";
+import InfoCircleFilled from "@ant-design/icons/InfoCircleFilled";
+import PlusOutlined from "@ant-design/icons/PlusOutlined";
+import ReloadOutlined from "@ant-design/icons/ReloadOutlined";
+import { Button, Card, Input, Modal, Table } from "antd";
+import { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
+
+const ClienteFormDistrib = dynamic(
+  () => import("@/components/cliente/ClienteFormDistrib"),
+  {
+    ssr: false,
+    loading: () => <div style={{ height: "300px" }}>...</div>,
+  },
+);
+const FichaClienteMayorista = dynamic(
+  () => import("@/components/cliente/FichaClienteMayorista"),
+  {
+    ssr: false,
+    loading: () => <div style={{ height: "300px" }}>...</div>,
+  },
+);
+
+
+export default function ListaClientesMayorista() {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [selectedCliente, setSelectedCliente] = useState(false);
+  const [popupAddOpen, setPopupAddOpen] = useState(false);
+  const [popupFichaOpen, setPopupFichaOpen] = useState(false);
+  const [popupDetalleOpen, setPopupDetalleOpen] = useState(false);
+  const [searchString, setSearchString] = useState("");
+  const columns = [
+    {
+      width: "200px",
+      dataIndex: "nombre",
+      title: "Nombre",
+      key: "nombre",
+      sorter: (a, b) => a.nombre.localeCompare(b.nombre),
+    },
+    { title: "Teléfono", dataIndex: "telefono1" },
+    {
+      title: "Acciones",
+      render: (_, record) => (
+        <>
+          <Button type="link" onClick={(_) => onFichaClienteClick(record)}>
+            <InfoCircleFilled /> Detalles
+          </Button>
+        </>
+      ),
+    },
+  ];
+
+  const onFichaClienteClick = (record) => {
+    setSelectedCliente(record);
+    setPopupFichaOpen(true);
+  };
+  const onDetalleClienteClick = (record) => {
+    setSelectedCliente(record);
+    setPopupDetalleOpen(true);
+  };
+
+  const onClienteAdded = (_) => {
+    setPopupAddOpen(false);
+    refresh();
+  };
+
+  useEffect(() => {
+    refresh();
+  }, []);
+
+  const refresh = () => {
+    setLoading(true);
+    fetch(get.lista_clientes_m)
+      .then((response) => response.json())
+      .then((response) => {
+        setData(
+          response.data.map((r) => ({
+            dni: r.dni,
+            idcliente: r.idcliente,
+            apellido: r.apellido,
+            nombre: r.nombre,
+            direccion: r.direccion,
+            telefono1: r.telefono1,
+            bloqueado: r.bloqueado,
+          })),
+        );
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  return (
+    <>
+      <Card
+        title={
+          <div
+            style={{
+              width: "100%",
+              display: "flex",
+              justifyContent: "space-between",
+            }}
+          >
+            <div>
+              <span>Clientes</span>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              <Button
+                size="small"
+                type="dashed"
+                onClick={(_) => {
+                  setPopupAddOpen(true);
+                }}
+              >
+                <PlusOutlined />
+                &nbsp; Agregar
+              </Button>
+            </div>
+            <div>
+              <Input
+                value={searchString}
+                onChange={(e) => setSearchString(e.target.value ?? "")}
+                style={{ width: "300px", backgroundColor: "rgba(0,0,0,0)" }}
+                addonBefore="Búsqueda"
+                size="small"
+                allowClear
+              />
+            </div>
+          </div>
+        }
+        size="small"
+        style={{
+          boxShadow: "0 2px 8px rgba(0, 0, 0, 0.3)",
+          borderRadius: "16px",
+        }}
+        styles={{
+          header: {
+            backgroundColor: "##ffffed",
+            background:
+              "linear-gradient(281deg, #ffebcd 32%, rgba(231,233,235, 1) 75%)",
+            borderBottom: "1px solid #eee",
+            borderTopLeftRadius: "16px",
+            borderTopRightRadius: "16px",
+          },
+        }}
+        extra={
+          <>
+            <Button
+              type="link"
+              onClick={(_) => {
+                refresh();
+              }}
+            >
+              <ReloadOutlined />
+            </Button>
+          </>
+        }
+      >
+        <Table
+          rowClassName={(record, index) =>
+            index % 2 === 0 ? "table-row-light" : "table-row-dark"
+          }
+          dataSource={
+            searchString.trim().length > 0
+              ? data.filter((record) =>
+                  record.nombre
+                    .toUpperCase()
+                    .includes(searchString.toUpperCase()),
+                )
+              : data
+          }
+          columns={columns}
+          size="small"
+          scroll={{ y: 300 }}
+          loading={loading}
+        />
+      </Card>
+
+      <Modal
+        footer={null}
+        open={popupAddOpen}
+        onCancel={(_) => {
+          setPopupAddOpen(false);
+        }}
+        destroyOnClose
+        title="Nuevo Cliente"
+        width={"600px"}
+      >
+        <ClienteFormDistrib callback={onClienteAdded} />
+      </Modal>
+      <Modal
+        footer={null}
+        open={popupFichaOpen}
+        onCancel={(_) => {
+          setPopupFichaOpen(false);
+        }}
+        destroyOnClose
+        title="Detalle"
+        width={"800px"}
+      >
+        <FichaClienteMayorista
+          idcliente={selectedCliente.idcliente}
+          callback={onClienteAdded}
+        />
+      </Modal>
+      <Modal
+        footer={null}
+        open={popupDetalleOpen}
+        onCancel={(_) => {
+          setPopupDetalleOpen(false);
+        }}
+        destroyOnClose
+        title="Detalle"
+        width={"600px"}
+      >
+        To Do ...
+      </Modal>
+    </>
+  );
+}
+

@@ -1,4 +1,3 @@
-import LayoutVentas from "@/components/layout/layout_ventas";
 import { useState } from "react";
 import { public_urls } from "@/src/urls";
 import globals from "@/src/globals";
@@ -7,30 +6,31 @@ import { Modal } from "antd";
 import PrinterWrapper from "@/components/PrinterWrapper";
 
 import dynamic from "next/dynamic";
+import LayoutVentasV2 from "@/components/layout/layout_ventas_v2";
 
 const MonofLabItems = dynamic(
   () => import("@/components/forms/ventas/monof_lab/items"),
   {
     ssr: false,
-    loading: () => <div style={{ height: "300px" }}>..::Loading::..</div>,
+    loading: () => <div style={{ height: "300px" }}>&#9203;</div>,
   },
 );
 const InformeVenta = dynamic(
   () => import("@/components/informes/ventas/Base"),
   {
     ssr: false,
-    loading: () => <div style={{ height: "300px" }}>..::Loading::..</div>,
+    loading: () => <div style={{ height: "300px" }}>&#9203;</div>,
   },
 );
 const InformeX = dynamic(() => import("@/components/informes/caja/InformeX"), {
   ssr: false,
-  loading: () => <div style={{ height: "300px" }}>..::Loading::..</div>,
+  loading: () => <div style={{ height: "300px" }}>&#9203;</div>,
 });
 const VentaBaseV3 = dynamic(
   () => import("@/components/forms/ventas/VentaBaseV3"),
   {
     ssr: false,
-    loading: () => <div style={{ height: "300px" }}>..::Loading::..</div>,
+    loading: () => <div style={{ height: "300px" }}>&#9203;</div>,
   },
 );
 
@@ -146,4 +146,4 @@ export default function VentaMonofocalesLab() {
   );
 }
 
-VentaMonofocalesLab.PageLayout = LayoutVentas;
+VentaMonofocalesLab.PageLayout = LayoutVentasV2;

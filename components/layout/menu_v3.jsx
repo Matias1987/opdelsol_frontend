@@ -7,7 +7,7 @@ import SearchOutlined from "@ant-design/icons/SearchOutlined";
 import UserOutlined from "@ant-design/icons/UserOutlined";
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { public_urls } from "@/src/urls";
+import { get, public_urls } from "@/src/urls";
 import globals from "@/src/globals";
 import { idf_optica, lista_precios_visible } from "@/src/config";
 import dynamic from "next/dynamic";
@@ -16,23 +16,23 @@ const ListaPreciosV3 = dynamic(
   () => import("../lista_precios/listaPreciosV3"),
   {
     ssr: false,
-    loading: () => <div style={{ height: "300px" }}>..::Loading::..</div>,
+    loading: () => <div style={{ height: "30px" }}>&#9203;</div>,
   },
 );
 const BuscarVentaV3 = dynamic(() => import("../forms/ventas/BuscarVentasV3"), {
   ssr: false,
-  loading: () => <div style={{ height: "300px" }}>..::Loading::..</div>,
+  loading: () => <div style={{ height: "30px" }}>&#9203;</div>,
 });
 const ListaPreciosV4 = dynamic(
   () => import("../lista_precios/listaPreciosV4"),
   {
     ssr: false,
-    loading: () => <div style={{ height: "300px" }}>..::Loading::..</div>,
+    loading: () => <div style={{ height: "30px" }}>&#9203;</div>,
   },
 );
 const SucursalLabel = dynamic(() => import("../sucursal_label"), {
   ssr: false,
-  loading: () => <div style={{ height: "300px" }}>..::Loading::..</div>,
+  loading: () => <div style={{ height: "30px" }}>&#9203;</div>,
 });
 
 export default function MenuV3(props) {
@@ -271,20 +271,7 @@ export default function MenuV3(props) {
   useEffect(() => {
     setUsuario(globals.obtenerUserName());
 
-    const items = []; /*
-    menu_caja, 
-    menu_ventas,
-    _menu_deposito_min,
-    {
-      label: (<Link href={globals.esUsuarioCaja1() ? public_urls.lista_clientes_caja : public_urls.lista_clientes_ventas}>Clientes</Link>),
-      key: '11',
-      icon: <StarOutlined />,
-    },
-    {
-      label: (<BuscarVenta />),
-      key: '404',
-    }
-   ]*/
+    const items = [];
 
     if (globals.esUsuarioCaja1()) {
       if (idf_optica == 1) {
@@ -380,29 +367,52 @@ export default function MenuV3(props) {
     if (typeof e.key === "undefined") {
       return;
     }
-    setCurrent(e.key);
 
+  
     switch (e.key) {
       case "lista_precios":
         setLPOpen(true);
-        break;
+        return;
       case "buscar_venta":
         setBuscarVentaOpen(true);
-        break;
+        return;
     }
+
+    setCurrent(e.key);
   };
 
+  const onClickM2 = (e) => {
+        if (typeof e.key === "undefined") {
+      return;
+    }
+
+    if (e.key === "salir") {
+      const _token = globals.getToken();
+
+      fetch(get.logout + _token)
+        .then((response) => response.json())
+        .then((response) => {
+          window.location.replace(public_urls.login);
+        })
+        .catch((err) => {
+          console.log("error");
+        });
+
+      return;
+    }
+  }
   return (
     <>
       <Flex
-        justify="space-between"
-        align="center"
+        justify="space-evenly"
+        
         style={{
-          backgroundColor: "#E7E9EB",
-          border: "1px solid rgb(136, 136, 136)",
+          backgroundColor: "#eaebec",
+          border: "1px solid #7e7e7e",
         }}
       >
         <Menu
+          style={{width:"600px"}}
           onClick={onClick}
           selectedKeys={[current]}
           mode={typeof props.mode === "undefined" ? "horizontal" : props.mode}
@@ -411,9 +421,9 @@ export default function MenuV3(props) {
 
         <Input
           style={{
-            width: "350px",
+            width: "310px",
             backgroundColor: "#E7E9EB",
-            border: "1px solid rgb(136, 136, 136)",
+            paddingTop:"4px"
           }}
           prefix={<div style={{ fontWeight: "600" }}>Búsqueda:</div>}
           allowClear
@@ -428,53 +438,29 @@ export default function MenuV3(props) {
           onChange={onChangeSearch}
         />
 
-        <Col>
-          {/*<Button
-            size="small"
-            type="text"
-            style={{ color: "black" }}
-            onClick={() => {
-              const _token = getItem("token", "session");
-
-              fetch(get.logout + _token)
-                .then((response) => response.json())
-                .then((response) => {
-                  window.location.replace(public_urls.login);
-                })
-                .catch((err) => {
-                  console.log("error");
-                });
-            }}
-          >
-            
-              <LogoutOutlined style={{ paddingTop: "6px" }}/>
-              <div style={{ paddingTop: "6px" }}>
-              Salir
-            </div>
-          </Button>*/}
-          <Menu
-            style={{ width: "250px" }}
-            mode="horizontal"
-            items={[
-              {
-                label: (
-                  <>
-                    {" "}
-                    {usuario} | <SucursalLabel color="#000000" />
-                  </>
-                ),
-                key: "user",
-                children: [
-                  {
-                    label: "Salir",
-                    key: "salir",
-                    icon: <LogoutOutlined />,
-                  },
-                ],
-              },
-            ]}
-          ></Menu>
-        </Col>
+        <Menu
+          onClick={onClickM2}
+          style={{ width: "200px" }}
+          mode="horizontal"
+          items={[
+            {
+              label: (
+                <>
+                  {" "}
+                  {usuario} | <SucursalLabel color="#000000" />
+                </>
+              ),
+              key: "user",
+              children: [
+                {
+                  label: "Salir",
+                  key: "salir",
+                  icon: <LogoutOutlined />,
+                },
+              ],
+            },
+          ]}
+        />
       </Flex>
       <Modal
         destroyOnClose

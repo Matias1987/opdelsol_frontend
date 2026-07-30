@@ -5,16 +5,18 @@ import StarOutlined from "@ant-design/icons/StarOutlined";
 import UnorderedListOutlined from "@ant-design/icons/UnorderedListOutlined";
 import UserOutlined from "@ant-design/icons/UserOutlined";
 
-import { Button, Flex, Menu } from "antd";
-import { useState } from "react";
+import { Badge, Button, Flex, Menu } from "antd";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { get, public_urls } from "@/src/urls";
 import globals from "@/src/globals";
 import { getItem } from "localforage";
 import SucursalLabel from "../sucursal_label";
+import { usePathname } from "next/navigation";
 
-export default function MenuDistribuidora({ onNuevaVentaClick }) {
+export default function MenuDistribuidora({ onNuevaVentaClick,showBadge }) {
   const [current, setCurrent] = useState("9");
+  const pathname = usePathname(); // Gets the current URL path
   const items = [
     {
       label: (
@@ -22,7 +24,7 @@ export default function MenuDistribuidora({ onNuevaVentaClick }) {
           <HomeFilled /> Inicio
         </Link>
       ),
-      key: "9",
+      key: "/v1/trabajos/",
     },
 
     {
@@ -31,34 +33,42 @@ export default function MenuDistribuidora({ onNuevaVentaClick }) {
           Lista de Operaciones
         </Link>
       ),
-      key: "11",
+      key: "/v1/trabajos/listado",
       icon: <UnorderedListOutlined />,
     },
     {
       label: (
         <Link href={public_urls.lista_clientes_distribuidora}>Clientes</Link>
       ),
-      key: "12",
+      key: "/v1/distribuidora/clientes",
       icon: <UserOutlined />,
     },
     {
       label: <Link href={public_urls.productos_distribuidora}>Productos</Link>,
-      key: "13",
+      key: "/v1/distribuidora/productos",
       icon: <BoxPlotOutlined />,
     },
 
     {
       label: (
-        <Button onClick={onNuevaVentaClick}>
-          <StarOutlined /> Nueva Operaci&oacute;n
-        </Button>
+        <Badge dot count={showBadge ? 1 : 0} size="default">
+          <Button onClick={onNuevaVentaClick}>
+            <StarOutlined /> Nueva Operaci&oacute;n
+          </Button>
+        </Badge>
       ),
       key: "10",
     },
   ];
   const onClick = (e) => {
-    setCurrent(e.key);
+    if (e.key != "10") {
+      setCurrent(e.key);
+    }
   };
+
+  useEffect(() => {
+    setCurrent(pathname);
+  }, []);
   return (
     <Flex
       style={{ width: "100%", padding: "0 16px" }}
@@ -76,7 +86,7 @@ export default function MenuDistribuidora({ onNuevaVentaClick }) {
         Universal Lens
       </div>
       <Menu
-        style={{ width: "650px" }}
+        style={{ width: "700px" }}
         styles={{
           root: { padding: "2px" }, // Custom padding for the main wrapper
         }}
@@ -99,11 +109,7 @@ export default function MenuDistribuidora({ onNuevaVentaClick }) {
             fetch(get.logout + _token)
               .then((response) => response.json())
               .then((response) => {
-                registrar_evento(
-                  "USER_LOGOUT",
-                  "Cierre de sesion",
-                  globals.obtenerUID(),
-                );
+                
                 window.location.replace(public_urls.login);
               })
               .catch((err) => {

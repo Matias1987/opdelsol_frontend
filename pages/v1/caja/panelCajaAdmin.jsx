@@ -2,7 +2,7 @@ import InicioCaja from "@/components/forms/caja/InicioCaja";
 import ListaCaja from "@/components/forms/caja/ListaCajas";
 
 import InformeCajaV3 from "@/components/informes/caja/InformeCajaV3";
-import LayoutCaja from "@/components/layout/layout_caja";
+import LayoutVentasV2 from "@/components/layout/layout_ventas_v2";
 import globals from "@/src/globals";
 import { get } from "@/src/urls";
 import { Button, Col, Modal, Row, Spin, Tag } from "antd";
@@ -89,4 +89,4 @@ export default function panelCajaAdmin(){
 
 }
 
-panelCajaAdmin.PageLayout = LayoutCaja;
+panelCajaAdmin.PageLayout = LayoutVentasV2;

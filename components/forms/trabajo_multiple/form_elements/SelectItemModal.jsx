@@ -55,7 +55,7 @@ const SelectItemModal = ({ tipo, idcliente, callback }) => {
         width={"800px"}
       >
         <SelectItem
-          tipo={"base"}
+          tipo={tipo}
           callback={(r) => {
             const _data = {
               codigo: r.codigo,

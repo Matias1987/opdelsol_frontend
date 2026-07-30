@@ -6,29 +6,28 @@ import globals from "@/src/globals";
 import dynamic from "next/dynamic";
 const { useBreakpoint } = Grid;
 
-
 const BarraResumenCaja = dynamic(
   () => import("../forms/caja/BarraResumenCaja"),
   {
     ssr: false,
-    loading: () => <div style={{ height: "300px" }}>..::Loading::..</div>,
+    loading: () => <div style={{ height: "30px" }}>&#9203;</div>,
   },
 );
 
 const MenuVentasMobile = dynamic(() => import("./mobile_menu_ventas"), {
   ssr: false,
-  loading: () => <div style={{ height: "300px" }}>..::Loading::..</div>,
+  loading: () => <div style={{ height: "30px" }}>&#9203;</div>,
 });
 const MenuV3 = dynamic(() => import("./menu_v3"), {
   ssr: false,
-  loading: () => <div style={{ height: "300px" }}>..::Loading::..</div>,
+  loading: () => <div style={{ height: "30px" }}>&#9203;</div>,
 });
 
 const PopupResultadoBusqueda = dynamic(
   () => import("../precios/PopupResultadoBusqueda"),
   {
     ssr: false,
-    loading: () => <div style={{ height: "300px" }}>..::Loading::..</div>,
+    loading: () => <div style={{ height: "30px" }}>&#9203;</div>,
   },
 );
 
@@ -104,6 +103,23 @@ export default function LayoutVentasV2(props) {
     minHeight: 580,
   };
 
+  const getAlerta = () => {
+    return alerta != "" ? (
+      <>
+        <Alert
+          style={{ fontSize: ".9em", padding: "1px 50px " }}
+          key={alerta}
+          message={alerta}
+          type="error"
+          showIcon
+        />
+        <br />
+      </>
+    ) : (
+      <></>
+    );
+  };
+
   useEffect(() => {
     setEsUsuarioCaja1(globals.esUsuarioCaja1());
     validate_user();
@@ -127,7 +143,15 @@ export default function LayoutVentasV2(props) {
           </div>
         )}
       </div>
-      <div>{esUsuaroCaja1 ? <div><BarraResumenCaja /></div> : <div></div>}</div>
+      <div>
+        {esUsuaroCaja1 ? (
+          <div>
+            <BarraResumenCaja alerta={getAlerta()}/>
+          </div>
+        ) : (
+          <div>{getAlerta()}</div>
+        )}
+      </div>
       <Content
         style={!screens.md ? content_style_mobile : content_style_desktop}
       >
@@ -144,20 +168,6 @@ export default function LayoutVentasV2(props) {
             }}
           />
         </div>
-        {alerta != "" ? (
-          <>
-            <Alert
-              style={{ fontSize: ".9em", padding: "1px 50px " }}
-              key={alerta}
-              message={alerta}
-              type="error"
-              showIcon
-            />
-            <br />
-          </>
-        ) : (
-          <></>
-        )}
       </Content>
     </Layout>
   );

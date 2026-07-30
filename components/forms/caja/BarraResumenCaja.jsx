@@ -3,7 +3,7 @@ import { formatFloat } from "@/src/helpers/formatters";
 import { get } from "@/src/urls";
 import { useEffect, useState } from "react";
 
-const BarraResumenCaja = () => {
+const BarraResumenCaja = ({alerta}) => {
   const [data, setData] = useState(null);
   const [update, setUpdate] = useState(false);
   const load = (_) => {
@@ -64,8 +64,9 @@ const BarraResumenCaja = () => {
 
   return data ? (
     <div style={style}>
+      { alerta ? <div style={{width: "220px"}}>{alerta}</div> : <></>}
       {data.map((_row, index) => (
-        <div style={{ paddingLeft: "50px", width: "150px" }} key={index}>
+        <div style={{ paddingLeft: "50px", width: "200px" }} key={index}>
           <span style={{ whiteSpace: "nowrap" }}>
             {_row.detalle || ""}:&nbsp;&nbsp;
           </span>

@@ -1,4 +1,4 @@
-import LayoutCaja from "@/components/layout/layout_caja";
+import LayoutVentasV2 from "@/components/layout/layout_ventas_v2";
 import { Divider, Row, Input, Col } from "antd";
 
 export default function Index(){
@@ -10,4 +10,4 @@ export default function Index(){
     </>)
 }
 
-Index.PageLayout = LayoutCaja;
+Index.PageLayout = LayoutVentasV2;

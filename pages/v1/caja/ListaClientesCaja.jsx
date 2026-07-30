@@ -1,4 +1,4 @@
-import LayoutCaja from "@/components/layout/layout_caja";
+import LayoutVentasV2 from "@/components/layout/layout_ventas_v2";
 import dynamic from "next/dynamic";
 
 const ListaClientes = dynamic(
@@ -17,4 +17,4 @@ export default function ListaClientesCaja() {
   );
 }
 
-ListaClientesCaja.PageLayout = LayoutCaja;
+ListaClientesCaja.PageLayout = LayoutVentasV2;
