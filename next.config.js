@@ -33,6 +33,14 @@ const nextConfig = {
     // Forces Next.js to aggressively tree-shake these heavy packages
     optimizePackageImports: ["antd", "@ant-design/icons"],
   },*/
+  webpack: (config, { dev }) => {
+    if (dev) {
+      config.watchOptions = {
+        ignored: ["**/node_modules/**", "**/.next/**", "**/public/**"],
+      };
+    }
+    return config;
+  },
 };
 
 const withBundleAnalyzer = require("@next/bundle-analyzer")({

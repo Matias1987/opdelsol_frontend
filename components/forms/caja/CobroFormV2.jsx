@@ -307,7 +307,7 @@ const CobroOperacionV2 = (props) => {
     }
 
     /** si hay venta pero es de monto 0*/
-    if (dataVenta != null && +mp.total == 0 && dataVenta.saldo == 0) {
+    if (dataVenta != null && +mp.total == 0 && dataVenta.saldo == 0 && +descuento==0) {
       //alert("On venta monto 0")
       _on_venta_monto_zero();
       return;
