@@ -23,8 +23,9 @@ import AgregarProductoFactura from "./agregarProductoFactura";
 import globals from "@/src/globals";
 import ProveedorForm from "@/components/forms/ProveedorForm";
 import { v4 as uuidv4 } from "uuid";
+import SelectMoneda from "@/components/etc/selectMoneda";
 
-const AgregarFacturaV3 = (props) => {
+const AgregarFacturaV3 = ({ callback, moneda, idproveedor, esremito }) => {
   const [uid, setUID] = useState("");
   const [factura, setFactura] = useState({
     conceptosNoGravados: 0,
@@ -44,7 +45,7 @@ const AgregarFacturaV3 = (props) => {
     descuento: 0,
     netoGravado: 0,
     netoNoGravado: 0,
-    moneda: props.moneda,
+    moneda: moneda,
   });
   const [reload, setReload] = useState(false);
 
@@ -151,12 +152,12 @@ const AgregarFacturaV3 = (props) => {
   useEffect(() => {
     setUID(uuidv4());
 
-    if ("undefined" !== typeof props.idproveedor) {
+    if ("undefined" !== typeof idproveedor) {
       setProveedorSelectEnabled(false);
-      setFactura((_f) => ({ ..._f, fkproveedor: props.idproveedor }));
+      setFactura((_f) => ({ ..._f, fkproveedor: idproveedor }));
     }
-    if ("undefined" !== typeof props.esremito) {
-      setEsRemito(props.esremito);
+    if ("undefined" !== typeof esremito) {
+      setEsRemito(esremito);
     }
 
     load_proveedores();
@@ -167,7 +168,7 @@ const AgregarFacturaV3 = (props) => {
       .then((r) => r.json())
       .then((response) => {
         setProveedores([
-          ...[{ value: "-1", label: "Seleccione..." }],
+          { value: "-1", label: "Seleccione..." },
           ...response.data.map((r) => ({
             value: r.idproveedor,
             label: r.nombre,
@@ -225,6 +226,10 @@ const AgregarFacturaV3 = (props) => {
   };
 
   const onSave = () => {
+    if (factura.moneda == null || factura.moneda == "") {
+      alert("Moneda no seleccionada");
+      return;
+    }
     if (factura.fkproveedor == "-1") {
       alert("Proveedor no seleccionado");
       return;
@@ -252,7 +257,7 @@ const AgregarFacturaV3 = (props) => {
     setBtnGuardarEnabled(false);
     post_method(post.insert.factura, data, (resp) => {
       alert("Hecho.");
-      props?.callback?.();
+      callback?.();
     });
   };
 
@@ -367,10 +372,22 @@ const AgregarFacturaV3 = (props) => {
   return (
     <>
       {/*<FloatButton shape="square" icon={<SaveFilled />} onClick={onSave}/>*/}
+      {!moneda ? (
+        <SelectMoneda
+          value={factura.moneda}
+          onChange={(v) => {
+            onChange("moneda", v);
+          }}
+        />
+      ) : (
+        <></>
+      )}
       <Row style={_rows_style} gutter={[16, 18]}>
+        <Col style={{paddingTop:"4px"}}>Proveedor: </Col>
         <Col>
           <Select
-            prefix="Proveedor:  "
+            showSearch
+            optionFilterProp="label"
             disabled={!proveedorSelectEnabled}
             style={{ width: "300px" }}
             options={proveedores}
@@ -471,17 +488,6 @@ const AgregarFacturaV3 = (props) => {
           <Row style={_rows_style} gutter={[24, 18]}>
             {
               <Col>
-                {/*<Input
-                style={{ width: "320px" }}
-                onClick={(e)=>{e.target.select()}} 
-                type="number"
-                prefix="Neto Gravado: "
-                value={(factura.netoGravado)}
-                onChange={(e) => {
-                  onNetoGravadoChange(e.target.value);
-                }}
-                allowClear
-              />*/}
                 <InputNumber
                   decimalSeparator="."
                   prefix="Neto Gravado: "
@@ -498,17 +504,6 @@ const AgregarFacturaV3 = (props) => {
               </Col>
             }
             <Col>
-              {/*<Input
-                style={{ width: "320px" }}
-                onClick={(e)=>{e.target.select()}} 
-                type="number"
-                prefix="Neto no Gravado: "
-                value={(factura.netoNoGravado)} 
-                onChange={(e) => {
-                  onNetoNoGravadoChange(e.target.value);
-                }}
-                allowClear
-              />*/}
               <InputNumber
                 decimalSeparator="."
                 prefix="Neto no Gravado: "
@@ -525,17 +520,6 @@ const AgregarFacturaV3 = (props) => {
             </Col>
 
             <Col>
-              {/*<Input
-                style={{ width: "300px" }}
-                onClick={(e)=>{e.target.select()}} 
-                type="number"
-                prefix="Impuestos Internos: "
-                value={(factura.impuestosInternos)}
-                onChange={(e) => {
-                  onImpuestosInternosChange(e.target.value);
-                }}
-                allowClear
-              />*/}
               <InputNumber
                 decimalSeparator="."
                 prefix="Impuestos Internos: "
@@ -551,17 +535,6 @@ const AgregarFacturaV3 = (props) => {
               />
             </Col>
             <Col>
-              {/*<Input
-                allowClear
-                onClick={(e)=>{e.target.select()}}
-                type="number"
-                value={(factura.descuento )}
-                onChange={(e) => {
-                  onDescuentoChange(e.target.value);
-                }}
-                style={{ width: "300px" }}
-                prefix="Descuento: "
-              />*/}
               <InputNumber
                 decimalSeparator="."
                 prefix="Descuento: "

@@ -830,3 +830,24 @@ danger list
   -ms-user-select: none;     /* IE 10 and Consumer Edge */
   user-select: none;         /* Standard syntax for Chrome, Firefox, Opera */
 }
+
+/* 1. Force the internal container to behave as a flex row */
+.prefix-select .ant-select-selector {
+  display: flex !important;
+  align-items: center;
+}
+
+/* 2. Prevent the selection text from pushing beyond the available width */
+.prefix-select .ant-select-selection-item {
+  flex: 1;
+  min-width: 0; /* Critical for text-overflow to work in flexboxes */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Fixes the search input width sizing calculations with prefixes */
+.prefix-select .ant-select-selection-search {
+  left: 30px !important; /* Adjust this based on your prefix icon width */
+  right: 30px !important;
+}

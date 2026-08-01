@@ -55,11 +55,7 @@ export default function ListaClientesMayorista() {
     setSelectedCliente(record);
     setPopupFichaOpen(true);
   };
-  const onDetalleClienteClick = (record) => {
-    setSelectedCliente(record);
-    setPopupDetalleOpen(true);
-  };
-
+  
   const onClienteAdded = (_) => {
     setPopupAddOpen(false);
     refresh();
@@ -197,7 +193,7 @@ export default function ListaClientesMayorista() {
         }}
         destroyOnClose
         title="Detalle"
-        width={"800px"}
+        width={"1000px"}
       >
         <FichaClienteMayorista
           idcliente={selectedCliente.idcliente}

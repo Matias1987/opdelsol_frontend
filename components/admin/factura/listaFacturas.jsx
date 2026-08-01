@@ -1,5 +1,4 @@
 import { get, post } from "@/src/urls";
-import FacturaForm from "@/components/forms/FacturaForm";
 import DetalleFactura from "@/components/forms/deposito/DetalleFactura";
 
 import {
@@ -169,10 +168,6 @@ const ListaFacturas = (props) => {
 
     load();
   }, [change]);
-
-  const openPopup = () => {
-    setOpen(true);
-  };
 
   const closePopup = () => {
     setOpen(false);
@@ -348,19 +343,6 @@ const ListaFacturas = (props) => {
           </Col>
         </Row>
       </Card>
-
-      <Modal
-        cancelButtonProps={{ style: { display: "none" } }}
-        okButtonProps={{ children: "CANCELAR" }}
-        width={"80%"}
-        title={"Agregar Factura"}
-        open={open}
-        onOk={closePopup}
-        onCancel={closePopup}
-        okText="CERRAR"
-      >
-        <FacturaForm action="ADD" callback={onOk} />
-      </Modal>
 
       <Modal
         destroyOnClose

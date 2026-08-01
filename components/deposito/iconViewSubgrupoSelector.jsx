@@ -97,6 +97,10 @@ const IconViewSubgrupoSelector = ({
         label: "Detalle",
         key: "info",
       },
+      {
+      label: "Editar",
+      key: "edit",
+    },
     ];
     setcmItems([...default_options, ...extraOptions]);
   };

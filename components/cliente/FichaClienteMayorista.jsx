@@ -137,21 +137,21 @@ export default function FichaClienteMayorista(props) {
       dataIndex: "debe",
       title: "Debe",
       align: "right",
-      render: (_, { debe }) => <>{`$ ${parseFloat(debe || 0).toFixed(2)}`}</>,
+      render: (_, { debe }) => <>{`$ ${ formatFloat(parseFloat(debe || 0).toFixed(2))}`}</>,
     },
     {
       width: "120px",
       dataIndex: "haber",
       title: "Haber",
       align: "right",
-      render: (_, { haber }) => <>{`$ ${parseFloat(haber || 0).toFixed(2)}`}</>,
+      render: (_, { haber }) => <>{`$ ${ formatFloat(parseFloat(haber || 0).toFixed(2))}`}</>,
     },
     {
       width: "120px",
       title: "Saldo",
       align: "right",
       dataIndex: "saldo",
-      render: (_, { saldo }) => <>{`$ ${parseFloat(saldo || 0).toFixed(2)}`}</>,
+      render: (_, { saldo }) => <>{`$ ${ formatFloat(parseFloat(saldo || 0).toFixed(2))}`}</>,
     },
   ];
 
@@ -258,7 +258,12 @@ export default function FichaClienteMayorista(props) {
           <Row>
             <Col span={20}>{detalles_cliente()}</Col>
           </Row>
-          <Row>
+          <Row
+            style={{
+              boxShadow: "-1px 1px 1px 1px #9e9c9c",
+              backgroundColor: "#fafafa",
+            }}
+          >
             <Col span={24}>
               <Table
                 size="small"
@@ -316,11 +321,6 @@ export default function FichaClienteMayorista(props) {
                 <>
                   <Table
                     showHeader={false}
-                    style={{
-                      border: "1px dotted #e4e3e3",
-                      boxShadow: "-1px 1px 1px 1px #9e9c9c",
-                      backgroundColor: "#fafafa",
-                    }}
                     size="small"
                     loading={loading}
                     columns={columns}
@@ -345,13 +345,13 @@ export default function FichaClienteMayorista(props) {
                               <b>Totales</b>
                             </Table.Summary.Cell>
                             <Table.Summary.Cell align="right">
-                              <b>{total_debe.toFixed(2)}</b>
+                              <b>{formatFloat(total_debe.toFixed(2))}</b>
                             </Table.Summary.Cell>
                             <Table.Summary.Cell align="right">
-                              <b>{total_haber.toFixed(2)}</b>
+                              <b>{formatFloat(total_haber.toFixed(2))}</b>
                             </Table.Summary.Cell>
                             <Table.Summary.Cell align="right">
-                              <b>{(total_debe - total_haber).toFixed(2)}</b>
+                              <b>{formatFloat((total_debe - total_haber).toFixed(2))}</b>
                             </Table.Summary.Cell>
                           </Table.Summary.Row>
                         </>
@@ -363,11 +363,11 @@ export default function FichaClienteMayorista(props) {
               <div ref={dummyref}></div>
             </Col>
           </Row>
-          <Row>
+          <Row style={{paddingTop: "4px"}}>
             <Col span={24}>
               <Input
                 prefix={"Saldo: $ "}
-                style={{ backgroundColor: "#feffc1" }}
+                style={{ backgroundColor: "#feffc1",  }}
                 readOnly={true}
                 value={formatFloat(parseFloat(saldo).toFixed(2))}
               />
