@@ -58,7 +58,8 @@ export default function productos_distrib() {
         setPopupEditGOpen(true);
         break;
       case "subgrupo":
-        setPopupEditSGOpen(true);
+        //setPopupEditSGOpen(true);
+        setPopupEditDisenioOpen(true);
         break;
       case "trabajo":
         setPopupEditDisenioOpen(true);
@@ -85,10 +86,13 @@ export default function productos_distrib() {
           idInicial={19}
           tipoInicial={"familia"}
           nombreInicial={"DISTRIBUIDORA"}
-          modoDistribuidora
+          modoDistribuidora={true}
           onEditarClick={onEditarClick}
           incCodigos={true}
           vistaTabla={true}
+          disableAdd={true}
+          disableAddModoDistribuidora={false}
+          disableDropdownMenu={false}
         />
       </Card>
       <Modal

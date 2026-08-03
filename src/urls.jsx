@@ -285,6 +285,8 @@ const post = {
 
   rm_g_has_sg: remote_base_url + "subgrupos/rm/g_has_sg/",
 
+  total_ventas_categorias_periodo: remote_base_url + "admin/total/ventas/categorias/periodo/",
+
   search: {
     filtro_stock: remote_base_url + "stock/filtro_stock/",
   },

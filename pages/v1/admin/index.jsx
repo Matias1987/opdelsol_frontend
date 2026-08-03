@@ -1,10 +1,18 @@
 import TotalesCobros from "@/components/admin/dashboard_components/totales_cobros";
-
 import LayoutAdmin from "@/components/layout/layout_admin";
 import globals from "@/src/globals";
 import { get } from "@/src/urls";
 import { Col, Row } from "antd";
+import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
+
+const TreeMapVentasCategoriaPeriodo = dynamic(
+  () => import("@/components/charts/totalVentasCatPeriodo"),
+  {
+    ssr: false,
+    loading: () => <div style={{ height: "300px" }}>&#9203;</div>,
+  },
+);
 
 export default function dashboard_admin() {
   const [sucursales, setSucursales] = useState([]);
@@ -35,85 +43,17 @@ export default function dashboard_admin() {
     </>
   ) : (
     <>
-      <Row gutter={24}>
-        {/*<Col  style={{paddingRight:"32px"}}>
-            <TotalesCobros />
+      <Row>
+        <Col span={24}>
+          <TreeMapVentasCategoriaPeriodo />
         </Col>
-        <Col  style={{paddingRight:"32px"}}>
-            <TotalesGastos />
-        </Col>*/}
       </Row>
-      {/*
-    <Row>
-        <Col span={24}>
-            <TotalesVentas />
-        </Col>
-    </Row>
-    <Row>
-        <Col span={24}>
-            <span style={{fontWeight:"600"}}>Cantidad Ventas Ultimo A&ntilde;o</span>
-        </Col>
-    </Row>
-    <Row>
-        <Col span={24}>
-            <ChartTotalesUltimoAnio />
-        </Col>
-    </Row>*/}
+
       <Row gutter={[16, 16]}>
         <Col>
           <TotalesCobros />
         </Col>
-        {/*<Col>
-            <TotalTarjetas />
-        </Col>
-        <Col>
-            <TotalesMP />
-        </Col>
-        <Col>
-            <TotalesCajasSucursales style="black"/>
-        </Col>*/}
       </Row>
-
-      {/*<Row>
-        <Col span={24}>
-            <h4>Cantidad de ventas en dep&oacute;sito</h4>
-        </Col>
-    </Row>
-    <Row gutter={[16,16]}>
-        <Col>
-            <CustomStatistic prefix={<BoxPlotFilled />} style="black" value={10} title="Ventas en Depósito" precision={0} valueStyle={{textAlign:"right"}} />
-        </Col>
-        <Col>
-            <CustomStatistic style="danger" value={5} title="Pedido" precision={0} />
-        </Col>
-        <Col>
-            <CustomStatistic style="danger" value={10} title="Taller" precision={0} />
-        </Col>
-        <Col>
-            <CustomStatistic style="danger" value={2} title="Calibrado" precision={0} />
-        </Col>
-    </Row>
-
-    <Card  style={{marginTop:"20px", marginBottom:"20px", padding:"10px"}}>
-      <Row gutter={[16,16]}>
-
-        <Col style={{width:"1200px"}}><TotalesVentasMeses cantMeses={12} idsucursal={6} /></Col>
-        <Col style={{width:"1200px"}}><TotalesVentasMeses cantMeses={12} idsucursal={7} /></Col>
-        <Col style={{width:"1200px"}}><TotalesVentasMeses cantMeses={12} idsucursal={8} /></Col>
-        <Col style={{width:"1200px"}}><TotalesVentasMeses cantMeses={12} idsucursal={9} /></Col>
-        <Col style={{width:"1200px"}}><TotalesVentasMeses cantMeses={12} idsucursal={10} /></Col>
-        <Col style={{width:"1200px"}}><TotalesVentasMeses cantMeses={12} idsucursal={11} /></Col>
-        <Col style={{width:"1200px"}}><TotalesVentasMeses cantMeses={12} idsucursal={16} /></Col>
-      </Row>
-      </Card>*/}
-      {/*<Row>
-        <Col span={24}>
-            
-            {
-                sucursales.map(s=><ResumenOperacionesRow color={(++col%2==0? styles.lightRow:styles.darkRow)} key={s.idsucursal} idsucursal={s.idsucursal} nombre_sucursal={s.nombre} />)
-            }
-        </Col>
-    </Row>*/}
     </>
   );
 }

@@ -82,7 +82,7 @@ const EditarDisenio = ({ idsubgrupo, callback }) => {
             />
           </Col>
         </Row>
-        <Row style={row_style}>
+        {/*<Row style={row_style}>
           <Col span={24}>
             <Input
               addonBefore="Descripción: "
@@ -90,7 +90,7 @@ const EditarDisenio = ({ idsubgrupo, callback }) => {
               onChange={(e) => onChange("comentarios", e.target.value)}
             />
           </Col>
-        </Row>
+        </Row>*/}
         <Row style={row_style}>
           <Col span={24}>
             <Input

@@ -1,5 +1,5 @@
 import PlusOutlined from "@ant-design/icons/PlusOutlined";
-import { Button, Card, Checkbox, Input, Modal, Table } from "antd";
+import { Button, Card, Checkbox, Flex, Input, Modal, Table } from "antd";
 import { useEffect, useState } from "react";
 import NuevoDescuento from "./nuevoDescuento";
 import { post_method } from "@/src/helpers/post_helper";
@@ -9,9 +9,11 @@ const ClienteDescuentos = ({ cliente }) => {
   const [data, setData] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [reload, setReload] = useState(false);
+  const [ocultarInactivos, setOcultarInactivos] = useState(true);
   const columns = [
-    { title: "Detalle", dataIndex: "detalle" },
+    { title: "Detalle", dataIndex: "detalle",  },
     {
+      width: 300,
       title: "Porcentaje",
       dataIndex: "porcentaje",
       render: (_, record) => (
@@ -22,14 +24,33 @@ const ClienteDescuentos = ({ cliente }) => {
     },
     {
       title: "Activo",
+      width: 60,
       render: (_, { activo }) => (
         <>
           <Checkbox checked={activo}></Checkbox>
         </>
       ),
     },
-    { title: "Acciones" },
+    {
+      title: <div style={{ textAlign: "center" }}>Acciones</div>,
+      width: 140,
+      render: (_, { activo, id }) => (
+        <>
+          <Button size="small" danger onClick={_=>cambiarEstadoDescuento(id, !activo)}>Cambiar estado</Button>
+        </>
+      ),
+    },
   ];
+
+  const cambiarEstadoDescuento = (id_descuento, activo) => {
+    post_method(
+      post.update.cambiar_estado_descuento,
+      { id_descuento, activo },
+      (response) => {
+        setReload(!reload);
+      },
+    );
+  };
 
   const load = () => {
     post_method(
@@ -63,11 +84,12 @@ const ClienteDescuentos = ({ cliente }) => {
           backgroundColor: "#fafafa",
         }}
         size="small"
-        title="Lista Descuentos"
+        title={<Flex justify="space-between">Lista Descuentos   <Checkbox checked={ocultarInactivos} onChange={(e) => setOcultarInactivos(e.target.checked)}>Ocultar Inactivos</Checkbox></Flex>}
         extra={
           <>
             <Button
-              type="primary"
+              danger
+              type="dashed"
               onClick={(_) => {
                 setModalOpen(true);
               }}
@@ -80,7 +102,7 @@ const ClienteDescuentos = ({ cliente }) => {
         <Table
           size="small"
           columns={columns}
-          dataSource={data}
+          dataSource={ ocultarInactivos ? data.filter((d) => d.activo) : data }
           pagination={false}
           scroll={{ y: 300 }}
         />

@@ -42,6 +42,8 @@ const IconViewSubgrupoSelector = ({
   vistaTabla,
   size,
   disableAdd,
+  disableAddModoDistribuidora,
+  disableDropdownMenu,
 }) => {
   const [loading, setLoading] = useState(false);
   const [items, setItems] = useState([]);
@@ -68,6 +70,11 @@ const IconViewSubgrupoSelector = ({
       render: (_, record) => (
         <>
           <Dropdown
+            disabled={
+              typeof disableDropdownMenu === "boolean"
+                ? disableDropdownMenu
+                : true
+            }
             menu={{
               items: cmItems,
               onClick: (e) => {
@@ -96,11 +103,23 @@ const IconViewSubgrupoSelector = ({
       {
         label: "Detalle",
         key: "info",
+        disabled: true, //for now, we disable this option, as it is not implemented yet
       },
       {
-      label: "Editar",
-      key: "edit",
-    },
+        label: "Edición",
+        key: "editparent",
+        children: [
+          {
+            label: "Editar",
+            key: "edit",
+          },
+          {
+            label: "Aumentar precio",
+            key: "increase_price",
+            disabled: true, //for now, we disable this option, as it is not implemented yet
+          },
+        ],
+      },
     ];
     setcmItems([...default_options, ...extraOptions]);
   };
@@ -497,14 +516,16 @@ const IconViewSubgrupoSelector = ({
             </Button>
 
             {getNewButton()}
-            {parent?.tipo !== "grupo" || disableAdd || !modoDistribuidora ? (
+            {parent?.tipo !== "grupo" ||
+            disableAddModoDistribuidora ||
+            !modoDistribuidora ? (
               <></>
             ) : (
               <Col>
                 <Col style={{ paddingLeft: "8px" }}>
                   <Button
                     style={{ color: "#2f00af" }}
-                    type="link"
+                    type="dashed"
                     size="small"
                     onClick={(_) => {
                       setAddExistenteSGOpen(true);
@@ -528,6 +549,11 @@ const IconViewSubgrupoSelector = ({
             ).map((item) => (
               <Col xs={12} sm={8} md={6} lg={4} xl={3} key={item.id}>
                 <Dropdown
+                  disabled={
+                    typeof disableDropdownMenu === "boolean"
+                      ? disableDropdownMenu
+                      : true
+                  }
                   menu={{
                     items: cmItems,
                     onClick: (e) => {
