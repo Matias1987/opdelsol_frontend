@@ -5,17 +5,27 @@ import { Chart } from "react-google-charts";
 
 const TreeMapVentasCategoriaPeriodo = ({ reload }) => {
   const [data, setData] = useState([]);
-    const [loading, setLoading] = useState(true);
-  const creation_fnt = (src, compare_method, get_array_method, shouldAdd=false) => {
+  const [loading, setLoading] = useState(true);
+
+
+  function cap(value) {
+  return Math.min(value, 20); // anything above 10k treated as 10k
+}
+
+  const creation_fnt = (src, compare_method, get_array_method, shouldAdd = false) => {
     let result_array = [];
 
     src.forEach((row) => {
       const e_row = result_array.find((__r) => compare_method(__r, row));
       if (e_row) {
+        
         //update
-        result_array = result_array.map((_r) =>
-          compare_method(_r, row) ? [_r[0], _r[1],  _r[2] + shouldAdd ? +row.qtty : 0] : _r,
-        );
+        if (shouldAdd) {
+          
+          result_array = result_array.map((_r) =>
+            compare_method(_r, row) ? [_r[0], _r[1], _r[2] + +row.qtty,cap( _r[2] + +row.qtty)] : _r,
+          );
+        }
         return;
       }
 
@@ -27,50 +37,47 @@ const TreeMapVentasCategoriaPeriodo = ({ reload }) => {
   const obtener_array_totales = (src) => {
     let result_array = [];
     src.forEach((row) => {
-        const f = result_array.find(f=>f.idfamilia=== row.familia_idfamilia);
-        const sf = result_array.find(f=>f.idsubfamilia=== row.subfamilia_idsubfamilia);
-        const g = result_array.find(f=>f.idgrupo=== row.grupo_idgrupo);
-        const sg = result_array.find(f=>f.idsubgrupo=== row.subgrupo_idsubgrupo);
-        if(f)
-        {
-            result_array = result_array.map(_r=>_r.id === f.idfamilia ? ({..._r, qtty:  _r.qtty + row.qtty}) : _r);
-        }
-        else{
-            result_array.push({id: row.idfamilia, qtty: row.qtty});
-        }
-        if(sf)
-        {
-            result_array = result_array.map(_r=>_r.id === sf.idsubfamilia ? ({..._r, qtty: _r.qtty + row.qtty}) : _r);
-        }
-        else{
-            result_array.push({id: row.idfamilia, qtty: row.qtty});
-        }
-        if(g)
-        {
-            result_array = result_array.map(_r=>_r.id === g.idgrupo ? ({..._r, qtty: _r.qtty + row.qtty}) : _r);
-        }
-        else{
-            result_array.push({id: row.idgrupo, qtty: row.qtty});
-        }
-        if(sg)
-        {
-            result_array = result_array.map(_r=>_r.id === sg.idsubgrupo ? ({..._r, qtty: _r.qtty + row.qtty}) : _r);
-        }
-        else{
-            result_array.push({id: row.idsubgrupo, qtty: row.qtty});
-        }
+      const f = result_array.find(f => f.idfamilia === row.familia_idfamilia);
+      const sf = result_array.find(f => f.idsubfamilia === row.subfamilia_idsubfamilia);
+      const g = result_array.find(f => f.idgrupo === row.grupo_idgrupo);
+      const sg = result_array.find(f => f.idsubgrupo === row.subgrupo_idsubgrupo);
+      if (f) {
+        result_array = result_array.map(_r => _r.id === f.idfamilia ? ({ ..._r, qtty: _r.qtty + row.qtty }) : _r);
+      }
+      else {
+        result_array.push({ id: row.idfamilia, qtty: row.qtty });
+      }
+      if (sf) {
+        result_array = result_array.map(_r => _r.id === sf.idsubfamilia ? ({ ..._r, qtty: _r.qtty + row.qtty }) : _r);
+      }
+      else {
+        result_array.push({ id: row.idfamilia, qtty: row.qtty });
+      }
+      if (g) {
+        result_array = result_array.map(_r => _r.id === g.idgrupo ? ({ ..._r, qtty: _r.qtty + row.qtty }) : _r);
+      }
+      else {
+        result_array.push({ id: row.idgrupo, qtty: row.qtty });
+      }
+      if (sg) {
+        result_array = result_array.map(_r => _r.id === sg.idsubgrupo ? ({ ..._r, qtty: _r.qtty + row.qtty }) : _r);
+      }
+      else {
+        result_array.push({ id: row.idsubgrupo, qtty: row.qtty });
+      }
     });
     return result_array;
   };
 
+
   const obtener_array_final = (src) => {
-    const header = ["Location", "Parent", "Market trade volume (size)"];
-    const root = [{ v: "root", f: "Todos" }, null, 0];
+    const header = ["Location", "Parent", "Market trade volume (size)", "Color"];
+    const root = [{ v: "root", f: "Todos" }, null, 0,0];
 
     const familia_part = creation_fnt(
       src,
       (rc, rw) => rc[0].v === "f" + rw.idfamilia,
-      (rw) => [{ v: "f" + rw.idfamilia.toString(), f: rw.nf }, "root", 0],
+      (rw) => [{ v: "f" + rw.idfamilia.toString(), f: rw.nf }, "root", 0,0],
     );
 
     const subfamilia_part = creation_fnt(
@@ -79,7 +86,7 @@ const TreeMapVentasCategoriaPeriodo = ({ reload }) => {
       (rw) => [
         { v: "sf" + rw.idsubfamilia.toString(), f: rw.nsf },
         "f" + rw.familia_idfamilia.toString(),
-        0,
+        0,0
       ],
     );
 
@@ -89,7 +96,7 @@ const TreeMapVentasCategoriaPeriodo = ({ reload }) => {
       (rw) => [
         { v: "g" + rw.idgrupo.toString(), f: rw.ng },
         "sf" + rw.subfamilia_idsubfamilia.toString(),
-        0,
+        0,0
       ],
     );
     const subgrupo_part = creation_fnt(
@@ -98,16 +105,17 @@ const TreeMapVentasCategoriaPeriodo = ({ reload }) => {
       (rw) => [
         { v: "sg" + rw.idsubgrupo.toString(), f: rw.nsg },
         "g" + rw.grupo_idgrupo.toString(),
-        0,
+        0,0
       ],
     );
     const codigo_part = creation_fnt(
       src,
-      (rc, rw) => rc[0].v === "c" + rw.idcodigo,
+      (rc, rw) => { return rc[0].v === "c" + rw.idcodigo.toString() },
       (rw) => [
         { v: "c" + rw.idcodigo.toString(), f: rw.cod },
         "sg" + rw.subgrupo_idsubgrupo.toString(),
         +rw.qtty,
+        cap(+rw.qtty),
       ],
       true,
     );
@@ -126,11 +134,12 @@ const TreeMapVentasCategoriaPeriodo = ({ reload }) => {
 
   const load = () => {
     post_method(post.total_ventas_categorias_periodo, {}, (response) => {
-      //alert(JSON.stringify(response))
+     // alert(JSON.stringify(response))
       const array_final = obtener_array_final(response.data);
       //const qtties = obtener_array_totales(response.data);
-      //alert(JSON.stringify(qtties));
+      //alert(JSON.stringify(array_final));
       setData(array_final);
+      setLoading(false);
     });
   };
 
@@ -139,25 +148,37 @@ const TreeMapVentasCategoriaPeriodo = ({ reload }) => {
   }, [reload]);
 
   const options = {
-    minColor: "#f00",
-    midColor: "#ddd",
-    maxColor: "#0d0",
-    headerHeight: 15,
+    minHighlightColor: "#EB2315",
+    midHighlightColor: "#F4CA16",
+    maxHighlightColor: "#50C878",
+    minColor: "#EB2315",
+    midColor: "#F4E293",
+    maxColor: "#66FF99",
+    minValue: 1,
+    maxValue: 20,
+    headerHeight: 25,
     fontColor: "black",
     showScale: true,
+    useWeightedAverageForAggregation: true,
+    highlightOnMouseOver: true,
+    maxDepth: 1,
+    maxPostDepth: 2,
+    generateTooltip: (row, size, value) => {
+      return `<div style="padding:10px; background-color:white;">
+              Quantity: ${size}
+            </div>`;
+    },
   };
-  return (
-    <>
-      <Chart
-        key={loading}
-        chartType="TreeMap"
-        width="700px"
-        height="700px"
-        data={data}
-        options={options}
-      />
-    </>
-  );
+  return loading ? <>&#9203;</> : <>
+    <Chart
+      key={loading}
+      chartType="TreeMap"
+      width="700px"
+      height="400px"
+      data={data}
+      options={options}
+    />
+  </>;
 };
 
 export default TreeMapVentasCategoriaPeriodo;
