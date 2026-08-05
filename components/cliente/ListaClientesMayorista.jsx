@@ -10,14 +10,14 @@ const ClienteFormDistrib = dynamic(
   () => import("@/components/cliente/ClienteFormDistrib"),
   {
     ssr: false,
-    loading: () => <div style={{ height: "300px" }}>...</div>,
+    loading: () => <div style={{ height: "300px" }}>&#9203;</div>,
   },
 );
 const FichaClienteMayorista = dynamic(
   () => import("@/components/cliente/FichaClienteMayorista"),
   {
     ssr: false,
-    loading: () => <div style={{ height: "300px" }}>...</div>,
+    loading: () => <div style={{ height: "300px" }}>&#9203;</div>,
   },
 );
 

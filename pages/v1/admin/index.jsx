@@ -1,4 +1,5 @@
 import TotalesCobros from "@/components/admin/dashboard_components/totales_cobros";
+import SunBurstVentasCategoriaPeriodo from "@/components/charts/sunBurstVentasGraph";
 import LayoutAdmin from "@/components/layout/layout_admin";
 import globals from "@/src/globals";
 import { get } from "@/src/urls";
@@ -19,6 +20,7 @@ export default function dashboard_admin() {
   const [idcaja, setIdCaja] = useState(-1);
   const [open, setOpen] = useState(false);
   const [esUsuarioAdminMin, setEsUsuarioAdminMin] = useState(true);
+  
   const styles = {
     darkRow: "#F0C2A5",
     lightRow: "#F4DD76",
@@ -43,15 +45,13 @@ export default function dashboard_admin() {
     </>
   ) : (
     <>
-      <Row>
-        <Col span={24}>
-          <TreeMapVentasCategoriaPeriodo />
-        </Col>
-      </Row>
-
       <Row gutter={[16, 16]}>
-        <Col>
+        <Col style={{ display: "flex", justifyContent: "center" }} span={24}>
           <TotalesCobros />
+        </Col>
+
+        <Col span={24} style={{ display: "flex", justifyContent: "center" }} >
+          <SunBurstVentasCategoriaPeriodo />
         </Col>
       </Row>
     </>

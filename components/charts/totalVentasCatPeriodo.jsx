@@ -7,7 +7,9 @@ import { Chart } from "react-google-charts";
 const TreeMapVentasCategoriaPeriodo = ({ reload }) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
-
+  const [cantMeses, setCantMeses] = useState(1);
+  const [cantMesesCurrent, setCantMesesCurrent] = useState(1);
+  const [btnDisabled, setBtnDisabled] = useState(true);
   function cap(value) {
     return Math.min(value, 20); // anything above 10k treated as 10k
   }
@@ -39,48 +41,6 @@ const TreeMapVentasCategoriaPeriodo = ({ reload }) => {
     return result_array;
   };
 
-  const obtener_array_totales = (src) => {
-    let result_array = [];
-    src.forEach((row) => {
-      const f = result_array.find((f) => f.idfamilia === row.familia_idfamilia);
-      const sf = result_array.find(
-        (f) => f.idsubfamilia === row.subfamilia_idsubfamilia,
-      );
-      const g = result_array.find((f) => f.idgrupo === row.grupo_idgrupo);
-      const sg = result_array.find(
-        (f) => f.idsubgrupo === row.subgrupo_idsubgrupo,
-      );
-      if (f) {
-        result_array = result_array.map((_r) =>
-          _r.id === f.idfamilia ? { ..._r, qtty: _r.qtty + row.qtty } : _r,
-        );
-      } else {
-        result_array.push({ id: row.idfamilia, qtty: row.qtty });
-      }
-      if (sf) {
-        result_array = result_array.map((_r) =>
-          _r.id === sf.idsubfamilia ? { ..._r, qtty: _r.qtty + row.qtty } : _r,
-        );
-      } else {
-        result_array.push({ id: row.idfamilia, qtty: row.qtty });
-      }
-      if (g) {
-        result_array = result_array.map((_r) =>
-          _r.id === g.idgrupo ? { ..._r, qtty: _r.qtty + row.qtty } : _r,
-        );
-      } else {
-        result_array.push({ id: row.idgrupo, qtty: row.qtty });
-      }
-      if (sg) {
-        result_array = result_array.map((_r) =>
-          _r.id === sg.idsubgrupo ? { ..._r, qtty: _r.qtty + row.qtty } : _r,
-        );
-      } else {
-        result_array.push({ id: row.idsubgrupo, qtty: row.qtty });
-      }
-    });
-    return result_array;
-  };
 
   const obtener_array_final = (src) => {
     const header = [
@@ -154,14 +114,19 @@ const TreeMapVentasCategoriaPeriodo = ({ reload }) => {
   };
 
   const load = () => {
-    post_method(post.total_ventas_categorias_periodo, {}, (response) => {
-      // alert(JSON.stringify(response))
-      const array_final = obtener_array_final(response.data);
-      //const qtties = obtener_array_totales(response.data);
-      //alert(JSON.stringify(array_final));
-      setData(array_final);
-      setLoading(false);
-    });
+    setLoading(true);
+    post_method(
+      post.total_ventas_categorias_periodo,
+      { cantMeses },
+      (response) => {
+         alert(JSON.stringify(response))
+        const array_final = obtener_array_final(response.data);
+        //const qtties = obtener_array_totales(response.data);
+        //alert(JSON.stringify(array_final));
+        setData(array_final);
+        setLoading(false);
+      },
+    );
   };
 
   useEffect(() => {
@@ -196,8 +161,8 @@ const TreeMapVentasCategoriaPeriodo = ({ reload }) => {
   return (
     <>
       <Card
-        title="Ventas por Categoría y Periodo"
-        style={{ width: "100%" }}
+        title={`Ventas por categoría durante los ultimos ${cantMesesCurrent} meses.`}
+        style={{ width: "100%", boxShadow: "0px 5px 15px #888888" }}
         size="small"
       >
         {loading ? (
@@ -205,9 +170,21 @@ const TreeMapVentasCategoriaPeriodo = ({ reload }) => {
         ) : (
           <>
             <Row>
-              <Col
-                span={24}
-              ><Input type="number" step={1} min={1} addonBefore="Periodo" style={{width:"300px"}} addonAfter="Meses" /> <Button type="dashed" size="small">Aplicar</Button> </Col>
+              <Col span={24}>
+                <Input
+                  type="number"
+                  value={cantMeses}
+                  onChange={(e) => {setCantMeses(parseInt(e.target.value) || 1); setBtnDisabled(false);}}
+                  step={1}
+                  min={1}
+                  addonBefore="Periodo"
+                  style={{ width: "300px" }}
+                  addonAfter="Meses"
+                />{" "}
+                <Button danger type="dashed" size="small" onClick={_=>{load(); setBtnDisabled(true); setCantMesesCurrent(cantMeses);}} disabled={btnDisabled}>
+                  Aplicar
+                </Button>{" "}
+              </Col>
             </Row>
 
             <Row>
@@ -217,12 +194,17 @@ const TreeMapVentasCategoriaPeriodo = ({ reload }) => {
               >
                 <Chart
                   key={loading}
-                  chartType="TreeMap"
-                  width="700px"
+                  chartType="OrgChart"
+                  width="100%"
                   height="400px"
                   data={data}
                   options={options}
                 />
+              </Col>
+            </Row>
+            <Row>
+              <Col span={24} style={{ textAlign: "center", marginBottom: "10px", color:"#ff0000", fontWeight:"bold" }}>
+                <i>Volver a categoría superior: Click Bot&oacute;n derecho.</i>
               </Col>
             </Row>
           </>
