@@ -163,17 +163,21 @@ const AgregarArmazon = () => {
     {
       title: <>C&oacute;digo</>,
       dataIndex: "codigo",
+      width: "220px",
     },
     {
       title: <>Descripci&oacute;n</>,
       dataIndex: "descripcion",
+      width: "380px",
     },
     {
       title: <>Precio</>,
       dataIndex: "precio",
+      width: "180px",
     },
     {
       title: <>Acciones</>,
+      width: "180px",
       render: (_, record) => (
         <>
           <Button
@@ -232,8 +236,7 @@ const AgregarArmazon = () => {
   };
 
   const col_label_style = {
-    fontWeight: "500",
-    fontSize: "16px",
+    fontWeight: "400",
     paddingTop: "5px",
   };
 
@@ -282,13 +285,7 @@ const AgregarArmazon = () => {
 
   return (
     <>
-      <Card
-        title={
-          <span style={{ fontWeight: "bold", fontSize: "1.4em" }}>
-            Agregar Armazones
-          </span>
-        }
-      >
+      <Card size="small" title={<span>Agregar Armazones</span>}>
         <Row gutter={16} style={row_style}>
           <Col style={col_label_style}>Tipo de Armaz&oacute;n:&nbsp;</Col>
           <Col>
@@ -356,7 +353,7 @@ const AgregarArmazon = () => {
                 <>
                   Lista de C&oacute;digos a agregar: &nbsp;&nbsp;&nbsp;&nbsp;
                   <Button
-                    size="large"
+                    size="small"
                     type="primary"
                     onClick={() => setModalAgregarCodigoOpen(true)}
                   >
@@ -368,10 +365,11 @@ const AgregarArmazon = () => {
               <Row>
                 <Col span={24}>
                   <Table
+                    size="small"
                     pagination={false}
                     columns={defaultColumns}
                     dataSource={codigosData}
-                    footer={() => <></>}
+                    scroll={{ y: "300px" }}
                   />
                 </Col>
               </Row>

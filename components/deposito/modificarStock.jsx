@@ -340,7 +340,7 @@ const ModificarStock = ({ dataDef, defIdFamilia, familiaEnabled }) => {
           </Col>
         </Row>
         <Row>
-          <Col style={{ padding: "16px", width: menuFolded ? "100px" : "30%" }}>
+          <Col style={{ padding: "6px", width: menuFolded ? "100px" : "260px" }}>
             <SideMenuListaStock
               familiaEnabled={familiaEnabled}
               defIdFamilia={defIdFamilia}

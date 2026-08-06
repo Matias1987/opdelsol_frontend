@@ -16,8 +16,6 @@ const SubFamiliaForm = (props) => {
   useEffect(()=>{setUID(uuidv4());},[]);
 
   const agregar = (_values) => {
-    alert(JSON.stringify(_values))
-    alert(post.insert.subfamilia)
     post_method(post.insert.subfamilia, _values, (res) => {
       if (res.status == "OK") {
         alert("Datos Guardados");

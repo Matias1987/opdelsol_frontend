@@ -104,7 +104,7 @@ export default function MenuDistribuidora({ onNuevaVentaClick,showBadge }) {
           type="text"
           style={{ color: "white", paddingTop: "8px" }}
           onClick={() => {
-            const _token = getItem("token", "session");
+            const _token = globals.getToken();
 
             fetch(get.logout + _token)
               .then((response) => response.json())

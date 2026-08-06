@@ -313,7 +313,7 @@ const SideMenuListaStock = (props) => {
   };
 
   const row_style = {
-    padding: "6px",
+    padding: "4px",
   };
 
   const on_finish = () => {
@@ -336,7 +336,7 @@ const SideMenuListaStock = (props) => {
   ) : (
     <>
       <Card
-        style={{ backgroundColor: "#ECECED", borderRadius: "16px" }}
+        style={{ backgroundColor: "#f6f6fa", boxShadow: "1px 2px 2px 1px rgba(209, 213, 224, 0.6)" }}
         title="Filtros"
         size="small"
         extra={
@@ -356,13 +356,14 @@ const SideMenuListaStock = (props) => {
           style={{
             ...row_style,
             ...{
-              borderRadius: "8px",
-              border: "1px solid #C0C0C1",
+              borderRadius: "4px",
+              border: "1px dotted #d1d0d0",
+              backgroundColor: "#fafafa",
               padding: "6px",
             },
           }}
         >
-          <Col style={{ fontWeight: "600", paddingTop: "4px" }}>
+          <Col style={{ fontWeight: "400", paddingTop: "4px" }}>
             Filtro a Agregar:&nbsp;&nbsp;{" "}
           </Col>
           <Col>
@@ -370,7 +371,7 @@ const SideMenuListaStock = (props) => {
               value={tipoFiltro}
               placeholder="Seleccione Tipo de Filtro..."
               options={get_filtro_options()}
-              style={{ width: "200px" }}
+              style={{ width: "215px" }}
               onChange={(value) => {
                 setTipoFiltro(value);
               }}
@@ -415,7 +416,7 @@ const SideMenuListaStock = (props) => {
               ) : (
                 <Tag
                   style={{ width: "150px" }}
-                  color="red"
+                  color="default"
                   closable
                   onClose={(e) => {
                     e.preventDefault();

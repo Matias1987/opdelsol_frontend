@@ -22,7 +22,7 @@ const DetalleSubgrupo = ({ idsubgrupo, callback, onClose, closable }) => {
     load();
   }, [idsubgrupo]);
 
-  return (
+  return idsubgrupo < 0 ? <></> : (
     <span style={{ fontWeight: "600" }}>
       Subgrupo:&nbsp;
       {subgrupo == null ? (

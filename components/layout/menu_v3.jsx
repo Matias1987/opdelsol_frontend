@@ -1,10 +1,10 @@
 import { Button, Col, Flex, Input, Menu, Modal } from "antd";
-import DollarOutlined from "@ant-design/icons/DollarOutlined";
+//import DollarOutlined from "@ant-design/icons/DollarOutlined";
 import DownOutlined from "@ant-design/icons/DownOutlined";
 import LogoutOutlined from "@ant-design/icons/LogoutOutlined";
 import MenuOutlined from "@ant-design/icons/MenuOutlined";
 import SearchOutlined from "@ant-design/icons/SearchOutlined";
-import UserOutlined from "@ant-design/icons/UserOutlined";
+//import UserOutlined from "@ant-design/icons/UserOutlined";
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { get, public_urls } from "@/src/urls";
@@ -340,12 +340,10 @@ export default function MenuV3(props) {
             </Link>
           ),
           key: "11",
-          icon: <UserOutlined />,
         },
         {
           //label: (<BuscarVentaV2 />),
           label: <>Buscar Venta</>,
-          icon: <SearchOutlined />,
           key: "buscar_venta",
         },
       );
@@ -354,7 +352,6 @@ export default function MenuV3(props) {
       items.push({
         //label: (<CustomModal width="100%" openButtonText={<><DollarOutlined />&nbsp;Lista de Precios</> } type="text"><ListaPreciosV3  /></CustomModal>),
         label: <>Lista de Precios</>,
-        icon: <DollarOutlined />,
         key: "lista_precios",
       });
     }
@@ -363,12 +360,10 @@ export default function MenuV3(props) {
   }, []);
 
   const onClick = (e) => {
-    //console.log('click ', e);
     if (typeof e.key === "undefined") {
       return;
     }
 
-  
     switch (e.key) {
       case "lista_precios":
         setLPOpen(true);
@@ -377,7 +372,6 @@ export default function MenuV3(props) {
         setBuscarVentaOpen(true);
         return;
     }
-
     setCurrent(e.key);
   };
 
@@ -407,7 +401,6 @@ export default function MenuV3(props) {
         justify="space-evenly"
         
         style={{
-          backgroundColor: "#eaebec",
           border: "1px solid #7e7e7e",
         }}
       >
@@ -425,7 +418,7 @@ export default function MenuV3(props) {
             backgroundColor: "#E7E9EB",
             paddingTop:"4px"
           }}
-          prefix={<div style={{ fontWeight: "600" }}>Búsqueda:</div>}
+          
           allowClear
           addonAfter={
             <>

@@ -39,7 +39,7 @@ const StockTable = (props) => {
     <>
       <Row>
         <Col span={24} style={{ textAlign: "center", fontWeight: "500" }}>
-          Listado de C&oacute;digos - {title}
+          Listado de C&oacute;digos  {title}
         </Col>
       </Row>
       <Row

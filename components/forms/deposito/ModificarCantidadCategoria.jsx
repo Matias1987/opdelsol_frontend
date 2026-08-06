@@ -125,7 +125,7 @@ const ModificarCantidadCategoria = (props) => {
       <Card
         size="small"
         title={<>Modificar Cantidad Categor&iacute;a</>}
-        style={{ maxWidth: "700px" }}
+        style={{ width: "900px" }}
       >
         <Row style={row_style} gutter={16}>
           <Col>

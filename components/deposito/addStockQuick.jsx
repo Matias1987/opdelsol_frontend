@@ -55,7 +55,7 @@ const AddStockQuick = ({ callback }) => {
 
   return (
     <>
-    <Card title="Agregar Stock" size="small" style={{maxWidth:"800px"}}>
+    <Card title="Agregar Stock" size="small" style={{width:"900px"}}>
       <Row style={{ padding: "8px" }}>
         <Col>
           <SubGroupSelectV2

@@ -1,23 +1,22 @@
 import { idf_optica, local_base_url } from "@/src/config";
 import ArrowDownOutlined from "@ant-design/icons/ArrowDownOutlined";
 import BarsOutlined from "@ant-design/icons/BarsOutlined";
-import BoxPlotFilled from "@ant-design/icons/BoxPlotFilled";
+//import BoxPlotFilled from "@ant-design/icons/BoxPlotFilled";
 import FileTextOutlined from "@ant-design/icons/FileTextOutlined";
-import HomeOutlined from "@ant-design/icons/HomeOutlined";
-import InfoOutlined from "@ant-design/icons/InfoOutlined";
-import PartitionOutlined from "@ant-design/icons/PartitionOutlined";
-import PrinterOutlined from "@ant-design/icons/PrinterOutlined";
-import RocketOutlined from "@ant-design/icons/RocketOutlined";
+//import HomeOutlined from "@ant-design/icons/HomeOutlined";
+//import InfoOutlined from "@ant-design/icons/InfoOutlined";
+//import PartitionOutlined from "@ant-design/icons/PartitionOutlined";
+//import PrinterOutlined from "@ant-design/icons/PrinterOutlined";
+//import RocketOutlined from "@ant-design/icons/RocketOutlined";
 import SnippetsOutlined from "@ant-design/icons/SnippetsOutlined";
-import TableOutlined from "@ant-design/icons/TableOutlined";
-import UserOutlined from "@ant-design/icons/UserOutlined";
+//import TableOutlined from "@ant-design/icons/TableOutlined";
+//import UserOutlined from "@ant-design/icons/UserOutlined";
+import DownOutlined from "@ant-design/icons/DownOutlined";
 
 import { Button, Flex, Menu } from "antd";
 import Link from "next/link";
 import SucursalLabel from "../sucursal_label";
 import { get, public_urls } from "@/src/urls";
-import LogoutOutlined from "@ant-design/icons/LogoutOutlined";
-import { getItem } from "localforage";
 import { useEffect, useState } from "react";
 import globals from "@/src/globals";
 
@@ -37,25 +36,19 @@ export default function TestMenu() {
       justify="space-between"
       align="center"
       style={{
-        backgroundColor: "#E7E9EB",
         border: "1px solid rgb(136, 136, 136)",
       }}
     >
-      <Menu
-        onClick={() => {}}
-        mode="horizontal"
-      >
+      <Menu onClick={() => {}} mode="horizontal">
         <Menu.Item key="100">
-          <Link href={get_url_to("deposito/")}>
-            <HomeOutlined />
-            &nbsp;Inicio{" "}
-          </Link>
+          <Link href={get_url_to("deposito/")}>Inicio </Link>
         </Menu.Item>
         <SubMenu
           key="sub20"
           title={
             <span>
-              <BoxPlotFilled /> Stock
+              <DownOutlined />
+              &nbsp; Stock
             </span>
           }
         >
@@ -85,17 +78,32 @@ export default function TestMenu() {
               Modificar Cant. Categor&iacute;a
             </Link>
           </Menu.Item>
-          <Menu.Item key="sub2_35">
+         { /*<Menu.Item key="sub2_35">
             <Link href={get_url_to("deposito/stock/crsv2/stock_cristales")}>
               Stock Cristales
             </Link>
-          </Menu.Item>
+          </Menu.Item>*/}
+          <SubMenu key={"baja_desp"} title={<span>Baja por Desperfecto </span>}>
+            <Menu.Item key="sub2_41">
+              <Link href={get_url_to("deposito/stock/baja_desperfecto")}>
+                Nueva Baja
+              </Link>
+            </Menu.Item>
+            <Menu.Item key="sub2_410">
+              <Link
+                href={get_url_to("deposito/stock/listados/lista_desperfectos")}
+              >
+                Listado
+              </Link>
+            </Menu.Item>
+          </SubMenu>
         </SubMenu>
         <SubMenu
           key="sub1"
           title={
             <span>
-              <RocketOutlined /> Envios
+              <DownOutlined />
+              &nbsp; Envios
             </span>
           }
         >
@@ -121,7 +129,6 @@ export default function TestMenu() {
         </SubMenu>
         <Menu.Item key="13">
           <Link href={get_url_to("deposito/imprimir_codigos")}>
-            <PrinterOutlined />
             &nbsp;Imprimir C&oacute;digos
           </Link>
         </Menu.Item>
@@ -130,7 +137,8 @@ export default function TestMenu() {
           key={"submenu_tablas"}
           title={
             <span>
-              <TableOutlined /> Tablas
+              <DownOutlined />
+              &nbsp; Tablas
             </span>
           }
         >
@@ -170,7 +178,8 @@ export default function TestMenu() {
           key={"inf_title"}
           title={
             <span>
-              <InfoOutlined /> Informes
+              <DownOutlined />
+              &nbsp;Informes
             </span>
           }
         >
@@ -188,52 +197,43 @@ export default function TestMenu() {
           </Menu.Item>
         </SubMenu>
 
-        <SubMenu key={"etc"} title={<span>...</span>}>
-          <SubMenu key={"baja_desp"} title={<span>Baja por Desperfecto</span>}>
-            <Menu.Item key="sub2_41">
-              <Link href={get_url_to("deposito/stock/baja_desperfecto")}>
-                Nueva Baja
-              </Link>
-            </Menu.Item>
-            <Menu.Item key="sub2_410">
-              <Link
-                href={get_url_to("deposito/stock/listados/lista_desperfectos")}
-              >
-                Listado
-              </Link>
-            </Menu.Item>
-          </SubMenu>
-
+        <SubMenu
+          key={"etc"}
+          title={
+            <span>
+              <DownOutlined />
+              &nbsp;Otros
+            </span>
+          }
+        >
           <Menu.Item key="sub4_29">
-            <UserOutlined />
             <Link href={get_url_to("deposito/proveedores/lista_proveedores")}>
               Proveedores
             </Link>
           </Menu.Item>
           <Menu.Item key="sub6_30">
-            <FileTextOutlined />
             <Link href={get_url_to("deposito/facturas/lista_facturas")}>
               Facturas
             </Link>
           </Menu.Item>
           <Menu.Item key="sub2_42">
-            <PartitionOutlined />
             <Link href={get_url_to("deposito/arbol_codigos")}>
-              &nbsp;&Aacute;rbol de C&oacute;digos
+              &Aacute;rbol de C&oacute;digos
             </Link>
           </Menu.Item>
         </SubMenu>
       </Menu>
 
       <div>
-        {usuario}<SucursalLabel color="black" />
-          
+        {usuario}
+        <SucursalLabel color="black" />
+
         <Button
           size="small"
           type="text"
           style={{ color: "red", paddingTop: "8px" }}
           onClick={() => {
-            const _token = getItem("token", "session");
+            const _token = globals.getToken();
 
             fetch(get.logout + _token)
               .then((response) => response.json())
