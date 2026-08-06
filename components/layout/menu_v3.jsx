@@ -433,7 +433,7 @@ export default function MenuV3(props) {
 
         <Menu
           onClick={onClickM2}
-          style={{ width: "200px" }}
+          style={{ width: "230px" }}
           mode="horizontal"
           items={[
             {
