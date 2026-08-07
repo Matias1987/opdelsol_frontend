@@ -41,9 +41,8 @@ const UploadSingle = (props) => {
 
   return (
     <>
-      <Upload {..._props}>
-        <Button type="link" icon={<UploadOutlined />}>
-          {" "}
+      <Upload {..._props} showUploadList={false}>
+        <Button type="default" icon={<UploadOutlined />} size="small">
           Agregar
         </Button>
       </Upload>

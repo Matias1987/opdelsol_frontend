@@ -83,7 +83,7 @@ export default function productos_distrib() {
         }}
       >
         <IconViewSubgrupoSelector
-          idInicial={19}
+          idInicial={22}
           tipoInicial={"familia"}
           nombreInicial={"DISTRIBUIDORA"}
           modoDistribuidora={true}

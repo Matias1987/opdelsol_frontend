@@ -73,7 +73,7 @@ const public_urls = {
   laboratorio_lista_facturas: local_base_url + "laboratorio/facturas",
 
   ventas_medicos: local_base_url + "informes/medicos/ventas_medicos",
-//admin
+  //admin
   lista_ventas_dia_vendedor: local_base_url + "admin/lista_ventas_dia",
   listausuarios: local_base_url + "admin/listausuarios",
   admin_sucursales: local_base_url + "admin/lista_sucursales",
@@ -131,7 +131,7 @@ const post = {
   venta_estado_sucursal: remote_base_url + "ventas/venta_estado_sucursal/",
   obtener_lista_cobros: remote_base_url + "cobros/lista/",
   cambiar_estado_venta: remote_base_url + "ventas/cambiar_estado/",
-  
+
   caja_exists: remote_base_url + "caja/exists/",
   totales_venta_vendedor: remote_base_url + "ventas/inf/v/totales_v/",
   totales_venta_sucursal:
@@ -197,6 +197,7 @@ const post = {
   upload_image: remote_base_url + "img/upload/",
   register_image: remote_base_url + "img/register/",
   obtener_images: remote_base_url + "img/",
+  remove_image: remote_base_url + "img/remove_image/",
 
   obtener_objetivo_sucursal: remote_base_url + "objs/list",
   obtener_progreso_sucursal_objetivo: remote_base_url + "objs/get/progress",
@@ -285,7 +286,8 @@ const post = {
 
   rm_g_has_sg: remote_base_url + "subgrupos/rm/g_has_sg/",
 
-  total_ventas_categorias_periodo: remote_base_url + "admin/total/ventas/categorias/periodo/",
+  total_ventas_categorias_periodo:
+    remote_base_url + "admin/total/ventas/categorias/periodo/",
 
   search: {
     filtro_stock: remote_base_url + "stock/filtro_stock/",

@@ -19,6 +19,7 @@ import GridMonofTipos from "../etc/GridMonofTipos";
 import IconViewSubgrupoSelector from "./iconViewSubgrupoSelector";
 import CloseOutlined from "@ant-design/icons/CloseOutlined";
 import DetalleSubgrupo from "../DetalleSubgrupo";
+import AdministradorImagenes from "../etc/imagen/administrador_imagenes";
 
 const ModificarStock = ({ dataDef, defIdFamilia, familiaEnabled }) => {
   const [usuarioDep, setUsuarioDep] = useState(false);
@@ -52,6 +53,8 @@ const ModificarStock = ({ dataDef, defIdFamilia, familiaEnabled }) => {
   const [popupEditarPreciosOpen, setEditarPopupPreciosOpen] = useState(false);
 
   const [sucuralSelectEnabled, setSucursalSelectEnabled] = useState(false);
+
+  const [popupImagenesOpen, setPopupImagenesOpen] = useState(false);
 
   const [defIdSubgrupo, setDefIdSubgrupo] = useState(null);
   //const regexp_bif = /^([0-9\.]{0,})([A-Z_]+)(_)([\-|\+]?[0-9\.]+)(_)(L|R)(_ADD_)([0-9\.]+)/;
@@ -162,6 +165,10 @@ const ModificarStock = ({ dataDef, defIdFamilia, familiaEnabled }) => {
       case 4:
         setSelectedIdCodigo(idcodigo);
         setEditarPopupPreciosOpen(true);
+        break;
+      case 5:
+        setSelectedIdCodigo(idcodigo);
+        setPopupImagenesOpen(true);
         break;
     }
   };
@@ -569,6 +576,13 @@ const ModificarStock = ({ dataDef, defIdFamilia, familiaEnabled }) => {
                 setValueChanged(!valueChanged);
               }}
             />
+          </Col>
+        </Row>
+      </Modal>
+      <Modal open={popupImagenesOpen} footer={null} width={"80%"} destroyOnClose onCancel={() => setPopupImagenesOpen(false)}>
+        <Row>
+          <Col span={24}>
+            <AdministradorImagenes idcodigo={selectedIdCodigo} record={null} />
           </Col>
         </Row>
       </Modal>

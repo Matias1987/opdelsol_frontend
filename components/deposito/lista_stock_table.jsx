@@ -16,6 +16,7 @@ import {
 } from "antd";
 import ExportToExcel from "../etc/ExportToExcel";
 import { useEffect, useState } from "react";
+import PictureOutlined from "@ant-design/icons/PictureOutlined";
 
 const StockTable = (props) => {
   const {
@@ -350,6 +351,13 @@ const StockTable = (props) => {
                   icon: <EditOutlined />,
                   disabled:
                     !globals.esUsuarioDeposito() || +record.modo_precio != 1,
+                },
+                {
+                  label: "Imágenes",
+                  key: "5",
+                  icon: <PictureOutlined />,
+                  disabled:
+                    !globals.esUsuarioDeposito(),
                 },
               ],
               onClick: ({ key }) => {
