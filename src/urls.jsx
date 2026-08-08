@@ -198,6 +198,7 @@ const post = {
   register_image: remote_base_url + "img/register/",
   obtener_images: remote_base_url + "img/",
   remove_image: remote_base_url + "img/remove_image/",
+  marcar_defaut: remote_base_url + "img/marcar_default/",
 
   obtener_objetivo_sucursal: remote_base_url + "objs/list",
   obtener_progreso_sucursal_objetivo: remote_base_url + "objs/get/progress",

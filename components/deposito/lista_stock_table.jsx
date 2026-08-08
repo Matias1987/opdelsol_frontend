@@ -17,6 +17,7 @@ import {
 import ExportToExcel from "../etc/ExportToExcel";
 import { useEffect, useState } from "react";
 import PictureOutlined from "@ant-design/icons/PictureOutlined";
+import DefaultImageProduct from "../etc/imagen/default_image_prod";
 
 const StockTable = (props) => {
   const {
@@ -32,6 +33,7 @@ const StockTable = (props) => {
     verTagsCol,
     verPrecioCol,
     title,
+    shouldUpdateImg
   } = props;
 
   const [searchStr, setSearchStr] = useState("");
@@ -40,7 +42,7 @@ const StockTable = (props) => {
     <>
       <Row>
         <Col span={24} style={{ textAlign: "center", fontWeight: "500" }}>
-          Listado de C&oacute;digos  {title}
+          Listado de C&oacute;digos {title}
         </Col>
       </Row>
       <Row
@@ -183,6 +185,21 @@ const StockTable = (props) => {
   );
 
   const [columns, setColumns] = useState([
+    {
+      fixed: "left",
+      width: "100px",
+      dataIndex: "codigo",
+      key: "idcodigo",
+      render: (_, { idcodigo }) => (
+        <>
+          <DefaultImageProduct
+            idproduct={idcodigo}
+            width="64px"
+            mustUpdate={shouldUpdateImg}
+          />
+        </>
+      ),
+    },
     {
       fixed: "left",
       width: "200px",
@@ -356,8 +373,7 @@ const StockTable = (props) => {
                   label: "Imágenes",
                   key: "5",
                   icon: <PictureOutlined />,
-                  disabled:
-                    !globals.esUsuarioDeposito(),
+                  disabled: !globals.esUsuarioDeposito(),
                 },
               ],
               onClick: ({ key }) => {
@@ -461,6 +477,7 @@ const StockTable = (props) => {
         loading={loading || false}
         scroll={{ y: 400 }}
         size="small"
+        key={shouldUpdateImg}
       />
     </Card>
   );

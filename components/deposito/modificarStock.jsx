@@ -121,6 +121,7 @@ const ModificarStock = ({ dataDef, defIdFamilia, familiaEnabled }) => {
 
     return (
       <StockTable
+        shouldUpdateImg={valueChanged ? "1" : "0"}
         title={<DetalleSubgrupo idsubgrupo={idsubgrupo} />}
         data={data}
         loading={loading}
@@ -452,7 +453,7 @@ const ModificarStock = ({ dataDef, defIdFamilia, familiaEnabled }) => {
         onCancel={() => {
           setPopupDetalleOpen(false);
         }}
-        width={"80%"}
+        width={"850px"}
       >
         <DetalleStock
           idcodigo={selectedIdCodigo}
@@ -582,7 +583,7 @@ const ModificarStock = ({ dataDef, defIdFamilia, familiaEnabled }) => {
       <Modal open={popupImagenesOpen} footer={null} width={"80%"} destroyOnClose onCancel={() => setPopupImagenesOpen(false)}>
         <Row>
           <Col span={24}>
-            <AdministradorImagenes idcodigo={selectedIdCodigo} record={null} />
+            <AdministradorImagenes idcodigo={selectedIdCodigo} record={null} callback={_=>{ setValueChanged(!valueChanged)}} />
           </Col>
         </Row>
       </Modal>

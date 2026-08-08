@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import PopupDetalleBusqueda from "./DetalleBusqueda";
 import { post_method } from "@/src/helpers/post_helper";
 import { regex_get_id_if_match } from "@/src/helpers/barcode_helper";
+import DefaultImageProduct from "../etc/imagen/default_image_prod";
 
 const PopupResultadoBusqueda = (props) => {
   const [dataSource, setDataSource] = useState([]);
@@ -16,6 +17,11 @@ const PopupResultadoBusqueda = (props) => {
   const [busqueda, setBusqueda] = useState(null);
   const [reload, setReload] = useState(false);
   const columns = [
+    { width:"100px", dataIndex: "idcodigo", title: "", render:(_,{idcodigo})=><><DefaultImageProduct
+            idproduct={idcodigo}
+            width="64px"
+            key={idcodigo.toString()}
+          /></> },
     { dataIndex: "codigo", title: "Codigo" },
     { dataIndex: "precio", title: "Precio" },
     {

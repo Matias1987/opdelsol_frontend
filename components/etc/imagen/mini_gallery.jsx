@@ -54,7 +54,7 @@ const MiniImageGallery = ({ images, onDelete, onSetDefault, size }) => {
             style={{
               width: size ? size.w : 80,
               height: size ? size.h : 80,
-              border: img.isDefault ? "8px solid gold" : "4px solid #d4d4d4",
+              border: img.isDefault ? "5px solid #FF0400" : "4px solid #d4d4d4",
               borderRadius: 4,
               overflow: "hidden",
               cursor: "pointer",

@@ -1,3 +1,4 @@
+import AdministradorImagenes from "@/components/etc/imagen/administrador_imagenes";
 import DefaultImageProduct from "@/components/etc/imagen/default_image_prod";
 import ImagenesProducto from "@/components/etc/imagen/imagen_producto";
 import TagsLote from "@/components/etiquetas/TagsLote";
@@ -127,13 +128,15 @@ export default function ListaCodigos() {
       ),
     },
     {
-      width: "70px",
+      width: "100px",
       render: (_, record) => (
-        <DefaultImageProduct
-          idproduct={record.idcodigo}
-          width="70px"
-          key={change.toString() + record.idcodigo.toString()}
-        />
+        <div style={{ paddingLeft: "15px", paddingRight: "15px" }}>
+          <DefaultImageProduct
+            idproduct={record.idcodigo}
+            width="70px"
+            key={change.toString() + record.idcodigo.toString()}
+          />
+        </div>
       ),
     },
     {
@@ -407,7 +410,8 @@ export default function ListaCodigos() {
         }}
         title="Imágenes del producto"
       >
-        <ImagenesProducto idproducto={selectedIdCodigo} />
+        {/*<ImagenesProducto idproducto={selectedIdCodigo} />*/}
+        <AdministradorImagenes idcodigo={selectedIdCodigo} record={null} callback={_=>{ setChange(!change)}} />
       </Modal>
       <Modal
         open={popupEditarLoteOpen}

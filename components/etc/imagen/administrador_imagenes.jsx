@@ -8,7 +8,7 @@ import { uploads_url } from "@/src/config";
 import ThumbnailSizePicker from "./ThumbnailSizePicker";
 import { ReloadOutlined } from "@ant-design/icons";
 
-const AdministradorImagenes = ({ idcodigo, record }) => {
+const AdministradorImagenes = ({ idcodigo, record, callback }) => {
   const [imagenes, setImagenes] = useState([]);
   const [imagenPorDefecto, setImagenPorDefecto] = useState(null);
   const [reloadImages, setReloadImages] = useState(false);
@@ -18,31 +18,40 @@ const AdministradorImagenes = ({ idcodigo, record }) => {
       post.obtener_images,
       { fk_ref: idcodigo, tipo: "producto" },
       (response) => {
-        setImagenes(
-          response.data.map((img) => ({
-            id: img.idimagen,
-            url: uploads_url + img.fname,
-            isDefault: img.default,
-          })),
-        );
+        const _imgs = response.data.map((img) => ({
+          id: img.idimagen,
+          url: uploads_url + img.fname,
+          isDefault: +img.default === 1,
+        }));
+
+        setImagenes(_imgs);
         // Set the default image if it exists
-        const defaultImage = response.data.find((img) => img.default);
+        const defaultImage = _imgs.find((img) => img.isDefault);
         if (defaultImage) {
-          setImagenPorDefecto(defaultImage.idimagen);
+          setImagenPorDefecto(defaultImage);
         }
       },
     );
   };
   const onDelete = (id) => {
-    if(!confirm("Confirmar Eliminar imagen"))
-    {
-        return;
+    if (!confirm("Confirmar Eliminar imagen")) {
+      return;
     }
     post_method(post.remove_image, { id: id }, (response) => {
       setReloadImages(!reloadImages);
+      callback?.();
     });
   };
-  const onSetDefault = (id) => {};
+  const onSetDefault = (id) => {
+    post_method(
+      post.marcar_defaut,
+      { id: id, idanterior: imagenPorDefecto ? imagenPorDefecto.id : -1 },
+      (_) => {
+        setReloadImages(!reloadImages);
+        callback?.();
+      },
+    );
+  };
 
   useEffect(() => {
     load();
@@ -89,12 +98,14 @@ const AdministradorImagenes = ({ idcodigo, record }) => {
               fkref={idcodigo}
               callback={(_) => {
                 setReloadImages(!reloadImages);
+                callback?.();
               }}
             />
           </Col>
+          <Col></Col>
         </Row>
 
-        <Row>
+        <Row style={{padding:"8px"}}>
           <Col span={24}>
             <MiniImageGallery
               size={size}
@@ -102,6 +113,24 @@ const AdministradorImagenes = ({ idcodigo, record }) => {
               onDelete={onDelete}
               onSetDefault={onSetDefault}
             />
+          </Col>
+        </Row>
+        <Row>
+          <Col span={24}  style={{padding:"8px"}}>
+            <div style={{ width: "164px" }}>
+              <div
+                style={{
+                  display: "block",
+                  float: "left",
+                  width: "16px",
+                  height: "16px",
+                  background: "#FF0400",
+                  boxShadow: "1px 1px 1px 1px #c4c4c4",
+                  borderRadius: "4px",
+                }}
+              />{" "}
+              &nbsp; Imagen por defecto.
+            </div>
           </Col>
         </Row>
       </Card>

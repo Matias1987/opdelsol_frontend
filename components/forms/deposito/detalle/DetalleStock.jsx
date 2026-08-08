@@ -1,141 +1,177 @@
 import globals from "@/src/globals";
 import { get } from "@/src/urls";
-import { Col, Divider, Row, Spin, Tag } from "antd";
+import { Col, Divider, Flex, Row, Spin, Tag } from "antd";
 import { useEffect, useState } from "react";
 import StockCodigosSucursales from "../StockCodigoSucursales";
 import Tags from "@/components/etiquetas/tagsCodigos";
-
+import DefaultImageProduct from "@/components/etc/imagen/default_image_prod";
 
 const DetalleStock = (props) => {
-    const {idsucursal} = props;
-    const [loadingDetalles, setLoadingDetalles] = useState(true)
-    
-    const [dataDetalles, setDataDetalles] = useState(null)
-    
-    const [descripcionSubgrupo, setDescripcionSubgrupo] = useState(null)
-    
-    const url_detalle_stock = get.detalle_stock;//:idsucursal/:idcodigo
-    
-    //const idsucursal = globals.obtenerSucursal();
-    const [reload,setReload] = useState(false);
+  const { idsucursal } = props;
+  const [loadingDetalles, setLoadingDetalles] = useState(true);
 
+  const [dataDetalles, setDataDetalles] = useState(null);
 
-    //get stock sucursales
-    useEffect(()=>{
+  const [descripcionSubgrupo, setDescripcionSubgrupo] = useState(null);
 
-        if(typeof props.idcodigo === 'undefined') {
-            alert("codigo no establecido");
-            return;
+  const url_detalle_stock = get.detalle_stock; //:idsucursal/:idcodigo
+
+  //const idsucursal = globals.obtenerSucursal();
+  const [reload, setReload] = useState(false);
+
+  //get stock sucursales
+  useEffect(() => {
+    if (typeof props.idcodigo === "undefined") {
+      alert("codigo no establecido");
+      return;
+    }
+    setLoadingDetalles(true);
+    //get detalles
+    fetch(
+      url_detalle_stock +
+        (idsucursal ? idsucursal : globals.obtenerSucursal()) +
+        "/" +
+        props.idcodigo,
+    )
+      .then((response) => response.json())
+      .then((response) => {
+        setDataDetalles(response.data[0]);
+
+        if (response.data.length > 0) {
+          fetch(get.descripcion_cat_subgrupo + response.data[0].idsubgrupo)
+            .then((__r) => __r.json())
+            .then((_resp) => {
+              if ((_resp.data || []).length > 0) {
+                setDescripcionSubgrupo((r) => ({
+                  titulo: _resp.data[0].titulo,
+                  descripcion: _resp.data[0].descripcion,
+                }));
+              }
+            });
         }
-        setLoadingDetalles(true)
-        //get detalles
-        fetch(url_detalle_stock + (idsucursal ? idsucursal : globals.obtenerSucursal()) + "/" + props.idcodigo)
-        .then(response=>response.json())
-        .then((response)=>{
-            setDataDetalles(
-                response.data[0]
-            )
-           
 
-            if(response.data.length>0){
-                
-                fetch(get.descripcion_cat_subgrupo+response.data[0].idsubgrupo)
-                .then(__r=>__r.json())
-                .then(_resp=>{
-                    
-                    if((_resp.data||[]).length>0)
-                    {
-                        setDescripcionSubgrupo(r=>({
-                            titulo: _resp.data[0].titulo,
-                            descripcion: _resp.data[0].descripcion,
-                        }))
-                    }
-                })
-            }
+        setLoadingDetalles(false);
+      });
+  }, [reload]);
 
-            setLoadingDetalles(false)
+  const Detalle = (_) =>
+    loadingDetalles || dataDetalles == null ? (
+      <Spin />
+    ) : (
+      <>
+        <Row style={{ backgroundColor: "#f1f4f8", padding: "4px" }}>
+          <Col style={{ width: "100px", paddingRight: "16px" }}>
+            <Flex
+              justify="center"
+              align="center"
+              style={{ height: "120px", padding: "2px", borderRadius: "4px" }}
+            >
+              <DefaultImageProduct idproduct={props.idcodigo} width={"90px"} />
+            </Flex>
+          </Col>
+          <Col style={{ width: "600px" }}>
+            <table border={"0"} style={{ width: "100%" }}>
+              <tbody>
+                <tr>
+                  <td style={{ width: "80px" }}>C&oacute;digo:</td>
+                  <td>
+                    <i style={{ fontSize: ".75em" }}>{dataDetalles.ruta}</i>
+                    &nbsp;<b>{dataDetalles.codigo}</b>
+                  </td>
+                </tr>
+                <tr>
+                  <td style={{ width: "80px" }}>Descripci&oacute;n:</td>
+                  <td>
+                    <b>
+                      <i>{dataDetalles.descripcion}</i>
+                    </b>
+                  </td>
+                </tr>
+                <tr>
+                  <td style={{ width: "80px" }}>Cantidad:</td>
+                  <td>
+                    <b>{dataDetalles.cantidad}</b>
+                  </td>
+                </tr>
+                <tr>
+                  <td style={{ width: "50px" }}>
+                    Costo: <b>${dataDetalles.costo}</b>
+                  </td>
+                </tr>
+                <tr>
+                  {/*<td style={{width:"30%"}}>Multiplicador: <b>{dataDetalles.multiplicador}</b></td>*/}
+                  <td style={{ width: "30%" }}>
+                    Modo Precio:&nbsp;&nbsp;
+                    {dataDetalles.modo_precio == 1 ? (
+                      <Tag>Subgrupo</Tag>
+                    ) : dataDetalles.modo_precio == 2 ? (
+                      <Tag>Propio</Tag>
+                    ) : (
+                      <Tag>Multiplicador</Tag>
+                    )}
+                  </td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td style={{ width: "auto" }}>
+                    <i>Precio:&nbsp;</i>
 
-        });
-
-
-    },[reload])
-    
-
-    const Detalle = _ => (
-        loadingDetalles || dataDetalles==null ? <Spin /> : 
-        <>
-            <table border={"0"} style={{width:"100%"}} >
-                <tbody>
-                    <tr>
-                        <td>C&oacute;digo:</td>
-                        <td><i style={{ fontSize:".75em"}}>{dataDetalles.ruta}</i>&nbsp;<b>{dataDetalles.codigo}</b></td>
-                    </tr>
-                    <tr>
-                        <td>Descripci&oacute;n:</td>
-                        <td><b><i>{dataDetalles.descripcion}</i></b></td>
-                    </tr>
-                    <tr>
-                        <td>Cantidad:</td>
-                        <td><b>{dataDetalles.cantidad}</b></td>
-                    </tr>
-                    <tr>
-                        <td style={{width:"30%"}}>Costo: <b>${dataDetalles.costo}</b></td>
-                        {/*<td style={{width:"30%"}}>Multiplicador: <b>{dataDetalles.multiplicador}</b></td>*/}
-                        <td style={{width:"30%"}}>Modo Precio:&nbsp;&nbsp;{dataDetalles.modo_precio==1?<Tag>Subgrupo</Tag>:(dataDetalles.modo_precio==2? <Tag>Propio</Tag>:<Tag>Multiplicador</Tag>)}</td>
-                        <td style={{width:"auto"}}><i>Precio:&nbsp;
-                        
-                        {dataDetalles.precio}</i>
-
-                        {/*&nbsp;&nbsp;&nbsp;&nbsp;<span style={{ fontSize: "1.10em"}}>Redondeo:&nbsp;
+                    {/*&nbsp;&nbsp;&nbsp;&nbsp;<span style={{ fontSize: "1.10em"}}>Redondeo:&nbsp;
                         <b>${ 
                             Math.round(parseFloat(dataDetalles.costo) * parseFloat(dataDetalles.multiplicador) * (1/error_margin)) * error_margin
-                        }</b></span>*/}</td>
-                        
-                    </tr>
-                    {/*
+                        }</b></span>*/}
+                  </td>
+                  <td>{dataDetalles.precio}</td>
+                </tr>
+                {/*
                     <tr>
                         <td>G&eacute;nero: <Tag color="purple">{dataDetalles.genero}</Tag></td>
                         <td>Edad: <Tag color="blue">{dataDetalles.edad}</Tag></td>
                     </tr>
                     */}
-                </tbody>
+              </tbody>
             </table>
-        </>
-    )
-
-
-
-    const descripcionSG = _ => (descripcionSubgrupo==null ? <></>:<><i>Detalle Subgrupo:</i><br />{descripcionSubgrupo.descripcion}</>)
-
-    return (
-        <>
-        <Row>
-            <Col span={24}>
-                {Detalle()}
-            </Col>
+          </Col>
         </Row>
-        
-        <Divider />
-        <Row>
-            <Col span={24}>
-                {descripcionSG()}
-                <Divider />
-            </Col>
+      </>
+    );
 
-        </Row>
-        <Row>
-            <Col span={24}>
-                <Tags  idcodigo={props.idcodigo} />
-            </Col>
-        </Row>
-        <Row>
-            
-            <Col span={24}>
-                <StockCodigosSucursales idcodigo={props.idcodigo} />
-            </Col>
-        </Row>
-        </>
-    )
-}
+  const descripcionSG = (_) =>
+    descripcionSubgrupo == null ? (
+      <></>
+    ) : (
+      <>
+        <i>Detalle Subgrupo:</i>
+        <br />
+        {descripcionSubgrupo.descripcion}
+      </>
+    );
+
+  return (
+    <>
+      <Row>
+        <Col span={24}>{Detalle()}</Col>
+      </Row>
+
+      <Divider />
+      <Row>
+        <Col span={24}>
+          {descripcionSG()}
+          <Divider />
+        </Col>
+      </Row>
+      <Row>
+        <Col span={24}>
+          <Tags idcodigo={props.idcodigo} />
+        </Col>
+      </Row>
+      <Row>
+        <Col span={24}>
+          <StockCodigosSucursales idcodigo={props.idcodigo} />
+        </Col>
+      </Row>
+    </>
+  );
+};
 
 export default DetalleStock;
