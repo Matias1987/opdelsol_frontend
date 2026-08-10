@@ -1,4 +1,5 @@
 import TotalesCobros from "@/components/admin/dashboard_components/totales_cobros";
+import PieChartVentasGraph from "@/components/charts/pieChartVentasGraph";
 import SunBurstVentasCategoriaPeriodo from "@/components/charts/sunBurstVentasGraph";
 import LayoutAdmin from "@/components/layout/layout_admin";
 import globals from "@/src/globals";
@@ -51,7 +52,7 @@ export default function dashboard_admin() {
         </Col>
 
         <Col span={24} style={{ display: "flex", justifyContent: "center" }} >
-          <SunBurstVentasCategoriaPeriodo />
+          <PieChartVentasGraph />
         </Col>
       </Row>
     </>
