@@ -1,14 +1,28 @@
 import { useEffect, useState, useRef } from "react";
 import { post_method } from "@/src/helpers/post_helper";
 import { post } from "@/src/urls";
-import { Input, Breadcrumb, Alert, Card } from "antd"; // Added Alert to handle leaf nodes gracefully
+import {
+  Input,
+  Breadcrumb,
+  Alert,
+  Card,
+  Col,
+  Button,
+  Row,
+  Flex,
+  Table,
+} from "antd"; // Added Alert to handle leaf nodes gracefully
 import Chart from "react-google-charts";
+import TablaVentasPorProducto from "../etc/tablaVentasPorProducto";
 
 const PieChartVentasGraph = () => {
   const [currentParentCat, setCurrentParentCat] = useState(null);
   const [data, setData] = useState([]);
   const [currentData, setCurrentData] = useState(null);
-
+  const [cantMeses, setCantMeses] = useState(1);
+  const [cantMesesCurrent, setCantMesesCurrent] = useState(1);
+  const [btnDisabled, setBtnDisabled] = useState(true);
+  const [chartId, setChartId] = useState(1);
   const currentParentCatRef = useRef(null);
 
   useEffect(() => {
@@ -161,16 +175,21 @@ const PieChartVentasGraph = () => {
   };
 
   useEffect(() => {
+    setCurrentParentCat(null);
+    setCurrentData(null);
+
     post_method(
       post.total_ventas_categorias_periodo,
-      { cantMeses: 12 },
+      { cantMeses: cantMesesCurrent },
       (response) => {
         const _data = prepare(response.data);
         setData(_data);
         onChange("D", -1, _data);
+        setBtnDisabled(false);
+        setChartId(chartId + 1);
       },
     );
-  }, []);
+  }, [cantMesesCurrent]);
 
   const onCategoryClick = ({ chartWrapper }) => {
     const chart = chartWrapper.getChart();
@@ -190,57 +209,130 @@ const PieChartVentasGraph = () => {
     currentParentCat &&
     (!currentParentCat.children || currentParentCat.children.length === 0);
 
-  return currentData ? (
-    <Card title="Ventas por categoria" size="small" style={{ boxShadow: "0px 5px 15px #888888" }}>
-    <div>
-      <Breadcrumb style={{ marginBottom: "16px", fontSize: "14px" }}>
-        {breadcrumbItems.map((node, index) => {
-          const isLast = index === breadcrumbItems.length - 1;
-          return (
-            <Breadcrumb.Item key={node.id}>
-              {isLast ? (
-                <strong style={{ color: "#1890ff" }}>{node.label}</strong>
-              ) : (
-                <span
-                  style={{ cursor: "pointer", color: "rgba(0, 0, 0, 0.45)" }}
-                  onClick={() => handleBreadcrumbClick(node)}
-                >
-                  {node.label}
-                </span>
-              )}
-            </Breadcrumb.Item>
-          );
-        })}
-      </Breadcrumb>
+  const options = {
+    title: "Ventas por categoria",
+    pieHole: 0.4, // Creates a Donut Chart. Does not do anything when is3D is enabled
+    is3D: true, // Enables 3D view
+    // slices: {
+    //   1: { offset: 0.2 }, // Explodes the second slice
+    // },
+    pieStartAngle: 0, // Rotates the chart
+    sliceVisibilityThreshold: 0.02, // Hides slices smaller than 2%
+    legend: {
+      position: "right",
+      alignment: "center",
+      textStyle: {
+        color: "#233238",
+        fontSize: 14,
+      },
+    },
+    //colors: ["#8AD1C2", "#9F8AD1", "#D18A99", "#BCD18A", "#D1C28A"],
+  };
 
-      {/* 4. Display a friendly message if the user reaches the absolute bottom layer */}
-      {isLeafNode ? (
-        <div style={{ margin: "20px 0" }}>
-          <Alert
-            message={`Nivel Máximo Alcanzado: ${currentParentCat.label}`}
-            description={`Este artículo o código no posee subcategorías adicionales para graficar. Cantidad total registrada: ${currentParentCat.cantidad}.`}
-            type="info"
-            showIcon
-          />
-        </div>
-      ) : (
-        <Chart
-          chartType="PieChart"
-          width="900px"
-          height="400px"
-          data={currentData}
-          chartEvents={[
-            {
-              eventName: "select",
-              callback: onCategoryClick,
-            },
-          ]}
+  return currentData ? (
+    <Card
+      title={
+        <>
+          Ventas por categoría durante los &uacute;ltimos {cantMesesCurrent}{" "}
+          meses. &nbsp;
+        </>
+      }
+      extra={
+        <Input
+          size="small"
+          type="number"
+          value={cantMeses}
+          onChange={(e) => {
+            setCantMeses(parseInt(e.target.value) || 1);
+            setBtnDisabled(false);
+          }}
+          step={1}
+          min={1}
+          style={{ width: "200px" }}
+          addonAfter={
+            <>
+              Meses{" "}
+              <Button
+                danger
+                type="dashed"
+                size="small"
+                onClick={(_) => {
+                  setBtnDisabled(true);
+                  setCantMesesCurrent(cantMeses);
+                }}
+                disabled={btnDisabled}
+              >
+                Aplicar
+              </Button>
+            </>
+          }
         />
-      )}
-    </div>
+      }
+      size="small"
+      style={{ boxShadow: "0px 5px 15px #888888", width: "620px" }}
+    >
+      <Row style={{ padding: "8px", backgroundColor: "#f3f3f3" }}>
+        <Col span={24}>
+          <Breadcrumb style={{ fontSize: "14px" }}>
+            {breadcrumbItems.map((node, index) => {
+              const isLast = index === breadcrumbItems.length - 1;
+              return (
+                <Breadcrumb.Item key={node.id}>
+                  {isLast ? (
+                    <strong style={{ color: "#1890ff" }}>{node.label}</strong>
+                  ) : (
+                    <span
+                      style={{
+                        cursor: "pointer",
+                        color: "rgba(0, 0, 0, 0.45)",
+                      }}
+                      onClick={() => handleBreadcrumbClick(node)}
+                    >
+                      {node.label}
+                    </span>
+                  )}
+                </Breadcrumb.Item>
+              );
+            })}
+          </Breadcrumb>
+        </Col>
+      </Row>
+      <Row>
+        <Col span={24}>
+          {/* 4. Display a friendly message if the user reaches the absolute bottom layer */}
+          {isLeafNode ? (
+            <div style={{ margin: "20px 0" }}>
+              <Alert
+                message={`Ventas para: ${currentParentCat.label}`}
+                description={`Cantidad: ${currentParentCat.cantidad}`}
+                type="info"
+                showIcon
+              />
+              <TablaVentasPorProducto
+                idproducto={currentParentCat.id}
+                meses={cantMesesCurrent}
+              />
+            </div>
+          ) : (
+            <Chart
+              chartType="PieChart"
+              width="600px"
+              height="400px"
+              data={currentData}
+              options={options}
+              chartEvents={[
+                {
+                  eventName: "select",
+                  callback: onCategoryClick,
+                },
+              ]}
+            />
+          )}
+        </Col>
+      </Row>
     </Card>
   ) : (
-    <></>
+    <>&#9203; Cargando...</>
   );
 };
 

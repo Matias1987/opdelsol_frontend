@@ -1,6 +1,3 @@
-import TotalesCobros from "@/components/admin/dashboard_components/totales_cobros";
-import PieChartVentasGraph from "@/components/charts/pieChartVentasGraph";
-import SunBurstVentasCategoriaPeriodo from "@/components/charts/sunBurstVentasGraph";
 import LayoutAdmin from "@/components/layout/layout_admin";
 import globals from "@/src/globals";
 import { get } from "@/src/urls";
@@ -8,8 +5,15 @@ import { Col, Row } from "antd";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 
-const TreeMapVentasCategoriaPeriodo = dynamic(
-  () => import("@/components/charts/totalVentasCatPeriodo"),
+const TotalesCobros = dynamic(
+  () => import("@/components/admin/dashboard_components/totales_cobros"),
+  {
+    ssr: false,
+    loading: () => <div style={{ height: "300px" }}>&#9203;</div>,
+  },
+);
+const PieChartVentasGraph = dynamic(
+  () => import("@/components/charts/pieChartVentasGraph"),
   {
     ssr: false,
     loading: () => <div style={{ height: "300px" }}>&#9203;</div>,
@@ -21,7 +25,7 @@ export default function dashboard_admin() {
   const [idcaja, setIdCaja] = useState(-1);
   const [open, setOpen] = useState(false);
   const [esUsuarioAdminMin, setEsUsuarioAdminMin] = useState(true);
-  
+
   const styles = {
     darkRow: "#F0C2A5",
     lightRow: "#F4DD76",
@@ -47,11 +51,11 @@ export default function dashboard_admin() {
   ) : (
     <>
       <Row gutter={[16, 16]}>
-        <Col style={{ display: "flex", justifyContent: "center" }} span={24}>
+        <Col>
           <TotalesCobros />
         </Col>
 
-        <Col span={24} style={{ display: "flex", justifyContent: "center" }} >
+        <Col>
           <PieChartVentasGraph />
         </Col>
       </Row>

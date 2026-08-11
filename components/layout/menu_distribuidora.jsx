@@ -83,7 +83,7 @@ export default function MenuDistribuidora({ onNuevaVentaClick,showBadge }) {
           color: "white",
         }}
       >
-        Universal Lens
+        
       </div>
       <Menu
         style={{ width: "700px" }}

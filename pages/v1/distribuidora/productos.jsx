@@ -3,6 +3,7 @@ import { Card, Modal } from "antd";
 import { useState } from "react";
 
 import dynamic from "next/dynamic";
+import { id_f_distrib } from "@/src/config";
 
 const IconViewSubgrupoSelector = dynamic(
   () => import("@/components/deposito/iconViewSubgrupoSelector"),
@@ -83,7 +84,7 @@ export default function productos_distrib() {
         }}
       >
         <IconViewSubgrupoSelector
-          idInicial={22}
+          idInicial={id_f_distrib}
           tipoInicial={"familia"}
           nombreInicial={"DISTRIBUIDORA"}
           modoDistribuidora={true}

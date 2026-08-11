@@ -77,23 +77,23 @@ const TotalesCobros = (props) => {
             <Card
               variant="borderless"
               style={{
-                backgroundColor: "#dcfcd6",
+                backgroundColor: "#109618",
                 borderRadius: "8px",
-                border: "1px solid #61be0f",
                 cursor: "default",
+                color:"white"
               }}
             >
               <Statistic
                 loading={dataDia == null}
                 title={
-                  <span style={{ fontWeight: "bolder", color: "black" }}>
+                  <span style={{ fontWeight: "bolder", color: "white" }}>
                     {"Total Cobros Día Efvo."}
                   </span>
                 }
                 value={totalDia}
                 precision={2}
                 valueStyle={{
-                  color: "#3f8600",
+                  color: "#ffff",
                   fontWeight: "bolder",
                   fontSize: "1.4em",
                 }}
@@ -105,23 +105,22 @@ const TotalesCobros = (props) => {
             <Card
               variant="borderless"
               style={{
-                backgroundColor: "#dcfcd6",
+                backgroundColor: "#109618",
                 borderRadius: "8px",
-                border: "1px solid #61be0f",
                 cursor: "default",
               }}
             >
               <Statistic
                 loading={dataMes == null}
                 title={
-                  <span style={{ fontWeight: "bolder", color: "black" }}>
+                  <span style={{ fontWeight: "bolder", color: "white" }}>
                     {"Total Cobros Mes Efvo."}
                   </span>
                 }
                 value={totalMes}
                 precision={2}
                 valueStyle={{
-                  color: "#3f8600",
+                  color: "white",
                   fontWeight: "bolder",
                   fontSize: "1.4em",
                 }}
