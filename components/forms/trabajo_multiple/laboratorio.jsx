@@ -36,7 +36,7 @@ const LaboratorioForm = ({ callback, idCliente, onComentariosChange }) => {
   };
 
   const load = () => {
-    const url = get.optionsforsubfamilia + 88903;
+    const url = get.optionsforsubfamilia + 88926;
     //alert(url)
     fetch(url)
       .then((r) => r.json())
