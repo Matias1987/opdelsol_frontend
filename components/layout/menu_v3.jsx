@@ -1,16 +1,14 @@
-import { Button, Col, Flex, Input, Menu, Modal } from "antd";
-//import DollarOutlined from "@ant-design/icons/DollarOutlined";
-import DownOutlined from "@ant-design/icons/DownOutlined";
+import { Button, Flex, Input, Menu, Modal } from "antd";
 import LogoutOutlined from "@ant-design/icons/LogoutOutlined";
 import MenuOutlined from "@ant-design/icons/MenuOutlined";
 import SearchOutlined from "@ant-design/icons/SearchOutlined";
-//import UserOutlined from "@ant-design/icons/UserOutlined";
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { get, public_urls } from "@/src/urls";
 import globals from "@/src/globals";
 import { idf_optica, lista_precios_visible } from "@/src/config";
 import dynamic from "next/dynamic";
+import CaretDownFilled from "@ant-design/icons/CaretDownFilled";
 
 const ListaPreciosV3 = dynamic(
   () => import("../lista_precios/listaPreciosV3"),
@@ -96,7 +94,7 @@ export default function MenuV3(props) {
   const menu_ventas = {
     label: "Ventas",
     key: "SubMenuVentas",
-    icon: <DownOutlined />,
+    icon: <CaretDownFilled />,
     disabled: !globals.esUsuarioVentas(),
     children: [
       {
@@ -157,17 +155,14 @@ export default function MenuV3(props) {
   const menu_caja = {
     label: "Caja",
     key: "SubMenuCaja",
-    icon: <DownOutlined />,
+    icon: <CaretDownFilled />,
     disabled: !globals.esUsuarioCaja1(),
     children: [
       {
         key: "100",
         label: (
           <Menu.Item>
-            <Link
-              style={{ color: "#1e3474" }}
-              href={public_urls.ventas_ingresadas}
-            >
+            <Link href={public_urls.ventas_ingresadas}>
               Operaciones Ingresadas{" "}
             </Link>
           </Menu.Item>
@@ -376,7 +371,7 @@ export default function MenuV3(props) {
   };
 
   const onClickM2 = (e) => {
-        if (typeof e.key === "undefined") {
+    if (typeof e.key === "ndefined") {
       return;
     }
 
@@ -394,18 +389,12 @@ export default function MenuV3(props) {
 
       return;
     }
-  }
+  };
   return (
     <>
-      <Flex
-        justify="space-evenly"
-        
-        style={{
-          border: "1px solid #7e7e7e",
-        }}
-      >
+      <Flex justify="space-evenly" className="flex-menuv3">
         <Menu
-          style={{width:"600px"}}
+          style={{ width: "600px" }}
           onClick={onClick}
           selectedKeys={[current]}
           mode={typeof props.mode === "undefined" ? "horizontal" : props.mode}
@@ -414,15 +403,21 @@ export default function MenuV3(props) {
 
         <Input
           style={{
-            width: "310px",
-            backgroundColor: "#E7E9EB",
-            paddingTop:"4px"
+            width: "200px",
+            backgroundColor: "#cecece",
+            color: "#000000",
+            paddingTop: "2px",
           }}
-          
-          allowClear
+          size="small"
+          placeholder="Buscar código..."
           addonAfter={
             <>
-              <Button onClick={onSearch} type="link">
+              <Button
+                onClick={onSearch}
+                type="link"
+                size="small"
+                style={{ color: "#000000", width: "16px" }}
+              >
                 <SearchOutlined />
               </Button>
             </>
@@ -439,8 +434,8 @@ export default function MenuV3(props) {
             {
               label: (
                 <>
-                  {" "}
-                  {usuario} | <SucursalLabel color="#000000" />
+                  {usuario} <span style={{ fontWeight: "400" }}>|</span>
+                  <SucursalLabel color="#000000" />
                 </>
               ),
               key: "user",

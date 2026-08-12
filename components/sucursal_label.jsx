@@ -45,6 +45,7 @@ const SucursalLabel = ({ changeSucursalEnabled = false, color="white" }) => {
   ) : (
     <>
       <Button
+        size="small"
         type="text"
         onClick={(_) => {
           changeSucursalEnabled && setPopupOpen(true);

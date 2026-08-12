@@ -15,9 +15,11 @@
   --n-image-h: 149px;
   --n-percent: 40%;
   /*--bar-bg-color: #94D0AE;*/
-  --bar-bg-color: #F5F5F5;
+  --bar-bg-color: #cccccc;
 
   --n-text-color: #2c3e4e;/*#663f4c;*/
+  --menu-text-color:rgb(58, 58, 58);
+  --menu-bg-color:#DDDDDD;
 }
 /*:root {
   --max-width: 1100px;
@@ -151,10 +153,10 @@ a {
   background: #808080;
 }*/
 
-/*.layout {
-  height: 120vh;
+.layout {
+  min-height: 100vh;
   
-}*/
+}
 h1,
 h2,
 h3,
@@ -171,7 +173,7 @@ h5 {
 
 body {
   background: #F6F6F9; /*#1A1A1A;*/
-  margin: 1px!important;
+  margin: 0px!important;
 }
 /*
 a{
@@ -410,43 +412,28 @@ just some testing
 
 /* Ant Design Menu Customization */
 .ant-menu {
-  background-color: var(--bar-bg-color) !important;
+  background-color: var(--menu-bg-color) !important;
   border-right: none;
+  font-weight: 600;
 }
 
 .ant-menu-item,
 .ant-menu-submenu-title {
-  color: var(--n-text-color) !important;
+  color: var(--menu-text-color) !important;
   transition: background-color 0.3s ease;
-  font-weight: 500 !important;
-}
-/*
-.ant-menu-item:hover,
-.ant-menu-submenu-title:hover {
-  background-color: var(
-    --bar-bg-color
-  ) !important; 
-  text-decoration: none !important; 
-  color: oklch(
-    from var(--n-text-color) calc(l * 0.1) c h
-  ) !important; 
+  font-weight: 600 !important;
 }
 
-.ant-menu-item-selected {
-  background-color: var(--bar-bg-color) !important;
-  font-weight: bold;
-  color: oklch(from var(--n-text-color) calc(l * 0.5) c h) !important;
-}
-*/
 .ant-menu-item-selected::after,
 .ant-menu-item:hover::after {
   border-bottom: none !important;
-  border-bottom: 2px solid var(--bar-bg-color) !important;
+  color:white !important;
+  /*border-bottom: 2px solid var(--menu-bg-color) !important;*/
 }
-
+/*
 && .ant-menu-item:hover::after {
-  border-bottom: 2px solid var(--bar-bg-color) !important;
-}
+  border-bottom: 2px solid var(--menu-bg-color) !important;
+}*/
 
 .wrap-for-dotted-separated {
   display: flex !important;
@@ -771,7 +758,7 @@ danger list
   border-left: 6px solid #FFEBCD;   /*727272*/
 }
 .ant-menu-item-selected {
-  color: #131313 !important;
+  color:var(--menu-text-color) !important;
 }
 
 /* Change background of the entire navigation wrapper */
@@ -803,7 +790,7 @@ danger list
 .ant-menu-submenu-title {
   padding-inline: 12px !important;  /* Horizontal padding */
   padding-block: 0px !important;   /* Vertical padding */
-  
+  text-shadow: 1px 0px 0px rgb(143, 143, 143) !important;
 }
 
 /* Override padding of the root horizontal menu wrapper */
@@ -850,4 +837,23 @@ danger list
 .prefix-select .ant-select-selection-search {
   left: 30px !important; /* Adjust this based on your prefix icon width */
   right: 30px !important;
+}
+
+
+
+
+/**/
+/* Eliminates the default underline indicator for a modern, discrete look */
+.ant-menu-horizontal {
+  border-bottom: none !important;
+}
+.ant-menu-horizontal .ant-menu-item::after,
+.ant-menu-horizontal .ant-menu-submenu::after {
+  display: none !important;
+}
+
+
+.flex-menuv3{
+  background-color: #DDDDDD;
+  border-bottom: 1px solid rgba(196, 196, 195, 0.8) ;
 }

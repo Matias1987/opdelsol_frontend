@@ -549,16 +549,16 @@ export default function VentaBaseV3(props) {
         size="small"
         style={{
           boxShadow: "0 2px 8px rgba(0, 0, 0, 0.3)",
-          borderRadius: "16px",
+          borderRadius: "0px",
         }}
         styles={{
           header: {
-            backgroundColor: "##ffffed",
+            backgroundColor: "#ffffed",
             background:
-              "linear-gradient(281deg,rgba(248,248,234, 1) 32%, rgba(231,233,235, 1) 75%)",
+              "linear-gradient(281deg,#DDDDDD 32%, #DDDDDD 75%)",
             borderBottom: "1px solid #eee",
-            borderTopLeftRadius: "16px",
-            borderTopRightRadius: "16px",
+            borderTopLeftRadius: "0px",
+            borderTopRightRadius: "0px",
           },
         }}
       >

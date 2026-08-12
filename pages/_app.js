@@ -6,7 +6,7 @@ import { useState } from "react";
 import es_ES from "antd/locale/es_ES";
 import dayjs from "dayjs";
 import "dayjs/locale/es";
-import updateLocale from 'dayjs/plugin/updateLocale';
+import updateLocale from "dayjs/plugin/updateLocale";
 //import { SocketProvider } from '@/components/etc/SocketProvider'
 //import SocketStatus from '@/components/etc/SocketStatus'
 export default function App({ Component, pageProps }) {
@@ -18,14 +18,15 @@ export default function App({ Component, pageProps }) {
   //});
 
   // 1. Activate the updateLocale plugin
-dayjs.extend(updateLocale);
+  dayjs.extend(updateLocale);
 
-// 2. Set global locale to Spanish
-dayjs.locale('es');
+  // 2. Set global locale to Spanish
+  dayjs.locale("es");
 
-// 3. Update the English locale configuration
-dayjs.updateLocale('en', {
-  weekdaysMin: ["Dom", "Lun", "Mar", "Mier", "Thu", "Fri", "Sat"]});
+  // 3. Update the English locale configuration
+  dayjs.updateLocale("en", {
+    weekdaysMin: ["Dom", "Lun", "Mar", "Mier", "Thu", "Fri", "Sat"],
+  });
 
   return (
     <>
@@ -43,13 +44,32 @@ dayjs.updateLocale('en', {
             colorLink: "#2c3e4e", //"#8E3754",
             // Alias Token
             colorBgContainer: "#FFFFFF", // '#f6ffed',
-            fontFamily: "Segoe UI, Inter, sans-serif",
+            fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;",
           },
           components: {
             Statistic: {
               /* here is your component tokens */
               contentFontSize: 16,
               titleFontSize: 12,
+            },
+            Menu: {
+              /* General structural sizing */
+              horizontalLineHeight: "30px", // Low-profile slim height
+              fontSize: 13, // Crisp, micro typography
+              /* Dark Background Palette */
+              colorBgContainer: "#DDDDDD", // Deep slate dark background
+
+              /* Horizontal specific item styling
+              horizontalItemBorderRadius: 2, */
+
+              /* Light/White text variables for Dark Theme */
+              horizontalItemColor: "#DDDDDD", // Muted silver text/icons
+              horizontalItemHoverColor: "#ffffff", // Crisp white text on hover
+              horizontalItemHoverBg: "#b4b4b4", // Soft slate glow behind hover
+
+              /* Selected active tab state */
+              horizontalItemSelectedColor: "#ffffff", // Crisp white text when active
+              horizontalItemSelectedBg: "#b3b3b3", // Discrete gray tint behind active item
             },
           },
         }}

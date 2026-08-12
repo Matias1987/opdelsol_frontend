@@ -1,9 +1,11 @@
 import { get, public_urls } from "@/src/urls";
 import useStorage from "@/useStorage";
-import { Alert, Layout, Row, Col, Grid } from "antd";
+import { Alert, Layout, Row, Col, Grid, Space } from "antd";
 import { useEffect, useState } from "react";
 import globals from "@/src/globals";
 import dynamic from "next/dynamic";
+import { Link } from "react-router-dom";
+import { GithubOutlined, TwitterOutlined } from "@ant-design/icons";
 const { useBreakpoint } = Grid;
 
 const BarraResumenCaja = dynamic(
@@ -32,7 +34,7 @@ const PopupResultadoBusqueda = dynamic(
 );
 
 export default function LayoutVentasV2(props) {
-  const { Content } = Layout;
+  const { Content, Footer } = Layout;
   const [alerta, setAlerta] = useState("");
   const [esUsuaroCaja1, setEsUsuarioCaja1] = useState(false);
   const { getItem } = useStorage();
@@ -110,7 +112,7 @@ export default function LayoutVentasV2(props) {
           style={{ fontSize: ".9em", padding: "1px 50px " }}
           key={alerta}
           message={alerta}
-          type="error"
+          type="warning"
           showIcon
         />
         <br />
@@ -126,7 +128,7 @@ export default function LayoutVentasV2(props) {
   }, []);
 
   return (
-    <Layout style={{ padding: 0 }} className="layout">
+    <Layout className="layout">
       <div>
         {!screens.md ? (
           <div>
@@ -169,6 +171,25 @@ export default function LayoutVentasV2(props) {
           />
         </div>
       </Content>
+      <Footer style={{ 
+        background: '#c2c0c0', 
+        padding: '16px 24px', 
+        color: '#1b1b1b',
+        fontSize: '13px'
+      }}>
+        <div style={{ 
+          display: 'flex', 
+          justifyContent: 'space-between', 
+          alignItems: 'center',
+          flexWrap: 'wrap',
+          gap: '12px'
+        }}>
+          {/* Left Side: Copyright */}
+
+          {/* Right Side: Links and Icons */}
+  
+        </div>
+      </Footer>
     </Layout>
   );
 }

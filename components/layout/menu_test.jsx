@@ -35,9 +35,7 @@ export default function TestMenu() {
     <Flex
       justify="space-between"
       align="center"
-      style={{
-        border: "1px solid rgb(136, 136, 136)",
-      }}
+      className="flex-menuv3"
     >
       <Menu onClick={() => {}} mode="horizontal">
         <Menu.Item key="100">
