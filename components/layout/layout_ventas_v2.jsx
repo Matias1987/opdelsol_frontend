@@ -89,7 +89,7 @@ export default function LayoutVentasV2(props) {
             }
           }
         });
-    }, 10000);
+    }, 20000);
   };
 
   const content_style_desktop = {
