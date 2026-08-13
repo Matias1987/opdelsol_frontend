@@ -45,7 +45,7 @@ export default function LayoutAdmin({ children }) {
             validate_user();
           }
         });
-    }, 10000);
+    }, 20000);
   };
   useEffect(() => {
     if (!(globals.esUsuarioAdmin() || globals.esUsuarioAdminMin())) {

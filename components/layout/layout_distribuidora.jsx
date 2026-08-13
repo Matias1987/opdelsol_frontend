@@ -70,7 +70,7 @@ export default function LayoutDistribuidora(props) {
             }
           }
         });
-    }, 10000);
+    }, 20000);
   };
 
   useEffect(() => {

@@ -65,7 +65,7 @@ export default function LayoutLaboratorio(props){
                 validate_user();
             });
             
-        }, 10000);
+        }, 20000);
     }
   useEffect(()=>{
     if(!globals.esUsuarioLaboratorio())

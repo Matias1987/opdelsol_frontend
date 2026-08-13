@@ -4,8 +4,6 @@ import { Alert, Layout, Row, Col, Grid, Space } from "antd";
 import { useEffect, useState } from "react";
 import globals from "@/src/globals";
 import dynamic from "next/dynamic";
-import { Link } from "react-router-dom";
-import { GithubOutlined, TwitterOutlined } from "@ant-design/icons";
 const { useBreakpoint } = Grid;
 
 const BarraResumenCaja = dynamic(
@@ -89,7 +87,7 @@ export default function LayoutVentasV2(props) {
             }
           }
         });
-    }, 10000);
+    }, 20000);
   };
 
   const content_style_desktop = {
