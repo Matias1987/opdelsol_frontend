@@ -147,11 +147,13 @@ const LaboratorioForm = ({ callback, idCliente, onComentariosChange }) => {
                           style={{
                             ...row_style,
                             borderBottom: `1px dotted ${row_border_color}`,
+                            backgroundColor:"#FAFAFA"
                           }}
                         >
                           <Col
                             style={{
-                              width: "30px",
+                              width: "36px",
+                              fontSize:"12px",
                               color: "#0003af",
                               fontWeight: "600",
                               textAlign: "right",
@@ -229,7 +231,8 @@ const LaboratorioForm = ({ callback, idCliente, onComentariosChange }) => {
                         >
                           <Col
                             style={{
-                              width: "30px",
+                              width: "36px",
+                              fontSize:"12px",
                               color: "#0003af",
                               fontWeight: "600",
                               textAlign: "right",
@@ -322,7 +325,7 @@ const LaboratorioForm = ({ callback, idCliente, onComentariosChange }) => {
                           borderBottom: `1px dotted ${row_border_color}`,
                         }}
                       >
-                        <Col style={{ width: "30px" }}></Col>
+                        <Col style={{ width: "36px" }}></Col>
                         <Col
                           style={{ fontWeight: "600", fontSize: "11px" }}
                           span={10}
@@ -361,19 +364,20 @@ const LaboratorioForm = ({ callback, idCliente, onComentariosChange }) => {
                           style={{
                             ...row_style,
                             borderBottom: `1px solid ${row_border_color}`,
+                            backgroundColor:"#FAFAFA"
                           }}
                         >
                           <Col
                             style={{
-                              width: "30px",
+                              width: "36px",
                               color: "#0003af",
                               fontWeight: "bold",
+                              fontSize:"12px",
                               textAlign: "right",
                               paddingRight: "16px",
                               paddingTop: "4px",
                             }}
-                          >
-                            OD
+                          >OD
                           </Col>
                           <Col span={10}>
                             {/*<Select style={{ width: "100%" }} onChange={e=>{onValueChange("od_fkBase", e.target.value);}}/>
@@ -442,15 +446,15 @@ const LaboratorioForm = ({ callback, idCliente, onComentariosChange }) => {
                         <Row style={row_style}>
                           <Col
                             style={{
-                              width: "30px",
+                              width: "36px",
+                              fontSize: "12px",
                               color: "#0003af",
                               fontWeight: "bold",
                               textAlign: "right",
                               paddingRight: "16px",
                               paddingTop: "4px",
                             }}
-                          >
-                            OI
+                          >OI
                           </Col>
                           <Col span={10}>
                             {/*<SelectCodigoVenta

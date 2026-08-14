@@ -16,6 +16,7 @@ import esES from "antd/locale/es_ES";
 import SelectCuentaBancaria from "@/components/cuenta_bancarias/selectCuentaBancaria";
 import ArrowRightOutlined from "@ant-design/icons/ArrowRightOutlined";
 import { v4 as uuidv4 } from "uuid";
+import SeleccionCompraAPagar from "./SeleccionCompraAPagar";
 const AgregarPagoProveedor = (props) => {
   const [comprasSeleccionadas, setComprasSeleccionadas] = useState([]);
   const [totalAPagar, setTotalAPagar] = useState(0);
@@ -47,7 +48,7 @@ const AgregarPagoProveedor = (props) => {
   const [uid, setUID] = useState("");
 
   const guardar_click = () => {
-    /*
+    
     if (comprasSeleccionadas.length < 1) {
       if (
         confirm(
@@ -57,7 +58,14 @@ const AgregarPagoProveedor = (props) => {
         return;
       }
     }
-    */
+    
+    if(comprasSeleccionadas.length>0)
+    {
+      if(parseFloat(pago.monto)> parseFloat(totalAPagar)){
+        alert("El monto ingresado es menor al monto por facturas seleccionado");
+        return;
+      }
+    }
     if (pago.monto <= 0) {
       alert("Monto debe ser mayor a 0");
       return;
@@ -152,7 +160,7 @@ const AgregarPagoProveedor = (props) => {
 
   return (
     <>
-      {/*<Row>
+      {<Row>
         <Col span={24}>
           {<SeleccionCompraAPagar
             moneda={props.moneda}
@@ -161,7 +169,7 @@ const AgregarPagoProveedor = (props) => {
             onChange={onCompraAPagarSeleccionada}
           />}
         </Col>
-      </Row>*/}
+      </Row>}
       <Row style={{ marginTop: "24px" }} gutter={[16, 16]}>
         <Col style={{ paddingTop: "4px" }}>
           <span style={{ fontWeight: "bold" }}>Fecha</span>

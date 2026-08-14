@@ -38,6 +38,7 @@ const public_urls = {
   informe_ventas_dia_min: local_base_url + "ventas/informes/ventas_dias_min",
   ventas_vendedor: local_base_url + "ventas/informes/ventas_vendedor",
   totales_venta_vendedores: local_base_url + "ventas/informes/t_ventas_v",
+  venta_multiple: local_base_url + "ventas/VentaM",
   //caja
   lista_caja: local_base_url + "caja/lista_caja",
   caja_diaria: local_base_url + "caja/caja_diaria",

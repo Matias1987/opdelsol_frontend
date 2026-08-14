@@ -4,19 +4,29 @@ import {
   Button,
   Card,
   Col,
+  Collapse,
+  DatePicker,
   Divider,
+  FloatButton,
   Form,
   Input,
   Row,
-  Tabs
+  Tabs,
+  TimePicker,
 } from "antd";
 import { useRef, useState } from "react";
 import SelectVendedor from "@/components/usuario/vendedor/SelectVendedor";
 import { post } from "@/src/urls";
-import VMTrabajo from "./vm_trabajo";
 import { post_method } from "@/src/helpers/post_helper";
-import SelectClienteMayorista from "./select_cliente";
-import { PlusCircleOutlined } from "@ant-design/icons";
+import { PlusCircleOutlined, SaveFilled } from "@ant-design/icons";
+import SelectTrabajo from "./select_trabajo";
+import SelectMedico from "../../ventas/SelectMedico";
+import SelectObraSocial from "../../ventas/SelectObraSocial";
+import SelectCliente from "../../ventas/SelectCliente";
+import ModoPagoV4 from "../../modo_pago/ModoPagoV4";
+import dayjs from "dayjs";
+import esES from "antd/locale/es_ES";
+import { key } from "localforage";
 //import useStorage from "@/useStorage";
 
 /* leer: https://refine.dev/blog/common-usestate-mistakes-and-how-to-avoid/ */
@@ -25,12 +35,12 @@ import { PlusCircleOutlined } from "@ant-design/icons";
  * @param ocultarFechaRetiro
  * @returns
  */
-const TrabajoMultiple = ({
+const VentaMultipleMinorista = ({
   ignore_fecha_retiro,
   onfinish,
   callback,
   title,
-  on_change_done
+  on_change_done,
 }) => {
   const date = new Date();
   const [localId, setLocalId] = useState(0);
@@ -71,10 +81,8 @@ const TrabajoMultiple = ({
   const [descuento, setDescuento] = useState(0);
   const [trabajos, setTrabajos] = useState([]);
   const [items, setItems] = useState([]);
-  const [idCliente, setIdCliente] = useState(-1);
+  const [idCliente, setIdCliente] = useState(0);
   const [finalV, setFinalV] = useState({});
-
-
 
   const updateTabName = (tabKey, newName) => {
     setItems((prevTabs) =>
@@ -100,7 +108,7 @@ const TrabajoMultiple = ({
 
   const tab_content = (id) => (
     <>
-      <VMTrabajo
+      <SelectTrabajo
         localId={id}
         callback={onTabValuesChange}
         idCliente={idCliente}
@@ -121,7 +129,7 @@ const TrabajoMultiple = ({
         mod.push(data);
       }
       calcularTotal(mod);
-      on_change_done?.(mod.length>0);
+      on_change_done?.(mod.length > 0);
       return mod;
     });
   };
@@ -137,7 +145,7 @@ const TrabajoMultiple = ({
       const __v = {
         ..._v,
         subtotal: parseFloat(_subtotal ?? "0"),
-        total: parseFloat(_subtotal) - parseFloat(_v.descuento)
+        total: parseFloat(_subtotal) - parseFloat(_v.descuento),
       };
       setVentaLStorage(__v);
       return __v;
@@ -177,7 +185,7 @@ const TrabajoMultiple = ({
         mod.splice(index, 1);
       }
       calcularTotal(mod);
-      on_change_done?.(mod.length>0);
+      on_change_done?.(mod.length > 0);
       return mod;
     });
     setItems(newItems);
@@ -188,7 +196,6 @@ const TrabajoMultiple = ({
     } else {
       remove(targetKey);
     }
-
   };
 
   const onChange = (field, value) => {
@@ -310,74 +317,118 @@ const TrabajoMultiple = ({
     });
   };
 
-  const modo_formulario_unico = (_) => (
-    <>
-      <Row style={{ padding: ".9em" }}>
-        <Col style={{ minWidth: "250px", width: "100%" }}>
-          <SelectClienteMayorista
-            mayorista
-            callback={(value) => {
-              onChange("fkcliente", value);
-              setIdCliente(value);
-              if (!value) {
-                setIdCliente(-1);
-              }
+  const c_items = [
+    {
+      key: "1",
+      label: "Cliente, Médico y OS",
+      children: (
+        <Card>
+          <Row
+            style={{
+              padding: "4px",
+              border: "1px dotted #999999",
+              borderRadius: "6px ",
             }}
-          />
-        </Col>
-      </Row>
-
-      {+idCliente < 0 ? (
-        <></>
-      ) : (
-        <>
-          <Card size="small" style={{ boxShadow: "-1px 1px 1px 0px #9e9c9c" }}>
-            <Row>
-              <Col span={24}>
-                <Tabs
-                addIcon={<span style={{ color: '#ff1818', fontSize: '14px', fontWeight:"600" }}><PlusCircleOutlined /> Agregar Trabajo</span>}
-                  className="custom-body-tabs"
-                  type="editable-card"
-                  size={"small"}
-                  tabBarExtraContent={{
-                    left: (
-                      <div
-                        style={{
-                          display: "inline-block",
-                          fontWeight: "bolder",
-                          fontSize: "1.1em",
-                          padding: "8px 16px",
-                          color: "#262D42",
-                        }}
-                      >
-                        &nbsp;&nbsp;&nbsp;Trabajos:&nbsp;&nbsp;&nbsp;
-                      </div>
-                    ),
-                  }}
-                  tabPosition="top"
-                  activeKey={activeKey}
-                  onChange={setActiveKey}
-                  onEdit={onEdit}
-                  items={items}
-                />
-              </Col>
-            </Row>
-          </Card>
-
-          <Divider />
-        </>
-      )}
-
-      {trabajos.length < 1 || idCliente < 0 ? (
-        <></>
-      ) : (
+          >
+            <Col style={{ minWidth: "250px", width: "100%" }}>
+              <SelectCliente callback={(_) => {}} />
+            </Col>
+          </Row>
+          <Row
+            style={{
+              padding: "4px",
+              border: "1px dotted #999999",
+              borderRadius: "6px ",
+            }}
+          >
+            <Col style={{ minWidth: "250px", width: "100%" }}>
+              <SelectCliente destinatario callback={(_) => {}} />
+            </Col>
+          </Row>
+          <Row
+            style={{
+              padding: "4px",
+              border: "1px dotted #999999",
+              borderRadius: "6px ",
+            }}
+          >
+            <Col style={{ minWidth: "250px" }}>
+              <SelectMedico callback={(id) => {}} />
+            </Col>
+          </Row>
+          <Row
+            style={{
+              padding: "4px",
+              border: "1px dotted #999999",
+              borderRadius: "6px ",
+            }}
+          >
+            <Col style={{ minWidth: "250px" }}>
+              <SelectObraSocial callback={(id) => {}} />
+            </Col>
+          </Row>
+        </Card>
+      ),
+    },
+    {
+      key: "2",
+      label: "Detalle",
+      children: (
+        <Card size="small" style={{ boxShadow: "-1px 1px 1px 0px #9e9c9c" }}>
+          <Row>
+            <Col span={24}>
+              <Tabs
+                addIcon={
+                  <span
+                    style={{
+                      color: "#ff1818",
+                      fontSize: "14px",
+                      fontWeight: "600",
+                    }}
+                  >
+                    <PlusCircleOutlined /> Agregar Trabajo
+                  </span>
+                }
+                className="custom-body-tabs"
+                type="editable-card"
+                size={"small"}
+                tabBarExtraContent={{
+                  left: (
+                    <div
+                      style={{
+                        display: "inline-block",
+                        fontWeight: "bolder",
+                        fontSize: "1.1em",
+                        padding: "8px 16px",
+                        color: "#262D42",
+                      }}
+                    >
+                      &nbsp;&nbsp;&nbsp;Trabajos:&nbsp;&nbsp;&nbsp;
+                    </div>
+                  ),
+                }}
+                tabPosition="top"
+                activeKey={activeKey}
+                onChange={setActiveKey}
+                onEdit={onEdit}
+                items={items}
+              />
+            </Col>
+          </Row>
+        </Card>
+      ),
+    },
+    {
+      key: "3",
+      label: "Modo de Pago",
+      children: (
         <Card
           size="small"
           style={{ boxShadow: "-1px 1px 1px 0px #9e9c9c" }}
           className="custom-body-tabs"
         >
-          <Row style={{ marginBottom: "12px" }}>
-            <Col span={24}>
+          <Row style={{ marginBottom: "12px" }} gutter={[16,16]}>
+            <Col>
               <Input
                 readOnly
                 addonBefore="Subtotal"
@@ -385,18 +436,16 @@ const TrabajoMultiple = ({
                 value={subTotal}
               />
             </Col>
-          </Row>
-          <Row style={{ marginBottom: "12px" }}>
-            <Col span={24}>
+        
+            <Col>
               <Input
                 addonBefore="Descuento"
                 style={{ width: "300px" }}
                 onChange={(e) => setDescuento(parseFloat(e.target.value) || 0)}
               />
             </Col>
-          </Row>
-          <Row style={{ marginBottom: "12px" }}>
-            <Col span={24}>
+          
+            <Col>
               <Input
                 readOnly
                 addonBefore="Total"
@@ -405,6 +454,31 @@ const TrabajoMultiple = ({
               />
             </Col>
           </Row>
+
+          <Row style={{ padding: "6px" }}>
+            <Col span="24">
+              <ModoPagoV4
+                total={typeof props !== "undefined" ? props.total : "0"}
+                callback={(value) => {}}
+                tarjetaHidden={false}
+                ctacteHidden={false}
+                chequeHidden={false}
+                mutualHidden={false}
+              />
+            </Col>
+          </Row>
+
+          <Row style={{ padding: "6px" }}>
+            <Col span={24}></Col>
+          </Row>
+        </Card>
+      ),
+    },
+    {
+      key: "4",
+      label: "Fecha de Entrega y Comentarios",
+      children: (
+        <Card>
           <Row style={{ padding: "6px" }}>
             <Col span="24">
               <Form.Item label={"Comentarios"}>
@@ -417,24 +491,43 @@ const TrabajoMultiple = ({
               </Form.Item>
             </Col>
           </Row>
-          <Row style={{ padding: "6px" }}>
-            <Col span={24}>
-              <Button
-                style={{ borderRadius: "16px" }}
-                size="large"
-                disabled={false}
-                type="primary"
-                block
-                onClick={finalizar_venta}
-              >
-                Guardar Trabajos
-              </Button>
-            </Col>
+          <Row gutter={24}>
+            {ignore_fecha_retiro ? (
+              <></>
+            ) : (
+              <>
+                <Col>
+                  <Form.Item label={"Fecha de Retiro"}>
+                    <DatePicker
+                      defaultValue={ignore_fecha_retiro ? dayjs() : null}
+                      locale={esES}
+                      format={"DD-MM-YYYY"}
+                      onChange={(value) => {
+                       // let _value = value ? value.format("DD-MM-YYYY") : null;
+                       // onChange("fechaRetiro", _value);
+                      }}
+                    />
+                  </Form.Item>
+                </Col>
+                <Col>
+                  <Form.Item label={"Hora de Retiro"}>
+                    <TimePicker
+                      format={"HH:mm"}
+                      onChange={(value, timeString) => {
+                        //onChange("horaRetiro", timeString);
+                      }}
+                    />
+                  </Form.Item>
+                </Col>
+              </>
+            )}
           </Row>
         </Card>
-      )}
-    </>
-  );
+      ),
+    },
+  ];
+
+  const onChangeCollapse = (key) => {};
 
   const validar = (v) => {
     const messages = [];
@@ -503,38 +596,53 @@ const TrabajoMultiple = ({
       <Card
         title={<>{title || "Nueva Operación"}</>}
         extra={
-          cambiar_vendedor == 0 ? (
-            <> </>
-          ) : (
-            <SelectVendedor
-              onChange={(value) => {
-                setVenta((_v) => {
-                  const __v = { ..._v, fkusuario: value };
-                  setVentaLStorage(__v);
-                  return __v;
-                });
-              }}
-            />
-          )
+          <>
+            {cambiar_vendedor == 0 ? (
+              <> </>
+            ) : (
+              <SelectVendedor
+                onChange={(value) => {
+                  setVenta((_v) => {
+                    const __v = { ..._v, fkusuario: value };
+                    setVentaLStorage(__v);
+                    return __v;
+                  });
+                }}
+              />
+            )}
+            <Button type="primary" size="large">
+              <SaveFilled /> Guardar Venta
+            </Button>
+          </>
         }
         size="small"
         style={{
-          boxShadow: "0 2px 8px rgba(0, 0, 0, 0.3)",  
+          boxShadow: "0 2px 8px rgba(0, 0, 0, 0.3)",
+          borderRadius: "0px",
         }}
         styles={{
           header: {
-            backgroundColor: "##ffffed",
-            background:
-              "linear-gradient(281deg, #ffebcd 32%, rgba(231,233,235, 1) 75%)",
+            backgroundColor: "#ffffed",
+            background: "linear-gradient(281deg,#DDDDDD 32%, #DDDDDD 75%)",
             borderBottom: "1px solid #eee",
+            borderTopLeftRadius: "0px",
+            borderTopRightRadius: "0px",
           },
         }}
       >
         <Row>
-          <Col span={24}>{modo_formulario_unico()}</Col>
+          <Col span={24}>
+            <Collapse
+              accordion
+              items={c_items}
+              defaultActiveKey={["1"]}
+              onChange={onChangeCollapse}
+            />
+          </Col>
         </Row>
       </Card>
+  
     </>
   );
 };
-export default TrabajoMultiple;
+export default VentaMultipleMinorista;
