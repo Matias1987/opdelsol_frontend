@@ -17,9 +17,9 @@
   /*--bar-bg-color: #94D0AE;*/
   --bar-bg-color: #cccccc;
 
-  --n-text-color: #2c3e4e;/*#663f4c;*/
-  --menu-text-color:rgb(58, 58, 58);
-  --menu-bg-color:#DDDDDD;
+  --n-text-color: #2c3e4e; /*#663f4c;*/
+  --menu-text-color: rgb(58, 58, 58);
+  --menu-bg-color: #dddddd;
 }
 /*:root {
   --max-width: 1100px;
@@ -155,7 +155,6 @@ a {
 
 .layout {
   min-height: 100vh;
-  
 }
 h1,
 h2,
@@ -172,8 +171,8 @@ h5 {
 }
 
 body {
-  background: #F6F6F9; /*#1A1A1A;*/
-  margin: 0px!important;
+  background: #f6f6f9; /*#1A1A1A;*/
+  margin: 0px !important;
 }
 /*
 a{
@@ -427,7 +426,7 @@ just some testing
 .ant-menu-item-selected::after,
 .ant-menu-item:hover::after {
   border-bottom: none !important;
-  color:white !important;
+  color: white !important;
   /*border-bottom: 2px solid var(--menu-bg-color) !important;*/
 }
 /*
@@ -468,7 +467,7 @@ just some testing
 }
 
 .gid-table-td:hover {
-   background-color: #bfff00 !important;
+  background-color: #bfff00 !important;
   font-weight: 600 !important;
   /*font-size: 1.1em;*/
 }
@@ -549,7 +548,9 @@ data card...
 .data-card {
   background: linear-gradient(145deg, #e0f7fa, #ffffff);
   border-radius: 16px;
-  box-shadow: 6px 6px 12px #cfd8dc, -6px -6px 12px #ffffff;
+  box-shadow:
+    6px 6px 12px #cfd8dc,
+    -6px -6px 12px #ffffff;
   padding: 20px;
   display: flex;
   align-items: center;
@@ -646,7 +647,9 @@ danger list
   color: #37474f;
 }
 
-.ant-form-item-label { margin-bottom: 0px !important; /* default is 8px */ }
+.ant-form-item-label {
+  margin-bottom: 0px !important; /* default is 8px */
+}
 
 /* Highlight the active menu item */
 .ant-menu-item-selected {
@@ -700,27 +703,26 @@ danger list
   right: -60px;
 }
 
-.main-logo{
+.main-logo {
   font-weight: 700;
   font-size: 1em;
   font-family: Poppins, Montserrat, sans-serif;
   font-style: italic;
 }
 .custom-segmented .ant-segmented-item-label {
-  font-family: 'Arial', sans-serif;
+  font-family: "Arial", sans-serif;
   color: #940000;
   font-size: 36px;
   font-weight: "bolder";
 }
 
 .segmented-danger {
-  color: #940000; 
+  color: #940000;
 }
 
 .segmented-blue {
-  color: #1203e4; 
+  color: #1203e4;
 }
-
 
 /*
 
@@ -744,7 +746,7 @@ danger list
 */
 
 .custom-menu-distribuidora {
-  background-color: #262D42 !important; /* db712a */
+  background-color: #262d42 !important; /* db712a */
 }
 
 .custom-menu-distribuidora .ant-menu-item {
@@ -753,43 +755,43 @@ danger list
 }
 
 .custom-menu-distribuidora .ant-menu-item-selected {
-  background-color: #FAFAFA !important;/*c73e1c*/
-  color: #131313 !important;/* ce4e27*/
-  border-left: 6px solid #FFEBCD;   /*727272*/
+  background-color: #fafafa !important; /*c73e1c*/
+  color: #131313 !important; /* ce4e27*/
+  border-left: 6px solid #ffebcd; /*727272*/
 }
 .ant-menu-item-selected {
-  color:var(--menu-text-color) !important;
+  color: var(--menu-text-color) !important;
 }
 
 /* Change background of the entire navigation wrapper */
 .ant-tabs-nav {
-  background-color: #FAFAFA;
-  margin: 0!important;
+  background-color: #fafafa;
+  margin: 0 !important;
 }
 
 .ant-tabs-content-holder {
-  background-color: #FAFAFA;
+  background-color: #fafafa;
   padding: 4px; /* Optional: adds breathing room inside your new background */
 }
 
 /* Ant Design v5/v6 target */
 .custom-body-tabs .ant-tabs-content-holder {
-  padding: 8px!important;
+  padding: 8px !important;
 }
 
 .ant-tabs-content-holder {
-  padding: 8px!important;
+  padding: 8px !important;
 }
 
-.ant-card-small >.ant-card-body{
+.ant-card-small > .ant-card-body {
   padding: 8px;
 }
 
 /* Override the horizontal/vertical padding of individual menu items */
-.ant-menu-item, 
+.ant-menu-item,
 .ant-menu-submenu-title {
-  padding-inline: 12px !important;  /* Horizontal padding */
-  padding-block: 0px !important;   /* Vertical padding */
+  padding-inline: 12px !important; /* Horizontal padding */
+  padding-block: 0px !important; /* Vertical padding */
   text-shadow: 1px 0px 0px rgb(143, 143, 143) !important;
 }
 
@@ -797,7 +799,6 @@ danger list
 .ant-menu-horizontal {
   padding-left: 0px !important;
 }
-
 
 /* Apply this class to hide the body and any empty placeholder text */
 .hide-table-body .ant-table-tbody,
@@ -807,15 +808,15 @@ danger list
 
 /* Change header background and font */
 .ant-table-thead > tr > th {
-  background-color: #dddddd !important; /* DodgerBlue */              /* Font color */
-  font-weight: bold;         /* Font weight */
-  font-size: 14px;           /* Font size */
+  background-color: #dddddd !important; /* DodgerBlue */ /* Font color */
+  font-weight: bold; /* Font weight */
+  font-size: 14px; /* Font size */
 }
 
 .disable-select {
   -webkit-user-select: none; /* Safari */
-  -ms-user-select: none;     /* IE 10 and Consumer Edge */
-  user-select: none;         /* Standard syntax for Chrome, Firefox, Opera */
+  -ms-user-select: none; /* IE 10 and Consumer Edge */
+  user-select: none; /* Standard syntax for Chrome, Firefox, Opera */
 }
 
 /* 1. Force the internal container to behave as a flex row */
@@ -839,9 +840,6 @@ danger list
   right: 30px !important;
 }
 
-
-
-
 /**/
 /* Eliminates the default underline indicator for a modern, discrete look */
 .ant-menu-horizontal {
@@ -852,8 +850,37 @@ danger list
   display: none !important;
 }
 
+.flex-menuv3 {
+  background-color: #dddddd;
+  border-bottom: 1px solid rgba(196, 196, 195, 0.8);
+}
 
-.flex-menuv3{
-  background-color: #DDDDDD;
-  border-bottom: 1px solid rgba(196, 196, 195, 0.8) ;
+.vertical-centered {
+  display: grid;
+  align-content: center; /* Centers the whole block of text vertically */
+}
+
+.venta-codigo-column {
+  width: 300px;
+  text-align: left;
+  display: grid;
+  align-content: center; /* Centers the whole block of text vertically */
+}
+
+.venta-correction-column {
+  width: 100px;
+  display: grid;
+  align-content: center; /* Centers the whole block of text vertically */
+}
+
+.venta-precio-column{
+  width: 150px;
+  display: grid;
+  align-content: center; /* Centers the whole block of text vertically */
+}
+
+.venta-column-header{
+  font-weight: 600;
+  text-align: center;
+  font-size: 1em;
 }

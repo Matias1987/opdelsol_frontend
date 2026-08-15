@@ -50,7 +50,8 @@ export default function SelectCodigoVenta(props) {
   };
 
   const _codigo_style = {
-    fontSize: ".85em",
+    fontSize: "1em",
+    color:"#02119b"
   };
 
   const _button = (_) => (
@@ -92,10 +93,9 @@ export default function SelectCodigoVenta(props) {
       </CustomModal>
     </>
   ) : (
-    <>
-      <DefaultImageProduct idproduct={dataCodigo.idcodigo} />{" "}
+    <div>
+      <DefaultImageProduct idproduct={dataCodigo.idcodigo} width={"60px"}/>{" "}
       <span style={_codigo_style}>
-        Codigo:&nbsp;
         <b>
           {dataCodigo.codigo.length > 30
             ? dataCodigo.codigo.substring(0, 30) + "..."
@@ -103,6 +103,6 @@ export default function SelectCodigoVenta(props) {
         </b>
         {_button()}
       </span>
-    </>
+    </div>
   );
 }

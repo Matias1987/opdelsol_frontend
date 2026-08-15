@@ -1,6 +1,7 @@
+import HelperToolTip from "@/components/forms/ventas/common/HelperToolTip";
 import SelectCodigoVenta from "@/components/forms/ventas/SelectCodigoVenta";
 import globals from "@/src/globals";
-import { Card, Col, Divider, Input, InputNumber, Row } from "antd";
+import { Card, Col, Divider, Input, InputNumber, Row, Table } from "antd";
 import { useEffect, useState } from "react";
 
 const TipoLCStock = ({ callback, onComentariosChange }) => {
@@ -16,6 +17,116 @@ const TipoLCStock = ({ callback, onComentariosChange }) => {
     tratamiento_descuento: "",
     armazon: "",
   });
+
+  const [formValues, setFormValues] = useState({
+    od: { esf: "", cil: "", eje: "", precio: "" },
+    oi: { esf: "", cil: "", eje: "", precio: "" },
+    armazon: { esf: "", cil: "", eje: "", precio: "" },
+    tratamiento: { esf: "", cil: "", eje: "", precio: "" },
+  });
+
+  const dataSource = [
+    {
+      key: "od",
+      codigo: "od",
+      total: true,
+      cant: true,
+      precio: true,
+      id_familia: globals.familiaIDs.LC,
+    },
+    {
+      key: "oi",
+      codigo: "oi",
+      total: true,
+      cant: true,
+      precio: true,
+      id_familia: globals.familiaIDs.LC,
+    },
+    {
+      key: "insumo",
+      codigo: "insumo",
+      total: true,
+      cant: false,
+      precio: true,
+      id_familia: globals.familiaIDs.INSUMO,
+    },
+  ];
+
+  const columns = [
+    {
+      title: "",
+      dataIndex: "key",
+      render: (_, { codigo }) => <span>{codigo}</span>,
+    },
+    {
+      title: "Código",
+      dataIndex: "codigo",
+      key: "codigo",
+      render: (_, record) => (
+        <>
+          <SelectCodigoVenta
+            hideExtOpt={"1"}
+            idfamilias={[record.id_familia]}
+            buttonText={"Seleccionar..."}
+            callback={(v) => {}}
+          />{" "}
+        </>
+      ),
+      onCell: (_, index) => {
+        // Merge all 3 columns on the third row (index 2)
+        if (index > 1) {
+          return { colSpan: 3 };
+        }
+        return {};
+      },
+    },
+    {
+      title: "Precio",
+      dataIndex: "precio",
+      key: "precio",
+      render: (hasInput, record) =>
+        hasInput ? <Input onChange={(_) => {}} /> : "-",
+      onCell: (_, index) => {
+        // Merge all 3 columns on the third row (index 2)
+        if (index > 1) {
+          return { colSpan: 0 };
+        }
+        return {};
+      },
+    },
+    {
+      width: "100px",
+      title: "Cant",
+      dataIndex: "cant",
+      key: "cant",
+      render: (hasInput, record) =>
+        hasInput ? (
+          <Input
+            type="number"
+            placeholder="Input"
+            value={0}
+            onChange={(e) => handleChange(record.key, "eje", e.target.value)}
+          />
+        ) : (
+          "-"
+        ),
+      onCell: (_, index) => {
+        // Merge all 3 columns on the third row (index 2)
+        if (index > 1) {
+          return { colSpan: 0 };
+        }
+        return {};
+      },
+    },
+    {
+      title: "Total",
+      dataIndex: "total",
+      key: "total",
+      width: "120px",
+      render: (hasInput, record) =>
+        hasInput ? <Input style={{ width: "120px" }} value={0} /> : "-",
+    },
+  ];
 
   const onChange = (key, value) => {
     setTrabajoStock((t) => {
@@ -74,152 +185,12 @@ const TipoLCStock = ({ callback, onComentariosChange }) => {
       title={<span style={{ color: "#262D42" }}>Lentes de Contacto Stock</span>}
       style={{ boxShadow: "-1px 1px 1px 1px #9e9c9c" }}
     >
-      <Row>
-        <Col span={24}>
-          <Row>
-            <Col style={{width: "100px"}}></Col>
-            <Col style={{width:"300px"}}></Col>
-            <Col style={{ fontWeight: "600", width:"100px" }}>
-              Precio
-            </Col>
-            <Col style={{ fontWeight: "600", width:"100px" }}>
-              Cant.
-            </Col>
-            <Col  style={{ fontWeight: "600", width:"100px" }}>
-              Total
-            </Col>
-          </Row>
-          <Row gutter={[16,16]} style={{ backgroundColor: "#fafafa", padding: "4px" }}>
-            <Col
-              style={{
-                textAlign: "right",
-                paddingRight: "8px",
-                fontWeight: "600",
-                paddingTop: "4px",
-                width: "100px",
-              }}
-            >
-              OD
-            </Col>
-            <Col style={{width:"300px"}}>
-              {<SelectCodigoVenta
-                          idfamilias={[globals.familiaIDs.CRISTALES]}
-                          buttonText={"Seleccionar..."}
-                          callback={v=>{onchange_codigo("od_idcodigo","od_precio","od_descuento",v)}}
-                        />}
-         
-            </Col>
-            
-            <Col style={{width:"100px"}}>
-              <InputNumber
-                style={{ width: "100%" }}
-                value={trabajoStock.od_precio}
-                onChange={(v) => onChange("od_precio", v)}
-              />
-            </Col>
-            <Col style={{width:"100px"}}>
-              <Input
-                value={trabajoStock.od_eje}
-                onChange={(e) => onChange("od_eje", e.target.value)}
-              />
-            </Col>
-            <Col style={{width:"100px"}}>
-              <Input
-                value={trabajoStock.od_eje}
-                onChange={(e) => onChange("od_eje", e.target.value)}
-              />
-            </Col>
-          </Row>
-          <Row gutter={[16,16]} style={{ backgroundColor: "#ffffff", padding: "4px" }}>
-            <Col
-              style={{
-                textAlign: "right",
-                paddingRight: "8px",
-                fontWeight: "600",
-                paddingTop: "4px",
-                width: "100px",
-              }}
-            >
-              OI
-            </Col>
-            <Col style={{width:"300px"}}>
-              {<SelectCodigoVenta
-                          idfamilias={[globals.familiaIDs.CRISTALES]}
-                          buttonText={"Seleccionar..."}
-                          callback={v=>{onchange_codigo("oi_idcodigo","oi_precio","oi_descuento",v)}}
-                        />}
-            </Col>
-            <Col style={{width:"100px"}}>
-              <InputNumber
-                style={{ width: "100%" }}
-                value={trabajoStock.oi_precio}
-                onChange={(v) => onChange("oi_precio", v)}
-              />
-            </Col>
-            <Col style={{width:"100px"}}>
-              <Input
-                value={trabajoStock.oi_eje}
-                onChange={(e) => onChange("oi_eje", e.target.value)}
-              />
-            </Col>
-            
-            <Col style={{width:"100px"}}>
-              <Input
-                value={trabajoStock.oi_eje}
-                onChange={(e) => onChange("oi_eje", e.target.value)}
-              />
-            </Col>
-          </Row>
-          <Row gutter={[16,16]} style={{ backgroundColor: "#fafafa", padding: "4px" }}>
-            <Col
-              style={{
-                textAlign: "right",
-                paddingRight: "8px",
-                fontWeight: "600",
-                paddingTop: "4px",
-                width: "100px",
-              }}
-            >
-              Insumo
-            </Col>
-            <Col style={{width:"300px"}}>
-              <SelectCodigoVenta
-                hideExtOpt={"1"}
-                idfamilias={[globals.familiaIDs.INSUMO]}
-                buttonText={"Seleccionar..."}
-                callback={(v) => {
-                  onchange_codigo(
-                    "idtratamiento",
-                    "tratamiento_precio",
-                    "tratamiento_descuento",
-                    v,
-                  );
-                }}
-              />
-            </Col>
-       
-            <Col style={{width:"250px"}}>
-              <InputNumber
-                style={{ width: "100%" }}
-                value={trabajoStock.tratamiento_precio}
-                onChange={(v) => onChange("tratamiento_precio", v)}
-              />
-            </Col>
-          </Row>
-          <Divider />
-          <Row style={{ backgroundColor: "#fafafa", padding: "8px" }}>
-            <Col span={24}>
-              <Input
-                style={{ width: "100%" }}
-                addonBefore={
-                  <span style={{ fontWeight: "bold" }}>Comentarios</span>
-                }
-                onChange={(e) => onComentariosChange(e.target?.value || "")}
-              />
-            </Col>
-          </Row>
-        </Col>
-      </Row>
+      <Table
+        size="small"
+        dataSource={dataSource}
+        columns={columns}
+        pagination={false}
+      />
     </Card>
   );
 };
