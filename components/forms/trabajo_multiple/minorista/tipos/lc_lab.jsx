@@ -6,23 +6,27 @@ import { useEffect, useState } from "react";
 const TipoLCLab = ({ callback, onComentariosChange }) => {
   const [trabajoStock, setTrabajoStock] = useState({
     od_idcodigo: "",
+    od_esf: "",
+    od_cil: "",
     od_eje: "",
-    od_precio: "",
+    od_precio: "0",
     oi_idcodigo: "",
+    oi_esf: "",
+    oi_cil: "",
     oi_eje: "",
-    oi_precio: "",
-    idtratamiento: "",
-    tratamiento_precio: "",
-    tratamiento_descuento: "",
-    armazon: "",
+    oi_precio: "0",
+    insumo_idcodigo: "",
+    insumo_precio: "0",
   });
+
+  /*
   const [formValues, setFormValues] = useState({
     od: { esf: "", cil: "", eje: "", precio: "" },
     oi: { esf: "", cil: "", eje: "", precio: "" },
     armazon: { esf: "", cil: "", eje: "", precio: "" },
     tratamiento: { esf: "", cil: "", eje: "", precio: "" },
   });
-
+*/
   const dataSource = [
     {
       key: "od",
@@ -75,7 +79,14 @@ const TipoLCLab = ({ callback, onComentariosChange }) => {
             hideExtOpt={"1"}
             idfamilias={[record.id_familia]}
             buttonText={"Seleccionar..."}
-            callback={(v) => {}}
+            callback={(v) => {
+              onchange_codigo(
+                record.key + "_" + "idcodigo",
+                record.key + "_" + "precio",
+                record.key + "_" + "descuento",
+                v,
+              );
+            }}
           />{" "}
         </>
       ),
@@ -92,7 +103,15 @@ const TipoLCLab = ({ callback, onComentariosChange }) => {
       dataIndex: "esf",
       key: "esf",
       render: (hasInput, record) =>
-        hasInput ? <HelperToolTip onChange={(_) => {}} /> : "-",
+        hasInput ? (
+          <HelperToolTip
+            onChange={(v) => {
+              onChange(record.key + "_" + "esf", v);
+            }}
+          />
+        ) : (
+          "-"
+        ),
       onCell: (_, index) => {
         // Merge all 3 columns on the third row (index 2)
         if (index > 1) {
@@ -106,7 +125,15 @@ const TipoLCLab = ({ callback, onComentariosChange }) => {
       dataIndex: "cil",
       key: "cil",
       render: (hasInput, record) =>
-        hasInput ? <HelperToolTip onChange={(_) => {}} /> : "-",
+        hasInput ? (
+          <HelperToolTip
+            onChange={(v) => {
+              onChange(record.key + "_" + "cil", v);
+            }}
+          />
+        ) : (
+          "-"
+        ),
       onCell: (_, index) => {
         // Merge all 3 columns on the third row (index 2)
         if (index > 1) {
@@ -126,7 +153,7 @@ const TipoLCLab = ({ callback, onComentariosChange }) => {
             type="number"
             placeholder="Input"
             value={0}
-            onChange={(e) => handleChange(record.key, "eje", e.target.value)}
+            onChange={(e) => onChange(record.key + "_" + "eje", e.target.value)}
           />
         ) : (
           "-"
@@ -150,7 +177,7 @@ const TipoLCLab = ({ callback, onComentariosChange }) => {
             type="number"
             placeholder="Input"
             value={0}
-            onChange={(e) => handleChange(record.key, "esf", e.target.value)}
+            onChange={(e) => onChange(record.key + "_" + "cb", e.target.value)}
           />
         ) : (
           "-"
@@ -174,7 +201,9 @@ const TipoLCLab = ({ callback, onComentariosChange }) => {
             type="number"
             placeholder="Input"
             value={0}
-            onChange={(e) => handleChange(record.key, "diam", e.target.value)}
+            onChange={(e) =>
+              onChange(record.key + "_" + "diam", e.target.value)
+            }
           />
         ) : (
           "-"
@@ -192,11 +221,15 @@ const TipoLCLab = ({ callback, onComentariosChange }) => {
       dataIndex: "precio",
       key: "precio",
       width: "120px",
-      render: (hasInput, record) =><InputNumber
-            style={{ width: "120px" }}
-            value={0}
-            onChange={(e) => handleChange(record.key, "precio", e.target.value)}
-          />
+      render: (hasInput, record) => (
+        <InputNumber
+          style={{ width: "120px" }}
+          value={0}
+          onChange={(e) =>
+            onChange(record.key + "_" + "precio", e.target.value)
+          }
+        />
+      ),
     },
   ];
   const onChange = (key, value) => {
@@ -204,7 +237,9 @@ const TipoLCLab = ({ callback, onComentariosChange }) => {
       const modif = { ...t, [key]: value };
       callback?.(
         modif,
-        modif.od_precio + modif.oi_precio + modif.tratamiento_precio,
+        parseFloat(trabajoStock.od_precio) +
+          parseFloat(trabajoStock.oi_precio) +
+          parseFloat(trabajoStock.insumo_precio),
       );
       return modif;
     });
@@ -219,7 +254,12 @@ const TipoLCLab = ({ callback, onComentariosChange }) => {
           [key_precio]: value.precio_defecto_mayorista,
           [key_descuento]: 0,
         };
-        callback?.(mod, mod.od_precio + mod.oi_precio + mod.tratamiento_precio);
+        callback?.(
+          mod,
+          parseFloat(trabajoStock.od_precio) +
+            parseFloat(trabajoStock.oi_precio) +
+            parseFloat(trabajoStock.insumo_precio),
+        );
         return mod;
       });
       return;
@@ -236,7 +276,12 @@ const TipoLCLab = ({ callback, onComentariosChange }) => {
         [key_descuento]: value.descuento || "0",
       };
 
-      callback?.(mod, mod.od_precio + mod.oi_precio + mod.tratamiento_precio);
+      callback?.(
+        mod,
+        parseFloat(trabajoStock.od_precio) +
+          parseFloat(trabajoStock.oi_precio) +
+          parseFloat(trabajoStock.insumo_precio),
+      );
       return mod;
     });
   };
@@ -244,9 +289,9 @@ const TipoLCLab = ({ callback, onComentariosChange }) => {
   useEffect(() => {
     callback?.(
       trabajoStock,
-      trabajoStock.od_precio +
-        trabajoStock.oi_precio +
-        trabajoStock.tratamiento_precio,
+      parseFloat(trabajoStock.od_precio) +
+        parseFloat(trabajoStock.oi_precio) +
+        parseFloat(trabajoStock.insumo_precio),
     );
   }, []);
 

@@ -792,7 +792,7 @@ danger list
 .ant-menu-submenu-title {
   padding-inline: 12px !important; /* Horizontal padding */
   padding-block: 0px !important; /* Vertical padding */
-  text-shadow: 1px 0px 0px rgb(143, 143, 143) !important;
+ /* text-shadow: 1px 0px 0px rgb(143, 143, 143) !important;*/
 }
 
 /* Override padding of the root horizontal menu wrapper */

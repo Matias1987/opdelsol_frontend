@@ -7,22 +7,22 @@ import { useEffect, useState } from "react";
 const TipoLCStock = ({ callback, onComentariosChange }) => {
   const [trabajoStock, setTrabajoStock] = useState({
     od_idcodigo: "",
+    od_esf: "",
+    od_cil: "",
     od_eje: "",
+    od_cantidad: "",
+    od_total: "0",
     od_precio: "",
     oi_idcodigo: "",
+    oi_esf: "",
+    oi_cil: "",
     oi_eje: "",
+    oi_cantidad: "",
+    oi_total: "0",
     oi_precio: "",
-    idtratamiento: "",
-    tratamiento_precio: "",
-    tratamiento_descuento: "",
-    armazon: "",
-  });
-
-  const [formValues, setFormValues] = useState({
-    od: { esf: "", cil: "", eje: "", precio: "" },
-    oi: { esf: "", cil: "", eje: "", precio: "" },
-    armazon: { esf: "", cil: "", eje: "", precio: "" },
-    tratamiento: { esf: "", cil: "", eje: "", precio: "" },
+    insumo_idcodigo: "",
+    insumo_precio: "",
+    insumo_total: "0",
   });
 
   const dataSource = [
@@ -68,8 +68,15 @@ const TipoLCStock = ({ callback, onComentariosChange }) => {
             hideExtOpt={"1"}
             idfamilias={[record.id_familia]}
             buttonText={"Seleccionar..."}
-            callback={(v) => {}}
-          />{" "}
+            callback={(v) => {
+              onchange_codigo(
+                record.key + "_" + "idcodigo",
+                record.key + "_" + "precio",
+                record.key + "_" + "descuento",
+                v,
+              );
+            }}
+          />
         </>
       ),
       onCell: (_, index) => {
@@ -85,7 +92,15 @@ const TipoLCStock = ({ callback, onComentariosChange }) => {
       dataIndex: "precio",
       key: "precio",
       render: (hasInput, record) =>
-        hasInput ? <Input onChange={(_) => {}} /> : "-",
+        hasInput ? (
+          <Input
+            onChange={(e) => {
+              onChange(record.key + "_" + "precio", e.target.value);
+            }}
+          />
+        ) : (
+          "-"
+        ),
       onCell: (_, index) => {
         // Merge all 3 columns on the third row (index 2)
         if (index > 1) {
@@ -105,7 +120,9 @@ const TipoLCStock = ({ callback, onComentariosChange }) => {
             type="number"
             placeholder="Input"
             value={0}
-            onChange={(e) => handleChange(record.key, "eje", e.target.value)}
+            onChange={(e) =>
+              onChange(record.key + "_" + "cant", e.target.value)
+            }
           />
         ) : (
           "-"
@@ -133,7 +150,9 @@ const TipoLCStock = ({ callback, onComentariosChange }) => {
       const modif = { ...t, [key]: value };
       callback?.(
         modif,
-        modif.od_precio + modif.oi_precio + modif.tratamiento_precio,
+        parseFloat(trabajoStock.od_total) +
+          parseFloat(trabajoStock.oi_total) +
+          parseFloat(trabajoStock.insumo_total),
       );
       return modif;
     });
@@ -148,7 +167,12 @@ const TipoLCStock = ({ callback, onComentariosChange }) => {
           [key_precio]: value.precio_defecto_mayorista,
           [key_descuento]: 0,
         };
-        callback?.(mod, mod.od_precio + mod.oi_precio + mod.tratamiento_precio);
+        callback?.(
+          mod,
+          parseFloat(trabajoStock.od_total) +
+            parseFloat(trabajoStock.oi_total) +
+            parseFloat(trabajoStock.insumo_total),
+        );
         return mod;
       });
       return;
@@ -165,7 +189,12 @@ const TipoLCStock = ({ callback, onComentariosChange }) => {
         [key_descuento]: value.descuento || "0",
       };
 
-      callback?.(mod, mod.od_precio + mod.oi_precio + mod.tratamiento_precio);
+      callback?.(
+        mod,
+        parseFloat(trabajoStock.od_total) +
+          parseFloat(trabajoStock.oi_total) +
+          parseFloat(trabajoStock.insumo_total),
+      );
       return mod;
     });
   };
@@ -173,9 +202,9 @@ const TipoLCStock = ({ callback, onComentariosChange }) => {
   useEffect(() => {
     callback?.(
       trabajoStock,
-      trabajoStock.od_precio +
-        trabajoStock.oi_precio +
-        trabajoStock.tratamiento_precio,
+      parseFloat(trabajoStock.od_total) +
+        parseFloat(trabajoStock.oi_total) +
+        parseFloat(trabajoStock.insumo_total),
     );
   }, []);
 

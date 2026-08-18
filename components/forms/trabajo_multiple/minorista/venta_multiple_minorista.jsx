@@ -6,8 +6,6 @@ import {
   Col,
   Collapse,
   DatePicker,
-  Divider,
-  FloatButton,
   Form,
   Input,
   Row,
@@ -26,7 +24,6 @@ import SelectCliente from "../../ventas/SelectCliente";
 import ModoPagoV4 from "../../modo_pago/ModoPagoV4";
 import dayjs from "dayjs";
 import esES from "antd/locale/es_ES";
-import { key } from "localforage";
 //import useStorage from "@/useStorage";
 
 /* leer: https://refine.dev/blog/common-usestate-mistakes-and-how-to-avoid/ */
@@ -331,7 +328,7 @@ const VentaMultipleMinorista = ({
             }}
           >
             <Col style={{ minWidth: "250px", width: "100%" }}>
-              <SelectCliente callback={(_) => {}} />
+              <SelectCliente callback={(id) => {onChange("fkcliente",id)}} />
             </Col>
           </Row>
           <Row
@@ -342,7 +339,7 @@ const VentaMultipleMinorista = ({
             }}
           >
             <Col style={{ minWidth: "250px", width: "100%" }}>
-              <SelectCliente destinatario callback={(_) => {}} />
+              <SelectCliente destinatario callback={(id) => {onChange("fkdestinatario",id)}} />
             </Col>
           </Row>
           <Row
@@ -353,7 +350,7 @@ const VentaMultipleMinorista = ({
             }}
           >
             <Col style={{ minWidth: "250px" }}>
-              <SelectMedico callback={(id) => {}} />
+              <SelectMedico callback={(id) => {onChange("fkmedico",id)}} />
             </Col>
           </Row>
           <Row
@@ -364,7 +361,7 @@ const VentaMultipleMinorista = ({
             }}
           >
             <Col style={{ minWidth: "250px" }}>
-              <SelectObraSocial callback={(id) => {}} />
+              <SelectObraSocial callback={(id) => {onChange("fkos",id)}} />
             </Col>
           </Row>
         </Card>
@@ -383,7 +380,7 @@ const VentaMultipleMinorista = ({
                     style={{
                       color: "#ff1818",
                       fontSize: "14px",
-                      fontWeight: "600",
+                      fontWeight: "400",
                     }}
                   >
                     <PlusCircleOutlined /> Agregar Trabajo
@@ -459,7 +456,7 @@ const VentaMultipleMinorista = ({
             <Col span="24">
               <ModoPagoV4
                 total={typeof props !== "undefined" ? props.total : "0"}
-                callback={(value) => {}}
+                callback={(value) => {onChange("mp",value)}}
                 tarjetaHidden={false}
                 ctacteHidden={false}
                 chequeHidden={false}
@@ -641,6 +638,7 @@ const VentaMultipleMinorista = ({
           </Col>
         </Row>
       </Card>
+      <Input.TextArea value={JSON.stringify({...venta, trabajos:trabajos})} />
   
     </>
   );

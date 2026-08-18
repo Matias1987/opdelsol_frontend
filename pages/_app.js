@@ -54,8 +54,8 @@ export default function App({ Component, pageProps }) {
             },
             Menu: {
               /* General structural sizing */
-              horizontalLineHeight: "30px", // Low-profile slim height
-              fontSize: 13, // Crisp, micro typography
+              horizontalLineHeight: "32px", // Low-profile slim height
+              fontSize: 15, // Crisp, micro typography
               /* Dark Background Palette */
               colorBgContainer: "#DDDDDD", // Deep slate dark background
 

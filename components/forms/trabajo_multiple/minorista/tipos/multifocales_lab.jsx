@@ -7,15 +7,19 @@ import { useEffect, useState } from "react";
 const TipoMultifocalesLab = ({ callback, onComentariosChange }) => {
   const [trabajoStock, setTrabajoStock] = useState({
     od_idcodigo: "",
+    od_esf: "",
+    od_cil: "",
     od_eje: "",
-    od_precio: "",
+    od_precio: "0",
     oi_idcodigo: "",
+    oi_esf: "",
+    oi_cil: "",
     oi_eje: "",
     oi_precio: "",
-    idtratamiento: "",
-    tratamiento_precio: "",
-    tratamiento_descuento: "",
-    armazon: "",
+    armazon_idcodigo: "",
+    armazon_precio: "0",
+    tratamiento_idcodigo: "",
+    tratamiento_precio: "0",
   });
 
   const [formValues, setFormValues] = useState({
@@ -80,7 +84,14 @@ const TipoMultifocalesLab = ({ callback, onComentariosChange }) => {
             hideExtOpt={"1"}
             idfamilias={[record.id_familia]}
             buttonText={"Seleccionar..."}
-            callback={(v) => {}}
+            callback={(v) => {
+              onchange_codigo(
+                record.key + "_" + "idcodigo",
+                record.key + "_" + "precio",
+                record.key + "_" + "descuento",
+                v,
+              );
+            }}
           />{" "}
         </>
       ),
@@ -97,7 +108,15 @@ const TipoMultifocalesLab = ({ callback, onComentariosChange }) => {
       dataIndex: "esf",
       key: "esf",
       render: (hasInput, record) =>
-        hasInput ? <HelperToolTip onChange={(_) => {}} /> : "-",
+        hasInput ? (
+          <HelperToolTip
+            onChange={(v) => {
+              onChange(record.key + "_" + "esf", v);
+            }}
+          />
+        ) : (
+          "-"
+        ),
       onCell: (_, index) => {
         // Merge all 3 columns on the third row (index 2)
         if (index > 1) {
@@ -111,7 +130,15 @@ const TipoMultifocalesLab = ({ callback, onComentariosChange }) => {
       dataIndex: "cil",
       key: "cil",
       render: (hasInput, record) =>
-        hasInput ? <HelperToolTip onChange={(_) => {}} /> : "-",
+        hasInput ? (
+          <HelperToolTip
+            onChange={(v) => {
+              onChange(record.key + "_" + "cil", v);
+            }}
+          />
+        ) : (
+          "-"
+        ),
       onCell: (_, index) => {
         // Merge all 3 columns on the third row (index 2)
         if (index > 1) {
@@ -130,8 +157,8 @@ const TipoMultifocalesLab = ({ callback, onComentariosChange }) => {
           <Input
             type="number"
             placeholder="Input"
-            value={formValues[record.key].eje}
-            onChange={(e) => handleChange(record.key, "eje", e.target.value)}
+            value={trabajoStock[record.key + "_eje"]}
+            onChange={(e) => onChange(record.key + "_" + "esf", e.target.value)}
           />
         ) : (
           "-"
@@ -153,14 +180,73 @@ const TipoMultifocalesLab = ({ callback, onComentariosChange }) => {
         hasInput ? (
           <InputNumber
             style={{ width: "120px" }}
-            value={formValues[record.key].precio}
-            onChange={(e) => handleChange(record.key, "precio", e.target.value)}
+            value={trabajoStock[record.key + "_precio"]}
+            onChange={(e) =>
+              onChange(record.key + "_" + "precio", e.target.value)
+            }
           />
         ) : (
           "-"
         ),
     },
   ];
+
+  const onChange = (key, value) => {
+    setTrabajoStock((t) => {
+      const modif = { ...t, [key]: value };
+      callback?.(
+        modif,
+        parseFloat(modif.od_precio) +
+          parseFloat(modif.oi_precio) +
+          parseFloat(modif.tratamiento_precio) +
+          parseFloat(modif.armazon_precio),
+      );
+      return modif;
+    });
+  };
+
+  const onchange_codigo = (key_idcodigo, key_precio, key_descuento, value) => {
+    if (value === null || value?.codigo === null) {
+      setTrabajoStock((p) => {
+        const mod = {
+          ...p,
+          [key_idcodigo]: value.idcodigo,
+          [key_precio]: value.precio_defecto_mayorista,
+          [key_descuento]: 0,
+        };
+        callback?.(
+          mod,
+          parseFloat(mod.od_precio) +
+            parseFloat(mod.oi_precio) +
+            parseFloat(mod.tratamiento_precio) +
+            parseFloat(mod.armazon_precio),
+        );
+        return mod;
+      });
+      return;
+    }
+    setTrabajoStock((p) => {
+      const mod = {
+        ...p,
+        [key_idcodigo]: value.idcodigo,
+        [key_precio]:
+          parseFloat(value.precio_defecto_mayorista) -
+          parseFloat(value.precio_defecto_mayorista) *
+            parseFloat(value.descuento || "0") *
+            0.01,
+        [key_descuento]: value.descuento || "0",
+      };
+
+      callback?.(
+        mod,
+        parseFloat(mod.od_precio) +
+          parseFloat(mod.oi_precio) +
+          parseFloat(mod.tratamiento_precio) +
+          parseFloat(mod.armazon_precio),
+      );
+      return mod;
+    });
+  };
 
   return (
     <Card

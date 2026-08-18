@@ -1,21 +1,34 @@
 import HelperToolTip from "@/components/forms/ventas/common/HelperToolTip";
 import SelectCodigoVenta from "@/components/forms/ventas/SelectCodigoVenta";
 import globals from "@/src/globals";
-import { Card, Col, Divider, Input, InputNumber, Row, Select, Table } from "antd";
+import {
+  Card,
+  Col,
+  Divider,
+  Input,
+  InputNumber,
+  Row,
+  Select,
+  Table,
+} from "antd";
 import { useEffect, useState } from "react";
 
 const TipoMonofocalesLab = ({ callback, onComentariosChange }) => {
   const [trabajoStock, setTrabajoStock] = useState({
     od_idcodigo: "",
+    od_esf: "",
+    od_cil: "",
     od_eje: "",
-    od_precio: "",
+    od_precio: "0",
     oi_idcodigo: "",
+    oi_esf: "",
+    oi_cil: "",
     oi_eje: "",
     oi_precio: "",
-    idtratamiento: "",
-    tratamiento_precio: "",
-    tratamiento_descuento: "",
-    armazon: "",
+    armazon_idcodigo: "",
+    armazon_precio: "0",
+    tratamiento_idcodigo: "",
+    tratamiento_precio: "0",
   });
 
   const onChange = (key, value) => {
@@ -23,7 +36,10 @@ const TipoMonofocalesLab = ({ callback, onComentariosChange }) => {
       const modif = { ...t, [key]: value };
       callback?.(
         modif,
-        modif.od_precio + modif.oi_precio + modif.tratamiento_precio,
+        parseFloat(modif.od_precio) +
+          parseFloat(modif.oi_precio) +
+          parseFloat(modif.tratamiento_precio) +
+          parseFloat(modif.armazon_precio),
       );
       return modif;
     });
@@ -38,7 +54,13 @@ const TipoMonofocalesLab = ({ callback, onComentariosChange }) => {
           [key_precio]: value.precio_defecto_mayorista,
           [key_descuento]: 0,
         };
-        callback?.(mod, mod.od_precio + mod.oi_precio + mod.tratamiento_precio);
+        callback?.(
+          mod,
+          parseFloat(mod.od_precio) +
+            parseFloat(mod.oi_precio) +
+            parseFloat(mod.tratamiento_precio) +
+            parseFloat(mod.armazon_precio),
+        );
         return mod;
       });
       return;
@@ -55,7 +77,13 @@ const TipoMonofocalesLab = ({ callback, onComentariosChange }) => {
         [key_descuento]: value.descuento || "0",
       };
 
-      callback?.(mod, mod.od_precio + mod.oi_precio + mod.tratamiento_precio);
+      callback?.(
+        mod,
+        parseFloat(mod.od_precio) +
+          parseFloat(mod.oi_precio) +
+          parseFloat(mod.tratamiento_precio) +
+          parseFloat(mod.armazon_precio),
+      );
       return mod;
     });
   };
@@ -63,9 +91,10 @@ const TipoMonofocalesLab = ({ callback, onComentariosChange }) => {
   useEffect(() => {
     callback?.(
       trabajoStock,
-      trabajoStock.od_precio +
-        trabajoStock.oi_precio +
-        trabajoStock.tratamiento_precio,
+      parseFloat(trabajoStock.od_precio) +
+        parseFloat(trabajoStock.oi_precio) +
+        parseFloat(trabajoStock.tratamiento_precio) +
+        parseFloat(trabajoStock.armazon_precio),
     );
   }, []);
 
@@ -77,10 +106,24 @@ const TipoMonofocalesLab = ({ callback, onComentariosChange }) => {
   });
 
   const dataSource = [
-    { key: "od", codigo: "od", esf: true, cil: true, eje: true, precio: true,
-      id_familia: globals.familiaIDs.CRISTALES, },
-    { key: "oi", codigo: "oi", esf: true, cil: true, eje: true, precio: true,
-      id_familia: globals.familiaIDs.CRISTALES, },
+    {
+      key: "od",
+      codigo: "od",
+      esf: true,
+      cil: true,
+      eje: true,
+      precio: true,
+      id_familia: globals.familiaIDs.CRISTALES,
+    },
+    {
+      key: "oi",
+      codigo: "oi",
+      esf: true,
+      cil: true,
+      eje: true,
+      precio: true,
+      id_familia: globals.familiaIDs.CRISTALES,
+    },
     {
       key: "armazon",
       codigo: "armazon",
@@ -117,7 +160,14 @@ const TipoMonofocalesLab = ({ callback, onComentariosChange }) => {
             hideExtOpt={"1"}
             idfamilias={[record.id_familia]}
             buttonText={"Seleccionar..."}
-            callback={(v) => {}}
+            callback={(v) => {
+              onchange_codigo(
+                record.key + "_" + "idcodigo",
+                record.key + "_" + "precio",
+                record.key + "_" + "descuento",
+                v,
+              );
+            }}
           />{" "}
         </>
       ),
@@ -134,7 +184,15 @@ const TipoMonofocalesLab = ({ callback, onComentariosChange }) => {
       dataIndex: "esf",
       key: "esf",
       render: (hasInput, record) =>
-        hasInput ? <HelperToolTip onChange={(_) => {}} /> : "-",
+        hasInput ? (
+          <HelperToolTip
+            onChange={(v) => {
+              onChange(record.key + "_" + "esf", v);
+            }}
+          />
+        ) : (
+          "-"
+        ),
       onCell: (_, index) => {
         // Merge all 3 columns on the third row (index 2)
         if (index > 1) {
@@ -148,7 +206,15 @@ const TipoMonofocalesLab = ({ callback, onComentariosChange }) => {
       dataIndex: "cil",
       key: "cil",
       render: (hasInput, record) =>
-        hasInput ? <HelperToolTip onChange={(_) => {}} /> : "-",
+        hasInput ? (
+          <HelperToolTip
+            onChange={(v) => {
+              onChange(record.key + "_" + "cil", v);
+            }}
+          />
+        ) : (
+          "-"
+        ),
       onCell: (_, index) => {
         // Merge all 3 columns on the third row (index 2)
         if (index > 1) {
@@ -168,7 +234,7 @@ const TipoMonofocalesLab = ({ callback, onComentariosChange }) => {
             type="number"
             placeholder="Input"
             value={formValues[record.key].eje}
-            onChange={(e) => handleChange(record.key, "eje", e.target.value)}
+            onChange={(e) => onChange(record.key + "_" + "eje", e.target.value)}
           />
         ) : (
           "-"
@@ -191,7 +257,9 @@ const TipoMonofocalesLab = ({ callback, onComentariosChange }) => {
           <InputNumber
             style={{ width: "120px" }}
             value={formValues[record.key].precio}
-            onChange={(e) => handleChange(record.key, "precio", e.target.value)}
+            onChange={(e) =>
+              onChange(record.key + "_" + "precio", e.target.value)
+            }
           />
         ) : (
           "-"

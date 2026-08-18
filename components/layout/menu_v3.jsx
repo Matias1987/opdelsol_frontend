@@ -9,6 +9,15 @@ import globals from "@/src/globals";
 import { idf_optica, lista_precios_visible } from "@/src/config";
 import dynamic from "next/dynamic";
 import CaretDownFilled from "@ant-design/icons/CaretDownFilled";
+import { InfoCircleOutlined } from "@ant-design/icons";
+
+const VentasVendedor = dynamic(
+  () => import("../informes/ventas/VentasVendedor"),
+  {
+    ssr: false,
+    loading: () => <div style={{ height: "30px" }}>&#9203; Espere...</div>,
+  },
+);
 
 const ListaPreciosV3 = dynamic(
   () => import("../lista_precios/listaPreciosV3"),
@@ -39,6 +48,7 @@ export default function MenuV3(props) {
   const [itemsMenu, setItemsMenu] = useState([]);
   const [lpOpen, setLPOpen] = useState(false);
   const [buscarVentaOpen, setBuscarVentaOpen] = useState(false);
+  const [informeOpen, setInformeOpen] = useState(false);
   const [usuario, setUsuario] = useState("");
   const _menu_deposito_min = {
     label: "Depósito",
@@ -375,6 +385,12 @@ export default function MenuV3(props) {
       return;
     }
 
+    if(e.key==="vtas_vendedor")
+    {
+      setInformeOpen(true);
+      return;
+    }
+
     if (e.key === "salir") {
       const _token = globals.getToken();
 
@@ -441,6 +457,11 @@ export default function MenuV3(props) {
               key: "user",
               children: [
                 {
+                  label: "Informe Ventas",
+                  key: "vtas_vendedor",
+                  icon: <InfoCircleOutlined />,
+                },
+                {
                   label: "Salir",
                   key: "salir",
                   icon: <LogoutOutlined />,
@@ -468,6 +489,16 @@ export default function MenuV3(props) {
         footer={null}
       >
         <BuscarVentaV3 />
+      </Modal>
+      <Modal
+        destroyOnClose
+        width={"100%"}
+        open={informeOpen}
+        onCancel={() => setInformeOpen(false)}
+        title="Informe Ventas"
+        footer={null}
+      >
+        <VentasVendedor />
       </Modal>
     </>
   );
