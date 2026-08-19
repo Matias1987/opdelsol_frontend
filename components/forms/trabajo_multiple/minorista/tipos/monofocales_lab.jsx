@@ -29,6 +29,7 @@ const TipoMonofocalesLab = ({ callback, onComentariosChange }) => {
     armazon_precio: "0",
     tratamiento_idcodigo: "",
     tratamiento_precio: "0",
+    distancia: "-1",
   });
 
   const onChange = (key, value) => {
@@ -98,13 +99,6 @@ const TipoMonofocalesLab = ({ callback, onComentariosChange }) => {
     );
   }, []);
 
-  const [formValues, setFormValues] = useState({
-    od: { esf: "", cil: "", eje: "", precio: "" },
-    oi: { esf: "", cil: "", eje: "", precio: "" },
-    armazon: { esf: "", cil: "", eje: "", precio: "" },
-    tratamiento: { esf: "", cil: "", eje: "", precio: "" },
-  });
-
   const dataSource = [
     {
       key: "od",
@@ -168,7 +162,7 @@ const TipoMonofocalesLab = ({ callback, onComentariosChange }) => {
                 v,
               );
             }}
-          />{" "}
+          />
         </>
       ),
       onCell: (_, index) => {
@@ -187,7 +181,7 @@ const TipoMonofocalesLab = ({ callback, onComentariosChange }) => {
         hasInput ? (
           <HelperToolTip
             onChange={(v) => {
-              onChange(record.key + "_" + "esf", v);
+              onChange(record.key + "_esf", v);
             }}
           />
         ) : (
@@ -209,7 +203,7 @@ const TipoMonofocalesLab = ({ callback, onComentariosChange }) => {
         hasInput ? (
           <HelperToolTip
             onChange={(v) => {
-              onChange(record.key + "_" + "cil", v);
+              onChange(record.key + "_cil", v);
             }}
           />
         ) : (
@@ -233,8 +227,8 @@ const TipoMonofocalesLab = ({ callback, onComentariosChange }) => {
           <Input
             type="number"
             placeholder="Input"
-            value={formValues[record.key].eje}
-            onChange={(e) => onChange(record.key + "_" + "eje", e.target.value)}
+            value={trabajoStock[record.key + "_eje"]}
+            onChange={(e) => onChange(record.key + "_eje", e.target.value)}
           />
         ) : (
           "-"
@@ -256,10 +250,8 @@ const TipoMonofocalesLab = ({ callback, onComentariosChange }) => {
         hasInput ? (
           <InputNumber
             style={{ width: "120px" }}
-            value={formValues[record.key].precio}
-            onChange={(e) =>
-              onChange(record.key + "_" + "precio", e.target.value)
-            }
+            value={trabajoStock[record.key + "_precio"]}
+            onChange={(v) => onChange(record.key + "_precio", v)}
           />
         ) : (
           "-"
@@ -273,12 +265,32 @@ const TipoMonofocalesLab = ({ callback, onComentariosChange }) => {
       title={<span style={{ color: "#262D42" }}>Monofocales Laboratorio</span>}
       style={{ boxShadow: "-1px 1px 1px 1px #9e9c9c" }}
     >
-      <Table
-        size="small"
-        dataSource={dataSource}
-        columns={columns}
-        pagination={false}
-      />
+      <Row gutter={[16, 16]}>
+        <Col span={24}>
+          <Select
+            defaultValue={"-1"}
+            style={{ width: "300px" }}
+            prefix="Tipo: "
+            options={[
+              { label: "Seleccione...", value: "-1" },
+              { label: "Lejos", value: "LEJOS" },
+              { label: "Cerca", value: "CERCA" },
+            ]}
+            onChange={(v) => onChange("distancia", v)}
+            value={trabajoStock.distancia}
+          />
+        </Col>
+      </Row>
+      <Row gutter={[16, 16]}>
+        <Col span={24}>
+          <Table
+            size="small"
+            dataSource={dataSource}
+            columns={columns}
+            pagination={false}
+          />
+        </Col>
+      </Row>
     </Card>
   );
 };

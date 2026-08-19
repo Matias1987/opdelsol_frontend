@@ -106,7 +106,7 @@ const TipoLCLab = ({ callback, onComentariosChange }) => {
         hasInput ? (
           <HelperToolTip
             onChange={(v) => {
-              onChange(record.key + "_" + "esf", v);
+              onChange(record.key + "_esf", v);
             }}
           />
         ) : (
@@ -128,7 +128,7 @@ const TipoLCLab = ({ callback, onComentariosChange }) => {
         hasInput ? (
           <HelperToolTip
             onChange={(v) => {
-              onChange(record.key + "_" + "cil", v);
+              onChange(record.key + "_cil", v);
             }}
           />
         ) : (
@@ -152,8 +152,8 @@ const TipoLCLab = ({ callback, onComentariosChange }) => {
           <Input
             type="number"
             placeholder="Input"
-            value={0}
-            onChange={(e) => onChange(record.key + "_" + "eje", e.target.value)}
+            value={trabajoStock[record.key + "_eje"]}
+            onChange={(e) => onChange(record.key + "_eje", e.target.value)}
           />
         ) : (
           "-"
@@ -176,8 +176,8 @@ const TipoLCLab = ({ callback, onComentariosChange }) => {
           <Input
             type="number"
             placeholder="Input"
-            value={0}
-            onChange={(e) => onChange(record.key + "_" + "cb", e.target.value)}
+            value={trabajoStock[record.key + "_cb"]}
+            onChange={(e) => onChange(record.key + "_cb", e.target.value)}
           />
         ) : (
           "-"
@@ -200,9 +200,9 @@ const TipoLCLab = ({ callback, onComentariosChange }) => {
           <Input
             type="number"
             placeholder="Input"
-            value={0}
+            value={trabajoStock[record.key + "_diam"]}
             onChange={(e) =>
-              onChange(record.key + "_" + "diam", e.target.value)
+              onChange(record.key + "_diam", e.target.value)
             }
           />
         ) : (
@@ -224,9 +224,9 @@ const TipoLCLab = ({ callback, onComentariosChange }) => {
       render: (hasInput, record) => (
         <InputNumber
           style={{ width: "120px" }}
-          value={0}
+          value={trabajoStock[record.key + "_precio"]}
           onChange={(e) =>
-            onChange(record.key + "_" + "precio", e.target.value)
+            onChange(record.key + "_precio", e.target.value)
           }
         />
       ),

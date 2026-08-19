@@ -67,7 +67,7 @@ const VentaMultipleMinorista = ({
     fksucursal: globals.obtenerSucursal(),
     fkcaja: 0, //globals.obtenerCajaID(),
     json_items: "",
-    tk: globals.getToken(),
+    tk: "",
     uid: "",
     entrega: false,
     cobrar: cobro_inmediato,
@@ -205,41 +205,7 @@ const VentaMultipleMinorista = ({
   };
 
   const format_venta = () => {
-    const procesar_items_laboratorio = (tr) => {
-      const _items = [];
-      if (tr.od_fkDisenio && tr?.od_fkDisenio > 0) {
-        _items.push({
-          idcodigo: tr.od_fkBase,
-          iddisenio: tr.od_fkDisenio,
-          iddescuento: tr.od_iddescuento,
-          tipo: "od",
-          cantidad: "1",
-          descuento: tr.od_descuento,
-          precio: tr.od_precio,
-          esf: tr.od_esf,
-          cil: tr.od_cil,
-          eje: tr.od_eje,
-          add: tr?.od_add ?? "",
-        });
-      }
-      if (tr.oi_fkDisenio && tr?.oi_fkDisenio > 0) {
-        _items.push({
-          idcodigo: tr.oi_fkBase,
-          iddisenio: tr.oi_fkDisenio,
-          iddescuento: tr.oi_iddescuento,
-          descuento: tr.oi_descuento,
-          tipo: "oi",
-          cantidad: "1",
-          precio: tr.oi_precio,
-          esf: tr.oi_esf,
-          cil: tr.oi_cil,
-          eje: tr.oi_eje,
-          add: tr?.oi_add ?? "",
-        });
-      }
-      return _items;
-    };
-    const procesar_items_stock = (tr) => {
+    const procesar_items = (tr) => {
       const _items = [];
       if (tr.od_idcodigo && +tr.od_idcodigo > 0) {
         _items.push({
@@ -253,6 +219,7 @@ const VentaMultipleMinorista = ({
           esf: "0",
           cil: "0",
           eje: tr.od_eje || "0",
+          distancia: tr.distancia??"",
         });
       }
       if (tr.oi_idcodigo && +tr.oi_idcodigo > 0) {
@@ -267,6 +234,7 @@ const VentaMultipleMinorista = ({
           esf: "0",
           cil: "0",
           eje: tr.oi_eje || "0",
+          distancia: tr.distancia??"",
         });
       }
       return _items;
@@ -276,10 +244,7 @@ const VentaMultipleMinorista = ({
       tipo: t.tipo,
       nro: t.nro,
       comentarios: t.comentarios,
-      items:
-        t.tipo != "stock"
-          ? procesar_items_laboratorio(t.items)
-          : procesar_items_stock(t.items),
+      items: procesar_items(t.items)
     }));
 
     return { ...venta, trabajos: tt };

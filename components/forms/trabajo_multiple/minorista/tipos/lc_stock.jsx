@@ -94,8 +94,9 @@ const TipoLCStock = ({ callback, onComentariosChange }) => {
       render: (hasInput, record) =>
         hasInput ? (
           <Input
+            value={trabajoStock[record.key + "_precio"]}
             onChange={(e) => {
-              onChange(record.key + "_" + "precio", e.target.value);
+              onChange(record.key + "_precio", e.target.value);
             }}
           />
         ) : (
@@ -119,9 +120,9 @@ const TipoLCStock = ({ callback, onComentariosChange }) => {
           <Input
             type="number"
             placeholder="Input"
-            value={0}
+            value={trabajoStock[record.key + "_cant"]}
             onChange={(e) =>
-              onChange(record.key + "_" + "cant", e.target.value)
+              onChange(record.key + "_cant", e.target.value)
             }
           />
         ) : (
@@ -141,7 +142,7 @@ const TipoLCStock = ({ callback, onComentariosChange }) => {
       key: "total",
       width: "120px",
       render: (hasInput, record) =>
-        hasInput ? <Input style={{ width: "120px" }} value={0} /> : "-",
+        hasInput ? <Input style={{ width: "120px" }} value={trabajoStock[record.key + "_total"]} /> : "-",
     },
   ];
 

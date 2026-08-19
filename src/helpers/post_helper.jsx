@@ -8,7 +8,8 @@ const post_method = (url, data, callback) => {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
             'Authorization': 'Basic ' + globals.getToken(),
-            'X-Idempotency-Key': data.uid ?? ""
+            'idempotency-key': data?.uid ?? ""
+            //'X-Idempotency-Key': data?.uid ?? ""
         },
         body: JSON.stringify(data)
         

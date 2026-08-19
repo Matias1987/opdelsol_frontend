@@ -111,7 +111,7 @@ const TipoMultifocalesLab = ({ callback, onComentariosChange }) => {
         hasInput ? (
           <HelperToolTip
             onChange={(v) => {
-              onChange(record.key + "_" + "esf", v);
+              onChange(record.key + "_esf", v);
             }}
           />
         ) : (
@@ -133,7 +133,7 @@ const TipoMultifocalesLab = ({ callback, onComentariosChange }) => {
         hasInput ? (
           <HelperToolTip
             onChange={(v) => {
-              onChange(record.key + "_" + "cil", v);
+              onChange(record.key + "_cil", v);
             }}
           />
         ) : (
@@ -158,7 +158,7 @@ const TipoMultifocalesLab = ({ callback, onComentariosChange }) => {
             type="number"
             placeholder="Input"
             value={trabajoStock[record.key + "_eje"]}
-            onChange={(e) => onChange(record.key + "_" + "esf", e.target.value)}
+            onChange={(e) => onChange(record.key + "_eje", e.target.value)}
           />
         ) : (
           "-"
@@ -182,7 +182,7 @@ const TipoMultifocalesLab = ({ callback, onComentariosChange }) => {
             style={{ width: "120px" }}
             value={trabajoStock[record.key + "_precio"]}
             onChange={(e) =>
-              onChange(record.key + "_" + "precio", e.target.value)
+              onChange(record.key + "_precio", e.target.value)
             }
           />
         ) : (

@@ -1,6 +1,6 @@
 import SelectCodigoVenta from "@/components/forms/ventas/SelectCodigoVenta";
 import globals from "@/src/globals";
-import { Card, Input, InputNumber, Table } from "antd";
+import { Card, Col, Input, InputNumber, Row, Select, Table } from "antd";
 import { useEffect, useState } from "react";
 import HelperToolTip from "@/components/forms/ventas/common/HelperToolTip";
 
@@ -20,6 +20,7 @@ const TipoRecetaStock = ({ callback, onComentariosChange }) => {
     armazon_precio: "",
     tratamiento_idcodigo: "",
     tratamiento_precio: "0",
+    distancia: "-1",
   });
 
   const onChange = (key, value) => {
@@ -186,7 +187,7 @@ const TipoRecetaStock = ({ callback, onComentariosChange }) => {
       render: (hasInput, record) =>
         hasInput ? (
           <HelperToolTip
-            onChange={(_) => {
+            onChange={(v) => {
               onChange(record.key + "_" + "cil", v);
             }}
           />
@@ -235,9 +236,7 @@ const TipoRecetaStock = ({ callback, onComentariosChange }) => {
           <InputNumber
             style={{ width: "120px" }}
             value={trabajoStock[record.key + "_precio"]}
-            onChange={(e) =>
-              onChange(record.key + "_" + "precio", e.target.value)
-            }
+            onChange={(v) => onChange(record.key + "_" + "precio", v)}
           />
         ) : (
           "-"
@@ -261,12 +260,34 @@ const TipoRecetaStock = ({ callback, onComentariosChange }) => {
       title={<span style={{ color: "#262D42" }}>Receta Stock</span>}
       style={{ boxShadow: "-1px 1px 1px 1px #9e9c9c" }}
     >
-      <Table
-        size="small"
-        dataSource={dataSource}
-        columns={columns}
-        pagination={false}
-      />
+      <Row gutter={[16,16]}>
+        <Col span={24}>
+          <Select
+            defaultValue={"-1"}
+            style={{ width: "300px" }}
+            prefix="Tipo: "
+            options={[
+              { label: "Seleccione...", value: "-1" },
+              { label: "Lejos", value: "LEJOS" },
+              { label: "Cerca", value: "CERCA" },
+            ]}
+
+            onChange={v=>onChange("distancia", v)}
+
+            value={trabajoStock.distancia}
+          />
+        </Col>
+      </Row>
+      <Row gutter={[16,16]}>
+        <Col span={24}>
+          <Table
+            size="small"
+            dataSource={dataSource}
+            columns={columns}
+            pagination={false}
+          />
+        </Col>
+      </Row>
     </Card>
   );
 };
