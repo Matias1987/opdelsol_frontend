@@ -73,6 +73,7 @@ const VentaMultipleMinorista = ({
     cobrar: cobro_inmediato,
     validarCristalesModo2: false,
     trabajos: [],
+    tipo: globals.tiposVenta.MULTIPLE_MIN
   });
   const [subTotal, setSubTotal] = useState(0);
   const [descuento, setDescuento] = useState(0);
@@ -213,13 +214,13 @@ const VentaMultipleMinorista = ({
           idtrabajo: 0,
           iddescuento: tr.od_iddescuento || null,
           descuento: tr.od_descuento ?? "0",
-          tipo: "od",
+          tipo: (tr.distancia ? tr.distancia + "_" : "") + "od",
           cantidad: "1",
           precio: tr.od_precio,
           esf: "0",
           cil: "0",
           eje: tr.od_eje || "0",
-          distancia: tr.distancia??"",
+          distancia: tr.distancia ?? "",
         });
       }
       if (tr.oi_idcodigo && +tr.oi_idcodigo > 0) {
@@ -228,13 +229,13 @@ const VentaMultipleMinorista = ({
           idtrabajo: 0,
           iddescuento: tr.oi_iddescuento || null,
           descuento: tr.oi_descuento ?? "0",
-          tipo: "oi",
+          tipo: (tr.distancia ? tr.distancia + "_" : "") + "oi",
           cantidad: "1",
           precio: tr.oi_precio,
           esf: "0",
           cil: "0",
           eje: tr.oi_eje || "0",
-          distancia: tr.distancia??"",
+          distancia: tr.distancia ?? "",
         });
       }
       return _items;
@@ -244,7 +245,7 @@ const VentaMultipleMinorista = ({
       tipo: t.tipo,
       nro: t.nro,
       comentarios: t.comentarios,
-      items: procesar_items(t.items)
+      items: procesar_items(t.items),
     }));
 
     return { ...venta, trabajos: tt };
@@ -253,15 +254,16 @@ const VentaMultipleMinorista = ({
   const finalizar_venta = (e) => {
     //alert(JSON.stringify({ ...venta, trabajos }));
     const __v = format_venta();
-    //alert(JSON.stringify(__v));
-
+    alert(JSON.stringify(__v));
+    //return;
+    /*
     const msgs = validar(__v);
 
     if (msgs.length > 0) {
       alert(msgs[0]);
       return;
     }
-
+    */
     setFinalV(__v);
 
     const idvendedor =
@@ -293,7 +295,11 @@ const VentaMultipleMinorista = ({
             }}
           >
             <Col style={{ minWidth: "250px", width: "100%" }}>
-              <SelectCliente callback={(id) => {onChange("fkcliente",id)}} />
+              <SelectCliente
+                callback={(id) => {
+                  onChange("fkcliente", id);
+                }}
+              />
             </Col>
           </Row>
           <Row
@@ -304,7 +310,12 @@ const VentaMultipleMinorista = ({
             }}
           >
             <Col style={{ minWidth: "250px", width: "100%" }}>
-              <SelectCliente destinatario callback={(id) => {onChange("fkdestinatario",id)}} />
+              <SelectCliente
+                destinatario
+                callback={(id) => {
+                  onChange("fkdestinatario", id);
+                }}
+              />
             </Col>
           </Row>
           <Row
@@ -315,7 +326,11 @@ const VentaMultipleMinorista = ({
             }}
           >
             <Col style={{ minWidth: "250px" }}>
-              <SelectMedico callback={(id) => {onChange("fkmedico",id)}} />
+              <SelectMedico
+                callback={(id) => {
+                  onChange("fkmedico", id);
+                }}
+              />
             </Col>
           </Row>
           <Row
@@ -326,7 +341,11 @@ const VentaMultipleMinorista = ({
             }}
           >
             <Col style={{ minWidth: "250px" }}>
-              <SelectObraSocial callback={(id) => {onChange("fkos",id)}} />
+              <SelectObraSocial
+                callback={(id) => {
+                  onChange("fkos", id);
+                }}
+              />
             </Col>
           </Row>
         </Card>
@@ -389,7 +408,7 @@ const VentaMultipleMinorista = ({
           style={{ boxShadow: "-1px 1px 1px 0px #9e9c9c" }}
           className="custom-body-tabs"
         >
-          <Row style={{ marginBottom: "12px" }} gutter={[16,16]}>
+          <Row style={{ marginBottom: "12px" }} gutter={[16, 16]}>
             <Col>
               <Input
                 readOnly
@@ -398,7 +417,7 @@ const VentaMultipleMinorista = ({
                 value={subTotal}
               />
             </Col>
-        
+
             <Col>
               <Input
                 addonBefore="Descuento"
@@ -406,7 +425,7 @@ const VentaMultipleMinorista = ({
                 onChange={(e) => setDescuento(parseFloat(e.target.value) || 0)}
               />
             </Col>
-          
+
             <Col>
               <Input
                 readOnly
@@ -421,7 +440,9 @@ const VentaMultipleMinorista = ({
             <Col span="24">
               <ModoPagoV4
                 total={typeof props !== "undefined" ? props.total : "0"}
-                callback={(value) => {onChange("mp",value)}}
+                callback={(value) => {
+                  onChange("mp", value);
+                }}
                 tarjetaHidden={false}
                 ctacteHidden={false}
                 chequeHidden={false}
@@ -465,8 +486,8 @@ const VentaMultipleMinorista = ({
                       locale={esES}
                       format={"DD-MM-YYYY"}
                       onChange={(value) => {
-                       // let _value = value ? value.format("DD-MM-YYYY") : null;
-                       // onChange("fechaRetiro", _value);
+                        // let _value = value ? value.format("DD-MM-YYYY") : null;
+                        // onChange("fechaRetiro", _value);
                       }}
                     />
                   </Form.Item>
@@ -572,7 +593,7 @@ const VentaMultipleMinorista = ({
                 }}
               />
             )}
-            <Button type="primary" size="large">
+            <Button type="primary" size="large" onClick={finalizar_venta}>
               <SaveFilled /> Guardar Venta
             </Button>
           </>
@@ -603,8 +624,9 @@ const VentaMultipleMinorista = ({
           </Col>
         </Row>
       </Card>
-      <Input.TextArea value={JSON.stringify({...venta, trabajos:trabajos})} />
-  
+      <Input.TextArea
+        value={JSON.stringify({ ...venta, trabajos: trabajos })}
+      />
     </>
   );
 };

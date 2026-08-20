@@ -4,60 +4,139 @@ import { get } from "@/src/urls";
 import { Spin } from "antd";
 import { useEffect, useState } from "react";
 
-export default function MonofLabItems(props){
-    
-    const [data, setData] = useState(null)
-    
-    useEffect(()=>{
-        const url = get.obtener_venta_items + props.idventa;
-        fetch(url)
-        .then(response=>response.json())
-        .then((response)=>{
-            setData(response.data)
-            //alert("ITEMS::: " + JSON.stringify(response))
-            props?.callback?.()
-        })
-    },[])
+export default function MonofLabItems({ idventa, idtrabajo, callback }) {
+  const [data, setData] = useState(null);
 
+  useEffect(() => {
+    const url = get.obtener_venta_items + idventa+ `/${idtrabajo??"-1"}`;
+    fetch(url)
+      .then((response) => response.json())
+      .then((response) => {
+        setData(response.data);
+        //alert("ITEMS::: " + JSON.stringify(response))
+        callback?.();
+      });
+  }, []);
 
-
-    return data == null ? <Spin /> : <>
-    <table style={{width:"100%", fontSize:".95em", padding:"0", marginLeft:"auto", marginRight:"auto"}}>
+  return data == null ? (
+    <Spin />
+  ) : (
+    <>
+      <table
+        style={{
+          width: "100%",
+          fontSize: ".95em",
+          padding: "0",
+          marginLeft: "auto",
+          marginRight: "auto",
+        }}
+      >
         <thead>
-            <tr>
-                <th></th>
-                <th style={{fontSize:".7em", padding:"0", textAlign:"center"}}>Esf.</th>
-                <th style={{fontSize:".7em", padding:"0", textAlign:"center"}}>Cil.</th>
-                <th style={{fontSize:".7em", padding:"0", textAlign:"center"}}>Eje</th>
-                <th style={{fontSize:".7em", padding:"0", textAlign:"center"}}>C&oacute;digo</th>
-                {/*<th style={{padding:"0", textAlign:"left"}}>Descripci&oacute;n</th>
+          <tr>
+            <th></th>
+            <th style={{ fontSize: ".7em", padding: "0", textAlign: "center" }}>
+              Esf.
+            </th>
+            <th style={{ fontSize: ".7em", padding: "0", textAlign: "center" }}>
+              Cil.
+            </th>
+            <th style={{ fontSize: ".7em", padding: "0", textAlign: "center" }}>
+              Eje
+            </th>
+            <th style={{ fontSize: ".7em", padding: "0", textAlign: "center" }}>
+              C&oacute;digo
+            </th>
+            {/*<th style={{padding:"0", textAlign:"left"}}>Descripci&oacute;n</th>
                 <th style={{fontSize:".7em", padding:"0", textAlign:"left"}}>Descripci&oacute;n</th>*/}
-                <th style={{fontSize:".7em",padding:"0", textAlign:"right"}}>Precio</th>
-            </tr>
+            <th style={{ fontSize: ".7em", padding: "0", textAlign: "right" }}>
+              Precio
+            </th>
+          </tr>
         </thead>
         <tbody>
-            {
-                data.map(r=>(
-                    <tr >
-                        <td style={{borderBottom:"1px dotted", fontSize:".8em"}}>{((r.tipo||"").toUpperCase()).replace(/_/g," ")}</td>
+          {data.map((r) => (
+            <tr>
+              <td style={{ borderBottom: "1px dotted", fontSize: ".8em" }}>
+                {(r.tipo || "").toUpperCase().replace(/_/g, " ")}
+              </td>
 
-                        {   r.tipo.includes("armazon") ? <></> :
-                            <>
-                            <td style={{fontSize:".9em", borderBottom:"1px dotted", paddingLeft:"8px", padding:"0",textAlign:"center"}}>{(parseFloat(+r.esf||0)>0 ? "":"") + r.esf}</td>
-                            <td style={{fontSize:".9em", borderBottom:"1px dotted", paddingLeft:"8px", padding:"0",textAlign:"center"}}>{r.cil}</td>
-                            <td style={{fontSize:".9em", borderBottom:"1px dotted", paddingLeft:"8px", padding:"0",textAlign:"center"}}>{r.eje}</td>
-                            </>
-                        }
+              {r.tipo.includes("armazon") ? (
+                <></>
+              ) : (
+                <>
+                  <td
+                    style={{
+                      fontSize: ".9em",
+                      borderBottom: "1px dotted",
+                      paddingLeft: "8px",
+                      padding: "0",
+                      textAlign: "center",
+                    }}
+                  >
+                    {(parseFloat(+r.esf || 0) > 0 ? "" : "") + r.esf}
+                  </td>
+                  <td
+                    style={{
+                      fontSize: ".9em",
+                      borderBottom: "1px dotted",
+                      paddingLeft: "8px",
+                      padding: "0",
+                      textAlign: "center",
+                    }}
+                  >
+                    {r.cil}
+                  </td>
+                  <td
+                    style={{
+                      fontSize: ".9em",
+                      borderBottom: "1px dotted",
+                      paddingLeft: "8px",
+                      padding: "0",
+                      textAlign: "center",
+                    }}
+                  >
+                    {r.eje}
+                  </td>
+                </>
+              )}
 
-                        <td colSpan={r.tipo.includes("armazon") ? "4" : "1"} style={{fontSize:".9em", borderBottom:"1px dotted", paddingLeft:"8px",textAlign:"left"}}><b>{(r.codigo.toString()).replace(/_/g," ")}</b>{!r.tipo.includes("armazon") ? <></> : <>&nbsp; <span style={{fontSize:".8em", fontStyle:"italic"}}>{(r.descripcion.toString()).replace(/_/g," ")}</span></>}</td>
-                        
-                        {/*<td style={{padding:"0",textAlign:"left"}}>{r.descripcion}</td>
+              <td
+                colSpan={r.tipo.includes("armazon") ? "4" : "1"}
+                style={{
+                  fontSize: ".9em",
+                  borderBottom: "1px dotted",
+                  paddingLeft: "8px",
+                  textAlign: "left",
+                }}
+              >
+                <b>{r.codigo.toString().replace(/_/g, " ")}</b>
+                {!r.tipo.includes("armazon") ? (
+                  <></>
+                ) : (
+                  <>
+                    &nbsp;{" "}
+                    <span style={{ fontSize: ".8em", fontStyle: "italic" }}>
+                      {r.descripcion.toString().replace(/_/g, " ")}
+                    </span>
+                  </>
+                )}
+              </td>
+
+              {/*<td style={{padding:"0",textAlign:"left"}}>{r.descripcion}</td>
                         <td style={{borderBottom:"1px dotted", padding:"0",textAlign:"left", fontSize:".7em"}}><i>{r.descripcion}</i></td>*/}
-                        <td style={{borderBottom:"1px dotted", padding:"0",textAlign:"right"}}>$&nbsp;{formatFloat(r.precio)}</td>
-                    </tr>
-                ))
-            }
+              <td
+                style={{
+                  borderBottom: "1px dotted",
+                  padding: "0",
+                  textAlign: "right",
+                }}
+              >
+                $&nbsp;{formatFloat(r.precio)}
+              </td>
+            </tr>
+          ))}
         </tbody>
-    </table>
-    </>;
+      </table>
+    </>
+  );
 }

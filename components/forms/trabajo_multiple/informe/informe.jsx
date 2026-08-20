@@ -3,6 +3,13 @@ import { formatFloat } from "@/src/helpers/formatters";
 import { get } from "@/src/urls";
 import { Input, Spin } from "antd";
 import { useEffect, useState } from "react";
+import ItemsLaboratorioVM from "./items_laboratorio_vm";
+import InfItemsStockVM from "./items_stock_vm";
+import InfItemsRecStock from "./items_rec_stock";
+import InfItemsMonofLab from "./items_monof_lab";
+import InfItemsMultiLab from "./items_multif_lab";
+import ItemsLCStockInf from "./items_lc_stock";
+import ItemsLCLabInf from "./items_lc_lab";
 
 const Informe = ({ idventa }) => {
   const [loading, setLoading] = useState(false);
@@ -39,7 +46,7 @@ const Informe = ({ idventa }) => {
       <>
         <table>
           <tr>
-            <td style={{ padding: "16px", fontWeight: "600", fontSize:"1.1em", textDecoration:"underline" }}>Universal Lens</td>
+            <td style={{ padding: "16px", fontWeight: "600", fontSize:"1.1em", textDecoration:"underline" }}></td>
             <td style={{ padding: "4px" }}></td>
           </tr>
           <tr>
@@ -156,9 +163,20 @@ const Informe = ({ idventa }) => {
   };
 
   const trabajo = (data) => {
-    return data?.tipo != "laboratorio"
+    /*return data?.tipo != "laboratorio"
       ? stock(data)
       : laboratorio(data);
+*/
+      switch (data.tipo)
+      {
+        case "laboratorio": return ItemsLaboratorioVM(data);
+        case "stock": return InfItemsStockVM(data);
+        case "lc_lab": return ItemsLCLabInf(data);
+        case "lc_st": return ItemsLCStockInf(data);
+        case "multi_lab": return InfItemsMultiLab(data);
+        case "monof_lab": return InfItemsMonofLab(data);
+        case "rec_st": return InfItemsRecStock(data);
+      }
   };
   const totales = () => {
     return (

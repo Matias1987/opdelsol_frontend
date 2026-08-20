@@ -27,10 +27,20 @@ const SelectTrabajo = ({callback, localId, tipo, idCliente, onRename}) => {
     switch(+val){
         case DIRECTA: return "DIRECTA";
         case RECETA_STOCK: return "RECETA STOCK";
-        case MONOF_LAB: return "MONOF LAB";
-        case MULTIF_LAB: return "MULTIF LAB";
-        case LC_STOCK: return "LC STOCK";
-        case LC_LAB: return "LC LAB";
+        case MONOF_LAB: return "MONOF. LAB.";
+        case MULTIF_LAB: return "MULTIF. LAB.";
+        case LC_STOCK: return "LC. STOCK";
+        case LC_LAB: return "LC. LAB";
+    }
+  }
+  const get_tipo_trabajo_nombre_corto = (val) => {
+    switch(+val){
+        case DIRECTA: return "dir";
+        case RECETA_STOCK: return "rec_st";
+        case MONOF_LAB: return "monof_lab";
+        case MULTIF_LAB: return "multi_lab";
+        case LC_STOCK: return "lc_st";
+        case LC_LAB: return "lc_lab";
     }
   }
   
@@ -86,7 +96,7 @@ const SelectTrabajo = ({callback, localId, tipo, idCliente, onRename}) => {
           onChange={(v) => {
             setTipoTrabajo(v);
             const _tipo =get_tipo_trabajo_nombre(v);
-            onChange("tipo",_tipo );
+            onChange("tipo",get_tipo_trabajo_nombre_corto(v) );
             onRename(trabajo.localId,_tipo.toLocaleUpperCase());
           }}
           style={{ width: "100%" }}

@@ -653,6 +653,9 @@ const get = {
   venta_mayorista_bases: remote_base_url + "codigos/l/venta_mayorista_bases/",
 
   venta_mayorista_stock: remote_base_url + "codigos/l/venta_mayorista_stock/",
+
+  trabajos_venta: remote_base_url + "tm/get/trabajos/venta/",
+  obtener_trabajo: remote_base_url + "tm/get/trabajo/",
 };
 
 module.exports = {

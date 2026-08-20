@@ -23,24 +23,27 @@ import {
   usar_correcciones_recstock,
 } from "@/src/config";
 import RecStockItemsB from "./RecStockItemsB";
+import globals from "@/src/globals";
 
-const InformeVenta = (props) => {
+const InformeVenta = ({ idventa, idtrabajo }) => {
   const [data, setData] = useState(null);
+  const [tipoVenta, setTipoVenta] = useState(-1);
   const [mp, setMP] = useState([]);
   const [haber, setHaber] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!props.idventa) {
+    setLoading(true)
+    if (!idventa) {
       return;
     }
     const url = get.venta;
     const url_mp = get.get_venta_mp;
-    //alert(url_mp + props.idventa)
     //get venta
-    fetch(url + props.idventa)
+    fetch(url + idventa)
       .then((response) => response.json())
       .then((response) => {
-        fetch(url_mp + props.idventa)
+        fetch(url_mp + idventa)
           .then((_response) => _response.json())
           .then((_response) => {
             setMP(_response.data);
@@ -54,28 +57,66 @@ const InformeVenta = (props) => {
             });
 
             setData({ ...response.data[0], total_haber: total_haber });
+            setTipoVenta(response.data[0].tipo);
+            if (idtrabajo && +idtrabajo > 0) {
+              fetch(get.obtener_trabajo + idtrabajo)
+                .then((r) => r.json())
+                .then((resp) => {
+                  if ( resp?.data.length > 0) {
+                    switch (resp.data[0].tipo_trabajo.trim()) {
+                      case "lc_lab":
+                        setTipoVenta(globals.tiposVenta.LCLAB);
+                        break;
+                      case "lc_st":
+                        setTipoVenta(globals.tiposVenta.LCSTOCK);
+                        break;
+                      case "multi_lab":
+                        setTipoVenta(globals.tiposVenta.MULTILAB);
+                        break;
+                      case "monof_lab":
+                        setTipoVenta(globals.tiposVenta.MONOFLAB);
+                        break;
+                      case "rec_st":
+                        setTipoVenta(globals.tiposVenta.RECSTOCK);
+                        break;
+                    }
+                  }
+                  setLoading(false)
+                });
+            }
+            else{
+              setLoading(false)
+            }
           });
       });
   }, []);
 
   const productos = () => {
-    switch (+data.tipo) {
+    switch (+tipoVenta) {
       case 1:
         return <VentaDirectaItems idventa={data.idventa} />;
       case 2:
         return usar_correcciones_recstock ? (
-          <RecStockItemsB idventa={data.idventa} />
+          <RecStockItemsB idventa={data.idventa} idtrabajo={idtrabajo ?? -1} />
         ) : (
-          <RecStockItems idventa={data.idventa} />
+          <RecStockItems idventa={data.idventa} idtrabajo={idtrabajo ?? -1} />
         );
       case 6:
-        return <LCLabItems idventa={data.idventa} />;
+        return (
+          <LCLabItems idventa={data.idventa} idtrabajo={idtrabajo ?? -1} />
+        );
       case 3:
-        return <LCStockItems idventa={data.idventa} />;
+        return (
+          <LCStockItems idventa={data.idventa} idtrabajo={idtrabajo ?? -1} />
+        );
       case 5:
-        return <MultifLabItems idventa={data.idventa} />;
+        return (
+          <MultifLabItems idventa={data.idventa} idtrabajo={idtrabajo ?? -1} />
+        );
       case 4:
-        return <MonofLabItems idventa={data.idventa} />;
+        return (
+          <MonofLabItems idventa={data.idventa} idtrabajo={idtrabajo ?? -1} />
+        );
     }
   };
   const tipo_venta = (tipo) => {
@@ -161,7 +202,7 @@ const InformeVenta = (props) => {
                       justifyContent: "center",
                     }}
                   >
-                    {tipo_venta(data.tipo)}
+                    {tipo_venta(tipoVenta)}
                   </div>
                 </td>
                 {!mostrar_qr_opiniones ? (
@@ -220,7 +261,7 @@ const InformeVenta = (props) => {
       </tr>
     </>
   );
-  return data === null ? (
+  return data === null || loading ? (
     <Spin />
   ) : (
     <>
@@ -263,7 +304,7 @@ const InformeVenta = (props) => {
                           <></>
                         ) : (
                           <>
-                            <b>{tipo_venta(data.tipo)}</b> <br />{" "}
+                            <b>{tipo_venta(tipoVenta)}</b> <br />{" "}
                           </>
                         )}
                         VENDEDOR:{" "}

@@ -20,6 +20,7 @@ import { formatFloat } from "@/src/helpers/formatters";
 import { idf_optica } from "@/src/config";
 import ExportToExcel2 from "@/components/etc/ExportToExcel2";
 import Informe from "@/components/forms/trabajo_multiple/informe/informe";
+import SelectTrabajoInforme from "@/components/forms/trabajo_multiple/informe/select_trabajo_inf";
 /**
  *
  * @param estado INGRESADO, PENDIENTE, TERMINADO, ENTREGADO, ANULADO...
@@ -49,6 +50,7 @@ const ListaVentas = (props) => {
   const [popupDetalleOpen, setPopupDetalleOpen] = useState(false);
   const [popupDetalleTMOpen, setPopupDetalleTMOpen] = useState(false);
   const [popupImprimirOpen, setPoupImprimirOpen] = useState(false);
+  const [popupSelectTrabajoOpen, setPopupSelectTrabajoOpen] = useState(false);
   const [selectedVenta, setSelectedVenta] = useState({
     idventa: -1,
     idcliente: -1,
@@ -56,12 +58,23 @@ const ListaVentas = (props) => {
     tipo: null,
   });
 
+  const [selectedTrabajoId, setSelectedTrabajoId] = useState(-1);
+
   const [popupCobroResfuerzoOpen, setPopupCobroResfuerzoOpen] = useState(false);
 
   const add = (obj, value, key) =>
     typeof value === "undefined" ? obj : { ...obj, [key]: value };
 
-  const buttons = (_idventa, _idcliente, _idsucursal, _tipo, _idtrabajo) => {
+  const buttons = (
+    _idventa,
+    _idcliente,
+    _idsucursal,
+    _tipo,
+    _idtrabajo,
+    _isParent,
+    _mostrarCobrar,
+    _mostrarImprimir,
+  ) => {
     return (
       <>
         {typeof props.imprimir !== "undefined" ? (
@@ -69,11 +82,26 @@ const ListaVentas = (props) => {
             <Button
               onClick={(_) => {
                 setSelectedVenta({ idventa: _idventa });
-                if (+_tipo != 7) {
-                  alert(_tipo);
+                if (+_tipo < 7) {
+                  setSelectedTrabajoId(-1);
                   setPoupImprimirOpen(true);
                 } else {
-                  setPopupDetalleTMOpen(true);
+                  switch (+_tipo) {
+                    case 7:
+                      setSelectedTrabajoId(-1);
+                      setPopupDetalleTMOpen(true);
+                      break;
+                    case 8:
+                      if (_isParent) {
+                        setSelectedTrabajoId(-1);
+                        setPopupDetalleTMOpen(true);
+                        return;
+                      }
+                      setSelectedTrabajoId(_idtrabajo);
+                      setPoupImprimirOpen(true);
+
+                      break;
+                  }
                 }
               }}
             >
@@ -83,7 +111,7 @@ const ListaVentas = (props) => {
         ) : (
           <></>
         )}
-        {typeof props.cobrar !== "undefined" ? (
+        {typeof props.cobrar !== "undefined" && _mostrarCobrar ? (
           <>
             <Button
               type="link"
@@ -297,7 +325,7 @@ const ListaVentas = (props) => {
     const url = post.venta_estado_sucursal;
     // alert(JSON.stringify(params))
     post_method(url, params, (response) => {
-      //alert(JSON.stringify(response))
+      alert(JSON.stringify(response));
 
       if (response == null) {
         return;
@@ -458,7 +486,7 @@ const ListaVentas = (props) => {
       title: "Tipo",
       dataIndex: "tipo",
       render: (_, { tipo, tipo_trabajo, isParent, idtrabajo }) =>
-        +isParent == 1 || +tipo != 7 ? (
+        +isParent == 1 || +tipo < 7 ? (
           <span style={{ fontSize: ".75em" }}>
             <b>{get_tipo(tipo)}</b>
           </span>
@@ -494,7 +522,11 @@ const ListaVentas = (props) => {
       hidden: (props.mostrarEstado || "1") == "0",
       title: "Estado",
       dataIndex: "estado",
-      render: (_, { estado, en_laboratorio }) => {
+      render: (_, { estado, en_laboratorio, isParent, tipo }) => {
+        if(!isParent && tipo>6)
+        {
+          return <></>
+        }
         switch (estado) {
           case "INGRESADO":
             return <Tag color="magenta">{estado}</Tag>;
@@ -551,10 +583,18 @@ const ListaVentas = (props) => {
           estado_trabajo,
         },
       ) => {
-        return +isParent == 1 || estado_trabajo == "TERMINADO" ? (
-          <></>
-        ) : (
-          <>{buttons(idventa, idcliente, idsucursal, tipo, idtrabajo)}</>
+        return (
+          <>
+            {buttons(
+              idventa,
+              idcliente,
+              idsucursal,
+              tipo,
+              idtrabajo,
+              isParent,
+              isParent == 1 || tipo < 7,
+            )}
+          </>
         );
       },
     },
@@ -754,7 +794,10 @@ const ListaVentas = (props) => {
         footer={null}
       >
         <PrinterWrapper>
-          <InformeVenta idventa={selectedVenta.idventa} />
+          <InformeVenta
+            idventa={selectedVenta.idventa}
+            idtrabajo={selectedTrabajoId}
+          />
         </PrinterWrapper>
       </Modal>
       <Modal
@@ -770,6 +813,18 @@ const ListaVentas = (props) => {
         <PrinterWrapper>
           <Informe idventa={selectedVenta.idventa} />
         </PrinterWrapper>
+      </Modal>
+      <Modal
+        open={popupSelectTrabajoOpen}
+        onCancel={(_) => {
+          setPopupSelectTrabajoOpen(false);
+        }}
+        destroyOnClose
+        width={"1000px"}
+        title=""
+        footer={null}
+      >
+        <SelectTrabajoInforme idventa={selectedVenta.idventa} />
       </Modal>
     </>
   );
