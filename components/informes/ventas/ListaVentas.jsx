@@ -21,6 +21,7 @@ import { idf_optica } from "@/src/config";
 import ExportToExcel2 from "@/components/etc/ExportToExcel2";
 import Informe from "@/components/forms/trabajo_multiple/informe/informe";
 import SelectTrabajoInforme from "@/components/forms/trabajo_multiple/informe/select_trabajo_inf";
+import PrinterFilled from "@ant-design/icons/PrinterFilled";
 /**
  *
  * @param estado INGRESADO, PENDIENTE, TERMINADO, ENTREGADO, ANULADO...
@@ -325,8 +326,7 @@ const ListaVentas = (props) => {
     const url = post.venta_estado_sucursal;
     // alert(JSON.stringify(params))
     post_method(url, params, (response) => {
-      alert(JSON.stringify(response));
-
+      
       if (response == null) {
         return;
       }
@@ -392,33 +392,35 @@ const ListaVentas = (props) => {
         _,
         { idventa, idcliente, idsucursal, tipo, idtrabajo, isParent },
       ) =>
-        +idtrabajo < 0 || +isParent == 1 ? (
-          <>
-            {" "}
-            <Button
-              size="small"
-              type="link"
+        <Button
               onClick={(e) => {
                 e.stopPropagation();
-                setSelectedVenta((_) => ({
-                  idventa: idventa,
-                  idcliente: idcliente,
-                  idsucursal: idsucursal,
-                  tipo: tipo,
-                }));
-                if (+tipo != 7) {
-                  setPopupDetalleOpen(true);
+                setSelectedVenta({ idventa: idventa });
+                if (+tipo < 7) {
+                  setSelectedTrabajoId(-1);
+                  setPoupImprimirOpen(true);
                 } else {
-                  setPopupDetalleTMOpen(true);
+                  switch (+tipo) {
+                    case 7:
+                      setSelectedTrabajoId(-1);
+                      setPopupDetalleTMOpen(true);
+                      break;
+                    case 8:
+                      if (isParent) {
+                        setSelectedTrabajoId(-1);
+                        setPopupDetalleTMOpen(true);
+                        return;
+                      }
+                      setSelectedTrabajoId(idtrabajo);
+                      setPoupImprimirOpen(true);
+
+                      break;
+                  }
                 }
               }}
             >
-              <InfoCircleFilled />
-            </Button>
-          </>
-        ) : (
-          <></>
-        ),
+              <PrinterFilled />
+            </Button>,
       width: "40px",
       hidden: false,
     },

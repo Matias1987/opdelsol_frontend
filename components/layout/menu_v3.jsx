@@ -492,7 +492,7 @@ export default function MenuV3(props) {
       </Modal>
       <Modal
         destroyOnClose
-        width={"100%"}
+        width={"800px"}
         open={informeOpen}
         onCancel={() => setInformeOpen(false)}
         title="Informe Ventas"

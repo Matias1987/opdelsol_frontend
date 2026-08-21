@@ -254,7 +254,7 @@ const VentaMultipleMinorista = ({
   const finalizar_venta = (e) => {
     //alert(JSON.stringify({ ...venta, trabajos }));
     const __v = format_venta();
-    alert(JSON.stringify(__v));
+    //alert(JSON.stringify(__v));
     //return;
     /*
     const msgs = validar(__v);

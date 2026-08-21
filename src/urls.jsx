@@ -98,7 +98,7 @@ const public_urls = {
   stock_admin: local_base_url + "admin/stock_sucursal_admin/",
   eventos_admin: local_base_url + "admin/eventos/",
   dashboard_admin: local_base_url + "admin/",
-  
+
   informe_stock_sucursal: local_base_url + "informes/stock/stock_sucursal",
 
   nueva_venta_distribuidora: local_base_url + "trabajos/nuevo",
@@ -157,8 +157,8 @@ const post = {
   obtener_ventas_taller: remote_base_url + "tl/",
   obtener_items_ventas_taller: remote_base_url + "tl/items/op/",
   lista_anotaciones: remote_base_url + "anot/lista/anot/",
-  obtener_ventas_por_tipo_producto: remote_base_url + "admin/obtener_ventas_por_tipo_producto/",
-
+  obtener_ventas_por_tipo_producto:
+    remote_base_url + "admin/obtener_ventas_por_tipo_producto/",
 
   lista_tag: remote_base_url + "tag/lista/",
   lista_categoria_tag: remote_base_url + "tag/categoria/lista/",
@@ -292,6 +292,9 @@ const post = {
 
   total_ventas_categorias_periodo:
     remote_base_url + "admin/total/ventas/categorias/periodo/",
+
+  obtener_cant_vtas_vendedor_cat:
+    remote_base_url + "infvtas/cant/vtas/vendedor/cat/",
 
   search: {
     filtro_stock: remote_base_url + "stock/filtro_stock/",
