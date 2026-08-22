@@ -73,7 +73,7 @@ const VentaMultipleMinorista = ({
     cobrar: cobro_inmediato,
     validarCristalesModo2: false,
     trabajos: [],
-    tipo: globals.tiposVenta.MULTIPLE_MIN
+    tipo: globals.tiposVenta.MULTIPLE_MIN,
   });
   const [subTotal, setSubTotal] = useState(0);
   const [descuento, setDescuento] = useState(0);
@@ -248,13 +248,15 @@ const VentaMultipleMinorista = ({
       items: procesar_items(t.items),
     }));
 
-    return { ...venta, trabajos: tt };
+    return trabajos.length < 2
+      ? { ...venta, productos: tt[0].items }
+      : { ...venta, trabajos: tt };
   };
 
   const finalizar_venta = (e) => {
     //alert(JSON.stringify({ ...venta, trabajos }));
     const __v = format_venta();
-    //alert(JSON.stringify(__v));
+    alert(JSON.stringify(__v));
     //return;
     /*
     const msgs = validar(__v);
@@ -265,7 +267,7 @@ const VentaMultipleMinorista = ({
     }
     */
     setFinalV(__v);
-
+    return;
     const idvendedor =
       cambiar_vendedor == 0 ? +globals.obtenerUID() : venta.fkusuario;
 

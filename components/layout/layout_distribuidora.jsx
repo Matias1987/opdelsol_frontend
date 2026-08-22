@@ -57,19 +57,6 @@ export default function LayoutDistribuidora(props) {
           }
         });
 
-      fetch(get.caja_abierta + globals.obtenerSucursal())
-        .then((r) => r.json())
-        .then((response) => {
-          if (typeof response.data !== "undefined") {
-            if (response.data != null) {
-              if (+response.data.abierta == 1) {
-                globals.setCajaOpen(true);
-              } else {
-                setAlerta("CAJA CERRADA");
-              }
-            }
-          }
-        });
     }, 20000);
   };
 
@@ -107,20 +94,6 @@ export default function LayoutDistribuidora(props) {
             minHeight: 580,
           }}
         >
-          {alerta != "" ? (
-            <>
-              <Alert
-                style={{ fontSize: ".9em", padding: "1px 50px " }}
-                key={alerta}
-                message={alerta}
-                type="error"
-                showIcon
-              />
-              <br />
-            </>
-          ) : (
-            <></>
-          )}
           <Row>
             <Col span={24}>{props.children}</Col>
           </Row>

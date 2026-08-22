@@ -216,6 +216,8 @@ const Informe = ({ idventa }) => {
           <br />
           <hr />
           {totales()}
+          <hr />
+          <p>Comentarios: {data.comentarios}</p>
         </div>
       </PrinterWrapper>
     </>

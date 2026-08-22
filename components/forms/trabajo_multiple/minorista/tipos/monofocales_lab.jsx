@@ -10,289 +10,59 @@ import {
   Row,
   Select,
   Table,
+  Tabs,
 } from "antd";
 import { useEffect, useState } from "react";
+import DistanciaCristal from "./distancia_cristal";
 
 const TipoMonofocalesLab = ({ callback, onComentariosChange }) => {
   const [trabajoStock, setTrabajoStock] = useState({
-    od_idcodigo: "",
-    od_esf: "",
-    od_cil: "",
-    od_eje: "",
-    od_precio: "0",
-    oi_idcodigo: "",
-    oi_esf: "",
-    oi_cil: "",
-    oi_eje: "",
-    oi_precio: "",
-    armazon_idcodigo: "",
-    armazon_precio: "0",
-    tratamiento_idcodigo: "",
-    tratamiento_precio: "0",
-    distancia: "-1",
+    lejos: null,
+    cerca: null,
   });
 
-  const onChange = (key, value) => {
-    setTrabajoStock((t) => {
-      const modif = { ...t, [key]: value };
-      callback?.(
-        modif,
-        parseFloat(modif.od_precio) +
-          parseFloat(modif.oi_precio) +
-          parseFloat(modif.tratamiento_precio) +
-          parseFloat(modif.armazon_precio),
-      );
-      return modif;
-    });
-  };
-
-  const onchange_codigo = (key_idcodigo, key_precio, key_descuento, value) => {
-    if (value === null || value?.codigo === null) {
-      setTrabajoStock((p) => {
-        const mod = {
-          ...p,
-          [key_idcodigo]: value.idcodigo,
-          [key_precio]: value.precio_defecto_mayorista,
-          [key_descuento]: 0,
-        };
-        callback?.(
-          mod,
-          parseFloat(mod.od_precio) +
-            parseFloat(mod.oi_precio) +
-            parseFloat(mod.tratamiento_precio) +
-            parseFloat(mod.armazon_precio),
-        );
-        return mod;
-      });
-      return;
-    }
-    setTrabajoStock((p) => {
-      const mod = {
-        ...p,
-        [key_idcodigo]: value.idcodigo,
-        [key_precio]:
-          parseFloat(value.precio_defecto_mayorista) -
-          parseFloat(value.precio_defecto_mayorista) *
-            parseFloat(value.descuento || "0") *
-            0.01,
-        [key_descuento]: value.descuento || "0",
-      };
-
-      callback?.(
-        mod,
-        parseFloat(mod.od_precio) +
-          parseFloat(mod.oi_precio) +
-          parseFloat(mod.tratamiento_precio) +
-          parseFloat(mod.armazon_precio),
-      );
-      return mod;
-    });
-  };
-
-  useEffect(() => {
-    callback?.(
-      trabajoStock,
-      parseFloat(trabajoStock.od_precio) +
-        parseFloat(trabajoStock.oi_precio) +
-        parseFloat(trabajoStock.tratamiento_precio) +
-        parseFloat(trabajoStock.armazon_precio),
-    );
-  }, []);
-
-  const dataSource = [
+  const tabItems = [
     {
-      key: "od",
-      codigo: "od",
-      esf: true,
-      cil: true,
-      eje: true,
-      precio: true,
-      id_familia: globals.familiaIDs.CRISTALES,
-    },
-    {
-      key: "oi",
-      codigo: "oi",
-      esf: true,
-      cil: true,
-      eje: true,
-      precio: true,
-      id_familia: globals.familiaIDs.CRISTALES,
-    },
-    {
-      key: "armazon",
-      codigo: "armazon",
-      esf: false,
-      cil: false,
-      eje: false,
-      precio: true,
-      id_familia: globals.familiaIDs.ARMAZON,
-    },
-    {
-      key: "tratamiento",
-      codigo: "tratamiento",
-      esf: false,
-      cil: false,
-      eje: false,
-      precio: true,
-      id_familia: globals.familiaIDs.TRATAMIENTO,
-    },
-  ];
-
-  const columns = [
-    {
-      title: "",
-      dataIndex: "key",
-      render: (_, { codigo }) => <span>{codigo}</span>,
-    },
-    {
-      title: "Código",
-      dataIndex: "codigo",
-      key: "codigo",
-      render: (_, record) => (
+      key: "1",
+      label: "LEJOS",
+      children: (
         <>
-          <SelectCodigoVenta
-            hideExtOpt={"1"}
-            idfamilias={[record.id_familia]}
-            buttonText={"Seleccionar..."}
-            callback={(v) => {
-              onchange_codigo(
-                record.key + "_" + "idcodigo",
-                record.key + "_" + "precio",
-                record.key + "_" + "descuento",
-                v,
-              );
+          <DistanciaCristal
+            callback={(lejos) => {
+              onChange("lejos", lejos);
             }}
           />
         </>
       ),
-      onCell: (_, index) => {
-        // Merge all 3 columns on the third row (index 2)
-        if (index > 1) {
-          return { colSpan: 4 };
-        }
-        return {};
-      },
     },
     {
-      title: "Esf",
-      dataIndex: "esf",
-      key: "esf",
-      render: (hasInput, record) =>
-        hasInput ? (
-          <HelperToolTip
-            onChange={(v) => {
-              onChange(record.key + "_esf", v);
+      key: "2",
+      label: "CERCA",
+      children: (
+        <>
+          <DistanciaCristal
+            callback={(cerca) => {
+              onChange("cerca", cerca);
             }}
           />
-        ) : (
-          "-"
-        ),
-      onCell: (_, index) => {
-        // Merge all 3 columns on the third row (index 2)
-        if (index > 1) {
-          return { colSpan: 0 };
-        }
-        return {};
-      },
-    },
-    {
-      title: "Cil",
-      dataIndex: "cil",
-      key: "cil",
-      render: (hasInput, record) =>
-        hasInput ? (
-          <HelperToolTip
-            onChange={(v) => {
-              onChange(record.key + "_cil", v);
-            }}
-          />
-        ) : (
-          "-"
-        ),
-      onCell: (_, index) => {
-        // Merge all 3 columns on the third row (index 2)
-        if (index > 1) {
-          return { colSpan: 0 };
-        }
-        return {};
-      },
-    },
-    {
-      width: "100px",
-      title: "Eje",
-      dataIndex: "eje",
-      key: "eje",
-      render: (hasInput, record) =>
-        hasInput ? (
-          <Input
-            type="number"
-            placeholder="Input"
-            value={trabajoStock[record.key + "_eje"]}
-            onChange={(e) => onChange(record.key + "_eje", e.target.value)}
-          />
-        ) : (
-          "-"
-        ),
-      onCell: (_, index) => {
-        // Merge all 3 columns on the third row (index 2)
-        if (index > 1) {
-          return { colSpan: 0 };
-        }
-        return {};
-      },
-    },
-    {
-      title: "Precio",
-      dataIndex: "precio",
-      key: "precio",
-      width: "120px",
-      render: (hasInput, record) =>
-        hasInput ? (
-          <InputNumber
-            style={{ width: "120px" }}
-            value={trabajoStock[record.key + "_precio"]}
-            onChange={(v) => onChange(record.key + "_precio", v)}
-          />
-        ) : (
-          "-"
-        ),
+        </>
+      ),
     },
   ];
 
-  return (
-    <Card
-      size="small"
-      title={<span style={{ color: "#262D42" }}>Monofocales Laboratorio</span>}
-      style={{ boxShadow: "-1px 1px 1px 1px #9e9c9c" }}
-    >
-      <Row gutter={[16, 16]}>
-        <Col span={24}>
-          <Select
-            defaultValue={"-1"}
-            style={{ width: "300px" }}
-            prefix="Tipo: "
-            options={[
-              { label: "Seleccione...", value: "-1" },
-              { label: "Lejos", value: "LEJOS" },
-              { label: "Cerca", value: "CERCA" },
-            ]}
-            onChange={(v) => onChange("distancia", v)}
-            value={trabajoStock.distancia}
-          />
-        </Col>
-      </Row>
-      <Row gutter={[16, 16]}>
-        <Col span={24}>
-          <Table
-            size="small"
-            dataSource={dataSource}
-            columns={columns}
-            pagination={false}
-          />
-        </Col>
-      </Row>
-    </Card>
-  );
+  const onChangeTabs = (key) => {
+    console.log(`Active tab key: ${key}`);
+  };
+
+  const onChange = (key, value) => {
+    setTrabajoStock((t) => {
+      const modif = { ...t, [key]: value };
+      callback?.(modif, 0 /**  calculate total here... */);
+      return modif;
+    });
+  };
+
+  return <Tabs defaultActiveKey="1" items={tabItems} onChange={onChangeTabs} type="line"/>;
 };
 
 export default TipoMonofocalesLab;
