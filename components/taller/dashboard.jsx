@@ -10,7 +10,7 @@ const DashboardTaller = () => {
   const items = [
     {
       key: "1",
-      label: "Todas las Operaciones",
+      label: <span style={{color:"#012c04", fontWeight:"600"}}>Todas Las Operaciones</span>,
       children: (
         <>
           <ListaOperacionesTotal />
@@ -19,7 +19,7 @@ const DashboardTaller = () => {
     },
     {
       key: "2",
-      label: "Pedidos",
+      label: <span style={{color:"#F0581C", fontWeight:"600"}}>Pedidos</span>,
       children: (
         <>
           <LisaOperacionesPedidos />
@@ -28,7 +28,7 @@ const DashboardTaller = () => {
     },
     {
       key: "3",
-      label: "Calibrado",
+      label: <span style={{color:"#00790a", fontWeight:"600"}}>Calibrado</span>,
       children: (
         <>
           <LisaOperacionesCalibrado />
@@ -37,7 +37,7 @@ const DashboardTaller = () => {
     },
     {
       key: "4",
-      label: "Laboratorio",
+      label: <span style={{color:"#f01c27", fontWeight:"600"}}>Laboratorio</span>,
       children: (
         <>
           <ListaOperacionesLab />
@@ -67,7 +67,7 @@ const DashboardTaller = () => {
     <>
       <Row>
         <Col span={24}>
-          <Card style={{ backgroundColor: get_color() }}>
+          <Card>
             <Row>
               <Col span={24}>
                 <Tabs defaultActiveKey="1" items={items} onChange={onChange} />

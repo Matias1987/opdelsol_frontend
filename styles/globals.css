@@ -17,10 +17,22 @@
   /*--bar-bg-color: #94D0AE;*/
   --bar-bg-color: #cccccc;
 
-  --n-text-color: #2c3e4e; /*#663f4c;*/
+  --n-text-color: #fcfcfc; /*#663f4c;*/
+  --menu-text-color: rgb(255, 255, 255);
+  --menu-bg-color: #222E3D;
+}
+/*
+:root {
+  --n-image-w: 200px;
+  --n-image-h: 149px;
+  --n-percent: 40%;
+ 
+  --bar-bg-color: #cccccc;
+
+  --n-text-color: #2c3e4e; 
   --menu-text-color: rgb(58, 58, 58);
   --menu-bg-color: #dddddd;
-}
+}*/
 /*:root {
   --max-width: 1100px;
   --border-radius: 12px;
@@ -167,11 +179,11 @@ h5 {
 .text_1,
 .text_2,
 .text_3 {
-  color: #1a1a1a;
+  color: #8f8d8d;
 }
 
 body {
-  background: #f6f6f9; /*#1A1A1A;*/
+  background:f6f6f9;  /*#1A1A1A;*/
   margin: 0px !important;
 }
 /*
@@ -851,7 +863,7 @@ danger list
 }
 
 .flex-menuv3 {
-  background-color: #dddddd;
+  background-color: var(--menu-bg-color) !important;/*#dddddd;*/
   border-bottom: 1px solid rgba(196, 196, 195, 0.8);
 }
 

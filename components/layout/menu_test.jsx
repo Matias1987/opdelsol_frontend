@@ -223,13 +223,13 @@ export default function TestMenu() {
       </Menu>
 
       <div>
-        {usuario}
-        <SucursalLabel color="black" />
+        <span style={{color:"white"}}>{usuario}</span>&nbsp;|
+        <SucursalLabel color="white" />
 
         <Button
           size="small"
           type="text"
-          style={{ color: "red", paddingTop: "8px" }}
+          style={{ color: "#f09e9e", paddingTop: "8px" }}
           onClick={() => {
             const _token = globals.getToken();
 

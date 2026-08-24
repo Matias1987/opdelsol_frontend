@@ -76,9 +76,7 @@ export default function LayoutLaboratorio(props){
   },[])
     return (
         <Layout className='layout'>
-            <HeaderSol tipoCuenta="LABORATORIO" displaymodechange={(__c)=>{
-                props?.displaymodechange?.(__c)
-            }}/>
+           
             {+idf_optica!=3?  <MenuLaboratorioTop /> : <MenuTallerCOExp />}
             <Content style={{ margin: '20px 10px', padding: 10, minHeight: 280 }}>
                 {props.children}

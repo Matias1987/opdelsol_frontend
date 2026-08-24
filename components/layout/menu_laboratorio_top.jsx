@@ -1,14 +1,23 @@
-import { public_urls } from "@/src/urls";
-import { useState } from "react";
+import { get, public_urls } from "@/src/urls";
+import { useEffect, useState } from "react";
 import { Menu, Modal } from "antd";
 import Link from "next/link";
 import SearchOutlined from "@ant-design/icons/SearchOutlined";
 
 import BuscarVentaV3 from "../forms/ventas/BuscarVentasV3";
+import {
+  InfoCircleOutlined,
+  LogoutOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
+import SucursalLabel from "../sucursal_label";
+import globals from "@/src/globals";
 
 const MenuLaboratorioTop = (props) => {
+  const [usuario, setUsuario] = useState("");
   const [current, setCurrent] = useState("mail");
   const [buscarVentaOpen, setBuscarVentaOpen] = useState(false);
+
   const items = [
     {
       label: (
@@ -49,14 +58,38 @@ const MenuLaboratorioTop = (props) => {
       icon: <SearchOutlined />,
       key: "buscar_venta",
     },
+
+    {
+      label: (
+        <>
+          <span style={{ color: "#B35100" }}>
+            <UserOutlined />
+          </span>{" "}
+          {usuario} <span style={{ fontWeight: "400" }}>|</span>
+          <SucursalLabel color="#fdfdfd" />
+        </>
+      ),
+      key: "user",
+      children: [
+        {
+          label: "Salir",
+          key: "salir",
+          icon: <LogoutOutlined />,
+        },
+      ],
+    },
   ];
 
   const _style_ = {
     background: "rgba(255, 255, 255, 1)",
-    background:
-      "radial-gradient(circle, rgba(255, 230, 121, 1) 0%, hsla(41, 100%, 80%, 1.00) 100%)",
+    backgroundColor: "rgba(255, 230, 121, 1) !important",
+
     /*backgroundColor:"#FFEF85" */
   };
+
+  useEffect(() => {
+    setUsuario(globals.obtenerUserName());
+  }, []);
 
   const onClick = (e) => {
     console.log("click ", e);
@@ -64,11 +97,25 @@ const MenuLaboratorioTop = (props) => {
     if (e.key === "buscar_venta") {
       setBuscarVentaOpen(true);
     }
+    if(e.key === "salir"){
+      const _token = globals.getToken();
+
+      fetch(get.logout + _token)
+        .then((response) => response.json())
+        .then((response) => {
+          window.location.replace(public_urls.login);
+        })
+        .catch((err) => {
+          console.log("error");
+        });
+
+      return;
+    }
   };
+
   return (
     <>
       <Menu
-        style={_style_}
         onClick={onClick}
         selectedKeys={[current]}
         mode="horizontal"

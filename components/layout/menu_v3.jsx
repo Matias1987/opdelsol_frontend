@@ -9,7 +9,8 @@ import globals from "@/src/globals";
 import { idf_optica, lista_precios_visible } from "@/src/config";
 import dynamic from "next/dynamic";
 import CaretDownFilled from "@ant-design/icons/CaretDownFilled";
-import { InfoCircleOutlined } from "@ant-design/icons";
+import InfoCircleOutlined from "@ant-design/icons/InfoCircleOutlined";
+import UserOutlined from "@ant-design/icons/UserOutlined";
 
 const VentasVendedor = dynamic(
   () => import("../informes/ventas/VentasVendedor"),
@@ -420,8 +421,8 @@ export default function MenuV3(props) {
         <Input
           style={{
             width: "200px",
-            backgroundColor: "#cecece",
-            color: "#000000",
+            backgroundColor: "#232F3E",
+            color: "#ffffff",
             paddingTop: "2px",
           }}
           size="small"
@@ -432,7 +433,7 @@ export default function MenuV3(props) {
                 onClick={onSearch}
                 type="link"
                 size="small"
-                style={{ color: "#000000", width: "16px" }}
+                style={{ color: "#B35100", width: "16px", fontWeight:"bolder" }}
               >
                 <SearchOutlined />
               </Button>
@@ -450,8 +451,8 @@ export default function MenuV3(props) {
             {
               label: (
                 <>
-                  {usuario} <span style={{ fontWeight: "400" }}>|</span>
-                  <SucursalLabel color="#000000" />
+                  <span style={{color: "#B35100"}}><UserOutlined /></span> {usuario} <span style={{ fontWeight: "400" }}>|</span>
+                  <SucursalLabel color="#fdfdfd" />
                 </>
               ),
               key: "user",
