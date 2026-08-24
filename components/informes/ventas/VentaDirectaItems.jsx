@@ -9,7 +9,8 @@ export default function VentaDirectaItems(props){
     const [data, setData] = useState(null)
     
     useEffect(()=>{
-        const url = get.obtener_venta_items + props.idventa;
+        
+        const url = get.obtener_venta_items + props.idventa + "/-1";
         fetch(url)
         .then(response=>response.json())
         .then((response)=>{

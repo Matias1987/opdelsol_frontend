@@ -44,9 +44,18 @@ export default function App({ Component, pageProps }) {
             colorLink: "#2c3e4e", //"#8E3754",
             // Alias Token
             colorBgContainer: "#FFFFFF", // '#f6ffed',
-            fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;",
+            fontFamily:
+              "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;",
           },
           components: {
+            Tabs: {
+              // Enhancing the active card tab styles
+              cardActiveBg: "#e6f7ff", // Light blue background for active tab
+              itemActiveColor: "#b30000", // Darker, high-contrast text color
+              itemSelectedColor: "#b35100", // Color when selected
+              titleFontSize: 16, // Make active/inactive font slightly larger
+              fontWeightStrong: 700
+            },
             Statistic: {
               /* here is your component tokens */
               contentFontSize: 16,

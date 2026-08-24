@@ -9,7 +9,7 @@ const EditarVentaItems = (props) => {
   const [popupOpen, setPopupOpen] = useState(false);
   const onOpen = () => {
     setPopupOpen(true);
-    fetch(get.obtener_venta_items + props.idventa)
+    fetch(get.obtener_venta_items + props.idventa +  "/-1")
       .then((resp) => resp.json())
       .then((resp) => {
         setItems(resp.data);

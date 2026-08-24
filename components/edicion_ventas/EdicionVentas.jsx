@@ -144,7 +144,7 @@ const EdicionVentas = (props) => {
   ];
 
   const url = get.venta;
-  const url_venta_items = get.obtener_venta_items;
+  const url_venta_items = get.obtener_venta_items + "/-1";
 
   const parse_date1 = (pData) => {
     if (!pData) {

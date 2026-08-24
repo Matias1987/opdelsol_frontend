@@ -255,22 +255,14 @@ const DistanciaCristal = ({ callback, onComentariosChange }) => {
   }, []);
 
   return (
-    <Card
-      size="small"
-      title={<span style={{ color: "#262D42" }}>Receta Stock</span>}
-      style={{ boxShadow: "-1px 1px 1px 1px #9e9c9c" }}
-    >
-      <Row gutter={[16,16]}>
-        <Col span={24}>
+
           <Table
             size="small"
             dataSource={dataSource}
             columns={columns}
             pagination={false}
           />
-        </Col>
-      </Row>
-    </Card>
+    
   );
 };
 

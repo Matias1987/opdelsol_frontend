@@ -62,7 +62,22 @@ const TipoMonofocalesLab = ({ callback, onComentariosChange }) => {
     });
   };
 
-  return <Tabs defaultActiveKey="1" items={tabItems} onChange={onChangeTabs} type="line"/>;
+  return (
+    <>
+      <Card
+        size="small"
+        title={<span style={{ color: "#262D42" }}>Monofocales Laboratorio</span>}
+        style={{ boxShadow: "-1px 1px 1px 1px #9e9c9c" }}
+      >
+        <Tabs
+          defaultActiveKey="1"
+          items={tabItems}
+          onChange={onChangeTabs}
+          type="line"
+        />
+      </Card>{" "}
+    </>
+  );
 };
 
 export default TipoMonofocalesLab;
