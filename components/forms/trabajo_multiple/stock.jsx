@@ -192,7 +192,7 @@ const VMCristalesStock = ({ callback, onComentariosChange }) => {
               />
             </Col>
           </Row>
-          <Row style={{ backgroundColor: "#fafafa", padding: "4px" }}>
+          {/*<Row style={{ backgroundColor: "#fafafa", padding: "4px" }}>
             <Col
               style={{
                 textAlign: "right",
@@ -237,7 +237,7 @@ const VMCristalesStock = ({ callback, onComentariosChange }) => {
                 onChange={(v) => onChange("tratamiento_precio", v)}
               />
             </Col>
-          </Row>
+          </Row>*/}
           <Divider />
           <Row style={{ backgroundColor: "#fafafa", padding: "8px" }}>
             <Col span={24}>

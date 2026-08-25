@@ -206,8 +206,17 @@ const VentaMultipleMinorista = ({
   };
 
   const format_venta = () => {
-    const procesar_items = (tr) => {
+    const procesar_items = (tr, has_dist) => {
+      if(!tr){
+        return [];
+      }
       const _items = [];
+      if (has_dist) {
+        return [
+          ...procesar_items(tr.lejos, false),
+          ...procesar_items(tr.cerca, false),
+        ];
+      }
       if (tr.od_idcodigo && +tr.od_idcodigo > 0) {
         _items.push({
           idcodigo: tr.od_idcodigo,
@@ -238,6 +247,51 @@ const VentaMultipleMinorista = ({
           distancia: tr.distancia ?? "",
         });
       }
+      if (tr.armazon_idcodigo && +tr.armazon_idcodigo > 0) {
+        _items.push({
+          idcodigo: tr.armazon_idcodigo,
+          idtrabajo: 0,
+          iddescuento: tr.armazon_iddescuento || null,
+          descuento: tr.armazon_descuento ?? "0",
+          tipo: (tr.distancia ? tr.distancia + "_" : "") + "armazon",
+          cantidad: "1",
+          precio: tr.armazon_precio,
+          esf: "0",
+          cil: "0",
+          eje: "0",
+          distancia: tr.distancia ?? "",
+        });
+      }
+      if (tr.tratamiento_idcodigo && +tr.tratamiento_idcodigo > 0) {
+        _items.push({
+          idcodigo: tr.tratamiento_idcodigo,
+          idtrabajo: 0,
+          iddescuento: tr.tratamiento_iddescuento || null,
+          descuento: tr.tratamiento_descuento ?? "0",
+          tipo: (tr.distancia ? tr.distancia + "_" : "") + "tratamiento",
+          cantidad: "1",
+          precio: tr.tratamiento_precio,
+          esf: "0",
+          cil: "0",
+          eje: "0",
+          distancia: tr.distancia ?? "",
+        });
+      }
+      if (tr.insumo_idcodigo && +tr.insumo_idcodigo > 0) {
+        _items.push({
+          idcodigo: tr.insumo_idcodigo,
+          idtrabajo: 0,
+          iddescuento: tr.insumo_iddescuento || null,
+          descuento: tr.insumo_descuento ?? "0",
+          tipo: (tr.distancia ? tr.distancia + "_" : "") + "insumo",
+          cantidad: "1",
+          precio: tr.insumo_precio,
+          esf: "0",
+          cil: "0",
+          eje: tr.insumo_eje || "0",
+          distancia: tr.distancia ?? "",
+        });
+      }
       return _items;
     };
 
@@ -245,7 +299,7 @@ const VentaMultipleMinorista = ({
       tipo: t.tipo,
       nro: t.nro,
       comentarios: t.comentarios,
-      items: procesar_items(t.items),
+      items: procesar_items(t.items, t.tipo == "rec_st" || t.tipo=="monof_lab"),
     }));
 
     return trabajos.length < 2

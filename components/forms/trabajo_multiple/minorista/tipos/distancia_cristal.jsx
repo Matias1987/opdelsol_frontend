@@ -4,7 +4,7 @@ import { Card, Col, Input, InputNumber, Row, Select, Table } from "antd";
 import { useEffect, useState } from "react";
 import HelperToolTip from "@/components/forms/ventas/common/HelperToolTip";
 
-const DistanciaCristal = ({ callback, onComentariosChange }) => {
+const DistanciaCristal = ({ callback, tipo, onComentariosChange }) => {
   const [trabajoStock, setTrabajoStock] = useState({
     od_idcodigo: "",
     od_esf: "",
@@ -20,7 +20,7 @@ const DistanciaCristal = ({ callback, onComentariosChange }) => {
     armazon_precio: "",
     tratamiento_idcodigo: "",
     tratamiento_precio: "0",
-    distancia: "-1",
+    distancia: tipo,
   });
 
   const onChange = (key, value) => {

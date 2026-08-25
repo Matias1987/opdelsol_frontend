@@ -18,6 +18,7 @@ const TipoRecetaStock = ({ callback, onComentariosChange }) => {
       children: (
         <>
           <DistanciaCristal
+            tipo={"lejos"}
             callback={(lejos) => {
               onChange("lejos", lejos);
             }}
@@ -31,6 +32,7 @@ const TipoRecetaStock = ({ callback, onComentariosChange }) => {
       children: (
         <>
           <DistanciaCristal
+            tipo={"cerca"}
             callback={(cerca) => {
               onChange("cerca", cerca);
             }}
