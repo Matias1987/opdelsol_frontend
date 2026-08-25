@@ -34,7 +34,7 @@ const ModificarCantidadesEdicion = (props) => {
             post.update.modificar_cantidad_stock,
             {cantidad: codigo.cantidad_actual + codigo.cantidad * (+mult), fksucursal: fksucursal, idcodigo:codigo.idcodigo},
             (response)=>{
-                alert("OK") 
+                alert("Datos Guardados") 
                 callback?.()
             }
             

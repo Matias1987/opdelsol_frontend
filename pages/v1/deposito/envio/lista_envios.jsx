@@ -62,7 +62,6 @@ export default function  ListaEnvios(props){
         .then(r=>r.json())
         .then((response)=>{
             setUpdate(!update)
-            alert("OK")
         })
     }
 

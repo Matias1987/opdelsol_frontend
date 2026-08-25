@@ -46,7 +46,7 @@ const EditarCodigoGrupo = ({ codigos, callback }) => {
     }
 
     post_method(post.update.editar_lote_codigos, params, (response) => {
-      alert("OK");
+      alert("Datos Guardados");
       setVistaPreviaOpen(false);
       callback?.();
     });

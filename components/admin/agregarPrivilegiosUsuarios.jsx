@@ -77,7 +77,7 @@ const AgregarPrivilegiosUsuarios = (props) => {
         const perm = {...permisos,fk_usuario:idusuario}
         //alert(JSON.stringify(perm))
         post_method(post.insert.u_permisos_a_u,perm,(response)=>{
-            alert("OK")
+            alert("Datos Guardados")
             props?.callback?.()
         })
     }

@@ -751,7 +751,6 @@ const EditarSobre = (props) => {
       post.update.marcar_como_laboratorio,
       { idventa: props.idventa, idtrabajo: props.idtrabajo },
       (resp) => {
-        alert("OK");
         props?.callback?.();
       },
     );
@@ -788,7 +787,6 @@ const EditarSobre = (props) => {
       post.update.marcar_como_calibrando,
       { idventa: props.idventa, idtrabajo: props.idtrabajo },
       (resp) => {
-        alert("OK");
         props?.callback?.();
       },
     );
@@ -843,7 +841,6 @@ const EditarSobre = (props) => {
       post.update.marcar_como_terminado,
       { idventa: props.idventa, idtrabajo: props.idtrabajo },
       (resp) => {
-        alert("OK");
         props?.callback?.();
       },
     );

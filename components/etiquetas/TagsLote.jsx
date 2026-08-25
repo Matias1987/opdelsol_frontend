@@ -19,7 +19,7 @@ const TagsLote = (props) => {
             tags:etiquetas
         },
     (resp)=>{
-        alert("OK")
+        alert("Datos Guardados")
         props?.callback?.()
     }
     )
@@ -31,7 +31,7 @@ const TagsLote = (props) => {
             return
         }
         post_method(post.rem_t_c,{codigos:codigos.map(c=>c.idcodigo)},(resp)=>{
-            alert("OK")
+            alert("Datos Guardados")
             props?.callback?.()
         })
     }

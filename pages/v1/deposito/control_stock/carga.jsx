@@ -163,7 +163,7 @@ export default function CargaStock() {
         comentarios: comentarios,
       },
       (resp) => {
-        alert("OK");
+        alert("Datos Guardados");
       },
     );
   };
@@ -277,7 +277,7 @@ export default function CargaStock() {
         comentarios: comentarios,
       },
       (resp) => {
-        alert("OK");
+        alert("Datos Guardados");
       },
     );
   };

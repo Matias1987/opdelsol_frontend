@@ -16,7 +16,7 @@ const DescargarEnvio = (props) => {
         setIdEnvio(-1)
 
         post_method(post.cargar_envio,{idenvio: idEnvio,idsucursal: globals.obtenerSucursal()},(resp)=>{
-            alert("OK")
+            alert("Envío descargado.");
             registrar_evento("DESCARGA_ENVIO", "Descarga Envio", idEnvio)
         })
     }

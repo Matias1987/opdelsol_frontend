@@ -55,7 +55,6 @@ export default function InicioCaja(props){
                 uid,
             }
             post_method(post.insert.caja, data, (result)=>{
-                alert("OK")
                 props?.callback?.()
             })
             

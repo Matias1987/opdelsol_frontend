@@ -150,7 +150,6 @@ const BuscarVentaV3 = (props) => {
           fecha_retiro: current_date_ymd(),
         },
         (resp) => {
-          alert("OK");
           setReload(!reload);
         },
       );
@@ -168,7 +167,6 @@ const BuscarVentaV3 = (props) => {
         post.update.cambiar_venta_sucursal_deposito,
         { idventa: _venta.idventa, en_laboratorio: "1" },
         (resp) => {
-          alert("OK");
           setReload(!reload);
         },
       );
@@ -200,7 +198,6 @@ const BuscarVentaV3 = (props) => {
         post.update.cambiar_venta_sucursal_deposito,
         { idventa: _venta.idventa, en_laboratorio: "1" },
         (resp) => {
-          alert("OK");
           setReload(!reload);
         },
       );

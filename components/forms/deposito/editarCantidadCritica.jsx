@@ -13,7 +13,7 @@ const EditarCantidadCritica = (props) => {
   const onSave = () => {
  
     post_method(post.update.modificar_cantidad_critica, codigo, (resp) => {
-      alert("OK");
+      alert("Datos Guardados");
       props?.callback?.();
     });
   };

@@ -64,7 +64,6 @@ const ModificarCantidadForm = (props) => {
 
         post_method(post.update.incrementar_cantidad,__data,(r)=>{
             if(r.status == "OK"){
-                alert("OK")
                 setReload(!reload)
                 if(typeof props.onOk !==  'undefined'){
                     props.onOk();

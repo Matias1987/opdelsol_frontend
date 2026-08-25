@@ -28,7 +28,7 @@ const AnotacionForm = (props) => {
         //alert(JSON.stringify(anotacion))
         //return
         post_method(post.insert.anotacion, anotacion, (resp) => {
-            alert("OK")
+            alert("Datos Guardados")
             props?.callback?.()
             
         })

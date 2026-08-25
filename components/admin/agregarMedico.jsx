@@ -64,13 +64,13 @@ const AgregarMedicoForm = (props) => {
         if (editar) {
                //alert(post.update.editar_medico)
             post_method(post.update.editar_medico, medico, (resp) => {
-                alert("OK")
+                alert("Datos Guardados.")
                 props?.callback?.()
             })
         }
         else {
             post_method(post.insert.medico, medico, (resp) => {
-                alert("OK")
+                alert("Datos Guardados.")
                 props?.callback?.()
             })
         }

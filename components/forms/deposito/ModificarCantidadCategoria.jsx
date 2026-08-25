@@ -42,7 +42,7 @@ const ModificarCantidadCategoria = (props) => {
       post.update.modificar_cantidad_categoria,
       selection,
       (response) => {
-        alert("OK");
+        alert("Datos Guardados");
       }
     );
   };

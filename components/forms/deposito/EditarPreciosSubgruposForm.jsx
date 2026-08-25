@@ -227,7 +227,7 @@ const EditarPreciosSubgruposForm = (props) => {
                                     }
                                     ,
                                     (response)=>{
-                                        alert("OK")
+                                        alert("Datos Guardados")
                                         props?.callback?.()
                                     }
                                 )

@@ -370,11 +370,6 @@
     "@react-spring/types" "~10.1.2"
     csstype "^3.2.3"
 
-"@remix-run/router@1.23.3":
-  version "1.23.3"
-  resolved "https://registry.npmjs.org/@remix-run/router/-/router-1.23.3.tgz"
-  integrity sha512-4An71tdz9X8+3sI4Qqqd2LWd9vS39J7sqd9EU4Scw7TJE/qB10Flv/UuqbPVgfQV9XoK8Np6jNquZitnZq5i+Q==
-
 "@socket.io/component-emitter@~3.1.0":
   version "3.1.2"
   resolved "https://registry.npmjs.org/@socket.io/component-emitter/-/component-emitter-3.1.2.tgz"
@@ -1934,21 +1929,6 @@ react-qr-scanner@^1.0.0-alpha.11:
   dependencies:
     "@zxing/library" "^0.19.1"
     prop-types "^15.8.1"
-
-react-router-dom@^6.10.0:
-  version "6.30.4"
-  resolved "https://registry.npmjs.org/react-router-dom/-/react-router-dom-6.30.4.tgz"
-  integrity sha512-q4HvNl+mmDdkS0g+MqiBZNteQJCuimWoOyHMy4T/RQLAn9Z29+E91QXRaxOujeMl2HTzRSS0KFPd7lxX3PjV0Q==
-  dependencies:
-    "@remix-run/router" "1.23.3"
-    react-router "6.30.4"
-
-react-router@6.30.4:
-  version "6.30.4"
-  resolved "https://registry.npmjs.org/react-router/-/react-router-6.30.4.tgz"
-  integrity sha512-SVUsDe+DybHM/WmYKIVYhZh1o5Dcuf16yM6WjG02Q9XVFMZIJyHYhwrr6bFBXZkVP6z69kNkMyBCujt8FaFLJA==
-  dependencies:
-    "@remix-run/router" "1.23.3"
 
 react-simple-wysiwyg@^3.4.1:
   version "3.4.1"

@@ -32,7 +32,7 @@ const EditarCargaManualPopup = (props) => {
     }
     const guardarCambios = () => {
         post_method(post.update.modificar_carga_manual,cargaManual,(response)=>{
-            alert("OK")
+            alert("Datos Guardados")
             props?.callback?.()
             setOpen(false)
 

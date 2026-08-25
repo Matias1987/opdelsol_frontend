@@ -157,7 +157,6 @@ const ListaVentas = (props) => {
                       fecha_retiro: current_date_ymd(),
                     },
                     (resp) => {
-                      alert("OK");
                       setReload(!reload);
                     },
                   );
@@ -190,7 +189,6 @@ const ListaVentas = (props) => {
                   post.update.cambiar_venta_sucursal_deposito,
                   { idventa: _idventa, en_laboratorio: "1" },
                   (resp) => {
-                    alert("OK");
                     setReload(!reload);
                   },
                 );
@@ -219,7 +217,6 @@ const ListaVentas = (props) => {
                     { idventa: _idventa, estado: "ANULADO" },
                     (resp) => {
                       setReload(!reload);
-                      alert("OK");
                       post_method(
                         post.update.inc_cantidades_stock_venta,
                         {

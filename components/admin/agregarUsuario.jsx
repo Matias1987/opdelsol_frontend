@@ -156,7 +156,7 @@ const AgregarUsuarioForm = (props) =>{
                 props?.callback?.()
                 return
             }
-            alert("OK")
+            alert("Datos Guardados")
             props?.callback?.()
         })
     }

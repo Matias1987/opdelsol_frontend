@@ -15,7 +15,7 @@ const TagForm = (props) => {
 
     const guardar = () => {
         post_method(post.insert.tag,tag,(resp)=>{
-            alert("OK")
+            alert("Datos Guardados")
             props?.callback?.()
         })
     }

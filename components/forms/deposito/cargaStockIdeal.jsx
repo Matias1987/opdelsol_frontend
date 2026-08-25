@@ -12,7 +12,7 @@ const CargaStockIdeal = (props) => {
 
     const onSave = () => {
         post_method(post.update.editar_cantidad_ideal,codigo,(resp)=>{
-            alert("OK")
+            alert("Datos Guardados")
             props?.callback?.()
         })
     }

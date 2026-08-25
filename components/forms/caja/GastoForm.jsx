@@ -83,7 +83,6 @@ const GastoForm = (props) => {
         uid: uid,
       };
       post_method(post.insert.gasto, data, (response) => {
-        alert("OK");
         //set
         setEnabled(true);
         registrar_evento(

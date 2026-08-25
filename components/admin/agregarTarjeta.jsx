@@ -25,7 +25,7 @@ const AgregarTarjetaForm = (props) => {
         <Col span={24} style={{padding:"1em"}}>
             <Button type="primary" onClick={()=>{
                 post_method(post.insert.tarjeta,tarjeta,()=>{
-                    alert("OK")
+                    alert("Datos Guardados")
                     props?.callback?.()
                 })
             }}>Agregar</Button>

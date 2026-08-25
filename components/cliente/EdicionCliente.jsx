@@ -81,7 +81,7 @@ const EdicionClientePopup = (props) => {
                 alert(resp?.data?.message || "Error" );
                 return;
             }
-            alert("OK")
+            alert("Datos Guardados")
             setOpen(false)
             props?.callback?.()
         })
