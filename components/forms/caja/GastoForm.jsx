@@ -92,7 +92,7 @@ const GastoForm = (props) => {
         );
         props?.callback?.(response.data);
       });
-    });
+    }, true, true);
   };
 
   const row_style = {

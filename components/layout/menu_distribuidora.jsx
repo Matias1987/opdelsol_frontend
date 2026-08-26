@@ -4,6 +4,7 @@ import LogoutOutlined from "@ant-design/icons/LogoutOutlined";
 import StarOutlined from "@ant-design/icons/StarOutlined";
 import UnorderedListOutlined from "@ant-design/icons/UnorderedListOutlined";
 import UserOutlined from "@ant-design/icons/UserOutlined";
+import DollarOutlined from "@ant-design/icons/DollarOutlined";
 
 import { Badge, Button, Flex, Menu } from "antd";
 import { useEffect, useState } from "react";
@@ -18,13 +19,21 @@ export default function MenuDistribuidora({ onNuevaVentaClick,showBadge }) {
   const [current, setCurrent] = useState("9");
   const pathname = usePathname(); // Gets the current URL path
   const items = [
-    {
+    /*{
       label: (
         <Link href={public_urls.dashboard_distribuidora}>
           <HomeFilled /> Inicio
         </Link>
       ),
       key: "/v1/trabajos/",
+    },*/
+    {
+      label: (
+        <Link href={public_urls.caja_distribuidora}>
+          <DollarOutlined /> Caja
+        </Link>
+      ),
+      key: "/ditribuidora/caja",
     },
 
     {

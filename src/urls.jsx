@@ -59,6 +59,8 @@ const public_urls = {
   transferencias: local_base_url + "caja/lista_transferencia_sucursal",
   clientes_morosos: local_base_url + "caja/clientes_morosos",
 
+  caja_distribuidora: local_base_url + "distribuidora/caja",
+
   //laboratorio
   lista_operaciones_laboratorio:
     local_base_url + "laboratorio/lista_operaciones_laboratorio",
@@ -295,6 +297,10 @@ const post = {
 
   obtener_cant_vtas_vendedor_cat:
     remote_base_url + "infvtas/cant/vtas/vendedor/cat/",
+
+  inf_monto_ing_cat: remote_base_url + "infcaja/monto/ing/cat/",
+  inf_monto_eg_cat: remote_base_url + "infcaja/monto/eg/cat/",
+  inf_ls_eg_ig: remote_base_url + "infcaja/ls/eg/ig/",
 
   search: {
     filtro_stock: remote_base_url + "stock/filtro_stock/",

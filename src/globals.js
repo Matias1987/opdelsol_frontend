@@ -144,7 +144,7 @@ const globals =  {
     },
 
 
-    obtenerCajaAsync: (callback, avoidOutdated=true) => {
+    obtenerCajaAsync: (callback, avoidOutdated=true, noAlerts=false) => {
        
         fetch(get.caja+globals.obtenerSucursal())
         .then(response=>response.json())
@@ -159,7 +159,7 @@ const globals =  {
                 let today = new Date()
                 today.setHours(0,0,0,0);
 
-                if(_date < today){
+                if(_date < today && !noAlerts){
                     alert("<!> Caja abierta de " + response.data.fecha_f)
                     //callback(null)
                     //setItem("caja", 0);

@@ -390,6 +390,7 @@ export default function FichaClienteMayorista(props) {
                       mutualHidden={false}
                       buttonText="Cargar Pago"
                       totalsHidden={true}
+                      ignoreAlertsCaja={true}
                       tipo="cuota"
                       idcliente={props.idcliente}
                       callback={() => {

@@ -42,6 +42,8 @@ export default function CobroOperacion(props){
     const [descuento, setDescuento] = useState(0)
 
     const [uid, setUID] = useState("");
+
+    const [ignoreAlertsCaja, setignoreAlertsCaja] = useState(props.ignoreAlertsCaja ?? false)
     
 
     /**     2/9/2023
@@ -54,6 +56,7 @@ export default function CobroOperacion(props){
      */
     useEffect(()=>{
         setUID(uuidv4());
+        setignoreAlertsCaja(props.ignoreAlertsCaja ?? false);
         if(idCobro>-1){
             
             /**
@@ -401,7 +404,7 @@ export default function CobroOperacion(props){
                     registrar_evento("COBRO", "Registro Cobro $"+mp.total.toString(), id.data)
                 }
             })
-        })
+        },true, ignoreAlertsCaja)
     }
     
     const cliente_detalle = () => (
