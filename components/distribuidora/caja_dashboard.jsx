@@ -90,10 +90,10 @@ export default function CajaDistribuidora() {
       >
         <Row gutter={[16, 16]}>
           <Col>
-            <DonutIngresoCategoria idsucursal={idsucural} reload={reload} />
+            <DonutIngresoCategoria idsucursal={globals.obtenerSucursal()} reload={reload} />
           </Col>
           <Col>
-            <DonutEgresoCategoria idsucursal={idsucural} reload={reload} />
+            <DonutEgresoCategoria idsucursal={globals.obtenerSucursal()} reload={reload} />
           </Col>
         </Row>
         &nbsp;
