@@ -28,6 +28,7 @@ export default function CajaDistribuidora() {
   const [idsucural, setIdsucursal] = useState(-1);
   const [movimientos, setMovimientos] = useState([]);
   const [reload, setReload] = useState(false);
+  const [saldo, setSaldo] = useState(0);
 
   useEffect(() => {
     setIdsucursal(globals.obtenerSucursal());
@@ -66,15 +67,23 @@ export default function CajaDistribuidora() {
       post.inf_ls_eg_ig,
       { idsucursal: globals.obtenerSucursal() },
       (response) => {
-        setMovimientos(
-          response.data.map((r) => ({
-            fecha: r.f_fecha,
-            id: r.id,
-            monto: r.monto,
-            tipo_d: "i" === r.tipo ? "Ingreso" : "Egreso",
-            tipo: r.tipo,
-          })),
-        );
+        if (response?.data) {
+          let total = 0;
+          response.data.forEach((r) => {
+            total +=
+              "i" === r.tipo ? parseFloat(r.monto) : -parseFloat(r.monto);
+          });
+          setSaldo(total);
+          setMovimientos(
+            response.data.map((r) => ({
+              fecha: r.f_fecha,
+              id: r.id,
+              monto: r.monto,
+              tipo_d: "i" === r.tipo ? "Ingreso" : "Egreso",
+              tipo: r.tipo,
+            })),
+          );
+        }
       },
     );
   };
@@ -90,10 +99,16 @@ export default function CajaDistribuidora() {
       >
         <Row gutter={[16, 16]}>
           <Col>
-            <DonutIngresoCategoria idsucursal={globals.obtenerSucursal()} reload={reload} />
+            <DonutIngresoCategoria
+              idsucursal={globals.obtenerSucursal()}
+              reload={reload}
+            />
           </Col>
           <Col>
-            <DonutEgresoCategoria idsucursal={globals.obtenerSucursal()} reload={reload} />
+            <DonutEgresoCategoria
+              idsucursal={globals.obtenerSucursal()}
+              reload={reload}
+            />
           </Col>
         </Row>
         &nbsp;
@@ -115,14 +130,23 @@ export default function CajaDistribuidora() {
             </>
           }
         >
-          <Table
-            dataSource={movimientos}
-            columns={columns}
-            rowKey="fecha"
-            scroll={{ y: 300 }}
-            pagination={false}
-            size="small"
-          />
+          <Row>
+            <Col span={24}>
+              <Table
+                dataSource={movimientos}
+                columns={columns}
+                rowKey="fecha"
+                scroll={{ y: 300 }}
+                pagination={false}
+                size="small"
+              />
+            </Col>
+          </Row>
+          <Row>
+            <Col span={24}>
+              <Input readOnly addonBefore={"Balance: "} value={formatFloat(saldo)} />
+            </Col>
+          </Row>
         </Card>
       </Card>
       <Modal
