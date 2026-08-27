@@ -8,15 +8,19 @@ import {
   Select,
   Row,
   Col,
+  Tag,
 } from "antd";
 import { useEffect, useState } from "react";
 import DonutIngresoCategoria from "../charts/donutIngresoCategoria";
 import DonutEgresoCategoria from "../charts/donutEgresoCategoria";
 import { post_method } from "@/src/helpers/post_helper";
-import { post } from "@/src/urls";
+import { get, post } from "@/src/urls";
 import globals from "@/src/globals";
 import { formatFloat } from "@/src/helpers/formatters";
 import GastoForm from "../forms/caja/GastoForm";
+import InicioCaja from "../forms/caja/InicioCaja";
+import ListaCaja from "../forms/caja/ListaCajas";
+import InformeCajaV2 from "../informes/caja/InformeCajaV3";
 
 //const movimientos = [
 //  { fecha: "25-08-2026", tipo: "Ingreso", categoria: "Venta", monto: 5000 },
@@ -28,11 +32,17 @@ export default function CajaDistribuidora() {
   const [idsucural, setIdsucursal] = useState(-1);
   const [movimientos, setMovimientos] = useState([]);
   const [reload, setReload] = useState(false);
-  const [saldo, setSaldo] = useState(0);
-
+  const [totalesIngresos, setTotalesIngresos] = useState(0);
+  const [totalesEgresos, setTotalesEgresos] = useState(0);
+  const [cajaActual, setCajaActual] = useState(null);
+  const [listOpen, setListOpen] = useState(false);
+  const [informeOpen, setInformeOpen] = useState(false);
   useEffect(() => {
-    setIdsucursal(globals.obtenerSucursal());
-    load();
+    globals.obtenerCajaAsync((resp) => {
+      setCajaActual(resp);
+      setIdsucursal(globals.obtenerSucursal());
+      load(resp?.idcaja);
+    });
   }, [reload]);
 
   const columns = [
@@ -62,30 +72,61 @@ export default function CajaDistribuidora() {
     },
   ];
 
-  const load = () => {
-    post_method(
-      post.inf_ls_eg_ig,
-      { idsucursal: globals.obtenerSucursal() },
-      (response) => {
-        if (response?.data) {
-          let total = 0;
-          response.data.forEach((r) => {
-            total +=
-              "i" === r.tipo ? parseFloat(r.monto) : -parseFloat(r.monto);
-          });
-          setSaldo(total);
-          setMovimientos(
-            response.data.map((r) => ({
-              fecha: r.f_fecha,
-              id: r.id,
-              monto: r.monto,
-              tipo_d: "i" === r.tipo ? "Ingreso" : "Egreso",
-              tipo: r.tipo,
-            })),
-          );
-        }
-      },
+  const cerrar_caja = () => {
+    if (!confirm("Confirmar Cerrar Caja")) {
+      return;
+    }
+    fetch(get.cerrar_caja + cajaActual?.idcaja)
+      .then((response) => response.json())
+      .then((response) => {
+        setReload(!reload);
+        globals.obtenerCajaAsync(() => {});
+        globals.setCajaOpen(false);
+        setReload(!reload);
+      });
+  };
+
+  const detalle_caja = (_) =>
+    cajaActual == null ? (
+      <></>
+    ) : (
+      <span
+        style={{ fontStyle: "italic", color: "#0d0179", fontWeight: "bold" }}
+      >
+        Caja Abierta; Fecha: {cajaActual?.fecha_f}{" "}
+      </span>
     );
+
+  const button_style = {
+    border: "1px dotted #e2e2e2",
+    borderRadius: "16px",
+    backgroundColor: "#ffffff",
+  };
+
+  const load = (idcaja) => {
+    post_method(post.inf_ls_eg_ig, { idcaja: idcaja }, (response) => {
+      if (response?.data) {
+        let total_i = 0;
+        let total_e = 0;
+        response.data.forEach((r) => {
+          total_i += "i" === r.tipo ? parseFloat(r.monto) : 0;
+          total_e += "e" === r.tipo ? parseFloat(r.monto) : 0;
+        });
+
+        setMovimientos(
+          response.data.map((r) => ({
+            fecha: r.f_fecha,
+            id: r.id,
+            monto: r.monto,
+            tipo_d: "i" === r.tipo ? "Ingreso" : "Egreso",
+            tipo: r.tipo,
+          })),
+        );
+
+        setTotalesEgresos(total_e);
+        setTotalesIngresos(total_i);
+      }
+    });
   };
 
   // Datos para gráficos
@@ -93,22 +134,80 @@ export default function CajaDistribuidora() {
   return (
     <div>
       <Card
-        title="Resumen de Caja"
+        title={<>Resumen de Caja</>}
         size="small"
         style={{ boxShadow: "4px 4px 6px 0px rgba(0, 0, 0, 0.5)" }}
+        extra={<> {detalle_caja()}</>}
       >
-        <Row gutter={[16, 16]}>
+        <Row
+          gutter={[8, 8]}
+          style={{
+            border: "1px dotted #e2e2e2",
+            backgroundColor: "rgb(250, 248, 248)",
+            margin: "2px",
+            borderRadius: "4px",
+          }}
+        >
+          {cajaActual ? (
+            <>
+              <Col>
+                <Button
+                  style={button_style}
+                  type="link"
+                  onClick={(_) => {
+                    setReload(!reload);
+                    setVisible(true);
+                  }}
+                >
+                  Registrar Egreso
+                </Button>
+              </Col>
+              <Col>
+                <Button
+                  style={button_style}
+                  type="link"
+                  onClick={(_) => {
+                    setInformeOpen(true);
+                  }}
+                >
+                  Informe
+                </Button>
+              </Col>
+
+              <Col>
+                <Button
+                  style={button_style}
+                  type="link"
+                  onClick={(_) => {
+                    cerrar_caja();
+                  }}
+                >
+                  Cerrar Caja
+                </Button>
+              </Col>
+            </>
+          ) : (
+            <>
+              <Col>
+                <InicioCaja
+                  callback={() => {
+                    setReload(!reload);
+                  }}
+                />
+              </Col>
+            </>
+          )}
+
           <Col>
-            <DonutIngresoCategoria
-              idsucursal={globals.obtenerSucursal()}
-              reload={reload}
-            />
-          </Col>
-          <Col>
-            <DonutEgresoCategoria
-              idsucursal={globals.obtenerSucursal()}
-              reload={reload}
-            />
+            <Button
+              style={button_style}
+              type="link"
+              onClick={(_) => {
+                setListOpen(true);
+              }}
+            >
+              Cajas Anteriores
+            </Button>
           </Col>
         </Row>
         &nbsp;
@@ -116,35 +215,42 @@ export default function CajaDistribuidora() {
           size="small"
           style={{ boxShadow: "2px 2px 3px 0px rgba(0, 0, 0, 0.5)" }}
           title="Movimientos"
-          extra={
-            <>
-              <Button
-                type="primary"
-                onClick={(_) => {
-                  setReload(!reload);
-                  setVisible(true);
-                }}
-              >
-                Registrar Egreso
-              </Button>
-            </>
-          }
+          extra={<></>}
         >
           <Row>
             <Col span={24}>
               <Table
-                dataSource={movimientos}
+                dataSource={cajaActual ? movimientos : null}
                 columns={columns}
                 rowKey="fecha"
-                scroll={{ y: 300 }}
+                scroll={{ y: 280 }}
                 pagination={false}
                 size="small"
               />
             </Col>
           </Row>
-          <Row>
+          {/*<Row>
             <Col span={24}>
-              <Input readOnly addonBefore={"Balance: "} value={formatFloat(saldo)} />
+              <Input
+                readOnly
+                addonBefore={"Balance: "}
+                value={formatFloat(saldo)}
+              />
+            </Col>
+          </Row>*/}
+          &nbsp;
+          <Row gutter={[16, 16]}>
+            <Col>
+              <DonutIngresoCategoria
+                idsucursal={globals.obtenerSucursal()}
+                reload={reload}
+              />
+            </Col>
+            <Col>
+              <DonutEgresoCategoria
+                idsucursal={globals.obtenerSucursal()}
+                reload={reload}
+              />
             </Col>
           </Row>
         </Card>
@@ -160,6 +266,33 @@ export default function CajaDistribuidora() {
             setReload(!reload);
             setVisible(false);
           }}
+        />
+      </Modal>
+      <Modal
+        open={listOpen}
+        onCancel={(_) => {
+          setListOpen(false);
+        }}
+        title="Listado"
+        destroyOnClose
+        width={"900px"}
+        footer={null}
+      >
+        <ListaCaja idsucursal={globals.obtenerSucursal()} />
+      </Modal>
+      <Modal
+        open={informeOpen}
+        onCancel={(_) => {
+          setInformeOpen(false);
+        }}
+        title="Detalle"
+        destroyOnClose
+        width={"1000px"}
+        footer={null}
+      >
+        <InformeCajaV2
+          idcaja={cajaActual?.idcaja}
+          idsucursal={globals.obtenerSucursal()}
         />
       </Modal>
     </div>

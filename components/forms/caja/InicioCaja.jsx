@@ -1,4 +1,3 @@
-import LayoutCaja from "@/components/layout/layout_caja"
 import globals from "@/src/globals";
 import { post_method } from "@/src/helpers/post_helper";
 import { current_date_ymd } from "@/src/helpers/string_helper";
@@ -11,7 +10,7 @@ export default function InicioCaja(props){
     const [open, setOpen] = useState(false);
     const [btnBlocked, setBtnBlocked] = useState(false);
   const [uid, setUID] = useState("");
-
+    const [reload, setReload] = useState(false)
     const check_if_caja_exists = (callback) => {
         post_method(post.caja_exists,{
             idsucursal: globals.obtenerSucursal(),
@@ -34,7 +33,7 @@ export default function InicioCaja(props){
         )
     }
 
-    useEffect(()=>{setUID(uuidv4());},[]);
+    useEffect(()=>{setUID(uuidv4());},[reload]);
 
     const onFinishFailed = ()=> {
 

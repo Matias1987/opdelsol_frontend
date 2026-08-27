@@ -582,7 +582,7 @@ const ListaVentas = (props) => {
           estado_trabajo,
         },
       ) => {
-        return (
+        return +tipo==8 && !isParent ? <></> : (
           <>
             {buttons(
               idventa,
