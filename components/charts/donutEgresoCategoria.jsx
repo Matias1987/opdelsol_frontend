@@ -38,6 +38,7 @@ const DonutEgresoCategoria = ({ idsucursal, reload }) => {
         chartType="PieChart"
         data={dataEgresos}
         options={{
+          tooltip: { trigger: "none" },
           pieHole: 0.4,
 
           //colors: ["#FF8042", "#ff4f42"],

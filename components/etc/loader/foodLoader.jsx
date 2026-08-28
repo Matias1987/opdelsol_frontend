@@ -130,7 +130,7 @@ const FoodLoader = (props) => {
         <></>
       ) : (
         <>
-          <Row>
+          {/*<Row>
             <Col span={24}>
               <Flex align="center" justify="center">
                 <i style={{ color: "darkblue", fontSize: ".9em" }}>
@@ -138,7 +138,7 @@ const FoodLoader = (props) => {
                 </i>
               </Flex>
             </Col>
-          </Row>
+          </Row>*/}
           <Row>
             <Col span={24}>
               <Flex align="center" justify="center">

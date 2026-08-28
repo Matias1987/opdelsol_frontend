@@ -11,23 +11,24 @@ import {
   Tag,
 } from "antd";
 import { useEffect, useState } from "react";
-import DonutIngresoCategoria from "../charts/donutIngresoCategoria";
-import DonutEgresoCategoria from "../charts/donutEgresoCategoria";
+import DonutIngresoCategoria from "../../charts/donutIngresoCategoria";
+import DonutEgresoCategoria from "../../charts/donutEgresoCategoria";
 import { post_method } from "@/src/helpers/post_helper";
 import { get, post } from "@/src/urls";
 import globals from "@/src/globals";
 import { formatFloat } from "@/src/helpers/formatters";
-import GastoForm from "../forms/caja/GastoForm";
-import InicioCaja from "../forms/caja/InicioCaja";
-import ListaCaja from "../forms/caja/ListaCajas";
-import InformeCajaV2 from "../informes/caja/InformeCajaV3";
+import GastoForm from "./GastoForm";
+import InicioCaja from "./InicioCaja";
+import ListaCaja from "./ListaCajas";
+import InformeCajaV2 from "../../informes/caja/InformeCajaV3";
+import FoodLoader from "@/components/etc/loader/foodLoader";
 
 //const movimientos = [
 //  { fecha: "25-08-2026", tipo: "Ingreso", categoria: "Venta", monto: 5000 },
 //  { fecha: "25-08-2026", tipo: "Egreso", categoria: "Proveedor", monto: 2000 },
 //];
 
-export default function CajaDistribuidora() {
+export default function DashboardCajaV2() {
   const [visible, setVisible] = useState(false);
   const [idsucural, setIdsucursal] = useState(-1);
   const [movimientos, setMovimientos] = useState([]);
@@ -91,9 +92,9 @@ export default function CajaDistribuidora() {
       <></>
     ) : (
       <span
-        style={{ fontStyle: "italic", color: "#0d0179", fontWeight: "bold" }}
+        style={{ fontStyle: "italic", color: "#141f19", fontWeight: "600" }}
       >
-        Caja Abierta; Fecha: {cajaActual?.fecha_f}{" "}
+        Caja Abierta. Fecha: {cajaActual?.fecha_f}{" "}
       </span>
     );
 
@@ -137,7 +138,6 @@ export default function CajaDistribuidora() {
         title={<>Resumen de Caja</>}
         size="small"
         style={{ boxShadow: "4px 4px 6px 0px rgba(0, 0, 0, 0.5)" }}
-        extra={<> {detalle_caja()}</>}
       >
         <Row
           gutter={[8, 8]}
@@ -150,6 +150,9 @@ export default function CajaDistribuidora() {
         >
           {cajaActual ? (
             <>
+              <Col>
+                <div style={{ padding: "4px" }}>{detalle_caja()}</div>
+              </Col>
               <Col>
                 <Button
                   style={button_style}
@@ -176,6 +179,7 @@ export default function CajaDistribuidora() {
 
               <Col>
                 <Button
+                  danger  
                   style={button_style}
                   type="link"
                   onClick={(_) => {
@@ -185,6 +189,8 @@ export default function CajaDistribuidora() {
                   Cerrar Caja
                 </Button>
               </Col>
+
+              <Col style={{ padding: "4px", color: "#858484" }}>|</Col>
             </>
           ) : (
             <>
@@ -252,10 +258,23 @@ export default function CajaDistribuidora() {
                 reload={reload}
               />
             </Col>
+            <Col>
+              <Card
+                title="Progreso Objetivo Mes"
+                size="small"
+                style={{
+                  borderRadius: "8px",
+                  boxShadow: "2px 2px 3px 0px rgba(0, 0, 0, 0.5)",
+                }}
+              >
+                <FoodLoader />
+              </Card>
+            </Col>
           </Row>
         </Card>
       </Card>
       <Modal
+        destroyOnClose
         open={visible}
         onCancel={() => setVisible(false)}
         title="Nuevo Egreso"

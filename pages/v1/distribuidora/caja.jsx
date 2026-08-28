@@ -1,8 +1,8 @@
-import CajaDistribuidora from "@/components/distribuidora/caja_dashboard";
+import DashboardCajaV2 from "@/components/forms/caja/caja_dashboard";
 import LayoutDistribuidora from "@/components/layout/layout_distribuidora";
 
 export default function caja(){
-    return <CajaDistribuidora />
+    return <DashboardCajaV2 />
 }
 
 caja.PageLayout = LayoutDistribuidora;

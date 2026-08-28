@@ -37,6 +37,7 @@ const DonutIngresoCategoria = ({ idsucursal, reload }) => {
         data={dataIngresos}
         options={{
           pieHole: 0.4,
+          tooltip: { trigger: "none" },
           // colors: ["#0088FE", "#00C49F"],
         }}
         width={"360px"}
