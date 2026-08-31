@@ -4,6 +4,7 @@ import SearchCodigo from "@/components/SearchCodigo";
 import MyLayout from "@/components/layout/layout";
 import { get_barcode_from_id2 } from "@/src/helpers/barcode_helper";
 import { get } from "@/src/urls";
+import { CloseOutlined, PrinterFilled } from "@ant-design/icons";
 import CloseCircleOutlined from "@ant-design/icons/CloseCircleOutlined";
 import { Modal, Button, Card, Col, Row, Table } from "antd";
 
@@ -65,8 +66,8 @@ export default function ImprimirCodigos() {
         title="Imprimir C&oacute;digos de Barras"
         style={{ boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)" }}
       >
-        <Row>
-          <Col span={8} style={{ padding: "1em" }}>
+        <Row gutter={[16, 16]}>
+          <Col style={{ padding: "1em" }} span={12}>
             <Card
               size="small"
               title={<>Agregar C&oacute;digos</>}
@@ -79,34 +80,48 @@ export default function ImprimirCodigos() {
               />
             </Card>
           </Col>
-          <Col span={16} style={{ padding: "1em", fontWeight: "bold" }}>
+          <Col style={{ padding: "1em" }} span={12}>
             <Card
               size="small"
               title={<>Lista de c&oacute;digos a imprimir</>}
               style={{ boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)" }}
+              extra={
+                <Button
+                  size="small"
+                  danger
+                  onClick={(_) => {
+                    setModalOpen(true);
+                  }}
+                >
+                  <PrinterFilled />
+                  Imprimir C&oacute;digos
+                </Button>
+              }
             >
               <Table
                 rowClassName={(record, index) =>
                   index % 2 === 0 ? "table-row-light" : "table-row-dark"
                 }
                 size="small"
-                scroll={{ y: "400px" }}
-                pagination={false}
+                pagination={true}
                 loading={tableLoading}
                 columns={[
-                  { title: "codigo", dataIndex: "codigo", width: "200px" },
                   {
-                    title: "Acciones",
-                    dataIndex: "ref_id",
-                    render: (_, { ref_id }) => (
-                      <Button
-                        onClick={() => {
-                          remove_row(ref_id);
-                        }}
-                        danger={true}
-                      >
-                        <CloseCircleOutlined />
-                      </Button>
+                    title: "codigo",
+                    dataIndex: "codigo",
+                    render: (_, { codigo, ref_id }) => (
+                      <>
+                        {codigo}&nbsp;
+                        <Button
+                          type="link"
+                          onClick={() => {
+                            remove_row(ref_id);
+                          }}
+                          danger={true}
+                        >
+                          <CloseOutlined />
+                        </Button>
+                      </>
                     ),
                   },
                 ]}
@@ -114,13 +129,13 @@ export default function ImprimirCodigos() {
                 summary={(_) => (
                   <Table.Summary.Row>
                     <Table.Summary.Cell colSpan={2}>
-                      <Button
+                      {/*<Button
                         onClick={(_) => {
                           setModalOpen(true);
                         }}
                       >
                         Imprimir C&oacute;digos
-                      </Button>
+                      </Button>*/}
                     </Table.Summary.Cell>
                   </Table.Summary.Row>
                 )}

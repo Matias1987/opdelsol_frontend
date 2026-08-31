@@ -67,6 +67,12 @@ const AdminPedidos = () => {
           >
             Ver detalle
           </Button>
+          <Button
+            type="link"
+            onClick={() => {}}
+          >
+            Asignar Factura
+          </Button>
         </>
       ),
     },
