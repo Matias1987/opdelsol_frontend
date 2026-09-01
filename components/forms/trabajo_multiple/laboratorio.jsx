@@ -4,8 +4,9 @@ import { get } from "@/src/urls";
 import HelperToolTip from "../ventas/common/HelperToolTip";
 import SelectDisenioV2 from "./form_elements/SelectDisenioV2";
 import SelectItemModal from "./form_elements/SelectItemModal";
+import { id_sf_disenios, id_sf_distrib } from "@/src/config";
 
-const LaboratorioForm = ({ callback, idCliente, onComentariosChange }) => {
+const LaboratorioForm = ({ callback, idCliente, onComentariosChange, defaultData }) => {
   const [ojos, setOjos] = useState("ambos");
   const [tipos, setTipos] = useState([]);
   const [productos, setProductos] = useState({
@@ -36,7 +37,7 @@ const LaboratorioForm = ({ callback, idCliente, onComentariosChange }) => {
   };
 
   const load = () => {
-    const url = get.optionsforsubfamilia + 88923;
+    const url = get.optionsforsubfamilia + id_sf_distrib;
     //alert(url)
     fetch(url)
       .then((r) => r.json())

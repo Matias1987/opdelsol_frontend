@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import SelectCodigoVenta from "../ventas/SelectCodigoVenta";
 import SelectItemModal from "./form_elements/SelectItemModal";
 
-const VMCristalesStock = ({ callback, onComentariosChange }) => {
+const VMCristalesStock = ({ callback, onComentariosChange, defaultData }) => {
   const [trabajoStock, setTrabajoStock] = useState({
     od_idcodigo: "",
     od_eje: "",

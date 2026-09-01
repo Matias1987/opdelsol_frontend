@@ -4,7 +4,7 @@ import CloseOutlined from "@ant-design/icons/CloseOutlined";
 import { Button, Input, Modal, Spin, Table } from "antd";
 import { useEffect, useState } from "react";
 
-const SelectDisenioV2 = ({ idgrupo, callback, style, idcliente }) => {
+const SelectDisenioV2 = ({ idgrupo, callback, style, idcliente, defaultId }) => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [selection, setSelection] = useState(null);
@@ -60,6 +60,16 @@ const SelectDisenioV2 = ({ idgrupo, callback, style, idcliente }) => {
         }));
         setData(options);
         setLoading(false);
+        const _defaultId=676988;
+        if(_defaultId)
+        {
+          const _opt = options.find(r=>+r.value===+_defaultId)
+          //alert(JSON.stringify(_opt))
+          if(_opt)
+          {
+            onChange(_opt);
+          }
+        }
       });
     //... to do
   };
