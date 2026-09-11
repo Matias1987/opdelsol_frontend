@@ -301,6 +301,7 @@ const post = {
   inf_monto_ing_cat: remote_base_url + "infcaja/monto/ing/cat/",
   inf_monto_eg_cat: remote_base_url + "infcaja/monto/eg/cat/",
   inf_ls_eg_ig: remote_base_url + "infcaja/ls/eg/ig/",
+  inf_saldo_total_proveedores: remote_base_url + "infp/info/l/sdo/general/",
 
   search: {
     filtro_stock: remote_base_url + "stock/filtro_stock/",
