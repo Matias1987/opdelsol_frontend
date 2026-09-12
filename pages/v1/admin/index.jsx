@@ -1,10 +1,17 @@
 import LayoutAdmin from "@/components/layout/layout_admin";
 import globals from "@/src/globals";
 import { get } from "@/src/urls";
-import { Col, Row } from "antd";
+import { Card, Col, Row } from "antd";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 
+const TotalesProveedores = dynamic(
+  () => import("@/components/admin/dashboard_components/totales_proveedores"),
+  {
+    ssr: false,
+    loading: () => <div style={{ height: "300px" }}>&#9203;</div>,
+  },
+);
 const TotalesCobros = dynamic(
   () => import("@/components/admin/dashboard_components/totales_cobros"),
   {
@@ -26,10 +33,13 @@ export default function dashboard_admin() {
   const [open, setOpen] = useState(false);
   const [esUsuarioAdminMin, setEsUsuarioAdminMin] = useState(true);
 
-  const styles = {
-    darkRow: "#F0C2A5",
-    lightRow: "#F4DD76",
-  };
+
+  const row_style = {
+    backgroundColor: "#f5f5f5",
+    borderRadius: "8px",
+    margin: "8px",
+    padding: "8px",
+  }
   var col = 0;
   useEffect(() => {
     setEsUsuarioAdminMin(globals.esUsuarioAdminMin());
@@ -50,15 +60,21 @@ export default function dashboard_admin() {
     </>
   ) : (
     <>
-      <Row gutter={[16, 16]}>
+    <Card size="small" title="Dashboard" style={{ borderRadius: "8px", boxShadow: "2px 2px 3px 0px rgba(0, 0, 0, 0.5)" }}>
+      <Row style={row_style} gutter={[16, 16]}>
         <Col>
           <TotalesCobros />
         </Col>
-
+        <Col>
+          <TotalesProveedores />
+        </Col>
+      </Row>
+      <Row style={row_style} gutter={[16, 16]}>
         <Col>
           <PieChartVentasGraph />
         </Col>
       </Row>
+      </Card>
     </>
   );
 }

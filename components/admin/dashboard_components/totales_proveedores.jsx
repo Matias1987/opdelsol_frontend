@@ -10,10 +10,12 @@ const TotalesProveedores = () => {
   const [reload, setReload] = useState(false);
   useEffect(() => {
     const fetchTotales = async () => {
-      post_method(post.inf_saldo_total_proveedores, {}, (response) => {
-        setLoading(false);
-        setTotales(response.data);
-      });
+      fetch(post.inf_saldo_total_proveedores)
+        .then((r) => r.json())
+        .then((response) => {
+          setTotales(response.data);
+          setLoading(false);
+        });
     };
     fetchTotales();
   }, []);
@@ -21,7 +23,7 @@ const TotalesProveedores = () => {
   return (
     <>
       <Card
-        style={{ boxShadow: "0px 5px 15px #888888" }}
+        style={{ boxShadow: "1px 1px 2px #888888" }}
         title="Totales Proveedores"
         size="small"
         extra={
@@ -38,38 +40,42 @@ const TotalesProveedores = () => {
           </>
         }
       >
-        <Row gutter={[16, 16]} style={{ padding: "0px" }}>
-          {totales.map((t) => (
-            <Col>
-              <Card
-                variant="borderless"
-                style={{
-                  backgroundColor: "#109618",
-                  borderRadius: "8px",
-                  cursor: "default",
-                  color: "white",
-                }}
-              >
-                <Statistic
-                  loading={loading}
-                  title={
-                    <span style={{ fontWeight: "bolder", color: "white" }}>
-                      {"Saldo"}
-                    </span>
-                  }
-                  value={t.monto}
-                  precision={2}
-                  valueStyle={{
-                    color: "#ffff",
-                    fontWeight: "bolder",
-                    fontSize: "1.4em",
+        {loading ? (
+          <div style={{ height: "300px" }}>&#9203;</div>
+        ) : (
+          <Row gutter={[16, 16]} style={{ padding: "0px" }}>
+            {totales?.map((t) => (
+              <Col>
+                <Card
+                  variant="borderless"
+                  style={{
+                    backgroundColor: "#7e807e",
+                    borderRadius: "8px",
+                    cursor: "default",
+                    color: "white",
                   }}
-                  prefix={t.moneda}
-                />
-              </Card>
-            </Col>
-          ))}
-        </Row>
+                >
+                  <Statistic
+                    loading={loading}
+                    title={
+                      <span style={{ fontWeight: "bolder", color: "white" }}>
+                        {"Saldo " + t.moneda}
+                      </span>
+                    }
+                    value={t.amnt}
+                    precision={2}
+                    valueStyle={{
+                      color: "#ffff",
+                      fontWeight: "bolder",
+                      fontSize: "1.4em",
+                    }}
+                    prefix={<DollarOutlined style={{ color: "white" }} />}
+                  />
+                </Card>
+              </Col>
+            ))}
+          </Row>
+        )}
       </Card>
     </>
   );

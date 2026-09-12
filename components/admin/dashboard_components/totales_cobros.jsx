@@ -55,7 +55,7 @@ const TotalesCobros = (props) => {
   return (
     <>
       <Card
-        style={{ boxShadow: "0px 5px 15px #888888" }}
+        style={{ boxShadow: "1px 1px 2px #888888" }}
         title="Totales Cobros"
         size="small"
         extra={

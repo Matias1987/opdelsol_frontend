@@ -269,7 +269,7 @@ const PieChartVentasGraph = () => {
         />
       }
       size="small"
-      style={{ boxShadow: "0px 5px 15px #888888", width: "620px" }}
+      style={{ boxShadow: "1px 1px 2px #888888", width: "620px" }}
     >
       <Row style={{ padding: "8px", backgroundColor: "#f3f3f3" }}>
         <Col span={24}>

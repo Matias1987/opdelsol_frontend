@@ -38,7 +38,8 @@ const SideMenuAdmin = ({ collapsed }) => {
       trigger={null}
       collapsible
       collapsed={collapsed}
-      style={{ position: "fixed", height: "100vh", left: 0, top: 0 }}
+      style={{ position: "fixed", height: "100vh", left: 0, top: 0 , overflow: 'auto',}}
+
     >
       <div
         className="logo"

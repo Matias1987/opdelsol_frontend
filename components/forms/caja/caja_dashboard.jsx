@@ -137,7 +137,7 @@ export default function DashboardCajaV2() {
       <Card
         title={<>Resumen de Caja</>}
         size="small"
-        style={{ boxShadow: "4px 4px 6px 0px rgba(0, 0, 0, 0.5)" }}
+        style={{ boxShadow: "1px 1px 2px 0px rgba(167, 167, 167, 0.5)" }}
       >
         <Row
           gutter={[8, 8]}
@@ -179,7 +179,7 @@ export default function DashboardCajaV2() {
 
               <Col>
                 <Button
-                  danger  
+                  danger
                   style={button_style}
                   type="link"
                   onClick={(_) => {
@@ -217,14 +217,17 @@ export default function DashboardCajaV2() {
           </Col>
         </Row>
         &nbsp;
-        <Card
-          size="small"
-          style={{ boxShadow: "2px 2px 3px 0px rgba(0, 0, 0, 0.5)" }}
-          title="Movimientos"
-          extra={<></>}
-        >
-          <Row>
-            <Col span={24}>
+        <Row>
+          <Col span={24}>
+            <Card
+              size="small"
+              style={{
+                borderRadius: "8px",
+                boxShadow: "2px 2px 3px 0px rgba(0, 0, 0, 0.5)",
+              }}
+              title="Movimientos"
+              extra={<></>}
+            >
               <Table
                 dataSource={cajaActual ? movimientos : null}
                 columns={columns}
@@ -233,9 +236,10 @@ export default function DashboardCajaV2() {
                 pagination={false}
                 size="small"
               />
-            </Col>
-          </Row>
-          {/*<Row>
+            </Card>
+          </Col>
+        </Row>
+        {/*<Row>
             <Col span={24}>
               <Input
                 readOnly
@@ -244,34 +248,33 @@ export default function DashboardCajaV2() {
               />
             </Col>
           </Row>*/}
-          &nbsp;
-          <Row gutter={[16, 16]}>
-            <Col>
-              <DonutIngresoCategoria
-                idsucursal={globals.obtenerSucursal()}
-                reload={reload}
-              />
-            </Col>
-            <Col>
-              <DonutEgresoCategoria
-                idsucursal={globals.obtenerSucursal()}
-                reload={reload}
-              />
-            </Col>
-            <Col>
-              <Card
-                title="Progreso Objetivo Mes"
-                size="small"
-                style={{
-                  borderRadius: "8px",
-                  boxShadow: "2px 2px 3px 0px rgba(0, 0, 0, 0.5)",
-                }}
-              >
-                <FoodLoader />
-              </Card>
-            </Col>
-          </Row>
-        </Card>
+        &nbsp;
+        <Row gutter={[16, 16]}>
+          <Col>
+            <DonutIngresoCategoria
+              idsucursal={globals.obtenerSucursal()}
+              reload={reload}
+            />
+          </Col>
+          <Col>
+            <DonutEgresoCategoria
+              idsucursal={globals.obtenerSucursal()}
+              reload={reload}
+            />
+          </Col>
+          <Col>
+            <Card
+              title="Progreso Objetivo Mes"
+              size="small"
+              style={{
+                borderRadius: "8px",
+                boxShadow: "2px 2px 3px 0px rgba(0, 0, 0, 0.5)",
+              }}
+            >
+              <FoodLoader />
+            </Card>
+          </Col>
+        </Row>
       </Card>
       <Modal
         destroyOnClose
