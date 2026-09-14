@@ -142,7 +142,7 @@ const SelectClienteV2 = (props) => {
       .then((response) => response.json())
       .then((response) => {
         setClientes(
-          response.data.map((r) => ({
+          response.data.map((r, index) => ({
             dni: r.dni,
             idcliente: r.idcliente,
             apellido: r.apellido,
@@ -150,6 +150,7 @@ const SelectClienteV2 = (props) => {
             direccion: r.direccion,
             telefono1: r.telefono1,
             bloqueado: r.bloqueado,
+            key: index,
           })),
         );
         setLoading(false);

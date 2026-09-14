@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import HelperToolTip from "@/components/forms/ventas/common/HelperToolTip";
 import DistanciaCristal from "./distancia_cristal";
 
-const TipoRecetaStock = ({ callback, onComentariosChange }) => {
+const TipoRecetaStock = ({ callback, onComentariosChange, path }) => {
   const [trabajoStock, setTrabajoStock] = useState({
     lejos: null,
     cerca: null,

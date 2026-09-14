@@ -26,10 +26,11 @@ export default function SelectMedico({
       .then((response) => response.json())
       .then((response) => {
         setMedicos(
-          response.data.map((r) => ({
+          response.data.map((r,index) => ({
             nombre: r.nombre,
             matricula: r.matricula,
             idmedico: r.idmedico,
+            key: index,
           })),
         );
         if ("undefined" !== typeof medicoRequired && medicoRequired == false) {
@@ -55,10 +56,11 @@ export default function SelectMedico({
       .then((response) => response.json())
       .then((response) => {
         setMedicos(
-          response.data.map((r) => ({
+          response.data.map((r, index) => ({
             nombre: r.nombre,
             matricula: r.matricula,
             idmedico: r.idmedico,
+            key: index
           })),
         );
         setLoading(false);

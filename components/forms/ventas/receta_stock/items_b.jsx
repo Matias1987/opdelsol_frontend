@@ -204,7 +204,7 @@ const RecetaStockItemsB = (props) => {
                 onVisibleChange={(_value) =>
                   onVisibleChange("cerca_tratamiento_visible", _value)
                 }
-                tipo="LEJOS_TRATAMIENTO"
+                tipo="CERCA_TRATAMIENTO"
                 buttonText={<SelectCodeButton />}
                 callback={(v) => {
                   on_change("cerca_tratamiento", v);

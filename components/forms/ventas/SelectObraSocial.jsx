@@ -30,10 +30,11 @@ const SelectObraSocial = (props) => {
         .then(response=>response.json())
         .then((response)=>{
             setObraSociales(
-                response.data.map(r=>(
+                response.data.map((r, index)=>(
                     {
                         nombre: r.nombre,
                         idmutual: r.idmutual,
+                        key: index
                     }
                 ))
             )
@@ -73,11 +74,11 @@ const SelectObraSocial = (props) => {
         .then((response)=>{
             setObraSociales(
                 response.data.map(
-                    r=>(
+                    (r, index)=>(
                         {
                             nombre: r.nombre,
                             idmutual: r.idmutual,
-                            
+                            key: index
                         }
                     )
                 )

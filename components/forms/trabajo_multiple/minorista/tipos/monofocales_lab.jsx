@@ -15,7 +15,7 @@ import {
 import { useEffect, useState } from "react";
 import DistanciaCristal from "./distancia_cristal";
 
-const TipoMonofocalesLab = ({ callback, onComentariosChange }) => {
+const TipoMonofocalesLab = ({ callback, onComentariosChange, path }) => {
   const [trabajoStock, setTrabajoStock] = useState({
     lejos: null,
     cerca: null,

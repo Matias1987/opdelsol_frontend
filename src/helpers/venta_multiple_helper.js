@@ -1,0 +1,172 @@
+const obtenerObjetoRecetaStock = () => {
+  return {
+    items: {
+      lejos: {
+        od_idcodigo: 60367,
+        od_esf: "",
+        od_cil: "",
+        od_eje: "",
+        od_precio: 0,
+        oi_idcodigo: "",
+        oi_esf: "",
+        oi_cil: "",
+        oi_eje: "",
+        oi_precio: "0",
+        armazon_idcodigo: "",
+        armazon_precio: "",
+        tratamiento_idcodigo: "",
+        tratamiento_precio: "0",
+        distancia: "lejos",
+        od_descuento: "0",
+      },
+      cerca: {
+        od_idcodigo: 60367,
+        od_esf: "",
+        od_cil: "",
+        od_eje: "",
+        od_precio: 0,
+        oi_idcodigo: "",
+        oi_esf: "",
+        oi_cil: "",
+        oi_eje: "",
+        oi_precio: "0",
+        armazon_idcodigo: "",
+        armazon_precio: "",
+        tratamiento_idcodigo: "",
+        tratamiento_precio: "0",
+        distancia: "cerca",
+        od_descuento: "0",
+      },
+    },
+  };
+};
+const obtenerObjetoMonofocalLaboratorio = () => {
+  return {
+    lejos: {
+      od_idcodigo: 60367,
+      od_esf: "",
+      od_cil: "",
+      od_eje: "",
+      od_precio: 0,
+      oi_idcodigo: "",
+      oi_esf: "",
+      oi_cil: "",
+      oi_eje: "",
+      oi_precio: "0",
+      armazon_idcodigo: "",
+      armazon_precio: "",
+      tratamiento_idcodigo: "",
+      tratamiento_precio: "0",
+      distancia: "lejos",
+      od_descuento: "0",
+    },
+    cerca: {
+      od_idcodigo: 60367,
+      od_esf: "",
+      od_cil: "",
+      od_eje: "",
+      od_precio: 0,
+      oi_idcodigo: "",
+      oi_esf: "",
+      oi_cil: "",
+      oi_eje: "",
+      oi_precio: "0",
+      armazon_idcodigo: "",
+      armazon_precio: "",
+      tratamiento_idcodigo: "",
+      tratamiento_precio: "0",
+      distancia: "cerca",
+      od_descuento: "0",
+    },
+  };
+};
+
+const obtenerObjetoMultifocalLaboratorio = () => {
+  return {
+    od_idcodigo: 60367,
+    od_esf: "",
+    od_cil: "",
+    od_eje: "",
+    od_precio: 0,
+    oi_idcodigo: 37314,
+    oi_esf: "",
+    oi_cil: "",
+    oi_eje: "",
+    oi_precio: 0,
+    armazon_idcodigo: "",
+    armazon_precio: "0",
+    tratamiento_idcodigo: "",
+    tratamiento_precio: "0",
+    od_descuento: "0",
+    oi_descuento: "0",
+  };
+};
+
+const obtenerObjetoLCStock = () => {
+  return {
+    od_idcodigo: "",
+    od_esf: "",
+    od_cil: "",
+    od_eje: "",
+    od_cantidad: "",
+    od_total: "0",
+    od_precio: "",
+    oi_idcodigo: "",
+    oi_esf: "",
+    oi_cil: "",
+    oi_eje: "",
+    oi_cantidad: "",
+    oi_total: "0",
+    oi_precio: "",
+    insumo_idcodigo: "",
+    insumo_precio: "",
+    insumo_total: "0",
+  };
+};
+
+const obtenerObjetoLCLaboratorio = () => {
+  return {
+    lejos: {
+      od_idcodigo: "",
+      od_esf: "",
+      od_cil: "",
+      od_eje: "",
+      od_precio: "0",
+      oi_idcodigo: "",
+      oi_esf: "",
+      oi_cil: "",
+      oi_eje: "",
+      oi_precio: "0",
+      armazon_idcodigo: "",
+      armazon_precio: "",
+      tratamiento_idcodigo: "",
+      tratamiento_precio: "0",
+      distancia: "lejos",
+    },
+    cerca: {
+      od_idcodigo: "",
+      od_esf: "",
+      od_cil: "",
+      od_eje: "",
+      od_precio: "0",
+      oi_idcodigo: "",
+      oi_esf: "",
+      oi_cil: "",
+      oi_eje: "",
+      oi_precio: "0",
+      armazon_idcodigo: "",
+      armazon_precio: "",
+      tratamiento_idcodigo: "",
+      tratamiento_precio: "0",
+      distancia: "cerca",
+    },
+  };
+};
+
+module.exports = {
+  obtenerObjetoRecetaStock,
+  obtenerObjetoMonofocalLaboratorio,
+  obtenerObjetoMultifocalLaboratorio,
+  obtenerObjetoLCStock,
+  obtenerObjetoLCLaboratorio,
+};

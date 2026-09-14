@@ -4,7 +4,7 @@ import globals from "@/src/globals";
 import { Card, Col, Divider, Input, InputNumber, Row, Table } from "antd";
 import { useEffect, useState } from "react";
 
-const TipoLCStock = ({ callback, onComentariosChange }) => {
+const TipoLCStock = ({ callback, onComentariosChange, path }) => {
   const [trabajoStock, setTrabajoStock] = useState({
     od_idcodigo: "",
     od_esf: "",

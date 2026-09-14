@@ -24,6 +24,13 @@ import SelectCliente from "../../ventas/SelectCliente";
 import ModoPagoV4 from "../../modo_pago/ModoPagoV4";
 import dayjs from "dayjs";
 import esES from "antd/locale/es_ES";
+import {
+  obtenerObjetoLCLaboratorio,
+  obtenerObjetoLCStock,
+  obtenerObjetoMonofocalLaboratorio,
+  obtenerObjetoMultifocalLaboratorio,
+  obtenerObjetoRecetaStock,
+} from "@/src/helpers/venta_multiple_helper";
 //import useStorage from "@/useStorage";
 
 /* leer: https://refine.dev/blog/common-usestate-mistakes-and-how-to-avoid/ */
@@ -65,7 +72,7 @@ const VentaMultipleMinorista = ({
     horaRetiro: null,
     comentarios: "",
     fksucursal: globals.obtenerSucursal(),
-    fkcaja: 0, //globals.obtenerCajaID(),
+    fkcaja: 0,
     json_items: "",
     tk: "",
     uid: "",
@@ -82,7 +89,96 @@ const VentaMultipleMinorista = ({
   const [idCliente, setIdCliente] = useState(0);
   const [finalV, setFinalV] = useState({});
 
-  const updateTabName = (tabKey, newName) => {
+  const agregarNuevoTrabajo = (tipo) => {
+    switch (tipo) {
+      case "rec_st":
+        setTrabajos((t) => {
+          const mod = [...t];
+          const newTrabajo = obtenerObjetoRecetaStock();
+          newTrabajo.localId = localId;
+          setLocalId(localId + 1);
+          mod.push(newTrabajo);
+          calcularTotal(mod);
+          on_change_done?.(mod.length > 0);
+          return mod;
+        });
+        break;
+      case "monof_lab":
+        setTrabajos((t) => {
+          const mod = [...t];
+          const newTrabajo = obtenerObjetoMonofocalLaboratorio();
+          newTrabajo.localId = localId;
+          setLocalId(localId + 1);
+          mod.push(newTrabajo);
+          calcularTotal(mod);
+          on_change_done?.(mod.length > 0);
+          return mod;
+        });
+        break;
+      case "multif_lab":
+        setTrabajos((t) => {
+          const mod = [...t];
+          const newTrabajo = obtenerObjetoMultifocalLaboratorio();
+          newTrabajo.localId = localId;
+          setLocalId(localId + 1);
+          mod.push(newTrabajo);
+          calcularTotal(mod);
+          on_change_done?.(mod.length > 0);
+          return mod;
+        });
+        break;
+      case "lc_st":
+        setTrabajos((t) => {
+          const mod = [...t];
+          const newTrabajo = obtenerObjetoLCStock();
+          newTrabajo.localId = localId;
+          setLocalId(localId + 1);
+          mod.push(newTrabajo);
+          calcularTotal(mod);
+          on_change_done?.(mod.length > 0);
+          return mod;
+        });
+        break;
+      case "lc_lab":
+        setTrabajos((t) => {
+          const mod = [...t];
+          const newTrabajo = obtenerObjetoLCLaboratorio();
+          newTrabajo.localId = localId;
+          setLocalId(localId + 1);
+          mod.push(newTrabajo);
+          calcularTotal(mod);
+          on_change_done?.(mod.length > 0);
+          return mod;
+        });
+        break;
+      default:
+        alert("Tipo de trabajo no reconocido: " + tipo);
+        break;
+    }
+  };
+
+  const updateNestedValue = (path, newValue) => {
+    setMyObject((prev) => {
+      // 1. Deep clone or shallow copy the structure to avoid mutating state
+      const cloned = { ...prev };
+      let current = cloned;
+
+      // 2. Traverse down to the second-to-last key
+      for (let i = 0; i < path.length - 1; i++) {
+        const key = path[i];
+        current[key] = { ...current[key] }; // Copy the nested object
+        current = current[key];
+      }
+
+      // 3. Set the final value
+      const finalKey = path[path.length - 1];
+      current[finalKey] = newValue;
+
+      return cloned;
+    });
+  };
+
+  const updateTabName = (tabKey, newName, val) => {
     setItems((prevTabs) =>
       prevTabs.map((tab) =>
         +tab.key == +tabKey
@@ -104,20 +200,23 @@ const VentaMultipleMinorista = ({
     );
   };
 
-  const tab_content = (id) => (
+  const tab_content = (id, tabajoObject) => (
     <>
       <SelectTrabajo
         localId={id}
         callback={onTabValuesChange}
         idCliente={idCliente}
         onRename={updateTabName}
+        trabajoObject={tabajoObject}
       />
     </>
   );
 
   const newTabIndex = useRef(0);
 
-  const onTabValuesChange = (data) => {
+  const onTabValuesChange = (updateFnt) => {
+    const newObject = updateFnt();
+    /*
     setTrabajos((t) => {
       const mod = [...t];
       const index = mod.findIndex((t) => +t.localId == +data.localId);
@@ -129,7 +228,7 @@ const VentaMultipleMinorista = ({
       calcularTotal(mod);
       on_change_done?.(mod.length > 0);
       return mod;
-    });
+    });*/
   };
 
   const calcularTotal = (trabajos) => {
@@ -152,12 +251,21 @@ const VentaMultipleMinorista = ({
 
   const add = () => {
     const newActiveKey = newTabIndex.current++;
+
+    const tabajoObject = {
+      localId: newActiveKey,
+      nro: newActiveKey,
+      tipo: "",
+      monto_total: 0,
+      comentarios: "",
+    };
+
     setItems([
       ...(items || []),
       {
         label: "Nuevo Trabajo",
         key: newActiveKey,
-        children: <>{tab_content(newActiveKey)}</>,
+        children: <>{tab_content(newActiveKey, tabajoObject)}</>,
       },
     ]);
     setActiveKey(newActiveKey);
@@ -207,7 +315,7 @@ const VentaMultipleMinorista = ({
 
   const format_venta = () => {
     const procesar_items = (tr, has_dist) => {
-      if(!tr){
+      if (!tr) {
         return [];
       }
       const _items = [];
@@ -299,7 +407,10 @@ const VentaMultipleMinorista = ({
       tipo: t.tipo,
       nro: t.nro,
       comentarios: t.comentarios,
-      items: procesar_items(t.items, t.tipo == "rec_st" || t.tipo=="monof_lab"),
+      items: procesar_items(
+        t.items,
+        t.tipo == "rec_st" || t.tipo == "monof_lab",
+      ),
     }));
 
     return trabajos.length < 2
