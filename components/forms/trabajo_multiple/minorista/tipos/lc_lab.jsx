@@ -3,8 +3,8 @@ import SelectCodigoVenta from "@/components/forms/ventas/SelectCodigoVenta";
 import globals from "@/src/globals";
 import { Card, Col, Divider, Input, InputNumber, Row, Table } from "antd";
 import { useEffect, useState } from "react";
-const TipoLCLab = ({ callback, onComentariosChange, path }) => {
-  const [trabajoStock, setTrabajoStock] = useState({
+const TipoLCLab = ({ callback, path, trabajoObject }) => {
+  /*const [trabajoStock, setTrabajoStock] = useState({
     od_idcodigo: "",
     od_esf: "",
     od_cil: "",
@@ -17,16 +17,8 @@ const TipoLCLab = ({ callback, onComentariosChange, path }) => {
     oi_precio: "0",
     insumo_idcodigo: "",
     insumo_precio: "0",
-  });
+  });*/
 
-  /*
-  const [formValues, setFormValues] = useState({
-    od: { esf: "", cil: "", eje: "", precio: "" },
-    oi: { esf: "", cil: "", eje: "", precio: "" },
-    armazon: { esf: "", cil: "", eje: "", precio: "" },
-    tratamiento: { esf: "", cil: "", eje: "", precio: "" },
-  });
-*/
   const dataSource = [
     {
       key: "od",
@@ -152,7 +144,7 @@ const TipoLCLab = ({ callback, onComentariosChange, path }) => {
           <Input
             type="number"
             placeholder="Input"
-            value={trabajoStock[record.key + "_eje"]}
+            value={0}
             onChange={(e) => onChange(record.key + "_eje", e.target.value)}
           />
         ) : (
@@ -176,7 +168,7 @@ const TipoLCLab = ({ callback, onComentariosChange, path }) => {
           <Input
             type="number"
             placeholder="Input"
-            value={trabajoStock[record.key + "_cb"]}
+            value={0}
             onChange={(e) => onChange(record.key + "_cb", e.target.value)}
           />
         ) : (
@@ -200,7 +192,7 @@ const TipoLCLab = ({ callback, onComentariosChange, path }) => {
           <Input
             type="number"
             placeholder="Input"
-            value={trabajoStock[record.key + "_diam"]}
+            value={0}
             onChange={(e) =>
               onChange(record.key + "_diam", e.target.value)
             }
@@ -224,7 +216,7 @@ const TipoLCLab = ({ callback, onComentariosChange, path }) => {
       render: (hasInput, record) => (
         <InputNumber
           style={{ width: "120px" }}
-          value={trabajoStock[record.key + "_precio"]}
+          value={0}
           onChange={(e) =>
             onChange(record.key + "_precio", e.target.value)
           }
@@ -233,19 +225,12 @@ const TipoLCLab = ({ callback, onComentariosChange, path }) => {
     },
   ];
   const onChange = (key, value) => {
-    setTrabajoStock((t) => {
-      const modif = { ...t, [key]: value };
-      callback?.(
-        modif,
-        parseFloat(trabajoStock.od_precio) +
-          parseFloat(trabajoStock.oi_precio) +
-          parseFloat(trabajoStock.insumo_precio),
-      );
-      return modif;
-    });
+    callback?.(path, [key], value);
   };
 
   const onchange_codigo = (key_idcodigo, key_precio, key_descuento, value) => {
+    callback?.(path, [key_idcodigo, key_precio, key_descuento], value);
+    /*
     if (value === null || value?.codigo === null) {
       setTrabajoStock((p) => {
         const mod = {
@@ -284,11 +269,12 @@ const TipoLCLab = ({ callback, onComentariosChange, path }) => {
       );
       return mod;
     });
+    */
   };
 
   useEffect(() => {
     callback?.(
-      trabajoStock,
+      path,
       parseFloat(trabajoStock.od_precio) +
         parseFloat(trabajoStock.oi_precio) +
         parseFloat(trabajoStock.insumo_precio),

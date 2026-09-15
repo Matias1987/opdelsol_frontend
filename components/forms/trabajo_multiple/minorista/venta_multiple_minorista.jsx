@@ -12,7 +12,7 @@ import {
   Tabs,
   TimePicker,
 } from "antd";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import SelectVendedor from "@/components/usuario/vendedor/SelectVendedor";
 import { post } from "@/src/urls";
 import { post_method } from "@/src/helpers/post_helper";
@@ -85,77 +85,14 @@ const VentaMultipleMinorista = ({
   const [subTotal, setSubTotal] = useState(0);
   const [descuento, setDescuento] = useState(0);
   const [trabajos, setTrabajos] = useState([]);
+  const trabajosRef = useRef(trabajos);
   const [items, setItems] = useState([]);
   const [idCliente, setIdCliente] = useState(0);
   const [finalV, setFinalV] = useState({});
 
-  const agregarNuevoTrabajo = (tipo) => {
-    switch (tipo) {
-      case "rec_st":
-        setTrabajos((t) => {
-          const mod = [...t];
-          const newTrabajo = obtenerObjetoRecetaStock();
-          newTrabajo.localId = localId;
-          setLocalId(localId + 1);
-          mod.push(newTrabajo);
-          calcularTotal(mod);
-          on_change_done?.(mod.length > 0);
-          return mod;
-        });
-        break;
-      case "monof_lab":
-        setTrabajos((t) => {
-          const mod = [...t];
-          const newTrabajo = obtenerObjetoMonofocalLaboratorio();
-          newTrabajo.localId = localId;
-          setLocalId(localId + 1);
-          mod.push(newTrabajo);
-          calcularTotal(mod);
-          on_change_done?.(mod.length > 0);
-          return mod;
-        });
-        break;
-      case "multif_lab":
-        setTrabajos((t) => {
-          const mod = [...t];
-          const newTrabajo = obtenerObjetoMultifocalLaboratorio();
-          newTrabajo.localId = localId;
-          setLocalId(localId + 1);
-          mod.push(newTrabajo);
-          calcularTotal(mod);
-          on_change_done?.(mod.length > 0);
-          return mod;
-        });
-        break;
-      case "lc_st":
-        setTrabajos((t) => {
-          const mod = [...t];
-          const newTrabajo = obtenerObjetoLCStock();
-          newTrabajo.localId = localId;
-          setLocalId(localId + 1);
-          mod.push(newTrabajo);
-          calcularTotal(mod);
-          on_change_done?.(mod.length > 0);
-          return mod;
-        });
-        break;
-      case "lc_lab":
-        setTrabajos((t) => {
-          const mod = [...t];
-          const newTrabajo = obtenerObjetoLCLaboratorio();
-          newTrabajo.localId = localId;
-          setLocalId(localId + 1);
-          mod.push(newTrabajo);
-          calcularTotal(mod);
-          on_change_done?.(mod.length > 0);
-          return mod;
-        });
-        break;
-      default:
-        alert("Tipo de trabajo no reconocido: " + tipo);
-        break;
-    }
-  };
+  useEffect(() => {
+    trabajosRef.current = trabajos;
+  }, [trabajos]);
 
   const updateNestedValue = (path, newValue) => {
     setMyObject((prev) => {
@@ -178,7 +115,43 @@ const VentaMultipleMinorista = ({
     });
   };
 
-  const updateTabName = (tabKey, newName, val) => {
+  const obtenerTrabajoObject = (tipo) => {
+    switch (tipo) {
+      case "rec_st":
+        return obtenerObjetoRecetaStock();
+      case "monof_lab":
+        return obtenerObjetoMonofocalLaboratorio();
+      case "multif_lab":
+        return obtenerObjetoMultifocalLaboratorio();
+      case "lc_st":
+        return obtenerObjetoLCStock();
+      case "lc_lab":
+        return obtenerObjetoLCLaboratorio();
+      default:
+        alert("Tipo de trabajo no reconocido: " + tipo);
+        break;
+    }
+  };
+
+  const onTipoTrabajoSelected = (tabKey, newName, val) => {
+    alert(JSON.stringify({ tabKey, newName, val }));
+    const _trabajos = trabajosRef.current;
+    alert(JSON.stringify(_trabajos));
+
+    //return;
+
+    const trabajo = _trabajos.find((t) => +t.localId == +tabKey);
+    if (!trabajo) {
+      alert("Error: No se encontró el trabajo con localId: " + tabKey);
+      return;
+    }
+    setTrabajos((prevTrabajos) =>
+      prevTrabajos.map((t) =>
+        +t.localId == +tabKey
+          ? { ...t, tipo: val, items: obtenerTrabajoObject(val) }
+          : t,
+      ),
+    );
     setItems((prevTabs) =>
       prevTabs.map((tab) =>
         +tab.key == +tabKey
@@ -206,8 +179,9 @@ const VentaMultipleMinorista = ({
         localId={id}
         callback={onTabValuesChange}
         idCliente={idCliente}
-        onRename={updateTabName}
+        onTipoTrabajoSelected={onTipoTrabajoSelected}
         trabajoObject={tabajoObject}
+        path={[]}
       />
     </>
   );
@@ -259,6 +233,8 @@ const VentaMultipleMinorista = ({
       monto_total: 0,
       comentarios: "",
     };
+
+    setTrabajos((t) => [...t, tabajoObject]);
 
     setItems([
       ...(items || []),

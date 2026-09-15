@@ -1,15 +1,11 @@
-import SelectCodigoVenta from "@/components/forms/ventas/SelectCodigoVenta";
-import globals from "@/src/globals";
-import { Card, Col, Input, InputNumber, Row, Select, Table, Tabs } from "antd";
-import { useEffect, useState } from "react";
-import HelperToolTip from "@/components/forms/ventas/common/HelperToolTip";
+import { Card, Tabs } from "antd";
 import DistanciaCristal from "./distancia_cristal";
 
-const TipoRecetaStock = ({ callback, onComentariosChange, path }) => {
-  const [trabajoStock, setTrabajoStock] = useState({
+const TipoRecetaStock = ({ callback, path, trabajoObject }) => {
+  /*const [trabajoStock, setTrabajoStock] = useState({
     lejos: null,
     cerca: null,
-  });
+  });*/
 
   const tabItems = [
     {
@@ -18,10 +14,10 @@ const TipoRecetaStock = ({ callback, onComentariosChange, path }) => {
       children: (
         <>
           <DistanciaCristal
+            path={[...path, "lejos"]}
             tipo={"lejos"}
-            callback={(lejos) => {
-              onChange("lejos", lejos);
-            }}
+            callback={callback}
+            trabajoObject={trabajoObject}
           />
         </>
       ),
@@ -32,10 +28,10 @@ const TipoRecetaStock = ({ callback, onComentariosChange, path }) => {
       children: (
         <>
           <DistanciaCristal
+            path={[...path, "cerca"]}
             tipo={"cerca"}
-            callback={(cerca) => {
-              onChange("cerca", cerca);
-            }}
+            callback={callback}
+            trabajoObject={trabajoObject}
           />
         </>
       ),
@@ -45,15 +41,13 @@ const TipoRecetaStock = ({ callback, onComentariosChange, path }) => {
   const onChangeTabs = (key) => {
     console.log(`Active tab key: ${key}`);
   };
+  /*
+ 
 
   const onChange = (key, value) => {
-    setTrabajoStock((t) => {
-      const modif = { ...t, [key]: value };
-      callback?.(modif, 0 /**  calculate total here... */);
-      return modif;
-    });
+    callback?.(path, key, value);
   };
-
+*/
   return (
     <>
       <Card

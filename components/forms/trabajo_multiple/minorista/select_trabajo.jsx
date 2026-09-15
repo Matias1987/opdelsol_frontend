@@ -10,8 +10,9 @@ const SelectTrabajo = ({
   callback,
   localId,
   idCliente,
-  onRename,
-  trabajoObject,
+  onTipoTrabajoSelected,
+  path,
+  trabajoObject
 }) => {
   const DIRECTA = 0;
   const RECETA_STOCK = 1;
@@ -20,7 +21,8 @@ const SelectTrabajo = ({
   const LC_STOCK = 4;
   const LC_LAB = 5;
   const [tipoTrabajo, setTipoTrabajo] = useState(-1);
-  /*const [trabajo, setTrabajo] = useState({
+  /*
+  const [trabajo, setTrabajo] = useState({
     localId: localId,
     nro: "1",
     tipo: "",
@@ -62,88 +64,63 @@ const SelectTrabajo = ({
     }
   };
 
-  useEffect(() => {
-    onChange("localId", localId);
-  }, []);
-
-  const onChange = (key, value) => {
-    //setTrabajo((t) => {
-    //  const mod = { ...t, [key]: value };
-    //  callback?.(mod);
-    //  return mod;
-    //});
-  };
-
-  const onItemsChanged = (_items, total) => {
-    //setTrabajo((t) => {
-    //  const mod = { ...t, items: _items, monto_total: total };
-    //  callback?.(mod);
-    //  return mod;
-    //});
-  };
 
   const get_content = () => {
-    switch (trabajoObject.tipo) {
+    switch (tipoTrabajo) {
       case DIRECTA:
         return (
           <TipoMonofocalesLab
-            trabajoObject={trabajoObject}
-            callback={onItemsChanged}
+            callback={callback}
             idCliente={idCliente}
-            onComentariosChange={(v) => {
-              //onChange("comentarios", v);
-            }}
-            path={trabajoObject.path + "/items"}
+            path={[...path, "items"]}
+            trabajoObject={trabajoObject}
           />
         );
       case RECETA_STOCK:
         return (
           <TipoRecetaStock
-            trabajoObject={trabajoObject}
-            callback={onItemsChanged}
+            callback={callback}
             idCliente={idCliente}
-            onComentariosChange={(v) => {
-              //onChange("comentarios", v);
-            }}
-            path={trabajoObject.path + "/items"}
+            path={[...path, "items"]}
+            trabajoObject={trabajoObject}
           />
         );
       case MONOF_LAB:
         return (
           <TipoMonofocalesLab
+            callback={callback}
+            path={[...path, "items"]}
             trabajoObject={trabajoObject}
-            callback={onItemsChanged}
-            path={trabajoObject.path + "/items"}
           />
         );
       case MULTIF_LAB:
         return (
           <TipoMultifocalesLab
+            callback={callback}
+            path={[...path, "items"]}
             trabajoObject={trabajoObject}
-            callback={onItemsChanged}
-            path={trabajoObject.path + "/items"}
           />
         );
       case LC_STOCK:
         return (
           <TipoLCStock
+            callback={callback}
+            path={[...path, "items"]}
             trabajoObject={trabajoObject}
-            callback={onItemsChanged}
-            path={trabajoObject.path + "/items"}
           />
         );
       case LC_LAB:
         return (
           <TipoLCLab
+            callback={callback}
+            path={[...path, "items"]}
             trabajoObject={trabajoObject}
-            callback={onItemsChanged}
-            path={trabajoObject.path + "/items"}
           />
         );
     }
   };
 
-  return !trabajoObject ? (
+  return +tipoTrabajo<0 ? (
     <div>
       <Row style={{ paddingLeft: "32px" }}>
         <Col span={24}>
@@ -164,8 +141,7 @@ const SelectTrabajo = ({
             onChange={(v) => {
               setTipoTrabajo(v);
               const _tipo = get_tipo_trabajo_nombre(v);
-              //onChange("tipo",get_tipo_trabajo_nombre_corto(v) );
-              onRename(localId, _tipo.toLocaleUpperCase(), v);
+              onTipoTrabajoSelected(localId, _tipo.toLocaleUpperCase(), get_tipo_trabajo_nombre_corto(v));
             }}
             style={{ width: "100%" }}
             options={[

@@ -3,23 +3,17 @@ import SelectCodigoVenta from "@/components/forms/ventas/SelectCodigoVenta";
 import globals from "@/src/globals";
 import {
   Card,
-  Col,
-  Divider,
-  Input,
-  InputNumber,
-  Row,
-  Select,
-  Table,
   Tabs,
 } from "antd";
 import { useEffect, useState } from "react";
 import DistanciaCristal from "./distancia_cristal";
 
-const TipoMonofocalesLab = ({ callback, onComentariosChange, path }) => {
+const TipoMonofocalesLab = ({ callback, path, trabajoObject }) => {
+  /*
   const [trabajoStock, setTrabajoStock] = useState({
     lejos: null,
     cerca: null,
-  });
+  });*/
 
   const tabItems = [
     {
@@ -29,9 +23,8 @@ const TipoMonofocalesLab = ({ callback, onComentariosChange, path }) => {
         <>
           <DistanciaCristal
             tipo={"lejos"}
-            callback={(lejos) => {
-              onChange("lejos", lejos);
-            }}
+            callback={callback}
+            path={[...path, "lejos"]}
           />
         </>
       ),
@@ -43,9 +36,8 @@ const TipoMonofocalesLab = ({ callback, onComentariosChange, path }) => {
         <>
           <DistanciaCristal
             tipo={"cerca"}
-            callback={(cerca) => {
-              onChange("cerca", cerca);
-            }}
+            callback={callback}
+            path={[...path, "cerca"]}
           />
         </>
       ),
@@ -55,14 +47,14 @@ const TipoMonofocalesLab = ({ callback, onComentariosChange, path }) => {
   const onChangeTabs = (key) => {
     console.log(`Active tab key: ${key}`);
   };
-
+/*
   const onChange = (key, value) => {
     setTrabajoStock((t) => {
       const modif = { ...t, [key]: value };
-      callback?.(modif, 0 /**  calculate total here... */);
+      callback?.(modif, 0 );
       return modif;
     });
-  };
+  };*/
 
   return (
     <>

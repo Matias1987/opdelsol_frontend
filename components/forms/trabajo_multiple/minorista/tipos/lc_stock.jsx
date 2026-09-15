@@ -4,8 +4,8 @@ import globals from "@/src/globals";
 import { Card, Col, Divider, Input, InputNumber, Row, Table } from "antd";
 import { useEffect, useState } from "react";
 
-const TipoLCStock = ({ callback, onComentariosChange, path }) => {
-  const [trabajoStock, setTrabajoStock] = useState({
+const TipoLCStock = ({ callback, onComentariosChange, path, trabajoObject }) => {
+  /*const [trabajoStock, setTrabajoStock] = useState({
     od_idcodigo: "",
     od_esf: "",
     od_cil: "",
@@ -23,7 +23,7 @@ const TipoLCStock = ({ callback, onComentariosChange, path }) => {
     insumo_idcodigo: "",
     insumo_precio: "",
     insumo_total: "0",
-  });
+  });*/
 
   const dataSource = [
     {
@@ -94,7 +94,7 @@ const TipoLCStock = ({ callback, onComentariosChange, path }) => {
       render: (hasInput, record) =>
         hasInput ? (
           <Input
-            value={trabajoStock[record.key + "_precio"]}
+            value={0}
             onChange={(e) => {
               onChange(record.key + "_precio", e.target.value);
             }}
@@ -120,7 +120,7 @@ const TipoLCStock = ({ callback, onComentariosChange, path }) => {
           <Input
             type="number"
             placeholder="Input"
-            value={trabajoStock[record.key + "_cant"]}
+            value={0}
             onChange={(e) =>
               onChange(record.key + "_cant", e.target.value)
             }
@@ -142,24 +142,17 @@ const TipoLCStock = ({ callback, onComentariosChange, path }) => {
       key: "total",
       width: "120px",
       render: (hasInput, record) =>
-        hasInput ? <Input style={{ width: "120px" }} value={trabajoStock[record.key + "_total"]} /> : "-",
+        hasInput ? <Input style={{ width: "120px" }} value={0} /> : "-",
     },
   ];
 
   const onChange = (key, value) => {
-    setTrabajoStock((t) => {
-      const modif = { ...t, [key]: value };
-      callback?.(
-        modif,
-        parseFloat(trabajoStock.od_total) +
-          parseFloat(trabajoStock.oi_total) +
-          parseFloat(trabajoStock.insumo_total),
-      );
-      return modif;
-    });
+    callback?.(path, [key], value);
   };
 
   const onchange_codigo = (key_idcodigo, key_precio, key_descuento, value) => {
+    callback?.(path, [key_idcodigo, key_precio, key_descuento], value);
+    /*
     if (value === null || value?.codigo === null) {
       setTrabajoStock((p) => {
         const mod = {
@@ -198,15 +191,23 @@ const TipoLCStock = ({ callback, onComentariosChange, path }) => {
       );
       return mod;
     });
+    */
   };
 
   useEffect(() => {
-    callback?.(
+     /*onchange_codigo(
+      "od_idcodigo",
+      "od_precio",
+      "od_descuento",
+      0
+    );
+  }, []);
+   callback?.(
       trabajoStock,
       parseFloat(trabajoStock.od_total) +
         parseFloat(trabajoStock.oi_total) +
         parseFloat(trabajoStock.insumo_total),
-    );
+    );*/
   }, []);
 
   return (

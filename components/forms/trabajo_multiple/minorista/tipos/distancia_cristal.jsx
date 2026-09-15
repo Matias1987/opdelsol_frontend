@@ -4,8 +4,8 @@ import { Card, Col, Input, InputNumber, Row, Select, Table } from "antd";
 import { useEffect, useState } from "react";
 import HelperToolTip from "@/components/forms/ventas/common/HelperToolTip";
 
-const DistanciaCristal = ({ callback, tipo, onComentariosChange }) => {
-  const [trabajoStock, setTrabajoStock] = useState({
+const DistanciaCristal = ({ callback, tipo, path, trabajoObject }) => {
+  /*const [trabajoStock, setTrabajoStock] = useState({
     od_idcodigo: "",
     od_esf: "",
     od_cil: "",
@@ -21,23 +21,15 @@ const DistanciaCristal = ({ callback, tipo, onComentariosChange }) => {
     tratamiento_idcodigo: "",
     tratamiento_precio: "0",
     distancia: tipo,
-  });
+  });*/
 
   const onChange = (key, value) => {
-    setTrabajoStock((t) => {
-      const modif = { ...t, [key]: value };
-      callback?.(
-        modif,
-        parseFloat(modif.od_precio) +
-          parseFloat(modif.oi_precio) +
-          parseFloat(modif.tratamiento_precio) +
-          parseFloat(modif.armazon_precio),
-      );
-      return modif;
-    });
+    callback?.(path, [key], value);
   };
 
   const onchange_codigo = (key_idcodigo, key_precio, key_descuento, value) => {
+    callback?.(path, [key_idcodigo, key_precio, key_descuento], value);
+    /*
     if (value === null || value?.codigo === null) {
       setTrabajoStock((p) => {
         const mod = {
@@ -77,7 +69,7 @@ const DistanciaCristal = ({ callback, tipo, onComentariosChange }) => {
           parseFloat(mod.armazon_precio),
       );
       return mod;
-    });
+    });*/
   };
 
   const dataSource = [
@@ -212,7 +204,7 @@ const DistanciaCristal = ({ callback, tipo, onComentariosChange }) => {
           <Input
             type="number"
             placeholder="Input"
-            value={trabajoStock[record.key + "_eje"]}
+            value={trabajoObject.items[record.key + "_" + "eje"].eje}
             onChange={(e) => onChange(record.key + "_" + "eje", e.target.value)}
           />
         ) : (
@@ -235,7 +227,7 @@ const DistanciaCristal = ({ callback, tipo, onComentariosChange }) => {
         hasInput ? (
           <InputNumber
             style={{ width: "120px" }}
-            value={trabajoStock[record.key + "_precio"]}
+            value={0}
             onChange={(v) => onChange(record.key + "_" + "precio", v)}
           />
         ) : (
@@ -245,13 +237,19 @@ const DistanciaCristal = ({ callback, tipo, onComentariosChange }) => {
   ];
 
   useEffect(() => {
-    callback?.(
+    /*callback?.(
       trabajoStock,
       parseFloat(trabajoStock.od_precio) +
         parseFloat(trabajoStock.oi_precio) +
         parseFloat(trabajoStock.tratamiento_precio) +
         parseFloat(trabajoStock.armazon_precio),
     );
+    onchange_codigo(
+      "od_idcodigo",
+      "od_precio",
+      "od_descuento",
+      0
+    );*/
   }, []);
 
   return (

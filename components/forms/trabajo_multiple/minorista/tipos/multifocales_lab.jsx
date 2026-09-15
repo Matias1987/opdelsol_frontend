@@ -4,8 +4,8 @@ import globals from "@/src/globals";
 import { Card, Col, Divider, Input, InputNumber, Row, Table } from "antd";
 import { useEffect, useState } from "react";
 
-const TipoMultifocalesLab = ({ callback, onComentariosChange }) => {
-  const [trabajoStock, setTrabajoStock] = useState({
+const TipoMultifocalesLab = ({ callback, onComentariosChange, path, trabajoObject }) => {
+  /*const [trabajoStock, setTrabajoStock] = useState({
     od_idcodigo: "",
     od_esf: "",
     od_cil: "",
@@ -20,14 +20,8 @@ const TipoMultifocalesLab = ({ callback, onComentariosChange }) => {
     armazon_precio: "0",
     tratamiento_idcodigo: "",
     tratamiento_precio: "0",
-  });
+  });*/
 
-  const [formValues, setFormValues] = useState({
-    od: { esf: "", cil: "", eje: "", precio: "" },
-    oi: { esf: "", cil: "", eje: "", precio: "" },
-    armazon: { esf: "", cil: "", eje: "", precio: "" },
-    tratamiento: { esf: "", cil: "", eje: "", precio: "" },
-  });
 
   const dataSource = [
     {
@@ -157,7 +151,7 @@ const TipoMultifocalesLab = ({ callback, onComentariosChange }) => {
           <Input
             type="number"
             placeholder="Input"
-            value={trabajoStock[record.key + "_eje"]}
+            value={0}
             onChange={(e) => onChange(record.key + "_eje", e.target.value)}
           />
         ) : (
@@ -180,7 +174,7 @@ const TipoMultifocalesLab = ({ callback, onComentariosChange }) => {
         hasInput ? (
           <InputNumber
             style={{ width: "120px" }}
-            value={trabajoStock[record.key + "_precio"]}
+            value={0}
             onChange={(e) =>
               onChange(record.key + "_precio", e.target.value)
             }
@@ -192,7 +186,8 @@ const TipoMultifocalesLab = ({ callback, onComentariosChange }) => {
   ];
 
   const onChange = (key, value) => {
-    setTrabajoStock((t) => {
+    callback?.(path, [key], value);
+    /*setTrabajoStock((t) => {
       const modif = { ...t, [key]: value };
       callback?.(
         modif,
@@ -202,10 +197,12 @@ const TipoMultifocalesLab = ({ callback, onComentariosChange }) => {
           parseFloat(modif.armazon_precio),
       );
       return modif;
-    });
+    });*/
   };
 
   const onchange_codigo = (key_idcodigo, key_precio, key_descuento, value) => {
+    callback?.(path, [key_idcodigo, key_precio, key_descuento], value);
+    /*
     if (value === null || value?.codigo === null) {
       setTrabajoStock((p) => {
         const mod = {
@@ -246,6 +243,7 @@ const TipoMultifocalesLab = ({ callback, onComentariosChange }) => {
       );
       return mod;
     });
+    */
   };
 
   return (
