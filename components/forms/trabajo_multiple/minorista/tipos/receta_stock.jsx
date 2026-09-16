@@ -1,11 +1,14 @@
 import { Card, Tabs } from "antd";
 import DistanciaCristal from "./distancia_cristal";
+import { useEffect } from "react";
 
 const TipoRecetaStock = ({ callback, path, trabajoObject }) => {
   /*const [trabajoStock, setTrabajoStock] = useState({
     lejos: null,
     cerca: null,
   });*/
+
+  useEffect(()=>{},[trabajoObject]);
 
   const tabItems = [
     {

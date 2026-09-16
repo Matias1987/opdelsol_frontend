@@ -204,8 +204,10 @@ const DistanciaCristal = ({ callback, tipo, path, trabajoObject }) => {
           <Input
             type="number"
             placeholder="Input"
-            value={trabajoObject.items[record.key + "_" + "eje"].eje}
-            onChange={(e) => onChange(record.key + "_" + "eje", e.target.value)}
+            value={/*trabajoObject.items[record.key + "_" + "eje"].eje*/""}
+            onChange={(e) => {
+              //onChange(record.key + "_" + "eje", e.target.value)
+            }}
           />
         ) : (
           "-"
@@ -237,6 +239,7 @@ const DistanciaCristal = ({ callback, tipo, path, trabajoObject }) => {
   ];
 
   useEffect(() => {
+    alert("from child: " + JSON.stringify(trabajoObject));
     /*callback?.(
       trabajoStock,
       parseFloat(trabajoStock.od_precio) +
@@ -250,7 +253,7 @@ const DistanciaCristal = ({ callback, tipo, path, trabajoObject }) => {
       "od_descuento",
       0
     );*/
-  }, []);
+  }, [trabajoObject]);
 
   return (
 

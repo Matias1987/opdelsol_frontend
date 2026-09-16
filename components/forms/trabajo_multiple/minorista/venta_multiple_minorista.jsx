@@ -12,7 +12,7 @@ import {
   Tabs,
   TimePicker,
 } from "antd";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import SelectVendedor from "@/components/usuario/vendedor/SelectVendedor";
 import { post } from "@/src/urls";
 import { post_method } from "@/src/helpers/post_helper";
@@ -145,13 +145,16 @@ const VentaMultipleMinorista = ({
       alert("Error: No se encontró el trabajo con localId: " + tabKey);
       return;
     }
-    setTrabajos((prevTrabajos) =>
-      prevTrabajos.map((t) =>
-        +t.localId == +tabKey
-          ? { ...t, tipo: val, items: obtenerTrabajoObject(val) }
-          : t,
-      ),
+
+    const newObject = _trabajos.map((t) =>
+      +t.localId == +tabKey
+        ? { ...t, tipo: val, items: obtenerTrabajoObject(val) }
+        : t,
     );
+
+    alert(JSON.stringify(newObject));
+
+    setTrabajos((prevTrabajos) => newObject);
     setItems((prevTabs) =>
       prevTabs.map((tab) =>
         +tab.key == +tabKey
@@ -173,21 +176,6 @@ const VentaMultipleMinorista = ({
     );
   };
 
-  const tab_content = (id, tabajoObject) => (
-    <>
-      <SelectTrabajo
-        localId={id}
-        callback={onTabValuesChange}
-        idCliente={idCliente}
-        onTipoTrabajoSelected={onTipoTrabajoSelected}
-        trabajoObject={tabajoObject}
-        path={[]}
-      />
-    </>
-  );
-
-  const newTabIndex = useRef(0);
-
   const onTabValuesChange = (updateFnt) => {
     const newObject = updateFnt();
     /*
@@ -204,6 +192,25 @@ const VentaMultipleMinorista = ({
       return mod;
     });*/
   };
+
+  const getItems = useMemo(() => {
+    return trabajos.map((t) => ({
+      label: t.tipo || "Nuevo Trabajo", // Dynamically changes tab name if type updates
+      key: t.localId.toString(), // ✅ Keeps keys as strings
+      children: (
+        <SelectTrabajo
+          localId={t.localId}
+          callback={onTabValuesChange}
+          idCliente={idCliente}
+          onTipoTrabajoSelected={onTipoTrabajoSelected}
+          trabajoObject={t}
+          path={[]}
+        />
+      ),
+    }));
+  }, [trabajos, idCliente]);
+
+  const newTabIndex = useRef(0);
 
   const calcularTotal = (trabajos) => {
     const _subtotal = trabajos.reduce(
@@ -226,7 +233,7 @@ const VentaMultipleMinorista = ({
   const add = () => {
     const newActiveKey = newTabIndex.current++;
 
-    const tabajoObject = {
+    const trabajoObject = {
       localId: newActiveKey,
       nro: newActiveKey,
       tipo: "",
@@ -234,43 +241,37 @@ const VentaMultipleMinorista = ({
       comentarios: "",
     };
 
-    setTrabajos((t) => [...t, tabajoObject]);
+    setTrabajos((t) => [...t, trabajoObject]);
 
-    setItems([
-      ...(items || []),
-      {
-        label: "Nuevo Trabajo",
-        key: newActiveKey,
-        children: <>{tab_content(newActiveKey, tabajoObject)}</>,
-      },
-    ]);
-    setActiveKey(newActiveKey);
+    setActiveKey(newActiveKey.toString());
   };
+
   const remove = (targetKey) => {
-    if (!items) {
-      return;
+    //if (!items) {
+    //  return;
+    //}
+    //const targetIndex = items.findIndex((item) => item.key === targetKey);
+    //const newItems = items.filter((item) => item.key !== targetKey);
+    //if (newItems.length && targetKey === activeKey) {
+    //  const newActiveKey =
+    //    newItems[
+    //      targetIndex === newItems.length ? targetIndex - 1 : targetIndex
+    //    ].key;
+    //  setActiveKey(newActiveKey);
+    //}
+
+    const modTrabajos = [...trabajosRef.current];
+    const index = modTrabajos.findIndex((t) => +t.localId == +targetKey);
+    if (index !== -1) {
+      modTrabajos.splice(index, 1);
     }
-    const targetIndex = items.findIndex((item) => item.key === targetKey);
-    const newItems = items.filter((item) => item.key !== targetKey);
-    if (newItems.length && targetKey === activeKey) {
-      const newActiveKey =
-        newItems[
-          targetIndex === newItems.length ? targetIndex - 1 : targetIndex
-        ].key;
-      setActiveKey(newActiveKey);
-    }
+    calcularTotal(modTrabajos);
 
     setTrabajos((t) => {
-      const mod = [...t];
-      const index = mod.findIndex((t) => +t.localId == +targetKey);
-      if (index !== -1) {
-        mod.splice(index, 1);
-      }
-      calcularTotal(mod);
-      on_change_done?.(mod.length > 0);
-      return mod;
+      return modTrabajos;
     });
-    setItems(newItems);
+
+    on_change_done?.(modTrabajos.length > 0);
   };
   const onEdit = (targetKey, action) => {
     if (action === "add") {
@@ -281,12 +282,12 @@ const VentaMultipleMinorista = ({
   };
 
   const onChange = (field, value) => {
-    setVenta((venta) => {
+    /*setVenta((venta) => {
       const __venta = { ...venta, [field]: value };
       callback?.(__venta);
       setVentaLStorage(__venta);
       return __venta;
-    });
+    });*/
   };
 
   const format_venta = () => {
@@ -395,7 +396,6 @@ const VentaMultipleMinorista = ({
   };
 
   const finalizar_venta = (e) => {
-    //alert(JSON.stringify({ ...venta, trabajos }));
     const __v = format_venta();
     alert(JSON.stringify(__v));
     //return;
@@ -535,7 +535,7 @@ const VentaMultipleMinorista = ({
                 activeKey={activeKey}
                 onChange={setActiveKey}
                 onEdit={onEdit}
-                items={items}
+                items={getItems}
               />
             </Col>
           </Row>

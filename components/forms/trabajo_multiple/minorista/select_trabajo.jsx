@@ -31,6 +31,8 @@ const SelectTrabajo = ({
     comentarios: "",
   });*/
 
+  useEffect(()=>{},[trabajoObject]);
+
   const get_tipo_trabajo_nombre = (val) => {
     switch (+val) {
       case DIRECTA:
