@@ -24,11 +24,12 @@ const DistanciaCristal = ({ callback, tipo, path, trabajoObject }) => {
   });*/
 
   const onChange = (key, value) => {
-    callback?.(path, [key], value);
+    alert(JSON.stringify({path:[...path, key], values: [value]}));
+    //callback?.(path, [key], value);
   };
 
   const onchange_codigo = (key_idcodigo, key_precio, key_descuento, value) => {
-    callback?.(path, [key_idcodigo, key_precio, key_descuento], value);
+    callback?.(path, [key_idcodigo, key_precio, key_descuento], [value.idcodigo, value.precio_defecto_mayorista,0 ]);
     /*
     if (value === null || value?.codigo === null) {
       setTrabajoStock((p) => {
