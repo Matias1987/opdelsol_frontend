@@ -1,22 +1,19 @@
-import { useEffect, useState } from "react";
+import { useRef, useState } from "react";
 import { Form, Button, Input } from "antd";
 import urls from "../../src/urls";
 import post_helper from "../../src/helpers/post_helper";
 import { v4 as uuidv4 } from "uuid";
 
 const FamiliaForm = (props) => {
-  const [uid, setUID] = useState("");
+  const postIdRef = useRef(uuidv4()); 
   const [btnEnabled, setBtnEnabled] = useState(true);
 
-  useEffect(() => {
-    setUID(uuidv4());
-  }, []);
 
   const agregar = (_values) => {
     setBtnEnabled(false);
     post_helper.post_method(
       urls.post.insert.familia,
-      { ..._values, uid },
+      { ..._values, uid: postIdRef.current },
       (res) => {
         setBtnEnabled(true);
         if (res.status == "OK") {
@@ -37,7 +34,7 @@ const FamiliaForm = (props) => {
       case "EDIT":
         post_helper.post_method(
           urls.post.update.familia,
-          { ...values, uid },
+          { ...values, uid: postIdRef.current },
           (res) => {
             if (res.status == "OK") {
               alert("Cambios Guardados");

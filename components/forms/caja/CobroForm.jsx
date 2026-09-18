@@ -1,5 +1,5 @@
 import { Button, Col, Divider, Input, Modal, Row, Spin, Switch } from "antd";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { get, post } from "@/src/urls";
 import { post_method } from "@/src/helpers/post_helper";
 import PrinterWrapper from "@/components/PrinterWrapper";
@@ -28,6 +28,7 @@ import { v4 as uuidv4 } from 'uuid';
  * @param buttonText
  */
 export default function CobroOperacion(props){
+    const postIdRef = useRef(uuidv4()); 
     const [mp, setMP] = useState(null)
     const [mustSave, setMustSave] = useState(false)
     const [entrega, setEntrega] = useState(false)
@@ -41,8 +42,6 @@ export default function CobroOperacion(props){
 
     const [descuento, setDescuento] = useState(0)
 
-    const [uid, setUID] = useState("");
-
     const [ignoreAlertsCaja, setignoreAlertsCaja] = useState(props.ignoreAlertsCaja ?? false)
     
 
@@ -55,7 +54,6 @@ export default function CobroOperacion(props){
      * this is mean to be executed twice: after the initial load and when idcobro changes (i.e. when the cobro is created...), I dunno if this is a good way 
      */
     useEffect(()=>{
-        setUID(uuidv4());
         setignoreAlertsCaja(props.ignoreAlertsCaja ?? false);
         if(idCobro>-1){
             
@@ -262,7 +260,7 @@ export default function CobroOperacion(props){
             descuento: descuento,
             fecha: current_date_ymd(),
             tk: globals.getToken(),
-            uid: uid,
+            uid: postIdRef.current,
         }
 
         params = typeof props.idventa === 'undefined' ? params : {...params,idventa:props.idventa} 

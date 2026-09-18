@@ -1,21 +1,20 @@
 import { post_method } from "@/src/helpers/post_helper";
 import { get, post } from "@/src/urls";
 import { Button, Card, Col, Input, Row } from "antd";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { v4 as uuidv4 } from "uuid";
 
 const EditarDisenio = ({ idsubgrupo, callback }) => {
+  const postIdRef = useRef(uuidv4()); 
   const [btnEnabled, setBtnEnabled] = useState(true);
   const [loading, setLoading] = useState(false);
   const row_style = { padding: "8px" };
-  const [uid, setUID] = useState("");
   const [sg, setSG] = useState({
     idsubgrupo: idsubgrupo,
     comentarios: "",
     precio_defecto_mayorista: 0,
     nombre_largo: "",
-    uid: uid,
   });
 
   const onChange = (index, value) => {
@@ -41,7 +40,7 @@ const EditarDisenio = ({ idsubgrupo, callback }) => {
   const actualizar = () => {
     if (!validateField()) return;
     setBtnEnabled(false);
-    post_method(post.update.subgrupo_2, sg, (resp) => {
+    post_method(post.update.subgrupo_2, {...sg, uid: postIdRef.current}, (resp) => {
       alert("Datos actualizados correctamente");
       setBtnEnabled(true);
       callback?.();
@@ -67,7 +66,6 @@ const EditarDisenio = ({ idsubgrupo, callback }) => {
   };
 
   useEffect(() => {
-    setUID(uuidv4());
     load();
   }, []);
   return (

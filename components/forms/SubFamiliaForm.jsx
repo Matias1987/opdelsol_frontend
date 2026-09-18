@@ -1,22 +1,22 @@
 import { Form, Button, Input, Modal } from "antd";
 import LoadSelect from "../LoadSelect";
 import  PlusCircleOutlined from "@ant-design/icons/PlusCircleOutlined";
-import { useEffect, useState } from "react";
+import { useRef, useState } from "react";
 import FamiliaForm from "./FamiliaForm";
 import { get, post } from "@/src/urls";
 import { post_method } from "@/src/helpers/post_helper";
 import { v4 as uuidv4 } from "uuid";
 
 const SubFamiliaForm = (props) => {
+  const postIdRef = useRef(uuidv4()); 
   const [form] = Form.useForm();
   const [popup_open, setPopupOpen] = useState(false);
   const [reload, setReload] = useState(false);
-  const [uid, setUID] = useState("");
-  
-  useEffect(()=>{setUID(uuidv4());},[]);
-
+  const [btnEnabled, setBtnEnabled] = useState(true);
   const agregar = (_values) => {
+    setBtnEnabled(false);
     post_method(post.insert.subfamilia, _values, (res) => {
+      setBtnEnabled(true);
       if (res.status == "OK") {
         alert("Datos Guardados");
         props?.callback?.();
@@ -30,10 +30,10 @@ const SubFamiliaForm = (props) => {
     console.log(values);
     switch (props.action) {
       case "ADD":
-        agregar({...values, uid});
+        agregar({...values, uid: postIdRef.current});
         break;
       case "EDIT":
-        post_method(post.update.subfamilia, {...values, uid}, (res) => {
+        post_method(post.update.subfamilia, {...values, uid: postIdRef.current}, (res) => {
           if (res.status == "OK") {
             alert("Cambios Guardados");
           } else {
@@ -145,7 +145,7 @@ const SubFamiliaForm = (props) => {
           />
         </Form.Item>
         <Form.Item>
-          <Button type="primary" htmlType="submit" block>
+          <Button type="primary" htmlType="submit" block disabled={!btnEnabled}>
             Guardar
           </Button>
         </Form.Item>

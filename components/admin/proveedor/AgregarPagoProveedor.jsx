@@ -11,13 +11,14 @@ import {
   Row,
   Select,
 } from "antd";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import esES from "antd/locale/es_ES";
 import SelectCuentaBancaria from "@/components/cuenta_bancarias/selectCuentaBancaria";
 import ArrowRightOutlined from "@ant-design/icons/ArrowRightOutlined";
 import { v4 as uuidv4 } from "uuid";
 import SeleccionCompraAPagar from "./SeleccionCompraAPagar";
 const AgregarPagoProveedor = (props) => {
+  const postIdRef = useRef(uuidv4()); 
   const [comprasSeleccionadas, setComprasSeleccionadas] = useState([]);
   const [totalAPagar, setTotalAPagar] = useState(0);
   const [bancos, setBancos] = useState([]);
@@ -45,8 +46,6 @@ const AgregarPagoProveedor = (props) => {
     moneda: props.moneda,
   });
   const [reload, setReload] = useState(false);
-  const [uid, setUID] = useState("");
-
   const guardar_click = () => {
     
     if (comprasSeleccionadas.length < 1) {
@@ -105,7 +104,7 @@ const AgregarPagoProveedor = (props) => {
       cheque: mpCheque,
       transferencia: mpTransferencia,
       compras: comprasSeleccionadas,
-      uid: uid,
+      uid: postIdRef.current,
     };
 
     setEnabled(false);
@@ -138,7 +137,6 @@ const AgregarPagoProveedor = (props) => {
   const update = (_) => setReload(!reload);
 
   useEffect(() => {
-    setUID(uuidv4());
     fetch(get.lista_bancos)
       .then((r) => r.json())
       .then((resp) => {

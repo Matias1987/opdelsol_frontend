@@ -13,7 +13,7 @@ import ClienteDetalleCobro from "./common/cliente_detalle";
 import ModoPagoV4 from "../../modo_pago/ModoPagoV4";
 import PrinterWrapper from "@/components/PrinterWrapper";
 import InformeX from "@/components/informes/caja/InformeX";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import globals from "@/src/globals";
 import { current_date_ymd } from "@/src/helpers/string_helper";
 import { get, post } from "@/src/urls";
@@ -27,6 +27,7 @@ import { formatFloat } from "@/src/helpers/formatters";
 import { v4 as uuidv4 } from 'uuid'; 
 const Resfuerzo = (props) => {
   const { callback, idventa, idcliente, title } = props;
+  const postIdRef = useRef(uuidv4()); 
   const [mp, setMP] = useState(null);
   const [cobrarDisabled, setCobrarDisabled] = useState(false);
   const [dataVenta, setDataVenta] = useState(null);
@@ -34,7 +35,6 @@ const Resfuerzo = (props) => {
   const [idCobro, setIdCobro] = useState(-1);
   const [descuento, setDescuento] = useState(0);
   const [informeOpen, setInformeOpen] = useState(false);
-  const [uid, setUID] = useState("");
   const onCobroSaved = (id) => {
     if (id < 1) {
       callback?.();
@@ -186,7 +186,7 @@ const Resfuerzo = (props) => {
       tipo: "resfuerzo",
       accion: "resfuerzo",
       removeCtaCteRow: 1,
-      uid: uid,
+      uid: postIdRef.current,
     };
 
     globals.obtenerCajaAsync((response) => {
@@ -276,7 +276,6 @@ const Resfuerzo = (props) => {
     );
 
   useEffect(() => {
-    setUID(uuidv4());
     load();
   }, []);
 

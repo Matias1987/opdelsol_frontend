@@ -1,119 +1,147 @@
 import { Button, Form, Input, Modal } from "antd";
 import SubFamiliaSelect from "../SubFamiliaSelect";
-import  PlusCircleOutlined from "@ant-design/icons/PlusCircleOutlined";
+import PlusCircleOutlined from "@ant-design/icons/PlusCircleOutlined";
 import SubFamiliaForm from "./SubFamiliaForm";
-import { useEffect, useState } from "react";
-import urls from "../../src/urls"
-import post_helper from "../../src/helpers/post_helper"
-import { v4 as uuidv4 } from 'uuid'; 
+import { useRef, useState } from "react";
+import urls from "../../src/urls";
+import post_helper from "../../src/helpers/post_helper";
+import { v4 as uuidv4 } from "uuid";
 
 const GrupoForm = (props) => {
-    const [form] = Form.useForm();
-    const [popup_open,setPopupOpen] = useState(false);
-    const [reload, setReload] = useState(false);
-    const [uid, setUID] = useState("");
-    const [btnEnabled, setBtnEnabled] = useState(true);
+  const postIdRef = useRef(uuidv4());
+  const [form] = Form.useForm();
+  const [popup_open, setPopupOpen] = useState(false);
+  const [reload, setReload] = useState(false);
+  const [btnEnabled, setBtnEnabled] = useState(true);
 
-    useEffect(()=>{setUID(uuidv4());},[])
+  const onFinish = (values) => {
+    setBtnEnabled(false);
+    switch (props.action) {
+      case "ADD":
+        post_helper.post_method(
+          urls.post.insert.grupo,
+          { ...values, uid: postIdRef.current },
+          (res) => {
+            
+            setBtnEnabled(true);
+            
+            if (res.status == "OK") {
+              alert("Datos Guardados");
+              props?.callback?.();
+            } else {
+              alert("Error: " + res.data);
+            }
+          },
+        );
+        break;
+      case "EDIT":
+        post_helper.post_method(
+          urls.post.update.grupo,
+          { ...values, uid: postIdRef.current },
+          (res) => {
 
-    const onFinish = (values) => {
-        switch(props.action){
-            case 'ADD': post_helper.post_method(urls.post.insert.grupo,{...values, uid},(res)=>{
-              if(res.status == "OK"){
-                alert("Datos Guardados")
-                props?.callback?.()
-            }else{alert("Error: " + res.data)}});
-              break;
-            case 'EDIT': post_helper.post_method(urls.post.update.grupo,{...values, uid},(res)=>{
-              if(res.status == "OK"){alert("Cambios Guardados")}else{alert("Error.")}});
-              break;
-            };
-      };
-      
-    const onFinishFailed = (errorInfo) => {
-    console.log('Failed:', errorInfo);
-    };
+            setBtnEnabled(true);
 
-    const setValue = (id)=>{
-    form.setFieldsValue({subfamilia_idsubfamilia:id})
+            if (res.status == "OK") {
+              alert("Cambios Guardados");
+            } else {
+              alert("Error.");
+            }
+          },
+        );
+        break;
     }
+  };
 
-    const closePopup = () => {
-        setPopupOpen(false);
-        //location.reload();
-    }
+  const onFinishFailed = (errorInfo) => {
+    console.log("Failed:", errorInfo);
+  };
 
-    const onOkPopup = () => {
-        setPopupOpen(false);
-        setReload(!reload)
-        //location.reload();
-    }
+  const setValue = (id) => {
+    form.setFieldsValue({ subfamilia_idsubfamilia: id });
+  };
 
-    const agregarSubFamiliaFormPopup = _=>
-    (<>
-        <Button type="primary"  size="small"  onClick={()=>{setPopupOpen(true)}}>
-            <PlusCircleOutlined />&nbsp;Agregar Subfamilia
-        </Button>
-        <Modal
-            footer={null}
-            width={"500px"}
-            title={"Agregar SubFamilia"}
-            open={popup_open}
-            onCancel={closePopup}
+  const closePopup = () => {
+    setPopupOpen(false);
+    //location.reload();
+  };
+
+  const onOkPopup = () => {
+    setPopupOpen(false);
+    setReload(!reload);
+    //location.reload();
+  };
+
+  const agregarSubFamiliaFormPopup = (_) => (
+    <>
+      <Button
+        type="primary"
+        size="small"
+        onClick={() => {
+          setPopupOpen(true);
+        }}
+      >
+        <PlusCircleOutlined />
+        &nbsp;Agregar Subfamilia
+      </Button>
+      <Modal
+        footer={null}
+        width={"500px"}
+        title={"Agregar SubFamilia"}
+        open={popup_open}
+        onCancel={closePopup}
+      >
+        <SubFamiliaForm action="ADD" callback={onOkPopup} />
+      </Modal>
+    </>
+  );
+
+  return (
+    <>
+      <Form form={form} onFinish={onFinish} onFinishFailed={onFinishFailed}>
+        <Form.Item
+          name={"subfamilia_idsubfamilia"}
+          label={"SubFamilia"}
+          rules={[{ required: true }]}
         >
-            <SubFamiliaForm action="ADD" callback={onOkPopup} />
-        </Modal>
-    </>)
+          <>
+            <SubFamiliaSelect
+              key={reload}
+              callback={(id) => {
+                setValue(id);
+              }}
+              reload={reload}
+            />
+            {agregarSubFamiliaFormPopup()}
+          </>
+        </Form.Item>
+        <Form.Item
+          name={"nombre_corto"}
+          label={"Nombre Corto"}
+          rules={[{ required: true }]}
+        >
+          <Input
+            onInput={(e) => (e.target.value = e.target.value.toUpperCase())}
+          />
+        </Form.Item>
+        <Form.Item
+          name={"nombre_largo"}
+          label={"Nombre Largo"}
+          rules={[{ required: true }]}
+        >
+          <Input
+            onInput={(e) => (e.target.value = e.target.value.toUpperCase())}
+          />
+        </Form.Item>
 
-
-    return (
-        <>
-            <Form
-            form={form}
-            onFinish={onFinish}
-            onFinishFailed={onFinishFailed}
-            >
-                
-                <Form.Item
-                name={"subfamilia_idsubfamilia"}
-                label={"SubFamilia"}
-                rules={[{required: true,}]}
-                >
-                    <>
-                        <SubFamiliaSelect 
-                        key={reload}
-                        callback = {(id) =>{
-                            setValue(id)
-                        }}
-
-                        reload={reload} 
-                        
-                        />
-                        {agregarSubFamiliaFormPopup()}
-                    </>
-                </Form.Item>
-                <Form.Item
-                name={"nombre_corto"}
-                label={"Nombre Corto"}
-                rules={[{required: true,}]}
-                >
-                    <Input onInput={e => e.target.value = e.target.value.toUpperCase()}/>
-                </Form.Item>
-                <Form.Item
-                name={"nombre_largo"}
-                label={"Nombre Largo"}
-                rules={[{required: true,}]}
-                >
-                    <Input onInput={e => e.target.value = e.target.value.toUpperCase()}/>
-                </Form.Item>
-                
-                <Form.Item>
-                    <Button type="primary" htmlType="submit" block>Guardar</Button>
-                </Form.Item>
-            </Form>
-        </>
-    )
-
-}
+        <Form.Item>
+          <Button type="primary" htmlType="submit" block disabled={!btnEnabled}>
+            Guardar
+          </Button>
+        </Form.Item>
+      </Form>
+    </>
+  );
+};
 
 export default GrupoForm;

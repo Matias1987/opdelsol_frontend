@@ -1,10 +1,10 @@
 import { post_method } from "@/src/helpers/post_helper";
 import { post } from "@/src/urls";
 import { Button, Col, DatePicker, Input, Row } from "antd";
-import { useEffect, useState } from "react";
+import { useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 const AgregarCMProveedor = (props) => {
-  const [uid, setUID] = useState("");
+  const postIdRef = useRef(uuidv4()); 
   const [enabled, setEnabled] = useState(true);
   const [cargaManual, setCargaManual] = useState({
     monto: "",
@@ -34,7 +34,7 @@ const AgregarCMProveedor = (props) => {
         ...cargaManual,
         modo: props.modo,
         fk_proveedor: props.idproveedor,
-        uid: uid,
+        uid: postIdRef.current,
       },
       () => {
         alert("Datos Guardados");
@@ -43,9 +43,6 @@ const AgregarCMProveedor = (props) => {
     );
   };
 
-  useEffect(() => {
-    setUID(uuidv4());
-  }, []);
 
   return (
     <>

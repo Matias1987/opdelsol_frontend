@@ -13,7 +13,7 @@ import {
   Select,
   Table,
 } from "antd";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import PercepcionesForm from "./percepcionesForm";
 import RetencionesForm from "./retencionesForm";
 import IVAForm from "./ivaForm";
@@ -26,7 +26,7 @@ import { v4 as uuidv4 } from "uuid";
 import SelectMoneda from "@/components/etc/selectMoneda";
 
 const AgregarFacturaV3 = ({ callback, moneda, idproveedor, esremito }) => {
-  const [uid, setUID] = useState("");
+  const postIdRef = useRef(uuidv4()); 
   const [factura, setFactura] = useState({
     conceptosNoGravados: 0,
     impuestosInternos: 0,
@@ -150,7 +150,6 @@ const AgregarFacturaV3 = ({ callback, moneda, idproveedor, esremito }) => {
   ];
 
   useEffect(() => {
-    setUID(uuidv4());
 
     if ("undefined" !== typeof idproveedor) {
       setProveedorSelectEnabled(false);
@@ -250,7 +249,7 @@ const AgregarFacturaV3 = ({ callback, moneda, idproveedor, esremito }) => {
       retenciones: retencionRows,
       esremito: esRemito ? 1 : 0,
       idsucursal: globals.obtenerSucursal(),
-      uid: uid,
+      uid: postIdRef.current,
     };
     //console.log(JSON.stringify(data))
     // alert(JSON.stringify(data))

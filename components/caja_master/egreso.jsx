@@ -1,13 +1,14 @@
 import { post_method } from "@/src/helpers/post_helper";
 import { get, post } from "@/src/urls";
 import { Button, Col, Divider, Input, Row, Select } from "antd";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import EgresoModo from "./egreso_modo";
-
+import { v4 as uuidv4 } from "uuid";
 const Egreso = (props) => {
   const { callback, aCajaMaster } = props;
+  const postIdRef = useRef(uuidv4()); 
   const [motivos, setMotivos] = useState([]);
-
+  const [btnEnabled, setBtnEnabled] = useState(true);
   const [egreso, setEgreso] = useState({
     idMotivo: -1,
     monto: 0,
@@ -39,8 +40,10 @@ const Egreso = (props) => {
   const onGuardar = () => {
     // Aquí se implementaría la lógica para guardar el egreso
     console.log("Egreso guardado:", egreso);
+    setBtnEnabled(false);
     const url = aCajaMaster ? post.insert.egreso_cm : post.insert.egreso;
-    post_method(url, egreso, (response) => {
+    post_method(url, {...egreso, uid: postIdRef.current }, (response) => {
+      setBtnEnabled(true);
       alert("Datos Guardados");
       callback?.();
     });
@@ -77,7 +80,7 @@ const Egreso = (props) => {
       <Divider />
       <Row style={{paddingLeft:"6px", paddingRight:"6px", paddingBottom:"6px"}}>
         <Col span={24}>
-          <Button type="primary" onClick={onGuardar} disabled={egreso.idMotivo==-1 || egreso.monto<=0/* || egreso.modos.length==0*/} block>
+          <Button type="primary" onClick={onGuardar} disabled={egreso.idMotivo==-1 || egreso.monto<=0 || !btnEnabled/* || egreso.modos.length==0*/} block>
             Guardar Egreso
           </Button>
         </Col>

@@ -3,13 +3,13 @@ import { post_method } from "@/src/helpers/post_helper";
 import { current_date_ymd } from "@/src/helpers/string_helper";
 import { post } from "@/src/urls";
 import { Button, Form, Input, Modal } from "antd";
-import { useEffect, useState } from "react";
+import { useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 export default function InicioCaja(props){
+    const postIdRef = useRef(uuidv4()); 
     const [open, setOpen] = useState(false);
     const [btnBlocked, setBtnBlocked] = useState(false);
-  const [uid, setUID] = useState("");
     const [reload, setReload] = useState(false)
     const check_if_caja_exists = (callback) => {
         post_method(post.caja_exists,{
@@ -33,7 +33,6 @@ export default function InicioCaja(props){
         )
     }
 
-    useEffect(()=>{setUID(uuidv4());},[reload]);
 
     const onFinishFailed = ()=> {
 
@@ -51,7 +50,7 @@ export default function InicioCaja(props){
                 monto_inicial: values.monto,
                 fecha: current_date_ymd(),
                 tk: "",
-                uid,
+                uid: postIdRef.current,
             }
             post_method(post.insert.caja, data, (result)=>{
                 props?.callback?.()

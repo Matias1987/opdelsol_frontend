@@ -1,7 +1,7 @@
 import globals from "@/src/globals";
 import { get, post } from "@/src/urls";
 import { Button, Col, Modal, Row, Table, Tag } from "antd";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ArrowRightOutlined from "@ant-design/icons/ArrowRightOutlined";
 import PlusOutlined from "@ant-design/icons/PlusOutlined";
 import { post_method } from "@/src/helpers/post_helper";
@@ -12,6 +12,7 @@ import MostrarDNI from "../etc/MostrarDNI";
 import { v4 as uuidv4 } from "uuid";
 
 const EditarSobre = (props) => {
+  const postIdRef = useRef(uuidv4()); 
   const [firstLoad, setFirstLoad] = useState(true);
   const [loading, setLoading] = useState(false);
   const [venta, setVenta] = useState(null);
@@ -22,7 +23,6 @@ const EditarSobre = (props) => {
   const [btnSaveEnabled, setBtnSaveEnabled] = useState(true);
   const [btnCambiarEstadoEnabled, setBtnCambiarEstadoEnabled] = useState(true);
   const [accion, setAccion] = useState("");
-  const [uid, setUID] = useState("");
 
   const [idlocalPedidos, setIdLocalPedidos] = useState(0);
   const [idlocalAdicionales, setIdLocalAdicionales] = useState(0);
@@ -378,7 +378,7 @@ const EditarSobre = (props) => {
         fkventa: props.idventa,
         fksucursalpedido: globals.obtenerSucursal(),
         fktrabajo: props.idtrabajo,
-        uid,
+        uid: postIdRef.current,
       },
       (response) => {
         const _uid = uuidv4();
@@ -502,7 +502,6 @@ const EditarSobre = (props) => {
   };
 
   useEffect(() => {
-    setUID(uuidv4());
     if (firstLoad) {
       setFirstLoad(false);
       load();

@@ -5,7 +5,7 @@ import globals from "@/src/globals";
 import { post_method } from "@/src/helpers/post_helper";
 import { get, post } from "@/src/urls";
 import { Row, Col, Input, Button, Modal, Divider, Checkbox } from "antd";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { v4 as uuidv4 } from 'uuid'; 
 
 /**
@@ -17,6 +17,7 @@ import { v4 as uuidv4 } from 'uuid';
  */
 const SubGrupoFormV3 = (props) => {
   const { idsubgrupo, callback } = props;
+  const postIdRef = useRef(uuidv4()); 
   const mostrarPrecioPar =
     typeof props.mostrarPrecioPar === "undefined"
       ? false
@@ -33,12 +34,9 @@ const SubGrupoFormV3 = (props) => {
   const [visibleLP, setVisibleLP] = useState(false);
   const [loading, setLoading] = useState(false);
   const [modalAgregarAGrupoOpen, setModalAgregarAGrupoOpen] = useState(false);
-  const [uid, setUID] = useState("");
   const [btnEnabled, setBtnEnabled] = useState(true);
 
   useEffect(() => {
-    alert(idsubgrupo);
-    setUID(uuidv4());
     load();
   }, []);
 
@@ -71,7 +69,7 @@ const SubGrupoFormV3 = (props) => {
         precio_defecto_mayorista: precioMayorista,
         nombre_largo: nombreLargo,
         visible_lp: visibleLP ? 1 : 0,
-        uid:uid,
+        uid: postIdRef.current,
       },
       (resp) => {
         alert("Datos actualizados correctamente");

@@ -20,7 +20,6 @@ import { useState, useEffect, useRef } from "react";
 const ChatV2 = (props) => {
   const [open, setOpen] = useState(false);
   const [tick, setTick] = useState(0);
-  const [uid, setUID] = useState(-1);
   const [inputDisabled, setInputDisabled] = useState(true);
 
   const [scrollChange, setScrollChange] = useState(true);

@@ -1,5 +1,5 @@
 import { Button, Col, Divider, Input, InputNumber, Modal, Row, Spin, Switch } from "antd";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { get, post } from "@/src/urls";
 import { post_method } from "@/src/helpers/post_helper";
 import PrinterWrapper from "@/components/PrinterWrapper";
@@ -35,6 +35,7 @@ import { v4 as uuidv4 } from 'uuid';
  */
 const CobroOperacionV2 = (props) => {
   const { callback, idventa, idcliente } = props;
+  const postIdRef = useRef(uuidv4()); 
   const [mp, setMP] = useState(null);
   const [entrega, setEntrega] = useState(false);
   const [dataVenta, setDataVenta] = useState(null);
@@ -46,10 +47,7 @@ const CobroOperacionV2 = (props) => {
   const [descuento, setDescuento] = useState(0);
   const [comentarioCliente, setComentarioCliente] = useState(null);
 
-  const [uid, setUID] = useState("");
-
   useEffect(() => {
-    setUID(uuidv4());
     load();
   }, []);
 
@@ -324,7 +322,7 @@ const CobroOperacionV2 = (props) => {
       fecha: current_date_ymd(),
       tk: globals.getToken(),
       comentario_cliente: comentarioCliente,
-      uid: uid,
+      uid: postIdRef.current,
     };
 
     params =

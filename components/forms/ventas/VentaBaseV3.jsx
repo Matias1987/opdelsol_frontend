@@ -18,7 +18,7 @@ import {
   TimePicker,
 } from "antd";
 import esES from "antd/locale/es_ES";
-import { useEffect, useState } from "react";
+import { useRef, useState } from "react";
 import ModoPagoV4 from "../modo_pago/ModoPagoV4";
 import SelectVendedor from "@/components/usuario/vendedor/SelectVendedor";
 import { public_urls } from "@/src/urls";
@@ -34,8 +34,8 @@ const { useBreakpoint } = Grid;
  * @returns
  */
 export default function VentaBaseV3(props) {
+  const postIdRef = useRef(uuidv4()); 
   const date = new Date();
-  const [uid, setUID] = useState("");
   const [btnEnabled, setBtnEnabled] = useState(true);
   const [current, setCurrent] = useState(0);
   const [venta, setVenta] = useState({
@@ -58,16 +58,11 @@ export default function VentaBaseV3(props) {
     fkcaja: globals.obtenerCajaID(),
     json_items: "",
     tk: globals.getToken(),
-    uid: "",
     entrega: false,
     cobrar: cobro_inmediato,
     validarCristalesModo2: true,
   });
   const screens = useBreakpoint();
-
-  useEffect(() => {
-    setUID(uuidv4());
-  }, []);
 
   const onChange = (field, value) => {
     setVenta((venta) => {
@@ -87,9 +82,9 @@ export default function VentaBaseV3(props) {
     }
     setBtnEnabled(false);
     setVenta((venta) => {
-      props?.onfinish?.({ ...venta, fkusuario: idvendedor, uid }, (_) => {
+      props?.onfinish?.({ ...venta, fkusuario: idvendedor, uid: postIdRef.current }, (_) => {
         console.log("renew uid...");
-        setUID(uuidv4());
+        setVenta((venta) => ({ ...venta, uid: uuidv4() }));
         setBtnEnabled(true);
       });
       return { ...venta, fkusuario: idvendedor };

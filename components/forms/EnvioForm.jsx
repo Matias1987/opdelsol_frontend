@@ -11,7 +11,7 @@ import {
   Modal,
 } from "antd";
 import LoadSelect from "../LoadSelect";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import globals from "@/src/globals";
 import SearchStockEnvio from "./deposito/SearchStockEnvio";
 import CloseCircleFilled from "@ant-design/icons/CloseCircleFilled";
@@ -24,6 +24,7 @@ import { get, informes, post, public_urls } from "@/src/urls";
 import { v4 as uuidv4 } from "uuid";
 
 const EnvioForm = () => {
+  const postIdRef = useRef(uuidv4()); 
   const [tableData, setTableData] = useState([]);
   const [tableLoading, setTableLoading] = useState(false);
   const [sucursalDestId, setSucursalDestId] = useState(-1);
@@ -34,10 +35,8 @@ const EnvioForm = () => {
   const [generarEnvioBtnEnabled, setGenerarEnvioBtnEnabled] = useState(true);
   const [rows_to_add, setRowsToAdd] = useState([]);
   const [popupAddOpen, setPopupAddOpen] = useState(false);
-  const [uid, setUID] = useState("");
 
   useEffect(() => {
-    setUID(uuidv4());
     if (rows_to_add.length > 0) {
       load_details_for_selected_id(rows_to_add[0], (_) => {
         rows_to_add.shift();
@@ -98,7 +97,7 @@ const EnvioForm = () => {
       id_sucursal_origen: globals.obtenerSucursal(),
       tk: "",
       items: [],
-      uid,
+      uid: postIdRef.current,
     };
     let __cantidad = 0;
     tableData.forEach((e) => {

@@ -3,23 +3,22 @@ import globals from "@/src/globals";
 import { registrar_evento } from "@/src/helpers/evento_helper";
 import { post_method } from "@/src/helpers/post_helper";
 import { current_date_ymd } from "@/src/helpers/string_helper";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { get, post } from "@/src/urls";
 import { Form, Input, Row, Col, Modal, Button, Spin } from "antd";
 import { v4 as uuidv4 } from "uuid";
 
 
 const CargaManual = (props) => {
+    const postIdRef = useRef(uuidv4()); 
     const [dataCliente, setData] = useState(null)
     const [open, setOpen] = useState(false);
     const [btnEnabled, setBtnEnabled] = useState(true)
     const [cargaManual, setCargaManual] = useState({
         monto: 0,
         concepto: 0,
-        tk: globals.getToken(),
+        tk: globals.getToken()
     });
-    const [uid, setUID] = useState("");
-
     const onFinish = (values) => {
         setBtnEnabled(false)
         /*
@@ -54,7 +53,7 @@ const CargaManual = (props) => {
             usuario_idusuario: globals.obtenerUID(),
             cliente_idcliente: props.idcliente,
             sucursal_idsucursal: globals.obtenerSucursal(),
-            uid
+            uid: postIdRef.current
         }
 
         post_method(post.insert.carga_manual, data,(response)=>{
@@ -78,7 +77,6 @@ const CargaManual = (props) => {
       };
 
     useEffect(()=>{
-        setUID(uuidv4());
         fetch(get.cliente_por_id + props.idcliente)
         .then(response=>response.json())
         .then(response=>{
