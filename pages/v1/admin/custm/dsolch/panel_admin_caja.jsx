@@ -3,8 +3,10 @@ import CajaMaster from "@/components/caja_master/caja_master";
 import ListadoCajaSucursales from "@/components/caja_master/listado_caja_sucursales";
 import LayoutAdmin from "@/components/layout/layout_admin";
 import { Tabs } from "antd";
+import { useState } from "react";
 
 export default function PanelAdminCaja() {
+  const [reload, setReload] = useState(false);
   const onChange = (key) => {
     console.log(key);
   };
@@ -12,12 +14,12 @@ export default function PanelAdminCaja() {
     {
       key: "1",
       label: "Caja Central",
-      children: <CajaMaster />,
+      children: <CajaMaster updateData={reload} />,
     },
     {
       key: "2",
       label: "Caja Sucursales Pendientes",
-      children: <ListadoCajaSucursales />,
+      children: <ListadoCajaSucursales onModificationDone={_=>setReload(!reload)} />,
     },
     {
       key: "3",

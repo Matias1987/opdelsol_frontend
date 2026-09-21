@@ -6,7 +6,7 @@ import ReloadOutlined from "@ant-design/icons/ReloadOutlined";
 import InformeCajaV2 from "../informes/caja/InformeCajaV3";
 import { formatFloat } from "@/src/helpers/formatters";
 
-const ListadoCajaSucursales = (props) => {
+const ListadoCajaSucursales = ({onModificationDone}) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [popupModifMontoOpen, setPopupModifMontoOpen] = useState(false);
@@ -112,6 +112,9 @@ const ListadoCajaSucursales = (props) => {
           callback={(_) => {
             setPopupModifMontoOpen(false);
             load();
+            if (onModificationDone) {
+              onModificationDone();
+            }
           }}
           selectedRow={selectedRow}
         />

@@ -8,22 +8,24 @@ import MenuUnfoldOutlined from "@ant-design/icons/MenuUnfoldOutlined";
 import { Button, Layout } from "antd";
 import { Content } from "antd/es/layout/layout";
 import dynamic from "next/dynamic";
+import { useUserStatus } from "../providers/UserContext";
 
 const SideMenuAdmin = dynamic(() => import("./SideMenuAdmin"), {
   ssr: false,
-  loading: () => <div style={{ height: "30px" }}>...</div>,
+  loading: () => <div style={{ height: "30px" }}></div>,
 });
 
 const SideMenuAdminMin = dynamic(() => import("./SideMenuAdminMin"), {
   ssr: false,
-  loading: () => <div style={{ height: "30px" }}>...</div>,
+  loading: () => <div style={{ height: "30px" }}></div>,
 });
 
 export default function LayoutAdmin({ children }) {
   const [collapsed, setCollapsed] = useState(false);
   const { getItem } = useStorage();
   const [esAdminMin, setEsAdminMin] = useState(false);
-  const validate_user = () => {
+  const { userLogedIn } = useUserStatus();
+  /*const validate_user = () => {
     const _token = getItem("token", "session");
 
     if (_token === typeof "undefined") {
@@ -44,18 +46,26 @@ export default function LayoutAdmin({ children }) {
           } else {
             validate_user();
           }
+        })
+        .catch((error) => {
+          console.error("Error fetching data:", error);
+          //alert("Debe Iniciar Sesion");
+          //window.location.replace(public_urls.login);
         });
-    }, 20000);
-  };
+    }, 10000);
+  };*/
   useEffect(() => {
+    if (!userLogedIn) {
+      window.location.replace(public_urls.login);
+    }
+
     if (!(globals.esUsuarioAdmin() || globals.esUsuarioAdminMin())) {
       window.location.replace(public_urls.modo);
     }
     if (globals.esUsuarioAdminMin()) {
       setEsAdminMin(true);
     }
-    validate_user();
-  }, []);
+  }, [userLogedIn]);
 
   return (
     <Layout style={{ minHeight: "100vh" }}>

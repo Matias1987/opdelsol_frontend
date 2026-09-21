@@ -13,6 +13,7 @@ const BarraResumenCaja = ({alerta}) => {
         const rows = [];
         let saldo = 0;
         const result = response?.data || [];
+        //alert(JSON.stringify(result));
         result.forEach((row) => {
           saldo +=
             row.tipo == "ingreso"
@@ -32,7 +33,8 @@ const BarraResumenCaja = ({alerta}) => {
         });
 
         setData(rows);
-      });
+      })
+      .catch((error) => {console.log("Error fetching resumen caja:", error)});
   };
 
   useEffect(() => {
@@ -75,8 +77,6 @@ const BarraResumenCaja = ({alerta}) => {
           </span>
         </div>
       ))}
-
-      {/*<span style={{paddingLeft:"100px"}}><ContadoresEstadoTaller /></span>*/}
     </div>
   ) : (
     <></>

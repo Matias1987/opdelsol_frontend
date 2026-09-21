@@ -4,6 +4,7 @@ import { Alert, Layout, Row, Col, Card, Modal } from "antd";
 import { useEffect, useState } from "react";
 import globals from "@/src/globals";
 import dynamic from "next/dynamic";
+import { useUserStatus } from "../providers/UserContext";
 
 const MenuDistribuidora = dynamic(() => import("./menu_distribuidora"), {
   ssr: false,
@@ -22,8 +23,8 @@ export default function LayoutDistribuidora(props) {
   const [modalOpen, setModalOpen] = useState(false);
   const [showBadge, setShowBadge] = useState(false);
   const { Content } = Layout;
-  const [alerta, setAlerta] = useState("");
-  const { getItem } = useStorage();
+  const { userLogedIn } = useUserStatus();
+  
   const card_style2 = {
     header: {
       backgroundColor: "#262D42",
@@ -34,6 +35,12 @@ export default function LayoutDistribuidora(props) {
     },
   };
 
+  useEffect(() => {
+    if (!userLogedIn) {
+      window.location.replace(public_urls.login);
+    }
+  }, [userLogedIn]);
+  /*
   const validate_user = () => {
     console.log("validating user");
     const _token = getItem("token", "session");
@@ -55,14 +62,12 @@ export default function LayoutDistribuidora(props) {
           } else {
             validate_user();
           }
+        })
+        .catch((error) => {
+          console.error("Error fetching data:", error);
         });
-
-    }, 20000);
-  };
-
-  useEffect(() => {
-    validate_user();
-  }, []);
+    }, 10000);
+  };*/
 
   return (
     <Layout style={{ padding: 0 }} className="layout">
@@ -107,7 +112,11 @@ export default function LayoutDistribuidora(props) {
         }}
         width={"100%"}
       >
-        <TrabajoMultiple on_change_done={b=>{ setShowBadge(b)}} />
+        <TrabajoMultiple
+          on_change_done={(b) => {
+            setShowBadge(b);
+          }}
+        />
       </Modal>
     </Layout>
   );

@@ -6,17 +6,18 @@ import globals from "@/src/globals";
 import SearchOutlined from "@ant-design/icons/SearchOutlined";
 import { Content } from "antd/es/layout/layout";
 import dynamic from "next/dynamic";
+import { useUserStatus } from "../providers/UserContext";
 
 const MenuV2 = dynamic(() => import("./menu_v2"), {
   ssr: false,
-  loading: () => <div style={{ height: "30px" }}>...</div>,
+  loading: () => <div style={{ height: "30px" }}></div>,
 });
 
 const PopupResultadoBusqueda = dynamic(
   () => import("../precios/PopupResultadoBusqueda"),
   {
     ssr: false,
-    loading: () => <div style={{ height: "30px" }}>...</div>,
+    loading: () => <div style={{ height: "30px" }}></div>,
   },
 );
 
@@ -24,13 +25,13 @@ const BarraResumenCaja = dynamic(
   () => import("../forms/caja/BarraResumenCaja"),
   {
     ssr: false,
-    loading: () => <div style={{ height: "30px" }}>...</div>,
+    loading: () => <div style={{ height: "30px" }}></div>,
   },
 );
 
 const HeaderSol = dynamic(() => import("./header"), {
   ssr: false,
-  loading: () => <div style={{ height: "30px" }}>...</div>,
+  loading: () => <div style={{ height: "30px" }}></div>,
 });
 
 export default function LayoutVentas(props) {
@@ -38,19 +39,19 @@ export default function LayoutVentas(props) {
   const { getItem } = useStorage();
   const [popupBusquedaOpen, setPopupBusquedaOpen] = useState(false);
   const [busqueda, setBusqueda] = useState("");
-  const [esUCaja1, setEsUCaja1] = useState(false)
+  const [esUCaja1, setEsUCaja1] = useState(false);
+  const { userLogedIn } = useUserStatus();
   const onSearch = () => {
     if (busqueda.trim().length < 1) {
       return;
     }
     setPopupBusquedaOpen(true);
   };
-
+  /*
   const validate_user = () => {
     const _token = getItem("token", "session");
 
     if (_token === typeof "undefined") {
-      //alert("Debe Iniciar Sesion")
       window.location.replace(public_urls.login);
     }
 
@@ -63,12 +64,14 @@ export default function LayoutVentas(props) {
         .then((response) => response.json())
         .then((response) => {
           if (response.data.logged == "0") {
-            //alert("Debe Iniciar Sesion")
             window.location.replace(public_urls.login);
           } else {
-            //_t  = validate_user();
             validate_user();
           }
+        }).catch((error) => {
+          console.error("Error fetching data:", error);
+          //alert("Debe Iniciar Sesion");
+          //window.location.replace(public_urls.login);
         });
 
       //check if caja is closed, if so, then check whether it is open now
@@ -77,7 +80,6 @@ export default function LayoutVentas(props) {
         .then((response) => {
           //if caja is open, set this value in local
           if (typeof response.data !== "undefined") {
-            //alert(JSON.stringify(response))
             if (response.data != null) {
               if (+response.data.abierta == 1) {
                 globals.setCajaOpen(true);
@@ -85,42 +87,31 @@ export default function LayoutVentas(props) {
                   +response.data.current == 1 ? "" : "Caja Desactualizada",
                 );
               } else {
-                //alert("caja cerrada")
                 setAlerta("CAJA CERRADA");
               }
             }
           }
         });
     }, 10000);
-  };
+  };*/
   useEffect(() => {
+    if (!userLogedIn) {
+      window.location.replace(public_urls.login);
+    }
     setEsUCaja1(globals.esUsuarioCaja1());
     if (!globals.esUsuarioCaja1()) {
       window.location.replace(public_urls.modo);
     }
-    validate_user();
-  }, []);
+  }, [userLogedIn]);
 
   const card_style2 = {
     header: {
       background: "#E7E9EB",
-      //borderTop:"2px solid #663F4C",
-      //borderTop:"2px solid #3A5C79",
     },
     body: {
       backgroundColor: "#ffffffff",
       padding: "0",
     },
-  };
-
-  const card_style = {
-    header: {
-      background: "#ADD8E6",
-      background:
-        "linear-gradient(39deg, rgba(173, 216, 230, 1) 62%, rgba(128, 164, 230, 1) 95%)",
-      borderTop: "3px solid #4589A0",
-    },
-    body: { backgroundColor: "#FAFBFF", padding: "0" },
   };
 
   return (
@@ -167,7 +158,14 @@ export default function LayoutVentas(props) {
           </>
         }
       >
-        { esUCaja1 ? <div> <BarraResumenCaja /> </div> : <div></div>}
+        {esUCaja1 ? (
+          <div>
+            {" "}
+            <BarraResumenCaja />{" "}
+          </div>
+        ) : (
+          <div></div>
+        )}
         <Content
           style={{
             margin: "0px 10px",

@@ -4,6 +4,7 @@ import { Alert, Layout, Row, Col, Grid, Space } from "antd";
 import { useEffect, useState } from "react";
 import globals from "@/src/globals";
 import dynamic from "next/dynamic";
+import { useUserStatus } from "../providers/UserContext";
 const { useBreakpoint } = Grid;
 
 const BarraResumenCaja = dynamic(
@@ -35,10 +36,10 @@ export default function LayoutVentasV2(props) {
   const { Content, Footer } = Layout;
   const [alerta, setAlerta] = useState("");
   const [esUsuaroCaja1, setEsUsuarioCaja1] = useState(false);
-  const { getItem } = useStorage();
   const [popupBusquedaOpen, setPopupBusquedaOpen] = useState(false);
   const [busqueda, setBusqueda] = useState("");
   const screens = useBreakpoint();
+  const { userLogedIn } = useUserStatus();
 
   const onSearch = () => {
     if (busqueda.trim().length < 1) {
@@ -46,8 +47,9 @@ export default function LayoutVentasV2(props) {
     }
     setPopupBusquedaOpen(true);
   };
-
-  const validate_user = () => {
+  /*
+  const get_caja = () => {
+    
     console.log("validating user");
     const _token = getItem("token", "session");
 
@@ -55,11 +57,7 @@ export default function LayoutVentasV2(props) {
       window.location.replace(public_urls.login);
     }
 
-    var _t = setTimeout(() => {
-      if (_t !== typeof "undefined") {
-        console.log("clear timeout");
-        clearTimeout(_t);
-      }
+
       fetch(get.check_login + _token)
         .then((response) => response.json())
         .then((response) => {
@@ -68,8 +66,16 @@ export default function LayoutVentasV2(props) {
           } else {
             validate_user();
           }
+        })
+        .catch((error) => {
+          console.error("Error fetching data:", error);
         });
-
+        
+    var _t = setTimeout(() => {
+      if (_t !== typeof "undefined") {
+        console.log("clear timeout");
+        clearTimeout(_t);
+      }
       //check if caja is closed, if so, then check whether it is open now
       fetch(get.caja_abierta + globals.obtenerSucursal())
         .then((r) => r.json())
@@ -86,10 +92,13 @@ export default function LayoutVentasV2(props) {
               }
             }
           }
+        })
+        .catch((error) => {
+          console.error("Error fetching data:", error);
         });
-    }, 20000);
+    }, 5000);
   };
-
+*/
   const content_style_desktop = {
     margin: "10px 50px",
     padding: 6,
@@ -121,9 +130,11 @@ export default function LayoutVentasV2(props) {
   };
 
   useEffect(() => {
+    if (!userLogedIn) {
+      window.location.replace(public_urls.login);
+    }
     setEsUsuarioCaja1(globals.esUsuarioCaja1());
-    validate_user();
-  }, []);
+  }, [userLogedIn]);
 
   return (
     <Layout className="layout">
@@ -146,7 +157,7 @@ export default function LayoutVentasV2(props) {
       <div>
         {esUsuaroCaja1 ? (
           <div>
-            <BarraResumenCaja alerta={getAlerta()}/>
+            <BarraResumenCaja alerta={getAlerta()} />
           </div>
         ) : (
           <div>{getAlerta()}</div>
@@ -169,23 +180,26 @@ export default function LayoutVentasV2(props) {
           />
         </div>
       </Content>
-      <Footer style={{ 
-        background: '#c2c0c0', 
-        padding: '16px 24px', 
-        color: '#1b1b1b',
-        fontSize: '13px'
-      }}>
-        <div style={{ 
-          display: 'flex', 
-          justifyContent: 'space-between', 
-          alignItems: 'center',
-          flexWrap: 'wrap',
-          gap: '12px'
-        }}>
+      <Footer
+        style={{
+          background: "#c2c0c0",
+          padding: "16px 24px",
+          color: "#1b1b1b",
+          fontSize: "13px",
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            flexWrap: "wrap",
+            gap: "12px",
+          }}
+        >
           {/* Left Side: Copyright */}
 
           {/* Right Side: Links and Icons */}
-  
         </div>
       </Footer>
     </Layout>

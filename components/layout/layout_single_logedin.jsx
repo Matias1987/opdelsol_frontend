@@ -7,7 +7,7 @@ export default function LayoutSingleLogedIn(props){
     const { Content } = Layout;
 
     const { getItem } = useStorage();
-    const validate_user = () => {
+    /*const validate_user = () => {
 
         const _token = getItem("token",'session')
 
@@ -36,13 +36,14 @@ export default function LayoutSingleLogedIn(props){
                 }
 
             })
+            .catch((error) => {
+                console.error("Error fetching data:", error);
+                //alert("Debe Iniciar Sesion")
+                //window.location.replace(public_urls.login)
+            });
             
         }, 2000);
-    }
-  useEffect(()=>{
-    console.log("run user effect")
-    validate_user()
-  },[])
+    }*/
 
     return (
         <Layout className='layout'>

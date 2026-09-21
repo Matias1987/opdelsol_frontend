@@ -5,11 +5,14 @@ import { useEffect, useState } from "react";
 import globals from "@/src/globals";
 import HeaderSol from "./header";
 import MenuV2 from "./menu_v2";
+import { useUserStatus } from "../providers/UserContext";
 
-export default function LayoutDepositoMin(props){
-    const { Header, Sider, Content } = Layout;
-    const [alerta, setAlerta] = useState("")
-    const { getItem } = useStorage();
+export default function LayoutDepositoMin(props) {
+  const { Header, Sider, Content } = Layout;
+  const [alerta, setAlerta] = useState("");
+  const { userLogedIn } = useUserStatus();
+  const { getItem } = useStorage();
+  /*
     const validate_user = () => {
 
         const _token = getItem("token",'session')
@@ -38,6 +41,11 @@ export default function LayoutDepositoMin(props){
                 }
 
             })
+            .catch((error) => {
+                console.error("Error fetching data:", error);
+                //alert("Debe Iniciar Sesion")
+                //window.location.replace(public_urls.login)
+            });
 
             //check if caja is closed, if so, then check whether it is open now
             fetch(get.caja_abierta + globals.obtenerSucursal())
@@ -62,32 +70,47 @@ export default function LayoutDepositoMin(props){
                         }
                     }
                 })
+                .catch((error) => {
+                    console.error("Error fetching data:", error);
+                });
             
         }, 2000);
+    }*/
+  useEffect(() => {
+    if (!userLogedIn) {
+      window.location.replace(public_urls.login);
     }
-  useEffect(()=>{
-    //console.log("run user effect")
-    if(!globals.esUsuarioVentas())
-    {
-        window.location.replace(public_urls.modo)
+    if (!globals.esUsuarioVentas()) {
+      window.location.replace(public_urls.modo);
     }
-    validate_user()
-  },[])
-    return (
-        <Layout style={{ padding:0}} className='layout'>
-            <HeaderSol tipoCuenta="Deposito" displaymodechange={(__c)=>{
-                props?.displaymodechange?.(__c)
-            }}/>
-            
-            
-            <MenuV2 />
-            <Content style={{ margin: '40px 100px', padding: 24,  borderRadius:"15px", minHeight: "100hv" }}>
-            {
-                (alerta!="") ? <><Alert key={alerta} message={alerta} type="error" showIcon/></>:<></>
-            }
-            {/*<Alerts />*/}
-                {props.children}
-            </Content>
-        </Layout>
-    )
+  }, [userLogedIn]);
+  return (
+    <Layout style={{ padding: 0 }} className="layout">
+      <HeaderSol
+        tipoCuenta="Deposito"
+        displaymodechange={(__c) => {
+          props?.displaymodechange?.(__c);
+        }}
+      />
+
+      <MenuV2 />
+      <Content
+        style={{
+          margin: "40px 100px",
+          padding: 24,
+          borderRadius: "15px",
+          minHeight: "100hv",
+        }}
+      >
+        {alerta != "" ? (
+          <>
+            <Alert key={alerta} message={alerta} type="error" showIcon />
+          </>
+        ) : (
+          <></>
+        )}
+        {props.children}
+      </Content>
+    </Layout>
+  );
 }

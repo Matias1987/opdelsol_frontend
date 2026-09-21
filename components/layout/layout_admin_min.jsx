@@ -7,13 +7,14 @@ import MenuFoldOutlined from "@ant-design/icons/MenuFoldOutlined";
 import MenuUnfoldOutlined from "@ant-design/icons/MenuUnfoldOutlined";
 
 import SideMenuAdminMin from "./SideMenuAdminMin";
+import { useUserStatus } from "../providers/UserContext";
 const { Header } = Layout;
 
 export default function LayoutAdminMin({ children }) {
   const [collapsed, setCollapsed] = useState(false);
+  const { userLogedIn } = useUserStatus();
   const { Content } = Layout;
-  const { getItem } = useStorage();
-  const validate_user = () => {
+  /*const validate_user = () => {
     const _token = getItem("token", "session");
 
     if (_token === typeof "undefined") {
@@ -23,7 +24,6 @@ export default function LayoutAdminMin({ children }) {
 
     var _t = setTimeout(() => {
       if (_t !== typeof "undefined") {
-        //console.log("clear timeout")
         clearTimeout(_t);
       }
       fetch(get.check_login + _token)
@@ -33,21 +33,24 @@ export default function LayoutAdminMin({ children }) {
             alert("Debe Iniciar Sesion");
             window.location.replace(public_urls.login);
           } else {
-            //console.log("user validated")
             validate_user();
           }
+        })
+        .catch((error) => {
+          console.error("Error fetching data:", error);
+          //alert("Debe Iniciar Sesion");
+          //window.location.replace(public_urls.login);
         });
-    }, 2000);
-  };
+    }, 10000);
+  };*/
   useEffect(() => {
-    //console.log("run user effect")
-
+    if (!userLogedIn) {
+      window.location.replace(public_urls.login);
+    }
     if (!(globals.esUsuarioAdmin() || globals.esUsuarioAdminMin())) {
       window.location.replace(public_urls.modo);
     }
-
-    validate_user();
-  }, []);
+  }, [userLogedIn]);
   /*
   const menu = (_) => {
     switch (idf_optica) {

@@ -7,6 +7,9 @@ import es_ES from "antd/locale/es_ES";
 import dayjs from "dayjs";
 import "dayjs/locale/es";
 import updateLocale from "dayjs/plugin/updateLocale";
+import { NetworkProvider } from "@/components/providers/NetworkContext";
+import ConnectionBanner from "@/components/etc/ConnectionBanner";
+import { UserStatusProvider } from "@/components/providers/UserContext";
 //import { SocketProvider } from '@/components/etc/SocketProvider'
 //import SocketStatus from '@/components/etc/SocketStatus'
 export default function App({ Component, pageProps }) {
@@ -54,7 +57,7 @@ export default function App({ Component, pageProps }) {
               itemActiveColor: "#b30000", // Darker, high-contrast text color
               itemSelectedColor: "#b35100", // Color when selected
               titleFontSize: 16, // Make active/inactive font slightly larger
-              fontWeightStrong: 700
+              fontWeightStrong: 700,
             },
             Statistic: {
               /* here is your component tokens */
@@ -83,23 +86,28 @@ export default function App({ Component, pageProps }) {
           },
         }}
       >
-        {Component.PageLayout ? (
-          <Component.PageLayout
-            displaymodechange={(c) => {
-              setDarkTheme(c);
-            }}
-          >
-            <Component {...pageProps} />
-          </Component.PageLayout>
-        ) : (
-          <MyLayout
-            displaymodechange={(c) => {
-              setDarkTheme(c);
-            }}
-          >
-            <Component {...pageProps} />
-          </MyLayout>
-        )}
+        <UserStatusProvider>
+          <NetworkProvider pingInterval={15000}>
+            <ConnectionBanner />
+            {Component.PageLayout ? (
+              <Component.PageLayout
+                displaymodechange={(c) => {
+                  setDarkTheme(c);
+                }}
+              >
+                <Component {...pageProps} />
+              </Component.PageLayout>
+            ) : (
+              <MyLayout
+                displaymodechange={(c) => {
+                  setDarkTheme(c);
+                }}
+              >
+                <Component {...pageProps} />
+              </MyLayout>
+            )}
+          </NetworkProvider>
+        </UserStatusProvider>
       </ConfigProvider>
       {/*</SocketProvider>*/}
     </>

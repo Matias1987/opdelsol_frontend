@@ -8,7 +8,7 @@ import ReloadOutlined from "@ant-design/icons/ReloadOutlined";
 import Ingreso from "./ingreso";
 import { formatFloat } from "@/src/helpers/formatters";
 
-const CajaMaster = (props) => {
+const CajaMaster = ({updateData}) => {
   const [data, setData] = useState([]);
   const [popupAddOpen, setPopupAddOpen] = useState(false);
   const [popupAddIngresoOpen, setPopupAddIngresoOpen] = useState(false);
@@ -102,7 +102,7 @@ const CajaMaster = (props) => {
 
   useEffect(() => {
     load();
-  }, [reload]);
+  }, [reload, updateData]);
 
   const handleAddEgreso = () => {
     setPopupAddOpen(true);
