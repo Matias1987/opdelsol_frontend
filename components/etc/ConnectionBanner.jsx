@@ -1,5 +1,6 @@
 import React from "react";
 import { useNetworkStatus } from "../providers/NetworkContext";
+import WarningOutlined from "@ant-design/icons/WarningOutlined";
 
 export default function ConnectionBanner() {
   const { isOnline } = useNetworkStatus();
@@ -12,10 +13,13 @@ export default function ConnectionBanner() {
         backgroundColor: "#ff4d4f",
         color: "#fff",
         textAlign: "center",
-        padding: "10px",
+        padding: "2px",
+        fontWeight:"600",
+        fontSize:"14px",
+        fontFamily:"Courier New",
       }}
     >
-      ⚠️ Sin Internet.
+     <WarningOutlined /> Sin Conexi&oacute;n
     </div>
   );
 }

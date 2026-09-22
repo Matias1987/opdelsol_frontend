@@ -14,8 +14,10 @@ import globals from "@/src/globals";
 import { getItem } from "localforage";
 import SucursalLabel from "../sucursal_label";
 import { usePathname } from "next/navigation";
+import { useNetworkStatus } from "../providers/NetworkContext";
 
-export default function MenuDistribuidora({ onNuevaVentaClick,showBadge }) {
+export default function MenuDistribuidora({ onNuevaVentaClick, showBadge }) {
+  const { isOnline } = useNetworkStatus();
   const [current, setCurrent] = useState("9");
   const pathname = usePathname(); // Gets the current URL path
   const items = [
@@ -80,7 +82,12 @@ export default function MenuDistribuidora({ onNuevaVentaClick,showBadge }) {
   }, []);
   return (
     <Flex
-      style={{ width: "100%", padding: "0 16px" }}
+      style={{
+        width: "100%",
+        padding: "0 16px",
+        pointerEvents: !isOnline ? "none" : "auto",
+        opacity: !isOnline ? 0.6 : 1,
+      }}
       justify="space-between"
       align="center"
     >
@@ -91,9 +98,7 @@ export default function MenuDistribuidora({ onNuevaVentaClick,showBadge }) {
           alignItems: "center",
           color: "white",
         }}
-      >
-        
-      </div>
+      ></div>
       <Menu
         style={{ width: "700px" }}
         styles={{
@@ -118,7 +123,6 @@ export default function MenuDistribuidora({ onNuevaVentaClick,showBadge }) {
             fetch(get.logout + _token)
               .then((response) => response.json())
               .then((response) => {
-                
                 window.location.replace(public_urls.login);
               })
               .catch((err) => {

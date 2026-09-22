@@ -1,5 +1,4 @@
-import { get, public_urls } from "@/src/urls";
-import useStorage from "@/useStorage";
+import { public_urls } from "@/src/urls";
 import { Layout } from "antd";
 import { useEffect } from "react";
 import globals from "@/src/globals";
@@ -9,39 +8,8 @@ import { useUserStatus } from "../providers/UserContext";
 
 export default function layout_admin_proveedores({ children }) {
   const { Content } = Layout;
-  const { getItem } = useStorage();
   const { userLogedIn } = useUserStatus();
-  /*const validate_user = () => {
-    const _token = getItem("token", "session");
-
-    if (_token === typeof "undefined") {
-      alert("Debe Iniciar Sesion");
-      window.location.replace(public_urls.login);
-    }
-
-    var _t = setTimeout(() => {
-      if (_t !== typeof "undefined") {
-        //console.log("clear timeout")
-        clearTimeout(_t);
-      }
-      fetch(get.check_login + _token)
-        .then((response) => response.json())
-        .then((response) => {
-          if (response.data.logged == "0") {
-            alert("Debe Iniciar Sesion");
-            window.location.replace(public_urls.login);
-          } else {
-            //console.log("user validated")
-            validate_user();
-          }
-        })
-        .catch((error) => {
-          console.error("Error fetching data:", error);
-          //alert("Debe Iniciar Sesion");
-          //window.location.replace(public_urls.login);
-        });
-    }, 10000);
-  };*/
+  
   useEffect(() => {
     if (!userLogedIn) {
       window.location.replace(public_urls.login);

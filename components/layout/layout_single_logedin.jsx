@@ -6,44 +6,6 @@ import { useEffect } from "react";
 export default function LayoutSingleLogedIn(props){
     const { Content } = Layout;
 
-    const { getItem } = useStorage();
-    /*const validate_user = () => {
-
-        const _token = getItem("token",'session')
-
-        if(_token === typeof 'undefined' ){
-            //alert("Debe Iniciar Sesion")
-            window.location.replace(public_urls.login)
-        }
-
-
-        var _t = setTimeout(() => {
-
-            if(_t !== typeof 'undefined'){
-                console.log("clear timeout")
-                clearTimeout(_t)
-            }
-            fetch(get.check_login+_token)
-            .then(response=>response.json())
-            .then((response)=>{ 
-                if(response.data.logged=='0'){
-                    //alert("Debe Iniciar Sesion")
-                    window.location.replace(public_urls.login)
-                }
-                else{
-                    //_t  = validate_user();
-                    validate_user();
-                }
-
-            })
-            .catch((error) => {
-                console.error("Error fetching data:", error);
-                //alert("Debe Iniciar Sesion")
-                //window.location.replace(public_urls.login)
-            });
-            
-        }, 2000);
-    }*/
 
     return (
         <Layout className='layout'>

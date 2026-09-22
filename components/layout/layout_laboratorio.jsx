@@ -26,35 +26,6 @@ export default function LayoutLaboratorio(props) {
   const { Content } = Layout;
   const { userLogedIn } = useUserStatus();
 
-  /*const validate_user = () => {
-    const _token = getItem("token", "session");
-
-    if (_token === typeof "undefined") {
-      //alert("Debe Iniciar Sesion")
-      window.location.replace(public_urls.login);
-    }
-
-    var _t = setTimeout(() => {
-      if (_t !== typeof "undefined") {
-        console.log("clear timeout");
-        clearTimeout(_t);
-      }
-      fetch(get.check_login + _token)
-        .then((response) => response.json())
-        .then((response) => {
-          if (response.data.logged == "0") {
-            window.location.replace(public_urls.login);
-          } else {
-            validate_user();
-          }
-        })
-        .catch((error) => {
-          console.error("Error fetching data:", error);
-          alert("Debe Iniciar Sesion");
-          window.location.replace(public_urls.login);
-        });
-    }, 20000);
-  };*/
   useEffect(() => {
     if (!userLogedIn) {
       window.location.replace(public_urls.login);

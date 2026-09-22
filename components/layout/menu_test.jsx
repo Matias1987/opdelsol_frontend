@@ -1,16 +1,8 @@
 import { idf_optica, local_base_url } from "@/src/config";
 import ArrowDownOutlined from "@ant-design/icons/ArrowDownOutlined";
 import BarsOutlined from "@ant-design/icons/BarsOutlined";
-//import BoxPlotFilled from "@ant-design/icons/BoxPlotFilled";
 import FileTextOutlined from "@ant-design/icons/FileTextOutlined";
-//import HomeOutlined from "@ant-design/icons/HomeOutlined";
-//import InfoOutlined from "@ant-design/icons/InfoOutlined";
-//import PartitionOutlined from "@ant-design/icons/PartitionOutlined";
-//import PrinterOutlined from "@ant-design/icons/PrinterOutlined";
-//import RocketOutlined from "@ant-design/icons/RocketOutlined";
 import SnippetsOutlined from "@ant-design/icons/SnippetsOutlined";
-//import TableOutlined from "@ant-design/icons/TableOutlined";
-//import UserOutlined from "@ant-design/icons/UserOutlined";
 import DownOutlined from "@ant-design/icons/DownOutlined";
 
 import { Button, Flex, Menu } from "antd";
@@ -19,6 +11,7 @@ import SucursalLabel from "../sucursal_label";
 import { get, public_urls } from "@/src/urls";
 import { useEffect, useState } from "react";
 import globals from "@/src/globals";
+import { useNetworkStatus } from "../providers/NetworkContext";
 
 //import { Menu, Icon } from 'antd';
 const SubMenu = Menu.SubMenu;
@@ -26,6 +19,7 @@ const SubMenu = Menu.SubMenu;
 export default function TestMenu() {
   const get_url_to = (_target) => local_base_url + _target;
   const [usuario, setUsuario] = useState("");
+  const { isOnline } = useNetworkStatus();
 
   useEffect(() => {
     setUsuario(globals.obtenerUserName());
@@ -36,6 +30,10 @@ export default function TestMenu() {
       justify="space-between"
       align="center"
       className="flex-menuv3"
+      style={{
+        pointerEvents: !isOnline ? "none" : "auto",
+        opacity: !isOnline ? 0.6 : 1,
+      }}
     >
       <Menu onClick={() => {}} mode="horizontal">
         <Menu.Item key="100">
@@ -76,7 +74,7 @@ export default function TestMenu() {
               Modificar Cant. Categor&iacute;a
             </Link>
           </Menu.Item>
-         { /*<Menu.Item key="sub2_35">
+          {/*<Menu.Item key="sub2_35">
             <Link href={get_url_to("deposito/stock/crsv2/stock_cristales")}>
               Stock Cristales
             </Link>
@@ -223,9 +221,8 @@ export default function TestMenu() {
       </Menu>
 
       <div>
-        <span style={{color:"white"}}>{usuario}</span>&nbsp;|
+        <span style={{ color: "white" }}>{usuario}</span>&nbsp;|
         <SucursalLabel color="white" />
-
         <Button
           size="small"
           type="text"

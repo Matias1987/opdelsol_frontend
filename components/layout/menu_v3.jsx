@@ -11,12 +11,13 @@ import dynamic from "next/dynamic";
 import CaretDownFilled from "@ant-design/icons/CaretDownFilled";
 import InfoCircleOutlined from "@ant-design/icons/InfoCircleOutlined";
 import UserOutlined from "@ant-design/icons/UserOutlined";
+import { useNetworkStatus } from "../providers/NetworkContext";
 
 const VentasVendedor = dynamic(
   () => import("../informes/ventas/VentasVendedor"),
   {
     ssr: false,
-    loading: () => <div style={{ height: "30px" }}>&#9203; Espere...</div>,
+    loading: () => <div style={{ width: "30px" }}></div>,
   },
 );
 
@@ -24,23 +25,23 @@ const ListaPreciosV3 = dynamic(
   () => import("../lista_precios/listaPreciosV3"),
   {
     ssr: false,
-    loading: () => <div style={{ height: "30px" }}>&#9203;</div>,
+    loading: () => <div style={{ width: "30px" }}></div>,
   },
 );
 const BuscarVentaV3 = dynamic(() => import("../forms/ventas/BuscarVentasV3"), {
   ssr: false,
-  loading: () => <div style={{ height: "30px" }}>&#9203;</div>,
+  loading: () => <div style={{ width: "30px" }}></div>,
 });
 const ListaPreciosV4 = dynamic(
   () => import("../lista_precios/listaPreciosV4"),
   {
     ssr: false,
-    loading: () => <div style={{ height: "30px" }}>&#9203;</div>,
+    loading: () => <div style={{ width: "30px" }}></div>,
   },
 );
 const SucursalLabel = dynamic(() => import("../sucursal_label"), {
   ssr: false,
-  loading: () => <div style={{ height: "30px" }}>&#9203;</div>,
+  loading: () => <div style={{ width: "30px" }}></div>,
 });
 
 export default function MenuV3(props) {
@@ -51,6 +52,7 @@ export default function MenuV3(props) {
   const [buscarVentaOpen, setBuscarVentaOpen] = useState(false);
   const [informeOpen, setInformeOpen] = useState(false);
   const [usuario, setUsuario] = useState("");
+  const { isOnline } = useNetworkStatus();
   const _menu_deposito_min = {
     label: "Depósito",
     key: "SubMenuStockMin",
@@ -386,8 +388,7 @@ export default function MenuV3(props) {
       return;
     }
 
-    if(e.key==="vtas_vendedor")
-    {
+    if (e.key === "vtas_vendedor") {
       setInformeOpen(true);
       return;
     }
@@ -409,7 +410,14 @@ export default function MenuV3(props) {
   };
   return (
     <>
-      <Flex justify="space-evenly" className="flex-menuv3">
+      <Flex
+        justify="space-evenly"
+        className="flex-menuv3"
+        style={{
+          pointerEvents: !isOnline ? "none" : "auto",
+          opacity: !isOnline ? 0.6 : 1,
+        }}
+      >
         <Menu
           style={{ width: "600px" }}
           onClick={onClick}
@@ -433,7 +441,11 @@ export default function MenuV3(props) {
                 onClick={onSearch}
                 type="link"
                 size="small"
-                style={{ color: "#B35100", width: "16px", fontWeight:"bolder" }}
+                style={{
+                  color: "#B35100",
+                  width: "16px",
+                  fontWeight: "bolder",
+                }}
               >
                 <SearchOutlined />
               </Button>
@@ -445,13 +457,16 @@ export default function MenuV3(props) {
 
         <Menu
           onClick={onClickM2}
-          style={{ width: "230px" }}
+          style={{ width: "260px" }}
           mode="horizontal"
           items={[
             {
               label: (
                 <>
-                  <span style={{color: "#B35100"}}><UserOutlined /></span> {usuario} <span style={{ fontWeight: "400" }}>|</span>
+                  <span style={{ color: "#B35100" }}>
+                    <UserOutlined />
+                  </span>{" "}
+                  {usuario} <span style={{ fontWeight: "400" }}>|</span>
                   <SucursalLabel color="#fdfdfd" />
                 </>
               ),

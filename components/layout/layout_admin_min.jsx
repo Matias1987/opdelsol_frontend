@@ -1,6 +1,5 @@
 import { get, public_urls } from "@/src/urls";
-import useStorage from "@/useStorage";
-import { Button, Layout, Menu } from "antd";
+import { Button, Layout } from "antd";
 import { useEffect, useState } from "react";
 import globals from "@/src/globals";
 import MenuFoldOutlined from "@ant-design/icons/MenuFoldOutlined";
@@ -14,35 +13,7 @@ export default function LayoutAdminMin({ children }) {
   const [collapsed, setCollapsed] = useState(false);
   const { userLogedIn } = useUserStatus();
   const { Content } = Layout;
-  /*const validate_user = () => {
-    const _token = getItem("token", "session");
 
-    if (_token === typeof "undefined") {
-      alert("Debe Iniciar Sesion");
-      window.location.replace(public_urls.login);
-    }
-
-    var _t = setTimeout(() => {
-      if (_t !== typeof "undefined") {
-        clearTimeout(_t);
-      }
-      fetch(get.check_login + _token)
-        .then((response) => response.json())
-        .then((response) => {
-          if (response.data.logged == "0") {
-            alert("Debe Iniciar Sesion");
-            window.location.replace(public_urls.login);
-          } else {
-            validate_user();
-          }
-        })
-        .catch((error) => {
-          console.error("Error fetching data:", error);
-          //alert("Debe Iniciar Sesion");
-          //window.location.replace(public_urls.login);
-        });
-    }, 10000);
-  };*/
   useEffect(() => {
     if (!userLogedIn) {
       window.location.replace(public_urls.login);
@@ -51,18 +22,7 @@ export default function LayoutAdminMin({ children }) {
       window.location.replace(public_urls.modo);
     }
   }, [userLogedIn]);
-  /*
-  const menu = (_) => {
-    switch (idf_optica) {
-      case 1:
-        return <MenuAdminTop />;
-      case 2:
-        return <MenuAdminSolParana />;
-      case 3:
-        return <MenuAdminCOExp />;
-    }
-  };
-*/
+
   return (
     <Layout style={{ minHeight: "100vh" }}>
       <SideMenuAdminMin collapsed={collapsed} />

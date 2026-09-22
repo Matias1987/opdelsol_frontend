@@ -1,6 +1,5 @@
-import { get, public_urls } from "@/src/urls";
-import useStorage from "@/useStorage";
-import { Alert, Layout, Row, Col, Grid, Space } from "antd";
+import { public_urls } from "@/src/urls";
+import { Alert, Layout, Row, Col, Grid } from "antd";
 import { useEffect, useState } from "react";
 import globals from "@/src/globals";
 import dynamic from "next/dynamic";
@@ -47,58 +46,7 @@ export default function LayoutVentasV2(props) {
     }
     setPopupBusquedaOpen(true);
   };
-  /*
-  const get_caja = () => {
-    
-    console.log("validating user");
-    const _token = getItem("token", "session");
-
-    if (_token === typeof "undefined") {
-      window.location.replace(public_urls.login);
-    }
-
-
-      fetch(get.check_login + _token)
-        .then((response) => response.json())
-        .then((response) => {
-          if (response.data.logged == "0") {
-            window.location.replace(public_urls.login);
-          } else {
-            validate_user();
-          }
-        })
-        .catch((error) => {
-          console.error("Error fetching data:", error);
-        });
-        
-    var _t = setTimeout(() => {
-      if (_t !== typeof "undefined") {
-        console.log("clear timeout");
-        clearTimeout(_t);
-      }
-      //check if caja is closed, if so, then check whether it is open now
-      fetch(get.caja_abierta + globals.obtenerSucursal())
-        .then((r) => r.json())
-        .then((response) => {
-          if (typeof response.data !== "undefined") {
-            if (response.data != null) {
-              if (+response.data.abierta == 1) {
-                globals.setCajaOpen(true);
-                setAlerta(
-                  +response.data.current == 1 ? "" : "Caja Desactualizada",
-                );
-              } else {
-                setAlerta("CAJA CERRADA");
-              }
-            }
-          }
-        })
-        .catch((error) => {
-          console.error("Error fetching data:", error);
-        });
-    }, 5000);
-  };
-*/
+ 
   const content_style_desktop = {
     margin: "10px 50px",
     padding: 6,

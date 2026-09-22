@@ -14,11 +14,12 @@ import { get } from "@/src/urls";
 import useStorage from "@/useStorage";
 import Sider from "antd/es/layout/Sider";
 import SubMenu from "antd/es/menu/SubMenu";
+import { useNetworkStatus } from "../providers/NetworkContext";
 
 const SideMenuAdmin = ({ collapsed }) => {
   const router = useRouter();
   const { pathname } = router;
-
+  const { isOnline } = useNetworkStatus();
   const logout = () => {
     const { getItem } = useStorage();
     const _token = getItem("token", "session");
@@ -38,8 +39,15 @@ const SideMenuAdmin = ({ collapsed }) => {
       trigger={null}
       collapsible
       collapsed={collapsed}
-      style={{ position: "fixed", height: "100vh", left: 0, top: 0 , overflow: 'auto',}}
-
+      style={{
+        position: "fixed",
+        height: "100vh",
+        left: 0,
+        top: 0,
+        overflow: "auto",
+        pointerEvents: !isOnline ? "none" : "auto",
+        opacity: !isOnline ? 0.6 : 1,
+      }}
     >
       <div
         className="logo"

@@ -25,7 +25,7 @@ export function UserStatusProvider({ children }) {
   const activeControllerRef = useRef(null);
 
   const url = get.check_login;
-  const interval = 10000; // 10 seconds
+  const interval = 5000; // 5 seconds
 
   const verifyUserStatus = useCallback(async () => {
     if (activeControllerRef.current) {
@@ -46,7 +46,7 @@ export function UserStatusProvider({ children }) {
 
       const response = await fetch(url + _token);
       const data = await response.json();
-      //alert(JSON.stringify(data));
+      
       if (+data.data.logged === 0) {
         setUserLogedIn(false);
       } else {
@@ -55,7 +55,7 @@ export function UserStatusProvider({ children }) {
       }
     } catch (error) {
       console.error("Error fetching data:", error);
-      setUserLogedIn(false);
+      //setUserLogedIn(false);
     } finally {
       if (activeControllerRef.current === controller) {
         setIsChecking(false);
