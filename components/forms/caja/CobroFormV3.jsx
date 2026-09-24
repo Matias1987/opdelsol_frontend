@@ -16,6 +16,7 @@ import {
 } from "@/src/helpers/evento_helper";
 import ModoPagoV4 from "../modo_pago/ModoPagoV4";
 import { v4 as uuidv4 } from "uuid";
+import ConnectedButton from "@/components/etc/CntButton";
 
 /**
  *
@@ -635,13 +636,13 @@ const CobroOperacionV3 = (props) => {
         )}
 
         {props.tipo == "cuota" && mp != null ? (
-          <Button
+          <ConnectedButton
             type="primary"
             onClick={onCobrarCuotaClick}
             disabled={cobrarDisabled || mp.total < 1}
           >
             Cobrar
-          </Button>
+          </ConnectedButton>
         ) : (
           <></>
         )}
@@ -661,13 +662,13 @@ const CobroOperacionV3 = (props) => {
                     0 &&
                   mp.total == 0 &&
                   (entrega || props.tipo == "entrega") ? (
-                    <Button
+                    <ConnectedButton
                       onClick={onCobrarEntregaClick}
                       disabled={cobrarDisabled}
                       danger
                     >
                       Entrega
-                    </Button>
+                    </ConnectedButton>
                   ) : (
                     <></>
                   )
@@ -675,13 +676,13 @@ const CobroOperacionV3 = (props) => {
                 {
                   //resfuerzo con saldo 0 posterior
                   mp.total != 0 && props.tipo == "ingreso" ? (
-                    <Button
+                    <ConnectedButton
                       onClick={onCobrarIngresoClick}
                       disabled={cobrarDisabled}
                       danger
                     >
                       Cobrar
-                    </Button>
+                    </ConnectedButton>
                   ) : (
                     <></>
                   )
@@ -689,13 +690,13 @@ const CobroOperacionV3 = (props) => {
                 {
                   //resfuerzo con saldo 0 posterior
                   mp.total != 0 && props.tipo == "resfuerzo" ? (
-                    <Button
+                    <ConnectedButton
                       onClick={onCobrarResfuerzoClick}
                       disabled={cobrarDisabled}
                       danger
                     >
                       Cobrar Resfuerzo
-                    </Button>
+                    </ConnectedButton>
                   ) : (
                     <></>
                   )
@@ -709,13 +710,13 @@ const CobroOperacionV3 = (props) => {
                     +mp.total !=
                     0 &&
                   mp.total != 0 ? (
-                    <Button
+                    <ConnectedButton
                       onClick={onCobrarClick}
                       disabled={onCobrarResfuerzoClick}
                       danger
                     >
                       Cobro Resfuerzo
-                    </Button>
+                    </ConnectedButton>
                   ) : (
                     <></>
                   )
@@ -732,13 +733,13 @@ const CobroOperacionV3 = (props) => {
                     parseFloat(dataVenta.haber || 0) -
                     +mp.total ==
                     0 ? (
-                    <Button
+                    <ConnectedButton
                       onClick={onCobrarEntregaClick}
                       disabled={cobrarDisabled}
                       danger
                     >
                       Entrega
-                    </Button>
+                    </ConnectedButton>
                   ) : (
                     <></>
                   )
@@ -746,13 +747,13 @@ const CobroOperacionV3 = (props) => {
                 {props.tipo == "ingreso" && !entrega ? (
                   <>
                     &nbsp;
-                    <Button
+                    <ConnectedButton
                       disabled={mp.total > 0 || cobrarDisabled}
                       type="primary"
                       onClick={enviarADepositoClick}
                     >
                       Enviar a dep&oacute;sito
-                    </Button>
+                    </ConnectedButton>
                   </>
                 ) : (
                   <></>

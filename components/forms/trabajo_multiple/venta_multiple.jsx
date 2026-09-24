@@ -17,6 +17,7 @@ import VMTrabajo from "./vm_trabajo";
 import { post_method } from "@/src/helpers/post_helper";
 import SelectClienteMayorista from "./select_cliente";
 import { PlusCircleOutlined } from "@ant-design/icons";
+import ConnectedButton from "@/components/etc/CntButton";
 //import useStorage from "@/useStorage";
 
 /* leer: https://refine.dev/blog/common-usestate-mistakes-and-how-to-avoid/ */
@@ -419,7 +420,7 @@ const TrabajoMultiple = ({
           </Row>
           <Row style={{ padding: "6px" }}>
             <Col span={24}>
-              <Button
+              <ConnectedButton
                 style={{ borderRadius: "16px" }}
                 size="large"
                 disabled={false}
@@ -428,7 +429,7 @@ const TrabajoMultiple = ({
                 onClick={finalizar_venta}
               >
                 Guardar Trabajos
-              </Button>
+              </ConnectedButton>
             </Col>
           </Row>
         </Card>

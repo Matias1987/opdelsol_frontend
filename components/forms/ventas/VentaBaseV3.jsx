@@ -26,6 +26,7 @@ import CloseOutlined from "@ant-design/icons/CloseOutlined";
 import dayjs from "dayjs";
 import SelectClienteV2 from "./SelectClienteV2";
 import { v4 as uuidv4 } from "uuid";
+import ConnectedButton from "@/components/etc/CntButton";
 const { useBreakpoint } = Grid;
 /* leer: https://refine.dev/blog/common-usestate-mistakes-and-how-to-avoid/ */
 /**
@@ -509,7 +510,7 @@ export default function VentaBaseV3(props) {
           <Row>
             <Col span={24}>
               <Form.Item>
-                <Button
+                <ConnectedButton
                   style={{ borderRadius: "16px" }}
                   size="large"
                   disabled={!btnEnabled}
@@ -518,7 +519,7 @@ export default function VentaBaseV3(props) {
                   onClick={finalizar_venta}
                 >
                   Finalizar Sobre
-                </Button>
+                </ConnectedButton>
               </Form.Item>
             </Col>
           </Row>

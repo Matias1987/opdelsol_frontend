@@ -18,6 +18,7 @@ import ModoPagoV4 from "../modo_pago/ModoPagoV4";
 import { formatFloat } from "@/src/helpers/formatters";
 import { decimal_separator } from "@/src/config";
 import { v4 as uuidv4 } from 'uuid'; 
+import ConnectedButton from "@/components/etc/CntButton";
 
 /**
  *
@@ -681,13 +682,13 @@ const CobroOperacionV2 = (props) => {
           <></>
         )}
         {props.tipo == "cuota" && mp != null ? (
-          <Button
+          <ConnectedButton
             type="primary"
             onClick={onCobrarClick}
             disabled={cobrarDisabled || mp.total < 1}
           >
             Cobrar
-          </Button>
+          </ConnectedButton>
         ) : (
           <></>
         )}
@@ -708,13 +709,13 @@ const CobroOperacionV2 = (props) => {
                     0 &&
                   mp.total == 0 &&
                   (entrega || props.tipo == "entrega") ? (
-                    <Button
+                    <ConnectedButton
                       onClick={onCobrarClick}
                       disabled={cobrarDisabled}
                       danger
                     >
                       Entrega
-                    </Button>
+                    </ConnectedButton>
                   ) : (
                     <></>
                   )
@@ -723,13 +724,13 @@ const CobroOperacionV2 = (props) => {
                   //resfuerzo con saldo 0 posterior
                   mp.total != 0 &&
                   (props.tipo == "resfuerzo" || props.tipo == "ingreso") ? (
-                    <Button
+                    <ConnectedButton
                       onClick={onCobrarClick}
                       disabled={cobrarDisabled}
                       danger
                     >
                       Cobrar
-                    </Button>
+                    </ConnectedButton>
                   ) : (
                     <></>
                   )
@@ -743,13 +744,13 @@ const CobroOperacionV2 = (props) => {
                     +mp.total !=
                     0 &&
                   mp.total != 0 ? (
-                    <Button
+                    <ConnectedButton
                       onClick={onCobrarClick}
                       disabled={cobrarDisabled}
                       danger
                     >
                       Cobro Resfuerzo
-                    </Button>
+                    </ConnectedButton>
                   ) : (
                     <></>
                   )
@@ -766,13 +767,13 @@ const CobroOperacionV2 = (props) => {
                     parseFloat(dataVenta.haber || 0) -
                     +mp.total ==
                     0 ? (
-                    <Button
+                    <ConnectedButton
                       onClick={onCobrarClick}
                       disabled={cobrarDisabled}
                       danger
                     >
                       Entrega
-                    </Button>
+                    </ConnectedButton>
                   ) : (
                     <></>
                   )
@@ -780,13 +781,13 @@ const CobroOperacionV2 = (props) => {
                 {props.tipo == "ingreso" && !entrega ? (
                   <>
                     &nbsp;
-                    <Button
+                    <ConnectedButton
                       disabled={mp.total > 0 || cobrarDisabled}
                       type="primary"
                       onClick={enviarADepositoClick}
                     >
                       Enviar a dep&oacute;sito{" "}
-                    </Button>
+                    </ConnectedButton>
                   </>
                 ) : (
                   <></>

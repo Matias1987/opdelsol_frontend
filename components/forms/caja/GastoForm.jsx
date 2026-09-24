@@ -1,3 +1,4 @@
+import ConnectedButton from "@/components/etc/CntButton";
 import globals from "@/src/globals";
 import { registrar_evento } from "@/src/helpers/evento_helper";
 import { post_method } from "@/src/helpers/post_helper";
@@ -156,9 +157,9 @@ const GastoForm = (props) => {
       </Row>
       <Row style={row_style}>
         <Col span={24}>
-          <Button disabled={!enabled} onClick={onFinish} block type="primary">
+          <ConnectedButton disabled={!enabled} onClick={onFinish} block type="primary">
             Guardar
-          </Button>
+          </ConnectedButton>
         </Col>
       </Row>
     </>

@@ -7,6 +7,7 @@ import { useEffect, useRef, useState } from "react";
 import { get, post } from "@/src/urls";
 import { Form, Input, Row, Col, Modal, Button, Spin } from "antd";
 import { v4 as uuidv4 } from "uuid";
+import ConnectedButton from "@/components/etc/CntButton";
 
 
 const CargaManual = (props) => {
@@ -127,7 +128,7 @@ const CargaManual = (props) => {
                         <Input  onClick={(e)=>{e.target.select()}}  onChange={(e)=>{onChange(e.target.value.toUpperCase(), "concepto")}}/>
                     </Form.Item>
                     <Form.Item>
-                        <Button disabled={!btnEnabled}  block type="primary" htmlType="submit">Guardar</Button>
+                        <ConnectedButton disabled={!btnEnabled}  block type="primary" htmlType="submit">Guardar</ConnectedButton>
                     </Form.Item>
                 </Form>
             </Col>
