@@ -3,11 +3,13 @@ import { post_method } from "@/src/helpers/post_helper";
 import { get, post } from "@/src/urls";
 import { Card, Col, Input, Row, Switch, Table } from "antd";
 import { useEffect, useState } from "react";
+import { useNetworkStatus } from "../providers/NetworkContext";
 
 const ListaPreciosCodigos = ({ nivelFiltro, idRef, title, onRowClick }) => {
   const [data, setData] = useState(null);
   const [filterStr, setFilterStr] = useState("");
   const [modoBusquedaCodigo, setModoBusquedaCodigo] = useState(true);
+  const { isOnline } = useNetworkStatus();
   const columns = [
     {
       sorter: (a, b) => a.codigo.localeCompare(b.codigo),
@@ -57,8 +59,12 @@ const ListaPreciosCodigos = ({ nivelFiltro, idRef, title, onRowClick }) => {
   };
 
   useEffect(() => {
+    if(!isOnline)
+    {
+      return;
+    }
     load();
-  }, []);
+  }, [isOnline]);
 
   const handleRowClick = (record, index) => {
     console.log("Row clicked:", record, index);

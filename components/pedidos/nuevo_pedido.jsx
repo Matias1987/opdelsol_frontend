@@ -16,7 +16,9 @@ import {
 import globals from "@/src/globals";
 import PedidoItem from "./pedido_item";
 import SelectProveedor from "../admin/proveedor/SelectProveedor";
-import { CloseCircleOutlined, CloseOutlined, EditFilled, PlusOutlined } from "@ant-design/icons";
+import CloseCircleOutlined from "@ant-design/icons/CloseCircleOutlined";
+import EditFilled from "@ant-design/icons/EditFilled";
+import PlusOutlined from "@ant-design/icons/PlusOutlined";
 
 const PedidoProveedor = () => {
   const [modalAddItemOpen, setModalAddItemOpen] = useState(false);
@@ -43,10 +45,12 @@ const PedidoProveedor = () => {
       title: "Producto",
       dataIndex: "codigo",
       key: "codigo",
-      render: (value, record, index) => <span style={{fontWeight:"600"}}>{record.codigo}</span>,
+      render: (value, record, index) => (
+        <span style={{ fontWeight: "600" }}>{record.codigo}</span>
+      ),
     },
     {
-      width:"100px",
+      width: "100px",
       title: "Cantidad",
       dataIndex: "cant_pedida",
       key: "cant_pedida",
@@ -63,7 +67,7 @@ const PedidoProveedor = () => {
       ),
     },
     {
-      width:"50px",
+      width: "50px",
       title: "",
       key: "acciones",
       render: (_, record, index) => (
@@ -105,10 +109,15 @@ const PedidoProveedor = () => {
   };
 
   const detalle_proveedor = () =>
-    selectedProveedor ? (<>Proveedor:&nbsp;
-      <span style={{ fontWeight: "600", color: "#11005e", fontSize: "1.1em" }}>
-        {selectedProveedor.nombre}
-      </span></>
+    selectedProveedor ? (
+      <>
+        Proveedor:&nbsp;
+        <span
+          style={{ fontWeight: "600", color: "#11005e", fontSize: "1.1em" }}
+        >
+          {selectedProveedor.nombre}
+        </span>
+      </>
     ) : (
       <>Seleccione...</>
     );
@@ -140,7 +149,7 @@ const PedidoProveedor = () => {
       <Row style={row_style}>
         <Col span={24}>
           <Card
-          style={{ boxShadow: "2px 2px 4px 2px rgba(208, 216, 243, 0.6)" }}
+            style={{ boxShadow: "2px 2px 4px 2px rgba(208, 216, 243, 0.6)" }}
             size="small"
             title={"Producos"}
             extra={

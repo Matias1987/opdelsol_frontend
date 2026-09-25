@@ -6,125 +6,129 @@ import dayjs from "dayjs";
 import { useState } from "react";
 import SelectLocalidadV2 from "../SelectLocalidadV2";
 import Edad from "./Edad";
-import { convertInputToUpper, validate_only_numbers_and_letters } from "@/src/helpers/string_helper";
+import {
+  convertInputToUpper,
+  validate_only_numbers_and_letters,
+} from "@/src/helpers/string_helper";
 import { cliente_id_obl } from "@/src/config";
+import ConnectedButton from "../etc/CntButton";
 
+export default function ClienteFormV2(props) {
+  const [form] = Form.useForm();
+  const [qr, setQR] = useState("");
+  const [btnDisabled, setBtnDisabled] = useState(false);
+  const [fechaNac, setFechaNac] = useState({
+    dia: "",
+    mes: "",
+    anio: "",
+  });
+  const [clienteData, setClienteData] = useState({
+    nombres: "",
+    dni: "",
+    apellidos: "",
+    nacimiento: null,
+    domicilio: "",
+    telefono: "",
+    destinatario: "0",
+    idlocalidad: globals.obtenerOpticaLocalidad(),
+  });
 
-export default function ClienteFormV2(props){
-    const [form] = Form.useForm();
-    const [qr, setQR] = useState("")
-    const [btnDisabled, setBtnDisabled] = useState(false)
-    const [fechaNac, setFechaNac] = useState({
-        dia:"",
-        mes:"",
-        anio:""
-    })
-    const [clienteData, setClienteData] = useState({
-        nombres:"",
-        dni:"",
-        apellidos:"",
-        nacimiento: null,
-        domicilio: "",
-        telefono: "",
-        destinatario: '0',
-        idlocalidad: globals.obtenerOpticaLocalidad(),
-        
-    })
+  const url = post.insert.cliente;
 
-    const url = post.insert.cliente;
-
-
-    const onFinish = () => {
-
-        
-        
-        const validateStr = (field, message) => {
-            var _val = true;
-            if(typeof field === 'undefined'){
-                _val=false;
-                alert(message)
-            }
-            if(field===null)
-            {
-                _val=false;
-                alert(message)
-            }
-            try{
-            if(field?.trim().length<1){
-                _val=false;
-                alert(message)
-            }  }
-            catch(e){console.log(e)} 
-            return _val;
-
+  const onFinish = () => {
+    const validateStr = (field, message) => {
+      var _val = true;
+      if (typeof field === "undefined") {
+        _val = false;
+        alert(message);
+      }
+      if (field === null) {
+        _val = false;
+        alert(message);
+      }
+      try {
+        if (field?.trim().length < 1) {
+          _val = false;
+          alert(message);
         }
-        if(cliente_id_obl)
-        {
-            clienteData.fechaNac = `${fechaNac.anio}-${fechaNac.mes}-${fechaNac.dia}`
+      } catch (e) {
+        console.log(e);
+      }
+      return _val;
+    };
+    if (cliente_id_obl) {
+      clienteData.fechaNac = `${fechaNac.anio}-${fechaNac.mes}-${fechaNac.dia}`;
 
-            if(!/^[0-9]+$/.test(clienteData.dni.trim())){
-                alert("Campo DNI no válido")
-                return
-            }
-            if(!validateStr(clienteData.dni, "DNI Vacío")){return}
-            if(fechaNac.anio==""||fechaNac.mes==""||fechaNac.dia==""){
-                alert("Campo fecha de nacimiento vacío")
-                return
-            }
-            if(!validateStr(clienteData.domicilio, "Domicilio Vacío")){return}
+      if (!/^[0-9]+$/.test(clienteData.dni.trim())) {
+        alert("Campo DNI no válido");
+        return;
+      }
+      if (!validateStr(clienteData.dni, "DNI Vacío")) {
+        return;
+      }
+      if (fechaNac.anio == "" || fechaNac.mes == "" || fechaNac.dia == "") {
+        alert("Campo fecha de nacimiento vacío");
+        return;
+      }
+      if (!validateStr(clienteData.domicilio, "Domicilio Vacío")) {
+        return;
+      }
 
-            if(!validateStr(clienteData.telefono, "Teléfono Vacío")){return}
+      if (!validateStr(clienteData.telefono, "Teléfono Vacío")) {
+        return;
+      }
+    } else {
+      clienteData.dni =
+        clienteData.dni.trim().length > 0
+          ? clienteData.dni.trim()
+          : "_d_" + globals.obtenerSucursal() + "_" + Date.now();
+    }
 
-        }
-        else{
-            clienteData.dni = clienteData.dni.trim().length>0? clienteData.dni.trim() : "_d_" + globals.obtenerSucursal() + "_" + Date.now();
-        }
-        
-        if(!validateStr(clienteData.nombres, "Nombres Vacío")){return}
-        if(!validateStr(clienteData.apellidos, "Apellidos Vacío")){return}
-        
-        //if(!validateStr(clienteData.nacimiento, "Fecha de Nacimiento Vacío")){return}
+    if (!validateStr(clienteData.nombres, "Nombres Vacío")) {
+      return;
+    }
+    if (!validateStr(clienteData.apellidos, "Apellidos Vacío")) {
+      return;
+    }
 
-        
-        
-        //alert(JSON.stringify(clienteData))
+    //if(!validateStr(clienteData.nacimiento, "Fecha de Nacimiento Vacío")){return}
 
-        if(!confirm("Confirmar agregar cliente"))
-        {return}
+    //alert(JSON.stringify(clienteData))
 
-        setBtnDisabled(true)
+    if (!confirm("Confirmar agregar cliente")) {
+      return;
+    }
 
-        /*if(typeof props.destinatario === 'undefined' || (typeof props.destinatario !== 'undefined' && !props.destinatario)){
+    setBtnDisabled(true);
+
+    /*if(typeof props.destinatario === 'undefined' || (typeof props.destinatario !== 'undefined' && !props.destinatario)){
 
             if(!validateStr(clienteData.telefono, "Teléfono Vacío")){return}
             if(!validateStr(clienteData.nacimiento, "Fecha de Nacimiento Vacío")){return}
         
         }*/
-        
-        
-        post_method(post.obtener_cliente_dni,{"dni":clienteData.dni},(res)=>{
-            if(res.data.length>0){
-                alert("El cliente ya existe")
-                setBtnDisabled(false)
-            }
-            else{
 
-                let _data = {...clienteData, 
-                    nombres: clienteData.nombres.toUpperCase(),
-                    apellidos: clienteData.apellidos.toUpperCase(),
-                    domicilio: clienteData.domicilio.toUpperCase(),
-                    tk: globals.getToken(),
-                    id_usuario: globals.obtenerUID(),
-                    id_sucursal: globals.obtenerSucursal()
-                }
+    post_method(post.obtener_cliente_dni, { dni: clienteData.dni }, (res) => {
+      if (res.data.length > 0) {
+        alert("El cliente ya existe");
+        setBtnDisabled(false);
+      } else {
+        let _data = {
+          ...clienteData,
+          nombres: clienteData.nombres.toUpperCase(),
+          apellidos: clienteData.apellidos.toUpperCase(),
+          domicilio: clienteData.domicilio.toUpperCase(),
+          tk: globals.getToken(),
+          id_usuario: globals.obtenerUID(),
+          id_sucursal: globals.obtenerSucursal(),
+        };
 
-                
-                post_method(url,_data,(res)=>{
-                    //alert("Cliente Agregado")
+        post_method(url, _data, (res) => {
+          //alert("Cliente Agregado")
 
-                    setBtnDisabled(false)
+          setBtnDisabled(false);
 
-                    /*setClienteData({
+          /*setClienteData({
                         nombres:"",
                         dni:"",
                         apellidos:"",
@@ -135,220 +139,234 @@ export default function ClienteFormV2(props){
                         idlocalidad:globals.obtenerOpticaLocalidad()
                     })*/
 
-                    props?.callback?.(res.data, clienteData);
-                })
-            }
-        })
+          props?.callback?.(res.data, clienteData);
+        });
+      }
+    });
+  };
+
+  const checkIfDNIExists = (value) => {
+    post_method(post.obtener_cliente_dni, { dni: clienteData.dni }, (res) => {
+      if (res.data.length > 0) {
+        alert("El cliente ya existe");
+        setBtnDisabled(true);
+      } else {
+        setBtnDisabled(false);
+      }
+    });
+  };
+
+  const onFinishFailed = (err) => {};
+
+  const onChange = (val, idx) => {
+    if (!validate_only_numbers_and_letters(val) && val.length > 0) {
+      return;
     }
+    setClienteData((d) => ({ ...d, [idx]: val }));
+  };
 
-    const checkIfDNIExists = (value) =>{
-        post_method(post.obtener_cliente_dni,{"dni":clienteData.dni},(res)=>{
-            if(res.data.length>0){
-                alert("El cliente ya existe")
-                setBtnDisabled(true)
-            }
-            else{
-                setBtnDisabled(false)
-            }
-        }
-        )
+  const onChangeDate = (date, datestr) => {
+    var _parts = datestr.split("/");
+
+    setClienteData((e) => ({
+      ...e,
+      nacimiento: dayjs(`${_parts[2]}-${_parts[1]}-${_parts[0]}`),
+    }));
+    //alert(datestr)
+  };
+
+  const onQRChange = (e) => {
+    const _match =
+      /([0-9]+)@([A-Z\s]+)@([A-Z\s]+)@[A-Z]@([0-9]+)@([A-Z])@([0-9\/]+)@([0-9\/]+)@([0-9]+)/g.exec(
+        e.target.value,
+      );
+
+    if (_match != null) {
+      var _parts = _match[6].split("/");
+
+      setClienteData({
+        nombres: _match[3],
+        apellidos: _match[2],
+        dni: _match[4],
+        nacimiento: dayjs(`${_parts[2]}-${_parts[1]}-${_parts[0]}`),
+      });
+    } else {
+      console.log("Input doesn't match");
     }
+  };
 
-    
-    const onFinishFailed = (err) => {}
+  const onOpen = () => {
+    setFechaNac({
+      dia: "",
+      mes: "",
+      anio: "",
+    });
+  };
 
-    const onChange = (val,idx) => {
-        if(!validate_only_numbers_and_letters(val) && val.length>0)
-        {
-            return
-        }
-        setClienteData(d=>({...d,[idx]:val}))
-    }
+  return (
+    <>
+      <Row style={{ padding: ".5em" }}>
+        <Col span={24}>
+          <Input
+            prefix={"QR"}
+            onChange={onQRChange}
+            value={qr}
+            placeholder="  Escanee código QR..."
+          />
+        </Col>
+      </Row>
 
-    const onChangeDate = (date, datestr) => {
-        
-        var _parts = datestr.split("/")
+      <Row style={{ padding: ".5em" }}>
+        <Col span={24}>
+          <Input
+            onInput={convertInputToUpper}
+            allowClear
+            maxLength={10}
+            style={{ appearance: "textfield" }}
+            prefix={"D.N.I.: "}
+            value={clienteData.dni}
+            onChange={(e) => {
+              onChange(e.target.value, "dni");
+            }}
+            readOnly={false /*props.destinatario*/}
+            onBlur={(e) => {
+              checkIfDNIExists(e.target.value);
+            }}
+          />
+        </Col>
+      </Row>
 
-        setClienteData(e=>({...e,nacimiento:dayjs(`${_parts[2]}-${_parts[1]}-${_parts[0]}`) }))
-        //alert(datestr)
-    }
+      <Row style={{ padding: ".5em" }}>
+        <Col span={24}>
+          <Input
+            onInput={convertInputToUpper}
+            allowClear
+            style={{ appearance: "textfield" }}
+            maxLength={45}
+            prefix={<span style={{ fontWeight: "600" }}>Apellido:</span>}
+            value={clienteData.apellidos}
+            onChange={(e) => {
+              //setClienteData(v=>({...v,apellidos:e.target.value}))
+              onChange(e.target.value, "apellidos");
+            }}
+            readOnly={false}
+          />
+        </Col>
+      </Row>
 
-    const onQRChange = (e) => {
-       
-        const _match = /([0-9]+)@([A-Z\s]+)@([A-Z\s]+)@[A-Z]@([0-9]+)@([A-Z])@([0-9\/]+)@([0-9\/]+)@([0-9]+)/g.exec(e.target.value)
-        
-        if(_match!=null){
-            
-            var _parts = _match[6].split("/")
+      <Row style={{ padding: ".5em" }}>
+        <Col span={24}>
+          <Input
+            onInput={convertInputToUpper}
+            allowClear
+            maxLength={45}
+            prefix={<span style={{ fontWeight: "600" }}>Nombres:</span>}
+            value={clienteData.nombres}
+            onChange={(e) => {
+              //setClienteData(v=>({...v,nombres:e.target.value}))
+              onChange(e.target.value, "nombres");
+            }}
+          />
+        </Col>
+      </Row>
 
-            setClienteData(
-                {
-                    nombres: _match[3],
-                    apellidos: _match[2],
-                    dni: _match[4],
-                    nacimiento: dayjs(`${_parts[2]}-${_parts[1]}-${_parts[0]}`) 
-                }
-            )
-        }
-        else{
-            console.log("Input doesn't match")
-        }
-    }
+      <Row style={{ padding: ".5em" }}>
+        <Col span={10}>
+          <DatePicker
+            prefix={"Fecha de Nacimiento: "}
+            format={"DD-MM-YYYY"}
+            onChange={(day, daystr) => {
+              if (typeof day === "undefined") {
+                setFechaNac({
+                  dia: "",
+                  mes: "",
+                  anio: "",
+                });
+                return;
+              }
+              if (day == null) {
+                setFechaNac({
+                  dia: "",
+                  mes: "",
+                  anio: "",
+                });
+                return;
+              }
 
-    const onOpen = () => {
-        
-        setFechaNac({ 
-            dia:"",
-            mes:"",
-            anio:""})
-    }
+              setFechaNac((f) => ({
+                dia: day.date(),
+                mes: +day.month() + 1,
+                anio: day.year(),
+              }));
+            }}
+          />
+        </Col>
+        <Col span={4}>
+          <Edad
+            dia={fechaNac.dia}
+            mes={fechaNac.mes}
+            anio={fechaNac.anio}
+            key={fechaNac}
+          />
+        </Col>
+      </Row>
 
-    return (<>
-
-        <Row style={{padding:".5em"}}>
-            <Col  span={24}>
-                <Input  prefix={"QR"} onChange={onQRChange} value={qr} placeholder="  Escanee código QR..." />
-            </Col>
-        </Row>
-
-        <Row style={{padding:".5em"}}>
-            <Col span={24}>
-                <Input  
-                onInput={convertInputToUpper}
-                allowClear
-                maxLength={10} 
-                style={{appearance:"textfield"}} 
-                prefix={"D.N.I.: "} 
-                value={clienteData.dni} 
-                onChange={(e)=>{
-                    onChange(e.target.value,"dni")
-                }
-                } 
-                readOnly={false/*props.destinatario*/}
-                
-                onBlur={(e)=>{
-                    checkIfDNIExists(e.target.value)
-                }}
-                />
-            </Col>
-        </Row>
-        
-        <Row style={{padding:".5em"}}>
-            <Col span={24}>
-                <Input 
-                onInput={convertInputToUpper}
-                allowClear
-                style={{appearance:"textfield"}}  
-                maxLength={45} 
-                prefix={<span style={{fontWeight:"600"}}>Apellido:</span>} 
-                value={clienteData.apellidos} 
-                onChange={(e)=>{
-                    //setClienteData(v=>({...v,apellidos:e.target.value}))
-                    onChange(e.target.value,"apellidos")
-                }} 
-                readOnly={false}
-                />
-            </Col>
-        </Row>
-
-        <Row style={{padding:".5em"}}>
-            <Col span={24}>
-                <Input  
-                onInput={convertInputToUpper}
-                allowClear
-                maxLength={45} 
-                prefix={<span style={{fontWeight:"600"}}>Nombres:</span>} 
-                value={clienteData.nombres} 
-                onChange={(e)=>{
-                    //setClienteData(v=>({...v,nombres:e.target.value}))
-                    onChange(e.target.value,"nombres")
-                    }} />
-            </Col>
-        </Row>
-
-        
-        <Row style={{padding:".5em"}}>
-            <Col span={10}>
-                <DatePicker 
-                prefix={"Fecha de Nacimiento: "}
-                format={'DD-MM-YYYY'}
-                onChange={(day,daystr)=>{
-       
-                    if(typeof day === 'undefined')
-                    {
-                        
-                        setFechaNac({
-                            dia:"",
-                            mes:"",
-                            anio:""
-                        })
-                        return
-                    }
-                    if(day==null)
-                    {
-                        
-                        setFechaNac({
-                            dia:"",
-                            mes:"",
-                            anio:""
-                        })
-                        return
-                    }
-                    
-                    setFechaNac(f=>({
-                        dia:day.date(),
-                        mes:(+day.month()+1),
-                        anio:day.year()
-                    }))
-                }} />
-            </Col>
-            <Col span={4}>
-                <Edad dia={fechaNac.dia} mes={fechaNac.mes} anio={fechaNac.anio} key={fechaNac}/>
-            </Col>
-            
-        </Row>
-
-        <Row style={{padding:".5em"}}>
-            <Col span={12}>
-                <Input  
-                onInput={convertInputToUpper}
-                maxLength={45} 
-                prefix={"Domicilio:"} 
-                onChange={(e)=>{
-                    //setClienteData(d=>({...d,domicilio:e.target.value}))
-                    onChange(e.target.value,"domicilio")
-                    }} value={clienteData.domicilio} />
-            </Col>
-            {/*<Col style={{padding:".5em"}} span={12}>
+      <Row style={{ padding: ".5em" }}>
+        <Col span={12}>
+          <Input
+            onInput={convertInputToUpper}
+            maxLength={45}
+            prefix={"Domicilio:"}
+            onChange={(e) => {
+              //setClienteData(d=>({...d,domicilio:e.target.value}))
+              onChange(e.target.value, "domicilio");
+            }}
+            value={clienteData.domicilio}
+          />
+        </Col>
+        {/*<Col style={{padding:".5em"}} span={12}>
                 <SelectLocalidadV2 callback={(p)=>{
                     onChange(p.idlocalidad,"idlocalidad")
                     }} />
             </Col>*/}
-            <Col span={12}>
-                <SelectLocalidadV2 
-                fk_localidad={+globals.obtenerOpticaLocalidad()}
-                fk_provincia={+globals.obtenerOpticaProvincia()}
-                callback={(p)=>{
-                   // alert(JSON.stringify(p))
-                    onChange(p.idlocalidad,"idlocalidad")
-                    }} />
-            </Col>
-        </Row>
+        <Col span={12}>
+          <SelectLocalidadV2
+            fk_localidad={+globals.obtenerOpticaLocalidad()}
+            fk_provincia={+globals.obtenerOpticaProvincia()}
+            callback={(p) => {
+              // alert(JSON.stringify(p))
+              onChange(p.idlocalidad, "idlocalidad");
+            }}
+          />
+        </Col>
+      </Row>
 
-        <Row style={{padding:".5em"}}>
-            <Col span={24}>
-                <Input  maxLength={20} prefix={"Teléfono:"} onChange={(e)=>{
-                    //setClienteData(d=>({...d,telefono:e.target.value}))
-                    onChange(e.target.value,"telefono")
-                    }} value={clienteData.telefono} />
-            </Col>
-        </Row>
+      <Row style={{ padding: ".5em" }}>
+        <Col span={24}>
+          <Input
+            maxLength={20}
+            prefix={"Teléfono:"}
+            onChange={(e) => {
+              //setClienteData(d=>({...d,telefono:e.target.value}))
+              onChange(e.target.value, "telefono");
+            }}
+            value={clienteData.telefono}
+          />
+        </Col>
+      </Row>
 
-        <Row style={{padding:".5em"}}>
-            <Col span={24}>
-                <Button disabled={btnDisabled} block type="primary" onClick={onFinish}>Guardar</Button>
-            </Col>
-        </Row>
-
-
-</>)}
+      <Row style={{ padding: ".5em" }}>
+        <Col span={24}>
+          <ConnectedButton
+            disabled={btnDisabled}
+            block
+            type="primary"
+            onClick={onFinish}
+          >
+            Guardar
+          </ConnectedButton>
+        </Col>
+      </Row>
+    </>
+  );
+}

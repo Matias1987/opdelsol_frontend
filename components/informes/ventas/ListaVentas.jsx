@@ -22,6 +22,8 @@ import ExportToExcel2 from "@/components/etc/ExportToExcel2";
 import Informe from "@/components/forms/trabajo_multiple/informe/informe";
 import SelectTrabajoInforme from "@/components/forms/trabajo_multiple/informe/select_trabajo_inf";
 import PrinterFilled from "@ant-design/icons/PrinterFilled";
+import ConnectedButton from "@/components/etc/CntButton";
+import { useNetworkStatus } from "@/components/providers/NetworkContext";
 /**
  *
  * @param estado INGRESADO, PENDIENTE, TERMINADO, ENTREGADO, ANULADO...
@@ -62,6 +64,8 @@ const ListaVentas = (props) => {
   const [selectedTrabajoId, setSelectedTrabajoId] = useState(-1);
 
   const [popupCobroResfuerzoOpen, setPopupCobroResfuerzoOpen] = useState(false);
+
+  const { isOnline } = useNetworkStatus();
 
   const add = (obj, value, key) =>
     typeof value === "undefined" ? obj : { ...obj, [key]: value };
@@ -114,7 +118,7 @@ const ListaVentas = (props) => {
         )}
         {typeof props.cobrar !== "undefined" && _mostrarCobrar ? (
           <>
-            <Button
+            <ConnectedButton
               type="link"
               size="small"
               onClick={(_) => {
@@ -128,7 +132,7 @@ const ListaVentas = (props) => {
               }}
             >
               {props.buttonText ? props.buttonText : "Cobrar"}
-            </Button>
+            </ConnectedButton>
             &nbsp;
           </>
         ) : (
@@ -137,7 +141,7 @@ const ListaVentas = (props) => {
 
         {typeof props.marcarTerminado !== "undefined" ? (
           <>
-            <Button
+            <ConnectedButton
               size="small"
               type="link"
               onClick={(e) => {
@@ -165,7 +169,7 @@ const ListaVentas = (props) => {
               }}
             >
               Terminado
-            </Button>
+            </ConnectedButton>
             &nbsp;&nbsp;
           </>
         ) : (
@@ -175,7 +179,7 @@ const ListaVentas = (props) => {
         {typeof props.enviarALaboratorio !== "undefined" &&
         _tipo != globals.tiposVenta.DIRECTA &&
         idf_optica == 1 ? (
-          <Button
+          <ConnectedButton
             size="small"
             danger
             type="link"
@@ -196,14 +200,14 @@ const ListaVentas = (props) => {
             }}
           >
             Enviar a Dep&oacute;sito
-          </Button>
+          </ConnectedButton>
         ) : (
           <></>
         )}
 
         {typeof props.anular !== "undefined" ? (
           <>
-            <Button
+            <ConnectedButton
               size="small"
               danger
               onClick={(e) => {
@@ -232,7 +236,7 @@ const ListaVentas = (props) => {
               }}
             >
               Anular
-            </Button>
+            </ConnectedButton>
           </>
         ) : (
           <></>
@@ -240,7 +244,7 @@ const ListaVentas = (props) => {
 
         {typeof props.resfuerzo !== "undefined" ? (
           <>
-            <Button
+            <ConnectedButton
               size="small"
               type="link"
               onClick={(e) => {
@@ -252,7 +256,7 @@ const ListaVentas = (props) => {
               }}
             >
               Resfuerzo
-            </Button>
+            </ConnectedButton>
           </>
         ) : (
           <></>
@@ -267,7 +271,7 @@ const ListaVentas = (props) => {
 
         {typeof props.laboratorio_modificar !== "undefined" ? (
           <>
-            <Button
+            <ConnectedButton
               type="link"
               onClick={() => {
                 props?.onEditLaboratorioClick?.(_idventa, _idtrabajo);
@@ -276,7 +280,7 @@ const ListaVentas = (props) => {
             >
               <EditFilled />
               &nbsp; Modificar
-            </Button>
+            </ConnectedButton>
           </>
         ) : (
           <></>
@@ -288,6 +292,9 @@ const ListaVentas = (props) => {
   };
 
   useEffect(() => {
+    if (!isOnline) {
+      return;
+    }
     setLoading(true);
     var params = {};
     if (typeof props.ignoreSucursal === "undefined") {
@@ -323,7 +330,6 @@ const ListaVentas = (props) => {
     const url = post.venta_estado_sucursal;
     // alert(JSON.stringify(params))
     post_method(url, params, (response) => {
-      
       if (response == null) {
         return;
       }
@@ -342,7 +348,7 @@ const ListaVentas = (props) => {
       );
       setLoading(false);
     });
-  }, [reload]);
+  }, [reload, isOnline]);
 
   const get_tipo = (tipo) => {
     switch (+tipo) {
@@ -388,36 +394,37 @@ const ListaVentas = (props) => {
       render: (
         _,
         { idventa, idcliente, idsucursal, tipo, idtrabajo, isParent },
-      ) =>
-        <Button
-              onClick={(e) => {
-                e.stopPropagation();
-                setSelectedVenta({ idventa: idventa });
-                if (+tipo < 7) {
+      ) => (
+        <ConnectedButton
+          onClick={(e) => {
+            e.stopPropagation();
+            setSelectedVenta({ idventa: idventa });
+            if (+tipo < 7) {
+              setSelectedTrabajoId(-1);
+              setPoupImprimirOpen(true);
+            } else {
+              switch (+tipo) {
+                case 7:
                   setSelectedTrabajoId(-1);
-                  setPoupImprimirOpen(true);
-                } else {
-                  switch (+tipo) {
-                    case 7:
-                      setSelectedTrabajoId(-1);
-                      setPopupDetalleTMOpen(true);
-                      break;
-                    case 8:
-                      if (isParent) {
-                        setSelectedTrabajoId(-1);
-                        setPopupDetalleTMOpen(true);
-                        return;
-                      }
-                      setSelectedTrabajoId(idtrabajo);
-                      setPoupImprimirOpen(true);
-
-                      break;
+                  setPopupDetalleTMOpen(true);
+                  break;
+                case 8:
+                  if (isParent) {
+                    setSelectedTrabajoId(-1);
+                    setPopupDetalleTMOpen(true);
+                    return;
                   }
-                }
-              }}
-            >
-              <PrinterFilled />
-            </Button>,
+                  setSelectedTrabajoId(idtrabajo);
+                  setPoupImprimirOpen(true);
+
+                  break;
+              }
+            }
+          }}
+        >
+          <PrinterFilled />
+        </ConnectedButton>
+      ),
       width: "40px",
       hidden: false,
     },
@@ -522,9 +529,8 @@ const ListaVentas = (props) => {
       title: "Estado",
       dataIndex: "estado",
       render: (_, { estado, en_laboratorio, isParent, tipo }) => {
-        if(!isParent && tipo>6)
-        {
-          return <></>
+        if (!isParent && tipo > 6) {
+          return <></>;
         }
         switch (estado) {
           case "INGRESADO":
@@ -582,7 +588,9 @@ const ListaVentas = (props) => {
           estado_trabajo,
         },
       ) => {
-        return +tipo==8 && !isParent ? <></> : (
+        return +tipo == 8 && !isParent ? (
+          <></>
+        ) : (
           <>
             {buttons(
               idventa,
@@ -637,7 +645,7 @@ const ListaVentas = (props) => {
           hideReloadBtn ? (
             <></>
           ) : (
-            <Button
+            <ConnectedButton
               type="link"
               size="small"
               onClick={() => {
@@ -646,7 +654,7 @@ const ListaVentas = (props) => {
               }}
             >
               <ReloadOutlined size={"small"} /> Recargar
-            </Button>
+            </ConnectedButton>
           )
         }
       >

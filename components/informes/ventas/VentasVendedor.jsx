@@ -3,7 +3,8 @@ import FoodLoader from "@/components/etc/loader/foodLoader";
 import globals from "@/src/globals";
 import { post_method } from "@/src/helpers/post_helper";
 import { get, post } from "@/src/urls";
-import { ReloadOutlined, UserOutlined } from "@ant-design/icons";
+import ReloadOutlined from "@ant-design/icons/ReloadOutlined";
+import UserOutlined from "@ant-design/icons/UserOutlined";
 import { Avatar, Button, Col, Flex, Progress, Row } from "antd";
 import { useEffect, useState } from "react";
 
@@ -230,10 +231,10 @@ const VentasVendedor = ({ pIdUsuario }) => {
         }}
       >
         <Col span={24}>
-        <Flex align="flex-end" justify="flex-end">
-          <Button danger size="small" onClick={(_) => setReload(!reload)}>
-            <ReloadOutlined /> Recargar
-          </Button>
+          <Flex align="flex-end" justify="flex-end">
+            <Button danger size="small" onClick={(_) => setReload(!reload)}>
+              <ReloadOutlined /> Recargar
+            </Button>
           </Flex>
         </Col>
       </Row>

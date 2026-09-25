@@ -2,10 +2,9 @@ import globals from "@/src/globals";
 import { post_method } from "@/src/helpers/post_helper";
 import { get, post } from "@/src/urls";
 
-const { MessageOutlined, SendOutlined } = require("@ant-design/icons");
+import SendOutlined from "@ant-design/icons/SendOutlined";
+
 import {
-  FloatButton,
-  Modal,
   Input,
   Button,
   Row,

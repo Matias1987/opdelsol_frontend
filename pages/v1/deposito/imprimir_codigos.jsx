@@ -4,8 +4,8 @@ import SearchCodigo from "@/components/SearchCodigo";
 import MyLayout from "@/components/layout/layout";
 import { get_barcode_from_id2 } from "@/src/helpers/barcode_helper";
 import { get } from "@/src/urls";
-import { CloseOutlined, PrinterFilled } from "@ant-design/icons";
-import CloseCircleOutlined from "@ant-design/icons/CloseCircleOutlined";
+import CloseOutlined from "@ant-design/icons/CloseOutlined";
+import PrinterFilled from "@ant-design/icons/PrinterFilled";
 import { Modal, Button, Card, Col, Row, Table } from "antd";
 
 import { useState } from "react";

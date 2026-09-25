@@ -1,9 +1,10 @@
 import { get } from "@/src/urls";
-import { Button, Col,  Spin, Table } from "antd";
+import { Button, Col, Spin, Table } from "antd";
 import { useEffect, useState } from "react";
 import globals from "@/src/globals";
 import { formatFloat } from "@/src/helpers/formatters";
-import  EditFilled from "@ant-design/icons/EditFilled";
+import EditFilled from "@ant-design/icons/EditFilled";
+import { useNetworkStatus } from "../providers/NetworkContext";
 /**
  *
  * @param nombre: Nombre del grupo
@@ -11,13 +12,22 @@ import  EditFilled from "@ant-design/icons/EditFilled";
  * @param reload: Si se debe recargar los datos
  * @param filterStr: Filtro de búsqueda
  */
-const GrupoV2 = ( { nombre, callback, reload, filterStr, readOnly, idgrupo, onEditarGrupoClick }) => {
-
+const GrupoV2 = ({
+  nombre,
+  callback,
+  reload,
+  filterStr,
+  readOnly,
+  idgrupo,
+  onEditarGrupoClick,
+}) => {
   const [loading, setLoading] = useState(false);
   const [subgrupos, setSubgrupos] = useState([]);
   const [selectedSubgrupoId, setSelectedSubgrupoId] = useState(-1);
   const [mostrarPrecioPar, setMostrarPrecioPar] = useState(false);
   const [mostrarPrecioCaja, setMostrarPrecioCaja] = useState(false);
+  const { isOnline } = useNetworkStatus();
+
   const columns = [
     {
       title: "Producto",
@@ -25,7 +35,6 @@ const GrupoV2 = ( { nombre, callback, reload, filterStr, readOnly, idgrupo, onEd
       render: (_, { producto, idsubgrupo, idfamilia }) => (
         <>
           <Button
-        
             type="link"
             size="small"
             style={{
@@ -36,9 +45,11 @@ const GrupoV2 = ( { nombre, callback, reload, filterStr, readOnly, idgrupo, onEd
             }}
           >
             {/*producto.replaceAll("_", " ")  + " " + idsubgrupo*/}
-            <div dangerouslySetInnerHTML={{
-                __html: (producto.replaceAll('_',' ')).replace(/\n/g, "<br />"),
-              }}></div>
+            <div
+              dangerouslySetInnerHTML={{
+                __html: producto.replaceAll("_", " ").replace(/\n/g, "<br />"),
+              }}
+            ></div>
           </Button>
         </>
       ),
@@ -58,31 +69,44 @@ const GrupoV2 = ( { nombre, callback, reload, filterStr, readOnly, idgrupo, onEd
           {
             <>
               <>
-                {`Indv.: $ ${formatFloat(precio)}` }
-                { mostrarPrecioPar ? <><br /><span style={{color:"red"}}> Par: $&nbsp;{ formatFloat(precio_par) }</span></> : <></>}
-                {/* mostrarPrecioCaja ? <><br /><span style={{color:"green"}}> Caja: {(precio * 6 - precio * 6 * 0.1).toLocaleString("es-AR", {minimumFractionDigits: 2,})}</span></> : <></>*/ }
-                </>
+                {`Indv.: $ ${formatFloat(precio)}`}
+                {mostrarPrecioPar ? (
+                  <>
+                    <br />
+                    <span style={{ color: "red" }}>
+                      {" "}
+                      Par: $&nbsp;{formatFloat(precio_par)}
+                    </span>
+                  </>
+                ) : (
+                  <></>
+                )}
+                {/* mostrarPrecioCaja ? <><br /><span style={{color:"green"}}> Caja: {(precio * 6 - precio * 6 * 0.1).toLocaleString("es-AR", {minimumFractionDigits: 2,})}</span></> : <></>*/}
               </>
+            </>
           }
         </div>
       ),
     },
-    
   ];
-const handleRowClick = (record, index) => {
-
-  setSelectedSubgrupoId(record.idsubgrupo);
-  callback?.(
-    record.idsubgrupo,
-    record.idfamilia == globals.familiaIDs.CRISTALES ||
+  const handleRowClick = (record, index) => {
+    setSelectedSubgrupoId(record.idsubgrupo);
+    callback?.(
+      record.idsubgrupo,
+      record.idfamilia == globals.familiaIDs.CRISTALES ||
+        record.idfamilia == globals.familiaIDs.LC,
       record.idfamilia == globals.familiaIDs.LC,
-    record.idfamilia == globals.familiaIDs.LC
-  );
-};
+    );
+  };
 
   useEffect(() => {
+    setSubgrupos([]);
+    if (!isOnline) {
+      setLoading(true);
+      return;
+    }
     setLoading(false);
-    fetch(get.optionsforgrupo + idgrupo + (readOnly ? `/1`:`/0`))
+    fetch(get.optionsforgrupo + idgrupo + (readOnly ? `/1` : `/0`))
       .then((r) => r.json())
       .then((response) => {
         setLoading(false);
@@ -90,7 +114,7 @@ const handleRowClick = (record, index) => {
           console.error(response.error);
           return;
         }
-        if( response.data.length == 0) {
+        if (response.data.length == 0) {
           setSubgrupos([]);
           return;
         }
@@ -98,8 +122,8 @@ const handleRowClick = (record, index) => {
 
         setMostrarPrecioCaja(idfamilia == globals.familiaIDs.LC);
         setMostrarPrecioPar(
-        idfamilia == globals.familiaIDs.CRISTALES ||
-        idfamilia == globals.familiaIDs.LC
+          idfamilia == globals.familiaIDs.CRISTALES ||
+            idfamilia == globals.familiaIDs.LC,
         );
 
         setSubgrupos(
@@ -111,53 +135,76 @@ const handleRowClick = (record, index) => {
             idsubgrupo: sg.value,
             precio_mayorista: sg.precio_defecto_mayorista,
             visible_lp: sg.visible_lp,
-          }))
+          })),
         );
       })
       .catch((r) => {
         console.log("error");
       });
-  }, [reload]);
+  }, [reload, isOnline]);
 
-
-  const get_table = (rows) => 
-    rows.length<1 ? <></> : <Col span={24} style={{ padding: "6px" }}>
-      <Table
-        size="small"
-        style={{ width: "100%" }}
-        title={(_) => (
-          <div style={{display:"flex", justifyContent:"space-between"}}>
-            <div><span>{nombre /*+ props.idgrupo*/}</span></div>
-            {globals.esUsuarioAdmin() && !readOnly ? <div><Button type="link" onClick={_=>{onEditarGrupoClick(idgrupo)}}><EditFilled /></Button></div> : <></>}
-          </div>
-        )}
-        rowClassName={(record, index) =>
-          +record.visible_lp == 1 ? (index % 2 === 0 ? "table-row-light" : "table-row-dark") : "error-row"
-        }
-        columns={columns}
-        dataSource={rows}
-        pagination={false}
-        loading={loading}
-        showHeader={false}
-        onRow={(record, index) => {
-        return {
-          onClick: event => {
-            handleRowClick(record, index);
-          },
-        };
-      }}
-      />
-    </Col>
-  
+  const get_table = (rows) =>
+    rows.length < 1 ? (
+      <></>
+    ) : (
+      <Col span={24} style={{ padding: "6px" }}>
+        <Table
+          size="small"
+          style={{ width: "100%" }}
+          title={(_) => (
+            <div style={{ display: "flex", justifyContent: "space-between", color:"#fd0303", fontWeight:"400" }}>
+              <div>
+                <span>{nombre /*+ props.idgrupo*/}</span>
+              </div>
+              {globals.esUsuarioAdmin() && !readOnly ? (
+                <div>
+                  <Button
+                    type="link"
+                    onClick={(_) => {
+                      onEditarGrupoClick(idgrupo);
+                    }}
+                  >
+                    <EditFilled />
+                  </Button>
+                </div>
+              ) : (
+                <></>
+              )}
+            </div>
+          )}
+          rowClassName={(record, index) =>
+            +record.visible_lp == 1
+              ? index % 2 === 0
+                ? "table-row-light"
+                : "table-row-dark"
+              : "error-row"
+          }
+          columns={columns}
+          dataSource={rows}
+          pagination={false}
+          loading={loading}
+          showHeader={false}
+          onRow={(record, index) => {
+            return {
+              onClick: (event) => {
+                handleRowClick(record, index);
+              },
+            };
+          }}
+        />
+      </Col>
+    );
 
   return loading ? (
     <Spin />
-  ) : get_table(subgrupos.filter((item) => {
-          if (!filterStr) return true;
-          return item.producto.toLowerCase().includes(filterStr.toLowerCase());
-        })  )
-    
-  
+  ) : (
+    get_table(
+      subgrupos.filter((item) => {
+        if (!filterStr) return true;
+        return item.producto.toLowerCase().includes(filterStr.toLowerCase());
+      }),
+    )
+  );
 };
 
 export default GrupoV2;

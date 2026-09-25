@@ -1,5 +1,4 @@
 import BoxPlotOutlined from "@ant-design/icons/BoxPlotOutlined";
-import HomeFilled from "@ant-design/icons/HomeFilled";
 import LogoutOutlined from "@ant-design/icons/LogoutOutlined";
 import StarOutlined from "@ant-design/icons/StarOutlined";
 import UnorderedListOutlined from "@ant-design/icons/UnorderedListOutlined";
@@ -11,7 +10,6 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { get, public_urls } from "@/src/urls";
 import globals from "@/src/globals";
-import { getItem } from "localforage";
 import SucursalLabel from "../sucursal_label";
 import { usePathname } from "next/navigation";
 import { useNetworkStatus } from "../providers/NetworkContext";

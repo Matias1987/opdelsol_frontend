@@ -1,7 +1,7 @@
 import { Row, Col, Tabs } from "antd";
 import VentasArmazon from "../Armazon";
 import VentasTratamiento from "../Tratamiento";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import MonofLabCristal from "./MonofLabCristal";
 import SelectCodeButton from "../selectCodeButton";
 

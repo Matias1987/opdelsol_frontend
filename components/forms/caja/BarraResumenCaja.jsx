@@ -1,12 +1,8 @@
 import globals from "@/src/globals";
 import { formatFloat } from "@/src/helpers/formatters";
 import { get } from "@/src/urls";
-import {
-  AlertOutlined,
-  ReloadOutlined,
-  WarningOutlined,
-} from "@ant-design/icons";
-import { Alert } from "antd";
+import ReloadOutlined from "@ant-design/icons/ReloadOutlined";
+import WarningOutlined from "@ant-design/icons/WarningOutlined";
 import { useEffect, useState } from "react";
 
 const BarraResumenCaja = () => {

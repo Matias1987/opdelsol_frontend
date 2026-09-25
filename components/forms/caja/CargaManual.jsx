@@ -9,20 +9,19 @@ import { Form, Input, Row, Col, Modal, Button, Spin } from "antd";
 import { v4 as uuidv4 } from "uuid";
 import ConnectedButton from "@/components/etc/CntButton";
 
-
 const CargaManual = (props) => {
-    const postIdRef = useRef(uuidv4()); 
-    const [dataCliente, setData] = useState(null)
-    const [open, setOpen] = useState(false);
-    const [btnEnabled, setBtnEnabled] = useState(true)
-    const [cargaManual, setCargaManual] = useState({
-        monto: 0,
-        concepto: 0,
-        tk: globals.getToken()
-    });
-    const onFinish = (values) => {
-        setBtnEnabled(false)
-        /*
+  const postIdRef = useRef(uuidv4());
+  const [dataCliente, setData] = useState(null);
+  const [open, setOpen] = useState(false);
+  const [btnEnabled, setBtnEnabled] = useState(true);
+  const [cargaManual, setCargaManual] = useState({
+    monto: 0,
+    concepto: 0,
+    tk: globals.getToken(),
+  });
+  const onFinish = (values) => {
+    setBtnEnabled(false);
+    /*
         data.caja_idcaja,
         data.usuario_idusuario, 
         data.cliente_idcliente, 
@@ -30,111 +29,145 @@ const CargaManual = (props) => {
         data.monto, 
         data.concepto, 
         */
-       if(cargaManual.monto==0)
-       {
-            alert("Monto igual a 0")
-            setBtnEnabled(true)
-            return
-       }
-       globals.obtenerCajaAsync(c=>{
-        if(c==null){
-            alert("Caja Cerrada o Desactualizada")
-            setBtnEnabled(true)
-            return
-        }
-        if(!confirm("Confirmar"))
-        {
-            setBtnEnabled(true)
-            return;
-        }
-        const data = {
-            ...cargaManual,
-            fecha: current_date_ymd(),
-            caja_idcaja: c.idcaja,
-            usuario_idusuario: globals.obtenerUID(),
-            cliente_idcliente: props.idcliente,
-            sucursal_idsucursal: globals.obtenerSucursal(),
-            uid: postIdRef.current
-        }
-
-        post_method(post.insert.carga_manual, data,(response)=>{
-            //alert("Carga Manual Cargada con ID: " + response.data)
-            registrar_evento("CARGA_MANUAL", "Carga Manual", response?.data)
-            props?.callback?.()
-            setOpen(false)
-        })})
+    if (cargaManual.monto == 0) {
+      alert("Monto igual a 0");
+      setBtnEnabled(true);
+      return;
     }
-
-    const onFinishFailed = (error) => {
-
-    }
-
-    const showModal = () => {
-    
-        setOpen(true);
-        setBtnEnabled(true)
-    
-        
+    globals.obtenerCajaAsync((c) => {
+      if (c == null) {
+        alert("Caja Cerrada o Desactualizada");
+        setBtnEnabled(true);
+        return;
+      }
+      if (!confirm("Confirmar")) {
+        setBtnEnabled(true);
+        return;
+      }
+      const data = {
+        ...cargaManual,
+        fecha: current_date_ymd(),
+        caja_idcaja: c.idcaja,
+        usuario_idusuario: globals.obtenerUID(),
+        cliente_idcliente: props.idcliente,
+        sucursal_idsucursal: globals.obtenerSucursal(),
+        uid: postIdRef.current,
       };
 
-    useEffect(()=>{
-        fetch(get.cliente_por_id + props.idcliente)
-        .then(response=>response.json())
-        .then(response=>{
-            setData(response.data[0])
-        })
-    },[])
-
-    const onChange = (value,idx) => {
-        setCargaManual(
-            {...cargaManual, [idx]:value}
-        )
-    }
-
-    const handleCancel = () => {;
+      post_method(post.insert.carga_manual, data, (response) => {
+        //alert("Carga Manual Cargada con ID: " + response.data)
+        registrar_evento("CARGA_MANUAL", "Carga Manual", response?.data);
+        props?.callback?.();
         setOpen(false);
-      };
+      });
+    });
+  };
 
-    const detalles_cliente =_ => dataCliente === null ? <Spin /> : <>
-        <p>Nombre: <b>{dataCliente.nombre}</b> &nbsp;&nbsp;&nbsp;&nbsp; DNI: <b><MostrarDNI dni={dataCliente.dni} /></b></p>
-        <p>Tel.: <b>{dataCliente.telefono1}</b> &nbsp;&nbsp;&nbsp;&nbsp; Dir.: <b>{dataCliente.direccion}</b></p>
-    </>
-    return <>
-    <Button type="primary" ghost  size="small"  onClick={showModal}>
+  const onFinishFailed = (error) => {};
+
+  const showModal = () => {
+    setOpen(true);
+    setBtnEnabled(true);
+  };
+
+  useEffect(() => {
+    fetch(get.cliente_por_id + props.idcliente)
+      .then((response) => response.json())
+      .then((response) => {
+        setData(response.data[0]);
+      })
+      .catch((_) => {});
+  }, []);
+
+  const onChange = (value, idx) => {
+    setCargaManual({ ...cargaManual, [idx]: value });
+  };
+
+  const handleCancel = () => {
+    setOpen(false);
+  };
+
+  const detalles_cliente = (_) =>
+    dataCliente === null ? (
+      <Spin />
+    ) : (
+      <>
+        <p>
+          Nombre: <b>{dataCliente.nombre}</b> &nbsp;&nbsp;&nbsp;&nbsp; DNI:{" "}
+          <b>
+            <MostrarDNI dni={dataCliente.dni} />
+          </b>
+        </p>
+        <p>
+          Tel.: <b>{dataCliente.telefono1}</b> &nbsp;&nbsp;&nbsp;&nbsp; Dir.:{" "}
+          <b>{dataCliente.direccion}</b>
+        </p>
+      </>
+    );
+  return (
+    <>
+      <ConnectedButton type="primary" ghost size="small" onClick={showModal}>
         {"Carga Manual"}
-      </Button>
+      </ConnectedButton>
       <Modal
-        cancelButtonProps={{ style: { display: 'none' } }}
-        
+        cancelButtonProps={{ style: { display: "none" } }}
         width={"50%"}
         title={"Carga Manual"}
         open={open}
-        onOk={()=>{
-          setOpen(false)}}
+        onOk={() => {
+          setOpen(false);
+        }}
         onCancel={handleCancel}
-        okText= {"Cancelar"}
+        okText={"Cancelar"}
         destroyOnClose={true}
       >
+        <Row>{detalles_cliente()}</Row>
         <Row>
-            {detalles_cliente()}
+          <Col span={24}>
+            <Form onFinish={onFinish} onFinishFailed={onFinishFailed}>
+              <Form.Item label={"Monto"}>
+                <Input
+                  onWheel={(e) => {
+                    e.target.blur();
+                  }}
+                  type="number"
+                  onClick={(e) => {
+                    e.target.select();
+                  }}
+                  onChange={(e) => {
+                    onChange(
+                      e.target.value.length < 1 ? "0" : e.target.value,
+                      "monto",
+                    );
+                  }}
+                />
+              </Form.Item>
+              <Form.Item label={"Motivo"}>
+                <Input
+                  onClick={(e) => {
+                    e.target.select();
+                  }}
+                  onChange={(e) => {
+                    onChange(e.target.value.toUpperCase(), "concepto");
+                  }}
+                />
+              </Form.Item>
+              <Form.Item>
+                <ConnectedButton
+                  disabled={!btnEnabled}
+                  block
+                  type="primary"
+                  htmlType="submit"
+                >
+                  Guardar
+                </ConnectedButton>
+              </Form.Item>
+            </Form>
+          </Col>
         </Row>
-        <Row>
-            <Col span={24}>
-                <Form onFinish={onFinish} onFinishFailed={onFinishFailed}>
-                    <Form.Item label={"Monto"}>
-                        <Input onWheel={(e)=>{e.target.blur()}} type="number"  onClick={(e)=>{e.target.select()}}  onChange={(e)=>{onChange( (e.target.value.length<1?"0":e.target.value), "monto")}}/>
-                    </Form.Item>
-                    <Form.Item label={"Motivo"}>
-                        <Input  onClick={(e)=>{e.target.select()}}  onChange={(e)=>{onChange(e.target.value.toUpperCase(), "concepto")}}/>
-                    </Form.Item>
-                    <Form.Item>
-                        <ConnectedButton disabled={!btnEnabled}  block type="primary" htmlType="submit">Guardar</ConnectedButton>
-                    </Form.Item>
-                </Form>
-            </Col>
-        </Row>
-    </Modal>
+      </Modal>
     </>
-}
+  );
+};
 
 export default CargaManual;

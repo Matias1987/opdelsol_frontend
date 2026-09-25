@@ -24,6 +24,7 @@ import {
 } from "@/src/config";
 import RecStockItemsB from "./RecStockItemsB";
 import globals from "@/src/globals";
+import { useNetworkStatus } from "@/components/providers/NetworkContext";
 
 const InformeVenta = ({ idventa, idtrabajo }) => {
   const [data, setData] = useState(null);
@@ -31,8 +32,13 @@ const InformeVenta = ({ idventa, idtrabajo }) => {
   const [mp, setMP] = useState([]);
   const [haber, setHaber] = useState(null);
   const [loading, setLoading] = useState(true);
+  const { isOnline } = useNetworkStatus();
 
   useEffect(() => {
+    if(!isOnline)
+    {
+      return;
+    }
     setLoading(true)
     if (!idventa) {
       return;
@@ -82,14 +88,17 @@ const InformeVenta = ({ idventa, idtrabajo }) => {
                     }
                   }
                   setLoading(false)
-                });
+                })
+                .catch(_=>{});
             }
             else{
               setLoading(false)
             }
-          });
-      });
-  }, []);
+          })
+          .catch(_=>{});
+      })
+      .catch(_=>{});
+  }, [isOnline]);
 
   const productos = () => {
     switch (+tipoVenta) {

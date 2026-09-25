@@ -5,11 +5,8 @@ import Link from "next/link";
 import SearchOutlined from "@ant-design/icons/SearchOutlined";
 
 import BuscarVentaV3 from "../forms/ventas/BuscarVentasV3";
-import {
-  InfoCircleOutlined,
-  LogoutOutlined,
-  UserOutlined,
-} from "@ant-design/icons";
+import LogoutOutlined from "@ant-design/icons/LogoutOutlined";
+import UserOutlined from "@ant-design/icons/UserOutlined";
 import SucursalLabel from "../sucursal_label";
 import globals from "@/src/globals";
 

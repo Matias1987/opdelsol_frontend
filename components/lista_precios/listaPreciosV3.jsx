@@ -9,6 +9,7 @@ import CodeExample from "../etc/codeExample";
 import SearchOutlined from "@ant-design/icons/SearchOutlined";
 import { convertInputToUpper } from "@/src/helpers/string_helper";
 import EditarPrecioSGCategoria from "../deposito/EditarPrecioSGCategoria";
+import { useNetworkStatus } from "../providers/NetworkContext";
 
 const ListaPreciosV3 = () => {
   const [subfamilias, setSubfamilias] = useState([]);
@@ -46,7 +47,12 @@ const ListaPreciosV3 = () => {
 
   const [popupEditarGrupoVisible, setPopupEditarGrupoVisible] = useState(false);
 
+  const { isOnline } = useNetworkStatus();
+
   useEffect(() => {
+    if (!isOnline) {
+      return;
+    }
     setEsAdmin(globals.esUsuarioAdmin());
 
     setEsUDeposito(globals.esUsuarioDeposito());
@@ -80,7 +86,7 @@ const ListaPreciosV3 = () => {
         }
       },
     );
-  }, []);
+  }, [isOnline]);
 
   const onSubfamiliaClick = (idsf, nombre) => {
     setLoading(true);
@@ -225,6 +231,8 @@ const ListaPreciosV3 = () => {
             onRow={(record, rowIndex) => {
               return {
                 onClick: (e) => {
+                  if(!isOnline)
+                    return
                   onSubfamiliaClick(record.id, record.nombre);
                 },
               };
@@ -255,7 +263,7 @@ const ListaPreciosV3 = () => {
                       border: "0",
                       backgroundColor: "rgba(0,0,0,0)",
                     }}
-                    disabled={loading}
+                    disabled={loading || !isOnline}
                     onClick={() => {}}
                   >
                     {obj.familia + " / " + obj.nombre}

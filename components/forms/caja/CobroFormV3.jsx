@@ -47,9 +47,14 @@ const CobroOperacionV3 = (props) => {
 
   const [comentarioCliente, setComentarioCliente] = useState(null);
 
+  const { isOnline } = useNetworkStatus();
+
   useEffect(() => {
+    if (!isOnline) {
+      return;
+    }
     load();
-  }, []);
+  }, [isOnline]);
 
   const onCobrarBase = (nextAction) => {
     setCobrarDisabled(true);

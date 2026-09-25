@@ -6,6 +6,7 @@ import FiltroCobros from "./FiltroCobros";
 import globals from "@/src/globals";
 import { post } from "@/src/urls";
 import { post_method } from "@/src/helpers/post_helper";
+import { useNetworkStatus } from "@/components/providers/NetworkContext";
 /**
  *
  * @param idventa
@@ -18,6 +19,7 @@ const ListaCobros = (props) => {
   const [reload, setReload] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedCobro, setSelectedCobro] = useState(null);
+  const { isOnline } = useNetworkStatus();
   const columns = [
     {
       width: "90px",
@@ -93,8 +95,11 @@ const ListaCobros = (props) => {
     typeof value === "undefined" ? obj : { ...obj, [key]: value };
 
   useEffect(() => {
+    if (!isOnline) {
+      return;
+    }
     load();
-  }, [reload]);
+  }, [reload, isOnline]);
 
   const load = (_) => {
     var params = {

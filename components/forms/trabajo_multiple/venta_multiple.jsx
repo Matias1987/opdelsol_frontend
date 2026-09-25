@@ -1,7 +1,6 @@
 import globals from "@/src/globals";
 import { cambiar_vendedor, cobro_inmediato } from "@/src/config";
 import {
-  Button,
   Card,
   Col,
   Divider,
@@ -16,7 +15,7 @@ import { post } from "@/src/urls";
 import VMTrabajo from "./vm_trabajo";
 import { post_method } from "@/src/helpers/post_helper";
 import SelectClienteMayorista from "./select_cliente";
-import { PlusCircleOutlined } from "@ant-design/icons";
+import PlusCircleOutlined from "@ant-design/icons/PlusCircleOutlined";
 import ConnectedButton from "@/components/etc/CntButton";
 //import useStorage from "@/useStorage";
 

@@ -1,3 +1,4 @@
+import ConnectedButton from "@/components/etc/CntButton";
 import GastoForm from "@/components/forms/caja/GastoForm";
 import LayoutVentasV2 from "@/components/layout/layout_ventas_v2";
 import globals from "@/src/globals";
@@ -6,66 +7,94 @@ import { get } from "@/src/urls";
 import { Button, Card, Modal, Table } from "antd";
 import { useEffect, useState } from "react";
 
-export default function ListaGastos(){
-    const [gastos, setGastos] = useState([])
-    const [open, setOpen] = useState(false)
-    const [reload, setReload]  = useState(true)
-    const [loading, setLoading] = useState(false)
+export default function ListaGastos() {
+  const [gastos, setGastos] = useState([]);
+  const [open, setOpen] = useState(false);
+  const [reload, setReload] = useState(true);
+  const [loading, setLoading] = useState(false);
 
-    useEffect(()=>{
-        setLoading(true);
-        
-        fetch(get.lista_gastos_sucursal + globals.obtenerSucursal())
-        .then(response=>response.json())
-        .then((response)=>{
-            
-            setGastos(response.data.map(r=>({
-                idgasto: r.idgasto,
-                concepto_gasto: r.concepto_gasto,
-                monto: r.monto,
-                fecha_f: r.fecha_f,
-            })))
-          
-           setLoading(false)
-        })
-    },[reload])
+  useEffect(() => {
+    setLoading(true);
 
-    return <>
-       
-        
-        <Modal 
+    fetch(get.lista_gastos_sucursal + globals.obtenerSucursal())
+      .then((response) => response.json())
+      .then((response) => {
+        setGastos(
+          response.data.map((r) => ({
+            idgasto: r.idgasto,
+            concepto_gasto: r.concepto_gasto,
+            monto: r.monto,
+            fecha_f: r.fecha_f,
+          })),
+        );
+
+        setLoading(false);
+      });
+  }, [reload]);
+
+  return (
+    <>
+      <Modal
         title="Cargar Gasto"
         destroyOnClose
-        open={open} 
+        open={open}
         footer={null}
         /*onOk={()=>{
             setOpen(false)
         }}*/
-        onCancel={()=>{
-            setOpen(false)
+        onCancel={() => {
+          setOpen(false);
         }}
-        >
-            <GastoForm callback={()=>{setReload(!reload); setOpen(false)}}/>
-        </Modal>
-        <Card title={<>Lista de Gastos <Button type="primary"   size="small"  onClick={()=>{setOpen(true)}}>
-        Cargar Gasto
-        </Button></>} style={{boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)"}}>
-        <Table 
-        rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' :  'table-row-dark'}
-        size="small"
-        scroll={{y:"450px"}}
-        loading={loading}
-        dataSource={gastos} 
-        columns={
-            [
-                {width:"50px", dataIndex: "idgasto", title: "Nro."},
-                {width:"50px", dataIndex: "fecha_f", title: "Fecha"},
-                {width:"60px", dataIndex: "monto", title: <div style={{textAlign:"right"}}>Monto</div>, render:(_,{monto})=><div style={{textAlign:"right"}}>$ {formatFloat(monto)}</div>},
-                {width:"100px", dataIndex: "concepto_gasto", title: "Concepto"},
-            ]
-        } />
-        </Card>
+      >
+        <GastoForm
+          callback={() => {
+            setReload(!reload);
+            setOpen(false);
+          }}
+        />
+      </Modal>
+      <Card
+        title={
+          <>
+            Lista de Gastos{" "}
+            <ConnectedButton
+              type="primary"
+              size="small"
+              onClick={() => {
+                setOpen(true);
+              }}
+            >
+              Cargar Gasto
+            </ConnectedButton>
+          </>
+        }
+        style={{ boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)" }}
+      >
+        <Table
+          rowClassName={(record, index) =>
+            index % 2 === 0 ? "table-row-light" : "table-row-dark"
+          }
+          size="small"
+          scroll={{ y: "450px" }}
+          loading={loading}
+          dataSource={gastos}
+          columns={[
+            { width: "50px", dataIndex: "idgasto", title: "Nro." },
+            { width: "50px", dataIndex: "fecha_f", title: "Fecha" },
+            {
+              width: "60px",
+              dataIndex: "monto",
+              title: <div style={{ textAlign: "right" }}>Monto</div>,
+              render: (_, { monto }) => (
+                <div style={{ textAlign: "right" }}>$ {formatFloat(monto)}</div>
+              ),
+            },
+            { width: "100px", dataIndex: "concepto_gasto", title: "Concepto" },
+          ]}
+        />
+      </Card>
     </>
+  );
 }
 
 ListaGastos.PageLayout = LayoutVentasV2;

@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import SearchOutlined from "@ant-design/icons/SearchOutlined";
 import PlusOutlined from "@ant-design/icons/PlusOutlined";
 import { get } from "@/src/urls";
-import { CloseOutlined } from "@ant-design/icons";
+import CloseOutlined from "@ant-design/icons/CloseOutlined";
 
 const SearchCodigo = (props) => {
   const { suggestions } = props;

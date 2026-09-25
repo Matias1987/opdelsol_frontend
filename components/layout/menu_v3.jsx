@@ -30,7 +30,7 @@ const ListaPreciosV3 = dynamic(
 );
 const BuscarVentaV3 = dynamic(() => import("../forms/ventas/BuscarVentasV3"), {
   ssr: false,
-  loading: () => <div style={{ width: "30px" }}></div>,
+  loading: () => <div style={{ width: "90px" }}>Cargando...</div>,
 });
 const ListaPreciosV4 = dynamic(
   () => import("../lista_precios/listaPreciosV4"),

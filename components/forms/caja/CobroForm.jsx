@@ -51,6 +51,8 @@ export default function CobroOperacion(props) {
     props.ignoreAlertsCaja ?? false,
   );
 
+  const { isOnline } = useNetworkStatus();
+
   /**     2/9/2023
    * I believe that only the callback function should be invoqed here, there are actions that shouldn't be done by this component, such as
    * changing the sales status, I have to change that in the near future...
@@ -60,6 +62,9 @@ export default function CobroOperacion(props) {
    * this is mean to be executed twice: after the initial load and when idcobro changes (i.e. when the cobro is created...), I dunno if this is a good way
    */
   useEffect(() => {
+    if (!isOnline) {
+      return;
+    }
     setignoreAlertsCaja(props.ignoreAlertsCaja ?? false);
     if (idCobro > -1) {
       /**
@@ -76,7 +81,7 @@ export default function CobroOperacion(props) {
 
       setInformeOpen(true);
     }
-  }, [idCobro]);
+  }, [idCobro, isOnline]);
 
   const handleCancel = () => {
     props.callback?.();
@@ -662,13 +667,13 @@ export default function CobroOperacion(props) {
         {estado_switch()}
 
         {props.tipo == "cuota" && mp != null ? (
-          <Button
+          <ConnectedButton
             type="primary"
             onClick={onCobrarClick}
             disabled={cobrarDisabled || mp.total < 1}
           >
             Cobrar
-          </Button>
+          </ConnectedButton>
         ) : (
           <></>
         )}
@@ -689,13 +694,13 @@ export default function CobroOperacion(props) {
                     0 &&
                   mp.total == 0 &&
                   (entrega || props.tipo == "entrega") ? (
-                    <Button
+                    <ConnectedButton
                       onClick={onCobrarClick}
                       disabled={cobrarDisabled}
                       danger
                     >
                       Entrega
-                    </Button>
+                    </ConnectedButton>
                   ) : (
                     <></>
                   )
@@ -704,13 +709,13 @@ export default function CobroOperacion(props) {
                   //resfuerzo con saldo 0 posterior
                   mp.total != 0 &&
                   (props.tipo == "resfuerzo" || props.tipo == "ingreso") ? (
-                    <Button
+                    <ConnectedButton
                       onClick={onCobrarClick}
                       disabled={cobrarDisabled}
                       danger
                     >
                       Cobrar
-                    </Button>
+                    </ConnectedButton>
                   ) : (
                     <></>
                   )
@@ -724,13 +729,13 @@ export default function CobroOperacion(props) {
                     +mp.total !=
                     0 &&
                   mp.total != 0 ? (
-                    <Button
+                    <ConnectedButton
                       onClick={onCobrarClick}
                       disabled={cobrarDisabled}
                       danger
                     >
                       Cobro Resfuerzo
-                    </Button>
+                    </ConnectedButton>
                   ) : (
                     <></>
                   )
@@ -747,13 +752,13 @@ export default function CobroOperacion(props) {
                     parseFloat(dataVenta.haber || 0) -
                     +mp.total ==
                     0 ? (
-                    <Button
+                    <ConnectedButton
                       onClick={onCobrarClick}
                       disabled={cobrarDisabled}
                       danger
                     >
                       Entrega
-                    </Button>
+                    </ConnectedButton>
                   ) : (
                     <></>
                   )
@@ -765,13 +770,13 @@ export default function CobroOperacion(props) {
                 {props.tipo == "ingreso" && !entrega ? (
                   <>
                     &nbsp;
-                    <Button
+                    <ConnectedButton
                       disabled={mp.total > 0 || cobrarDisabled}
                       type="primary"
                       onClick={enviarADeposito}
                     >
                       Enviar a dep&oacute;sito{" "}
-                    </Button>
+                    </ConnectedButton>
                   </>
                 ) : (
                   <></>

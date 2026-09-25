@@ -8,7 +8,7 @@ import {
   parse_float_string,
   parse_int_string,
 } from "@/src/helpers/string_helper";
-import { PlusOutlined } from "@ant-design/icons";
+import PlusOutlined from "@ant-design/icons/PlusOutlined";
 
 const VDItem = (props) => {
   const [items, setItems] = useState([]);
@@ -86,7 +86,7 @@ const VDItem = (props) => {
           setModalOpen(true);
         }}
       >
-      <PlusOutlined />  Agregar Producto
+        <PlusOutlined /> Agregar Producto
       </Button>
       <Modal
         width={"80%"}
@@ -122,8 +122,8 @@ const VDItem = (props) => {
           index % 2 === 0 ? "table-row-light" : "table-row-dark"
         }
         columns={[
-          { title: "Codigo", dataIndex: "codigo", width:"120px" },
-          { title: "Desc.", dataIndex: "descripcion", width:"120px" },
+          { title: "Codigo", dataIndex: "codigo", width: "120px" },
+          { title: "Desc.", dataIndex: "descripcion", width: "120px" },
           {
             title: "Cantidad",
             dataIndex: "cantidad_max",

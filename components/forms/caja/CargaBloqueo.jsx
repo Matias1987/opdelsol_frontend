@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 
 import { Row, Col, Modal, Divider, Button } from "antd";
 import Comentario from "@/components/comentario";
+import ConnectedButton from "@/components/etc/CntButton";
 
 const CargaBloqueo = (props) => {
   const [open, setOpen] = useState(false);
@@ -36,7 +37,7 @@ const CargaBloqueo = (props) => {
 
   return (
     <>
-      <Button
+      <ConnectedButton
         type="primary"
         size="small"
         danger
@@ -45,7 +46,7 @@ const CargaBloqueo = (props) => {
         }}
       >
         Bloquear Cliente
-      </Button>
+      </ConnectedButton>
       <Modal
         destroyOnClose
         open={open}
@@ -63,9 +64,9 @@ const CargaBloqueo = (props) => {
         <Row>
           <Col span={24}>
             <Divider />
-            <Button block type="primary" onClick={onSubmit}>
+            <ConnectedButton block type="primary" onClick={onSubmit}>
               Guardar
-            </Button>
+            </ConnectedButton>
           </Col>
         </Row>
       </Modal>

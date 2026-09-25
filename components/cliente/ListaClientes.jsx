@@ -9,6 +9,7 @@ import DetalleCliente from "@/components/cliente/DetalleCliente";
 import ClienteFormV2 from "./ClienteFormV2";
 import ListaPagares from "../forms/caja/ListaPagares";
 import MostrarDNI from "../etc/MostrarDNI";
+import { useNetworkStatus } from "../providers/NetworkContext";
 
 export default function ListaClientes(props) {
   const [clientes, setClientes] = useState(null);
@@ -19,6 +20,7 @@ export default function ListaClientes(props) {
   const [modalDetalleOpen, setModalDetalleOpen] = useState(false);
   const [modalPagareOpen, setModalPagareOpen] = useState(false);
   const [modalNuevoClienteOpen, setModalNuevoClienteOpen] = useState(false);
+  const { isOnline } = useNetworkStatus();
   const onSearch = (value) => {
     if ((value || "").trim().length < 1) {
       return;
@@ -69,8 +71,12 @@ export default function ListaClientes(props) {
   };
 
   useEffect(() => {
+    if (!isOnline) {
+      setLoading(false);
+      return;
+    }
     refresh();
-  }, []);
+  }, [isOnline]);
 
   const columns = [
     {

@@ -17,6 +17,7 @@ import PlusOutlined from "@ant-design/icons/PlusOutlined";
 import { get } from "@/src/urls";
 import { decimal_separator } from "@/src/config";
 import { formatFloat } from "@/src/helpers/formatters";
+import { useNetworkStatus } from "@/components/providers/NetworkContext";
 
 /**
  *
@@ -65,12 +66,15 @@ export default function ModoPagoV4(props) {
     tarjeta1_nro: "0",
   });
 
+  const { isOnline } = useNetworkStatus();
+
   const fecth_data = (url, callback) => {
     fetch(url)
       .then((response) => response.json())
       .then((response) => {
         callback(response);
-      });
+      })
+      .catch((_) => {});
   };
 
   const load = (_) => {
@@ -200,12 +204,17 @@ export default function ModoPagoV4(props) {
               props?.callback?.(_temp);
               return _temp;
             });
-          });
+          })
+          .catch((_) => {});
       }
     }
   };
 
   useEffect(() => {
+    if (!isOnline) {
+      setDataLoaded(false);
+      return;
+    }
     if (!dataLoaded) {
       load();
     } else {
@@ -217,7 +226,7 @@ export default function ModoPagoV4(props) {
         alert("total undefined");
       }
     }
-  }, [dataLoaded]);
+  }, [dataLoaded, isOnline]);
 
   const onChange = (index, value) => {
     setModoPago((modoPago) => {

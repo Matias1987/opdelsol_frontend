@@ -1,4 +1,14 @@
-import { Button, Col, Divider, Input, InputNumber, Modal, Row, Spin, Switch } from "antd";
+import {
+  Button,
+  Col,
+  Divider,
+  Input,
+  InputNumber,
+  Modal,
+  Row,
+  Spin,
+  Switch,
+} from "antd";
 import { useEffect, useRef, useState } from "react";
 import { get, post } from "@/src/urls";
 import { post_method } from "@/src/helpers/post_helper";
@@ -17,8 +27,9 @@ import {
 import ModoPagoV4 from "../modo_pago/ModoPagoV4";
 import { formatFloat } from "@/src/helpers/formatters";
 import { decimal_separator } from "@/src/config";
-import { v4 as uuidv4 } from 'uuid'; 
+import { v4 as uuidv4 } from "uuid";
 import ConnectedButton from "@/components/etc/CntButton";
+import { useNetworkStatus } from "@/components/providers/NetworkContext";
 
 /**
  *
@@ -36,7 +47,7 @@ import ConnectedButton from "@/components/etc/CntButton";
  */
 const CobroOperacionV2 = (props) => {
   const { callback, idventa, idcliente } = props;
-  const postIdRef = useRef(uuidv4()); 
+  const postIdRef = useRef(uuidv4());
   const [mp, setMP] = useState(null);
   const [entrega, setEntrega] = useState(false);
   const [dataVenta, setDataVenta] = useState(null);
@@ -48,9 +59,14 @@ const CobroOperacionV2 = (props) => {
   const [descuento, setDescuento] = useState(0);
   const [comentarioCliente, setComentarioCliente] = useState(null);
 
+  const { isOnline } = useNetworkStatus();
+
   useEffect(() => {
+    if (!isOnline) {
+      return;
+    }
     load();
-  }, []);
+  }, [isOnline]);
 
   const load = (_) => {
     setCobrarDisabled(false);
@@ -65,7 +81,8 @@ const CobroOperacionV2 = (props) => {
           setDataVenta((d) => {
             return response.data[0];
           });
-        });
+        })
+        .catch((_) => {});
     }
     if (idcliente) {
       //get cliente details
@@ -81,7 +98,8 @@ const CobroOperacionV2 = (props) => {
 
             direccion: response.data[0].direccion,
           });
-        });
+        })
+        .catch((_) => {});
     }
   };
 
@@ -150,12 +168,10 @@ const CobroOperacionV2 = (props) => {
         alert("Seleccione Tarjeta");
         return false;
       }
-      if(+mp.tarjeta_tarjeta<1)
-      {
+      if (+mp.tarjeta_tarjeta < 1) {
         alert("Seleccione Cuotas Tarjeta 1");
         return false;
       }
-      
     }
     if (mp.tarjeta1_monto != 0) {
       if (mp.fk_tarjeta1 == null) {
@@ -163,8 +179,7 @@ const CobroOperacionV2 = (props) => {
         alert("Seleccione Tarjeta");
         return false;
       }
-      if(+mp.tarjeta1_tarjeta<1)
-      {
+      if (+mp.tarjeta1_tarjeta < 1) {
         alert("Seleccione Cuotas Tarjeta 2");
         return false;
       }
@@ -237,7 +252,7 @@ const CobroOperacionV2 = (props) => {
           },
           (resp) => {
             onClose(null);
-          }
+          },
         );
         registrarVentaEntregada(dataVenta.idventa);
       } else {
@@ -252,7 +267,7 @@ const CobroOperacionV2 = (props) => {
             },
             (resp) => {
               onClose(null);
-            }
+            },
           );
           registrarVentaEntregada(dataVenta.idventa);
         } else {
@@ -265,7 +280,7 @@ const CobroOperacionV2 = (props) => {
             },
             (resp) => {
               onClose(null);
-            }
+            },
           );
           registrarVentaPendiente(dataVenta.idventa);
         }
@@ -273,31 +288,27 @@ const CobroOperacionV2 = (props) => {
     }
   };
 
-  const check_valid_ctacte = () =>{
-    if(!mp)
-    {
-      return;
-    }
-    
-    if(!dataVenta)
-    {
+  const check_valid_ctacte = () => {
+    if (!mp) {
       return;
     }
 
-    const {ctacte_monto} = mp;
-
-    if(ctacte_monto==0)
-    {
-      return
+    if (!dataVenta) {
+      return;
     }
 
-    const saldo = parseFloat(dataVenta.subtotal) - parseFloat(descuento) - parseFloat(dataVenta.haber || 0)
+    const { ctacte_monto } = mp;
 
+    if (ctacte_monto == 0) {
+      return;
+    }
 
-
-  }
+    const saldo =
+      parseFloat(dataVenta.subtotal) -
+      parseFloat(descuento) -
+      parseFloat(dataVenta.haber || 0);
+  };
   const onCobrarClick = (e) => {
-
     setCobrarDisabled(true);
 
     if (!_validar_campos() || !_validar_variables()) {
@@ -306,7 +317,12 @@ const CobroOperacionV2 = (props) => {
     }
 
     /** si hay venta pero es de monto 0*/
-    if (dataVenta != null && +mp.total == 0 && dataVenta.saldo == 0 && +descuento==0) {
+    if (
+      dataVenta != null &&
+      +mp.total == 0 &&
+      dataVenta.saldo == 0 &&
+      +descuento == 0
+    ) {
       //alert("On venta monto 0")
       _on_venta_monto_zero();
       return;
@@ -405,11 +421,10 @@ const CobroOperacionV2 = (props) => {
           ? "resfuerzo"
           : props.tipo
         : "";
-      //alert(__tipo);
-      //alert(JSON.stringify(params));
+    //alert(__tipo);
+    //alert(JSON.stringify(params));
 
     post_method(post.insert.cobro, params, (id) => {
-
       //alert(JSON.stringify(id))
 
       if (id.data == 0) {
@@ -418,8 +433,8 @@ const CobroOperacionV2 = (props) => {
             __tipo == "entrega"
               ? "ENTREGADO"
               : entrega
-              ? "ENTREGADO"
-              : "PENDIENTE";
+                ? "ENTREGADO"
+                : "PENDIENTE";
 
           post_method(
             post.cambiar_estado_venta,
@@ -433,12 +448,12 @@ const CobroOperacionV2 = (props) => {
             },
             (resp) => {
               onCobroSaved(0);
-            }
+            },
           );
           registrar_evento(
             "VENTA",
             "Cambio estado a " + est,
-            dataVenta.idventa
+            dataVenta.idventa,
           );
         } else {
           onCobroSaved(0);
@@ -450,8 +465,8 @@ const CobroOperacionV2 = (props) => {
             __tipo == "entrega"
               ? "ENTREGADO"
               : entrega
-              ? "ENTREGADO"
-              : "PENDIENTE";
+                ? "ENTREGADO"
+                : "PENDIENTE";
 
           post_method(
             post.cambiar_estado_venta,
@@ -463,48 +478,42 @@ const CobroOperacionV2 = (props) => {
             (resp) => {
               /** actualizar balance de cta cte en recibo x */
 
-              if(+(id.data||"0")>0)
-              {
+              if (+(id.data || "0") > 0) {
                 fetch(get.actualizar_saldo_en_cobro + id.data)
-                .then((___response) => ___response.json())
-                .then((___response) => {
-                  onCobroSaved(id.data);
-                });
-              }
-              else{
+                  .then((___response) => ___response.json())
+                  .then((___response) => {
+                    onCobroSaved(id.data);
+                  })
+                  .catch((_) => {});
+              } else {
                 onCobroSaved(0);
               }
-              
-
-
-            }
+            },
           );
           registrar_evento(
             "VENTA",
             "Cambio estado a " + est,
-            dataVenta.idventa
+            dataVenta.idventa,
           );
         } else {
           /**actualizar balance de cta cte en recibo x */
 
-            if(+(id.data||"0")>0)
-            {
+          if (+(id.data || "0") > 0) {
             fetch(get.actualizar_saldo_en_cobro + id.data)
               .then((_r) => _r.json())
               .then((___response) => {
                 onCobroSaved(id.data);
-              });
-            }
-            else{
-              onCobroSaved(0);
-            }
-
+              })
+              .catch((_) => {});
+          } else {
+            onCobroSaved(0);
+          }
         }
 
         registrar_evento(
           "COBRO",
           "Registro Cobro $" + mp.total.toString(),
-          id.data
+          id.data,
         );
       }
     });
@@ -538,18 +547,20 @@ const CobroOperacionV2 = (props) => {
             prefix={"Descuento:"}
             value={descuento}
             onChange={(value) => {
-                setDescuento(
-                  (value || "").toString().length < 1 ? "0" : value.toString()
-                );
-              }}
+              setDescuento(
+                (value || "").toString().length < 1 ? "0" : value.toString(),
+              );
+            }}
           />
           Haber: <b>{formatFloat(dataVenta.haber)}</b> &nbsp;&nbsp;
           <span style={{ backgroundColor: "lightyellow", color: "red" }}>
             Saldo:{" "}
             <b>
-              {formatFloat(parseFloat(dataVenta.subtotal) -
-                parseFloat(descuento) -
-                parseFloat(dataVenta.haber || 0))}
+              {formatFloat(
+                parseFloat(dataVenta.subtotal) -
+                  parseFloat(descuento) -
+                  parseFloat(dataVenta.haber || 0),
+              )}
             </b>
           </span>
           &nbsp;&nbsp;
@@ -604,7 +615,7 @@ const CobroOperacionV2 = (props) => {
       { idventa: props.idventa, estado: "PENDIENTE", removeMPRows: 1 },
       (resp) => {
         onClose(null);
-      }
+      },
     );
   };
 
@@ -672,7 +683,7 @@ const CobroOperacionV2 = (props) => {
                   rows={2}
                   placeholder="Observaciones del cliente"
                   onChange={(e) => {
-                    setComentarioCliente(e.target.value||"");
+                    setComentarioCliente(e.target.value || "");
                   }}
                 />
               </Col>

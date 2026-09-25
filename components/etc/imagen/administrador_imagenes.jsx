@@ -6,7 +6,7 @@ import { post_method } from "@/src/helpers/post_helper";
 import UploadSingle from "./upload_single";
 import { uploads_url } from "@/src/config";
 import ThumbnailSizePicker from "./ThumbnailSizePicker";
-import { ReloadOutlined } from "@ant-design/icons";
+import ReloadOutlined from "@ant-design/icons/ReloadOutlined";
 
 const AdministradorImagenes = ({ idcodigo, record, callback }) => {
   const [imagenes, setImagenes] = useState([]);
@@ -105,7 +105,7 @@ const AdministradorImagenes = ({ idcodigo, record, callback }) => {
           <Col></Col>
         </Row>
 
-        <Row style={{padding:"8px"}}>
+        <Row style={{ padding: "8px" }}>
           <Col span={24}>
             <MiniImageGallery
               size={size}
@@ -116,7 +116,7 @@ const AdministradorImagenes = ({ idcodigo, record, callback }) => {
           </Col>
         </Row>
         <Row>
-          <Col span={24}  style={{padding:"8px"}}>
+          <Col span={24} style={{ padding: "8px" }}>
             <div style={{ width: "164px" }}>
               <div
                 style={{

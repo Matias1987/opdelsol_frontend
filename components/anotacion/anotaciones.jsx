@@ -4,6 +4,7 @@ import AnotacionForm from "./anotacion_form";
 import { post } from "@/src/urls";
 import PlusOutlined from "@ant-design/icons/PlusOutlined";
 import { post_method } from "@/src/helpers/post_helper";
+import ConnectedButton from "../etc/CntButton";
 
 /**
  * @param tipo
@@ -69,14 +70,14 @@ const Anotaciones = (props) => {
         size="small"
         title={<>Anotaciones&nbsp;</>}
         extra={
-          <Button
+          <ConnectedButton
             onClick={() => {
               setPopupAddOpen(true);
             }}
             type="primary"
           >
             <PlusOutlined size={"small"} /> Agregar
-          </Button>
+          </ConnectedButton>
         }
       >
         <Row>
