@@ -1,24 +1,42 @@
-import CobrosTarjetaDia from "@/components/informes/caja/cobrosTarjetaDia";
-import CuotasPendientesTarjetas from "@/components/informes/caja/cuotasPendientesTarjetas";
-import InformeTarjetas from "@/components/informes/cobros/informeTarjetas";
 import LayoutAdmin from "@/components/layout/layout_admin";
 import { Tabs } from "antd";
+import dynamic from "next/dynamic";
 
-/**informe cobros tarjetas */
+const CuotasPendientesTarjetas = dynamic(
+  () => import("@/components/informes/caja/cuotasPendientesTarjetas"),
+  {
+    ssr: false,
+    loading: () => <div style={{ height: "300px" }}>&#9203;</div>,
+  },
+);
+const InformeTarjetas = dynamic(
+  () => import("@/components/informes/cobros/informeTarjetas"),
+  {
+    ssr: false,
+    loading: () => <div style={{ height: "300px" }}>&#9203;</div>,
+  },
+);
+const CobrosTarjetaDia = dynamic(
+  () => import("@/components/informes/caja/cobrosTarjetaDia"),
+  {
+    ssr: false,
+    loading: () => <div style={{ height: "300px" }}>&#9203;</div>,
+  },
+);
+
 const InformeCobrosTarjetas = () => {
-  //return <><InformeTarjetas /></>
   const items = [
     {
       key: "1",
       label: "Cuotas",
-      children: <CuotasPendientesTarjetas/>,
+      children: <CuotasPendientesTarjetas />,
     },
     {
       key: "2",
       label: "Totales Tarjetas",
       children: <InformeTarjetas />,
     },
-    
+
     {
       key: "3",
       label: "Operaciones del Día",
@@ -26,9 +44,17 @@ const InformeCobrosTarjetas = () => {
     },
   ];
 
-  const onChange = (key) => {}
+  const onChange = (key) => {};
 
-  return <Tabs defaultActiveKey="1" items={items} onChange={onChange} type="card" size="large" />;
+  return (
+    <Tabs
+      defaultActiveKey="1"
+      items={items}
+      onChange={onChange}
+      type="card"
+      size="large"
+    />
+  );
 };
 
 export default InformeCobrosTarjetas;

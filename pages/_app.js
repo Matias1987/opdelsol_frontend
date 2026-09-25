@@ -1,8 +1,6 @@
-//import Layout from '@/components/layout'
 import MyLayout from "@/components/layout/layout";
 import "@/styles/globals.css";
 import { ConfigProvider, theme } from "antd";
-import { useState } from "react";
 import es_ES from "antd/locale/es_ES";
 import dayjs from "dayjs";
 import "dayjs/locale/es";
@@ -10,15 +8,7 @@ import updateLocale from "dayjs/plugin/updateLocale";
 import { NetworkProvider } from "@/components/providers/NetworkContext";
 import ConnectionBanner from "@/components/etc/ConnectionBanner";
 import { UserStatusProvider } from "@/components/providers/UserContext";
-//import { SocketProvider } from '@/components/etc/SocketProvider'
-//import SocketStatus from '@/components/etc/SocketStatus'
 export default function App({ Component, pageProps }) {
-  const [isDarkTheme, setDarkTheme] = useState(true);
-  //moment.locale("es");
-  //dayjs.locale("es");
-  //moment.updateLocale("en", {
-  //  weekdaysMin: ["Dom", "Lun", "Mar", "Mier", "Thu", "Fri", "Sat"],
-  //});
 
   // 1. Activate the updateLocale plugin
   dayjs.extend(updateLocale);
@@ -38,8 +28,7 @@ export default function App({ Component, pageProps }) {
       <ConfigProvider
         locale={es_ES}
         theme={{
-          algorithm: theme.defaultAlgorithm, // isDarkTheme ? theme.darkAlgorithm : theme.defaultAlgorithm,
-          //algorithm: theme.compactAlgorithm,
+          algorithm: theme.defaultAlgorithm, 
           token: {
             //// Seed Token
             colorPrimary: "#314e68", //"#663F4C", //"#312EB4",// "#FF9900",//"#0052C4",//"#00502F",//'#007745',//'#00b96b',
@@ -90,26 +79,17 @@ export default function App({ Component, pageProps }) {
           <NetworkProvider pingInterval={15000}>
             <ConnectionBanner />
             {Component.PageLayout ? (
-              <Component.PageLayout
-                displaymodechange={(c) => {
-                  setDarkTheme(c);
-                }}
-              >
+              <Component.PageLayout>
                 <Component {...pageProps} />
               </Component.PageLayout>
             ) : (
-              <MyLayout
-                displaymodechange={(c) => {
-                  setDarkTheme(c);
-                }}
-              >
+              <MyLayout >
                 <Component {...pageProps} />
               </MyLayout>
             )}
           </NetworkProvider>
         </UserStatusProvider>
       </ConfigProvider>
-      {/*</SocketProvider>*/}
     </>
   );
 }

@@ -96,31 +96,6 @@ export default function MenuVentasTop(props) {
       items.push(menu_ventas);
     }
 
-    /*if (globals.esUsuarioCaja1() || globals.esUsuarioVentas()) {
-      items.push(
-        {
-          label: (
-            <Link
-              href={
-                globals.esUsuarioCaja1()
-                  ? public_urls.lista_clientes_caja
-                  : public_urls.lista_clientes_ventas
-              }
-            >
-              Clientes
-            </Link>
-          ),
-          key: "11",
-          icon: <UserOutlined />,
-        },
-        {
-          //label: (<BuscarVentaV2 />),
-          label: <>Buscar Venta</>,
-          icon: <SearchOutlined />,
-          key: "buscar_venta",
-        }
-      );
-    }*/
     if (lista_precios_visible != 0) {
       items.push({
         label: <>Lista de Precios</>,

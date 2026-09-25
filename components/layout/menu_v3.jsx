@@ -1,16 +1,19 @@
 import { Button, Flex, Input, Menu, Modal } from "antd";
+
 import LogoutOutlined from "@ant-design/icons/LogoutOutlined";
 import MenuOutlined from "@ant-design/icons/MenuOutlined";
 import SearchOutlined from "@ant-design/icons/SearchOutlined";
+import CaretDownFilled from "@ant-design/icons/CaretDownFilled";
+import InfoCircleOutlined from "@ant-design/icons/InfoCircleOutlined";
+import UserOutlined from "@ant-design/icons/UserOutlined";
+
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { get, public_urls } from "@/src/urls";
 import globals from "@/src/globals";
 import { idf_optica, lista_precios_visible } from "@/src/config";
 import dynamic from "next/dynamic";
-import CaretDownFilled from "@ant-design/icons/CaretDownFilled";
-import InfoCircleOutlined from "@ant-design/icons/InfoCircleOutlined";
-import UserOutlined from "@ant-design/icons/UserOutlined";
+
 import { useNetworkStatus } from "../providers/NetworkContext";
 
 const VentasVendedor = dynamic(
@@ -25,7 +28,7 @@ const ListaPreciosV3 = dynamic(
   () => import("../lista_precios/listaPreciosV3"),
   {
     ssr: false,
-    loading: () => <div style={{ width: "30px" }}></div>,
+    loading: () => <div style={{ width: "30px" }}>Cargando...</div>,
   },
 );
 const BuscarVentaV3 = dynamic(() => import("../forms/ventas/BuscarVentasV3"), {
@@ -214,11 +217,6 @@ export default function MenuV3(props) {
           </Menu.Item>
         ),
       },
-
-      /*{
-        key: '112',
-        label: (<Menu.Item><Link href={public_urls.transferencias}>Transferencias</Link></Menu.Item>),
-      },*/
       {
         type: "divider",
       },
@@ -350,7 +348,6 @@ export default function MenuV3(props) {
           key: "11",
         },
         {
-          //label: (<BuscarVentaV2 />),
           label: <>Buscar Venta</>,
           key: "buscar_venta",
         },
@@ -358,7 +355,6 @@ export default function MenuV3(props) {
     }
     if (lista_precios_visible != 0) {
       items.push({
-        //label: (<CustomModal width="100%" openButtonText={<><DollarOutlined />&nbsp;Lista de Precios</> } type="text"><ListaPreciosV3  /></CustomModal>),
         label: <>Lista de Precios</>,
         key: "lista_precios",
       });

@@ -1,10 +1,25 @@
-import  Proveedores  from "@/components/admin/dashboard_components/proveedores";
-import  ListaProveedores  from "@/components/admin/proveedor/ListaProveedores";
 import LayoutAdmin from "@/components/layout/layout_admin";
 import { Tabs } from "antd";
+import dynamic from "next/dynamic";
 
-export default function panel_proveedores(){
-    const items = [
+const ListaProveedores = dynamic(
+  () => import("@/components/admin/proveedor/ListaProveedores"),
+  {
+    ssr: false,
+    loading: () => <div style={{ height: "300px" }}>&#9203;</div>,
+  },
+);
+
+const Proveedores = dynamic(
+  () => import("@/components/admin/dashboard_components/proveedores"),
+  {
+    ssr: false,
+    loading: () => <div style={{ height: "300px" }}>&#9203;</div>,
+  },
+);
+
+export default function panel_proveedores() {
+  const items = [
     {
       key: "1",
       label: "Lista de Proveedores",
@@ -21,7 +36,6 @@ export default function panel_proveedores(){
       <Tabs defaultActiveKey="1" items={items} type="card" size="large" />
     </div>
   );
-    
 }
 
-panel_proveedores.PageLayout = LayoutAdmin;  
+panel_proveedores.PageLayout = LayoutAdmin;
