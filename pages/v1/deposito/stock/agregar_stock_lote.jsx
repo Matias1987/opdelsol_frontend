@@ -48,11 +48,9 @@ export default function AgregarStockLote(props) {
     if (id < 0) {
       return;
     }
-    //alert(subgrupoDetailsURL + id)
     fetch(subgrupoDetailsURL + id)
       .then((response) => response.json())
       .then((response) => {
-        //alert("SUBGRUPO :  " + JSON.stringify(response.data))
         setMultiplier(parseFloat(response.data[0].multiplicador));
         setPrecioDefecto(parseFloat(response.data[0].precio_defecto));
         setSubgrupo({
@@ -121,12 +119,10 @@ export default function AgregarStockLote(props) {
         return null;
       }
     }
-    //alert(JSON.stringify(codigos))
     return codigos;
   };
 
   const agregarRow = (_values) => {
-    //alert(JSON.stringify(_values))
     let values = { ..._values, codigo: _values.codigo.toUpperCase() };
     var codigos = procesar_codigos(values);
 
@@ -373,7 +369,6 @@ export default function AgregarStockLote(props) {
         (response) => {
           if (response.data.length > 0) {
             update_status_row("Ya Existe", curr.codigo);
-            //alert("el codigo ya existe: " + response.data[0].idcodigo)
             //el codigo ya existe
             /*
                     ES POSIBLE QUE EL OBJETO STOCK NO EXISTA...
@@ -402,7 +397,6 @@ export default function AgregarStockLote(props) {
                     costo: curr.costo,
                     tk: globals.getToken(),
                   };
-                  //alert("insert stock now! " + JSON.stringify(res))
                   post_method(post.insert.stock, _data, (__res) => {
                     update_status_row("OK", curr.codigo);
                     if (values.length > 0) {
@@ -415,9 +409,7 @@ export default function AgregarStockLote(props) {
                 }
               });
           } else {
-            //alert("el codigo NO existe")
             //start saving, first the code
-            //alert(JSON.stringify(curr))
             post_method(post.insert.codigo, { ...curr, hook: HOOK }, (res) => {
               //THEN THE STOCK
               if (res.status == "OK") {
@@ -427,16 +419,8 @@ export default function AgregarStockLote(props) {
                   cantidad: curr.cantidad,
                   factura_idfactura: curr.factura,
                   tk: globals.getToken(),
-                  /*genero: curr.genero,
-                                edad: curr.edad,
-                                costo: curr.costo,
-                                modo_precio: curr.modo_precio,
-                                precio: curr.precio,
-                                descripcion: curr.descripcion,*/
-
-                  //add: typeof curr.add === 'undefined' ? "" : curr.add,
+ 
                 };
-                //alert("insert stock now! " + JSON.stringify(res))
                 //then stock object...
                 post_method(post.insert.stock, _data, (__res) => {
                   update_status_row("OK", curr.codigo);

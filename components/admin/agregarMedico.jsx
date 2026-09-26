@@ -22,7 +22,6 @@ const AgregarMedicoForm = (props) => {
                 fetch(get.obtener_medico + props.idmedico)
                     .then(r => r.json())
                     .then(response => {
-                        //alert(JSON.stringify(response))
                         setLoading(false)
                         setMedico(m => ({
                             ...m,
@@ -45,24 +44,8 @@ const AgregarMedicoForm = (props) => {
             alert("Valor no válido para nombre")
             return
         }
-        /*if(!isvalid(medico.matricula))
-        {
-            alert("Valor no válido para matricula")
-            return
-        }*/
-        /*if(!isvalid(medico.direccion))
-        {
-            alert("Valor no válido para direccion")
-            return
-        }
-        if(!isvalid(medico.telefono))
-        {
-            alert("Valor no válido para telefono")
-            return
-        }*/
     
         if (editar) {
-               //alert(post.update.editar_medico)
             post_method(post.update.editar_medico, medico, (resp) => {
                 alert("Datos Guardados.")
                 props?.callback?.()

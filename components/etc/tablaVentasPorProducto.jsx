@@ -33,7 +33,6 @@ const TablaVentasPorProducto = ({ idproducto, meses }) => {
   ];
 
   const load = () => {
-    //alert(JSON.stringify({ cantMeses: meses, idcodigo: idproducto }))
     post_method(
       post.obtener_ventas_por_tipo_producto,
       { cantMeses: meses, idcodigo: idproducto },

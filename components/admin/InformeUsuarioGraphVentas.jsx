@@ -17,15 +17,12 @@ const InformeUsuarioGraphVentas = (props) => {
             
             if(resp.length<1)
             {
-                //alert(JSON.stringify(resp))
                 return
             }
             let vg = [["dia", "ventas"]]
             resp.forEach(r=>{
                 vg.push([r.fecha, r.cant])
             })
-            //console.log(JSON.stringify(vg))
-            //alert(JSON.stringify(vg))
             setVentasG(vg)
         })
     }

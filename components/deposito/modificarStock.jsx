@@ -190,7 +190,6 @@ const ModificarStock = ({ dataDef, defIdFamilia, familiaEnabled }) => {
         codigos: data.filter((d) => d.checked).map((c) => c.idcodigo),
       },
       (response) => {
-        //alert("disparado desde cambiar_estados_codigos")
         setValueChanged(!valueChanged);
       },
     );
@@ -266,7 +265,6 @@ const ModificarStock = ({ dataDef, defIdFamilia, familiaEnabled }) => {
   };
 
   useEffect(() => {
-    //alert(globals.esUsuarioDeposito())
     setSucursalSelectEnabled(globals.esUsuarioDeposito());
     setUsuarioDep(globals.esUsuarioDeposito());
     load(filtros);
@@ -282,7 +280,6 @@ const ModificarStock = ({ dataDef, defIdFamilia, familiaEnabled }) => {
     setLoading(true);
     const data = procesar_filtros(filtro_data);
     post_method(post.search.filtro_stock, data, (response) => {
-      //alert(JSON.stringify(response));
       if (response.data.length < 1) {
         alert("No se encontraron codigos con los filtros seleccionados.");
         setData([]);
@@ -334,7 +331,6 @@ const ModificarStock = ({ dataDef, defIdFamilia, familiaEnabled }) => {
                   size="large"
                   idsucursal={idsucursal}
                   callback={(_idsucursal, _sucursal_nombre) => {
-                    //alert("Sucursal cambiada a: " + _sucursal_nombre);
                     setIdSucursal(_idsucursal);
                     if (idsucursal != _idsucursal) {
                       setData([]);
@@ -362,7 +358,6 @@ const ModificarStock = ({ dataDef, defIdFamilia, familiaEnabled }) => {
                 setMenuFolded(true);
               }}
               callback={(data) => {
-                //alert(JSON.stringify(data));
                 if (data.filtros.length > 0) {
                   setGridEnabled(false);
                   if (data.filtros[0].tipo == "subgrupo") {
@@ -371,7 +366,6 @@ const ModificarStock = ({ dataDef, defIdFamilia, familiaEnabled }) => {
                 }
 
                 setFiltros(data);
-                //alert("disparado desde el boton de la barra del costado");
                 setValueChanged(!valueChanged);
               }}
               folded={menuFolded}
@@ -440,7 +434,6 @@ const ModificarStock = ({ dataDef, defIdFamilia, familiaEnabled }) => {
             .map((c) => ({ codigo: c.codigo, idcodigo: c.idcodigo }))}
           callback={() => {
             setPopupTagsOpen(false);
-            //alert("disparado desde popup")
             setValueChanged(!valueChanged);
           }}
         />
@@ -460,7 +453,6 @@ const ModificarStock = ({ dataDef, defIdFamilia, familiaEnabled }) => {
           idsucursal={idsucursal}
           callback={() => {
             setPopupDetalleOpen(false);
-            //alert("disparado desde popup")
             setValueChanged(!valueChanged);
           }}
         />
@@ -472,7 +464,6 @@ const ModificarStock = ({ dataDef, defIdFamilia, familiaEnabled }) => {
         footer={null}
         onCancel={() => {
           setPopupEditarStockIndvOpen(false);
-          //alert("disparado desde popup")
           setValueChanged(!valueChanged);
         }}
         width={"900px"}
@@ -483,7 +474,6 @@ const ModificarStock = ({ dataDef, defIdFamilia, familiaEnabled }) => {
           idsucursal={idsucursal}
           callback={() => {
             setPopupEditarStockIndvOpen(false);
-            //alert("disparado desde popup")
             setValueChanged(!valueChanged);
           }}
         />
@@ -501,7 +491,6 @@ const ModificarStock = ({ dataDef, defIdFamilia, familiaEnabled }) => {
           idcodigo={selectedIdCodigo}
           buttonText={<>Editar C&oacute;digo</>}
           callback={() => {
-            //alert("disparado desde popup")
             setValueChanged(!valueChanged);
             setPopupEditarCodigoIndvOpen(false);
           }}
@@ -515,7 +504,6 @@ const ModificarStock = ({ dataDef, defIdFamilia, familiaEnabled }) => {
         destroyOnClose={true}
         onCancel={() => {
           setOpen(false);
-          //alert("disparado desde popup")
           setValueChanged(!valueChanged);
         }}
       >

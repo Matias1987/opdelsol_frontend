@@ -69,7 +69,6 @@ const ListadoCajasAdmin = (props) => {
       post.obtener_cajas_fecha,
       { fecha: selectedDate },
       (response) => {
-        //alert(JSON.stringify(response.data));
         if (response.data.status == "error") return;
         setCajas(response.data || []);
       },

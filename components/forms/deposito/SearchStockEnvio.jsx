@@ -113,7 +113,6 @@ const SearchStockEnvio = (props) => {
     };
 
     post_method(post.buscar_stock_envios, params, (response) => {
-      //alert(JSON.stringify(response))
       setDataSource(
         response.data.map((row) => ({
           key: row.idcodigo,

@@ -45,7 +45,6 @@ const Tags = (props) => {
         tags: tagsToAdd,
       },
       (resp) => {
-        //alert("OK")
         setModalAddOpen(false);
 
         setReload(!reload);

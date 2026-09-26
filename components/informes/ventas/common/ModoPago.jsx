@@ -12,13 +12,11 @@ export default function ModoPagoInf(props) {
   const wrap_div_style = {};
 
   useEffect(() => {
-    //alert(get.get_venta_mp + props.idventa)
     fetch(get.get_venta_mp + props.idventa)
       .then((response) => response.json())
       .then((response) => {
         setData(response.data);
         props?.callback?.();
-        //alert(JSON.stringify(response))
       });
   }, []);
 

@@ -172,7 +172,6 @@ export default function FichaCliente(props) {
         idsucursal: _filtrarSucursal ? globals.obtenerSucursal() : -1,
       },
       (response) => {
-        //alert(JSON.stringify(response.data))
         let saldo = 0;
         const _rows = [];
 

@@ -87,7 +87,6 @@ const SelectItem = ({ tipo, callback }) => {
         if (!response?.data) {
           return;
         }
-        //alert(JSON.stringify(response));
         setDataSource(
           response.data.map((record) => ({
             id: record.idcodigo,

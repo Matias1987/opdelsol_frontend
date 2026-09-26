@@ -107,7 +107,6 @@ const ListaFacturas = (props) => {
   });
 
   const load = () => {
-    //alert(url_for_facturas)
     fetch(get.lista_proveedores)
       .then((r) => r.json())
       .then((r) => {
@@ -124,9 +123,7 @@ const ListaFacturas = (props) => {
       desde: filtroFecha.desde,
       hasta: filtroFecha.hasta,
     };
-    //alert(JSON.stringify(data))
     post_method(url_for_facturas, data, (resp) => {
-      //alert(JSON.stringify(resp))
       setTableData(
         resp.data.map((r) => ({
           idfactura: r.idfactura,

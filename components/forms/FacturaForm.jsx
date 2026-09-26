@@ -6,7 +6,6 @@ import { post_method } from "@/src/helpers/post_helper";
 const FacturaForm = (props) => {
     const [form] = Form.useForm();
     const onFinish = (values) => {
-        //alert(JSON.stringify(values))
         switch(props.action){
             case 'ADD': post_method(post.insert.factura,values,(res)=>{
               if(res.status == "OK"){

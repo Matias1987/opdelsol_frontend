@@ -21,7 +21,6 @@ const SelectCliente = (props) => {
     if ((value || "").trim().length < 3) return;
 
     const params = encodeURIComponent(value);
-    //alert(value)
     setLoading(true);
     fetch(get.buscar_cliente + params)
       .then((response) => response.json())

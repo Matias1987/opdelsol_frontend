@@ -53,18 +53,9 @@ const CobrosTarjetaDia = (props) => {
   const load = () => {
     setLoading(true);
     post_method(post.cobros_tarjeta_dia, filtros, (response) => {
-      //alert(JSON.stringify(response))
       setData(response.data);
       setLoading(false);
     });
-  };
-
-  const header = (_) => {
-    return (
-      <div style={{ textAlign: "right" }}>
-        <ExportToExcel />
-      </div>
-    );
   };
 
   useEffect(() => {
@@ -90,7 +81,6 @@ const CobrosTarjetaDia = (props) => {
           <Col style={{ width: "30%" }}>
             <Calendar
               onSelect={(value) => {
-                //alert(value.format("YYYY-MM-DD"));
                 setFiltros((f) => ({
                   ...f,
                   fecha: value.format("YYYY-MM-DD"),
@@ -152,7 +142,6 @@ const CobrosTarjetaDia = (props) => {
           <Col style={{ width: "70%" }}>
             <Table
               loading={loading}
-             
               size="small"
               columns={columns}
               dataSource={data}

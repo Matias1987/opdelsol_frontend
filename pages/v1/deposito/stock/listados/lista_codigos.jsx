@@ -98,7 +98,6 @@ export default function ListaCodigos() {
   };
 
   const callback_filtros = (filtros) => {
-    //alert(JSON.stringify(filtros))
     setFiltros(filtros);
     setChange(!change);
   };

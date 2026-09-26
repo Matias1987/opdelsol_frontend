@@ -121,8 +121,6 @@ const TreeMapVentasCategoriaPeriodo = ({ reload }) => {
       (response) => {
          alert(JSON.stringify(response))
         const array_final = obtener_array_final(response.data);
-        //const qtties = obtener_array_totales(response.data);
-        //alert(JSON.stringify(array_final));
         setData(array_final);
         setLoading(false);
       },

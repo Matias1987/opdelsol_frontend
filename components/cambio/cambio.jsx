@@ -40,7 +40,6 @@ const CambioSobre = (props) => {
         setCodigo(__codigo=>({...__codigo,[idx]:val}))
    }
    const onAplicarCambioCodigo = ()=>{
-    //alert(JSON.stringify(codigo))
     if(codigo.idcodigo=="")
     {
         alert("Código no seleccionado.")
@@ -94,9 +93,6 @@ const CambioSobre = (props) => {
 						total_haber += parseFloat(r.monto)
 					}
 				})
-
-                //alert(JSON.stringify(response.data))
-
 				setVenta({...response.data[0], total_haber: total_haber, recargo: 0})
                 setLoading(false)
 			})	

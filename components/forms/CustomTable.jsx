@@ -18,7 +18,6 @@ const CustomTable = (props) => {
              response.json()
         )
         .then((response)=>{
-            //alert(JSON.stringify(response))
             let _data = props.parsefnt(response)
             
             setData(_data)

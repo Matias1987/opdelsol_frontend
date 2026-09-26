@@ -47,7 +47,6 @@ const InformeCantidadesPeriodo = () => {
   const load = () => {
     setLoading(true);
     post_method(post.informe_taller_cantidades_periodo, filtros, (response) => {
-      //alert(JSON.stringify(response.data));
       setData(response.data);
       setLoading(false);
     });

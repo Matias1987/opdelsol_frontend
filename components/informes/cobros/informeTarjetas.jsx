@@ -54,21 +54,16 @@ const InformeTarjetas = (props) => {
       _desde = "";
       _hasta = "";
     }
-    //alert(JSON.stringify(filtros));
-
-    //alert(post.total_tarjetas_periodo)
     post_method(
       post.total_tarjetas_periodo,
       { ...filtros, fecha_desde: _desde, fecha_hasta: _hasta },
       (response) => {
-        //alert(JSON.stringify(response.data));
         setData(response.data);
       }
     );
   };
 
   const periodoDia = (val, dateString) => {
-    //alert(dateString)
     if (val == null) {
       _limpiar_fechas();
       return;
@@ -77,7 +72,6 @@ const InformeTarjetas = (props) => {
     let from = _parse(JSON.stringify(val[0]));
     let to = _parse(JSON.stringify(val[1]));
 
-    //alert(JSON.stringify({from,to}))
     setFiltros((_f) => ({
       ..._f,
       fecha_desde: `${from.anio}-${from.mes}-${from.dia}`,

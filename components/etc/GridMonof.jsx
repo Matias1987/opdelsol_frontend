@@ -79,7 +79,6 @@ const GridMonof = (props) => {
         console.log("No match found");
       }
     });
-    //alert(JSON.stringify(_codigos));
     setCodigos(_codigos);
   };
 

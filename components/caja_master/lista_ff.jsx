@@ -13,7 +13,6 @@ const ListaFondoFijos = (props) => {
     fetch(get.lista_ff)
       .then((response) => response.json())
       .then((response) => {
-        //alert(JSON.stringify(response));
         setData(response);
       })
       .catch((error) => {

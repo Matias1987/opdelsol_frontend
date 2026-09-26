@@ -13,10 +13,8 @@ const SelectTarea =(props) => {
     const [selection, setSelection] = useState("-1")
     useEffect(()=>{
         post_method(post.tarea_g,{nombre:"Control"},(resp)=>{
-            
-            //
+
             const _rr = [...resp.data.map(t=>({label: t.desc, value: t.uid})), ...[{label: "AGREGAR", value:"-2"}]];
-            //alert(JSON.stringify(_rr))
             setTareas(_rr)
 
         })

@@ -32,7 +32,6 @@ const AgregarPrivilegiosUsuarios = (props) => {
     ]
 
     useEffect(()=>{
-        //alert(props.idusuario)
     },[
         props.idusuario
     ])
@@ -75,7 +74,6 @@ const AgregarPrivilegiosUsuarios = (props) => {
 
     const onAplicar = ( ) => {
         const perm = {...permisos,fk_usuario:idusuario}
-        //alert(JSON.stringify(perm))
         post_method(post.insert.u_permisos_a_u,perm,(response)=>{
             alert("Datos Guardados")
             props?.callback?.()

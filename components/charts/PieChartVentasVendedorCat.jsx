@@ -11,27 +11,17 @@ const PieChartVentasVendedorCat = ({ idvendedor, reload }) => {
     { type: "number", label: "Quantity" },
   ];
   const load = () => {
-    //alert(post.obtener_cant_vtas_vendedor_cat)
     post_method(
       post.obtener_cant_vtas_vendedor_cat,
       { idvendedor },
       (response) => {
         const _d = [...[headers], ...response.data.map(r=>([{v:r.idfamilia, f:r.f_name},+r.qtty_f]))];
-        //alert(JSON.stringify(_d));
         setData(_d);
       },
     );
   };
 
   useEffect(()=>{load()},[idvendedor, reload])
-  /*const data = [
-    ["Task", "Hours per Day"],
-    ["Work", 9],
-    ["Eat", 2],
-    ["Commute", 2],
-    ["Watch TV", 2],
-    ["Sleep", 7],
-  ];*/
 
   const options = {
     legend: {

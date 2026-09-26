@@ -32,7 +32,6 @@ const FichaProveedorV2 = ({ idproveedor, callback }) => {
       (response) => {
         setMonedasExistentesProveedor(response.data);
         const items = response.data.map((m) => {
-          //alert(JSON.stringify(m));
           return {
             label: (
               <div style={{ fontWeight: "600", fontSize: "1.2em" }}>

@@ -323,7 +323,6 @@ const CobroOperacionV2 = (props) => {
       dataVenta.saldo == 0 &&
       +descuento == 0
     ) {
-      //alert("On venta monto 0")
       _on_venta_monto_zero();
       return;
     }
@@ -421,12 +420,8 @@ const CobroOperacionV2 = (props) => {
           ? "resfuerzo"
           : props.tipo
         : "";
-    //alert(__tipo);
-    //alert(JSON.stringify(params));
 
     post_method(post.insert.cobro, params, (id) => {
-      //alert(JSON.stringify(id))
-
       if (id.data == 0) {
         if (dataVenta != null && __tipo != "resfuerzo") {
           let est =

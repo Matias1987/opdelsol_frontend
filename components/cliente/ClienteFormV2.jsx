@@ -91,22 +91,12 @@ export default function ClienteFormV2(props) {
       return;
     }
 
-    //if(!validateStr(clienteData.nacimiento, "Fecha de Nacimiento Vacío")){return}
-
-    //alert(JSON.stringify(clienteData))
-
     if (!confirm("Confirmar agregar cliente")) {
       return;
     }
 
     setBtnDisabled(true);
 
-    /*if(typeof props.destinatario === 'undefined' || (typeof props.destinatario !== 'undefined' && !props.destinatario)){
-
-            if(!validateStr(clienteData.telefono, "Teléfono Vacío")){return}
-            if(!validateStr(clienteData.nacimiento, "Fecha de Nacimiento Vacío")){return}
-        
-        }*/
 
     post_method(post.obtener_cliente_dni, { dni: clienteData.dni }, (res) => {
       if (res.data.length > 0) {
@@ -124,20 +114,8 @@ export default function ClienteFormV2(props) {
         };
 
         post_method(url, _data, (res) => {
-          //alert("Cliente Agregado")
 
           setBtnDisabled(false);
-
-          /*setClienteData({
-                        nombres:"",
-                        dni:"",
-                        apellidos:"",
-                        nacimiento: null,
-                        domicilio: "",
-                        telefono: "",
-                        destinatario: '0',
-                        idlocalidad:globals.obtenerOpticaLocalidad()
-                    })*/
 
           props?.callback?.(res.data, clienteData);
         });
@@ -172,7 +150,6 @@ export default function ClienteFormV2(props) {
       ...e,
       nacimiento: dayjs(`${_parts[2]}-${_parts[1]}-${_parts[0]}`),
     }));
-    //alert(datestr)
   };
 
   const onQRChange = (e) => {

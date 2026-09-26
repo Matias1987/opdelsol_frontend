@@ -87,7 +87,6 @@ const CajaMaster = ({updateData}) => {
 
   const load = () => {
     const q = get.caja_m_balance + (verTodo ? "1" : "0");
-    //alert(q)
     //llamar api
     fetch(q)
       .then((res) => res.json())
@@ -95,7 +94,6 @@ const CajaMaster = ({updateData}) => {
         if (data.error) {
           return;
         }
-        //alert(JSON.stringify(data));
         setData(data);
       });
   };

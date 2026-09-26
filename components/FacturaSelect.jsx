@@ -34,7 +34,6 @@ const FacturaSelect = (props) =>{
                 }
                 callback = {
                     (id) => {
-                        //alert("prov id " + id)
                         setIdProveedor(id)
                     }
                 }

@@ -14,7 +14,6 @@ const CategoriaForm = (props) => {
 
     const guardar = _ => {
         post_method(post.insert.categoria_tag, categoria,(resp)=>{
-            //alert("OK")
             props?.callback?.()
         })
     }

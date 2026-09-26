@@ -5,12 +5,6 @@ import { Input, Form, Button, Row, Col } from "antd";
 const ProveedorForm = (props) => {
     const [form] = Form.useForm();
     const onFinish = (values) => {
-        //alert(values)
-        /*props?.onSubmit?.({
-            nombre:values.nombre,
-            cuit: values.cuit
-        })*/
-
         post_method(post.insert.proveedor,{nombre:values.nombre,cuit: values.cuit},(res)=>{
             if(res.status == "OK"){
                 if(res.data<0){
@@ -23,8 +17,6 @@ const ProveedorForm = (props) => {
             }
         })
 
-        
-        //console.log('Success:', values);
       };
       
     const onFinishFailed = (errorInfo) => {

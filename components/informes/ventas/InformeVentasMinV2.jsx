@@ -14,7 +14,6 @@ import ResponsableInf from "./common/Responsable";
 
 const InformeVentaMinV2 = (props) => {
   const productos = () => {
-    //alert(data.tipo)
     switch (+props.data.tipo) {
       case 1:
         return <VentaDirectaItems idventa={props.data.idventa} />;

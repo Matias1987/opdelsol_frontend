@@ -30,7 +30,6 @@ const EditarSucursal = (props) => {
         fetch(get.sucursal_details + idsucursal)
         .then(r=>r.json())
         .then(response=>{
-            //alert(JSON.stringify(response.data))
             setSucursalData(response.data[0])
         })
         .catch(e=>{console.log(e)})
@@ -44,10 +43,7 @@ const EditarSucursal = (props) => {
 
     const onSave = () => {
 
-      // alert(JSON.stringify(sucursalData))
-
         post_method(post.update.sucursal,sucursalData,(response)=>{
-            //alert(JSON.stringify(response))
             if((response?.data?.message||"")=="ERR")
             {
                 //updated.....
@@ -108,7 +104,6 @@ const EditarSucursal = (props) => {
                         fk_localidad={sucursalData.fk_localidad}
                         fk_provincia={sucursalData.fk_provincia}
                         callback={(obj)=>{
-                                //alert(JSON.stringify(obj))
                                 setSucursalData(_s=>({
                                     ..._s,
                                     fk_localidad: obj.idlocalidad,

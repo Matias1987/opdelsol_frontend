@@ -112,7 +112,6 @@ const FichaProveedor = (props) => {
     fetch(get.detalle_proveedor + props.idproveedor)
       .then((r) => r.json())
       .then((response) => {
-        //alert(JSON.stringify(response))
         setDatosProveedor(response.data[0]);
       })
       .catch((e) => {

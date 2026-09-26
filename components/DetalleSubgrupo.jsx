@@ -9,7 +9,6 @@ const DetalleSubgrupo = ({ idsubgrupo, callback, onClose, closable }) => {
     fetch(get.obtener_detalle_subgrupo + idsubgrupo)
       .then((r) => r.json())
       .then((response) => {
-        //alert(JSON.stringify(response))
         setSubgrupo(response.data[0]);
         callback?.(response.data[0]);
       })

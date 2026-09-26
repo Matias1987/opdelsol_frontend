@@ -66,13 +66,10 @@ export default function CargaStock() {
           fetch(get.detalle_stock + `${globals.obtenerSucursal()}/${_id}`)
             .then((r) => r.json())
             .then((response) => {
-              // alert(JSON.stringify(response))
               if (response == null) {
                 return;
               }
               if (typeof response.data.length === "undefined") {
-                //alert("Codigo not found!")
-
                 setCodes((_c) => {
                   return _c.map((_c1) =>
                     _c1.id == response.data.idcodigo
@@ -87,7 +84,6 @@ export default function CargaStock() {
                 fetch(get.detalle_codigo + response.data.idcodigo)
                   .then((r) => r.json())
                   .then((_response) => {
-                    //alert(JSON.stringify(_response))
                     if (_response == null) {
                       return;
                     }
@@ -238,7 +234,6 @@ export default function CargaStock() {
       return;
     }
     const filtros = proc_filtros(cat, id);
-    //alert(JSON.stringify(filtros))
     post_method(post.search.filtro_stock, filtros, (response) => {
       setSrcControl((d) =>
         response.data.map((r) => ({

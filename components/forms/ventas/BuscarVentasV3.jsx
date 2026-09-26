@@ -93,7 +93,6 @@ const BuscarVentaV3 = (props) => {
       if (response.data == null) {
         return;
       }
-      //alert(JSON.stringify(response))
       setDataSource((_) =>
         response.data.map((v) => ({
           idventa: v.idventa,

@@ -176,7 +176,6 @@ export default function InformeCajaV2(props){
     }
 
     const onOpen = () => {
-        //alert("on open")
         setOpen(true)
         init()
     }

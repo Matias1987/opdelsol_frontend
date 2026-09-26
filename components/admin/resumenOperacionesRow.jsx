@@ -36,15 +36,12 @@ const ResumenOperacionesRow = (props) => {
             setIdCaja(response.data.idcaja);
             return;
           }
-          //alert("Caja cerrada.")
           setMessage(
             `No se encontraron operaciones del día de ${nombre_sucursal} .`,
           );
         },
       );
     } else {
-      //fetch operations data
-      //alert(get.admin_totales_sucursal + idcaja)
       fetch(get.admin_totales_sucursal + idcaja)
         .then((r) => r.json())
         .then((response) => {
@@ -68,10 +65,8 @@ const ResumenOperacionesRow = (props) => {
   };
 
   useEffect(() => {
-    //setData(d=>({...d,nombre_sucursal:props.nombre_sucursal}))
     update();
     const interval = setInterval(() => {
-      //alert("jklkjkl")
       update();
       setCount(count + 1);
     }, 5000);

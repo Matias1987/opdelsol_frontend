@@ -615,8 +615,6 @@ const AsignarPagos = ({ idproveedor, moneda, modo, callback }) => {
                     ? Math.trunc(selectedCM.saldo * 100)
                     : 0;
 
-                //alert(JSON.stringify({ _popupMonto, _saldo }));
-
                 if (_popupMonto > _saldo) {
                   alert("El monto a pagar no puede ser mayor al saldo");
                   return;

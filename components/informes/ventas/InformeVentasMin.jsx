@@ -26,7 +26,6 @@ const InformeVentaMin = (props) => {
 	useEffect(()=>{
 		const url= get.venta;
 		const url_mp = get.get_venta_mp;
-		//alert(url_mp + props.idventa)
 		//get venta
 		fetch(url+props.idventa)
 		.then(response=>response.json())
@@ -47,7 +46,6 @@ const InformeVentaMin = (props) => {
 					}
 				})
 
-				//alert("data venta: " + JSON.stringify(response))
 
 				setData({...response.data[0], total_haber: total_haber})
 				
@@ -58,7 +56,6 @@ const InformeVentaMin = (props) => {
 	
     
     const productos = () => {
-		//alert(data.tipo)
         switch(+data.tipo)
         {
             case 1: return <VentaDirectaItems idventa={data.idventa} /> ;

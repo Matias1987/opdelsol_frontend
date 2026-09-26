@@ -54,7 +54,6 @@ const ModificarCantidadesEdicion = (props) => {
             <Row>
                 <Col span={24}>
                 <SelectCodigoVenta idfamilias={[globals.familiaIDs.CRISTALES]} buttonText={"SELECCIONAR CODIGO..."} callback={(data)=>{
-                    //alert(JSON.stringify(data))
                                 setCodigo(_c=>({..._c,
                                     codigo:data.codigo,
                                     idcodigo: data.idcodigo,

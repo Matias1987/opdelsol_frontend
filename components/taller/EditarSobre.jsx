@@ -153,11 +153,7 @@ const EditarSobre = (props) => {
                 key={p.localId}
                 closable={p.userAdded}
                 onClose={() => {
-                  //usedRows.forEach(r1=>(record.tipo == r1.tipo ? {...r1, pedidos:r1.pedidos.filter(r2=>r2.localId!=p.localId)} : r1))
-                  //setUsedRows(r=>r.map(r1=>(record.tipo == r1.tipo ? {...r1, pedidos:r1.pedidos.filter(r2=>r2.localId!=p.localId)} : r1)))
-                  //setReload(!reload)
-                  //alert(JSON.stringify(usedRows))
-
+   
                   let _ur = usedRows.map((r1) =>
                     record.tipo == r1.tipo
                       ? {
@@ -168,8 +164,6 @@ const EditarSobre = (props) => {
                         }
                       : r1,
                   );
-
-                  //alert(JSON.stringify(_ur))
 
                   setUsedRows(_ur);
                 }}
@@ -354,17 +348,6 @@ const EditarSobre = (props) => {
       ];
     });
 
-    //ventaItems6Rows.forEach(row=>{
-    //
-    //    _data_items_adicionales = [..._data_items_adicionales,...row.items.filter(it=>it.userAdded)]
-    //})
-
-    //alert(JSON.stringify(_data_pedidos))
-    //if(_data_items_adicionales.length>0 && _data_pedidos.length>0)
-    //{
-    //    alert("La cantidad de pedidos es mayor a 0")
-    //    return
-    //}
 
     if (!confirm("Confirmar")) {
       return;
@@ -392,7 +375,6 @@ const EditarSobre = (props) => {
             uid: _uid,
           },
           (response) => {
-            //alert("Datos guardados")
             setFirstLoad(true);
             setBtnCambiarEstadoEnabled(true);
             setBtnSaveEnabled(true);
@@ -402,11 +384,6 @@ const EditarSobre = (props) => {
       },
     );
 
-    //if(_data_pedidos.length>0)
-    //{
-    //}
-    //if(_data_items_adicionales.length>0){
-    //}
   };
 
   const populate_rows = (data) => {
@@ -539,7 +516,6 @@ const EditarSobre = (props) => {
         fetch(get.items_adicional_venta + props.idventa + "/" + props.idtrabajo)
           .then((r) => r.json())
           .then((response) => {
-            //alert(JSON.stringify(response));
             populate_rows(response.data, true);
           })
           .catch((e) => {

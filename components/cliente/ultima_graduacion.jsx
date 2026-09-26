@@ -27,8 +27,6 @@ const UltimaGraduacion = props =>{
                 }
             )));
 
-            //alert(JSON.stringify(response.data.filter(_r=>_r.origen=="LC")));
-
             setDataLC(_=>result.filter(_r=>_r.origen=="LC").map(r=>(
                 {
                     codigo: r.codigo.replace(/\_/g,' '),

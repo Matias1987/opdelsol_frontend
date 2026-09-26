@@ -27,7 +27,6 @@ const MultifLabItems = (props) => {
   };
 
   const onVisibleChange = (field, value) => {
-    //alert(`${field} : ${value}`)
     setItems((_mlabitems_) => {
       const _values = { ..._mlabitems_, [field]: value };
       props?.callback(_values);

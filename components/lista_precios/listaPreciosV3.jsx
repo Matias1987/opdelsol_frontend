@@ -68,7 +68,6 @@ const ListaPreciosV3 = () => {
         soloVisibleLP: 1,
       },
       (resp) => {
-        //alert(JSON.stringify(resp))
 
         setSubfamilias(
           resp.data.map((sf) => ({
@@ -135,8 +134,6 @@ const ListaPreciosV3 = () => {
     data.forEach((d) => {
       addItem(d);
     });
-
-    //alert(JSON.stringify(_columns))
 
     setColumns(_columns);
   };

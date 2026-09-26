@@ -63,7 +63,6 @@ const ListaDescuentosClientes = () => {
     fetch(get.obtener_lista_descuentos)
       .then((r) => r.json())
       .then((response) => {
-        //alert(JSON.stringify(response));
         setData(response.map((row) => ({ ...row, activo: +row.activo == 1 })));
       })
       .catch((e) => {

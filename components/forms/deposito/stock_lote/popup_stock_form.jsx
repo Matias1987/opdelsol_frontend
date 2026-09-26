@@ -28,13 +28,12 @@ const PopUpAgregarStockLoteForm = (props) => {
     }
 
     const onFinish = (values) => {
-        //alert(JSON.stringify(values))
         if(+(values.modo_precio||"0")<1)
         {
             alert("Seleccionar modo de precio")
             return
         }
-        //alert(values.codigo)
+
         if(regex_get_id_if_match(values.codigo.toUpperCase())>0){
             alert("Formato de Código no válido " + part1)
             return
@@ -72,7 +71,6 @@ const PopUpAgregarStockLoteForm = (props) => {
             form.setFieldsValue({edad:val})
             break;
         case "precio":
-            //alert(val)
             form.setFieldsValue({precio:val})
             break;
         case "modo_precio":
@@ -137,8 +135,6 @@ const onFinishFailed = (errorInfo) => {
 
 useEffect(()=>{
 
-    //setModoPrecio('1')
-    //alert(JSON.stringify(props))
     if(typeof props !== 'undefined'){
         if('undefined' !== typeof props.values)
         {
@@ -216,7 +212,6 @@ useEffect(()=>{
                             onChange={(e)=>{
                                 
                             setModoPrecio(v=>{
-                                //alert(e.target.value)
                                 switch(+e.target.value)
                                 {
                                     case 0: 
@@ -226,7 +221,6 @@ useEffect(()=>{
                                     ); 
                                     break; 
                                     case 1: 
-                                    //alert(precioSubgrupo)
                                     setValue(
                                         'precio',
                                         parseFloat(precioSubgrupo)

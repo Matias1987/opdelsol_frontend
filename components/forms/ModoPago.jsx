@@ -80,12 +80,9 @@ export default function ModoPago(props) {
           fetch(__url + props.idventa)
             .then((response) => response.json())
             .then((response) => {
-              //alert(JSON.stringify(response))
-
               setMPLoaded(true);
 
               var _temp = JSON.parse(JSON.stringify(modoPago));
-              //alert(__url)
               response.data.forEach((r) => {
                 switch (r.modo_pago) {
                   case "efectivo":

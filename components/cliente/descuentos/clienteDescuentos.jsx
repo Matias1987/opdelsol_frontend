@@ -57,7 +57,6 @@ const ClienteDescuentos = ({ cliente }) => {
       post.descuentos_cliente,
       { idcliente: cliente.idcliente },
       (response) => {
-        //alert("response: " + JSON.stringify(response));
         setData(
           response.map((record) => ({
             detalle: record.nombre_corto,

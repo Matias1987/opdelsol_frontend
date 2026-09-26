@@ -21,7 +21,6 @@ const Informe = ({ idventa }) => {
       .then((r) => r.json())
       .then((response) => {
         setData(response.data);
-        //alert(JSON.stringify(response.data))
         setLoading(false);
       });
   };

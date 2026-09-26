@@ -149,9 +149,6 @@ const TestGridCreation = () => {
       })),
       tipo_grilla: "",
     };
-    //alert(JSON.stringify(dataToSave));
-    //return;
-    //save to db.... TO DO
     post_method(
       post.insert.insert_stock_cristal_grid,
       dataToSave,
@@ -163,7 +160,6 @@ const TestGridCreation = () => {
   };
 
   const edit_quantity = (esf, cil, quantity) => {
-    //alert(JSON.stringify({esf,cil}))
     if (parseFloat(esf) < 0) {
       const new_data = dataNeg.map((d) => {
         if (
@@ -237,13 +233,8 @@ const TestGridCreation = () => {
     const cells_data = [];
     const _cols = [];
 
-    //alert(`Preparando grilla. Esf from: ${p_esf_from} Esf to: ${p_esf_to} Cil from: ${p_cil_from} Cil to: ${p_cil_to} Tipo grilla: ${gridType}`);
-    //if(!confirm("¿Confirma que desea preparar la grilla con los siguientes parámetros?\nEsf from: " + p_esf_from + "\nEsf to: " + p_esf_to + "\nCil from: " + p_cil_from + "\nCil to: " + p_cil_to + "\nTipo grilla: " + gridType))
-    //return;
-
     for (let i = +p_esf_from; i <= +p_esf_to; i += 0.25) {
       for (let j = +p_cil_from; j <= +p_cil_to; j += 0.25) {
-        //console.log(`Procesando celda Esf: ${i} Cil: ${j}`);
         cells_data.push({
           esf: (gridType == "N" ? "-" : "") + i,
           cil: j,
@@ -257,8 +248,6 @@ const TestGridCreation = () => {
       }
     }
 
-    //alert("Grilla preparada con " + cells_data.length + " celdas. Columnas: " + _cols.length);
-
     if (gridType == "N") {
       setDataNeg(cells_data);
       setColsNeg(_cols);
@@ -267,7 +256,6 @@ const TestGridCreation = () => {
       setColsPos(_cols);
     }
 
-    //alert(JSON.stringify(cells_data));
   };
 
   const get_grid = (src, tipo_grilla, columns) =>
@@ -318,8 +306,6 @@ const TestGridCreation = () => {
                             : td_style
                       }
                       onClick={() => {
-                        //const _esf = tipo_grilla == "negativo" ? -esf_value : esf_value;
-                        //alert(JSON.stringify({ esf: esf_value, cil: col }));
                         setSelectedCell({
                           esf: esf_value,
                           cil: col,
@@ -397,7 +383,6 @@ const TestGridCreation = () => {
         );
       }
     });
-    //alert(JSON.stringify(_cellsWithQuantity));
     setCellsWithQuantity(_cellsWithQuantity);
   };
 
@@ -429,24 +414,11 @@ const TestGridCreation = () => {
 
         const rango = get_range(theData);
 
-        //alert(JSON.stringify(rango));
-
         if (rango.length < 1) {
           alert("No se encontraron datos para crear la grilla.");
           return;
         }
 
-        //setCilFrom(rango[0].min_cil);
-        //setCilTo(rango[0].max_cil);
-
-        //setEsfFromNeg(rango[1].min_esf);
-        //setEsfToNeg(rango[1].max_esf);
-
-        //setEsfFromPos(rango[0].min_esf);
-        //setEsfToPos(rango[0].max_esf);
-
-        //alert( JSON.stringify(theData.filter((r) => parseFloat(r.esf) >= 0)));
-        //console.log(JSON.stringify(theData));
         prepare(
           rango[1].min_esf,
           rango[1].max_esf,
@@ -484,7 +456,6 @@ const TestGridCreation = () => {
               value: row.idcodigo,
             })),
           ];
-          //alert(JSON.stringify(t))
           return t;
         });
       })
@@ -808,7 +779,6 @@ const TestGridCreation = () => {
         } else {
           setDataPos(data);
         }
-        //alert(JSON.stringify(data));
       },
     });
     return false; // prevent default upload behavior

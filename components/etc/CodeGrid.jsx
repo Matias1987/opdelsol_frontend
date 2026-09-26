@@ -163,7 +163,6 @@ const CodeGrid = (props) => {
     fetch(get.obtener_detalle_subgrupo + props.idsubgrupo)
       .then((r) => r.json())
       .then((response) => {
-        //alert(JSON.stringify(response))
         setSubgrupo(response.data[0]);
       })
       .catch((e) => {

@@ -176,11 +176,9 @@ const ListaVentasMedicosTotales = (props) => {
                 post.update.pin_medico,
                 { idmedico: record.idmedico, pin: record.tiene_premio ? 0 : 1 },
                 (_) => {
-                  //alert("klkl")
                   init_totales();
                 },
               );
-              //setMedicos(mm=>mm.map(m=>m.idmedico == record.idmedico ? m : {...m, tiene_premio: !m.tiene_premio}))}
             }}
           ></Checkbox>
         </>
@@ -223,7 +221,6 @@ const ListaVentasMedicosTotales = (props) => {
 
   const init_totales = () => {
     setLoading(true);
-    //alert(post.totales_ventas_medicos)
     post_method(
       post.totales_ventas_medicos,
       {
@@ -234,7 +231,6 @@ const ListaVentasMedicosTotales = (props) => {
         idmedico: +medicoFiltro < 0 ? "" : medicoFiltro,
       },
       (response) => {
-        //alert(JSON.stringify(response))
         setLoading(false);
         if (response != null) {
           setDataSource(
@@ -263,7 +259,6 @@ const ListaVentasMedicosTotales = (props) => {
         anio: anio,
       },
       (response) => {
-        //alert(JSON.stringify(response));
         setDataForExcelLoaded(true);
         setDataForExcel(response.data);
       },

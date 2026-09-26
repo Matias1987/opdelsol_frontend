@@ -219,8 +219,6 @@ const FichaProveedorMoneda = ({
     // Parse with explicit format dd-mm-yyyy
     const target = dayjs(dbDate, "DD-MM-YY");
     const end = to.endOf("day");
-    //alert(target.format("DD-MM-YYYY") + " <= " + end.format("DD-MM-YYYY") + " ? " + target.isBefore(end) + " or same day: " + target.isSame(end, "day"));
-
     return target.isBefore(end) || target.isSame(end, "day");
   }
 

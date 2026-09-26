@@ -218,7 +218,6 @@ const EdicionVentas = (props) => {
     });
 
     const _venta = { ...venta, productos: _productos };
-    //alert("Venta a guardar: " + JSON.stringify(_venta));
     setFormEnabled(false);
     post_method(post.update.update_venta, _venta, (response) => {
       alert("Venta actualizada correctamente");
@@ -231,7 +230,6 @@ const EdicionVentas = (props) => {
     fetch(url + props.idventa)
       .then((response) => response.json())
       .then((response) => {
-        //alert("Venta cargada: " + JSON.stringify(response.data[0]));
 
         const ventaData = response.data[0];
         if (!ventaData) {

@@ -143,12 +143,6 @@ const AgregarUsuarioForm = (props) =>{
 
         //do not include password if unchanged in edition...
         let _usr = _edicion ? (password=="" ? {...usuario} : {...usuario,passwd:password}) : {...usuario,passwd:password} 
-
-        //alert(JSON.stringify(_usr))
-        //console.log(JSON.stringify(_usr))
-
-        //return
-        //alert(post.insert.usuario)
         post_method(post.insert.usuario,_usr,(resp)=>{
             if(resp.data.err)
             {

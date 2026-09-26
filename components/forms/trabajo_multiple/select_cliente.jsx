@@ -22,7 +22,6 @@ const SelectClienteMayorista = (props) => {
     if ((value || "").trim().length < 3) return;
 
     const params = encodeURIComponent(value);
-    //alert(value)
     setLoading(true);
     fetch(get.buscar_cliente + params)
       .then((response) => response.json())
@@ -266,8 +265,6 @@ const SelectClienteMayorista = (props) => {
       >
         <ClienteFormDistrib
           callback={(id, data) => {
-            //console.log("lasflsflñ")
-            //alert(JSON.stringify(data));
             setReload(!reload);
             upload_cliente_details(id);
             setPopupAddOpen(false);

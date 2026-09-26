@@ -14,7 +14,6 @@ const AgregarSubgrupoAGrupo = ({ subfamiliaId, subgrupoId, onClose }) => {
     fetch(get.optionsforsubfamilia + subfamiliaId + "/1")
       .then((r) => r.json())
       .then((response) => {
-        //alert(JSON.stringify(response))
         setGrupos(response.data)
         setLoading(false);
       })

@@ -144,7 +144,6 @@ const IconViewSubgrupoSelector = ({
   ];*/
 
   const handleMenuClick = ({ key }, item) => {
-    //alert(JSON.stringify({key, id: item.id, tipo: item.tipo}))
     switch (key) {
       case "edit":
         onEditarClick?.(item.id, item.tipo);
@@ -238,8 +237,6 @@ const IconViewSubgrupoSelector = ({
   };
 
   const onParentChange = (element) => {
-    //alert(JSON.stringify(element));
-
     setFiltroStr("");
 
     if (null === element || true === element?.isRoot) {

@@ -45,7 +45,6 @@ const SubGrupoFormV3 = (props) => {
     fetch(get.obtener_detalle_subgrupo + idsubgrupo)
       .then((r) => r.json())
       .then((response) => {
-        //alert(JSON.stringify(response))
         setPrecio(response.data[0].precio_defecto);
         setPrecioMayorista(response.data[0].precio_defecto_mayorista);
         setComentarios(response.data[0].comentarios);

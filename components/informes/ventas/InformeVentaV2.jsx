@@ -118,7 +118,6 @@ const InformeVentaV2 = (props) => {
   const load = () => {
     const url = get.venta;
     const url_mp = get.get_venta_mp;
-    //alert(url_mp + props.idventa)
     //get venta
     fetch(url + props.idventa)
       .then((response) => response.json())
@@ -135,8 +134,6 @@ const InformeVentaV2 = (props) => {
                 total_haber += parseFloat(r.monto);
               }
             });
-
-            //alert("data venta: " + JSON.stringify(response))
 
             setData({ ...response.data[0], total_haber: total_haber });
 
@@ -166,7 +163,6 @@ const InformeVentaV2 = (props) => {
   };
 
   const productos = () => {
-    //alert(data.tipo)
     switch (+data.tipo) {
       case 1:
         return (

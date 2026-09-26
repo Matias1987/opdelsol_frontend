@@ -81,8 +81,7 @@ class Roulette {
             
 
             if(this.loading)
-            {//alert("done")
-                //ctx.drawImage(this.bg, 0, 0);
+            {
                 ctx.fillStyle="#003E8B"
                 ctx.fillRect(0,0,1200,800)
                 ctx.font = "50px Arial"

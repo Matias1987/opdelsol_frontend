@@ -12,8 +12,6 @@ const SaldoCtaCteOptica = (props) =>
         return
     }
     useEffect(()=>{
-        //alert(get.saldo_ctacte + props.idcliente)
-        //fetch(get.saldo_ctacte + props.idcliente)
         fetch(get.saldo_ctacte_optica + `${props.idcliente}/${globals.obtenerOptica()}`)
         .then(response=>response.json())
         .then((response)=>{
@@ -22,7 +20,6 @@ const SaldoCtaCteOptica = (props) =>
             {
                 return;
             }
-            //alert(JSON.stringify(response))
             const _debe = response.data.debe == null ? 0 : response.data.debe;
             const _haber = response.data.haber == null ? 0 : response.data.haber;
             setBalance({
@@ -35,7 +32,6 @@ const SaldoCtaCteOptica = (props) =>
         fetch(get.obtener_optica + globals.obtenerOptica())
         .then(r=>r.json())
         .then(r=>{
-            //alert(JSON.stringify(r))
             if((r||null) == null || (r?.data||null) == null)
             {
                 return

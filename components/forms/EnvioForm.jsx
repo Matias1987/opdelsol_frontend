@@ -473,7 +473,6 @@ const EnvioForm = () => {
             <SearchStockEnvio
               idSucursalDestino={sucursalDestId}
               callback={(arr) => {
-                //alert(JSON.stringify(arr))
                 setRowsToAdd(arr);
               }}
               key={sucursalDestId}

@@ -40,11 +40,9 @@ const DetalleStockPopup = (props) => {
            
 
             if(response.data.length>0){
-                //alert(get.descripcion_cat_subgrupo+response.data[0].idsubgrupo)
                 fetch(get.descripcion_cat_subgrupo+response.data[0].idsubgrupo)
                 .then(__r=>__r.json())
                 .then(_resp=>{
-                    //alert(JSON.stringify(_resp))
                     if((_resp.data||[]).length>0)
                     {
                         setDescripcionSubgrupo(r=>({

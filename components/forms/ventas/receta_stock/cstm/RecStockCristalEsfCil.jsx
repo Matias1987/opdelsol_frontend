@@ -53,10 +53,6 @@ const RecStockCristalEsfCil = (props) => {
   };
 
   const onchange_esf = (v) => {
-    //alert(v);
-    /* if (!validate_esf_cil_eje(v)) {
-      return;
-    }*/
     setCristal((_cristal_) => {
       const __cristal = { ..._cristal_, esf: (v || "") == "" ? "0" : v };
       props?.callback(__cristal);
@@ -64,9 +60,6 @@ const RecStockCristalEsfCil = (props) => {
     });
   };
   const onchange_cil = (v) => {
-    /*if (!validate_esf_cil_eje(v)) {
-      return;
-    }*/
     setCristal((_cristal_) => {
       const __cristal = { ..._cristal_, cil: (v || "") == "" ? "0" : v };
       props?.callback(__cristal);

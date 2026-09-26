@@ -48,7 +48,6 @@ const InformeVentaMinV3 = (props) => {
 						total_haber += parseFloat(r.monto)
 					}
 				})
-				//alert(JSON.stringify(response.data[0]))
 				setData({...response.data[0], total_haber: total_haber})
                 setLoading(false)
 				
@@ -58,7 +57,6 @@ const InformeVentaMinV3 = (props) => {
     },[])
 
     const productos = () => {
-		//alert(data.tipo)
         switch(+data.tipo)
         {
             case 1: return <VentaDirectaItems idventa={data.idventa} /> ;

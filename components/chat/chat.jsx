@@ -74,7 +74,6 @@ const Chat = (props) => {
 
   const postMessage = () => {
     post_method(post.insert.mensajes, messageToSend, () => {
-      //alert("datachange")
       setDataChange(true);
     });
     setMessageToSend((m) => ({ ...m, mensaje: "" }));

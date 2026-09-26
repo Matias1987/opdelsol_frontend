@@ -139,7 +139,7 @@ const VentasVendedor = () => {
         const resp = response?.data || [];
         setUsuarios(resp.map((r) => ({ label: r.nombre, value: r.idusuario })));
       });
-    //alert(JSON.stringify(filtros));
+      
     post_method(post.totales_venta_vendedor, filtros, (response) => {
       setDatasource(
         response.data.map((r) => ({

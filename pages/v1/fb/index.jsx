@@ -10,8 +10,6 @@ export default function ClientFeedbackForm(){
   useEffect(() => {
     alert(window.location.search)
     const params = new URLSearchParams(window.location.search);
-    //alert(params)//shows  idventa=9090
-
     const idventa = params.get('idventa');
 
     if(!idventa) {

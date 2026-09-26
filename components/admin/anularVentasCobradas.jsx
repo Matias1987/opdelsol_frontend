@@ -17,7 +17,6 @@ const AnularVentasCobradas = (props) => {
     fetch(url + props.idventa)
       .then((response) => response.json())
       .then((response) => {
-        //alert(JSON.stringify(response.data[0]))
         setVenta(response.data[0]);
       });
   };

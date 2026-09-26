@@ -42,11 +42,9 @@ const Transferencia = (props) => {
 
     const load = _ =>{
         const url = aFondoFijo ? get.lista_ff : get.lista_cajas;
-        //alert(url)
         fetch(url)
         .then(response => response.json())
         .then((response) => {
-            //alert(JSON.stringify(response));
             setData(response || []);
         });
     }

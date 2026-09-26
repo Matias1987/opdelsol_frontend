@@ -14,7 +14,6 @@ export default function RecStockItems({ idventa, idtrabajo, callback }) {
       .then((response) => response.json())
       .then((response) => {
         setData(response.data);
-        //alert("ITEMS::: " + JSON.stringify(response))
         callback?.();
       });
   }, []);

@@ -39,7 +39,6 @@ export default function BajaDesperfecto(){
             return;
         }
         const fksucursal = globals.obtenerSucursal();
-        //alert(JSON.stringify(values))
         
         post_method(post.update.descontar_cantidad_por_codigo,
             {

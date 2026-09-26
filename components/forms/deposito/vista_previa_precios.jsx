@@ -19,7 +19,6 @@ const VistaPreviaPrecios = ({tipoCategoria, idcategoria,pIncremento, incrementar
         const idsubfamilia = (tipoCategoria == "subfamilia" ? idcategoria : "-1");
         const idgrupo = (tipoCategoria == "grupo" ? idcategoria : "-1");
         const idsubgrupo = (tipoCategoria == "subgrupo" ? idcategoria : "-1");
-        //alert(get.lista_codigos_categoria + `${idfamilia}/${idsubfamilia}/${idgrupo}/${idsubgrupo}`)
         fetch(get.lista_codigos_categoria + `${idfamilia}/${idsubfamilia}/${idgrupo}/${idsubgrupo}/-1`)
         .then(response=>response.json())
         .then((response)=>{

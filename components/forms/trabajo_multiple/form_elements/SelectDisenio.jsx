@@ -10,7 +10,6 @@ const SelectDisenio = ({ idgrupo, callback, style, idcliente }) => {
   const [descuento, setDescuento] = useState(null);
 
   const load_discounts = (idsubgrupo, callback1) => {
-    //alert(JSON.stringify({ idsubgrupo: idsubgrupo, idcliente: idcliente || null }));
     post_method(
       post.descuentos_subgrupo_cliente,
       { idsubgrupo: idsubgrupo, idcliente: idcliente || null },

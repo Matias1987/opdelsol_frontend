@@ -128,12 +128,10 @@ const HelperToolTip = ({ disabled, callback, value, onChange, prefix, pWidth, po
 
       setInternalValue(resultado.valorProcesado);
       let _enabled = enabled;
-      //alert(_enabled)
       if(parseFloat(resultado.valorProcesado)==0){
         _enabled=false;
       }
       const v1 = (_enabled ? "-" : "+") + resultado.valorProcesado;
-      //alert(v1)
       onChange?.(v1);
       setError(false);
     } else {
@@ -197,7 +195,6 @@ const HelperToolTip = ({ disabled, callback, value, onChange, prefix, pWidth, po
           }
 
           if (_value.toString() == "0.00") {
-            //alert(positiveZero ? "El valor 0.00 se interpretará como positivo." : "El valor 0.00 se interpretará como negativo.");
             _enabled = positiveZero ? false : true;
           }
           setEnabled(_enabled)

@@ -124,7 +124,6 @@ const globals =  {
 
     obtenerCajaLocal: () => {
         const {getItem} = useStorage();
-        //alert(getItem("caja") ||0)
         return getItem("caja") || 0
     },
 
@@ -149,7 +148,6 @@ const globals =  {
         fetch(get.caja+globals.obtenerSucursal())
         .then(response=>response.json())
         .then((response)=>{
-            //alert(JSON.stringify(response))
             const {setItem} = useStorage();
             if(response.data.status=='OK')
             {
@@ -161,9 +159,6 @@ const globals =  {
 
                 if(_date < today && !noAlerts){
                     alert("<!> Caja abierta de " + response.data.fecha_f)
-                    //callback(null)
-                    //setItem("caja", 0);
-                    //return
                 }
 
                 setItem("caja", response.data);

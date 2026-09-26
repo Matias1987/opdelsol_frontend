@@ -35,7 +35,6 @@ const EditarCodigoIndiv = ({ idcodigo, callback, modifModPrecioEnabled,  modifTa
         });
         setModoPrecio(response.data[0].modo_precio);
         setPrecioSubgrupo(response.data[0].precio_defecto);
-        //alert(JSON.stringify(response.data))
       })
       .catch((er) => {
         console.log(er);
@@ -53,8 +52,6 @@ const EditarCodigoIndiv = ({ idcodigo, callback, modifModPrecioEnabled,  modifTa
   };
 
   const onSave = () => {
-    //alert(JSON.stringify({...codigo, modo_precio: modoPrecio}))
-
     post_method(
       post.update.editar_codigo,
       {

@@ -34,7 +34,6 @@ const GastoForm = (props) => {
     fetch(get.conceptos_gasto)
       .then((response) => response.json())
       .then((response) => {
-        //alert(JSON.stringify(response))
         setOptions(
           response.data.map((r) => ({
             value: r.idconcepto_gasto,
@@ -46,8 +45,6 @@ const GastoForm = (props) => {
 
   const onFinish = () => {
     setEnabled(false);
-
-    //alert(JSON.stringify(values))
     globals.obtenerCajaAsync((result) => {
       if (result == null) {
         alert("Caja Cerrada o Desactualizada");

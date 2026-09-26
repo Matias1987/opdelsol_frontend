@@ -42,7 +42,6 @@ const DetalleConsumoCodigo = ({
     { title: "Código", dataIndex: "codigo" },
   ];
   const load = () => {
-    //alert(JSON.stringify({ fk_codigo: idcodigo, fecha_desde: fecha_desde, fecha_hasta: fecha_hasta }));
     setLoading(true);
     post_method(
       post.detalle_consumo_codigo,

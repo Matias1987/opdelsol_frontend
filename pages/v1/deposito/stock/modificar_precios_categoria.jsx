@@ -26,7 +26,6 @@ export default function ModificarPreciosCategoria(props){
             alert('No seleccionó categoria')
             return;
         }
-        //alert(JSON.stringify(values))
         const data = {
             categoria:values.categoria,
             id: values.fkcategoria,
@@ -176,7 +175,6 @@ export default function ModificarPreciosCategoria(props){
                         const _m  =  parseFloat(val) * .01 + 1;
                         setValue("porcentaje", val)
                         setValue("multiplicador",_m)
-                        //alert(_m)
                         setMultiplicador(_m);
                     }}
                 />

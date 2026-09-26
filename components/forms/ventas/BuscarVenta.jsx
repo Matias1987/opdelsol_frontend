@@ -72,7 +72,6 @@ const BuscarVenta = (props) => {
       if (response.data == null) {
         return;
       }
-      //alert(JSON.stringify(response))
       setDataSource((src) =>
         response.data.map((v) => ({
           idventa: v.idventa,
@@ -314,7 +313,6 @@ const BuscarVenta = (props) => {
             onRow={(record, rowIndex) => {
               return {
                 onClick: (event) => {
-                  //alert(JSON.stringify(event.currentTarget.tagName))
                   event.stopPropagation();
                   setIdVentaDetalle(record.idventa);
                   setDetalleOpen(true);

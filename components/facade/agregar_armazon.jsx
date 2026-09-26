@@ -265,8 +265,6 @@ const AgregarArmazon = () => {
       cantidad_inicial: cantidadInicial,
     };
 
-    //alert(JSON.stringify(dataToSave));
-
     const url = post.insert.insertar_codigos; //? toDo, url doesn't exist yet
 
     post_method(url, dataToSave, (response) => {

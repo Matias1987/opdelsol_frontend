@@ -29,7 +29,6 @@ const SelectLocalidadV2 = (props) => {
     fetch(get.obtener_provincias)
       .then((e) => e.json())
       .then((response) => {
-        //alert(JSON.stringify(response))
         setProvincias(
           response.data.map((r) => ({
             idprovincia: r.idprovincia,

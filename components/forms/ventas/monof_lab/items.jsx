@@ -40,7 +40,6 @@ const MonofLabItems = (props) => {
     }
 
     const onVisibleChange = (field,value) => {
-        //alert(`${field} : ${value}`)
         setItems(_mlabitems=>{
             const _values = {..._mlabitems,[field]:value}
             props?.callback(_values)

@@ -177,7 +177,6 @@ const GridBifocalesTipos = (props) => {
   ];
 
   function onChangeMonth(date, dateString) {
-    //alert(dateString);
     const parts = dateString.split("/");
     setMonth(parseInt(parts[0], 10));
     setYear(parseInt(parts[1], 10));
@@ -188,7 +187,6 @@ const GridBifocalesTipos = (props) => {
   }
 
   useEffect(()=>{
-   // alert(JSON.stringify(props.codigosSrc))
   }, [month, year]);
 
   return (

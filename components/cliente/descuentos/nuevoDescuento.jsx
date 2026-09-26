@@ -56,8 +56,6 @@ const NuevoDescuento = ({ callback, pCliente }) => {
       idsubgrupo,
       idclientes: clientesSeleccionados.map((c) => c.idcliente),
     };
-    //alert(post.insert.descuento_cliente);
-    //alert(JSON.stringify(payload));
     post_method(post.insert.descuento_cliente, payload, (res) => {
       // Reset form
       setDescuentoGral(false);

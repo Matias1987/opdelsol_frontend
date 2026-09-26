@@ -662,7 +662,6 @@ const AgregarFacturaV3 = ({ callback, moneda, idproveedor, esremito }) => {
       >
         <RetencionesForm
           callback={(n) => {
-            //alert(JSON.stringify(n))
             let _rows = [...retencionRows, { ...n, id: localIdx }];
 
             let total = calcularTotal(factura, ivaRows, percepcionRows, _rows);

@@ -184,12 +184,6 @@ const CodeGridHTMLTipos = (props) => {
     },
   ];
 
-  function onChangeMonth(date, dateString) {
-    //alert(dateString);
-    const parts = dateString.split("/");
-    setMonth(parseInt(parts[0], 10));
-    setYear(parseInt(parts[1], 10));
-  }
   function onChangeMonths(values) {
     if (values) {
           const [start, end] = values;

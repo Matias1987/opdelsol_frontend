@@ -37,14 +37,11 @@ const ListaVentasAdmin = (props) =>{
 
 
     const update = ( ) => {
-        //alert("updating")
         console.log("run user effect  key " + props.key )
         console.log(get.obtener_lista_ventas_admin)
         fetch(get.obtener_lista_ventas_admin)
         .then(response=>{return response.json()})
         .then((response)=>{
-            //alert(JSON.stringify(response))
-
             let sum_total_=0;
             let sum_anuladas_=0;
 
@@ -53,8 +50,6 @@ const ListaVentasAdmin = (props) =>{
                 sum_anuladas_+=r.estado=="ANULADO" ?  1:0;
 
             })
-
-
             props?.callback?.({monto_total:sum_total_, anulados:sum_anuladas_})
             
             setDataSource(response.data.map(

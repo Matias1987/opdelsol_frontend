@@ -11,7 +11,6 @@ const Wysiwyg = ({callback, defaultValue}) => {
 
     useEffect(()=>{
         setHtml(defaultValue || '');
-        //alert(defaultValue)
     }, []);
 
   function onChange(e) {

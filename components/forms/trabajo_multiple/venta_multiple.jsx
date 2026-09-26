@@ -282,10 +282,7 @@ const TrabajoMultiple = ({
   };
 
   const finalizar_venta = (e) => {
-    //alert(JSON.stringify({ ...venta, trabajos }));
     const __v = format_venta();
-    //alert(JSON.stringify(__v));
-
     const msgs = validar(__v);
 
     if (msgs.length > 0) {

@@ -52,7 +52,6 @@ export default function LayoutVentasOnly(props) {
     const _token = getItem("token", "session");
 
     if (_token === typeof "undefined") {
-      //alert("Debe Iniciar Sesion")
       window.location.replace(public_urls.login);
     }
 
@@ -65,10 +64,8 @@ export default function LayoutVentasOnly(props) {
         .then((response) => response.json())
         .then((response) => {
           if (response.data.logged == "0") {
-            //alert("Debe Iniciar Sesion")
             window.location.replace(public_urls.login);
           } else {
-            //_t  = validate_user();
             validate_user();
           }
         });
@@ -79,7 +76,6 @@ export default function LayoutVentasOnly(props) {
         .then((response) => {
           //if caja is open, set this value in local
           if (typeof response.data !== "undefined") {
-            //alert(JSON.stringify(response))
             if (response.data != null) {
               if (+response.data.abierta == 1) {
                 globals.setCajaOpen(true);
@@ -87,7 +83,6 @@ export default function LayoutVentasOnly(props) {
                   +response.data.current == 1 ? "" : "Caja Desactualizada",
                 );
               } else {
-                //alert("caja cerrada")
                 setAlerta("CAJA CERRADA");
               }
             }
@@ -96,7 +91,6 @@ export default function LayoutVentasOnly(props) {
     }, 2000);
   };
   useEffect(() => {
-    //console.log("run user effect")
     if (!globals.esUsuarioVentas()) {
       window.location.replace(public_urls.modo);
     }
@@ -112,7 +106,6 @@ export default function LayoutVentasOnly(props) {
         }}
       />
 
-      {/*<MenuVentasTop />*/}
       <Card
         styles={card_style2}
         extra={
@@ -121,7 +114,6 @@ export default function LayoutVentasOnly(props) {
               style={{
                 borderRadius: "16px",
                 backgroundColor: "rgb(255, 255, 255)",
-                //border:"1px solid #663F4C"
               }}
               suffix={
                 <>
@@ -139,12 +131,7 @@ export default function LayoutVentasOnly(props) {
             />
           </div>
         }
-        title={
-          <>
-            {/*<MenuV2 />*/}
-            {<MenuVentasTop />}
-          </>
-        }
+        title={<>{<MenuVentasTop />}</>}
       >
         {globals.esUsuarioCaja1() ? <BarraResumenCaja /> : <></>}
         <Content
@@ -183,15 +170,6 @@ export default function LayoutVentasOnly(props) {
           />
         </Content>
       </Card>
-      {/*
-            <Menu items={[{
-                label:<Input.Search style={{padding:".3em"}} prefix={<span style={{fontWeight:"600"}}>Buscar Código:&nbsp;&nbsp;&nbsp;</span>} value={busqueda} onChange={(e)=>{setBusqueda(e.target.value)}} onSearch={onSearch} />
-
-            }]}
-            />
-           */}
-
-      {/*<Alerts />*/}
     </Layout>
   );
 }

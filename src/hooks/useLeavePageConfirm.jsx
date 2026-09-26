@@ -6,7 +6,6 @@ export const useLeavePageConfirm = (isConfirm) => {
   const confirmedRef = useRef(false);
   useEffect(() => {
     const handleBeforeUnload = (event) => {
-      //alert("before unload");
       event.preventDefault();
       event.returnValue = "";
       return ""; // For modern browsers
@@ -31,7 +30,6 @@ export const useLeavePageConfirm = (isConfirm) => {
       }
     };
 
-    //alert("window add event listener");
     window.addEventListener("beforeunload", handleBeforeUnload);
 
     // For client-side route changes (Next.js Link component)

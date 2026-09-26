@@ -18,7 +18,6 @@ const LlamadasCliente = (props) => {
         fetch(get.lista_llamadas_cliente + props.idcliente)
         .then(response=>response.json())
         .then((response)=>{
-            //alert(JSON.stringify(response))
             setLlamadas(response.data.map(l=>({
                 fecha: l.fecha_f,
                 usuario: l.usuario,

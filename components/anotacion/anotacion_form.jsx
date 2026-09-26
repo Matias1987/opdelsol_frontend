@@ -26,8 +26,6 @@ const AnotacionForm = (props) => {
     const setValue = (idx,val) => { setAnotacion(_a=>({..._a,[idx]:val})) }
 
     const onAgregar = () => {
-        //alert(JSON.stringify(anotacion))
-        //return
         post_method(post.insert.anotacion, anotacion, (resp) => {
             alert("Datos Guardados")
             props?.callback?.()

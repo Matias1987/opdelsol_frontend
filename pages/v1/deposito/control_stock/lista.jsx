@@ -10,11 +10,9 @@ export default function ListaControlesStock(){
     const [selectedSucursal, setSelectedSucursal] = useState(-1)
 
     useEffect(()=>{
-        //alert(get.obtener_lista_controles)
         fetch(get.obtener_lista_controles + selectedSucursal)
         .then(r=>r.json())
         .then((response)=>{
-            //alert(JSON.stringify(response.data))
             setData(response.data)
         })
 

@@ -12,18 +12,13 @@ const AnimacionSorteo = props =>{
     const canvasRef = useRef(null)
     const [idGanador, setIdGanador] = useState(-1)
     useEffect(()=>{
-       // alert("Load..")
         post_method(post.sorteo_get_participantes,{},(response)=>{
             post_method(post.update.sorteo_set_ganador,{},(_response)=>{
                 setIdGanador(_response.data.winner_id);
-                //alert(JSON.stringify(_response))
+               
                 (_=>new Promise(_ => setTimeout(_=>{roulette.init(response.data, _response.data.winner_id)}, 3000)))();
 
-
-
             })
-            
-            
             
         })
         

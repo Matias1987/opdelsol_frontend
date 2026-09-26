@@ -22,7 +22,6 @@ const TagForm = (props) => {
 
 
     const load = () => {
-        //alert(post.lista_categoria_tag)
         fetch(post.lista_categoria_tag)
         .then(r=>r.json())
         .then(response=>{

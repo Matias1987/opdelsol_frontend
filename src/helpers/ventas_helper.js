@@ -52,7 +52,6 @@ const validar_items_venta = (venta) => {
         switch(+venta.tipo)
         {
             case 2: //receta stock
-            //alert("tipo 2 " + venta.productos["lejos_od_visible"] + " " + venta.productos["lejos_od"])
                 if(usar_correcciones_recstock)
                 {
                     _result = validar_tipo(_result,venta.productos,'lejos_od',['eje','esf','cil'])
@@ -203,8 +202,6 @@ const submit_venta = (
             subtotal: subTotal,
             fkcaja: result.idcaja,
         }
-
-        //alert(JSON.stringify(__venta))
 
         const _res1 = validar_modo_pago(__venta.mp)
 

@@ -27,9 +27,9 @@ const CuotasPendientesTarjetas = (props) => {
   const [selectedCobro, setSelectedCobro] = useState(null);
   const columns = [
     {
-      title:"Sucursal",
-      dataIndex:"sucursal",
-      width:"100px",
+      title: "Sucursal",
+      dataIndex: "sucursal",
+      width: "100px",
     },
     {
       title: "Operación",
@@ -71,18 +71,9 @@ const CuotasPendientesTarjetas = (props) => {
   const load = () => {
     setLoading(true);
     post_method(post.cuotas_pendientes_tarjetas, filtros, (response) => {
-      //alert(JSON.stringify(response))
       setData(response.data);
       setLoading(false);
     });
-  };
-
-  const header = (_) => {
-    return (
-      <div style={{ textAlign: "right" }}>
-        {/*<ExportToExcel />*/}
-      </div>
-    );
   };
 
   useEffect(() => {
@@ -108,7 +99,6 @@ const CuotasPendientesTarjetas = (props) => {
           <Col style={{ width: "25%", minWidth: "300px" }}>
             <Calendar
               onSelect={(value) => {
-                //alert(value.format("YYYY-MM-DD"));
                 setFiltros((f) => ({
                   ...f,
                   fecha: value.format("YYYY-MM-DD"),
@@ -173,7 +163,6 @@ const CuotasPendientesTarjetas = (props) => {
                 index % 2 === 0 ? "table-row-light" : "table-row-dark"
               }
               loading={loading}
-             
               size="small"
               columns={columns}
               dataSource={data}

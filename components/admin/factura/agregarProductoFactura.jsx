@@ -216,7 +216,6 @@ const AgregarProductoFactura = ({ onchange }) => {
             if (!record) {
               return;
             }
-            //alert(JSON.stringify(record))
             setPopupSelectCodigoOpen(false);
 
             addOrUpdateRow({

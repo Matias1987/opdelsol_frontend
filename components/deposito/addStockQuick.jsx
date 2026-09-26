@@ -39,7 +39,6 @@ const AddStockQuick = ({ callback }) => {
         return
     }
     post_method(post.agregar_stock_quick, codigo, (response) => {
-      //alert(JSON.stringify(response))
       if ((response.data.msg ?? "").includes("DUPLICATED")) {
         alert("El código ya existe.");
         return;

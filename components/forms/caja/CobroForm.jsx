@@ -73,7 +73,6 @@ export default function CobroOperacion(props) {
        * appears, in part, with the objective of testing.
        */
       if (idCobro == 0) {
-        //alert("Nothing to show")
         setOpen(false);
         props.callback?.();
         return;
@@ -318,8 +317,6 @@ export default function CobroOperacion(props) {
 
     params.tipo = __tipo;
 
-    //alert(__tipo)
-
     if (typeof props.tipo !== "undefined") {
       switch (__tipo) {
         case "ingreso":
@@ -431,7 +428,6 @@ export default function CobroOperacion(props) {
                 dataVenta.idventa,
               );
             } else {
-              //alert(JSON.stringify(id))
               /**
                * actualizar balance de cta cte en recibo x
                */

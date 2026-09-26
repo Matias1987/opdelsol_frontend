@@ -38,7 +38,6 @@ const DetalleCliente = (props) =>
         fetch(get.cliente_por_id + props.idcliente)
         .then(response=>response.json())
         .then((response)=>{
-            //alert(JSON.stringify(response))
             if(response==null)
             {
                 return

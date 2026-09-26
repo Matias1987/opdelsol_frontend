@@ -33,10 +33,6 @@ const ExportToExcel2 = ({
   const default_style = { backgroundColor: "#217346" };
   const exportExcel = async () => {
     const workbook = new ExcelJS.Workbook();
-
-    //alert(JSON.stringify(sheets))
-    //console.log(JSON.stringify(sheets))
-    //console.log("alsdf")
     sheets.forEach((sheet) => {
       const worksheet = workbook.addWorksheet(sheet.sheet_name, {
         headerFooter: { firstHeader: sheet.header, firstFooter: sheet.footer },

@@ -26,17 +26,9 @@ export default function Auth() {
 
   const on_pending = (_) => {
     setMessage("Autorización Pendiente...");
-    ////check again
-    //fetch(url + `${globals.obtenerUID()}/${globals.obtenerSucursal()}`)
-    //.then(r=>r.json())
-    //.then((r)=>{
-    //
-    //})
-    //.catch(e=>{console.log("error")})
   };
 
   const on_acepted = () => {
-    //alert("Accepted")
     //redirect!
     window.location.replace(public_urls.modo);
   };
@@ -58,7 +50,6 @@ export default function Auth() {
   };
 
   const on_create_request = () => {
-    //alert("Creating")
     const date = new Date();
     post_method(
       post.insert.session,

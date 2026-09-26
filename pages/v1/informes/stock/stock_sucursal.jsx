@@ -246,7 +246,6 @@ const StockSucursal = (_) => {
           idsucursal={idsucursal}
           callback={() => {
             setPopupDetalleOpen(false);
-            //alert("disparado desde popup")
             setValueChanged(!valueChanged);
           }}
         />

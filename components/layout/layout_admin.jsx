@@ -22,38 +22,9 @@ const SideMenuAdminMin = dynamic(() => import("./SideMenuAdminMin"), {
 
 export default function LayoutAdmin({ children }) {
   const [collapsed, setCollapsed] = useState(false);
-  const { getItem } = useStorage();
   const [esAdminMin, setEsAdminMin] = useState(false);
   const { userLogedIn } = useUserStatus();
-  /*const validate_user = () => {
-    const _token = getItem("token", "session");
 
-    if (_token === typeof "undefined") {
-      alert("Debe Iniciar Sesion");
-      window.location.replace(public_urls.login);
-    }
-
-    var _t = setTimeout(() => {
-      if (_t !== typeof "undefined") {
-        clearTimeout(_t);
-      }
-      fetch(get.check_login + _token)
-        .then((response) => response.json())
-        .then((response) => {
-          if (response.data.logged == "0") {
-            alert("Debe Iniciar Sesion");
-            window.location.replace(public_urls.login);
-          } else {
-            validate_user();
-          }
-        })
-        .catch((error) => {
-          console.error("Error fetching data:", error);
-          //alert("Debe Iniciar Sesion");
-          //window.location.replace(public_urls.login);
-        });
-    }, 10000);
-  };*/
   useEffect(() => {
     if (!userLogedIn) {
       window.location.replace(public_urls.login);

@@ -9,7 +9,6 @@ const SelectVendedor = ({ onChange }) => {
   const [data, setData] = useState([]);
 
   const handleChange = (value) => {
-    //alert(value);
     setSelectedVendedor(value);
     setIdInput(value);
     if (onChange) {
@@ -42,7 +41,6 @@ const SelectVendedor = ({ onChange }) => {
         setSelectedVendedor(__id);
         onChange?.(__id);
         setIdInput(__id);
-        //alert(JSON.stringify(__data));
       })
       .catch((error) => {
         console.error("Error fetching data:", error);

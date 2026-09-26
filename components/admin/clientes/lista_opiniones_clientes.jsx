@@ -54,7 +54,6 @@ const ListaOpinionesClientes = () => {
     fetch(get.obtener_opiniones)
       .then((response) => response.json())
       .then((result) => {
-        //alert("Opiniones cargadas: " + result.length);
         setData(result);
       });
   }

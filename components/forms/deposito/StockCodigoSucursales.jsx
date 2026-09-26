@@ -65,7 +65,6 @@ const StockCodigosSucursales = (props) => {
         fetch(url_stock_sucursales + props.idcodigo )
         .then(response=>response.json())
         .then((response)=>{
-            //alert(JSON.stringify(response))
             setDataSucursales(
                 response.data.map(r=>(
                     {

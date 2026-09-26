@@ -65,7 +65,6 @@ const CodeGridHTML = (props) => {
 
     if(typeof data.cantidad === 'undefined')
     {
-      //alert(JSON.stringify(data))
       return;
     }
 
@@ -123,11 +122,8 @@ const CodeGridHTML = (props) => {
     {
       return;
     }
-    //alert(gridType);
     let endpoint =
       gridType === "uso" ? post.obtener_grilla_uso : post.obtener_grilla_stock;
-    //alert(endpoint)
-    //alert(JSON.stringify({ idsubgrupo: idsubgrupo, idsucursal: idsucursal, eje: "-1", mes: mes||"-1", anio: anio||"-1" }))
     post_method(
       endpoint,
       {
@@ -140,7 +136,6 @@ const CodeGridHTML = (props) => {
         hasta: hasta?.format("YYYY-MM")||"",
       },
       (response) => {
-        //alert(JSON.stringify(response));
         let t_ejes = {};
         let _ejes = [];
 
@@ -201,7 +196,6 @@ const CodeGridHTML = (props) => {
             checked: false,
           };
         });
-        //alert(JSON.stringify({_min_esf: _min_esf_neg, _max_esf: _max_esf_neg, _min_cil: _min_cil_neg, _max_cil: _max_cil_neg}));
         if (_min_esf_neg > 1000 || _max_esf_neg < -1000) return;
         if (_min_cil_neg > 1000 || _max_cil_neg < -1000) return;
 
@@ -460,7 +454,6 @@ const CodeGridHTML = (props) => {
     );
 
   useEffect(() => {
-    //alert(idsucursal)
     if (idsubgrupo < 1) {
       return;
     }

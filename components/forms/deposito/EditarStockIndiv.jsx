@@ -26,7 +26,6 @@ const EditarStockIndiv = (props) => {
   const [modalEditarCodigoOpen, setModalEditarCodigoOpen] = useState(false);
 
   const onOpen = () => {
-    //alert(JSON.stringify(props.factura))
     setCantInput(0);
     setOpen(true);
     setEditarCosto(false);
@@ -205,7 +204,6 @@ const EditarStockIndiv = (props) => {
                 }
                 value={cantInput}
                 onChange={(e) => {
-                  //alert(((e.target.value.toString())||"").toString())
                   setCantInput(
                     parse_int_string(e.target.value.toString() || "").toString()
                   );

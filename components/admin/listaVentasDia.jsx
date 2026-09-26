@@ -229,8 +229,6 @@ const ListaVentasDia = ({
                     const month = date.month() + 1; // 0–11, so add 1
                     const year = date.year();
 
-                    //alert(formatted, day, month, year);
-
                     setFiltros((f) => ({
                       ...f,
                       dia: day,

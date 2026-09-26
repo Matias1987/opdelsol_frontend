@@ -9,7 +9,6 @@ const QRAccess = (_) => {
   const [status, setStatus] = useState("");
 
   const check_status = (_) => {
-    //alert(qrData)
     if (!qrData) {
       return;
     }
@@ -22,7 +21,6 @@ const QRAccess = (_) => {
         id_sucursal,
       }, (response) => {
       const data = response?.data;
-      //alert(JSON.stringify(data))
 
       let has_to_recheck = !data || !data?.token;
 
@@ -41,7 +39,7 @@ const QRAccess = (_) => {
   const generate_request = (_) => {
     const id_usuario = globals.obtenerUID();
     const id_sucursal = 6//globals.obtenerSucursal();
-    //alert(id_sucursal)
+  
     post_method(
       post.generar_arequest,
       {

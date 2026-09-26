@@ -33,17 +33,14 @@ export default function ListaPrecios() {
 
   ///get subfamilias
   const get_subfamilias = () => {
-    //alert(get.lista_subfamilias)
     fetch(get.lista_subfamilias)
       .then((r) => r.json())
       .then((response) => {
-        //alert(JSON.stringify(response))
         setMenuSubFamilia(
           response.data.map((r) => ({
             key: r.idsubfamilia,
             label: r.nombre_corto,
             onClick: (e) => {
-              //alert(e.key)
               get_subgrupos(e.key);
             },
           })),
@@ -52,16 +49,13 @@ export default function ListaPrecios() {
   };
 
   const get_subgrupos = (id) => {
-    //alert(get.lista_subgrupos_subfamilia + id)
     fetch(get.lista_subgrupos_subfamilia + id)
       .then((r) => r.json())
       .then((response) => {
         var res = [];
         var last_grupo = "-1";
         response.data.forEach((r) => {
-          //alert(JSON.stringify({last_grupo: last_grupo, idgrupo: r.idgrupo}))
           if (+last_grupo != +r.idgrupo) {
-            //alert("jalkslk")
             res.push({
               nombre_grupo: r.grupo,
               children: [],
@@ -76,11 +70,6 @@ export default function ListaPrecios() {
 
         setSubgrupos(
           res,
-          /*response.data.map(r=>({
-                    grupo: r.grupo,
-                    subgrupo: r.subgrupo,
-                    precio: r.precio,
-                }))*/
         );
       });
   };

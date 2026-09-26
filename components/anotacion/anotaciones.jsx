@@ -53,7 +53,6 @@ const Anotaciones = (props) => {
       post.lista_anotaciones,
       { idref: props.idref || "-1", tipo: props.tipo || "-1" },
       (response) => {
-        //alert(JSON.stringify(response))
         setAnotaciones(response.data);
       },
     );

@@ -38,11 +38,9 @@ const LaboratorioForm = ({ callback, idCliente, onComentariosChange, defaultData
 
   const load = () => {
     const url = get.optionsforsubfamilia + id_sf_distrib;
-    //alert(url)
     fetch(url)
       .then((r) => r.json())
       .then((response) => {
-        //alert(JSON.stringify(response));
         setTipos(response.data);
       });
   };
@@ -177,7 +175,6 @@ const LaboratorioForm = ({ callback, idCliente, onComentariosChange, defaultData
                             <SelectDisenioV2
                               idcliente={idCliente}
                               callback={(v) => {
-                                //alert(JSON.stringify(v));
                                 setProductos((p) => {
                                   const dto = v.descuento || 0;
                                   const modif = {

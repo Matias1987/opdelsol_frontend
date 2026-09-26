@@ -41,9 +41,7 @@ const SearchStockVentas = (props) => {
     }
 
     var fil = _sval; // id > 0 ? "" : filtros.mainval
-    /*if (id > 0) {
-            setFiltros(f => ({ ...f, mainval: "" }))
-        }*/
+
     const _srchval = `${fil} ${filtros.esf == "" ? "" : " ESF" + filtros.esf}${filtros.cil == "" ? "" : " CIL" + filtros.cil}${filtros.add == "" ? "" : " ADD" + filtros.add}`;
     setLoading(true);
 
@@ -54,7 +52,6 @@ const SearchStockVentas = (props) => {
         typeof props.idfamilias === "undefined" ? [] : props.idfamilias,
       idcodigo: id,
     };
-    //alert(JSON.stringify(filters))
     post_method(search_url, filters, (_response) => {
       var response =
         typeof props.onParseResponse !== "undefined"
