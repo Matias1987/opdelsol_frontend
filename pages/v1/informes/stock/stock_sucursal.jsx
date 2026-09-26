@@ -1,25 +1,102 @@
-import ExportToExcel from "@/components/etc/ExportToExcel";
-import DetalleStock from "@/components/forms/deposito/detalle/DetalleStock";
-import FiltroCodigos from "@/components/forms/deposito/FiltroCodigos";
-import SucursalSelect from "@/components/SucursalSelect";
 import { post_method } from "@/src/helpers/post_helper";
 import { post } from "@/src/urls";
 import { Checkbox, Col, Row, Table, Card, Input, Modal } from "antd";
-
 import { useState } from "react";
+import dynamic from "next/dynamic";
+
+const FiltroCodigos = dynamic(
+  () => import("@/components/forms/deposito/FiltroCodigos"),
+  {
+    ssr: false,
+    loading: () => <div style={{ height: "300px" }}>&#9203;</div>,
+  },
+);
+const DetalleStock = dynamic(
+  () => import("@/components/forms/deposito/detalle/DetalleStock"),
+  {
+    ssr: false,
+    loading: () => <div style={{ height: "300px" }}>&#9203;</div>,
+  },
+);
+const SucursalSelect = dynamic(
+  () => import("@/components/SucursalSelect"),
+  {
+    ssr: false,
+    loading: () => <div style={{ height: "300px" }}>&#9203;</div>,
+  },
+);
+const ExportToExcel = dynamic(
+  () => import("@/components/etc/ExportToExcel"),
+  {
+    ssr: false,
+    loading: () => <div style={{ height: "300px" }}>&#9203;</div>,
+  },
+);
 
 const StockSucursal = (_) => {
   const [popupDetalleOpen, setPopupDetalleOpen] = useState(false);
   const [selectedIdCodigo, setSelectedIdCodigo] = useState(null);
   const columns = [
-    { render: (_, obj) => <div style={{fontStyle:"italic", fontSize:".9em", color:"darkblue"}}>{obj.familia}</div>, width: "150px", title: "Familia" },
-    { render: (_, obj) => <div style={{fontStyle:"italic", fontSize:".9em", color:"darkblue"}}>{obj.subfamilia}</div>, width: "150px", title: "SubFamilia" },
-    { render: (_, obj) => <div style={{fontStyle:"italic", fontSize:".9em", color:"darkblue"}}>{obj.grupo}</div>, width: "150px", title: "Grupo" },
-    { render: (_, obj) => <div style={{fontStyle:"italic", fontSize:".9em", color:"darkblue"}}>{obj.subgrupo}</div>, width: "150px", title: "SubGrupo" },
+    {
+      render: (_, obj) => (
+        <div
+          style={{ fontStyle: "italic", fontSize: ".9em", color: "darkblue" }}
+        >
+          {obj.familia}
+        </div>
+      ),
+      width: "150px",
+      title: "Familia",
+    },
+    {
+      render: (_, obj) => (
+        <div
+          style={{ fontStyle: "italic", fontSize: ".9em", color: "darkblue" }}
+        >
+          {obj.subfamilia}
+        </div>
+      ),
+      width: "150px",
+      title: "SubFamilia",
+    },
+    {
+      render: (_, obj) => (
+        <div
+          style={{ fontStyle: "italic", fontSize: ".9em", color: "darkblue" }}
+        >
+          {obj.grupo}
+        </div>
+      ),
+      width: "150px",
+      title: "Grupo",
+    },
+    {
+      render: (_, obj) => (
+        <div
+          style={{ fontStyle: "italic", fontSize: ".9em", color: "darkblue" }}
+        >
+          {obj.subgrupo}
+        </div>
+      ),
+      width: "150px",
+      title: "SubGrupo",
+    },
     { render: (_, obj) => <>{obj.codigo}</>, width: "250px", title: "Código" },
-    { render: (_, obj) => <>{obj.descripcion}</>, width: "250px", title: "Descripción" },
+    {
+      render: (_, obj) => <>{obj.descripcion}</>,
+      width: "250px",
+      title: "Descripción",
+    },
     { render: (_, obj) => <>{obj.tags}</>, width: "250px", title: "Etiquetas" },
-    { render: (_, obj) => <div style={{textAlign:"right"}}>$&nbsp;{ (parseFloat(obj.precio_codigo).toLocaleString(2))}</div>, width: "250px", title: <div style={{textAlign:"right"}}>Precio</div> },
+    {
+      render: (_, obj) => (
+        <div style={{ textAlign: "right" }}>
+          $&nbsp;{parseFloat(obj.precio_codigo).toLocaleString(2)}
+        </div>
+      ),
+      width: "250px",
+      title: <div style={{ textAlign: "right" }}>Precio</div>,
+    },
     {
       render: (_, obj) => (
         <div style={{ textAlign: "right" }}>{obj.cantidad}</div>
@@ -91,9 +168,12 @@ const StockSucursal = (_) => {
           subfamilia: row.subfamilia,
           grupo: row.grupo,
           subgrupo: row.subgrupo,
-          precio_codigo: parseFloat(row.precio_codigo).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}),
+          precio_codigo: parseFloat(row.precio_codigo).toLocaleString(
+            undefined,
+            { minimumFractionDigits: 2, maximumFractionDigits: 2 },
+          ),
           tags: row.tags,
-        }))
+        })),
       );
       let _total = 0;
       response.data.forEach((r) => {
@@ -105,11 +185,6 @@ const StockSucursal = (_) => {
   };
 
   const callback_filtros = (f) => {
-    /*if(+idsucursal==-1){
-            alert("Seleccione una sucursal")
-            return
-        }*/
-
     let data = [];
 
     const _check = (o, f1, f2) =>
@@ -147,7 +222,11 @@ const StockSucursal = (_) => {
         </Row>
         <Row>
           <Col span={24}>
-            <FiltroCodigos callback={callback_filtros} key={idsucursal} hideTags={true} />
+            <FiltroCodigos
+              callback={callback_filtros}
+              key={idsucursal}
+              hideTags={true}
+            />
           </Col>
         </Row>
 
@@ -157,8 +236,8 @@ const StockSucursal = (_) => {
               onRow={(row, index) => {
                 return {
                   onClick: (e) => {
-                    setSelectedIdCodigo(row.idcodigo)
-                    setPopupDetalleOpen(true)
+                    setSelectedIdCodigo(row.idcodigo);
+                    setPopupDetalleOpen(true);
                   },
                 };
               }}
@@ -194,7 +273,7 @@ const StockSucursal = (_) => {
                       &nbsp;&nbsp;
                       <ExportToExcel
                         data={dataSource
-                          .filter((d) => ocultar0 ? +d.cantidad > 0 : true)
+                          .filter((d) => (ocultar0 ? +d.cantidad > 0 : true))
                           .map((d) => ({ ...d, sucursal: "" }))}
                         columns={[
                           {
@@ -203,11 +282,19 @@ const StockSucursal = (_) => {
                             width: 30,
                           },
                           { header: "Familia", key: "familia", width: 30 },
-                          { header: "Subfamilia", key: "subfamilia", width: 30 },
+                          {
+                            header: "Subfamilia",
+                            key: "subfamilia",
+                            width: 30,
+                          },
                           { header: "Grupo", key: "grupo", width: 30 },
                           { header: "Subgrupo", key: "subgrupo", width: 30 },
                           { header: "Código", key: "codigo", width: 30 },
-                          { header: "Descripción", key: "descripcion", width: 40 },
+                          {
+                            header: "Descripción",
+                            key: "descripcion",
+                            width: 40,
+                          },
                           { header: "Etiquetas", key: "tags", width: 30 },
                           { header: "Cantidad", key: "cantidad", width: 15 },
                           { header: "Precio", key: "precio_codigo", width: 15 },

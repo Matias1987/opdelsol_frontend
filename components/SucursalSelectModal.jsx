@@ -1,5 +1,4 @@
 import {Button, Col, Modal, Row, Select} from "antd"
-import SucursalSelect from "./SucursalSelect"
 import { useEffect, useState } from "react"
 import globals from "@/src/globals"
 import { post_method } from "@/src/helpers/post_helper"

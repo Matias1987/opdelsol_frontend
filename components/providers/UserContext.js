@@ -1,4 +1,4 @@
-import { get, public_urls } from "@/src/urls";
+import { get } from "@/src/urls";
 import useStorage from "@/useStorage";
 import React, {
   createContext,

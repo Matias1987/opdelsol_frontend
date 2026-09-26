@@ -1,9 +1,13 @@
-import ListaVentasDia from "@/components/admin/listaVentasDia";
 import LayoutAdmin from "@/components/layout/layout_admin";
 
-export default function ListaVentasDiaVendedor(){
-    return <ListaVentasDia />
+import dynamic from "next/dynamic";
+const ListaVentasDia = dynamic(
+  () => import("@/components/admin/listaVentasDia"),
+  { ssr: false },
+);
+
+export default function ListaVentasDiaVendedor() {
+  return <ListaVentasDia />;
 }
 
-
-ListaVentasDiaVendedor.PageLayout = LayoutAdmin;  
+ListaVentasDiaVendedor.PageLayout = LayoutAdmin;

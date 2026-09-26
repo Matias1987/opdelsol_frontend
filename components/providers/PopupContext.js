@@ -1,12 +1,14 @@
 // PopupContext.js
 import React, { createContext, useContext } from "react";
-import { Modal, message } from "antd";
+import { message } from "antd";
+import dynamic from "next/dynamic";
+const AntdModal = dynamic(() => import("antd/lib/modal"), { ssr: false });
 
 const PopupContext = createContext(null);
 
 export const PopupProvider = ({ children }) => {
   const showConfirm = ({ title, content, onOk, onCancel }) => {
-    Modal.confirm({
+    AntdModal.confirm({
       title,
       content,
       okText: "Aceptar",

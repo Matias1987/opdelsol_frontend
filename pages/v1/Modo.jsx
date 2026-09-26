@@ -3,9 +3,16 @@ import globals from "@/src/globals";
 import { get, public_urls } from "@/src/urls";
 import { getItem } from "localforage";
 import { useEffect, useState } from "react";
-
 import { Space, Card, Button, Col, Row } from "antd";
-import SucursalSelectModal from "@/components/SucursalSelectModal";
+import dynamic from "next/dynamic";
+
+const SucursalSelectModal = dynamic(
+  () => import("@/components/SucursalSelectModal"),
+  {
+    ssr: false,
+    loading: () => <div style={{ height: "300px" }}>&#9203;Espere...</div>,
+  },
+);
 
 export default function Modo() {
   const [permisos, setPermisos] = useState(null);

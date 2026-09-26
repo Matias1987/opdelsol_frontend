@@ -1,14 +1,5 @@
-/*
-const nextConfig = {
-  reactStrictMode: false,
-  swcMinify: false, // 'minify' in Next versions < 12.0
-
-}
-
-module.exports = nextConfig
-*/
-
 /** @type {import('next').NextConfig} */
+
 const nextConfig = {
   reactStrictMode: false,
   swcMinify: false, // 'minify' in Next versions < 12.0
@@ -25,14 +16,7 @@ const nextConfig = {
     "rc-tree",
     "rc-table",
   ],
-  experimental: {
-    appDir: false, // Stops Next.js from spawning extra background rendering processes
-  },
-  /*
-  experimental: {
-    // Forces Next.js to aggressively tree-shake these heavy packages
-    optimizePackageImports: ["antd", "@ant-design/icons"],
-  },*/
+
   webpack: (config, { dev }) => {
     if (dev) {
       config.watchOptions = {
