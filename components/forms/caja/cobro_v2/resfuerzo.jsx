@@ -83,10 +83,6 @@ const Resfuerzo = (props) => {
       return false;
     }
 
-    //if (typeof props.tipo === "undefined") {
-    //  alert("tipo undefined");
-    //  return false;
-    //}
 
     if (mp.transferencia_monto != 0) {
       if (mp.fk_banco_transferencia == null) {

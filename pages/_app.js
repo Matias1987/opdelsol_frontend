@@ -8,7 +8,7 @@ import updateLocale from "dayjs/plugin/updateLocale";
 import { NetworkProvider } from "@/components/providers/NetworkContext";
 import ConnectionBanner from "@/components/etc/ConnectionBanner";
 import { UserStatusProvider } from "@/components/providers/UserContext";
-import { PopupProvider } from "@/components/providers/PopupContext";
+//import { PopupProvider } from "@/components/providers/PopupContext";
 export default function App({ Component, pageProps }) {
   // 1. Activate the updateLocale plugin
   dayjs.extend(updateLocale);
@@ -77,7 +77,7 @@ export default function App({ Component, pageProps }) {
       >
         <UserStatusProvider>
           <NetworkProvider pingInterval={15000}>
-            <PopupProvider>
+            {/*<PopupProvider>*/}
               <ConnectionBanner />
               {Component.PageLayout ? (
                 <Component.PageLayout>
@@ -88,7 +88,7 @@ export default function App({ Component, pageProps }) {
                   <Component {...pageProps} />
                 </MyLayout>
               )}
-            </PopupProvider>
+            {/*</PopupProvider>*/}
           </NetworkProvider>
         </UserStatusProvider>
       </ConfigProvider>

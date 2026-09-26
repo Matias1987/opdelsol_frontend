@@ -1,7 +1,14 @@
-import ListaVentasDia from "@/components/admin/listaVentasDia";
 import LayoutVentas from "@/components/layout/layout_ventas";
 import globals from "@/src/globals";
+import dynamic from "next/dynamic";
 
+const ListaVentasDia = dynamic(
+  () => import("@/components/admin/listaVentasDia"),
+  {
+    ssr: false,
+    loading: () => <div style={{ width: "300px" }}>Espere...</div>,
+  },
+);
 
 export default function VentasDiasVendedores() {
   const date = new Date();

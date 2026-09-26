@@ -40,7 +40,6 @@ const AgregarArmazon = () => {
     fetch(get.sucursales)
       .then((r) => r.json())
       .then((r) => {
-        //  alert(JSON.stringify(r.data));
         setSucursales(
           r.data.map((s) => ({
             ...s,
