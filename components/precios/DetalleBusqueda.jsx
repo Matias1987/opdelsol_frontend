@@ -10,7 +10,6 @@ const PopupDetalleBusqueda = (props) => {
     useEffect(()=>{
         if(props.open)
         {
-           // alert(props.busqueda)
             //check if it is a barcode 
             
             const _id = regex_get_id_if_match(props.busqueda);

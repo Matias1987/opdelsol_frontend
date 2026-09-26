@@ -7,7 +7,6 @@ const ListadoControles = (props) => {
     const [data, setData] = useState([])
     const {idsucursal} = props
     useEffect(()=>{
-       // alert(idsucursal)
         fetch(get.obtener_lista_controles + idsucursal)
         .then(r=>r.json())
         .then((response)=>{

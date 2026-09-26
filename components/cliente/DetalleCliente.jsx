@@ -74,7 +74,6 @@ const DetalleCliente = (props) =>
                 anio:_y,
             })
         })
-       // alert(get.cliente_ventas_gral + props.idcliente)
         fetch(get.cliente_ventas_gral + props.idcliente)
         .then(response=>response.json())
         .then((response)=>{

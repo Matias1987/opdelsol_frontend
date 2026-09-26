@@ -67,7 +67,6 @@ const DetalleFactura = (props) => {
       .then((response) => response.json())
       .then((response) => {
         setMontosAdicFactura(response.data);
-       // alert("montos adic: " + JSON.stringify(response));
       });
   };
 

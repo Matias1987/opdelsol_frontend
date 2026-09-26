@@ -21,7 +21,6 @@ const EditarPrecioSGCategoria = ({ categoria, idcategoria, callback }) => {
   };
 
   const aplicarCambios = () => {
-   // alert("To Do...");
    if(!confirm("¿Confirma la modificación de los precios de esta categoría?"))
    {
         return;

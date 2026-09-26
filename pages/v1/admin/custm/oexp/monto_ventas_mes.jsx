@@ -122,7 +122,6 @@ export default function monto_ventas_mes() {
       post.informe_monto_ventas_periodo,
       { mes: +mes + 1, anio },
       (response) => {
-        // alert(JSON.stringify(response))
         setDataSource(response.data);
       }
     );

@@ -105,7 +105,6 @@ const Tags = (props) => {
               allowClear
               options={tags}
               onChange={(v) => {
-                // alert(JSON.stringify(v))
                 setTagsToAdd(v);
               }}
             />

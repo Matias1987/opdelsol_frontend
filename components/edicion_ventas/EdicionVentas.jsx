@@ -281,7 +281,6 @@ const EdicionVentas = (props) => {
     fetch(url_venta_items + props.idventa)
       .then((response) => response.json())
       .then((response) => {
-        // alert(JSON.stringify(response));
         const data = response.data;
 
         if (!data) {

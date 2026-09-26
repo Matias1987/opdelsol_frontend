@@ -158,7 +158,6 @@ export default function ClienteFormDistrib({ callback }) {
               fk_localidad={+globals.obtenerOpticaLocalidad()}
               fk_provincia={+globals.obtenerOpticaProvincia()}
               callback={(p) => {
-                // alert(JSON.stringify(p))
                 onChange(p.idlocalidad, "idlocalidad");
               }}
             />

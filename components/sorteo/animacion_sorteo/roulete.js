@@ -70,7 +70,6 @@ class Roulette {
     update = canvasRef => {
             if(this.done)
                 {
-                   // alert("done")
                     this.onComplete?.()
                     this.onComplete=null
                     return

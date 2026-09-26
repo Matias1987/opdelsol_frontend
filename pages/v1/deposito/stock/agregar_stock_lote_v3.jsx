@@ -262,9 +262,6 @@ export default function AgregarStockLoteV3(props) {
 
   const onFinish = (_values) => {
     var values = Array();
-
-    // alert(_values.subgrupo)
-
     if (typeof _values.subgrupo === "undefined") {
       alert("Subgrupo no elegido");
       return;

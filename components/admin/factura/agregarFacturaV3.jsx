@@ -251,8 +251,6 @@ const AgregarFacturaV3 = ({ callback, moneda, idproveedor, esremito }) => {
       idsucursal: globals.obtenerSucursal(),
       uid: postIdRef.current,
     };
-    //console.log(JSON.stringify(data))
-    // alert(JSON.stringify(data))
     setBtnGuardarEnabled(false);
     post_method(post.insert.factura, data, (resp) => {
       alert("Hecho.");

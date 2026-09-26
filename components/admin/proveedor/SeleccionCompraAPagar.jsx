@@ -129,7 +129,6 @@ const SeleccionCompraAPagar = ({ idproveedor, onChange, moneda, modo }) => {
   ];
 
   const load = () => {
-    // alert(JSON.stringify( { idproveedor: idproveedor, moneda: moneda, modo: modo, es_remito: modo==1 ? false : true }))
     post_method(
       post.obtener_facturas_saldo,
       { idproveedor: idproveedor, moneda: moneda, modo: modo },

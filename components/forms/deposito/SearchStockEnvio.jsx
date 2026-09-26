@@ -130,8 +130,6 @@ const SearchStockEnvio = (props) => {
       );
       setLoading(false);
     });
-
-    // alert(JSON.stringify(params))
   };
 
   const onSearch = (value) => {

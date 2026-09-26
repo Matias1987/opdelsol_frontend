@@ -328,7 +328,6 @@ const ListaVentas = (props) => {
     params = add(params, filtros.tipo, "tipo");
 
     const url = post.venta_estado_sucursal;
-    // alert(JSON.stringify(params))
     post_method(url, params, (response) => {
       if (response == null) {
         return;

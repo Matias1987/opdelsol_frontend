@@ -60,7 +60,6 @@ const ClientesMorosos = (props) => {
   ];
 
   const load = (_) => {
-    // alert(post.o_c_m)
     setTableEnabled(false);
     post_method(post.o_c_m, { fk_parent: selectedTarea }, (rows) => {
       setdataSource(rows.data);
