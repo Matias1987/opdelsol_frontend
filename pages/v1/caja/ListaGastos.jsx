@@ -29,7 +29,8 @@ export default function ListaGastos() {
         );
 
         setLoading(false);
-      });
+      })
+      .catch((_) => {});
   }, [reload]);
 
   return (
@@ -39,9 +40,6 @@ export default function ListaGastos() {
         destroyOnClose
         open={open}
         footer={null}
-        /*onOk={()=>{
-            setOpen(false)
-        }}*/
         onCancel={() => {
           setOpen(false);
         }}

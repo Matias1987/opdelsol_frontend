@@ -5,7 +5,7 @@ const ListaClientesMayorista = dynamic(
   () => import("@/components/cliente/ListaClientesMayorista"),
   {
     ssr: false,
-    loading: () => <div style={{ height: "30px" }}>&#9203; Cargando...</div>,
+    loading: () => <div style={{ width:"100px" }}>&#9203; Cargando...</div>,
   },
 );
 

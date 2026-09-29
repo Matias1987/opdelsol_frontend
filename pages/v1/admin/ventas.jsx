@@ -6,7 +6,7 @@ const BuscarVenta = dynamic(
   () => import("@/components/forms/ventas/BuscarVenta"),
   {
     ssr: false,
-    loading: () => <div style={{ height: "300px" }}>..::Loading::..</div>,
+    loading: () => <div style={{ width:"100px" }}>Cargando...</div>,
   },
 );
 
@@ -14,7 +14,7 @@ const ListaVentasMedicosTotales = dynamic(
   () => import("@/components/informes/medicos/ventas_medicos_totales"),
   {
     ssr: false,
-    loading: () => <div style={{ height: "300px" }}>..::Loading::..</div>,
+    loading: () => <div style={{ width:"100px" }}>Cargando...</div>,
   },
 );
 
@@ -22,7 +22,7 @@ const VentasSucursales = dynamic(
   () => import("@/components/informes/ventas/admin/ventas_sucursales"),
   {
     ssr: false,
-    loading: () => <div style={{ height: "300px" }}>..::Loading::..</div>,
+    loading: () => <div style={{ width:"100px" }}>Cargando...</div>,
   },
 );
 
@@ -30,7 +30,7 @@ const VentasVendedor = dynamic(
   () => import("@/components/informes/ventas/admin/ventas_vendedor"),
   {
     ssr: false,
-    loading: () => <div style={{ height: "300px" }}>..::Loading::..</div>,
+    loading: () => <div style={{ width:"100px" }}>Cargando...</div>,
   },
 );
 
@@ -38,7 +38,7 @@ const ListaVentasDia = dynamic(
   () => import("@/components/admin/listaVentasDia"),
   {
     ssr: false,
-    loading: () => <div style={{ height: "300px" }}>..::Loading::..</div>,
+    loading: () => <div style={{ width:"100px" }}>Cargando...</div>,
   },
 );
 

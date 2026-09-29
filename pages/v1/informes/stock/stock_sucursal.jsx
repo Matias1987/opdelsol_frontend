@@ -8,28 +8,28 @@ const FiltroCodigos = dynamic(
   () => import("@/components/forms/deposito/FiltroCodigos"),
   {
     ssr: false,
-    loading: () => <div style={{ height: "300px" }}>&#9203;</div>,
+    loading: () => <div style={{ width:"100px" }}>&#9203;</div>,
   },
 );
 const DetalleStock = dynamic(
   () => import("@/components/forms/deposito/detalle/DetalleStock"),
   {
     ssr: false,
-    loading: () => <div style={{ height: "300px" }}>&#9203;</div>,
+    loading: () => <div style={{ width:"100px" }}>&#9203;</div>,
   },
 );
 const SucursalSelect = dynamic(
   () => import("@/components/SucursalSelect"),
   {
     ssr: false,
-    loading: () => <div style={{ height: "300px" }}>&#9203;</div>,
+    loading: () => <div style={{ width:"100px" }}>&#9203;</div>,
   },
 );
 const ExportToExcel = dynamic(
   () => import("@/components/etc/ExportToExcel"),
   {
     ssr: false,
-    loading: () => <div style={{ height: "300px" }}>&#9203;</div>,
+    loading: () => <div style={{ width:"100px" }}>&#9203;</div>,
   },
 );
 

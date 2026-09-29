@@ -7,7 +7,7 @@ const VentasTotalesSucursales = dynamic(
   () => import("@/components/admin/stock/VentasTotalesSucursales"),
   {
     ssr: false,
-    loading: () => <div style={{ height: "300px" }}>Espere...</div>,
+    loading: () => <div style={{ width:"100px" }}>Espere...</div>,
   },
 );
 

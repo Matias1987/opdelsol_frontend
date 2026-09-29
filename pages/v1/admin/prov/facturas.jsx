@@ -5,7 +5,7 @@ const ListaFacturas = dynamic(
   () => import("@/components/admin/factura/listaFacturas"),
   {
     ssr: false,
-    loading: () => <div style={{ height: "300px" }}>&#9203;</div>,
+    loading: () => <div style={{ width:"100px" }}>&#9203;</div>,
   },
 );
 

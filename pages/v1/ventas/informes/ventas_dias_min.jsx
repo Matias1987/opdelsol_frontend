@@ -6,7 +6,7 @@ const ListaVentasDia = dynamic(
   () => import("@/components/admin/listaVentasDia"),
   {
     ssr: false,
-    loading: () => <div style={{ width: "300px" }}>Espere...</div>,
+    loading: () => <div style={{ width:"100px" }}>Espere...</div>,
   },
 );
 

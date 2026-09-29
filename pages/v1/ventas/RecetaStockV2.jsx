@@ -12,32 +12,32 @@ const RecetaStockItems = dynamic(
   () => import("@/components/forms/ventas/receta_stock/Items"),
   {
     ssr: false,
-    loading: () => <div style={{ height: "300px" }}>&#9203;</div>,
+    loading: () => <div style={{ width: "100px" }}>&#9203;</div>,
   },
 );
 const RecetaStockItemsB = dynamic(
   () => import("@/components/forms/ventas/receta_stock/items_b"),
   {
     ssr: false,
-    loading: () => <div style={{ height: "300px" }}>&#9203;</div>,
+    loading: () => <div style={{ width: "100px" }}>&#9203;</div>,
   },
 );
 const InformeVenta = dynamic(
   () => import("@/components/informes/ventas/Base"),
   {
     ssr: false,
-    loading: () => <div style={{ height: "300px" }}>&#9203;</div>,
+    loading: () => <div style={{ width: "100px" }}>&#9203;</div>,
   },
 );
 const InformeX = dynamic(() => import("@/components/informes/caja/InformeX"), {
   ssr: false,
-  loading: () => <div style={{ height: "300px" }}>&#9203;</div>,
+  loading: () => <div style={{ width: "100px" }}>&#9203;</div>,
 });
 const VentaBaseV3 = dynamic(
   () => import("@/components/forms/ventas/VentaBaseV3"),
   {
     ssr: false,
-    loading: () => <div style={{ height: "300px" }}>&#9203;</div>,
+    loading: () => <div style={{ width: "100px" }}>&#9203;</div>,
   },
 );
 

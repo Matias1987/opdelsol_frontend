@@ -84,7 +84,8 @@ export default function DashboardCajaV2() {
         globals.obtenerCajaAsync(() => {});
         globals.setCajaOpen(false);
         setReload(!reload);
-      });
+      })
+      .catch((_) => {});
   };
 
   const detalle_caja = (_) =>
@@ -239,15 +240,6 @@ export default function DashboardCajaV2() {
             </Card>
           </Col>
         </Row>
-        {/*<Row>
-            <Col span={24}>
-              <Input
-                readOnly
-                addonBefore={"Balance: "}
-                value={formatFloat(saldo)}
-              />
-            </Col>
-          </Row>*/}
         &nbsp;
         <Row gutter={[16, 16]}>
           <Col>

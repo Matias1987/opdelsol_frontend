@@ -20,7 +20,7 @@ const VentasVendedor = dynamic(
   () => import("../informes/ventas/VentasVendedor"),
   {
     ssr: false,
-    loading: () => <div style={{ width: "30px" }}></div>,
+    loading: () => <div style={{ width: "100px" }}></div>,
   },
 );
 
@@ -28,23 +28,23 @@ const ListaPreciosV3 = dynamic(
   () => import("../lista_precios/listaPreciosV3"),
   {
     ssr: false,
-    loading: () => <div style={{ width: "30px" }}>Cargando...</div>,
+    loading: () => <div style={{ width: "100px" }}>Cargando...</div>,
   },
 );
 const BuscarVentaV3 = dynamic(() => import("../forms/ventas/BuscarVentasV3"), {
   ssr: false,
-  loading: () => <div style={{ width: "90px" }}>Cargando...</div>,
+  loading: () => <div style={{ width: "100px" }}>Cargando...</div>,
 });
 const ListaPreciosV4 = dynamic(
   () => import("../lista_precios/listaPreciosV4"),
   {
     ssr: false,
-    loading: () => <div style={{ width: "30px" }}></div>,
+    loading: () => <div style={{ width: "100px" }}></div>,
   },
 );
 const SucursalLabel = dynamic(() => import("../sucursal_label"), {
   ssr: false,
-  loading: () => <div style={{ width: "30px" }}></div>,
+  loading: () => <div style={{ width: "100px" }}></div>,
 });
 
 export default function MenuV3(props) {

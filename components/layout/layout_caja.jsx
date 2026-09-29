@@ -9,14 +9,14 @@ import { useUserStatus } from "../providers/UserContext";
 
 const MenuV2 = dynamic(() => import("./menu_v2"), {
   ssr: false,
-  loading: () => <div style={{ height: "30px" }}></div>,
+  loading: () => <div style={{ width:"100px" }}></div>,
 });
 
 const PopupResultadoBusqueda = dynamic(
   () => import("../precios/PopupResultadoBusqueda"),
   {
     ssr: false,
-    loading: () => <div style={{ height: "30px" }}></div>,
+    loading: () => <div style={{ width:"100px" }}></div>,
   },
 );
 
@@ -24,13 +24,13 @@ const BarraResumenCaja = dynamic(
   () => import("../forms/caja/BarraResumenCaja"),
   {
     ssr: false,
-    loading: () => <div style={{ height: "30px" }}></div>,
+    loading: () => <div style={{ width:"100px" }}></div>,
   },
 );
 
 const HeaderSol = dynamic(() => import("./header"), {
   ssr: false,
-  loading: () => <div style={{ height: "30px" }}></div>,
+  loading: () => <div style={{ width:"100px" }}></div>,
 });
 
 export default function LayoutVentas(props) {

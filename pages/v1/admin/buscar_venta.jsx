@@ -5,7 +5,7 @@ const BuscarVentaV3 = dynamic(
   () => import("@/components/forms/ventas/BuscarVentasV3"),
   {
     ssr: false,
-    loading: () => <div style={{ height: "300px" }}>..::Loading::..</div>,
+    loading: () => <div style={{ width:"100px" }}>Cargando...</div>,
   },
 );
 export default function BuscarVentaAdmin() {

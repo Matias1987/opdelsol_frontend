@@ -39,6 +39,7 @@ export default function panelCajaAdmin(){
             globals.obtenerCajaAsync(()=>{})
             globals.setCajaOpen(false)
         })
+        .catch((_) => {});
     }
 
     const detalle_caja = _ => 

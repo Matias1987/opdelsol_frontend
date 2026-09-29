@@ -9,28 +9,28 @@ const IconViewSubgrupoSelector = dynamic(
   () => import("@/components/deposito/iconViewSubgrupoSelector"),
   {
     ssr: false,
-    loading: () => <div style={{ height: "300px" }}>&#9203;Cargando...</div>,
+    loading: () => <div style={{ width:"100px" }}>&#9203;Cargando...</div>,
   },
 );
 const EditarCodigoIndiv = dynamic(
   () => import("@/components/forms/deposito/EditarCodigoIndiv"),
   {
     ssr: false,
-    loading: () => <div style={{ height: "300px" }}>...</div>,
+    loading: () => <div style={{ width:"100px" }}>...</div>,
   },
 );
 const EditarDisenio = dynamic(
   () => import("@/components/forms/trabajo_multiple/editar_disenio"),
   {
     ssr: false,
-    loading: () => <div style={{ height: "300px" }}>...</div>,
+    loading: () => <div style={{ width:"100px" }}>...</div>,
   },
 );
 const SubGrupoFormV3 = dynamic(
   () => import("@/components/forms/deposito/SubgrupoFormV3"),
   {
     ssr: false,
-    loading: () => <div style={{ height: "300px" }}>...</div>,
+    loading: () => <div style={{ width:"100px" }}>...</div>,
   },
 );
 
@@ -59,7 +59,6 @@ export default function productos_distrib() {
         setPopupEditGOpen(true);
         break;
       case "subgrupo":
-        //setPopupEditSGOpen(true);
         setPopupEditDisenioOpen(true);
         break;
       case "trabajo":

@@ -77,12 +77,6 @@ const MenuLaboratorioTop = (props) => {
     },
   ];
 
-  const _style_ = {
-    background: "rgba(255, 255, 255, 1)",
-    backgroundColor: "rgba(255, 230, 121, 1) !important",
-
-    /*backgroundColor:"#FFEF85" */
-  };
 
   useEffect(() => {
     setUsuario(globals.obtenerUserName());

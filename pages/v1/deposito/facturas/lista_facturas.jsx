@@ -4,7 +4,7 @@ const ListaFacturas = dynamic(
   () => import("@/components/admin/factura/listaFacturas"),
   {
     ssr: false,
-    loading: () => <div style={{ height: "300px" }}>..::Loading::..</div>,
+    loading: () => <div style={{ width:"100px" }}>Cargando...</div>,
   },
 );
 const lista_facturas_deposito = (props) => {

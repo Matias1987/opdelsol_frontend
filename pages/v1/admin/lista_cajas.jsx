@@ -5,7 +5,7 @@ const ListadoCajasAdmin = dynamic(
   () => import("@/components/admin/caja/ListadoCajasAdmin"),
   {
     ssr: false,
-    loading: () => <div style={{ height: "300px" }}>&#9203;</div>,
+    loading: () => <div style={{ width:"100px" }}>&#9203;</div>,
   },
 );
 

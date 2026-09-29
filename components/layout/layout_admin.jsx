@@ -12,12 +12,12 @@ import { useUserStatus } from "../providers/UserContext";
 
 const SideMenuAdmin = dynamic(() => import("./SideMenuAdmin"), {
   ssr: false,
-  loading: () => <div style={{ height: "30px" }}></div>,
+  loading: () => <div style={{ width:"100px" }}></div>,
 });
 
 const SideMenuAdminMin = dynamic(() => import("./SideMenuAdminMin"), {
   ssr: false,
-  loading: () => <div style={{ height: "30px" }}></div>,
+  loading: () => <div style={{ width:"100px" }}></div>,
 });
 
 export default function LayoutAdmin({ children }) {

@@ -6,12 +6,12 @@ const TestGridCreation = dynamic(
   () => import("@/components/etc/testGridCreation"),
   {
     ssr: false,
-    loading: () => <div style={{ height: "300px" }}>..::Loading::..</div>,
+    loading: () => <div style={{ width:"100px" }}>Cargando...</div>,
   },
 );
 const DashboardTaller = dynamic(() => import("@/components/taller/dashboard"), {
   ssr: false,
-  loading: () => <div style={{ height: "300px" }}>..::Loading::..</div>,
+  loading: () => <div style={{ width:"100px" }}>Cargando...</div>,
 });
 
 export default function Index() {

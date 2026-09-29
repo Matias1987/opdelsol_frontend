@@ -6,21 +6,21 @@ const ListaClientesAdmin = dynamic(
   () => import("@/components/admin/clientes/lista_clientes_admin"),
   {
     ssr: false,
-    loading: () => <div style={{ height: "300px" }}>..::Loading::..</div>,
+    loading: () => <div style={{ width:"100px" }}>Cargando...</div>,
   },
 );
 const ListaMorososAdmin = dynamic(
   () => import("@/components/admin/clientes/lista_morosos_admin"),
   {
     ssr: false,
-    loading: () => <div style={{ height: "300px" }}>..::Loading::..</div>,
+    loading: () => <div style={{ width:"100px" }}>Cargando...</div>,
   },
 );
 const ListaOpinionesClientes = dynamic(
   () => import("@/components/admin/clientes/lista_opiniones_clientes"),
   {
     ssr: false,
-    loading: () => <div style={{ height: "300px" }}>..::Loading::..</div>,
+    loading: () => <div style={{ width:"100px" }}>Cargando...</div>,
   },
 );
 

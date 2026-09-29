@@ -6,14 +6,14 @@ import { useUserStatus } from "../providers/UserContext";
 
 const MenuDistribuidora = dynamic(() => import("./menu_distribuidora"), {
   ssr: false,
-  loading: () => <div style={{ height: "30px" }}>&#9203;</div>,
+  loading: () => <div style={{ width:"100px" }}>&#9203;</div>,
 });
 
 const TrabajoMultiple = dynamic(
   () => import("../forms/trabajo_multiple/venta_multiple"),
   {
     ssr: false,
-    loading: () => <div style={{ height: "30px" }}>&#9203;</div>,
+    loading: () => <div style={{ width:"100px" }}>&#9203;</div>,
   },
 );
 

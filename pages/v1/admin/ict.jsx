@@ -6,21 +6,21 @@ const CuotasPendientesTarjetas = dynamic(
   () => import("@/components/informes/caja/cuotasPendientesTarjetas"),
   {
     ssr: false,
-    loading: () => <div style={{ height: "300px" }}>&#9203;</div>,
+    loading: () => <div style={{ width:"100px" }}>&#9203;</div>,
   },
 );
 const InformeTarjetas = dynamic(
   () => import("@/components/informes/cobros/informeTarjetas"),
   {
     ssr: false,
-    loading: () => <div style={{ height: "300px" }}>&#9203;</div>,
+    loading: () => <div style={{ width:"100px" }}>&#9203;</div>,
   },
 );
 const CobrosTarjetaDia = dynamic(
   () => import("@/components/informes/caja/cobrosTarjetaDia"),
   {
     ssr: false,
-    loading: () => <div style={{ height: "300px" }}>&#9203;</div>,
+    loading: () => <div style={{ width:"100px" }}>&#9203;</div>,
   },
 );
 

@@ -7,7 +7,7 @@ const VentaMultipleMinorista = dynamic(
     import("@/components/forms/trabajo_multiple/minorista/venta_multiple_minorista"),
   {
     ssr: false,
-    loading: () => <div style={{ width: "300px" }}>Espere...</div>,
+    loading: () => <div style={{ width:"100px" }}>Espere...</div>,
   },
 );
 

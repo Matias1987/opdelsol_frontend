@@ -1,11 +1,21 @@
-import DescargarEnvio from "@/components/forms/deposito/DescargaEnvio";
 import MyLayout from "@/components/layout/layout";
-import LayoutVentas from "@/components/layout/layout_ventas";
 
+import dynamic from "next/dynamic";
 
-export default function Importar(props){
-    
-    return <><DescargarEnvio /></>
+const DescargarEnvio = dynamic(
+  () => import("@/components/forms/deposito/DescargaEnvio"),
+  {
+    ssr: false,
+    loading: () => <div style={{ width:"100px" }}>Cargando...</div>,
+  },
+);
+
+export default function Importar(props) {
+  return (
+    <>
+      <DescargarEnvio />
+    </>
+  );
 }
 
-Importar.PageLayout =  MyLayout;
+Importar.PageLayout = MyLayout;

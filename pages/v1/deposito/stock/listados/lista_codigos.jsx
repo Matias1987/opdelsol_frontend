@@ -218,12 +218,6 @@ export default function ListaCodigos() {
       dataIndex: "precio",
       sorter: (a, b) => +a.precio - +b.precio,
     },
-    /*{
-            title: 'Estado',
-            dataIndex: 'estado', 
-            
-            render: (_,{estado})=>(<span style={{color: (estado=='ACTIVO' ? "green" : "red")}} >{estado}</span>)
-        },*/
     {
       fixed: "right",
       width: "100px",
@@ -259,13 +253,6 @@ export default function ListaCodigos() {
         </Dropdown>
       ),
     },
-    /*{
-      render: (_, obj) => (
-        <>{+obj.activo == 1 ? <CheckOutlined /> : <CloseOutlined />}</>
-      ),
-      title: "Activo",
-      width: "50px",
-    },*/
   ];
 
   return (
@@ -409,7 +396,6 @@ export default function ListaCodigos() {
         }}
         title="Imágenes del producto"
       >
-        {/*<ImagenesProducto idproducto={selectedIdCodigo} />*/}
         <AdministradorImagenes idcodigo={selectedIdCodigo} record={null} callback={_=>{ setChange(!change)}} />
       </Modal>
       <Modal

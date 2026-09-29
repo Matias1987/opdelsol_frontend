@@ -1,5 +1,4 @@
 import { get, public_urls } from "@/src/urls";
-import useStorage from "@/useStorage";
 import { Layout } from "antd";
 import { useEffect } from "react";
 import globals from "@/src/globals";
@@ -9,17 +8,12 @@ import { useUserStatus } from "../providers/UserContext";
 
 const MenuLaboratorioTop = dynamic(() => import("./menu_laboratorio_top"), {
   ssr: false,
-  loading: () => <div style={{ height: "30px" }}>...</div>,
+  loading: () => <div style={{ width:"100px" }}></div>,
 });
 
 const MenuTallerCOExp = dynamic(() => import("./opts/coexp/menu_taller"), {
   ssr: false,
-  loading: () => <div style={{ height: "30px" }}>...</div>,
-});
-
-const HeaderSol = dynamic(() => import("./header"), {
-  ssr: false,
-  loading: () => <div style={{ height: "30px" }}>...</div>,
+  loading: () => <div style={{ width:"100px" }}></div>,
 });
 
 export default function LayoutLaboratorio(props) {

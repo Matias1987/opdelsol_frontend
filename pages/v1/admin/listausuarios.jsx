@@ -5,7 +5,7 @@ const ListaUsuarios = dynamic(
   () => import("@/components/admin/listaUsuarios"),
   {
     ssr: false,
-    loading: () => <div style={{ height: "300px" }}>..::Loading::..</div>,
+    loading: () => <div style={{ width:"100px" }}>Cargando...</div>,
   },
 );
 export default function usuariostest(){

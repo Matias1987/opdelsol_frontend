@@ -7,7 +7,7 @@ const ModificarStock = dynamic(
   () => import("@/components/deposito/modificarStock"),
   {
     ssr: false,
-    loading: () => <div style={{ height: "300px" }}>Cargando...</div>,
+    loading: () => <div style={{ width:"100px" }}>Cargando...</div>,
   },
 );
 

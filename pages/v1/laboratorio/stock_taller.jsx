@@ -11,21 +11,21 @@ const CodeGrid = dynamic(
   () => import("@/components/etc/CodeGrid"),
   {
     ssr: false,
-    loading: () => <div style={{ height: "300px" }}>..::Loading::..</div>,
+    loading: () => <div style={{ width:"100px" }}>Cargando...</div>,
   },
 );
 const EditarStockIndiv = dynamic(
   () => import("@/components/forms/deposito/EditarStockIndiv"),
   {
     ssr: false,
-    loading: () => <div style={{ height: "300px" }}>..::Loading::..</div>,
+    loading: () => <div style={{ width:"100px" }}>Cargando...</div>,
   },
 );
 const FiltroCodigos = dynamic(
   () => import("@/components/forms/deposito/FiltroCodigos"),
   {
     ssr: false,
-    loading: () => <div style={{ height: "300px" }}>..::Loading::..</div>,
+    loading: () => <div style={{ width:"100px" }}>Cargando...</div>,
   },
 );
 

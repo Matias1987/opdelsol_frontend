@@ -12,20 +12,20 @@ import dynamic from "next/dynamic";
 
 const CustomModal = dynamic(() => import("../CustomModal"), {
   ssr: false,
-  loading: () => <div style={{ height: "30px" }}>...</div>,
+  loading: () => <div style={{ width:"100px" }}>...</div>,
 });
 
 const VentasVendedor = dynamic(
   () => import("../informes/ventas/VentasVendedor"),
   {
     ssr: false,
-    loading: () => <div style={{ height: "30px" }}>...</div>,
+    loading: () => <div style={{ width:"100px" }}>...</div>,
   },
 );
 
 const SucursalLabel = dynamic(() => import("../sucursal_label"), {
   ssr: false,
-  loading: () => <div style={{ height: "30px" }}>...</div>,
+  loading: () => <div style={{ width:"100px" }}>...</div>,
 });
 
 

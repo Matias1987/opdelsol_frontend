@@ -11,25 +11,25 @@ const MultifLabItems = dynamic(
   () => import("@/components/forms/ventas/multif_lab/Items"),
   {
     ssr: false,
-    loading: () => <div style={{ height: "300px" }}>&#9203;</div>,
+    loading: () => <div style={{ width: "100px" }}>&#9203;</div>,
   },
 );
 const InformeVenta = dynamic(
   () => import("@/components/informes/ventas/Base"),
   {
     ssr: false,
-    loading: () => <div style={{ height: "300px" }}>&#9203;</div>,
+    loading: () => <div style={{ width: "100px" }}>&#9203;</div>,
   },
 );
 const InformeX = dynamic(() => import("@/components/informes/caja/InformeX"), {
   ssr: false,
-  loading: () => <div style={{ height: "300px" }}>&#9203;</div>,
+  loading: () => <div style={{ width: "100px" }}>&#9203;</div>,
 });
 const VentaBaseV3 = dynamic(
   () => import("@/components/forms/ventas/VentaBaseV3"),
   {
     ssr: false,
-    loading: () => <div style={{ height: "300px" }}>&#9203;</div>,
+    loading: () => <div style={{ width: "100px" }}>&#9203;</div>,
   },
 );
 
@@ -70,7 +70,6 @@ export default function VentaMultifocalesLab() {
   };
 
   const onFinish = (v, onFailValidation) => {
-
     submit_venta(
       v,
       productos,
@@ -82,7 +81,7 @@ export default function VentaMultifocalesLab() {
         const { idVenta, idCobro } = responseData;
         setIdVenta(idVenta);
         setPrintOpen(true);
-        if (idCobro){
+        if (idCobro) {
           setIdCobro(idCobro);
         }
       },
@@ -90,16 +89,15 @@ export default function VentaMultifocalesLab() {
       (_) => {
         onFailValidation();
       },
-      true //medico required
+      true, //medico required
     );
   };
 
   const onClosePrintPopup = (_) => {
     setPrintOpen(false);
-    if(idCobro>0){
+    if (idCobro > 0) {
       setPrintPoupXOpen(true);
-    }
-    else{
+    } else {
       window.location.replace(public_urls.dashboard_venta);
     }
   };
@@ -116,25 +114,36 @@ export default function VentaMultifocalesLab() {
       >
         <MultifLabItems callback={onProductosCallback} />
       </VentaBaseV3>
-      {<Modal width={"80%"} open={idVenta!=-1 && printOpen} onOk={()=>{onClosePrintPopup()}} onCancel={()=>{onClosePrintPopup()}}  footer={null}>
-        <PrinterWrapper>
+      {
+        <Modal
+          width={"80%"}
+          open={idVenta != -1 && printOpen}
+          onOk={() => {
+            onClosePrintPopup();
+          }}
+          onCancel={() => {
+            onClosePrintPopup();
+          }}
+          footer={null}
+        >
+          <PrinterWrapper>
             <InformeVenta idventa={idVenta} />
-        </PrinterWrapper>
-    </Modal>}
-    <Modal
-      open={printPopupXOpen}
-      onCancel={() => {
-        setPrintPoupXOpen(false);
-        window.location.replace(public_urls.dashboard_venta);
-      }}
-      footer={null}
-      width={"1200px"}
-      title="Informe X"
-      destroyOnClose
-    >
-          <InformeX idcobro={idCobro} />
-    </Modal>
-
+          </PrinterWrapper>
+        </Modal>
+      }
+      <Modal
+        open={printPopupXOpen}
+        onCancel={() => {
+          setPrintPoupXOpen(false);
+          window.location.replace(public_urls.dashboard_venta);
+        }}
+        footer={null}
+        width={"1200px"}
+        title="Informe X"
+        destroyOnClose
+      >
+        <InformeX idcobro={idCobro} />
+      </Modal>
     </>
   );
 }

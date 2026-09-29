@@ -7,21 +7,21 @@ const ListadoCajasAdmin = dynamic(
   () => import("@/components/admin/caja/ListadoCajasAdmin"),
   {
     ssr: false,
-    loading: () => <div style={{ width: "300px" }}>Espere...</div>,
+    loading: () => <div style={{ width: "100px" }}>Espere...</div>,
   },
 );
 const CajaMaster = dynamic(
   () => import("@/components/caja_master/caja_master"),
   {
     ssr: false,
-    loading: () => <div style={{ width: "300px" }}>Espere...</div>,
+    loading: () => <div style={{ width: "100px" }}>Espere...</div>,
   },
 );
 const ListadoCajaSucursales = dynamic(
   () => import("@/components/caja_master/listado_caja_sucursales"),
   {
     ssr: false,
-    loading: () => <div style={{ width: "300px" }}>Espere...</div>,
+    loading: () => <div style={{ width: "100px" }}>Espere...</div>,
   },
 );
 

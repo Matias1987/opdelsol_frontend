@@ -4,7 +4,7 @@ const ListaVentasMedicosTotales = dynamic(
   () => import("@/components/informes/medicos/ventas_medicos_totales"),
   {
     ssr: false,
-    loading: () => <div style={{ height: "300px" }}>&#9203;</div>,
+    loading: () => <div style={{ width:"100px" }}>&#9203;</div>,
   },
 );
 export default function ventas_medico() {

@@ -1,8 +1,17 @@
-import EnvioForm from "@/components/forms/EnvioForm";
 import MyLayout from "@/components/layout/layout";
-import LayoutCaja from "@/components/layout/layout_caja";
 import LayoutVentas from "@/components/layout/layout_ventas";
 import globals from "@/src/globals";
+
+import dynamic from "next/dynamic";
+
+const EnvioForm = dynamic(
+  () => import("@/components/forms/EnvioForm"),
+  {
+    ssr: false,
+    loading: () => <div style={{ width:"100px" }}>Cargando...</div>,
+  },
+);
+
 
 export default function NuevoEnvio() {
   return (

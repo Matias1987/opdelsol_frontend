@@ -18,7 +18,6 @@ const ListaProveedoresDep = (props) => {
   const columns = [
     { title: "Nro.", dataIndex: "idproveedor", key: "idproveedor" },
     { title: "Nombre", dataIndex: "nombre", key: "nombre" },
-
   ];
 
   useEffect(() => {
@@ -32,7 +31,8 @@ const ListaProveedoresDep = (props) => {
             cuit: r.cuit,
           })),
         );
-      });
+      })
+      .catch((_) => {});
   }, [change]);
 
   const openPopup = () => {

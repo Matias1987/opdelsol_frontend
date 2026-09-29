@@ -10,7 +10,7 @@ const SucursalSelectModal = dynamic(
   () => import("@/components/SucursalSelectModal"),
   {
     ssr: false,
-    loading: () => <div style={{ height: "300px" }}>&#9203;Espere...</div>,
+    loading: () => <div style={{ width: "100px" }}>&#9203;Espere...</div>,
   },
 );
 

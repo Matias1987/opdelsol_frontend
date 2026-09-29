@@ -3,7 +3,7 @@ import dynamic from "next/dynamic";
 
 const ListaVentas = dynamic(() => import("@/components/informes/ventas/ListaVentas"), {
   ssr: false,
-  loading: () => <div style={{ height: "300px" }}>Cargando...</div>,
+  loading: () => <div style={{ width:"100px" }}>Cargando...</div>,
 });
 
 export default function VentasTerminadas(){

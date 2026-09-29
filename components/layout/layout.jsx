@@ -8,11 +8,11 @@ import { useUserStatus } from "../providers/UserContext";
 
 const TestMenu = dynamic(() => import("./menu_test"), {
   ssr: false,
-  loading: () => <div style={{ height: "30px" }}></div>,
+  loading: () => <div style={{ width:"100px" }}></div>,
 });
 const MenuV2 = dynamic(() => import("./menu_v2"), {
   ssr: false,
-  loading: () => <div style={{ height: "30px" }}></div>,
+  loading: () => <div style={{ width:"100px" }}></div>,
 });
 
 export default function MyLayout(props) {

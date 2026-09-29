@@ -9,21 +9,21 @@ const TotalesProveedores = dynamic(
   () => import("@/components/admin/dashboard_components/totales_proveedores"),
   {
     ssr: false,
-    loading: () => <div style={{ height: "300px" }}>&#9203;</div>,
+    loading: () => <div style={{ width:"100px" }}>&#9203;</div>,
   },
 );
 const TotalesCobros = dynamic(
   () => import("@/components/admin/dashboard_components/totales_cobros"),
   {
     ssr: false,
-    loading: () => <div style={{ height: "300px" }}>&#9203;</div>,
+    loading: () => <div style={{ width:"100px" }}>&#9203;</div>,
   },
 );
 const PieChartVentasGraph = dynamic(
   () => import("@/components/charts/pieChartVentasGraph"),
   {
     ssr: false,
-    loading: () => <div style={{ height: "300px" }}>&#9203;</div>,
+    loading: () => <div style={{ width:"100px" }}>&#9203;</div>,
   },
 );
 

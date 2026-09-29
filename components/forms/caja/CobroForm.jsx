@@ -17,6 +17,7 @@ import {
 import ModoPagoV4 from "../modo_pago/ModoPagoV4";
 import { v4 as uuidv4 } from "uuid";
 import ConnectedButton from "@/components/etc/CntButton";
+import { useNetworkStatus } from "@/components/providers/NetworkContext";
 
 /**
  *

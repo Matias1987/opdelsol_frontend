@@ -6,7 +6,7 @@ const ListaProveedores = dynamic(
   () => import("@/components/admin/proveedor/ListaProveedores"),
   {
     ssr: false,
-    loading: () => <div style={{ height: "300px" }}>&#9203;</div>,
+    loading: () => <div style={{ width:"100px" }}>&#9203;</div>,
   },
 );
 
@@ -14,7 +14,7 @@ const Proveedores = dynamic(
   () => import("@/components/admin/dashboard_components/proveedores"),
   {
     ssr: false,
-    loading: () => <div style={{ height: "300px" }}>&#9203;</div>,
+    loading: () => <div style={{ width:"100px" }}>&#9203;</div>,
   },
 );
 

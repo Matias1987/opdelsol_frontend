@@ -10,24 +10,24 @@ const BarraResumenCaja = dynamic(
   () => import("../forms/caja/BarraResumenCaja"),
   {
     ssr: false,
-    loading: () => <div style={{ height: "30px" }}>&#9203;</div>,
+    loading: () => <div style={{ width:"100px" }}></div>,
   },
 );
 
 const MenuVentasMobile = dynamic(() => import("./mobile_menu_ventas"), {
   ssr: false,
-  loading: () => <div style={{ height: "30px" }}>&#9203;</div>,
+  loading: () => <div style={{ width:"100px" }}></div>,
 });
 const MenuV3 = dynamic(() => import("./menu_v3"), {
   ssr: false,
-  loading: () => <div style={{ height: "30px" }}>&#9203;</div>,
+  loading: () => <div style={{ width:"100px" }}></div>,
 });
 
 const PopupResultadoBusqueda = dynamic(
   () => import("../precios/PopupResultadoBusqueda"),
   {
     ssr: false,
-    loading: () => <div style={{ height: "30px" }}>&#9203;</div>,
+    loading: () => <div style={{ width:"100px" }}>&#9203;</div>,
   },
 );
 

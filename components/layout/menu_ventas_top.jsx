@@ -13,13 +13,13 @@ const ListaPreciosV3 = dynamic(
   () => import("../lista_precios/listaPreciosV3"),
   {
     ssr: false,
-    loading: () => <div style={{ height: "30px" }}>...</div>,
+    loading: () => <div style={{ width: "100px" }}>...</div>,
   },
 );
 
 const BuscarVentaV3 = dynamic(() => import("../forms/ventas/BuscarVentasV3"), {
   ssr: false,
-  loading: () => <div style={{ height: "30px" }}>...</div>,
+  loading: () => <div style={{ width: "100px" }}>...</div>,
 });
 
 export default function MenuVentasTop(props) {

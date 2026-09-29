@@ -41,10 +41,6 @@ export default function  ListaEnvios(props){
                         <CustomModal openButtonText="Imprimir Codigos Barra" title="Imprimir Codigos Envio" onOk={()=>{}}>
                             <CodigosDeBarraEnvio idenvio={idenvio}/>
                         </CustomModal>
-                       {/* <CustomModal openButtonText="Imprimir Codigos QR" title="Imprimir Codigos Envio" onOk={()=>{}}>
-                            <CodigosQR idenvio={idenvio}/>
-                        </CustomModal>
-                         &nbsp;*/}
                         <Button  size="small" disabled={estado!='GENERADO'} danger   onClick={()=>{anular(idenvio)}}>Anular</Button>
                     </>    )                
                 }

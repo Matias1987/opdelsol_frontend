@@ -9,7 +9,6 @@ export default function MenuTallerCOExp() {
   const [current, setCurrent] = useState("12");
   const get_url_to = (_target) => local_base_url + _target;
   const onClick = (e) => {
-    console.log("click ", e);
     setCurrent(e.key);
   };
   return (
