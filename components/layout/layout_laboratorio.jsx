@@ -1,4 +1,4 @@
-import { get, public_urls } from "@/src/urls";
+import { public_urls } from "@/src/urls";
 import { Layout } from "antd";
 import { useEffect } from "react";
 import globals from "@/src/globals";

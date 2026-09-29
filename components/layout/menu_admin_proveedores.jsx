@@ -1,9 +1,19 @@
 import { Menu } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
-import { public_urls } from "@/src/urls";
+import { get, public_urls } from "@/src/urls";
 import { useNetworkStatus } from "../providers/NetworkContext";
+import LogoutOutlined from "@ant-design/icons/LogoutOutlined";
+import UserOutlined from "@ant-design/icons/UserOutlined";
+import globals from "@/src/globals";
+import SucursalLabel from "../sucursal_label";
 
+export default function MenuAdminProveedores() {
+  const [usuario, setUsuario] = useState("");
+  const [current, setCurrent] = useState("12");
+  const { isOnline } = useNetworkStatus();
+
+  
 const items = [
   {
     label: <Link href={public_urls.dashboard_adm_prov}>Inicio</Link>,
@@ -39,13 +49,49 @@ const items = [
       },
     ],
   },
+  {
+    label: (
+      <>
+        <span style={{ color: "#B35100" }}>
+          <UserOutlined />
+        </span>
+        {usuario} <span style={{ fontWeight: "400" }}>|</span>
+        <SucursalLabel color="#fdfdfd" />
+      </>
+    ),
+    key: "user",
+    children: [
+      {
+        label: "Salir",
+        key: "salir",
+        icon: <LogoutOutlined />,
+      },
+    ],
+  },
 ];
-export default function MenuAdminProveedores() {
-  const [current, setCurrent] = useState("12");
-  const { isOnline } = useNetworkStatus();
+
+  useEffect(() => {
+    setUsuario(globals.obtenerUserName());
+    //alert("gg")
+  }, []);
+
   const onClick = (e) => {
     console.log("click ", e);
     setCurrent(e.key);
+    if (e.key === "salir") {
+      const _token = globals.getToken();
+
+      fetch(get.logout + _token)
+        .then((response) => response.json())
+        .then((response) => {
+          window.location.replace(public_urls.login);
+        })
+        .catch((err) => {
+          console.log("error");
+        });
+
+      return;
+    }
   };
   return (
     <Menu

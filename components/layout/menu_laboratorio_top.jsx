@@ -77,7 +77,6 @@ const MenuLaboratorioTop = (props) => {
     },
   ];
 
-
   useEffect(() => {
     setUsuario(globals.obtenerUserName());
   }, []);
@@ -88,7 +87,7 @@ const MenuLaboratorioTop = (props) => {
     if (e.key === "buscar_venta") {
       setBuscarVentaOpen(true);
     }
-    if(e.key === "salir"){
+    if (e.key === "salir") {
       const _token = globals.getToken();
 
       fetch(get.logout + _token)

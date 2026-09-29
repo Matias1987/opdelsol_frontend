@@ -275,6 +275,7 @@ export default function MenuV3(props) {
   };
 
   useEffect(() => {
+   
     setUsuario(globals.obtenerUserName());
 
     const items = [];
