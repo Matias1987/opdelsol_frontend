@@ -5,11 +5,6 @@ import globals from "@/src/globals";
 //import HeaderSol from "./header";
 import { useUserStatus } from "../providers/UserContext";
 import dynamic from "next/dynamic";
-
-export default function layout_admin_proveedores({ children }) {
-  const { Content } = Layout;
-  const { userLogedIn } = useUserStatus();
-
   const MenuAdminProveedores = dynamic(
     () => import("./menu_admin_proveedores"),
     {
@@ -17,8 +12,14 @@ export default function layout_admin_proveedores({ children }) {
       loading: () => <div style={{ width: "100px" }}></div>,
     },
   );
+export default function layout_admin_proveedores({ children }) {
+  const { Content } = Layout;
+  const { userLogedIn } = useUserStatus();
+
+
 
   useEffect(() => {
+    alert("sdf")
     if (!userLogedIn) {
       window.location.replace(public_urls.login);
     }

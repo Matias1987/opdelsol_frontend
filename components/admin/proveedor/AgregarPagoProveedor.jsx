@@ -17,8 +17,11 @@ import SelectCuentaBancaria from "@/components/cuenta_bancarias/selectCuentaBanc
 import ArrowRightOutlined from "@ant-design/icons/ArrowRightOutlined";
 import { v4 as uuidv4 } from "uuid";
 import SeleccionCompraAPagar from "./SeleccionCompraAPagar";
+import ConnectedButton from "@/components/etc/CntButton";
+import { useNetworkStatus } from "@/components/providers/NetworkContext";
 const AgregarPagoProveedor = (props) => {
   const postIdRef = useRef(uuidv4()); 
+  const { isOnline } = useNetworkStatus();
   const [comprasSeleccionadas, setComprasSeleccionadas] = useState([]);
   const [totalAPagar, setTotalAPagar] = useState(0);
   const [bancos, setBancos] = useState([]);
@@ -146,8 +149,9 @@ const AgregarPagoProveedor = (props) => {
             label: b.nombre,
           })),
         );
-      });
-  }, [reload]);
+      })
+      .catch(_=>{});
+  }, [reload, isOnline]);
 
   const onCompraAPagarSeleccionada = (seleccion) => {
     setComprasSeleccionadas(seleccion);
@@ -310,6 +314,7 @@ const AgregarPagoProveedor = (props) => {
                     callback={(v) => {
                       setMpCheque((mp) => ({ ...mp, fkcta_bancaria: v }));
                     }}
+                    key={isOnline}
                   />
                 </Col>
               </Row>
@@ -370,6 +375,7 @@ const AgregarPagoProveedor = (props) => {
                         fkcta_bancaria: v,
                       }));
                     }}
+                    key={isOnline}
                   />
                 </Col>
               </Row>
@@ -394,14 +400,14 @@ const AgregarPagoProveedor = (props) => {
       <Row style={{ padding: "1em" }}>
         <Col span={24}>
           <Divider />
-          <Button
+          <ConnectedButton
             type="primary"
             block
             onClick={guardar_click}
             disabled={!enabled}
           >
             Guardar Pago
-          </Button>
+          </ConnectedButton>
         </Col>
       </Row>
     </>

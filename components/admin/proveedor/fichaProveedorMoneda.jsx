@@ -26,6 +26,7 @@ import AgregarFacturaV3 from "../factura/agregarFacturaV3";
 import { formatFloat } from "@/src/helpers/formatters";
 import ExportToExcel2 from "@/components/etc/ExportToExcel2";
 import AsignarPagos from "./AsignarPagos";
+import ConnectedButton from "@/components/etc/CntButton";
 const { TabPane } = Tabs;
 const FichaProveedorMoneda = ({
   idproveedor,
@@ -405,7 +406,7 @@ const FichaProveedorMoneda = ({
         }}
       >
         <Col>
-          <Button
+          <ConnectedButton
             disabled={agrupar || labelDate != null}
             type="primary"
             onClick={() => {
@@ -413,9 +414,9 @@ const FichaProveedorMoneda = ({
             }}
           >
             Agregar Pago
-          </Button>
+          </ConnectedButton>
           &nbsp;
-          <Button
+          <ConnectedButton
             disabled={agrupar || labelDate != null}
             type="primary"
             onClick={() => {
@@ -423,9 +424,9 @@ const FichaProveedorMoneda = ({
             }}
           >
             Agregar Carga Manual
-          </Button>
+          </ConnectedButton>
           &nbsp;
-          <Button
+          <ConnectedButton
             disabled={agrupar || labelDate != null}
             type="primary"
             onClick={() => {
@@ -433,10 +434,10 @@ const FichaProveedorMoneda = ({
             }}
           >
             Agregar Remito
-          </Button>
+          </ConnectedButton>
         </Col>
         <Col>
-          <Button
+          <ConnectedButton
             danger
             disabled={agrupar || labelDate != null}
             type="primary"
@@ -445,7 +446,7 @@ const FichaProveedorMoneda = ({
             }}
           >
             Asignar Pagos
-          </Button>
+          </ConnectedButton>
         </Col>
       </Row>
       <Row>
@@ -537,7 +538,7 @@ const FichaProveedorMoneda = ({
         }}
       >
         <Col>
-          <Button
+          <ConnectedButton
             disabled={agrupar || labelDate != null}
             type="primary"
             onClick={() => {
@@ -545,9 +546,9 @@ const FichaProveedorMoneda = ({
             }}
           >
             Agregar Pago
-          </Button>
+          </ConnectedButton>
           &nbsp;
-          <Button
+          <ConnectedButton
             disabled={agrupar || labelDate != null}
             type="primary"
             onClick={() => {
@@ -555,9 +556,9 @@ const FichaProveedorMoneda = ({
             }}
           >
             Agregar Carga Manual
-          </Button>
+          </ConnectedButton>
           &nbsp;
-          <Button
+          <ConnectedButton
             disabled={agrupar || labelDate != null}
             type="primary"
             onClick={() => {
@@ -565,10 +566,10 @@ const FichaProveedorMoneda = ({
             }}
           >
             Agregar Factura
-          </Button>
+          </ConnectedButton>
         </Col>
         <Col>
-          <Button
+          <ConnectedButton
             danger
             type="primary"
             disabled={agrupar || labelDate != null}
@@ -577,7 +578,7 @@ const FichaProveedorMoneda = ({
             }}
           >
             Asignar Pagos
-          </Button>
+          </ConnectedButton>
         </Col>
       </Row>
       <Row>

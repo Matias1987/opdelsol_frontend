@@ -1,3 +1,4 @@
+import { useNetworkStatus } from "@/components/providers/NetworkContext";
 import { formatFloat } from "@/src/helpers/formatters";
 import { post_method } from "@/src/helpers/post_helper";
 import { post } from "@/src/urls";
@@ -10,6 +11,7 @@ const SeleccionCompraAPagar = ({ idproveedor, onChange, moneda, modo }) => {
   const [compras, setCompras] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedCompra, setSelectedCompra] = useState(null);
+  const { isOnline } = useNetworkStatus();
   const columns = [
     {
       width: "50px",
@@ -142,7 +144,7 @@ const SeleccionCompraAPagar = ({ idproveedor, onChange, moneda, modo }) => {
 
   useEffect(() => {
     load();
-  }, [idproveedor]);
+  }, [idproveedor, isOnline]);
 
   return (
     <div>

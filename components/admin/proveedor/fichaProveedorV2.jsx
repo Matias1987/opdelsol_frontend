@@ -4,6 +4,8 @@ import { get, post } from "@/src/urls";
 import { post_method } from "@/src/helpers/post_helper";
 import FichaProveedorMoneda from "./fichaProveedorMoneda";
 import CloseOutlined from "@ant-design/icons/CloseOutlined";
+import ConnectedButton from "@/components/etc/CntButton";
+import { useNetworkStatus } from "@/components/providers/NetworkContext";
 
 const FichaProveedorV2 = ({ idproveedor, callback }) => {
   const [monedasExistentesProveedor, setMonedasExistentesProveedor] = useState(
@@ -13,6 +15,7 @@ const FichaProveedorV2 = ({ idproveedor, callback }) => {
   const [reload] = useState(false);
   const [datosProveedor, setDatosProveedor] = useState(null);
   const [selectedTab, setSelectedTab] = useState("ARS");
+  const { isOnline } = useNetworkStatus();
 
   const load_datos_proveedor = (_) => {
     fetch(get.detalle_proveedor + idproveedor)
@@ -65,7 +68,7 @@ const FichaProveedorV2 = ({ idproveedor, callback }) => {
     return (
       <div style={{ display: "flex", gap: "8px" }}>
         {panes.map((pane) => (
-          <Button
+          <ConnectedButton
             style={{ boxShadow: "2px 2px 1px 1px #afafaf" }}
             key={pane.key}
             shape="round"
@@ -73,7 +76,7 @@ const FichaProveedorV2 = ({ idproveedor, callback }) => {
             onClick={() => onTabClick(pane.key)}
           >
             {pane.props.tab /* This is the label of the tab */}
-          </Button>
+          </ConnectedButton>
         ))}
       </div>
     );
@@ -82,7 +85,7 @@ const FichaProveedorV2 = ({ idproveedor, callback }) => {
   useEffect(() => {
     load_datos_proveedor();
     load_monedas_existentes_proveedor();
-  }, [idproveedor, reload]);
+  }, [idproveedor, reload, isOnline]);
 
   return (
     <>
