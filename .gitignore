@@ -35,3 +35,5 @@ yarn-error.log*
 /src/config.js
 
 global.env
+
+.env

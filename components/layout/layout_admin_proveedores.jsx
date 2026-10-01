@@ -19,7 +19,6 @@ export default function layout_admin_proveedores({ children }) {
 
 
   useEffect(() => {
-    alert("sdf")
     if (!userLogedIn) {
       window.location.replace(public_urls.login);
     }
