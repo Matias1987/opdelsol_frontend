@@ -43,7 +43,7 @@ const Egreso = (props) => {
     setBtnEnabled(false);
     const url = aCajaMaster ? post.insert.egreso_cm : post.insert.egreso;
     post_method(url, {...egreso, uid: postIdRef.current }, (response) => {
-      setBtnEnabled(true);
+      //setBtnEnabled(true);
       alert("Datos Guardados");
       callback?.();
     });

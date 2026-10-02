@@ -200,6 +200,7 @@ const CajaMaster = ({updateData}) => {
         </Col>
       </Row>
       <Modal
+        destroyOnClose
         open={popupAddOpen}
         onCancel={() => setPopupAddOpen(false)}
         footer={null}

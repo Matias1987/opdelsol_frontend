@@ -25,7 +25,7 @@ const Ingreso = (props) => {
       post.insert.ingreso,
       { ...ingreso, uid: postIdRef.current },
       (response) => {
-        setBtnEnabled(true);
+        //setBtnEnabled(true);
         alert("Datos Guardados");
         callback?.();
       },

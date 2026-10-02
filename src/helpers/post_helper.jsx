@@ -11,7 +11,7 @@ const post_method = (url, data, callback) => {
             'idempotency-key': data?.uid ?? ""
             //'X-Idempotency-Key': data?.uid ?? ""
         },
-        body: JSON.stringify(data)
+        body: JSON.stringify({...data, uid_0: (globals?.obtenerUID()) ?? "-1"})
         
       })
       .then((response)=>response.json())

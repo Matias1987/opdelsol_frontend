@@ -22,7 +22,7 @@ const ModifIngresoCaja = (props) => {
       post.insert.modificacion_ingreso_caja,
       { ...modifIngreso, uid: postIdRef.current },
       (response) => {
-        setBtnEnabled(true);
+       // setBtnEnabled(true);
         alert("Datos Guardados");
         callback?.();
       },
