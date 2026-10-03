@@ -18,7 +18,7 @@ const TotalesProveedores = () => {
         });
     };
     fetchTotales();
-  }, []);
+  }, [reload]);
 
   return (
     <>
