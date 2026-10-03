@@ -1,26 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Table, Button, Tag, Card, Modal } from "antd";
 import PedidoProveedor from "./nuevo_pedido";
+import fetchConRetryYTimeout from "@/src/helpers/get_helper";
+import { get } from "@/src/urls";
 
 const AdminPedidos = () => {
   const [modalNuevoOpen, setModalNuevoOpen] = useState(false);
   const [modalDetalleOpen, setModalDetalleOpen] = useState(false);
-  const [pedidos, setPedidos] = useState([
-    {
-      id: 1,
-      proveedor: "Proveedor 1",
-      fecha: "28-08-2026",
-      estado: "Pendiente",
-    },
-    {
-      id: 2,
-      proveedor: "Proveedor 2",
-      fecha: "27-08-2026",
-      estado: "Recibido",
-    },
-    { id: 3, proveedor: "Proveedor 3", fecha: "26-08-2026", estado: "Anulado" },
-  ]);
-
+  const [pedidos, setPedidos] = useState([]);
+  const [reload, setReload] = useState([]);
   const cambiarEstado = (id, nuevoEstado) => {
     setPedidos(
       pedidos.map((p) => (p.id === id ? { ...p, estado: nuevoEstado } : p)),
@@ -67,16 +55,47 @@ const AdminPedidos = () => {
           >
             Ver detalle
           </Button>
-          <Button
-            type="link"
-            onClick={() => {}}
-          >
+          <Button type="link" onClick={() => {}}>
             Asignar Factura
           </Button>
         </>
       ),
     },
   ];
+
+  const load = async () => {
+    const result = await fetchConRetryYTimeout(get.lista_stock_pedidos);
+
+    /**
+     * example:
+     * {
+        "idpedido": 9,
+        "tipo": "COMPRA",
+        "sucursal_origen": 6,
+        "sucursal_pedido": 15,
+        "proveedor_idproveedor": 33,
+        "fecha": "2026-10-03T15:04:26.000Z",
+        "cant_total_pedida": 20,
+        "cant_total_recibida": 0,
+        "comentarios": null
+    },
+     */
+
+    setPedidos((_) =>
+      result.map((p) => ({
+        id: p.idpedido,
+        tipo: p.tipo,
+        proveedor: p.proveedor_idproveedor,
+        fecha: p.fecha,
+        estado: "", //to do
+        cantidad: 0, //to do
+      })),
+    );
+  };
+
+  useEffect(() => {
+    load();
+  }, [reload]);
 
   return (
     <>

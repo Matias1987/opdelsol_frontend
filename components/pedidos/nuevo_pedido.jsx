@@ -1,16 +1,12 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import {
-  Form,
-  Input,
   DatePicker,
   Button,
   Table,
   InputNumber,
-  Select,
   Modal,
   Row,
   Col,
-  Flex,
   Card,
 } from "antd";
 import globals from "@/src/globals";
@@ -19,12 +15,18 @@ import SelectProveedor from "../admin/proveedor/SelectProveedor";
 import CloseCircleOutlined from "@ant-design/icons/CloseCircleOutlined";
 import EditFilled from "@ant-design/icons/EditFilled";
 import PlusOutlined from "@ant-design/icons/PlusOutlined";
-
-const PedidoProveedor = () => {
+import { v4 as uuidv4 } from "uuid";
+import { post_method } from "@/src/helpers/post_helper";
+import { post } from "@/src/urls";
+import ConnectedButton from "../etc/CntButton";
+const PedidoProveedor = ({callback}) => {
   const [modalAddItemOpen, setModalAddItemOpen] = useState(false);
   const [modalSelectProveedor, setModalSelectProveedor] = useState(false);
   const [items, setItems] = useState([]);
   const [selectedProveedor, setSelectedProveedor] = useState(null);
+  const [btnDisabled, setBtnDisabled] = useState(false);
+
+  const postIdRef = useRef(uuidv4());
 
   const [pedido, setPedido] = useState({
     //idpedido: 5,
@@ -126,14 +128,33 @@ const PedidoProveedor = () => {
     padding: "6px",
   };
 
+  const generar_pedido = () => {
+    setBtnDisabled(true);
+    try {
+      const payload = {
+        ...pedido,
+        uid: postIdRef.current,
+        items: items.map((i) => ({
+          codigo: i.codigo,
+          cant_pedida: i.cant_pedida,
+        })),
+      };
+
+      post_method(post.insert.pedido, payload, (response) => {
+        alert("Datos Guardados.");
+        callback?.()
+      });
+    } catch (error) {}
+  };
+
   return (
     <>
       <Row style={row_style}>
         <Col span={24}>
           {detalle_proveedor()}{" "}
-          <Button onClick={(_) => setModalSelectProveedor(true)}>
+          <ConnectedButton onClick={(_) => setModalSelectProveedor(true)}>
             <EditFilled />
-          </Button>
+          </ConnectedButton>
         </Col>
       </Row>
       <Row style={row_style}>
@@ -153,14 +174,14 @@ const PedidoProveedor = () => {
             size="small"
             title={"Producos"}
             extra={
-              <Button
+              <ConnectedButton
                 size="small"
                 type="dashed"
                 onClick={(_) => setModalAddItemOpen(true)}
                 style={{ fontWeight: "600", color: "#ff0000" }}
               >
                 <PlusOutlined /> Agregar producto
-              </Button>
+              </ConnectedButton>
             }
           >
             <Table
@@ -179,9 +200,15 @@ const PedidoProveedor = () => {
       </Row>
       <Row style={row_style}>
         <Col span={24}>
-          <Button type="primary" style={{ marginTop: "16px" }} block>
+          <ConnectedButton
+            type="primary"
+            style={{ marginTop: "16px" }}
+            block
+            disabled={btnDisabled}
+            onClick={_=>generar_pedido()}
+          >
             Generar Pedido
-          </Button>
+          </ConnectedButton>
         </Col>
       </Row>
 

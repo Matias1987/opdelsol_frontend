@@ -366,6 +366,7 @@ const post = {
     insert_cliente_opinion: remote_base_url + "opinion/add/",
     descuento_cliente: remote_base_url + "dc/",
     insert_venta_multiple: remote_base_url + "tm/",
+    insert_pedido: remote_base_url + "pedidos/",
   },
   update: {
     optica: remote_base_url + "op/mod/",
@@ -666,6 +667,9 @@ const get = {
 
   trabajos_venta: remote_base_url + "tm/get/trabajos/venta/",
   obtener_trabajo: remote_base_url + "tm/get/trabajo/",
+
+  //pedidos
+  lista_stock_pedidos: remote_base_url + "pedidos/",
 };
 
 module.exports = {

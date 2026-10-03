@@ -29,13 +29,34 @@ const BarraResumenCaja = () => {
         }
 
         if (fecha) {
+          
+          const fechaRecibidaRaw = new Date(fecha);
           // 1. Convertir el string a un objeto Date
-          const fechaRecibida = new Date(fecha);
-          fechaRecibida.setHours(0, 0, 0, 0);
+          const fechaRecibida = new Date(
+            Date.UTC(
+              fechaRecibidaRaw.getUTCFullYear(),
+              fechaRecibidaRaw.getUTCMonth(),
+              fechaRecibidaRaw.getUTCDate(),
+              0,
+              0,
+              0,
+              0,
+            ),
+          );
 
           // 2. Obtener la fecha y hora actual
-          const fechaActual = new Date();
-          fechaActual.setHours(0, 0, 0, 0);
+          const hoy = new Date();
+          const fechaActual = new Date(
+            Date.UTC(
+              hoy.getFullYear(),
+              hoy.getMonth(),
+              hoy.getDate(),
+              0,
+              0,
+              0,
+              0,
+            ),
+          );
           // 3. Comparar si la fecha recibida es anterior (menor) a la actual
           if (fechaRecibida < fechaActual) {
             setAlerta(
@@ -105,7 +126,7 @@ const BarraResumenCaja = () => {
 
   return data ? (
     <div style={style}>
-      {alerta ? (
+      {alerta || false ? (
         <div style={{ fontStyle: "italic", color: "#5c2c05" }}>
           <WarningOutlined />
           &nbsp;{alerta}&nbsp;&nbsp;
