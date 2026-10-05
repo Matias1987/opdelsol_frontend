@@ -3,12 +3,16 @@ import { Table, Button, Tag, Card, Modal } from "antd";
 import PedidoProveedor from "./nuevo_pedido";
 import fetchConRetryYTimeout from "@/src/helpers/get_helper";
 import { get } from "@/src/urls";
+import EnvioForm from "../forms/EnvioForm";
 
 const AdminPedidos = () => {
   const [modalNuevoOpen, setModalNuevoOpen] = useState(false);
+  const [modalGenerarEnvioOpen, setModalGenerarEnvioOpen] = useState(false);
   const [modalDetalleOpen, setModalDetalleOpen] = useState(false);
   const [pedidos, setPedidos] = useState([]);
   const [reload, setReload] = useState([]);
+  const [selectedPedido, setSelectedPedido] = useState(null);
+  const [detallePedido, setDetallePedido] = useState(null);
   const cambiarEstado = (id, nuevoEstado) => {
     setPedidos(
       pedidos.map((p) => (p.id === id ? { ...p, estado: nuevoEstado } : p)),
@@ -43,11 +47,17 @@ const AdminPedidos = () => {
             Anular
           </Button>
           <Button
+            danger
             type="link"
-            onClick={() => cambiarEstado(record.id, "Recibido")}
-            disabled={record.estado === "Recibido"}
+            onClick={() => {
+              setSelectedPedido(record);
+              load_detalle_pedido(record.id);
+            }}
+            disabled={
+              record.estado === "Recibido" && false //for now
+            }
           >
-            Recibir
+            Generar Env&iacute;o
           </Button>
           <Button
             type="link"
@@ -66,21 +76,6 @@ const AdminPedidos = () => {
   const load = async () => {
     const result = await fetchConRetryYTimeout(get.lista_stock_pedidos);
 
-    /**
-     * example:
-     * {
-        "idpedido": 9,
-        "tipo": "COMPRA",
-        "sucursal_origen": 6,
-        "sucursal_pedido": 15,
-        "proveedor_idproveedor": 33,
-        "fecha": "2026-10-03T15:04:26.000Z",
-        "cant_total_pedida": 20,
-        "cant_total_recibida": 0,
-        "comentarios": null
-    },
-     */
-
     setPedidos((_) =>
       result.map((p) => ({
         id: p.idpedido,
@@ -91,6 +86,21 @@ const AdminPedidos = () => {
         cantidad: 0, //to do
       })),
     );
+  };
+
+  const load_detalle_pedido = async (idpedido) => {
+    const result = await fetchConRetryYTimeout(get.detalle_pedido + idpedido);
+
+    setDetallePedido((_) =>
+      result.map((p) => ({
+        idcodigo: p.codigo_idcodigo,
+        sucursal_origen: p.sucursal_origen,
+        sucursal_pedido: p.sucursal_pedido,
+        cantidad: p.cant_pedida,
+      })),
+    );
+
+    setModalGenerarEnvioOpen(true);
   };
 
   useEffect(() => {
@@ -128,8 +138,14 @@ const AdminPedidos = () => {
         width={"900px"}
         title="Nuevo"
         footer={null}
+        destroyOnClose={true}
       >
-        <PedidoProveedor />
+        <PedidoProveedor
+          callback={(_) => {
+            setReload(!reload);
+            setModalNuevoOpen(false);
+          }}
+        />
       </Modal>
       <Modal
         open={modalDetalleOpen}
@@ -137,7 +153,18 @@ const AdminPedidos = () => {
         width={"900px"}
         title="Detalle"
         footer={null}
+        destroyOnClose={true}
       ></Modal>
+      <Modal
+        open={modalGenerarEnvioOpen}
+        onCancel={(_) => setModalGenerarEnvioOpen(false)}
+        width={"900px"}
+        title="Generar Envío"
+        footer={null}
+        destroyOnClose={true}
+      >
+        <EnvioForm p_rows_to_add={detallePedido} />
+      </Modal>
     </>
   );
 };

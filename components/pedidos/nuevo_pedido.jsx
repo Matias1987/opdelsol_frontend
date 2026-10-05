@@ -8,6 +8,7 @@ import {
   Row,
   Col,
   Card,
+  Input,
 } from "antd";
 import globals from "@/src/globals";
 import PedidoItem from "./pedido_item";
@@ -30,7 +31,7 @@ const PedidoProveedor = ({callback}) => {
 
   const [pedido, setPedido] = useState({
     //idpedido: 5,
-    sucursal_origen: globals.obtenerSucursal(),
+    sucursal_origen: null,
     usuario_idusuario: globals.obtenerUID(),
     tipo: "PROVEEDOR", //INTERNO | PROVEEDOR
     proveedor_idproveedor: 3,
@@ -133,14 +134,17 @@ const PedidoProveedor = ({callback}) => {
     try {
       const payload = {
         ...pedido,
+        sucursal_origen: globals.obtenerSucursal()??6,
         uid: postIdRef.current,
         items: items.map((i) => ({
           codigo: i.codigo,
           cant_pedida: i.cant_pedida,
+          codigo_idcodigo: i.codigo_idcodigo,
         })),
       };
 
-      post_method(post.insert.pedido, payload, (response) => {
+    
+      post_method(post.insert.insert_pedido, payload, (response) => {
         alert("Datos Guardados.");
         callback?.()
       });
@@ -209,6 +213,19 @@ const PedidoProveedor = ({callback}) => {
           >
             Generar Pedido
           </ConnectedButton>
+        </Col>
+      </Row>
+      <Row>
+        <Col span={24}>
+              <Input.TextArea rows={8} value={JSON.stringify({
+        ...pedido,
+        uid: postIdRef.current,
+        items: items.map((i) => ({
+          codigo: i.codigo,
+          cant_pedida: i.cant_pedida,
+          idcodigo: i.codigo_idcodigo,
+        })),
+      })} />
         </Col>
       </Row>
 

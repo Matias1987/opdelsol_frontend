@@ -8,12 +8,12 @@ import { useState, useEffect } from "react";
  * @param addNullOption
  * @returns
  */
-const SucursalSelect = (props) => {
-  const { idsucursal, callback, addNullOption, disabled } = props;
+const SucursalSelect = ( { idsucursal, callback, addNullOption, disabled, size }) => {
   const [sucursalData, setSucursalData] = useState([]);
   const sucursalUrl = get.sucursales;
   const [selectedSucursal, setSelectedSucursal] = useState(null);
   const loadSucursales = () => {
+
     fetch(sucursalUrl)
       .then((response) => response.json())
       .then((response) => {
@@ -34,7 +34,7 @@ const SucursalSelect = (props) => {
           );
         }
 
-        if (idsucursal) {
+        if (idsucursal && +idsucursal >0) {
           setSelectedSucursal(+idsucursal);
           callback?.(
             +idsucursal,
@@ -50,7 +50,7 @@ const SucursalSelect = (props) => {
 
   useEffect(() => {
     loadSucursales();
-  }, []);
+  }, [idsucursal]);
 
   const onSucursalChange = (value) => {
     setSelectedSucursal(value);
@@ -61,7 +61,7 @@ const SucursalSelect = (props) => {
       <Col span={21}>
         <Select
           disabled={typeof disabled === "undefined" ? false : disabled}
-          size={props.size || "middle"}
+          size={size || "middle"}
           prefix={
             <span style={{ color: "#0C5AA9" }}>
               <i>Sucursal: </i>

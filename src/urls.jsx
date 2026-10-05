@@ -670,6 +670,7 @@ const get = {
 
   //pedidos
   lista_stock_pedidos: remote_base_url + "pedidos/",
+  detalle_pedido: remote_base_url + "pedidos/",
 };
 
 module.exports = {

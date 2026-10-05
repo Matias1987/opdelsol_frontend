@@ -22,9 +22,10 @@ import UpOutlined from "@ant-design/icons/UpOutlined";
 import { post_method } from "@/src/helpers/post_helper";
 import { get, informes, post, public_urls } from "@/src/urls";
 import { v4 as uuidv4 } from "uuid";
+import SucursalSelect from "../SucursalSelect";
 
-const EnvioForm = () => {
-  const postIdRef = useRef(uuidv4()); 
+const EnvioForm = ({ p_rows_to_add }) => {
+  const postIdRef = useRef(uuidv4());
   const [tableData, setTableData] = useState([]);
   const [tableLoading, setTableLoading] = useState(false);
   const [sucursalDestId, setSucursalDestId] = useState(-1);
@@ -35,8 +36,24 @@ const EnvioForm = () => {
   const [generarEnvioBtnEnabled, setGenerarEnvioBtnEnabled] = useState(true);
   const [rows_to_add, setRowsToAdd] = useState([]);
   const [popupAddOpen, setPopupAddOpen] = useState(false);
+  const [firstLoad, setFirstLoad] = useState(true);
 
   useEffect(() => {
+    if (firstLoad && p_rows_to_add) {
+      setFirstLoad(false);
+      const _temp = [];
+      if (p_rows_to_add.length > 0) {
+        const r = p_rows_to_add[0];
+        setSucursalDestId(+r.sucursal_origen);
+        p_rows_to_add.forEach((p) => {
+          for (let i = 0; i < +p.cantidad; p++) {
+            _temp.push(p.idcodigo);
+          }
+        });
+        setRowsToAdd(_temp);
+      }
+    }
+
     if (rows_to_add.length > 0) {
       load_details_for_selected_id(rows_to_add[0], (_) => {
         rows_to_add.shift();
@@ -51,7 +68,7 @@ const EnvioForm = () => {
       actualizarTotal(tableData);
     }
   }, [rows_to_add]);
-
+/*
   const setValue = (key, value) => {
     switch (key) {
       case "items":
@@ -62,7 +79,7 @@ const EnvioForm = () => {
         setSucursalDestId(value);
         break;
     }
-  };
+  };*/
 
   const actualizarTotal = (__data) => {
     var __cantidad = 0;
@@ -136,7 +153,10 @@ const EnvioForm = () => {
   const load_details_for_selected_id = (selectedCodigoId, callback = null) => {
     const found = tableData.find((e) => e.key == selectedCodigoId);
     if (found) {
-      if (confirm("Código ya agregado, incrementar cantidad?")) {
+      if (
+        p_rows_to_add ||
+        confirm("Código ya agregado, incrementar cantidad?")
+      ) {
         setTableData((td) =>
           td.map((r) =>
             r.key == selectedCodigoId
@@ -252,7 +272,7 @@ const EnvioForm = () => {
                 name={"sucursal_idsucursal"}
                 required={true}
               >
-                <LoadSelect
+                {/*<LoadSelect
                   disabled={(tableData || []).length > 0}
                   width="500px"
                   prefix={
@@ -270,6 +290,13 @@ const EnvioForm = () => {
                   callback={(id) => {
                     setValue("sucursal", id);
                   }}
+                />*/}
+                <SucursalSelect
+                  disabled={(tableData || []).length > 0}
+                  callback={(id) => {
+                    setSucursalDestId(id);
+                  }}
+                  idsucursal={sucursalDestId}
                 />
               </Form.Item>
 
