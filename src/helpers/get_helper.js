@@ -13,7 +13,8 @@ async function fetchConRetryYTimeout(url, opciones = {}, timeout = 5000, maxRetr
       const respuesta = await fetch(url, { ...opciones, signal: controller.signal });
 
       if (!respuesta.ok) {
-        throw new Error(`Error HTTP: ${respuesta.status}`);
+        console.log(`Intento ${intento} falló con código HTTP: ${respuesta.status}`);
+        //throw new Error(`Error HTTP: ${respuesta.status}`);
       }
 
       return await respuesta.json(); // Éxito: devolvemos los datos
@@ -30,7 +31,9 @@ async function fetchConRetryYTimeout(url, opciones = {}, timeout = 5000, maxRetr
 
       if (esUltimoIntento) {
         // Si ya no quedan intentos, lanzamos el error definitivo
-        throw new Error(`Petición fallida tras ${maxRetries} intentos. Razón original: ${error.message}`);
+        //throw new Error(`Petición fallida tras ${maxRetries} intentos. Razón original: ${error.message}`);
+        console.log(`Petición fallida tras ${maxRetries} intentos. Razón original: ${error.message}`);
+        return null; // Retornamos null para indicar que la petición falló
       }
 
       // Esperamos antes del próximo intento (multiplicamos por 2 para el backoff exponencial)

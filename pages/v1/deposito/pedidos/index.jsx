@@ -4,7 +4,7 @@ import AdminPedidos from "@/components/pedidos/lista_pedidos";
 export default function PedidosDeposito() {
   return (
     <>
-      <AdminPedidos />
+      <AdminPedidos modo="interno" recibidos={1} />
     </>
   );
 }

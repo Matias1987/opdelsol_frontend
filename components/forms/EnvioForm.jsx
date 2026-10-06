@@ -46,7 +46,7 @@ const EnvioForm = ({ p_rows_to_add }) => {
         const r = p_rows_to_add[0];
         setSucursalDestId(+r.sucursal_origen);
         p_rows_to_add.forEach((p) => {
-          for (let i = 0; i < +p.cantidad; p++) {
+          for (let i = 0; i < +p.cantidad; i++) {
             _temp.push(p.idcodigo);
           }
         });
@@ -68,18 +68,6 @@ const EnvioForm = ({ p_rows_to_add }) => {
       actualizarTotal(tableData);
     }
   }, [rows_to_add]);
-/*
-  const setValue = (key, value) => {
-    switch (key) {
-      case "items":
-        form.setFieldsValue({ items: value });
-        break;
-      case "sucursal":
-        form.setFieldsValue({ sucursal_idsucursal: value });
-        setSucursalDestId(value);
-        break;
-    }
-  };*/
 
   const actualizarTotal = (__data) => {
     var __cantidad = 0;
@@ -90,13 +78,8 @@ const EnvioForm = ({ p_rows_to_add }) => {
   };
 
   const onFinish = (values) => {
-    if (values.sucursal_idsucursal === typeof "undefined") {
-      alert("Sucursal no seleccionada");
-      return;
-    }
-
-    if (values.sucursal_idsucursal == null) {
-      alert("Sucursal no seleccionada");
+    if (sucursalDestId === -1 || sucursalDestId === null) {
+      alert("Sucursal de destino no seleccionada");
       return;
     }
 
@@ -105,10 +88,17 @@ const EnvioForm = ({ p_rows_to_add }) => {
       return;
     }
 
+    const filtered = tableData.filter((e) => +e.cantidad > +e.max_cantidad);
+
+    if (filtered.length > 0) {
+      alert("Algunos elementos superan la cantidad máxima disponible.");
+      return;
+    }
+
     setGenerarEnvioBtnEnabled(false);
 
-    const __values = {
-      sucursal_idsucursal: values.sucursal_idsucursal,
+    const payload = {
+      sucursal_idsucursal: sucursalDestId,
       usuario_idusuario: globals.obtenerUID(),
       cantidad_total: 0,
       id_sucursal_origen: globals.obtenerSucursal(),
@@ -116,18 +106,19 @@ const EnvioForm = ({ p_rows_to_add }) => {
       items: [],
       uid: postIdRef.current,
     };
+
     let __cantidad = 0;
     tableData.forEach((e) => {
-      __values.items.push({
+      payload.items.push({
         key: e.key,
         cantidad: e.cantidad,
       });
       __cantidad += parseInt(e.cantidad);
     });
 
-    __values.cantidad_total = __cantidad;
+    payload.cantidad_total = __cantidad;
 
-    post_method(post.insert.envio, __values, (res) => {
+    post_method(post.insert.envio, payload, (res) => {
       if (res.status == "OK") {
         alert("Datos Guardados");
         window.location.replace(informes.envio + res.data);
@@ -163,7 +154,8 @@ const EnvioForm = ({ p_rows_to_add }) => {
               ? {
                   ...r,
                   cantidad:
-                    parseInt(r.cantidad) < parseInt(r.max_cantidad)
+                    parseInt(r.cantidad) < parseInt(r.max_cantidad) ||
+                    p_rows_to_add
                       ? parseInt(r.cantidad) + 1
                       : parseInt(r.cantidad),
                 }
@@ -272,29 +264,11 @@ const EnvioForm = ({ p_rows_to_add }) => {
                 name={"sucursal_idsucursal"}
                 required={true}
               >
-                {/*<LoadSelect
-                  disabled={(tableData || []).length > 0}
-                  width="500px"
-                  prefix={
-                    <span style={{ color: "#0C5AA9", whiteSpace: "nowrap" }}>
-                      Sucursal Dest.:&nbsp;
-                    </span>
-                  }
-                  parsefnt={(data) =>
-                    data.map((row) => ({
-                      value: row.idsucursal,
-                      label: row.nombre,
-                    }))
-                  }
-                  fetchurl={get.sucursales}
-                  callback={(id) => {
-                    setValue("sucursal", id);
-                  }}
-                />*/}
                 <SucursalSelect
                   disabled={(tableData || []).length > 0}
                   callback={(id) => {
                     setSucursalDestId(id);
+                    setValue("sucursal", id);
                   }}
                   idsucursal={sucursalDestId}
                 />
@@ -403,7 +377,6 @@ const EnvioForm = ({ p_rows_to_add }) => {
                             type="number"
                             style={{ width: "50px" }}
                             min={0}
-                            max={obj.max}
                             defaultValue={0}
                             value={cantidad}
                             onChange={(e) => {

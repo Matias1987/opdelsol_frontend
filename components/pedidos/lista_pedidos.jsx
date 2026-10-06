@@ -4,8 +4,14 @@ import PedidoProveedor from "./nuevo_pedido";
 import fetchConRetryYTimeout from "@/src/helpers/get_helper";
 import { get } from "@/src/urls";
 import EnvioForm from "../forms/EnvioForm";
-
-const AdminPedidos = () => {
+import DetallePedido from "./detalle";
+import globals from "@/src/globals";
+import { useNetworkStatus } from "../providers/NetworkContext";
+/**
+ * @param {*} modo - "interno" | "proveedor" | "todos"
+ * @param {*} recibidos 1 : 0
+ */
+const AdminPedidos = ({ modo, recibidos }) => {
   const [modalNuevoOpen, setModalNuevoOpen] = useState(false);
   const [modalGenerarEnvioOpen, setModalGenerarEnvioOpen] = useState(false);
   const [modalDetalleOpen, setModalDetalleOpen] = useState(false);
@@ -13,10 +19,11 @@ const AdminPedidos = () => {
   const [reload, setReload] = useState([]);
   const [selectedPedido, setSelectedPedido] = useState(null);
   const [detallePedido, setDetallePedido] = useState(null);
+  const { isOnline } = useNetworkStatus();
+
   const cambiarEstado = (id, nuevoEstado) => {
-    setPedidos(
-      pedidos.map((p) => (p.id === id ? { ...p, estado: nuevoEstado } : p)),
-    );
+    // Implementa la lógica para cambiar el estado del pedido
+    console.log(`Cambiando estado del pedido ${id} a ${nuevoEstado}`);
   };
 
   const columns = [
@@ -61,7 +68,10 @@ const AdminPedidos = () => {
           </Button>
           <Button
             type="link"
-            onClick={() => alert(`Detalle del pedido ${record.id}`)}
+            onClick={() => {
+              setSelectedPedido(record);
+              setModalDetalleOpen(true);
+            }}
           >
             Ver detalle
           </Button>
@@ -74,7 +84,22 @@ const AdminPedidos = () => {
   ];
 
   const load = async () => {
-    const result = await fetchConRetryYTimeout(get.lista_stock_pedidos);
+    const _modo = modo ?? "todos";
+    const _recibidos = (recibidos ?? _modo == "todos") ? -1 : 0;
+
+    const _id_sucursal_origen = _recibidos == 0 ? globals.obtenerSucursal() : 0;
+    const _id_sucursal_pedido = _recibidos == 1 ? globals.obtenerSucursal() : 0;
+    const _id_tipo_pedido = _modo === "interno" ? 1 : _modo == "todos" ? 0 : 2;
+
+    const result = await fetchConRetryYTimeout(
+      get.lista_stock_pedidos +
+        `${_id_sucursal_origen}/${_id_tipo_pedido}/${_id_sucursal_pedido}/`,
+    );
+
+    if (!result) {
+      alert("No se pudo cargar la lista de pedidos.");
+      return;
+    }
 
     setPedidos((_) =>
       result.map((p) => ({
@@ -90,22 +115,20 @@ const AdminPedidos = () => {
 
   const load_detalle_pedido = async (idpedido) => {
     const result = await fetchConRetryYTimeout(get.detalle_pedido + idpedido);
-
     setDetallePedido((_) =>
       result.map((p) => ({
         idcodigo: p.codigo_idcodigo,
         sucursal_origen: p.sucursal_origen,
         sucursal_pedido: p.sucursal_pedido,
-        cantidad: p.cant_pedida,
+        cantidad: +p.cant_pedida,
       })),
     );
-
     setModalGenerarEnvioOpen(true);
   };
 
   useEffect(() => {
     load();
-  }, [reload]);
+  }, [reload, isOnline]);
 
   return (
     <>
@@ -154,7 +177,9 @@ const AdminPedidos = () => {
         title="Detalle"
         footer={null}
         destroyOnClose={true}
-      ></Modal>
+      >
+        <DetallePedido idpedido={selectedPedido?.id} />
+      </Modal>
       <Modal
         open={modalGenerarEnvioOpen}
         onCancel={(_) => setModalGenerarEnvioOpen(false)}

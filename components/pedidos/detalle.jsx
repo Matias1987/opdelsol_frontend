@@ -1,125 +1,97 @@
-import React, { useState } from "react";
-import { Layout, Table, Button, Tag, Modal, List, Card } from "antd";
-import PedidoProveedor from "./nuevo_pedido";
+import { useEffect, useState } from "react";
+import { Table, Card, Row, Col } from "antd";
+import fetchConRetryYTimeout from "@/src/helpers/get_helper";
+import { get } from "@/src/urls";
 
-const { Header, Content, Footer } = Layout;
+const DetallePedido = ({ idpedido }) => {
+  const [detallePedido, setDetallePedido] = useState(null);
+  const [pedido, setPedido] = useState(null);
 
-const DetallePedidos = () => {
-  const [pedidos, setPedidos] = useState([
-    {
-      id: 1,
-      proveedor: "Proveedor 1",
-      fecha: "28-08-2026",
-      estado: "Pendiente",
-      productos: [
-        { nombre: "Arroz", cantidad: 10 },
-        { nombre: "Aceite", cantidad: 5 },
-      ],
-    },
-    {
-      id: 2,
-      proveedor: "Proveedor 2",
-      fecha: "27-08-2026",
-      estado: "Recibido",
-      productos: [
-        { nombre: "Harina", cantidad: 20 },
-        { nombre: "Azúcar", cantidad: 15 },
-      ],
-    },
-  ]);
+  const columns = [
 
-  const [pedidoSeleccionado, setPedidoSeleccionado] = useState(null);
+    {title:"Codigo", dataIndex:"codigo_idcodigo"},
+    {title:"Cant", dataIndex:"cant_pedida"},
 
-  const cambiarEstado = (id, nuevoEstado) => {
-    setPedidos(
-      pedidos.map((p) => (p.id === id ? { ...p, estado: nuevoEstado } : p)),
+  ]
+
+  const load_detalle_pedido = async () => {
+    const result = await fetchConRetryYTimeout(get.detalle_pedido + idpedido);
+
+    if (!result || result.length === 0) {
+      alert("No se pudo cargar el detalle del pedido.");
+      return;
+    }
+
+    //get first row to get pedido info
+    setPedido(result[0]);
+    setPedido((_) => ({
+      ..._,
+      sucursal_origen: result[0].sucursal_origen,
+      proveedor_idproveedor: result[0].proveedor_idproveedor,
+      sucursal_pedido: result[0].sucursal_pedido,
+      tipo: result[0].tipo,
+      fecha: result[0].fecha,
+    }));
+
+    setDetallePedido((_) =>
+      result.map((p) => ({
+        idcodigo: p.codigo_idcodigo,
+        sucursal_origen: p.sucursal_origen,
+        sucursal_pedido: p.sucursal_pedido,
+        cantidad: +p.cant_pedida,
+      })),
     );
   };
 
-  const columns = [
-    { title: "N° Pedido", dataIndex: "id", key: "id" },
-    { title: "Proveedor", dataIndex: "proveedor", key: "proveedor" },
-    { title: "Fecha", dataIndex: "fecha", key: "fecha" },
-    {
-      title: "Estado",
-      dataIndex: "estado",
-      key: "estado",
-      render: (estado) => {
-        let color = "blue";
-        if (estado === "Recibido") color = "green";
-        if (estado === "Anulado") color = "red";
-        return <Tag color={color}>{estado}</Tag>;
-      },
-    },
-    {
-      title: "Acciones",
-      key: "acciones",
-      render: (_, record) => (
-        <>
-          <Button
-            type="link"
-            onClick={() => cambiarEstado(record.id, "Anulado")}
-            disabled={record.estado === "Anulado"}
-          >
-            Anular
-          </Button>
-          <Button
-            type="link"
-            onClick={() => cambiarEstado(record.id, "Recibido")}
-            disabled={record.estado === "Recibido"}
-          >
-            Recibir
-          </Button>
-          <Button type="link" onClick={() => setPedidoSeleccionado(record)}>
-            Ver detalle
-          </Button>
-        </>
-      ),
-    },
-  ];
+  useEffect(() => {
+    load_detalle_pedido();
+  }, [idpedido]);
 
-  return (
+  return !pedido ? <>Espere...</> :  (
     <>
-      <Card>
-        <Table
-          dataSource={pedidos}
-          columns={columns}
-          rowKey="id"
-          pagination={false}
-        />
-
-        <Modal
-          open={!!pedidoSeleccionado}
-          onCancel={() => setPedidoSeleccionado(null)}
-          footer={null}
-          title={`Detalle del Pedido N° ${pedidoSeleccionado?.id}`}
-        >
-          {pedidoSeleccionado && (
-            <>
-              <p>
-                <b>Proveedor:</b> {pedidoSeleccionado.proveedor}
-              </p>
-              <p>
-                <b>Fecha:</b> {pedidoSeleccionado.fecha}
-              </p>
-              <p>
-                <b>Estado:</b> {pedidoSeleccionado.estado}
-              </p>
-              <List
-                header={<b>Productos</b>}
-                dataSource={pedidoSeleccionado.productos}
-                renderItem={(item) => (
-                  <List.Item>
-                    {item.nombre} — Cantidad: {item.cantidad}
-                  </List.Item>
-                )}
-              />
-            </>
-          )}
-        </Modal>
+      <Card size="small">
+        <Row>
+          <Col span={24}>Nro.{pedido?.id || "N/A"}</Col>
+        </Row>
+        <Row>
+          <Col span={24}>
+            Sucursal de Origen: {pedido?.sucursal_origen || "N/A"}
+          </Col>
+        </Row>
+        {pedido.tipo === "compra" && (
+          <Row>
+            <Col span={24}>
+              Proveedor: {pedido?.proveedor_idproveedor || "N/A"}
+            </Col>
+          </Row>
+        )}
+        {pedido.tipo === "interno" && (
+          <Row>
+            <Col span={24}>
+              Sucursal de Pedido: {pedido?.sucursal_pedido || "N/A"}
+            </Col>
+          </Row>
+        )}
+        <Row>
+          <Col span={24}>Tipo: {pedido?.tipo || "N/A"}</Col>
+        </Row>
+        <Row>
+          <Col span={24}>Fecha: {pedido?.fecha || "N/A"}</Col>
+        </Row>
+        <Row>
+          <Col span={24}>
+            <Table
+              size="small"
+              dataSource={detallePedido}
+              columns={columns}
+              rowKey="id"
+              pagination={false}
+            />
+          </Col>
+        </Row>
       </Card>
     </>
   );
 };
 
-export default DetallePedidos;
+export default DetallePedido;
