@@ -20,7 +20,8 @@ import { v4 as uuidv4 } from "uuid";
 import { post_method } from "@/src/helpers/post_helper";
 import { post } from "@/src/urls";
 import ConnectedButton from "../etc/CntButton";
-const PedidoProveedor = ({callback}) => {
+import SucursalSelect from "../SucursalSelect";
+const PedidoProveedor = ({ callback, tipo }) => {
   const [modalAddItemOpen, setModalAddItemOpen] = useState(false);
   const [modalSelectProveedor, setModalSelectProveedor] = useState(false);
   const [items, setItems] = useState([]);
@@ -106,7 +107,6 @@ const PedidoProveedor = ({callback}) => {
   const onChange = (key, value) => {
     setPedido((_p) => {
       const _updated = { ..._p, [key]: value };
-      //callback?.(_updated);
       return _updated;
     });
   };
@@ -122,7 +122,7 @@ const PedidoProveedor = ({callback}) => {
         </span>
       </>
     ) : (
-      <>Seleccione...</>
+      <>Seleccione Proveedor...</>
     );
 
   const row_style = {
@@ -134,7 +134,7 @@ const PedidoProveedor = ({callback}) => {
     try {
       const payload = {
         ...pedido,
-        sucursal_origen: globals.obtenerSucursal()??6,
+        sucursal_origen: globals.obtenerSucursal(),
         uid: postIdRef.current,
         items: items.map((i) => ({
           codigo: i.codigo,
@@ -143,34 +143,39 @@ const PedidoProveedor = ({callback}) => {
         })),
       };
 
-    
       post_method(post.insert.insert_pedido, payload, (response) => {
         alert("Datos Guardados.");
-        callback?.()
+        callback?.();
       });
     } catch (error) {}
   };
 
   return (
     <>
-      <Row style={row_style}>
-        <Col span={24}>
-          {detalle_proveedor()}{" "}
-          <ConnectedButton onClick={(_) => setModalSelectProveedor(true)}>
-            <EditFilled />
-          </ConnectedButton>
-        </Col>
-      </Row>
+      {tipo == "interno" ? (
+        <>
+          <SucursalSelect
+            callback={(id) => {
+              onChange("sucursal_pedido", id);
+            }}
+          />
+        </>
+      ) : (
+        <Row style={row_style}>
+          <Col span={24}>
+            {detalle_proveedor()}{" "}
+            <ConnectedButton onClick={(_) => setModalSelectProveedor(true)}>
+              <EditFilled />
+            </ConnectedButton>
+          </Col>
+        </Row>
+      )}
       <Row style={row_style}>
         <Col span={24}>
           Fecha: <DatePicker />
         </Col>
       </Row>
-      {/*<Row style={row_style}>
-        <Col span={24}>
-          <Input addonBefore="Nro." />
-        </Col>
-      </Row>*/}
+
       <Row style={row_style}>
         <Col span={24}>
           <Card
@@ -209,7 +214,7 @@ const PedidoProveedor = ({callback}) => {
             style={{ marginTop: "16px" }}
             block
             disabled={btnDisabled}
-            onClick={_=>generar_pedido()}
+            onClick={(_) => generar_pedido()}
           >
             Generar Pedido
           </ConnectedButton>
@@ -217,15 +222,19 @@ const PedidoProveedor = ({callback}) => {
       </Row>
       <Row>
         <Col span={24}>
-              <Input.TextArea rows={8} value={JSON.stringify({
-        ...pedido,
-        uid: postIdRef.current,
-        items: items.map((i) => ({
-          codigo: i.codigo,
-          cant_pedida: i.cant_pedida,
-          idcodigo: i.codigo_idcodigo,
-        })),
-      })} />
+          <Input.TextArea
+            rows={8}
+            value={JSON.stringify({
+              ...pedido,
+              sucursal_origen: globals.obtenerSucursal(),
+              uid: postIdRef.current,
+              items: items.map((i) => ({
+                codigo: i.codigo,
+                cant_pedida: i.cant_pedida,
+                codigo_idcodigo: i.codigo_idcodigo,
+              })),
+            })}
+          />
         </Col>
       </Row>
 

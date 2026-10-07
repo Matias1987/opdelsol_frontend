@@ -19,6 +19,7 @@ const AdminPedidos = ({ modo, recibidos }) => {
   const [reload, setReload] = useState([]);
   const [selectedPedido, setSelectedPedido] = useState(null);
   const [detallePedido, setDetallePedido] = useState(null);
+  const [nuevoPedidoModo, setNuevoPedidoModo] = useState("interno");
   const { isOnline } = useNetworkStatus();
 
   const cambiarEstado = (id, nuevoEstado) => {
@@ -139,10 +140,19 @@ const AdminPedidos = ({ modo, recibidos }) => {
           <>
             <Button
               onClick={(_) => {
+                setNuevoPedidoModo("compra");
                 setModalNuevoOpen(true);
               }}
             >
-              Nuevo
+              Nueva Compra
+            </Button>{" "}
+            <Button
+              onClick={(_) => {
+                setNuevoPedidoModo("interno");
+                setModalNuevoOpen(true);
+              }}
+            >
+              Nuevo Pedido Interno
             </Button>{" "}
           </>
         }
@@ -164,9 +174,10 @@ const AdminPedidos = ({ modo, recibidos }) => {
         destroyOnClose={true}
       >
         <PedidoProveedor
+          tipo={nuevoPedidoModo}
           callback={(_) => {
             setReload(!reload);
-            setModalNuevoOpen(false);
+            //setModalNuevoOpen(false);
           }}
         />
       </Modal>
