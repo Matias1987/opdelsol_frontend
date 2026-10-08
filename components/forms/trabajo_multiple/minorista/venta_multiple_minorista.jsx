@@ -48,10 +48,8 @@ const VentaMultipleMinorista = ({
   on_change_done,
 }) => {
   const date = new Date();
-  const [localId, setLocalId] = useState(0);
   const [btnEnabled, setBtnEnabled] = useState(true);
   const [activeKey, setActiveKey] = useState("1");
-  //const { setItem } = useStorage();
   const [venta, setVenta] = useState({
     fkcliente: null,
     fkdestinatario: null,
@@ -87,7 +85,6 @@ const VentaMultipleMinorista = ({
   const [descuento, setDescuento] = useState(0);
   const [trabajos, setTrabajos] = useState([]);
   const trabajosRef = useRef(trabajos);
-  const [items, setItems] = useState([]);
   const [idCliente, setIdCliente] = useState(0);
   const [finalV, setFinalV] = useState({});
 
@@ -95,55 +92,55 @@ const VentaMultipleMinorista = ({
     trabajosRef.current = trabajos;
   }, [trabajos]);
 
-  const updateNestedValue = (path, newValue) => {
-    setMyObject((prev) => {
-      // 1. Deep clone or shallow copy the structure to avoid mutating state
-      const cloned = { ...prev };
-      let current = cloned;
+  const updateNestedValue = (prev, path, newValue) => {
+    //console.log("updateNestedValue: prev=" + JSON.stringify(prev) + ", path=" + JSON.stringify(path) + ", newValue=" + JSON.stringify(newValue));
+    // 1. Deep clone or shallow copy the structure to avoid mutating state
+    const cloned = { ...prev };
+    let current = cloned;
 
-      // 2. Traverse down to the second-to-last key
-      for (let i = 0; i < path.length - 1; i++) {
-        const key = path[i];
-        current[key] = { ...current[key] }; // Copy the nested object
-        current = current[key];
-      }
+    // 2. Traverse down to the second-to-last key
+    for (let i = 0; i < path.length - 1; i++) {
+      const key = path[i];
+      current[key] = { ...current[key] }; // Copy the nested object
+      current = current[key];
+    }
 
-      // 3. Set the final value
-      const finalKey = path[path.length - 1];
-      current[finalKey] = newValue;
 
-      return cloned;
-    });
+    // 3. Set the final value
+    const finalKey = path[path.length - 1];
+    current[finalKey] = newValue;
+
+    console.log(JSON.stringify(path));
+    console.log("updated: field=" + JSON.stringify(current));
+
+    return cloned;
   };
 
   const obtenerTrabajoObject = (tipo) => {
+    //alert("obtenerTrabajoObject: " + tipo);
     switch (tipo) {
       case "rec_st":
         return obtenerObjetoRecetaStock();
       case "monof_lab":
         return obtenerObjetoMonofocalLaboratorio();
-      case "multif_lab":
+      case "multi_lab":
         return obtenerObjetoMultifocalLaboratorio();
       case "lc_st":
         return obtenerObjetoLCStock();
       case "lc_lab":
         return obtenerObjetoLCLaboratorio();
       default:
-        alert("Tipo de trabajo no reconocido: " + tipo);
+        console.log("Tipo de trabajo no reconocido: " + tipo);
         break;
     }
   };
 
   const onTipoTrabajoSelected = (tabKey, newName, val) => {
-    alert(JSON.stringify({ tabKey, newName, val }));
     const _trabajos = trabajosRef.current;
-    alert(JSON.stringify(_trabajos));
-
-    //return;
 
     const trabajo = _trabajos.find((t) => +t.localId == +tabKey);
     if (!trabajo) {
-      alert("Error: No se encontró el trabajo con localId: " + tabKey);
+      console.log("Error: No se encontró el trabajo con localId: " + tabKey);
       return;
     }
 
@@ -153,45 +150,27 @@ const VentaMultipleMinorista = ({
         : t,
     );
 
-    alert(JSON.stringify(newObject));
-
-    setTrabajos((prevTrabajos) => newObject);
-    setItems((prevTabs) =>
-      prevTabs.map((tab) =>
-        +tab.key == +tabKey
-          ? {
-              ...tab,
-              label: (
-                <span
-                  style={{
-                    color: newName != "STOCK" ? "#262D42" : "#151a29",
-                    fontWeight: "600",
-                  }}
-                >
-                  {newName}
-                </span>
-              ),
-            }
-          : tab,
-      ),
-    );
+    setTrabajos((_) => newObject);
   };
 
-  const onTabValuesChange = (updateFnt) => {
-    const newObject = updateFnt();
-    /*
-    setTrabajos((t) => {
-      const mod = [...t];
-      const index = mod.findIndex((t) => +t.localId == +data.localId);
-      if (index !== -1) {
-        mod[index] = { ...mod[index], ...data };
-      } else {
-        mod.push(data);
-      }
-      calcularTotal(mod);
-      on_change_done?.(mod.length > 0);
-      return mod;
-    });*/
+  const onTabValuesChange = (data) => {
+    //find the trabajo with localId == data.localId
+    const _trabajos = trabajosRef.current;
+    const index = _trabajos.findIndex((t) => +t.localId == +data.localId);
+    const trabajo = _trabajos[index];
+
+    if (!trabajo) {
+      alert("Error: No se encontró el trabajo con localId: " + data.localId);
+      return;
+    }
+   
+    const newTrabajo = updateNestedValue(trabajo, data.path, data.values[0]);
+
+    setTrabajos((prevTrabajos) => {
+      const newTrabajos = [...prevTrabajos];
+      newTrabajos[index] = newTrabajo;
+      return newTrabajos;
+    });
   };
 
   const getItems = useMemo(() => {
@@ -248,18 +227,6 @@ const VentaMultipleMinorista = ({
   };
 
   const remove = (targetKey) => {
-    //if (!items) {
-    //  return;
-    //}
-    //const targetIndex = items.findIndex((item) => item.key === targetKey);
-    //const newItems = items.filter((item) => item.key !== targetKey);
-    //if (newItems.length && targetKey === activeKey) {
-    //  const newActiveKey =
-    //    newItems[
-    //      targetIndex === newItems.length ? targetIndex - 1 : targetIndex
-    //    ].key;
-    //  setActiveKey(newActiveKey);
-    //}
 
     const modTrabajos = [...trabajosRef.current];
     const index = modTrabajos.findIndex((t) => +t.localId == +targetKey);

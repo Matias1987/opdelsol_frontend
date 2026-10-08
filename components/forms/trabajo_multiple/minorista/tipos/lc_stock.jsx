@@ -1,29 +1,13 @@
-import HelperToolTip from "@/components/forms/ventas/common/HelperToolTip";
 import SelectCodigoVenta from "@/components/forms/ventas/SelectCodigoVenta";
 import globals from "@/src/globals";
 import { Card, Col, Divider, Input, InputNumber, Row, Table } from "antd";
 import { useEffect, useState } from "react";
 
-const TipoLCStock = ({ callback, onComentariosChange, path, trabajoObject }) => {
-  /*const [trabajoStock, setTrabajoStock] = useState({
-    od_idcodigo: "",
-    od_esf: "",
-    od_cil: "",
-    od_eje: "",
-    od_cantidad: "",
-    od_total: "0",
-    od_precio: "",
-    oi_idcodigo: "",
-    oi_esf: "",
-    oi_cil: "",
-    oi_eje: "",
-    oi_cantidad: "",
-    oi_total: "0",
-    oi_precio: "",
-    insumo_idcodigo: "",
-    insumo_precio: "",
-    insumo_total: "0",
-  });*/
+const TipoLCStock = ({ callback, path }) => {
+  const [od_cant, setOdCant] = useState("");
+  const [oi_cant, setOiCant] = useState("");
+  const [od_precio, setOdPrecio] = useState("");
+  const [oi_precio, setOiPrecio] = useState("");
 
   const dataSource = [
     {
@@ -51,6 +35,19 @@ const TipoLCStock = ({ callback, onComentariosChange, path, trabajoObject }) => 
       id_familia: globals.familiaIDs.INSUMO,
     },
   ];
+
+  const onChange = (key, value) => {
+    callback?.({ path: [...path, key], values: [value] });
+  };
+
+  const onchange_codigo = (key_idcodigo, key_precio, key_descuento, value) => {
+    callback?.({
+      path: [...path, key_idcodigo, key_precio, key_descuento],
+      values: [value.idcodigo, value.precio_defecto_mayorista, 0],
+    });
+  };
+
+  useEffect(() => {}, []);
 
   const columns = [
     {
@@ -94,9 +91,14 @@ const TipoLCStock = ({ callback, onComentariosChange, path, trabajoObject }) => 
       render: (hasInput, record) =>
         hasInput ? (
           <Input
-            value={0}
+            value={record.key === "od" ? od_precio : oi_precio}
             onChange={(e) => {
               onChange(record.key + "_precio", e.target.value);
+              if (record.key === "od") {
+                setOdPrecio(e.target.value);
+              } else {
+                setOiPrecio(e.target.value);
+              }
             }}
           />
         ) : (
@@ -120,10 +122,15 @@ const TipoLCStock = ({ callback, onComentariosChange, path, trabajoObject }) => 
           <Input
             type="number"
             placeholder="Input"
-            value={0}
-            onChange={(e) =>
-              onChange(record.key + "_cant", e.target.value)
-            }
+            value={record.key === "od" ? od_cant : oi_cant}
+            onChange={(e) => {
+              if (record.key === "od") {
+                setOdCant(e.target.value);
+              } else {
+                setOiCant(e.target.value);
+              }
+              onChange(record.key + "_cant", e.target.value);
+            }}
           />
         ) : (
           "-"
@@ -145,70 +152,6 @@ const TipoLCStock = ({ callback, onComentariosChange, path, trabajoObject }) => 
         hasInput ? <Input style={{ width: "120px" }} value={0} /> : "-",
     },
   ];
-
-  const onChange = (key, value) => {
-    callback?.(path, [key], value);
-  };
-
-  const onchange_codigo = (key_idcodigo, key_precio, key_descuento, value) => {
-    callback?.(path, [key_idcodigo, key_precio, key_descuento], value);
-    /*
-    if (value === null || value?.codigo === null) {
-      setTrabajoStock((p) => {
-        const mod = {
-          ...p,
-          [key_idcodigo]: value.idcodigo,
-          [key_precio]: value.precio_defecto_mayorista,
-          [key_descuento]: 0,
-        };
-        callback?.(
-          mod,
-          parseFloat(trabajoStock.od_total) +
-            parseFloat(trabajoStock.oi_total) +
-            parseFloat(trabajoStock.insumo_total),
-        );
-        return mod;
-      });
-      return;
-    }
-    setTrabajoStock((p) => {
-      const mod = {
-        ...p,
-        [key_idcodigo]: value.idcodigo,
-        [key_precio]:
-          parseFloat(value.precio_defecto_mayorista) -
-          parseFloat(value.precio_defecto_mayorista) *
-            parseFloat(value.descuento || "0") *
-            0.01,
-        [key_descuento]: value.descuento || "0",
-      };
-
-      callback?.(
-        mod,
-        parseFloat(trabajoStock.od_total) +
-          parseFloat(trabajoStock.oi_total) +
-          parseFloat(trabajoStock.insumo_total),
-      );
-      return mod;
-    });
-    */
-  };
-
-  useEffect(() => {
-     /*onchange_codigo(
-      "od_idcodigo",
-      "od_precio",
-      "od_descuento",
-      0
-    );
-  }, []);
-   callback?.(
-      trabajoStock,
-      parseFloat(trabajoStock.od_total) +
-        parseFloat(trabajoStock.oi_total) +
-        parseFloat(trabajoStock.insumo_total),
-    );*/
-  }, []);
 
   return (
     <Card

@@ -21,17 +21,13 @@ const SelectTrabajo = ({
   const LC_STOCK = 4;
   const LC_LAB = 5;
   const [tipoTrabajo, setTipoTrabajo] = useState(-1);
-  /*
-  const [trabajo, setTrabajo] = useState({
-    localId: localId,
-    nro: "1",
-    tipo: "",
-    items: null,
-    monto_total: 0,
-    comentarios: "",
-  });*/
 
-  useEffect(()=>{},[trabajoObject]);
+  const onChange = (data) => {
+    callback?.({...data, localId: localId});
+  }
+
+  useEffect(()=>{
+  },[trabajoObject]);
 
   const get_tipo_trabajo_nombre = (val) => {
     switch (+val) {
@@ -72,7 +68,7 @@ const SelectTrabajo = ({
       case DIRECTA:
         return (
           <TipoMonofocalesLab
-            callback={callback}
+            callback={onChange}
             idCliente={idCliente}
             path={[...path, "items"]}
             trabajoObject={trabajoObject}
@@ -81,7 +77,7 @@ const SelectTrabajo = ({
       case RECETA_STOCK:
         return (
           <TipoRecetaStock
-            callback={callback}
+            callback={onChange}
             idCliente={idCliente}
             path={[...path, "items"]}
             trabajoObject={trabajoObject}
@@ -90,7 +86,7 @@ const SelectTrabajo = ({
       case MONOF_LAB:
         return (
           <TipoMonofocalesLab
-            callback={callback}
+            callback={onChange}
             path={[...path, "items"]}
             trabajoObject={trabajoObject}
           />
@@ -98,7 +94,7 @@ const SelectTrabajo = ({
       case MULTIF_LAB:
         return (
           <TipoMultifocalesLab
-            callback={callback}
+            callback={onChange}
             path={[...path, "items"]}
             trabajoObject={trabajoObject}
           />
@@ -106,7 +102,7 @@ const SelectTrabajo = ({
       case LC_STOCK:
         return (
           <TipoLCStock
-            callback={callback}
+            callback={onChange}
             path={[...path, "items"]}
             trabajoObject={trabajoObject}
           />
@@ -114,7 +110,7 @@ const SelectTrabajo = ({
       case LC_LAB:
         return (
           <TipoLCLab
-            callback={callback}
+            callback={onChange}
             path={[...path, "items"]}
             trabajoObject={trabajoObject}
           />

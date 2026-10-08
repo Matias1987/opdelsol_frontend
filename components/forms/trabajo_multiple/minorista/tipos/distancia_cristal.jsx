@@ -4,7 +4,9 @@ import { Card, Col, Input, InputNumber, Row, Select, Table } from "antd";
 import { useEffect, useState } from "react";
 import HelperToolTip from "@/components/forms/ventas/common/HelperToolTip";
 
-const DistanciaCristal = ({ callback, tipo, path, trabajoObject }) => {
+const DistanciaCristal = ({ callback, tipo, path }) => {
+  const [od_eje, setOdEje] = useState("");
+  const [oi_eje, setOiEje] = useState("");
   /*const [trabajoStock, setTrabajoStock] = useState({
     od_idcodigo: "",
     od_esf: "",
@@ -24,53 +26,12 @@ const DistanciaCristal = ({ callback, tipo, path, trabajoObject }) => {
   });*/
 
   const onChange = (key, value) => {
-    alert(JSON.stringify({path:[...path, key], values: [value]}));
-    //callback?.(path, [key], value);
+    callback?.({path:[...path, key], values: [value]});
   };
 
   const onchange_codigo = (key_idcodigo, key_precio, key_descuento, value) => {
     callback?.(path, [key_idcodigo, key_precio, key_descuento], [value.idcodigo, value.precio_defecto_mayorista,0 ]);
-    /*
-    if (value === null || value?.codigo === null) {
-      setTrabajoStock((p) => {
-        const mod = {
-          ...p,
-          [key_idcodigo]: value.idcodigo,
-          [key_precio]: value.precio_defecto_mayorista,
-          [key_descuento]: 0,
-        };
-        callback?.(
-          mod,
-          parseFloat(mod.od_precio) +
-            parseFloat(mod.oi_precio) +
-            parseFloat(mod.tratamiento_precio) +
-            parseFloat(mod.armazon_precio),
-        );
-        return mod;
-      });
-      return;
-    }
-    setTrabajoStock((p) => {
-      const mod = {
-        ...p,
-        [key_idcodigo]: value.idcodigo,
-        [key_precio]:
-          parseFloat(value.precio_defecto_mayorista) -
-          parseFloat(value.precio_defecto_mayorista) *
-            parseFloat(value.descuento || "0") *
-            0.01,
-        [key_descuento]: value.descuento || "0",
-      };
-
-      callback?.(
-        mod,
-        parseFloat(mod.od_precio) +
-          parseFloat(mod.oi_precio) +
-          parseFloat(mod.tratamiento_precio) +
-          parseFloat(mod.armazon_precio),
-      );
-      return mod;
-    });*/
+    
   };
 
   const dataSource = [
@@ -205,9 +166,14 @@ const DistanciaCristal = ({ callback, tipo, path, trabajoObject }) => {
           <Input
             type="number"
             placeholder="Input"
-            value={/*trabajoObject.items[record.key + "_" + "eje"].eje*/""}
+            value={record.key === "od" ? od_eje : oi_eje}
             onChange={(e) => {
-              //onChange(record.key + "_" + "eje", e.target.value)
+              onChange(record.key + "_" + "eje", e.target.value);
+              if (record.key === "od") {
+                setOdEje(e.target.value);
+              } else {
+                setOiEje(e.target.value);
+              }
             }}
           />
         ) : (
@@ -238,24 +204,11 @@ const DistanciaCristal = ({ callback, tipo, path, trabajoObject }) => {
         ),
     },
   ];
-
+/*
   useEffect(() => {
-    alert("from child: " + JSON.stringify(trabajoObject));
-    /*callback?.(
-      trabajoStock,
-      parseFloat(trabajoStock.od_precio) +
-        parseFloat(trabajoStock.oi_precio) +
-        parseFloat(trabajoStock.tratamiento_precio) +
-        parseFloat(trabajoStock.armazon_precio),
-    );
-    onchange_codigo(
-      "od_idcodigo",
-      "od_precio",
-      "od_descuento",
-      0
-    );*/
+   
   }, [trabajoObject]);
-
+*/
   return (
 
           <Table

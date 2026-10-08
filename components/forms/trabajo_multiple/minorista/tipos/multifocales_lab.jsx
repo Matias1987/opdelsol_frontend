@@ -1,27 +1,9 @@
 import HelperToolTip from "@/components/forms/ventas/common/HelperToolTip";
 import SelectCodigoVenta from "@/components/forms/ventas/SelectCodigoVenta";
 import globals from "@/src/globals";
-import { Card, Col, Divider, Input, InputNumber, Row, Table } from "antd";
-import { useEffect, useState } from "react";
+import { Card, Input, InputNumber,Table } from "antd";
 
-const TipoMultifocalesLab = ({ callback, onComentariosChange, path, trabajoObject }) => {
-  /*const [trabajoStock, setTrabajoStock] = useState({
-    od_idcodigo: "",
-    od_esf: "",
-    od_cil: "",
-    od_eje: "",
-    od_precio: "0",
-    oi_idcodigo: "",
-    oi_esf: "",
-    oi_cil: "",
-    oi_eje: "",
-    oi_precio: "",
-    armazon_idcodigo: "",
-    armazon_precio: "0",
-    tratamiento_idcodigo: "",
-    tratamiento_precio: "0",
-  });*/
-
+const TipoMultifocalesLab = ({ callback, path }) => {
 
   const dataSource = [
     {
@@ -186,64 +168,12 @@ const TipoMultifocalesLab = ({ callback, onComentariosChange, path, trabajoObjec
   ];
 
   const onChange = (key, value) => {
-    callback?.(path, [key], value);
-    /*setTrabajoStock((t) => {
-      const modif = { ...t, [key]: value };
-      callback?.(
-        modif,
-        parseFloat(modif.od_precio) +
-          parseFloat(modif.oi_precio) +
-          parseFloat(modif.tratamiento_precio) +
-          parseFloat(modif.armazon_precio),
-      );
-      return modif;
-    });*/
+    callback?.({path:[...path, key], values: [value]});
   };
 
   const onchange_codigo = (key_idcodigo, key_precio, key_descuento, value) => {
-    callback?.(path, [key_idcodigo, key_precio, key_descuento], value);
-    /*
-    if (value === null || value?.codigo === null) {
-      setTrabajoStock((p) => {
-        const mod = {
-          ...p,
-          [key_idcodigo]: value.idcodigo,
-          [key_precio]: value.precio_defecto_mayorista,
-          [key_descuento]: 0,
-        };
-        callback?.(
-          mod,
-          parseFloat(mod.od_precio) +
-            parseFloat(mod.oi_precio) +
-            parseFloat(mod.tratamiento_precio) +
-            parseFloat(mod.armazon_precio),
-        );
-        return mod;
-      });
-      return;
-    }
-    setTrabajoStock((p) => {
-      const mod = {
-        ...p,
-        [key_idcodigo]: value.idcodigo,
-        [key_precio]:
-          parseFloat(value.precio_defecto_mayorista) -
-          parseFloat(value.precio_defecto_mayorista) *
-            parseFloat(value.descuento || "0") *
-            0.01,
-        [key_descuento]: value.descuento || "0",
-      };
-
-      callback?.(
-        mod,
-        parseFloat(mod.od_precio) +
-          parseFloat(mod.oi_precio) +
-          parseFloat(mod.tratamiento_precio) +
-          parseFloat(mod.armazon_precio),
-      );
-      return mod;
-    });
-    */
+    //callback?.(path, [key_idcodigo, key_precio, key_descuento], value);
+    callback?.(path, [key_idcodigo, key_precio, key_descuento], [value.idcodigo, value.precio_defecto_mayorista,0 ]);
   };
 
   return (
