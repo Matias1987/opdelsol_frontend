@@ -1,10 +1,9 @@
 import HelperToolTip from "@/components/forms/ventas/common/HelperToolTip";
 import SelectCodigoVenta from "@/components/forms/ventas/SelectCodigoVenta";
 import globals from "@/src/globals";
-import { Card, Input, InputNumber,Table } from "antd";
+import { Card, Input, InputNumber, Table } from "antd";
 
 const TipoMultifocalesLab = ({ callback, path }) => {
-
   const dataSource = [
     {
       key: "od",
@@ -157,9 +156,7 @@ const TipoMultifocalesLab = ({ callback, path }) => {
           <InputNumber
             style={{ width: "120px" }}
             value={0}
-            onChange={(e) =>
-              onChange(record.key + "_precio", e.target.value)
-            }
+            onChange={(v) => onChange(record.key + "_precio", v)}
           />
         ) : (
           "-"
@@ -168,12 +165,15 @@ const TipoMultifocalesLab = ({ callback, path }) => {
   ];
 
   const onChange = (key, value) => {
-    callback?.({path:[...path, key], values: [value]});
+    callback?.({ path: path, keys: [key], values: [value] });
   };
 
   const onchange_codigo = (key_idcodigo, key_precio, key_descuento, value) => {
-    //callback?.(path, [key_idcodigo, key_precio, key_descuento], value);
-    callback?.(path, [key_idcodigo, key_precio, key_descuento], [value.idcodigo, value.precio_defecto_mayorista,0 ]);
+    callback?.({
+      path: path,
+      keys: [key_idcodigo, key_precio, key_descuento],
+      values: [value.idcodigo, value.precio, 0],
+    });
   };
 
   return (

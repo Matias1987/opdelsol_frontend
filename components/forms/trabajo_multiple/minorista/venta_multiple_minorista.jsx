@@ -92,26 +92,32 @@ const VentaMultipleMinorista = ({
     trabajosRef.current = trabajos;
   }, [trabajos]);
 
-  const updateNestedValue = (prev, path, newValue) => {
+  const updateNestedValue = (prev, path, keys, values) => {
     //console.log("updateNestedValue: prev=" + JSON.stringify(prev) + ", path=" + JSON.stringify(path) + ", newValue=" + JSON.stringify(newValue));
     // 1. Deep clone or shallow copy the structure to avoid mutating state
     const cloned = { ...prev };
     let current = cloned;
 
     // 2. Traverse down to the second-to-last key
-    for (let i = 0; i < path.length - 1; i++) {
+    for (let i = 0; i < path.length; i++) {
       const key = path[i];
       current[key] = { ...current[key] }; // Copy the nested object
       current = current[key];
     }
 
+    keys.forEach((key, index) => {
+      console.log(
+        "updateNestedValue: setting key=" + key + " to value=" + values[index],
+      );
+      current[key] = values[index];
+    });
 
     // 3. Set the final value
-    const finalKey = path[path.length - 1];
-    current[finalKey] = newValue;
+    //const finalKey = path[path.length - 1];
+    //current[finalKey] = newValue;
 
-    console.log(JSON.stringify(path));
-    console.log("updated: field=" + JSON.stringify(current));
+    //console.log(JSON.stringify(path));
+    //console.log("updated: field=" + JSON.stringify(current));
 
     return cloned;
   };
@@ -154,6 +160,7 @@ const VentaMultipleMinorista = ({
   };
 
   const onTabValuesChange = (data) => {
+    const { path, keys, values } = data;
     //find the trabajo with localId == data.localId
     const _trabajos = trabajosRef.current;
     const index = _trabajos.findIndex((t) => +t.localId == +data.localId);
@@ -163,8 +170,8 @@ const VentaMultipleMinorista = ({
       alert("Error: No se encontró el trabajo con localId: " + data.localId);
       return;
     }
-   
-    const newTrabajo = updateNestedValue(trabajo, data.path, data.values[0]);
+
+    const newTrabajo = updateNestedValue(trabajo, path, keys, values);
 
     setTrabajos((prevTrabajos) => {
       const newTrabajos = [...prevTrabajos];
@@ -227,7 +234,6 @@ const VentaMultipleMinorista = ({
   };
 
   const remove = (targetKey) => {
-
     const modTrabajos = [...trabajosRef.current];
     const index = modTrabajos.findIndex((t) => +t.localId == +targetKey);
     if (index !== -1) {
@@ -466,8 +472,7 @@ const VentaMultipleMinorista = ({
       key: "2",
       label: "Detalle",
       children: (
-        <Card size="small" style={{ boxShadow: "-1px 1px 1px 0px #9e9c9c" }}>
-          <Row>
+        <Row>
             <Col span={24}>
               <Tabs
                 addIcon={
@@ -507,7 +512,6 @@ const VentaMultipleMinorista = ({
               />
             </Col>
           </Row>
-        </Card>
       ),
     },
     {
@@ -725,7 +729,7 @@ const VentaMultipleMinorista = ({
         }}
       >
         <Row>
-          <Col span={24}>
+          <Col span={12}>
             <Collapse
               accordion
               items={c_items}
@@ -733,11 +737,15 @@ const VentaMultipleMinorista = ({
               onChange={onChangeCollapse}
             />
           </Col>
+          <Col span={12}>
+           <div style={{height:"600px", overflowY:"scroll", width:"100%", border:"1px dotted #999999", padding:"4px", borderRadius:"6px", fontWeight:"600", color:"#51ff00", backgroundColor:"black", fontSize:"18px"}}>
+              <pre>
+                {JSON.stringify({ trabajos: trabajos  }, null,2)}
+              </pre>
+           </div>
+          </Col>
         </Row>
       </Card>
-      <Input.TextArea
-        value={JSON.stringify({ ...venta, trabajos: trabajos })}
-      />
     </>
   );
 };

@@ -96,7 +96,7 @@ const PrescriptionTable = () => {
     },
   ];
 
-  return <Table size='small' dataSource={dataSource} columns={columns} pagination={false} />;
+  return <Table size='small' dataSource={dataSource} columns={columns} pagination={false} scroll={{ y: 240, x: 100 }} />;
 };
 
 export default PrescriptionTable;

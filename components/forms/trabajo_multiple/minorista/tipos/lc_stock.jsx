@@ -37,16 +37,16 @@ const TipoLCStock = ({ callback, path }) => {
   ];
 
   const onChange = (key, value) => {
-    callback?.({ path: [...path, key], values: [value] });
+    callback?.({ path: path, keys: [key], values: [value] });
   };
 
   const onchange_codigo = (key_idcodigo, key_precio, key_descuento, value) => {
     callback?.({
-      path: [...path, key_idcodigo, key_precio, key_descuento],
-      values: [value.idcodigo, value.precio_defecto_mayorista, 0],
+      path: path,
+      keys: [key_idcodigo, key_precio, key_descuento],
+      values: [value.idcodigo, value.precio, 0],
     });
   };
-
   useEffect(() => {}, []);
 
   const columns = [

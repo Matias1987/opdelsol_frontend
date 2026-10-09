@@ -1,20 +1,11 @@
-import HelperToolTip from "@/components/forms/ventas/common/HelperToolTip";
-import SelectCodigoVenta from "@/components/forms/ventas/SelectCodigoVenta";
-import globals from "@/src/globals";
 import {
   Card,
   Tabs,
 } from "antd";
-import { useEffect, useState } from "react";
 import DistanciaCristal from "./distancia_cristal";
 
-const TipoMonofocalesLab = ({ callback, path, trabajoObject }) => {
-  /*
-  const [trabajoStock, setTrabajoStock] = useState({
-    lejos: null,
-    cerca: null,
-  });*/
-
+const TipoMonofocalesLab = ({ callback, path }) => {
+ 
   const tabItems = [
     {
       key: "1",
@@ -47,14 +38,6 @@ const TipoMonofocalesLab = ({ callback, path, trabajoObject }) => {
   const onChangeTabs = (key) => {
     console.log(`Active tab key: ${key}`);
   };
-/*
-  const onChange = (key, value) => {
-    setTrabajoStock((t) => {
-      const modif = { ...t, [key]: value };
-      callback?.(modif, 0 );
-      return modif;
-    });
-  };*/
 
   return (
     <>

@@ -1,37 +1,27 @@
 import SelectCodigoVenta from "@/components/forms/ventas/SelectCodigoVenta";
 import globals from "@/src/globals";
-import { Card, Col, Input, InputNumber, Row, Select, Table } from "antd";
-import { useEffect, useState } from "react";
+import { Input, InputNumber, Table } from "antd";
+import { useState } from "react";
 import HelperToolTip from "@/components/forms/ventas/common/HelperToolTip";
 
 const DistanciaCristal = ({ callback, tipo, path }) => {
   const [od_eje, setOdEje] = useState("");
   const [oi_eje, setOiEje] = useState("");
-  /*const [trabajoStock, setTrabajoStock] = useState({
-    od_idcodigo: "",
-    od_esf: "",
-    od_cil: "",
-    od_eje: "",
-    od_precio: "0",
-    oi_idcodigo: "",
-    oi_esf: "",
-    oi_cil: "",
-    oi_eje: "",
-    oi_precio: "0",
-    armazon_idcodigo: "",
-    armazon_precio: "",
-    tratamiento_idcodigo: "",
-    tratamiento_precio: "0",
-    distancia: tipo,
-  });*/
+  const [od_precio, setOdPrecio] = useState("");
+  const [oi_precio, setOiPrecio] = useState("");
+  const [armazon_precio, setArmazonPrecio] = useState("");
+  const [tratamiento_precio, setTratamientoPrecio] = useState("");
 
   const onChange = (key, value) => {
-    callback?.({path:[...path, key], values: [value]});
+    callback?.({ path: path, keys: [key], values: [value] });
   };
 
   const onchange_codigo = (key_idcodigo, key_precio, key_descuento, value) => {
-    callback?.(path, [key_idcodigo, key_precio, key_descuento], [value.idcodigo, value.precio_defecto_mayorista,0 ]);
-    
+    callback?.({
+      path: path,
+      keys: [key_idcodigo, key_precio, key_descuento],
+      values: [value.idcodigo, value.precio, 0],
+    });
   };
 
   const dataSource = [
@@ -204,20 +194,19 @@ const DistanciaCristal = ({ callback, tipo, path }) => {
         ),
     },
   ];
-/*
+  /*
   useEffect(() => {
    
   }, [trabajoObject]);
 */
   return (
-
-          <Table
-            size="small"
-            dataSource={dataSource}
-            columns={columns}
-            pagination={false}
-          />
-    
+    <Table
+      size="small"
+      dataSource={dataSource}
+      columns={columns}
+      pagination={false}
+      scroll={{ y: 240, x: 100 }}
+    />
   );
 };
 

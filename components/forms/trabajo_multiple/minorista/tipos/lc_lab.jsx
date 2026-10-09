@@ -1,7 +1,7 @@
 import HelperToolTip from "@/components/forms/ventas/common/HelperToolTip";
 import SelectCodigoVenta from "@/components/forms/ventas/SelectCodigoVenta";
 import globals from "@/src/globals";
-import { Card, Col, Divider, Input, InputNumber, Row, Table } from "antd";
+import { Card, Input, InputNumber, Table } from "antd";
 import { useEffect, useState } from "react";
 const TipoLCLab = ({ callback, path }) => {
   const [od_eje, setOdEje] = useState("");
@@ -230,32 +230,32 @@ const TipoLCLab = ({ callback, path }) => {
         <InputNumber
           style={{ width: "120px" }}
           value={record.key === "od" ? od_precio : oi_precio}
-          onChange={(e) => {onChange(record.key + "_precio", e.target.value);
+          onChange={(v) => {
+            onChange(record.key + "_precio", v);
             if (record.key === "od") {
-              setOdPrecio(e.target.value);
+              setOdPrecio(v);
             } else {
-              setOiPrecio(e.target.value);
+              setOiPrecio(v);
             }
           }}
         />
       ),
     },
   ];
+
   const onChange = (key, value) => {
-    callback?.(path, [key], value);
+    callback?.({ path: [...path], keys: [key], values: [value] });
   };
 
   const onchange_codigo = (key_idcodigo, key_precio, key_descuento, value) => {
-    callback?.(path, [key_idcodigo, key_precio, key_descuento], value);
+    callback?.({
+      path: path,
+      keys: [key_idcodigo, key_precio, key_descuento],
+      values: [value.idcodigo, value.precio, 0],
+    });
   };
 
   useEffect(() => {
-    callback?.(
-      path,
-      parseFloat(trabajoStock.od_precio) +
-        parseFloat(trabajoStock.oi_precio) +
-        parseFloat(trabajoStock.insumo_precio),
-    );
   }, []);
 
   return (
