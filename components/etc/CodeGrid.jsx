@@ -918,10 +918,9 @@ const CodeGrid = (props) => {
           />
         </Col>
       </Row>
-      <Row>
+{      /*<Row>
         <Col span={24}>
-          {/*<Button size="small" onClick={onPopupSeleccionOpen} disabled={codigosSeleccion.length<1}><BorderOuterOutlined /> Selecci&oacute;n</Button>*/}
-          <EditarCodigoGrupo
+           <EditarCodigoGrupo
             disabled={codigosSeleccion.length < 1}
             codigos={codigosSeleccion.map((c) => ({
               idcodigo: c.idcodigo,
@@ -934,7 +933,7 @@ const CodeGrid = (props) => {
           />
           <Divider />
         </Col>
-      </Row>
+      </Row>*/}
       <Row>
         <Col span={12}>Cantidad total:&nbsp;{total}</Col>
         <Col span={12}>

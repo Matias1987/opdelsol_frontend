@@ -9,11 +9,11 @@ import {Row, Col, Select, Tabs} from "antd";
 export default function StockSucursalAdmin(){
     
     const tabsOptions = [
-       /* {
+        {
             label:"Cantidades Sucursal",
             key: "1",
             children:  <CantidadesSucursales  />
-        },*/
+        },
         
         {
             label:"Cantidades Vendidas",

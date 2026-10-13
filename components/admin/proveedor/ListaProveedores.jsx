@@ -24,8 +24,10 @@ const ListaProveedores = (props) => {
 
   const [searchValue, setSearchValue] = useState("");
 
+  const [ocultarSaldoCero, setOcultarSaldoCero] = useState(true);
+
   const columns = [
-    {
+    /*{
       render: (_, { idproveedor, checked }) => (
         <Checkbox
           checked={checked}
@@ -40,12 +42,13 @@ const ListaProveedores = (props) => {
           }}
         />
       ),
-    },
+    },*/
     {
       title: "Nro.",
       dataIndex: "idproveedor",
       key: "idproveedor",
       sorter: (a, b) => a.idproveedor - b.idproveedor,
+      width: 80,
     },
     {
       title: "Nombre",
@@ -58,6 +61,7 @@ const ListaProveedores = (props) => {
       dataIndex: "cuit",
       key: "cuit",
       sorter: (a, b) => a.cuit.localeCompare(b.cuit),
+      width: 150,
     },
     {
       sorter: (a, b) => +a.saldo_ars - +b.saldo_ars,
@@ -69,6 +73,7 @@ const ListaProveedores = (props) => {
           {formatFloat(record.saldo_ars)}
         </div>
       ),
+      width: 150,
     },
     {
       sorter: (a, b) => +a.saldo_usd - +b.saldo_usd,
@@ -80,6 +85,7 @@ const ListaProveedores = (props) => {
           {formatFloat(record.saldo_usd)}
         </div>
       ),
+      width: 150,
     },
     {
       title: "Acciones",
@@ -101,6 +107,7 @@ const ListaProveedores = (props) => {
           </>
         );
       },
+      width: 150,
     },
   ];
 
@@ -171,10 +178,20 @@ const ListaProveedores = (props) => {
             </Button>
           </>
         }
+
+        extra={<>
+        <Checkbox
+          checked={ocultarSaldoCero}
+          onChange={(e) => setOcultarSaldoCero(e.target.checked)}
+        >
+          Ocultar Saldo 0
+        </Checkbox>
+        </>}
       >
         <Row>
           <Col span={24}>
             <Table
+              scroll={{ y: 800 }}
               loading={loading}
               title={header}
               size="small"
@@ -188,6 +205,10 @@ const ListaProveedores = (props) => {
                   : (d.nombre || "")
                       .toUpperCase()
                       .includes(searchValue.toUpperCase()),
+              ).filter((d) =>
+                ocultarSaldoCero
+                  ? +d.saldo_ars !== 0 || +d.saldo_usd !== 0
+                  : true
               )}
             />
           </Col>

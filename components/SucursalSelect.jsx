@@ -64,7 +64,7 @@ const SucursalSelect = ( { idsucursal, callback, addNullOption, disabled, size }
           size={size || "middle"}
           prefix={
             <span style={{ color: "#0C5AA9" }}>
-              <i>Sucursal: </i>
+              <span style={{ fontWeight: "600" }}>Sucursal: </span>
             </span>
           }
           options={sucursalData}

@@ -29,6 +29,7 @@ export default function panel_proveedores() {
       key: "2",
       label: "Listado por último pago",
       children: <Proveedores />,
+      disabled: true,
     },
   ];
   return (

@@ -1,10 +1,11 @@
 import CategoriaSelect from "@/components/CategoriaSelect";
 import SelectTag from "@/components/etiquetas/selectTag";
+import SucursalSelect from "@/components/SucursalSelect";
 import { Button, Col, Input, Row } from "antd";
 import { useState } from "react";
 
 const FiltroCodigos = (props) => {
-  const { callback, hideTags } = props;
+  const { callback, hideTags, showSucursal } = props;
   const [applyPending, setApplyPending] = useState(false);
   const [filtros, setFiltros] = useState({
     idfamilia: "-1",
@@ -13,6 +14,7 @@ const FiltroCodigos = (props) => {
     idsubgrupo: "-1",
     codigo: "",
     etiquetas: [],
+    idsucursal: -1,
   });
   const categoria_select_callback = (cat, id) => {
     setApplyPending(true);
@@ -31,20 +33,6 @@ const FiltroCodigos = (props) => {
 
   return (
     <div style={{ borderRadius: "15px" }}>
-      {/*<div style={{
-            zIndex:2, 
-            marginBottom:"-9px", 
-            fontSize:".85em", 
-            backgroundColor:"#E5E8E7",  
-            width:"fit-content", 
-            padding:".5em", 
-            borderTopLeftRadius:"15px", 
-            borderTopRightRadius:"15px",
-            borderBottomLeftRadius:"15px",
-            fontWeight:"bold"
-            }}>
-        <i>Filtros</i>
-        </div>*/}
       <Row style={{ padding: ".2em" }}>
         <Col span={23}>
           <Row>
@@ -69,6 +57,22 @@ const FiltroCodigos = (props) => {
               </Col>
             </Row>
           )}
+          {!showSucursal ? (
+            <></>
+          ) : (
+            <>
+              <Row>
+                <Col span={24}>
+                  <SucursalSelect
+                    callback={(id, label) => {
+                      setFiltros((f) => ({ ...f, idsucursal: id, sucursal_label: label }));
+                      setApplyPending(true);
+                    }}
+                  />
+                </Col>
+              </Row>
+            </>
+          )}
           <Row style={{ borderBottomLeftRadius: "15px" }}>
             <Col span={18}>
               <Input
@@ -79,7 +83,7 @@ const FiltroCodigos = (props) => {
                 value={filtros.codigo}
                 onChange={(e) => {
                   setApplyPending(true);
-                  onCodigoChange(e.target.value || "");
+                  onCodigoChange(e.target.value ?? "");
                 }}
               />
             </Col>

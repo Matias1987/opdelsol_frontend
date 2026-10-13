@@ -1,22 +1,14 @@
 import MenuFoldOutlined from "@ant-design/icons/MenuFoldOutlined";
 import MenuUnfoldOutlined from "@ant-design/icons/MenuUnfoldOutlined";
 import PlusOutlined from "@ant-design/icons/PlusOutlined";
-import {
-  Button,
-  Card,
-  Col,
-  Divider,
-  Input,
-  Row,
-  Select,
-  Tag,
-} from "antd";
+import { Button, Card, Col, Divider, Input, Row, Select, Tag } from "antd";
 import SelectTag from "../etiquetas/selectTag";
 import SubGroupSelect from "../SubGroupSelect";
 import GrupoSelect from "../GrupoSelect";
 import SubFamiliaSelect from "../SubFamiliaSelect";
 import FamiliaSelect from "../FamiliaSelect";
 import { useEffect, useState } from "react";
+import { SearchOutlined } from "@ant-design/icons";
 
 const SideMenuListaStock = (props) => {
   const {
@@ -36,6 +28,7 @@ const SideMenuListaStock = (props) => {
   const [valorFiltro, setValorFiltro] = useState(null);
   const [tags, setTags] = useState([]);
   const [filtros, setFiltros] = useState([]);
+  const [codigoSearch, setCodigoSearch] = useState("");
 
   useEffect(() => {
     if (defIdSubgrupo) {
@@ -326,17 +319,61 @@ const SideMenuListaStock = (props) => {
   };
 
   return folded ? (
-    <Button
-      onClick={(_) => {
-        onMenuUnfoldedClick();
-      }}
-    >
-      <MenuUnfoldOutlined /> Filtros
-    </Button>
+    <>
+      <Row>
+        <Col span={24}>
+          <Input
+            style={{ width: "350px", marginBottom: "4px" }}
+            value={codigoSearch}
+            addonBefore="Búsqueda por Código: "
+            onChange={(e) => setCodigoSearch(e.target.value || "")}
+            addonAfter={
+              <Button
+                size="small"
+                type="default"
+                danger
+                disabled={codigoSearch.length<2}
+                onClick={(_) => {
+                  callback?.({
+                    filtros: [
+                      {
+                        tipo: "codigo_contenga_a",
+                        valor: codigoSearch,
+                        descripcion: "codigo",
+                      },
+                      {
+                        tipo: "familia",
+                        valor: defIdFamilia,
+                        descripcion: "familia",
+                      },
+                    ],
+                  });
+                }}
+              >
+                <SearchOutlined />
+              </Button>
+            }
+          />
+
+          <Button
+            danger
+            size="small"
+            onClick={(_) => {
+              onMenuUnfoldedClick();
+            }}
+          >
+            <PlusOutlined /> Filtros
+          </Button>
+        </Col>
+      </Row>
+    </>
   ) : (
     <>
       <Card
-        style={{ backgroundColor: "#f6f6fa", boxShadow: "1px 2px 2px 1px rgba(209, 213, 224, 0.6)" }}
+        style={{
+          backgroundColor: "#f6f6fa",
+          boxShadow: "1px 2px 2px 1px rgba(209, 213, 224, 0.6)",
+        }}
         title="Filtros"
         size="small"
         extra={

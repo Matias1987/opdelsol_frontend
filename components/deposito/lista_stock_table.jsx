@@ -41,7 +41,7 @@ const StockTable = (props) => {
   const header = (_) => (
     <>
       <Row>
-        <Col span={24} style={{ textAlign: "center", fontWeight: "500" }}>
+        <Col span={24} style={{ textAlign: "center", fontWeight: "500", color:"#000000" }}>
           Listado de C&oacute;digos {title}
         </Col>
       </Row>
