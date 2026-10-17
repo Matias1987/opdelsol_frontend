@@ -896,3 +896,13 @@ danger list
   text-align: center;
   font-size: 1em;
 }
+
+/* Target the unselected (zero-state) star container or inner icon */
+.ant-rate .ant-rate-star-zero {
+  color: #d9d9d9; /* Your desired unselected color */
+}
+
+/* If using custom characters or SVG inside Rate */
+.ant-rate .ant-rate-star-zero .anticon {
+  color: #d9d9d9;
+}

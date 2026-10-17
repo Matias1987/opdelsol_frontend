@@ -154,7 +154,7 @@ const VentasVendedor = ({ pIdUsuario }) => {
                         type="line"
                         percentPosition={{ align: "start", type: "outer" }}
                         size={[300, 14]}
-                        strokeColor="#109618"
+                        strokeColor={r.per < 100 ? "#f50" : "#109618"}
                         format={(percent) => (
                           <div>
                             <div

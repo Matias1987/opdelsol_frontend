@@ -1,9 +1,15 @@
-import { useEffect, useState } from 'react';
-import { Form, Input, Button, Rate } from 'antd';
-import LayoutSingle from '@/components/layout/layout_single';
+import LayoutSingle from "@/components/layout/layout_single";
+import FeedbackForm from "@/components/calificaciones/calificacion";
 
-export default function ClientFeedbackForm(){
-  const [form] = Form.useForm();
+export default function ClientFeedbackForm() {
+  return <FeedbackForm />;
+}
+
+ClientFeedbackForm.PageLayout = LayoutSingle;
+
+/*
+
+const [form] = Form.useForm();
   const [pIdVenta, setIdVenta] = useState(null);
   const [dataLoaded, setDataLoaded] = useState(false);
 
@@ -69,7 +75,4 @@ export default function ClientFeedbackForm(){
         </Button>
       </Form.Item>
     </Form>
-  );
-};
-
-ClientFeedbackForm.PageLayout = LayoutSingle;
+  );*/

@@ -10,7 +10,6 @@ import {
   Table,
   Modal,
 } from "antd";
-import LoadSelect from "../LoadSelect";
 import { useEffect, useRef, useState } from "react";
 import globals from "@/src/globals";
 import SearchStockEnvio from "./deposito/SearchStockEnvio";
@@ -20,7 +19,7 @@ import PlusCircleFilled from "@ant-design/icons/PlusCircleFilled";
 import UpOutlined from "@ant-design/icons/UpOutlined";
 
 import { post_method } from "@/src/helpers/post_helper";
-import { get, informes, post, public_urls } from "@/src/urls";
+import { get, informes, post } from "@/src/urls";
 import { v4 as uuidv4 } from "uuid";
 import SucursalSelect from "../SucursalSelect";
 
@@ -268,7 +267,6 @@ const EnvioForm = ({ p_rows_to_add }) => {
                   disabled={(tableData || []).length > 0}
                   callback={(id) => {
                     setSucursalDestId(id);
-                    setValue("sucursal", id);
                   }}
                   idsucursal={sucursalDestId}
                 />
