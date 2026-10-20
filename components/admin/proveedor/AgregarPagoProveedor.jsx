@@ -247,6 +247,7 @@ const AgregarPagoProveedor = (props) => {
             <Col span={24} style={{ padding: "1em" }}>
               {/*<Input allowClear type="number" onChange={(e)=>{updateMP({...mpEfectivo,monto:(e.target.value.length<1?"0":e.target.value)});}} value={(mpEfectivo.monto)} prefix="Monto: " />*/}
               <InputNumber
+                stringMode
                 style={{ width: "300px" }}
                 prefix={<>Monto: </>}
                 onClick={(e) => {
@@ -290,6 +291,7 @@ const AgregarPagoProveedor = (props) => {
                 <Col>
                   {/*<Input allowClear type="number" onChange={(e)=>{updateMP(null,{...mpCheque,monto:(e.target.value.length<1?"0":e.target.value)});}} value={(mpCheque.monto)} prefix="Monto: " />*/}
                   <InputNumber
+                    stringMode
                     style={{ width: "300px" }}
                     prefix="Monto: "
                     onClick={(e) => {
@@ -348,6 +350,7 @@ const AgregarPagoProveedor = (props) => {
                 <Col>
                   {/*<Input allowClear type="number" onChange={(e)=>{updateMP(null,null,{...mpTransferencia,monto:(e.target.value.length<1?"0":e.target.value)});}} value={(mpTransferencia.monto)} prefix="Monto: " />*/}
                   <InputNumber
+                    stringMode
                     style={{ width: "300px" }}
                     prefix="Monto: "
                     onClick={(e) => {

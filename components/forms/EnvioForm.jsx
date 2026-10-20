@@ -469,6 +469,7 @@ const EnvioForm = ({ p_rows_to_add }) => {
             style={{ padding: "14px", paddingTop: "32px", minWidth: "200px" }}
           >
             <SearchStockEnvio
+              initData={tableData}
               idSucursalDestino={sucursalDestId}
               callback={(arr) => {
                 setRowsToAdd(arr);

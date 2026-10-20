@@ -382,7 +382,7 @@ const ListaFacturas = (props) => {
 
       <Modal
         destroyOnClose
-        width={"70%"}
+        width={"1250px"}
         open={popupAddFacturaOpen}
         title="Agregar Factura"
         footer={null}
@@ -399,7 +399,7 @@ const ListaFacturas = (props) => {
       </Modal>
       <Modal
         destroyOnClose
-        width={"70%"}
+        width={"1250px"}
         open={popupAddRemitoOpen}
         title="Agregar Remito"
         footer={null}

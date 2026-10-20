@@ -55,6 +55,7 @@ const ListaProveedores = (props) => {
       dataIndex: "nombre",
       key: "nombre",
       sorter: (a, b) => a.nombre.localeCompare(b.nombre),
+      width: 150,
     },
     {
       title: "C.U.I.T.",

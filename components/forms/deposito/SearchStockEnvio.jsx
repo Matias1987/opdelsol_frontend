@@ -24,7 +24,7 @@ import { post_method } from "@/src/helpers/post_helper";
  * @param callback
  */
 const SearchStockEnvio = (props) => {
-  const { idSucursalDestino } = props;
+  const { idSucursalDestino, initData } = props;
   const id_sucursal = globals.obtenerSucursal();
   const search_url = get.buscar_stock_envios + id_sucursal + "/";
   const [top, setTop] = useState(10);
@@ -38,11 +38,17 @@ const SearchStockEnvio = (props) => {
   const [tags, setTags] = useState([]);
   const [conStockOrigen, setConStockOrigen] = useState(true);
   const [sinStockDestino, setSinStockDestino] = useState(false);
+  const [currentData, setCurrentData] = useState([]);
 
   useEffect(() => {
     setDataSource([]);
+    if (initData && initData.length > 0) {
+      setCurrentData(
+        initData.map((c) => ({ idcodigo: c.key, cantidad: c.cantidad })),
+      );
+    }
   }, [idSucursalDestino]);
-
+  /*
   const doSearch_old = (value, id) => {
     let _searchvalue = value.trim().length < 1 ? "-1" : value.trim();
     const url =
@@ -64,9 +70,7 @@ const SearchStockEnvio = (props) => {
           typeof props.onParseResponse !== "undefined"
             ? props.onParseResponse(_response)
             : _response;
-        /*
-            this returns rows results from search
-            */
+
         //controlar con datos existentes
         setDataSource(
           response.data.map((row) => ({
@@ -80,7 +84,7 @@ const SearchStockEnvio = (props) => {
               val:
                 typeof row.habilitado === "undefined" ? true : row.habilitado,
               idcodigo: row.idcodigo,
-            } /* un codigo puede no estar habilitado */,
+            } ,
             checked: false,
           })),
         );
@@ -89,7 +93,7 @@ const SearchStockEnvio = (props) => {
       .catch((error) => {
         console.error(error);
       });
-  };
+  };*/
 
   const doSearch = (value, id) => {
     let _searchvalue = value.trim().length < 1 ? "" : value.trim();
@@ -160,6 +164,19 @@ const SearchStockEnvio = (props) => {
     }
   };
 
+  const actualizarCurrentData = (idcodigo) => {
+    const found = currentData.find((c) => c.idcodigo == idcodigo);
+    if (found) {
+      setCurrentData((_cd) =>
+        _cd.map((d) =>
+          d.idcodigo == idcodigo ? { ...d, cantidad: d.cantidad + 1 } : d,
+        ),
+      );
+      return;
+    }
+
+    setCurrentData((_cd) => [..._cd, { idcodigo: idcodigo, cantidad: 1 }]);
+  };
   return (
     <>
       <Card
