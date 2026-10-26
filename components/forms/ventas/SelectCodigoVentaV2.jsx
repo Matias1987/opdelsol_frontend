@@ -1,0 +1,113 @@
+import CustomModal from "@/components/CustomModal";
+import SearchStockVentas from "./SearchStockVentas";
+import { useEffect, useState } from "react";
+import { get } from "@/src/urls";
+import globals from "@/src/globals";
+import { Button } from "antd";
+import CloseCircleFilled from "@ant-design/icons/CloseCircleFilled";
+import EditOutlined from "@ant-design/icons/EditOutlined";
+import DefaultImageProduct from "@/components/etc/imagen/default_image_prod";
+
+/**
+ *
+ * @param idfamilias collection of filter ids
+ * @param callback callback
+ * @param buttonText
+ * @param filtros
+ */
+export default function SelectCodigoVentaV2({ hideExtOpt, defIdCodigo, callback, buttonText, idfamilias }) {
+    const [dataCodigo, setDataCodigo] = useState(null);
+    const query_detalles =
+        get.obtener_stock_detalles_venta + globals.obtenerSucursal() + "/";
+
+    useEffect(() => {
+        if (defIdCodigo) {
+            onCodigoSelected(defIdCodigo);
+        }
+    }, [defIdCodigo]);
+
+    const onCodigoSelected = (id) => {
+        //get details!
+        fetch(query_detalles + id)
+            .then((response) => response.json())
+            .then((response) => {
+                const _data = {
+                    codigo: response.data[0].codigo,
+                    descripcion: response.data[0].descripcion,
+                    precio: response.data[0].precio,
+                    cantidad: response.data[0].cantidad,
+                    precio_defecto_mayorista: response.data[0].precio_defecto_mayorista,
+                    idcodigo: id,
+                    descuento: response.data[0].descuento,
+                };
+                setDataCodigo(_data);
+
+                callback?.(_data);
+            })
+            .catch((error) => {
+                alert(error);
+            });
+    };
+
+    const on_remove = () => {
+        setDataCodigo(null);
+        callback?.({ codigo: null, precio: 0, idcodigo: -1 });
+    };
+
+    const _codigo_style = {
+        fontSize: "1em",
+        color: "#02119b"
+    };
+
+    const _button = (_) => (
+        <Button
+            danger
+            size="small"
+            type="ghost"
+            style={{ color: "red" }}
+            onClick={() => {
+                on_remove();
+            }}
+        >
+            <CloseCircleFilled />
+        </Button>
+    );
+
+    return dataCodigo === null ? (
+        <>
+            <CustomModal
+                width="900px"
+                openButtonText={
+                    <i>
+                        {" "}
+                        <EditOutlined />{" "}
+                        {typeof buttonText === "undefined"
+                            ? "Seleccionar Código"
+                            : buttonText}{" "}
+                    </i>
+                }
+                title="Buscar"
+            >
+                <SearchStockVentas
+                    idfamilias={
+                        typeof idfamilias === "undefined" ? [] : idfamilias
+                    }
+                    callback={onCodigoSelected}
+                    hideExtOpt={hideExtOpt || "0"}
+                />
+            </CustomModal>
+        </>
+    ) : (
+        <div>
+            <DefaultImageProduct idproduct={dataCodigo.idcodigo} width={"60px"} />{" "}
+            <span style={_codigo_style}>
+                <b>
+                    {dataCodigo.codigo.length > 30
+                        ? dataCodigo.codigo.substring(0, 30) + "..."
+                        : dataCodigo.codigo}
+                </b>
+                {_button()}
+            </span>
+        </div>
+    );
+}

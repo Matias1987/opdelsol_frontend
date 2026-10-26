@@ -4,13 +4,13 @@ import { Input, InputNumber, Table } from "antd";
 import { useState } from "react";
 import HelperToolTip from "@/components/forms/ventas/common/HelperToolTip";
 
-const DistanciaCristal = ({ callback, tipo, path }) => {
-  const [od_eje, setOdEje] = useState("");
+const DistanciaCristal = ({ callback, tipo, path, trabajoObject }) => {
+  /*const [od_eje, setOdEje] = useState("");
   const [oi_eje, setOiEje] = useState("");
   const [od_precio, setOdPrecio] = useState("");
   const [oi_precio, setOiPrecio] = useState("");
   const [armazon_precio, setArmazonPrecio] = useState("");
-  const [tratamiento_precio, setTratamientoPrecio] = useState("");
+  const [tratamiento_precio, setTratamientoPrecio] = useState("");*/
 
   const onChange = (key, value) => {
     callback?.({ path: path, keys: [key], values: [value] });
@@ -80,6 +80,7 @@ const DistanciaCristal = ({ callback, tipo, path }) => {
       render: (_, record) => (
         <>
           <SelectCodigoVenta
+            defIdCodigo={trabajoObject[record.key + "_" + "idcodigo"] ?? null}
             hideExtOpt={"1"}
             idfamilias={[record.id_familia]}
             buttonText={"Seleccionar..."}
@@ -109,6 +110,7 @@ const DistanciaCristal = ({ callback, tipo, path }) => {
       render: (hasInput, record) =>
         hasInput ? (
           <HelperToolTip
+            value={trabajoObject[record.key + "_" + "esf"] ?? "0"}
             onChange={(v) => {
               onChange(record.key + "_" + "esf", v);
             }}
@@ -131,6 +133,7 @@ const DistanciaCristal = ({ callback, tipo, path }) => {
       render: (hasInput, record) =>
         hasInput ? (
           <HelperToolTip
+            value={trabajoObject[record.key + "_" + "cil"] ?? "0"}
             onChange={(v) => {
               onChange(record.key + "_" + "cil", v);
             }}
@@ -156,14 +159,9 @@ const DistanciaCristal = ({ callback, tipo, path }) => {
           <Input
             type="number"
             placeholder="Input"
-            value={record.key === "od" ? od_eje : oi_eje}
+            value={trabajoObject[record.key + "_" + "eje"] ?? "0"}
             onChange={(e) => {
               onChange(record.key + "_" + "eje", e.target.value);
-              if (record.key === "od") {
-                setOdEje(e.target.value);
-              } else {
-                setOiEje(e.target.value);
-              }
             }}
           />
         ) : (
@@ -186,7 +184,7 @@ const DistanciaCristal = ({ callback, tipo, path }) => {
         hasInput ? (
           <InputNumber
             style={{ width: "120px" }}
-            value={0}
+            value={trabajoObject[record.key + "_" + "precio"] ?? "0"}
             onChange={(v) => onChange(record.key + "_" + "precio", v)}
           />
         ) : (

@@ -23,11 +23,22 @@ const SelectTrabajo = ({
   const [tipoTrabajo, setTipoTrabajo] = useState(-1);
 
   const onChange = (data) => {
-    callback?.({...data, localId: localId});
+    callback?.({ ...data, localId: localId });
   }
 
-  useEffect(()=>{
-  },[trabajoObject]);
+  useEffect(() => {
+    if (trabajoObject) {
+      let tipo = -1;
+      switch (trabajoObject.tipo) {
+        case "rec_st": tipo = RECETA_STOCK; break;
+        case "monof_lab": tipo = MONOF_LAB; break;
+        case "multi_lab": tipo = MULTIF_LAB; break;
+        case "lc_st": tipo = LC_STOCK; break;
+        case "lc_lab": tipo = LC_LAB; break;
+      }
+      setTipoTrabajo(tipo);
+    }
+  }, [trabajoObject]);
 
   const get_tipo_trabajo_nombre = (val) => {
     switch (+val) {
@@ -118,7 +129,7 @@ const SelectTrabajo = ({
     }
   };
 
-  return +tipoTrabajo<0 ? (
+  return +tipoTrabajo < 0 ? (
     <div>
       <Row style={{ paddingLeft: "32px" }}>
         <Col span={24}>

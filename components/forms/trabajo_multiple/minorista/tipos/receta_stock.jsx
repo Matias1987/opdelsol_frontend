@@ -20,7 +20,7 @@ const TipoRecetaStock = ({ callback, path, trabajoObject }) => {
             path={[...path, "lejos"]}
             tipo={"lejos"}
             callback={callback}
-            trabajoObject={trabajoObject}
+            trabajoObject={trabajoObject?.lejos}
           />
         </>
       ),
@@ -34,7 +34,7 @@ const TipoRecetaStock = ({ callback, path, trabajoObject }) => {
             path={[...path, "cerca"]}
             tipo={"cerca"}
             callback={callback}
-            trabajoObject={trabajoObject}
+            trabajoObject={trabajoObject?.cerca}
           />
         </>
       ),
