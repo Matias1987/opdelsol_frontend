@@ -3,7 +3,7 @@ import SelectCodigoVenta from "@/components/forms/ventas/SelectCodigoVenta";
 import globals from "@/src/globals";
 import { Card, Input, InputNumber, Table } from "antd";
 
-const TipoMultifocalesLab = ({ callback, path }) => {
+const TipoMultifocalesLab = ({ callback, path, trabajoObject }) => {
   const dataSource = [
     {
       key: "od",

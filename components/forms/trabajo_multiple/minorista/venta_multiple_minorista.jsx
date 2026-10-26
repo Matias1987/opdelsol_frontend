@@ -50,6 +50,7 @@ const VentaMultipleMinorista = ({
   const date = new Date();
   const [btnEnabled, setBtnEnabled] = useState(true);
   const [activeKey, setActiveKey] = useState("1");
+  const [defaultValues, setDefaultValues] = useState(null);
   const [venta, setVenta] = useState({
     fkcliente: null,
     fkdestinatario: null,
@@ -123,7 +124,6 @@ const VentaMultipleMinorista = ({
   };
 
   const obtenerTrabajoObject = (tipo) => {
-    //alert("obtenerTrabajoObject: " + tipo);
     switch (tipo) {
       case "rec_st":
         return obtenerObjetoRecetaStock();

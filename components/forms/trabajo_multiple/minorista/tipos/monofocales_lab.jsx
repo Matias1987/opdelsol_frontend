@@ -4,7 +4,7 @@ import {
 } from "antd";
 import DistanciaCristal from "./distancia_cristal";
 
-const TipoMonofocalesLab = ({ callback, path }) => {
+const TipoMonofocalesLab = ({ callback, path, trabajoObject }) => {
  
   const tabItems = [
     {
@@ -16,6 +16,7 @@ const TipoMonofocalesLab = ({ callback, path }) => {
             tipo={"lejos"}
             callback={callback}
             path={[...path, "lejos"]}
+            trabajoObject={trabajoObject?.lejos}
           />
         </>
       ),
@@ -29,6 +30,7 @@ const TipoMonofocalesLab = ({ callback, path }) => {
             tipo={"cerca"}
             callback={callback}
             path={[...path, "cerca"]}
+            trabajoObject={trabajoObject?.cerca}
           />
         </>
       ),

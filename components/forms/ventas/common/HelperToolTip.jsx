@@ -6,7 +6,7 @@ import {
   InputNumber,
   AutoComplete,
 } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PosNegPicker from "./PosNegPicker";
 
 const HelperToolTip = ({ disabled, callback, value, onChange, prefix, pWidth, positiveZero }) => {
@@ -140,6 +140,13 @@ const HelperToolTip = ({ disabled, callback, value, onChange, prefix, pWidth, po
       setError(true); // Muestra error si ingresó letras o signos inválidos
     }
   };
+
+  useEffect(()=>{
+    if(value)
+    {
+      setInternalValue(value);
+    }
+  },[])
 
   return (
     <Tooltip
