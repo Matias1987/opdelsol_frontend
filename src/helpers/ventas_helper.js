@@ -227,7 +227,7 @@ const submit_venta = (
 
                 if(!response.data || !response.data.idVenta)
                 {
-                    alert(JSON.stringify(response));
+                    //alert(JSON.stringify(response));
                     alert( response.data?.error || "Error al generar la venta")
                     callbackOnFailValidation?.()
                     return false

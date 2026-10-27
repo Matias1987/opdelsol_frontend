@@ -31,6 +31,7 @@ import {
   obtenerObjetoMonofocalLaboratorio,
   obtenerObjetoMultifocalLaboratorio,
   obtenerObjetoRecetaStock,
+  parse_for_backcmp,
 } from "@/src/helpers/venta_multiple_helper";
 //import useStorage from "@/useStorage";
 
@@ -64,10 +65,10 @@ const VentaMultipleMinorista = ({
     fechaRetiro:
       ignore_fecha_retiro || false
         ? date.getDate() +
-        "-" +
-        (date.getMonth() + 1) +
-        "-" +
-        date.getFullYear()
+          "-" +
+          (date.getMonth() + 1) +
+          "-" +
+          date.getFullYear()
         : null,
     horaRetiro: null,
     comentarios: "",
@@ -88,6 +89,7 @@ const VentaMultipleMinorista = ({
   const trabajosRef = useRef(trabajos);
   const [idCliente, setIdCliente] = useState(0);
   const [finalV, setFinalV] = useState({});
+  const newTabIndex = useRef(0);
 
   useEffect(() => {
     trabajosRef.current = trabajos;
@@ -197,8 +199,6 @@ const VentaMultipleMinorista = ({
     }));
   }, [trabajos, idCliente]);
 
-  const newTabIndex = useRef(0);
-
   const calcularTotal = (trabajos) => {
     const _subtotal = trabajos.reduce(
       (acc, trabajo) => acc + parseFloat(trabajo?.monto_total || "0"),
@@ -265,6 +265,10 @@ const VentaMultipleMinorista = ({
   };
 
   const format_venta = () => {
+    if (trabajos.length < 2) {
+      return { ...venta, trabajos: parse_for_backcmp(trabajos[0]) };
+    }
+
     const procesar_items = (tr, has_dist) => {
       if (!tr) {
         return [];
@@ -364,9 +368,7 @@ const VentaMultipleMinorista = ({
       ),
     }));
 
-    return trabajos.length < 2
-      ? { ...venta, productos: tt[0].items }
-      : { ...venta, trabajos: tt };
+    return { ...venta, trabajos: tt };
   };
 
   const finalizar_venta = (e) => {
@@ -483,9 +485,10 @@ const VentaMultipleMinorista = ({
                     fontWeight: "400",
                   }}
                 >
-                  <PlusCircleOutlined /> Agregar Trabajo
+                  <PlusCircleOutlined />
                 </span>
               }
+              hideAdd={false}
               className="custom-body-tabs"
               type="editable-card"
               size={"small"}
@@ -625,7 +628,7 @@ const VentaMultipleMinorista = ({
     },
   ];
 
-  const onChangeCollapse = (key) => { };
+  const onChangeCollapse = (key) => {};
 
   const validar = (v) => {
     const messages = [];
@@ -668,9 +671,9 @@ const VentaMultipleMinorista = ({
       if (t.items.length < 1) {
         messages.push(
           "No se encontraron elementos en el trabajo " +
-          (+i + 1) +
-          "  " +
-          t.tipo,
+            (+i + 1) +
+            "  " +
+            t.tipo,
         );
         break;
       }
@@ -729,7 +732,7 @@ const VentaMultipleMinorista = ({
         }}
       >
         <Row>
-          <Col span={12}>
+          <Col span={24}>
             <Collapse
               accordion
               items={c_items}
@@ -737,27 +740,50 @@ const VentaMultipleMinorista = ({
               onChange={onChangeCollapse}
             />
           </Col>
-          <Col span={12}>
-            <div style={{ height: "600px", overflowY: "scroll", width: "100%", border: "1px dotted #999999", padding: "4px", borderRadius: "6px", fontWeight: "600", color: "#51ff00", backgroundColor: "black", fontSize: "18px" }}>
-              <pre>
-                {JSON.stringify({ trabajos: trabajos }, null, 2)}
-              </pre>
+          {/*<Col span={12}>
+            <div
+              style={{
+                height: "600px",
+                overflowY: "scroll",
+                width: "100%",
+                border: "1px dotted #999999",
+                padding: "4px",
+                borderRadius: "6px",
+                fontWeight: "600",
+                color: "#51ff00",
+                backgroundColor: "black",
+                fontSize: "18px",
+              }}
+            >
+              <pre>{JSON.stringify({ trabajos: trabajos }, null, 2)}</pre>
             </div>
-          </Col>
+          </Col>*/}
         </Row>
         <Row>
           <Col span={24}>
-            <Input.TextArea value={defaultValues} onChange={e => { setDefaultValues(e.target.value) }} />
+            <Input.TextArea
+              value={defaultValues}
+              onChange={(e) => {
+                setDefaultValues(e.target.value);
+              }}
+            />
 
-            <Button onClick={_ => {
-              try {
-                const data = JSON.parse(defaultValues);
-                setTrabajos(data);
-              } catch (error) {
-                console.error("Failed to parse JSON string:", error.message);
+            <Button
+              onClick={(_) => {
+                try {
+                  const data = JSON.parse(defaultValues);
+                  setTrabajos(data);
 
-              }
-            }}>Aplicar</Button>
+                  newTabIndex.current = 0;
+                  setActiveKey(0);
+                  //alert(newTabIndex.current)
+                } catch (error) {
+                  console.error("Failed to parse JSON string:", error.message);
+                }
+              }}
+            >
+              Aplicar
+            </Button>
           </Col>
         </Row>
       </Card>

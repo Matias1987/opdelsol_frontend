@@ -4,14 +4,9 @@ import { Input, InputNumber, Table } from "antd";
 import { useEffect, useState } from "react";
 import HelperToolTip from "@/components/forms/ventas/common/HelperToolTip";
 import SelectCodigoVentaV2 from "@/components/forms/ventas/SelectCodigoVentaV2";
+import HelperToolTipV2 from "@/components/forms/ventas/common/HelperToolTipV2";
 
 const DistanciaCristal = ({ callback, tipo, path, trabajoObject }) => {
-  /*const [od_eje, setOdEje] = useState("");
-  const [oi_eje, setOiEje] = useState("");
-  const [od_precio, setOdPrecio] = useState("");
-  const [oi_precio, setOiPrecio] = useState("");
-  const [armazon_precio, setArmazonPrecio] = useState("");
-  const [tratamiento_precio, setTratamientoPrecio] = useState("");*/
 
   const onChange = (key, value) => {
     callback?.({ path: path, keys: [key], values: [value] });
@@ -72,9 +67,11 @@ const DistanciaCristal = ({ callback, tipo, path, trabajoObject }) => {
     {
       title: "",
       dataIndex: "key",
-      render: (_, { codigo }) => <span>{codigo}</span>,
+      render: (_, { codigo }) => <div style={{fontSize:".8em", textAlign:"center", color:"#bb3810"}}>{codigo}</div>,
+      width:"60px"
     },
     {
+      width:"200px",
       title: "Código",
       dataIndex: "codigo",
       key: "codigo",
@@ -105,13 +102,14 @@ const DistanciaCristal = ({ callback, tipo, path, trabajoObject }) => {
       },
     },
     {
+      width:"100px",
       title: "Esf",
       dataIndex: "esf",
       key: "esf",
       render: (hasInput, record) =>
         hasInput ? (
-          <HelperToolTip
-            value={trabajoObject[record.key + "_" + "esf"] ?? "0"}
+          <HelperToolTipV2
+            defValue={trabajoObject[record.key + "_" + "esf"] ?? "0"}
             onChange={(v) => {
               onChange(record.key + "_" + "esf", v);
             }}
@@ -128,13 +126,14 @@ const DistanciaCristal = ({ callback, tipo, path, trabajoObject }) => {
       },
     },
     {
+      width:"100px",
       title: "Cil",
       dataIndex: "cil",
       key: "cil",
       render: (hasInput, record) =>
         hasInput ? (
-          <HelperToolTip
-            value={trabajoObject[record.key + "_" + "cil"] ?? "0"}
+          <HelperToolTipV2
+            defValue={trabajoObject[record.key + "_" + "cil"] ?? "0"}
             onChange={(v) => {
               onChange(record.key + "_" + "cil", v);
             }}
@@ -195,7 +194,7 @@ const DistanciaCristal = ({ callback, tipo, path, trabajoObject }) => {
   ];
   
   useEffect(() => {
-    alert(JSON.stringify(trabajoObject));
+    //alert(JSON.stringify(trabajoObject));
   }, [trabajoObject]);
 
   return (

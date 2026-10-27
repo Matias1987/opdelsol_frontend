@@ -1,6 +1,7 @@
-import { Card, Tabs } from "antd";
+import { Button, Card, Tabs } from "antd";
 import DistanciaCristal from "./distancia_cristal";
 import { useEffect } from "react";
+import { CameraOutlined, ScanOutlined } from "@ant-design/icons";
 
 const TipoRecetaStock = ({ callback, path, trabajoObject }) => {
   /*const [trabajoStock, setTrabajoStock] = useState({
@@ -55,7 +56,7 @@ const TipoRecetaStock = ({ callback, path, trabajoObject }) => {
     <>
       <Card
         size="small"
-        title={<span style={{ color: "#262D42" }}>Receta Stock</span>}
+        title={<span style={{ color: "#262D42" }}>Receta Stock&nbsp;&nbsp;<Button type="primary"><ScanOutlined /></Button></span>}
         style={{ boxShadow: "-1px 1px 1px 1px #9e9c9c" }}
       >
         <Tabs

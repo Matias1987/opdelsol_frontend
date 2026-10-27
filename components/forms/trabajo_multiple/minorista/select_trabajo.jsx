@@ -1,10 +1,11 @@
-import { Col, Row, Select } from "antd";
+import { Button, Col, Row, Select } from "antd";
 import { useEffect, useState } from "react";
 import TipoMonofocalesLab from "./tipos/monofocales_lab";
 import TipoMultifocalesLab from "./tipos/multifocales_lab";
 import TipoRecetaStock from "./tipos/receta_stock";
 import TipoLCStock from "./tipos/lc_stock";
 import TipoLCLab from "./tipos/lc_lab";
+import { ScanOutlined } from "@ant-design/icons";
 
 const SelectTrabajo = ({
   callback,
@@ -28,7 +29,7 @@ const SelectTrabajo = ({
 
   useEffect(() => {
 
-    alert("from select trabajo: " + JSON.stringify(trabajoObject))
+    //alert("from select trabajo: " + JSON.stringify(trabajoObject))
     if (trabajoObject) {
       let tipo = -1;
       switch (trabajoObject.tipo) {
@@ -164,6 +165,11 @@ const SelectTrabajo = ({
               { label: "LC Laboratorio", value: LC_LAB },
             ]}
           />
+        </Col>
+        </Row>
+        <Row>
+        <Col span={24}>
+        <Button type="primary" block><ScanOutlined /></Button>
         </Col>
       </Row>
     </div>
