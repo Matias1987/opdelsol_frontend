@@ -50,7 +50,7 @@ const VentaMultipleMinorista = ({
   const date = new Date();
   const [btnEnabled, setBtnEnabled] = useState(true);
   const [activeKey, setActiveKey] = useState("1");
-  const [defaultValues, setDefaultValues] = useState(null);
+  const [defaultValues, setDefaultValues] = useState("");
   const [venta, setVenta] = useState({
     fkcliente: null,
     fkdestinatario: null,
@@ -64,10 +64,10 @@ const VentaMultipleMinorista = ({
     fechaRetiro:
       ignore_fecha_retiro || false
         ? date.getDate() +
-          "-" +
-          (date.getMonth() + 1) +
-          "-" +
-          date.getFullYear()
+        "-" +
+        (date.getMonth() + 1) +
+        "-" +
+        date.getFullYear()
         : null,
     horaRetiro: null,
     comentarios: "",
@@ -473,45 +473,45 @@ const VentaMultipleMinorista = ({
       label: "Detalle",
       children: (
         <Row>
-            <Col span={24}>
-              <Tabs
-                addIcon={
-                  <span
+          <Col span={24}>
+            <Tabs
+              addIcon={
+                <span
+                  style={{
+                    color: "#ff1818",
+                    fontSize: "14px",
+                    fontWeight: "400",
+                  }}
+                >
+                  <PlusCircleOutlined /> Agregar Trabajo
+                </span>
+              }
+              className="custom-body-tabs"
+              type="editable-card"
+              size={"small"}
+              tabBarExtraContent={{
+                left: (
+                  <div
                     style={{
-                      color: "#ff1818",
-                      fontSize: "14px",
-                      fontWeight: "400",
+                      display: "inline-block",
+                      fontWeight: "bolder",
+                      fontSize: "1.1em",
+                      padding: "8px 16px",
+                      color: "#262D42",
                     }}
                   >
-                    <PlusCircleOutlined /> Agregar Trabajo
-                  </span>
-                }
-                className="custom-body-tabs"
-                type="editable-card"
-                size={"small"}
-                tabBarExtraContent={{
-                  left: (
-                    <div
-                      style={{
-                        display: "inline-block",
-                        fontWeight: "bolder",
-                        fontSize: "1.1em",
-                        padding: "8px 16px",
-                        color: "#262D42",
-                      }}
-                    >
-                      &nbsp;&nbsp;&nbsp;Trabajos:&nbsp;&nbsp;&nbsp;
-                    </div>
-                  ),
-                }}
-                tabPosition="top"
-                activeKey={activeKey}
-                onChange={setActiveKey}
-                onEdit={onEdit}
-                items={getItems}
-              />
-            </Col>
-          </Row>
+                    &nbsp;&nbsp;&nbsp;Trabajos:&nbsp;&nbsp;&nbsp;
+                  </div>
+                ),
+              }}
+              tabPosition="top"
+              activeKey={activeKey}
+              onChange={setActiveKey}
+              onEdit={onEdit}
+              items={getItems}
+            />
+          </Col>
+        </Row>
       ),
     },
     {
@@ -625,7 +625,7 @@ const VentaMultipleMinorista = ({
     },
   ];
 
-  const onChangeCollapse = (key) => {};
+  const onChangeCollapse = (key) => { };
 
   const validar = (v) => {
     const messages = [];
@@ -668,9 +668,9 @@ const VentaMultipleMinorista = ({
       if (t.items.length < 1) {
         messages.push(
           "No se encontraron elementos en el trabajo " +
-            (+i + 1) +
-            "  " +
-            t.tipo,
+          (+i + 1) +
+          "  " +
+          t.tipo,
         );
         break;
       }
@@ -738,11 +738,26 @@ const VentaMultipleMinorista = ({
             />
           </Col>
           <Col span={12}>
-           <div style={{height:"600px", overflowY:"scroll", width:"100%", border:"1px dotted #999999", padding:"4px", borderRadius:"6px", fontWeight:"600", color:"#51ff00", backgroundColor:"black", fontSize:"18px"}}>
+            <div style={{ height: "600px", overflowY: "scroll", width: "100%", border: "1px dotted #999999", padding: "4px", borderRadius: "6px", fontWeight: "600", color: "#51ff00", backgroundColor: "black", fontSize: "18px" }}>
               <pre>
-                {JSON.stringify({ trabajos: trabajos  }, null,2)}
+                {JSON.stringify({ trabajos: trabajos }, null, 2)}
               </pre>
-           </div>
+            </div>
+          </Col>
+        </Row>
+        <Row>
+          <Col span={24}>
+            <Input.TextArea value={defaultValues} onChange={e => { setDefaultValues(e.target.value) }} />
+
+            <Button onClick={_ => {
+              try {
+                const data = JSON.parse(defaultValues);
+                setTrabajos(data);
+              } catch (error) {
+                console.error("Failed to parse JSON string:", error.message);
+
+              }
+            }}>Aplicar</Button>
           </Col>
         </Row>
       </Card>

@@ -1,8 +1,9 @@
 import SelectCodigoVenta from "@/components/forms/ventas/SelectCodigoVenta";
 import globals from "@/src/globals";
 import { Input, InputNumber, Table } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import HelperToolTip from "@/components/forms/ventas/common/HelperToolTip";
+import SelectCodigoVentaV2 from "@/components/forms/ventas/SelectCodigoVentaV2";
 
 const DistanciaCristal = ({ callback, tipo, path, trabajoObject }) => {
   /*const [od_eje, setOdEje] = useState("");
@@ -79,7 +80,7 @@ const DistanciaCristal = ({ callback, tipo, path, trabajoObject }) => {
       key: "codigo",
       render: (_, record) => (
         <>
-          <SelectCodigoVenta
+          <SelectCodigoVentaV2
             defIdCodigo={trabajoObject[record.key + "_" + "idcodigo"] ?? null}
             hideExtOpt={"1"}
             idfamilias={[record.id_familia]}
@@ -192,11 +193,11 @@ const DistanciaCristal = ({ callback, tipo, path, trabajoObject }) => {
         ),
     },
   ];
-  /*
+  
   useEffect(() => {
-   
+    alert(JSON.stringify(trabajoObject));
   }, [trabajoObject]);
-*/
+
   return (
     <Table
       size="small"

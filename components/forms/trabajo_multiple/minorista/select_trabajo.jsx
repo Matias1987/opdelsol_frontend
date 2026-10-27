@@ -27,6 +27,8 @@ const SelectTrabajo = ({
   }
 
   useEffect(() => {
+
+    alert("from select trabajo: " + JSON.stringify(trabajoObject))
     if (trabajoObject) {
       let tipo = -1;
       switch (trabajoObject.tipo) {
@@ -82,7 +84,7 @@ const SelectTrabajo = ({
             callback={onChange}
             idCliente={idCliente}
             path={[...path, "items"]}
-            trabajoObject={trabajoObject}
+            trabajoObject={trabajoObject.items}
           />
         );
       case RECETA_STOCK:
@@ -91,7 +93,7 @@ const SelectTrabajo = ({
             callback={onChange}
             idCliente={idCliente}
             path={[...path, "items"]}
-            trabajoObject={trabajoObject}
+            trabajoObject={trabajoObject.items}
           />
         );
       case MONOF_LAB:
@@ -99,7 +101,7 @@ const SelectTrabajo = ({
           <TipoMonofocalesLab
             callback={onChange}
             path={[...path, "items"]}
-            trabajoObject={trabajoObject}
+            trabajoObject={trabajoObject.items}
           />
         );
       case MULTIF_LAB:
@@ -107,7 +109,7 @@ const SelectTrabajo = ({
           <TipoMultifocalesLab
             callback={onChange}
             path={[...path, "items"]}
-            trabajoObject={trabajoObject}
+            trabajoObject={trabajoObject.items}
           />
         );
       case LC_STOCK:
@@ -115,7 +117,7 @@ const SelectTrabajo = ({
           <TipoLCStock
             callback={onChange}
             path={[...path, "items"]}
-            trabajoObject={trabajoObject}
+            trabajoObject={trabajoObject.items}
           />
         );
       case LC_LAB:
@@ -123,7 +125,7 @@ const SelectTrabajo = ({
           <TipoLCLab
             callback={onChange}
             path={[...path, "items"]}
-            trabajoObject={trabajoObject}
+            trabajoObject={trabajoObject.items}
           />
         );
     }
