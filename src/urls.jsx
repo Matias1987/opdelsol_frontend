@@ -367,6 +367,7 @@ const post = {
     descuento_cliente: remote_base_url + "dc/",
     insert_venta_multiple: remote_base_url + "tm/",
     insert_pedido: remote_base_url + "pedidos/",
+    comentario_cliente: remote_base_url + "opinion/add/"
   },
   update: {
     optica: remote_base_url + "op/mod/",

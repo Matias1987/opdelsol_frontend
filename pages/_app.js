@@ -8,8 +8,11 @@ import updateLocale from "dayjs/plugin/updateLocale";
 import { NetworkProvider } from "@/components/providers/NetworkContext";
 import ConnectionBanner from "@/components/etc/ConnectionBanner";
 import { UserStatusProvider } from "@/components/providers/UserContext";
+import { useEffect, useState } from "react";
 //import { PopupProvider } from "@/components/providers/PopupContext";
 export default function App({ Component, pageProps }) {
+  const [isReady, setIsReady] = useState(false);
+
   // 1. Activate the updateLocale plugin
   dayjs.extend(updateLocale);
 
@@ -21,7 +24,22 @@ export default function App({ Component, pageProps }) {
     weekdaysMin: ["Dom", "Lun", "Mar", "Mier", "Thu", "Fri", "Sat"],
   });
 
-  return (
+  useEffect(() => {
+    setIsReady(true);
+  }, []);
+
+  return !isReady ? (
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "100vh",
+      }}
+    >
+      <h3>Cargando...</h3>
+    </div>
+  ) : (
     <>
       {/*<SocketProvider>*/}
 
@@ -78,16 +96,16 @@ export default function App({ Component, pageProps }) {
         <UserStatusProvider>
           <NetworkProvider pingInterval={15000}>
             {/*<PopupProvider>*/}
-              <ConnectionBanner />
-              {Component.PageLayout ? (
-                <Component.PageLayout>
-                  <Component {...pageProps} />
-                </Component.PageLayout>
-              ) : (
-                <MyLayout>
-                  <Component {...pageProps} />
-                </MyLayout>
-              )}
+            <ConnectionBanner />
+            {Component.PageLayout ? (
+              <Component.PageLayout>
+                <Component {...pageProps} />
+              </Component.PageLayout>
+            ) : (
+              <MyLayout>
+                <Component {...pageProps} />
+              </MyLayout>
+            )}
             {/*</PopupProvider>*/}
           </NetworkProvider>
         </UserStatusProvider>
