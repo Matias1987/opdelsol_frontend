@@ -275,6 +275,80 @@ const parse_for_backcmp = (trabajos) => {
   return items;
 };
 
+function limpiarEjeDecimal(valorTexto) {
+  return parseFloat(valorTexto);
+}
+
+const validate_val = (value) => {
+  const tvalue = (value ?? "").toUpperCase();
+  return tvalue == "NEUTRO" || tvalue == "N" ? "0.00" : tvalue;
+};
+
+const obtener_lado = (obj, dstIndex) => {
+  return {
+    [dstIndex + "_esf"]: validate_val(obj.esf),
+    [dstIndex + "_cil"]: validate_val(obj.cil),
+    [dstIndex + "_eje"]: limpiarEjeDecimal(obj.eje ?? "0"),
+    [dstIndex + "_ad"]: obj.ad ?? "",
+    [dstIndex + "_idcodigo"]: 0,
+    [dstIndex + "_precio"]: 0,
+  };
+};
+const procesar_seleccion = (pData) => {
+  let lejos_od = null;
+  let lejos_oi = null;
+  let cerca_od = null;
+  let cerca_oi = null;
+  let oi = null;
+  let od = null;
+  const procesar_elemento = (elemento) => {
+    switch (elemento.distancia) {
+      case "lejos":
+        lejos_od = obtener_lado(elemento, "od");
+        lejos_oi = obtener_lado(elemento, "oi");
+        break;
+      case "cerca":
+        cerca_od = obtener_lado(elemento, "od");
+        cerca_oi = obtener_lado(elemento, "oi");
+        break;
+      default:
+        od = obtener_lado(elemento, "od");
+        oi = obtener_lado(elemento, "oi");
+        break;
+    }
+  };
+
+  pData.data.recetas_editadas.forEach((r) => {
+    procesar_elemento(r);
+  });
+
+  let lejos = null;
+  let cerca = null;
+
+  if (lejos_od || lejos_oi) {
+    lejos = { ...lejos_od, ...lejos_oi };
+  }
+  if (cerca_od || cerca_oi) {
+    cerca = { ...cerca_od, ...cerca_oi };
+  }
+  let response = {};
+  if (lejos) {
+    response = { ...response, lejos: lejos };
+  }
+
+  if (cerca) {
+    response = { ...response, cerca: cerca };
+  }
+
+  if (od) {
+    response = { ...response, od: od };
+  }
+  if (oi) {
+    response = { ...response, oi: oi };
+  }
+  return response;
+};
+
 module.exports = {
   obtenerObjetoRecetaStock,
   obtenerObjetoMonofocalLaboratorio,
@@ -282,4 +356,5 @@ module.exports = {
   obtenerObjetoLCStock,
   obtenerObjetoLCLaboratorio,
   parse_for_backcmp,
+  procesar_seleccion,
 };
