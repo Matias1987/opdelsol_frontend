@@ -1,11 +1,12 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { Button, Card, Space, message, Spin } from 'antd';
 import { CameraOutlined, SyncOutlined, UploadOutlined, DeleteOutlined } from '@ant-design/icons';
+import { ia_recetas } from '@/src/config';
 
 const RecipeScanner = () => {
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
-  
+
   const [stream, setStream] = useState(null);
   const [photo, setPhoto] = useState(null); // Almacena la imagen en Base64 para previsualización
   const [loading, setLoading] = useState(false);
@@ -60,63 +61,67 @@ const RecipeScanner = () => {
     // Convertir a formato base64 para previsualización inmediata
     const imageDataUrl = canvas.toDataURL('image/jpeg');
     setPhoto(imageDataUrl);
-    
+
     // Apagar la cámara temporalmente mientras se revisa la foto
     stopCamera();
   };
 
-  const sendToServer = async () => {
-    if (!photo) return;
-    setLoading(true);
+const sendToServer = async () => {
+  if (!photo) return;
+  setLoading(true);
 
-    try {
-      // 1. Convertir el Base64 de la captura a un Blob binario (File)
-      const response = await fetch(photo);
-      const blob = await response.blob();
-      
-      // 2. Preparar el FormData para el envío
-      const formData = new FormData();
-      formData.append('recipe_image', blob, 'recipe.jpg');
+  try {
+    // En lugar de convertir a Blob y usar FormData, enviamos el string Base64 directamente
+    const serverResponse = await fetch(ia_recetas, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Forwarded-For': 'true',
+        'Bypass-Tunnel-Reminder': 'true' // Obligatorio para el túnel de VS Code
+      },
+      body: JSON.stringify({
+        imagen_base64: photo // Aquí viaja el string de la foto
+      }),
+    });
 
-      // 3. Petición HTTP al servidor
-      const serverResponse = await fetch('/api/upload-recipe', { // Reemplaza con tu endpoint real
-        method: 'POST',
-        body: formData,
-      });
+    const textoCrudo = await serverResponse.text();
 
-      if (!serverResponse.ok) throw new Error('Error en el servidor');
-
-      const data = await serverResponse.json();
-      message.success('¡Imagen procesada con éxito!');
-      console.log('Datos de graduación recibidos:', data);
-      
-      // Aquí puedes manejar la respuesta del servidor (ej. guardarla en un estado global o redirigir)
-
-    } catch (error) {
-      console.error(error);
-      message.error('Hubo un error al enviar la imagen al servidor.');
-    } finally {
-      setLoading(false);
+   // alert(textoCrudo)
+    
+    if (!serverResponse.ok) {
+      console.error("Respuesta de error del servidor:", textoCrudo);
+      throw new Error('Error en el servidor');
     }
-  };
+
+    const data = JSON.parse(textoCrudo);
+    message.success('¡Receta procesada con éxito!');
+    alert(JSON.stringify(data));
+
+  } catch (error) {
+    console.error(error);
+    message.error('Hubo un error al enviar la imagen: ' + error.message);
+  } finally {
+    setLoading(false);
+  }
+};
 
   const retakePhoto = () => {
     startCamera();
   };
 
   return (
-    <Card 
-      title="Escanear Receta de Graduación" 
+    <Card
+      title="Escanear Receta de Graduación"
       style={{ maxWidth: 500, margin: '20px auto', textAlign: 'center' }}
     >
       <div style={{ position: 'relative', width: '100%', minHeight: 300, background: '#f0f2f5', marginBottom: 20, borderRadius: 8, overflow: 'hidden' }}>
-        
+
         {/* Renderizado de la Cámara en vivo */}
         {!photo && (
-          <video 
-            ref={videoRef} 
-            autoPlay 
-            playsInline 
+          <video
+            ref={videoRef}
+            autoPlay
+            playsInline
             style={{ width: '100%', height: '100%', display: cameraReady ? 'block' : 'none', objectFit: 'cover' }}
           />
         )}
@@ -130,13 +135,13 @@ const RecipeScanner = () => {
 
         {/* Previsualización de la foto capturada */}
         {photo && (
-          <img 
-            src={photo} 
-            alt="Receta capturada" 
+          <img
+            src={photo}
+            alt="Receta capturada"
             style={{ width: '100%', height: 'auto', display: 'block' }}
           />
         )}
-        
+
         {/* Canvas oculto para el procesado de la imagen */}
         <canvas ref={canvasRef} style={{ display: 'none' }} />
       </div>
@@ -144,10 +149,10 @@ const RecipeScanner = () => {
       {/* Controles de Acción */}
       <Space size="middle">
         {!photo ? (
-          <Button 
-            type="primary" 
-            icon={<CameraOutlined />} 
-            size="large" 
+          <Button
+            type="primary"
+            icon={<CameraOutlined />}
+            size="large"
             onClick={takePicture}
             disabled={!cameraReady}
           >
@@ -155,19 +160,19 @@ const RecipeScanner = () => {
           </Button>
         ) : (
           <>
-            <Button 
-              icon={<DeleteOutlined />} 
-              danger 
-              size="large" 
+            <Button
+              icon={<DeleteOutlined />}
+              danger
+              size="large"
               onClick={retakePhoto}
               disabled={loading}
             >
               Repetir
             </Button>
-            <Button 
-              type="primary" 
-              icon={loading ? <SyncOutlined spin /> : <UploadOutlined />} 
-              size="large" 
+            <Button
+              type="primary"
+              icon={loading ? <SyncOutlined spin /> : <UploadOutlined />}
+              size="large"
               onClick={sendToServer}
               loading={loading}
             >

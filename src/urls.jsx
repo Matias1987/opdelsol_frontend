@@ -108,6 +108,7 @@ const public_urls = {
   lista_operaciones_distribuidora: local_base_url + "trabajos/listado",
   lista_clientes_distribuidora: local_base_url + "distribuidora/clientes",
   productos_distribuidora: local_base_url + "distribuidora/productos",
+  venta_multiple_min: local_base_url + "ventas/VentaM",
   custom: {
     copex: {
       monto_ventas_mes: local_base_url + "admin/custm/oexp/monto_ventas_mes",

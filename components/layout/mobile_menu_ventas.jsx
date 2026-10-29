@@ -11,6 +11,10 @@ const MenuVentasMobile = () => {
     children: [
       {
         key: "1",
+        label: <><Link href={public_urls.venta_multiple_min}>Nueva Venta... </Link></>,
+      },
+      {
+        key: "1",
         label: <><Link href={public_urls.venta_directa}>Venta Directa </Link></>,
       },
       {
