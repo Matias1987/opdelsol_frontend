@@ -1,9 +1,22 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Form, Table, Select, Input, InputNumber, Button, Card } from "antd";
 import { procesar_seleccion } from "@/src/helpers/venta_multiple_helper";
 
-const ProcessIAResponse = ({ jsonServer, callback }) => {
+/**
+ *
+ * @param {*} tipoVenta Receta stock, monofocal, multifocal, etc.
+ * @returns
+ */
+const ProcessIAResponse = ({ jsonServer, tipoVenta, callback }) => {
   const [form] = Form.useForm();
+  const [subgrupoData, setSubgrupoData] = useState([]); // here we load the subgrupo corresponding to the sale kind.
+
+  const loadSG = () => {};
+
+  useEffect(() => {
+    //Cargar los datos de subgrupos de acuerdo al tipo de venta...
+    loadSG();
+  }, []);
 
   // 1. Helper de transformación envuelto en useMemo para evitar ejecuciones innecesarias
   const datosInicialesAplanados = useMemo(() => {
@@ -87,7 +100,7 @@ const ProcessIAResponse = ({ jsonServer, callback }) => {
   // 2. Definición estática de columnas
   const columnas = [
     {
-      width: "110px",
+      width: "80px",
       title: "Distancia",
       dataIndex: "distancia",
       key: "distancia",
@@ -102,7 +115,7 @@ const ProcessIAResponse = ({ jsonServer, callback }) => {
       ),
     },
     {
-      width: "100px",
+      width: "80px",
       title: "Lado",
       dataIndex: "lado",
       key: "lado",
@@ -116,7 +129,7 @@ const ProcessIAResponse = ({ jsonServer, callback }) => {
       ),
     },
     {
-      width: "100px",
+      width: "80px",
       title: "Esfera (ESF)",
       dataIndex: "esf",
       key: "esf",
@@ -127,7 +140,7 @@ const ProcessIAResponse = ({ jsonServer, callback }) => {
       ),
     },
     {
-      width: "100px",
+      width: "90px",
       title: "Cilindro (CIL)",
       dataIndex: "cil",
       key: "cil",
