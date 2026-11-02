@@ -8,6 +8,7 @@ import {
   DatePicker,
   Form,
   Input,
+  Modal,
   Row,
   Tabs,
   TimePicker,
@@ -33,6 +34,8 @@ import {
   obtenerObjetoRecetaStock,
   parse_for_backcmp,
 } from "@/src/helpers/venta_multiple_helper";
+import RecipeScanner from "@/components/etc/RecipeScanner";
+import ProcessIAResponse from "../../ventas/common/processIAResponse";
 //import useStorage from "@/useStorage";
 
 /* leer: https://refine.dev/blog/common-usestate-mistakes-and-how-to-avoid/ */
@@ -52,6 +55,12 @@ const VentaMultipleMinorista = ({
   const [btnEnabled, setBtnEnabled] = useState(true);
   const [activeKey, setActiveKey] = useState("1");
   const [defaultValues, setDefaultValues] = useState("");
+
+  const [modalScanOpen, setModalScanOpen] = useState(false);
+  const [scanningTrabajo, setScanningTrabajo] = useState(null);
+  const [modalEditarRespuestaOpen, setModalEditarRespuestaOpen] =
+    useState(false);
+
   const [venta, setVenta] = useState({
     fkcliente: null,
     fkdestinatario: null,
@@ -182,6 +191,25 @@ const VentaMultipleMinorista = ({
     });
   };
 
+  const onValuesScanned = (data) => {
+    setTrabajos((t) => {
+      const mod = [...t];
+      const index = mod.findIndex((t) => +t.localId == +scanningTrabajo.localId);
+      if (index !== -1) {
+        mod[index] = { ...mod[index], ...data };
+      } else {
+        mod.push(data);
+      }
+      //calcularTotal(mod); to do later...
+      setTrabajos(mod);
+    });
+  };
+
+  const onScanValues = (data, localId) => {
+    setScanningTrabajo({ localId: localId });
+    setModalScanOpen(true);
+  };
+
   const getItems = useMemo(() => {
     return trabajos.map((t) => ({
       label: t.tipo || "Nuevo Trabajo", // Dynamically changes tab name if type updates
@@ -194,6 +222,7 @@ const VentaMultipleMinorista = ({
           onTipoTrabajoSelected={onTipoTrabajoSelected}
           trabajoObject={t}
           path={[]}
+          onScanValues={onScanValues}
         />
       ),
     }));
@@ -787,6 +816,41 @@ const VentaMultipleMinorista = ({
           </Col>
         </Row>
       </Card>
+      <Modal
+        footer={null}
+        open={modalScanOpen}
+        onCancel={(_) => {
+          setModalScanOpen(false);
+        }}
+        width={"100%"}
+        destroyOnClose
+      >
+        <RecipeScanner
+          callback={(response) => {
+            setScanningTrabajo((s) => ({
+              ...s,
+              serverResponse: response,
+            }));
+            setModalScanOpen(false);
+            setModalEditarRespuestaOpen(true);
+          }}
+        />
+      </Modal>
+      <Modal
+        open={modalEditarRespuestaOpen}
+        onCancel={(_) => setModalEditarRespuestaOpen(false)}
+        destroyOnClose
+        width={"100%"}
+        footer={null}
+      >
+        <ProcessIAResponse
+          jsonServer={(scanningTrabajo?.serverResponse ?? {})}
+          callback={(final) => {
+            setModalEditarRespuestaOpen(false);
+            onValuesScanned(final);
+          }}
+        />
+      </Modal>
     </>
   );
 };

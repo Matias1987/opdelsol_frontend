@@ -13,7 +13,8 @@ const SelectTrabajo = ({
   idCliente,
   onTipoTrabajoSelected,
   path,
-  trabajoObject
+  trabajoObject,
+  onScanValues,
 }) => {
   const DIRECTA = 0;
   const RECETA_STOCK = 1;
@@ -86,6 +87,8 @@ const SelectTrabajo = ({
             idCliente={idCliente}
             path={[...path, "items"]}
             trabajoObject={trabajoObject.items}
+            onScanValues={onScanValues}
+            localId={localId}
           />
         );
       case RECETA_STOCK:
@@ -95,6 +98,8 @@ const SelectTrabajo = ({
             idCliente={idCliente}
             path={[...path, "items"]}
             trabajoObject={trabajoObject.items}
+            onScanValues={onScanValues}
+            localId={localId}
           />
         );
       case MONOF_LAB:
@@ -103,6 +108,8 @@ const SelectTrabajo = ({
             callback={onChange}
             path={[...path, "items"]}
             trabajoObject={trabajoObject.items}
+            onScanValues={onScanValues}
+            localId={localId}
           />
         );
       case MULTIF_LAB:
@@ -111,6 +118,8 @@ const SelectTrabajo = ({
             callback={onChange}
             path={[...path, "items"]}
             trabajoObject={trabajoObject.items}
+            onScanValues={onScanValues}
+            localId={localId}
           />
         );
       case LC_STOCK:
@@ -119,6 +128,8 @@ const SelectTrabajo = ({
             callback={onChange}
             path={[...path, "items"]}
             trabajoObject={trabajoObject.items}
+            onScanValues={onScanValues}
+            localId={localId}
           />
         );
       case LC_LAB:
@@ -127,6 +138,7 @@ const SelectTrabajo = ({
             callback={onChange}
             path={[...path, "items"]}
             trabajoObject={trabajoObject.items}
+            onScanValues={onScanValues}
           />
         );
     }

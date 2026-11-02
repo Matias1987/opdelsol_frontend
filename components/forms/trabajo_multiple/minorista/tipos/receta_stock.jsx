@@ -4,8 +4,8 @@ import { useEffect, useState } from "react";
 import { CameraOutlined, ScanOutlined } from "@ant-design/icons";
 import RecipeScanner from "@/components/etc/RecipeScanner";
 
-const TipoRecetaStock = ({ callback, path, trabajoObject }) => {
-  const [modalOpen, setModalOpen] = useState(false);
+const TipoRecetaStock = ({ callback, path, trabajoObject, onScanValues, localId }) => {
+  
   /*const [trabajoStock, setTrabajoStock] = useState({
     lejos: null,
     cerca: null,
@@ -58,7 +58,7 @@ const TipoRecetaStock = ({ callback, path, trabajoObject }) => {
     <>
       <Card
         size="small"
-        title={<span style={{ color: "#262D42" }}>Receta Stock&nbsp;&nbsp;<Button type="primary" onClick={_=>{setModalOpen(true)}}><ScanOutlined /></Button></span>}
+        title={<span style={{ color: "#262D42" }}>Receta Stock&nbsp;&nbsp;<Button type="primary" onClick={_=>{onScanValues(null, localId)}}><ScanOutlined /></Button></span>}
         style={{ boxShadow: "-1px 1px 1px 1px #9e9c9c" }}
       >
         <Tabs
@@ -68,9 +68,7 @@ const TipoRecetaStock = ({ callback, path, trabajoObject }) => {
           type="line"
         />
       </Card>
-      <Modal footer={null} open={modalOpen} onCancel={_ => { setModalOpen(false) }} width={"100%"} destroyOnClose>
-        <RecipeScanner />
-      </Modal>
+
     </>
   );
 };

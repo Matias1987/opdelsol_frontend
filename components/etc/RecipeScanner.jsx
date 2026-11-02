@@ -3,7 +3,7 @@ import { Button, Card, Space, message, Spin } from 'antd';
 import { CameraOutlined, SyncOutlined, UploadOutlined, DeleteOutlined } from '@ant-design/icons';
 import { ia_recetas } from '@/src/config';
 
-const RecipeScanner = () => {
+const RecipeScanner = ({callback}) => {
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
 
@@ -95,7 +95,9 @@ const sendToServer = async () => {
 
     const data = JSON.parse(textoCrudo);
     message.success('¡Receta procesada con éxito!');
-    alert(JSON.stringify(data));
+    //alert(JSON.stringify(data));
+
+    callback(data);
 
   } catch (error) {
     console.error(error);

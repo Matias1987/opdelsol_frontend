@@ -1,6 +1,9 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Form, Table, Select, Input, InputNumber, Button, Card } from "antd";
 import { procesar_seleccion } from "@/src/helpers/venta_multiple_helper";
+import fetchConRetryYTimeout from "@/src/helpers/get_helper";
+import { get, post } from "@/src/urls";
+import { post_method } from "@/src/helpers/post_helper";
 
 /**
  *
@@ -9,13 +12,25 @@ import { procesar_seleccion } from "@/src/helpers/venta_multiple_helper";
  */
 const ProcessIAResponse = ({ jsonServer, tipoVenta, callback }) => {
   const [form] = Form.useForm();
-  const [subgrupoData, setSubgrupoData] = useState([]); // here we load the subgrupo corresponding to the sale kind.
+  const [subgrupoData, setSubgrupoData] = useState(null); // here we load the subgrupo corresponding to the sale kind.
 
-  const loadSG = () => {};
+  const load_tipos_cristales = async () => {
+    //alert(get.obtener_subgrupos_tipo_venta);
+    const response = await fetchConRetryYTimeout(
+      get.obtener_subgrupos_tipo_venta,
+    );
+    //alert(JSON.stringify(response));
+    setSubgrupoData(
+      response.data.map((sg) => ({
+        value: sg.idsubgrupo,
+        label: sg.nombre_corto,
+      })),
+    );
+  };
 
   useEffect(() => {
     //Cargar los datos de subgrupos de acuerdo al tipo de venta...
-    loadSG();
+    load_tipos_cristales();
   }, []);
 
   // 1. Helper de transformación envuelto en useMemo para evitar ejecuciones innecesarias
@@ -81,6 +96,7 @@ const ProcessIAResponse = ({ jsonServer, tipoVenta, callback }) => {
   }
 
   const alEnviar = (valores) => {
+   
     const payload = {
       success: true,
       data: {
@@ -89,12 +105,31 @@ const ProcessIAResponse = ({ jsonServer, tipoVenta, callback }) => {
         recetas_editadas: valores.recetas,
       },
     };
-
+ //alert(JSON.stringify(payload, null, 2)); //for testing purposes, we can remove this later.
     const final = procesar_seleccion(payload);
 
     alert(JSON.stringify(final, null, 2));
 
     callback(final);
+  };
+
+  const handleSelectChange = async (value, rowIndex) => {
+    //try to get esf and cil from the table row and send it to the server to get the corresponding sg code.
+    const esf = form.getFieldValue(["recetas", rowIndex, "esf"]);
+    const cil = form.getFieldValue(["recetas", rowIndex, "cil"]);
+    const payload = {
+      esf: esf,
+      cil: cil,
+      idsubgrupo: value,
+    };
+    //alert(JSON.stringify(payload)); //for testing purposes, we can remove this later.
+    post_method(post.obtener_codigo_sg_grad, payload, (response) => {
+      //alert(JSON.stringify(response)); //for testing purposes, we can remove this later.
+      form.setFieldValue(
+        ["recetas", rowIndex, "idcodigo"],
+        response.data[0]?.idcodigo ?? "0",
+      );
+    });
   };
 
   // 2. Definición estática de columnas
@@ -128,6 +163,33 @@ const ProcessIAResponse = ({ jsonServer, tipoVenta, callback }) => {
         </Form.Item>
       ),
     },
+    {
+      width: "380px",
+      title: "Tipo",
+      dataIndex: "sg",
+      key: "sg",
+      render: (text, record, index) => (
+        <Form.Item name={[index, "sg"]} style={{ margin: 0 }}>
+          <Select
+            style={{ width: "100%" }}
+            options={subgrupoData || []}
+            onChange={(val) => {
+              handleSelectChange(val, index);
+            }}
+          />
+        </Form.Item>
+      ),
+    },
+    {
+      dataIndex: "idcodigo",
+      key: "idcodigo",
+      render: (text, record, index) => (
+        <Form.Item name={[index, "idcodigo"]} hidden style={{ margin: 0 }}>
+          <Input />
+        </Form.Item>
+      ),
+    },
+
     {
       width: "80px",
       title: "Esfera (ESF)",
@@ -179,6 +241,10 @@ const ProcessIAResponse = ({ jsonServer, tipoVenta, callback }) => {
     },
   ];
 
+  if (!subgrupoData) {
+    return <Card loading title="Cargando subgrupos de venta..." />;
+  }
+
   return (
     <>
       <h3>{`Médico: ${jsonServer?.data?.medico_nombre || "No indicado"}`}</h3>
@@ -191,12 +257,13 @@ const ProcessIAResponse = ({ jsonServer, tipoVenta, callback }) => {
         <Form.List name="recetas">
           {(fields) => (
             <Table
-              scroll={{ y: 600 }}
+              className="zero-padding-table"
               dataSource={fields}
               columns={columnas}
               pagination={false}
               bordered
               rowKey="key"
+              scroll={{ y: 400 }}
             />
           )}
         </Form.List>

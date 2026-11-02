@@ -290,7 +290,7 @@ const obtener_lado = (obj, dstIndex) => {
     [dstIndex + "_cil"]: validate_val(obj.cil),
     [dstIndex + "_eje"]: limpiarEjeDecimal(obj.eje ?? "0"),
     [dstIndex + "_ad"]: obj.ad ?? "",
-    [dstIndex + "_idcodigo"]: 0,
+    [dstIndex + "_idcodigo"]: obj.idcodigo ?? "0",
     [dstIndex + "_precio"]: 0,
   };
 };

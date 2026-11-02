@@ -906,3 +906,9 @@ danger list
 .ant-rate .ant-rate-star-zero .anticon {
   color: #d9d9d9;
 }
+
+/* Scope the internal AntD classes tightly to your custom class */
+.zero-padding-table .ant-table-thead > tr > th,
+.zero-padding-table .ant-table-tbody > tr > td {
+  padding: 0 !important;
+}
