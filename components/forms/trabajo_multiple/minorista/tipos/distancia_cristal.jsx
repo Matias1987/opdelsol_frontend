@@ -78,7 +78,7 @@ const DistanciaCristal = ({ callback, tipo, path, trabajoObject }) => {
       render: (_, record) => (
         <>
           <SelectCodigoVentaV2
-            defIdCodigo={trabajoObject[record.key + "_" + "idcodigo"] ?? null}
+            defIdCodigo={(trabajoObject?.[record.key + "_" + "idcodigo"] )?? null}
             hideExtOpt={"1"}
             idfamilias={[record.id_familia]}
             buttonText={"Seleccionar..."}
@@ -109,7 +109,7 @@ const DistanciaCristal = ({ callback, tipo, path, trabajoObject }) => {
       render: (hasInput, record) =>
         hasInput ? (
           <HelperToolTipV2
-            defValue={trabajoObject[record.key + "_" + "esf"] ?? "0"}
+            defValue={(trabajoObject?.[record.key + "_" + "esf"]) ?? "0"}
             onChange={(v) => {
               onChange(record.key + "_" + "esf", v);
             }}
@@ -133,7 +133,7 @@ const DistanciaCristal = ({ callback, tipo, path, trabajoObject }) => {
       render: (hasInput, record) =>
         hasInput ? (
           <HelperToolTipV2
-            defValue={trabajoObject[record.key + "_" + "cil"] ?? "0"}
+            defValue={(trabajoObject?.[record.key + "_" + "cil"] )?? "0"}
             onChange={(v) => {
               onChange(record.key + "_" + "cil", v);
             }}
@@ -159,7 +159,7 @@ const DistanciaCristal = ({ callback, tipo, path, trabajoObject }) => {
           <Input
             type="number"
             placeholder="Input"
-            value={trabajoObject[record.key + "_" + "eje"] ?? "0"}
+            value={(trabajoObject?.[record.key + "_" + "eje"]) ?? "0"}
             onChange={(e) => {
               onChange(record.key + "_" + "eje", e.target.value);
             }}
@@ -184,7 +184,7 @@ const DistanciaCristal = ({ callback, tipo, path, trabajoObject }) => {
         hasInput ? (
           <InputNumber
             style={{ width: "120px" }}
-            value={trabajoObject[record.key + "_" + "precio"] ?? "0"}
+            value={(trabajoObject?.[record.key + "_" + "precio"]) ?? "0"}
             onChange={(v) => onChange(record.key + "_" + "precio", v)}
           />
         ) : (

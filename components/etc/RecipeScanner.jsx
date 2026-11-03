@@ -182,6 +182,7 @@ const sendToServer = async () => {
             </Button>
           </>
         )}
+        <Button onClick={_=>{callback("")}} >Test</Button>
       </Space>
     </Card>
   );

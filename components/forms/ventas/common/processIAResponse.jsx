@@ -29,6 +29,7 @@ const ProcessIAResponse = ({ jsonServer, tipoVenta, callback }) => {
   };
 
   useEffect(() => {
+    alert(JSON.stringify(jsonServer, null, 2)); //for testing purposes, we can remove this later.
     //Cargar los datos de subgrupos de acuerdo al tipo de venta...
     load_tipos_cristales();
   }, []);
@@ -164,13 +165,15 @@ const ProcessIAResponse = ({ jsonServer, tipoVenta, callback }) => {
       ),
     },
     {
-      width: "380px",
       title: "Tipo",
       dataIndex: "sg",
       key: "sg",
+      width: "350px",
       render: (text, record, index) => (
         <Form.Item name={[index, "sg"]} style={{ margin: 0 }}>
           <Select
+            showSearch
+            optionFilterProp="label"
             style={{ width: "100%" }}
             options={subgrupoData || []}
             onChange={(val) => {
@@ -181,6 +184,7 @@ const ProcessIAResponse = ({ jsonServer, tipoVenta, callback }) => {
       ),
     },
     {
+      hidden: true,
       dataIndex: "idcodigo",
       key: "idcodigo",
       render: (text, record, index) => (

@@ -1,7 +1,7 @@
 const obtenerObjetoRecetaStock = () => {
   return {
     lejos: {
-      od_idcodigo: 60367,
+      od_idcodigo: 0,
       od_esf: "",
       od_cil: "",
       od_eje: "",
@@ -19,7 +19,7 @@ const obtenerObjetoRecetaStock = () => {
       od_descuento: "0",
     },
     cerca: {
-      od_idcodigo: 60367,
+      od_idcodigo: 0,
       od_esf: "",
       od_cil: "",
       od_eje: "",
@@ -41,7 +41,7 @@ const obtenerObjetoRecetaStock = () => {
 const obtenerObjetoMonofocalLaboratorio = () => {
   return {
     lejos: {
-      od_idcodigo: 60367,
+      od_idcodigo: 0,
       od_esf: "",
       od_cil: "",
       od_eje: "",
@@ -59,7 +59,7 @@ const obtenerObjetoMonofocalLaboratorio = () => {
       od_descuento: "0",
     },
     cerca: {
-      od_idcodigo: 60367,
+      od_idcodigo: 0,
       od_esf: "",
       od_cil: "",
       od_eje: "",
@@ -81,12 +81,12 @@ const obtenerObjetoMonofocalLaboratorio = () => {
 
 const obtenerObjetoMultifocalLaboratorio = () => {
   return {
-    od_idcodigo: 60367,
+    od_idcodigo: 0,
     od_esf: "",
     od_cil: "",
     od_eje: "",
     od_precio: 0,
-    oi_idcodigo: 37314,
+    oi_idcodigo: 0,
     oi_esf: "",
     oi_cil: "",
     oi_eje: "",

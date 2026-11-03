@@ -57,7 +57,10 @@ const VentaMultipleMinorista = ({
   const [defaultValues, setDefaultValues] = useState("");
 
   const [modalScanOpen, setModalScanOpen] = useState(false);
-  const [scanningTrabajo, setScanningTrabajo] = useState(null);
+  const [scanningTrabajo, setScanningTrabajo] = useState({
+    localId: 0,
+    serverResponse: null,
+  }); //for test only
   const [modalEditarRespuestaOpen, setModalEditarRespuestaOpen] =
     useState(false);
 
@@ -192,17 +195,33 @@ const VentaMultipleMinorista = ({
   };
 
   const onValuesScanned = (data) => {
-    setTrabajos((t) => {
+    const _tt = [...trabajos];
+
+    const index = _tt.findIndex(
+      (t) => +t.localId == +scanningTrabajo.localId ?? 0,
+    );
+
+    _tt[index].items = data;
+
+    alert(JSON.stringify(_tt));
+
+    setTrabajos(_tt);
+
+    /*setTrabajos((t) => {
       const mod = [...t];
-      const index = mod.findIndex((t) => +t.localId == +scanningTrabajo.localId);
+      const index = mod.findIndex(
+        (t) => +t.localId == +scanningTrabajo.localId ?? 0,
+      );
       if (index !== -1) {
-        mod[index] = { ...mod[index], ...data };
+        alert(index)
+        mod[index] = { ...mod[index], items: data.items, tipo: data.tipo };
       } else {
         mod.push(data);
       }
       //calcularTotal(mod); to do later...
+      alert(JSON.stringify(mod));
       setTrabajos(mod);
-    });
+    });*/
   };
 
   const onScanValues = (data, localId) => {
@@ -844,7 +863,7 @@ const VentaMultipleMinorista = ({
         footer={null}
       >
         <ProcessIAResponse
-          jsonServer={(scanningTrabajo?.serverResponse ?? {})}
+          jsonServer={scanningTrabajo?.serverResponse}
           callback={(final) => {
             setModalEditarRespuestaOpen(false);
             onValuesScanned(final);
