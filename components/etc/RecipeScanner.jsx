@@ -1,11 +1,12 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { Button, Card, Space, message, Spin } from 'antd';
-import { CameraOutlined, SyncOutlined, UploadOutlined, DeleteOutlined } from '@ant-design/icons';
+import { CameraOutlined, SyncOutlined, UploadOutlined, DeleteOutlined, FolderOpenOutlined } from '@ant-design/icons';
 import { ia_recetas } from '@/src/config';
 
 const RecipeScanner = ({callback}) => {
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
+  const fileInputRef = useRef(null); // Referencia para el input de archivo oculto
 
   const [stream, setStream] = useState(null);
   const [photo, setPhoto] = useState(null); // Almacena la imagen en Base64 para previsualización
@@ -32,7 +33,7 @@ const RecipeScanner = ({callback}) => {
       }
     } catch (err) {
       console.error("Error al acceder a la cámara:", err);
-      message.error("No se pudo acceder a la cámara. Revisa los permisos.");
+      // No mostramos error bloqueante si el usuario prefiere subir archivo directamente
     }
   };
 
@@ -66,46 +67,64 @@ const RecipeScanner = ({callback}) => {
     stopCamera();
   };
 
-const sendToServer = async () => {
-  if (!photo) return;
-  setLoading(true);
+  // Manejar la subida de imagen desde el dispositivo
+  const handleFileUpload = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
 
-  try {
-    // En lugar de convertir a Blob y usar FormData, enviamos el string Base64 directamente
-    const serverResponse = await fetch(ia_recetas, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Forwarded-For': 'true',
-        'Bypass-Tunnel-Reminder': 'true' // Obligatorio para el túnel de VS Code
-      },
-      body: JSON.stringify({
-        imagen_base64: photo // Aquí viaja el string de la foto
-      }),
-    });
-
-    const textoCrudo = await serverResponse.text();
-
-   // alert(textoCrudo)
-    
-    if (!serverResponse.ok) {
-      console.error("Respuesta de error del servidor:", textoCrudo);
-      throw new Error('Error en el servidor');
+    // Validar opcionalmente que sea una imagen
+    if (!file.type.startsWith('image/')) {
+      message.error('Por favor, selecciona un archivo de imagen válido.');
+      return;
     }
 
-    const data = JSON.parse(textoCrudo);
-    message.success('¡Receta procesada con éxito!');
-    //alert(JSON.stringify(data));
+    const reader = new FileReader();
+    reader.onload = (uploadEvent) => {
+      setPhoto(uploadEvent.target.result); // Guardar en Base64
+      stopCamera(); // Apagar la cámara si estaba encendida
+    };
+    reader.readAsDataURL(file);
+    
+    // Limpiar el valor del input para permitir seleccionar la misma imagen de nuevo si es necesario
+    e.target.value = null;
+  };
 
-    callback(data);
+  const sendToServer = async () => {
+    if (!photo) return;
+    setLoading(true);
 
-  } catch (error) {
-    console.error(error);
-    message.error('Hubo un error al enviar la imagen: ' + error.message);
-  } finally {
-    setLoading(false);
-  }
-};
+    try {
+      const serverResponse = await fetch(ia_recetas, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Forwarded-For': 'true',
+          'Bypass-Tunnel-Reminder': 'true' // Obligatorio para el túnel de VS Code
+        },
+        body: JSON.stringify({
+          imagen_base64: photo // Aquí viaja el string de la foto
+        }),
+      });
+
+      const textoCrudo = await serverResponse.text();
+
+      if (!serverResponse.ok) {
+        console.error("Respuesta de error del servidor:", textoCrudo);
+        throw new Error('Error en el servidor');
+      }
+
+      const data = JSON.parse(textoCrudo);
+      message.success('¡Receta procesada con éxito!');
+
+      callback(data);
+
+    } catch (error) {
+      console.error(error);
+      message.error('Hubo al enviar la imagen: ' + error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const retakePhoto = () => {
     startCamera();
@@ -135,31 +154,51 @@ const sendToServer = async () => {
           </div>
         )}
 
-        {/* Previsualización de la foto capturada */}
+        {/* Previsualización de la foto capturada o subida */}
         {photo && (
           <img
             src={photo}
-            alt="Receta capturada"
+            alt="Receta cargada"
             style={{ width: '100%', height: 'auto', display: 'block' }}
           />
         )}
 
         {/* Canvas oculto para el procesado de la imagen */}
         <canvas ref={canvasRef} style={{ display: 'none' }} />
+
+        {/* Input file oculto para la selección de archivos locales */}
+        <input
+          type="file"
+          ref={fileInputRef}
+          style={{ display: 'none' }}
+          accept="image/*"
+          onChange={handleFileUpload}
+        />
       </div>
 
       {/* Controles de Acción */}
-      <Space size="middle">
+      <Space size="middle" wrap>
         {!photo ? (
-          <Button
-            type="primary"
-            icon={<CameraOutlined />}
-            size="large"
-            onClick={takePicture}
-            disabled={!cameraReady}
-          >
-            Capturar Receta
-          </Button>
+          <>
+            <Button
+              type="primary"
+              icon={<CameraOutlined />}
+              size="large"
+              onClick={takePicture}
+              disabled={!cameraReady}
+            >
+              Capturar
+            </Button>
+            
+            {/* Botón para abrir el explorador de archivos */}
+            <Button
+              icon={<FolderOpenOutlined />}
+              size="large"
+              onClick={() => fileInputRef.current.click()}
+            >
+              Subir Archivo
+            </Button>
+          </>
         ) : (
           <>
             <Button
@@ -169,7 +208,7 @@ const sendToServer = async () => {
               onClick={retakePhoto}
               disabled={loading}
             >
-              Repetir
+              Repetir / Cambiar
             </Button>
             <Button
               type="primary"
@@ -182,7 +221,7 @@ const sendToServer = async () => {
             </Button>
           </>
         )}
-        <Button onClick={_=>{callback("")}} >Test</Button>
+        <Button onClick={_=>{callback("")}}>Test</Button>
       </Space>
     </Card>
   );

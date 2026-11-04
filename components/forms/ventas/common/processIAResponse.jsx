@@ -1,9 +1,19 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { Form, Table, Select, Input, InputNumber, Button, Card } from "antd";
+import {
+  Form,
+  Table,
+  Select,
+  Input,
+  InputNumber,
+  Button,
+  Card,
+  Modal,
+} from "antd";
 import { procesar_seleccion } from "@/src/helpers/venta_multiple_helper";
 import fetchConRetryYTimeout from "@/src/helpers/get_helper";
 import { get, post } from "@/src/urls";
 import { post_method } from "@/src/helpers/post_helper";
+import SelectSubgrupo from "../../trabajo_multiple/minorista/common/SelectSubgrpo";
 
 /**
  *
@@ -13,7 +23,8 @@ import { post_method } from "@/src/helpers/post_helper";
 const ProcessIAResponse = ({ jsonServer, tipoVenta, callback }) => {
   const [form] = Form.useForm();
   const [subgrupoData, setSubgrupoData] = useState(null); // here we load the subgrupo corresponding to the sale kind.
-
+  const [modalSelectSGOpen, setModalSelectSGOpen] = useState(false);
+  const [selectedRowIndex, setSelectedRowIndex] = useState(null);
   const load_tipos_cristales = async () => {
     //alert(get.obtener_subgrupos_tipo_venta);
     const response = await fetchConRetryYTimeout(
@@ -97,7 +108,6 @@ const ProcessIAResponse = ({ jsonServer, tipoVenta, callback }) => {
   }
 
   const alEnviar = (valores) => {
-   
     const payload = {
       success: true,
       data: {
@@ -106,7 +116,7 @@ const ProcessIAResponse = ({ jsonServer, tipoVenta, callback }) => {
         recetas_editadas: valores.recetas,
       },
     };
- //alert(JSON.stringify(payload, null, 2)); //for testing purposes, we can remove this later.
+    //alert(JSON.stringify(payload, null, 2)); //for testing purposes, we can remove this later.
     const final = procesar_seleccion(payload);
 
     alert(JSON.stringify(final, null, 2));
@@ -114,7 +124,8 @@ const ProcessIAResponse = ({ jsonServer, tipoVenta, callback }) => {
     callback(final);
   };
 
-  const handleSelectChange = async (value, rowIndex) => {
+  const handleSelectChange = async ({label, value}, rowIndex) => {
+    form.setFieldValue(["recetas", rowIndex, "sg"], label);
     //try to get esf and cil from the table row and send it to the server to get the corresponding sg code.
     const esf = form.getFieldValue(["recetas", rowIndex, "esf"]);
     const cil = form.getFieldValue(["recetas", rowIndex, "cil"]);
@@ -171,15 +182,18 @@ const ProcessIAResponse = ({ jsonServer, tipoVenta, callback }) => {
       width: "350px",
       render: (text, record, index) => (
         <Form.Item name={[index, "sg"]} style={{ margin: 0 }}>
-          <Select
-            showSearch
-            optionFilterProp="label"
-            style={{ width: "100%" }}
-            options={subgrupoData || []}
-            onChange={(val) => {
-              handleSelectChange(val, index);
-            }}
-          />
+          {form.getFieldValue(["recetas", index, "sg"]) ? (
+            <span>{form.getFieldValue(["recetas", index, "sg"])}</span>
+          ) : (
+            <Button
+              onClick={(_) => {
+                setSelectedRowIndex(index); // Store the index of the row where the change occurred
+                setModalSelectSGOpen(true); // Open the modal
+              }}
+            >
+              Seleccione...
+            </Button>
+          )}
         </Form.Item>
       ),
     },
@@ -281,6 +295,18 @@ const ProcessIAResponse = ({ jsonServer, tipoVenta, callback }) => {
           Aceptar
         </Button>
       </Form>
+      <Modal
+        open={modalSelectSGOpen}
+        onCancel={() => setModalSelectSGOpen(false)}
+        footer={null}
+      >
+        <SelectSubgrupo
+          callback={(record) => {
+            handleSelectChange(record, selectedRowIndex);
+            setModalSelectSGOpen(false);
+          }}
+        />
+      </Modal>
     </>
   );
 };

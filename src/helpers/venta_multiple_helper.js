@@ -299,21 +299,35 @@ const procesar_seleccion = (pData) => {
   let lejos_oi = null;
   let cerca_od = null;
   let cerca_oi = null;
+  let lejos = null;
+  let cerca = null;
   let oi = null;
   let od = null;
   const procesar_elemento = (elemento) => {
     switch (elemento.distancia) {
       case "lejos":
-        lejos_od = obtener_lado(elemento, "od");
-        lejos_oi = obtener_lado(elemento, "oi");
+        if (elemento.lado == "od") {
+          lejos_od = obtener_lado(elemento, "od");
+        }
+        if (elemento.lado == "oi") {
+          lejos_oi = obtener_lado(elemento, "oi");
+        }
         break;
       case "cerca":
-        cerca_od = obtener_lado(elemento, "od");
-        cerca_oi = obtener_lado(elemento, "oi");
+        if (elemento.lado == "od") {
+          cerca_od = obtener_lado(elemento, "od");
+        }
+        if (elemento.lado == "oi") {
+          cerca_oi = obtener_lado(elemento, "oi");
+        }
         break;
       default:
-        od = obtener_lado(elemento, "od");
-        oi = obtener_lado(elemento, "oi");
+        if (elemento.lado == "od") {
+          od = obtener_lado(elemento, "od");
+        }
+        if (elemento.lado == "oi") {
+          oi = obtener_lado(elemento, "oi");
+        }
         break;
     }
   };
@@ -322,13 +336,10 @@ const procesar_seleccion = (pData) => {
     procesar_elemento(r);
   });
 
-  let lejos = null;
-  let cerca = null;
-
-  if (lejos_od || lejos_oi) {
+  if (null !== lejos_od || null !== lejos_oi) {
     lejos = { ...lejos_od, ...lejos_oi };
   }
-  if (cerca_od || cerca_oi) {
+  if (null !== cerca_od || null !== cerca_oi) {
     cerca = { ...cerca_od, ...cerca_oi };
   }
   let response = {};
@@ -346,6 +357,7 @@ const procesar_seleccion = (pData) => {
   if (oi) {
     response = { ...response, oi: oi };
   }
+  
   return response;
 };
 
