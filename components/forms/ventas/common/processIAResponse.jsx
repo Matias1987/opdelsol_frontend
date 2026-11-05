@@ -14,6 +14,7 @@ import fetchConRetryYTimeout from "@/src/helpers/get_helper";
 import { get, post } from "@/src/urls";
 import { post_method } from "@/src/helpers/post_helper";
 import SelectSubgrupo from "../../trabajo_multiple/minorista/common/SelectSubgrpo";
+import { CloseOutlined } from "@ant-design/icons";
 
 /**
  *
@@ -116,7 +117,7 @@ const ProcessIAResponse = ({ jsonServer, tipoVenta, callback }) => {
         recetas_editadas: valores.recetas,
       },
     };
-    //alert(JSON.stringify(payload, null, 2)); //for testing purposes, we can remove this later.
+    alert(JSON.stringify(payload, null, 2)); //for testing purposes, we can remove this later.
     const final = procesar_seleccion(payload);
 
     alert(JSON.stringify(final, null, 2));
@@ -124,7 +125,7 @@ const ProcessIAResponse = ({ jsonServer, tipoVenta, callback }) => {
     callback(final);
   };
 
-  const handleSelectChange = async ({label, value}, rowIndex) => {
+  const handleSelectChange = async ({ label, value }, rowIndex) => {
     form.setFieldValue(["recetas", rowIndex, "sg"], label);
     //try to get esf and cil from the table row and send it to the server to get the corresponding sg code.
     const esf = form.getFieldValue(["recetas", rowIndex, "esf"]);
@@ -183,9 +184,22 @@ const ProcessIAResponse = ({ jsonServer, tipoVenta, callback }) => {
       render: (text, record, index) => (
         <Form.Item name={[index, "sg"]} style={{ margin: 0 }}>
           {form.getFieldValue(["recetas", index, "sg"]) ? (
-            <span>{form.getFieldValue(["recetas", index, "sg"])}</span>
+            <>
+              <span style={{ fontWeight: "bold", color: "darkred" }}>
+                {form.getFieldValue(["recetas", index, "sg"])}
+              </span>
+              <Button danger type="text" onClick={() => {
+                form.setFieldValue(["recetas", index, "sg"], null);
+                form.setFieldValue(["recetas", index, "idcodigo"], "0");
+              }}>
+                <CloseOutlined />
+              </Button>
+            </>
           ) : (
             <Button
+              block
+              type="dashed"
+              danger
               onClick={(_) => {
                 setSelectedRowIndex(index); // Store the index of the row where the change occurred
                 setModalSelectSGOpen(true); // Open the modal

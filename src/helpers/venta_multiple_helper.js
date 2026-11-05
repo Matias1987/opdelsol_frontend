@@ -321,6 +321,20 @@ const procesar_seleccion = (pData) => {
           cerca_oi = obtener_lado(elemento, "oi");
         }
         break;
+      case "ambos":
+        if (elemento.lado == "od") {
+          cerca_od = obtener_lado(elemento, "od");
+        }
+        if (elemento.lado == "oi") {
+          cerca_oi = obtener_lado(elemento, "oi");
+        }
+        if (elemento.lado == "od") {
+          cerca_od = obtener_lado(elemento, "od");
+        }
+        if (elemento.lado == "oi") {
+          cerca_oi = obtener_lado(elemento, "oi");
+        }
+        break;
       default:
         if (elemento.lado == "od") {
           od = obtener_lado(elemento, "od");
