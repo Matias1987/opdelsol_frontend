@@ -37,3 +37,7 @@ yarn-error.log*
 global.env
 
 .env
+
+archivos_a_borrar.txt
+
+eliminar.ps1
