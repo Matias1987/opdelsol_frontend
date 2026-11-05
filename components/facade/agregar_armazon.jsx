@@ -16,7 +16,6 @@ import { get, post } from "@/src/urls";
 import { post_method } from "@/src/helpers/post_helper";
 
 const AgregarArmazon = () => {
-  /********************************************************************************************************* */
   const [reload, setReload] = useState(false);
   const [modalAgregarCodigoOpen, setModalAgregarCodigoOpen] = useState(false);
 

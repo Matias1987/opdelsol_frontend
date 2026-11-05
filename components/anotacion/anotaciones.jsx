@@ -1,4 +1,4 @@
-import { Button, Card, Col, Modal, Row, Table } from "antd";
+import { Card, Col, Modal, Row, Table } from "antd";
 import { useEffect, useState } from "react";
 import AnotacionForm from "./anotacion_form";
 import { post } from "@/src/urls";

@@ -41,3 +41,4 @@ global.env
 archivos_a_borrar.txt
 
 eliminar.ps1
+limpiar_carpetas.ps1

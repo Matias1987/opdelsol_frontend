@@ -1,7 +1,7 @@
 import globals from "@/src/globals"
 import { post_method } from "@/src/helpers/post_helper"
 import { post } from "@/src/urls"
-import { Row, Col, Input, Button } from "antd"
+import { Row, Col, Input } from "antd"
 import { useState } from "react"
 import ConnectedButton from "../etc/CntButton"
 

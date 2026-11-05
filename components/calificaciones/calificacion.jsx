@@ -1,6 +1,7 @@
 import React from "react";
 import { Form, Rate, Input, Button, Card, message } from "antd";
-import { StarFilled, UserOutlined, MessageOutlined } from "@ant-design/icons";
+import StarFilled from "@ant-design/icons/StarFilled";
+import UserOutlined from "@ant-design/icons/UserOutlined";
 import { post_method } from "@/src/helpers/post_helper";
 import { post } from "@/src/urls";
 

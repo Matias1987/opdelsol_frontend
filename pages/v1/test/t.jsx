@@ -49,7 +49,7 @@ export default function test() {
   };
   return (
     <div>
-      <Button
+      {/*<Button
         onClick={(_) => {
           setOpen(true);
         }}
@@ -64,7 +64,7 @@ export default function test() {
         footer={null}
       >
         <ProcessIAResponse jsonServer={example} />
-      </Modal>
+      </Modal>*/}
     </div>
   );
 }
