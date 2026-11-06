@@ -3,31 +3,37 @@ import { formatFloat } from "@/src/helpers/formatters";
 import { Col, Input, InputNumber, Row } from "antd";
 import { useEffect, useState } from "react";
 
-const TotalesVenta = (props) => {
+const TotalesVenta = ({ callbackDescuento, callbackDescuentoMutual, subtotal }) => {
   const [descuento, setDescuento] = useState(0);
   const [descuentoMutual, setDescuentoMutual] = useState(0);
   const [total, setTotal] = useState(0);
 
   const onDescuentoChange = (v) => {
-    setDescuento((descuento) => {
-      const _n = (v ?? "").length < 1 ? 0 : v;
-      props?.callback?.(_n);
-      setTotal(_n);
+    const _n = (v ?? "").length < 1 ? 0 : v;
+
+    setDescuento((_) => {
       return _n;
     });
+
+    callbackDescuento?.(_n,0);
   };
   const onDescuentoMutualChange = (v) => {
-    setDescuentoMutual((descuentoMutual) => {
-      const _n = (v ?? "").length < 1 ? 0 : v;
-      props?.callback?.(_n);
-      setTotal(_n);
+    const _n = (v ?? "").length < 1 ? 0 : v;
+
+    setDescuentoMutual((_) => {
       return _n;
     });
+
+    callbackDescuentoMutual?.(0,_n);
   };
 
   useEffect(() => {
-    setTotal((props?.subtotal || 0) - descuento);
-  });
+    setTotal(
+      parseFloat(subtotal ?? 0) -
+        parseFloat(descuento ?? 0) -
+        parseFloat(descuentoMutual ?? 0),
+    );
+  }, [subtotal, descuento, descuentoMutual]);
 
   return (
     <>
@@ -36,7 +42,7 @@ const TotalesVenta = (props) => {
           <Input
             addonBefore={"SubTotal: $"}
             readOnly
-            value={formatFloat(props.subtotal || 0)}
+            value={formatFloat(subtotal || 0)}
           />
         </Col>
       </Row>

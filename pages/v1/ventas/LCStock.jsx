@@ -50,11 +50,12 @@ export default function VentaLCStock() {
     setProductos((productos) => _p);
     setSubTotal((stotal) => _total);
     var dto = typeof venta === "undefined" ? 0 : venta?.descuento || 0;
-    setTotal((total) => _total - dto);
+    var dtoMutual = typeof venta === "undefined" ? 0 : venta?.descuentoMutual || 0;
+    setTotal((total) => parseFloat(_total) - parseFloat(dto) - parseFloat(dtoMutual));
   };
 
   const onFinish = (v, onFailValidation) => {
-    console.log(JSON.stringify(productos));
+    //console.log(JSON.stringify(productos));
     submit_venta(
       v,
       productos,
@@ -80,7 +81,8 @@ export default function VentaLCStock() {
 
   const callback_venta_modif = (_venta) => {
     setVenta((v) => {
-      setTotal((_total) => subTotal - _venta.descuento);
+      var dtoMutual = typeof _venta === "undefined" ? 0 : _venta?.descuentoMutual || 0;
+      setTotal((_total) => parseFloat(subTotal) - parseFloat(_venta.descuento) - parseFloat(dtoMutual));
       return _venta;
     });
   };

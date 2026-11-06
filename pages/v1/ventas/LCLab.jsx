@@ -55,8 +55,9 @@ export default function VentaLCLab() {
     setSubTotal((st) => _total);
 
     var dto = typeof venta === "undefined" ? 0 : venta?.descuento || 0;
+    var dtoMutual = typeof venta === "undefined" ? 0 : venta?.descuentoMutual || 0;
 
-    setTotal((total) => _total - dto);
+    setTotal((total) => parseFloat(_total) - parseFloat(dto) - parseFloat(dtoMutual));
 
     setProductos((productos) => products);
   };
@@ -64,7 +65,8 @@ export default function VentaLCLab() {
   const callback_venta_modif = (_venta) => {
     setVenta((v) => {
       var dto = _venta.descuento;
-      setTotal((_total) => subTotal - dto);
+      var dtoMutual = _venta.descuentoMutual;
+      setTotal((_total) => parseFloat(subTotal) - parseFloat(dto) - parseFloat(dtoMutual));
       return _venta;
     });
   };

@@ -35,7 +35,7 @@ const { useBreakpoint } = Grid;
  * @returns
  */
 export default function VentaBaseV3(props) {
-  const postIdRef = useRef(uuidv4()); 
+  const postIdRef = useRef(uuidv4());
   const date = new Date();
   const [btnEnabled, setBtnEnabled] = useState(true);
   const [current, setCurrent] = useState(0);
@@ -48,6 +48,7 @@ export default function VentaBaseV3(props) {
     mp: null,
     subtotal: 0,
     descuento: 0,
+    descuentoMutual: 0,
     total: 0,
     fechaRetiro: props.ignore_fecha_retiro
       ? date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear()
@@ -83,11 +84,14 @@ export default function VentaBaseV3(props) {
     }
     setBtnEnabled(false);
     setVenta((venta) => {
-      props?.onfinish?.({ ...venta, fkusuario: idvendedor, uid: postIdRef.current }, (_) => {
-        console.log("renew uid...");
-        setVenta((venta) => ({ ...venta, uid: uuidv4() }));
-        setBtnEnabled(true);
-      });
+      props?.onfinish?.(
+        { ...venta, fkusuario: idvendedor, uid: postIdRef.current },
+        (_) => {
+          console.log("renew uid...");
+          setVenta((venta) => ({ ...venta, uid: uuidv4() }));
+          setBtnEnabled(true);
+        },
+      );
       return { ...venta, fkusuario: idvendedor };
     });
   };
@@ -135,7 +139,6 @@ export default function VentaBaseV3(props) {
           <Col style={{ minWidth: "250px" }}>
             <SelectClienteV2
               destinatario
-       
               callback={(value) => {
                 onChange("fkdestinatario", value);
               }}
@@ -188,8 +191,11 @@ export default function VentaBaseV3(props) {
               <TotalesVenta
                 subtotal={typeof props !== "undefined" ? props.subTotal : "0"}
                 total={typeof props !== "undefined" ? props.total : "0"}
-                callback={(value) => {
+                callbackDescuento={(value) => {
                   onChange("descuento", value);
+                }}
+                callbackDescuentoMutual={(value) => {
+                  onChange("descuentoMutual", value);
                 }}
               />
 
@@ -398,8 +404,11 @@ export default function VentaBaseV3(props) {
               <TotalesVenta
                 subtotal={typeof props !== "undefined" ? props.subTotal : "0"}
                 total={typeof props !== "undefined" ? props.total : "0"}
-                callback={(value) => {
+                callbackDescuento={(value) => {
                   onChange("descuento", value);
+                }}
+                callbackDescuentoMutual={(value) => {
+                  onChange("descuentoMutual", value);
                 }}
               />
               {
@@ -550,8 +559,7 @@ export default function VentaBaseV3(props) {
         styles={{
           header: {
             backgroundColor: "#ffffed",
-            background:
-              "linear-gradient(281deg,#DDDDDD 32%, #DDDDDD 75%)",
+            background: "linear-gradient(281deg,#DDDDDD 32%, #DDDDDD 75%)",
             borderBottom: "1px solid #eee",
             borderTopLeftRadius: "0px",
             borderTopRightRadius: "0px",

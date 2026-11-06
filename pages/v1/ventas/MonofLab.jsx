@@ -56,12 +56,21 @@ export default function VentaMonofocalesLab() {
     _total += parseFloat(_p?.cerca_tratamiento?.precio || +0);
     setSubTotal((st) => _total);
     var dto = typeof venta === "undefined" ? 0 : venta?.descuento || 0;
-    setTotal((total) => _total - dto);
+    var dtoMutual =
+      typeof venta === "undefined" ? 0 : venta?.descuentoMutual || 0;
+    setTotal(
+      (total) => parseFloat(_total) - parseFloat(dto) - parseFloat(dtoMutual),
+    );
   };
 
   const callback_venta_modif = (_venta) => {
     setVenta((v) => {
-      setTotal((_total) => subTotal - _venta.descuento);
+      setTotal(
+        (_total) =>
+          parseFloat(subTotal) -
+          parseFloat(_venta.descuento) -
+          parseFloat(_venta.descuentoMutual),
+      );
       return _venta;
     });
   };

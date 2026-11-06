@@ -51,7 +51,8 @@ export default function VentaDirecta() {
   const callback_venta_modif = (_venta) => {
     setVenta((v) => {
       var dto = _venta.descuento;
-      setTotal((_total) => subTotal - dto);
+      var dtoMutual = _venta.descuentoMutual;
+      setTotal((_total) => parseFloat(subTotal) - parseFloat(dto) - parseFloat(dtoMutual));
       return _venta;
     });
   };
@@ -105,7 +106,8 @@ export default function VentaDirecta() {
             });
             setSubTotal(t);
             var dto = typeof venta === "undefined" ? 0 : venta?.descuento || 0;
-            setTotal((_total) => t - dto);
+            var dtoMutual = typeof venta === "undefined" ? 0 : venta?.descuentoMutual || 0;
+            setTotal((_total) => parseFloat(t) - parseFloat(dto) - parseFloat(dtoMutual));
           }}
         />
       </VentaBaseV3>

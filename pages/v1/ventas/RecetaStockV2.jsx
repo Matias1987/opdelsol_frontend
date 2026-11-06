@@ -76,7 +76,9 @@ export default function VentaRecetaStock() {
     _t += parseFloat(_productos?.cerca_tratamiento?.precio || 0);
     setSubTotal(_t);
     var dto = typeof venta === "undefined" ? 0 : venta?.descuento || 0;
-    setTotal((_total) => _t - dto);
+    var dtoMutual = typeof venta === "undefined" ? 0 : venta?.descuentoMutual || 0;
+    setTotal((_total) => parseFloat(_t) - parseFloat(dto) - parseFloat(dtoMutual));
+    //setTotal((_total) => _t - dto);
   };
 
   const onClosePrintPopup = (_) => {
@@ -98,7 +100,8 @@ export default function VentaRecetaStock() {
         callback={(venta) => {
           setVenta((v) => {
             var dto = venta.descuento;
-            setTotal((_total) => subTotal - dto);
+            var dtoMutual = venta.descuentoMutual;
+            setTotal((_total) => parseFloat(subTotal) - parseFloat(dto) - parseFloat(dtoMutual));
             return venta;
           });
         }}
