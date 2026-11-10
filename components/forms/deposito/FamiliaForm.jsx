@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import { Form, Button, Input } from "antd";
-import urls from "../../src/urls";
-import post_helper from "../../src/helpers/post_helper";
+import urls from "../../../src/urls";
+import post_helper from "../../../src/helpers/post_helper";
 import { v4 as uuidv4 } from "uuid";
 
 const FamiliaForm = (props) => {

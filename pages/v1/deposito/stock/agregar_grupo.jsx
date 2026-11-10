@@ -1,4 +1,4 @@
-import GrupoForm from "@/components/forms/GrupoForm";
+import GrupoForm from "@/components/forms/deposito/GrupoForm";
 import MyLayout from "@/components/layout/layout";
 
 export default function AgregarGrupo(){

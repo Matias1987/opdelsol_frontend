@@ -2,7 +2,7 @@ import { post_method } from "@/src/helpers/post_helper";
 import { post } from "@/src/urls";
 import { Button, Col, Input, Row } from "antd";
 import { useState } from "react";
-import DetalleCodigoHeader from "../DetalleCodigoHeader";
+import DetalleCodigoHeader from "./DetalleCodigoHeader";
 
 const CargaStockIdeal = (props) => {
     const [codigo, setCodigo] = useState({

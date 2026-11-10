@@ -4,7 +4,7 @@ import { post } from "@/src/urls";
 import { useEffect, useState } from "react";
 import InfoCircleTwoTone from "@ant-design/icons/InfoCircleTwoTone";
 import InformeVenta from "../ventas/Base";
-import DetalleCodigoHeader from "@/components/forms/DetalleCodigoHeader";
+import DetalleCodigoHeader from "@/components/forms/deposito/DetalleCodigoHeader";
 
 const DetalleConsumoCodigo = ({
   idcodigo,

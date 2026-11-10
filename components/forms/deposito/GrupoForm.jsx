@@ -1,10 +1,10 @@
 import { Button, Form, Input, Modal } from "antd";
-import SubFamiliaSelect from "../SubFamiliaSelect";
+import SubFamiliaSelect from "../../SubFamiliaSelect";
 import PlusCircleOutlined from "@ant-design/icons/PlusCircleOutlined";
 import SubFamiliaForm from "./SubFamiliaForm";
 import { useRef, useState } from "react";
-import urls from "../../src/urls";
-import post_helper from "../../src/helpers/post_helper";
+import urls from "../../../src/urls";
+import post_helper from "../../../src/helpers/post_helper";
 import { v4 as uuidv4 } from "uuid";
 
 const GrupoForm = (props) => {

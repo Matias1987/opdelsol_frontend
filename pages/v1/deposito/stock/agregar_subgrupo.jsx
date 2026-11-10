@@ -1,5 +1,5 @@
-import SubGrupoForm from "@/components/forms/SubGrupoForm";
-import SubGrupoFormV2 from "@/components/forms/SubGrupoFormV2";
+import SubGrupoForm from "@/components/forms/deposito/SubGrupoForm";
+import SubGrupoFormV2 from "@/components/forms/deposito/SubGrupoFormV2";
 import MyLayout from "@/components/layout/layout";
 
 export default function AgregarSubgrupo(){

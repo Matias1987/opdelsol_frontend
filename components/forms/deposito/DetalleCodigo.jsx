@@ -7,7 +7,7 @@ import Tags from "@/components/etiquetas/tagsCodigos";
 import ImagenesProducto from "@/components/etc/imagen/imagen_producto";
 import TagsSmall from "@/components/etiquetas/tagsSmall";
 import DefaultImageProduct from "@/components/etc/imagen/default_image_prod";
-import DetalleCodigoHeader from "../DetalleCodigoHeader";
+import DetalleCodigoHeader from "./DetalleCodigoHeader";
 
 const DetalleCodigo = (props) => {
   const { idcodigo } = props;

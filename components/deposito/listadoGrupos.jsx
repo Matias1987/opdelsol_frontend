@@ -1,7 +1,7 @@
 import { get } from "@/src/urls";
 import { Button, Card, Checkbox, Col, Modal, Row, Table } from "antd";
 import { useEffect, useState } from "react";
-import GrupoForm from "../forms/GrupoForm";
+import GrupoForm from "../forms/deposito/GrupoForm";
 import EditarLoteGrupo from "./editarLoteGrupo";
 import SubFamiliaSelect from "../SubFamiliaSelect";
 import  PlusOutlined from "@ant-design/icons/PlusOutlined";

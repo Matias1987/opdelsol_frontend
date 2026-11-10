@@ -1,4 +1,4 @@
-import SubFamiliaForm from "@/components/forms/SubFamiliaForm";
+import SubFamiliaForm from "@/components/forms/deposito/SubFamiliaForm";
 import MyLayout from "@/components/layout/layout";
 
 export default function AgregarSubFamilia(){

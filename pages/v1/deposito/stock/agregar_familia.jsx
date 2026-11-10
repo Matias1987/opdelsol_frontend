@@ -1,4 +1,4 @@
-import FamiliaForm from "@/components/forms/FamiliaForm";
+import FamiliaForm from "@/components/forms/deposito/FamiliaForm";
 import MyLayout from "@/components/layout/layout";
 
 export default function AgregarFamilia(){

@@ -12,7 +12,7 @@ import {
 } from "antd";
 import { useEffect, useRef, useState } from "react";
 import globals from "@/src/globals";
-import SearchStockEnvio from "./deposito/SearchStockEnvio";
+import SearchStockEnvio from "./SearchStockEnvio";
 import CloseCircleFilled from "@ant-design/icons/CloseCircleFilled";
 import DownOutlined from "@ant-design/icons/DownOutlined";
 import PlusCircleFilled from "@ant-design/icons/PlusCircleFilled";
@@ -21,7 +21,7 @@ import UpOutlined from "@ant-design/icons/UpOutlined";
 import { post_method } from "@/src/helpers/post_helper";
 import { get, informes, post } from "@/src/urls";
 import { v4 as uuidv4 } from "uuid";
-import SucursalSelect from "../SucursalSelect";
+import SucursalSelect from "../../SucursalSelect";
 
 const EnvioForm = ({ p_rows_to_add }) => {
   const postIdRef = useRef(uuidv4());

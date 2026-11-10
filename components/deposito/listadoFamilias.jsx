@@ -1,10 +1,9 @@
-import CustomTable from "@/components/forms/CustomTable";
 import { get } from "@/src/urls";
 import PlusOutlined from "@ant-design/icons/PlusOutlined";
-import { Button, Card, Col, Modal, Row } from "antd";
+import { Button, Card, Col, Modal, Row, Table } from "antd";
 
-import FamiliaForm from "../forms/FamiliaForm";
-import { useState } from "react";
+import FamiliaForm from "../forms/deposito/FamiliaForm";
+import { useEffect, useState } from "react";
 import EditarPreciosSubgruposForm from "../forms/deposito/EditarPreciosSubgruposForm";
 
 const ListadoFamilias = () => {
@@ -12,6 +11,20 @@ const ListadoFamilias = () => {
   const [reload, setReload] = useState(false);
   const [popupEditarPreciosOpen, setEditarPopupPreciosOpen] = useState(false);
   const [selectedFamilia, setSelectedFamilia] = useState(-1);
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    fetch(get.familias)
+      .then((response) => response.json())
+      .then((response) => {
+        let _data = response.data.map((row) => ({
+          id: row.idfamilia,
+          nombre_corto: row.nombre_corto,
+          nombre_largo: row.nombre_largo,
+        }));
+        setData(_data);
+      })
+      .catch((error) => "ERROR: " + console.error(error));
+  }, []);
   return (
     <>
       <Card
@@ -34,9 +47,8 @@ const ListadoFamilias = () => {
       >
         <Row>
           <Col span={24}>
-            <CustomTable
+            <Table
               key={reload}
-              fetchUrl={get.lista_familia}
               columns={[
                 {
                   width: "250px",
@@ -77,13 +89,7 @@ const ListadoFamilias = () => {
                   },
                 },
               ]}
-              parsefnt={(response) =>
-                response.data.map((row) => ({
-                  id: row.idfamilia,
-                  nombre_corto: row.nombre_corto,
-                  nombre_largo: row.nombre_largo,
-                }))
-              }
+              dataSource={data}
             />
           </Col>
         </Row>

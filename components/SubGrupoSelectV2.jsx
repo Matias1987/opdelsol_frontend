@@ -4,7 +4,7 @@ import  PlusOutlined  from "@ant-design/icons/PlusOutlined";
 
 import {  Select, Col, Row, Card, Button, Modal }  from "antd";
 import { useState, useEffect }  from "react";
-import SubGrupoForm from "./forms/SubGrupoForm";
+import SubGrupoForm from "./forms/deposito/SubGrupoForm";
 
 const SubGroupSelectV2 = (props) => {
 

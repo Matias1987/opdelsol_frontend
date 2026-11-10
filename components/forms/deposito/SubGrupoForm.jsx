@@ -3,7 +3,7 @@ import GrupoForm from "./GrupoForm";
 import { useState } from "react";
 import { post } from "@/src/urls";
 import { post_method } from "@/src/helpers/post_helper";
-import GrupoSelect from "../GrupoSelect";
+import GrupoSelect from "../../GrupoSelect";
 
 import { Form, Input, Button, Modal } from "antd";
 const SubGrupoForm = (props) => {

@@ -3,7 +3,7 @@ import { Table, Button, Tag, Card, Modal } from "antd";
 import PedidoProveedor from "./nuevo_pedido";
 import fetchConRetryYTimeout from "@/src/helpers/get_helper";
 import { get } from "@/src/urls";
-import EnvioForm from "../forms/EnvioForm";
+import EnvioForm from "../forms/deposito/EnvioForm";
 import DetallePedido from "./detalle";
 import globals from "@/src/globals";
 import { useNetworkStatus } from "../providers/NetworkContext";

@@ -12,7 +12,7 @@ import {
 } from "antd";
 import { useEffect, useState } from "react";
 import EditarLoteSubgrupo from "./editarLoteSubgrupo";
-import SubGrupoFormV2 from "../forms/SubGrupoFormV2";
+import SubGrupoFormV2 from "../forms/deposito/SubGrupoFormV2";
 import  PlusOutlined from "@ant-design/icons/PlusOutlined";
 import EditarPreciosSubgruposForm from "../forms/deposito/EditarPreciosSubgruposForm";
 import SubGrupoFormV3 from "../forms/deposito/SubgrupoFormV3";

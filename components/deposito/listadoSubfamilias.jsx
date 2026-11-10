@@ -1,8 +1,7 @@
-import CustomTable from "@/components/forms/CustomTable";
 import { get } from "@/src/urls";
 import { Button, Card, Checkbox, Col, Modal, Row, Table } from "antd";
 import { useEffect, useState } from "react";
-import SubFamiliaForm from "../forms/SubFamiliaForm";
+import SubFamiliaForm from "../forms/deposito/SubFamiliaForm";
 import FamiliaSelect from "../FamiliaSelect";
 import PlusOutlined from "@ant-design/icons/PlusOutlined";
 import EditarPreciosSubgruposForm from "../forms/deposito/EditarPreciosSubgruposForm";

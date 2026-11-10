@@ -21,10 +21,10 @@ import {
   Table,
 } from "antd";
 import { cloneElement, useEffect, useState } from "react";
-import FamiliaForm from "../forms/FamiliaForm";
-import SubFamiliaForm from "../forms/SubFamiliaForm";
-import GrupoForm from "../forms/GrupoForm";
-import SubGrupoFormV2 from "../forms/SubGrupoFormV2";
+import FamiliaForm from "../forms/deposito/FamiliaForm";
+import SubFamiliaForm from "../forms/deposito/SubFamiliaForm";
+import GrupoForm from "../forms/deposito/GrupoForm";
+import SubGrupoFormV2 from "../forms/deposito/SubGrupoFormV2";
 import SeleccionSubgrupo from "../forms/trabajo_multiple/seleccion_subgrupo";
 import { post_method } from "@/src/helpers/post_helper";
 

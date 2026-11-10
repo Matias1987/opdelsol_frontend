@@ -5,7 +5,7 @@ import globals from "@/src/globals";
 import dynamic from "next/dynamic";
 
 const EnvioForm = dynamic(
-  () => import("@/components/forms/EnvioForm"),
+  () => import("@/components/forms/deposito/EnvioForm"),
   {
     ssr: false,
     loading: () => <div style={{ width:"100px" }}>Cargando...</div>,

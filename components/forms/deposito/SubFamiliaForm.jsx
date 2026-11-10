@@ -1,5 +1,5 @@
 import { Form, Button, Input, Modal } from "antd";
-import LoadSelect from "../LoadSelect";
+import LoadSelect from "../../LoadSelect";
 import  PlusCircleOutlined from "@ant-design/icons/PlusCircleOutlined";
 import { useRef, useState } from "react";
 import FamiliaForm from "./FamiliaForm";
