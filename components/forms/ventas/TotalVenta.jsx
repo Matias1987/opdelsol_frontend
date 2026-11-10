@@ -15,7 +15,7 @@ const TotalesVenta = ({ callbackDescuento, callbackDescuentoMutual, subtotal }) 
       return _n;
     });
 
-    callbackDescuento?.(_n,0);
+    callbackDescuento?.(_n);
   };
   const onDescuentoMutualChange = (v) => {
     const _n = (v ?? "").length < 1 ? 0 : v;
@@ -24,7 +24,7 @@ const TotalesVenta = ({ callbackDescuento, callbackDescuentoMutual, subtotal }) 
       return _n;
     });
 
-    callbackDescuentoMutual?.(0,_n);
+    callbackDescuentoMutual?.(_n);
   };
 
   useEffect(() => {

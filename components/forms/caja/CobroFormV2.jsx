@@ -1,5 +1,4 @@
 import {
-  Button,
   Col,
   Divider,
   Input,
@@ -200,6 +199,7 @@ const CobroOperacionV2 = (props) => {
         if (
           parseFloat(dataVenta.subtotal) -
             parseFloat(descuento) -
+            parseFloat(dataVenta.descuento_mutual) -
             parseFloat(dataVenta.haber || 0) <=
           0
         ) {
@@ -216,6 +216,7 @@ const CobroOperacionV2 = (props) => {
       const _sdo =
         parseFloat(dataVenta.subtotal) -
         parseFloat(descuento) -
+        parseFloat(dataVenta.descuento_mutual) -
         parseFloat(dataVenta.haber || 0) -
         parseFloat(mp.total);
 
@@ -288,26 +289,6 @@ const CobroOperacionV2 = (props) => {
     }
   };
 
-  const check_valid_ctacte = () => {
-    if (!mp) {
-      return;
-    }
-
-    if (!dataVenta) {
-      return;
-    }
-
-    const { ctacte_monto } = mp;
-
-    if (ctacte_monto == 0) {
-      return;
-    }
-
-    const saldo =
-      parseFloat(dataVenta.subtotal) -
-      parseFloat(descuento) -
-      parseFloat(dataVenta.haber || 0);
-  };
   const onCobrarClick = (e) => {
     setCobrarDisabled(true);
 
@@ -321,7 +302,8 @@ const CobroOperacionV2 = (props) => {
       dataVenta != null &&
       +mp.total == 0 &&
       dataVenta.saldo == 0 &&
-      +descuento == 0
+      +descuento == 0 &&
+      +dataVenta.descuento_mutual == 0
     ) {
       _on_venta_monto_zero();
       return;
@@ -336,7 +318,7 @@ const CobroOperacionV2 = (props) => {
       sucursal_idsucursal: globals.obtenerSucursal(),
       descuento: descuento,
       fecha: current_date_ymd(),
-      tk: globals.getToken(),
+      tk: "",
       comentario_cliente: comentarioCliente,
       uid: postIdRef.current,
     };
@@ -355,7 +337,8 @@ const CobroOperacionV2 = (props) => {
         ? 0
         : parseFloat(dataVenta.subtotal) -
           parseFloat(descuento) -
-          parseFloat(dataVenta.haber || 0) -
+          parseFloat(dataVenta.descuento_mutual ?? "0") -
+          parseFloat(dataVenta.haber ?? "0") -
           parseFloat(mp.total);
     const __tipo =
       props.tipo !== "undefined"
@@ -410,7 +393,8 @@ const CobroOperacionV2 = (props) => {
       _sdo =
         parseFloat(dataVenta.subtotal) -
         parseFloat(descuento) -
-        parseFloat(dataVenta.haber || 0) -
+        parseFloat(dataVenta.haber ?? 0) -
+        parseFloat(dataVenta.descuento_mutual ?? 0) -
         parseFloat(mp.total);
     }
 
@@ -530,37 +514,55 @@ const CobroOperacionV2 = (props) => {
       <></>
     ) : (
       <>
-        <p>
-          Nro. Venta: {dataVenta.idventa} &nbsp;&nbsp;&nbsp; Fecha:{" "}
-          {dataVenta.fecha_formated}
-        </p>
-        <p>
-          Monto: <b>{formatFloat(dataVenta.subtotal)}</b> &nbsp;&nbsp;
-          <InputNumber
-            style={{ width: "300px" }}
-            decimalSeparator={decimal_separator}
-            prefix={"Descuento:"}
-            value={descuento}
-            onChange={(value) => {
-              setDescuento(
-                (value || "").toString().length < 1 ? "0" : value.toString(),
-              );
-            }}
-          />
-          Haber: <b>{formatFloat(dataVenta.haber)}</b> &nbsp;&nbsp;
-          <span style={{ backgroundColor: "lightyellow", color: "red" }}>
-            Saldo:{" "}
-            <b>
-              {formatFloat(
-                parseFloat(dataVenta.subtotal) -
-                  parseFloat(descuento) -
-                  parseFloat(dataVenta.haber || 0),
-              )}
-            </b>
-          </span>
-          &nbsp;&nbsp;
+        <Row gutter={[16, 16]} style={{ paddingTop: "6px" }}>
+          <Col>
+            Nro. Venta: {dataVenta.idventa} &nbsp;&nbsp;&nbsp; Fecha:{" "}
+            {dataVenta.fecha_formated}
+          </Col>
+        </Row>
+        <Row gutter={[16, 16]} style={{ paddingTop: "6px" }}>
+          <Col>
+            Monto: <b>{formatFloat(dataVenta.subtotal)}</b> &nbsp;&nbsp;
+            <InputNumber
+              style={{ width: "300px" }}
+              decimalSeparator={decimal_separator}
+              prefix={"Descuento:"}
+              value={descuento}
+              onChange={(value) => {
+                setDescuento(
+                  (value || "").toString().length < 1 ? "0" : value.toString(),
+                );
+              }}
+            />
+          </Col>
+          <Col>
+            <InputNumber
+              readOnly
+              style={{ width: "300px" }}
+              value={formatFloat(dataVenta.descuento_mutual)}
+              prefix={"Dto. Mutual:"}
+            />
+          </Col>
+        </Row>
+        <Row gutter={[16, 16]} style={{ paddingTop: "6px" }}>
+          <Col>
+            Haber: <b>{formatFloat(dataVenta.haber)}</b> &nbsp;&nbsp;
+          </Col>
+          <Col>
+            <span style={{ backgroundColor: "lightyellow", color: "red" }}>
+              Saldo:{" "}
+              <b>
+                {formatFloat(
+                  parseFloat(dataVenta.subtotal) -
+                    parseFloat(dataVenta.descuento_mutual) -
+                    parseFloat(descuento) -
+                    parseFloat(dataVenta.haber || 0),
+                )}
+              </b>
+            </span>
+          </Col>
           <VentaDetallePopup idventa={dataVenta.idventa} />
-        </p>
+        </Row>
         &nbsp;&nbsp;
         <CustomModal
           title={"Cobros Venta Nro.: " + dataVenta.idventa}
@@ -642,6 +644,7 @@ const CobroOperacionV2 = (props) => {
                   ? 0
                   : parseFloat(dataVenta.subtotal) -
                     parseFloat(descuento) -
+                    parseFloat(dataVenta.descuento_mutual) -
                     parseFloat(dataVenta.haber || 0)
               }
               ctacteHidden={
@@ -711,7 +714,8 @@ const CobroOperacionV2 = (props) => {
                   //entrega para ventas sin deuda
                   parseFloat(dataVenta.subtotal) -
                     parseFloat(descuento) -
-                    parseFloat(dataVenta.haber || 0) ==
+                    parseFloat(dataVenta.descuento_mutual) -
+                    parseFloat(dataVenta.haber ?? 0) ==
                     0 &&
                   mp.total == 0 &&
                   (entrega || props.tipo == "entrega") ? (
@@ -746,7 +750,8 @@ const CobroOperacionV2 = (props) => {
                   props.tipo == "entrega" &&
                   parseFloat(dataVenta.subtotal) -
                     parseFloat(descuento) -
-                    parseFloat(dataVenta.haber || 0) -
+                    parseFloat(dataVenta.descuento_mutual ?? 0) -
+                    parseFloat(dataVenta.haber ?? 0) -
                     +mp.total !=
                     0 &&
                   mp.total != 0 ? (
@@ -766,11 +771,13 @@ const CobroOperacionV2 = (props) => {
                   props.tipo == "entrega" &&
                   parseFloat(dataVenta.subtotal) -
                     parseFloat(descuento) -
-                    parseFloat(dataVenta.haber || 0) !=
+                    parseFloat(dataVenta.descuento_mutual) -
+                    parseFloat(dataVenta.haber ?? 0) !=
                     0 &&
                   parseFloat(dataVenta.subtotal) -
                     parseFloat(descuento) -
-                    parseFloat(dataVenta.haber || 0) -
+                    parseFloat(dataVenta.descuento_mutual ?? 0) -
+                    parseFloat(dataVenta.haber ?? 0) -
                     +mp.total ==
                     0 ? (
                     <ConnectedButton
@@ -825,3 +832,26 @@ const CobroOperacionV2 = (props) => {
 };
 
 export default CobroOperacionV2;
+
+/*
+  const check_valid_ctacte = () => {
+    if (!mp) {
+      return;
+    }
+
+    if (!dataVenta) {
+      return;
+    }
+
+    const { ctacte_monto } = mp;
+
+    if (ctacte_monto == 0) {
+      return;
+    }
+
+    const saldo =
+      parseFloat(dataVenta.subtotal) -
+      parseFloat(descuento) -
+      parseFloat(dataVenta.descuento_mutual) -
+      parseFloat(dataVenta.haber || 0);
+  };*/

@@ -5,13 +5,13 @@ import {
   Col,
   Divider,
   Input,
+  Modal,
   Row,
   Spin,
   Table,
   Tag,
 } from "antd";
 import { useEffect, useRef, useState } from "react";
-import CobroOperacion from "../forms/caja/CobroForm";
 import CargaManual from "../forms/caja/CargaManual";
 import PrinterWrapper from "../PrinterWrapper";
 import CargaBloqueo from "../forms/caja/CargaBloqueo";
@@ -22,17 +22,18 @@ import MostrarDNI from "../etc/MostrarDNI";
 import { formatFloat } from "@/src/helpers/formatters";
 import { useNetworkStatus } from "../providers/NetworkContext";
 import ConnectedButton from "../etc/CntButton";
+import CobroOperacionV3 from "../forms/caja/CobroFormV3";
 
 export default function FichaCliente(props) {
   const [operaciones, setOperaciones] = useState([]);
   const [dataCliente, setDataCliente] = useState(null);
-  //const [dataChange, setDataChange] = useState(true)
   const [scrollChange, setScrollChange] = useState(false);
   const [saldo, setSaldo] = useState(0);
   const [filtrarSucursal, setFiltrarSucursal] = useState(false);
   const [loading, setLoading] = useState(false);
   const [fix, setFix] = useState(0);
   const [loadPending, setLoadPending] = useState(true);
+  const [modalCobroOpen, setModalCobroOpen] = useState(false);
   const dummyref = useRef(null);
   const { isOnline } = useNetworkStatus();
 
@@ -45,7 +46,9 @@ export default function FichaCliente(props) {
       .then((resp) => {
         load();
       })
-      .catch(_=>{console.log("error fetching")});
+      .catch((_) => {
+        console.log("error fetching");
+      });
   };
 
   const columns = [
@@ -158,8 +161,8 @@ export default function FichaCliente(props) {
       .then((response) => {
         setDataCliente(response.data[0]);
       })
-      .catch(er=>{
-        console.log("Error fetching")
+      .catch((er) => {
+        console.log("Error fetching");
       });
     //operaciones
     let _filtrarSucursal =
@@ -204,9 +207,6 @@ export default function FichaCliente(props) {
 
   return (
     <>
-      {/*<Button onClick={()=>{setOpen(true); load();}}>Ficha</Button>
-    <Modal open={open} title={"Ficha Cliente"} onCancel={()=>{setOpen(false)}} footer={null} width={"80%"} destroyOnClose={true}>  */}
-
       <Row>
         <Col span={4}>
           <Checkbox
@@ -291,19 +291,13 @@ export default function FichaCliente(props) {
               {dataCliente.bloqueado == 1 ? (
                 <></>
               ) : (
-                <CobroOperacion
-                  tarjetaHidden={false}
-                  ctacteHidden={true}
-                  chequeHidden={false}
-                  mutualHidden={false}
-                  buttonText="Cargar Cuota"
-                  totalsHidden={true}
-                  tipo="cuota"
-                  idcliente={props.idcliente}
-                  callback={() => {
-                    load();
-                  }}
-                />
+                <Button
+                  onClick={() => setModalCobroOpen(true)}
+                  type="primary"
+                  size="small"
+                >
+                  Cobrar Cuota
+                </Button>
               )}
             </>
           )}
@@ -363,8 +357,28 @@ export default function FichaCliente(props) {
           )}
         </Col>
       </Row>
-
-      {/*</Modal>*/}
+      <Modal
+        open={modalCobroOpen}
+        onCancel={() => setModalCobroOpen(false)}
+        footer={null}
+        width={"1000px"}
+        destroyOnClose={true}
+      >
+        <CobroOperacionV3
+          tarjetaHidden={false}
+          ctacteHidden={true}
+          chequeHidden={false}
+          mutualHidden={false}
+          buttonText="Cargar Cuota"
+          totalsHidden={true}
+          tipo="cuota"
+          idcliente={props.idcliente}
+          callback={() => {
+            setModalCobroOpen(false);
+            load();
+          }}
+        />
+      </Modal>
     </>
   );
 }

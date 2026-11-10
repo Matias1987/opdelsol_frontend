@@ -104,11 +104,6 @@ export default function VentaBaseV3(props) {
 
   const onFinishFailed = (error) => {};
 
-  const card_style = {
-    boxShadow: "-1px 2px 2px 2px #d3d3d3",
-    marginBottom: "8px",
-  };
-
   const mp_row_style = {
     padding: "6px",
     borderRadius: "4px",
@@ -117,202 +112,6 @@ export default function VentaBaseV3(props) {
     border: "1px dotted #1C221c35",
     backgroundColor: "rgba(243, 243, 250, 0.5)",
   };
-
-  const modo_formulario_unico = (_) => (
-    <>
-      <Card size="small" style={card_style}>
-        <Row style={mp_row_style}>
-          <Col style={{ minWidth: "250px" }}>
-            <SelectClienteV2
-              openButtonText={
-                <span style={{ color: "#3300CC" }}>
-                  &nbsp;*Seleccione Cliente
-                </span>
-              }
-              callback={(value) => {
-                onChange("fkcliente", value);
-              }}
-            />
-          </Col>
-        </Row>
-        <Row style={mp_row_style}>
-          <Col style={{ minWidth: "250px" }}>
-            <SelectClienteV2
-              destinatario
-              callback={(value) => {
-                onChange("fkdestinatario", value);
-              }}
-            />
-          </Col>
-        </Row>
-
-        <Row style={mp_row_style}>
-          <Col span={24}>
-            <SelectMedico
-              medicoRequired={props.medicoRequired}
-              openButtonText={
-                <span
-                  style={{
-                    color: props.medicoRequired ? "#3300CC" : "inherit",
-                  }}
-                >
-                  &nbsp;{props.medicoRequired ? "*" : ""}Seleccione
-                  M&eacute;dico
-                </span>
-              }
-              callback={(value) => {
-                onChange("fkmedico", value);
-              }}
-            />
-          </Col>
-        </Row>
-
-        <Row style={mp_row_style}>
-          <Col span={24}>
-            <SelectObraSocial
-              callback={(value) => {
-                onChange("fkos", value);
-              }}
-            />
-          </Col>
-        </Row>
-      </Card>
-      <Card title="Productos" size="small" style={card_style}>
-        <Row>
-          <Col span={24}>
-            <Form.Item>{props.children}</Form.Item>
-          </Col>
-        </Row>
-      </Card>
-      <Card title="Modo de Pago" size="small" style={card_style}>
-        <Row>
-          <Col span={24}>
-            <Form.Item>
-              <TotalesVenta
-                subtotal={typeof props !== "undefined" ? props.subTotal : "0"}
-                total={typeof props !== "undefined" ? props.total : "0"}
-                callbackDescuento={(value) => {
-                  onChange("descuento", value);
-                }}
-                callbackDescuentoMutual={(value) => {
-                  onChange("descuentoMutual", value);
-                }}
-              />
-
-              <Col span={24} style={{ paddingTop: "8px" }}>
-                <ModoPagoV4
-                  total={typeof props !== "undefined" ? props.total : "0"}
-                  callback={(value) => {
-                    onChange("mp", value);
-                  }}
-                  tarjetaHidden={false}
-                  ctacteHidden={false}
-                  chequeHidden={false}
-                  mutualHidden={false}
-                />
-              </Col>
-              {/*<ModoPagoV2 />*/}
-            </Form.Item>
-          </Col>
-        </Row>
-      </Card>
-      <Card size="small" style={card_style}>
-        <Row gutter={24}>
-          {props.ocultarFechaRetiro ? (
-            <></>
-          ) : (
-            <>
-              <Col>
-                <Form.Item label={"Fecha de Retiro"}>
-                  <DatePicker
-                    defaultValue={props.ignore_fecha_retiro ? dayjs() : null}
-                    locale={esES}
-                    format={"DD-MM-YYYY"}
-                    onChange={(value) => {
-                      let _value = value ? value.format("DD-MM-YYYY") : null;
-                      onChange("fechaRetiro", _value);
-                    }}
-                  />
-                </Form.Item>
-              </Col>
-              <Col>
-                <Form.Item label={"Hora de Retiro"}>
-                  <TimePicker
-                    format={"HH:mm"}
-                    onChange={(value, timeString) => {
-                      onChange("horaRetiro", timeString);
-                    }}
-                  />
-                </Form.Item>
-              </Col>
-            </>
-          )}
-        </Row>
-
-        {!use_owner_id ? (
-          <></>
-        ) : (
-          <Row style={{ paddingTop: "6px", paddingBottom: "6px" }}>
-            <Col span="24">
-              <Input
-                prefix="Nro. Sobre:"
-                style={{ maxWidth: "350px" }}
-                allowClear
-                onChange={(e) => {
-                  onChange("uid", e.target.value);
-                }}
-              />
-            </Col>
-          </Row>
-        )}
-
-        <Row>
-          <Col span="24">
-            <Form.Item label={"Comentarios"}>
-              <Input.TextArea
-                rows={2}
-                onChange={(e) => {
-                  onChange("comentarios", e.target.value);
-                }}
-              />
-            </Form.Item>
-          </Col>
-        </Row>
-        <Divider />
-        <Row>
-          <Col span={24}>
-            <Form.Item>
-              <Col span={24}>
-                <Divider />
-                <Switch
-                  size="large"
-                  style={{ backgroundColor: venta.entrega ? "green" : "red" }}
-                  checkedChildren="Entrega"
-                  unCheckedChildren="Depósito"
-                  checked={venta.entrega}
-                  onChange={(e) => {
-                    setVenta({ ...venta, entrega: !venta.entrega });
-                  }}
-                />
-              </Col>
-            </Form.Item>
-            <Form.Item>
-              <Button
-                style={{ borderRadius: "16px" }}
-                size="large"
-                disabled={!btnEnabled}
-                type="primary"
-                block
-                onClick={finalizar_venta}
-              >
-                Imprimir Sobre
-              </Button>
-            </Form.Item>
-          </Col>
-        </Row>
-      </Card>
-    </>
-  );
 
   const tabs_items = [
     {
@@ -568,19 +367,15 @@ export default function VentaBaseV3(props) {
       >
         <Row>
           <Col span={24}>
-            {!screens.md ? (
-              modo_formulario_unico()
-            ) : (
-              <Form onFinish={onFinish} onFinishFailed={onFinishFailed}>
-                <Tabs
-                  defaultActiveKey="paso1"
-                  items={tabs_items}
-                  size="large"
-                  type="line"
-                  tabPosition="top"
-                />
-              </Form>
-            )}
+            <Form onFinish={onFinish} onFinishFailed={onFinishFailed}>
+              <Tabs
+                defaultActiveKey="paso1"
+                items={tabs_items}
+                size="large"
+                type="line"
+                tabPosition="top"
+              />
+            </Form>
           </Col>
         </Row>
         <Divider />
