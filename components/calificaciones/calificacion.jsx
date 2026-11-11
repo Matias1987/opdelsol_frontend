@@ -9,8 +9,9 @@ const { TextArea } = Input;
 
 const FeedbackForm = () => {
   const [form] = Form.useForm();
-
+  const [btnEnabled, setBtnEnabled] = React.useState(true);
   const onFinish = (values) => {
+    setBtnEnabled(false); // Disable the button after submission
     console.log("Datos enviados:", values);
     post_method(post.insert.comentario_cliente, values, (response) => {
       // Aquí conectarías con tu API/Backend
@@ -22,7 +23,7 @@ const FeedbackForm = () => {
     });
   };
 
-  return (
+  return <div className="not-rotate">{ btnEnabled ? (
     <div
       style={{
         display: "flex",
@@ -143,6 +144,7 @@ const FeedbackForm = () => {
           {/* Botón de Envío */}
           <Form.Item style={{ marginBottom: 0, marginTop: "32px" }}>
             <Button
+              disabled={!btnEnabled}
               type="primary"
               htmlType="submit"
               block
@@ -160,7 +162,18 @@ const FeedbackForm = () => {
         </Form>
       </Card>
     </div>
-  );
+  ) : (
+    <div
+      className="mensaje-exito"
+    >
+
+      <p> ✅ Comentario enviado correctamente</p>
+      <p>Muchas gracias por ayudarnos a mejorar.</p>
+      <p>Ahora puede cerrar esta página.</p>
+    </div>
+  )
+}
+</div>;
 };
 
 export default FeedbackForm;

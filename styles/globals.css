@@ -1,4 +1,3 @@
-
 :root {
   --n-image-w: 200px;
   --n-image-h: 149px;
@@ -8,7 +7,7 @@
 
   --n-text-color: #fcfcfc; /*#663f4c;*/
   --menu-text-color: rgb(255, 255, 255);
-  --menu-bg-color: #222E3D;
+  --menu-bg-color: #222e3d;
 }
 /*
 :root {
@@ -172,7 +171,7 @@ h5 {
 }
 
 body {
-  background:f6f6f9;  /*#1A1A1A;*/
+  background: f6f6f9; /*#1A1A1A;*/
   margin: 0px !important;
 }
 /*
@@ -793,7 +792,7 @@ danger list
 .ant-menu-submenu-title {
   padding-inline: 12px !important; /* Horizontal padding */
   padding-block: 0px !important; /* Vertical padding */
- /* text-shadow: 1px 0px 0px rgb(143, 143, 143) !important;*/
+  /* text-shadow: 1px 0px 0px rgb(143, 143, 143) !important;*/
 }
 
 /* Override padding of the root horizontal menu wrapper */
@@ -852,7 +851,7 @@ danger list
 }
 
 .flex-menuv3 {
-  background-color: var(--menu-bg-color) !important;/*#dddddd;*/
+  background-color: var(--menu-bg-color) !important; /*#dddddd;*/
   border-bottom: 1px solid rgba(196, 196, 195, 0.8);
 }
 
@@ -874,13 +873,13 @@ danger list
   align-content: center; /* Centers the whole block of text vertically */
 }
 
-.venta-precio-column{
+.venta-precio-column {
   width: 150px;
   display: grid;
   align-content: center; /* Centers the whole block of text vertically */
 }
 
-.venta-column-header{
+.venta-column-header {
   font-weight: 600;
   text-align: center;
   font-size: 1em;
@@ -902,35 +901,64 @@ danger list
   padding: 0 !important;
 }
 
-
 @media screen and (min-width: 320px) and (max-width: 900px) and (orientation: portrait) {
-  html {
-    width: 100vw;
-    height: 100vh;
-    overflow: hidden;
-  }
+  body:not(.no-rotate) .app {
+    html {
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+    }
 
-  body {
-    transform: rotate(-90deg);
-    transform-origin: left top;
-    /* Usamos dvh/dvw para evitar recortes por la barra del navegador móvil */
-    width: 100dvh;
-    height: 100dvw;
-    min-width: 100dvh;
-    min-height: 100dvw;
-    position: fixed;
-    top: 100%;
-    left: 0;
-    margin: 0;
-    padding: 0;
-    overflow-x: hidden;
-    overflow-y: auto;
-  }
+    body {
+      transform: rotate(-90deg);
+      transform-origin: left top;
+      /* Usamos dvh/dvw para evitar recortes por la barra del navegador móvil */
+      width: 100dvh;
+      height: 100dvw;
+      min-width: 100dvh;
+      min-height: 100dvw;
+      position: fixed;
+      top: 100%;
+      left: 0;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+      overflow-y: auto;
+    }
 
-  /* Fuerza a React y al Layout principal de Ant Design a llenar todo el ancho rotado */
-  #root, #__next, .ant-layout {
-    width: 100% !important;
-    min-width: 100% !important;
-    min-height: 100% !important;
+    /* Fuerza a React y al Layout principal de Ant Design a llenar todo el ancho rotado */
+    #root,
+    #__next,
+    .ant-layout {
+      width: 100% !important;
+      min-width: 100% !important;
+      min-height: 100% !important;
+    }
   }
+}
+
+.mensaje-exito {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  text-align: center;
+
+  background-color: #f8fafc;
+  padding: 2rem;
+}
+
+.mensaje-exito h1 {
+  color: #16a34a;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.mensaje-exito p {
+  color: #475569;
+  font-size: 1.1rem;
+  max-width: 500px;
+  line-height: 1.6;
 }
