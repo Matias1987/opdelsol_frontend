@@ -203,7 +203,7 @@ const VentaMultipleMinorista = ({
 
     _tt[index].items = data;
 
-    alert(JSON.stringify(_tt));
+    //alert(JSON.stringify(_tt));
 
     setTrabajos(_tt);
 

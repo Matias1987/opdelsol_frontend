@@ -1,9 +1,15 @@
-import React, { useRef, useState, useEffect } from 'react';
-import { Button, Card, Space, message, Spin } from 'antd';
-import { CameraOutlined, SyncOutlined, UploadOutlined, DeleteOutlined, FolderOpenOutlined } from '@ant-design/icons';
-import { ia_recetas } from '@/src/config';
+import React, { useRef, useState, useEffect } from "react";
+import { Button, Card, Space, message, Spin } from "antd";
+import {
+  CameraOutlined,
+  SyncOutlined,
+  UploadOutlined,
+  DeleteOutlined,
+  FolderOpenOutlined,
+} from "@ant-design/icons";
+import { ia_recetas } from "@/src/config";
 
-const RecipeScanner = ({callback}) => {
+const RecipeScanner = ({ callback }) => {
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
   const fileInputRef = useRef(null); // Referencia para el input de archivo oculto
@@ -23,7 +29,7 @@ const RecipeScanner = ({callback}) => {
     try {
       setPhoto(null);
       const mediaStream = await navigator.mediaDevices.getUserMedia({
-        video: { facingMode: { ideal: 'environment' } }, // Prioriza la cámara trasera
+        video: { facingMode: { ideal: "environment" } }, // Prioriza la cámara trasera
         audio: false,
       });
       setStream(mediaStream);
@@ -39,7 +45,7 @@ const RecipeScanner = ({callback}) => {
 
   const stopCamera = () => {
     if (stream) {
-      stream.getTracks().forEach(track => track.stop());
+      stream.getTracks().forEach((track) => track.stop());
       setStream(null);
     }
     setCameraReady(false);
@@ -50,7 +56,7 @@ const RecipeScanner = ({callback}) => {
 
     const video = videoRef.current;
     const canvas = canvasRef.current;
-    const context = canvas.getContext('2d');
+    const context = canvas.getContext("2d");
 
     // Ajustar dimensiones del canvas al tamaño real del video
     canvas.width = video.videoWidth;
@@ -60,7 +66,7 @@ const RecipeScanner = ({callback}) => {
     context.drawImage(video, 0, 0, canvas.width, canvas.height);
 
     // Convertir a formato base64 para previsualización inmediata
-    const imageDataUrl = canvas.toDataURL('image/jpeg');
+    const imageDataUrl = canvas.toDataURL("image/jpeg");
     setPhoto(imageDataUrl);
 
     // Apagar la cámara temporalmente mientras se revisa la foto
@@ -73,8 +79,8 @@ const RecipeScanner = ({callback}) => {
     if (!file) return;
 
     // Validar opcionalmente que sea una imagen
-    if (!file.type.startsWith('image/')) {
-      message.error('Por favor, selecciona un archivo de imagen válido.');
+    if (!file.type.startsWith("image/")) {
+      message.error("Por favor, selecciona un archivo de imagen válido.");
       return;
     }
 
@@ -84,7 +90,7 @@ const RecipeScanner = ({callback}) => {
       stopCamera(); // Apagar la cámara si estaba encendida
     };
     reader.readAsDataURL(file);
-    
+
     // Limpiar el valor del input para permitir seleccionar la misma imagen de nuevo si es necesario
     e.target.value = null;
   };
@@ -95,14 +101,14 @@ const RecipeScanner = ({callback}) => {
 
     try {
       const serverResponse = await fetch(ia_recetas, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
-          'X-Forwarded-For': 'true',
-          'Bypass-Tunnel-Reminder': 'true' // Obligatorio para el túnel de VS Code
+          "Content-Type": "application/json",
+          "X-Forwarded-For": "true",
+          "Bypass-Tunnel-Reminder": "true", // Obligatorio para el túnel de VS Code
         },
         body: JSON.stringify({
-          imagen_base64: photo // Aquí viaja el string de la foto
+          imagen_base64: photo, // Aquí viaja el string de la foto
         }),
       });
 
@@ -110,17 +116,16 @@ const RecipeScanner = ({callback}) => {
 
       if (!serverResponse.ok) {
         console.error("Respuesta de error del servidor:", textoCrudo);
-        throw new Error('Error en el servidor');
+        throw new Error("Error en el servidor");
       }
 
       const data = JSON.parse(textoCrudo);
-      message.success('¡Receta procesada con éxito!');
+      message.success("¡Receta procesada con éxito!");
 
       callback(data);
-
     } catch (error) {
       console.error(error);
-      message.error('Hubo al enviar la imagen: ' + error.message);
+      message.error("Hubo al enviar la imagen: " + error.message);
     } finally {
       setLoading(false);
     }
@@ -133,23 +138,37 @@ const RecipeScanner = ({callback}) => {
   return (
     <Card
       title="Escanear Receta de Graduación"
-      style={{ maxWidth: 500, margin: '20px auto', textAlign: 'center' }}
+      style={{ maxWidth: 500, margin: "20px auto", textAlign: "center" }}
     >
-      <div style={{ position: 'relative', width: '100%', minHeight: 300, background: '#f0f2f5', marginBottom: 20, borderRadius: 8, overflow: 'hidden' }}>
-
+      <div
+        style={{
+          position: "relative",
+          width: "100%",
+          minHeight: 300,
+          background: "#f0f2f5",
+          marginBottom: 20,
+          borderRadius: 8,
+          overflow: "hidden",
+        }}
+      >
         {/* Renderizado de la Cámara en vivo */}
         {!photo && (
           <video
             ref={videoRef}
             autoPlay
             playsInline
-            style={{ width: '100%', height: '100%', display: cameraReady ? 'block' : 'none', objectFit: 'cover' }}
+            style={{
+              width: "100%",
+              height: "100%",
+              display: cameraReady ? "block" : "none",
+              objectFit: "cover",
+            }}
           />
         )}
 
         {/* Mensaje de carga mientras la cámara inicia */}
         {!photo && !cameraReady && (
-          <div style={{ padding: '100px 0' }}>
+          <div style={{ padding: "100px 0" }}>
             <Spin tip="Iniciando cámara..." />
           </div>
         )}
@@ -159,18 +178,18 @@ const RecipeScanner = ({callback}) => {
           <img
             src={photo}
             alt="Receta cargada"
-            style={{ width: '100%', height: 'auto', display: 'block' }}
+            style={{ width: "100%", height: "auto", display: "block" }}
           />
         )}
 
         {/* Canvas oculto para el procesado de la imagen */}
-        <canvas ref={canvasRef} style={{ display: 'none' }} />
+        <canvas ref={canvasRef} style={{ display: "none" }} />
 
         {/* Input file oculto para la selección de archivos locales */}
         <input
           type="file"
           ref={fileInputRef}
-          style={{ display: 'none' }}
+          style={{ display: "none" }}
           accept="image/*"
           onChange={handleFileUpload}
         />
@@ -189,7 +208,7 @@ const RecipeScanner = ({callback}) => {
             >
               Capturar
             </Button>
-            
+
             {/* Botón para abrir el explorador de archivos */}
             <Button
               icon={<FolderOpenOutlined />}
@@ -221,7 +240,47 @@ const RecipeScanner = ({callback}) => {
             </Button>
           </>
         )}
-        <Button onClick={_=>{callback("")}}>Test</Button>
+        <Button
+          onClick={(_) => {
+            callback({
+              data: {
+                paciente_nombre: null,
+                medico_nombre: null,
+                graduacion_lejos: {
+                  ojo_derecho: {
+                    esfera: "+0.50",
+                    cilindro: "-1.50",
+                    eje: null,
+                  },
+                  ojo_izquierdo: {
+                    esfera: "+0.50",
+                    cilindro: "-1.25",
+                    eje: null,
+                  },
+                  dp: null,
+                },
+                graduacion_cerca: {
+                  ojo_derecho: {
+                    esfera: "+0.25",
+                    cilindro: "-0.50",
+                    eje: null,
+                  },
+                  ojo_izquierdo: {
+                    esfera: "+0.50",
+                    cilindro: "-0.50",
+                    eje: null,
+                  },
+                  dp: null,
+                },
+                adicion: null,
+                tipo_lente: null,
+                observaciones: null,
+              },
+            });
+          }}
+        >
+          Test
+        </Button>
       </Space>
     </Card>
   );

@@ -1,15 +1,4 @@
-/*@media screen and (min-width: 320px) and (max-width: 900px) and (orientation: portrait) {
-  html {
-    transform: rotate(-90deg);
-    transform-origin: left top;
-    width: 100vh;
-    height: 100vw;
-    overflow-x: hidden;
-    position: absolute;
-    top: 100%;
-    left: 0;
-  }
-}*/
+
 :root {
   --n-image-w: 200px;
   --n-image-h: 149px;
@@ -911,4 +900,37 @@ danger list
 .zero-padding-table .ant-table-thead > tr > th,
 .zero-padding-table .ant-table-tbody > tr > td {
   padding: 0 !important;
+}
+
+
+@media screen and (min-width: 320px) and (max-width: 900px) and (orientation: portrait) {
+  html {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  body {
+    transform: rotate(-90deg);
+    transform-origin: left top;
+    /* Usamos dvh/dvw para evitar recortes por la barra del navegador móvil */
+    width: 100dvh;
+    height: 100dvw;
+    min-width: 100dvh;
+    min-height: 100dvw;
+    position: fixed;
+    top: 100%;
+    left: 0;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  /* Fuerza a React y al Layout principal de Ant Design a llenar todo el ancho rotado */
+  #root, #__next, .ant-layout {
+    width: 100% !important;
+    min-width: 100% !important;
+    min-height: 100% !important;
+  }
 }

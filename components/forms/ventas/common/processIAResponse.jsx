@@ -41,7 +41,6 @@ const ProcessIAResponse = ({ jsonServer, tipoVenta, callback }) => {
   };
 
   useEffect(() => {
-    alert(JSON.stringify(jsonServer, null, 2)); //for testing purposes, we can remove this later.
     //Cargar los datos de subgrupos de acuerdo al tipo de venta...
     load_tipos_cristales();
   }, []);
@@ -50,56 +49,46 @@ const ProcessIAResponse = ({ jsonServer, tipoVenta, callback }) => {
   const datosInicialesAplanados = useMemo(() => {
     if (!jsonServer || !jsonServer.data) return [];
 
-    const { graduacion_lejos, graduacion_cerca, adicion } = jsonServer.data;
     const filas = [];
 
+    //alert(JSON.stringify(jsonServer, null, 2)); //for testing purposes, we can remove this later.
+
+    const procesarDistancia = (distanciaInicial, objt, adicion) => {
+      // Procesar Ojo Derecho (OD)
+      const gOD = objt?.ojo_derecho;
+      //const deCercaOD = graduacion_cerca?.ojo_derecho;
+      filas.push({
+        distancia: distanciaInicial,
+        lado: "od",
+        esf: gOD?.esfera || null,
+        cil: gOD?.cilindro || null,
+        eje: gOD?.eje ? parseFloat(gOD.eje) : null,
+        ad: adicion || null,
+      });
+
+      // Procesar Ojo Izquierdo (OI)
+      const gOI = objt?.ojo_izquierdo;
+      //const deCercaOI = graduacion_cerca?.ojo_izquierdo;
+      filas.push({
+        distancia: distanciaInicial,
+        lado: "oi",
+        esf: gOI?.esfera || null,
+        cil: gOI?.cilindro || null,
+        eje: gOI?.eje ? parseFloat(gOI.eje) : null,
+        ad: adicion || null,
+      });
+    };
+
+    const { graduacion_lejos, graduacion_cerca, adicion } = jsonServer.data;
+
     // Determinar la distancia inicial lógica
-    let distanciaInicial = "lejos";
-    if (
-      adicion ||
-      (graduacion_lejos?.ojo_derecho?.esfera &&
-        graduacion_cerca?.ojo_derecho?.esfera)
-    ) {
-      distanciaInicial = "ambos";
-    } else if (
-      graduacion_cerca?.ojo_derecho?.esfera &&
-      !graduacion_lejos?.ojo_derecho?.esfera
-    ) {
-      distanciaInicial = "cerca";
+    if (adicion || graduacion_lejos?.ojo_derecho?.esfera) {
+      procesarDistancia("lejos", graduacion_lejos, adicion);
     }
-
-    // Procesar Ojo Derecho (OD)
-    const deLejosOD = graduacion_lejos?.ojo_derecho;
-    const deCercaOD = graduacion_cerca?.ojo_derecho;
-    filas.push({
-      distancia: distanciaInicial,
-      lado: "od",
-      esf: deLejosOD?.esfera || deCercaOD?.esfera || null,
-      cil: deLejosOD?.cilindro || deCercaOD?.cilindro || null,
-      eje: deLejosOD?.eje
-        ? parseFloat(deLejosOD.eje)
-        : deCercaOD?.eje
-          ? parseFloat(deCercaOD.eje)
-          : null,
-      ad: adicion || null,
-    });
-
-    // Procesar Ojo Izquierdo (OI)
-    const deLejosOI = graduacion_lejos?.ojo_izquierdo;
-    const deCercaOI = graduacion_cerca?.ojo_izquierdo;
-    filas.push({
-      distancia: distanciaInicial,
-      lado: "oi",
-      esf: deLejosOI?.esfera || deCercaOI?.esfera || null,
-      cil: deLejosOI?.cilindro || deCercaOI?.cilindro || null,
-      eje: deLejosOI?.eje
-        ? parseFloat(deLejosOI.eje)
-        : deCercaOI?.eje
-          ? parseFloat(deCercaOI.eje)
-          : null,
-      ad: adicion || null,
-    });
-
+    if (graduacion_cerca?.ojo_derecho?.esfera) {
+      procesarDistancia("cerca", graduacion_cerca, adicion);
+    }
+    //alert(JSON.stringify(filas));
     return filas;
   }, [jsonServer]);
 
@@ -117,10 +106,10 @@ const ProcessIAResponse = ({ jsonServer, tipoVenta, callback }) => {
         recetas_editadas: valores.recetas,
       },
     };
-    alert(JSON.stringify(payload, null, 2)); //for testing purposes, we can remove this later.
+    //alert(JSON.stringify(payload, null, 2)); //for testing purposes, we can remove this later.
     const final = procesar_seleccion(payload);
 
-    alert(JSON.stringify(final, null, 2));
+    //alert(JSON.stringify(final, null, 2));
 
     callback(final);
   };
@@ -188,10 +177,14 @@ const ProcessIAResponse = ({ jsonServer, tipoVenta, callback }) => {
               <span style={{ fontWeight: "bold", color: "darkred" }}>
                 {form.getFieldValue(["recetas", index, "sg"])}
               </span>
-              <Button danger type="text" onClick={() => {
-                form.setFieldValue(["recetas", index, "sg"], null);
-                form.setFieldValue(["recetas", index, "idcodigo"], "0");
-              }}>
+              <Button
+                danger
+                type="text"
+                onClick={() => {
+                  form.setFieldValue(["recetas", index, "sg"], null);
+                  form.setFieldValue(["recetas", index, "idcodigo"], "0");
+                }}
+              >
                 <CloseOutlined />
               </Button>
             </>
