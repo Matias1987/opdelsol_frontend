@@ -1,9 +1,16 @@
-import HelperToolTip from "@/components/forms/ventas/common/HelperToolTip";
-import SelectCodigoVenta from "@/components/forms/ventas/SelectCodigoVenta";
+import HelperToolTipV2 from "@/components/forms/ventas/common/HelperToolTipV2";
+import SelectCodigoVentaV2 from "@/components/forms/ventas/SelectCodigoVentaV2";
 import globals from "@/src/globals";
-import { Card, Input, InputNumber, Table } from "antd";
+import ScanOutlined from "@ant-design/icons/ScanOutlined";
+import { Button, Card, Input, InputNumber, Table } from "antd";
 
-const TipoMultifocalesLab = ({ callback, path, trabajoObject }) => {
+const TipoMultifocalesLab = ({
+  callback,
+  path,
+  trabajoObject,
+  onScanValues,
+  localId,
+}) => {
   const dataSource = [
     {
       key: "od",
@@ -47,7 +54,13 @@ const TipoMultifocalesLab = ({ callback, path, trabajoObject }) => {
     {
       title: "",
       dataIndex: "key",
-      render: (_, { codigo }) => <span>{codigo}</span>,
+      render: (_, { codigo }) => (
+        <div
+          style={{ fontSize: ".8em", textAlign: "center", color: "#bb3810" }}
+        >
+          {codigo}
+        </div>
+      ),
     },
     {
       title: "Código",
@@ -55,7 +68,8 @@ const TipoMultifocalesLab = ({ callback, path, trabajoObject }) => {
       key: "codigo",
       render: (_, record) => (
         <>
-          <SelectCodigoVenta
+          <SelectCodigoVentaV2
+            defIdCodigo={trabajoObject?.[record.key + "_" + "idcodigo"] ?? null}
             hideExtOpt={"1"}
             idfamilias={[record.id_familia]}
             buttonText={"Seleccionar..."}
@@ -84,7 +98,8 @@ const TipoMultifocalesLab = ({ callback, path, trabajoObject }) => {
       key: "esf",
       render: (hasInput, record) =>
         hasInput ? (
-          <HelperToolTip
+          <HelperToolTipV2
+            defValue={trabajoObject?.[record.key + "_" + "esf"] ?? "0"}
             onChange={(v) => {
               onChange(record.key + "_esf", v);
             }}
@@ -106,7 +121,8 @@ const TipoMultifocalesLab = ({ callback, path, trabajoObject }) => {
       key: "cil",
       render: (hasInput, record) =>
         hasInput ? (
-          <HelperToolTip
+          <HelperToolTipV2
+            defValue={trabajoObject?.[record.key + "_" + "cil"] ?? "0"}
             onChange={(v) => {
               onChange(record.key + "_cil", v);
             }}
@@ -132,7 +148,7 @@ const TipoMultifocalesLab = ({ callback, path, trabajoObject }) => {
           <Input
             type="number"
             placeholder="Input"
-            value={0}
+            value={trabajoObject?.[record.key + "_" + "eje"] ?? "0"}
             onChange={(e) => onChange(record.key + "_eje", e.target.value)}
           />
         ) : (
@@ -155,7 +171,7 @@ const TipoMultifocalesLab = ({ callback, path, trabajoObject }) => {
         hasInput ? (
           <InputNumber
             style={{ width: "120px" }}
-            value={0}
+            value={trabajoObject?.[record.key + "_" + "precio"] ?? "0"}
             onChange={(v) => onChange(record.key + "_precio", v)}
           />
         ) : (
@@ -179,7 +195,19 @@ const TipoMultifocalesLab = ({ callback, path, trabajoObject }) => {
   return (
     <Card
       size="small"
-      title={<span style={{ color: "#262D42" }}>Multifocales Laboratorio</span>}
+      title={
+        <span style={{ color: "#262D42" }}>
+          Multifocales Laboratorio&nbsp;&nbsp;
+          <Button
+            type="primary"
+            onClick={(_) => {
+              onScanValues(null, localId, "multifocales_lab", false);
+            }}
+          >
+            <ScanOutlined />
+          </Button>
+        </span>
+      }
       style={{ boxShadow: "-1px 1px 1px 1px #9e9c9c" }}
     >
       <Table

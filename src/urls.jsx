@@ -305,6 +305,9 @@ const post = {
   inf_saldo_total_proveedores: remote_base_url + "infp/info/l/sdo/general/",
   obtener_codigo_sg_grad:
     remote_base_url + "codigos_ext/obtener_codigo_sg_grad/",
+
+  obtener_subgrupos_tipo_venta:
+    remote_base_url + "subgrupos/obtener/subgrupos/tipo_venta/",
   search: {
     filtro_stock: remote_base_url + "stock/filtro_stock/",
   },
@@ -488,8 +491,6 @@ const get = {
   elementos_factura: remote_base_url + "facturas/elementos/", //idfactura
 
   obtener_detalle_subgrupo: remote_base_url + "subgrupos/", //subgrupoId
-  obtener_subgrupos_tipo_venta:
-    remote_base_url + "subgrupos/obtener/subgrupos/tipo_venta/",
 
   //ventas
   obtener_stock_detalles_venta: remote_base_url + "stock/detalle_stock_venta/", //:idsucursal/:idcodigo

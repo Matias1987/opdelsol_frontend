@@ -329,11 +329,13 @@ const procesar_seleccion = (pData) => {
           cerca_oi = obtener_lado(elemento, "oi");
         }
         if (elemento.lado == "od") {
-          cerca_od = obtener_lado(elemento, "od");
+          lejos_od = obtener_lado(elemento, "od");
         }
         if (elemento.lado == "oi") {
-          cerca_oi = obtener_lado(elemento, "oi");
+          lejos_oi = obtener_lado(elemento, "oi");
         }
+        break;
+      case "ignorar":
         break;
       default:
         if (elemento.lado == "od") {
@@ -366,10 +368,10 @@ const procesar_seleccion = (pData) => {
   }
 
   if (od) {
-    response = { ...response, od: od };
+    response = { ...response, ...od };
   }
   if (oi) {
-    response = { ...response, oi: oi };
+    response = { ...response, ...oi };
   }
   
   return response;

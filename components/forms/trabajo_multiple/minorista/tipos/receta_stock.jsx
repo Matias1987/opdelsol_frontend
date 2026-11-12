@@ -1,18 +1,14 @@
-import { Button, Card, Modal, Tabs } from "antd";
+import { Button, Card, Tabs } from "antd";
 import DistanciaCristal from "./distancia_cristal";
-import { useEffect, useState } from "react";
-import { CameraOutlined, ScanOutlined } from "@ant-design/icons";
-import RecipeScanner from "@/components/etc/RecipeScanner";
+import ScanOutlined from "@ant-design/icons/ScanOutlined";
 
-const TipoRecetaStock = ({ callback, path, trabajoObject, onScanValues, localId }) => {
-  
-  /*const [trabajoStock, setTrabajoStock] = useState({
-    lejos: null,
-    cerca: null,
-  });*/
-
-  useEffect(() => { }, [trabajoObject]);
-
+const TipoRecetaStock = ({
+  callback,
+  path,
+  trabajoObject,
+  onScanValues,
+  localId,
+}) => {
   const tabItems = [
     {
       key: "1",
@@ -45,20 +41,26 @@ const TipoRecetaStock = ({ callback, path, trabajoObject, onScanValues, localId 
   ];
 
   const onChangeTabs = (key) => {
-    console.log(`Active tab key: ${key}`);
+    //console.log(`Active tab key: ${key}`);
   };
-  /*
- 
 
-  const onChange = (key, value) => {
-    callback?.(path, key, value);
-  };
-*/
   return (
     <>
       <Card
         size="small"
-        title={<span style={{ color: "#262D42" }}>Receta Stock&nbsp;&nbsp;<Button type="primary" onClick={_=>{onScanValues(null, localId)}}><ScanOutlined /></Button></span>}
+        title={
+          <span style={{ color: "#262D42" }}>
+            Receta Stock&nbsp;&nbsp;
+            <Button
+              type="primary"
+              onClick={(_) => {
+                onScanValues(null, localId, "receta_stock", true);
+              }}
+            >
+              <ScanOutlined />
+            </Button>
+          </span>
+        }
         style={{ boxShadow: "-1px 1px 1px 1px #9e9c9c" }}
       >
         <Tabs
@@ -68,7 +70,6 @@ const TipoRecetaStock = ({ callback, path, trabajoObject, onScanValues, localId 
           type="line"
         />
       </Card>
-
     </>
   );
 };

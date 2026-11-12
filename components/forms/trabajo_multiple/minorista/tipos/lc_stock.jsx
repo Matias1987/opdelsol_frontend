@@ -1,14 +1,14 @@
-import SelectCodigoVenta from "@/components/forms/ventas/SelectCodigoVenta";
+import SelectCodigoVentaV2 from "@/components/forms/ventas/SelectCodigoVentaV2";
 import globals from "@/src/globals";
-import { Card, Col, Divider, Input, InputNumber, Row, Table } from "antd";
-import { useEffect, useState } from "react";
-
-const TipoLCStock = ({ callback, path }) => {
-  const [od_cant, setOdCant] = useState("");
-  const [oi_cant, setOiCant] = useState("");
-  const [od_precio, setOdPrecio] = useState("");
-  const [oi_precio, setOiPrecio] = useState("");
-
+import ScanOutlined from "@ant-design/icons/ScanOutlined";
+import { Button, Card,  Input, InputNumber, Table } from "antd";
+const TipoLCStock = ({
+  callback,
+  path,
+  trabajoObject,
+  onScanValues,
+  localId,
+}) => {
   const dataSource = [
     {
       key: "od",
@@ -47,7 +47,6 @@ const TipoLCStock = ({ callback, path }) => {
       values: [value.idcodigo, value.precio, 0],
     });
   };
-  useEffect(() => {}, []);
 
   const columns = [
     {
@@ -61,7 +60,8 @@ const TipoLCStock = ({ callback, path }) => {
       key: "codigo",
       render: (_, record) => (
         <>
-          <SelectCodigoVenta
+          <SelectCodigoVentaV2
+            defIdCodigo={trabajoObject?.[record.key + "_" + "idcodigo"] ?? null}
             hideExtOpt={"1"}
             idfamilias={[record.id_familia]}
             buttonText={"Seleccionar..."}
@@ -90,16 +90,10 @@ const TipoLCStock = ({ callback, path }) => {
       key: "precio",
       render: (hasInput, record) =>
         hasInput ? (
-          <Input
-            value={record.key === "od" ? od_precio : oi_precio}
-            onChange={(e) => {
-              onChange(record.key + "_precio", e.target.value);
-              if (record.key === "od") {
-                setOdPrecio(e.target.value);
-              } else {
-                setOiPrecio(e.target.value);
-              }
-            }}
+          <InputNumber
+            style={{ width: "120px" }}
+            value={trabajoObject?.[record.key + "_precio"] ?? "0"}
+            onChange={(v) => onChange(record.key + "_precio", v)}
           />
         ) : (
           "-"
@@ -122,15 +116,8 @@ const TipoLCStock = ({ callback, path }) => {
           <Input
             type="number"
             placeholder="Input"
-            value={record.key === "od" ? od_cant : oi_cant}
-            onChange={(e) => {
-              if (record.key === "od") {
-                setOdCant(e.target.value);
-              } else {
-                setOiCant(e.target.value);
-              }
-              onChange(record.key + "_cant", e.target.value);
-            }}
+            value={trabajoObject?.[record.key + "_cantidad"] ?? "0"}
+            onChange={(v) => onChange(record.key + "_cantidad", v)}
           />
         ) : (
           "-"
@@ -149,14 +136,33 @@ const TipoLCStock = ({ callback, path }) => {
       key: "total",
       width: "120px",
       render: (hasInput, record) =>
-        hasInput ? <Input style={{ width: "120px" }} value={0} /> : "-",
+        hasInput ? (
+          <Input
+            style={{ width: "120px" }}
+            value={trabajoObject?.[record.key + "_total"] ?? "0"}
+          />
+        ) : (
+          "-"
+        ),
     },
   ];
 
   return (
     <Card
       size="small"
-      title={<span style={{ color: "#262D42" }}>Lentes de Contacto Stock</span>}
+      title={
+        <span style={{ color: "#262D42" }}>
+          Lentes de Contacto Stock&nbsp;&nbsp;
+          <Button
+            type="primary"
+            onClick={(_) => {
+              onScanValues(null, localId, "lc_stock", false);
+            }}
+          >
+            <ScanOutlined />
+          </Button>
+        </span>
+      }
       style={{ boxShadow: "-1px 1px 1px 1px #9e9c9c" }}
     >
       <Table

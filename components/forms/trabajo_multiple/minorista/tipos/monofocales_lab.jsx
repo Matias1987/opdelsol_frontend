@@ -1,11 +1,14 @@
-import {
-  Card,
-  Tabs,
-} from "antd";
+import { Button, Card, Tabs } from "antd";
 import DistanciaCristal from "./distancia_cristal";
+import ScanOutlined from "@ant-design/icons/ScanOutlined";
 
-const TipoMonofocalesLab = ({ callback, path, trabajoObject }) => {
- 
+const TipoMonofocalesLab = ({
+  callback,
+  path,
+  trabajoObject,
+  onScanValues,
+  localId,
+}) => {
   const tabItems = [
     {
       key: "1",
@@ -38,14 +41,26 @@ const TipoMonofocalesLab = ({ callback, path, trabajoObject }) => {
   ];
 
   const onChangeTabs = (key) => {
-    console.log(`Active tab key: ${key}`);
+    //console.log(`Active tab key: ${key}`);
   };
 
   return (
     <>
       <Card
         size="small"
-        title={<span style={{ color: "#262D42" }}>Monofocales Laboratorio</span>}
+        title={
+          <span style={{ color: "#262D42" }}>
+            Monofocales Laboratorio &nbsp;&nbsp;
+            <Button
+              type="primary"
+              onClick={(_) => {
+                onScanValues(null, localId, "monofocales_lab", true);
+              }}
+            >
+              <ScanOutlined />
+            </Button>
+          </span>
+        }
         style={{ boxShadow: "-1px 1px 1px 1px #9e9c9c" }}
       >
         <Tabs

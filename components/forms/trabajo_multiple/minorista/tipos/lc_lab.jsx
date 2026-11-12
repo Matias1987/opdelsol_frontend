@@ -1,18 +1,15 @@
-import HelperToolTip from "@/components/forms/ventas/common/HelperToolTip";
-import SelectCodigoVenta from "@/components/forms/ventas/SelectCodigoVenta";
+import HelperToolTipV2 from "@/components/forms/ventas/common/HelperToolTipV2";
+import SelectCodigoVentaV2 from "@/components/forms/ventas/SelectCodigoVentaV2";
 import globals from "@/src/globals";
-import { Card, Input, InputNumber, Table } from "antd";
-import { useEffect, useState } from "react";
-const TipoLCLab = ({ callback, path }) => {
-  const [od_eje, setOdEje] = useState("");
-  const [oi_eje, setOiEje] = useState("");
-  const [od_precio, setOdPrecio] = useState("");
-  const [oi_precio, setOiPrecio] = useState("");
-  const [od_cb, setOdCB] = useState("");
-  const [oi_cb, setOiCB] = useState("");
-  const [od_diam, setOdDiam] = useState("");
-  const [oi_diam, setOiDiam] = useState("");
-
+import ScanOutlined from "@ant-design/icons/ScanOutlined";
+import { Button, Card, Input, InputNumber, Table } from "antd";
+const TipoLCLab = ({
+  callback,
+  path,
+  trabajoObject,
+  onScanValues,
+  localId,
+}) => {
   const dataSource = [
     {
       key: "od",
@@ -61,7 +58,8 @@ const TipoLCLab = ({ callback, path }) => {
       key: "codigo",
       render: (_, record) => (
         <>
-          <SelectCodigoVenta
+          <SelectCodigoVentaV2
+            defIdCodigo={trabajoObject?.[record.key + "_idcodigo"] ?? null}
             hideExtOpt={"1"}
             idfamilias={[record.id_familia]}
             buttonText={"Seleccionar..."}
@@ -90,7 +88,8 @@ const TipoLCLab = ({ callback, path }) => {
       key: "esf",
       render: (hasInput, record) =>
         hasInput ? (
-          <HelperToolTip
+          <HelperToolTipV2
+            defValue={trabajoObject?.[record.key + "_" + "esf"] ?? "0"}
             onChange={(v) => {
               onChange(record.key + "_esf", v);
             }}
@@ -112,7 +111,8 @@ const TipoLCLab = ({ callback, path }) => {
       key: "cil",
       render: (hasInput, record) =>
         hasInput ? (
-          <HelperToolTip
+          <HelperToolTipV2
+            defValue={trabajoObject?.[record.key + "_cil"] ?? "0"}
             onChange={(v) => {
               onChange(record.key + "_cil", v);
             }}
@@ -137,16 +137,9 @@ const TipoLCLab = ({ callback, path }) => {
         hasInput ? (
           <Input
             type="number"
-            placeholder="Input"
-            value={record.key === "od" ? od_eje : oi_eje}
-            onChange={(e) => {
-              onChange(record.key + "_eje", e.target.value);
-              if (record.key === "od") {
-                setOdEje(e.target.value);
-              } else {
-                setOiEje(e.target.value);
-              }
-            }}
+            placeholder="cb"
+            value={trabajoObject?.[record.key + "_eje"] ?? "0"}
+            onChange={(e) => onChange(record.key + "_eje", e.target.value)}
           />
         ) : (
           "-"
@@ -168,16 +161,9 @@ const TipoLCLab = ({ callback, path }) => {
         hasInput ? (
           <Input
             type="number"
-            placeholder="Input"
-            value={record.key === "od" ? od_cb : oi_cb}
-            onChange={(e) => {
-              onChange(record.key + "_cb", e.target.value);
-              if (record.key === "od") {
-                setOdCB(e.target.value);
-              } else {
-                setOiCB(e.target.value);
-              }
-            }}
+            placeholder="cb"
+            value={trabajoObject?.[record.key + "_cb"] ?? "0"}
+            onChange={(v) => onChange(record.key + "_cb", v)}
           />
         ) : (
           "-"
@@ -200,15 +186,8 @@ const TipoLCLab = ({ callback, path }) => {
           <Input
             type="number"
             placeholder="Input"
-            value={record.key === "od" ? od_diam : oi_diam}
-            onChange={(e) => {
-              onChange(record.key + "_diam", e.target.value);
-              if (record.key === "od") {
-                setOdDiam(e.target.value);
-              } else {
-                setOiDiam(e.target.value);
-              }
-            }}
+            value={trabajoObject?.[record.key + "_diam"] ?? "0"}
+            onChange={(e) => onChange(record.key + "_diam", e.target.value)}
           />
         ) : (
           "-"
@@ -229,15 +208,8 @@ const TipoLCLab = ({ callback, path }) => {
       render: (hasInput, record) => (
         <InputNumber
           style={{ width: "120px" }}
-          value={record.key === "od" ? od_precio : oi_precio}
-          onChange={(v) => {
-            onChange(record.key + "_precio", v);
-            if (record.key === "od") {
-              setOdPrecio(v);
-            } else {
-              setOiPrecio(v);
-            }
-          }}
+          value={trabajoObject?.[record.key + "_precio"] ?? "0"}
+          onChange={(v) => onChange(record.key + "_precio", v)}
         />
       ),
     },
@@ -255,13 +227,22 @@ const TipoLCLab = ({ callback, path }) => {
     });
   };
 
-  useEffect(() => {
-  }, []);
-
   return (
     <Card
       size="small"
-      title={<span style={{ color: "#262D42" }}>L.C. Laboratorio</span>}
+      title={
+        <span style={{ color: "#262D42" }}>
+          L.C. Laboratorio&nbsp;&nbsp;
+          <Button
+            type="primary"
+            onClick={(_) => {
+              onScanValues(null, localId, "lc_lab", false);
+            }}
+          >
+            <ScanOutlined />
+          </Button>
+        </span>
+      }
       style={{ boxShadow: "-1px 1px 1px 1px #9e9c9c" }}
     >
       <Table

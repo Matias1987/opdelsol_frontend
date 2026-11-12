@@ -180,9 +180,9 @@ const SelectTrabajo = ({
         </Col>
         </Row>
         <Row>
-        <Col span={24}>
+       {/* <Col span={24}>
         <Button type="primary" block><ScanOutlined /></Button>
-        </Col>
+        </Col>*/}
       </Row>
     </div>
   ) : (

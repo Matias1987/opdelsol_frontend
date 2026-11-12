@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from "react";
-import { Button, Card, Space, message, Spin } from "antd";
+import { Button, Card, Space, message, Spin, FloatButton } from "antd";
 import {
   CameraOutlined,
   SyncOutlined,
@@ -137,8 +137,7 @@ const RecipeScanner = ({ callback }) => {
 
   return (
     <Card
-      title="Escanear Receta de Graduación"
-      style={{ maxWidth: 500, margin: "20px auto", textAlign: "center" }}
+      style={{ maxWidth: 800, margin: "0px auto", textAlign: "center" }}
     >
       <div
         style={{
@@ -199,45 +198,49 @@ const RecipeScanner = ({ callback }) => {
       <Space size="middle" wrap>
         {!photo ? (
           <>
-            <Button
+            <FloatButton
               type="primary"
               icon={<CameraOutlined />}
               size="large"
               onClick={takePicture}
               disabled={!cameraReady}
+              style={{ insetInlineEnd: 104 }}
             >
               Capturar
-            </Button>
+            </FloatButton>
 
             {/* Botón para abrir el explorador de archivos */}
-            <Button
+            <FloatButton
               icon={<FolderOpenOutlined />}
               size="large"
               onClick={() => fileInputRef.current.click()}
+              style={{ insetInlineEnd: 194 }}
             >
               Subir Archivo
-            </Button>
+            </FloatButton>
           </>
         ) : (
           <>
-            <Button
+            <FloatButton
               icon={<DeleteOutlined />}
               danger
               size="large"
               onClick={retakePhoto}
               disabled={loading}
+              style={{ insetInlineEnd: 24 }}
             >
               Repetir / Cambiar
-            </Button>
-            <Button
+            </FloatButton>
+            <FloatButton
               type="primary"
               icon={loading ? <SyncOutlined spin /> : <UploadOutlined />}
               size="large"
               onClick={sendToServer}
               loading={loading}
+              style={{ insetInlineEnd: 94 }}
             >
               Analizar Receta
-            </Button>
+            </FloatButton>
           </>
         )}
         <Button

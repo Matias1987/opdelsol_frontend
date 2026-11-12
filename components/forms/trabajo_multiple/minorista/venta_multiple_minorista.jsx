@@ -203,29 +203,16 @@ const VentaMultipleMinorista = ({
 
     _tt[index].items = data;
 
-    //alert(JSON.stringify(_tt));
-
     setTrabajos(_tt);
-
-    /*setTrabajos((t) => {
-      const mod = [...t];
-      const index = mod.findIndex(
-        (t) => +t.localId == +scanningTrabajo.localId ?? 0,
-      );
-      if (index !== -1) {
-        alert(index)
-        mod[index] = { ...mod[index], items: data.items, tipo: data.tipo };
-      } else {
-        mod.push(data);
-      }
-      //calcularTotal(mod); to do later...
-      alert(JSON.stringify(mod));
-      setTrabajos(mod);
-    });*/
   };
 
-  const onScanValues = (data, localId) => {
-    setScanningTrabajo({ localId: localId });
+  const onScanValues = (data, localId, tipo_venta, usarDistancia = true) => {
+    setScanningTrabajo({
+      localId: localId,
+      usarDistancia: usarDistancia,
+      serverResponse: data,
+      tipo_venta: tipo_venta,
+    });
     setModalScanOpen(true);
   };
 
@@ -863,9 +850,12 @@ const VentaMultipleMinorista = ({
         footer={null}
       >
         <ProcessIAResponse
+          usarDistancia={scanningTrabajo?.usarDistancia ?? true}
           jsonServer={scanningTrabajo?.serverResponse}
+          tipo_venta={scanningTrabajo?.tipo_venta ?? "multi_lab"}
           callback={(final) => {
             setModalEditarRespuestaOpen(false);
+            //alert(JSON.stringify(final));
             onValuesScanned(final);
           }}
         />

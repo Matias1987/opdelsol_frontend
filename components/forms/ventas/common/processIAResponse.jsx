@@ -21,12 +21,17 @@ import { CloseOutlined } from "@ant-design/icons";
  * @param {*} tipoVenta Receta stock, monofocal, multifocal, etc.
  * @returns
  */
-const ProcessIAResponse = ({ jsonServer, tipoVenta, callback }) => {
+const ProcessIAResponse = ({
+  jsonServer,
+  usarDistancia,
+  tipo_venta,
+  callback,
+}) => {
   const [form] = Form.useForm();
   const [subgrupoData, setSubgrupoData] = useState(null); // here we load the subgrupo corresponding to the sale kind.
   const [modalSelectSGOpen, setModalSelectSGOpen] = useState(false);
   const [selectedRowIndex, setSelectedRowIndex] = useState(null);
-  const load_tipos_cristales = async () => {
+  /*const load_tipos_cristales = async () => {
     //alert(get.obtener_subgrupos_tipo_venta);
     const response = await fetchConRetryYTimeout(
       get.obtener_subgrupos_tipo_venta,
@@ -38,11 +43,27 @@ const ProcessIAResponse = ({ jsonServer, tipoVenta, callback }) => {
         label: sg.nombre_corto,
       })),
     );
+  };*/
+
+  const load_tipos_productos = () => {
+    post_method(
+      post.obtener_subgrupos_tipo_venta,
+      { tipo_venta: tipo_venta },
+      (response) => {
+        alert(JSON.stringify(response.data));
+        setSubgrupoData(
+          response.data.map((sg) => ({
+            value: sg.idsubgrupo,
+            label: sg.nombre_corto,
+          })),
+        );
+      },
+    );
   };
 
   useEffect(() => {
     //Cargar los datos de subgrupos de acuerdo al tipo de venta...
-    load_tipos_cristales();
+    load_tipos_productos();
   }, []);
 
   // 1. Helper de transformación envuelto en useMemo para evitar ejecuciones innecesarias
@@ -81,12 +102,22 @@ const ProcessIAResponse = ({ jsonServer, tipoVenta, callback }) => {
 
     const { graduacion_lejos, graduacion_cerca, adicion } = jsonServer.data;
 
-    // Determinar la distancia inicial lógica
-    if (adicion || graduacion_lejos?.ojo_derecho?.esfera) {
-      procesarDistancia("lejos", graduacion_lejos, adicion);
-    }
-    if (graduacion_cerca?.ojo_derecho?.esfera) {
-      procesarDistancia("cerca", graduacion_cerca, adicion);
+    if (usarDistancia) {
+      // Determinar la distancia inicial lógica
+      if (adicion || graduacion_lejos?.ojo_derecho?.esfera) {
+        procesarDistancia("lejos", graduacion_lejos, adicion);
+      }
+      if (graduacion_cerca?.ojo_derecho?.esfera) {
+        procesarDistancia("cerca", graduacion_cerca, adicion);
+      }
+    } else {
+      if (adicion || graduacion_lejos?.ojo_derecho?.esfera) {
+        procesarDistancia("none", graduacion_lejos, adicion);
+      } else {
+        if (graduacion_cerca?.ojo_derecho?.esfera) {
+          procesarDistancia("none", graduacion_cerca, adicion);
+        }
+      }
     }
     //alert(JSON.stringify(filas));
     return filas;
@@ -143,10 +174,12 @@ const ProcessIAResponse = ({ jsonServer, tipoVenta, callback }) => {
       key: "distancia",
       render: (text, record, index) => (
         <Form.Item name={[index, "distancia"]} style={{ margin: 0 }}>
-          <Select style={{ width: 90 }}>
+          <Select style={{ width: 90 }} disabled={!usarDistancia}>
             <Select.Option value="ambos">Ambos</Select.Option>
             <Select.Option value="lejos">Lejos</Select.Option>
             <Select.Option value="cerca">Cerca</Select.Option>
+            <Select.Option value="ignorar">Ignorar</Select.Option>
+            <Select.Option value="none">--</Select.Option>
           </Select>
         </Form.Item>
       ),
@@ -312,6 +345,7 @@ const ProcessIAResponse = ({ jsonServer, tipoVenta, callback }) => {
             handleSelectChange(record, selectedRowIndex);
             setModalSelectSGOpen(false);
           }}
+          pDataSource={subgrupoData}
         />
       </Modal>
     </>

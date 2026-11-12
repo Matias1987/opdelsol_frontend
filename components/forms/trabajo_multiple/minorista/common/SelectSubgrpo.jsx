@@ -4,8 +4,8 @@ import  FilterTwoTone from "@ant-design/icons/FilterTwoTone";
 import { Input, Table } from "antd";
 import { useEffect, useMemo, useState } from "react";
 
-const SelectSubgrupo = ({ callback }) => {
-  const [loading, setLoading] = useState(true);
+const SelectSubgrupo = ({ callback, pDataSource }) => {
+  const [loading, setLoading] = useState(false);
   const [dataSource, setDataSource] = useState([]);
   const [inputValue, setInputValue] = useState(""); // Updates instantly for the Input UI
   const [searchString, setSearchString] = useState(""); // Updates after user pauses typing
@@ -75,7 +75,7 @@ const SelectSubgrupo = ({ callback }) => {
     setInputValue(value);
     debouncedSetSearch(value);
   };
-
+  /*
   const load = async () => {
     setLoading(true);
     const response = await fetchConRetryYTimeout(
@@ -89,10 +89,11 @@ const SelectSubgrupo = ({ callback }) => {
       })),
     );
   };
-
+*/
   useEffect(() => {
-    load();
-  }, []);
+    //load();
+    setDataSource(pDataSource);
+  }, [pDataSource]);
 
   const header = () => (
     <>
