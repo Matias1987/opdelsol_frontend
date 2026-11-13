@@ -36,6 +36,7 @@ import {
 } from "@/src/helpers/venta_multiple_helper";
 import RecipeScanner from "@/components/etc/RecipeScanner";
 import ProcessIAResponse from "../../ventas/common/processIAResponse";
+import SelectClienteV3 from "../../ventas/SelectClienteV3";
 //import useStorage from "@/useStorage";
 
 /* leer: https://refine.dev/blog/common-usestate-mistakes-and-how-to-avoid/ */
@@ -449,7 +450,7 @@ const VentaMultipleMinorista = ({
             }}
           >
             <Col style={{ minWidth: "250px", width: "100%" }}>
-              <SelectCliente
+              <SelectClienteV3
                 callback={(id) => {
                   onChange("fkcliente", id);
                 }}
@@ -464,7 +465,7 @@ const VentaMultipleMinorista = ({
             }}
           >
             <Col style={{ minWidth: "250px", width: "100%" }}>
-              <SelectCliente
+              <SelectClienteV3
                 destinatario
                 callback={(id) => {
                   onChange("fkdestinatario", id);

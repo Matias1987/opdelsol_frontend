@@ -1,0 +1,307 @@
+import CustomModal from "@/components/CustomModal";
+import { Button, Col, Input, Modal, Row, Space, Spin, Table } from "antd";
+import { useEffect, useState } from "react";
+import CloseOutlined from "@ant-design/icons/CloseOutlined";
+import PlusOutlined from "@ant-design/icons/PlusOutlined";
+import ReloadOutlined from "@ant-design/icons/ReloadOutlined";
+
+import { get } from "@/src/urls";
+import ClienteFormV2 from "../../cliente/ClienteFormV2";
+import { QrcodeOutlined, UserOutlined } from "@ant-design/icons";
+import DniScanner from "@/components/etc/DNIScanner";
+import { useDniLookup } from "@/src/hooks/useDniLookup";
+import ClienteFormV3 from "@/components/cliente/ClienteFormV3";
+
+const SelectClienteV3 = (props) => {
+  const { minVersion, callback, pIdcliente } = props;
+  const [idCliente, setIdCliente] = useState(-1);
+  const [loadingDetalles, setLoadingDetalles] = useState(false);
+  const [clientes, setClientes] = useState(null);
+  const [clienteData, setClienteData] = useState(null);
+  const [reload, setReload] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [popupAddOpen, setPopupAddOpen] = useState(false);
+  const [popupSeleccionarOpen, setPopupSeleccionarOpen] = useState(false);
+  const [popupQROpen, setPopupQROpen] = useState(false);
+  const [newClientDniData, setNewClientDniData] = useState(null);
+
+  const { processScannedDni, isSearching } = useDniLookup({
+    onClientFound: (client) => {
+      setIdCliente(client.idcliente);
+      //setIsScannerOpen(false);
+    },
+    onClientNotFound: (scannedData) => {
+      //alert("Cliente no encontrado. Por favor, agregue el cliente.");
+      //alert(JSON.stringify(scannedData));
+      setNewClientDniData(scannedData);
+      setPopupAddOpen(true);
+    },
+  });
+
+  const onSearch = (value) => {
+    if ((value || "").trim().length < 3) return;
+
+    const params = encodeURIComponent(value);
+    setLoading(true);
+    fetch(get.buscar_cliente + params)
+      .then((response) => response.json())
+      .then((response) => {
+        setClientes(
+          response.data.map((r) => ({
+            dni: r.dni,
+            idcliente: r.idcliente,
+            apellido: r.apellido,
+            nombre: r.nombre,
+            direccion: r.direccion,
+            bloqueado: r.bloqueado,
+          })),
+        );
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const upload_cliente_details = (id) => {
+    setLoadingDetalles(true);
+
+    setIdCliente((_id) => {
+      props?.callback?.(id);
+      return id;
+    });
+
+    fetch(get.cliente_por_id + id)
+      .then((response) => response.json())
+      .then((response) => {
+        setClienteData({
+          nombre: response.data[0].nombre_completo,
+
+          dni: response.data[0].dni,
+
+          telefono1: response.data[0].telefono1,
+
+          direccion: response.data[0].direccion,
+        });
+
+        setLoadingDetalles(false);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  useEffect(() => {
+    if (
+      typeof pIdcliente !== "undefined" &&
+      pIdcliente != null &&
+      pIdcliente != -1
+    ) {
+      upload_cliente_details(pIdcliente);
+    }
+  }, [reload]);
+
+  const columns = [
+    { dataIndex: "apellido", title: "Apellido", key: "apellido" },
+    { dataIndex: "nombre", title: "Nombre", key: "nombre" },
+    { dataIndex: "dni", title: "DNI", key: "dni" },
+    { dataIndex: "direccion", title: "Direccion", key: "direccion" },
+  ];
+  const show_details = (_) =>
+    loadingDetalles ? (
+      <Spin />
+    ) : (
+      <>
+        {typeof props.destinatario === "undefined" ? (
+          <span style={{ fontWeight: "bolder", color: "#001646" }}>
+            Cliente{" "}
+          </span>
+        ) : (
+          <span style={{ fontWeight: "400", color: "#000000" }}>
+            Destinatario{" "}
+          </span>
+        )}
+        :{" "}
+        <>
+          <b>{clienteData.nombre} </b>
+          {typeof props.destinatario === "undefined" ? (
+            <>
+              &nbsp;&nbsp; DNI: <b>{clienteData.dni}</b>&nbsp;
+              {typeof minVersion === "undefined" ? (
+                <>
+                  Tel&eacute;fono: {clienteData.telefono1}&nbsp;
+                  Direcci&oacute;n: {clienteData.direccion}&nbsp;
+                </>
+              ) : (
+                <></>
+              )}
+            </>
+          ) : (
+            <></>
+          )}
+        </>
+        <Button
+          type="ghost"
+          style={{ color: "red" }}
+          onClick={() => {
+            props?.callback?.(null);
+            setIdCliente(-1);
+          }}
+        >
+          <CloseOutlined />
+        </Button>
+      </>
+    );
+
+  const load = () => {
+    setLoading(true);
+    fetch(get.lista_clientes)
+      .then((response) => response.json())
+      .then((response) => {
+        setClientes(
+          response.data.map((r) => ({
+            dni: r.dni,
+            idcliente: r.idcliente,
+            apellido: r.apellido,
+            nombre: r.nombre,
+            direccion: r.direccion,
+            telefono1: r.telefono1,
+            bloqueado: r.bloqueado,
+          })),
+        );
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  return idCliente == -1 ? (
+    <>
+      <Space.Compact block>
+        <Button
+          style={{ width: "50%" }}
+          onClick={(_) => setPopupSeleccionarOpen(true)}
+          icon={<UserOutlined />}
+        >
+          Seleccione Cliente
+        </Button>
+        <Button
+          style={{ width: "50%" }}
+          icon={<QrcodeOutlined />}
+          onClick={(_) => setPopupQROpen(true)}
+        >
+          Escanear DNI
+        </Button>
+      </Space.Compact>
+      <Modal
+        open={popupAddOpen}
+        onCancel={(_) => {
+          setPopupAddOpen(false);
+        }}
+        title="Agregar Cliente"
+        destroyOnClose
+        width={"900px"}
+        footer={null}
+      >
+        <ClienteFormV3
+          callback={(id) => {
+            setReload(!reload);
+            upload_cliente_details(id);
+          }}
+          data={newClientDniData}
+        />
+      </Modal>
+      <Modal
+        open={popupSeleccionarOpen}
+        onCancel={(_) => setPopupSeleccionarOpen(false)}
+        destroyOnClose={true}
+        width={"100%"}
+        title="Seleccione..."
+        footer={null}
+      >
+        <Table
+          onRow={(record, index) => ({
+            onClick: (e) => {
+              if (+record.bloqueado == 1) {
+                alert("Cliente bloqueado");
+                return;
+              }
+
+              upload_cliente_details(record.idcliente);
+              setClienteData(record);
+            },
+          })}
+          title={(_) => (
+            <Row gutter={"16"}>
+              <Col>
+                <span style={{ fontWeight: "bold" }}>Clientes</span>{" "}
+              </Col>
+              <Col>
+                <Button
+                  onClick={(_) => {
+                    setPopupAddOpen(true);
+                  }}
+                >
+                  <PlusOutlined /> Agregar
+                </Button>
+              </Col>
+              <Col>
+                <Input.Search
+                  allowClear
+                  size="small"
+                  prefix="Buscar: "
+                  style={{ width: "400px" }}
+                  onSearch={onSearch}
+                />
+              </Col>
+              <Col>
+                <Button
+                  size="small"
+                  style={{ color: "red" }}
+                  onClick={() => {
+                    setReload(!reload);
+                  }}
+                  type="text"
+                >
+                  <ReloadOutlined />
+                </Button>
+              </Col>
+            </Row>
+          )}
+          size="small"
+          scroll={{ y: "500px" }}
+          loading={loading}
+          rowClassName={(record, index) =>
+            record.bloqueado
+              ? "error-row"
+              : index % 2 === 0
+                ? "table-row-light"
+                : "table-row-dark"
+          }
+          columns={columns}
+          dataSource={clientes}
+        />
+      </Modal>
+      <Modal
+        open={popupQROpen}
+        onCancel={(_) => setPopupQROpen(false)}
+        destroyOnClose={true}
+        width={"100%"}
+        title="Escanear QR..."
+        footer={null}
+      >
+        <DniScanner
+          onDniScanned={(dni) => {
+            setPopupQROpen(false);
+            processScannedDni(dni);
+          }}
+        />
+      </Modal>
+    </>
+  ) : (
+    show_details()
+  );
+};
+
+export default SelectClienteV3;
