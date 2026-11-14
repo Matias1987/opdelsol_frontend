@@ -1,14 +1,20 @@
-import React, { useEffect, useState } from "react";
-import { Scanner } from "@yudiel/react-qr-scanner";
+import { useEffect, useState } from "react";
 import { Card, Button, Alert, Space, message } from "antd";
 import { IdcardOutlined, StopOutlined } from "@ant-design/icons";
 import { parseDniString } from "@/src/parseDniData";
+import { Scanner } from "@yudiel/react-qr-scanner";
+/*import * as QRLibrary from "@yudiel/react-qr-scanner";
 
+console.log("QR Library exports:", QRLibrary);
+console.log("Scanner:", QRLibrary.Scanner);
+console.log("QrScanner:", QRLibrary.QrScanner);
+*/
 const DniScanner = ({ onDniScanned }) => {
   const [isScanning, setIsScanning] = useState(false);
   const [errorMsg, setErrorMsg] = useState(null);
 
   const handleScan = (detectedCodes) => {
+  
     if (detectedCodes && detectedCodes.length > 0) {
       const rawValue = detectedCodes[0].rawValue;
       const parsedData = parseDniString(rawValue);
@@ -37,11 +43,11 @@ const DniScanner = ({ onDniScanned }) => {
 
   useEffect(() => {
     //for testing only
-    onDniScanned(
+    /*onDniScanned(
       parseDniString(
-        "00482910452@GOMEZ@JUAN CARLOS@M@34567890@A@15/04/1989@10/06/2021@203",
+        "00738291045@MARTINEZ@FACUNDO EZEQUIEL@M@36789123@A@09/07/1992@18/11/2021@202",
       ),
-    );
+    );*/
   }, []);
 
   return (
@@ -80,11 +86,11 @@ const DniScanner = ({ onDniScanned }) => {
           <Scanner
             onScan={handleScan}
             onError={handleError}
-            formats={["pdf417"]}
+            formats={["qr_code", "pdf417"]}
             constraints={{
               facingMode: "environment",
-              width: { ideal: 1280 },
-              height: { ideal: 720 },
+              width: { ideal: 1920 },
+              height: { ideal: 1080 },
             }}
           />
         </div>

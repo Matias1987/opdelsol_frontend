@@ -134,11 +134,10 @@ const SelectLocalidadV2 = (props) => {
     <></>
   ) : (
     <>
-      <Row>
-        <Col span={3} style={{ textAlign: "right", paddingTop: ".5em" }}>
+      <Row gutter={16}>
+        <Col style={{ textAlign: "left", paddingTop: ".5em", width:"100%" }}>
           Prov.:&nbsp;&nbsp;
-        </Col>
-        <Col span={8}>
+       
           <select
             defaultValue={globals.obtenerOpticaProvincia()}
             style={_select_style}
@@ -149,10 +148,9 @@ const SelectLocalidadV2 = (props) => {
             ))}
           </select>
         </Col>
-        <Col span={4} style={{ textAlign: "right", paddingTop: ".5em" }}>
+        <Col style={{ textAlign: "left", paddingTop: ".5em", width:"100%" }}>
           &nbsp;Loc.:&nbsp;
-        </Col>
-        <Col span={9}>{_localidades_()}</Col>
+        {_localidades_()}</Col>
       </Row>
     </>
   );

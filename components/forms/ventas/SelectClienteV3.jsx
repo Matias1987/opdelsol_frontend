@@ -27,7 +27,8 @@ const SelectClienteV3 = (props) => {
 
   const { processScannedDni, isSearching } = useDniLookup({
     onClientFound: (client) => {
-      setIdCliente(client.idcliente);
+      download_cliente_details(client.idcliente);
+      setClienteData(client);
       //setIsScannerOpen(false);
     },
     onClientNotFound: (scannedData) => {
@@ -63,7 +64,7 @@ const SelectClienteV3 = (props) => {
       });
   };
 
-  const upload_cliente_details = (id) => {
+  const download_cliente_details = (id) => {
     setLoadingDetalles(true);
 
     setIdCliente((_id) => {
@@ -97,7 +98,7 @@ const SelectClienteV3 = (props) => {
       pIdcliente != null &&
       pIdcliente != -1
     ) {
-      upload_cliente_details(pIdcliente);
+      download_cliente_details(pIdcliente);
     }
   }, [reload]);
 
@@ -180,18 +181,20 @@ const SelectClienteV3 = (props) => {
     <>
       <Space.Compact block>
         <Button
-          style={{ width: "50%" }}
+          size="large"
+          style={{ width: "60%", color:"#3835da", fontWeight:"500" }}
           onClick={(_) => setPopupSeleccionarOpen(true)}
           icon={<UserOutlined />}
         >
-          Seleccione Cliente
+          Elegir Cliente
         </Button>
         <Button
-          style={{ width: "50%" }}
+          size="large"
+          style={{ width: "40%", color:"#da4035", fontWeight:"500" }}
           icon={<QrcodeOutlined />}
           onClick={(_) => setPopupQROpen(true)}
         >
-          Escanear DNI
+          
         </Button>
       </Space.Compact>
       <Modal
@@ -207,7 +210,7 @@ const SelectClienteV3 = (props) => {
         <ClienteFormV3
           callback={(id) => {
             setReload(!reload);
-            upload_cliente_details(id);
+            download_cliente_details(id);
           }}
           data={newClientDniData}
         />
@@ -217,7 +220,7 @@ const SelectClienteV3 = (props) => {
         onCancel={(_) => setPopupSeleccionarOpen(false)}
         destroyOnClose={true}
         width={"100%"}
-        title="Seleccione..."
+        title="Seleccione Cliente"
         footer={null}
       >
         <Table
@@ -228,24 +231,12 @@ const SelectClienteV3 = (props) => {
                 return;
               }
 
-              upload_cliente_details(record.idcliente);
+              download_cliente_details(record.idcliente);
               setClienteData(record);
             },
           })}
           title={(_) => (
-            <Row gutter={"16"}>
-              <Col>
-                <span style={{ fontWeight: "bold" }}>Clientes</span>{" "}
-              </Col>
-              <Col>
-                <Button
-                  onClick={(_) => {
-                    setPopupAddOpen(true);
-                  }}
-                >
-                  <PlusOutlined /> Agregar
-                </Button>
-              </Col>
+            <Row gutter={"32"}>
               <Col>
                 <Input.Search
                   allowClear
@@ -255,16 +246,30 @@ const SelectClienteV3 = (props) => {
                   onSearch={onSearch}
                 />
               </Col>
+
+              <Col>
+                <Button
+                  type="link"
+                  size="small"
+                  danger
+                  onClick={(_) => {
+                    setPopupAddOpen(true);
+                  }}
+                >
+                  <PlusOutlined /> Agregar Cliente
+                </Button>
+              </Col>
+
               <Col>
                 <Button
                   size="small"
-                  style={{ color: "red" }}
+                  style={{ color: "#464545" }}
                   onClick={() => {
                     setReload(!reload);
                   }}
                   type="text"
                 >
-                  <ReloadOutlined />
+                  <ReloadOutlined /> Recargar
                 </Button>
               </Col>
             </Row>

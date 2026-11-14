@@ -14,8 +14,6 @@ import { cliente_id_obl } from "@/src/config";
 import ConnectedButton from "../etc/CntButton";
 
 export default function ClienteFormV3({ callback, data }) {
-  const [form] = Form.useForm();
-  const [qr, setQR] = useState("");
   const [btnDisabled, setBtnDisabled] = useState(false);
   const [fechaNac, setFechaNac] = useState({
     dia: "",
@@ -132,8 +130,6 @@ export default function ClienteFormV3({ callback, data }) {
     });
   };
 
-  const onFinishFailed = (err) => {};
-
   const onChange = (val, idx) => {
     if (!validate_only_numbers_and_letters(val) && val.length > 0) {
       return;
@@ -141,33 +137,29 @@ export default function ClienteFormV3({ callback, data }) {
     setClienteData((d) => ({ ...d, [idx]: val }));
   };
 
-  const onChangeDate = (date, datestr) => {
-    var _parts = datestr.split("/");
-
-    setClienteData((e) => ({
-      ...e,
-      nacimiento: dayjs(`${_parts[2]}-${_parts[1]}-${_parts[0]}`),
-    }));
-  };
-
-  const onQRChange = (e) => {
-    const _match =
-      /([0-9]+)@([A-Z\s]+)@([A-Z\s]+)@[A-Z]@([0-9]+)@([A-Z])@([0-9\/]+)@([0-9\/]+)@([0-9]+)/g.exec(
-        e.target.value,
-      );
-
-    if (_match != null) {
-      var _parts = _match[6].split("/");
-
-      setClienteData({
-        nombres: _match[3],
-        apellidos: _match[2],
-        dni: _match[4],
-        nacimiento: dayjs(`${_parts[2]}-${_parts[1]}-${_parts[0]}`),
+  const onChangeFechaNac = (day, daystr) => {
+    if (typeof day === "undefined") {
+      setFechaNac({
+        dia: "",
+        mes: "",
+        anio: "",
       });
-    } else {
-      console.log("Input doesn't match");
+      return;
     }
+    if (day == null) {
+      setFechaNac({
+        dia: "",
+        mes: "",
+        anio: "",
+      });
+      return;
+    }
+
+    setFechaNac((f) => ({
+      dia: day.date(),
+      mes: +day.month() + 1,
+      anio: day.year(),
+    }));
   };
 
   useEffect(() => {
@@ -185,11 +177,23 @@ export default function ClienteFormV3({ callback, data }) {
         }
      */
     if (data) {
+      const fecha = dayjs(data.fechaNacimiento, "DD/MM/YYYY");
+
+      const day = fecha.date();
+      const month = fecha.month() + 1; // Months are 0-indexed
+      const year = fecha.year();
+
+      setFechaNac((_) => ({
+        dia: day,
+        mes: month,
+        anio: year,
+      }));
+
       setClienteData((_) => ({
         nombres: data.nombre,
         apellidos: data.apellido,
         dni: data.dni,
-        nacimiento: dayjs(data.fechaNacimiento, "DD/MM/YYYY"),
+        nacimiento: fecha,
         domicilio: data.direccion,
       }));
     }
@@ -251,38 +255,16 @@ export default function ClienteFormV3({ callback, data }) {
         </Col>
       </Row>
 
-      <Row style={{ padding: ".5em" }}>
-        <Col span={10}>
+      <Row style={{ padding: ".5em" }} gutter={16}>
+        <Col>
           <DatePicker
             prefix={"Fecha de Nacimiento: "}
             format={"DD-MM-YYYY"}
-            onChange={(day, daystr) => {
-              if (typeof day === "undefined") {
-                setFechaNac({
-                  dia: "",
-                  mes: "",
-                  anio: "",
-                });
-                return;
-              }
-              if (day == null) {
-                setFechaNac({
-                  dia: "",
-                  mes: "",
-                  anio: "",
-                });
-                return;
-              }
-
-              setFechaNac((f) => ({
-                dia: day.date(),
-                mes: +day.month() + 1,
-                anio: day.year(),
-              }));
-            }}
+            onChange={onChangeFechaNac}
+            value={clienteData.nacimiento}
           />
         </Col>
-        <Col span={4}>
+        <Col>
           <Edad
             dia={fechaNac.dia}
             mes={fechaNac.mes}
@@ -292,25 +274,8 @@ export default function ClienteFormV3({ callback, data }) {
         </Col>
       </Row>
 
-      <Row style={{ padding: ".5em" }}>
-        <Col span={12}>
-          <Input
-            onInput={convertInputToUpper}
-            maxLength={45}
-            prefix={"Domicilio:"}
-            onChange={(e) => {
-              //setClienteData(d=>({...d,domicilio:e.target.value}))
-              onChange(e.target.value, "domicilio");
-            }}
-            value={clienteData.domicilio}
-          />
-        </Col>
-        {/*<Col style={{padding:".5em"}} span={12}>
-                <SelectLocalidadV2 callback={(p)=>{
-                    onChange(p.idlocalidad,"idlocalidad")
-                    }} />
-            </Col>*/}
-        <Col span={12}>
+      <Row style={{ padding: ".5em" }} gutter={16}>
+        <Col>
           <SelectLocalidadV2
             fk_localidad={+globals.obtenerOpticaLocalidad()}
             fk_provincia={+globals.obtenerOpticaProvincia()}
@@ -321,10 +286,22 @@ export default function ClienteFormV3({ callback, data }) {
         </Col>
       </Row>
 
-      <Row style={{ padding: ".5em" }}>
+      <Row style={{ padding: ".5em" }} gutter={16}>
         <Col span={24}>
           <Input
-            maxLength={20}
+            onInput={convertInputToUpper}
+            style={{ width: "100%" }}
+            prefix={"Domicilio:"}
+            onChange={(e) => {
+              //setClienteData(d=>({...d,domicilio:e.target.value}))
+              onChange(e.target.value, "domicilio");
+            }}
+            value={clienteData.domicilio}
+          />
+        </Col>
+        <Col span={24}>
+          <Input
+            style={{ width: "100%" }}
             prefix={"Teléfono:"}
             onChange={(e) => {
               //setClienteData(d=>({...d,telefono:e.target.value}))

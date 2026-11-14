@@ -50,7 +50,7 @@ const ProcessIAResponse = ({
       post.obtener_subgrupos_tipo_venta,
       { tipo_venta: tipo_venta },
       (response) => {
-        alert(JSON.stringify(response.data));
+        //alert(JSON.stringify(response.data));
         setSubgrupoData(
           response.data.map((sg) => ({
             value: sg.idsubgrupo,

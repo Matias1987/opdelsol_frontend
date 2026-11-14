@@ -22,7 +22,6 @@ import SaveFilled from "@ant-design/icons/SaveFilled";
 import SelectTrabajo from "./select_trabajo";
 import SelectMedico from "../../ventas/SelectMedico";
 import SelectObraSocial from "../../ventas/SelectObraSocial";
-import SelectCliente from "../../ventas/SelectCliente";
 import ModoPagoV4 from "../../modo_pago/ModoPagoV4";
 import dayjs from "dayjs";
 import esES from "antd/locale/es_ES";
@@ -37,6 +36,7 @@ import {
 import RecipeScanner from "@/components/etc/RecipeScanner";
 import ProcessIAResponse from "../../ventas/common/processIAResponse";
 import SelectClienteV3 from "../../ventas/SelectClienteV3";
+import { setItem } from "localforage";
 //import useStorage from "@/useStorage";
 
 /* leer: https://refine.dev/blog/common-usestate-mistakes-and-how-to-avoid/ */
@@ -98,6 +98,7 @@ const VentaMultipleMinorista = ({
   });
   const [subTotal, setSubTotal] = useState(0);
   const [descuento, setDescuento] = useState(0);
+  const [descuentoMutual, setDescuentoMutual] = useState(0);
   const [trabajos, setTrabajos] = useState([]);
   const trabajosRef = useRef(trabajos);
   const [idCliente, setIdCliente] = useState(0);
@@ -292,12 +293,11 @@ const VentaMultipleMinorista = ({
   };
 
   const onChange = (field, value) => {
-    /*setVenta((venta) => {
-      const __venta = { ...venta, [field]: value };
-      callback?.(__venta);
-      setVentaLStorage(__venta);
+    const __venta = { ...venta, [field]: value };
+    setVentaLStorage(__venta);
+    setVenta((venta) => {
       return __venta;
-    });*/
+    });
   };
 
   const format_venta = () => {
@@ -408,6 +408,8 @@ const VentaMultipleMinorista = ({
   };
 
   const finalizar_venta = (e) => {
+    alert(JSON.stringify(trabajos));
+
     const __v = format_venta();
     alert(JSON.stringify(__v));
     //return;
@@ -574,9 +576,20 @@ const VentaMultipleMinorista = ({
 
             <Col>
               <Input
+                value={descuento}
                 addonBefore="Descuento"
                 style={{ width: "300px" }}
                 onChange={(e) => setDescuento(parseFloat(e.target.value) || 0)}
+              />
+            </Col>
+            <Col>
+              <Input
+                value={descuentoMutual}
+                addonBefore="Descuento Mutual"
+                style={{ width: "300px" }}
+                onChange={(e) =>
+                  setDescuentoMutual(parseFloat(e.target.value) || 0)
+                }
               />
             </Col>
 
@@ -618,14 +631,13 @@ const VentaMultipleMinorista = ({
         <Card>
           <Row style={{ padding: "6px" }}>
             <Col span="24">
-              <Form.Item label={"Comentarios"}>
-                <Input.TextArea
-                  rows={2}
-                  onChange={(e) => {
-                    onChange("comentarios", e.target.value);
-                  }}
-                />
-              </Form.Item>
+              Comentarios:
+              <Input.TextArea
+                rows={2}
+                onChange={(e) => {
+                  onChange("comentarios", e.target.value);
+                }}
+              />
             </Col>
           </Row>
           <Row gutter={24}>
@@ -634,27 +646,25 @@ const VentaMultipleMinorista = ({
             ) : (
               <>
                 <Col>
-                  <Form.Item label={"Fecha de Retiro"}>
-                    <DatePicker
-                      defaultValue={ignore_fecha_retiro ? dayjs() : null}
-                      locale={esES}
-                      format={"DD-MM-YYYY"}
-                      onChange={(value) => {
-                        // let _value = value ? value.format("DD-MM-YYYY") : null;
-                        // onChange("fechaRetiro", _value);
-                      }}
-                    />
-                  </Form.Item>
+                  <DatePicker
+                    prefix="Fecha Retiro"
+                    defaultValue={ignore_fecha_retiro ? dayjs() : null}
+                    locale={esES}
+                    format={"DD-MM-YYYY"}
+                    onChange={(value) => {
+                      // let _value = value ? value.format("DD-MM-YYYY") : null;
+                      // onChange("fechaRetiro", _value);
+                    }}
+                  />
                 </Col>
                 <Col>
-                  <Form.Item label={"Hora de Retiro"}>
-                    <TimePicker
-                      format={"HH:mm"}
-                      onChange={(value, timeString) => {
-                        //onChange("horaRetiro", timeString);
-                      }}
-                    />
-                  </Form.Item>
+                  <TimePicker
+                    prefix="Hora"
+                    format={"HH:mm"}
+                    onChange={(value, timeString) => {
+                      //onChange("horaRetiro", timeString);
+                    }}
+                  />
                 </Col>
               </>
             )}
