@@ -1,4 +1,4 @@
-import { Button, Col, Row, Select } from "antd";
+import { Button, Col, Input, Row, Select } from "antd";
 import { useEffect, useState } from "react";
 import TipoMonofocalesLab from "./tipos/monofocales_lab";
 import TipoMultifocalesLab from "./tipos/multifocales_lab";
@@ -23,22 +23,31 @@ const SelectTrabajo = ({
   const LC_STOCK = 4;
   const LC_LAB = 5;
   const [tipoTrabajo, setTipoTrabajo] = useState(-1);
-
+  const [total, setTotal] = useState(0)
   const onChange = (data) => {
     callback?.({ ...data, localId: localId });
-  }
+  };
 
   useEffect(() => {
-
     //alert("from select trabajo: " + JSON.stringify(trabajoObject))
     if (trabajoObject) {
       let tipo = -1;
       switch (trabajoObject.tipo) {
-        case "rec_st": tipo = RECETA_STOCK; break;
-        case "monof_lab": tipo = MONOF_LAB; break;
-        case "multi_lab": tipo = MULTIF_LAB; break;
-        case "lc_st": tipo = LC_STOCK; break;
-        case "lc_lab": tipo = LC_LAB; break;
+        case "rec_st":
+          tipo = RECETA_STOCK;
+          break;
+        case "monof_lab":
+          tipo = MONOF_LAB;
+          break;
+        case "multi_lab":
+          tipo = MULTIF_LAB;
+          break;
+        case "lc_st":
+          tipo = LC_STOCK;
+          break;
+        case "lc_lab":
+          tipo = LC_LAB;
+          break;
       }
       setTipoTrabajo(tipo);
     }
@@ -76,7 +85,6 @@ const SelectTrabajo = ({
         return "lc_lab";
     }
   };
-
 
   const get_content = () => {
     switch (tipoTrabajo) {
@@ -165,7 +173,11 @@ const SelectTrabajo = ({
             onChange={(v) => {
               setTipoTrabajo(v);
               const _tipo = get_tipo_trabajo_nombre(v);
-              onTipoTrabajoSelected(localId, _tipo.toLocaleUpperCase(), get_tipo_trabajo_nombre_corto(v));
+              onTipoTrabajoSelected(
+                localId,
+                _tipo.toLocaleUpperCase(),
+                get_tipo_trabajo_nombre_corto(v),
+              );
             }}
             style={{ width: "100%" }}
             options={[
@@ -178,15 +190,22 @@ const SelectTrabajo = ({
             ]}
           />
         </Col>
-        </Row>
-        <Row>
-       {/* <Col span={24}>
+      </Row>
+      <Row>
+        {/* <Col span={24}>
         <Button type="primary" block><ScanOutlined /></Button>
         </Col>*/}
       </Row>
     </div>
   ) : (
-    get_content()
+    <>
+      {get_content()}
+      <Row style={{paddingTop:"8px"}}>
+        <Col style={{textAlign:"right"}} span={24}>
+          <Input style={{width:"300px"}} readOnly addonBefore="Total: $" value={total} />
+        </Col>
+      </Row>
+    </>
   );
 };
 

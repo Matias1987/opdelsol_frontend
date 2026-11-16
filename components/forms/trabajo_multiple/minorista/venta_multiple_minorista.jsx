@@ -74,6 +74,7 @@ const VentaMultipleMinorista = ({
     mp: null,
     subtotal: 0,
     descuento: 0,
+    descuentoMutual: 0,
     total: 0,
     fechaRetiro:
       ignore_fecha_retiro || false
@@ -96,9 +97,6 @@ const VentaMultipleMinorista = ({
     trabajos: [],
     tipo: globals.tiposVenta.MULTIPLE_MIN,
   });
-  const [subTotal, setSubTotal] = useState(0);
-  const [descuento, setDescuento] = useState(0);
-  const [descuentoMutual, setDescuentoMutual] = useState(0);
   const [trabajos, setTrabajos] = useState([]);
   const trabajosRef = useRef(trabajos);
   const [idCliente, setIdCliente] = useState(0);
@@ -189,11 +187,22 @@ const VentaMultipleMinorista = ({
 
     const newTrabajo = updateNestedValue(trabajo, path, keys, values);
 
-    setTrabajos((prevTrabajos) => {
-      const newTrabajos = [...prevTrabajos];
-      newTrabajos[index] = newTrabajo;
-      return newTrabajos;
-    });
+    const newTrabajos = [...trabajos];
+
+    newTrabajos[index] = newTrabajo;
+
+    const _subtotal = calcularTotal(newTrabajos);
+
+    setVenta((v) => ({
+      ...v,
+      subtotal: _subtotal,
+      total:
+        parseFloat(_subtotal) -
+        parseFloat(v.descuento) -
+        parseFloat(v.descuentoMutual),
+    }));
+
+    setTrabajos(newTrabajos);
   };
 
   const onValuesScanned = (data) => {
@@ -237,21 +246,55 @@ const VentaMultipleMinorista = ({
   }, [trabajos, idCliente]);
 
   const calcularTotal = (trabajos) => {
+    /*
     const _subtotal = trabajos.reduce(
       (acc, trabajo) => acc + parseFloat(trabajo?.monto_total || "0"),
       0,
-    );
-    setSubTotal(_subtotal);
+    );*/
 
+    let _subtotal = 0;
+
+    trabajos.forEach((t) => {
+      if (!t.items.lejos && !t.items.cerca) {
+        _subtotal += parseFloat(t.items.od_precio ?? "0");
+        _subtotal += parseFloat(t.items.oi_precio ?? "0");
+        //_subtotal += parseFloat(t.items.armazon_precio ?? "0");
+        //_subtotal += parseFloat(t.items.tratamiento_precio ?? "0");
+        //_subtotal += parseFloat(t.items.insumo_precio ?? "0");
+        return;
+      }
+      alert(JSON.stringify(t));
+      if (t.items.lejos) {
+        _subtotal += parseFloat(t.items.lejos.od_precio ?? "0");
+        _subtotal += parseFloat(t.items.lejos.oi_precio ?? "0");
+        //_subtotal += parseFloat(t.items.lejos.armazon_precio ?? "0");
+        //_subtotal += parseFloat(t.items.lejos.tratamiento_precio ?? "0");
+        //_subtotal += parseFloat(t.items.lejos.insumo_precio ?? "0");
+      }
+      if (t.items.cerca) {
+        _subtotal += parseFloat(t.items.cerca.od_precio ?? "0");
+        _subtotal += parseFloat(t.items.cerca.oi_precio ?? "0");
+        //_subtotal += parseFloat(t.items.cerca.armazon_precio ?? "0");
+        //_subtotal += parseFloat(t.items.cerca.tratamiento_precio ?? "0");
+        //_subtotal += parseFloat(t.items.cerca.insumo_precio ?? "0");
+      }
+    });
+    alert(_subtotal);
+    return _subtotal;
+    // setSubTotal(_subtotal);
+    /*
     setVenta((_v) => {
       const __v = {
         ..._v,
         subtotal: parseFloat(_subtotal ?? "0"),
-        total: parseFloat(_subtotal) - parseFloat(_v.descuento),
+        total:
+          parseFloat(_subtotal) -
+          parseFloat(_v.descuento) -
+          parseFloat(_v.descuentoMutual),
       };
       setVentaLStorage(__v);
       return __v;
-    });
+    });*/
   };
 
   const add = () => {
@@ -302,7 +345,37 @@ const VentaMultipleMinorista = ({
 
   const format_venta = () => {
     if (trabajos.length < 2) {
-      return { ...venta, trabajos: parse_for_backcmp(trabajos[0]) };
+      //get tipo
+      const _tipo = trabajos[0].tipo;
+
+      let _tipo_id = "";
+
+      switch (_tipo) {
+        case "dir":
+          _tipo_id = globals.tiposVenta.DIRECTA;
+          break;
+        case "rec_st":
+          _tipo_id = globals.tiposVenta.RECSTOCK;
+          break;
+        case "monof_lab":
+          _tipo_id = globals.tiposVenta.MONOFLAB;
+          break;
+        case "multi_lab":
+          _tipo_id = globals.tiposVenta.MULTILAB;
+          break;
+        case "lc_st":
+          _tipo_id = globals.tiposVenta.LCSTOCK;
+          break;
+        case "lc_lab":
+          _tipo_id = globals.tiposVenta.LCLAB;
+          break;
+      }
+
+      return {
+        ...venta,
+        trabajos: parse_for_backcmp(trabajos[0]),
+        tipo: _tipo_id,
+      };
     }
 
     const procesar_items = (tr, has_dist) => {
@@ -570,25 +643,27 @@ const VentaMultipleMinorista = ({
                 readOnly
                 addonBefore="Subtotal"
                 style={{ width: "300px" }}
-                value={subTotal}
+                value={venta.subtotal}
               />
             </Col>
 
             <Col>
               <Input
-                value={descuento}
+                value={venta.descuento}
                 addonBefore="Descuento"
                 style={{ width: "300px" }}
-                onChange={(e) => setDescuento(parseFloat(e.target.value) || 0)}
+                onChange={(e) =>
+                  onChange("descuento", parseFloat(e.target.value) || 0)
+                }
               />
             </Col>
             <Col>
               <Input
-                value={descuentoMutual}
+                value={venta.descuentoMutual}
                 addonBefore="Descuento Mutual"
                 style={{ width: "300px" }}
                 onChange={(e) =>
-                  setDescuentoMutual(parseFloat(e.target.value) || 0)
+                  onChange("descuentoMutual", parseFloat(e.target.value) || 0)
                 }
               />
             </Col>
@@ -598,7 +673,11 @@ const VentaMultipleMinorista = ({
                 readOnly
                 addonBefore="Total"
                 style={{ width: "300px" }}
-                value={subTotal - descuento}
+                value={
+                  parseFloat(venta.subtotal) -
+                  parseFloat(venta.descuento) -
+                  parseFloat(venta.descuentoMutual)
+                }
               />
             </Col>
           </Row>
@@ -652,8 +731,8 @@ const VentaMultipleMinorista = ({
                     locale={esES}
                     format={"DD-MM-YYYY"}
                     onChange={(value) => {
-                      // let _value = value ? value.format("DD-MM-YYYY") : null;
-                      // onChange("fechaRetiro", _value);
+                      let _value = value ? value.format("DD-MM-YYYY") : null;
+                      onChange("fechaRetiro", _value);
                     }}
                   />
                 </Col>
@@ -662,7 +741,7 @@ const VentaMultipleMinorista = ({
                     prefix="Hora"
                     format={"HH:mm"}
                     onChange={(value, timeString) => {
-                      //onChange("horaRetiro", timeString);
+                      onChange("horaRetiro", timeString);
                     }}
                   />
                 </Col>
@@ -779,11 +858,17 @@ const VentaMultipleMinorista = ({
       >
         <Row>
           <Col span={24}>
-            <Collapse
+            {/*<Collapse
               accordion
               items={c_items}
               defaultActiveKey={["1"]}
               onChange={onChangeCollapse}
+            />*/}
+            <Tabs
+              items={c_items}
+              defaultActiveKey={["1"]}
+              tabPosition="top"
+              size="large"
             />
           </Col>
           {/*<Col span={12}>
@@ -819,10 +904,8 @@ const VentaMultipleMinorista = ({
                 try {
                   const data = JSON.parse(defaultValues);
                   setTrabajos(data);
-
                   newTabIndex.current = 0;
                   setActiveKey(0);
-                  //alert(newTabIndex.current)
                 } catch (error) {
                   console.error("Failed to parse JSON string:", error.message);
                 }
@@ -866,7 +949,6 @@ const VentaMultipleMinorista = ({
           tipo_venta={scanningTrabajo?.tipo_venta ?? "multi_lab"}
           callback={(final) => {
             setModalEditarRespuestaOpen(false);
-            //alert(JSON.stringify(final));
             onValuesScanned(final);
           }}
         />

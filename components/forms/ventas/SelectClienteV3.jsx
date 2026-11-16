@@ -182,20 +182,18 @@ const SelectClienteV3 = (props) => {
       <Space.Compact block>
         <Button
           size="large"
-          style={{ width: "60%", color:"#3835da", fontWeight:"500" }}
+          style={{ width: "60%", color: "#3835da", fontWeight: "500" }}
           onClick={(_) => setPopupSeleccionarOpen(true)}
           icon={<UserOutlined />}
         >
-          Elegir Cliente
+          {props.destinatario ? <>Elegir Destinatario</> : <>Elegir Cliente</>}
         </Button>
         <Button
           size="large"
-          style={{ width: "40%", color:"#da4035", fontWeight:"500" }}
+          style={{ width: "40%", color: "#da4035", fontWeight: "500" }}
           icon={<QrcodeOutlined />}
           onClick={(_) => setPopupQROpen(true)}
-        >
-          
-        </Button>
+        ></Button>
       </Space.Compact>
       <Modal
         open={popupAddOpen}
