@@ -6,7 +6,7 @@ import {
   Col,
   Collapse,
   DatePicker,
-  Form,
+  Grid,
   Input,
   Modal,
   Row,
@@ -20,8 +20,8 @@ import { post_method } from "@/src/helpers/post_helper";
 import PlusCircleOutlined from "@ant-design/icons/PlusCircleOutlined";
 import SaveFilled from "@ant-design/icons/SaveFilled";
 import SelectTrabajo from "./select_trabajo";
-import SelectMedico from "../../ventas/SelectMedico";
-import SelectObraSocial from "../../ventas/SelectObraSocial";
+import SelectMedico from "../../ventas/common/SelectMedico";
+import SelectObraSocial from "../../ventas/common/SelectObraSocial";
 import ModoPagoV4 from "../../modo_pago/ModoPagoV4";
 import dayjs from "dayjs";
 import esES from "antd/locale/es_ES";
@@ -37,6 +37,11 @@ import RecipeScanner from "@/components/etc/RecipeScanner";
 import ProcessIAResponse from "../../ventas/common/processIAResponse";
 import SelectClienteV3 from "../../ventas/SelectClienteV3";
 import { setItem } from "localforage";
+import SelectMedicoV2 from "../../ventas/common/SelectMedicoV2";
+import SelectObraSocialV2 from "../../ventas/common/SelectObraSocialV2";
+import { StarOutlined } from "@ant-design/icons";
+
+const { useBreakpoint } = Grid;
 //import useStorage from "@/useStorage";
 
 /* leer: https://refine.dev/blog/common-usestate-mistakes-and-how-to-avoid/ */
@@ -102,6 +107,8 @@ const VentaMultipleMinorista = ({
   const [idCliente, setIdCliente] = useState(0);
   const [finalV, setFinalV] = useState({});
   const newTabIndex = useRef(0);
+
+  const screens = useBreakpoint();
 
   useEffect(() => {
     trabajosRef.current = trabajos;
@@ -263,7 +270,7 @@ const VentaMultipleMinorista = ({
         //_subtotal += parseFloat(t.items.insumo_precio ?? "0");
         return;
       }
-      alert(JSON.stringify(t));
+      //alert(JSON.stringify(t));
       if (t.items.lejos) {
         _subtotal += parseFloat(t.items.lejos.od_precio ?? "0");
         _subtotal += parseFloat(t.items.lejos.oi_precio ?? "0");
@@ -279,7 +286,7 @@ const VentaMultipleMinorista = ({
         //_subtotal += parseFloat(t.items.cerca.insumo_precio ?? "0");
       }
     });
-    alert(_subtotal);
+    //alert(_subtotal);
     return _subtotal;
     // setSubTotal(_subtotal);
     /*
@@ -511,19 +518,17 @@ const VentaMultipleMinorista = ({
     });
   };
 
+  const row_style = {
+    padding: "8px",
+  };
+
   const c_items = [
     {
       key: "1",
       label: "Cliente, Médico y OS",
       children: (
         <Card>
-          <Row
-            style={{
-              padding: "4px",
-              border: "1px dotted #999999",
-              borderRadius: "6px ",
-            }}
-          >
+          <Row style={row_style}>
             <Col style={{ minWidth: "250px", width: "100%" }}>
               <SelectClienteV3
                 callback={(id) => {
@@ -532,13 +537,7 @@ const VentaMultipleMinorista = ({
               />
             </Col>
           </Row>
-          <Row
-            style={{
-              padding: "4px",
-              border: "1px dotted #999999",
-              borderRadius: "6px ",
-            }}
-          >
+          <Row style={row_style}>
             <Col style={{ minWidth: "250px", width: "100%" }}>
               <SelectClienteV3
                 destinatario
@@ -548,30 +547,18 @@ const VentaMultipleMinorista = ({
               />
             </Col>
           </Row>
-          <Row
-            style={{
-              padding: "4px",
-              border: "1px dotted #999999",
-              borderRadius: "6px ",
-            }}
-          >
-            <Col style={{ minWidth: "250px" }}>
-              <SelectMedico
+          <Row style={row_style}>
+            <Col style={{ minWidth: "250px", width: "100%" }}>
+              <SelectMedicoV2
                 callback={(id) => {
                   onChange("fkmedico", id);
                 }}
               />
             </Col>
           </Row>
-          <Row
-            style={{
-              padding: "4px",
-              border: "1px dotted #999999",
-              borderRadius: "6px ",
-            }}
-          >
-            <Col style={{ minWidth: "250px" }}>
-              <SelectObraSocial
+          <Row style={row_style}>
+            <Col style={{ minWidth: "250px", width: "100%" }}>
+              <SelectObraSocialV2
                 callback={(id) => {
                   onChange("fkos", id);
                 }}
@@ -836,20 +823,22 @@ const VentaMultipleMinorista = ({
                 }}
               />
             )}
-            <Button type="primary" size="large" onClick={finalizar_venta}>
-              <SaveFilled /> Guardar Venta
+            <Button
+              type="default"
+              size="middle"
+              onClick={finalizar_venta}
+              style={{ borderRadius: "16px" }}
+            >
+              <SaveFilled />
+              Guardar
             </Button>
           </>
         }
         size="small"
-        style={{
-          boxShadow: "0 2px 8px rgba(0, 0, 0, 0.3)",
-          borderRadius: "0px",
-        }}
         styles={{
           header: {
             backgroundColor: "#ffffed",
-            background: "linear-gradient(281deg,#DDDDDD 32%, #DDDDDD 75%)",
+
             borderBottom: "1px solid #eee",
             borderTopLeftRadius: "0px",
             borderTopRightRadius: "0px",
@@ -858,18 +847,22 @@ const VentaMultipleMinorista = ({
       >
         <Row>
           <Col span={24}>
-            {/*<Collapse
-              accordion
-              items={c_items}
-              defaultActiveKey={["1"]}
-              onChange={onChangeCollapse}
-            />*/}
-            <Tabs
-              items={c_items}
-              defaultActiveKey={["1"]}
-              tabPosition="top"
-              size="large"
-            />
+            {!screens.md ? (
+              <Collapse
+                accordion
+                items={c_items}
+                defaultActiveKey={["1"]}
+                onChange={onChangeCollapse}
+              />
+            ) : (
+              <Tabs
+                type="card"
+                items={c_items}
+                defaultActiveKey={["1"]}
+                tabPosition="top"
+                size="large"
+              />
+            )}
           </Col>
           {/*<Col span={12}>
             <div
@@ -890,7 +883,7 @@ const VentaMultipleMinorista = ({
             </div>
           </Col>*/}
         </Row>
-        <Row>
+        {/*<Row>
           <Col span={24}>
             <Input.TextArea
               value={defaultValues}
@@ -914,7 +907,7 @@ const VentaMultipleMinorista = ({
               Aplicar
             </Button>
           </Col>
-        </Row>
+        </Row>*/}
       </Card>
       <Modal
         footer={null}

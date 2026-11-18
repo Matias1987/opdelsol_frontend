@@ -300,7 +300,7 @@ const ProcessIAResponse = ({
   ];
 
   if (!subgrupoData) {
-    return <Card loading title="Cargando subgrupos de venta..." />;
+    return <Card loading title="Cargando..." />;
   }
 
   return (

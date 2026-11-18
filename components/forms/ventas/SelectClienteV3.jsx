@@ -13,7 +13,7 @@ import { useDniLookup } from "@/src/hooks/useDniLookup";
 import ClienteFormV3 from "@/components/cliente/ClienteFormV3";
 
 const SelectClienteV3 = (props) => {
-  const { minVersion, callback, pIdcliente } = props;
+  const { minVersion, callback, pIdcliente, icon } = props;
   const [idCliente, setIdCliente] = useState(-1);
   const [loadingDetalles, setLoadingDetalles] = useState(false);
   const [clientes, setClientes] = useState(null);
@@ -103,10 +103,15 @@ const SelectClienteV3 = (props) => {
   }, [reload]);
 
   const columns = [
-    { dataIndex: "apellido", title: "Apellido", key: "apellido" },
-    { dataIndex: "nombre", title: "Nombre", key: "nombre" },
-    { dataIndex: "dni", title: "DNI", key: "dni" },
-    { dataIndex: "direccion", title: "Direccion", key: "direccion" },
+    {
+      width: "100px",
+      dataIndex: "apellido",
+      title: "Apellido",
+      key: "apellido",
+    },
+    { width: "100px", dataIndex: "nombre", title: "Nombre", key: "nombre" },
+    { width: "100px", dataIndex: "dni", title: "DNI", key: "dni" },
+    /*{ width:"100px", dataIndex: "direccion", title: "Direccion", key: "direccion" },*/
   ];
   const show_details = (_) =>
     loadingDetalles ? (
@@ -182,15 +187,30 @@ const SelectClienteV3 = (props) => {
       <Space.Compact block>
         <Button
           size="large"
-          style={{ width: "60%", color: "#3835da", fontWeight: "500" }}
+          style={{
+            width: "60%",
+            color: "#040430",
+            fontWeight: "500",
+            boxShadow: "0 4px 4px 0 rgba(0,0,0,0.2)",
+            borderRadius: "16px 0 0 16px",
+            backgroundColor: "#f8f8f8",
+          }}
           onClick={(_) => setPopupSeleccionarOpen(true)}
-          icon={<UserOutlined />}
+          icon={icon ?? null}
         >
           {props.destinatario ? <>Elegir Destinatario</> : <>Elegir Cliente</>}
         </Button>
+
         <Button
           size="large"
-          style={{ width: "40%", color: "#da4035", fontWeight: "500" }}
+          style={{
+            width: "40%",
+            color: "#da4035",
+            fontWeight: "500",
+            boxShadow: "0 4px 4px 0 rgba(0,0,0,0.2)",
+            borderRadius: "0 16px 16px 0",
+            backgroundColor: "#f8f8f8",
+          }}
           icon={<QrcodeOutlined />}
           onClick={(_) => setPopupQROpen(true)}
         ></Button>
@@ -234,41 +254,41 @@ const SelectClienteV3 = (props) => {
             },
           })}
           title={(_) => (
-            <Row gutter={"32"}>
-              <Col>
+            <Row gutter={[8, 8]}>
+              <Col span={24}>
                 <Input.Search
-                  allowClear
                   size="small"
-                  prefix="Buscar: "
-                  style={{ width: "400px" }}
+                  addonBefore="Buscar: "
+                  style={{ width: "100%" }}
                   onSearch={onSearch}
                 />
               </Col>
 
-              <Col>
-                <Button
-                  type="link"
-                  size="small"
-                  danger
-                  onClick={(_) => {
-                    setPopupAddOpen(true);
-                  }}
-                >
-                  <PlusOutlined /> Agregar Cliente
-                </Button>
-              </Col>
-
-              <Col>
-                <Button
-                  size="small"
-                  style={{ color: "#464545" }}
-                  onClick={() => {
-                    setReload(!reload);
-                  }}
-                  type="text"
-                >
-                  <ReloadOutlined /> Recargar
-                </Button>
+              <Col span={24}>
+                <Space.Compact block>
+                  <Button
+                    style={{ width: "60%" }}
+                    type="default"
+                    size="middle"
+                    danger
+                    onClick={(_) => {
+                      setPopupAddOpen(true);
+                    }}
+                  >
+                    <PlusOutlined /> Agregar Cliente
+                  </Button>
+                  &nbsp;
+                  <Button
+                    size="middle"
+                    style={{ width: "40%" }}
+                    onClick={() => {
+                      setReload(!reload);
+                    }}
+                    type="default"
+                  >
+                    <ReloadOutlined />
+                  </Button>
+                </Space.Compact>
               </Col>
             </Row>
           )}

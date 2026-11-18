@@ -62,13 +62,13 @@ const OpcionesVenta = (props) => {
       key: menuOptions.ANULAR,
       icon: <CloseOutlined />,
     },
-    {
+    /*{
       label: (
         <span style={{ color: "#4f992aff", fontWeight: "600" }}>Editar</span>
       ),
       key: menuOptions.EDITAR,
       icon: <EditOutlined />,
-    },
+    },*/
   ];
 
   const items_pendientes_taller = [

@@ -1,5 +1,5 @@
-import SelectMedico from "@/components/forms/ventas/SelectMedico";
-import SelectObraSocial from "@/components/forms/ventas/SelectObraSocial";
+import SelectMedico from "@/components/forms/ventas/common/SelectMedico";
+import SelectObraSocial from "@/components/forms/ventas/common/SelectObraSocial";
 import TotalesVenta from "@/components/forms/ventas/TotalVenta";
 import globals from "@/src/globals";
 import { cambiar_vendedor, cobro_inmediato, use_owner_id } from "@/src/config";

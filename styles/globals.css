@@ -808,7 +808,7 @@ danger list
 
 /* Change header background and font */
 .ant-table-thead > tr > th {
-  background-color: #dddddd !important; /* DodgerBlue */ /* Font color */
+  background-color: #dddddd !important; /* DodgerBlue */ /* Font color dddddd*/ 
   font-weight: bold; /* Font weight */
   font-size: 14px; /* Font size */
 }

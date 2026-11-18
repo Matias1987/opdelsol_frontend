@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import MedicoForm from "./MedicoForm";
+import MedicoForm from "../MedicoForm";
 import CustomModal from "@/components/CustomModal";
 import { Button, Input, Spin, Table, Modal } from "antd";
 import CloseOutlined from "@ant-design/icons/CloseOutlined";

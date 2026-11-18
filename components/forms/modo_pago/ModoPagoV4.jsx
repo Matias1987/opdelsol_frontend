@@ -309,7 +309,7 @@ export default function ModoPagoV4(props) {
           </span>
         </Col>
       </Row>
-      <Row gutter={[8, 8]}>
+      <Row gutter={[8, 8]} style={{padding:"8px", backgroundColor:"#ffffe5", borderRadius:"8px" }}>
         <Col>
           <Checkbox
             style={checkbox_style}
@@ -453,6 +453,7 @@ export default function ModoPagoV4(props) {
           style={{
             ...mp_row_style,
             display: tarjetaChecked ? "flex" : "none",
+            backgroundColor: "#ffcdcd"
           }}
         >
           <Col>
@@ -533,6 +534,7 @@ export default function ModoPagoV4(props) {
           style={{
             ...mp_row_style,
             display: tarjeta1Checked ? "flex" : "none",
+            backgroundColor: "#ffefcd"
           }}
         >
           <Col>
@@ -560,7 +562,7 @@ export default function ModoPagoV4(props) {
               placeholder="Seleccione Tarjeta"
               value={modoPago.fk_tarjeta1}
               options={tarjetas}
-              style={{ width: "250px" }}
+              style={{ width: "100%" }}
               onChange={(value) => {
                 onChange("fk_tarjeta1", value);
               }}
@@ -612,12 +614,13 @@ export default function ModoPagoV4(props) {
           style={{
             ...mp_row_style,
             display: ctacteChecked ? "flex" : "none",
+            backgroundColor: "#fff8cd"
           }}
         >
           <Col>
             <InputNumber
               size="large"
-              style={{ width: "250px" }}
+              style={{ width: "100%" }}
               decimalSeparator={decimal_separator}
               onClick={(e) => {
                 e.target.select();
@@ -682,7 +685,7 @@ export default function ModoPagoV4(props) {
             {/*<Input onWheel={(e)=>{e.target.blur()}} type="number" readOnly={false} onClick={(e)=>{e.target.select()}} value={modoPago.ctacte_monto_cuotas}  prefix="Valor Cuota: " onChange={(e)=>{onChange("ctacte_monto_cuotas", (e.target.value))}}></Input>*/}
             <InputNumber
               size="large"
-              style={{ width: "300px" }}
+              style={{ width: "100%" }}
               decimalSeparator={decimal_separator}
               prefix="Valor Cuota: "
               onWheel={(e) => {
@@ -703,6 +706,7 @@ export default function ModoPagoV4(props) {
           style={{
             ...mp_row_style,
             display: chequeChecked ? "flex" : "none",
+            backgroundColor: "#e8ffcd"
           }}
         >
           <Col>
@@ -730,7 +734,7 @@ export default function ModoPagoV4(props) {
               showSearch
               value={modoPago.fk_banco}
               placeholder="Seleccione Banco"
-              style={{ width: "300px" }}
+              style={{ width: "100%" }}
               options={bancos}
               onChange={(value) => {
                 onChange("fk_banco", value);
@@ -755,6 +759,7 @@ export default function ModoPagoV4(props) {
           style={{
             ...mp_row_style,
             display: mutualChecked ? "flex" : "none",
+            backgroundColor: "#cdf3ff"
           }}
         >
           <Col>
@@ -779,7 +784,7 @@ export default function ModoPagoV4(props) {
             <Select
               showSearch
               placeholder="Seleccione Mutual"
-              style={{ width: "300px" }}
+              style={{ width: "100%" }}
               value={modoPago.fk_mutual}
               options={mutuales}
               size="large"
@@ -806,6 +811,7 @@ export default function ModoPagoV4(props) {
           style={{
             ...mp_row_style,
             display: mercadopagoChecked ? "flex" : "none",
+            backgroundColor: "#cde1ff"
           }}
         >
           <Col>
@@ -832,6 +838,7 @@ export default function ModoPagoV4(props) {
           style={{
             ...mp_row_style,
             display: transferenciaChecked ? "flex" : "none",
+            backgroundColor: "#e9cdff"
           }}
         >
           <Col>
@@ -861,7 +868,7 @@ export default function ModoPagoV4(props) {
               showSearch
               value={modoPago.fk_banco_transferencia}
               placeholder="Seleccione Banco"
-              style={{ width: "300px" }}
+              style={{ width: "100%" }}
               options={bancos}
               onChange={(value) => {
                 onChange("fk_banco_transferencia", value);

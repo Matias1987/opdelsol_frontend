@@ -4,7 +4,7 @@ import { Button, Card, Col, DatePicker, Input, Modal, Row, Select } from "antd"
 
 import { useState, useEffect } from "react"
 import SelectCliente from "./SelectCliente"
-import SelectMedico from "./SelectMedico"
+import SelectMedico from "./common/SelectMedico"
 
 
 const FiltroVentas =(props) => {

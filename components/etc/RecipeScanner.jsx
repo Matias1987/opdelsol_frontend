@@ -243,7 +243,8 @@ const RecipeScanner = ({ callback }) => {
             </FloatButton>
           </>
         )}
-        <Button
+        <FloatButton
+        style={{ insetInlineEnd: 280 }}
           onClick={(_) => {
             callback({
               data: {
@@ -283,7 +284,7 @@ const RecipeScanner = ({ callback }) => {
           }}
         >
           Test
-        </Button>
+        </FloatButton>
       </Space>
     </Card>
   );

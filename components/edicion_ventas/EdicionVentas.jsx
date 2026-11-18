@@ -18,9 +18,9 @@ import CloseOutlined from "@ant-design/icons/CloseOutlined";
 import PlusOutlined from "@ant-design/icons/PlusOutlined";
 import ReloadOutlined from "@ant-design/icons/ReloadOutlined";
 
-import SelectMedico from "../forms/ventas/SelectMedico";
+import SelectMedico from "../forms/ventas/common/SelectMedico";
 import SelectCliente from "../forms/ventas/SelectCliente";
-import SelectObraSocial from "../forms/ventas/SelectObraSocial";
+import SelectObraSocial from "../forms/ventas/common/SelectObraSocial";
 import { cobro_inmediato } from "@/src/config";
 import SelectCodigoVenta from "../forms/ventas/SelectCodigoVenta";
 import { InputNumber } from "antd/lib";

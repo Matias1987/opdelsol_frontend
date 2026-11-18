@@ -23,7 +23,7 @@ const SelectTrabajo = ({
   const LC_STOCK = 4;
   const LC_LAB = 5;
   const [tipoTrabajo, setTipoTrabajo] = useState(-1);
-  const [total, setTotal] = useState(0)
+  const [total, setTotal] = useState(0);
   const onChange = (data) => {
     callback?.({ ...data, localId: localId });
   };
@@ -160,14 +160,14 @@ const SelectTrabajo = ({
         </Col>
       </Row>
       <Row
+        gutter={[16, 16]}
         style={{
           paddingLeft: "32px",
           paddingRight: "32px",
           paddingBottom: "32px",
         }}
       >
-        <Col span={24}>
-          <Select
+        {/*<Select
             prefix="Seleccione: "
             placeholder="Seleccione tipo de Trabajo..."
             onChange={(v) => {
@@ -188,8 +188,41 @@ const SelectTrabajo = ({
               { label: "LC Stock", value: LC_STOCK },
               { label: "LC Laboratorio", value: LC_LAB },
             ]}
-          />
-        </Col>
+          />*/}
+        {[
+          //  { label: "Venta Directa", value: DIRECTA },
+          { label: "Receta Stock", value: RECETA_STOCK },
+          { label: "Monofocales Laboratorio", value: MONOF_LAB },
+          { label: "Multifocales Laboratorio", value: MULTIF_LAB },
+          { label: "LC Stock", value: LC_STOCK },
+          { label: "LC Laboratorio", value: LC_LAB },
+        ].map((r) => (
+          <>
+            <Col span={24}>
+              <Button
+                block
+                size="large"
+                style={{
+                  boxShadow: "0 4px 4px 0 rgba(0,0,0,0.2)",
+                  borderRadius: "16px",
+                  backgroundColor: "#f8f8f8",
+                  fontWeight: "600",
+                }}
+                onClick={(_) => {
+                  setTipoTrabajo(r.value);
+                  const _tipo = get_tipo_trabajo_nombre(r.value);
+                  onTipoTrabajoSelected(
+                    localId,
+                    _tipo.toLocaleUpperCase(),
+                    get_tipo_trabajo_nombre_corto(r.value),
+                  );
+                }}
+              >
+                {r.label}
+              </Button>
+            </Col>
+          </>
+        ))}
       </Row>
       <Row>
         {/* <Col span={24}>
@@ -200,9 +233,14 @@ const SelectTrabajo = ({
   ) : (
     <>
       {get_content()}
-      <Row style={{paddingTop:"8px"}}>
-        <Col style={{textAlign:"right"}} span={24}>
-          <Input style={{width:"300px"}} readOnly addonBefore="Total: $" value={total} />
+      <Row style={{ paddingTop: "8px" }}>
+        <Col style={{ textAlign: "right" }} span={24}>
+          <Input
+            style={{ width: "300px" }}
+            readOnly
+            addonBefore="Total: $"
+            value={total}
+          />
         </Col>
       </Row>
     </>
