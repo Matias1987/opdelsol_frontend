@@ -8,12 +8,15 @@ import {
   Button,
   Card,
   Modal,
+  Row,
+  Col,
+  Flex,
 } from "antd";
 import { procesar_seleccion } from "@/src/helpers/venta_multiple_helper";
 import fetchConRetryYTimeout from "@/src/helpers/get_helper";
 import { get, post } from "@/src/urls";
 import { post_method } from "@/src/helpers/post_helper";
-import SelectSubgrupo from "../../trabajo_multiple/minorista/common/SelectSubgrpo";
+import SelectSubgrupo from "./SelectSubgrpo";
 import { CloseOutlined } from "@ant-design/icons";
 
 /**
@@ -30,25 +33,20 @@ const ProcessIAResponse = ({
   const [form] = Form.useForm();
   const [subgrupoData, setSubgrupoData] = useState(null); // here we load the subgrupo corresponding to the sale kind.
   const [modalSelectSGOpen, setModalSelectSGOpen] = useState(false);
+  const [modalSelectTipoVentaOpen, setModalTipoVentaOpen] = useState(false);
   const [selectedRowIndex, setSelectedRowIndex] = useState(null);
-  /*const load_tipos_cristales = async () => {
-    //alert(get.obtener_subgrupos_tipo_venta);
-    const response = await fetchConRetryYTimeout(
-      get.obtener_subgrupos_tipo_venta,
-    );
-    //alert(JSON.stringify(response));
-    setSubgrupoData(
-      response.data.map((sg) => ({
-        value: sg.idsubgrupo,
-        label: sg.nombre_corto,
-      })),
-    );
-  };*/
+  const [tipoVenta, setTipoVenta] = useState(null);
+  const DIRECTA = "dir";
+  const RECETA_STOCK = "rec_st";
+  const MONOF_LAB = "monof_lab";
+  const MULTIF_LAB = "multi_lab";
+  const LC_STOCK = "lc_st";
+  const LC_LAB = "lc_lab";
 
-  const load_tipos_productos = () => {
+  const load_tipos_productos = (pTipoVenta) => {
     post_method(
       post.obtener_subgrupos_tipo_venta,
-      { tipo_venta: tipo_venta },
+      { tipo_venta: pTipoVenta },
       (response) => {
         //alert(JSON.stringify(response.data));
         setSubgrupoData(
@@ -62,8 +60,14 @@ const ProcessIAResponse = ({
   };
 
   useEffect(() => {
+    if (!tipo_venta || tipo_venta.length < 1) {
+      setModalTipoVentaOpen(true);
+      return;
+    }
+
+    setTipoVenta(tipo_venta);
     //Cargar los datos de subgrupos de acuerdo al tipo de venta...
-    load_tipos_productos();
+    load_tipos_productos(tipo_venta);
   }, []);
 
   // 1. Helper de transformación envuelto en useMemo para evitar ejecuciones innecesarias
@@ -135,14 +139,16 @@ const ProcessIAResponse = ({
         medico_nombre: jsonServer?.data?.medico_nombre || null,
         paciente_nombre: jsonServer?.data?.paciente_nombre || null,
         recetas_editadas: valores.recetas,
+       
       },
     };
     //alert(JSON.stringify(payload, null, 2)); //for testing purposes, we can remove this later.
     const final = procesar_seleccion(payload);
 
     //alert(JSON.stringify(final, null, 2));
+    const tipoTrabajo = tipoVenta.value;
 
-    callback(final);
+    callback(final, tipoTrabajo );
   };
 
   const handleSelectChange = async ({ label, value }, rowIndex) => {
@@ -298,43 +304,75 @@ const ProcessIAResponse = ({
       ),
     },
   ];
-
+  /*
   if (!subgrupoData) {
     return <Card loading title="Cargando..." />;
-  }
+  }*/
 
   return (
     <>
       <h3>{`Médico: ${jsonServer?.data?.medico_nombre || "No indicado"}`}</h3>
       {/* SE CORRIGE AQUÍ: Se inyectan los datos usando initialValues de manera directa */}
-      <Form
-        form={form}
-        onFinish={alEnviar}
-        initialValues={{ recetas: datosInicialesAplanados }}
-      >
-        <Form.List name="recetas">
-          {(fields) => (
-            <Table
-              className="zero-padding-table"
-              dataSource={fields}
-              columns={columnas}
-              pagination={false}
-              bordered
-              rowKey="key"
-              scroll={{ y: 400 }}
-            />
-          )}
-        </Form.List>
+      {tipo_venta.length < 1 ? (
+        null == tipoVenta ? (
+          <Row style={{ padding: "8px" }}>
+            <Col span={24}>
+              <Flex justify="center" align="center">
+                <Button
+                  size="large"
+                  style={{
+                    borderRadius: "16px",
+                    boxShadow: "0 4px 4px 0 rgba(0,0,0,0.2)",
+                    fontWeight: "600",
+                  }}
+                  onClick={(_) => {
+                    setModalTipoVentaOpen(true);
+                  }}
+                >
+                  Seleccionar Tipo de Operaci&oacute;n
+                </Button>
+              </Flex>
+            </Col>
+          </Row>
+        ) : (
+          <>{tipoVenta.label}</>
+        )
+      ) : (
+        <></>
+      )}
 
-        <Button
-          type="primary"
-          htmlType="submit"
-          block
-          style={{ marginTop: 16 }}
+      {!subgrupoData ? (
+        <Card loading title="Cargando..." />
+      ) : (
+        <Form
+          form={form}
+          onFinish={alEnviar}
+          initialValues={{ recetas: datosInicialesAplanados }}
         >
-          Aceptar
-        </Button>
-      </Form>
+          <Form.List name="recetas">
+            {(fields) => (
+              <Table
+                className="zero-padding-table"
+                dataSource={fields}
+                columns={columnas}
+                pagination={false}
+                bordered
+                rowKey="key"
+                scroll={{ y: 400 }}
+              />
+            )}
+          </Form.List>
+
+          <Button
+            type="primary"
+            htmlType="submit"
+            block
+            style={{ marginTop: 16 }}
+          >
+            Aceptar
+          </Button>
+        </Form>
+      )}
       <Modal
         open={modalSelectSGOpen}
         onCancel={() => setModalSelectSGOpen(false)}
@@ -347,6 +385,51 @@ const ProcessIAResponse = ({
           }}
           pDataSource={subgrupoData}
         />
+      </Modal>
+      <Modal
+        open={modalSelectTipoVentaOpen}
+        onCancel={() => setModalTipoVentaOpen(false)}
+        footer={null}
+      >
+        <Row
+          gutter={[16, 16]}
+          style={{
+            paddingLeft: "32px",
+            paddingRight: "32px",
+            paddingBottom: "32px",
+          }}
+        >
+          {[
+            //  { label: "Venta Directa", value: DIRECTA },
+            { label: "Receta Stock", value: RECETA_STOCK },
+            { label: "Monofocales Laboratorio", value: MONOF_LAB },
+            { label: "Multifocales Laboratorio", value: MULTIF_LAB },
+            { label: "LC Stock", value: LC_STOCK },
+            { label: "LC Laboratorio", value: LC_LAB },
+          ].map((r) => (
+            <>
+              <Col span={24}>
+                <Button
+                  block
+                  size="large"
+                  style={{
+                    boxShadow: "0 4px 4px 0 rgba(0,0,0,0.2)",
+                    borderRadius: "16px",
+                    backgroundColor: "#f8f8f8",
+                    fontWeight: "600",
+                  }}
+                  onClick={(_) => {
+                    setTipoVenta({ value: r.value, label: r.label });
+                    load_tipos_productos(r.value);
+                    setModalTipoVentaOpen(false);
+                  }}
+                >
+                  {r.label}
+                </Button>
+              </Col>
+            </>
+          ))}
+        </Row>
       </Modal>
     </>
   );

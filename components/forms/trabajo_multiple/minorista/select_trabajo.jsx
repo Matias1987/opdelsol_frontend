@@ -1,4 +1,4 @@
-import { Button, Col, Input, Row, Select } from "antd";
+import { Button, Col, Divider, Input, Row, Select } from "antd";
 import { useEffect, useState } from "react";
 import TipoMonofocalesLab from "./tipos/monofocales_lab";
 import TipoMultifocalesLab from "./tipos/multifocales_lab";
@@ -167,7 +167,28 @@ const SelectTrabajo = ({
           paddingBottom: "32px",
         }}
       >
-        {/*<Select
+        {/*<Col span={24}>
+          <Button
+            style={{
+              color: "#da4035",
+              fontWeight: "600",
+              boxShadow: "0 4px 4px 0 rgba(0,0,0,0.2)",
+              borderRadius: "16px",
+              backgroundColor: "#f8f8f8",
+            }}
+            block
+            icon={<ScanOutlined />}
+            size="large"
+            onClick={(_) => {
+              onScanValues?.(null, localId, "to_define", true);
+            }}
+          >
+            Leer Receta
+          </Button>
+        </Col>
+        <Divider />
+
+        <Select
             prefix="Seleccione: "
             placeholder="Seleccione tipo de Trabajo..."
             onChange={(v) => {

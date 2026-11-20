@@ -198,14 +198,6 @@ const TipoMultifocalesLab = ({
       title={
         <span style={{ color: "#262D42" }}>
           Multifocales Laboratorio&nbsp;&nbsp;
-          <Button
-            type="primary"
-            onClick={(_) => {
-              onScanValues(null, localId, "multifocales_lab", false);
-            }}
-          >
-            <ScanOutlined />
-          </Button>
         </span>
       }
       style={{ boxShadow: "-1px 1px 1px 1px #9e9c9c" }}
@@ -221,3 +213,12 @@ const TipoMultifocalesLab = ({
 };
 
 export default TipoMultifocalesLab;
+/*
+          <Button
+            type="primary"
+            onClick={(_) => {
+              onScanValues(null, localId, "multifocales_lab", false);
+            }}
+          >
+            <ScanOutlined />
+          </Button>*/

@@ -1,5 +1,5 @@
 import { Button, Col, DatePicker, Input, Modal, Row } from "antd"
-import SelectCliente from "../ventas/SelectCliente";
+import SelectCliente from "../../cliente/SelectCliente";
 
 const { RangePicker } = DatePicker;
 const { useState, useEffect } = require("react")

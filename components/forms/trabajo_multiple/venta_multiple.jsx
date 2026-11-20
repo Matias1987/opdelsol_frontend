@@ -14,7 +14,7 @@ import SelectVendedor from "@/components/usuario/vendedor/SelectVendedor";
 import { post } from "@/src/urls";
 import VMTrabajo from "./vm_trabajo";
 import { post_method } from "@/src/helpers/post_helper";
-import SelectClienteMayorista from "./select_cliente";
+import SelectClienteMayorista from "../../cliente/select_cliente";
 import PlusCircleOutlined from "@ant-design/icons/PlusCircleOutlined";
 import ConnectedButton from "@/components/etc/CntButton";
 //import useStorage from "@/useStorage";

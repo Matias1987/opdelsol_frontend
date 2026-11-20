@@ -1,4 +1,3 @@
-import CustomModal from "@/components/CustomModal";
 import { Button, Col, Input, Modal, Row, Space, Spin, Table } from "antd";
 import { useEffect, useState } from "react";
 import CloseOutlined from "@ant-design/icons/CloseOutlined";
@@ -6,14 +5,18 @@ import PlusOutlined from "@ant-design/icons/PlusOutlined";
 import ReloadOutlined from "@ant-design/icons/ReloadOutlined";
 
 import { get } from "@/src/urls";
-import ClienteFormV2 from "../../cliente/ClienteFormV2";
-import { QrcodeOutlined, UserOutlined } from "@ant-design/icons";
+import QrcodeOutlined from "@ant-design/icons/QrcodeOutlined";
 import DniScanner from "@/components/etc/DNIScanner";
 import { useDniLookup } from "@/src/hooks/useDniLookup";
 import ClienteFormV3 from "@/components/cliente/ClienteFormV3";
 
-const SelectClienteV3 = (props) => {
-  const { minVersion, callback, pIdcliente, icon } = props;
+const SelectClienteV3 = ({
+  minVersion,
+  pIdcliente,
+  icon,
+  destinatario,
+  callback,
+}) => {
   const [idCliente, setIdCliente] = useState(-1);
   const [loadingDetalles, setLoadingDetalles] = useState(false);
   const [clientes, setClientes] = useState(null);
@@ -68,7 +71,7 @@ const SelectClienteV3 = (props) => {
     setLoadingDetalles(true);
 
     setIdCliente((_id) => {
-      props?.callback?.(id);
+      callback?.(id);
       return id;
     });
 
@@ -118,7 +121,7 @@ const SelectClienteV3 = (props) => {
       <Spin />
     ) : (
       <>
-        {typeof props.destinatario === "undefined" ? (
+        {typeof destinatario === "undefined" ? (
           <span style={{ fontWeight: "bolder", color: "#001646" }}>
             Cliente{" "}
           </span>
@@ -130,7 +133,7 @@ const SelectClienteV3 = (props) => {
         :{" "}
         <>
           <b>{clienteData.nombre} </b>
-          {typeof props.destinatario === "undefined" ? (
+          {typeof destinatario === "undefined" ? (
             <>
               &nbsp;&nbsp; DNI: <b>{clienteData.dni}</b>&nbsp;
               {typeof minVersion === "undefined" ? (
@@ -150,7 +153,7 @@ const SelectClienteV3 = (props) => {
           type="ghost"
           style={{ color: "red" }}
           onClick={() => {
-            props?.callback?.(null);
+            callback?.(null);
             setIdCliente(-1);
           }}
         >
@@ -195,10 +198,13 @@ const SelectClienteV3 = (props) => {
             borderRadius: "16px 0 0 16px",
             backgroundColor: "#f8f8f8",
           }}
-          onClick={(_) => setPopupSeleccionarOpen(true)}
+          onClick={(_) => {
+            load();
+            setPopupSeleccionarOpen(true);
+          }}
           icon={icon ?? null}
         >
-          {props.destinatario ? <>Elegir Destinatario</> : <>Elegir Cliente</>}
+          {destinatario ? <>Elegir Destinatario</> : <>Elegir Cliente</>}
         </Button>
 
         <Button

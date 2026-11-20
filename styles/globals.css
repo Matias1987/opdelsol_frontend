@@ -3,7 +3,7 @@
   --n-image-h: 149px;
   --n-percent: 40%;
   /*--bar-bg-color: #94D0AE;*/
-  --bar-bg-color: #cccccc;
+  --bar-bg-color: #eeeeee;
 
   --n-text-color: #fcfcfc; /*#663f4c;*/
   --menu-text-color: rgb(255, 255, 255);
@@ -808,7 +808,7 @@ danger list
 
 /* Change header background and font */
 .ant-table-thead > tr > th {
-  background-color: #dddddd !important; /* DodgerBlue */ /* Font color dddddd*/ 
+  background-color: #f0f0f0 !important; /* DodgerBlue */ /* Font color dddddd*/ 
   font-weight: bold; /* Font weight */
   font-size: 14px; /* Font size */
 }

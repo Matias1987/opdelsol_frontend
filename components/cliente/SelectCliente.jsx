@@ -1,15 +1,14 @@
 import CustomModal from "@/components/CustomModal";
 import { Button, Col, Input, Modal, Row, Spin, Table } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CloseOutlined from "@ant-design/icons/CloseOutlined";
 import PlusOutlined from "@ant-design/icons/PlusOutlined";
 import ReloadOutlined from "@ant-design/icons/ReloadOutlined";
 
 import { get } from "@/src/urls";
-import ClienteFormV2 from "../../cliente/ClienteFormV2";
-import MostrarDNI from "@/components/etc/MostrarDNI";
+import ClienteFormV2 from "./ClienteFormV2";
 
-const SelectClienteV2 = (props) => {
+const SelectCliente = (props) => {
   const { minVersion, callback, pIdcliente } = props;
   const [idCliente, setIdCliente] = useState(-1);
   const [loadingDetalles, setLoadingDetalles] = useState(false);
@@ -70,20 +69,27 @@ const SelectClienteV2 = (props) => {
         console.log(err);
       });
   };
-  /*
-    useEffect(()=>{
-        if(typeof pIdcliente !== 'undefined' && pIdcliente!=null && pIdcliente != -1)
-        {
-            upload_cliente_details(pIdcliente);
-        }
-            
-    },[reload])*/
+
+  useEffect(() => {
+    if (
+      typeof pIdcliente !== "undefined" &&
+      pIdcliente != null &&
+      pIdcliente != -1
+    ) {
+      upload_cliente_details(pIdcliente);
+    }
+  }, [reload]);
 
   const columns = [
     { dataIndex: "apellido", title: "Apellido", key: "apellido" },
     { dataIndex: "nombre", title: "Nombre", key: "nombre" },
     { dataIndex: "dni", title: "DNI", key: "dni" },
     { dataIndex: "direccion", title: "Direccion", key: "direccion" },
+    /*        {dataIndex: 'idcliente', title: '', key: 'acciones', render: (_,{idcliente, bloqueado})=>(
+            <>
+                <Button disabled={bloqueado==1} onClick={()=>{upload_cliente_details(idcliente)}}>{bloqueado?<span style={{color:"red"}}><CloseOutlined />Bloqueado</span>:<><CheckCircleFilled />&nbsp;&nbsp;Seleccionar</>}</Button>
+            </>
+        )},*/
   ];
   const show_details = (_) =>
     loadingDetalles ? (
@@ -104,11 +110,7 @@ const SelectClienteV2 = (props) => {
           <b>{clienteData.nombre} </b>
           {typeof props.destinatario === "undefined" ? (
             <>
-              &nbsp;&nbsp; DNI:{" "}
-              <b>
-                <MostrarDNI dni={clienteData.dni} />
-              </b>
-              &nbsp;
+              &nbsp;&nbsp; DNI: <b>{clienteData.dni}</b>&nbsp;
               {typeof minVersion === "undefined" ? (
                 <>
                   Tel&eacute;fono: {clienteData.telefono1}&nbsp;
@@ -137,11 +139,11 @@ const SelectClienteV2 = (props) => {
 
   const load = () => {
     setLoading(true);
-    fetch(get.lista_clientes_muestra)
+    fetch(get.lista_clientes)
       .then((response) => response.json())
       .then((response) => {
         setClientes(
-          response.data.map((r, index) => ({
+          response.data.map((r) => ({
             dni: r.dni,
             idcliente: r.idcliente,
             apellido: r.apellido,
@@ -149,7 +151,6 @@ const SelectClienteV2 = (props) => {
             direccion: r.direccion,
             telefono1: r.telefono1,
             bloqueado: r.bloqueado,
-            key: index,
           })),
         );
         setLoading(false);
@@ -187,19 +188,8 @@ const SelectClienteV2 = (props) => {
                     return;
                   }
 
-                  //upload_cliente_details(record.idcliente);
-                  //setClienteData(record);
-                  setClienteData({
-                    nombre: record.apellido + " " + record.nombre,
-                    dni: record.dni,
-                    telefono1: record.telefono1,
-                    direccion: record.direccion,
-                  });
-
-                  setIdCliente((_id) => {
-                    props?.callback?.(record.idcliente);
-                    return record.idcliente;
-                  });
+                  upload_cliente_details(record.idcliente);
+                  setClienteData(record);
                 },
               })}
               title={(_) => (
@@ -266,30 +256,9 @@ const SelectClienteV2 = (props) => {
         footer={null}
       >
         <ClienteFormV2
-          callback={(id, client_data) => {
+          callback={(id) => {
             setReload(!reload);
-            /**
-                 * nombres:"",
-                        dni:"",
-                        apellidos:"",
-                        nacimiento: null,
-                        domicilio: "",
-                        telefono: "",
-                        destinatario: '0',
-                        idlocalidad:globals.obtenerOpticaLocalidad()
-                 */
-            //upload_cliente_details(id)
-            setClienteData({
-              nombre: client_data.apellidos + " " + client_data.nombres,
-              dni: client_data.dni,
-              telefono1: client_data.telefono,
-              direccion: client_data.domicilio,
-            });
-
-            setIdCliente((_id) => {
-              props?.callback?.(id);
-              return id;
-            });
+            upload_cliente_details(id);
           }}
         />
       </Modal>
@@ -299,4 +268,4 @@ const SelectClienteV2 = (props) => {
   );
 };
 
-export default SelectClienteV2;
+export default SelectCliente;

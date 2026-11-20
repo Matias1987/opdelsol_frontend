@@ -6,6 +6,8 @@ import {
   Col,
   Collapse,
   DatePicker,
+  Divider,
+  Dropdown,
   Grid,
   Input,
   Modal,
@@ -34,12 +36,12 @@ import {
   parse_for_backcmp,
 } from "@/src/helpers/venta_multiple_helper";
 import RecipeScanner from "@/components/etc/RecipeScanner";
-import ProcessIAResponse from "../../ventas/common/processIAResponse";
-import SelectClienteV3 from "../../ventas/SelectClienteV3";
+import ProcessIAResponse from "./common/processIAResponse";
+import SelectClienteV3 from "../../../cliente/SelectClienteV3";
 import { setItem } from "localforage";
 import SelectMedicoV2 from "../../ventas/common/SelectMedicoV2";
 import SelectObraSocialV2 from "../../ventas/common/SelectObraSocialV2";
-import { StarOutlined } from "@ant-design/icons";
+import { ClockCircleOutlined, PlusOutlined, ScanOutlined, StarOutlined } from "@ant-design/icons";
 
 const { useBreakpoint } = Grid;
 //import useStorage from "@/useStorage";
@@ -212,8 +214,32 @@ const VentaMultipleMinorista = ({
     setTrabajos(newTrabajos);
   };
 
-  const onValuesScanned = (data) => {
+  const onValuesScanned = (data, pTipoTrabajo) => {
+    /**
+     * es posible que el tipo de venta no este definido en el objeto local y que ademas el localId del trabajo sea negativo
+     * en el primer caso se debe obtener el objeto segun el tipo de ventas
+     * en el segundo caso ademas se debe agregar el trabajo al array
+     */
     const _tt = [...trabajos];
+
+    //trabajo a agregar
+    if (scanningTrabajo.localId < 0) {
+      //logic here...
+      const newActiveKey = newTabIndex.current++;
+
+      const trabajoObject = {
+        localId: newActiveKey,
+        nro: newActiveKey,
+        tipo: pTipoTrabajo,
+        monto_total: 0,
+        comentarios: "",
+        items: data,
+      };
+      //alert(JSON.stringify(trabajoObject))
+      setTrabajos((t) => [...t, trabajoObject]);
+      setActiveKey(newActiveKey.toString());
+      return;
+    }
 
     const index = _tt.findIndex(
       (t) => +t.localId == +scanningTrabajo.localId ?? 0,
@@ -586,7 +612,7 @@ const VentaMultipleMinorista = ({
                   <PlusCircleOutlined />
                 </span>
               }
-              hideAdd={false}
+              hideAdd={true}
               className="custom-body-tabs"
               type="editable-card"
               size={"small"}
@@ -601,7 +627,87 @@ const VentaMultipleMinorista = ({
                       color: "#262D42",
                     }}
                   >
-                    &nbsp;&nbsp;&nbsp;Trabajos:&nbsp;&nbsp;&nbsp;
+                    <Dropdown
+                      menu={{
+                        items: [
+                          {
+                            key: "1",
+                            label: (
+                              <a
+                                style={{
+                                  color: "#da4035",
+                                  fontWeight: "600",
+                                  borderRadius: "16px",
+                                  backgroundColor: "#f8f8f8",
+                                  fontSize:"24px"
+                                }}
+                      
+                                onClick={(_) => {
+                                  onScanValues?.(null, -1, "", true);
+                                }}
+                              >
+                               <ScanOutlined />&nbsp; Leer Receta...
+                              </a>
+                            ),
+                          },
+                          {
+                            key: "1",
+                            label: (
+                              <a
+                                style={{
+                                  color: "#028b02",
+                                  fontWeight: "600",
+                                  borderRadius: "16px",
+                                  backgroundColor: "#f8f8f8",
+                                  fontSize:"24px"
+                                }}
+                                onClick={(_) => {
+                                  add();
+                                }}
+                              >
+                                <PlusOutlined /> &nbsp;
+                                Agregar Manualmente
+                              </a>
+                            ),
+                          },
+                          {
+                            key: "1",
+                            disabled: true,
+                            label: (
+                              <a
+                                style={{
+                                  color: "#3543da",
+                                  fontWeight: "600",
+                                  borderRadius: "16px",
+                                  backgroundColor: "#f8f8f8",
+                                  fontSize:"24px"
+                                }}
+                                onClick={(_) => {
+                                  add();
+                                }}
+                              >
+                                <ClockCircleOutlined /> &nbsp;
+                                Utilizar &uacute;ltima graduaci&oacute;n
+                              </a>
+                            ),
+                          },
+                        ],
+                      }}
+                      placement="bottom"
+                    >
+                      <Button
+                        size="large"
+                        style={{
+                          color: "#da4035",
+                          fontWeight: "600",
+                          boxShadow: "0 4px 4px 0 rgba(0,0,0,0.2)",
+                          borderRadius: "16px",
+                          backgroundColor: "#f8f8f8",
+                        }}
+                      >
+                        Agregar Trabajo
+                      </Button>
+                    </Dropdown>
                   </div>
                 ),
               }}
@@ -624,7 +730,15 @@ const VentaMultipleMinorista = ({
           style={{ boxShadow: "-1px 1px 1px 0px #9e9c9c" }}
           className="custom-body-tabs"
         >
-          <Row style={{ marginBottom: "12px" }} gutter={[16, 16]}>
+          <Row
+            style={{
+              marginBottom: "12px",
+              backgroundColor: "#ebeaea",
+              padding: "2px",
+              borderRadius: "4px",
+            }}
+            gutter={[12, 12]}
+          >
             <Col>
               <Input
                 readOnly
@@ -637,7 +751,9 @@ const VentaMultipleMinorista = ({
             <Col>
               <Input
                 value={venta.descuento}
-                addonBefore="Descuento"
+                addonBefore={
+                  <span style={{ fontWeight: "600" }}>Descuento</span>
+                }
                 style={{ width: "300px" }}
                 onChange={(e) =>
                   onChange("descuento", parseFloat(e.target.value) || 0)
@@ -647,7 +763,9 @@ const VentaMultipleMinorista = ({
             <Col>
               <Input
                 value={venta.descuentoMutual}
-                addonBefore="Descuento Mutual"
+                addonBefore={
+                  <span style={{ fontWeight: "600" }}>Descuento Mutual</span>
+                }
                 style={{ width: "300px" }}
                 onChange={(e) =>
                   onChange("descuentoMutual", parseFloat(e.target.value) || 0)
@@ -706,12 +824,12 @@ const VentaMultipleMinorista = ({
               />
             </Col>
           </Row>
-          <Row gutter={24}>
+          <Row style={{ padding: "6px" }}>
             {ignore_fecha_retiro ? (
               <></>
             ) : (
               <>
-                <Col>
+                <Col span={12}>
                   <DatePicker
                     prefix="Fecha Retiro"
                     defaultValue={ignore_fecha_retiro ? dayjs() : null}
@@ -723,7 +841,7 @@ const VentaMultipleMinorista = ({
                     }}
                   />
                 </Col>
-                <Col>
+                <Col span={12}>
                   <TimePicker
                     prefix="Hora"
                     format={"HH:mm"}
@@ -734,6 +852,24 @@ const VentaMultipleMinorista = ({
                 </Col>
               </>
             )}
+          </Row>
+          <Divider />
+          <Row style={{ padding: "6px" }}>
+            <Col span={24}>
+              <Button
+                block
+                type="default"
+                size="middle"
+                onClick={finalizar_venta}
+                style={{
+                  borderRadius: "16px",
+                  boxShadow: "0 4px 4px 0 rgba(0,0,0,0.2)",
+                }}
+              >
+                <SaveFilled />
+                Guardar
+              </Button>
+            </Col>
           </Row>
         </Card>
       ),
@@ -827,7 +963,10 @@ const VentaMultipleMinorista = ({
               type="default"
               size="middle"
               onClick={finalizar_venta}
-              style={{ borderRadius: "16px" }}
+              style={{
+                borderRadius: "16px",
+                boxShadow: "0 4px 4px 0 rgba(0,0,0,0.2)",
+              }}
             >
               <SaveFilled />
               Guardar
@@ -939,10 +1078,10 @@ const VentaMultipleMinorista = ({
         <ProcessIAResponse
           usarDistancia={scanningTrabajo?.usarDistancia ?? true}
           jsonServer={scanningTrabajo?.serverResponse}
-          tipo_venta={scanningTrabajo?.tipo_venta ?? "multi_lab"}
-          callback={(final) => {
+          tipo_venta={scanningTrabajo?.tipo_venta}
+          callback={(final, pTipoTrabajo) => {
             setModalEditarRespuestaOpen(false);
-            onValuesScanned(final);
+            onValuesScanned(final, pTipoTrabajo);
           }}
         />
       </Modal>

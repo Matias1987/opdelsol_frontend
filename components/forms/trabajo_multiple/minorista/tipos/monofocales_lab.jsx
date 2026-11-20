@@ -51,14 +51,6 @@ const TipoMonofocalesLab = ({
         title={
           <span style={{ color: "#262D42" }}>
             Monofocales Laboratorio &nbsp;&nbsp;
-            <Button
-              type="primary"
-              onClick={(_) => {
-                onScanValues(null, localId, "monofocales_lab", true);
-              }}
-            >
-              <ScanOutlined />
-            </Button>
           </span>
         }
         style={{ boxShadow: "-1px 1px 1px 1px #9e9c9c" }}
@@ -75,3 +67,13 @@ const TipoMonofocalesLab = ({
 };
 
 export default TipoMonofocalesLab;
+/*
+<Button
+              type="primary"
+              onClick={(_) => {
+                onScanValues(null, localId, "monofocales_lab", true);
+              }}
+            >
+              <ScanOutlined />
+            </Button>
+            */

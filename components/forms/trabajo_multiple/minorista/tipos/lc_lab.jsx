@@ -231,17 +231,7 @@ const TipoLCLab = ({
     <Card
       size="small"
       title={
-        <span style={{ color: "#262D42" }}>
-          L.C. Laboratorio&nbsp;&nbsp;
-          <Button
-            type="primary"
-            onClick={(_) => {
-              onScanValues(null, localId, "lc_lab", false);
-            }}
-          >
-            <ScanOutlined />
-          </Button>
-        </span>
+        <span style={{ color: "#262D42" }}>L.C. Laboratorio&nbsp;&nbsp;</span>
       }
       style={{ boxShadow: "-1px 1px 1px 1px #9e9c9c" }}
     >
@@ -256,3 +246,12 @@ const TipoLCLab = ({
 };
 
 export default TipoLCLab;
+/*
+<Button
+            type="primary"
+            onClick={(_) => {
+              onScanValues(null, localId, "lc_lab", false);
+            }}
+          >
+            <ScanOutlined />
+          </Button> */

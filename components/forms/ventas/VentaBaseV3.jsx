@@ -24,7 +24,7 @@ import SelectVendedor from "@/components/usuario/vendedor/SelectVendedor";
 import { public_urls } from "@/src/urls";
 import CloseOutlined from "@ant-design/icons/CloseOutlined";
 import dayjs from "dayjs";
-import SelectClienteV2 from "./SelectClienteV2";
+import SelectClienteV2 from "../../cliente/SelectClienteV2";
 import { v4 as uuidv4 } from "uuid";
 import ConnectedButton from "@/components/etc/CntButton";
 const { useBreakpoint } = Grid;

@@ -3,7 +3,8 @@
 //import EdicionVentas from "@/components/edicion_ventas/EdicionVentas";
 //import TestGridCreation from "@/components/etc/testGridCreation";
 //import TrabajoRecetaStock from "@/components/forms/ventas/trabajo/trab_receta_stock";
-import ProcessIAResponse from "@/components/forms/ventas/common/processIAResponse";
+import BranchSelector from "@/components/etc/BranchSelector";
+import ProcessIAResponse from "@/components/forms/trabajo_multiple/minorista/common/processIAResponse";
 import LayoutAdmin from "@/components/layout/layout_admin";
 import { Button, Modal } from "antd";
 import { useState } from "react";
@@ -47,8 +48,49 @@ export default function test() {
       observaciones: null,
     },
   };
+
+  // Datos de ejemplo
+const MOCK_BRANCHES = [
+  {
+    id: 1,
+    code: 'SUC-01',
+    name: 'Casa Central - Centro',
+    address: 'Av. Sarmiento 450',
+    city: 'Resistencia',
+    active: true,
+    statusText: 'Operativa • Turno Mañana',
+  },
+  {
+    id: 2,
+    code: 'SUC-02',
+    name: 'Sucursal Shopping',
+    address: 'Av. Ávalos 1200, Local 14',
+    city: 'Resistencia',
+    active: true,
+    statusText: 'Operativa',
+  },
+  {
+    id: 3,
+    code: 'SUC-03',
+    name: 'Sucursal Corrientes Capital',
+    address: 'Junín 1120',
+    city: 'Corrientes',
+    active: true,
+    statusText: 'Operativa',
+  },
+  {
+    id: 4,
+    code: 'SUC-04',
+    name: 'Depósito Norte',
+    address: 'Ruta 11 Km 1008',
+    city: 'Resistencia',
+    active: false,
+    statusText: 'En mantenimiento',
+  },
+];
   return (
     <div>
+      <BranchSelector branches={MOCK_BRANCHES} loading={false} nSelectBranch={_=>{}}/>
       {/*<Button
         onClick={(_) => {
           setOpen(true);

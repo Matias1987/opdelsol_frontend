@@ -1,4 +1,4 @@
-import SelectCliente from "@/components/forms/ventas/SelectCliente";
+import SelectCliente from "@/components/cliente/SelectCliente";
 import globals from "@/src/globals";
 import { cambiar_vendedor, cobro_inmediato } from "@/src/config";
 import {

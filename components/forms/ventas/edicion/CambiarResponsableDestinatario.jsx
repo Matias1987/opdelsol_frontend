@@ -1,7 +1,7 @@
 import EditFilled from "@ant-design/icons/EditFilled";
 import { Button, Col, Divider, Modal, Row, Spin } from "antd";
 import { useState } from "react";
-import SelectCliente from "../SelectCliente";
+import SelectCliente from "../../../cliente/SelectCliente";
 import { get, post } from "@/src/urls";
 import { post_method } from "@/src/helpers/post_helper";
 

@@ -153,14 +153,7 @@ const TipoLCStock = ({
       title={
         <span style={{ color: "#262D42" }}>
           Lentes de Contacto Stock&nbsp;&nbsp;
-          <Button
-            type="primary"
-            onClick={(_) => {
-              onScanValues(null, localId, "lc_stock", false);
-            }}
-          >
-            <ScanOutlined />
-          </Button>
+          
         </span>
       }
       style={{ boxShadow: "-1px 1px 1px 1px #9e9c9c" }}
@@ -176,3 +169,12 @@ const TipoLCStock = ({
 };
 
 export default TipoLCStock;
+/*
+<Button
+            type="primary"
+            onClick={(_) => {
+              onScanValues(null, localId, "lc_stock", false);
+            }}
+          >
+            <ScanOutlined />
+          </Button>*/

@@ -3,7 +3,7 @@ import { Button, Card, Col, DatePicker, Input, Modal, Row, Select } from "antd"
 
 
 import { useState, useEffect } from "react"
-import SelectCliente from "./SelectCliente"
+import SelectCliente from "../../cliente/SelectCliente"
 import SelectMedico from "./common/SelectMedico"
 
 

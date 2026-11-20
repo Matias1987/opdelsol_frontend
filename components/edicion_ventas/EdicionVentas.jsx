@@ -19,7 +19,7 @@ import PlusOutlined from "@ant-design/icons/PlusOutlined";
 import ReloadOutlined from "@ant-design/icons/ReloadOutlined";
 
 import SelectMedico from "../forms/ventas/common/SelectMedico";
-import SelectCliente from "../forms/ventas/SelectCliente";
+import SelectCliente from "../cliente/SelectCliente";
 import SelectObraSocial from "../forms/ventas/common/SelectObraSocial";
 import { cobro_inmediato } from "@/src/config";
 import SelectCodigoVenta from "../forms/ventas/SelectCodigoVenta";

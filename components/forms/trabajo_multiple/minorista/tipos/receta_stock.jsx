@@ -47,18 +47,7 @@ const TipoRecetaStock = ({
   return (
     <>
       <Card
-        extra={
-          <Button
-            style={{ color: "#da4035", fontWeight: "600" }}
-            type="dashed"
-            onClick={(_) => {
-              onScanValues(null, localId, "receta_stock", true);
-            }}
-            icon={<ScanOutlined />}
-          >
-            Leer Receta
-          </Button>
-        }
+       
         size="small"
         title={
           <span style={{ color: "#262D42" }}>Receta Stock&nbsp;&nbsp;</span>
@@ -77,3 +66,15 @@ const TipoRecetaStock = ({
 };
 
 export default TipoRecetaStock;
+/* extra={
+          <Button
+            style={{ color: "#da4035", fontWeight: "600" }}
+            type="dashed"
+            onClick={(_) => {
+              onScanValues(null, localId, "receta_stock", true);
+            }}
+            icon={<ScanOutlined />}
+          >
+            Leer Receta
+          </Button>
+        }*/
