@@ -103,7 +103,7 @@ const SelectClienteV3 = ({
     ) {
       download_cliente_details(pIdcliente);
     }
-  }, [reload]);
+  }, [reload, pIdcliente]);
 
   const columns = [
     {

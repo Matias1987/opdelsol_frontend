@@ -41,7 +41,14 @@ import SelectClienteV3 from "../../../cliente/SelectClienteV3";
 import { setItem } from "localforage";
 import SelectMedicoV2 from "../../ventas/common/SelectMedicoV2";
 import SelectObraSocialV2 from "../../ventas/common/SelectObraSocialV2";
-import { ClockCircleOutlined, PlusOutlined, ScanOutlined, StarOutlined } from "@ant-design/icons";
+import {
+  ClockCircleOutlined,
+  PlusOutlined,
+  ScanOutlined,
+  StarOutlined,
+} from "@ant-design/icons";
+import { useDniLookup } from "@/src/hooks/useDniLookup";
+import ClienteFormV3 from "@/components/cliente/ClienteFormV3";
 
 const { useBreakpoint } = Grid;
 //import useStorage from "@/useStorage";
@@ -58,6 +65,7 @@ const VentaMultipleMinorista = ({
   callback,
   title,
   on_change_done,
+  draft,
 }) => {
   const date = new Date();
   const [btnEnabled, setBtnEnabled] = useState(true);
@@ -109,15 +117,46 @@ const VentaMultipleMinorista = ({
   const [idCliente, setIdCliente] = useState(0);
   const [finalV, setFinalV] = useState({});
   const newTabIndex = useRef(0);
-
+  const [firstLoad, setFirstLoad] = useState(true);
+  const [pendingClienteData, setPendingClienteData] = useState(null);
+  const [popupAddClienteOpen, setPopupAddClienteOpen] = useState(false);
   const screens = useBreakpoint();
 
+  const { processScannedDni, isSearching } = useDniLookup({
+    onClientFound: (client) => {
+      //setPendingClienteData(null);
+      setVenta((v) => ({ ...v, fkcliente: client.idcliente }));
+    },
+    onClientNotFound: (scannedData) => {
+      setPopupAddClienteOpen(true);
+    },
+  });
+
   useEffect(() => {
+    if (draft && firstLoad) {
+      setFirstLoad(false);
+      if (draft.datosDni) {
+        setPendingClienteData({
+          dni: draft.datosDni.numeroDocumento,
+          fechaNacimiento: "11/10/1990",
+          sexo: "M",
+          apellido: draft.datosDni.apellido,
+          nombre: draft.datosDni.nombre,
+        });
+      }
+      if (draft.datosReceta) {
+        setScanningTrabajo((_) => ({
+          serverResponse: draft.datosReceta,
+          localId: -1,
+          tipo_venta: "",
+        }));
+        setModalEditarRespuestaOpen(true);
+      }
+    }
     trabajosRef.current = trabajos;
   }, [trabajos]);
 
   const updateNestedValue = (prev, path, keys, values) => {
-    //console.log("updateNestedValue: prev=" + JSON.stringify(prev) + ", path=" + JSON.stringify(path) + ", newValue=" + JSON.stringify(newValue));
     // 1. Deep clone or shallow copy the structure to avoid mutating state
     const cloned = { ...prev };
     let current = cloned;
@@ -136,12 +175,6 @@ const VentaMultipleMinorista = ({
       current[key] = values[index];
     });
 
-    // 3. Set the final value
-    //const finalKey = path[path.length - 1];
-    //current[finalKey] = newValue;
-
-    //console.log(JSON.stringify(path));
-    //console.log("updated: field=" + JSON.stringify(current));
 
     return cloned;
   };
@@ -279,12 +312,6 @@ const VentaMultipleMinorista = ({
   }, [trabajos, idCliente]);
 
   const calcularTotal = (trabajos) => {
-    /*
-    const _subtotal = trabajos.reduce(
-      (acc, trabajo) => acc + parseFloat(trabajo?.monto_total || "0"),
-      0,
-    );*/
-
     let _subtotal = 0;
 
     trabajos.forEach((t) => {
@@ -557,6 +584,7 @@ const VentaMultipleMinorista = ({
           <Row style={row_style}>
             <Col style={{ minWidth: "250px", width: "100%" }}>
               <SelectClienteV3
+                pIdcliente={venta.fkcliente}
                 callback={(id) => {
                   onChange("fkcliente", id);
                 }}
@@ -639,14 +667,14 @@ const VentaMultipleMinorista = ({
                                   fontWeight: "600",
                                   borderRadius: "16px",
                                   backgroundColor: "#f8f8f8",
-                                  fontSize:"24px"
+                                  fontSize: "24px",
                                 }}
-                      
                                 onClick={(_) => {
                                   onScanValues?.(null, -1, "", true);
                                 }}
                               >
-                               <ScanOutlined />&nbsp; Leer Receta...
+                                <ScanOutlined />
+                                &nbsp; Leer Receta...
                               </a>
                             ),
                           },
@@ -659,14 +687,13 @@ const VentaMultipleMinorista = ({
                                   fontWeight: "600",
                                   borderRadius: "16px",
                                   backgroundColor: "#f8f8f8",
-                                  fontSize:"24px"
+                                  fontSize: "24px",
                                 }}
                                 onClick={(_) => {
                                   add();
                                 }}
                               >
-                                <PlusOutlined /> &nbsp;
-                                Agregar Manualmente
+                                <PlusOutlined /> &nbsp; Agregar Manualmente
                               </a>
                             ),
                           },
@@ -680,14 +707,14 @@ const VentaMultipleMinorista = ({
                                   fontWeight: "600",
                                   borderRadius: "16px",
                                   backgroundColor: "#f8f8f8",
-                                  fontSize:"24px"
+                                  fontSize: "24px",
                                 }}
                                 onClick={(_) => {
                                   add();
                                 }}
                               >
-                                <ClockCircleOutlined /> &nbsp;
-                                Utilizar &uacute;ltima graduaci&oacute;n
+                                <ClockCircleOutlined /> &nbsp; Utilizar
+                                &uacute;ltima graduaci&oacute;n
                               </a>
                             ),
                           },
@@ -1082,7 +1109,29 @@ const VentaMultipleMinorista = ({
           callback={(final, pTipoTrabajo) => {
             setModalEditarRespuestaOpen(false);
             onValuesScanned(final, pTipoTrabajo);
+            if (pendingClienteData) {
+              processScannedDni(pendingClienteData);
+            }
           }}
+        />
+      </Modal>
+      <Modal
+        open={popupAddClienteOpen}
+        onCancel={(_) => {
+          setPendingClienteData(null);
+          setPopupAddClienteOpen(false);
+        }}
+        title="Agregar Cliente"
+        destroyOnClose
+        width={"900px"}
+        footer={null}
+      >
+        <ClienteFormV3
+          callback={(id) => {
+            setPendingClienteData(null);
+            setVenta((v) => ({ ...v, fkcliente: id }));
+          }}
+          data={pendingClienteData}
         />
       </Modal>
     </>

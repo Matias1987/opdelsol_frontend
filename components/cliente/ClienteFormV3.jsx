@@ -131,6 +131,10 @@ export default function ClienteFormV3({ callback, data }) {
   };
 
   const onChange = (val, idx) => {
+    if(!val)
+    {
+      return
+    }
     if (!validate_only_numbers_and_letters(val) && val.length > 0) {
       return;
     }
