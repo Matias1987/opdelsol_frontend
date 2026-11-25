@@ -22,8 +22,6 @@ import { post_method } from "@/src/helpers/post_helper";
 import PlusCircleOutlined from "@ant-design/icons/PlusCircleOutlined";
 import SaveFilled from "@ant-design/icons/SaveFilled";
 import SelectTrabajo from "./select_trabajo";
-import SelectMedico from "../../ventas/common/SelectMedico";
-import SelectObraSocial from "../../ventas/common/SelectObraSocial";
 import ModoPagoV4 from "../../modo_pago/ModoPagoV4";
 import dayjs from "dayjs";
 import esES from "antd/locale/es_ES";
@@ -1130,6 +1128,7 @@ const VentaMultipleMinorista = ({
           callback={(id) => {
             setPendingClienteData(null);
             setVenta((v) => ({ ...v, fkcliente: id }));
+            setPopupAddClienteOpen(false);
           }}
           data={pendingClienteData}
         />

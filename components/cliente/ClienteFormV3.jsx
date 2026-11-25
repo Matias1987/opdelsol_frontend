@@ -193,7 +193,8 @@ export default function ClienteFormV3({ callback, data }) {
         anio: year,
       }));
 
-      setClienteData((_) => ({
+      setClienteData((cd) => ({
+        ...cd,
         nombres: data.nombre,
         apellidos: data.apellido,
         dni: data.dni,

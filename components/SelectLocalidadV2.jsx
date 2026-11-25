@@ -4,7 +4,7 @@ import { get } from "@/src/urls";
 import { Row, Col } from "antd";
 import { useState, useEffect } from "react";
 
-const SelectLocalidadV2 = (props) => {
+const SelectLocalidadV2 = ({callback}) => {
   const [localidades, setLocalidades] = useState(null);
   const [provincias, setProvincias] = useState(null);
   const [selectedLocalidad, setSelectedLocalidad] = useState({
@@ -40,7 +40,7 @@ const SelectLocalidadV2 = (props) => {
         );
       });
     load_localidades(globals.obtenerOpticaProvincia());
-    props?.callback?.({
+    callback?.({
       idlocalidad: globals.obtenerOpticaLocalidad(),
       iddepartamento: 0,
       idprovincia: globals.obtenerOpticaProvincia(),
@@ -61,7 +61,7 @@ const SelectLocalidadV2 = (props) => {
         idlocalidad: globals.obtenerOpticaLocalidad(),
         localidad: "",
       };
-      props?.callback?.(_loc);
+      callback?.(_loc);
       return _loc;
     });
 
@@ -80,7 +80,7 @@ const SelectLocalidadV2 = (props) => {
         departamento: loc.departamento,
       };
 
-      props?.callback?.(_localidad);
+      callback?.(_localidad);
       return _localidad;
     });
   };
