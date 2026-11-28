@@ -677,6 +677,9 @@ const get = {
   //pedidos
   lista_stock_pedidos: remote_base_url + "pedidos/",
   detalle_pedido: remote_base_url + "pedidos/",
+
+  //movil
+  lista_operaciones_movil: remote_base_url + "movil/operaciones",
 };
 
 module.exports = {

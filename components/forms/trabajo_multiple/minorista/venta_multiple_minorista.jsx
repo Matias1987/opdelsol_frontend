@@ -316,7 +316,7 @@ const VentaMultipleMinorista = ({
       if (!t.items.lejos && !t.items.cerca) {
         _subtotal += parseFloat(t.items.od_precio ?? "0");
         _subtotal += parseFloat(t.items.oi_precio ?? "0");
-        //_subtotal += parseFloat(t.items.armazon_precio ?? "0");
+        _subtotal += parseFloat(t.items.armazon_precio ?? "0");
         //_subtotal += parseFloat(t.items.tratamiento_precio ?? "0");
         //_subtotal += parseFloat(t.items.insumo_precio ?? "0");
         return;
@@ -325,14 +325,14 @@ const VentaMultipleMinorista = ({
       if (t.items.lejos) {
         _subtotal += parseFloat(t.items.lejos.od_precio ?? "0");
         _subtotal += parseFloat(t.items.lejos.oi_precio ?? "0");
-        //_subtotal += parseFloat(t.items.lejos.armazon_precio ?? "0");
+        _subtotal += parseFloat(t.items.lejos.armazon_precio ?? "0");
         //_subtotal += parseFloat(t.items.lejos.tratamiento_precio ?? "0");
         //_subtotal += parseFloat(t.items.lejos.insumo_precio ?? "0");
       }
       if (t.items.cerca) {
         _subtotal += parseFloat(t.items.cerca.od_precio ?? "0");
         _subtotal += parseFloat(t.items.cerca.oi_precio ?? "0");
-        //_subtotal += parseFloat(t.items.cerca.armazon_precio ?? "0");
+        _subtotal += parseFloat(t.items.cerca.armazon_precio ?? "0");
         //_subtotal += parseFloat(t.items.cerca.tratamiento_precio ?? "0");
         //_subtotal += parseFloat(t.items.cerca.insumo_precio ?? "0");
       }

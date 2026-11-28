@@ -39,18 +39,23 @@ export default function OperacionesMovilTable({ data = [], onContinuar }) {
       render: (value) => <Tag color="blue">{value}</Tag>,
     },
     {
+      width: 200,
       title: "Cliente",
       dataIndex: "clienteNombre",
+      render: (_,record)=><span style={{fontWeight:"600"}}>{record.clienteNombre}</span>
     },
     {
+      width: 110,
       title: "Vendedor",
       dataIndex: "vendedorNombre",
+      render: (_,record)=><span style={{fontWeight:"600", color:"#2236aa", fontStyle:"italic"}}>{record.vendedorNombre}</span>
     },
     /*{
-      title: "Sucursal",
+      title: "Vendedor",
       dataIndex: "sucursalNombre",
     },*/
     {
+
       title: "DNI",
       dataIndex: "datosDni",
       align: "center",
@@ -58,6 +63,7 @@ export default function OperacionesMovilTable({ data = [], onContinuar }) {
       render: (value) => (value ? <Tag color="green">DNI</Tag> : <></>),
     },
     {
+
       title: "Receta",
       dataIndex: "datosReceta",
       align: "center",
@@ -79,6 +85,7 @@ export default function OperacionesMovilTable({ data = [], onContinuar }) {
       },
     },*/
     {
+
       title: "Fecha",
       dataIndex: "fechaCreacion",
       width: 180,
@@ -122,11 +129,11 @@ export default function OperacionesMovilTable({ data = [], onContinuar }) {
           style={{ width: 200 }}
           onChange={setVendedor}
         >
-          {vendedores.map((item) => (
+          {/*vendedores.map((item) => (
             <Option key={item} value={item}>
               {item}
             </Option>
-          ))}
+          ))*/}
         </Select>
         {/*<Select
           allowClear

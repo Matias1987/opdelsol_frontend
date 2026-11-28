@@ -1,9 +1,10 @@
+import OperacionesMovilPendientes from "@/components/forms/ventas/common/OperacionesMovilPendientes";
 import OperacionesMovilTable from "@/components/forms/ventas/common/OperacionesMovilTable";
 import LayoutVentasV2 from "@/components/layout/layout_ventas_v2";
 import { useRouter } from "next/navigation";
 export default function Index() {
   const router = useRouter();
-  const _test = [
+  /*const _test = [
     {
       id: 1,
       codigo: "AB7K9",
@@ -11,7 +12,7 @@ export default function Index() {
       vendedorNombre: "Bruno",
       sucursalNombre: "Resistencia Centro",
       datosDni: {
-        numeroDocumento: "35222111",
+        numeroDocumento: "35222110",
         apellido: "Perez",
         nombre: "Juan",
       },
@@ -54,14 +55,19 @@ export default function Index() {
       estado: "PENDIENTE",
       fechaCreacion: "20/11/2026 14:35",
     },
-  ];
+  ];*/
   return (
     <>
-      <OperacionesMovilTable
+      {/*<OperacionesMovilTable
         data={_test}
         onContinuar={(record) => {
           //const url = `/v1/ventas/VentaM?id=${record.id}`
           //alert(url)
+          router.push(`/v1/ventas/VentaM?id=${record.id}`);
+        }}
+      />*/}
+      <OperacionesMovilPendientes
+        onContinuar={(record) => {
           router.push(`/v1/ventas/VentaM?id=${record.id}`);
         }}
       />
